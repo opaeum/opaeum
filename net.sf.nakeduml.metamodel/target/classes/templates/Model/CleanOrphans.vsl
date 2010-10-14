@@ -1,0 +1,17 @@
+#set($shouldGenerate=true)
+#foreach($entity in $model.entities)
+#foreach($fk in $entity.allNakedAttributes)
+#if($fk.baseType.classifierKind.isEntity())
+#if($fk.isOne() && !$fk.isInverse())
+update (${entity.mappingInfo.persistentName} left outer join ${fk.baseType.mappingInfo.persistentName}
+   on ${entity.mappingInfo.persistentName}.${fk.mappingInfo.persistentName}=${fk.baseType.mappingInfo.persistentName}.id) 
+   set ${entity.mappingInfo.persistentName}.${fk.mappingInfo.persistentName}= ${fk.baseType.mappingInfo.persistentName}.id;
+#elseif(${fk.isManyToMany()})
+delete ${fk.association.mappingInfo.persistentName} from (${fk.association.mappingInfo.persistentName} left outer join ${fk.baseType.mappingInfo.persistentName}
+   on ${fk.association.mappingInfo.persistentName}.${fk.mappingInfo.persistentName}=${fk.baseType.mappingInfo.persistentName}.id)
+   where ${fk.baseType.mappingInfo.persistentName}.id is null;
+#end
+#end
+#end
+#end
+##TODO not-null values

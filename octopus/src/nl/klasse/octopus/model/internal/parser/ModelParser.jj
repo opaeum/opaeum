@@ -1,0 +1,880 @@
+options {  
+    STATIC = false;
+}
+
+PARSER_BEGIN(ModelParser)
+package nl.klasse.octopus.model.internal.parser.javacc;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IMultiplicityKind;
+import nl.klasse.octopus.model.IPackage;
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.model.VisibilityKind;
+import nl.klasse.octopus.model.internal.analysis.ModelError;
+import nl.klasse.octopus.model.internal.parser.parsetree.ClassifierReference;
+import nl.klasse.octopus.model.internal.parser.parsetree.ImportedElementReference;
+import nl.klasse.octopus.model.internal.parser.parsetree.ParsedModelName;
+import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
+import nl.klasse.octopus.model.internal.types.AssociationClassImpl;
+import nl.klasse.octopus.model.internal.types.AssociationEndImpl;
+import nl.klasse.octopus.model.internal.types.AssociationImpl;
+import nl.klasse.octopus.model.internal.types.AttributeImpl;
+import nl.klasse.octopus.model.internal.types.ClassImpl;
+import nl.klasse.octopus.model.internal.types.ClassifierImpl;
+import nl.klasse.octopus.model.internal.types.DataTypeImpl;
+import nl.klasse.octopus.model.internal.types.EnumLiteralImpl;
+import nl.klasse.octopus.model.internal.types.EnumerationTypeImpl;
+import nl.klasse.octopus.model.internal.types.InterfaceImpl;
+import nl.klasse.octopus.model.internal.types.MultiplicityKindImpl;
+import nl.klasse.octopus.model.internal.types.OperationImpl;
+import nl.klasse.octopus.model.internal.types.PackageImpl;
+import nl.klasse.octopus.model.internal.types.ParameterImpl;
+import nl.klasse.octopus.model.internal.types.StateImpl;
+
+/* $Id: ModelParser.jj,v 1.1 2006/03/01 19:13:33 jwarmer Exp $
+ */
+public class ModelParser {
+  private String currentFilename = "";	 // holds the name of the file that is currently being parsed
+  private List errors = new ArrayList(); // holds non-fatal errors
+  
+  public static void main(String args[]) throws ParseException {
+    InputStream  in;
+    int          i;
+    ModelParser parser = null;
+    String filename = "";
+
+    if( java.lang.reflect.Array.getLength(args) > 0 ) {
+      for( i = 0 ; i < java.lang.reflect.Array.getLength(args) ; i++ ) {
+        try {
+          in = new FileInputStream(args[i]);
+          filename = args[i];
+        } catch (FileNotFoundException e) {
+          System.out.println("Types Parser, error in opening file: " + e.getMessage());
+          in = null;
+        }
+    	  if( in != null ){  
+          	parser = new ModelParser (in);
+    	  }	
+      }
+    } else {
+      parser = new ModelParser (System.in);
+      System.out.println("Waiting for input from standard input");
+    }	
+   try {
+    IPackage model = parser.packageDeclaration(filename );
+    System.out.println("----------------- Model ----------------");
+    System.out.println(((PackageImpl)model).toStringRecursive());
+    System.out.println("----------------- Done ----------------");
+   } catch(ParseException e) {
+    System.out.println("Parse exception: " + e.getMessage() );
+   }
+  }
+  
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
+
+	public List getErrors() {
+		return errors;
+	}
+}
+
+PARSER_END(ModelParser)
+
+<DEFAULT> SKIP:
+{
+      " "
+    | "\t"
+    | "\n"
+    | "\r"
+    | "\f"
+    | <comment : "--" (~["\n","\r"])* ("\n"|"\r\n")>
+    | "/*" : IN_COMMENT
+}
+<IN_COMMENT> SKIP : 
+{
+    < ~[] >
+}
+<IN_COMMENT> SKIP :
+{
+    "*/" : DEFAULT
+}    
+
+
+/*********************************************************************
+ *
+ *      Token definitions for Model Definition.
+ *
+ *********************************************************************/
+
+<DEFAULT> TOKEN :
+{
+  < PACKAGE_START    : "<package>"      >
+| < PACKAGE_END      : "<endpackage>"   >
+| < CLASS_START      : "<class>"        >
+| < CLASS_END        : "<endclass>"     >
+| < INTFACE_START     : "<interface>"        >
+| < INTFACE_END       : "<endinterface>"     >
+| < ASSOC_CLASS_START : "<associationclass>"        >
+| < ASSOC_CLASS_END   : "<endassociationclass>"     >
+| < DATATYPE_START   : "<datatype>"     >
+| < DATATYPE_END     : "<enddatatype>"  >
+| < ENUMTYPE_START   : "<enumeration>"     >
+| < ENUMTYPE_END     : "<endenumeration>"  >
+| < IMPORT        : "<import>"       >
+| < ABSTRACT      : "<abstract>"     >
+| < ATTRIBUTES    : "<attributes>"   >
+| < OPERATIONS    : "<operations>"   >
+| < INFIX         : "<infix>"        >
+| < ASSOCIATIONS  : "<associations>" >
+| < STATES        : "<states>"       >
+| < INVARIANTS    : "<invariants>"   >
+| < VALUES        : "<values>"       >
+| < SPECIALIZES   : "<specializes>"  >
+| < IMPLEMENTS    : "<implements>"   >
+| < ORDERED       : "<ordered>"      >
+| < NOTUNIQUE     : "<notUnique>"    >
+| < COMPOSITE     : "<composite>"    >
+| < AGGREGATE     : "<aggregate>"    >
+| < IN_DIR        : "<in>"           >
+| < OUT_DIR       : "<out>"          >
+| < INOUT_DIR     : "<inout>"        >
+| < NONAME        : "<noName>"       >
+| < MODEL_BRACKET_OPEN  : "("  >
+| < DERIVATION          : "/"  >
+| < MODEL_BRACKET_CLOSE : ")"  >
+| < MODEL_DOUBLECOLON   : "::" >  
+| < MODEL_COLON         : ":"  >
+| < END                 : ";"  >
+| < MODEL_COMMA         : ","  >
+| < PROTECTED           : "#"  >
+| < PUBLIC              : "+"  >
+| < CLASS_SCOPE         : "$"  >
+| < PRIVATE             : "-"  >
+| < ARROW_TWOWAY        : "<->">
+| < ARROW_RIGHT         : "->">
+| < ARROW_LEFT          : "<-">
+| < MODEL_DOT           : "." >
+
+| < MODEL_LESS        : "<"  >
+| < MODEL_GT          : ">"  >
+| < MODEL_LESSEQ      : "<=" >
+| < MODEL_GTEQ        : ">=" >
+| < MODEL_EQUALS      : "="  >
+| < MODEL_NOTEQUALS   : "<>" >
+| < MODEL_MULTIPLY    : "*"  >
+
+| < STEREO_START      : "<<"  >
+| < STEREO_END        : ">>"  >
+
+| < MODEL_MULT_OPEN  : "["   >
+| < MODEL_MULT_CLOSE : "]"   >
+| < MODEL_MULT_RANGE : ".."   >
+
+| < MODEL_INV        : "inv"  > 
+| < MODEL_PRE        : "pre"  > 
+| < MODEL_POST       : "post" > 
+| < MODEL_INIT       : "init" > 
+| < MODEL_DERIVE     : "derive" > 
+
+| < INTEGERLITERAL 	:  ["0"-"9"] (["0"-"9"])* >
+| < NUMSTRING  		:  ["0"-"9"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )* >
+| < STRING  		:  ["a"-"z", "A"-"Z", "_"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )* >
+
+/** These are used for better error processing.
+ */
+| <MODEL_NOTUSED : ("~" | "`" | "!" | "@" | "%" | "^" | "&" | 
+					"{" | "}" | "|" | "\\" | "[" | "]" | 
+					"\"" | "?" ) >
+
+/*************************************************************
+ *
+ * This token starts the OCL expression.
+ *
+ *************************************************************/
+| < OCL_START : "<ocl>"  > : IN_OCL
+}
+
+/*************************************************************
+ *
+ * In the OCL state all text is collected until "</ocl>" is encountered.
+ *
+ *************************************************************/
+<IN_OCL> TOKEN :
+{
+    <OCL_END  : "</ocl>" > : DEFAULT
+|   <TEXT     : (~[])    >       
+}
+
+/*********************************************************************
+ *
+ *      Start of Model grammar.
+ *
+ *********************************************************************/
+PackageImpl packageDeclaration(String filename) : {
+    ParsedModelName	packName   	= null;
+    ParsedModelName importN    	= null;
+    PackageImpl 	result     	= null;
+    PackageImpl 	sub			= null;
+    ParsedModelName subpackName = null;
+    ParsedModelName	aspectName 	= null;
+    VisibilityKind 	vis			= VisibilityKind.NONE;
+}{  { currentFilename = filename; }
+    <PACKAGE_START> packName = simpleName() 
+        { result = new PackageImpl(packName.getBaseString());
+          result.setFilename(currentFilename);
+          result.setLineAndColumn(packName.getStartLine(), packName.getStartColumn()); }
+    ( <IMPORT> importN = modelName() <END>
+        { ImportedElementReference newImport = new ImportedElementReference(importN.toPathName());
+          newImport.setFilename(currentFilename);
+          newImport.setLineAndColumn(importN.getStartLine(), importN.getStartColumn()); 
+          result.addImport( newImport ); }
+    )*
+
+    ( classifierDeclaration  (result) )*
+    [ associationDeclarations(result) ]
+    <PACKAGE_END>
+
+    {  return result;
+    }
+
+}
+
+VisibilityKind visibility() : {
+} {
+    ( <PUBLIC>    { return VisibilityKind.PUBLIC;  } | 
+      <PRIVATE>   { return VisibilityKind.PRIVATE; }| 
+      <PROTECTED> { return VisibilityKind.PROTECTED; } )
+}
+
+
+void classifierDeclaration(PackageImpl owner) : {
+    VisibilityKind 	vis			= VisibilityKind.NONE;
+    boolean			isAbstract	= false;
+    ParsedModelName stereotype	= null;    
+    ClassifierImpl  result 		= null;
+}{
+    [ vis = visibility() ]
+    [ <ABSTRACT> { isAbstract = true; } ]
+    [ <STEREO_START> stereotype = simpleName() <STEREO_END> ]
+    ( LOOKAHEAD(2) result = classDeclaration(owner) 
+      | result =datatypeDeclaration(owner)
+      | result =interfaceDeclaration(owner)
+      | result =associationclassDeclaration(owner)
+      | result =enumtypeDeclaration(owner) 
+    )
+    {	result.setVisibility(vis);
+    	result.setIsAbstract(isAbstract); 
+    	if (stereotype != null) result.setStereotype(stereotype.getBaseString()); 
+    }
+}
+
+ClassImpl classDeclaration(PackageImpl owner) : {
+    ParsedModelName     n              	= null;
+    ParsedModelName     superclassName 	= null;
+    ParsedModelName     className      	= null;
+    ClassImpl      		cls     		= null;
+    ParsedModelName     parameter      	= null;
+}{   
+	( 
+	<CLASS_START> className = simpleName() 
+    [ <MODEL_BRACKET_OPEN> parameter = simpleName() <MODEL_BRACKET_CLOSE> ]
+      { if( parameter == null ){
+            cls = owner.findOrCreateClass(className.getBaseString());
+            if (cls == ClassImpl.DUMMY) {
+            	errors.add( new ModelError(currentFilename, className.getStartLine(), className.getStartColumn(),
+      			"Cannot define two elements with identical name: '" + className.getBaseString() + 
+      			"' already exists in package '" + owner.getName() + "'."));
+            }
+	        cls.setFilename(currentFilename);
+    		cls.setLineAndColumn(className.getStartLine(), className.getStartColumn()); 
+        } else {
+            cls = null; 
+            System.out.println("ERROR: DIDN't expect template parameters in class " + className);
+        }
+      }
+   	)
+    [ <SPECIALIZES> superclassName = modelName() 
+          { ClassifierReference newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            cls.addGeneralization( newRef ); }
+      ( <MODEL_COMMA> superclassName = modelName()
+          { newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            cls.addGeneralization( newRef ); }
+      )* 
+    ]
+    [ <IMPLEMENTS> superclassName = modelName() 
+          { ClassifierReference newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            cls.addInterface( newRef ); }
+      ( <MODEL_COMMA> superclassName = modelName()
+          { newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            cls.addInterface( newRef ); }
+      )* 
+    ]
+      [ <ATTRIBUTES>  ( attributeDeclaration (owner, cls) )* ]
+      [ <OPERATIONS>  ( operationDeclaration (owner, cls) )* ]
+      [ <STATES>      ( stateDeclaration     (owner, cls) )* ]   
+      [ <INVARIANTS>  ( invariantDeclaration (owner, cls) )* ]   
+    <CLASS_END>
+    { return cls; }
+}
+
+DataTypeImpl datatypeDeclaration(PackageImpl owner) : {
+    ParsedModelName     n              = null;
+    ParsedModelName     superclassName = null;
+    ParsedModelName     className      = null;
+    DataTypeImpl      	datatype       = null;
+    ParsedModelName     parameter      = null;
+}{   
+    ( <DATATYPE_START> className = simpleName()
+       	{ datatype = owner.findOrCreateDataType(className.getBaseString());
+            if (datatype == DataTypeImpl.DUMMY) {
+            	errors.add( new ModelError(currentFilename, className.getStartLine(), className.getStartColumn(),
+      			"Cannot define two elements with identical name: '" + className.getBaseString() + 
+      			"' already exists in package '" + owner.getName() + "'."));
+            }
+	      datatype.setFilename(currentFilename);
+    	  datatype.setLineAndColumn(className.getStartLine(), className.getStartColumn()); 
+		}         
+    ) 
+     [ <SPECIALIZES> superclassName = modelName() 
+          { ClassifierReference newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            datatype.addGeneralization( newRef ); }
+      ( <MODEL_COMMA> superclassName = modelName()
+          { newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            datatype.addGeneralization( newRef ); }
+      )* 
+    ]
+    [ <IMPLEMENTS> superclassName = modelName() 
+          { ClassifierReference newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            datatype.addInterface( newRef ); }
+      ( <MODEL_COMMA> superclassName = modelName()
+          { newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            datatype.addInterface( newRef ); }
+      )* 
+    ]
+      [ <ATTRIBUTES>  ( attributeDeclaration (owner, datatype) )* ]
+      [ <OPERATIONS>  ( operationDeclaration (owner, datatype) )* ]
+      [ <INVARIANTS>  ( invariantDeclaration (owner, datatype) )* ]   
+    <DATATYPE_END>
+    { return datatype; }
+}
+
+InterfaceImpl interfaceDeclaration(PackageImpl owner) : {
+    ParsedModelName     n              = null;
+    ParsedModelName     superclassName = null;
+    ParsedModelName     intfName       = null;
+    InterfaceImpl      	intface        = null;
+    ParsedModelName     parameter      = null;
+}{   
+    ( 
+       ( <INTFACE_START> intfName = simpleName() 
+        [ <MODEL_BRACKET_OPEN> parameter = simpleName() <MODEL_BRACKET_CLOSE> ]
+          { if( parameter == null ){
+                intface = owner.findOrCreateInterface(intfName.getBaseString());
+	            if (intface == InterfaceImpl.DUMMY) {
+	            	errors.add( new ModelError(currentFilename, intfName.getStartLine(), intfName.getStartColumn(),
+	      			"Cannot define two elements with identical name: '" + intfName.getBaseString() + 
+	      			"' already exists in package '" + owner.getName() + "'."));
+	            }
+		        intface.setFilename(currentFilename);
+        		intface.setLineAndColumn(intfName.getStartLine(), intfName.getStartColumn()); 
+             } else {
+                intface = null; 
+                System.out.println("ERROR: DIDN't expect template parameters in class " + intfName);
+            }
+          }
+       )
+     )
+       [ <SPECIALIZES> superclassName = modelName() 
+          { ClassifierReference newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            intface.addGeneralization( newRef ); }
+      ( <MODEL_COMMA> superclassName = modelName()
+          { newRef = new ClassifierReference(superclassName.toPathName());
+            newRef.setFilename(currentFilename); 
+       		newRef.setLineAndColumn(superclassName.getStartLine(), superclassName.getStartColumn());
+            intface.addGeneralization( newRef ); }
+      )* 
+    ]
+      [ <ATTRIBUTES>  ( attributeDeclaration (owner, intface) )* ]
+      [ <OPERATIONS>  ( operationDeclaration (owner, intface) )* ]
+      [ <INVARIANTS>  ( invariantDeclaration (owner, intface) )* ]   
+    <INTFACE_END>
+    { return intface; }
+}
+
+AssociationClassImpl associationclassDeclaration(PackageImpl owner) : {
+    ParsedModelName     	className   = null;
+    AssociationEndImpl 		source      = null;
+    AssociationEndImpl 		target      = null;
+    AssociationClassImpl    assocCls 	= null;
+    Token          			derived     = null;
+    Token          			t           = null;
+}{   
+   ( <ASSOC_CLASS_START> className = simpleName() 
+      source  = associationEnd()
+      ( t = <ARROW_TWOWAY> | t = <ARROW_RIGHT> | t = <ARROW_LEFT> | t = <PRIVATE> )
+      target = associationEnd()
+    )
+      {
+        if( t.kind == ARROW_TWOWAY ){
+            source.setNavigable(true);
+            target.setNavigable(true);
+        } else if ( t.kind == ARROW_LEFT ){
+            source.setNavigable(true);
+            target.setNavigable(false);
+        } else if ( t.kind == ARROW_LEFT ){
+            source.setNavigable(false);
+            target.setNavigable(true);
+        } else if ( t.kind == PRIVATE){
+            source.setNavigable(false);
+            target.setNavigable(false);
+        }
+        assocCls = new AssociationClassImpl(className.getBaseString(), source, target);
+        assocCls.setDerived(false);
+        assocCls.setIsClass(true);
+        owner.addAssociation(assocCls);
+        owner.addClassifier(assocCls);
+        assocCls.setFilename(currentFilename);
+   		assocCls.setLineAndColumn(className.getStartLine(), className.getStartColumn()); 
+      }   
+
+      [ <ATTRIBUTES>  ( attributeDeclaration (owner, assocCls) )* ]
+      [ <OPERATIONS>  ( operationDeclaration (owner, assocCls) )* ]
+      [ <STATES>      ( stateDeclaration     (owner, assocCls) )* ]   
+      [ <INVARIANTS>  ( invariantDeclaration (owner, assocCls) )* ]   
+    <ASSOC_CLASS_END>
+    { return assocCls; }
+}
+
+EnumerationTypeImpl enumtypeDeclaration(PackageImpl owner) : {
+    ParsedModelName     superclassName = null;
+    ParsedModelName		enumName       = null;
+    EnumerationTypeImpl enumeration           = null;
+    ParsedModelName		literalName    = null;
+}{   
+    (
+      <ENUMTYPE_START> enumName = simpleName()
+      {  enumeration = owner.findOrCreateEnumerationType (enumName.getBaseString()); 
+         if (enumeration == EnumerationTypeImpl.DUMMY) {
+            errors.add( new ModelError(currentFilename, enumName.getStartLine(), enumName.getStartColumn(),
+      		"Cannot define two elements with identical name: '" + enumName.getBaseString() + 
+      	 	"' already exists in package '" + owner.getName() + "'."));
+         }
+         enumeration.setFilename(currentFilename);
+   		 enumeration.setLineAndColumn(enumName.getStartLine(), enumName.getStartColumn()); 
+   	  }
+      <VALUES>
+      ( literalName = simpleName() <END>
+        { EnumLiteralImpl lit = new EnumLiteralImpl(literalName.getBaseString());
+          lit.setFilename(currentFilename);
+   		  lit.setLineAndColumn(literalName.getStartLine(), literalName.getStartColumn());
+          enumeration.addLiteral( lit ); }
+      )*
+      <ENUMTYPE_END>
+    )
+    { return enumeration; }
+}
+
+void attributeDeclaration(IPackage p, ClassifierImpl owner) : {
+    Token         		d       = null;
+    AttributeImpl 		attr    = null;
+    ParsedModelName		attName = null;
+    IMultiplicityKind	m       = MultiplicityKindImpl.UNKNOWN;
+    ClassifierReference type 	= null;
+    boolean             hasClassScope      = false;
+    Token				t		= null;
+    VisibilityKind 		vis		= VisibilityKind.NONE;
+    ParsedOclString     holder           = null;
+    ParsedModelName     name             = null;
+    String              oclString        = "";
+}{
+    [ vis = visibility() ]
+    [ <CLASS_SCOPE> { hasClassScope = true; } ]
+    [ d = <DERIVATION> ]
+    attName = simpleName() [ m = multiplicity() ] t = <MODEL_COLON> type = typeName()  
+    { attr = new AttributeImpl(attName.getBaseString(), type, m);
+      attr.setIsDerived( d != null ); 
+      if( hasClassScope ){
+      	  attr.setHasClassScope(true);
+      } 
+      if (!owner.addAttribute( attr )) errors.add( new ModelError(currentFilename, attName.getStartLine(), attName.getStartColumn(),
+      			"Attribute '" + attr.getName() + 
+      			"' already exists in class '" + owner.getName() + "'."));
+      attr.setOwner(owner);
+      attr.setFilename(currentFilename);
+ 	  attr.setLineAndColumn(attName.getStartLine(), attName.getStartColumn()); 
+ 	  attr.setVisibility(vis);
+    }
+    <END>
+    [ t = <MODEL_INIT> [ name = simpleName() ] <MODEL_COLON> 
+      oclString = ocl()
+      { if (name != null ) {
+      		holder = new ParsedOclString(name.getBaseString(), OclUsageType.INIT); 
+      	} else {
+      		holder = new ParsedOclString("", OclUsageType.INIT); 
+      	}
+        holder.setExpressionString( oclString );
+        attr.setInit( holder );
+        holder.setContext(owner, attr);
+        holder.setFilename(currentFilename);
+        holder.setLineAndColumn(t.beginLine, t.beginColumn);
+        name = null ; 
+      }
+     ]
+    [ t = <MODEL_DERIVE> [ name = simpleName() ] <MODEL_COLON> 
+      oclString = ocl()
+      { if (name != null ) {
+      		holder = new ParsedOclString(name.getBaseString(), OclUsageType.DERIVE); 
+      	} else {
+      		holder = new ParsedOclString("", OclUsageType.DERIVE); 
+      	}
+        holder.setExpressionString( oclString );
+        attr.setInit( holder );
+        holder.setContext(owner, attr);
+        holder.setFilename(currentFilename);
+        holder.setLineAndColumn(t.beginLine, t.beginColumn);
+        name = null ; 
+      }
+     ]
+}
+
+void operationDeclaration(IPackage p, ClassifierImpl owner) : {
+    ParsedModelName     name             = null;
+    Token               returnName       = null;
+    Token               infix            = null;
+    ParsedModelName 	opName			 = null;
+    ParsedModelName 	paramName		 = null;
+    ClassifierReference type             = null;
+    List                params           = new ArrayList();
+    IClassifier         returnType       = null;
+    int                 dir              = 0;
+    OperationImpl       result           = null;
+    ParsedOclString     holder           = null;
+    Token               t	             = null;
+    String              oclString        = "";
+    boolean             hasClassScope 	 = false;
+    boolean             isAbstract	 	 = false;
+    VisibilityKind 		vis				 = VisibilityKind.NONE;
+}{
+    [ vis = visibility() ]
+    [ <CLASS_SCOPE> { hasClassScope = true; } ]
+    [ <ABSTRACT> { isAbstract = true; } ]
+    ( opName = simpleName() 
+      | infix = <INFIX> ( opName = modelOperator() | opName = simpleName() )
+    )
+    <MODEL_BRACKET_OPEN>
+    ( [ [ dir = direction() ] paramName = simpleName() <MODEL_COLON> type = typeName() 
+        { ParameterImpl par = new ParameterImpl(paramName.getBaseString(), type);
+          par.setFilename(currentFilename);
+          par.setLineAndColumn(paramName.getStartLine(), paramName.getStartColumn()); 
+          params.add( par ); }
+      ] 
+      ( <MODEL_COMMA> [ dir = direction() ] paramName = simpleName() <MODEL_COLON> type = typeName() 
+        { ParameterImpl par = new ParameterImpl(paramName.getBaseString(), type);
+          par.setFilename(currentFilename);
+          par.setLineAndColumn(paramName.getStartLine(), paramName.getStartColumn()); 
+          params.add( par ); }
+      )*
+    )
+    <MODEL_BRACKET_CLOSE> 
+    [ <MODEL_COLON> type = typeName()
+      { returnType = type ; } 
+    ]
+    <END>
+      { result = new OperationImpl(opName.getBaseString(), params, returnType ) ; 
+      if (infix != null) result.setInfix(true);
+        result.setFilename(currentFilename);
+ 	    result.setLineAndColumn(opName.getStartLine(), opName.getStartColumn()); 
+ 	    result.setVisibility(vis);
+ 	    result.setAbstract(isAbstract);
+      }
+    ( t = <MODEL_PRE> [ name = simpleName() ] <MODEL_COLON> 
+      oclString = ocl()
+      { if (name != null ) {
+      		holder = new ParsedOclString(name.getBaseString(), OclUsageType.PRE); 
+      	} else {
+      		holder = new ParsedOclString("", OclUsageType.PRE); 
+      	}
+        holder.setExpressionString( oclString );
+        result.addPreCondition( holder );
+        holder.setContext(owner, result);
+        holder.setFilename(currentFilename);
+        holder.setLineAndColumn(t.beginLine, t.beginColumn);
+        name = null ; 
+      }
+     )*
+    ( <MODEL_POST> [ name = simpleName() ] <MODEL_COLON> 
+      oclString = ocl()
+      { if (name != null ) {
+      		holder = new ParsedOclString(name.getBaseString(), OclUsageType.POST); 
+      	} else {
+      		holder = new ParsedOclString("", OclUsageType.POST); 
+      	}
+        holder.setExpressionString( oclString );
+        result.addPostCondition( holder );
+        holder.setContext(owner, result);
+        holder.setFilename(currentFilename);
+        holder.setLineAndColumn(t.beginLine, t.beginColumn);
+        name = null ; 
+      }
+     )*
+        { if( hasClassScope ) {
+        	  result.setHasClassScope(true);
+          }
+          owner.addOperation(result); 
+          result.setOwner(owner);
+        }
+}
+
+/** A model operator.
+ *  Returns a ParsedModelName with only one token
+ *  <PRIVATE> | <PUBLIC> | <DERIVATION> are used because the tokens represent 
+ *  MINUS, PLUS, and DIVISION respectively
+ */
+ParsedModelName modelOperator() : {
+}{
+   ( <PRIVATE> | <PUBLIC> | <DERIVATION> | <MODEL_LESS> | <MODEL_GT> | <MODEL_LESSEQ>
+     | <MODEL_GTEQ> | <MODEL_EQUALS> | <MODEL_NOTEQUALS> | <MODEL_MULTIPLY>
+   )
+   { return new ParsedModelName(token); }
+}
+
+int direction() : {
+    Token t;
+} {
+    ( t =<IN_DIR> | t = <OUT_DIR> | t = <INOUT_DIR> )
+    { return t.kind;
+    }
+}
+
+void associationDeclarations(PackageImpl owner) : {
+    AssociationEndImpl source      = null;
+    AssociationEndImpl target      = null;
+    AssociationImpl    association = null;
+    ParsedModelName    assName     = null;
+    Token              derived     = null;
+    Token          	   t           = null;
+}{
+    <ASSOCIATIONS>
+    (
+      [ derived = <DERIVATION> ]
+      [ LOOKAHEAD( simpleName() <MODEL_COLON> ) assName = simpleName() <MODEL_COLON> ]
+      source  = associationEnd()
+      ( t = <ARROW_TWOWAY> | t = <ARROW_RIGHT> | t = <ARROW_LEFT> | t = <PRIVATE> )
+      target = associationEnd()
+      <END>
+      {
+        if( t.kind == ARROW_TWOWAY ){
+            source.setNavigable(true);
+            target.setNavigable(true);
+        } else if ( t.kind == ARROW_LEFT ){
+            source.setNavigable(true);
+            target.setNavigable(false);
+        } else if ( t.kind == ARROW_RIGHT ){
+            source.setNavigable(false);
+            target.setNavigable(true);
+        } else if ( t.kind == PRIVATE){
+            source.setNavigable(false);
+            target.setNavigable(false);
+        }
+        if (assName != null ) {
+        	association = new AssociationImpl(assName.getBaseString(), source, target);
+       	} else {
+        	association = new AssociationImpl(null, source, target);       	
+       	}
+        association.setDerived(derived != null);
+		association.setFilename(currentFilename);
+ 	    if (assName != null ) {
+ 	    	association.setLineAndColumn(assName.getStartLine(), assName.getStartColumn()); 
+ 	    } else {
+ 	    	association.setLineAndColumn(source.getLine(), source.getColumn()); 
+		}
+        owner.addAssociation(association);
+        assName = null;
+      }   
+    )*
+}
+
+AssociationEndImpl associationEnd() : {
+    ParsedModelName 	className 	= null;
+    ParsedModelName		roleName  	= null;
+    IMultiplicityKind	mult      	= MultiplicityKindImpl.UNKNOWN;
+    boolean    			hasClassScope = false;
+    boolean    			ordered   	= false;
+    boolean    			notUnique  	= false;
+    boolean    			composite  	= false;
+    boolean    			aggregate  	= false;
+    VisibilityKind 		vis			= VisibilityKind.NONE;
+    AssociationEndImpl 	result 		= null;
+}{
+    [ vis = visibility() ]
+    [ <CLASS_SCOPE> { hasClassScope = true; } ]
+    className = modelName() <MODEL_DOT> ( roleName = simpleName() | <NONAME> )
+    [ mult  = multiplicity() ]
+    [  <ORDERED>        { ordered = true; } ]
+    [  <NOTUNIQUE>      { notUnique = true; } ]
+    [  <COMPOSITE>      { composite = true; } | <AGGREGATE>      { aggregate = true; }]
+    {
+    	ClassifierReference cls = new ClassifierReference(className.toPathName());
+    	cls.setFilename(currentFilename);
+    	cls.setLineAndColumn(className.getStartLine(),className.getStartColumn());
+        if (roleName != null) {
+         	result = new AssociationEndImpl(roleName.getBaseString(), cls, mult, ordered);
+        } else {
+        	result = new AssociationEndImpl(null, cls, mult, ordered);        
+        }
+        if (composite) result.setIsComposite(true);
+        if (aggregate) result.setIsAggregate(true);
+        if (notUnique) result.setIsUnique(false);
+		if( hasClassScope ){
+			result.setHasClassScope(true);
+		} 
+        result.setFilename(currentFilename);
+        result.setLineAndColumn(className.getStartLine(),className.getStartColumn());
+        result.setVisibility(vis);
+        return result;
+    }
+}
+
+IMultiplicityKind multiplicity() : {
+  Token start = null;
+  Token end   = null;
+}{
+	( <MODEL_MULT_OPEN>
+	  start = <INTEGERLITERAL>
+	  [ <MODEL_MULT_RANGE> ( end = <INTEGERLITERAL> | end = <MODEL_MULTIPLY> ) ]
+	  <MODEL_MULT_CLOSE>
+	)
+    {	int startValue = Integer.parseInt(start.image);
+    	int endValue = startValue;
+    	if( end != null ){
+			if( end.kind == MODEL_MULTIPLY ){
+				endValue = Integer.MAX_VALUE;
+			} else {
+				endValue = Integer.parseInt(end.image);
+			}
+		}
+        if (startValue > endValue) {
+        	errors.add( new ModelError(currentFilename, end.beginLine, end.beginColumn,
+      								"Lower bound is larger than upper bound."));
+      		startValue = endValue;
+      	}
+ 		IMultiplicityKind result = new MultiplicityKindImpl(startValue, endValue);
+		return result;
+	}
+}
+
+void stateDeclaration(IPackage owner, ClassifierImpl classifier) : {
+    ParsedModelName n;
+    StateImpl result = null;
+}{
+    ( n = modelName() <END> 
+    	{ result = new StateImpl(n.toPathName());
+          result.setFilename(currentFilename);
+          result.setLineAndColumn(n.getStartLine(), n.getStartColumn());
+    	  classifier.addState( result ); } 
+    )
+}
+
+void invariantDeclaration(IPackage p, ClassifierImpl classifier) : {
+    ParsedModelName     name      = null;
+    ParsedOclString 	result    = null;
+    String              oclString = "";
+    Token 				t;
+}{
+    t = <MODEL_INV> [ name = simpleName() ] <MODEL_COLON> 
+      oclString = ocl()
+      { if (name != null ) {
+      		result = new ParsedOclString(name.getBaseString(), OclUsageType.INV); 
+      	} else {
+      		result = new ParsedOclString("", OclUsageType.INV); 
+      	}
+        result.setExpressionString(oclString);
+        result.setContext( classifier, classifier );
+        result.setFilename(currentFilename);
+        result.setLineAndColumn(t.beginLine, t.beginColumn);
+        classifier.addInvariant( result );
+     }
+}
+
+ClassifierReference typeName() : {
+    ClassifierReference result    = null;
+    ClassifierReference parameter = null;
+    ParsedModelName     basename  = null;
+    Token 				t;
+}{
+     basename = modelName() 
+       { result = new ClassifierReference( basename.toPathName() );
+         result.setFilename(currentFilename);
+         result.setLineAndColumn(basename.getStartLine(), basename.getStartColumn());
+       }
+     [ <MODEL_BRACKET_OPEN> parameter = typeName() 
+       { result.setParameter(parameter); }
+       <MODEL_BRACKET_CLOSE> 
+     ]
+     { 
+       return result;
+     }
+}
+
+/** Any parsed name may be prefixed by "<name> ::" many times.
+ */
+ParsedModelName modelName() : 
+{
+    Token t;
+    ParsedModelName result;
+}{
+    t = <STRING> 
+    { result = new ParsedModelName(t); }
+    ( <MODEL_DOUBLECOLON> t = <STRING> 
+      { result.addToken( t ); }
+    )*
+
+    { return result; }
+}
+
+/** A simple name.
+ *  Returns a ParsedModelName with only one token
+ */
+ParsedModelName simpleName() : {
+}{
+    <STRING> 
+    { return new ParsedModelName(token); }
+}
+
+/** Parse the text of an OCL expression without checking it.
+ *  This allows for incorrect OCL expressions to be read and written.
+ */
+String ocl() : {
+    Token t = null;
+    StringBuffer sb = new StringBuffer(120);
+}{
+    <OCL_START>
+    (t = <TEXT> {sb.append(t.image); })*
+    <OCL_END>
+    { return sb.toString(); }
+}

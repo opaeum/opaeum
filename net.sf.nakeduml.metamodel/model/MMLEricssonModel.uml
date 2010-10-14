@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <elementImport xmi:id="_ksymUJWXEd-WkrwILQl5sQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_kszNYJWXEd-WkrwILQl5sQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <elementImport xmi:id="_kszNYZWXEd-WkrwILQl5sQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_kszNYpWXEd-WkrwILQl5sQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="MMLEricssonModel">
+    <packagedElement xmi:type="uml:Class" xmi:id="_puklgJWUEd-WkrwILQl5sQ" name="Command">
+      <ownedAttribute xmi:id="_INIZsJWVEd-WkrwILQl5sQ" name="parameter" type="_vAdV4JWUEd-WkrwILQl5sQ" isDerived="true" isDerivedUnion="true" aggregation="composite" association="_INVOAJWVEd-WkrwILQl5sQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_INIZsZWVEd-WkrwILQl5sQ" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_INJAwJWVEd-WkrwILQl5sQ"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_MyctEJWXEd-WkrwILQl5sQ" name="name"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_qgzTsJWUEd-WkrwILQl5sQ" name="AddRemove">
+      <generalization xmi:id="_tdwNAJWUEd-WkrwILQl5sQ" general="_puklgJWUEd-WkrwILQl5sQ"/>
+      <ownedAttribute xmi:id="_ncyToJWVEd-WkrwILQl5sQ" name="dualCommandParameter" type="_1B3esJWUEd-WkrwILQl5sQ" aggregation="composite" subsettedProperty="_INIZsJWVEd-WkrwILQl5sQ" association="_nc_H8JWVEd-WkrwILQl5sQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ncyToZWVEd-WkrwILQl5sQ" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ncyTopWVEd-WkrwILQl5sQ"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_XMXuQJWXEd-WkrwILQl5sQ" name="name"/>
+      <ownedAttribute xmi:id="_Yl8wUJWXEd-WkrwILQl5sQ" name="addCommand"/>
+      <ownedAttribute xmi:id="_aFFAwJWXEd-WkrwILQl5sQ" name="removeCommand"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_rXrRUJWUEd-WkrwILQl5sQ" name="Change">
+      <generalization xmi:id="_t6DHcJWUEd-WkrwILQl5sQ" general="_puklgJWUEd-WkrwILQl5sQ"/>
+      <ownedAttribute xmi:id="_vmkeMJWVEd-WkrwILQl5sQ" name="singleCommandParameter" type="_v8LXQJWUEd-WkrwILQl5sQ" aggregation="composite" subsettedProperty="_INIZsJWVEd-WkrwILQl5sQ" association="_vmvdUJWVEd-WkrwILQl5sQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vmkeMZWVEd-WkrwILQl5sQ" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vmkeMpWVEd-WkrwILQl5sQ"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_vAdV4JWUEd-WkrwILQl5sQ" name="Parameter"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_v8LXQJWUEd-WkrwILQl5sQ" name="SingleCommandParameter">
+      <generalization xmi:id="__2mzoJWUEd-WkrwILQl5sQ" general="_vAdV4JWUEd-WkrwILQl5sQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1B3esJWUEd-WkrwILQl5sQ" name="DualCommandParameter">
+      <generalization xmi:id="_ABqNEJWVEd-WkrwILQl5sQ" general="_vAdV4JWUEd-WkrwILQl5sQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_INVOAJWVEd-WkrwILQl5sQ" name="A_&lt;command>_&lt;parameter>" memberEnd="_INVOAZWVEd-WkrwILQl5sQ _INIZsJWVEd-WkrwILQl5sQ" navigableOwnedEnd="_INVOAZWVEd-WkrwILQl5sQ">
+      <ownedEnd xmi:id="_INVOAZWVEd-WkrwILQl5sQ" name="command" type="_puklgJWUEd-WkrwILQl5sQ" isDerived="true" isDerivedUnion="true" association="_INVOAJWVEd-WkrwILQl5sQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_INVOApWVEd-WkrwILQl5sQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_INVOA5WVEd-WkrwILQl5sQ" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_nc_H8JWVEd-WkrwILQl5sQ" name="A_&lt;addRemove>_&lt;dualCommandParameter>" memberEnd="_nc_H8ZWVEd-WkrwILQl5sQ _ncyToJWVEd-WkrwILQl5sQ" navigableOwnedEnd="_nc_H8ZWVEd-WkrwILQl5sQ">
+      <ownedEnd xmi:id="_nc_H8ZWVEd-WkrwILQl5sQ" name="addRemove" type="_qgzTsJWUEd-WkrwILQl5sQ" subsettedProperty="_INVOAZWVEd-WkrwILQl5sQ" association="_nc_H8JWVEd-WkrwILQl5sQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nc_H8pWVEd-WkrwILQl5sQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nc_H85WVEd-WkrwILQl5sQ" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_vmvdUJWVEd-WkrwILQl5sQ" name="A_&lt;change>_&lt;singleCommandParameter>" memberEnd="_vmvdUZWVEd-WkrwILQl5sQ _vmkeMJWVEd-WkrwILQl5sQ" navigableOwnedEnd="_vmvdUZWVEd-WkrwILQl5sQ">
+      <ownedEnd xmi:id="_vmvdUZWVEd-WkrwILQl5sQ" name="change" type="_rXrRUJWUEd-WkrwILQl5sQ" subsettedProperty="_INVOAZWVEd-WkrwILQl5sQ" association="_vmvdUJWVEd-WkrwILQl5sQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vmvdUpWVEd-WkrwILQl5sQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vmvdU5WVEd-WkrwILQl5sQ" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

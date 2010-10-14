@@ -1,0 +1,35 @@
+package net.sf.nakeduml.metamodel.core;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+
+import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
+import nl.klasse.octopus.expressions.internal.types.PathName;
+import nl.klasse.octopus.model.IModelElement;
+public interface INakedElement extends IModelElement,INakedElementOwner, Serializable {
+	@Deprecated
+	//Should only be used in Octopus
+	
+	public PathName getPathName();
+	/**
+	 * Returns the name of the UML meta class represented
+	 */
+	String getMetaClass();
+	String getId();
+	List<INakedComment> getComments();
+	INakedElementOwner getOwnerElement();
+	void setOwnerElement(INakedElementOwner element);
+	void initialize(String id, String name);
+	void setMappingInfo(IMappingInfo vi);
+	IMappingInfo getMappingInfo();
+	INakedNameSpace getNameSpace();
+	void setName(String umlName);
+	boolean hasStereotype(String name);
+	boolean hasTaggedValue(String stereotype, String tag);
+	<T> T getTaggedValue(String stereotype, String tag);
+	Collection<? extends INakedInstanceSpecification> getStereotypes();
+	void addStereotype(INakedInstanceSpecification stereotype);
+	INakedInstanceSpecification getStereotype(String name);
+	String getDocumentation();
+	void setDocumentation(String d);
+}

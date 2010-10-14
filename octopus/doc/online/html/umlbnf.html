@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="11/06/03 11:11:24">
+<title>The BNF for UML Files</title>
+</head>
+<h2>
+  <font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The BNF for UML Files</font>
+</h2>
+<p>
+<font  face="Verdana, Arial, Helvetica, sans-serif">
+A word in capital letters surrounded by '&lt;' and '&gt;', for instance &lt;PACKAGE_START&gt;, indicates a terminal symbol.
+</font>
+<pre>
+packageEntry :=
+    &lt;PACKAGE_START&gt; simpleName 
+    ( &lt;IMPORT&gt; modelName &lt;MODEL_END&gt; )*
+    ( classifierDeclaration )*
+    [ associationDeclarations ]
+    &lt;PACKAGE_END&gt;
+
+visibility :=
+    &lt;PUBLIC&gt; | &lt;PRIVATE&gt; | &lt;PROTECTED&gt;
+
+classifierDeclaration :=
+    [ visibility ]
+    (   classDeclaration 
+      | datatypeDeclaration
+      | interfaceDeclaration
+      | associationclassDeclaration
+      | enumtypeDeclaration
+    )
+
+classDeclaration :=
+    &lt;CLASS_START&gt; simpleName 
+    [ &lt;SPECIALIZES&gt; modelName (&lt;MODEL_COMMA&gt; modelName)* ]
+    [ &lt;IMPLEMENTS&gt;  modelName (&lt;MODEL_COMMA&gt; modelName)* ]
+    [ &lt;ATTRIBUTES&gt;  ( attributeDeclaration  )* ]
+    [ &lt;OPERATIONS&gt;  ( operationDeclaration  )* ]
+    [ &lt;STATES&gt;      ( stateDeclaration      )* ]   
+    &lt;CLASS_END&gt;
+    
+datatypeDeclaration :=
+    &lt;DATATYPE_START&gt; simpleName
+    [ &lt;SPECIALIZES&gt; modelName (&lt;MODEL_COMMA&gt; modelName)* ]
+    [ &lt;IMPLEMENTS&gt;  modelName (&lt;MODEL_COMMA&gt; modelName)* ]
+    [ &lt;ATTRIBUTES&gt;  ( attributeDeclaration  )* ]
+    [ &lt;OPERATIONS&gt;  ( operationDeclaration  )* ]
+    &lt;DATATYPE_END&gt;
+    
+interfaceDeclaration :=
+    &lt;INTFACE_START&gt; simpleName 
+    [ &lt;SPECIALIZES&gt; modelName (&lt;MODEL_COMMA&gt; modelName)* ]
+    [ &lt;IMPLEMENTS&gt;  modelName (&lt;MODEL_COMMA&gt; modelName)* ]
+    [ &lt;OPERATIONS&gt;  ( operationDeclaration  )* ]
+    &lt;INTFACE_END&gt;
+
+associationclassDeclaration :=
+    &lt;ASSOC_CLASS_START&gt; simpleName 
+    associationEnd
+    ( &lt;ARROW_TWOWAY&gt; | &lt;ARROW_RIGHT&gt; | &lt;ARROW_LEFT&gt; | &lt;PRIVATE&gt; )
+    associationEnd
+    [ &lt;ATTRIBUTES&gt;  ( attributeDeclaration  )* ]
+    [ &lt;OPERATIONS&gt;  ( operationDeclaration  )* ]
+    [ &lt;STATES&gt;      ( stateDeclaration      )* ]   
+    &lt;ASSOC_CLASS_END&gt;
+
+enumtypeDeclaration :=
+    &lt;ENUMTYPE_START&gt; simpleName
+    &lt;VALUES&gt;
+    ( simpleName &lt;MODEL_END&gt; )*
+    &lt;ENUMTYPE_END&gt;
+
+attributeDeclaration :=
+    [ visibility  ]
+    [ &lt;CLASS_SCOPE&gt; ]
+    [ &lt;DERIVATION&gt;  ]
+    simpleName &lt;MODEL_COLON&gt; typeName 
+    [ multiplicity ]
+    &lt;MODEL_END&gt;
+
+operationDeclaration :=
+    [ visibility  ]
+    [ &lt;CLASS_SCOPE&gt; ]
+    ( simpleName |
+      &lt;INFIX&gt; ( modelOperator | simpleName )
+    )
+    &lt;MODEL_BRACKET_OPEN&gt;
+    [ [ direction ] simpleName &lt;MODEL_COLON&gt; typeName ] 
+      ( &lt;MODEL_COMMA&gt; [ direction ] simpleName &lt;MODEL_COLON&gt; typeName )* ]
+    &lt;MODEL_BRACKET_CLOSE&gt; 
+    [ &lt;MODEL_COLON&gt; typeName ]
+    &lt;MODEL_END&gt;
+
+modelOperator :=
+    &lt;PRIVATE&gt; | &lt;PUBLIC&gt; | &lt;DERIVATION&gt; | &lt;MODEL_LESS&gt; | &lt;MODEL_GT&gt; | &lt;MODEL_LESSEQ&gt;
+    | &lt;MODEL_GTEQ&gt; | &lt;MODEL_EQUALS&gt; | &lt;MODEL_NOTEQUALS&gt; | &lt;MODEL_MULTIPLY&gt;
+
+direction :=
+    &lt;IN_DIR&gt; | &lt;OUT_DIR&gt; | &lt;INOUT_DIR&gt;
+ 
+associationDeclarations :=
+    &lt;ASSOCIATIONS&gt;
+    (
+      [ &lt;DERIVATION&gt; ]
+      associationEnd
+      ( &lt;ARROW_TWOWAY&gt; | &lt;ARROW_RIGHT&gt; | &lt;ARROW_LEFT&gt; | &lt;PRIVATE&gt; )
+      associationEnd
+      &lt;MODEL_END&gt;
+    )*
+
+associationEnd :=
+    [ visibility ]
+    modelName &lt;MODEL_DOT&gt; ( simpleName | &lt;NONAME&gt; )
+    [ multiplicity ]
+    [ &lt;ORDERED&gt; ]
+
+multiplicity :=
+    &lt;MODEL_MULT_OPEN&gt; &lt;NUMSTRING&gt;
+	  [ &lt;MODEL_MULT_RANGE&gt; ( &lt;NUMSTRING&gt; | &lt;MODEL_MULTIPLY&gt; ) ]
+    &lt;MODEL_MULT_CLOSE&gt;
+
+stateDeclaration :=
+    modelName &lt;MODEL_END&gt;
+
+typeName :=
+    modelName 
+  | &lt;SET&gt; &lt;MODEL_BRACKET_OPEN&gt; typeName &lt;MODEL_BRACKET_CLOSE&gt;
+  | &lt;ORDEREDSET&gt; &lt;MODEL_BRACKET_OPEN&gt; typeName &lt;MODEL_BRACKET_CLOSE&gt;
+  | &lt;SEQUENCE&gt; &lt;MODEL_BRACKET_OPEN&gt; typeName &lt;MODEL_BRACKET_CLOSE&gt;
+  | &lt;BAG&gt; &lt;MODEL_BRACKET_OPEN&gt; typeName &lt;MODEL_BRACKET_CLOSE&gt;
+ 
+modelName := 
+    &lt;STRING&gt; ( &lt;MODEL_DOUBLECOLON&gt; &lt;STRING&gt; )*
+
+simpleName :=
+    &lt;STRING&gt; 
+    
+/************************************************
+ * The terminals
+ *
+ ***********************************************/
+ 
+PACKAGE_START       := "&lt;package&gt;"     
+PACKAGE_END         := "&lt;endpackage&gt;"  
+CLASS_START         := "&lt;class&gt;"       
+CLASS_END           := "&lt;endclass&gt;"    
+INTFACE_START       := "&lt;interface&gt;"       
+INTFACE_END         := "&lt;endinterface&gt;"    
+ASSOC_CLASS_START   := "&lt;associationclass&gt;"       
+ASSOC_CLASS_END     := "&lt;endassociationclass&gt;"    
+DATATYPE_START      := "&lt;datatype&gt;"    
+DATATYPE_END        := "&lt;enddatatype&gt;" 
+ENUMTYPE_START      := "&lt;enumeration&gt;"    
+ENUMTYPE_END        := "&lt;endenumeration&gt;" 
+
+IMPORT              := "&lt;import&gt;"      
+ATTRIBUTES          := "&lt;attributes&gt;"  
+OPERATIONS          := "&lt;operations&gt;"  
+INFIX               := "&lt;infix&gt;"       
+ASSOCIATIONS        := "&lt;associations&gt;"
+STATES              := "&lt;states&gt;"      
+VALUES              := "&lt;values&gt;"      
+SPECIALIZES         := "&lt;specializes&gt;" 
+IMPLEMENTS          := "&lt;implements&gt;"  
+ORDERED             := "&lt;ordered&gt;"     
+IN_DIR              := "&lt;in&gt;"          
+OUT_DIR             := "&lt;out&gt;"         
+INOUT_DIR           := "&lt;inout&gt;"       
+NONAME              := "&lt;noName&gt;"   
+
+SET                 := "Set"
+ORDEREDSET          := "OrderedSet"
+SEQUENCE            := "Sequence"
+BAG                 := "Bag"
+
+MODEL_BRACKET_OPEN  := "(" 
+MODEL_BRACKET_CLOSE := ")" 
+MODEL_DOUBLECOLON   := "::"  
+MODEL_COLON         := ":" 
+MODEL_END           := ";" 
+MODEL_COMMA         := "," 
+
+DERIVATION          := "/" 
+CLASS_SCOPE         := "$" 
+PROTECTED           := "#" 
+PUBLIC              := "+" 
+PRIVATE             := "-" 
+
+ARROW_TWOWAY        := "&lt;-&gt;"
+ARROW_RIGHT         := "-&gt;"
+ARROW_LEFT          := "&lt;-"
+MODEL_DOT           := "."
+
+MODEL_LESS          := "&lt;" 
+MODEL_GT            := "&gt;" 
+MODEL_LESSEQ        := "&lt;="
+MODEL_GTEQ          := "&gt;="
+MODEL_EQUALS        := "=" 
+MODEL_NOTEQUALS     := "&lt;&gt;"
+MODEL_MULTIPLY      := "*" 
+MODEL_MULT_OPEN     := "[" 
+MODEL_MULT_CLOSE    := "]" 
+MODEL_MULT_RANGE    := ".."
+
+M_OPTIONAL          := "[0..1]"
+M_ONE               := "[1]"  
+M_SET               := "[0..*]"
+M_NON_EMPTY_SET     := "[1..*]"
+
+STRING              :=  ["a"-"z", "A"-"Z", "_"] ( ["a"-"z", "A"-"Z", "0"-"9", "_" ] )*
+</pre>
+    

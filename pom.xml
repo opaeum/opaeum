@@ -1,0 +1,63 @@
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sf.nakeduml</groupId>
+	<artifactId>numlcore</artifactId>
+	<packaging>pom</packaging>
+	<name>numlcore</name>
+	<version>${numl.version}</version>
+
+	<modules>
+		<module>octopus</module>
+		<module>octopuscodegen</module>
+		<module>net.sf.nakeduml.javametamodel</module>
+		<module>net.sf.nakeduml.metamodel</module>
+		<module>net.sf.nakeduml.util</module>
+	</modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.4.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.4.3</version>
+					<configuration>
+						<excludedGroups>${tests.excludedGroups}</excludedGroups>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.8</version>
+					<configuration>
+						<downloadSources>true</downloadSources>
+						<downloadJavadocs>true</downloadJavadocs>
+						<workspace>${basedir}</workspace>
+						<projectNameTemplate>[artifactId]</projectNameTemplate>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<properties>
+		<java.version>1.6</java.version>
+		<numl.version>1.0.0.1</numl.version>
+	</properties>
+</project>

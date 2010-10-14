@@ -1,0 +1,21 @@
+#set($shouldGenerate=true)
+<?xml version='1.0' encoding='UTF-8'?>
+<jbpm-configuration>
+  <jbpm-context>
+    <service name="persistence">
+      <factory>
+        <bean factory="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+          <field name="isTransactionEnabled"><false /></field>
+          <field name="sessionFactoryJndiName">
+            <string value="java:/hibernate/${model.name}SessionFactory" />
+          </field>
+          <field name="dataSourceJndiName">
+            <string value="java:/jdbc/${model.name}DataSource" />
+          </field>
+        </bean>
+      </factory>
+    </service>
+  </jbpm-context>
+</jbpm-configuration>
+
+  

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<welcomePage 
+	title="Octopus: an OCL Tool for Precise UML Specifications">
+<intro>The Octopus tool, created by Klasse Objecten, provides support for working with
+OCL expressions in a UML model. OCL expressions provide extra information that cannot 
+be expressed in the diagrams that constitute the UML model.</intro>
+
+<item><b>Creating an Octopus project</b>
+To create a project in which the full functionality of the Octopus tool can be used, 
+open the new project wizard in the category Octopus and follow the directions.</item>
+
+<item><b>Creating a UML model </b>
+A UML model can be created by providing a number of text files that contain the model 
+information. These files can be generated from a UML case tool or can be created by hand.
+A dedicated editor is provided. More info can be found in <topic id="/nl.klasse.octopus/doc/online/html/tutorial.html">Octopus User Guide >Getting Started </topic></item>
+
+<item><b>Using the OCL editor </b>
+The heart of an Octopus project lies in the files that contain the OCL expressions.
+Each file with extension .ocl is considered to contain OCL expressions and can be changed
+using the dedicated OCL editor. Saving the file will cause Octopus to check all expressions 
+it contains.</item>
+
+<item><b>Using the Model View </b>
+You can see the UML model associated with the project in a window called 'Model View'.
+It shows the UML model associated with the currently selected project in a tree structure. 
+This tree also contains elements that have been added to the model through OCL expressions
+in any of the .ocl files. You can open the Model View by clicking on the Octopus icon in 
+the navigator view.</item>
+
+<item><b>Learn more </b>
+To learn more about how to use Octopus you can browse the <topic id="/nl.klasse.octopus/doc/online/toc.xml">Octopus User Guide</topic>.
+To learn more about OCL and/or Klasse Objecten visit the website http:\\www.klasse.nl.</item>
+</welcomePage>

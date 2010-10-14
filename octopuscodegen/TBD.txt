@@ -1,0 +1,20 @@
+To be Done in Code generator
+
+Done: 
+1. uitzoeken hoe we met multiple inheritance omgaan - zeker in relatie met 
+   het genereren van interfaces en internal package
+2. voor preconditions: zet in de documentatie dat op
+	windows>Preferences>Java>compiler>Compliance and classfiles
+	de optie Compiler compliance level op 1.4 moet staan.
+7. generate as extra to assocs: addToX(set of X)
+2. generate a 'def' not as init but as derive
+4. generation of oclAsType needs extra brackets
+	
+	TO BE DONE GENERALLY:
+
+1. check uniqueness of assoc/attr names also against names in superclasses
+3. see if we can get rid of IModelObject
+5. check derives by assoc end; now: setter is private, getter { set(rule); return rule; }
+6. uml parser: both aggregate and composite
+3. In de MainClasses onder het tabje userinterface van de Octopus Codegen property pages
+   staan geen associatie klasses. Die horen er wel.

@@ -1,0 +1,1561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.uml.msl.profile" version="7.0.0"><feature description="" name="com.ibm.xtools.ruml.feature" url="" version="7.0.0"/></signature>?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ProfileBase="http:///schemas/ProfileBase/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.0.0/UML" xsi:schemaLocation="http:///schemas/ProfileBase/1 pathmap://UML2_MSL_PROFILES/ProfileBase.epx#_IfFYQMmBEdqBcN1R6EvWUw?ProfileBase/ProfileBase?">
+  <uml:Profile xmi:id="_MnYL8MueEdu1lcP89XunwA" name="security" metamodelReference="_MnYL8sueEdu1lcP89XunwA">
+    <eAnnotations xmi:id="_MnYL9sueEdu1lcP89XunwA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <contents xmi:type="ecore:EPackage" xmi:id="_YY1vET_iEdyL76kjVbn1-A" name="security" nsURI="http:///schemas/security/_YY1vED_iEdyL76kjVbn1-A/36" nsPrefix="security">
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vEj_iEdyL76kjVbn1-A" name="SecurityOnAuditTrail">
+          <eAnnotations xmi:id="_YY1vEz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Q5ycUMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vFD_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vFT_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can view the audit trail of a given instance of the entity this stereotype is assigned to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vFj_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vFz_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vGD_iEdyL76kjVbn1-A" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vGT_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vGj_iEdyL76kjVbn1-A" name="SecurityOnCreate">
+          <eAnnotations xmi:id="_YY1vGz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RP_V0MueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vHD_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vHT_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can create a new instance of the entity this stereotype is assigned to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vHj_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vHz_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vID_iEdyL76kjVbn1-A" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vIT_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vIj_iEdyL76kjVbn1-A" name="SecurityOnDelete">
+          <eAnnotations xmi:id="_YY1vIz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RtgYQMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vJD_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vJT_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can delete a given instance of the entity this stereotype is assigned to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vJj_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vJz_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vKD_iEdyL76kjVbn1-A" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vKT_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vKj_iEdyL76kjVbn1-A" name="SecurityOnEdit">
+          <eAnnotations xmi:id="_YY1vKz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_R_F3gMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vLD_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vLT_iEdyL76kjVbn1-A" key="documentation" value="When assigned to a class:&#xA;This specifies the security rules that will be applied to determine if the current user can edit a given instance of the entity this stereotype is assigned to&#xA;&#xA;When assigned to a property:&#xA;This specifies the security rules that will be applied to determine if the current user can edit (modify) the value of a given property this stereotype is assigned to&#xA;"/>
+          </eAnnotations>
+          <eOperations xmi:id="_YY1vLj_iEdyL76kjVbn1-A" name="RequireRoleMustBePowerTypeInstance">
+            <eAnnotations xmi:id="_YY1vLz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_YY1vMD_iEdyL76kjVbn1-A" key="documentation" value="self.requiredRoles->forAll(el:uml::EnumerationLiteral | not el.getAppliedStereotype('numlcore::PowerTypeInstance')->isEmpty())"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_YY1vMT_iEdyL76kjVbn1-A" name="diagnostics">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_YY1vMj_iEdyL76kjVbn1-A" name="context">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_YY1vMz_iEdyL76kjVbn1-A" name="AllRequiredRoleMustBeFromSameEnumeration">
+            <eAnnotations xmi:id="_YY1vND_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_YY1vNT_iEdyL76kjVbn1-A" key="documentation" value="self.requiredRoles->collect(e : uml::EnumerationLiteral | e.enumeration)->asSet()->size()&lt;=1"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_YY1vNj_iEdyL76kjVbn1-A" name="diagnostics">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_YY1vNz_iEdyL76kjVbn1-A" name="context">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+            </eParameters>
+          </eOperations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vOD_iEdyL76kjVbn1-A" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vOT_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vOj_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vOz_iEdyL76kjVbn1-A" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vPD_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vPT_iEdyL76kjVbn1-A" name="SecurityOnEditInState">
+          <eAnnotations xmi:id="_YY1vPj_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_SNQPUMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vPz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vQD_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can edit the instance of the entity this state belongs to when the statemachine of entity instance is in this state"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vQT_iEdyL76kjVbn1-A" name="base_State" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//State"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vQj_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vQz_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vRD_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vRT_iEdyL76kjVbn1-A" name="SecurityOnForceStateChange">
+          <eAnnotations xmi:id="_YY1vRj_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_SahPQMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vRz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vSD_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can force a state change on instances of this statemachine"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vST_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vSj_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vSz_iEdyL76kjVbn1-A" name="base_StateMachine" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//StateMachine"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vTD_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vTT_iEdyL76kjVbn1-A" name="SecurityOnInvoke">
+          <eAnnotations xmi:id="_YY1vTj_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_So-iAMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vTz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vUD_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can invoke the operation this stereotype is assigned to on a given instance of the entity thie operation belongs to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vUT_iEdyL76kjVbn1-A" name="base_Operation" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Operation"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vUj_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vUz_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vVD_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vVT_iEdyL76kjVbn1-A" name="SecurityOnView">
+          <eAnnotations xmi:id="_YY1vVj_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_S0AtUMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vVz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vWD_iEdyL76kjVbn1-A" key="documentation" value="When assigned to a class:&#xA;This specifies the security rules that will be applied to determine if the current user can view a given instance of the entity this stereotype is assigned to&#xA;&#xA;When assigned to a property:&#xA;This specifies the security rules that will be applied to determine if the current user can view the value of a given property this stereotype is assigned to&#xA;"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vWT_iEdyL76kjVbn1-A" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vWj_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vWz_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vXD_iEdyL76kjVbn1-A" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vXT_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vXj_iEdyL76kjVbn1-A" name="SecurityOnViewInState">
+          <eAnnotations xmi:id="_YY1vXz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_S_e9gMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_YY1vYD_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_YY1vYT_iEdyL76kjVbn1-A" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can view the instance of the entity this state belongs to when the statemachine of the entity instance is in this state"/>
+          </eAnnotations>
+          <eOperations xmi:id="_YY1vYj_iEdyL76kjVbn1-A" name="RequireRoleMustBePowerTypeInstance">
+            <eAnnotations xmi:id="_YY1vYz_iEdyL76kjVbn1-A" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_YY1vZD_iEdyL76kjVbn1-A" key="documentation" value="self.requiredRoles->forAll(el:uml::EnumerationLiteral | not el.getAppliedStereotype('numlcore::PowerTypeInstance')->isEmpty())"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_YY1vZT_iEdyL76kjVbn1-A" name="diagnostics">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_YY1vZj_iEdyL76kjVbn1-A" name="context">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+            </eParameters>
+          </eOperations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vZz_iEdyL76kjVbn1-A" name="base_State" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//State"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vaD_iEdyL76kjVbn1-A" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_YY1vaT_iEdyL76kjVbn1-A" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vaj_iEdyL76kjVbn1-A" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_YY1vaz_iEdyL76kjVbn1-A" name="UserGroup">
+          <eAnnotations xmi:id="_YY1vbD_iEdyL76kjVbn1-A" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_4by28D2tEdy8WOgaZqie-w"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vbT_iEdyL76kjVbn1-A" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_YY1vbj_iEdyL76kjVbn1-A" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+      </contents>
+      <contents xmi:type="ecore:EPackage" xmi:id="_8eIxYT21Edy8WOgaZqie-w" name="security" nsURI="http:///schemas/security/_8eIxYD21Edy8WOgaZqie-w/35" nsPrefix="security">
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxYj21Edy8WOgaZqie-w" name="SecurityOnAuditTrail">
+          <eAnnotations xmi:id="_8eIxYz21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Q5ycUMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxZD21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxZT21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can view the audit trail of a given instance of the entity this stereotype is assigned to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxZj21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxZz21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxaD21Edy8WOgaZqie-w" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxaT21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxaj21Edy8WOgaZqie-w" name="SecurityOnCreate">
+          <eAnnotations xmi:id="_8eIxaz21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RP_V0MueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxbD21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxbT21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can create a new instance of the entity this stereotype is assigned to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxbj21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxbz21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxcD21Edy8WOgaZqie-w" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxcT21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxcj21Edy8WOgaZqie-w" name="SecurityOnDelete">
+          <eAnnotations xmi:id="_8eIxcz21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RtgYQMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxdD21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxdT21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can delete a given instance of the entity this stereotype is assigned to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxdj21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxdz21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxeD21Edy8WOgaZqie-w" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxeT21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxej21Edy8WOgaZqie-w" name="SecurityOnEdit">
+          <eAnnotations xmi:id="_8eIxez21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_R_F3gMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxfD21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxfT21Edy8WOgaZqie-w" key="documentation" value="When assigned to a class:&#xA;This specifies the security rules that will be applied to determine if the current user can edit a given instance of the entity this stereotype is assigned to&#xA;&#xA;When assigned to a property:&#xA;This specifies the security rules that will be applied to determine if the current user can edit (modify) the value of a given property this stereotype is assigned to&#xA;"/>
+          </eAnnotations>
+          <eOperations xmi:id="_8eIxfj21Edy8WOgaZqie-w" name="RequireRoleMustBePowerTypeInstance">
+            <eAnnotations xmi:id="_8eIxfz21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_8eIxgD21Edy8WOgaZqie-w" key="documentation" value="self.requiredRoles->forAll(el:uml::EnumerationLiteral | not el.getAppliedStereotype('numlcore::PowerTypeInstance')->isEmpty())"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_8eIxgT21Edy8WOgaZqie-w" name="diagnostics">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_8eIxgj21Edy8WOgaZqie-w" name="context">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_8eIxgz21Edy8WOgaZqie-w" name="AllRequiredRoleMustBeFromSameEnumeration">
+            <eAnnotations xmi:id="_8eIxhD21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_8eIxhT21Edy8WOgaZqie-w" key="documentation" value="self.requiredRoles->collect(e : uml::EnumerationLiteral | e.enumeration)->asSet()->size()&lt;=1"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_8eIxhj21Edy8WOgaZqie-w" name="diagnostics">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_8eIxhz21Edy8WOgaZqie-w" name="context">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+            </eParameters>
+          </eOperations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxiD21Edy8WOgaZqie-w" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxiT21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxij21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxiz21Edy8WOgaZqie-w" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxjD21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxjT21Edy8WOgaZqie-w" name="SecurityOnEditInState">
+          <eAnnotations xmi:id="_8eIxjj21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_SNQPUMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxjz21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxkD21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can edit the instance of the entity this state belongs to when the statemachine of entity instance is in this state"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxkT21Edy8WOgaZqie-w" name="base_State" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//State"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxkj21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxkz21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxlD21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxlT21Edy8WOgaZqie-w" name="SecurityOnForceStateChange">
+          <eAnnotations xmi:id="_8eIxlj21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_SahPQMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxlz21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxmD21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can force a state change on instances of this statemachine"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxmT21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxmj21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxmz21Edy8WOgaZqie-w" name="base_StateMachine" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//StateMachine"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxnD21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxnT21Edy8WOgaZqie-w" name="SecurityOnInvoke">
+          <eAnnotations xmi:id="_8eIxnj21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_So-iAMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxnz21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxoD21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can invoke the operation this stereotype is assigned to on a given instance of the entity thie operation belongs to"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxoT21Edy8WOgaZqie-w" name="base_Operation" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Operation"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxoj21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxoz21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxpD21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxpT21Edy8WOgaZqie-w" name="SecurityOnView">
+          <eAnnotations xmi:id="_8eIxpj21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_S0AtUMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxpz21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxqD21Edy8WOgaZqie-w" key="documentation" value="When assigned to a class:&#xA;This specifies the security rules that will be applied to determine if the current user can view a given instance of the entity this stereotype is assigned to&#xA;&#xA;When assigned to a property:&#xA;This specifies the security rules that will be applied to determine if the current user can view the value of a given property this stereotype is assigned to&#xA;"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxqT21Edy8WOgaZqie-w" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxqj21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxqz21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxrD21Edy8WOgaZqie-w" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxrT21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxrj21Edy8WOgaZqie-w" name="SecurityOnViewInState">
+          <eAnnotations xmi:id="_8eIxrz21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_S_e9gMueEdu1lcP89XunwA"/>
+          <eAnnotations xmi:id="_8eIxsD21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_8eIxsT21Edy8WOgaZqie-w" key="documentation" value="This specifies the security rules that will be applied to determine if the current user can view the instance of the entity this state belongs to when the statemachine of the entity instance is in this state"/>
+          </eAnnotations>
+          <eOperations xmi:id="_8eIxsj21Edy8WOgaZqie-w" name="RequireRoleMustBePowerTypeInstance">
+            <eAnnotations xmi:id="_8eIxsz21Edy8WOgaZqie-w" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_8eIxtD21Edy8WOgaZqie-w" key="documentation" value="self.requiredRoles->forAll(el:uml::EnumerationLiteral | not el.getAppliedStereotype('numlcore::PowerTypeInstance')->isEmpty())"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_8eIxtT21Edy8WOgaZqie-w" name="diagnostics">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_8eIxtj21Edy8WOgaZqie-w" name="context">
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+            </eParameters>
+          </eOperations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxtz21Edy8WOgaZqie-w" name="base_State" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//State"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxuD21Edy8WOgaZqie-w" name="requiresGroupOwnership" ordered="false" defaultValueLiteral="true">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_8eIxuT21Edy8WOgaZqie-w" name="requiresUserOwnership" ordered="false" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxuj21Edy8WOgaZqie-w" name="requiredRoles" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//EnumerationLiteral"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_8eIxuz21Edy8WOgaZqie-w" name="UserGroup">
+          <eAnnotations xmi:id="_8eIxvD21Edy8WOgaZqie-w" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_4by28D2tEdy8WOgaZqie-w"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxvT21Edy8WOgaZqie-w" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_8eIxvj21Edy8WOgaZqie-w" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+      </contents>
+    </eAnnotations>
+    <packageImport xmi:id="_MnYL8cueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_T6EWu8ueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EWvMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_MnYL8sueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_T6EWvcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EWvsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_Q5ycUMueEdu1lcP89XunwA" name="SecurityOnAuditTrail">
+      <eAnnotations xmi:id="_Q5ycUcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EWv8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_Q5ycU8ueEdu1lcP89XunwA" annotatedElement="_Q5ycUMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_Q5ycVMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EWwMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can view the audit trail of a given instance of the entity this stereotype is assigned to</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_Q5ycX8ueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_Q5ycYMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EWxMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Q5ycYsueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_Q5ycY8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWxcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Q5ycZcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_Q5ycZsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWxsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_Q5ycaMueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_Q5ycacueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWx8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Q5yca8ueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_Q5ycbMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EWyMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Q5ycbsueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_Q5ycb8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWycueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Q5ycccueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_Q5yccsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWysueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_Q5ycdMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_Q5ycdcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWy8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_Q5ycd8ueEdu1lcP89XunwA" name="base_Class" association="_Q5ycesueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_Q5yceMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EWzMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_e8b3scueEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_e8b3sMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_iuDIa8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_iuDIbMueEdu1lcP89XunwA" key="addedInVersion" value="3"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_e8loscueEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_iuDIbcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_iuDIbsueEdu1lcP89XunwA" key="addedInVersion" value="3"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_e8losMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_iuDIb8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_iuDIcMueEdu1lcP89XunwA" key="addedInVersion" value="3"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_Q5ycesueEdu1lcP89XunwA" memberEnd="_Q5ycfcueEdu1lcP89XunwA _Q5ycd8ueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_Q5yce8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EWzcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Q5ycfcueEdu1lcP89XunwA" name="extension_SecurityConstraintOnAudit" visibility="private" type="_Q5ycUMueEdu1lcP89XunwA" aggregation="composite" association="_Q5ycesueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_Q5ycfsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EWzsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Q5ycgMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_Q5ycgcueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EWz8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Q5ycg8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_Q5ychMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EW0MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_RP_V0MueEdu1lcP89XunwA" name="SecurityOnCreate">
+      <eAnnotations xmi:id="_RP_V0cueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EW0cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_RP_V08ueEdu1lcP89XunwA" annotatedElement="_RP_V0MueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_RP_V1MueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW0sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can create a new instance of the entity this stereotype is assigned to</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_RP_V1sueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_RP_V18ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW08ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RP_V2cueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_RP_V2sueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW1MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RP_V3MueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RP_V3cueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW1cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RP_V38ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_RP_V4MueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW1sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_RP_V4sueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_RP_V48ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW18ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RP_V5cueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_RP_V5sueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW2MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RP_V6MueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RP_V6cueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW2cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RP_V68ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_RP_V7MueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW2sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_RP_V7sueEdu1lcP89XunwA" name="base_Class" association="_RP_V-sueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_RP_V78ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW28ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_kytukcueEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_kytukMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_miDlQMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_miDlQcueEdu1lcP89XunwA" key="addedInVersion" value="4"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ky24gcueEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_miDlQsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_miDlQ8ueEdu1lcP89XunwA" key="addedInVersion" value="4"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ky24gMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_miDlRMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_miDlRcueEdu1lcP89XunwA" key="addedInVersion" value="4"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_RP_V-sueEdu1lcP89XunwA" memberEnd="_RP_V7sueEdu1lcP89XunwA _RP_V_cueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_RP_V-8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW38ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_RP_V_cueEdu1lcP89XunwA" name="extension_SecurityConstraintOnCreate" visibility="private" type="_RP_V0MueEdu1lcP89XunwA" aggregation="composite" association="_RP_V-sueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RP_V_sueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW4MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RP_WAMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_RP_WAcueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EW4cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RP_WA8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_RP_WBMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EW4sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_RtgYQMueEdu1lcP89XunwA" name="SecurityOnDelete">
+      <eAnnotations xmi:id="_RtgYQcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EW48ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_RtgYQ8ueEdu1lcP89XunwA" annotatedElement="_RtgYQMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_RtgYRMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW5MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can delete a given instance of the entity this stereotype is assigned to</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_RtgYT8ueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_RtgYUMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW6MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RtgYUsueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_RtgYU8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW6cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RtgYVcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RtgYVsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW6sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RtgYWMueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_RtgYWcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW68ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_RtgYW8ueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_RtgYXMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW7MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RtgYXsueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_RtgYX8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW7cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RtgYYcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RtgYYsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW7sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_RtgYZMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RtgYZcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW78ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_RtgYZ8ueEdu1lcP89XunwA" name="base_Class" association="_RtgYasueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_RtgYaMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW8MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_p_sw0cueEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_p_sw0MueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_qtAiwMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_qtAiwcueEdu1lcP89XunwA" key="addedInVersion" value="5"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p_sw08ueEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_qtAiwsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_qtAiw8ueEdu1lcP89XunwA" key="addedInVersion" value="5"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p_sw0sueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_qtAixMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_qtAixcueEdu1lcP89XunwA" key="addedInVersion" value="5"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_RtgYasueEdu1lcP89XunwA" memberEnd="_RtgYZ8ueEdu1lcP89XunwA _RtgYbcueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_RtgYa8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW8cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_RtgYbcueEdu1lcP89XunwA" name="extension_SecurityConstraintOnDelete" visibility="private" type="_RtgYQMueEdu1lcP89XunwA" aggregation="composite" association="_RtgYasueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_RtgYbsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW8sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RtgYcMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_RtgYccueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EW88ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_RtgYc8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_RtgYdMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EW9MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_R_F3gMueEdu1lcP89XunwA" name="SecurityOnEdit">
+      <eAnnotations xmi:id="_R_F3gcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EW9cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_R_F3g8ueEdu1lcP89XunwA" annotatedElement="_R_F3gMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_R_F3hMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW9sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>When assigned to a class:
+This specifies the security rules that will be applied to determine if the current user can edit a given instance of the entity this stereotype is assigned to
+
+When assigned to a property:
+This specifies the security rules that will be applied to determine if the current user can edit (modify) the value of a given property this stereotype is assigned to
+</body>
+      </ownedComment>
+      <ownedRule xmi:id="_bGs04MuhEdu1lcP89XunwA" name="RequireRoleMustBePowerTypeInstance" constrainedElement="_R_F3gMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_eptooMuhEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_eptoocuhEdu1lcP89XunwA" key="addedInVersion" value="24"/>
+        </eAnnotations>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_bG1-0cuhEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_eptoosuhEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_eptoo8uhEdu1lcP89XunwA" key="addedInVersion" value="24"/>
+          </eAnnotations>
+          <language>OCL</language>
+          <body>self.requiredRoles->forAll(el:uml::EnumerationLiteral | not el.getAppliedStereotype('numlcore::PowerTypeInstance')->isEmpty())</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_fVHrMMujEdu1lcP89XunwA" name="AllRequiredRoleMustBeFromSameEnumeration" constrainedElement="_R_F3gMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_iT6XkMujEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_iT6XkcujEdu1lcP89XunwA" key="addedInVersion" value="31"/>
+        </eAnnotations>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_fVHrMsujEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_iT6XksujEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_iT6Xk8ujEdu1lcP89XunwA" key="addedInVersion" value="31"/>
+          </eAnnotations>
+          <language>OCL</language>
+          <body>self.requiredRoles->collect(e : uml::EnumerationLiteral | e.enumeration)->asSet()->size()&lt;=1</body>
+        </specification>
+      </ownedRule>
+      <ownedAttribute xmi:id="_R_F3hsueEdu1lcP89XunwA" name="base_Property" association="_R_F3rcueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_R_F3h8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW98ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_R_F3ksueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_R_F3k8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW-8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_R_F3lcueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_R_F3lsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW_MueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_R_F3mMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_R_F3mcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW_cueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_R_F3m8ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_R_F3nMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EW_sueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_R_F3nsueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_R_F3n8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EW_8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_R_F3ocueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_R_F3osueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXAMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_R_F3pMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_R_F3pcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXAcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_R_F3p8ueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_R_F3qMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXAsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_R_F3qsueEdu1lcP89XunwA" name="base_Class" association="_R_F3ucueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_R_F3q8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXA8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_o9HyIcuhEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_o9HyIMuhEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_q8H1xsuhEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_q8H1x8uhEdu1lcP89XunwA" key="addedInVersion" value="25"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_o9HyI8uhEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_q8H1yMuhEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_q8H1ycuhEdu1lcP89XunwA" key="addedInVersion" value="25"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_o9HyIsuhEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_q8H1ysuhEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_q8H1y8uhEdu1lcP89XunwA" key="addedInVersion" value="25"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_R_F3rcueEdu1lcP89XunwA" memberEnd="_R_F3sMueEdu1lcP89XunwA _R_F3hsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_R_F3rsueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXBMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_R_F3sMueEdu1lcP89XunwA" name="extension_" visibility="private" type="_R_F3gMueEdu1lcP89XunwA" aggregation="composite" association="_R_F3rcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_R_F3scueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXBcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_R_F3s8ueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_R_F3tMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXBsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_R_F3tsueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_R_F3t8ueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXB8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_R_F3ucueEdu1lcP89XunwA" memberEnd="_R_F3vMueEdu1lcP89XunwA _R_F3qsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_R_F3usueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXCMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_R_F3vMueEdu1lcP89XunwA" name="extension_SecurityOnEdit" visibility="private" type="_R_F3gMueEdu1lcP89XunwA" aggregation="composite" association="_R_F3ucueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_R_F3vcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXCcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_R_F3v8ueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_R_F3wMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXCsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_R_F3wsueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_R_F3w8ueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXC8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_SNQPUMueEdu1lcP89XunwA" name="SecurityOnEditInState">
+      <eAnnotations xmi:id="_SNQPUcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EXDMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_SNQPU8ueEdu1lcP89XunwA" annotatedElement="_SNQPUMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_SNQPVMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXDcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can edit the instance of the entity this state belongs to when the statemachine of entity instance is in this state</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_SNQPVsueEdu1lcP89XunwA" name="base_State" association="_SNQPesueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_SNQPV8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXDsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#State"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_SNQPYsueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_SNQPY8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXEsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SNQPZcueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_SNQPZsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXE8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SNQPaMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_SNQPacueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXFMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_SNQPa8ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_SNQPbMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXFcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_SNQPbsueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_SNQPb8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXFsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SNQPccueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_SNQPcsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXF8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SNQPdMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_SNQPdcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXGMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_SNQPd8ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_SNQPeMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXGcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_xhWdAcuhEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_xhWdAMuhEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_z2jZ0MuhEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_z2jZ0cuhEdu1lcP89XunwA" key="addedInVersion" value="26"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xhWdA8uhEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_z2jZ0suhEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_z2jZ08uhEdu1lcP89XunwA" key="addedInVersion" value="26"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xhWdAsuhEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_z2jZ1MuhEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_z2jZ1cuhEdu1lcP89XunwA" key="addedInVersion" value="26"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_SNQPesueEdu1lcP89XunwA" memberEnd="_SNQPfcueEdu1lcP89XunwA _SNQPVsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_SNQPe8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXGsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_SNQPfcueEdu1lcP89XunwA" name="extension_" visibility="private" type="_SNQPUMueEdu1lcP89XunwA" aggregation="composite" association="_SNQPesueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_SNQPfsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXG8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SNQPgMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_SNQPgcueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXHMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SNQPg8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_SNQPhMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXHcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_SahPQMueEdu1lcP89XunwA" name="SecurityOnForceStateChange">
+      <eAnnotations xmi:id="_SahPQcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EXHsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_SahPQ8ueEdu1lcP89XunwA" annotatedElement="_SahPQMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_SahPRMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXH8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can force a state change on instances of this statemachine</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_SahPT8ueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_SahPUMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXI8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SahPUsueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_SahPU8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXJMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SahPVcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_SahPVsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXJcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_SahPWMueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_SahPWcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXJsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_SahPW8ueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_SahPXMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXJ8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SahPXsueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_SahPX8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXKMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SahPYcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_SahPYsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXKcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_SahPZMueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_SahPZcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXKsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_SahPZ8ueEdu1lcP89XunwA" name="base_StateMachine" association="_SahPasueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_SahPaMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXK8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#StateMachine"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_zMBWccueEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_zMBWcMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_-MTNScueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_-MTNSsueEdu1lcP89XunwA" key="addedInVersion" value="9"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zMBWc8ueEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_-MTNS8ueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_-MTNTMueEdu1lcP89XunwA" key="addedInVersion" value="9"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zMBWcsueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_-MTNTcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_-MTNTsueEdu1lcP89XunwA" key="addedInVersion" value="9"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_SahPasueEdu1lcP89XunwA" memberEnd="_SahPbcueEdu1lcP89XunwA _SahPZ8ueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_SahPa8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXLMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_SahPbcueEdu1lcP89XunwA" name="extension_StateChangeSecurityConstraint" visibility="private" type="_SahPQMueEdu1lcP89XunwA" aggregation="composite" association="_SahPasueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_SahPbsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXLcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SahPcMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_SahPccueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXLsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_SahPc8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_SahPdMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6EXL8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_So-iAMueEdu1lcP89XunwA" name="SecurityOnInvoke">
+      <eAnnotations xmi:id="_So-iAcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6EXMMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_So-iA8ueEdu1lcP89XunwA" annotatedElement="_So-iAMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_So-iBMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXMcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can invoke the operation this stereotype is assigned to on a given instance of the entity thie operation belongs to</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_So-iBsueEdu1lcP89XunwA" name="base_Operation" association="_So-iKsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_So-iB8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXMsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Operation"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_So-iEsueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_So-iE8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXNsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_So-iFcueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_So-iFsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXN8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_So-iGMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_So-iGcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXOMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_So-iG8ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_So-iHMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXOcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_So-iHsueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_So-iH8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6EXOsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_So-iIcueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_So-iIsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXO8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_So-iJMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_So-iJcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXPMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_So-iJ8ueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_So-iKMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6EXPcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="__6J18cueEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="__6J18MueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_Ba4pKsufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_Ba4pK8ufEdu1lcP89XunwA" key="addedInVersion" value="10"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__6S_4cueEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_Ba4pLMufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_Ba4pLcufEdu1lcP89XunwA" key="addedInVersion" value="10"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__6S_4MueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_Ba4pLsufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_Ba4pL8ufEdu1lcP89XunwA" key="addedInVersion" value="10"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_So-iKsueEdu1lcP89XunwA" memberEnd="_So-iBsueEdu1lcP89XunwA _So-iLcueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_So-iK8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgYMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_So-iLcueEdu1lcP89XunwA" name="extension_" visibility="private" type="_So-iAMueEdu1lcP89XunwA" aggregation="composite" association="_So-iKsueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_So-iLsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgYcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_So-iMMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_So-iMcueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgYsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_So-iM8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_So-iNMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgY8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_S0AtUMueEdu1lcP89XunwA" name="SecurityOnView">
+      <eAnnotations xmi:id="_S0AtUcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6NgZMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_S0AtU8ueEdu1lcP89XunwA" annotatedElement="_S0AtUMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S0AtVMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgZcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>When assigned to a class:
+This specifies the security rules that will be applied to determine if the current user can view a given instance of the entity this stereotype is assigned to
+
+When assigned to a property:
+This specifies the security rules that will be applied to determine if the current user can view the value of a given property this stereotype is assigned to
+</body>
+      </ownedComment>
+      <ownedAttribute xmi:id="_S0AtVsueEdu1lcP89XunwA" name="base_Property" association="_S0AtfcueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S0AtV8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgZsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_S0AtYsueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_S0AtY8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgasueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S0AtZcueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_S0AtZsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6Nga8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S0AtaMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S0AtacueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgbMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_S0Ata8ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_S0AtbMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgbcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_S0AtbsueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_S0Atb8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgbsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S0AtccueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_S0AtcsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6Ngb8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S0AtdMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S0AtdcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgcMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_S0Atd8ueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S0AteMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgccueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_S0AtesueEdu1lcP89XunwA" name="base_Class" association="_S0AticueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S0Ate8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgcsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_C5sJMMufEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_C5iYMMufEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_ESXzqsufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_ESXzq8ufEdu1lcP89XunwA" key="addedInVersion" value="11"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_C5sJMsufEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_ESXzrMufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_ESXzrcufEdu1lcP89XunwA" key="addedInVersion" value="11"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_C5sJMcufEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_ESXzrsufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_ESXzr8ufEdu1lcP89XunwA" key="addedInVersion" value="11"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_S0AtfcueEdu1lcP89XunwA" memberEnd="_S0AtgMueEdu1lcP89XunwA _S0AtVsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S0AtfsueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6Ngc8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_S0AtgMueEdu1lcP89XunwA" name="extension_PropertySecurityConstraintOnEdit" visibility="private" type="_S0AtUMueEdu1lcP89XunwA" aggregation="composite" association="_S0AtfcueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S0AtgcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgdMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S0Atg8ueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_S0AthMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgdcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S0AthsueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_S0Ath8ueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgdsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_S0AticueEdu1lcP89XunwA" memberEnd="_S0AtesueEdu1lcP89XunwA _S0AtjMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S0AtisueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6Ngd8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_S0AtjMueEdu1lcP89XunwA" name="extension_SecurityOnView" visibility="private" type="_S0AtUMueEdu1lcP89XunwA" aggregation="composite" association="_S0AticueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S0AtjcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgeMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S0Atj8ueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_S0AtkMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgecueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S0AtksueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_S0Atk8ueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgesueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_S_e9gMueEdu1lcP89XunwA" name="SecurityOnViewInState">
+      <eAnnotations xmi:id="_S_e9gcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6Nge8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <ownedComment xmi:id="_S_e9g8ueEdu1lcP89XunwA" annotatedElement="_S_e9gMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S_e9hMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgfMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <body>This specifies the security rules that will be applied to determine if the current user can view the instance of the entity this state belongs to when the statemachine of the entity instance is in this state</body>
+      </ownedComment>
+      <ownedRule xmi:id="_MinyUMufEdu1lcP89XunwA" name="RequireRoleMustBePowerTypeInstance" constrainedElement="_S_e9gMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_eLj_QMufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_eLj_QcufEdu1lcP89XunwA" key="addedInVersion" value="13"/>
+        </eAnnotations>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_MinyUsufEdu1lcP89XunwA" name="">
+          <eAnnotations xmi:id="_eLj_QsufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_eLj_Q8ufEdu1lcP89XunwA" key="addedInVersion" value="13"/>
+          </eAnnotations>
+          <language>OCL</language>
+          <body>self.requiredRoles->forAll(el:uml::EnumerationLiteral | not el.getAppliedStereotype('numlcore::PowerTypeInstance')->isEmpty())</body>
+        </specification>
+      </ownedRule>
+      <ownedAttribute xmi:id="_S_e9hsueEdu1lcP89XunwA" name="base_State" association="_S_e9qsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S_e9h8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgfcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#State"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_S_e9ksueEdu1lcP89XunwA" name="requiresGroupOwnership">
+        <eAnnotations xmi:id="_S_e9k8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NggcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S_e9lcueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_S_e9lsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NggsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S_e9mMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S_e9mcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6Ngg8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_S_e9m8ueEdu1lcP89XunwA" value="true">
+          <eAnnotations xmi:id="_S_e9nMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NghMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_S_e9nsueEdu1lcP89XunwA" name="requiresUserOwnership">
+        <eAnnotations xmi:id="_S_e9n8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NghcueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S_e9ocueEdu1lcP89XunwA" value="1">
+          <eAnnotations xmi:id="_S_e9osueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NghsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S_e9pMueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S_e9pcueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6Ngh8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+        </lowerValue>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_S_e9p8ueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S_e9qMueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgiMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_GefFocufEdu1lcP89XunwA" name="requiredRoles" visibility="public" aggregation="shared" association="_GefFoMufEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_H_Of7MufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_H_Of7cufEdu1lcP89XunwA" key="addedInVersion" value="12"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#EnumerationLiteral"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GefFo8ufEdu1lcP89XunwA" value="*">
+          <eAnnotations xmi:id="_H_Of7sufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_H_XpkMufEdu1lcP89XunwA" key="addedInVersion" value="12"/>
+          </eAnnotations>
+        </upperValue>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GefFosufEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_H_XpkcufEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_H_XpksufEdu1lcP89XunwA" key="addedInVersion" value="12"/>
+          </eAnnotations>
+        </lowerValue>
+      </ownedAttribute>
+      <nestedClassifier xmi:type="uml:Extension" xmi:id="_S_e9qsueEdu1lcP89XunwA" memberEnd="_S_e9rcueEdu1lcP89XunwA _S_e9hsueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_S_e9q8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_T6NgicueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_S_e9rcueEdu1lcP89XunwA" name="extension_SecurityConstraintOnEditInState" visibility="private" type="_S_e9gMueEdu1lcP89XunwA" aggregation="composite" association="_S_e9qsueEdu1lcP89XunwA">
+          <eAnnotations xmi:id="_S_e9rsueEdu1lcP89XunwA" source="uml2.extensions">
+            <details xmi:id="_T6NgisueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+          </eAnnotations>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S_e9sMueEdu1lcP89XunwA" value="1">
+            <eAnnotations xmi:id="_S_e9scueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6Ngi8ueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </upperValue>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_S_e9s8ueEdu1lcP89XunwA">
+            <eAnnotations xmi:id="_S_e9tMueEdu1lcP89XunwA" source="uml2.extensions">
+              <details xmi:id="_T6NgjMueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+            </eAnnotations>
+          </lowerValue>
+        </ownedEnd>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_e8b3sMueEdu1lcP89XunwA" memberEnd="_e8b3scueEdu1lcP89XunwA _e8lossueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_iuDIccueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_iuDIcsueEdu1lcP89XunwA" key="addedInVersion" value="3"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_e8lossueEdu1lcP89XunwA" name="securityonaudittrail" visibility="private" type="_Q5ycUMueEdu1lcP89XunwA" association="_e8b3sMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_iuDIc8ueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_iuDIdMueEdu1lcP89XunwA" key="addedInVersion" value="3"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_kytukMueEdu1lcP89XunwA" memberEnd="_kytukcueEdu1lcP89XunwA _ky24gsueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_miDlRsueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_miDlR8ueEdu1lcP89XunwA" key="addedInVersion" value="4"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_ky24gsueEdu1lcP89XunwA" name="securityoncreate" visibility="private" type="_RP_V0MueEdu1lcP89XunwA" association="_kytukMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_miDlSMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_miDlScueEdu1lcP89XunwA" key="addedInVersion" value="4"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_p_sw0MueEdu1lcP89XunwA" memberEnd="_p_sw0cueEdu1lcP89XunwA _p_2h0MueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_qtAixsueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_qtAix8ueEdu1lcP89XunwA" key="addedInVersion" value="5"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_p_2h0MueEdu1lcP89XunwA" name="securityondelete" visibility="private" type="_RtgYQMueEdu1lcP89XunwA" association="_p_sw0MueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_qtAiyMueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_qtAiycueEdu1lcP89XunwA" key="addedInVersion" value="5"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_zMBWcMueEdu1lcP89XunwA" memberEnd="_zMBWccueEdu1lcP89XunwA _zMBWdMueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_-MTNT8ueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_-MTNUMueEdu1lcP89XunwA" key="addedInVersion" value="9"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_zMBWdMueEdu1lcP89XunwA" name="securityonforcestatechange" visibility="private" type="_SahPQMueEdu1lcP89XunwA" association="_zMBWcMueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_-MTNUcueEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_-MTNUsueEdu1lcP89XunwA" key="addedInVersion" value="9"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="__6J18MueEdu1lcP89XunwA" memberEnd="__6J18cueEdu1lcP89XunwA __6S_4sueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_Ba4pMMufEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_Ba4pMcufEdu1lcP89XunwA" key="addedInVersion" value="10"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="__6S_4sueEdu1lcP89XunwA" name="securityoninvoke" visibility="private" type="_So-iAMueEdu1lcP89XunwA" association="__6J18MueEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_Ba4pMsufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_Ba4pM8ufEdu1lcP89XunwA" key="addedInVersion" value="10"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_C5iYMMufEdu1lcP89XunwA" memberEnd="_C5sJMMufEdu1lcP89XunwA _C5sJM8ufEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_ESXzsMufEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_ESXzscufEdu1lcP89XunwA" key="addedInVersion" value="11"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_C5sJM8ufEdu1lcP89XunwA" name="securityonview" visibility="private" type="_S0AtUMueEdu1lcP89XunwA" association="_C5iYMMufEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_ESXzssufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_ESXzs8ufEdu1lcP89XunwA" key="addedInVersion" value="11"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_GefFoMufEdu1lcP89XunwA" memberEnd="_GefFocufEdu1lcP89XunwA _GefFpMufEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_H_Xpk8ufEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_H_XplMufEdu1lcP89XunwA" key="addedInVersion" value="12"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_GefFpMufEdu1lcP89XunwA" name="securityonviewinstate" visibility="private" type="_S_e9gMueEdu1lcP89XunwA" association="_GefFoMufEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_H_XplcufEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_H_XplsufEdu1lcP89XunwA" key="addedInVersion" value="12"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_o9HyIMuhEdu1lcP89XunwA" memberEnd="_o9HyIcuhEdu1lcP89XunwA _o9HyJMuhEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_q8H1zMuhEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_q8H1zcuhEdu1lcP89XunwA" key="addedInVersion" value="25"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_o9HyJMuhEdu1lcP89XunwA" name="securityonedit" visibility="private" type="_R_F3gMueEdu1lcP89XunwA" association="_o9HyIMuhEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_q8H1zsuhEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_q8H1z8uhEdu1lcP89XunwA" key="addedInVersion" value="25"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_xhWdAMuhEdu1lcP89XunwA" memberEnd="_xhWdAcuhEdu1lcP89XunwA _xhWdBMuhEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_z2jZ1suhEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_z2jZ18uhEdu1lcP89XunwA" key="addedInVersion" value="26"/>
+      </eAnnotations>
+      <ownedEnd xmi:id="_xhWdBMuhEdu1lcP89XunwA" name="securityoneditinstate" visibility="private" type="_SNQPUMueEdu1lcP89XunwA" association="_xhWdAMuhEdu1lcP89XunwA">
+        <eAnnotations xmi:id="_z2jZ2MuhEdu1lcP89XunwA" source="uml2.extensions">
+          <details xmi:id="_z2jZ2cuhEdu1lcP89XunwA" key="addedInVersion" value="26"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_4by28D2tEdy8WOgaZqie-w" name="UserGroup">
+      <eAnnotations xmi:id="_47RLwD2uEdy8WOgaZqie-w" source="uml2.extensions">
+        <details xmi:id="_47RLwT2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+      </eAnnotations>
+      <ownedAttribute xmi:id="_fvHFUD2uEdy8WOgaZqie-w" name="base_Property" association="_fu97YD2uEdy8WOgaZqie-w">
+        <eAnnotations xmi:id="_47RLwj2uEdy8WOgaZqie-w" source="uml2.extensions">
+          <details xmi:id="_47RLwz2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_i43rkj2uEdy8WOgaZqie-w" name="base_Class" association="_i43rkD2uEdy8WOgaZqie-w">
+        <eAnnotations xmi:id="_47RLxD2uEdy8WOgaZqie-w" source="uml2.extensions">
+          <details xmi:id="_47RLxT2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+        </eAnnotations>
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_fu97YD2uEdy8WOgaZqie-w" name="Property_Group" memberEnd="_fu97YT2uEdy8WOgaZqie-w _fvHFUD2uEdy8WOgaZqie-w">
+      <eAnnotations xmi:id="_47RLxj2uEdy8WOgaZqie-w" source="uml2.extensions">
+        <details xmi:id="_47RLxz2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_fu97YT2uEdy8WOgaZqie-w" name="extension_Group" type="_4by28D2tEdy8WOgaZqie-w" aggregation="composite" association="_fu97YD2uEdy8WOgaZqie-w">
+        <eAnnotations xmi:id="_47RLyD2uEdy8WOgaZqie-w" source="uml2.extensions">
+          <details xmi:id="_47RLyT2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_i43rkD2uEdy8WOgaZqie-w" name="Class_Group" memberEnd="_i43rkT2uEdy8WOgaZqie-w _i43rkj2uEdy8WOgaZqie-w">
+      <eAnnotations xmi:id="_47RLyj2uEdy8WOgaZqie-w" source="uml2.extensions">
+        <details xmi:id="_47RLyz2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_i43rkT2uEdy8WOgaZqie-w" name="extension_Group" type="_4by28D2tEdy8WOgaZqie-w" aggregation="composite" association="_i43rkD2uEdy8WOgaZqie-w">
+        <eAnnotations xmi:id="_47RLzD2uEdy8WOgaZqie-w" source="uml2.extensions">
+          <details xmi:id="_47RLzT2uEdy8WOgaZqie-w" key="addedInVersion" value="34"/>
+        </eAnnotations>
+      </ownedEnd>
+    </packagedElement>
+    <profileApplication xmi:id="_MnYL88ueEdu1lcP89XunwA">
+      <eAnnotations xmi:id="_MnYL9MueEdu1lcP89XunwA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UML2_MSL_PROFILES/ProfileBase.epx#_IfFYQMmBEdqBcN1R6EvWUw?ProfileBase/ProfileBase?"/>
+      </eAnnotations>
+      <eAnnotations xmi:id="_T6NgjcueEdu1lcP89XunwA" source="uml2.extensions">
+        <details xmi:id="_T6NgjsueEdu1lcP89XunwA" key="addedInVersion" value="1"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UML2_MSL_PROFILES/ProfileBase.epx#_bFUAMdWLEdiy4IqP8whjFA?ProfileBase?"/>
+    </profileApplication>
+  </uml:Profile>
+  <ProfileBase:ProfileConstraint xmi:id="_MinyUcufEdu1lcP89XunwA" base_Constraint="_MinyUMufEdu1lcP89XunwA"/>
+  <ProfileBase:ProfileConstraint xmi:id="_bG1-0MuhEdu1lcP89XunwA" base_Constraint="_bGs04MuhEdu1lcP89XunwA"/>
+  <ProfileBase:ProfileConstraint xmi:id="_fVHrMcujEdu1lcP89XunwA" base_Constraint="_fVHrMMujEdu1lcP89XunwA"/>
+</xmi:XMI>

@@ -1,0 +1,149 @@
+Goals of DownToBusiness
+To facilitate the easy implementation of business strategies
+by allowing quick analysis of and implementation of business requirements that stay 
+true to business.
+Market: Model SME Business that are big enough to require structured processes, but
+small enough not to be able to employ developers fulltime.
+
+2. Provide a user interface for business to interact with entities and processes
+1. Adheres to the UML2 semantics as far as possible.
+2. Runs fully on opensource tools at runtime.
+3. Has a minimal runtime footprint, none if possible (would like to donate that to open source projects)
+4. Minimise UML tool vendor lockin, but MD and RSM are currently by far the most complete UML2 modelling tools.
+
+UML2
+Good solutions are simple solutions, but that does not mean that the language used to get to that simplicity is easy to understand.
+UML is by no means a simple tool to use, but when it is understood well, it can provide the solution developer
+with the means to establish a simple solution at a rapid pace. 
+One of the biggest problems with JEE and general development platforms is that even
+a highly intelligent developer still has to implement boiler plate code. A lot of
+tools and utilities have been developed over the years to generate most of this code. But 
+none of them came from a single coherent background theory developed by highly 
+educated industry thought leaders such as UML.
+
+Features.
+1. Extremely powerful and exhaustive set of modeling constructs
+2. Some of the world's best theoreticians on OMG, solid theoretical backing
+3. Already have quite a number of methodologies that describe how to use UML
+4. Not without conceptual gaps: users are underrepresented, no time types, no security
+5. Too much detailled semantics for average business person to comprehend
+5.1. Allowing different perspectives that provide business-friendly views on the actual implementation
+5.2. Inclusive modeling sessions slowly and unobtrusively introduces business to UML
+6. Developers do not like pictures
+6.1 Need a new role/skill: Someone that likes modeling, but is analytic enough to create semantically complete models
+6.2 REal technical developers can focus more on transformations and infrastructure.
+
+BPM
+1. Brings measurement of business goals to the front
+2. Adds business direction to software development
+3. Its roots in workflow it brings the user profile into the picture
+4. But unfortunately focuses too much on flow and too little on state
+5. BPMN still very immature
+5.1. Planned support for BPMN when parameters are supported.
+5.2. State Machines are very powerful but succinct, and event driven similar to BPMN
+5.3. Activities are very powerful but verbose.
+6. No unified modeling environment (yet)
+
+RUP Business Modeling
+1. Applies OO concepts to general business design and architecture
+2. Provides a business oriented framework that contextualises BPM
+3. Focuses on measurable business goals and their supporting business use cases
+4. Business use case realisations can then be specified to ensure measurability
+5. Not very popular in the BPM world.
+6. Too many UML artifacts for the average business analyst to comprehend.
+
+MDA
+1. BPM tools and UML modeling tools are converging on MDA as the common enabling architecture
+2. Encourages seperation of pure business concepts vs platform specific implementation considerations
+3. The secret is that transformations should be fully customisable.
+4. PSM could be a model, but should rather be code.
+5. Transformations should be fully automated.
+6. Meeting a lot of resistence from the developer community, not unlike BPM.
+7. Most of the most misunderstood concept, mostly because of confusion with the goals of the notoriously unessuccesful Case Tool paradigm
+
+Agile Methodology
+1. Modeling to this level of detail was traditionally associated with heavyweight methodologies.
+2. This has caused most agile methods to frown upon modeling
+3. But if the model is seen as the code, it can in fact be agile
+4. Ask the code/model it never lies
+5. Test driven, but not test first
+6. Fully unit testable, thanks to jBpm
+7. Extra support for tests
+8. Refactoring support, especially for database refactoring
+9. Process refactoring 
+
+OCL
+1. Much higher level of abstraction than Java
+2. 1 line can easily generate 10-20 lines of Java
+3. Theoretical underpinnings from set theory
+4. Octopus a full implementation.
+5. Cannot modify system state. (Not bad - forces modelers to focus more on data derivation than building up complext state machines)  
+6. Actions can modfiy state - OCL provides the glue that simplifies activity diagrams
+
+SOA
+1. Allows the nitty gritty detail of systems to be hidden behind an interface
+2. Services should be very thing
+3. More suited for 
+
+
+Open source
+1. No-brainer - free, but often high quality.
+2. Leverage work done by other people - no need to reinvent the wheel.
+ 3. Industry standard transformations already available.
+
+Contributing to open source.
+1. The problem with all of this is that it creates a high risk dependency on a small group of develoeprs
+2. A lot of transformations could be used, modified and maintained by developers all over the world
+3. Open-sourcing such reusable transformations mitigates any risk of dependency
+4. It also already provides all the infrastructure for possibly geologically remote teams to 
+work together and co-ordinate releases.
+5. It also provides a user community that would be all too willing to test
+
+For UML to become a language for 
+developing software it needs prove itself as an improvement 
+on existing languages, platforms like Java and .Net. 
+
+For the system owner it should:
+-map more closely to the language used to specify requirements
+-allow the owner of the system better control of what the system does
+-allow the owner better visibility into the system (systems tend to lie to the owner)
+
+For the developer
+-take less effort than Java/.Net on the developer's side to implement requirements
+-take less time to implement requirements
+-result in fewer artefacts to implement requirements
+-refactoring should be easier
+-result in a system that should be easier to extend, data easier to migrate
+-easily hook into existing low level code
+-easily hook into existing legacy systems
+-eliminate repititive boilerplate code
+
+For the user
+-better enforce a consistent user interface
+-make context sensitive help and documentation readily available
+
+For the project manager:
+-result in cheaper systems
+-that take less time to implement
+-that require fewer resources to implement
+-are cheaper to maintain
+For the System Owner
+-protect investment into new system by producing concise,succinctly documented (not extensively documented),
+    readily available meta information
+-protect investment into old systems and code through easy integration
+-yet allow old systems to be easily redeveloped at the lowest possible risk and cost
+-should be easy to measure progress
+-should lead to more accurate cost estimates (formula entities + state charts
+
+
+Meetings
+-the fewer people the better, 
+-informal, relaxed, but focused
+-focus on one aspect at a time, do not tackle the entire application at every time
+-allow quick feedback of the implications/effects of a decision 
+  --data model deployment to faces
+  --template effected immediately
+  --icons deployed immediately
+-no longer than 1.5 hours, no more than twice a day
+-never start a meeting without the effects of the previous meeting taken through to the implementation level
+

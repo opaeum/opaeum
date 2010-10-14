@@ -1,0 +1,121 @@
+#set($shouldGenerate=true)
+#if($model.mappingInfo.isNewInRevision())
+CREATE TABLE abstract_${model.mappingInfo.persistentName}_aud(
+    id BIGINT NOT NULL,
+    responsible_user_id BIGINT NOT NULL,
+    changed_on TIMESTAMP NOT NULL,
+    audited_action VARCHAR(50) NOT NULL,
+    audited_entity_id INTEGER NOT NULL,
+    object_version INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE INDEX idx_audit_user ON abstract_${model.mappingInfo.persistentName}_aud(responsible_user_id);
+CREATE INDEX idx_audit_date ON abstract_${model.mappingInfo.persistentName}_aud(changed_on);
+CREATE TABLE hi_value(next_value BIGINT);
+INSERT INTO hi_value (next_value) values(1);
+CREATE TABLE numl_version_info(version_no float, revision_no int);
+#end
+#foreach($dataType in $model.structuredTypes)
+#if($dataType.classifierKind.isStructuredDataType())
+#if($dataType.mappingInfo.isNewInRevision())
+CREATE TABLE ${dataType.mappingInfo.persistentName}(
+    id BIGINT NOT NULL#if($dataType.hasSupertype()) REFERENCES ${dataType.supertype.mappingInfo.persistentName}(id)#end,
+#if(!$dataType.hasSupertype())    
+    object_version INTEGER NOT NULL,
+#end    
+#if($dataType.hasSubtypes())
+    subclass_id INTEGER,
+#end  
+    PRIMARY KEY(id)
+);
+#foreach($property in $dataType.nakedAttributes)
+#set($audit=false)
+#set($parentTable=$dataType.mappingInfo.persistentName)
+#parse("Model/PropertyInDb.vsf")
+#end
+#if(!$dataType.getIsAbstract())
+CREATE TABLE ${dataType.mappingInfo.persistentName}_aud(
+    id BIGINT NOT NULL,
+    PRIMARY KEY(id)
+);
+#foreach($property in $dataType.allNakedAttributes)
+#set($audit=true)
+#set($parentTable="${dataType.mappingInfo.persistentName}_aud")
+#parse("Model/PropertyInDb.vsf")
+#end
+#end
+#end
+#elseif($dataType.classifierKind.isEntity())
+#set($entity=$dataType)
+#if($entity.mappingInfo.isNewInRevision())
+CREATE TABLE ${entity.mappingInfo.persistentName}(
+    id BIGINT NOT NULL#if($entity.hasSupertype()) REFERENCES ${entity.supertype.mappingInfo.persistentName}(id)#end,
+#if(!$entity.hasSupertype())    
+    object_version INTEGER NOT NULL,
+#end    
+    deleted_on TIMESTAMP,
+#if($entity.hasSubtypes())
+    subclass_id INTEGER,
+#end  
+    PRIMARY KEY(id)
+);
+CREATE TABLE ${entity.mappingInfo.persistentName}_aud(
+    id BIGINT NOT NULL#if($entity.hasSupertype()) REFERENCES ${entity.supertype.mappingInfo.persistentName}_aud(id)#end,
+#if(!$entity.hasSupertype())    
+    audited_object_id BIGINT NOT NULL REFERENCES ${entity.mappingInfo.persistentName}(id),
+#set($nameField=false)
+#set($nameField=$entity.findAttribute("name"))
+#if((!$nameField) || $nameField.isDerived())
+    name VARCHAR(100),
+#end
+#end
+    PRIMARY KEY(id)
+);
+#if(!$entity.hasSupertype())    
+CREATE INDEX idx_${entity.mappingInfo.nakedUmlId}_aud ON ${entity.mappingInfo.persistentName}_aud(audited_object_id);
+#end
+#end
+#foreach($property in $entity.nakedAttributes)
+#set($audit=false)
+#set($parentTable=$entity.mappingInfo.persistentName)
+#parse("Model/PropertyInDb.vsf")
+#end
+#foreach($property in $entity.nakedAttributes)
+#set($audit=true)
+#set($parentTable="${entity.mappingInfo.persistentName}_aud")
+#parse("Model/PropertyInDb.vsf")
+#end
+#if($entity.hasStateMachine())
+#if($entity.stateMachine.mappingInfo.isNewInRevision())
+CREATE TABLE ${entity.stateMachine.mappingInfo.persistentName}(
+    id BIGINT NOT NULL,
+    self_id BIGINT NOT NULL REFERENCES ${entity.mappingInfo.persistentName}(id),
+    state_machine_version INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE INDEX idx_sm_${entity.stateMachine.mappingInfo.nakedUmlId} ON ${entity.stateMachine.mappingInfo.persistentName}(self_id);
+
+#foreach($region in $entity.stateMachine.allRegions)
+#if($region.mappingInfo.isNewInRevision())
+ALTER TABLE ${entity.stateMachine.mappingInfo.persistentName} ADD COLUMN ${region.mappingInfo.persistentName}_state INTEGER;
+ALTER TABLE ${entity.stateMachine.mappingInfo.persistentName} ADD COLUMN ${region.mappingInfo.persistentName}_cnt INTEGER;
+#end
+#end
+CREATE TABLE ${entity.mappingInfo.persistentName}_state_change(
+    id BIGINT NOT NULL,
+    state_machine_id BIGINT NOT NULL REFERENCES ${entity.stateMachine.mappingInfo.persistentName}(id),
+    sequence_number INTEGER,
+    trigger VARCHAR(50),
+    source_state INTEGER,
+    resulting_state INTEGER,
+    changed_on TIMESTAMP,
+    responsible_user_id BIGINT,
+    PRIMARY KEY(id)
+);
+CREATE UNIQUE INDEX idx_sc_${entity.stateMachine.mappingInfo.nakedUmlId} ON ${entity.mappingInfo.persistentName}_state_change(state_machine_id,sequence_number);
+#end
+#end
+#end
+#end
+#set($revisionNo=$model.revisionNo+1)
+insert into numl_version_info (version_no, revision_no) values(${model.versionNo},${revisionNo});

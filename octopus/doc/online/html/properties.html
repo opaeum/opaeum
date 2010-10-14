@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:53:56">
+<title>Octopus Project Properties  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="999206"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Octopus Project Properties</font>
+</h2>
+
+
+<p>
+  <a name="999211"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Projects with an Octopus nature have a number of properties. These can be accessed through the <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Properties</i></font> option in the context menu in the Eclipse Navigator.</font>
+</p>
+
+
+<p>
+  <a name="999222"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The Octopus project properties are the names of the two special folders within the project: the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="project.html">model folder</a></font> and the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="project.html">expression folder</a></font>. You can select the directories that contain the appropriate files. If you want to rename the current model or expression folder, enter the new name in the text field and check the 'Rename existing folder?' box. </font>
+</p>
+
+
+<h3>
+  <a name="1002673"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Code Generation Properties</font>
+</h3>
+
+
+<a name="1002687"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">There is a larger number of properties that can be set to customize the Java code generation.<br></font>
+
+
+<p>
+  <a name="1002710"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The first properties you may set are the folders where the generated code should be placed. You can indicate the folder where the code directly linked to the model should be, and you can indicate the folder where extra utilities, like code for the OCL standard library, should be put.</font>
+</p>
+
+
+<p>
+  <a name="1002700"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The code generation can be customized to a larger extend by turning features on or off. The following options are avaiable:</font>
+</p>
+
+<ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002720"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><i>Generate interfaces and 'internal' package</i></font>: if selected each package in the model will be transformed into a package containing interfaces and a subpackage which contains the actual classes that implement the interfaces.</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002724"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><i>Generate code for OCL expressions</i></font>: if selected all correct OCL expressions will be translated into code. </font>
+
+<p>
+  <a name="1003003"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">A precondition will be transformed into an assert statement. (Be sure to set the <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Compiler compliance level </i></font>to 1.4. This option can be found in <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Windows&gt;Preferences&gt;Java&gt;Compiler&gt;Compliance and classfiles</i></font>.) Note that postconditions are not transformed into code. A body expression will, of course, be transformed into the body of the operation.</font>
+</p>
+
+
+<p>
+  <a name="1002774"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">An invariant will be transformed into a method that throws an <font  face="Verdana, Arial, Helvetica, sans-serif"><i>InvariantException</i></font> when the invariant is broken<font  face="Verdana, Arial, Helvetica, sans-serif"><i>.</i></font> This method can be called from any place you feel is appropriate. There will also be a method available called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>checkAllInvariants</i></font> that may be called whenever appropriate. This method calls in its turn all methods that check invariants. Its result is a list of <font  face="Verdana, Arial, Helvetica, sans-serif"><i>InvariantError</i></font> objects. Each <font  face="Verdana, Arial, Helvetica, sans-serif"><i>InvariantError</i></font> holds a reference to the instance that has broken the invariant and a message that tells you what went wrong.</font>
+</p>
+
+
+<p>
+  <a name="1002778"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">A derivation rule is transformed into a <font  face="Verdana, Arial, Helvetica, sans-serif"><i>getter</i></font> method for the attribute or association end for which the rule was defined. Note that there is no <font  face="Verdana, Arial, Helvetica, sans-serif"><i>setter</i></font> method. An init expression will, of course, be transformed into an initialisation of the field that corresponds to the attribute or association end. </font>
+</p>
+
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002807"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><i>Generate separate classes for postgeneration editing</i></font>: if selected each package in the model will be transformed into a package holding empty classes for each model element in the package as well as a subpackage that holds the classes that contain the generated code. The empty classes can be used to add fields and methods that were not fit to be in the model. These classes will not be overwritten when you generate code for a second time.</font>
+
+<p>
+  <a name="1002835"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Note that is option may be used together with the option to generate interfaces. In that case a package <font  face="Verdana, Arial, Helvetica, sans-serif"><i>P</i></font> that contains classes <font  face="Verdana, Arial, Helvetica, sans-serif"><i>A</i></font> and <font  face="Verdana, Arial, Helvetica, sans-serif"><i>B</i></font> will be transformed into a Java package <font  face="Verdana, Arial, Helvetica, sans-serif"><i>P</i></font> that contains interfaces <font  face="Verdana, Arial, Helvetica, sans-serif"><i>IA</i></font> and <font  face="Verdana, Arial, Helvetica, sans-serif"><i>IB</i></font> and a subpackage called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>internal</i></font>. The <font  face="Verdana, Arial, Helvetica, sans-serif"><i>internal</i></font> package contains the empty placeholders for extra methods and fields called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>A</i></font> and <font  face="Verdana, Arial, Helvetica, sans-serif"><i>B</i></font> and a subpackage called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>generated</i></font>. The <font  face="Verdana, Arial, Helvetica, sans-serif"><i>generated</i></font> package contains the classes that hold the generated code. They are called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>AGEN</i></font> and <font  face="Verdana, Arial, Helvetica, sans-serif"><i>BGEN</i></font>.</font>
+</p>
+
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002872"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><i>Generate model visitor and accept operations</i></font>: if selected a visitor interface will be created (and placed in the <font  face="Verdana, Arial, Helvetica, sans-serif"><i>utilities</i></font> package) that is able to visit all classes in the model. This interface is called using the project name: I&lt;projectname&gt;Visitor. In every class an accept operation will be added that ensures that every link in the class will also be visited. Note that some objects may therefore be visited more than once. </font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002892"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><i>Generate user interface prototype</i></font>: if selected classes will be generated that implement a prototype of a user interface for the system. The possibility to create objects of a certain class in this prototype will be available for every class or datatype that is selected in the second tab of the properties page (called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>User Interface</i></font>). See <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="using-gen-uI.html">Using the Generated User Interface</a></font> for an explanation on how to use the prototype.</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002887"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><i>Generate XML storage facility</i></font>: if selected a simple storage facility will be generated. The objects created in the system can be stored on file using an XML format. The XML format is based on the UML metamodel and is therefore equal for all models.</font>
+</ul>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

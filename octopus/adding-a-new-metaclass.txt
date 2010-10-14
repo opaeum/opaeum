@@ -1,0 +1,28 @@
+Add:
+-IOclMessageExp
+-in types: OclMessageExp
+
+In package nl.klasse.octopus.expressionVisitors.AstWalker:
+- add an operation  visit<<new metaclass>>
+- make sure all children are visited as well.
+
+In package nl.klasse.octopus.expressionVisitors.IAstVisitor
+- add operation <<new metatype>>( parameters )
+----------------------------------------------------------------------
+All visitors must implement the new operation <<new metatype>>( parameters ) from IAstVisitor
+
+In package nl.klasse.octopus.expressions.internal.analysis.context.PostconditionChecker
+- should do nothing ususally.
+
+In package nl.klasse.octopus.expressionVisitors.internal.AstToString
+- should returnb a String representation, watch what is doent with the childern, which are given
+  as parameters.
+  
+In package nl.klasse.octopus.test.XmlVisitor
+- don't forget the childern again.
+
+In package nl.klasse.octopus.ui.views.ast.ASTViewerContentProvider
+In package nl.klasse.octopus.ui.views.ast.ASTViewerLabelProvider
+- add the correct if statement and the code to handle tit.
+
+TODO: BM Viewer

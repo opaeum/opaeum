@@ -1,0 +1,50 @@
+#if(!$property.isDerived() && !$property.isInverse())
+#if($property.mappingInfo.isNewInRevision())
+#if($property.isOne())
+#if($property.isManyToOne() && $property.baseType.classifierKind.isEntity() && $property.otherEnd.isOrdered())
+ALTER TABLE ${parentTable} ADD COLUMN index_in_${property.otherEnd.mappingInfo.persistentName.withoutId} INT;
+#end
+#if($property.baseType.classifierKind.isEnumeration())
+ALTER TABLE ${parentTable} ADD COLUMN ${property.mappingInfo.persistentName} INT;
+#elseif($property.baseType.classifierKind.isSimpleDataType())
+ALTER TABLE ${parentTable} ADD COLUMN ${property.mappingInfo.persistentName} ${property.baseType.sqlType};
+#elseif($property.baseType.classifierKind.isEntity())
+ALTER TABLE ${parentTable} ADD COLUMN ${property.mappingInfo.persistentName} BIGINT REFERENCES ${property.baseType.mappingInfo.persistentName}(id);
+#elseif($property.baseType.classifierKind.isStructuredDataType())
+ALTER TABLE ${parentTable} ADD COLUMN ${property.mappingInfo.persistentName} BIGINT REFERENCES ${property.baseType.mappingInfo.persistentName}#if($audit)_aud#end(id);
+#end
+#elseif($property.isMany())
+#if($property.baseType.classifierKind.isDataType() || $property.isManyToMany() || ($property.owner.classifierKind.isStructuredDataType() && $property.baseType.classifierKind.isEntity()))
+#if($property.association)
+#set($tableName="${property.association.mappingInfo.persistentName}#if($audit)_aud#end")
+#if($audit)
+#set($keyToParent="${property.otherEnd.mappingInfo.persistentName.withoutId}_aud_id")
+#else
+#set($keyToParent="${property.otherEnd.mappingInfo.persistentName}")
+#end
+#else
+#set($tableName="${parentTable}_${property.mappingInfo.persistentName.withoutId}")
+#set($keyToParent="${parentTable}_id")
+#end
+CREATE TABLE ${tableName}(
+    ${keyToParent} BIGINT NOT NULL REFERENCES ${parentTable}(id),
+#if($property.isOrdered())
+    index_in_${property.mappingInfo.persistentName} INTEGER,
+#end
+#if($property.baseType.classifierKind.isEnumeration())
+    ${property.mappingInfo.persistentName} INT
+#elseif($property.baseType.classifierKind.isSimpleDataType())
+    ${property.mappingInfo.persistentName} ${property.baseType.sqlType}
+#elseif($property.baseType.classifierKind.isStructuredDataType() || $property.baseType.classifierKind.isEntity())
+    ${property.mappingInfo.persistentName} BIGINT NOT NULL REFERENCES ${property.baseType.mappingInfo.persistentName}(id)
+#end
+#if($property.isOrdered()),
+    PRIMARY KEY(${keyToParent},index_in_${property.mappingInfo.persistentName})
+#elseif($property.isUnique()),
+    PRIMARY KEY(${keyToParent},${property.mappingInfo.persistentName})
+#end    
+);
+#end
+#end
+#end
+#end

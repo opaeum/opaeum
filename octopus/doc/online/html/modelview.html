@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:54:02">
+<title>The Model View  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="999206"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The Model View</font>
+</h2>
+
+
+<p>
+  <a name="1002529"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The Model View is a window showing the complete model in a tree hierarchy. It can be opened by clicking on the Octopus icon in the Navigator, or be selecting the context menu option '<font  face="Verdana, Arial, Helvetica, sans-serif"><i>Octopus&gt;Show Model</i></font>'. This menu option is available on UML and OCL files and on Octopus projects.</font>
+</p>
+
+
+<p>
+  <a name="1002533"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">In the Model View the complete model is shown, that is, the elements defined in the UML files and the elements defined in the OCL files are shown in one hierarchy. The base elements like classes, attributes and operations, etc. come from the UML files. Note that associations are shown in two manners: </font>
+</p>
+
+
+<a name="1002580"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">1.	 as association under the package that owns it<br></font>
+
+
+<a name="1002584"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">2.	 as 'navigation' under the class that is part of an association<br></font>
+
+
+<a name="1002579"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">From the OCL files the following elements are included in the model hierarchy:<br></font>
+
+<ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002549"> </a>attributes defined in an OCL expression, shown both in the attribute list and as definition expression under the class that owns the attribute, </font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002553"> </a>operations defined in an OCL expression, shown both in the operation list and as definition expression under the class that owns the operation,</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002544"> </a>invariants,</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002595"> </a>pre- and postconditions of operations,</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002600"> </a>the body expression of an operation,</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002567"> </a>initial values and derivation rules for attributes,</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002571"> </a>initial values and derivation rules for navigations.</font>
+</ul>
+
+<h3>
+  <a name="1002756"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Opening the Definition of an Element</font>
+</h3>
+
+
+<a name="1002645"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">From the Model View you can open the file that holds the definition of the selected model element. You can open the definition by <br></font>
+
+
+<a name="1002777"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">1.	 double clicking, or<br></font>
+
+
+<a name="1002781"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">2.	 selecting the context menu '<font  face="Verdana, Arial, Helvetica, sans-serif"><i>Open Definition</i></font>'. <br></font>
+
+
+<a name="1002785"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">If the element is an OCL expression the OCL editor will be started, if the element is defined in a UML file the UML editor is started.<br></font>
+
+
+<h3>
+  <a name="1002760"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Opening the OCL Editor from the Model View</font>
+</h3>
+
+
+<a name="1002590"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The OCL editor will be opened by clicking the OCL file icon, or by selecting the context menu '<font  face="Verdana, Arial, Helvetica, sans-serif"><i>Open/Create OCL File</i></font>'. <br></font>
+
+
+<a name="1002672"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">If a base element (an element defined in a UML file) is selected at the moment that the OCL editor is opened, it will open on a file called '<font  face="Verdana, Arial, Helvetica, sans-serif"><i>NAME.ocl</i></font>', where NAME is the name of the selected element. Note that this will only work for Classifiers: classes, datatypes, enumerations, and interfaces. If the file did not yet exist, it will be created and it will be placed in a directory with the name of its enclosing package. If the directory does not exist, it will be created also.<br></font>
+
+
+<h3>
+  <a name="1002649"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Opening the UML Editor from the Model View</font>
+</h3>
+
+
+<a name="1002623"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">From the Model View you can also open the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="umleditor.html">UML editor</a></font>. You can open the UML editor by selecting the context menu '<font  face="Verdana, Arial, Helvetica, sans-serif"><i>Add UML Elements</i></font>', or clicking the UML file icon. Because Octopus assumes that the original base model should be kept unchanged, all changes (in fact, additions) to the base model are kept in separate UML files. The editor will therefore be opened on a special file, called '<font  face="Verdana, Arial, Helvetica, sans-serif"><i>NAME_additions.uml</i></font>', where NAME is the name of the element that was selected in the Model View. Note that for this purpose you can only select packages or classes. If the file did not yet exist, it will be created.<br></font>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

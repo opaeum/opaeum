@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:53:59">
+<title>The Business Modeling Syntax  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="999218"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The Business Modeling Syntax</font>
+</h2>
+
+
+<a name="1002551"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The OCL standard separates the concepts in the language from the concrete syntax used. This means that alternative concrete syntaxes can be made available. OCL expressions written in such an alternative syntax have exactly the same meaning as expressions written in the standard syntax. To give an example and demonstrate the feasibility of this approach, a syntax has been devised that is aimed at the business modeler. <br></font>
+
+
+<p>
+  <a name="999224"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The alternative syntax, from here on called the Business Modeling (BM) syntax, resembles the outward appearance of SQL, but supports all of the concepts in OCL. The main difference between the official syntax and the business modeling syntax is the notation for the predefined operations on collections and for the predefined iterators (loop expressions). Another difference is the absence of the implicit <font  face="Verdana, Arial, Helvetica, sans-serif"><i>collect</i></font>. Every <font  face="Verdana, Arial, Helvetica, sans-serif"><i>collect</i></font> operation needs to be explicitly stated. </font>
+</p>
+
+
+<h3>
+  <a name="1002609"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The BM Viewer</font>
+</h3>
+
+
+<p>
+  <a name="1002613"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">In Octopus you can transform the expressions in an OCL file into the BM Syntax. For this purpose you open the file with the BM Viewer. The BM Viewer is a very simple editor. Note that you cannot change the text shown in the BM Viewer; it is not writeable. You can, however, print or save the text to a different file. Remember to use a different file extension (not '.ocl'), otherwise Octopus will complain about errors in the file. The BM Viewer is also integrated in the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="multipageeditor.html">Ocl Multipage Editor</a></font>.</font>
+</p>
+
+
+<h3>
+  <a name="1002557"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Some Remarks on the Resemblance to SQL</font>
+</h3>
+
+
+<p>
+  <a name="1002560"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Although the BM syntax resembles the syntax of SQL, there are important differences between SQL and OCL. The main difference is that SQL statements work on complete tables. In object systems this would be equal to the set of instances of one class. OCL expressions always take a single object as starting point. They work on what is visible from that object. </font>
+</p>
+
+
+<p>
+  <a name="1002561"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">A common mistake is using the OCL <font  face="Verdana, Arial, Helvetica, sans-serif"><i>select</i></font> operation in the same manner as a SQL <font  face="Verdana, Arial, Helvetica, sans-serif"><i>select</i></font> statement. There is an important difference between the two. An OCL <font  face="Verdana, Arial, Helvetica, sans-serif"><i>select</i></font> operation results in a proper subset of the collection to which it was applied. A SQL <font  face="Verdana, Arial, Helvetica, sans-serif"><i>select</i></font> statement does not result in a subset of the records in the table it is working on. In OCL terminology, it collects values that are visible from the records in the table. Assume that there is a table called <font  face="Verdana, Arial, Helvetica, sans-serif"><i>CustomerCard</i></font> with attribute <font  face="Verdana, Arial, Helvetica, sans-serif"><i>goodThru</i></font> that refers to a record in the <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Date</i></font> table. (If you think this is familiar, check out the example project RoyalAndLoyal.) The following SQL statement would result in a list of dates:</font>
+</p>
+
+
+<a name="1002659"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>SELECT</b></font> goodThru <font  face="Verdana, Arial, Helvetica, sans-serif"><b>FROM</b></font> CustomerCard <font  face="Verdana, Arial, Helvetica, sans-serif"><b>WHERE</b></font> valid = true<br></font>
+
+
+<p>
+  <a name="1002660"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The OCL equivalent of this SQL statement would be</font>
+</p>
+
+
+<a name="1002666"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">CustomerCard::allInstances()-&gt;select(valid = true)-&gt;collect(goodThru)<br></font>
+
+
+<p>
+  <a name="1002661"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Or using the BM Syntax it would be</font>
+</p>
+
+
+<a name="1002567"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>COLLECT</b></font> goodThru <font  face="Verdana, Arial, Helvetica, sans-serif"><b>USING</b></font> cc: CustomerCard <br></font>
+
+
+<a name="1002568"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>FROM SELECT</b></font> cc: CustomerCard <font  face="Verdana, Arial, Helvetica, sans-serif"><b>FROM</b></font> allInstances <font  face="Verdana, Arial, Helvetica, sans-serif"><b>OF</b></font> CustomerCard<br></font>
+
+
+<a name="1002569"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">     <font  face="Verdana, Arial, Helvetica, sans-serif"><b>WHERE</b></font> cc.valid = true<br></font>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

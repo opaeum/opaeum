@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://nakeduml.sf.net" xmlns:tns="http://nakeduml.sf.net">
+    <element name="modelMappingInfo" type="tns:ModelMappingInfoType"/>
+	<complexType name="ModelMappingInfoType">
+		<sequence>
+			<element name="MappingInfo" type="tns:MappingInfoType" minOccurs="0" maxOccurs="unbounded" />
+			<element name="nakedUmlIdMaxValue" minOccurs="0" maxOccurs="1" type="int" />
+			<element name="currentVersion" minOccurs="0" maxOccurs="1" type="float" />
+			<element name="currentRevision" minOccurs="0" maxOccurs="1" type="int" />
+		</sequence>
+	</complexType>
+	<complexType name="MappingInfoType">
+		<sequence>
+			<element name="stereotype" type="string" minOccurs="0" maxOccurs="unbounded" />
+			<element name="taggedValue" type="tns:TaggedValueType" minOccurs="0" maxOccurs="unbounded" />
+			<element name="sinceRevision" type="int" minOccurs="0" maxOccurs="1" />
+			<element name="sinceVersion" type="float" minOccurs="0" maxOccurs="1" />
+			<element name="umlName" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="qualifiedJavaName" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="qualifiedUmlName" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="javaNameString" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="sqlNameString" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="singularHumanName" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="pluralHumanName" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="documentation" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="mofId" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="nakedUmlId" type="int" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	<complexType name="TaggedValueType">
+		<sequence>
+			<element name="name" type="string" />
+			<element name="values" type="string" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+</schema>

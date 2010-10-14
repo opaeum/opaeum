@@ -1,0 +1,77 @@
+package net.sf.nakeduml.emf.extraction;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+
+import net.sf.nakeduml.detachment.DetachmentPhase;
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.InputModel;
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.linkage.LinkagePhase;
+import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.MappedType;
+import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Package;
+
+@PhaseDependency(after = DetachmentPhase.class, before = {LinkagePhase.class })
+public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf> {
+	public static final String MAPPINGS_EXTENSION = "mappings";
+	@InputModel(implementationClass = NakedModelWorkspaceImpl.class)
+	private INakedModelWorkspace modelWorkspace;
+	@InputModel
+	private EmfWorkspace emfWorkspace;
+	private NakedUmlConfig config;
+
+	public void initialize(NakedUmlConfig config) {
+		this.config = config;
+	}
+
+	public Object[] execute(List<AbstractExtractorFromEmf> features) {
+		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
+		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
+			modelWorkspace.addGeneratingModelOrProfileId(getIdFor(gp));
+		}
+		for (Element e : emfWorkspace.getOwnedElements()) {
+			URI mappedTypesUri = e.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
+			try {
+				InputStream inStream = e.eResource().getResourceSet().getURIConverter().createInputStream(mappedTypesUri);
+				Properties props = new Properties();
+				props.load(inStream);
+				Set<Entry<Object, Object>> entrySet = props.entrySet();
+				for (Entry<Object, Object> entry : entrySet) {
+					modelWorkspace.getMappedTypes().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
+				}
+				System.out.println("Loaded mappings: " + mappedTypesUri);
+			} catch (IOException e1) {
+				System.out.println("Could not load mappedTypes in " + mappedTypesUri);
+				System.out.println(e);
+			}
+		}
+		for (AbstractExtractorFromEmf v : features) {
+			v.initialize(modelWorkspace);
+			v.startVisiting(emfWorkspace);
+		}
+		INakedPackage nakedPackage = getNakedPackage(emfWorkspace.getEntryModel());
+		modelWorkspace.setName(nakedPackage.getName());
+		return new Object[] {};
+	}
+
+	private INakedPackage getNakedPackage(Package emfModel) {
+		return (INakedPackage) modelWorkspace.getModelElement(getIdFor(emfModel));
+	}
+
+	private static String getIdFor(Package model) {
+		return EcoreUtil.getURI(model).toString();
+	}
+}

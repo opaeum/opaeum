@@ -1,0 +1,451 @@
+         <constraints categories="nakeduml">
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.ModelSynchroniser"
+                  id="NakedUmlRsaPlugin.def.model.constraint"
+                  lang="Java"
+                  mode="Batch"
+                  name="Default Model Constraint"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="Model"/>
+               <message>
+                  None
+               </message>
+            </constraint>
+         </constraints>
+         <constraints categories="nakeduml/bpm">
+            
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.TargetPinForOpaqueActions"
+                  id="NakedUmlRsaPlugin.requires.target.pin"
+                  lang="Java"
+                  mode="Batch"
+                  name="Opaque Action Requires Target Pin"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="OpaqueAction"/>
+               <message>
+                  All Opaque Actions must have at least one pin in inputValues marked as a target. 
+               </message>
+               <description>
+                  All Opaque Actions are assumed to be user tasks. Target pins are required to establish who the task should be assigned to.
+               </description>
+            </constraint>
+         </constraints>
+         <constraints categories="nakeduml/commonbehavior">            
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.commonbehavior.WhenExpressionsMustHaveType"
+                  id="net.sf.nakeduml.rsdp.validation.commonbehavior.WhenExpressionsMustHaveType"
+                  lang="Java"
+                  mode="Batch"
+                  name="WhenExpressionsMustHaveType"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="TimeEvent"/>
+               <message>
+                  The 'when' expression on {0} must have a type
+               </message>
+               <description>
+               TimeEvents must have 'when' expressions, and the type of the 'when' expression must be specified explicitly
+               </description>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.commonbehavior.TimeEventsMustHaveWhenExpression"
+                  id="net.sf.nakeduml.rsdp.validation.commonbehavior.TimeEventsMustHaveWhenExpression"
+                  lang="Java"
+                  mode="Batch"
+                  name="TimeEventsMustHaveWhenExpression"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="TimeEvent"/>
+               <message>
+               {0} must have a 'when' expression
+               </message>
+               <description>
+               		TimeEvents must have 'when' expressions
+               </description>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.commonbehavior.WhenExpressionsTypeMustBeBuiltIn"
+                  id="net.sf.nakeduml.rsdp.validation.commonbehavior.WhenExpressionsTypeMustBeBuiltIn"
+                  lang="Java"
+                  mode="Batch"
+                  name="WhenExpressionsTypeMustBeBuiltIn"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="TimeEvent"/>
+               <message>
+                The 'when' expression of Absolute {0} must have a type that conforms to one of the built-in date types
+               </message>
+               <description>
+               Absolute TimeEvents must have 'when' expressions, and the type of the 'when' expression must be one of the built-in data types. If built-in types
+               have not been specified, NakedUml will look for a type named 'Date' or 'DateTime' in a package called 'types'.               
+               </description>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.commonbehavior.TimeEventsRequireDateType"
+                  id="net.sf.nakeduml.rsdp.validation.commonbehavior.TimeEventsRequireDateType"
+                  lang="Java"
+                  mode="Batch"
+                  name="TimeEventsRequireDateType"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="TimeEvent"/>
+               <message>
+                Absolute {0} requires a built-in type to be specified
+               </message>
+               <description>
+               Absolute TimeEvents require some form of temporal type .If such built-in types
+               have not been specified explicitly, NakedUml will look for a type named 'Date' or 'DateTime' in a package called 'types'.               
+               </description>
+            </constraint>
+         </constraints>
+         <constraints categories="nakeduml/composition">
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.composition.BidirectionalCompositionsBetweenClasses"
+                  id="bidirectional.composition"
+                  lang="Java"
+                  mode="Batch"
+                  name="Bidirectional Composition between non- DataTypes"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="Association"/>
+               <message>
+                  All compositions between classes, acticitivities or statemachines must be bidirectional
+               </message>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.composition.UnidirectionalAssociationsWithDataTypes"
+                  id="unidirectional.associations.with.datatypes"
+                  lang="Java"
+                  mode="Batch"
+                  name="Unidirectional Associations With DataTypes"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="Association"/>
+               <message>
+                  All associations involving datatypes must be unidirectional
+               </message>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.composition.DataTypesContainOnlyDataTypes"
+                  id="net.sf.nakeduml.rsdp.validation.composition.DataTypesContainOnlyDataTypes"
+                  lang="Java"
+                  mode="Batch"
+                  name="DataTypes Contain DataTypes"
+                  severity="ERROR"
+                  statusCode="11">
+               <target class="DataType"/>
+               <message>
+                  DataTypes cannot fulfil the role of a parent in a compositional relationship unless the contained class is also a DataType
+               </message>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.composition.OneRootEntity"
+                  id="NakedUmlRsaPlugin.one.root.entity"
+                  lang="Java"
+                  mode="Batch"
+                  name="One Root Entity"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  Entity {0} is one of many root enitities detected. Only one is allowed
+               </message>
+               <target class="Class"/>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.composition.EntitiesHaveOneCompositeOnly"
+                  id="net.sf.nakeduml.rsdp.validation.composition.EntitiesHaveOneCompositeOnly"
+                  lang="Java"
+                  mode="Batch"
+                  name="EntitiesHaveOneCompositeOnly"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} is has more than one composition where it fulfills the role of the compositional child.
+               </message>
+               <description>
+                  Entities and processes can only have one compositional parent. For structures that could be used from mulitple compostional parents, consider
+                  using a DataType
+               </description>
+               <target class="Class"/>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.composition.PersistentContainsPersistent"
+                  id="net.sf.nakeduml.rsdp.validation.composition.PersistentContainsPersistent"
+                  lang="Java"
+                  mode="Batch"
+                  name="PersistentContainsPersistent"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  The compositional owner of {0} is not a persistent class. If it is an Activity mark it as 'process'
+               </message>
+               <description>
+                  Entities and processes can only be contained by persistent classes.
+               </description>
+               <target class="Class"/>
+            </constraint>
+         </constraints>
+         <constraints categories="nakeduml/security">
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.RequiredRoles"
+                  id="required.roles.must.be.userroles"
+                  lang="Java"
+                  mode="Batch"
+                  name="Required Roles Must be User Role"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  The enumeration  for required roles must be marked as userrole
+               </message>
+               The enumeration  for required roles must be marked as userrole
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.OneRootUserEntity"
+                  id="NakedUmlRsaPlugin.one.root.user"
+                  lang="Java"
+                  mode="Batch"
+                  name="One Root UserEntity"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} is one of many entities detected that  represent users, but does not extend another entity. Only 1 root user entity is allowed.
+               </message>
+               <description>
+                  A model can only have one entity that represents a user but does not extend another entity. All user entities must extend this 
+                  entity in to support a unified mechanism for relating constructs to users.
+               </description>
+               <target class="Class"/>
+            </constraint>
+         </constraints>
+         <constraints categories="nakeduml/persistence">
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.persistence.BackingAttributeMustBeFromOwner"
+                  id="net.sf.nakeduml.rsdp.validation.persistence.BackingAttributeMustBeFromOwner"
+                  lang="Java"
+                  mode="Batch"
+                  name="BackingAttributeMustBeFromOwne"
+                  severity="ERROR"
+                  statusCode="11">
+               <description>
+                  For the calculation of uniqueness constraints it is necessary for the backing attribute of a qualifier to come from the baseType of the property, and not from a supertype thereof.
+               </description>
+               <message>
+                  {0}:{1}
+               </message>
+               <target class="Property"/>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.persistence.QualifierMustHaveBackingAttribute"
+                  id="net.sf.nakeduml.rsdp.validation.persistence.QualifierMustHaveBackingAttribute"
+                  lang="Java"
+                  mode="Batch"
+                  name="QualifierMustHaveBackingAttribute"
+                  severity="ERROR"
+                  statusCode="11">
+               <description>
+                  For the calculation of uniqueness constraints it is necessary for the qualifier to have backing attribute.
+               </description>
+               <message>
+                  {0}:{1}
+               </message>
+               <target class="Property"/>
+            </constraint>
+         </constraints>
+         <constraints categories="nakeduml/core">
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.ParameterRequiresPin"
+                  id="net.sf.nakeduml.rsdp.validation.activities.ParameterRequiresPin"
+                  lang="Java"
+                  mode="Batch"
+                  name="All Parameters Require a Pin"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} does not have a pin assigned to {1}
+               </message>
+               <target class="CallAction"/>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.MorePinsThanParameters"
+                  id="net.sf.nakeduml.rsdp.validation.activities.MorePinsThanParameters"
+                  lang="Java"
+                  mode="Batch"
+                  name="More Pins than Parameters"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  CallAction {0} has more input or output pins than the parameters contained by operation {1}
+               </message>
+               <target class="CallAction"/>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.UniqueActionNames"
+                  id="net.sf.nakeduml.rsdp.validation.activities.UniqueActionNames"
+                  lang="Java"
+                  mode="Batch"
+                  name="All actions in an activity must have unique names"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  Action {0} does not have a unique name
+               </message>
+               <target class="Action"/>
+               <description>
+                  In the implementation platform, every action is implemented as a single method on the class representing the activity. This method has the same name as the action. For this reason, no two actions can have the same name, as this will lead to duplicate method names in the implementation.
+               </description>
+            </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.UniqueEmulatedAttributes"
+                  id="net.sf.nakeduml.rsdp.validation.activities.UniqueEmulatedAttributes"
+                  lang="Java"
+                  mode="Batch"
+                  name="All OutputPins, ParameterNodes and CallActions in an activity must have unique names"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} does not have a unique name
+               </message>
+               <target class="OutputPin"/>
+               <target class="ActivityParameterNode"/>
+               <target class="CallAction"/>
+               <target class="OpaqueAction"/>
+               <target class="SendObjectAction"/>
+               <description>
+                  In the implementation platform, every OutputPin, ParameterNode, CallAction, SendObjectAction and OpaqueAction is stored as a property on the class representing the activity. 
+                  This property has the same name as the corresponding activity node. For this reason, no two of these can have the same name, as this will lead to 
+                  duplicate fields and methods in the implemeIn the implementation platform, every OutputPin, ParameterNode, CallAction, SendObjectAction and OpaqueAction is stored as a property on the class representing the activity. This property has the same name as the corresponding activity node. For this reason, no two of these can have the same name, as this will lead to duplicate fields and methods in the implementation.
+               </description>     
+             </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.UniqueGuardNames"
+                  id="net.sf.nakeduml.rsdp.validation.activities.UniqueGuardNames"
+                  lang="Java"
+                  mode="Batch"
+                  name="All guards on a process must have unique names"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} does not have a unique name
+               </message>
+               <target class="ValueSpecification"/>
+               <description>
+                 When an activity is implemented as a process, guards are dynamically invoked from the process engine. In order to do this, methods have to be generated for every guards. The guard's name is used for this, and therefore has to be unique
+               </description>     
+             </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.AcceptEventActionOnlyInProcess"
+                  id="net.sf.nakeduml.rsdp.validation.activities.AcceptEventActionOnlyInProcess"
+                  lang="Java"
+                  mode="Batch"
+                  name="AcceptEventActions in processes only"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} is only allowed in Activities marked as processes
+               </message>
+               <target class="ValueSpecification"/>
+               <description>
+                 All wait state actions, such as AcceptEventActions result in a break in the execution - the current thread of execution is suspended until the event occurs. Traditional programming platforms such as Java do not support this. The containing activity therefore has to be marked as a process to allow the process engine to manage the execution 
+               </description>     
+             </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.OpaqueActionOnlyInProcess"
+                  id="net.sf.nakeduml.rsdp.validation.activities.OpaqueActionOnlyInProcess"
+                  lang="Java"
+                  mode="Batch"
+                  name="User interactions in processes only"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} is only allowed in Activities marked as processes
+               </message>
+               <target class="OpaqueAction"/>
+               <description>
+                 All actions that require user interaction, such as Opaque Actions result in a break in the execution - the current thread of execution is suspended until the event occurs. Traditional programming platforms such as Java do not support this. The containing activity therefore has to be marked as a process to allow the process engine to manage the execution 
+               </description>     
+             </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.SendObjectActionOnlyInProcess"
+                  id="net.sf.nakeduml.rsdp.validation.activities.SendObjectActionOnlyInProcess"
+                  lang="Java"
+                  mode="Batch"
+                  name="Send Object actions in processes only"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                  {0} is only allowed in Activities marked as processes
+               </message>
+               <target class="SendObjectAction"/>
+               <description>
+                 All actions that require user interaction, such as Opaque Actions result in a break in the execution - the current thread of execution is suspended until the event occurs. Traditional programming platforms such as Java do not support this. The containing activity therefore has to be marked as a process to allow the process engine to manage the execution 
+               </description>     
+             </constraint>
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.activities.ResponsibilityInvocationOnlyInProcess"
+                  id="net.sf.nakeduml.rsdp.validation.activities.ResponsibilityInvocationOnlyInProcess"
+                  lang="Java"
+                  mode="Batch"
+                  name="Responsibility invocations in processes only"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                 Invocation of responsibility {0} is only allowed in Activities marked as processes
+               </message>
+               <target class="CallAction"/>
+               <description>
+                 All actions that require user interaction, such as CallAction that invoke a user's responsibility, result in a break in the execution - the current thread of execution is suspended until the event occurs. Traditional programming platforms such as Java do not support this. The containing activity therefore has to be marked as a process to allow the process engine to manage the execution 
+               </description>     
+             </constraint>
+           </constraints>
+         <constraints categories="nakeduml/userinteraction">
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.userinteraction.ClassRepresentingUserMustHaveUsername"
+                  id="net.sf.nakeduml.rsdp.validation.userinteraction.ClassRepresentingUserMustHaveUsername"
+                  lang="Java"
+                  mode="Batch"
+                  name="ClassRepresentingUserMustHaveUsername"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                 {0} must have an attribute marked as 'username'
+               </message>
+               <target class="Class"/>
+               <description>
+                 When a class represents a user, it must have an attribute marked as 'username'
+               </description>     
+            </constraint>      
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.userinteraction.ResultingUserInteractionMustBeOfBaseType"
+                  id="net.sf.nakeduml.rsdp.validation.userinteraction.ResultingUserInteractionMustBeOfBaseType"
+                  lang="Java"
+                  mode="Batch"
+                  name="ResultingUserInteractionMustBeOfBaseType"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                 The meta-attribute 'resultingUserInteraction'  of property {0} must reference an InstanceSpecification whose classifier is the BaseType of the property
+               </message>
+               <target class="Property"/>
+               <description>
+                 The meta-attribute 'resultingUserInteraction' must reference an InstanceSpecification whose classifier is the BaseType of the property
+               </description>     
+            </constraint>      
+            <constraint
+                  class="net.sf.nakeduml.rsdp.validation.userinteraction.ResultingUserInteractionMustHaveStereotype"
+                  id="net.sf.nakeduml.rsdp.validation.userinteraction.ResultingUserInteractionMustHaveStereotype"
+                  lang="Java"
+                  mode="Batch"
+                  name="ResultingUserInteractionMustHaveStereotype"
+                  severity="ERROR"
+                  statusCode="11">
+               <message>
+                 The meta-attribute 'resultingUserInteraction'  of property {0} must reference an InstanceSpecification marked as 'UserInteractionSpecification'                 
+               </message>
+               <target class="Property"/>
+               <description>
+                 The meta-attribute 'resultingUserInteraction'  must reference an InstanceSpecification marked as 'UserInteractionSpecification'
+               </description>     
+            </constraint>      
+         </constraints>    

@@ -1,0 +1,17 @@
+Self Contained, Black box, Process and entity Application development framework and execution engine
+
+Features
+Domain model generation
+Web Service Generation
+OCL to Java
+OCL Validation
+User Interaction Modelling
+User Interface generation
+Data migration
+WebService Interface migration
+Rich Client Generation (GWT/Flash?)
+Auditing
+Process
+Task management
+Import Java libraries
+Import WSDL Libraries

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- storage ::= instance* -->
+	<xs:element name="storageRoot">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="instance" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute ref="project" use="required"/>
+			<xs:attribute ref="createdOn"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="instance">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="assocclass" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="attribute" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute ref="id" use="required"/>
+			<xs:attribute ref="class"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="attribute">
+		<xs:complexType>
+			<xs:attribute ref="name"/>
+			<xs:attribute ref="value"/>
+			<xs:attribute ref="idref"/>
+			<xs:attribute ref="idrefs"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="assocclass">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="end1"/>
+				<xs:element ref="end2"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="end1">
+		<xs:complexType>
+			<xs:attribute ref="idref"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="end2">
+		<xs:complexType>
+			<xs:attribute ref="idref"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attribute name="id" type="xs:ID"/>
+	<xs:attribute name="class" type="xs:string"/>
+	<xs:attribute name="name" type="xs:string"/>
+	<xs:attribute name="value" type="xs:string"/>
+	<xs:attribute name="project" type="xs:string"/>
+	<xs:attribute name="createdOn" type="xs:string"/>
+
+	<xs:attribute name="end1" type="xs:IDREF"/>
+
+	<xs:attribute name="idref" type="xs:IDREF"/>
+	<xs:attribute name="idrefs" type="xs:IDREFS"/>
+</xs:schema>

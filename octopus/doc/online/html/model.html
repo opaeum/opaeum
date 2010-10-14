@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:53:57">
+<title>The UML model  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="999206"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The UML model</font>
+</h2>
+
+
+<p>
+  <a name="1002861"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">OCL expressions always need  a set of model elements like classes, attributes, operations, etc. This set is called the UML model or the UML part of the model. Usually the UML model is created in a UML modeling tool, of which a large number is available on the market, open source or otherwise.</font>
+</p>
+
+
+<p>
+  <a name="1002878"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Octopus users may create their UML model in two ways:</font>
+</p>
+
+<ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1005390"> </a>The model can be created within Octopus itself using a <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="umleditor.html">textual representation of UML</a></font>, </font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1005395"> </a>The model can be exported from the UML modeling tool into an XMI format and then imported in the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="project.html">Octopus project</a></font>. </font>
+
+<p>
+  <a name="1005490"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">To start the import use the XMI import button on the tool bar or the 'Import XMI file' entry in the Octopus menu. (Note that the buttons in the tool bar do not appear when Octopus is loaded the first time. Use<font  face="Verdana, Arial, Helvetica, sans-serif"><i> Window&gt;Customize Perspective&gt;Other</i></font> to make them appear.) The import module in Octopus was created by Mick Baggen using <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="xmi-import.html">XSLT</a></font>. </font>
+</p>
+
+</ul>
+
+<p>
+  <a name="999234"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Please, be aware that currently each modeling tool uses its own dialect of the UML interchange format XMI. It is therefore very difficult to create an XMI import functionality that works correctly for each UML model. If you encounter problems, please send us the model in XMI format and we will try to adjust the import module.</font>
+</p>
+
+
+<h3>
+  <a name="1005424"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Mapping Basic Types</font>
+</h3>
+
+
+<a name="1005428"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The basic types available in some UML modeling tools are sometimes different from the OCL basic types (String, Integer, Real, and Boolean). Octopus uses the OCL basic types only. Other types need to be included in the UML model.<br></font>
+
+
+<a name="1005443"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Existing basic types in a UML modeling tool can be mapped onto the OCL basic types. Create a file named 'typeconversions.properties' in the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="project.html">model folder</a></font>. The entries in this file need to be in the format 'external-type=ocl-type'. Note that spaces before or after the equal sign will be regarded part of the type name. A <font  face="Verdana, Arial, Helvetica, sans-serif"><i>typeconversions.properties</i></font> file that maps Java basic types to OCL basic types will typically contain the following entries:<br></font>
+
+
+<p>
+  <a name="1005469"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">int=Integer</font>
+</p>
+
+
+<p>
+  <a name="1005476"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">boolean=Boolean</font>
+</p>
+
+
+<p>
+  <a name="1005477"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">float=Real</font>
+</p>
+
+
+<p>
+  <a name="1005481"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">void=OclVoid</font>
+</p>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

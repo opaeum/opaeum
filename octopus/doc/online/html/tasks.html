@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:56:44">
+<title>How to ... in Octopus  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="1000278"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">How to ... in Octopus</font>
+</h2>
+
+
+<p>
+  <a name="1003820"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">
+
+<table border="1" cellpadding="5" cellspacing="0">
+  <caption><b><i><font face="Verdana, Arial, Helvetica, sans-serif"></font></i></b></caption>
+  <tr align="center" bgcolor="#CCCCCC">
+    <th><font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><a name="1000208"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">What you want to do</font></font></th>
+    <th><font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><a name="1000210"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">How you do it</font></font></th>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000341"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Add elements to the UML Model from the Model View</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000343"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Double click on a package or class(ifier) in the Model View. The UML editor will open on a file called `NAME_additions', where NAME is the name of the selected item. If the file does not exist, it is created. Existing model elements will not be overwritten, provided they are not defined in this file.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003882"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Change default values for model and/or expression folders</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003886"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Open the Octopus preferences (Window&gt;Preferences, select Octopus). Change the text fields and press the `Apply' or `OK' button. </font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000337"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Check OCL Expressions</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000339"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">A `build' of an Octopus project will cause Octopus to check all expressions in files with extension `.ocl' in the dedicated expression folder in the project.</font><a name="1000361"> </a><br><a name="1000354"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">When the option `Perform build automatically on resource modification' is checked in the Workbench Preferences, a `refresh' or `save' of a file with extension `.ocl' in the dedicated expression folder in an Octopus project will cause Octopus to check all expressions in that file.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000329"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create a Package in the UML Model</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000331"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create a subfolder in the dedicated model folder. This will be considered a package in the model. Any files contained in this folder will be considered to specify elements within the package.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000325"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create an Octopus Project</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000327"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Use the wizard: `New&gt;Project&gt;Octopus&gt;NewOctopusProject'. Follow the directions.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000321"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create Expressions from the Model View </font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000323"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Double click on a class in the Model View. The Ocl Editor will open on the file called `NAME.ocl', where NAME is the name of the class. Enter your expressions on the class.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003842"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create the UML Model from a modeling tool</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003844"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Use the Rose script or Poseidon XSL stylesheets to produce a set of files with extension .uml. Import these files in the dedicated model folder in the Octopus project.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000317"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create or Change the UML Model</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000319"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Create a file with extension `.uml' in the dedicated model folder in the Octopus project. Write the model elements using the Octopus text notation for UML.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003853"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Edit Expressions from the Model View </font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003855"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Double click on an OCL expression in the Model View. The Ocl Editor will open on the file that contains the expression.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003866"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Examine the internal representation of an OCL Expression </font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003868"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Select the OCL expression in the Model View and open the context menu. From that select `Open AST Viewer'.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000313"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Examine the type hierarchy of a UML element </font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000315"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Select the UML element in the Model View and open the context menu. From that select `Open Type Hierarchy'.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000309"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Filter Files with `.uml' Extension</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000311"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">In Navigator View go to the `Filters' menu item (see Eclipse documentation). Check or uncheck the mark before `*.uml'.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003826"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Find an Error in an OCL Expression</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003828"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Double click on a task in the `Tasks' View. The OCL editor will open on the file that contains the error. (Standard Eclipse functionality)</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003896"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Find the place where a model element has been defined</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003898"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Open the Model View and select a model element. Open the context menu on that element (right-click) and select 'Open definition'.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003931"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Generate Java code for the model and/or expressions</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1003933"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Clicking on the Octopus icon <img src="images/generate-code.jpg" align="left" border="0" hspace="0" vspace="0">
+in the toolbar will start the generation process on the selected project. If the button is not shown, you can use the Windows&gt;Customize Perspective option to make Eclipse show it. Select Other&gt;Octopus.</font><a name="1003961"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Alternatively, click the Generate Java Code option in either the context menu on the project or the Octopus menu.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000305"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Rename the model and/or expression folder</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000307"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Open the project properties (select `Properties' from the context menu in the Navigator). Enter the new folder name and check the box 'Rename existing folder?' for the appropriate folder. Press the `Apply' or `OK' button.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000301"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Show the Business Modeling Syntax</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000303"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Open the file with the Ocl Multipage Editor. In the second tab, called `Business Modeling View' the expressions are shown in the Business Modeling Syntax. In this view the expressions are not editable.</font><a name="1000377"> </a><br><a name="1000372"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Another possibility is to open the file with the BM Editor. The expressions are shown in the Business Modeling Syntax. In this editor the expressions are not editable.</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000290"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Show the Model</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000292"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Clicking on the Octopus icon <img src="images/octopus.jpg" align="left" border="0" hspace="0" vspace="0">
+in the toolbar will open the Model View on the selected project. If the button is not shown, you can use the Windows&gt;Customize Perspective option to make Eclipse show it. Select Other&gt;Octopus.</font><a name="1003964"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Alternatively, click the menu item `Octopus&gt;Show Model' in the context menu of a file with extension `.ocl' or `.uml', or the context menu of an Octopus project.</font><a name="1003973"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">A third alternative is to select a file or folder in an Octopus project and type Ctrl+M on your keyboard</font></font></td>
+  </tr>
+  <tr>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000349"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Use Code Completion</font></font></td>
+    <td><font face="Verdana, Arial, Helvetica, sans-serif"><a name="1000351"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Either use `Ctrl-Space, or the menu item "Edit&gt;Content Assist".</font></font></td>
+  </tr>
+</table>
+
+
+
+</font>
+</p>
+
+
+<p>
+  <a name="999840"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"></font>
+</p>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

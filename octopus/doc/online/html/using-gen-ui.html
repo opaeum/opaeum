@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:54:05">
+<title>The Generated User Interface  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="1002695"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The Generated User Interface</font>
+</h2>
+
+
+<p>
+  <a name="1002960"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Within Octopus it is possible to generate a user interface. This can be achieved by selecting the option in the Project properties for Code generation. </font>
+</p>
+
+
+<p>
+  <a name="1002961"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The user interface generation currently has the status of Proof Of Concept. This means that it works in principle for a small number of projects, but it will fail to work with more complex models. In these cases the generated code may still contain compile errors. Also, the design of the user interface can surely be improved. </font>
+</p>
+
+
+<p>
+  <a name="1002978"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">This document first describes how to setup Eclipse to run the generated user interface. Then it explains how to use the generated application.   </font>
+</p>
+
+
+<h3>
+  <a name="1002956"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Running the Generated Application </font>
+</h3>
+
+
+<a name="1002697"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">If a user interface is generated, the application can be run as a standalone SWT application. To run it from Eclipse create a Run Configuration in Eclipse. The main class must be <font  face="Verdana, Arial, Helvetica, sans-serif"><i>gui.generated.App</i></font> as in:<img src="images/using-gen-uia.gif" height="464" width="599" align="center" border="0" hspace="0" vspace="0">
+<br></font>
+
+
+<a name="1002704"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Under arguments the following needs to be added under VM arguments:<br></font>
+
+<ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002825"> </a>-Djava.library.path=$ECLIPSE-HOME\plugins\org.eclipse.swt.win32_2.1.1\os\win32\x86\</font>
+</ul>
+
+<a name="1003074"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">$ECLIPSE-HOME stands for the location on your system where Eclipse is installed. In the examples below $ECLIPSE-HOME has the value d:\javatools\eclipse2.1.1.<br></font>
+
+
+<p>
+  <a name="1003078"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><img src="images/using-gen-ui2.gif" height="480" width="582" align="center" border="0" hspace="0" vspace="0">
+</font>
+</p>
+
+
+<a name="1002713"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">After this you should be able to run the application from Eclipse. Note that the version numbers in the VM argument are dependent on the Eclipse version you use. The numbers above are correct for Eclipse 2.1.1. <br></font>
+
+
+<p>
+  <a name="1002715"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">In the classpath the following  jar files need to be added:</font>
+</p>
+
+
+<p>
+  <a name="1002719"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><img src="images/using-gen-ui3.gif" height="522" width="640" align="center" border="0" hspace="0" vspace="0">
+</font>
+</p>
+
+
+<a name="1002721"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Note that the previous remark about version numbers is valid for these pathnames as well.<br></font>
+
+
+<p>
+  <a name="1002723"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>NB</b></font>: The generated user interface has not been tested with Eclipse 3.0. The VM arguments will need to be different. Please check the Eclipse 3.0 documentation for running standalone SWT applications. As a consequence, the generated user interface does not use the Rich Client Platform of Eclipse 3.0, this might change in future versions of Octopus.</font>
+</p>
+
+
+<h3>
+  <a name="1002725"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The Main Application Window</font>
+</h3>
+
+
+<a name="1002727"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">When the application is started, the main application window is shown, with the name of the Eclipse project as its title. This main window shows a number of tabs, all labeled with the name of a class. On each tab, a list is shown with all objects of the given class. The main window therefore allows you to browse through all existing objects. An example of a main window is shown here:<br></font>
+
+
+<a name="1003037"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><img src="images/using-gen-ui4.gif" height="319" width="568" align="center" border="0" hspace="0" vspace="0">
+<br></font>
+
+
+<a name="1002734"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The tabs Artist, Catalog, Clip, etc. are the names of the classes in the original UML model. In the example the Artist tab shows a list of all Artist objects in the system. Below the list there are two buttons. The  Select button will open a new window with the details of the selected object. The Create window will create a new object of the type Artist and opens a window to allow the user to fill in the details.<br></font>
+
+
+<p>
+  <a name="1002736"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">In the group labeled <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Class Features for Artist </i></font>the button Refresh will ensure that the screen is refreshed showing the latest state for all objects. The <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Check Invariants</i></font> button checks all OCL invariants defined in the UML model for the given class (Artist in the example). The result is a new window showing all broken invariants. If the class has class attributes defined in the UML model, these will be shown in this group as well.</font>
+</p>
+
+
+<h3>
+  <a name="1002738"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The Object Detail Window</font>
+</h3>
+
+
+<a name="1002740"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">When we select an object in a list and press Select, we will get a new window showing all the details of the given object. If we select David Bowie in the example, we will get the following window:<br></font>
+
+
+<a name="1003040"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><img src="images/using-gen-ui5.gif" height="321" width="577" align="center" border="0" hspace="0" vspace="0">
+<br></font>
+
+
+<a name="1002747"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">For each attribute in the original UML class, there is a label with the name of the attribute and a field with its value. Values can be changed and are directly stored. Whenever a value is syntactically incorrect, it will show in red. If this happens, the <font  face="Verdana, Arial, Helvetica, sans-serif"><i>Refresh</i></font> button will restore the latest correct values.<br></font>
+
+
+<p>
+  <a name="1002749"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Associations from the UML models are shown in a list. The group around the list and its buttons is labeled with the name of the association-end. In the example this is<font  face="Verdana, Arial, Helvetica, sans-serif"><i> clips</i></font>. The user interface has four buttons available for the list:</font>
+</p>
+
+<ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002750"> </a>Select: shows the details of the selected object in a new window</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002751"> </a>Remove: remove the link to the selected object. The selected object will still exist, but will not have a link with the current object anymore.</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002916"> </a>Add: opens a selection dialog to select another object. A link to this object is added. As a result it will be shown in the list.</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002753"> </a>Create: create a new object and add a link to this object to the current list. A window will open to fill in the details of the newly created object.</font>
+</ul>
+
+<a name="1002755"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">At the bottom of the window there are two buttons:<br></font>
+
+<ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002756"> </a>Refresh: make sure all values shown are up to date</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002757"> </a>Check Invariants: check all of the OCL invariants from the UML model for this object.</font>
+</ul>
+
+<p>
+  <a name="1002673"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"></font>
+</p>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+   version="1.0">
+   <persistence-unit name="${model.name}">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>jdbc/FSCDS</jta-data-source>
+#set($requiresJbpm=false)      
+#set($classElements=$workspace.classElementsInDependencyOrder)      
+#foreach($c in $classElements)
+#if($c.isProcess() || $c.operation.isUserResponsibility())
+#set($requiresJbpm=true)      
+#end      
+#end 
+#if($requiresJbpm)
+      <!-- following mapping file has a dependendy on   -->
+      <!-- 'bsh-{version}.jar'.                         -->
+      <!-- uncomment this if you don't have bsh on your -->
+      <!-- classpath.  you won't be able to use the     -->
+      <!-- script element in process definition files   -->
+      <mapping-file>org/jbpm/graph/action/Script.hbm.xml</mapping-file>
+      
+      <!-- following mapping files have a dependendy on  -->
+      <!-- the JCR API                                   -->
+      <mapping-file>org/jbpm/context/exe/variableinstance/JcrNodeInstance.hbm.xml</mapping-file>
+      
+      <!-- hql queries and type defs -->
+      <mapping-file>org/jbpm/db/hibernate.queries.hbm.xml</mapping-file>
+      
+      <!-- graph.def mapping files -->
+      <mapping-file>org/jbpm/graph/def/ProcessDefinition.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/def/Node.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/def/Transition.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/def/Event.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/def/Action.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/def/SuperState.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/def/ExceptionHandler.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/instantiation/Delegation.hbm.xml</mapping-file>
+
+      <!-- graph.node mapping files -->
+      <mapping-file>org/jbpm/graph/node/StartState.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/EndState.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/ProcessState.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/Decision.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/Fork.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/Join.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/State.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/node/TaskNode.hbm.xml</mapping-file>
+
+      <!-- context.def mapping files -->
+      <mapping-file>org/jbpm/context/def/ContextDefinition.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/def/VariableAccess.hbm.xml</mapping-file>
+
+      <!-- taskmgmt.def mapping files -->
+      <mapping-file>org/jbpm/taskmgmt/def/TaskMgmtDefinition.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/def/Swimlane.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/def/Task.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/def/TaskController.hbm.xml</mapping-file>
+
+      <!-- module.def mapping files -->
+      <mapping-file>org/jbpm/module/def/ModuleDefinition.hbm.xml</mapping-file>
+
+      <!-- bytes mapping files -->
+      <mapping-file>org/jbpm/bytes/ByteArray.hbm.xml</mapping-file>
+
+      <!-- file.def mapping files -->
+      <mapping-file>org/jbpm/file/def/FileDefinition.hbm.xml</mapping-file>
+
+      <!-- scheduler.def mapping files -->
+      <mapping-file>org/jbpm/scheduler/def/CreateTimerAction.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/scheduler/def/CancelTimerAction.hbm.xml</mapping-file>
+
+      <!-- graph.exe mapping files -->
+      <mapping-file>org/jbpm/graph/exe/Comment.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/exe/ProcessInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/exe/Token.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/exe/RuntimeAction.hbm.xml</mapping-file>
+
+      <!-- module.exe mapping files -->
+      <mapping-file>org/jbpm/module/exe/ModuleInstance.hbm.xml</mapping-file>
+        
+      <!-- context.exe mapping files -->
+      <mapping-file>org/jbpm/context/exe/ContextInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/TokenVariableMap.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/VariableInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/ByteArrayInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/DateInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/DoubleInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/HibernateLongInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/HibernateStringInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/LongInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/NullInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/exe/variableinstance/StringInstance.hbm.xml</mapping-file>
+
+      <!-- job mapping files -->
+      <mapping-file>org/jbpm/job/Job.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/job/Timer.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/job/ExecuteNodeJob.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/job/ExecuteActionJob.hbm.xml</mapping-file>
+
+      <!-- taskmgmt.exe mapping files -->
+      <mapping-file>org/jbpm/taskmgmt/exe/TaskMgmtInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/exe/TaskInstance.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/exe/PooledActor.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/exe/SwimlaneInstance.hbm.xml</mapping-file>
+
+      <!-- logging mapping files -->
+      <mapping-file>org/jbpm/logging/log/ProcessLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/logging/log/MessageLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/logging/log/CompositeLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/ActionLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/NodeLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/ProcessInstanceCreateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/ProcessInstanceEndLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/ProcessStateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/SignalLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/TokenCreateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/TokenEndLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/graph/log/TransitionLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/VariableLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/VariableCreateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/VariableDeleteLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/VariableUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/ByteArrayUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/DateUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/DoubleUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/HibernateLongUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/HibernateStringUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/LongUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/context/log/variableinstance/StringUpdateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/TaskLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/TaskCreateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/TaskAssignLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/TaskEndLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/SwimlaneLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/SwimlaneCreateLog.hbm.xml</mapping-file>
+      <mapping-file>org/jbpm/taskmgmt/log/SwimlaneAssignLog.hbm.xml</mapping-file>   
+#end
+#foreach($c in $classElements)
+#if($c.isPersistent())
+      <class>${c.mappingInfo.qualifiedJavaName}</class>      
+#end 
+#end
+      <class>${workspace.sourcePackage.mappingInfo.qualifiedJavaName}</class>      
+      <properties>
+         <property name="hibernate.dialect" value="${config.jdbcDialect}"/>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      </properties>
+   </persistence-unit>
+</persistence>

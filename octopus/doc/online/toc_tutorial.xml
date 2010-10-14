@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+   <toc>
+      <topic id="steps" label="Using Octopus in Six Steps" href="doc/online/html/tutorial.html">
+         <topic label="Step1: Create Octopus project" 	 href="doc/online/html/project.html"/>
+         <topic label="Step2: Create UML model" 		 href="doc/online/html/model.html"/>
+         <topic label="Step3: Create OCL files" 		 href="doc/online/html/expressions.html"/>
+         <topic label="Step4: Check OCL Expressions" 	 href="doc/online/html/checking.html"/>
+         <topic label="Step5: View BM Syntax (optional)" href="doc/online/html/bmsyntax.html"/>
+         <topic label="Step6: Generate Java Code"        href="doc/online/html/codegeneration.html"/>
+      </topic>
+   </toc>
+

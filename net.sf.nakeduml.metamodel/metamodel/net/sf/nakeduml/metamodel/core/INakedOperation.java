@@ -1,0 +1,23 @@
+package net.sf.nakeduml.metamodel.core;
+
+import java.util.Set;
+
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import nl.klasse.octopus.model.IOperation;
+
+public interface INakedOperation extends IOperation,INakedNameSpace,IParameterOwner{
+	boolean isQuery();
+	INakedClassifier getOwner();
+	boolean hasReturnParameter();
+	void setQuery(boolean b);
+	boolean isStatic();
+	void setStatic(boolean b);
+	Set<? extends INakedBehavior> getMethods();
+	 void addMethod(INakedBehavior impl);
+	boolean shouldEmulateClass();
+	boolean isUserResponsibility();
+	void setIsUserResponsibility(boolean b);
+	void setBodyCondition(INakedConstraint specification);
+	INakedConstraint getBodyCondition();
+	void setIsOclDef(boolean b);
+}

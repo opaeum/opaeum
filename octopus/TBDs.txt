@@ -1,0 +1,179 @@
+Date: 16-07-03
+Time: 16.51
+
+LATER:
+
+	1.3. wat kan/moet in preferences?
+	3. alle code nalopen
+		3.1. commentaar Java doc toevoegen
+		3.2. debug statements eruit
+		3.3. precondities toevoegen
+		3.4. copyright + versie nr. toevoegen (via script?)
+		3.5. alle TBDs eruit
+	4. easteregg in oclengine ??
+	5. contact opnemen met Gentleware
+	6. probeer combo met Fuutje uit
+	17. visibility van model elementen meenemen
+	27. andere stdlib base types uitproberen, b.v. java library
+	28. externalize strings
+	32. voeg filename, line, column toe aan ParsedName, verander daarna de ContextAnalyzer om deze info te gebruiken
+	35. test werken met imports
+	52. code completion verbeteren
+	54. naam achter <package> in .uml file moet volledige padnaam zijn
+	10. qualifiers
+    100. semantiek van associatie veranderen in Bag
+    101. multipliciteit en ordered, unique van attributen checken
+    103. geef foutmelding als derived feature geen derivation rule heeft
+    109. foutmelding geven als 'body' wordt gebruikt bij operatie van een interface
+    134. behalve OclErrors ook OclWarnings
+    148. Check the handling of OclType. See e.g. NamedElement.getType() where the OclType is handled
+         as the string "OclType(...)".
+ 
+DONE:
+	=done= 1. User interface verbeteren:
+	=done= 1.1. Ocl editor
+	=done= 1.2. aanpassen model
+	=done= 14. werken met resourcebundel
+	=done= 15. maak goede icons
+	=done= 15.1. icons nodig voor:
+		- ocl file and editor
+		- uml file and editor
+		- package
+		- class
+		- associationclass
+		- association
+		- attribute
+		- operation
+		- class attribute
+		- class operation
+		- ocl def attribute
+		- ocl def operation
+		- enumeration type
+		- enumeration value
+		- datatype
+		- actions:
+			- open ocl editor
+			- open uml editor
+			- check file
+			- check all
+		- model view
+		- new project
+		- foutmeldingen (eclipse icons gebruiken)
+		- perspective ???
+	=done= 16. als model view gesloten wordt, dan gaat daarna show model action fout:
+		Unhandled exception caught in event loop.
+		Reason:
+		Assertion failed: ContentViewer must have a content provider when input is set.
+	=done= 18. oplossing vinden voor omgaan met defs en recursive defs
+	=done= maar zie punt 26 === 19. allInstances 
+	=done= 22. remove all file markers when file is being deleted
+	=done= 23. definitions worden niet consistent getoond. B.v. Thuis::Anneke heeft geen 'definitions', Thuis::Jos wel.
+	=done= 24. als Thuis::Anneke.ocl 2e keer wordt gechecked dan wordt Set(Bier) niet meer herkend
+	=done= (de view wordt niet gereset als de top node niet zichtbaar is)25. reset van model view moet met listener interface => uitzoeken
+	=done= 26. andere oplossing voor "=", "<>" en "allInstances". Deze werkt niet bij ander dan ons eigen model.
+	=niet waar= 29. oclIsUndefined en oclIsNew worden niet correct geparsed
+	=done= 30. 'expectedType is null in ContextAnalyzer.checkType' meldingen oplossen
+	=done= 33. analyze TupleLiterals
+	=done= 34. herken real and the real unary minus
+	=done= 38. rename all interfaces to I...
+	=done= 39. .project file wordt ook gecheckt. Moet niet.
+	=done= 40. commentaar van meerdere regels heeft niet juiste kleur in OCL editor
+	=done= 41. alle filemarkers moeten bij sluiten van eclipse verwijderd worden
+	=done= 43. als .uml file verplaatst wordt dan moet model opnieuw gebouwd worden
+	=done= 46. ongebruikte UI aspecten eruit halen
+	=done= 48. maak actie die BMview print of saved als txt
+	=done= 50. pre and posts in model view, inclusief images
+	=done= 55. saveAs en print werken niet goed in oclMultiPageEditor
+	=done= 49. package entry meenemen in BM view
+	=done= 45. beslissen: wel of niet feature maken en uitzoeken hoe
+	=done= 7. check dingen in Remarks.html
+	=done=	9. states (done 19-07-03: in model en oclInSate wordt apart herkend, 
+	           nu moeten states nog in environment gezet worden )
+	=done= 44. de tekst voor de online help schrijven.
+	=done= 47. maak correct voorbeeld Octopus project
+	=done= 57. maak lijst OCL aspecten die niet door deze versie ondersteund worden
+	=done= 20. omgaan met pre en posts op overerfde - niet overschreven - operatie
+    =done= 105. geef error op oclIsNew die niet in postcondition voorkomt
+    =done= 106. oclAsType strenger checken op type hierarchie
+	=done= 111. check of result expression een init heeft in de iterate
+    =done= 116. de engine moet strenger zijn bij oclAsType: de parameter moet een superType zijn van de source
+    =done= 117. toString van collection literal werkt niet ?
+    =done= 119. oclAsType should accept stdlib basic types (and other stdlib types as well?)
+	=done= 128. Check of er een verboden result variabele is bij Iterators.
+
+j   =done= 110. snippets geeft een fout bij TupleLiterals, is dit foutieve invoer of een fout in de engine?
+j   =done= 129. TypeAnalyzer throwt nu geen AnalysisException, terwijl alle andere analyzers in
+                expressionanalysis dat wel doen. Hierdoor wordt de fout niet doorgegeven.
+    =done= 122. flatten is not analyzed correctly, incorrect return type (see snippets-correct/collectionOpers)    
+	=done= 127. !!!! Association classes should be handled differently. There is no IAssociationClassCallExp, and there
+	     should be.
+    =done= DECIDED THIS SHOULD NOT BE DONE 114. haal verplichting dat returntype bij operation context genoemd wordt weg
+  j =done= 125. ocl engine moet oclUndefined herkennen als literal
+  j =done= 102. multiplicity uitbreiden to [9..18] etc.
+  a =done= 115. het verwijderen van OclContext uit het model gaat niet goed: 
+         - init is not removed
+         - exp on implemented interfaces of inherited features not removed
+  a =done= 120. a simple typo: "OredredSet" ends in a prcondition failure in Conformance:
+    	- precondition failed in Conformance.argumentsConformTo: actualTypes should hold Classifiers
+  a =done= 123. open/create OCL file on operations should open file not give error, idem for attributes etc.
+  a =done= 124. bij updaten van model moet model view uitgeklapt blijven
+    =done= 126. er wordt niet gechecked of beide takken van een if-then-else hetzelfde type hebben
+  a =done= 129. implement AssClassCallExp for association from and to the same class.
+    =done= 138. in .uml file wordt het type van een attribuut niet goed herkend als er een volledige padnaam staat
+	=done= 53. geen subpackages entries toestaan in .uml file
+    =done= 142. maak package visitor die een goede toStringRecursive doet
+    =done= 144. doe iets met default visibility: eruit of afmaken
+    =done= 141. doe iets met renameDir: eruit halen of afmaken
+	=done= 8. meer testgevallen
+	=done= 12. lege pre of inv -> null pointer exception, of parse error
+    =done= 140. de operatie showMessage zou op 1 plaats gedefinieerd moeten zijn
+	=done= 31. verwijder alle namebased references naar Stdlib types.
+    =done= DECIDED AGAINST IT 137. rename 'getClassifiers' in IPackage tot 'getClassesAndDataTypes' of maak hier twee opers van.
+    =done= 112. check of pathname wel goed in model gezet wordt. setContents van openOclEditor gaat fout.
+    =done= 132. check of aanpassingen nodig zijn nu PathName niet meer begint met '_system'
+  j =done= 130. oclMessageArg analyse
+	=done= 2. Zoeken naar XMI parser
+    =done= 149. PackageImpl + ClassifierImpl: Uniciteit van alle types IClassifiers in Packages, bij findOrCreate and mergepackage.
+    =done= 150. PackageImpl + ClassifierImpl: setOwner shoukld not be needed in several places. Removing it leads to errors. Why?
+    =done= 131. high level documentation
+ 	=done= 11. show marker in editor on file
+    =done= 133. tools in apart project
+    =niet nodig= 139. in rose script: achter states een ';' toevoegen
+	=done= 145. pas de visitor creator aan
+	=done= 58. keybindings in multipage editor
+  
+
+TO BE DONE:
+
+	13. check zinvolheid van error messages en standaard manier van presenteren
+
+WEET NIET:
+
+	21. check conformance of OclVoid en Set(OclVoid) etc.
+	36. de parser zou een helderder foutmelding moeten geven als je TupleType(...) gebruikt waar je Tuple{...} mag gebruiken
+	37. wanneer zijn 2 TupleTypes gelijk? moeten alleen de types van de parts gelijk zijn, of ook de namen?
+	42. check of action expression goed geimplementeerd is
+	56. haal filenaam uit commentaar in BM syntax??
+	
+NIEUW SINDS 1-12-2003:
+	
+CODEGEN ISSUES:
+
+    104. foutmelding voor duplicate invariant names
+    108. waarschuwing geven als struct feature in class zelfde naam heeft als struct feature
+         in implemented interface
+    118. als een attribute private is in supertype dan mogen er geen expressies (init, derive) worden gegeven
+         in subtype => engine moet strenger zijn
+	128. recognize special characters (\n, \t, etc.)
+	146. voeg check toe voor 'substring(1,0)'
+	147. merging levert 2 keer call naar 'super()' op
+
+Version 1.1.0 ISSUES:
+
+  j 107. oclIsUndefined mag toegepast worden op klassen => verbieden
+    113. bij open definition van een assoc class gaat deze naar 'XX_additions.uml', moet naar 'XX.uml' gaan
+  j 121. intersection is not analyzed correctly	(see snippets-correct/collectionOpers)    
+    135. AST viewer wordt eerste keer met null pointer geopend
+    136. kijk of model API niet te veel bevat, b.v. getCommonSuperType
+    143. maak voorbeeld project van Rosa's Breakfast Service
+    148. assoc ends kunnen niet static zijn volgens de huidige BNF

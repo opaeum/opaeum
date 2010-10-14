@@ -1,0 +1,33 @@
+#if(!$operation.isUserResponsibility())
+#set($shouldGenerate=false)
+#else
+<process-definition xmlns="urn:jbpm.org:jpdl-3.2" name="${operation.ownerElement.mappingInfo.persistentName}_${operation.mappingInfo.persistentName}">
+  <swimlane name="requestor">
+  </swimlane>
+  <swimlane name="worker">
+    <assignment actor-id="#{process.contextObject.username}"/>
+  </swimlane>
+  <start-state name="start">
+    <task swimlane="requestor"/>
+    <transition name="to_${operation.mappingInfo.persistentName}" to="${operation.mappingInfo.persistentName}"/>
+  </start-state>
+  <task-node name="${operation.mappingInfo.persistentName}">
+    <task name="${operation.mappingInfo.persistentName}" swimlane="worker">
+      <controller>
+        <variable name="${operation.mappingInfo.persistentName}" access="read" mapped-name="taskObject"/>
+      </controller>
+      <transition name="to_assess_${operation.mappingInfo.persistentName}" to="assess_${operation.mappingInfo.persistentName}"/>
+    </task>
+  </task-node>  
+  <task-node name="assess_${operation.mappingInfo.persistentName}">
+    <task name="assess_${operation.mappingInfo.persistentName}" swimlane="worker">
+      <controller>
+        <variable name="${operation.mappingInfo.persistentName}" access="read" mapped-name="taskObject"/>
+      </controller>
+      <transition name="accept" to="end"/>
+      <transition name="rework" to="${operation.mappingInfo.persistentName}"/>
+    </task>
+  </task-node>  
+  <end-state name="end"/>
+</process-definition>
+#end

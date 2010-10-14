@@ -1,0 +1,180 @@
+Metaphor
+1. The user is just another instance of a class that interacts directly with objects and their features. 
+1.1. The user creates and deletes objects
+1.2. The user updates property values
+1.3. The user invokes operations by providing parameters
+1.4. The user invokes behaviours by providing input parameters
+2. The users are just instances of class with whom other objects can interact directly
+2.1. For every user there is an object representing that user
+2.2. Other objects could invoke responsibilities (operations) on the user.
+2.3. Invocation actions on Activities could have the user as a swimlane or a target.
+2.4. Users could receive notifications (signals) which would be SMS's or e-mails in human terms.
+
+Meaning of DataTypes
+Containment by value. Do not have a life and cannot be referenced outside of the context within which they are contained
+Identified by value, no identity seperate from value.
+Property values that have a DataType as type should be cloned in both deep and
+shallow cloninng operations. For auditing They should also cloned 
+AUditing requires the entire state of an instance of a Class/Entnity to be duplicated to an audit trail. Since 
+datatypes lack identity, their VALUES have to be stored in the audit trail.
+A dataType should not have any information pertaining to the context it is being used from.
+It is intended to be a reusable, fine grained class, and it should never modify the state of the entity using it.
+It should be somewhere between an entity and a primitive in it reusability.
+JSF: 
+Could have its own input - imagine a phone number, address, ms document, e-mail address, etc.
+Could also just have a generated subform, maybe using tabs, popup
+A DataType cannot be a composite for an entity.
+Any compositeEnd that has a DataType as an owner should be non-navigable to ensure
+the datatype is context-agnostic and to ensure high reusability
+All (navigable) attributes whose owner is an Entity and whose baseType is a DataType, Enum or primitive are assumed have a composite oppositeEnd
+All non-composite ends that ends in an Entity 
+All "many" attributes of a dataType are implicitly unidirectional manyToManies, since dataTypes do not have identities to "link back to"
+In auditing, a dataType's auditing type extends it's original type. This is to ensure that whatever reusability the infrastructure has
+for the dataType is reused. This does however force us to use the is table-per-concrete-class inheritance strategy. It also makes
+it all the more important that dataTypes should never modify their surroundings 
+
+Meaning of composition in entities:
+
+persitent garbage collection tree
+cascade all
+provides the hierarchy for user navigation 
+specifies the landing entity for a user
+composites are the factories of components, and therefore define factory methods for every compositional relationships
+for security, composition establishes the ownership axis
+group ownership - defines which objects belong to a group
+user ownership - defines which object belong to a user
+the default group for a user is the compositional owner of the user clase, but additional properties can be used to specify groups for a user
+defines probable source populations for drop-down listboxes-CommonComposite
+if a class has a composite, and instance of this composite is guarranteed to be set on any new
+instance of the class, even before initialisation
+
+Domain model
+All models need a root entity, representing the application itself
+All concrete entities must be directly or indirectly navigable down the composition tree 
+All abstract entities must have a relationship with the root entity
+Every entity only has one composite (parent in a compositional relationship)
+It assumes that certain entities in the system represent users
+All classes representing users must directly or indirectly extend a root user superclass.
+
+User roles quite often represented by subclasses 
+Every subclass of the user superclass must be contained directly underneath 
+the users landing entity, most like an entity representing some organizational structure
+
+
+Predefined types:
+Name - default type
+EMailAddress for emails
+CellPhoneNumber for sms/short text messages
+
+Advantages of OO-based workflow in state charts and activities.
+Normal tools don't leverage existing domain model.
+Good reason: level of abstraction not high enough.
+If we increase the level of abstraction, not only the data but also the functionality could be re-used from business processes.
+State charts force one to think in terms of an object that changes state - better structuro-dynamic decomposition of logic.
+Activity diagrams could also be used like this, but they don't intrinsically force one to think in terms of objects, and could therefor
+in the hands of a novice easily lead to functional decomposition alone.
+Activity diagram based workflow should however still leverage existing domain model functionality.
+Declaritive role based work delegation is more limiting than using oo semtantics to determine "who" should do what.
+EAI level BPM and SOA are a different thing alltogether, but these tools still encourage developers to breach the
+inter-application boundaries with direct access to databases, file dumps, and direct, unencapsulated access to specific users 
+in the system. Systems should be allowed to manage their workflow internally.
+
+Uniqueness constraints are modelled through qualified relationships
+
+One to one relationships:
+must be at least on of:
+one side is composite, other side component
+one side is navigable, the other side not
+one side is required, the other side not
+one side is marked as inverse, the other not
+todo: one side is readOnly the other side not
+many to manies
+one side is navigable, the other side not
+one side is marked as inverse, the other not
+todo: one side is readOnly the other side not
+
+
+Interaction with user
+The user navigates down the containment tree
+When an interaction with the user is initated by the system, we send
+a signal to a target, the type of which represents (a) user(s)
+When an interaction is initiated by the user, it must be an operation/use case
+
+Hibernate design choices:
+Fake one-to-many for one-to-one relationships because of caching problem
+For entity inheritance: Ideally use the class-per-hierarchy (<subclass>)combined with <join> to fake a table-per-class (<joined-subclass>. Does not
+work yet in Hibernate 3.1 - test again
+StructuredDataType - map "many" properties as many-to-many. All instances of every dataType then resides in one table. Highly normalized, but
+requires dataType to have identity - this identity is hidden from the class itself though.
+DataTypeAuditMapping: table-per-concrete-class
+SimpleDataTypes and primitives: map "many" properties in a table per property.
+
+Activities:
+
+
+But there is one very important difference between responsibility operations
+and normal operations on a user entity: The context, agent, doer, subject of the actions inside a normal operation is the object, the instance of the user entity
+living in the system, but the subject of the actions inside a responsibility is the actual person represented by that object.
+For those of you with a background in linguistics this would not be too much of a leap to take. But for the other 99% of us, this is quite a difficult thing to grasp. Interactions in the world typically take the form of subject - action - object. A subject takes an action on an object. UML is full of this. in fact, nowhere is this seen better than in sequence diagrams. Lifeline represent the agency of a subject that takes an action on an object. But then, that object in turn becomes the subject of another interaction. This "object" becomes a subject that takes an action on another object. And so we build up a sequence of 
+events, of interactions where subjects take actions on objects.
+Inside normal operations, the subject of action take is the object inside the system the operation belongs to. Inside responsibility operations, 
+the subject of the actions taken is the user represented by the object outside of the system. And this is exactly how NakedUML wants to represent the 
+user - just another object that can take actions on other objects. The real power of this concept becomes clear when you come to the following realization: the user
+is just another object that normal objects can take actions on. And at long last, we finally set the stage for business processes that are fully integrated
+with your domain.
+
+Invoking responsibilities
+When a responsibility is invoked, either directly or indirectly on a user, NakedUML has to instantiate a jBpm process to manage the interactions. 
+But this is not just any jBpm process. Normal jBpm processes do not care about the context of a process, neither does it care about the person whoe 
+requested the process in the first place. jBpm processes in NakedUML have both a context and a requestor. The context of a process, is the actual 
+entity on which which the process was defined as an operation. This is exactly the way the word "context" is used in UML. The requestor of a 
+process is most direct human being, most recent "subject" whose goals are being fulfilled by the execution of the process.
+When the current user invokes a responsibility on another user, the current user is considered both the requestor and the context of the process. This might
+not make sense immediately, but in reality we are defining a process "on the fly" within which this invocation happens. But once the
+targeted user on which this responsibility is invoked starts acting, he/she becomes the subject/requestor any subsequent responsibility invocatations.
+ 
+When the current user invokes a responsibility on him/herself, and this responsibility does not invoke any other responsibilities directly or
+indirectly, then NakedUml does not instantiate any tasks or processs. It just takes the user through the series of actions defined in the responsibility. This
+is probably the closest that NakedUML comes to the traditional concept of a use case.
+
+When an activity on a normal entity invokes a responsibility on a user, this activity is automatically treated as a process definition. The invocation of
+the responsibility is then treated as either a task or a subprocess. The responsibility will be treated as a task if it does not invoke responsibilities, 
+either directly or indirectly, on other users. It will be treated as a sub-process if it does invoke responsibilities, either directly or indirectly
+on other users
+
+All actions must be repeated until local post-conditions evaluate to true
+Consider write object actions with target=user type to simplify processes
+Implement A CallOperationSignal that invokes operations asynchronously
+Definition 
+"screenFlow" is a responsibility that does not invoke other responsibilities, either directly or indirectly.
+All calloperation or simple actions in a screenflow should get input from user.
+Only entities that represent users can have screenflows, since only users can have responsibilities.
+
+"businessProcess" is a method or responsibility that invokes other responsibilities or businessProcesses, either directly or indirectly
+Any entity could have a business process
+
+Implement a process for each responsibility
+
+How to calculate the requestor of an invocation (sendsignal included) 
+  if context.representsUser
+    requestor= context
+  else   	 
+    requestor=process.requestor
+  end
+  
+AbstractEntityimplementor:
+iterate through all owned processes and
+signal events to all actions on all tokens. 
+
+Add LastRevisionForJbpmProcesses to Numl_version_info and deploy processes when necessary
+automate database migration
+
+Meaning of activities:
+1. Simple method implementation (does not allow parrallelism or events or loopbacks) ie StructuredActivities
+2. Classifier behavior of entity (allows all features of NakedBPM, tight coupling with domain encouraged, process migration rather than concurrent version, persisted as separate entity, linked to jBpm process)
+3. Free process (thight coupling with domain discouraged, conccurent version execution
+
+Meaning of StateMachines:
+1. Classifier behavior of entity...
+2. Use Case Controller
+3. Free process

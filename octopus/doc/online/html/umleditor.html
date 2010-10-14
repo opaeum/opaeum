@@ -1,0 +1,362 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="GENERATOR" content="Quadralay WebWorks Publisher Standard Edition 6.0.2">
+<meta name="TEMPLATEBASE" content="Portable HTML Standard Edition">
+<meta name="LASTUPDATED" content="10/08/04 12:54:00">
+<title>The Textual Representation of UML  </title>
+</head>
+
+<body link="#3366CC" vlink="#9999CC" text="#000000" alink="#0000CC" bgcolor="#FFFFFF"
+>
+
+<h2>
+  <a name="1002538"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The Textual Representation of UML</font>
+</h2>
+
+
+<a name="1002539"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Octopus uses its own textual representation of UML. Note that this notation is NOT part of the UML standard. In the Octopus representation each package is written in a separate file, which should have the file extension `.uml'. All UML files must be placed under the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="project.html">dedicated </a><a href="project.html">model folder</a></font> in the Octopus project, otherwise Octopus will not recognize them. Subfolders are considered to indicate subpackages. A subfolder should contain a file with the `.uml' extension, and the package that is specified in this file must have the same name as the folder. <br></font>
+
+
+<h3>
+  <a name="1003480"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">The UML Editor</font>
+</h3>
+
+
+<a name="1003101"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The UML Editor is a simple editor for UML files. It offers syntax highlighting and a rudimentary form of code completion. You can open the UML editor on any file with extension '.uml'.<br></font>
+
+
+<h3>
+  <a name="1002542"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Rules for an UML file</font>
+</h3>
+
+
+<a name="1002544"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">The rules are explained here by example. For those that prefer a structure definition, the <font  face="Verdana, Arial, Helvetica, sans-serif"><a href="umlbnf.html">BNF syntax definition</a></font> is available.<br></font>
+
+<ol type="1">
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="1"><a name="1002545"> </a>A UML file must begin with "&lt;package&gt;<font  face="Verdana, Arial, Helvetica, sans-serif"><i> DIRNAME"</i></font>, where <font  face="Verdana, Arial, Helvetica, sans-serif"><i>DIRNAME</i></font> is the name of the folder in which the file is placed.</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="2"><a name="1002546"> </a>A UML file  must end with "&lt;endpackage&gt;".</font>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="3"><a name="1002547"> </a>A UML file  may contain a number of</font>
+  <ul>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002548"> </a>classifier entries, and/or</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002549"> </a>association entries.</font>
+  </ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="4"><a name="1002550"> </a>A classifier entry is either</font>
+  <ul>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002551"> </a>a class entry,</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002552"> </a>an interface entry,</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002553"> </a>a datatype entry, or</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002554"> </a>an enumeration type entry.</font>
+  </ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="5"><a name="1002555"> </a>An association entry is either</font>
+  <ul>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1002556"> </a>a simple association entry, or</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1003400"> </a>an association class entry.</font>
+  </ul>
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="6"><a name="1003401"> </a>A simple association entry consists of two ends separated by '-', '&lt;-', '-&gt;', or '&lt;-&gt;'. From version 1.1.0 the arrowheads are used to indicate navigability of the association end. An end must define</font>
+  <ul>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1003349"> </a>the visibility (+, -, or #),</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1003356"> </a>the class,</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1003357"> </a>the rolename (if no rolename is present, use &lt;noName&gt;), and</font>
+    <font  face="Verdana, Arial, Helvetica, sans-serif"><li><a name="1003358"> </a>the multiplicity ([0..1],[1], [0..*], [1..*],or [3..12]).</font>
+
+<p>
+  <a name="1003359"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">An example, where both ends are navigable, is:</font>
+</p>
+
+  </ul>
+</ol>
+
+<a name="1003342"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Chapter.prevChap[0..1]   &lt;-&gt; + Chapter.nextChap[0..1];<br></font>
+
+
+<p>
+  <a name="1003408"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">An example, where only the preveChap end is navigable, is:</font>
+</p>
+
+
+<a name="1003409"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Chapter.prevChap[0..1]   &lt;-  + Chapter.nextChap[0..1];<br></font>
+
+<ol type="1">
+  <font  face="Verdana, Arial, Helvetica, sans-serif"><li value="7"><a name="1003340"> </a>An association class entry combines the elements in a simple association entry and a class entry.</font>
+</ol>
+
+<a name="1003090"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">Further details can be found in the example.<br></font>
+
+
+<h3>
+  <a name="1002560"> </a><font color="#003366"  face="Verdana, Arial, Helvetica, sans-serif">Example Model File</font>
+</h3>
+
+
+<a name="1002562"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;package&gt;</b></font> Book<br></font>
+
+
+<a name="1002563"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002564"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;class&gt;</b></font> Bookpart<br></font>
+
+
+<a name="1002565"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003167"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ title: String;<br></font>
+
+
+<a name="1002566"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ nrOfPages: Integer;<br></font>
+
+
+<a name="1002567"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">- /startPageNr: Integer;<br></font>
+
+
+<a name="1002568"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;operations&gt;</b></font> <br></font>
+
+
+<a name="1003168"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ determineStartPageNumber(): Integer;<br></font>
+
+
+<a name="1002569"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endclass&gt;</b></font> <br></font>
+
+
+<a name="1002570"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002571"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;class&gt;</b></font> Prependix  <font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;specializes&gt;</b></font> Bookpart<br></font>
+
+
+<a name="1002572"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003169"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ kind: PrependixKind;<br></font>
+
+
+<a name="1002573"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;operations&gt;</b></font> <br></font>
+
+
+<a name="1003170"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ needsEmptyLastPage(): Boolean;<br></font>
+
+
+<a name="1002574"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ isFirstBookpart(): Boolean;<br></font>
+
+
+<a name="1003251"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endclass&gt;</b></font> <br></font>
+
+
+<a name="1002576"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002577"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;class&gt;</b></font> Chapter <font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;specializes&gt;</b></font> Bookpart<br></font>
+
+
+<a name="1002578"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003173"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ author: String;<br></font>
+
+
+<a name="1002579"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;operations&gt;</b></font> <br></font>
+
+
+<a name="1003174"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ determineDurationTillFinished(from: Date): Period;<br></font>
+
+
+<a name="1002580"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;states&gt;</b></font> <br></font>
+
+
+<a name="1003175"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">ready;<br></font>
+
+
+<a name="1002581"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">inwriting;<br></font>
+
+
+<a name="1002582"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">inwriting::draft;<br></font>
+
+
+<a name="1002583"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">inwriting::finaldraft;<br></font>
+
+
+<a name="1003255"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endclass&gt;</b></font> <br></font>
+
+
+<a name="1002585"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002586"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;class&gt;</b></font> Appendix  <font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;specializes&gt;</b></font> Bookpart <font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;implements&gt;</b></font> TwoColumnPart<br></font>
+
+
+<a name="1002587"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003182"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ kind: AppendixKind;<br></font>
+
+
+<a name="1002588"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">- twoColumn: Boolean;<br></font>
+
+
+<a name="1002589"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;operations&gt;</b></font> <br></font>
+
+
+<a name="1003185"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ needsEmptyLastPage(): Boolean;<br></font>
+
+
+<a name="1003259"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endclass&gt;</b></font> <br></font>
+
+
+<a name="1002591"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002592"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;interface&gt;</b></font> TwoColumnPart<br></font>
+
+
+<a name="1002593"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;operations&gt;</b></font> <br></font>
+
+
+<a name="1003187"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ transformToTwoColumn();<br></font>
+
+
+<a name="1002594"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ transformToOneColumn();<br></font>
+
+
+<a name="1002595"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endinterface&gt;</b></font> <br></font>
+
+
+<a name="1002596"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002597"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;datatype&gt;</b></font> Period<br></font>
+
+
+<a name="1002598"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003186"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ nrOfDays: Integer;<br></font>
+
+
+<a name="1002599"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ nrOfWorkingDays: Integer;<br></font>
+
+
+<a name="1002600"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;enddatatype&gt;</b></font> <br></font>
+
+
+<a name="1002601"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002602"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;datatype&gt;</b></font> Date<br></font>
+
+
+<a name="1002603"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003192"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ day: Integer;<br></font>
+
+
+<a name="1002604"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ month: Integer;<br></font>
+
+
+<a name="1002605"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ year: Integer;<br></font>
+
+
+<a name="1002606"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;enddatatype&gt;</b></font> <br></font>
+
+
+<a name="1002607"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002608"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;enumeration&gt;</b></font> PrependixKind<br></font>
+
+
+<a name="1002609"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;values&gt;</b></font> <br></font>
+
+
+<a name="1003197"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">contents;<br></font>
+
+
+<a name="1002610"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">figures;<br></font>
+
+
+<a name="1002611"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">tables;<br></font>
+
+
+<a name="1002612"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">preface;<br></font>
+
+
+<a name="1002613"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endenumeration&gt;</b></font> <br></font>
+
+
+<a name="1002920"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002921"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;enumeration&gt;</b></font> AppendixKind<br></font>
+
+
+<a name="1002922"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;values&gt;</b></font> <br></font>
+
+
+<a name="1003204"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">index;<br></font>
+
+
+<a name="1003205"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">bibliography;<br></font>
+
+
+<a name="1002618"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">glossary;<br></font>
+
+
+<a name="1002619"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endenumeration&gt;</b></font> <br></font>
+
+
+<a name="1002620"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><br></font>
+
+
+<a name="1002621"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;associationclass&gt;</b></font> ChapterDependency <br></font>
+
+
+<a name="1002622"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Chapter.sourceChapter[0..1]  &lt;-&gt; + Chapter.dependantChapters[0..*]<br></font>
+
+
+<a name="1002623"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;attributes&gt;</b></font> <br></font>
+
+
+<a name="1003212"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">sameAuthor: Boolean;<br></font>
+
+
+<a name="1002624"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">sameSubject: Boolean;<br></font>
+
+
+<a name="1002625"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endassociationclass&gt;</b></font> <br></font>
+
+
+<a name="1002626"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">                  <br></font>
+
+
+<a name="1002627"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;associations&gt;</b></font> <br></font>
+
+
+<a name="1003313"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Chapter.prevChap[0..1]   &lt;-&gt; + Chapter.nextChap[0..1];<br></font>
+
+
+<a name="1003314"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Chapter.prevChap[0..1]   &lt;-&gt; + Appendix.nextApp[0..1];<br></font>
+
+
+<a name="1003315"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Appendix.prevApp[0..1]   &lt;-&gt; + Appendix.nextApp[0..1];<br></font>
+
+
+<a name="1003316"> </a><font  face="Verdana, Arial, Helvetica, sans-serif">+ Prependix.prevPrep[0..1] &lt;-&gt; + Chapter.nextChap[0..1];<br></font>
+
+
+<a name="1002633"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif">+ Prependix.prevPrep[0..1]    &lt;-&gt; + Prependix.nextPrep[0..1];</font><br></font>
+
+
+<a name="1002634"> </a><font  face="Verdana, Arial, Helvetica, sans-serif"><font  face="Verdana, Arial, Helvetica, sans-serif"><b>&lt;endpackage&gt;</b></font> <br></font>
+
+<hr>
+<!-- downmenu -->
+
+<font size="1">
+	&copy; Copyright Klasse Objecten, Netherlands<BR>
+	Email address: <a  HREF="mailto:octopus@klasse.nl">octopus@klasse.nl </A>
+</font>
+</body>
+</html>

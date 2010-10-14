@@ -1,0 +1,48 @@
+#set($shouldGenerate=true)
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.dialect">${config.jdbcDialect}</property>
+		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>
+		<property name="hibernate.connection.url">${config.DBConnectionUrl}</property>
+		<property name="hibernate.connection.username">${config.DBUsername}</property>
+		<property name="hibernate.connection.password">${config.DBPassword}</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
+#foreach($model in $workspace.generatingModelsOrProfiles)    
+    	<mapping package="${model.mappingInfo.qualifiedJavaName}"/>
+#end
+#set($requiresJbpm=false)      
+#set($classElements=$workspace.classElementsInDependencyOrder)      
+#foreach($c in $classElements)
+#if($c.isProcess())
+#set($requiresJbpm=true)      
+#end
+#end
+#foreach($c in $persistentResources)
+		<mapping resource="${c.mappingInfo.hbmPath}" />
+#end 
+#foreach($c in $persistentClasses)
+		<mapping class="${c.pathName}" />
+#end 
+#if($requiresJbpm)
+
+		<mapping resource="jbpm.repository.hbm.xml" />
+		<mapping resource="jbpm.execution.hbm.xml" />
+		<mapping resource="jbpm.history.hbm.xml" />
+		<mapping resource="jbpm.task.hbm.xml" />
+		<mapping resource="jbpm.identity.hbm.xml" />
+#end
+#if($requiresAuditing)
+		<!--<event type="post-commit-insert">
+			<listener class="util.NakedUmlAuditTrailInterceptor" />
+		</event>-->
+#end
+	</session-factory>
+</hibernate-configuration>
