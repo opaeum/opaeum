@@ -2,14 +2,14 @@
 	<parent>
 		<artifactId>numlcore</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.3-SNAPSHOT</version>
+		<version>1.0.0.3</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>javametamodel</artifactId>
 	<packaging>jar</packaging>
 	<name>javametamodel</name>
-	<version>1.0.0.3-SNAPSHOT</version>
+	<version>1.0.0.3</version>
 	<description>A java meta model</description>
 	<url>http://github.com/nakeduml</url>
 	<build>
