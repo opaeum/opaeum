@@ -3,11 +3,11 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<parent>
 		<artifactId>numlcore</artifactId>
-		<groupId>net.sf.nakeduml</groupId>
-		<version>1.0.0.1</version>
+		<groupId>org.nakeduml</groupId>
+		<version>1.0.0.2-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sf.nakeduml</groupId>
+	<groupId>org.nakeduml</groupId>
 	<artifactId>util</artifactId>
 	<name>util</name>
 	<version>${numl.version}</version>

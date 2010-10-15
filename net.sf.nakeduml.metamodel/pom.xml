@@ -3,11 +3,11 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<parent>
 		<artifactId>numlcore</artifactId>
-		<groupId>net.sf.nakeduml</groupId>
-		<version>1.0.0.1</version>
+		<groupId>org.nakeduml</groupId>
+		<version>1.0.0.2-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sf.nakeduml</groupId>
+	<groupId>org.nakeduml</groupId>
 	<artifactId>metamodel</artifactId>
 	<name>metamodel</name>
 	<version>${numl.version}</version>
@@ -123,6 +123,7 @@
 							<artifactSet>
 								<includes>
 									<include>org.eclipse.*</include>
+									<include>nl.klasse.*</include>
 								</includes>
 							</artifactSet>
 							<filters>
@@ -165,14 +166,14 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.nakeduml</groupId>
+			<groupId>org.nakeduml</groupId>
 			<artifactId>javametamodel</artifactId>
 			<version>${numl.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.nakeduml</groupId>
+			<groupId>org.nakeduml</groupId>
 			<artifactId>util</artifactId>
 			<version>${numl.version}</version>
 			<type>jar</type>

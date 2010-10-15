@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sf.nakeduml</groupId>
+	<groupId>org.nakeduml</groupId>
 	<artifactId>numlcore</artifactId>
 	<packaging>pom</packaging>
 	<name>numlcore</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.2-SNAPSHOT</version>
 
 	<modules>
 		<module>octopus</module>
@@ -15,6 +15,11 @@
 		<module>net.sf.nakeduml.metamodel</module>
 		<module>net.sf.nakeduml.util</module>
 	</modules>
+
+	<properties>
+		<java.version>1.6</java.version>
+		<numl.version>1.0.0.2-SNAPSHOT</numl.version>
+	</properties>
 
 	<build>
 		<pluginManagement>
@@ -55,9 +60,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<properties>
-		<java.version>1.6</java.version>
-		<numl.version>1.0.0.1</numl.version>
-	</properties>
 </project>
