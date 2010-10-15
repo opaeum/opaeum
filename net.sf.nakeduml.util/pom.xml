@@ -1,17 +1,15 @@
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>numlcore</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.2-SNAPSHOT</version>
+		<version>1.0.0.2</version>
 	</parent>	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>util</artifactId>
 	<packaging>jar</packaging>
 	<name>util</name>
-	<version>1.0.0.2-SNAPSHOT</version>
+	<version>1.0.0.2</version>
 	<description>Utility classes for org.nakeduml.metamodel</description>
 	<url>http://github.com/nakeduml</url>
 	<build>
