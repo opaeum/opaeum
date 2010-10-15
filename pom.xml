@@ -1,16 +1,32 @@
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>numlcore</artifactId>
 	<packaging>pom</packaging>
 	<name>numlcore</name>
 	<version>1.0.0.2-SNAPSHOT</version>
-
+	<description>Uml code generation and execution engine for JEE environment</description>
+	<url>http://github.com/nakeduml</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git@github.com:nakeduml/nakeduml.git</connection>
+		<developerConnection>scm:git:git@github.com:nakeduml/nakeduml.git</developerConnection>
+		<url>scm:git:git@github.com:nakeduml/nakeduml.git</url>
+	</scm>
 	<modules>
-		<module>octopus</module>
-		<module>octopuscodegen</module>
 		<module>net.sf.nakeduml.javametamodel</module>
 		<module>net.sf.nakeduml.metamodel</module>
 		<module>net.sf.nakeduml.util</module>
@@ -56,6 +72,11 @@
 						<workspace>${basedir}</workspace>
 						<projectNameTemplate>[artifactId]</projectNameTemplate>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

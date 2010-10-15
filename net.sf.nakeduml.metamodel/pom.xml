@@ -5,16 +5,15 @@
 		<artifactId>numlcore</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.2-SNAPSHOT</version>
-	</parent>
+	</parent>	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>metamodel</artifactId>
+	<packaging>jar</packaging>
 	<name>metamodel</name>
-	<version>${numl.version}</version>
-	<url>http://sourceforge.net/projects/nakeduml/</url>
-	<organization>
-		<name>Private</name>
-	</organization>
+	<version>1.0.0.2-SNAPSHOT</version>
+	<description>A uml code generator and execution engine</description>
+	<url>http://github.com/nakeduml</url>
 	<build>
 		<plugins>
 			<plugin>
@@ -141,6 +140,19 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -168,28 +180,28 @@
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>javametamodel</artifactId>
-			<version>${numl.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>util</artifactId>
-			<version>${numl.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>nl.klasse.octopus</groupId>
 			<artifactId>octopus</artifactId>
-			<version>${numl.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>nl.klasse.octopuscodegen</groupId>
 			<artifactId>octopuscodegen</artifactId>
-			<version>${numl.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
