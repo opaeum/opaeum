@@ -1,6 +1,0 @@
-#set($shouldGenerate=true)
-#foreach($element in $model.allElements)
-#if(!$element.hasNakedStereotype() && !$element.isReturn())
-${elementmappingInfo.qualifiedUmlName}
-#end
-#end
