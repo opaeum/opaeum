@@ -194,7 +194,7 @@
 		<dependency>
 			<groupId>nl.klasse.octopus</groupId>
 			<artifactId>octopus</artifactId>
-			<version>1.0.02</version>
+			<version>1.0.0.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
