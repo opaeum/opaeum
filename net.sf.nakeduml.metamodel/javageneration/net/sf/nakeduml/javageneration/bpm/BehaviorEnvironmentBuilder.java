@@ -22,6 +22,23 @@ import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
 public class BehaviorEnvironmentBuilder extends AbstractBehaviorVisitor{
+	@VisitBefore(matchSubclasses = true)
+	public void visitActivity(INakedActivity activity){
+		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+			addDelegations(activity);
+		}
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitStateMachine(INakedStateMachine c){
+		addDelegations(c);
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitOperation(INakedOperation o){
+		if(o.shouldEmulateClass()){
+			addDelegations(findJavaClass(new OperationMessageStructureImpl(o)), o.getContext());
+		}
+	}
+	
 	private void addDelegation(OJClass activityClass,INakedProperty p){
 		StructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 		if(p.getName().equals("name")){
@@ -109,30 +126,23 @@ public class BehaviorEnvironmentBuilder extends AbstractBehaviorVisitor{
 			activityClass.addToOperations(o);
 		}
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitActivity(INakedActivity c){
-		if(c.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
-			addDelegations(c);
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitStateMachine(INakedStateMachine c){
-		addDelegations(c);
-	}
 	private void addDelegations(INakedBehavior activity){
 		OJClass activityClass = findJavaClass(activity);
 		INakedBehavioredClassifier context = activity.getContext();
 		if(context != null){
-			for(INakedProperty p:context.getEffectiveAttributes()){
-				addDelegation(activityClass, p);
-			}
-			for(INakedOperation o:context.getEffectiveOperations()){
+			addDelegations(activityClass, context);
+		}
+	}
+	public void addDelegations(OJClass activityClass, INakedBehavioredClassifier context) {
+		for(INakedProperty p:context.getEffectiveAttributes()){
+			addDelegation(activityClass, p);
+		}
+		for(INakedOperation o:context.getEffectiveOperations()){
+			addDelegation(activityClass, o);
+		}
+		for(INakedBehavior o:context.getOwnedBehaviors()){
+			if(o.getSpecification() == null){
 				addDelegation(activityClass, o);
-			}
-			for(INakedBehavior o:context.getOwnedBehaviors()){
-				if(o.getSpecification() == null){
-					addDelegation(activityClass, o);
-				}
 			}
 		}
 	}

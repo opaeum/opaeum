@@ -1,8 +1,11 @@
 package net.sf.nakeduml.javageneration.bpm.actions;
 
+import java.util.Collection;
+
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractActionBuilder;
+import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
@@ -10,17 +13,22 @@ import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
@@ -34,6 +42,33 @@ public abstract class JbpmActionBuilder<A extends INakedActivityNode> extends Ab
 
 	public abstract void implementActionOn(OJOperation oper);
 
+	public void implementPreConditions(OJOperation oper) {
+		if (node instanceof PreAndPostConstrained) {
+			implmementConditions(oper, (PreAndPostConstrained) node, true);
+		}
+	}
+
+	public void implmementConditions(OJOperation oper, PreAndPostConstrained constrained, boolean pre) {
+		Collection<IOclContext> conditions =pre? constrained.getPreConditions(): constrained.getPostConditions();
+		if (conditions.size() > 0) {
+			OJBlock block = new OJBlock();
+			if (node instanceof INakedAction) {
+				//preConditions and PostConditions work on parameters - emulate pins as parameters
+				for (INakedPin pin : ((INakedAction) node).getInput()) {
+					buildPinField(oper, block, pin);
+				}
+			}
+			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
+			oper.getBody().addToStatements(cg.buildConstraintsBlock(oper, block,conditions, pre));
+		}
+	}
+
+	public void implementPostConditions(OJOperation oper) {
+		if (node instanceof PreAndPostConstrained) {
+			implmementConditions(oper, (PreAndPostConstrained) node, false);
+		}
+	}
+
 	public void maybeContinueFlow(OJOperation operationContext, OJBlock block, INakedActivityEdge edge) {
 		if (edge.getSource() instanceof INakedOutputPin) {
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), (INakedOutputPin) edge.getSource());
@@ -41,8 +76,7 @@ public abstract class JbpmActionBuilder<A extends INakedActivityNode> extends Ab
 				if (map.isCollection()) {
 					OJIfStatement ifStatement = new OJIfStatement();
 					IClassifier integerType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName);
-					if(edge.getWeight()!=null){
-						
+					if (edge.getWeight() != null) {
 					}
 					String weight = ValueSpecificationUtil.expressValue(operationContext, edge.getWeight(), edge.getSource().getActivity(),
 							integerType);
@@ -70,13 +104,10 @@ public abstract class JbpmActionBuilder<A extends INakedActivityNode> extends Ab
 		} else {
 			String pinName = " " + pin.getMappingInfo().getJavaName().toString();
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin);
-			String fieldStatement = null;
 			operationContext.getOwner().addToImports(map.javaTypePath());
-			fieldStatement = map.javaType() + " " + map.umlName();
-			String expression = buildPinExpression(operationContext, block, pin);
-			fieldStatement = fieldStatement + "=" + expression;
-			// TODO inline this and see what it looks like.
-			block.addToStatements(fieldStatement);
+			OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+			field.setInitExp(buildPinExpression(operationContext, block, pin));
+			block.addToLocals(field);
 			return pinName;
 		}
 	}
@@ -172,14 +203,14 @@ public abstract class JbpmActionBuilder<A extends INakedActivityNode> extends Ab
 			INakedOutputPin outputPin = (INakedOutputPin) feedingNode;
 			if (BehaviorUtil.hasExecutionInstance(callAction.getCalledElement())) {
 				INakedParameter p = (INakedParameter) outputPin.getLinkedTypedElement();
-				if ( callAction.getTargetElement()==null || callAction.getTargetElement().getNakedMultiplicity().isSingleObject()) {
+				if (callAction.getTargetElement() == null || callAction.getTargetElement().getNakedMultiplicity().isSingleObject()) {
 					// Only one call, so retrieve the single result
 					block.addToStatements(feedingMap.setter() + "(get" + callAction.getMappingInfo().getJavaName().getCapped() + "().get"
 							+ p.getMappingInfo().getJavaName().getCapped() + "())");
 				} else {
 					NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, getOclEngine().getOclLibrary());
 					// Multiple calls, so retrieve the result of the last
-					// call
+					// call/TODO fix this - create for loop
 					ClassifierMap calledElement = new NakedClassifierMap(callAction.getMessageStructure());
 					String local = calledElement.javaType() + " " + actionMap.umlName();
 					String exp = "=(" + calledElement.javaType() + ")" + actionMap.getter() + "().get(" + actionMap.getter() + "().size())";

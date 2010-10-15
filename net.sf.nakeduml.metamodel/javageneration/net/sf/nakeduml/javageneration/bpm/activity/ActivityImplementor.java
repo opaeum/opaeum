@@ -117,10 +117,12 @@ public class ActivityImplementor extends AbstractBehaviorVisitor{
 		}else{
 			implementor = new DefaultNodeBuilder(oclEngine, node);
 		}
+		implementor.implementPreConditions(operation);
 		implementor.implementActionOn(operation);
 		if(implementor.requiresUserInteraction()){
 			implementor.implementSupportingTaskMethods(activityClass);
 		}else if(!implementor.waitsForEvent()){
+			implementor.implementPostConditions(operation);
 			implementor.implementConditionalFlows(operation, operation.getBody(),true);
 		}
 	}
