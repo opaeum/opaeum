@@ -1,13 +1,18 @@
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<parent>
+		<artifactId>numlcore</artifactId>
+		<groupId>org.nakeduml</groupId>
+		<version>1.0.0.2-SNAPSHOT</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.klasse.octopus</groupId>
-	<artifactId>octopus</artifactId>
+	<groupId>org.nakeduml</groupId>
+	<artifactId>javametamodel</artifactId>
 	<packaging>jar</packaging>
-	<name>octopus</name>
-	<version>1.0.0.2</version>
-	<description>OCL support</description>
+	<name>javametamodel</name>
+	<version>1.0.0.2-SNAPSHOT</version>
+	<description>A java meta model</description>
 	<url>http://github.com/nakeduml</url>
 	<build>
 		<plugins>
@@ -25,7 +30,6 @@
 						<configuration>
 							<sources>
 								<source>src</source>
-								<source>pluginsrc</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -40,8 +44,19 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-	</dependencies>
 </project>
