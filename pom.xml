@@ -9,7 +9,7 @@
 	<artifactId>numlcore</artifactId>
 	<packaging>pom</packaging>
 	<name>numlcore</name>
-	<version>1.0.0.3</version>
+	<version>1.0.0.4-SNAPSHOT</version>
 	<description>Uml code generation and execution engine for JEE environment</description>
 	<url>http://github.com/nakeduml</url>
 	<licenses>
