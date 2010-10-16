@@ -62,7 +62,7 @@ public class UML2ModelLoader {
 		String UML2JAR = null;
 		for (URL url : urls) {
 			System.out.println(url.getFile());
-			if (url.getFile().contains("net/sf/nakeduml/metamodel") || url.getFile().contains("net.sf.nakeduml.metamodel") || url.getFile().contains("org/eclipse/uml2/uml/resources") || url.getFile().contains("org.eclipse.uml2.uml.resources")) {
+			if (url.getFile().contains("org/nakeduml/metamodel") || url.getFile().contains("org.nakeduml.metamodel") || url.getFile().contains("org/eclipse/uml2/uml/resources") || url.getFile().contains("org.eclipse.uml2.uml.resources")) {
 				File file = new File(url.getFile());
 				UML2JAR = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";
 				break;

@@ -1,14 +1,14 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<parent>
-		<artifactId>numlcore</artifactId>
-		<groupId>net.sf.nakeduml</groupId>
-		<version>1.0.0.1</version>
-	</parent>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.klasse.octopus</groupId>
 	<artifactId>octopus</artifactId>
+	<packaging>jar</packaging>
 	<name>octopus</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.2</version>
+	<description>OCL support</description>
+	<url>http://github.com/nakeduml</url>
 	<build>
 		<plugins>
 			<plugin>
@@ -27,7 +27,7 @@
 								<source>src</source>
 								<source>pluginsrc</source>
 							</sources>
-						</configuration>						
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -37,11 +37,11 @@
 				<version>2.3.1</version>
 				<configuration>
 					<source>1.6</source>
-          			<target>1.6</target>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>		
+	<dependencies>
 	</dependencies>
 </project>

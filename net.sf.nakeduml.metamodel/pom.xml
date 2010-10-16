@@ -1,20 +1,17 @@
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>numlcore</artifactId>
-		<groupId>net.sf.nakeduml</groupId>
-		<version>1.0.0.1</version>
-	</parent>
+		<groupId>org.nakeduml</groupId>
+		<version>1.0.0.4-SNAPSHOT</version>
+	</parent>	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sf.nakeduml</groupId>
+	<groupId>org.nakeduml</groupId>
 	<artifactId>metamodel</artifactId>
+	<packaging>jar</packaging>
 	<name>metamodel</name>
-	<version>${numl.version}</version>
-	<url>http://sourceforge.net/projects/nakeduml/</url>
-	<organization>
-		<name>Private</name>
-	</organization>
+	<version>1.0.0.4-SNAPSHOT</version>
+	<description>A uml code generator and execution engine</description>
+	<url>http://github.com/nakeduml</url>
 	<build>
 		<plugins>
 			<plugin>
@@ -123,6 +120,7 @@
 							<artifactSet>
 								<includes>
 									<include>org.eclipse.*</include>
+									<include>nl.klasse.*</include>
 								</includes>
 							</artifactSet>
 							<filters>
@@ -137,6 +135,19 @@
 							</filters>
 							<createDependencyReducedPom>true</createDependencyReducedPom>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -165,30 +176,30 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.nakeduml</groupId>
+			<groupId>org.nakeduml</groupId>
 			<artifactId>javametamodel</artifactId>
-			<version>${numl.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.sf.nakeduml</groupId>
+			<groupId>org.nakeduml</groupId>
 			<artifactId>util</artifactId>
-			<version>${numl.version}</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>nl.klasse.octopus</groupId>
 			<artifactId>octopus</artifactId>
-			<version>${numl.version}</version>
+			<version>1.0.0.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>nl.klasse.octopuscodegen</groupId>
 			<artifactId>octopuscodegen</artifactId>
-			<version>${numl.version}</version>
+			<version>1.0.0.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
