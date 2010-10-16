@@ -5,7 +5,10 @@ Bundle-SymbolicName: net.sf.nakeduml.metamodel;singleton:=true
 Bundle-Version: 1
 Bundle-Activator: 
 Require-Bundle: org.eclipse.uml2.uml,
- nl.klasse.octopus;bundle-version="2.2.0"
+ nl.klasse.octopus;bundle-version="2.2.0",
+ nl.klasse.octopus.codegen;bundle-version="2.2.0",
+ net.sf.nakeduml.util;bundle-version="1.0.0",
+ net.sf.nakeduml.javametamodel;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath:  
  .,
