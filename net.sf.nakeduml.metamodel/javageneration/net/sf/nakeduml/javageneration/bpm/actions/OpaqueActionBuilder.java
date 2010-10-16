@@ -28,5 +28,6 @@ public class OpaqueActionBuilder extends PotentialTaskActionBuilder<INakedOpaque
 		}
 		StringBuilder arguments = populateArguments(operation, node.getArguments());
 		operation.getBody().addToStatements(taskVarName + ".execute(" + arguments + ")");
+		createTaskVariable(operation.getOwner(), operation.getBody(), node, taskVarName);
 	}
 }

@@ -21,7 +21,6 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.util.ExceptionHolder;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
@@ -45,32 +44,20 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 			operation.getOwner().addToImports(ojPath);
 			String call = "new " + ojPath.getLast() + "()";
 			storeMessage(block, call);
-			String taskVarName = node.getMappingInfo().getJavaName().getDecapped().toString();
-			if ((node.getTarget() != null && node.getTarget().hasValidInput()) && node.isTask()) {
-				if (node instanceof INakedOpaqueAction) {
-					block.addToStatements(taskVarName + ".setUser(" + actionMap.targetName() + ")");
-				} else {// operationCall
-					block.addToStatements(taskVarName + ".setContextObject(" + actionMap.targetName() + ")");
-				}
+			String taskVarName = node.getName();
+			if(targetElementAssigned()){
+				block.addToStatements(taskVarName +".setContextObject("+ actionMap.targetName() + ")");
 			}
 			for (INakedPin pin : node.getArguments()) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), pin);
 				String pinExpression = buildPinExpression(operation, block, pin);
 				block.addToStatements(taskVarName + "." + map.setter() + "(" + pinExpression + ")");
 			}
-			if (node.isTask()) {
-				block.addToStatements("TaskInstance taskInstance = " + taskVarName + ".execute()");
-				operation.getOwner().addToImports("org.jbpm.taskmgmt.exe.TaskInstance");
-				if (node.getTarget() != null && node.getTarget().hasValidInput()) {
-					block.addToStatements("taskInstance.setActorId(" + actionMap.targetName() + ".getUsername())");
-				} else if (node.getInPartition() != null) {
-					block.addToStatements("taskInstance.setSwimlaneInstance(what)");
-				}
-			} else {
-				block.addToStatements(taskVarName + ".execute()");
-			}
+			block.addToStatements(taskVarName + ".execute()");
 			if (BehaviorUtil.returnsImmediately(node) && node.getResult().size() > 0) {
 				storeResultsFromMessageStructure(block);
+			} else if (BehaviorUtil.isUserTask(node)) {
+				createTaskVariable(operation.getOwner(), block, node, taskVarName);
 			}
 		} else {
 			StringBuilder arguments = populateArguments(operation, node.getArguments());
@@ -78,6 +65,10 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 			maybeStoreResultDirectly(block, call);
 			surroundWithCatchIfRequired(operation, block);
 		}
+	}
+
+	private boolean targetElementAssigned() {
+		return (node.getTarget()!=null && node.getTarget().hasValidInput() )|| (node.getInPartition()!=null && node.getInPartition().getRepresents() instanceof INakedProperty);
 	}
 
 	private void surroundWithCatchIfRequired(OJOperation operationContext, OJBlock originalBlock) {
@@ -151,14 +142,13 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 	}
 
 	private void storeMessage(OJBlock body, String call) {
-		NameWrapper decapped = node.getMappingInfo().getJavaName().getDecapped();
-		body.addToStatements(node.getMessageStructure().getName() + " " + decapped + "=" + call);
+		body.addToStatements(node.getMessageStructure().getName() + " " + callMap.umlName() + "=" + call);
 		// store the called activity instance in the calling activity for
 		// input pins to retrieve result information later on.
 		if (callMap.isCollection()) {
-			body.addToStatements(callMap.adder() + "(" + decapped + ")");
+			body.addToStatements(callMap.adder() + "(" + callMap.umlName() + ")");
 		} else {
-			body.addToStatements(callMap.setter() + "(" + decapped + ")");
+			body.addToStatements(callMap.setter() + "(" + callMap.umlName() + ")");
 		}
 	}
 

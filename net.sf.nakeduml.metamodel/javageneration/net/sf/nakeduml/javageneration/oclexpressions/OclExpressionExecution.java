@@ -22,7 +22,7 @@ public class OclExpressionExecution extends AbstractJavaTransformationStep {
 		AttributeExpressionGenerator attrExpressionAdder = new AttributeExpressionGenerator();
 		attrExpressionAdder.initialize(workspace, javaModel, config, textWorkspace);
 		attrExpressionAdder.startVisiting(workspace);
-		PreAndPostConditionGenerator operExpressionAdder = new PreAndPostConditionGenerator();
+		OperationExpressionGenerator operExpressionAdder = new OperationExpressionGenerator();
 		operExpressionAdder.initialize(workspace, javaModel, config, textWorkspace);
 		operExpressionAdder.startVisiting(workspace);
 		InvariantsGenerator invariantsAdder = new InvariantsGenerator();

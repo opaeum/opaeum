@@ -31,17 +31,7 @@ public class ConstraintGenerator {
 	}
 
 	public void addConstraintChecks(OJOperation operation, Collection<IOclContext> constraints, boolean pre) {
-		OJBlock block = buildConstraintsBlock(operation,new OJBlock(), constraints, pre);
-		if(pre){
-			operation.getBody().getStatements().add(0,block);
-		}else if(operation.getReturnType()==null || operation.getReturnType().equals(new OJPathName("void"))){
-			operation.getBody().getStatements().add(block);
-		}else{
-			operation.getBody().getStatements().add(operation.getBody().getStatements().size()-1, block);
-		}
-	}
-
-	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock block, Collection<IOclContext> constraints, boolean pre) {
+		String prefix = pre ? "pre" : "post";
 		// Assume that there could be a last statement to return a value
 		// use all the local fields
 		List<OJParameter> parameters = new ArrayList<OJParameter>(operation.getParameters());
@@ -51,9 +41,10 @@ public class ConstraintGenerator {
 			parameter.setType(l.getType());
 			parameters.add(parameter);
 		}
+		OJBlock block = new OJBlock();
 		OJAnnotatedField failedConstraints = new OJAnnotatedField();
 		failedConstraints.setType(new OJPathName("List<String>"));
-		failedConstraints.setName("failedConstraints");
+		failedConstraints.setName(prefix + "FailedConstraints");
 		failedConstraints.setInitExp("new ArrayList<String>()");
 		block.addToLocals(failedConstraints);
 		OJPathName failedConstraintsException = UtilityCreator.getUtilPathName().append("FailedConstraintsException");
@@ -66,16 +57,22 @@ public class ConstraintGenerator {
 			if (!(post instanceof OclErrContextImpl)) {
 				ifBroken.setCondition("!" + expressionCreator.makeExpression(post.getExpression(), operation.isStatic(), parameters));
 				String qname = element.getPathName() + "::" + post.getName();
-				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
+				ifBroken.getThenPart().addToStatements(prefix + "FailedConstraints.add(\"" + qname + "\")");
 				block.addToStatements(ifBroken);
 			}
 			i++;
 		}
 		operation.addToThrows(failedConstraintsException);
 		OJIfStatement ifFailed = new OJIfStatement();
-		ifFailed.setCondition("failedConstraints.size()>0");
-		ifFailed.getThenPart().addToStatements("throw new FailedConstraintsException("+pre + "," +  "failedConstraints)");
+		ifFailed.setCondition(prefix + "FailedConstraints.size()>0");
+		ifFailed.getThenPart().addToStatements("throw new FailedConstraintsException("+pre + "," + prefix + "FailedConstraints)");
 		block.addToStatements(ifFailed);
-		return block;
+		if(pre){
+			operation.getBody().getStatements().add(0,block);
+		}else if(operation.getReturnType()==null){
+			operation.getBody().getStatements().add(block);
+		}else{
+			operation.getBody().getStatements().add(operation.getBody().getStatements().size()-1, block);
+		}
 	}
 }

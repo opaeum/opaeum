@@ -25,7 +25,6 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
 import net.sf.nakeduml.name.NameConverter;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IAssociationClass;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IClassifier;
@@ -71,21 +70,20 @@ public class OJUtil {
 
 	public static NakedStructuralFeatureMap buildAssociationClassMap(INakedProperty sf, IOclLibrary l) {
 		INakedAssociationClass ac = (INakedAssociationClass) sf.getAssociation();
-		class NakedAssociationClassPropertyMap extends NakedStructuralFeatureMap {
+		class NakedAssociationClassPropertyMap extends NakedStructuralFeatureMap{
+
 			private INakedAssociationClass assocClass;
 
 			public NakedAssociationClassPropertyMap(INakedProperty sf, INakedAssociationClass baseType, IClassifier type) {
 				super(sf);
-				this.assocClass = baseType;
+				this.assocClass=baseType;
 				baseTypeMap = new NakedClassifierMap(baseType);
 				featureTypeMap = new NakedClassifierMap(type);
 			}
-
 			public String umlName() {
 				return buildAssocEndName(assocClass, getProperty());
 			}
-
-			protected boolean otherEndIsOne() {
+			protected boolean otherEndIsOne(){
 				return true;
 			}
 
@@ -108,18 +106,18 @@ public class OJUtil {
 				String name = buildAssocEndName(assocClass, getProperty());
 				return "z_internalRemoveFrom" + StringHelpers.firstCharToUpper(name);
 			}
-
 			public String buildAssocEndName(IAssociationClass assoc, INakedProperty end) {
 				String name = assoc.getName();
 				IAssociationEnd otherEnd = assoc.getOtherEnd(end);
 				boolean useNameExtension = (end.getNakedBaseType() == otherEnd.getBaseType());
-				if (useNameExtension) {
+				if (useNameExtension){
 					name = assoc.getName() + "_" + otherEnd.getName();
 				}
 				return name;
 			}
-		}
-		;
+
+
+		};
 		if (sf.getType() instanceof ICollectionType) {
 			return new NakedAssociationClassPropertyMap(sf, ac, l.lookupCollectionType(((ICollectionType) sf.getType()).getMetaType(), ac));
 		} else {
@@ -251,11 +249,5 @@ public class OJUtil {
 			}
 		}
 		return null;
-	}
-
-	public static void addFailedConstraints(OJOperation execute) {
-		String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
-		execute.getOwner().addToImports(failedConstraints);
-		execute.addToThrows(failedConstraints);
 	}
 }

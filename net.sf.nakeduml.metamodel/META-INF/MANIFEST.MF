@@ -4,14 +4,10 @@ Bundle-Name: net.sf.nakeduml.metamodel
 Bundle-SymbolicName: net.sf.nakeduml.metamodel;singleton:=true
 Bundle-Version: 1
 Bundle-Activator: 
-Require-Bundle: nl.klasse.octopus,
- nl.klasse.octopus.codegen,
- org.eclipse.uml2.uml,
- net.sf.nakeduml.util,
- net.sf.nakeduml.javametamodel,
- org.eclipse.uml2.uml.resources;bundle-version="3.1.0"
+Require-Bundle: org.eclipse.uml2.uml,
+ nl.klasse.octopus;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: 
+Bundle-ClassPath:  
  .,
  lib/mappinginfotypes.jar,
  lib/velocity-1.5.0.jar,

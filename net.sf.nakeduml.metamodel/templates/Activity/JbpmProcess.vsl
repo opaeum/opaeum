@@ -64,31 +64,39 @@
     <transition to="${node.mappingInfo.persistentName.withoutId}"/>
   </join>
 #end
-#if($node.isTask())
-#set($nodeName="node")
-  <task-node name="${node.mappingInfo.persistentName.withoutId}">
-    <task signalling="false">
-      <event type="task-create"  expression="#{process.do${node.mappingInfo.javaName.capped}}"/>
-      <event type="task-end"  expression="#{process.on${node.mappingInfo.javaName.capped}Completed}"/>
-    </task>  
-    <transition to="${node.mappingInfo.persistentName.withoutId}Completed"/>
-  </task-node>  
-  <node name="${node.mappingInfo.persistentName.withoutId}Completed">
-    <action expression="#{process.on${node.mappingInfo.javaName.capped}Completed}"/>
+#if($node.requiresUserInteraction())
+#set($nodeName="task-node")
+  <task-node name="${node.mappingInfo.persistentName.withoutId}" signal="never">
+    <event type="node-enter"><action expression="#{process.do${node.mappingInfo.javaName.capped}}"/></event>
+    <task name="${node.mappingInfo.persistentName.withoutId}" signalling="false" blocking="true" #if($node.inPartition)swimlane="${node.inPartition.mappingInfo.persistentName.withoutId}">#else>
+      <assignment #if(${node.target.multiplicity.isSingleObject()}) actor-id="#{process.actorIdFor${node.mappingInfo.javaName.capped}}" #else pooled-actors="#{process.actorIdsFor${node.mappingInfo.javaName.capped}}" #end />#end  
+      <controller>
+        <variable name="${node.mappingInfo.javaName}" access="read" mapped-name="taskObject"/>
+      </controller>
+    </task>
 #parse("Activity/Transitions.vsf") 
-#elseif ($node.isProcessCall())
+#elseif($node.actionType.isCallAction())
+#if($node.calledElement.isProcess())
+<!--TODO assignment-->
+  <state name="${node.mappingInfo.persistentName.withoutId}">
+    <event type="node-enter"  expression="#{process.do${node.mappingInfo.javaName.capped}}"/>
 #set($nodeName="state")
-  <state name="${node.mappingInfo.persistentName.withoutId}" >
 #parse("Activity/Transitions.vsf") 
+#else
+  <node name="${node.mappingInfo.persistentName.withoutId}">
+    <action expression="#{process.do${node.mappingInfo.javaName.capped}}"/>
+#set($nodeName="node")
+#parse("Activity/Transitions.vsf")
+#end  
 #elseif($node.actionType.isAcceptTimeEventAction())
 ##TODO mark the node somehow specifying which event to what for
-#set($nodeName="state")
   <state name="${node.mappingInfo.persistentName.withoutId}" >
     <event type="node-enter"><action expression="#{process.do${node.mappingInfo.javaName.capped}}"/></event>
     <event type="node-leave" ><action expression="#{process.cancel${node.mappingInfo.javaName.capped}}"/></event>
+#set($nodeName="state")
 #parse("Activity/Transitions.vsf") 
 #elseif($node.actionType.isAcceptEventAction())
-##TODO mark the node somehow specifying which event to wait for
+##TODO mark the node somehow specifying which event to what for
   <state name="${node.mappingInfo.persistentName.withoutId}">
 #set($nodeName="state")
 #parse("Activity/Transitions.vsf") 

@@ -33,6 +33,7 @@ public class NakedOpaqueBehaviorImpl extends NakedBehaviorImpl implements INaked
 		return body;
 	}
 
+	@Override
 	public INakedConstraint getBodyCondition() {
 		NakedConstraintImpl bodyConstraint = new NakedConstraintImpl();
 		if (body != null) {

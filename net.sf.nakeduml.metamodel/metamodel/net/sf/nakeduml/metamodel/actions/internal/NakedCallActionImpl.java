@@ -2,7 +2,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -28,9 +27,6 @@ public abstract class NakedCallActionImpl extends NakedInvocationActionImpl impl
 			}
 		}
 		return exceptionPins;
-	}
-	public Collection<INakedOutputPin> getOutput() {
-		return getResult();
 	}
 	/**
 	 * Process calls should be treated as attributes to allow for the relationship between the calling and the called process to be persisted

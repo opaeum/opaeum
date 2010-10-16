@@ -1,12 +1,10 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedSendObjectAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 public class NakedSendObjectActionImpl extends NakedInvocationActionImpl implements INakedSendObjectAction {
 	private static final long serialVersionUID = 3165514874679324190L;
@@ -21,9 +19,7 @@ public class NakedSendObjectActionImpl extends NakedInvocationActionImpl impleme
 	public ActionType getActionType() {
 		return ActionType.SEND_OBJECT_ACTION;
 	}
-	public Collection<INakedOutputPin> getOutput() {
-		return new HashSet<INakedOutputPin>();
-	}
+
 	@Override
 	public Set<INakedInputPin> getInput(){
 		Set<INakedInputPin>  result = super.getInput();

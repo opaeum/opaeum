@@ -8,7 +8,6 @@ import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
 import net.sf.nakeduml.metamodel.actions.ITargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -25,9 +24,6 @@ public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl i
 			results.add(object);
 		}
 		return results;
-	}
-	public Collection<INakedOutputPin> getOutput() {
-		return new HashSet<INakedOutputPin>();
 	}
 
 	public INakedClassifier getExpectedTargetType() {

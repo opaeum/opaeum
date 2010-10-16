@@ -56,25 +56,40 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		activityClass.addToImports("org.jbpm.graph.exe.ExecutionContext");
 		activityClass.addToImports("org.jbpm.taskmgmt.exe.TaskInstance");
 		OJOperation complete = new OJAnnotatedOperation();
-		complete.setName("on" + node.getMappingInfo().getJavaName().getCapped() + "Completed");
+		complete.setName("complete" + node.getMappingInfo().getJavaName().getCapped());
 		activityClass.addToOperations(complete);
-		implementPostConditions(complete);
+		Collection<IOclContext> constraints = node.getPostConditions();
+		if(constraints.size() > 0){
+			// make input pins available to the context as locals- output pins
+			// already
+			// will be available in the context
+			// as properties
+			for(INakedInputPin p:node.getInput()){
+				buildPinField(complete, complete.getBody(), p);
+			}
+			ConstraintGenerator cg = new ConstraintGenerator(activityClass, node);
+			cg.addConstraintChecks(complete, constraints, false);
+		}
 		String literalExpression = activityClass.getName() + "State." + BpmUtil.stepLiteralName(node);
 		complete.getBody().addToStatements("Token waitingToken=findWaitingToken(" + literalExpression + ")");
 		complete.getBody().addToStatements(
 				"List<TaskInstance> tasks=(List<TaskInstance>)processInstance.getTaskMgmtInstance().getUnfinishedTasks(waitingToken)");
-		OJIfStatement ifFound = new OJIfStatement();
-		ifFound.setCondition("tasks.size()==1");
-		OJBlock thenPart = ifFound.getThenPart();
-		thenPart.addToStatements("tasks.get(0).end()");
-		implementConditionalFlows(complete, thenPart,false);
+		OJIfStatement ifFound = new OJIfStatement("tasks.size()==1", "tasks.get(0).end()");
+		implementConditionalFlows(complete, ifFound.getThenPart(),false);
 		complete.getBody().addToStatements(ifFound);
 	}
 	@Override
 	public boolean requiresUserInteraction(){
 		return BehaviorUtil.isUserTask(node);
 	}
-
+	protected void createTaskVariable(OJClassifier ojClass,OJBlock block,INakedAction nakedCall,String varName){
+		if(BehaviorUtil.isUserTask(nakedCall) && nakedCall.getActivity().isProcess()){
+			block.addToStatements("Token currentToken=ExecutionContext.currentExecutionContext().getToken()");
+			block.addToStatements("processInstance.getContextInstance().createVariable(\"" + varName + "\"," + varName + ",currentToken)");
+			ojClass.addToImports("org.jbpm.graph.exe.ExecutionContext");
+			ojClass.addToImports("org.jbpm.graph.exe.Token");
+		}
+	}
 	/**
 	 * Implements assignment methods. These methods return an array of strings holding the userNames of the set of users that could possbly
 	 * complete the task in question or

@@ -9,7 +9,6 @@ import javax.persistence.OneToMany;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -33,6 +32,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
@@ -41,6 +41,7 @@ import net.sf.nakeduml.util.AbstractProcess;
 import net.sf.nakeduml.util.AbstractProcessStep;
 import net.sf.nakeduml.util.ActiveEntity;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.hibernate.annotations.CascadeType;
@@ -57,6 +58,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 
 	protected void implementRelationshipsWithContextAndProcess(INakedBehavior behavior, OJAnnotatedClass ojBehavior) {
 		if (behavior instanceof INakedStateMachine || behavior instanceof INakedActivity) {
+			OJConstructor cons = null;
 			if (behavior.getContext() != null) {
 				OJAnnotatedClass context = findJavaClass(behavior.getContext());
 				if (behavior.isClassifierBehavior()) {
@@ -69,18 +71,19 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 				} else {
 					implementRelationshipFromContextToMessage(behavior, context);
 				}
-				addContextFieldAndConstructor(ojBehavior, behavior, behavior.getContext());
+				cons = addContextFieldAndConstructor(ojBehavior, behavior, behavior.getContext());
 			} else {
 				// its own context
 				OJUtil.addMethod(ojBehavior, "getContextObject", ojBehavior.getPathName().toJavaString(), "this");
 			}
 			if (behavior.isProcess()) {
-				implementRelationshipWithProcess(ojBehavior);
+				implementRelationshipWithProcess(ojBehavior, cons);
 			}
 		}
 	}
 
 	protected void implementRelationshipFromContextToMessage(IParameterOwner task, OJAnnotatedClass context) {
+		// TODO do for TAskOperations too
 		NakedMessageStructureMap map = new NakedMessageStructureMap(task);
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldName(), map.javaTypePath());
 		context.addToFields(field);
@@ -97,9 +100,12 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		// TODO implement getter and setter
 	}
 
-	protected void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior) {
+	protected void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior, OJConstructor contextConstructor) {
 		// Take the context constructor and
+		OJConstructor c = contextConstructor == null ? new OJConstructor() : contextConstructor.getConstructorCopy();
+		ojBehavior.addToConstructors(c);
 		OJPathName processInstancePath = new OJPathName("org.jbpm.graph.exe.ProcessInstance");
+		c.addParam("processInstance", processInstancePath);
 		OJUtil.addProperty(ojBehavior, "processInstance", processInstancePath, true);
 		OJAnnotatedField processInstanceField = (OJAnnotatedField) ojBehavior.findField("processInstance");
 		OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
@@ -110,6 +116,8 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 				"javax.persistence.FetchType"), "LAZY"));
 		manyToOne.putAttribute(lazy);
 		processInstanceField.putAnnotation(manyToOne);
+		c.getBody().addToStatements("this.setProcessInstance(processInstance)");
+		c.getBody().addToStatements("processInstance.getContextInstance().setVariable(\"process\",this)");
 	}
 
 	protected OJConstructor addContextFieldAndConstructor(OJAnnotatedClass ojBehvior, INakedClassifier behaviorClass,
@@ -136,7 +144,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		return cons;
 	}
 
-	protected OJOperation implementExecute(OJAnnotatedClass ojClass, INakedBehavior oc) {
+	protected <E extends INakedTypedElement> OJOperation implementExecute(OJAnnotatedClass ojClass, INakedClassifier oc) {
 		OJOperation execute = new OJAnnotatedOperation();
 		execute.setName("execute");
 		ojClass.addToOperations(execute);
@@ -151,13 +159,6 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 					new OJPathName("javax.persistence.TemporalType"), "TIMESTAMP"));
 			f.putAnnotation(temporal);
 			execute.getBody().addToStatements("setExecutedOn(new Date())");
-			createJbpmProcess(oc, execute);
-			execute.getBody().addToStatements("setProcessInstance(processInstance)");
-			if (!oc.getPreConditions().isEmpty()) {
-				execute.getBody().addToStatements("_behavior.evaluatePreConditions()");
-				OJUtil.addFailedConstraints(execute);
-			}
-			execute.getBody().addToStatements("processInstance.getContextInstance().setVariable(\"processObject\",this)");
 		}
 		return execute;
 	}
@@ -180,14 +181,14 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		NameWrapper methodName = behavior.getSpecification() == null ? behavior.getMappingInfo().getJavaName() : behavior
 				.getSpecification().getMappingInfo().getJavaName();
 		OJPathName ojBehavior = OJUtil.classifierPathname(behavior);
-		// Method implemented by Octopus because behaviours without
-		// specifications are given an emulated specification
+		// Method implemented by Octopus because behaviors without
+		// specifications
+		// are given an emulated
+		// specification
 		OJOperation javaMethod = OJUtil.findOperation(ojContext, methodName.toString());
 		javaMethod.getOwner().addToImports(ojBehavior);
 		if (behavior.isProcess()) {
-			instantiateProcess(behavior, ojBehavior, javaMethod);
-			javaMethod.getBody().addToStatements("return _behavior");
-			javaMethod.setReturnType(ojBehavior);
+			invokeProcess(behavior, ojContext, ojBehavior, javaMethod);
 		} else {
 			invokeSimpleBehavior(behavior, ojBehavior, javaMethod);
 		}
@@ -199,7 +200,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		OJAnnotatedOperation start = new OJAnnotatedOperation();
 		start.setName("startClassifierBehavior");
 		ojContext.addToOperations(start);
-		instantiateProcess(behavior, OJUtil.classifierPathname(behavior), start);
+		addProcssInvocation(behavior, OJUtil.classifierPathname(behavior), start);
 		start.getBody().addToStatements("this.classifierBehavior=_behavior");
 		OJOperation addToOwner = OJUtil.findOperation(ojContext, "addToOwningObject");
 		if (addToOwner != null) {
@@ -211,45 +212,42 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		return behavior.getContext() != null && !behavior.isClassifierBehavior();
 	}
 
-	protected void instantiateProcess(INakedBehavior parameterOwner, OJPathName behaviorClass, OJOperation javaMethod) {
-		OJClass owner = (OJClass) javaMethod.getOwner();
-		owner.addToImports(behaviorClass);
-		javaMethod.getBody().addToStatements(behaviorClass.getLast() + " _behavior=new " + behaviorClass.getLast() + "(this)");
-		populateBehavior(parameterOwner, javaMethod);
+	// Used for StateMachines, Activities and UserResponsibilities
+	protected void invokeProcess(IParameterOwner parameterOwner, OJClass javaClass, OJPathName behaviorClass, OJOperation javaMethod) {
+		addProcssInvocation(parameterOwner, behaviorClass, javaMethod);
+		javaMethod.getBody().addToStatements("return _behavior");
+		javaMethod.setReturnType(behaviorClass);
+	}
+
+	private void addProcssInvocation(IParameterOwner parameterOwner, OJPathName behaviorClass, OJOperation javaMethod) {
+		OJClass javaClass=(OJClass) javaMethod.getOwner();
+		javaClass.addToImports("org.jbpm.JbpmConfiguration");
+		javaClass.addToImports("org.jbpm.JbpmContext");
+		javaClass.addToImports("org.jbpm.graph.exe.ProcessInstance");
+		javaClass.addToImports("org.jbpm.graph.def.ProcessDefinition");
+		javaClass.addToImports("org.jbpm.graph.exe.ExecutionContext");
+		javaMethod.getBody().addToStatements("//create a process instance with the input params");
+		javaMethod.getBody().addToStatements("JbpmContext _ctx=JbpmConfiguration.getInstance().getCurrentJbpmContext()");
+		javaMethod.getBody().addToStatements(
+				"ProcessDefinition _pd = _ctx.getGraphSession().findLatestProcessDefinition(\"" + generateProcessName(parameterOwner)
+						+ "\")");
+		javaMethod.getBody().addToStatements("ProcessInstance _p = null");
+		OJIfStatement ifParentProcess = new OJIfStatement("ExecutionContext.currentExecutionContext()==null", "_p=new ProcessInstance(_pd)");
+		ifParentProcess.setElsePart(new OJBlock());
+		ifParentProcess.getElsePart()
+				.addToStatements("ExecutionContext.currentExecutionContext().getToken().createSubProcessInstance(_pd)");
+		javaMethod.getBody().addToStatements(ifParentProcess);
+		javaClass.addToImports(behaviorClass);
+		javaMethod.getBody().addToStatements(behaviorClass.getLast() + " _behavior=new " + behaviorClass.getLast() + "(this,_p)");
+		if (!parameterOwner.getPreConditions().isEmpty()) {
+			javaMethod.getBody().addToStatements("_behavior.evaluatePreConditions()");
+			String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
+			javaClass.addToImports(failedConstraints);
+			javaMethod.addToThrows(failedConstraints);
+		}
 		NakedMessageStructureMap map = new NakedMessageStructureMap(parameterOwner);
 		javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
-		javaMethod.getBody().addToStatements("_behavior.execute()");
-	}
-
-	public void populateBehavior(INakedBehavior parameterOwner, OJOperation javaMethod) {
-		for (INakedParameter p : parameterOwner.getArgumentParameters()) {
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parameterOwner, p);
-			javaMethod.getBody().addToStatements("_behavior." + map.setter() + "(" + map.umlName() + ")");
-		}
-		if (parameterOwner.getPreConditions().size() > 0) {
-			OJUtil.addFailedConstraints(javaMethod);
-		}
-
-	}
-
-	public void createJbpmProcess(IParameterOwner parameterOwner, OJOperation javaMethod) {
-		OJClass owner = (OJClass) javaMethod.getOwner();
-		owner.addToImports("org.jbpm.JbpmConfiguration");
-		owner.addToImports("org.jbpm.JbpmContext");
-		owner.addToImports("org.jbpm.graph.exe.ProcessInstance");
-		owner.addToImports("org.jbpm.graph.def.ProcessDefinition");
-		owner.addToImports("org.jbpm.graph.exe.ExecutionContext");
-		javaMethod.getBody().addToStatements("JbpmContext jbpmCtx=JbpmConfiguration.getInstance().getCurrentJbpmContext()");
-		javaMethod.getBody().addToStatements(
-				"ProcessDefinition processDefinition = jbpmCtx.getGraphSession().findLatestProcessDefinition(\""
-						+ generateProcessName(parameterOwner) + "\")");
-		javaMethod.getBody().addToStatements("ProcessInstance processInstance = null");
-		OJIfStatement ifParentProcess = new OJIfStatement("ExecutionContext.currentExecutionContext()==null",
-				"processInstance=new ProcessInstance(processDefinition)");
-		ifParentProcess.setElsePart(new OJBlock());
-		ifParentProcess.getElsePart().addToStatements(
-				"processInstance = ExecutionContext.currentExecutionContext().getToken().createSubProcessInstance(processDefinition)");
-		javaMethod.getBody().addToStatements(ifParentProcess);
+		invokeExecute(parameterOwner, javaMethod);
 	}
 
 	protected String generateProcessName(IParameterOwner parameterOwner) {
@@ -257,15 +255,19 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 				+ parameterOwner.getMappingInfo().getPersistentName();
 	}
 
-	protected void invokeSimpleBehavior(INakedBehavior behavior, OJPathName activityClass, OJOperation javaMethod) {
+	private void invokeExecute(IParameterOwner behavior, OJOperation javaMethod) {
+		StringBuilder execute = new StringBuilder("_behavior.execute()");
+		javaMethod.getBody().addToStatements(execute.toString());
+	}
+
+	protected void invokeSimpleBehavior(IParameterOwner behavior, OJPathName activityClass, OJOperation javaMethod) {
 		if (behavior.getReturnParameter() != null) {
 			// remove "Return" statements
 			javaMethod.getBody().removeFromStatements(
 					javaMethod.getBody().getStatements().get(javaMethod.getBody().getStatements().size() - 1));
 		}
 		javaMethod.getBody().addToStatements(activityClass.getLast() + " _behavior=new " + activityClass.getLast() + "(this)");
-		populateBehavior(behavior, javaMethod);
-		javaMethod.getBody().addToStatements("_behavior.execute()");
+		invokeExecute(behavior, javaMethod);
 		if (behavior.hasMultipleConcurrentResults()) {
 			// TODO such behaviours should always be called from an activity
 			// that can actually retrieve the result
