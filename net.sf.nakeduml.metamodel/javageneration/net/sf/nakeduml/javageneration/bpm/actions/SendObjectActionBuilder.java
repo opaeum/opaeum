@@ -16,7 +16,6 @@ public class SendObjectActionBuilder extends PotentialTaskActionBuilder<INakedSe
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node.getObject());
 		operation.getBody().addToStatements(
 				map.javaType() + " " + map.umlName() + "=" + buildPinExpression(operation, operation.getBody(), node.getObject()));
-		createTaskVariable(operation.getOwner(), operation.getBody(), node, map.umlName());
 	}
 
 }

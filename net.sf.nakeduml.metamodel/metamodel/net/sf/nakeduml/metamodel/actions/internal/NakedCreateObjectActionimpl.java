@@ -1,5 +1,6 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,9 +29,13 @@ public class NakedCreateObjectActionimpl extends NakedActionImpl implements INak
 		}
 		return results;
 	}
-	public Set<INakedInputPin> getInput(){
+	public Collection<INakedInputPin> getInput(){
 		return new HashSet<INakedInputPin>();
 	}
+	public Collection<INakedOutputPin> getOutput() {
+		return Arrays.asList(result);
+	}
+
 	public INakedClassifier getClassifier() {
 		return this.classifier;
 	}

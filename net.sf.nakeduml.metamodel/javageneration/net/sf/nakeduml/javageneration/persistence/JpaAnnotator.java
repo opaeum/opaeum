@@ -150,28 +150,20 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(INakedClassifier entity) {
-		if (super.isPersistent(entity)) {
+		if (super.isPersistent(entity) && hasOJClass(entity)) {
 			for (INakedProperty p : entity.getEffectiveAttributes()) {
-				if (p.getOwner() instanceof INakedInterface) {
-					annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
+				if (p.getOwner() instanceof INakedInterface || p.getOwner() == entity) {
+					if (p.getAssociation() instanceof INakedAssociationClass) {
+						annotateProperty(entity, OJUtil.buildAssociationClassMap(p, getOclEngine().getOclLibrary()));
+					} else {
+						annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
+					}
 				}
 			}
-		}
-		if(entity instanceof INakedAssociationClass){
-			INakedAssociationClass ac=(INakedAssociationClass) entity;
-			mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
-			mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
-		}
-	}
-
-	@VisitAfter(matchSubclasses = true)
-	public void annotateProperty(INakedProperty f) {
-		INakedClassifier umlOwner = f.getOwner();
-		if (isPersistent(umlOwner)) {
-			if (f.getAssociation() instanceof INakedAssociationClass) {
-				annotateProperty(umlOwner, OJUtil.buildAssociationClassMap(f, getOclEngine().getOclLibrary()));
-			} else {
-				annotateProperty(umlOwner, OJUtil.buildStructuralFeatureMap(f));
+			if (entity instanceof INakedAssociationClass) {
+				INakedAssociationClass ac = (INakedAssociationClass) entity;
+				mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
+				mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
 			}
 		}
 	}

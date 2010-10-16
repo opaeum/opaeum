@@ -1,5 +1,7 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -18,7 +20,9 @@ public class NakedReadVariableActionImpl extends NakedVariableActionImpl impleme
 	public Set<INakedInputPin> getInput() {
 		return Collections.emptySet();
 	}
-
+	public Collection<INakedOutputPin> getOutput() {
+		return Arrays.asList(this.getResult());
+	}
 	public INakedOutputPin getResult() {
 		return this.result;
 	}

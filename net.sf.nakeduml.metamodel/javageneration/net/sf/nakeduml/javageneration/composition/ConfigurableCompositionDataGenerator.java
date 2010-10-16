@@ -80,7 +80,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 	@VisitBefore(matchSubclasses = true)
 	public void visit(INakedEntity c) {
 
-		if (!c.getIsAbstract()) {
+		if (hasOJClass(c) && !c.getIsAbstract() ) {
 			OJAnnotatedClass testDataClass = new OJAnnotatedClass();
 			OJAnnotatedClass theClass = findJavaClass(c);
 			testDataClass.setName(getTestDataName(c));

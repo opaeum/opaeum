@@ -55,7 +55,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return this.exceptionParameters;
 	}
 	public INakedBehavioredClassifier getContext(){
-		if(getOwner() instanceof INakedBehavioredClassifier){
+		if(getOwner() instanceof INakedClassifier){
 			return (INakedBehavioredClassifier) getOwner();
 		}else{
 			//Interfaces and DataTypes

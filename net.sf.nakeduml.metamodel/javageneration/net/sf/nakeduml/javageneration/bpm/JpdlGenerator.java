@@ -39,6 +39,7 @@ public class JpdlGenerator extends AbstractTextProducingVisitor{
 	@VisitBefore
 	public void generateActivity(INakedActivity a){
 		if(a.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+			System.out.println("JpdlGenerator.generateActivity()");
 			processTemplate(a, "/Activity/JbpmProcess.vsl", "${activity.mappingInfo.javaPath}.jpdl.xml", CharArrayTextSource.EJB_JAR_RESOURCE);
 		}
 	}
