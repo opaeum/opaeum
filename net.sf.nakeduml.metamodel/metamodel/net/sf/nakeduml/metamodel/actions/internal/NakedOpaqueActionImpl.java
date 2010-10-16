@@ -58,4 +58,9 @@ public class NakedOpaqueActionImpl extends NakedCallActionImpl implements INaked
 		result.addAll(getOutputValues());
 		return result;
 	}
+
+	@Override
+	public boolean isTask() {
+		return true;
+	}
 }

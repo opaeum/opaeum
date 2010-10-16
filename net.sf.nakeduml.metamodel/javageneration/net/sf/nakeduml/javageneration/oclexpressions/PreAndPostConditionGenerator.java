@@ -15,8 +15,10 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
@@ -35,8 +37,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior);
 			} else {
 				NakedOperationMap mapper = new NakedOperationMap(behavior);
-				addLocalConditions(mapper, behavior.getPreConditions(), true);
-				addLocalConditions(mapper, behavior.getPostConditions(), false);
+				addLocalConditions(behavior.getContext(), mapper, behavior.getPreConditions(), true);
+				addLocalConditions(behavior.getContext(), mapper, behavior.getPostConditions(), false);
 			}
 		}
 	}
@@ -47,16 +49,24 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 		addEvaluationMethod(constrained.getPostConditions(), "evaluatePostConditions", messageClass);
 	}
 
-	@VisitBefore(matchSubclasses = false)
-	public NakedOperationMap visitOperation(INakedOperation oper) {
+	@VisitBefore(matchSubclasses = true)
+	public void visitClassifier(INakedBehavioredClassifier owner) {
+		for (INakedOperation oper : owner.getEffectiveOperations()) {
+			if (oper.getOwner() instanceof INakedInterface || oper.getOwner()==owner) {
+				processOperation(oper, owner);
+			}
+		}
+	}
+
+	public void processOperation(INakedOperation oper, INakedBehavioredClassifier owner) {
 		NakedOperationMap mapper = new NakedOperationMap(oper);
 		if (oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null) {
-			OJPathName path = OJUtil.classifierPathname(oper.getContext());
+			OJPathName path = OJUtil.classifierPathname(owner);
 			OJClass myOwner = javaModel.findClass(path);
 			if (myOwner != null) {
 				OJAnnotatedOperation myOper = (OJAnnotatedOperation) myOwner.findOperation(mapper.javaOperName(),
 						mapper.javaParamTypePaths());
-				addBody(myOper, oper.getContext(), mapper, oper.getBodyCondition());
+				addBody(myOper, owner, mapper, oper.getBodyCondition());
 			}
 		}
 		if (BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()) {
@@ -64,14 +74,13 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass);
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
 		} else {
-			addLocalConditions(mapper, oper.getPreConditions(), true);
-			addLocalConditions(mapper, oper.getPostConditions(), false);
+			addLocalConditions(owner, mapper, oper.getPreConditions(), true);
+			addLocalConditions(owner, mapper, oper.getPostConditions(), false);
 		}
-		return mapper;
 	}
 
-	public void addLocalConditions(NakedOperationMap mapper, Collection<IOclContext> conditions, boolean pre) {
-		OJClass myOwner = findJavaClass(mapper.getOperation().getContext());
+	public void addLocalConditions(INakedBehavioredClassifier owner, NakedOperationMap mapper, Collection<IOclContext> conditions, boolean pre) {
+		OJClass myOwner = findJavaClass(owner);
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getOperation());
 		if (conditions.size() > 0) {

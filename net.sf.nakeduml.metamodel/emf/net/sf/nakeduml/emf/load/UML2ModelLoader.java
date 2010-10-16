@@ -23,10 +23,14 @@ public class UML2ModelLoader {
 	}
 
 	public static Model loadModel(String relativePath) throws Exception {
+		URI model_uri = URI.createFileURI(new File(relativePath).getAbsolutePath());
+		return loadModel(model_uri);
+	}
+
+	public static Model loadModel(URI model_uri) throws Exception {
 		long time = System.currentTimeMillis();
 		System.out.println("UML2ModelLoader.loadModel()");
 		setupStandAloneAppForUML2();
-		URI model_uri = URI.createFileURI(new File(relativePath).getAbsolutePath());
 		Model model = (Model) load(model_uri);
 		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		System.out.println("UML2ModelLoader.loadModel() took " + (System.currentTimeMillis() - time) + "seconds");

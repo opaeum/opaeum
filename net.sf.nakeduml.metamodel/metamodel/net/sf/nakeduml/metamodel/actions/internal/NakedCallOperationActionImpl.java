@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
@@ -11,6 +12,7 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 	private INakedOperation operation;
 	private INakedMessageStructure messageStructure;
 	public boolean isProcessCall() {
+		System.out.println("NakedCallOperationActionImpl.isProcessCall()");
 		return getOperation().isProcess();
 	}
 	@Override
@@ -45,4 +47,15 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 	public INakedClassifier getExpectedTargetType() {
 		return getOperation().getOwner();
 	}
+	@Override
+	public boolean isTask() {
+		if(getOperation().isUserResponsibility()){
+			return true;
+		}else if (getOperation().getOwner() instanceof INakedInterface){
+			return ((INakedInterface)getOperation().getOwner()).representsUser();
+		}else{
+			return false;
+		}
+	}
+
 }

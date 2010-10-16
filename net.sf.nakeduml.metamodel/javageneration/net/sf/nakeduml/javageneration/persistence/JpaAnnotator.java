@@ -167,7 +167,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	@VisitAfter(matchSubclasses = true)
 	public void annotateProperty(INakedProperty f) {
 		INakedClassifier umlOwner = f.getOwner();
-		if (isPersistent(umlOwner)) {
+		if (isPersistent(umlOwner) && hasOJClass(umlOwner)) {
 			if (f.getAssociation() instanceof INakedAssociationClass) {
 				annotateProperty(umlOwner, OJUtil.buildAssociationClassMap(f, getOclEngine().getOclLibrary()));
 			} else {

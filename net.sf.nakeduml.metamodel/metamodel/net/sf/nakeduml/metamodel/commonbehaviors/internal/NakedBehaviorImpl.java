@@ -51,9 +51,6 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		return isProcess();
 	}
 
-	public INakedConstraint getBodyCondition() {
-		return null;
-	}
 
 	@Override
 	public List<INakedProperty> getEffectiveAttributes() {

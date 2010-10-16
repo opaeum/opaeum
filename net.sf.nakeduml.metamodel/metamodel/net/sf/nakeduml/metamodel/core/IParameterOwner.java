@@ -53,5 +53,4 @@ public interface IParameterOwner extends PreAndPostConstrained,INakedElement/*,I
 	 */
 	boolean hasMultipleConcurrentResults();
 	
-	INakedConstraint getBodyCondition();
 }

@@ -5,8 +5,6 @@ import java.util.Date;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.jbpm.graph.exe.ExecutionContext;
-
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
@@ -14,7 +12,6 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.bpm.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
-import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -26,8 +23,6 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.activities.INakedAction;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -55,11 +50,14 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
 		INakedMessageStructure message = oa.getMessageStructure();
 		OJAnnotatedClass ojClass = findJavaClass(message);
-		implementExecute(ojClass);
+		implementExecute(oa,ojClass);
 		super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
 		addGetName(oa, ojClass);
 		addTaskInstance(ojClass);
 		addCompleteMethod(oa, ojClass);
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getTargetElement());
+		OJAnnotatedField user=OJUtil.addProperty(ojClass, "user", map.javaBaseTypePath(), true);
+		user.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
 	}
 
 	private void addTaskInstance(OJAnnotatedClass ojClass) {
@@ -78,7 +76,7 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			super.implementRelationshipFromContextToMessage(o, findJavaClass(o.getOwner()));
 			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
-			implementExecute(ojOperationClass);
+			implementExecute(o,ojOperationClass);
 			OJAnnotatedClass ojContext = findJavaClass(o.getOwner());
 			NakedOperationMap map = new NakedOperationMap(o);
 			OJOperation ojOper = ojContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
@@ -112,11 +110,15 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 		complete.getBody().addToStatements("taskInstance.end()");
 	}
 
-	private OJOperation implementExecute(OJAnnotatedClass ojClass) {
+	private OJOperation implementExecute(PreAndPostConstrained element, OJAnnotatedClass ojClass) {
 		OJOperation execute = new OJAnnotatedOperation();
 		execute.setReturnType(new OJPathName("org.jbpm.taskmgmt.exe.TaskInstance"));
 		execute.setName("execute");
 		ojClass.addToOperations(execute);
+		if(element instanceof INakedOperation && element.getPreConditions().size()>0){
+			OJUtil.addFailedConstraints(execute);
+			execute.getBody().addToStatements("evaluatePreConditions()");
+		}
 		// add executedOn property for sorting purposes
 		OJUtil.addProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);
 		OJAnnotatedField f = (OJAnnotatedField) ojClass.findField("executedOn");
@@ -129,15 +131,19 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 		execute.getBody().addToStatements("setExecutedOn(new Date())");
 		OJBlock block = execute.getBody();
 		block.addToStatements("Token currentToken=ExecutionContext.currentExecutionContext().getToken()");
-		block.addToStatements("TaskInstance taskInstance = currentToken.getProcessInstance().getTaskMgmtInstance().createTaskInstance(currentToken);");
+		block.addToStatements("TaskNode node=(TaskNode)currentToken.getNode()");
+		block.addToStatements("Task task=(Task)node.getTasks().iterator().next()");
+		block.addToStatements("TaskInstance taskInstance = currentToken.getProcessInstance().getTaskMgmtInstance().createTaskInstance(task, currentToken)");
 		block.addToStatements("this.setTaskInstance(taskInstance)");
-		block.addToStatements("taskInstance.create(ExecutionContext.currentExecutionContext())");
+		block.addToStatements("taskInstance.create()");
 		block.addToStatements("taskInstance.setVariableLocally(\"taskObject\",this)");
 		block.addToStatements("taskInstance.setBlocking(true)");
-		block.addToStatements("taskInstance.setSignalling(false)");
+		block.addToStatements("taskInstance.setSignalling(true)");
 		block.addToStatements("return taskInstance");
 		ojClass.addToImports("org.jbpm.graph.exe.ExecutionContext");
 		ojClass.addToImports("org.jbpm.graph.exe.Token");
+		ojClass.addToImports("org.jbpm.graph.node.TaskNode");
+		ojClass.addToImports("org.jbpm.taskmgmt.def.Task");
 		return execute;
 	}
 

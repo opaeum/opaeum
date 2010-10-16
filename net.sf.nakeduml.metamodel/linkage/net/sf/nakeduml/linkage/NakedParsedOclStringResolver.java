@@ -25,12 +25,14 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -46,7 +48,6 @@ import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
 import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
@@ -63,13 +64,81 @@ import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 @StepDependency(phase = OclParsingPhase.class, after = {}, requires = { MappedTypeLinker.class, PinLinker.class, ReferenceResolver.class,
 		TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
-	@VisitBefore
-	public void processModel(INakedModel model) {
-		System.out.println("NakedParsedOclStringResolver.processModel()");
+	@VisitBefore(matchSubclasses = true)
+	public void visitSlot(INakedSlot slot) {
+		for (INakedValueSpecification s : slot.getValues()) {
+			if (s.getValue() instanceof ParsedOclString) {
+				ParsedOclString string = (ParsedOclString) s.getValue();
+				INakedClassifier context = slot.getOwningInstance().getClassifier();
+				string.setContext(context, context);
+				s.setValue(replaceSingleParsedOclString(string, context, context.getNameSpace(), s.getType()));
+			}
+		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void procesTimeEvent(NakedTimeEventImpl ev) {
+	public void processActivityEdge(GuardedFlow edge) {
+		if (edge.getGuard() != null && edge.getGuard().getValue() instanceof ParsedOclString) {
+			ParsedOclString string = (ParsedOclString) edge.getGuard().getValue();
+			IClassifier booleanType = getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
+			edge.getGuard().setValue(
+					replaceSingleParsedOclString(string, edge.getOwningBehavior(), edge.getOwningBehavior().getNameSpace(), booleanType));
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
+		IClassifier returnType = null;
+		if (ob.getReturnParameter() == null) {
+			if (!(ob.getOwnerElement() instanceof INakedClassifier)) {
+				// owned by transitions,activity
+				// edges or states
+				String es = ob.getBodyExpression().getExpressionString();
+				if (ob.getBodyExpression() instanceof ParsedOclString && es != null && es.endsWith("()")) {
+					// TODO interim workaround for el
+					((ParsedOclString) ob.getBodyExpression()).setExpressionString(es.substring(0, es.length() - 2));
+					return;
+				}
+			}
+			returnType = getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName);
+		} else {
+			returnType = ob.getReturnParameter().getType();
+		}
+		// OCL cannot implement or call void opertaions
+		INakedClassifier c = ob.getContext();
+		INakedNameSpace ns = c.getNameSpace();
+		INakedValueSpecification body = ob.getBody();
+		if (body != null && body.isOclValue()) {
+			ParsedOclString bodyExpression = (ParsedOclString) ob.getBodyExpression();
+			bodyExpression.setContext(ob.getContext(), ob);
+			body.setValue(replaceSingleParsedOclString(bodyExpression, c, ns, returnType));
+			body.setType(returnType);
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitProperty(INakedProperty attr) {
+		INakedClassifier c = attr.getOwner();
+		INakedNameSpace ns = c.getNameSpace();
+		INakedValueSpecification iv = attr.getInitialValue();
+		if (iv != null && iv.isOclValue()) {
+			ParsedOclString oclValue = (ParsedOclString) iv.getOclValue();
+			oclValue.setContext(c, attr);
+			iv.setValue(replaceSingleParsedOclString(oclValue, c, ns, attr.getType()));
+			iv.setType(attr.getType());
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitClassifier(INakedClassifier nc) {
+		INakedNameSpace ns = nc.getNameSpace();
+		replaceParcedOclStrings(nc, ns, nc.getOwnedRules());
+		List<IOclContext> loopResults = new ArrayList<IOclContext>(replaceParcedOclStringsForOclContext(nc, ns, nc.getDefinitions()));
+		nc.setDefinitions(loopResults);
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitTimeEvent(NakedTimeEventImpl ev) {
 		INakedValueSpecification w = ev.getWhen();
 		if (w != null && w.getValue() instanceof ParsedOclString) {
 			// Remember that time events' when expression MUST have a type
@@ -80,24 +149,35 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void procesOperation(INakedOperation op) {
-		INakedClassifier c = op.getOwner();
-		INakedNameSpace ns = c.getNameSpace();
-		op.setPreConditions(replaceParcedOclStringsForOclContext(c, ns, op.getPreConditions()));
-		op.setPostConditions(replaceParcedOclStringsForOclContext(c, ns, op.getPostConditions()));
+	public void visitOperation(INakedOperation op) {
 		if (op.getBodyCondition() != null && op.getBodyCondition().getSpecification() != null
 				&& op.getBodyCondition().getSpecification().getValue() instanceof ParsedOclString) {
 			INakedValueSpecification bodyCondition = op.getBodyCondition().getSpecification();
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
-			bodyExpression.setContext(op.getOwner(), op);
-			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, c, ns, op.getReturnType()));
+			INakedClassifier owner = op.getOwner();
+			bodyExpression.setContext(owner, op);
+			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, owner.getNameSpace(), op.getReturnType()));
 			bodyCondition.setType(op.getReturnType());
 			// TODO support OpaqueBehavior for effects.
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void processValuePin(INakedValuePin pin) {
+	public void visitPreAndPostConstrained(PreAndPostConstrained op) {
+		INakedClassifier ctx = op.getContext();
+		if (ctx == null) {
+			if (op instanceof INakedOperation) {
+				ctx = ((INakedOperation) op).getOwner();
+			} else {
+				ctx = (INakedClassifier) op;
+			}
+		}
+		op.setPreConditions(replaceParcedOclStringsForOclContext(ctx, ctx.getNameSpace(), op.getPreConditions()));
+		op.setPostConditions(replaceParcedOclStringsForOclContext(ctx, ctx.getNameSpace(), op.getPostConditions()));
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitValuePin(INakedValuePin pin) {
 		if (pin.getValue() != null) {
 			if (pin.getValue().getValue() instanceof ParsedOclString) {
 				resolvePinOcl(pin);
@@ -151,93 +231,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		pin.getValue().setValue(replaceSingleParsedOclString(string, context, context.getNameSpace(), pin.getType()));
 	}
 
-	@VisitBefore(matchSubclasses = true)
-	public void processSlot(INakedSlot slot) {
-		for (INakedValueSpecification s : slot.getValues()) {
-			if (s.getValue() instanceof ParsedOclString) {
-				ParsedOclString string = (ParsedOclString) s.getValue();
-				INakedClassifier context = slot.getOwningInstance().getClassifier();
-				string.setContext(context, context);
-				s.setValue(replaceSingleParsedOclString(string, context, context.getNameSpace(), s.getType()));
-			}
-		}
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void processActivityEdge(GuardedFlow edge) {
-		if (edge.getGuard() != null && edge.getGuard().getValue() instanceof ParsedOclString) {
-			ParsedOclString string = (ParsedOclString) edge.getGuard().getValue();
-			IClassifier booleanType = getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
-			edge.getGuard().setValue(
-					replaceSingleParsedOclString(string, edge.getOwningBehavior(), edge.getOwningBehavior().getNameSpace(), booleanType));
-		}
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void procesOpaqueBehavior(INakedOpaqueBehavior ob) {
-		IClassifier returnType = null;
-		if (ob.getReturnParameter() == null) {
-			if (!(ob.getOwnerElement() instanceof INakedClassifier)) {// owned
-																		// by
-																		// transitions,
-																		// activity
-																		// edges
-																		// or
-																		// states
-				String es = ob.getBodyExpression().getExpressionString();
-				if (ob.getBodyExpression() instanceof ParsedOclString && es != null && es.endsWith("()")) {
-					// TODO interim workaround for el
-					((ParsedOclString) ob.getBodyExpression()).setExpressionString(es.substring(0, es.length() - 2));
-					return;
-				}
-			}
-			returnType = getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName);
-		} else {
-			returnType = ob.getReturnParameter().getType();
-		}
-		// OCL cannot implement or call void opertaions
-		INakedClassifier c = ob.getContext();
-		INakedNameSpace ns = c.getNameSpace();
-		ob.setPreConditions(replaceParcedOclStringsForOclContext(c, ns, ob.getPreConditions()));
-		ob.setPostConditions(replaceParcedOclStringsForOclContext(c, ns, ob.getPostConditions()));
-		INakedValueSpecification body = ob.getBody();
-		if (body != null && body.isOclValue()) {
-			ParsedOclString bodyExpression = (ParsedOclString) ob.getBodyExpression();
-			bodyExpression.setContext(ob.getContext(), ob);
-			body.setValue(replaceSingleParsedOclString(bodyExpression, c, ns, returnType));
-			body.setType(returnType);
-		}
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void property(INakedProperty attr) {
-		INakedClassifier c = attr.getOwner();
-		INakedNameSpace ns = c.getNameSpace();
-		INakedValueSpecification iv = attr.getInitialValue();
-		if (iv != null && iv.isOclValue()) {
-			ParsedOclString oclValue = (ParsedOclString) iv.getOclValue();
-			oclValue.setContext(c, attr);
-			iv.setValue(replaceSingleParsedOclString(oclValue, c, ns, attr.getType()));
-			iv.setType(attr.getType());
-		}
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void visitClassifier(INakedClassifier nc) {
-		INakedNameSpace ns = nc.getNameSpace();
-		replaceParcedOclStrings(nc, ns, nc.getOwnedRules());
-		List<IOclContext> loopResults = new ArrayList<IOclContext>(replaceParcedOclStringsForOclContext(nc, ns, nc.getDefinitions()));
-		nc.setDefinitions(loopResults);
-		if (nc instanceof INakedActivity) {
-			for (INakedActivityNode n : ((INakedActivity) nc).getActivityNodesRecursively()) {
-				if (n instanceof PreAndPostConstrained) {
-					PreAndPostConstrained ppc = (PreAndPostConstrained) n;
-					ppc.setPostConditions(replaceParcedOclStringsForOclContext(nc, nc.getNameSpace(), ppc.getPostConditions()));
-				}
-			}
-		}
-	}
-
 	private void replaceParcedOclStrings(INakedClassifier c, INakedNameSpace ns, Collection<? extends INakedConstraint> invs) {
 		for (INakedConstraint cont : invs) {
 			if (cont.getSpecification().isOclValue() && cont.getSpecification().getOclValue() instanceof ParsedOclString) {
@@ -275,9 +268,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			env = createPreEnvironment(c, ns, element);
 		} else if (holder.getType().equals(OclUsageType.POST)) {
 			env = createPreEnvironment(c, ns, element);
-			if (element instanceof IOperation && ((IOperation) element).getReturnType() != null) {
-				env.addElement("result", new VariableDeclaration("result", ((IOperation) element).getReturnType()), false);
-			}
+			addPostEnvironment(env, element);
 		} else {
 			env = createEnvironment(c, ns);
 		}
@@ -314,7 +305,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			return newC;
 		} catch (AnalysisException e) {
 			System.out.println(holder.getExpressionString());
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			this.getErrorMap().putError(holder, CoreValidationRule.OCL, e.getError().getErrorMessage());
 			return new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 		} catch (Exception e) {
@@ -327,6 +318,23 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			e.printStackTrace();
 			putError(holder, e);
 			return new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
+		}
+	}
+
+	private void addPostEnvironment(Environment env, IModelElement element) {
+		if (element instanceof IParameterOwner) {
+			IParameterOwner owner = (IParameterOwner) element;
+			for (INakedParameter p : owner.getResultParameters()) {
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+				if (p.isReturn()) {
+					env.addElement("result", new VariableDeclaration("result", p.getType()), false);
+				}
+			}
+		} else if (element instanceof INakedAction) {
+			INakedAction owner = (INakedAction) element;
+			for (INakedOutputPin p : owner.getOutput()) {
+				env.addElement(p.getName(), new TypedPropertyBridge(owner.getActivity(), p), false);
+			}
 		}
 	}
 

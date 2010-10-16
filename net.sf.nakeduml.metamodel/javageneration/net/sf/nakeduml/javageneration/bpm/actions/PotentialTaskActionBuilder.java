@@ -64,8 +64,10 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		complete.getBody().addToStatements(
 				"List<TaskInstance> tasks=(List<TaskInstance>)processInstance.getTaskMgmtInstance().getUnfinishedTasks(waitingToken)");
 		OJIfStatement ifFound = new OJIfStatement();
-		ifFound.setCondition("tasks.size()==0");
-		implementConditionalFlows(complete, ifFound.getThenPart(),false);
+		ifFound.setCondition("tasks.size()==1");
+		OJBlock thenPart = ifFound.getThenPart();
+		thenPart.addToStatements("tasks.get(0).end()");
+		implementConditionalFlows(complete, thenPart,false);
 		complete.getBody().addToStatements(ifFound);
 	}
 	@Override

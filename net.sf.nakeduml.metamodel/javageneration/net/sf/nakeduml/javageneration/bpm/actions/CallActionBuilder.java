@@ -46,8 +46,12 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 			String call = "new " + ojPath.getLast() + "()";
 			storeMessage(block, call);
 			String taskVarName = node.getMappingInfo().getJavaName().getDecapped().toString();
-			if (targetElementAssigned()) {
-				block.addToStatements(taskVarName + ".setContextObject(" + actionMap.targetName() + ")");
+			if ((node.getTarget() != null && node.getTarget().hasValidInput()) && node.isTask()) {
+				if (node instanceof INakedOpaqueAction) {
+					block.addToStatements(taskVarName + ".setUser(" + actionMap.targetName() + ")");
+				} else {// operationCall
+					block.addToStatements(taskVarName + ".setContextObject(" + actionMap.targetName() + ")");
+				}
 			}
 			for (INakedPin pin : node.getArguments()) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), pin);
@@ -58,7 +62,7 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 				block.addToStatements("TaskInstance taskInstance = " + taskVarName + ".execute()");
 				operation.getOwner().addToImports("org.jbpm.taskmgmt.exe.TaskInstance");
 				if (node.getTarget() != null && node.getTarget().hasValidInput()) {
-					block.addToStatements("taskInstance.setActorId(" + actionMap.targetName()+ ".getUsername())");
+					block.addToStatements("taskInstance.setActorId(" + actionMap.targetName() + ".getUsername())");
 				} else if (node.getInPartition() != null) {
 					block.addToStatements("taskInstance.setSwimlaneInstance(what)");
 				}
@@ -74,11 +78,6 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 			maybeStoreResultDirectly(block, call);
 			surroundWithCatchIfRequired(operation, block);
 		}
-	}
-
-	private boolean targetElementAssigned() {
-		return (node.getTarget() != null && node.getTarget().hasValidInput())
-				|| (node.getInPartition() != null && node.getInPartition().getRepresents() instanceof INakedProperty);
 	}
 
 	private void surroundWithCatchIfRequired(OJOperation operationContext, OJBlock originalBlock) {

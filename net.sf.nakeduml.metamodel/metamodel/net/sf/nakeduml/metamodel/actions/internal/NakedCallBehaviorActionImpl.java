@@ -38,5 +38,9 @@ public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements 
 	public INakedMessageStructure getMessageStructure(){
 		return getBehavior();
 	}
+	@Override
+	public boolean isTask() {
+		return false;
+	}
 
 }

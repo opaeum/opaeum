@@ -56,11 +56,6 @@ import org.hibernate.dialect.Dialect;
 import org.testng.internal.annotations.AnnotationHelper;
 
 public class HibernateAnnotator extends AbstractHibernateGenerator {
-	@VisitAfter(matchSubclasses = true)
-	public void visitProperty(INakedProperty f) {
-		annotateProperty(f.getOwner(), OJUtil.buildStructuralFeatureMap(f));
-	}
-
 	@VisitAfter()
 	public void visitOperation(INakedOperation o) {
 		if (o.shouldEmulateClass()) {
@@ -72,16 +67,18 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
 		OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
 		annotateComplexStructure(msg);
-		for(INakedPin p: oa.getPins()){
-			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg,p));
+		for (INakedPin p : oa.getPins()) {
+			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p));
 		}
 	}
 
 	@VisitAfter(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class })
 	public void visitComplexType(INakedComplexStructure entity) {
-		for (INakedProperty p : entity.getEffectiveAttributes()) {
-			if (p.getOwner() instanceof INakedInterface) {
-				annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
+		if (hasOJClass(entity) && isPersistent(entity)) {
+			for (INakedProperty p : entity.getEffectiveAttributes()) {
+				if (p.getOwner() instanceof INakedInterface || p.getOwner() == entity) {
+					annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
+				}
 			}
 		}
 	}
@@ -126,7 +123,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 
 	private void annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass owner = findJavaClass(complexType);
-		OJAnnotationValue table =owner.findAnnotation(new OJPathName("javax.persistence.Table"));
+		OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
 		if (table != null && table.hasAttribute("uniqueConstraints")) {
 			OJAnnotationAttributeValue attr = table.findAttribute("uniqueConstraints");
 			for (OJAnnotationValue v : attr.getAnnotationValues()) {
@@ -180,7 +177,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
 				} else if (isPersistent(f.getNakedBaseType())) {
 				}
-				//TODO parameterize development mode
+				// TODO parameterize development mode
 				if (f.isRequired() && !f.isInverse() && !JpaAnnotator.DEVELOPMENT_MODE) {
 					if (f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getStringType())) {
 						field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotEmpty")));

@@ -36,4 +36,5 @@ public interface INakedCallAction extends INakedInvocationAction {
 	INakedClassifier getExpectedTargetType();
 	boolean hasMessageStructure();
 	INakedMessageStructure getMessageStructure();
+	boolean isTask();
 }
