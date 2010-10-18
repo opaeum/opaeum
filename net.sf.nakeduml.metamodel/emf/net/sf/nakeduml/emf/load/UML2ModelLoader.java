@@ -24,13 +24,13 @@ public class UML2ModelLoader {
 	}
 
 	public static Model loadModel(String relativePath) throws Exception {
-		setupStandAloneAppForUML2();
 		URI model_uri = URI.createFileURI(new File(relativePath).getAbsolutePath());
 		Model model = loadModel(model_uri);
 		return model;
 	}
 
-	public static Model loadModel( URI model_uri) {
+	public static Model loadModel( URI model_uri) throws Exception{
+		setupStandAloneAppForUML2();
 		long time = System.currentTimeMillis();
 		System.out.println("UML2ModelLoader.loadModel()");
 		Model model = (Model) load(model_uri);

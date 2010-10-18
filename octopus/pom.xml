@@ -6,7 +6,7 @@
 	<artifactId>octopus</artifactId>
 	<packaging>jar</packaging>
 	<name>octopus</name>
-	<version>1.0.0.2</version>
+	<version>1.0.0.4</version>
 	<description>OCL support</description>
 	<url>http://github.com/nakeduml</url>
 	<build>
