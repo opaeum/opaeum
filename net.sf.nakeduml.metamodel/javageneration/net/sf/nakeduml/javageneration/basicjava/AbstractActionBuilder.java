@@ -1,6 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import net.sf.nakeduml.javageneration.bpm.actions.ActionMap;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJForStatement;

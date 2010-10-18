@@ -1,8 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.bpm.BpmUtil;
-import net.sf.nakeduml.javageneration.bpm.actions.ActionMap;
+import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJPathName;

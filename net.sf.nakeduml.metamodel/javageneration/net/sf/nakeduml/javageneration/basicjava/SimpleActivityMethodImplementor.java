@@ -24,7 +24,7 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.VariableClearer;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.VariableReader;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.VariableValueAdder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.VariableValueRemover;
-import net.sf.nakeduml.javageneration.bpm.actions.ClassifierBehaviorStarter;
+import net.sf.nakeduml.javageneration.jbpm5.actions.ClassifierBehaviorStarter;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;

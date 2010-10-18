@@ -1,6 +1,5 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
-import net.sf.nakeduml.javageneration.bpm.actions.ActionMap;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;

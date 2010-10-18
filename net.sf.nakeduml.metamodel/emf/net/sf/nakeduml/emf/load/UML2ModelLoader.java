@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
@@ -23,10 +24,15 @@ public class UML2ModelLoader {
 	}
 
 	public static Model loadModel(String relativePath) throws Exception {
-		long time = System.currentTimeMillis();
-		System.out.println("UML2ModelLoader.loadModel()");
 		setupStandAloneAppForUML2();
 		URI model_uri = URI.createFileURI(new File(relativePath).getAbsolutePath());
+		Model model = loadModel(model_uri);
+		return model;
+	}
+
+	public static Model loadModel( URI model_uri) {
+		long time = System.currentTimeMillis();
+		System.out.println("UML2ModelLoader.loadModel()");
 		Model model = (Model) load(model_uri);
 		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		System.out.println("UML2ModelLoader.loadModel() took " + (System.currentTimeMillis() - time) + "seconds");
