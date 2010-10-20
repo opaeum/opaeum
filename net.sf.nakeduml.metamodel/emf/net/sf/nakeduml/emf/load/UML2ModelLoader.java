@@ -29,7 +29,7 @@ public class UML2ModelLoader {
 		return model;
 	}
 
-	public static Model loadModel( URI model_uri) throws Exception{
+	public static Model loadModel(URI model_uri) throws Exception {
 		setupStandAloneAppForUML2();
 		long time = System.currentTimeMillis();
 		System.out.println("UML2ModelLoader.loadModel()");
@@ -64,16 +64,30 @@ public class UML2ModelLoader {
 
 	public static String findUml2ResourceJar() throws Exception {
 		URLClassLoader s = (URLClassLoader) Thread.currentThread().getContextClassLoader();
+		String uml2Jar = findUml2ResourceJar(s);
+		if(uml2Jar==null){
+			uml2Jar=findUml2ResourceJar((URLClassLoader) ClassLoader.getSystemClassLoader());
+		}
+		return uml2Jar;
+	}
+
+	public static String findUml2ResourceJar(URLClassLoader s) {
 		URL[] urls = s.getURLs();
 		String UML2JAR = null;
 		for (URL url : urls) {
-			if (url.getFile().contains("org/nakeduml/metamodel") || url.getFile().contains("org.nakeduml.metamodel") || url.getFile().contains("org/eclipse/uml2/uml/resources") || url.getFile().contains("org.eclipse.uml2.uml.resources")) {
+			if (url.toExternalForm().contains("org/nakeduml/metamodel") || url.toExternalForm().contains("org.nakeduml.metamodel")
+					|| url.toString().contains("org/eclipse/uml2/uml/resources")
+					|| url.toString().contains("org.eclipse.uml2.uml.resources")) {
 				System.out.println(url.getFile());
 				File file = new File(url.getFile());
 				UML2JAR = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";
 				break;
 			}
 		}
-		return UML2JAR;
+		if (UML2JAR == null && s.getParent() instanceof URLClassLoader) {
+			return findUml2ResourceJar((URLClassLoader) s.getParent());
+		} else {
+			return UML2JAR;
+		}
 	}
 }
