@@ -63,7 +63,8 @@ public class InstanceExtractor extends AbstractExtractorFromEmf {
 				Iterator iter = emfSlot.getValues().iterator();
 				while (iter.hasNext()) {
 					ValueSpecification emfValueSpec = (ValueSpecification) iter.next();
-					getValueSpecification(context, emfValueSpec, OclUsageType.INIT);
+					//nakedSlot is the parent, addOwnedElement will resolve 
+					getValueSpecification(context, nakedSlot, emfValueSpec, OclUsageType.INIT);
 				}
 			}
 		}

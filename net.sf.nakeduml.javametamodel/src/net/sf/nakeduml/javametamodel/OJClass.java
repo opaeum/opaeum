@@ -102,7 +102,7 @@ public class OJClass extends OJClassGEN {
 	
 	public String toJavaString(){
 		this.calcImports();
-		StringBuffer classInfo = new StringBuffer();
+		StringBuilder classInfo = new StringBuilder();
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
@@ -135,24 +135,24 @@ public class OJClass extends OJClassGEN {
 	/**
 	 * @return
 	 */
-	private StringBuffer constructors() {
-		StringBuffer result = new StringBuffer();
+	private StringBuilder constructors() {
+		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(this.getConstructors(), "\n"));
 		return result;
 	}
 	/**
 	 * @return
 	 */
-	private StringBuffer fields() {
-		StringBuffer result = new StringBuffer();
+	private StringBuilder fields() {
+		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(this.getFields(), "\n"));
 		return result;
 	}
 	/**
 	 * @return
 	 */
-	private StringBuffer implementedInterfaces() {
-		StringBuffer result = new StringBuffer();
+	private StringBuilder implementedInterfaces() {
+		StringBuilder result = new StringBuilder();
 		if (!this.getImplementedInterfaces().isEmpty()) result.append(" implements ");
 		Iterator it = getImplementedInterfaces().iterator();
 		while (it.hasNext()){

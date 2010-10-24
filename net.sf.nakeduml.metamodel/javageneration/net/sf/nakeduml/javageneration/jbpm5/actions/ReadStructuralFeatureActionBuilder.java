@@ -8,7 +8,7 @@ import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class ReadStructuralFeatureActionBuilder extends JbpmActionBuilder<INakedReadStructuralFeatureAction>{
+public class ReadStructuralFeatureActionBuilder extends Jbpm5ActionBuilder<INakedReadStructuralFeatureAction>{
 	public ReadStructuralFeatureActionBuilder(IOclEngine oclEngine,INakedReadStructuralFeatureAction node){
 		super(oclEngine, node);
 	}

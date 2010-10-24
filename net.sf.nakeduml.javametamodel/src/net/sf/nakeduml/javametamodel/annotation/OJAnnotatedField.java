@@ -39,7 +39,7 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement {
 
 	@Override
 	public String toJavaString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (!getComment().equals("")) {
 			sb.append("\t// ");
 			sb.append(getComment());

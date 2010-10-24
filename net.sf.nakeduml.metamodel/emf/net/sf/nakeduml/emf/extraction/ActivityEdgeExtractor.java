@@ -43,7 +43,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	}
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
 		initialize(nae, ae, ae.getActivity());
-		INakedValueSpecification guard = getValueSpecification((INakedBehavior) getNakedPeer(ae.getActivity()), ae.getGuard(),
+		INakedValueSpecification guard = getValueSpecification((INakedBehavior) getNakedPeer(ae.getActivity()), nae, ae.getGuard(),
 				OclUsageType.BODY);
 		if(guard != null){
 			nae.setGuard(guard);
@@ -51,7 +51,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		}
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
-		INakedValueSpecification weight = getValueSpecification(nc, ae.getWeight(), OclUsageType.BODY);
+		INakedValueSpecification weight = getValueSpecification(nc, nae,ae.getWeight(), OclUsageType.BODY);
 		if(weight != null){
 			weight.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			nae.setWeight(weight);

@@ -12,7 +12,7 @@ public class OJVisibleElement extends OJVisibleElementGEN {
 	}
 
 	public String visToJava(OJVisibleElement elem){
-		StringBuffer visInfo = new StringBuffer();
+		StringBuilder visInfo = new StringBuilder();
 		if (elem.isStatic()) visInfo.append("static ");
 		if (elem.isFinal()) visInfo.append("final ");
 		if (elem.isVolatile()) visInfo.append("volatile ");

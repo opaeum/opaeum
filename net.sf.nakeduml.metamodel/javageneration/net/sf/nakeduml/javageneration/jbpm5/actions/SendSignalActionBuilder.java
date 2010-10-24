@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class SendSignalActionBuilder extends JbpmActionBuilder<INakedSendSignalAction>{
+public class SendSignalActionBuilder extends Jbpm5ActionBuilder<INakedSendSignalAction>{
 	public SendSignalActionBuilder(IOclEngine oclEngine,INakedSendSignalAction node){
 		super(oclEngine, node);
 	}
@@ -29,17 +29,18 @@ public class SendSignalActionBuilder extends JbpmActionBuilder<INakedSendSignalA
 		while(args.hasNext()){
 			INakedPin pin = (INakedPin) args.next();
 			if(pin.getLinkedTypedElement() == null){
-				block.addToStatements(signalName + ".couldNotLinkPinToProperty(" + buildPinField(operation, block, pin) + ")");
+				block.addToStatements(signalName + ".couldNotLinkPinToProperty(" + buildPinExpression(operation, block, pin) + ")");
 			}else{
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) pin.getLinkedTypedElement());
-				block.addToStatements(signalName + "." + map.setter() + "(" + buildPinField(operation, block, pin) + ")");
+				block.addToStatements(signalName + "." + map.setter() + "(" + buildPinExpression(operation, block, pin) + ")");
 			}
 		}
 		OJAnnotatedField signal = new OJAnnotatedField();
 		signal.setName(signalName);
 		block.addToLocals(signal);
 		String source = node.getActivity().isProcess() ? "this" : "getContextObject()";
-		block.addToStatements(signalName + ".send(" + source + ","+actionMap.targetName()+")");
+		String pinExpression = node.getTarget()==null? source:buildPinExpression(operation, block, node.getTarget());
+		block.addToStatements(signalName + ".send(" + source + ","+ pinExpression+")");
 		signal.setType(cm.javaTypePath());
 		signal.setInitExp("new " + node.getSignal().getMappingInfo().getJavaName() + "()");
 	}

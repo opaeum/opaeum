@@ -27,7 +27,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 		return AnnotationHelper.removeAnnotation(this,type);
 	}
 	public String toPackageInfoString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (super.getComment() != null && super.getComment().length() > 0) {
 			sb.append("/**\n");
 			sb.append(super.getComment());
@@ -41,7 +41,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 		return sb.toString();
 	}
 	private String imports() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (OJPathName path : getImports()) {
 			if (this.getPathName().equals(path.getHead())) {
 				// already visible

@@ -18,7 +18,7 @@ public class JavaPathNames {
 	static public final OJPathName Exception 			= new OJPathName("java.lang.Exception");
 	static public final OJPathName String 				= new OJPathName("java.lang.String");
 	static public final OJPathName StringArray			= new OJPathName("java.lang.String[]");
-	static public final OJPathName StringBuffer		= new OJPathName("java.lang.StringBuffer");
+	static public final OJPathName StringBuilder		= new OJPathName("java.lang.StringBuilder");
 	static public final OJPathName Object 				= new OJPathName("java.lang.Object");
 	static public final OJPathName ObjectArray 		= new OJPathName("java.lang.Object[]");
 	static public final OJPathName Int 					= new OJPathName("java.lang.int");

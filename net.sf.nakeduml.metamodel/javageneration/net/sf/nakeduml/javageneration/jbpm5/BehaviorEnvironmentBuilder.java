@@ -3,6 +3,7 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import java.util.Iterator;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -21,7 +22,7 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructur
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
-public class BehaviorEnvironmentBuilder extends AbstractBehaviorVisitor{
+public class BehaviorEnvironmentBuilder extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitActivity(INakedActivity activity){
 		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){

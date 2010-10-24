@@ -63,7 +63,7 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
 			}
 			resolveMultiplicityAndActualType(nakedValuePin, emfPin);
 			INakedBehavior context = (INakedBehavior) getNakedPeer(activity);
-			nakedValuePin.setValue(getValueSpecification(context, emfValuePin.getValue(), OclUsageType.INIT));
+			nakedValuePin.setValue(getValueSpecification(context, nakedValuePin,emfValuePin.getValue(), OclUsageType.INIT));
 			resultingPin = nakedValuePin;
 		}else if(emfPin instanceof InputPin){
 			if(emfPin.getIncomings().isEmpty() && emfPin.getName() != null && emfPin.getName().length() > 0){

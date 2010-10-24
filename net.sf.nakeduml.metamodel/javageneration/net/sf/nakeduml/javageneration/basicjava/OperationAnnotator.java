@@ -25,8 +25,8 @@ public class OperationAnnotator extends StereotypeAnnotator {
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior o) {
 		if (hasOJClass(o.getContext()) && !o.isClassifierBehavior() && o.getOwnerElement() instanceof INakedClassifier) {
-			// DO not do effects and
-			// state actions classifier behavior will be invoked elsewhere
+			// DO not do effects, state actions or classifier behavior - will be
+			// invoked elsewhere
 			if (o.getSpecification() == null || !o.getSpecification().getOwner().equals(o.getContext())) {
 				// if there is no specification or the specificatoin is in a
 				// superclass/interface,
@@ -94,7 +94,6 @@ public class OperationAnnotator extends StereotypeAnnotator {
 			owner.addToOperations(oper);
 			applyStereotypesAsAnnotations((o), oper);
 		}
-
 		return oper;
 	}
 }

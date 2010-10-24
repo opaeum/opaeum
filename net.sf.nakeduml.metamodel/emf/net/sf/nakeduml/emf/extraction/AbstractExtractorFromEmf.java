@@ -125,14 +125,14 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	 * guards on activity edges and state transitions
 	 * 
 	 */
-	protected INakedValueSpecification getValueSpecification(INakedClassifier context, ValueSpecification value, OclUsageType usage) {
+	protected INakedValueSpecification getValueSpecification(INakedClassifier context, INakedElement element, ValueSpecification value, OclUsageType usage) {
 		NakedValueSpecificationImpl nakedValueSpecification = (NakedValueSpecificationImpl) getNakedPeer(value);
 		if (nakedValueSpecification == null) {
 			if (value instanceof OpaqueExpression) {
 				ParsedOclString bodyExpression = parseOclStringFromValue(((OpaqueExpression) value), value.getName(), usage);
 				if (bodyExpression != null) {
 					nakedValueSpecification = new NakedValueSpecificationImpl();
-					bodyExpression.setContext(context, context);
+					bodyExpression.setContext(context, element);
 					nakedValueSpecification.setValue(bodyExpression);
 					initialize(nakedValueSpecification, value, value.getOwner());
 					if (value.getType() != null) {
@@ -162,14 +162,14 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				} else if (value instanceof LiteralUnlimitedNatural) {
 					nakedValueSpecification = buildUnlimitiedLiteral(value);
 				} else if (value instanceof InstanceValue) {
-					nakedValueSpecification = buildInstanceValue(context, value, usage);
+					nakedValueSpecification = buildInstanceValue(context,element, value, usage);
 				}
 			}
 		}
 		return nakedValueSpecification;
 	}
 
-	private NakedValueSpecificationImpl buildInstanceValue(INakedClassifier context, ValueSpecification value, OclUsageType usage) {
+	private NakedValueSpecificationImpl buildInstanceValue(INakedClassifier context, INakedElement element, ValueSpecification value, OclUsageType usage) {
 		NakedValueSpecificationImpl nakedValueSpecification = null;
 		InstanceValue instanceValue = (InstanceValue) value;
 		if (instanceValue.getInstance() != null) {
@@ -177,7 +177,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				// simply resolve this instancespecification as
 				// another
 				// value
-				nakedValueSpecification = (NakedValueSpecificationImpl) getValueSpecification(context, instanceValue.getInstance()
+				nakedValueSpecification = (NakedValueSpecificationImpl) getValueSpecification(context,element, instanceValue.getInstance()
 						.getSpecification(), usage);
 			} else {
 				nakedValueSpecification = new NakedValueSpecificationImpl();

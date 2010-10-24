@@ -132,7 +132,7 @@ public abstract class OJMetaValue extends OJElement {
 		if (this.values.size() == 1) {
 			expression = toLiteralString(this.values.get(0));
 		} else {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append("{");
 			Iterator<Object> values = this.values.iterator();
 			while (values.hasNext()) {

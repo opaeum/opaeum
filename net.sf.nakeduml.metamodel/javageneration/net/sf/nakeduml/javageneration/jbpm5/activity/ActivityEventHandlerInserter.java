@@ -10,7 +10,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.WaitForEventElements;
-import net.sf.nakeduml.javageneration.jbpm5.actions.JbpmActionBuilder;
+import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
@@ -30,11 +30,11 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
-	private JbpmActionBuilder<INakedActivityNode> actionBuilder;
+	private Jbpm5ActionBuilder<INakedActivityNode> actionBuilder;
 	@Override
 	public void initialize(INakedModelWorkspace workspace,OJPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace){
 		super.initialize(workspace, javaModel, config, textWorkspace);
-		this.actionBuilder = new JbpmActionBuilder(workspace.getOclEngine(), null){
+		this.actionBuilder = new Jbpm5ActionBuilder(workspace.getOclEngine(), null){
 			@Override
 			public void implementActionOn(OJOperation oper){
 			}

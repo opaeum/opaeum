@@ -8,7 +8,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CreateObjectActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.DefaultNodeBuilder;
-import net.sf.nakeduml.javageneration.jbpm5.actions.JbpmActionBuilder;
+import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.OpaqueActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ReadStructuralFeatureActionBuilder;
@@ -56,19 +56,7 @@ public class ActivityImplementor extends AbstractBehaviorVisitor {
 		this.oclEngine = workspace.getOclEngine();
 	}
 
-	@VisitBefore(matchSubclasses = true)
-	public void visitModel(INakedModel model){
-		OJAnnotatedClass jbpm5Environment = new OJAnnotatedClass();
-		jbpm5Environment.setName("Jbpm5Environment");
-		OJAnnotatedOperation getKnowledgeRuntime = new OJAnnotatedOperation();
-		getKnowledgeRuntime.setName("getKnowledgeSession");
-		getKnowledgeRuntime .setStatic(true);
-		getKnowledgeRuntime.setReturnType(new OJPathName("org.drools.runtime.StatefulKnowledgeSession"));
-		getKnowledgeRuntime.getBody().addToStatements("return null");
-		jbpm5Environment.addToOperations(getKnowledgeRuntime);
-		UtilityCreator.getUtilPack().addToClasses(jbpm5Environment);
-		super.createTextPath(jbpm5Environment, JavaTextSource.GEN_SRC);
-	}
+
 
 	@VisitBefore(matchSubclasses = true)
 	public void implementActivity(INakedActivity activity) {
@@ -89,7 +77,6 @@ public class ActivityImplementor extends AbstractBehaviorVisitor {
 	private void doExecute(INakedActivity activity, OJAnnotatedClass activityClass) {
 		OJOperation execute = implementExecute(activityClass, activity);
 		if (activity.isProcess()) {
-			execute.getBody().addToStatements("processInstance.signal()");
 		} else {
 			for (INakedActivityNode node : activity.getStartNodes()) {
 				execute.getBody().addToStatements("do" + node.getMappingInfo().getJavaName().getCapped() + "()");
@@ -117,7 +104,7 @@ public class ActivityImplementor extends AbstractBehaviorVisitor {
 			activityClass.addToFields(incomingTokenCount);
 			operation.getBody().addToStatements("if(--tokenCountTo" + node.getName() + ">0)return");
 		}
-		JbpmActionBuilder<?> implementor = null;
+		Jbpm5ActionBuilder<?> implementor = null;
 		if (node instanceof INakedCallAction) {
 			implementor = new CallActionBuilder(oclEngine, (INakedCallAction) node);
 		} else if (node instanceof INakedSendObjectAction) {

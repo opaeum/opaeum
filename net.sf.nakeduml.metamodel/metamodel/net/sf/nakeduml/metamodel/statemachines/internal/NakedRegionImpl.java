@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedNameSpaceImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
 
 public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
@@ -98,6 +99,13 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 			return getOwningStateMachine();
 		}
 	}
+	public INakedStateMachine getStateMachine(){
+		if(hasOwningState()){
+			return getOwningState().getStateMachine();
+		}else{
+			return getOwningStateMachine();
+		}
+	}
 	public boolean contains(INakedState state){
 		Iterator states = getStates().iterator();
 		while(states.hasNext()){
@@ -107,6 +115,17 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<INakedTransition> getTransitions() {
+		List<INakedTransition> result=new ArrayList<INakedTransition>();
+		for(INakedTransition t:getStateMachine().getTransitions()){
+			if(t.getSource().getContainer()==this && t.getTarget().getContainer()==this){
+				result.add(t);
+			}
+		}
+		return result;
 	}
 	
 }

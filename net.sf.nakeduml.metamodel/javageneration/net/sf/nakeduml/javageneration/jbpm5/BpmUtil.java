@@ -4,6 +4,9 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.name.NameWrapper;
+import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class BpmUtil{
@@ -22,5 +25,12 @@ public class BpmUtil{
 	}
 	public static OJPathName getNodeInstance() {
 		return new OJPathName("org.jbpm.workflow.instance.NodeInstance");
+	}
+	public static String generateProcessName(IParameterOwner parameterOwner) {
+		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_"
+				+ parameterOwner.getMappingInfo().getPersistentName();
+	}
+	public static String getArtificialJoinName(INakedState target) {
+		return "join_for_"+target.getMappingInfo().getPersistentName();
 	}
 }

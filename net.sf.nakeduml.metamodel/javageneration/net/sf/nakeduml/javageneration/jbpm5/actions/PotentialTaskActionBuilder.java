@@ -28,7 +28,7 @@ import nl.klasse.octopus.oclengine.IOclEngine;
  *  
  * @param <A>
  */
-public abstract class PotentialTaskActionBuilder<A extends INakedInvocationAction> extends JbpmActionBuilder<A>{
+public abstract class PotentialTaskActionBuilder<A extends INakedInvocationAction> extends Jbpm5ActionBuilder<A>{
 	protected PotentialTaskActionBuilder(IOclEngine oclEngine,A node){
 		super(oclEngine, node);
 	}
@@ -58,7 +58,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		activityClass.addToOperations(complete);
 		implementPostConditions(complete);
 		String literalExpression = activityClass.getName() + "State." + BpmUtil.stepLiteralName(node);
-		complete.getBody().addToStatements("NodeInstance waitingToken=findWaitingToken(" + literalExpression + ")");
+		complete.getBody().addToStatements("NodeInstance waitingToken=findWaitingNode(" + literalExpression + ")");
 		complete.getBody().addToStatements(
 				"List<TaskInstance> tasks=(List<TaskInstance>)processInstance.getTaskMgmtInstance().getUnfinishedTasks(waitingToken)");
 		OJIfStatement ifFound = new OJIfStatement();

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.20101016.013225-334.jar" sourcepath="/home/ampie/.m2/repository/org/drools/drools-api/5.2.0.SNAPSHOT/drools-api-5.2.0.SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.20101016.013225-332.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.0-SNAPSHOT.jar" sourcepath="/jbpm-flow"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.3.2.GA.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -8,7 +11,6 @@
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax-mail.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-jpdl-3.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-annotations-3.4.0.GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>

@@ -77,7 +77,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	@Override
 	public String toJavaString() {
 		calcImports();
-		StringBuffer classInfo = new StringBuffer();
+		StringBuilder classInfo = new StringBuilder();
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
@@ -124,8 +124,8 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	 * 
 	 * @return
 	 */
-	protected StringBuffer constructors() {
-		StringBuffer result = new StringBuffer();
+	protected StringBuilder constructors() {
+		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(this.getConstructors(), "\n"));
 		return result;
 	}
@@ -135,8 +135,8 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	 * 
 	 * @return
 	 */
-	protected StringBuffer fields() {
-		StringBuffer result = new StringBuffer();
+	public StringBuilder fields() {
+		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(this.getFields(), "\n"));
 		return result;
 	}
@@ -146,8 +146,8 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	 * 
 	 * @return
 	 */
-	protected StringBuffer implementedInterfaces() {
-		StringBuffer result = new StringBuffer();
+	protected StringBuilder implementedInterfaces() {
+		StringBuilder result = new StringBuilder();
 		if (!this.getImplementedInterfaces().isEmpty())
 			result.append(" implements ");
 		Iterator<OJPathName> it = getImplementedInterfaces().iterator();
@@ -165,7 +165,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	}
 
 	@Override
-	protected void addJavaDocComment(StringBuffer result) {
+	protected void addJavaDocComment(StringBuilder result) {
 		if (getComment() != null && !getComment().equals("")) {
 			String comment = JavaStringHelpers.firstCharToUpper(getComment());
 			result.append("/** " + comment);

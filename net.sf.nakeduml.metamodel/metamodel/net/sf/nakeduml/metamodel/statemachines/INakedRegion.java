@@ -23,5 +23,6 @@ public interface INakedRegion extends INakedNameSpace {
 	boolean hasOwningStateMachine();
 	INakedStateMachine getOwningStateMachine();
 	boolean contains(INakedState state);
+	List<INakedTransition> getTransitions();
 	boolean hasInitialState();
 }

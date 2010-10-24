@@ -12,6 +12,8 @@ public class OJTryStatement extends OJTryStatementGEN {
  ********************************************************************/
 	public OJTryStatement() {
 		super();
+		setCatchPart(new OJBlock());
+		setTryPart(new OJBlock());
 	}
 
   	public String toJavaString() {

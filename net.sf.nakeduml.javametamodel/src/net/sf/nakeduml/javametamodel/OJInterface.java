@@ -28,7 +28,7 @@ public class OJInterface extends OJInterfaceGEN {
 	
 	public String toJavaString(){
 		this.calcImports();
-		StringBuffer classInfo = new StringBuffer();
+		StringBuilder classInfo = new StringBuilder();
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
@@ -49,8 +49,8 @@ public class OJInterface extends OJInterfaceGEN {
 		return classInfo.toString();
 	}
 	
-	private StringBuffer superInterfaces() {
-		StringBuffer result = new StringBuffer();
+	private StringBuilder superInterfaces() {
+		StringBuilder result = new StringBuilder();
 		if (this.getSuperInterfaces().size() > 0) {
 			Iterator it = this.getSuperInterfaces().iterator();
 			boolean first = true;

@@ -16,7 +16,7 @@ public class OJPackage extends OJPackageGEN {
 	}
 
 	public String toJavaString(){
-		StringBuffer packInfo = new StringBuffer();
+		StringBuilder packInfo = new StringBuilder();
 		if (!getPathName().toJavaString().equals("")) {
 			packInfo.append("package " + getPathName().toJavaString() + ";");
 		}

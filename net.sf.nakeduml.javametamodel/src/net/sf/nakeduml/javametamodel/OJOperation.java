@@ -46,7 +46,7 @@ public class OJOperation extends OJOperationGEN {
 	
 
 	public String toJavaString(){
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		if (!getComment().equals("")){
 			addJavaDocComment(result);
 		}
@@ -71,7 +71,7 @@ public class OJOperation extends OJOperationGEN {
 			result.append(";\n");
 		} else {
 			result.append(" {\n");
-			StringBuffer bodyStr = new StringBuffer();
+			StringBuilder bodyStr = new StringBuilder();
 			String actualBody = getBody().toJavaString();
 //			if (actualBody.trim().length() == 0) {
 //				actualBody = getReturnType().getLast() + " result;\n"
@@ -93,7 +93,7 @@ public class OJOperation extends OJOperationGEN {
 	/**
 	 * @param result
 	 */
-	protected void addJavaDocComment(StringBuffer result) {
+	protected void addJavaDocComment(StringBuilder result) {
 		String comment = JavaStringHelpers.firstCharToUpper(getComment());
 		comment = JavaStringHelpers.replaceAllSubstrings(comment, "\n", "\n * ");
 		result.append("/** " + comment);
@@ -111,8 +111,8 @@ public class OJOperation extends OJOperationGEN {
 		result.append("\n */\n");
 	}
 
-	protected StringBuffer paramsToJava(OJOperation op){
-		StringBuffer result = new StringBuffer();
+	protected StringBuilder paramsToJava(OJOperation op){
+		StringBuilder result = new StringBuilder();
 		Iterator it = op.getParameters().iterator();
 		boolean first = true;
 		while (it.hasNext()) {
@@ -126,8 +126,8 @@ public class OJOperation extends OJOperationGEN {
 		}
 		return result;
 	}
-	protected StringBuffer exceptionsToJava(OJOperation op){
-		StringBuffer result = new StringBuffer();
+	protected StringBuilder exceptionsToJava(OJOperation op){
+		StringBuilder result = new StringBuilder();
 		Iterator it = op.getThrows().iterator();
 		boolean first = true;
 		while (it.hasNext()) {
@@ -141,8 +141,8 @@ public class OJOperation extends OJOperationGEN {
 		}
 		return result;
 	}
-	public static StringBuffer paramsToActuals(OJOperation op){
-		StringBuffer result = new StringBuffer();
+	public static StringBuilder paramsToActuals(OJOperation op){
+		StringBuilder result = new StringBuilder();
 		Iterator it = op.getParameters().iterator();
 		boolean first = true;
 		while (it.hasNext()) {

@@ -12,6 +12,17 @@ import net.sf.nakeduml.javametamodel.utilities.JavaStringHelpers;
 import net.sf.nakeduml.javametamodel.utilities.JavaUtil;
 
 public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElement{
+	public OJAnnotatedOperation(String string, OJPathName ojPathName) {
+		this(string);
+		setReturnType(ojPathName);
+	}
+	public OJAnnotatedOperation(String string) {
+		super();
+		setName(string);
+	}
+	public OJAnnotatedOperation() {
+		super();
+	}
 	@Override
 	public OJAnnotatedOperation getCopy(){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation();
@@ -41,7 +52,7 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	@Override
 	public String toJavaString(){
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		if(!getComment().equals("")){
 			addJavaDocComment(result);
 		}
@@ -71,7 +82,7 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 			result.append(";\n");
 		}else{
 			result.append(" {\n");
-			StringBuffer bodyStr = new StringBuffer();
+			StringBuilder bodyStr = new StringBuilder();
 			String actualBody = getBody().toJavaString();
 			bodyStr.append(actualBody);
 			result.append(JavaStringHelpers.indent(bodyStr, 1));

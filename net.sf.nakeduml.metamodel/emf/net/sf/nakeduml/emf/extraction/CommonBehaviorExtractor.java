@@ -65,7 +65,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 				// We have to make the behaviour the owner to allow for the expression to be implemented correctly
 				//Without a behaviour context the expression is contextless and of limited use.
 				super.initialize(nakedTimeEvent,emfTimeEvent,behaviour);
-				INakedValueSpecification when = getValueSpecification(context,
+				INakedValueSpecification when = getValueSpecification(context,nakedTimeEvent,
 						emfTimeEvent.getWhen(), OclUsageType.DEF);
 				if (when != null) {
 					when.setType((INakedClassifier) getNakedPeer(emfTimeEvent.getWhen().getType()));

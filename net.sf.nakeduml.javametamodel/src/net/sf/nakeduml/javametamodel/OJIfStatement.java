@@ -5,19 +5,15 @@ import java.util.Map;
 import net.sf.nakeduml.javametamodel.generated.OJIfStatementGEN;
 import net.sf.nakeduml.javametamodel.utilities.JavaStringHelpers;
 
-
-
 public class OJIfStatement extends OJIfStatementGEN {
-
-
-/*********************************************************************
- * The constructor
- ********************************************************************/
+	/*********************************************************************
+	 * The constructor
+	 ********************************************************************/
 	public OJIfStatement() {
 		super();
 		this.setThenPart(new OJBlock());
 	}
-	
+
 	public OJIfStatement(String condition, String thenPart) {
 		super();
 		this.setThenPart(new OJBlock());
@@ -25,40 +21,46 @@ public class OJIfStatement extends OJIfStatementGEN {
 		this.addToThenPart(thenPart);
 	}
 
-/*********************************************************************
- * The operations from the model
- ********************************************************************/
+	public OJIfStatement(String condition) {
+		this.setThenPart(new OJBlock());
+		this.setCondition(condition);
+	}
+
+	/*********************************************************************
+	 * The operations from the model
+	 ********************************************************************/
 	/**
 	 * @param string
 	 */
 	public void addToThenPart(String string) {
-		this.getThenPart().addToStatements(string);		
+		this.getThenPart().addToStatements(string);
 	}
-	
+
 	public void addToElsePart(String string) {
 		if (this.getElsePart() == null) {
 			this.setElsePart(new OJBlock());
 		}
-		this.getElsePart().addToStatements(string);		
+		this.getElsePart().addToStatements(string);
 	}
-	
+
 	public void addToThenPart(OJStatement stat) {
-		if (stat == null) return;
-		this.getThenPart().addToStatements(stat);		
+		if (stat == null)
+			return;
+		this.getThenPart().addToStatements(stat);
 	}
-	
+
 	public void addToElsePart(OJStatement stat) {
 		if (this.getElsePart() == null) {
 			this.setElsePart(new OJBlock());
 		}
-		this.getElsePart().addToStatements(stat);		
+		this.getElsePart().addToStatements(stat);
 	}
-	
+
 	public String toJavaString() {
 		String result = "if ( " + getCondition() + " ) {\n";
 		result = result + JavaStringHelpers.indent(getThenPart().toJavaString(), 1) + "\n}";
 		if (getElsePart() != null) {
-			result = result + " else {\n" + JavaStringHelpers.indent(getElsePart().toJavaString(), 1) + "\n}";			
+			result = result + " else {\n" + JavaStringHelpers.indent(getElsePart().toJavaString(), 1) + "\n}";
 		}
 		return result;
 	}
@@ -68,34 +70,34 @@ public class OJIfStatement extends OJIfStatementGEN {
 		copyDeepInfoInto(copy);
 		return copy;
 	}
-	
+
 	public void copyDeepInfoInto(OJIfStatement copy) {
 		super.copyDeepInfoInto(copy);
 		copy.setCondition(getCondition());
-		if ( getThenPart() != null ) {
+		if (getThenPart() != null) {
 			copy.setThenPart(getThenPart().getDeepCopy());
 		}
-		if ( getElsePart() != null ) {
+		if (getElsePart() != null) {
 			copy.setElsePart(getElsePart().getDeepCopy());
-		}		
-	}	
+		}
+	}
 
 	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
 		for (String key : renamePathNames.keySet()) {
 			OJPathName pathName = renamePathNames.get(key);
-			String className = pathName.getNames().get(pathName.getNames().size()-1);
+			String className = pathName.getNames().get(pathName.getNames().size() - 1);
 			String condition = getCondition();
-			if (condition.contains(" "+className + ")") || condition.contains(" "+className + " ") || condition.contains(" "+className + "&&") || condition.contains("("+className+")")) {
-				condition = condition.replace(className, className+newName);
+			if (condition.contains(" " + className + ")") || condition.contains(" " + className + " ")
+					|| condition.contains(" " + className + "&&") || condition.contains("(" + className + ")")) {
+				condition = condition.replace(className, className + newName);
 			}
 			setCondition(condition);
 		}
-		if ( getThenPart() != null ) {
+		if (getThenPart() != null) {
 			getThenPart().renameAll(renamePathNames, newName);
 		}
-		if ( getElsePart() != null ) {
+		if (getElsePart() != null) {
 			getElsePart().renameAll(renamePathNames, newName);
 		}
-	}	
-	
+	}
 }

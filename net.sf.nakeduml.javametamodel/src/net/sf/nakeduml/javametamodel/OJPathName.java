@@ -81,7 +81,7 @@ public class OJPathName extends OJPathNameGEN {
 	}
 
 	public String toJavaString(){
-		StringBuffer pathInfo = new StringBuffer();
+		StringBuilder pathInfo = new StringBuilder();
 		boolean first = true;
 		Iterator it = getNames().iterator();
 		while (it.hasNext()) {
@@ -97,7 +97,7 @@ public class OJPathName extends OJPathNameGEN {
 	}
 	
 	private String elementTypesToJavaString() {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		boolean first = true;
 		Iterator it = getElementTypes().iterator();
 		while (it.hasNext()) {

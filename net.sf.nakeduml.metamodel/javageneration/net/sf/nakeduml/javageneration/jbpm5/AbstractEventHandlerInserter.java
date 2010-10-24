@@ -4,12 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.plaf.basic.BasicPanelUI;
-
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javametamodel.OJAnnonymousInnerClass;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJForStatement;
@@ -19,7 +20,6 @@ import net.sf.nakeduml.javametamodel.OJParameter;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJSimpleStatement;
 import net.sf.nakeduml.javametamodel.OJStatement;
-import net.sf.nakeduml.javametamodel.OJWhileStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -36,14 +36,10 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-import org.jbpm.graph.exe.ExecutionContext;
-
-public abstract class AbstractEventHandlerInserter extends AbstractBehaviorVisitor {
+public abstract class AbstractEventHandlerInserter extends AbstractJavaProducingVisitor {
 	protected abstract void implementEventConsumption(FromNode node, OJIfStatement ifNotNull);
 
-	protected void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) {
-		block.addToStatements("waitingToken.signal(\"" + flow.getMappingInfo().getPersistentName().getWithoutId() + "\")");
-	}
+	protected abstract void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) ;
 
 	/**
 	 * Inserts a call to the eventListener as the last line of code in the body
@@ -185,7 +181,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractBehaviorVisit
 	}
 
 	protected void implementEventHandling(OJAnnotatedClass ojBehavior, INakedTriggerContainer behavior, Collection<WaitForEventElements> ea) {
-		addFindWaitingToken(ojBehavior);
+		addFindWaitingNode(ojBehavior);
 		for (WaitForEventElements eventActions : ea) {
 			implementEventListener(ojBehavior, eventActions);
 		}
@@ -213,23 +209,23 @@ public abstract class AbstractEventHandlerInserter extends AbstractBehaviorVisit
 		return ifGuard;
 	}
 
-	private void addFindWaitingToken(OJClass activityClass) {
+	private void addFindWaitingNode(OJClass activityClass) {
 		activityClass.addToImports(BpmUtil.getNodeInstance());
-		OJOperation findWaitingToken = new OJAnnotatedOperation();
-		activityClass.addToOperations(findWaitingToken);
-		findWaitingToken.setName("findWaitingToken");
-		OJPathName stepPathName = new OJPathName(activityClass.getName() + "State");
-		findWaitingToken.addParam("step", stepPathName);
-		findWaitingToken.setReturnType(BpmUtil.getNodeInstance());
+		OJOperation findWaitingNode = new OJAnnotatedOperation();
+		activityClass.addToOperations(findWaitingNode);
+		findWaitingNode.setName("findWaitingNode");
+		findWaitingNode.addParam("step", new OJPathName("String"));
+		findWaitingNode.setReturnType(BpmUtil.getNodeInstance());
 		OJForStatement forNodeInstances = new OJForStatement();
 		forNodeInstances.setBody(new OJBlock());
 		forNodeInstances.setElemType(new OJPathName("NodeInstance"));
 		forNodeInstances.setElemName("nodeInstance");
-		forNodeInstances.setCollection("(Collection<NodeInstance>)getProcessInstance().getNodeInstances()");
-		findWaitingToken.getBody().addToStatements(forNodeInstances);
-		OJIfStatement ifNameEquals = new OJIfStatement("nodeInstance.getNode().getName().equals(step.getQualifiedName())", "return nodeInstance");
+		activityClass.addToImports("java.util.Collection");
+		forNodeInstances.setCollection("(Collection<? extends NodeInstance>)getProcessInstance().getNodeInstances()");
+		findWaitingNode.getBody().addToStatements(forNodeInstances);
+		OJIfStatement ifNameEquals = new OJIfStatement("nodeInstance.getNode().getName().equals(step)", "return nodeInstance");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);
-		findWaitingToken.getBody().addToStatements("return null");
+		findWaitingNode.getBody().addToStatements("return null");
 	}
 
 	private void addLeavingLogic(OJOperation operationContext, FromNode node, OJBlock body) {
@@ -237,10 +233,9 @@ public abstract class AbstractEventHandlerInserter extends AbstractBehaviorVisit
 		body.addToStatements(ifTokenFound);
 		String literalExpression = operationContext.getOwner().getName() + "State." + BpmUtil.stepLiteralName(node.getWaitingElement());
 		if (node.isRestingNode()) {
-			ifTokenFound.setCondition("consumed==false && (waitingToken=findWaitingToken(" + literalExpression + "))" + "!=null");
+			ifTokenFound.setCondition("consumed==false && (waitingToken=findWaitingNode(" + literalExpression + ".getQualifiedName()))" + "!=null");
 		} else {
-			operationContext.getOwner().addToImports(new OJPathName(ExecutionContext.class.getName()));
-			ifTokenFound.setCondition("consumed==false && (waitingToken=ExecutionContext.currentExecutionContext().getToken())!=null");
+			ifTokenFound.setCondition("consumed==false && (waitingToken=findWaitingNode(\"" + node.getWaitingElement().getMappingInfo().getPersistentName() + "\"))" + "!=null");
 		}
 		implementEventConsumption(node, ifTokenFound);
 		OJIfStatement ifGuard = implementConditionalFlows(operationContext, node, ifTokenFound);

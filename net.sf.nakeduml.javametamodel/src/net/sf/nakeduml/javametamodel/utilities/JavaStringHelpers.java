@@ -25,7 +25,7 @@ public class JavaStringHelpers {
 	}
 
 	static public String convertValuesToString(String[] elements, String delimiter) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < elements.length; i++) {
 			buffer.append(elements[i]);
 			buffer.append(delimiter);
@@ -69,18 +69,18 @@ public class JavaStringHelpers {
 
 	static public String indent(String in, int level) {
 		if (level <= 0) return in;
-		StringBuffer result = internalIndent(in, level);
+		StringBuilder result = internalIndent(in, level);
 		return result.toString();		
 	}
 
-	static public StringBuffer indent(StringBuffer in, int level) {
+	static public StringBuilder indent(StringBuilder in, int level) {
 		if (level <= 0) return in;
-		StringBuffer result = internalIndent(in.toString(), level);
+		StringBuilder result = internalIndent(in.toString(), level);
 		return result;		
 	}
 
-	static private StringBuffer internalIndent(String in, int level) {
-		StringBuffer result = new StringBuffer();
+	static private StringBuilder internalIndent(String in, int level) {
+		StringBuilder result = new StringBuilder();
 		String newIndent = "";
 		for (int i=0; i<level; i++) {
 			newIndent = newIndent + "\t";
@@ -99,8 +99,8 @@ public class JavaStringHelpers {
 		return orig.replaceAll(origSub, newSub);
 	}       
 
-	static public StringBuffer replaceAllSubstrings( StringBuffer orig, String origSub, String newSub ) {
-		StringBuffer result = new StringBuffer();
+	static public StringBuilder replaceAllSubstrings( StringBuilder orig, String origSub, String newSub ) {
+		StringBuilder result = new StringBuilder();
 		result.append(orig.toString().replaceAll(origSub, newSub));
 		return result;    			
 	}
@@ -139,7 +139,7 @@ public class JavaStringHelpers {
 	/**
 	 * @param innerBody
 	 */
-	public static void trimTrailingWhiteSpace(StringBuffer innerBody) {
+	public static void trimTrailingWhiteSpace(StringBuilder innerBody) {
 		while (Character.isWhitespace(innerBody.charAt(innerBody.length()-1))) {
 			innerBody.deleteCharAt(innerBody.length()-1);
 		}

@@ -21,19 +21,19 @@ public class JpdlGenerator extends AbstractTextProducingVisitor{
 	@VisitBefore
 	public void generateStateMachine(INakedStateMachine sm) {
 		OJAnnotatedClass ojClass=findJavaClass(sm);
-		OJAnnotatedField field=new OJAnnotatedField();
-		field.setStatic(true);
-		field.setType(new OJPathName("org.jbpm.graph.def.ProcessDefinition"));
-		field.setName("PROCESS_DEFINITION");
-		ojClass.addToFields(field);
-		OJAnnotatedOperation oper = new OJAnnotatedOperation();
-		oper.setReturnType(field.getType());
-		oper.setStatic(true);
-		oper.setName("getProcessDefinition");
-		OJIfStatement ifNull = new OJIfStatement("PROCESS_DEFINITION==null", "PROCESS_DEFINITION=ProcessDefinition.parseXmlResource(\"" +sm.getMappingInfo().getJavaPath()+".jpdl.xml\")");
-		oper.getBody().addToStatements(ifNull);
-		oper.getBody().addToStatements("return PROCESS_DEFINITION");
-		ojClass.addToOperations(oper);
+//		OJAnnotatedField field=new OJAnnotatedField();
+//		field.setStatic(true);
+//		field.setType(new OJPathName("org.jbpm.graph.def.ProcessDefinition"));
+//		field.setName("PROCESS_DEFINITION");
+//		ojClass.addToFields(field);
+//		OJAnnotatedOperation oper = new OJAnnotatedOperation();
+//		oper.setReturnType(field.getType());
+//		oper.setStatic(true);
+//		oper.setName("getProcessDefinition");
+//		OJIfStatement ifNull = new OJIfStatement("PROCESS_DEFINITION==null", "PROCESS_DEFINITION=ProcessDefinition.parseXmlResource(\"" +sm.getMappingInfo().getJavaPath()+".jpdl.xml\")");
+//		oper.getBody().addToStatements(ifNull);
+//		oper.getBody().addToStatements("return PROCESS_DEFINITION");
+//		ojClass.addToOperations(oper);
 		processTemplate(sm, "/StateMachine/JbpmProcess.vsl", "${stateMachine.mappingInfo.javaPath}.jpdl.xml", CharArrayTextSource.EJB_JAR_RESOURCE);
 	}
 	@VisitBefore

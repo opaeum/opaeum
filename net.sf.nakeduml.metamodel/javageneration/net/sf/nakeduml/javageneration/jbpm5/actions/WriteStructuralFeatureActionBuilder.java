@@ -8,7 +8,7 @@ import net.sf.nakeduml.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class WriteStructuralFeatureActionBuilder extends JbpmActionBuilder<INakedAddStructuralFeatureValueAction>{
+public class WriteStructuralFeatureActionBuilder extends Jbpm5ActionBuilder<INakedAddStructuralFeatureValueAction>{
 	public WriteStructuralFeatureActionBuilder(IOclEngine oclEngine,INakedAddStructuralFeatureValueAction node){
 		super(oclEngine, node);
 	}

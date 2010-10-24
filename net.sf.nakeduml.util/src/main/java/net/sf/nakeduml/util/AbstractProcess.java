@@ -6,5 +6,4 @@ public interface AbstractProcess {
 	public abstract Set<AbstractProcessStep> getActiveLeafSteps();
 	public abstract AbstractProcessStep getInnermostNonParallelStep();
 	public abstract void forceToStep(AbstractProcessStep step);
-	public abstract List getAuditLog();
 }

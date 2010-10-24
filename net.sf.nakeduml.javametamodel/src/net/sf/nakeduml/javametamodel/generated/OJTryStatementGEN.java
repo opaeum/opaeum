@@ -56,8 +56,8 @@ abstract public class OJTryStatementGEN extends OJStatement {
 	 * @param element 
 	 */
 	public void setTryPart(OJBlock element) {
+		f_tryPart = element;
 		if ( f_tryPart != element ) {
-			f_tryPart = element;
 		}
 	}
 	

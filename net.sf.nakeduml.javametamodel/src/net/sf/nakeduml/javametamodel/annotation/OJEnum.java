@@ -19,7 +19,7 @@ public class OJEnum extends OJAnnotatedClass{
 	@Override
 	public String toJavaString(){
 		this.calcImports();
-		StringBuffer classInfo = new StringBuffer();
+		StringBuilder classInfo = new StringBuilder();
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
@@ -50,8 +50,8 @@ public class OJEnum extends OJAnnotatedClass{
 		return classInfo.toString();
 	}
 	@Override
-	public StringBuffer constructors(){
-		StringBuffer result = new StringBuffer();
+	public StringBuilder constructors(){
+		StringBuilder result = new StringBuilder();
 		for(OJConstructor c:getConstructors()){
 			c.setVisibility(OJVisibilityKindGEN.PRIVATE);
 			result.append(c.toJavaString());

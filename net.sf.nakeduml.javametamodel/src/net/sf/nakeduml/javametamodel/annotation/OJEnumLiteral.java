@@ -30,7 +30,7 @@ public class OJEnumLiteral extends OJElement {
 		if(this.attributeValues.isEmpty()){
 			return getName();
 		}else{
-			StringBuffer sb = new StringBuffer(getName());
+			StringBuilder sb = new StringBuilder(getName());
 			sb.append('(');
 			Iterator<OJField> iter = this.attributeValues.iterator();
 			while (iter.hasNext()) {

@@ -20,7 +20,7 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.util.TimeUnit;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class AcceptEventActionBuilder extends JbpmActionBuilder<INakedAcceptEventAction> {
+public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEventAction> {
 	public AcceptEventActionBuilder(IOclEngine oclEngine, INakedAcceptEventAction node) {
 		super(oclEngine, node);
 	}

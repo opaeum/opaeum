@@ -20,6 +20,7 @@
 	<classpathentry kind="src" path="obsolete"/>
 	<classpathentry kind="src" path="uigeneration"/>
 	<classpathentry kind="src" path="uimetamodel"/>
+	<classpathentry kind="src" path="jbpm5generation"/>
 	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/collections-3.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/testng-5.12.1.jar"/>
@@ -29,5 +30,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-jdk14-1.5.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.5.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-seam-2.2.0.GA.jar"/>
+	<classpathentry kind="src" path="jbpm5metamodel"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

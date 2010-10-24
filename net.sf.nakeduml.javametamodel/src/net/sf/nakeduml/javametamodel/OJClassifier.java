@@ -123,7 +123,7 @@ public class OJClassifier extends OJClassifierGEN {
 	/**
 	 * @param result
 	 */
-	protected void addJavaDocComment(StringBuffer result) {
+	protected void addJavaDocComment(StringBuilder result) {
 		String comment = JavaStringHelpers.firstCharToUpper(getComment());
 		result.append("/** " + comment);
 		result.append("\n */\n");
@@ -132,12 +132,12 @@ public class OJClassifier extends OJClassifierGEN {
 	/**
 	 * @return
 	 */
-	protected StringBuffer operations() {
+	protected StringBuilder operations() {
 		// sort the operations on visibilityKind, then name
 		List<OJOperation> temp = new ArrayList<OJOperation>(this.getOperations());
 		Collections.sort(temp, new OJOperationComparator());
 		//
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		result.append(JavaUtil.collectionToJavaString(temp, "\n"));
 //		if ( result.length() > 0) result.append("\n");
 		return result;
@@ -147,12 +147,12 @@ public class OJClassifier extends OJClassifierGEN {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	protected StringBuffer imports() {
+	protected StringBuilder imports() {
 		// sort the imports by alphabeth
 		Set myImports = new TreeSet(new OJPathNameComparator());
 		myImports.addAll(this.getImports());
 		//
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		Iterator it = myImports.iterator();
 		String prevPackageName = "";
 		while (it.hasNext()) {

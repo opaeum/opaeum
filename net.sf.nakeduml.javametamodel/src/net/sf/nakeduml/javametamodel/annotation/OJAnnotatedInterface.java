@@ -16,7 +16,7 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 	@Override
 	public String toJavaString() {
 		this.calcImports();
-		StringBuffer classInfo = new StringBuffer();
+		StringBuilder classInfo = new StringBuilder();
 		classInfo.append(getMyPackage().toJavaString());
 		classInfo.append("\n");
 		classInfo.append(imports());
@@ -36,8 +36,8 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 		return classInfo.toString();
 	}
 
-	private StringBuffer superInterfaces() {
-		StringBuffer result = new StringBuffer();
+	private StringBuilder superInterfaces() {
+		StringBuilder result = new StringBuilder();
 		if (this.getSuperInterfaces().size() > 0) {
 			Iterator<OJPathName> it = this.getSuperInterfaces().iterator();
 			boolean first = true;
@@ -56,7 +56,7 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 	}
 
 	@Override
-	protected StringBuffer operations() {
+	protected StringBuilder operations() {
 		return super.operations();
 	}
 

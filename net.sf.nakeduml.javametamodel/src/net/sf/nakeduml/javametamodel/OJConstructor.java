@@ -20,7 +20,7 @@ public class OJConstructor extends OJConstructorGEN {
 	}
 	
 	public String toJavaString(){
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		if (getComment().equals("")){
 			setComment("constructor for " + getOwner().getName());
 		}
@@ -29,7 +29,7 @@ public class OJConstructor extends OJConstructorGEN {
 		// params 
 		result.append("(" + paramsToJava(this) + ") {\n");
 		// body
-		StringBuffer bodyStr = new StringBuffer();
+		StringBuilder bodyStr = new StringBuilder();
 		bodyStr.append(JavaUtil.collectionToJavaString(getBody().getStatements(),"\n"));
 		result.append(JavaStringHelpers.indent(bodyStr, 1));
 		if (result.charAt(result.length()-1) == '\n'){

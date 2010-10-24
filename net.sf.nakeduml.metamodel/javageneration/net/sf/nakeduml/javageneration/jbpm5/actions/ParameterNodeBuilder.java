@@ -12,7 +12,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class ParameterNodeBuilder extends JbpmActionBuilder<INakedParameterNode>{
+public class ParameterNodeBuilder extends Jbpm5ActionBuilder<INakedParameterNode>{
 	public ParameterNodeBuilder(IOclEngine oclEngine,INakedParameterNode node){
 		super(oclEngine, node);
 	}

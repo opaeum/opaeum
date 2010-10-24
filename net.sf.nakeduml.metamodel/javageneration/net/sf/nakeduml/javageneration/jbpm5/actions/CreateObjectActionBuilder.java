@@ -8,7 +8,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class CreateObjectActionBuilder extends JbpmActionBuilder<INakedCreateObjectAction>{
+public class CreateObjectActionBuilder extends Jbpm5ActionBuilder<INakedCreateObjectAction>{
 
 	public CreateObjectActionBuilder(IOclEngine oclEngine,INakedCreateObjectAction node){
 		super(oclEngine, node);

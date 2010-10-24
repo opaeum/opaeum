@@ -4,7 +4,7 @@ import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class DefaultNodeBuilder extends JbpmActionBuilder<INakedActivityNode>{
+public class DefaultNodeBuilder extends Jbpm5ActionBuilder<INakedActivityNode>{
 
 	public DefaultNodeBuilder(IOclEngine oclEngine,INakedActivityNode node){
 		super(oclEngine, node);

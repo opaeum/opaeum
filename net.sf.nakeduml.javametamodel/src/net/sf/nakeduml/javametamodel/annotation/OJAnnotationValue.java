@@ -117,7 +117,7 @@ public class OJAnnotationValue extends OJMetaValue {
 		if (this.attributes.isEmpty() && super.values.size() > 0) {
 			return "@" + this.type.getLast() + "(" + super.toJavaValueExpression() + ")";
 		} else if (this.attributes.size() > 0) {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append("@");
 			sb.append(this.type.getLast());
 			sb.append("(");

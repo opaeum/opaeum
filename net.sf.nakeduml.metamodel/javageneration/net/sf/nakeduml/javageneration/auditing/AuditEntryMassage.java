@@ -213,7 +213,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		return getRoot(baseType);
 	}
 
-	public INakedClassifier getRoot(INakedClassifier baseType) {
+	private INakedClassifier getRoot(INakedClassifier baseType) {
 		while (baseType.getSupertype() != null) {
 			baseType = baseType.getSupertype();
 		}
@@ -289,7 +289,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		}
 	}
 
-	public void annotateEmbeddedId(INakedClassifier c, OJAnnotatedClass auditClass) {
+	private void annotateEmbeddedId(INakedClassifier c, OJAnnotatedClass auditClass) {
 		OJAnnotatedField idField = (OJAnnotatedField) auditClass.findField("id");
 		OJAnnotationValue id = new OJAnnotationValue(new OJPathName("javax.persistence.EmbeddedId"));
 		idField.putAnnotation(id);
@@ -569,10 +569,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 				ojAnnotationValue.addStringValue(seamName.substring(0, seamName.length()) + "_audit");
 			}
 		}
-	}
-
-	private boolean isPersistent(OJClass c) {
-		return c instanceof OJAnnotatedClass && ((OJAnnotatedClass) c).hasAnnotation(new OJPathName("javax.persistence.Table"));
 	}
 
 }

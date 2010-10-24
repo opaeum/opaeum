@@ -70,7 +70,6 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor{
 		implementProcessInterfaceOperations(javaStateMachine, stateClass, umlStateMachine);
 		implementSpecificationOrStartClassifierBehaviour(umlStateMachine);
 		OJOperation execute = implementExecute(javaStateMachine, umlStateMachine);
-		execute.getBody().addToStatements("processInstance.signal()");
 	}
 	private void addImports(OJClass javaStateMachine){
 		javaStateMachine.addToImports(new OJPathName(Set.class.getName()));

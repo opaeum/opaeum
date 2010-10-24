@@ -113,13 +113,14 @@ Export-Package: javax.mail,
  org.hibernate.tuple.entity,
  org.hibernate.type,
  org.hibernate.usertype,
- org.hibernate.util,
- org.jbpm.graph.exe
+ org.hibernate.util
 Bundle-ClassPath: lib/junit.jar,
  lib/javax-mail.jar,
- lib/jbpm-jpdl-3.2.3.jar,
  lib/hibernate-annotations-3.4.0.GA.jar,
  lib/persistence-api-1.0.jar,
  lib/hibernate-core-3.3.2.GA.jar,
- lib/dom4j-1.6.1.jar
+ lib/dom4j-1.6.1.jar,
+ lib/jbpm-flow-5.0-SNAPSHOT.jar,
+ lib/drools-core-5.2.0.20101016.013225-332.jar,
+ lib/drools-api-5.2.0.20101016.013225-334.jar
 
