@@ -47,24 +47,24 @@ public class OJField extends OJFieldGEN {
 		}		
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-		getType().renameAll(renamePathNames, newName);
+	public void renameAll(Map<String, OJPathName> renamePathNames, String suffix) {
+		getType().renameAll(renamePathNames, suffix);
 		//This part sucks as it is just a string so...:-(
 		String init = getInitExp();
 		for(OJPathName pathName:renamePathNames.values()) {
 			if(init!=null && init.length()>0 && getInitExp().contains("<"+pathName.getLast()+">")) {
-				setInitExp(getInitExp().replace("<"+pathName.getLast()+">", "<"+pathName.getLast()+newName+">"));
+				setInitExp(getInitExp().replace("<"+pathName.getLast()+">", "<"+pathName.getLast()+suffix+">"));
 			}
 			//Admin newInstance= new Admin()
 			if(init!=null && init.length()>0 && getInitExp().startsWith(pathName.getLast()+" ")) {
-				setInitExp(getInitExp().replace(pathName.getLast()+" ", pathName.getLast()+newName+" "));
+				setInitExp(getInitExp().replace(pathName.getLast()+" ", pathName.getLast()+suffix+" "));
 			}
-			if(init!=null && init.length()>0 && getInitExp().contains(" "+pathName.getLast()+"()")) {
-				setInitExp(getInitExp().replace(" "+pathName.getLast()+"()", " "+pathName.getLast()+newName+"()"));
+			if(init!=null && init.length()>0 && getInitExp().contains(" "+pathName.getLast()+"(")) {
+				setInitExp(getInitExp().replace(" "+pathName.getLast()+"(", " "+pathName.getLast()+suffix+"("));
 			}
 			//copyState((Group)this,result);
 			if(init!=null && init.length()>0 && getInitExp().contains("("+pathName.getLast()+")")) {
-				setInitExp(getInitExp().replace("("+pathName.getLast()+")", "("+pathName.getLast()+newName+")"));
+				setInitExp(getInitExp().replace("("+pathName.getLast()+")", "("+pathName.getLast()+suffix+")"));
 			}
 		}		
 		

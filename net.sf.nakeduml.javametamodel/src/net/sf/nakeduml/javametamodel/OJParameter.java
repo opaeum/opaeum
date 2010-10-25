@@ -49,6 +49,7 @@ public class OJParameter extends OJParameterGEN {
 		super.copyDeepInfoInto(copy);
 		if (getType() != null) {
 			copy.setType(getType().getDeepCopy());
+			copy.setFinal(isFinal);
 		}
 	}
 

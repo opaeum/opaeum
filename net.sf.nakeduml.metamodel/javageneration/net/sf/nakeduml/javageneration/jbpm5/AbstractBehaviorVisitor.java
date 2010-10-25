@@ -198,7 +198,9 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		javaMethod.getOwner().addToImports(ojBehavior);
 		if (behavior.isProcess()) {
 			ojContext.addToImports(ojBehavior);
-			javaMethod.getBody().addToStatements(ojBehavior.getLast() + " _behavior=new " + ojBehavior.getLast() + "(this)");
+			OJAnnotatedField behaviorField = new OJAnnotatedField("_behavior",ojBehavior);
+			javaMethod.getBody().addToLocals(behaviorField);
+			behaviorField.setInitExp("new " + ojBehavior.getLast() + "(this)");
 			populateBehavior(behavior, javaMethod);
 			NakedMessageStructureMap map = new NakedMessageStructureMap(behavior);
 			javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
@@ -218,7 +220,9 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		ojContext.addToOperations(start);
 		OJPathName behaviorClass = OJUtil.classifierPathname(behavior);
 		ojContext.addToImports(behaviorClass);
-		start.getBody().addToStatements(behaviorClass.getLast() + " _behavior=new " + behaviorClass.getLast() + "(this)");
+		OJAnnotatedField behaviorField = new OJAnnotatedField("_behavior",behaviorClass);
+		start.getBody().addToLocals(behaviorField);
+		behaviorField.setInitExp("new " + behaviorClass.getLast() + "(this)");
 		populateBehavior(behavior, start);
 		start.getBody().addToStatements("_behavior.execute()");
 		start.getBody().addToStatements("this.classifierBehavior=_behavior");

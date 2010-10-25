@@ -14,6 +14,10 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		// TODO Auto-generated constructor stub
 	}
 
+	public OJAnnonymousInnerClass() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public OJAnnotatedClass getClassDeclaration() {
 		return classDeclaration;
 	}
@@ -51,5 +55,15 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		sb.append(JavaStringHelpers.indent(classDeclaration.operations(), 2));
 		sb.append("};");
 		return sb.toString();
+	}
+	public OJAnnotatedField getDeepCopy(){
+		OJAnnonymousInnerClass copy= new OJAnnonymousInnerClass();
+		copyDeepInto(copy);
+		return copy;
+	}
+
+	public void copyDeepInto(OJAnnonymousInnerClass copy) {
+		copy.classDeclaration=classDeclaration;
+		super.copyDeepInfoInto(copy);
 	}
 }
