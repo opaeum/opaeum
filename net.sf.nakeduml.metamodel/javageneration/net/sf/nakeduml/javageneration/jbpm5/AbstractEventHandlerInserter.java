@@ -221,7 +221,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		forNodeInstances.setElemType(new OJPathName("NodeInstance"));
 		forNodeInstances.setElemName("nodeInstance");
 		activityClass.addToImports("java.util.Collection");
-		forNodeInstances.setCollection("(Collection<? extends NodeInstance>)getProcessInstance().getNodeInstances()");
+		forNodeInstances.setCollection("(Collection<NodeInstance>)(Collection)getProcessInstance().getNodeInstances()");
 		findWaitingNode.getBody().addToStatements(forNodeInstances);
 		OJIfStatement ifNameEquals = new OJIfStatement("nodeInstance.getNode().getName().equals(step)", "return nodeInstance");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);

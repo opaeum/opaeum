@@ -309,7 +309,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		body.addToStatements(forNodeInstances);
 		forNodeInstances.setBody(new OJBlock());
 		ojBehavior.addToImports("java.util.Collection");
-		forNodeInstances.setCollection("(Collection<? extends NodeInstance>)getProcessInstance().getNodeInstances()");
+		forNodeInstances.setCollection("(Collection<NodeInstance>)(Collection)getProcessInstance().getNodeInstances()");
 		forNodeInstances.setElemName("curNodeInstance");
 		forNodeInstances.setElemType(NODE_INSTANCE_PATH);
 		OJIfStatement ifSameParent = new OJIfStatement("curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer()",
@@ -404,7 +404,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		forNodeInstances.setBody(new OJBlock());
 		forNodeInstances.setElemType(new OJPathName("NodeInstance"));
 		forNodeInstances.setElemName("nodeInstance");
-		forNodeInstances.setCollection("(Collection<? extends NodeInstance>)getProcessInstance().getNodeInstances()");
+		forNodeInstances.setCollection("(Collection<NodeInstance>)(Collection)getProcessInstance().getNodeInstances()");
 		isStepActive.getBody().addToStatements(forNodeInstances);
 		OJIfStatement ifNameEquals = new OJIfStatement("nodeInstance.getNode().getName().equals(step.getQualifiedName())", "return true");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);
