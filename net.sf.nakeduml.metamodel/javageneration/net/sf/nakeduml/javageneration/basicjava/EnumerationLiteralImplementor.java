@@ -47,13 +47,13 @@ public class EnumerationLiteralImplementor extends AttributeImplementor {
 		getName.getBody().addToStatements("return name()");
 		myClass.addToOperations(getName);
 		OJConstructor constr = new OJConstructor();
+		myClass.addToConstructors(constr);
 		constr.setVisibility(OJVisibilityKindGEN.PRIVATE);
 		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
 		boolean hasDuplicates = hasDuplicates(allAttributes);
 		if (!hasDuplicates) {
 			for (INakedProperty attr : allAttributes) {
-				StructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(attr);
-				if (!(attr.isDerived() || attr.isOclDef()) && map.isUmlPrimitive()) {
+				if (!(attr.isDerived() || attr.isOclDef())) {
 					addToConstructor(constr, myClass, attr, c);
 				}
 			}
@@ -75,37 +75,34 @@ public class EnumerationLiteralImplementor extends AttributeImplementor {
 	// buildGetter(owner, map, javaTypePath);
 	// }
 	// }
-
 	@VisitBefore(matchSubclasses = true)
 	public void generateStaticMethods(INakedEnumeration c) {
 		OJEnum myClass = (OJEnum) findJavaClass(c);
 		// Does lookups on arbitrary string properties
-
 		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
 		for (INakedProperty iNakedProperty : allAttributes) {
 			if (iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne()) {
-				//TODO support for other types??
+				// TODO support for other types??
 				OJAnnotatedOperation staticOp = new OJAnnotatedOperation();
 				staticOp.setStatic(true);
-				staticOp.setName(iNakedProperty.getName() + "to" + c.getName());
+				staticOp.setName("from"+iNakedProperty.getMappingInfo().getJavaName().getCapped());
 				OJPathName path = OJUtil.classifierPathname(c);
 				staticOp.setReturnType(path);
 				OJParameter ojParameter = new OJParameter();
 				ojParameter.setName(iNakedProperty.getName());
 				ojParameter.setType(OJUtil.classifierPathname(iNakedProperty.getNakedBaseType()));
 				staticOp.addToParameters(ojParameter);
-
 				List<IEnumLiteral> literals = c.getLiterals();
 				for (IEnumLiteral iEnumLiteral : literals) {
 					OJIfStatement ifSPS = new OJIfStatement();
 					NakedEnumerationLiteralImpl nakedLiteral = (NakedEnumerationLiteralImpl) iEnumLiteral;
 					List<INakedSlot> slots = nakedLiteral.getSlots();
 					for (INakedSlot iNakedSlot : slots) {
-
-						ifSPS.setCondition(iNakedProperty.getName() + ".equals(\"" + iNakedSlot.getFirstValue().stringValue() + "\")");
-
-						ifSPS.addToThenPart("return " + iEnumLiteral.getName());
-						break;
+						if (iNakedSlot.getDefiningFeature().equals(iNakedProperty)) {
+							ifSPS.setCondition(iNakedProperty.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, iNakedSlot.getFirstValue(),true) + ")");
+							ifSPS.addToThenPart("return " + iEnumLiteral.getName());
+							break;
+						}
 					}
 					staticOp.getBody().addToStatements(ifSPS);
 				}
@@ -146,7 +143,7 @@ public class EnumerationLiteralImplementor extends AttributeImplementor {
 			OJEnumLiteral ojl = oje.findLiteral(l.getName().toUpperCase());
 			OJField f = ojl.findAttributeValue(mapper.umlName());
 			INakedValueSpecification value = ((INakedEnumerationLiteral) l).getFirstValueFor(feat.getName());
-			f.setInitExp(ValueSpecificationUtil.expressValue(constr, value, c,feat.getType()));
+			f.setInitExp(ValueSpecificationUtil.expressValue(constr, value, c, feat.getType()));
 		}
 	}
 }

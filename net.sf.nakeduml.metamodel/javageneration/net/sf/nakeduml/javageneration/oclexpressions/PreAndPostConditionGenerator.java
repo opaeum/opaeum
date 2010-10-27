@@ -18,6 +18,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
+import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
@@ -50,7 +51,15 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitClassifier(INakedBehavioredClassifier owner) {
+	public void visitBehavioredClassifier(INakedBehavioredClassifier owner) {
+		for (INakedOperation oper : owner.getEffectiveOperations()) {
+			if (oper.getOwner() instanceof INakedInterface || oper.getOwner()==owner) {
+				processOperation(oper, owner);
+			}
+		}
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitDataTYpe(INakedDataType owner) {
 		for (INakedOperation oper : owner.getEffectiveOperations()) {
 			if (oper.getOwner() instanceof INakedInterface || oper.getOwner()==owner) {
 				processOperation(oper, owner);
@@ -58,7 +67,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	public void processOperation(INakedOperation oper, INakedBehavioredClassifier owner) {
+	public void processOperation(INakedOperation oper, INakedClassifier owner) {
 		NakedOperationMap mapper = new NakedOperationMap(oper);
 		if (oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null) {
 			OJPathName path = OJUtil.classifierPathname(owner);
@@ -80,7 +89,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	public void addLocalConditions(INakedBehavioredClassifier owner, NakedOperationMap mapper, Collection<IOclContext> conditions, boolean pre) {
+	public void addLocalConditions(INakedClassifier owner, NakedOperationMap mapper, Collection<IOclContext> conditions, boolean pre) {
 		OJClass myOwner = findJavaClass(owner);
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getOperation());

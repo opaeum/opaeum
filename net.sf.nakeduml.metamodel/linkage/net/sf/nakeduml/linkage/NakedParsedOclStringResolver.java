@@ -61,8 +61,8 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
-@StepDependency(phase = OclParsingPhase.class, after = {}, requires = { MappedTypeLinker.class, PinLinker.class, ReferenceResolver.class,
-		TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class })
+@StepDependency(phase = OclParsingPhase.class, after = {EnumerationValuesAttributeAdder.class}, requires = { MappedTypeLinker.class, PinLinker.class, ReferenceResolver.class,
+		TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class ,EnumerationValuesAttributeAdder.class})
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	@VisitBefore(matchSubclasses = true)
 	public void visitSlot(INakedSlot slot) {

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/javaee-api-5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-seam-2.2.0.GA.jar" sourcepath="/home/ampie/.m2/repository/org/jboss/seam/jboss-seam/2.2.0.GA/jboss-seam-2.2.0.GA-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.20101016.013225-334.jar" sourcepath="/home/ampie/.m2/repository/org/drools/drools-api/5.2.0.SNAPSHOT/drools-api-5.2.0.SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.20101016.013225-332.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.0-SNAPSHOT.jar" sourcepath="/jbpm-flow"/>
@@ -10,8 +12,6 @@
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/javax-mail.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-annotations-3.4.0.GA.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

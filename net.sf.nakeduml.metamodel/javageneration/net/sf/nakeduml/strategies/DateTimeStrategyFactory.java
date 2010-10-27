@@ -24,7 +24,7 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 		@Override
 		public void annotate(OJAnnotatedField f, INakedProperty p) {
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName(Temporal.class.getName()));
-			temporal.addEnumValue(new OJEnumValue(new OJPathName(TemporalType.class.getName()), "TIMESTAMP"));
+			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "TIMESTAMP"));
 			f.putAnnotation(temporal);
 		}
 
