@@ -226,6 +226,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					renameTableAnnotation(auditClass);
 					renameAnyMetaDefAnnotations(auditClass);
 					addRevisionField(auditClass);
+					addPreviousVersionField(auditClass, c);
 					addRevisionTypeField(auditClass);
 					addOriginalNamedQuery(auditClass, c);
 					// implementAudited(c, auditClass);
@@ -280,6 +281,64 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 				}
 			}
 		}
+	}
+
+	private void addPreviousVersionField(OJAnnotatedClass c, INakedClassifier umlClass) {
+		OJAnnotatedField previousVersion = new OJAnnotatedField();
+		OJPathName previousVersionPath = c.getPathName();
+		previousVersion.setType(c.getPathName());
+		previousVersion.setName("previousVersion");
+		previousVersion.setOwner(c);
+		
+		OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
+		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+		OJAnnotationAttributeValue nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
+		nameAnnotationAttribute.addStringValue(umlClass.getMappingInfo().getPersistentName().getWithoutId() + "_previous_id");
+		joinColumn.putAttribute(nameAnnotationAttribute);
+		OJAnnotationAttributeValue referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
+		referencedAnnotationAttribute.addStringValue(getRoot(umlClass).getMappingInfo().getPersistentName() + "_id");
+		joinColumn.putAttribute(referencedAnnotationAttribute);
+		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
+//		joinColumn.putAttribute(new OJAnnotationAttributeValue("insertable", false));
+//		joinColumn.putAttribute(new OJAnnotationAttributeValue("updatable", false));
+		joinColumns.addAnnotationValue(joinColumn);
+		joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+		nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
+		nameAnnotationAttribute.addStringValue("previous_object_version");
+		joinColumn.putAttribute(nameAnnotationAttribute);
+		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
+//		joinColumn.putAttribute(new OJAnnotationAttributeValue("insertable", false));
+//		joinColumn.putAttribute(new OJAnnotationAttributeValue("updatable", false));
+		referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
+		referencedAnnotationAttribute.addStringValue("object_version");
+		joinColumn.putAttribute(referencedAnnotationAttribute);
+		joinColumns.addAnnotationValue(joinColumn);
+		previousVersion.addAnnotationIfNew(joinColumns);
+		
+		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
+		JpaUtil.fetchLazy(toOne);
+		previousVersion.addAnnotationIfNew(toOne);
+		OJOperation getter = new OJAnnotatedOperation();
+		getter.setName("getPreviousVesion");
+		getter.setReturnType(previousVersionPath);
+		getter.getBody().addToStatements("return previousVersion");
+		getter.setStatic(false);
+		c.addToOperations(getter);
+		OJOperation setter = new OJAnnotatedOperation();
+		setter.setName("setPreviousVersion");
+		setter.addParam("previousVersion", previousVersionPath);
+		setter.getBody().addToStatements("this.previousVersion = previousVersion");
+		setter.setStatic(false);
+		c.addToOperations(setter);
+		
+		setter = new OJAnnotatedOperation();
+		setter.setName("setPreviousVersion");
+		setter.addParam("previousVersion", new OJPathName("net.sf.nakeduml.util.Audited"));
+		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
+		setter.setStatic(false);
+		c.addToOperations(setter);
+		
+		
 	}
 
 	private void annotateEmbeddedId(INakedClassifier c, OJAnnotatedClass auditClass) {
@@ -421,21 +480,14 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		column.putAttribute(new OJAnnotationAttributeValue("unique", false));
 		original.addAnnotationIfNew(column);
 		OJOperation getter = new OJAnnotatedOperation();
-		// getter.setName("get" + NameConverter.capitalize(auditClassName));
 		getter.setName("getOriginal");
 		getter.setReturnType(originalPathName);
-		// getter.getBody().addToStatements("return " +
-		// NameConverter.decapitalize(auditClassName));
 		getter.getBody().addToStatements("return " + umlClass.getMappingInfo().getJavaName().getDecapped());
 		getter.setStatic(false);
 		javaClass.addToOperations(getter);
 		OJOperation setter = new OJAnnotatedOperation();
-		// setter.setName("set" + NameConverter.capitalize(auditClassName));
 		setter.setName("setOriginal");
 		setter.addParam(NameConverter.decapitalize(auditClassName), originalPathName);
-		// setter.getBody().addToStatements("this." +
-		// NameConverter.decapitalize(auditClassName) + " = " +
-		// NameConverter.decapitalize(auditClassName));
 		setter.getBody().addToStatements(
 				"this." + umlClass.getMappingInfo().getJavaName().getDecapped() + "= " + NameConverter.decapitalize(auditClassName));
 		setter.setStatic(false);
