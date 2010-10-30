@@ -136,6 +136,8 @@ public class ActionExtractor extends AbstractActionExtractor{
 			nakedAction.setEvent(buildEvent(emfActivity, emfAction.getTriggers().iterator().next()));
 		}
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
+		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
+		nakedAction.setResult(result);
 		assignPartition(nakedAction, emfAction);
 	}
 

@@ -6,7 +6,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActionEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityEventHandlerInserter;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.TaskExecutionImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineEventHandlerInserter;
@@ -27,7 +27,7 @@ public class Jbpm5Step extends AbstractJavaTransformationStep {
 		Jbpm5EnvironmentBuilder eb = new Jbpm5EnvironmentBuilder();
 		eb.initialize(workspace, javaModel, config, textWorkspace);
 		eb.startVisiting(workspace);
-		ActivityImplementor ab = new ActivityImplementor();
+		ActivityProcessImplementor ab = new ActivityProcessImplementor();
 		ab.initialize(workspace, javaModel, config, textWorkspace);
 		ab.startVisiting(workspace);
 		ActionEnumerationImplementor action = new ActionEnumerationImplementor();

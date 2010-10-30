@@ -10,6 +10,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 
 /**
  * A transient object holding the relationship between a node on a behavior that
@@ -23,13 +24,11 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 public class WaitForEventElements {
 	INakedElement event;
 	Map<String, FromNode> fromNodes = new HashMap<String, FromNode>();
-	private boolean completionEvent;
 
 	public WaitForEventElements(INakedElement event) {
 		this.event = event;
 	}
 	public WaitForEventElements() {
-		this.completionEvent=true;
 	}
 
 	public void addWaitingNode(INakedElement source, GuardedFlow flow ,boolean isRestingNode) {
@@ -37,7 +36,8 @@ public class WaitForEventElements {
 		if (fromNode == null) {
 			fromNode = new FromNode(source,isRestingNode);
 			this.fromNodes.put(source.getName(), fromNode);
-		}// Use sql Name
+		}
+		// Use sql Name
 		fromNode.addTransition(flow.getMappingInfo().getPersistentName().getAsIs(), flow);
 	}
 
@@ -49,14 +49,14 @@ public class WaitForEventElements {
 		return this.event;
 	}
 
-	public List getArguments() {
+	public List<? extends INakedTypedElement> getArguments() {
 		if (this.event instanceof INakedSignal) {
 			return ((INakedSignal) this.event).getArgumentParameters();
 		} else if (this.event instanceof INakedOperation) {
 			return ((INakedOperation) this.event).getArgumentParameters();
 		} else {
 			// TODO if timeevent return one parameter
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 	}
 }

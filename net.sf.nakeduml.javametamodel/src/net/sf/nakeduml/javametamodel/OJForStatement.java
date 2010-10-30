@@ -9,7 +9,6 @@ import net.sf.nakeduml.javametamodel.generated.OJForStatementGEN;
 import net.sf.nakeduml.javametamodel.utilities.JavaStringHelpers;
 
 public class OJForStatement extends OJForStatementGEN {
-
 	/**
 	 * Constructor for OJForStatement
 	 * 
@@ -20,6 +19,7 @@ public class OJForStatement extends OJForStatementGEN {
 	 */
 	public OJForStatement(String name, String comment, String elemName, String collection) {
 		super(name, comment, elemName, collection);
+		setBody(new OJBlock());
 	}
 
 	/**
@@ -27,6 +27,13 @@ public class OJForStatement extends OJForStatementGEN {
 	 */
 	public OJForStatement() {
 		super();
+		setBody(new OJBlock());
+	}
+
+	public OJForStatement(String elementName, OJPathName type, String collection) {
+		this(null, null, elementName, collection);
+		setElemType(type);
+		setBody(new OJBlock());
 	}
 
 	public String toJavaString() {
@@ -66,5 +73,4 @@ public class OJForStatement extends OJForStatementGEN {
 			getBody().renameAll(renamePathNames, newName);
 		}
 	}
-
 }

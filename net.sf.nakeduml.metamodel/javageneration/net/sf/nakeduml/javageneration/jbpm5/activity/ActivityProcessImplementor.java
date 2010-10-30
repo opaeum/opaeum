@@ -15,6 +15,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.ReadStructuralFeatureActionB
 import net.sf.nakeduml.javageneration.jbpm5.actions.SendObjectActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SendSignalActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.WriteStructuralFeatureActionBuilder;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPackage;
@@ -47,7 +48,7 @@ import nl.klasse.octopus.oclengine.IOclEngine;
  * 
  * 
  */
-public class ActivityImplementor extends AbstractBehaviorVisitor {
+public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 	private IOclEngine oclEngine;
 
 	@Override
@@ -62,7 +63,7 @@ public class ActivityImplementor extends AbstractBehaviorVisitor {
 	public void implementActivity(INakedActivity activity) {
 		if (activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
 			OJAnnotatedClass activityClass = findJavaClass(activity);
-			OJPathName stateClass = activityClass.getPathName();
+			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
 			stateClass.addToNames(activity.getMappingInfo().getJavaName() + "State");
 			implementNodeMethods(activityClass, activity);
 			implementRelationshipsWithContextAndProcess(activity, activityClass);
@@ -131,7 +132,7 @@ public class ActivityImplementor extends AbstractBehaviorVisitor {
 		implementor.implementActionOn(operation);
 		if (implementor.requiresUserInteraction()) {
 			implementor.implementSupportingTaskMethods(activityClass);
-		} else if (!implementor.waitsForEvent()) {
+		} else if (!(implementor.waitsForEvent()|| node instanceof INakedControlNode)) {
 			implementor.implementPostConditions(operation);
 			implementor.implementConditionalFlows(operation, operation.getBody(), true);
 		}

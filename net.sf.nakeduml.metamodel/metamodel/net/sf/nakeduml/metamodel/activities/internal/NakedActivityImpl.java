@@ -38,6 +38,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public Collection<INakedActivityNode> getStartNodes(){
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
 		for(INakedActivityNode node:getActivityNodes()){
+			//TODO fix to !(node instanceof INakedParameterNode) && node.getAllEffectiveOutgoing().size() > 0   
 			if(node.getAllEffectiveOutgoing().size() > 0 && node.getAllEffectiveIncoming().isEmpty()){
 				// All parameter nodes with outgoing but no incoming
 				// All initial nodes

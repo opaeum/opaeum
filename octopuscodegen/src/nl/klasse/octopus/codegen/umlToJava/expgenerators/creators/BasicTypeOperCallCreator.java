@@ -263,6 +263,11 @@ public class BasicTypeOperCallCreator {
 				String argStr2 = (String) args.get(1);
 				argStr2 = StringHelpers.addBrackets(argStr2);
 				result = source + ".substring(" + argStr + "-1, " + argStr2 + ")";
+			} else if (referedOp.getName().equals("replaceAll")) {
+				source = StringHelpers.addBrackets(source);
+				String argStr2 = (String) args.get(1);
+				argStr2 = StringHelpers.addBrackets(argStr2);
+				result = source + ".replaceAll(" + argStr + ", " + argStr2 + ")";
 			} else if (referedOp.getName().equals("=")) {
 				source = StringHelpers.addBrackets(source);
 				result = source + ".equals(" + argStr + ")";

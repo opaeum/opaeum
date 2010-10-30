@@ -40,6 +40,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private boolean hasClassScope;
 	private boolean isAbstract;
 	private boolean isOclDef;
+	public static IClassifier VOID_TYPE;
 	public boolean isStatic(){
 		return hasClassScope;
 	}
@@ -64,7 +65,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	}
 	public IClassifier getReturnType(){
 		if(getReturnParameter() == null){
-			return null;
+			return VOID_TYPE;
 		}else{
 			return getReturnParameter().getType();
 		}

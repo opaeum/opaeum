@@ -50,6 +50,7 @@ import org.hibernate.annotations.CascadeType;
  * 
  */
 public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisitor {
+	private static final OJPathName WORKFLOW_PROCESS_INSTANCE = new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
 	private static final OJPathName NODE_INSTANCE_PATH = new OJPathName("org.jbpm.workflow.instance.NodeInstance");
 	private static final OJPathName NODE_PATH = new OJPathName("org.jbpm.workflow.core.Node");
 	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(AbstractProcess.class.getName());
@@ -100,7 +101,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 
 	protected void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior) {
 		// Take the context constructor and
-		OJPathName processInstancePath = new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
+		OJPathName processInstancePath = WORKFLOW_PROCESS_INSTANCE;
 		OJUtil.addProperty(ojBehavior, "processInstanceId", new OJPathName("Long"), true);
 		OJAnnotatedField processInstanceField = (OJAnnotatedField) ojBehavior.findField("processInstanceId");
 		OJAnnotatedField processField = new OJAnnotatedField("processInstance", new OJPathName("WorkflowProcessInstance"));
@@ -166,8 +167,10 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			f.putAnnotation(temporal);
 			execute.getBody().addToStatements("setExecutedOn(new Date())");
 			createJbpmProcess(oc, execute);
+			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
+			execute.getBody().addToStatements("this.processInstance=processInstance");
 			if (!oc.getPreConditions().isEmpty()) {
-				execute.getBody().addToStatements("_behavior.evaluatePreConditions()");
+				execute.getBody().addToStatements("evaluatePreConditions()");
 				OJUtil.addFailedConstraints(execute);
 			}
 		}
@@ -246,9 +249,11 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		}
 	}
 
-	public void createJbpmProcess(IParameterOwner parameterOwner, OJOperation javaMethod) {
+	protected void createJbpmProcess(IParameterOwner parameterOwner, OJOperation javaMethod) {
 		OJClass owner = (OJClass) javaMethod.getOwner();
 		owner.addToImports(BpmUtil.getJbpm5Environment());
+		owner.addToImports(WORKFLOW_PROCESS_INSTANCE);
+		owner.addToImports("org.jbpm.workflow.core.impl.WorkflowProcessImpl");
 		OJPathName mapPath = new OJPathName("java.util.HashMap");
 		mapPath.addToElementTypes(new OJPathName("String"));
 		mapPath.addToElementTypes(new OJPathName("Object"));
@@ -256,10 +261,12 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		javaMethod.getOwner().addToImports(mapPath);
 		params.setInitExp("new HashMap<String, Object>()");
 		javaMethod.getBody().addToLocals(params);
+		javaMethod.getBody().addToLocals(new OJAnnotatedField("processInstance", WORKFLOW_PROCESS_INSTANCE));
 		javaMethod.getBody().addToStatements("params.put(\"processObject\", this)");
 		javaMethod.getBody().addToStatements(
-				"this.processInstance = (WorkflowProcessInstance)Jbpm5Environment.getKnowledgeSession().startProcess(\""
+				"processInstance = (WorkflowProcessInstance)Jbpm5Environment.getKnowledgeSession().startProcess(\""
 						+ BpmUtil.generateProcessName(parameterOwner) + "\",params)");
+		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 	}
 
 	protected void invokeSimpleBehavior(INakedBehavior behavior, OJPathName activityClass, OJOperation javaMethod) {
@@ -288,6 +295,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		doIsStepActive(ojBehavior, umlBehavior);
 		doGetActiveLeafSteps(ojBehavior, umlBehavior);
 		doForceToStep(ojBehavior, stepEnumeration, umlBehavior);
+		addGetNodeInstancesRecursively(ojBehavior);
 	}
 
 
@@ -309,7 +317,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		body.addToStatements(forNodeInstances);
 		forNodeInstances.setBody(new OJBlock());
 		ojBehavior.addToImports("java.util.Collection");
-		forNodeInstances.setCollection("(Collection<NodeInstance>)(Collection)getProcessInstance().getNodeInstances()");
+		forNodeInstances.setCollection("getNodeInstancesRecursively()");
 		forNodeInstances.setElemName("curNodeInstance");
 		forNodeInstances.setElemType(NODE_INSTANCE_PATH);
 		OJIfStatement ifSameParent = new OJIfStatement("curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer()",
@@ -404,13 +412,23 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		forNodeInstances.setBody(new OJBlock());
 		forNodeInstances.setElemType(new OJPathName("NodeInstance"));
 		forNodeInstances.setElemName("nodeInstance");
-		forNodeInstances.setCollection("(Collection<NodeInstance>)(Collection)getProcessInstance().getNodeInstances()");
+		forNodeInstances.setCollection("getNodeInstancesRecursively()");
 		isStepActive.getBody().addToStatements(forNodeInstances);
-		OJIfStatement ifNameEquals = new OJIfStatement("nodeInstance.getNode().getName().equals(step.getQualifiedName())", "return true");
+		OJIfStatement ifNameEquals = new OJIfStatement("step.getQualifiedName().equals(nodeInstance.getNode().getName())", "return true");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);
 		isStepActive.getBody().addToStatements("return false");
 		isStepActive.setReturnType(new OJPathName("java.lang.boolean"));
 		ojBehavior.addToOperations(isStepActive);
+		
+	}
+
+	private void addGetNodeInstancesRecursively(OJClass ojBehavior) {
+		OJPathName collectionOfNodeInstances = new OJPathName("java.util.Collection");
+		collectionOfNodeInstances.addToElementTypes(new OJPathName("NodeInstance"));
+		ojBehavior.addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
+		OJAnnotatedOperation getNodeInstancesRecursively=new OJAnnotatedOperation("getNodeInstancesRecursively", collectionOfNodeInstances);
+		getNodeInstancesRecursively.getBody().addToStatements("return (Collection<NodeInstance>)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true)");
+		ojBehavior.addToOperations(getNodeInstancesRecursively);
 	}
 
 	private void doGetInnermostNonParallelStep(OJClass ojBehavior, INakedBehavior umlBehavior) {

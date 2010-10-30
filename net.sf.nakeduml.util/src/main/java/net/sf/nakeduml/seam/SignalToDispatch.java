@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+
 import net.sf.nakeduml.util.AbstractEntity;
 import net.sf.nakeduml.util.AbstractSignal;
 import net.sf.nakeduml.util.IntrospectionUtil;
@@ -32,27 +34,69 @@ public class SignalToDispatch implements Serializable {
 			this.target = duplicateWithId(this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
 			for (PropertyDescriptor pd : properties) {
-				if (pd.getWriteMethod() != null) {
+				if (pd.getWriteMethod() != null && pd.getReadMethod() != null) {
 					Object value = pd.getReadMethod().invoke(signal);
 					if (value instanceof AbstractEntity) {
 						pd.getWriteMethod().invoke(signal, duplicateWithId((AbstractEntity) value));
 					} else if (value instanceof Set<?>) {
-						populateCollection(pd, new HashSet<Object>(), (Set<?>) value);
+						copyCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
 					} else if (value instanceof List<?>) {
-						populateCollection(pd, new ArrayList<Object>(), (List<?>) value);
+						copyCollectionForDispatch(pd, new ArrayList<Object>(), (List<?>) value);
 					}
 				}
 			}
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(e.getTargetException());
 		} catch (InstantiationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void populateCollection(PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
+	public void prepareForDelivery(EntityManager em) {
+		try {
+			this.source = resolve(em, this.source);
+			this.target = resolve(em, this.target);
+			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
+			for (PropertyDescriptor pd : properties) {
+				if (pd.getWriteMethod() != null && pd.getReadMethod() != null) {
+					Object value = pd.getReadMethod().invoke(signal);
+					if (value instanceof AbstractEntity) {
+						pd.getWriteMethod().invoke(signal, resolve(em, (AbstractEntity) value));
+					} else if (value instanceof Set<?>) {
+						resolveCollectionOnDelivery(em, pd, new HashSet<Object>(), (Set<?>) value);
+					} else if (value instanceof List<?>) {
+						resolveCollectionOnDelivery(em, pd, new ArrayList<Object>(), (List<?>) value);
+					}
+				}
+			}
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e.getTargetException());
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void resolveCollectionOnDelivery(EntityManager em, PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
+			throws InstantiationException, IllegalAccessException, InvocationTargetException {
+		for (Object o : oldValue) {
+			if (o instanceof AbstractEntity) {
+				newValue.add(duplicateWithId((AbstractEntity) o));
+			} else {
+				newValue.add(o);
+			}
+		}
+		pd.getWriteMethod().invoke(signal, newValue);
+	}
+
+	private AbstractEntity resolve(EntityManager em, AbstractEntity ae) {
+		return em.find(ae.getClass(), ae.getId());
+	}
+
+	private void copyCollectionForDispatch(PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
 			throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		for (Object o : oldValue) {
 			if (o instanceof AbstractEntity) {
@@ -69,4 +113,16 @@ public class SignalToDispatch implements Serializable {
 		source.setId(this.source.getId());
 		return source;
 	}
+	public AbstractSignal getSignal() {
+		return signal;
+	}
+
+	public AbstractEntity getSource() {
+		return source;
+	}
+
+	public AbstractEntity getTarget() {
+		return target;
+	}
+
 }

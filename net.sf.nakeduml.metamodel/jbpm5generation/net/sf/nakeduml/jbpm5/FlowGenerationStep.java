@@ -29,6 +29,7 @@ import org.drools.drools._5._0.process.NodesType;
 import org.drools.drools._5._0.process.ProcessFactory;
 import org.drools.drools._5._0.process.ProcessPackage;
 import org.drools.drools._5._0.process.ProcessType;
+import org.drools.drools._5._0.process.SplitType;
 import org.drools.drools._5._0.process.StartType;
 import org.drools.drools._5._0.process.StateType;
 import org.drools.drools._5._0.process.TypeType;
@@ -104,7 +105,13 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		setBounds(i, node);
 		nodes.getStart().add(node);
 	}
-
+	protected final void addForkNode(NodesType nodes, int i, INakedElement state) {
+		SplitType node = ProcessFactory.eINSTANCE.createSplitType();
+		node.setName(state.getMappingInfo().getPersistentName().getAsIs());
+		setBounds(i, node);
+		node.setType("AND");
+		nodes.getSplit().add(node);
+	}
 	protected final void setBounds(int i, Object flowState) {
 		try {
 			PropertyDescriptor[] pds = Introspector.getBeanInfo(flowState.getClass()).getPropertyDescriptors();

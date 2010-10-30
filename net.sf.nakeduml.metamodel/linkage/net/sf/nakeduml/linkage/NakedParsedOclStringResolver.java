@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
@@ -32,6 +33,7 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
@@ -61,9 +63,15 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
-@StepDependency(phase = OclParsingPhase.class, after = {EnumerationValuesAttributeAdder.class}, requires = { MappedTypeLinker.class, PinLinker.class, ReferenceResolver.class,
-		TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class ,EnumerationValuesAttributeAdder.class})
+@StepDependency(phase = OclParsingPhase.class, after = { EnumerationValuesAttributeAdder.class }, requires = { MappedTypeLinker.class,
+		PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class,
+		EnumerationValuesAttributeAdder.class })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
+	@VisitBefore
+	public void visitModel(INakedModel m) {
+		NakedOperationImpl.VOID_TYPE = getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName);
+	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitSlot(INakedSlot slot) {
 		for (INakedValueSpecification s : slot.getValues()) {
@@ -91,16 +99,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
 		IClassifier returnType = null;
 		if (ob.getReturnParameter() == null) {
-			if (!(ob.getOwnerElement() instanceof INakedClassifier) && ob.getBodyExpression() != null) {
-				// owned by transitions,activity
-				// edges or states
-				String es = ob.getBodyExpression().getExpressionString();
-				if (ob.getBodyExpression() instanceof ParsedOclString && es != null && es.endsWith("()")) {
-					// TODO interim workaround for el
-					((ParsedOclString) ob.getBodyExpression()).setExpressionString(es.substring(0, es.length() - 2));
-					return;
-				}
-			}
 			returnType = getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName);
 		} else {
 			returnType = ob.getReturnParameter().getType();
@@ -230,7 +228,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		}
 		string.setContext(context, pin.getActivity());
 		Environment env = createEnvironment(context);
-		addAllParameters(env, pin.getActivity());
+		env.addElement("contextObject", new VariableDeclaration("contextObject", context), true);
+		if (!BehaviorUtil.hasExecutionInstance(pin.getActivity())) {
+			addAllParameters(env, pin.getActivity());
+		}
 		pin.getValue().setValue(replaceSingleParsedOclString(string, context, pin.getType(), env));
 	}
 
@@ -337,9 +338,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	}
 
 	private Environment createEnvironment(INakedClassifier c) {
-		// TODO add an implicit variable that contains 'now' and 'currentUser'
-		// as
-		// attributes
+		// TODO add a variable that contains 'currentUser'
 		Environment e = Environment.createEnvironment(c.getNameSpace(), c);
 		if (getBuiltInTypes().getDateType() != null) {
 			e.addElement("now", new VariableDeclaration("now", getBuiltInTypes().getDateType()), true);
@@ -374,7 +373,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		return env;
 	}
 
-	public void addAllParameters(Environment env, IParameterOwner paramOwner) {
+	private void addAllParameters(Environment env, IParameterOwner paramOwner) {
 		for (IParameter p : paramOwner.getParameters()) {
 			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
 		}

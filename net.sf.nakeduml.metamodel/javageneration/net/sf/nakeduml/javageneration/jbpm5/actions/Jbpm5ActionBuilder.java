@@ -52,6 +52,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		Collection<IOclContext> conditions =pre? constrained.getPreConditions(): constrained.getPostConditions();
 		if (conditions.size() > 0) {
 			OJBlock block = new OJBlock();
+
 			if (node instanceof INakedAction) {
 				//preConditions and PostConditions work on parameters - emulate pins as parameters
 				for (INakedPin pin : ((INakedAction) node).getInput()) {
@@ -103,10 +104,10 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	protected void continueFlow(OJBlock block, INakedActivityEdge edge) {
 		INakedActivityNode target = edge.getEffectiveTarget();
 		if (target.isImplicitJoin()) {
-			block.addToStatements("waitingToken.signal(\"artificial_join_for_" + edge.getMappingInfo().getPersistentName().getWithoutId()
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_join_for_" + edge.getMappingInfo().getPersistentName().getWithoutId()
 					+ "\")");
 		} else {
-			block.addToStatements("waitingToken.signal(\"" + edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"" + edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
 		}
 	}
 

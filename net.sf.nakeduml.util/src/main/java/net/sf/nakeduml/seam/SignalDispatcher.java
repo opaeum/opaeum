@@ -76,6 +76,7 @@ public class SignalDispatcher implements Synchronization {
 				signalQueueSender.send(queueSession.createObjectMessage(s));
 			}
 			signalQueueSender.close();
+			signalsToDispatch.clear();
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}

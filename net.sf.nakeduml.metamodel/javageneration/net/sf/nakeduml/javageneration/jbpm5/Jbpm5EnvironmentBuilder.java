@@ -14,6 +14,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
@@ -51,6 +52,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpm5Environment.addToImports("org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
 		jbpm5Environment.addToImports("org.jbpm.workflow.instance.impl.NodeInstanceFactoryRegistry");
 		jbpm5Environment.addToImports("org.jbpm.workflow.instance.impl.factory.CreateNewNodeFactory");
+		jbpm5Environment.addToImports("org.jbpm.workflow.instance.impl.factory.ReuseNodeFactory");
 		jbpm5Environment.addToImports("org.jbpm.workflow.core.node.StateNode");
 		jbpm5Environment.addToImports("org.jbpm.workflow.core.node.Join");
 		jbpm5Environment.addToImports("org.jbpm.workflow.core.node.EndNode");
@@ -93,12 +95,12 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		readKnowledgeBaseBody.addToStatements("KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder()");
 		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(StateNode.class, new CreateNewNodeFactory(Uml2StateInstance.class))");
 		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(EndNode.class, new CreateNewNodeFactory(Uml2EndStateInstance.class))");
-		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(Join.class, new CreateNewNodeFactory(Uml2JoinInstance.class))");
+		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(Join.class, new ReuseNodeFactory(Uml2JoinInstance.class))");
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior b) {
-		if (b.isProcess()) {
+		if (b.isProcess() && b instanceof INakedStateMachine) {
 			readKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\"" + b.getMappingInfo().getJavaPath()
 					+ ".rf\"), ResourceType.DRF)");
 		}

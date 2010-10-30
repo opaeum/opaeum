@@ -83,13 +83,8 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			// TODO implement process Invocation on Execute method
 			OJPathName behaviorClass = ojOperationClass.getPathName();
 			createJbpmProcess(o, ojOper);
-			ojOper.getBody().addToStatements("processInstance.signal()");
-			ojOper.getBody().addToStatements("ExecutionContext executionContext=new ExecutionContext(processInstance.getRootToken())");
-			ojOper.getBody().addToStatements("ExecutionContext.pushCurrentContext(executionContext)");
-			// ojOper.getBody().addToStatements("TaskInstance taskInstance=process.getTaskMgmtInstance().createTaskInstance(process.getRootToken())");
 			ojOper.getBody().addToStatements(o.getName() + " _" + o.getName() + "= new " + o.getName() + "(this)");
 			ojOper.getBody().addToStatements("_" + o.getName() + ".execute()");
-			ojOper.getBody().addToStatements("ExecutionContext.popCurrentContext(executionContext)");
 			ojOper.getBody().addToStatements("return _" + o.getName());
 			ojOper.setReturnType(behaviorClass);
 			super.addContextFieldAndConstructor(ojOperationClass, oc, o.getOwner());

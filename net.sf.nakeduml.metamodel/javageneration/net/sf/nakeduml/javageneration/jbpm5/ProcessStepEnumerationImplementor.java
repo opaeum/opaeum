@@ -53,10 +53,11 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 			parent.setName("parent");
 			parent.setType(e.getPathName());
 			e.addToFields(parent);
-			OJIfStatement ifParentNull = new OJIfStatement("parent==null", "return persistentName");
-			ifParentNull.setElsePart(new OJBlock());
-			ifParentNull.getElsePart().addToStatements("return parent.getQualifiedName()+ \"/\" + persistentName");
-			getQualifiedName.getBody().addToStatements(ifParentNull);
+//			OJIfStatement ifParentNull = new OJIfStatement("parent==null", "return persistentName");
+//			ifParentNull.setElsePart(new OJBlock());
+//			ifParentNull.getElsePart().addToStatements("return parent.getQualifiedName()+ \"/\" + persistentName");
+//			getQualifiedName.getBody().addToStatements(ifParentNull);
+			getQualifiedName.getBody().addToStatements("return persistentName");
 			getParentState.getBody().addToStatements("return parent");
 			OJConstructor constructor2 = constructor.getConstructorCopy();
 			constructor2.addParam(parent.getName(), parent.getType());

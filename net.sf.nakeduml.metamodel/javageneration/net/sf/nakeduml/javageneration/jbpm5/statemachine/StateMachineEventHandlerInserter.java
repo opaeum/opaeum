@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.WaitForEventElements;
-import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javametamodel.OJAnnonymousInnerClass;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
@@ -24,7 +24,6 @@ import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
@@ -39,28 +38,30 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 		for (WaitForEventElements wfe : waitForEventElements) {
 			if (wfe.getEvent() instanceof INakedTimeEvent) {
 				for (FromNode fromNode : wfe.getWaitingNodes()) {
-					String fireOper = "fireTimersFor" + fromNode.getWaitingElement().getMappingInfo().getJavaName();
+					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
+					INakedElement we = fromNode.getWaitingElement();
+					String fireOper = map.getFireTimersMethod();
 					OJOperation fire = javaStateMachine.findOperation(fireOper, Collections.EMPTY_LIST);
 					if (fire == null) {
 						fire = new OJAnnotatedOperation();
 						fire.setName(fireOper);
 						javaStateMachine.addToOperations(fire);
 					}
-					AcceptEventActionBuilder.implementTimeEvent(fire, (INakedTimeEvent) wfe.getEvent(), fromNode.getWaitingElement(),
+					BpmUtil.implementTimeEvent(fire, (INakedTimeEvent) wfe.getEvent(), we,
 							fromNode.getTransitions());
-					String cancelOper = "cancelTimersFor" + fromNode.getWaitingElement().getMappingInfo().getJavaName();
+					String cancelOper = map.getCancelTimersMethod();
 					OJOperation cancel = javaStateMachine.findOperation(cancelOper, Collections.EMPTY_LIST);
 					if (cancel == null) {
 						cancel = new OJAnnotatedOperation();
 						cancel.setName(cancelOper);
-						javaStateMachine.addToOperations(fire);
+						javaStateMachine.addToOperations(cancel);
 					}
-					AcceptEventActionBuilder.cancelTimer(cancel, (INakedTimeEvent) wfe.getEvent());
+					BpmUtil.cancelTimer(cancel, (INakedTimeEvent) wfe.getEvent());
 				}
 			}
 		}
 		super.implementEventHandling(javaStateMachine, umlStateMachine, getWaitForEventElements(umlStateMachine));
-	};
+	}
 
 	private Collection<WaitForEventElements> getWaitForEventElements(INakedStateMachine ns) {
 		Map<INakedElement, WaitForEventElements> results = new HashMap<INakedElement, WaitForEventElements>();
@@ -114,7 +115,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 				"umlNode.takeTransition(\"" + calculateTargetNodeName(transition) + "\", listener)");
 	}
 
-	public String calculateTargetNodeName(INakedTransition flow) {
+	private String calculateTargetNodeName(INakedTransition flow) {
 		if(flow.getTarget().getIncoming().size()>1){
 			return BpmUtil.getArtificialJoinName(flow.getTarget());
 		}
