@@ -229,6 +229,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					addPreviousVersionField(auditClass, c);
 					addRevisionTypeField(auditClass);
 					addOriginalNamedQuery(auditClass, c);
+					addOriginalNamedQueryWithStartEndDate(auditClass, c);
 					// implementAudited(c, auditClass);
 					removeDeletedOnFilter(auditClass);
 					// remove uniqueConstraints
@@ -283,6 +284,25 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		}
 	}
 
+	private void addOriginalNamedQueryWithStartEndDate(OJAnnotatedClass auditClass, INakedClassifier owner) {
+		OJAnnotationValue namedQueries = auditClass.findAnnotation(new OJPathName("javax.persistence.NamedQueries"));
+		if (namedQueries == null) {
+			namedQueries = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQueries"));
+			auditClass.addAnnotationIfNew(namedQueries);
+		}
+		OJAnnotationAttributeValue oneToManyNamedQueryAttr = namedQueries.findAttribute("value");
+		if (oneToManyNamedQueryAttr == null) {
+			oneToManyNamedQueryAttr = new OJAnnotationAttributeValue("value");
+			namedQueries.putAttribute(oneToManyNamedQueryAttr);
+		}
+		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
+		oneToManyNamedQuery.putAttribute("name", "GetAuditsBetweenFor" + owner.getMappingInfo().getJavaName());
+		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
+				+ owner.getMappingInfo().getJavaName().getDecapped() + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
+				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
+		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
+	}
+
 	private void addPreviousVersionField(OJAnnotatedClass c, INakedClassifier umlClass) {
 		OJAnnotatedField previousVersion = new OJAnnotatedField();
 		OJPathName previousVersionPath = c.getPathName();
@@ -299,16 +319,12 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		referencedAnnotationAttribute.addStringValue(getRoot(umlClass).getMappingInfo().getPersistentName() + "_id");
 		joinColumn.putAttribute(referencedAnnotationAttribute);
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
-//		joinColumn.putAttribute(new OJAnnotationAttributeValue("insertable", false));
-//		joinColumn.putAttribute(new OJAnnotationAttributeValue("updatable", false));
 		joinColumns.addAnnotationValue(joinColumn);
 		joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
 		nameAnnotationAttribute.addStringValue("previous_object_version");
 		joinColumn.putAttribute(nameAnnotationAttribute);
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
-//		joinColumn.putAttribute(new OJAnnotationAttributeValue("insertable", false));
-//		joinColumn.putAttribute(new OJAnnotationAttributeValue("updatable", false));
 		referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
 		referencedAnnotationAttribute.addStringValue("object_version");
 		joinColumn.putAttribute(referencedAnnotationAttribute);
@@ -333,12 +349,25 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		
 		setter = new OJAnnotatedOperation();
 		setter.setName("setPreviousVersion");
-		setter.addParam("previousVersion", new OJPathName("net.sf.nakeduml.util.Audited"));
+		OJPathName auditedPathName = new OJPathName("net.sf.nakeduml.util.Audited");
+		setter.addParam("previousVersion", auditedPathName);
 		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-		
-		
+
+		setter = new OJAnnotatedOperation();
+		setter.setName("setPreviousVersionWithoutCheck");
+		setter.addParam("previousVersion", auditedPathName);
+		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
+		setter.setStatic(false);
+		c.addToOperations(setter);
+
+		getter = new OJAnnotatedOperation();
+		getter.setName("getPreviousVersion");
+		getter.setReturnType(auditedPathName);
+		getter.getBody().addToStatements("return previousVersion");
+		getter.setStatic(false);
+		c.addToOperations(getter);
 	}
 
 	private void annotateEmbeddedId(INakedClassifier c, OJAnnotatedClass auditClass) {
