@@ -7,12 +7,13 @@ import net.sf.nakeduml.javametamodel.utilities.JavaUtil;
 
 public class OJAnnonymousInnerClass extends OJAnnotatedField {
 	private OJAnnotatedClass classDeclaration = new OJAnnotatedClass();
+	private OJClassifier outer;
 
-	public OJAnnonymousInnerClass(String string, OJPathName ojPathName) {
+	public OJAnnonymousInnerClass(OJClassifier ojClassifier, String string, OJPathName ojPathName) {
 		super(string,ojPathName);
 		classDeclaration.setSuperclass(ojPathName);
-		// TODO Auto-generated constructor stub
-	}
+		this.outer=ojClassifier;
+		}
 
 	public OJAnnonymousInnerClass() {
 		// TODO Auto-generated constructor stub
@@ -54,7 +55,8 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		sb.append("\n");
 		sb.append(JavaStringHelpers.indent(classDeclaration.operations(), 2));
 		sb.append("};");
-		return sb.toString();
+		//TODO bit aggressive
+		return sb.toString().replaceAll("this", outer.getName() + ".this");
 	}
 	public OJAnnotatedField getDeepCopy(){
 		OJAnnonymousInnerClass copy= new OJAnnonymousInnerClass();

@@ -100,7 +100,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 		block.addToStatements(ifUmlNode);
 		operationContext.getOwner().addToImports("net.sf.nakeduml.util.UmlNode");
 		operationContext.getOwner().addToImports("net.sf.nakeduml.util.TransitionListener");
-		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass("listener", new OJPathName("net.sf.nakeduml.util.TransitionListener"));
+		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner(), "listener", new OJPathName("net.sf.nakeduml.util.TransitionListener"));
 		ifUmlNode.getThenPart().addToLocals(listener);
 		OJAnnotatedOperation onTransition = new OJAnnotatedOperation("onTransition");
 		listener.getClassDeclaration().addToOperations(onTransition);
@@ -119,7 +119,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 				IClassifier voidType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName);
 				String expression = ValueSpecificationUtil
 						.expressValue(onTransition, b.getBody(), transition.getStateMachine(), voidType);
-				onTransition.getBody().addToStatements(expression.replaceAll("this.", ""));//Get rid of this.
+				onTransition.getBody().addToStatements(expression);
 			}
 		}
 		ifUmlNode.getThenPart().addToStatements("umlNode.takeTransition(\"" + calculateTargetNodeName(transition) + "\", listener)");

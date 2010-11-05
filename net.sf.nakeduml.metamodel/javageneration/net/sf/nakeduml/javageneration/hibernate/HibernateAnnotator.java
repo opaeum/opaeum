@@ -68,7 +68,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 		OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
 		annotateComplexStructure(msg);
 		for (INakedPin p : oa.getPins()) {
-			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p));
+			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p,false));
 		}
 	}
 
@@ -91,7 +91,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
 	public void visitObjectNode(INakedObjectNode node) {
-		if (BehaviorUtil.hasExecutionInstance(node.getActivity())) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStored(node)) {
 			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}

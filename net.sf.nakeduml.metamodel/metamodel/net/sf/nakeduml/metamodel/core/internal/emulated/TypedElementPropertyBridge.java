@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
@@ -28,16 +28,22 @@ import nl.klasse.octopus.model.VisibilityKind;
 public class TypedElementPropertyBridge extends EmulatingElement implements INakedProperty {
 	INakedClassifier owner;
 	INakedTypedElement parameter;
-
+	 boolean ensureLocallyUniqueName=true;
 	public TypedElementPropertyBridge(INakedClassifier owner, INakedTypedElement parameter) {
 		super(parameter);
 		this.owner = owner;
 		this.parameter = parameter;
 	}
+	public TypedElementPropertyBridge(INakedClassifier owner, INakedObjectNode pin, boolean ensureLocallyUniqueName) {
+		super(pin);
+		this.owner = owner;
+		this.parameter =pin;
+		this.ensureLocallyUniqueName=ensureLocallyUniqueName;
+	}
 	
 	@Override
 	public String getName() {
-		if(parameter.getOwnerElement() instanceof INakedAction && !(parameter.getOwnerElement() instanceof INakedOpaqueAction)){
+		if(parameter.getOwnerElement() instanceof INakedAction && ensureLocallyUniqueName){
 			return parameter.getName() + "On" + parameter.getOwnerElement().getMappingInfo().getJavaName().getCapped();
 		}
 		return super.getName();

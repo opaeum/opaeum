@@ -65,7 +65,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
 		annotateComplexStructure(msg);
 		for (INakedPin p : oa.getPins()) {
-			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p));
+			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p, false));
 		}
 	}
 
@@ -164,7 +164,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
 	public void visitObjectNode(INakedObjectNode node) {
-		if (node.getActivity().isPersistent()) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStored(node)) {
 			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}

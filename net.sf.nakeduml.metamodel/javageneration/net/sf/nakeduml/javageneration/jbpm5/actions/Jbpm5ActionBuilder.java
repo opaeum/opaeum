@@ -47,7 +47,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
 			INakedObjectNode feedingNode = pin.getFeedingNode();
 			NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(feedingNode.getActivity(), feedingNode);
-			String call=feedingMap.getter() + "()";
+			String call = feedingMap.getter() + "()";
 			if (feedingNode instanceof INakedOutputPin) {
 				call = retrieveFromExecutionInstanceIfNecessary(feedingNode, call);
 			}
@@ -84,7 +84,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				// preConditions and PostConditions work on parameters - emulate
 				// pins as parameters
 				for (INakedPin pin : ((INakedAction) node).getInput()) {
-					buildPinField(oper, block, pin);
+					buildPinField(oper, block, pin, false);
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
@@ -172,7 +172,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			// ignore guards and weight here, just go straight to the artificial
 			// fork
 			// TODO implement a fork that evaluates conditions before leaving
-			block.addToStatements("waitingToken.signal(\"artificial_fork_for_" + node.getMappingInfo().getPersistentName().getWithoutId()
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_fork_for_" + node.getMappingInfo().getPersistentName().getWithoutId()
 					+ "\")");
 		} else {
 			for (INakedActivityEdge e : node.getDefaultOutgoing()) {
@@ -192,11 +192,15 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	protected final String buildPinField(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
+		return buildPinField(operationContext, block, pin, true);
+	}
+
+	protected final String buildPinField(OJOperation operationContext, OJBlock block, INakedObjectNode pin, boolean ensureUniqueness) {
 		if (pin == null) {
 			return "!!NoPin!!";
 		} else {
 			String pinName = " " + pin.getMappingInfo().getJavaName().toString();
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, ensureUniqueness);
 			operationContext.getOwner().addToImports(map.javaTypePath());
 			OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 			field.setInitExp(buildPinExpression(operationContext, block, pin));

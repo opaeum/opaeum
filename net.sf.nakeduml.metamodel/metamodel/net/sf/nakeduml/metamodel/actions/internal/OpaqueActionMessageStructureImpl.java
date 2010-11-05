@@ -28,7 +28,7 @@ public class OpaqueActionMessageStructureImpl extends MessageStructureImpl {
 		if (attributes == null) {
 			attributes = new ArrayList<INakedProperty>();
 			for (INakedObjectNode p : action.getPins()) {
-				attributes.add(new TypedElementPropertyBridge(this, p));
+				attributes.add(new TypedElementPropertyBridge(this, p,false));
 			}
 		}
 		return attributes;

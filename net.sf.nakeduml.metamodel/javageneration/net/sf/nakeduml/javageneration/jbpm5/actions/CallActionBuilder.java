@@ -55,7 +55,15 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 				}
 			}
 			for (INakedPin pin : node.getArguments()) {
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), pin);
+				NakedStructuralFeatureMap map;
+				if(pin.getLinkedTypedElement()!=null){
+					//Task Operation or Business Process
+					map = OJUtil.buildStructuralFeatureMap(node.getActivity(), pin.getLinkedTypedElement());
+				}else{
+					//Opaque Action
+					map = OJUtil.buildStructuralFeatureMap(node.getActivity(), pin,false);
+					
+				}
 				String pinExpression = buildPinExpression(operation, block, pin);
 				block.addToStatements(taskVarName + "." + map.setter() + "(" + pinExpression + ")");
 			}
@@ -63,15 +71,12 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 				block.addToStatements("TaskInstance taskInstance = " + taskVarName + ".execute()");
 				operation.getOwner().addToImports("org.jbpm.taskmgmt.exe.TaskInstance");
 				if (node.getTarget() != null && node.getTarget().hasValidInput()) {
-					block.addToStatements("taskInstance.setActorId(" + actionMap.targetName() + ".getUsername())");
+					block.addToStatements("taskInstance.setActorId(" + actionMap.targetName() + ".getUserName())");
 				} else if (node.getInPartition() != null) {
 					block.addToStatements("taskInstance.setSwimlaneInstance(what)");
 				}
 			} else {
 				block.addToStatements(taskVarName + ".execute()");
-			}
-			if (BehaviorUtil.returnsImmediately(node) && node.getResult().size() > 0) {
-				storeResultsFromMessageStructure(block);
 			}
 		} else {
 			StringBuilder arguments = populateArguments(operation, node.getArguments());
@@ -163,22 +168,6 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 		}
 	}
 
-	private void storeResultsFromMessageStructure(OJBlock body) {
-		for (INakedOutputPin op : node.getResult()) {
-			if (!op.isException()) {
-				NakedStructuralFeatureMap targetFeature = OJUtil.buildStructuralFeatureMap(node.getActivity(), op);
-				StructuralFeatureMap sourceFeature = getParameterMap(node, op);
-				String readExpr = "(" + callMap.umlName() + "." + sourceFeature.getter() + "())";
-				String call;
-				if (targetFeature.isCollection()) {
-					call = targetFeature.adder() + readExpr;
-				} else {
-					call = targetFeature.setter() + readExpr;
-				}
-				body.addToStatements(call);
-			}
-		}
-	}
 
 	@Override
 	public boolean requiresUserInteraction() {

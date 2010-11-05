@@ -19,6 +19,8 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
@@ -288,6 +290,10 @@ public class OJUtil {
 		} else {
 			return false;
 		}
+	}
+
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner, INakedObjectNode pin, boolean ensureUniqueness) {
+		return new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin,ensureUniqueness));
 	}
 
 }

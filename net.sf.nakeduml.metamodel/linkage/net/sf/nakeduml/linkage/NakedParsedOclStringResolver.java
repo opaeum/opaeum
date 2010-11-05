@@ -2,14 +2,13 @@ package net.sf.nakeduml.linkage;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
@@ -25,6 +24,7 @@ import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -43,8 +43,6 @@ import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatingElement;
-import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -63,7 +61,6 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.INameSpace;
-import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
@@ -82,57 +79,11 @@ import nl.klasse.tools.common.Check;
 		PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class,
 		EnumerationValuesAttributeAdder.class })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
-	public static final class ActivityVariableContext extends MessageStructureImpl {
-		private final INakedBehavior activity;
-
-		public ActivityVariableContext(INakedClassifier owner, INakedElement element, INakedBehavior activity) {
-			super(owner, element);
-			this.activity = activity;
-		}
-
-		@Override
-		public IPackage getRoot() {
-			return activity.getRoot();
-		}
-
-		@Override
-		public List<? extends INakedConstraint> getOwnedRules() {
-			return Collections.emptyList();
-		}
-
-		@Override
-		public List<? extends IOclContext> getDefinitions() {
-			return Collections.emptyList();
-		}
-
-		@Override
-		public boolean isPersistent() {
-			return false;
-		}
-
-		@Override
-		public List<INakedProperty> getOwnedAttributes() {
-			List<INakedProperty> result = new ArrayList<INakedProperty>();
-			addVariables(result, element);
-			return result;
-		}
-
-		private void addVariables(List<INakedProperty> result, INakedElement element) {
-			Collection<INakedActivityVariable> variables = null;
-			if (element instanceof INakedActivity) {
-				variables = ((INakedActivity) element).getVariables();
-			} else if (element instanceof INakedStructuredActivityNode) {
-				variables = ((INakedStructuredActivityNode) element).getVariables();
-			}
-			if (variables != null) {
-				for (INakedActivityVariable var : variables) {
-					result.add(new TypedElementPropertyBridge(activity, var));
-				}
-			}
-			if (!(element == null || element instanceof INakedActivity)) {
-				addVariables(result, (INakedElement) element.getOwnerElement());
-			}
-		}
+	EnvironmentFactory environmentFactory ;
+	@Override
+	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config) {
+		super.initialize(workspace, config);
+		environmentFactory = new EnvironmentFactory(workspace);
 	}
 
 	@VisitBefore
@@ -147,7 +98,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 				ParsedOclString string = (ParsedOclString) s.getValue();
 				INakedClassifier context = slot.getOwningInstance().getClassifier();
 				string.setContext(context, context);
-				Environment env = createEnvironment(context);
+				Environment env = environmentFactory.createEnvironment(context);
 				s.setValue(replaceSingleParsedOclString(string, context, s.getType(), env));
 			}
 		}
@@ -160,52 +111,16 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			string.setContext(edge.getOwningBehavior(), edge.getOwningBehavior());
 			IClassifier booleanType = getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			INakedBehavior owningBehavior = edge.getOwningBehavior();
-			if (isContextObjectApplicable(owningBehavior)) {
-				// Complex Activities, StateMachines, Transition Actions and
-				// State Actions
-				Environment env = createPreEnvironment(getNearestActualClass(owningBehavior), edge);
-				if (owningBehavior.getContext() != null) {
-					env.addElement("contextObject", new VariableDeclaration("contextObject", owningBehavior.getContext()), true);
-				}
-				addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
-				if (BehaviorUtil.hasExecutionInstance(edge.getOwningBehavior())) {
-					env.addElement("this",
-							new VariableDeclaration("this", new ActivityVariableContext(edge.getOwningBehavior(), edge, edge.getOwningBehavior())),
-							true);
-				} else {
-					addActivityStructureAsLocalContext(env, edge.getOwningBehavior());
-				}
-				addFlowParameters(env, edge);
-				edge.getGuard().setValue(replaceSingleParsedOclString(string, owningBehavior, booleanType, env));
-			} else {
-				// Simple Synchronous methods
-				Environment env = createPreEnvironment(owningBehavior.getContext(), edge);
-				addFlowParameters(env, edge);
-				addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
-				addActivityStructureAsLocalContext(env, edge);
-				edge.getGuard().setValue(replaceSingleParsedOclString(string, owningBehavior, booleanType, env));
+			Environment env = environmentFactory.prepareBehaviorEnvironment(edge, owningBehavior);
+			environmentFactory.addFlowParameters(env, edge);
+			INakedClassifier context = edge.getOwningBehavior().getContext();
+			if(context==null){
+				context=BehaviorUtil.getNearestActualClass(owningBehavior);
 			}
+			edge.getGuard().setValue(replaceSingleParsedOclString(string, context, booleanType, env));
 		}
 	}
 
-	private void addFlowParameters(Environment env, GuardedFlow edge) {
-		if (edge instanceof INakedTransition) {
-			List<INakedParameter> parameters = ((INakedTransition) edge).getParameters();
-			for (INakedParameter p : parameters) {
-				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
-			}
-		} else if (edge instanceof INakedObjectFlow) {
-			INakedObjectNode source = (INakedObjectNode) ((INakedObjectFlow) edge).getSource();
-			env.addElement(source.getName(), new VariableDeclaration(source.getName(), source.getType()), false);
-		}
-	}
-
-	private boolean isContextObjectApplicable(INakedBehavior owningBehavior) {
-		boolean isContextApplicable = owningBehavior instanceof INakedStateMachine
-				|| (owningBehavior instanceof INakedActivity && ((INakedActivity) owningBehavior).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)
-				|| owningBehavior.getOwnerElement() instanceof INakedTransition || owningBehavior.getOwnerElement() instanceof INakedState;
-		return isContextApplicable;
-	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
@@ -223,12 +138,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			ParsedOclString bodyExpression = (ParsedOclString) body.getValue();
 			bodyExpression.setContext(ob.getContext(), ob);
 			if (ob.getContext() == null) {
-				INakedClassifier surrogateContext = getNearestActualClass(ob.getOwnerElement());
-				Environment env = createPreEnvironment(surrogateContext, ob);
+				INakedClassifier surrogateContext = BehaviorUtil.getNearestActualClass(ob.getOwnerElement());
+				Environment env = environmentFactory.createPreEnvironment(surrogateContext, ob);
 				body.setValue(replaceSingleParsedOclString(bodyExpression, surrogateContext, returnType, env));
 				body.setType(returnType);
 			} else {
-				Environment env = createPreEnvironment(ob.getContext(), ob);
+				Environment env = environmentFactory.createPreEnvironment(ob.getContext(), ob);
 				body.setValue(replaceSingleParsedOclString(bodyExpression, c, returnType, env));
 				body.setType(returnType);
 			}
@@ -242,7 +157,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		if (iv != null && iv.isOclValue()) {
 			ParsedOclString oclValue = (ParsedOclString) iv.getOclValue();
 			oclValue.setContext(c, attr);
-			Environment env = createEnvironment(c);
+			Environment env = environmentFactory.createEnvironment(c);
 			iv.setValue(replaceSingleParsedOclString(oclValue, c, attr.getType(), env));
 			iv.setType(attr.getType());
 		}
@@ -261,7 +176,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		if (w != null && w.getValue() instanceof ParsedOclString) {
 			// Remember that time events' when expression MUST have a type
 			// specified
-			Environment env = createEnvironment(ev.getContext());
+			Environment env = environmentFactory.createEnvironment(ev.getContext());
 			ParsedOclString value = (ParsedOclString) w.getValue();
 			value.setContext(ev.getContext(), ev.getContext());
 			w.setValue(replaceSingleParsedOclString(value, ev.getContext(), w.getType(), env));
@@ -276,7 +191,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
 			INakedClassifier owner = op.getOwner();
 			bodyExpression.setContext(owner, op);
-			Environment env = createPreEnvironment(owner, op);
+			Environment env = environmentFactory.createPreEnvironment(owner, op);
 			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env));
 			bodyCondition.setType(op.getReturnType());
 			// TODO support OpaqueBehavior for effects.
@@ -289,7 +204,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	public void visitBehavior(INakedBehavior b) {
 		INakedClassifier ctx = b.getContext();
 		if (ctx == null) {
-			ctx = b;
+			ctx = BehaviorUtil.getNearestActualClass(b);
 		}
 		b.setPreConditions(replaceParcedOclStringsForOclContext(ctx, b, b.getPreConditions()));
 		b.setPostConditions(replaceParcedOclStringsForOclContext(ctx, b, b.getPostConditions()));
@@ -299,7 +214,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	public void visitAction(INakedAction a) {
 		INakedClassifier ctx = a.getContext();
 		if (ctx == null) {
-			ctx = a.getActivity();
+			ctx = BehaviorUtil.getNearestActualClass(a);
 		}
 		a.setPreConditions(replaceParcedOclStringsForOclContext(ctx, a, a.getPreConditions()));
 		a.setPostConditions(replaceParcedOclStringsForOclContext(ctx, a, a.getPostConditions()));
@@ -350,70 +265,14 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 
 	private void resolvePinOcl(INakedValuePin pin) {
 		ParsedOclString string = (ParsedOclString) pin.getValue().getValue();
-		Environment env = null;
-		INakedClassifier nearestActualClass = getNearestActualClass(pin.getActivity());
+		INakedClassifier nearestActualClass = BehaviorUtil.getNearestActualClass(pin.getActivity());
 		string.setContext(nearestActualClass, nearestActualClass);
-		if (isContextObjectApplicable(pin.getActivity())) {
-			// complex activities or transition effects or state actions
-			env = createEnvironment(nearestActualClass);
-			if (pin.getActivity().getContext() != null) {
-				env.addElement("contextObject", new VariableDeclaration("contextObject", pin.getActivity().getContext()), true);
-			}
-			addTransitionParametersIfBehaviourContainedByTransition(env, pin.getActivity());
-			final INakedActivity activity = pin.getActivity();
-			if (pin.getActivity().getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
-				addActivityStructureAsLocalContext(env, pin);
-			} else {
-				env.addElement("this", new VariableDeclaration("this", new ActivityVariableContext(pin.getActivity(), pin, activity)), true);
-			}
-			pin.getValue().setValue(replaceSingleParsedOclString(string, nearestActualClass, pin.getType(), env));
-		} else {
-			// Simple Activities
-			INakedClassifier context = pin.getActivity().getContext();
-			env = createEnvironment(pin.getActivity().getContext());
-			addAllParameters(env, pin.getActivity());
-			addActivityStructureAsLocalContext(env, pin);
-			addTransitionParametersIfBehaviourContainedByTransition(env, pin.getActivity());
-			pin.getValue().setValue(replaceSingleParsedOclString(string, context, pin.getType(), env));
+		Environment env = environmentFactory.prepareBehaviorEnvironment(pin, pin.getActivity());
+		INakedClassifier context = pin.getActivity().getContext();
+		if(context==null){
+			context=nearestActualClass;
 		}
-	}
-
-	private INakedClassifier getNearestActualClass(INakedElementOwner ownerElement) {
-		// Returns the first ownerElement that has an OJClass
-		while (ownerElement instanceof INakedElement
-				&& !(ownerElement instanceof INakedClassifier && OJUtil.hasOJClass((INakedClassifier) ownerElement))) {
-			ownerElement = ((INakedElement) ownerElement).getOwnerElement();
-		}
-		if (ownerElement instanceof INakedClassifier) {
-			return (INakedClassifier) ownerElement;
-		} else {
-			return null;
-		}
-	}
-
-	private void addActivityStructureAsLocalContext(Environment env, INakedElement element) {
-		if (element instanceof INakedStructuredActivityNode) {
-			addVariables(env, ((INakedStructuredActivityNode) element).getVariables());
-		} else if (element instanceof INakedActivity) {
-			addVariables(env, ((INakedActivity) element).getVariables());
-		}
-		if (element instanceof INakedExpansionRegion) {
-			INakedExpansionRegion node = (INakedExpansionRegion) element;
-			List<INakedExpansionNode> input = node.getInputElement();
-			for (INakedExpansionNode i : input) {
-				// USe Basetype - from the inside it looks like multiplicity=1
-				env.addElement(i.getName(), new VariableDeclaration(i.getName(), i.getNakedBaseType()), false);
-			}
-		}
-		if (!(element instanceof INakedActivity || element == null)) {
-			addActivityStructureAsLocalContext(env, (INakedElement) element.getOwnerElement());
-		}
-	}
-
-	private void addVariables(Environment env, Collection<INakedActivityVariable> variables) {
-		for (INakedActivityVariable var : variables) {
-			env.addElement(var.getName(), new VariableDeclaration(var.getName(), var.getType()), false);
-		}
+		pin.getValue().setValue(replaceSingleParsedOclString(string, context, pin.getType(), env));
 	}
 
 	private void replaceParcedOclStrings(INakedClassifier c, Collection<? extends INakedConstraint> invs) {
@@ -422,7 +281,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 				ParsedOclString holder = (ParsedOclString) cont.getSpecification().getOclValue();
 				holder.setContext(c, c);
 				IClassifier basicType = StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName);
-				Environment env = createEnvironment(c);
+				Environment env = environmentFactory.createEnvironment(c);
 				if (cont.getConstrainedElement() instanceof INakedProperty) {
 					basicType = getOclLibrary().lookupCollectionType(CollectionMetaType.SET, basicType);
 				}
@@ -437,9 +296,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		for (IOclContext cont : invs) {
 			if (cont instanceof ParsedOclString) {
 				ParsedOclString holder = (ParsedOclString) cont;
-				Environment env = createPreEnvironment(c, element);
+				Environment env = environmentFactory.createPreEnvironment(c, element);
 				if (holder.getType().equals(OclUsageType.POST)) {
-					addPostEnvironment(env, element);
+					environmentFactory.addPostEnvironment(env, element);
 				}
 				loopResults.add(replaceSingleParsedOclString(holder, c, StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName), env));
 			}
@@ -495,83 +354,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		}
 	}
 
-	private void addPostEnvironment(Environment env, IModelElement element) {
-		if (element instanceof IParameterOwner) {
-			IParameterOwner owner = (IParameterOwner) element;
-			for (INakedParameter p : owner.getResultParameters()) {
-				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
-				if (p.isReturn()) {
-					env.addElement("result", new VariableDeclaration("result", p.getType()), false);
-				}
-			}
-		} else if (element instanceof INakedAction) {
-			INakedAction owner = (INakedAction) element;
-			for (INakedOutputPin p : owner.getOutput()) {
-				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
-			}
-		}
-	}
 
-	private Environment createEnvironment(INakedClassifier c) {
-		// TODO add a variable that contains 'currentUser'
-		Environment parent = new Environment();
-		Environment env = new Environment();
-		env.addPackageContents(c.getNameSpace());
-		env.setParent(parent);
-		env.addElement("self", new VariableDeclaration("self", c), true);
-		env.addStates(c);
-		while (c.getNameSpace() instanceof INakedClassifier && c.getNameSpace().getNameSpace() != null) {
-			// import everything up to the nearest package.
-			c = (INakedClassifier) c.getNameSpace();
-			env.addPackageContents(c.getNameSpace());
-		}
-		if (getBuiltInTypes().getDateType() != null) {
-			env.addElement("now", new VariableDeclaration("now", getBuiltInTypes().getDateType()), true);
-		}
-		for (INakedElement ne : workspace.getOwnedElements()) {
-			if (ne.getName() != null) {
-				parent.addElement(ne.getName(), ne, false);
-			} else {
-				System.out.println(ne.getId() + "has no name!!");
-			}
-		}
-		return env;
-	}
 
-	private Environment createPreEnvironment(INakedClassifier c, IModelElement element) {
-		Environment env = createEnvironment(c);
-		Map<String, IClassifier> parameters = new HashMap<String, IClassifier>();
-		if (element instanceof IParameterOwner) {
-			addAllParameters(env, (IParameterOwner) element);
-		} else if (element instanceof INakedAction) {
-			for (INakedInputPin parm : ((INakedAction) element).getInput()) {
-				parameters.put(parm.getName(), parm.getType());
-			}
-		} else if (element instanceof INakedTransition) {
-			for (IParameter parm : ((INakedTransition) element).getParameters()) {
-				parameters.put(parm.getName(), parm.getType());
-			}
-		}
-		for (Map.Entry<String, IClassifier> e : parameters.entrySet()) {
-			env.addElement(e.getKey(), new VariableDeclaration(e.getKey(), e.getValue()), false);
-		}
-		return env;
-	}
-
-	private void addAllParameters(Environment env, IParameterOwner paramOwner) {
-		for (IParameter p : paramOwner.getParameters()) {
-			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
-		}
-	}
-
-	private void addTransitionParametersIfBehaviourContainedByTransition(Environment env, IParameterOwner paramOwner) {
-		if (paramOwner.getOwnerElement() instanceof INakedTransition) {
-			INakedTransition t = (INakedTransition) paramOwner.getOwnerElement();
-			for (INakedParameter p : t.getParameters()) {
-				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
-			}
-		}
-	}
 
 	private void putError(ParsedOclString holder, Exception e) {
 		this.getErrorMap().putError(holder, CoreValidationRule.OCL, e.toString());

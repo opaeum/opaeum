@@ -1,0 +1,188 @@
+package net.sf.nakeduml.linkage;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
+import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.statemachines.INakedState;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.MappedTypes;
+import nl.klasse.octopus.expressions.internal.analysis.Environment;
+import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IModelElement;
+import nl.klasse.octopus.model.IParameter;
+
+public class EnvironmentFactory {
+	INakedModelWorkspace workspace;
+
+	public EnvironmentFactory(INakedModelWorkspace workspace) {
+		super();
+		this.workspace = workspace;
+	}
+
+	public Environment createEnvironment(INakedClassifier c) {
+		// TODO add a variable that contains 'currentUser'
+		Environment parent = new Environment();
+		Environment env = new Environment();
+		env.addPackageContents(c.getNameSpace());
+		env.setParent(parent);
+		env.addElement("self", new VariableDeclaration("self", c), true);
+		env.addStates(c);
+		while (c.getNameSpace() instanceof INakedClassifier && c.getNameSpace().getNameSpace() != null) {
+			// import everything up to the nearest package.
+			c = (INakedClassifier) c.getNameSpace();
+			env.addPackageContents(c.getNameSpace());
+		}
+		if (workspace.getMappedTypes().getDateType() != null) {
+			env.addElement("now", new VariableDeclaration("now", workspace.getMappedTypes().getDateType()), true);
+		}
+		for (INakedElement ne : workspace.getOwnedElements()) {
+			if (ne.getName() != null) {
+				parent.addElement(ne.getName(), ne, false);
+			} else {
+				System.out.println(ne.getId() + "has no name!!");
+			}
+		}
+		return env;
+	}
+
+	public Environment createPreEnvironment(INakedClassifier c, IModelElement element) {
+		Environment env = createEnvironment(c);
+		Map<String, IClassifier> parameters = new HashMap<String, IClassifier>();
+		if (element instanceof IParameterOwner) {
+			addAllParameters(env, (IParameterOwner) element);
+		} else if (element instanceof INakedAction) {
+			for (INakedInputPin parm : ((INakedAction) element).getInput()) {
+				parameters.put(parm.getName(), parm.getType());
+			}
+		}
+		for (Map.Entry<String, IClassifier> e : parameters.entrySet()) {
+			env.addElement(e.getKey(), new VariableDeclaration(e.getKey(), e.getValue()), false);
+		}
+		return env;
+	}
+
+
+	public Environment prepareBehaviorEnvironment(INakedElement element, INakedBehavior owningBehavior) {
+		Environment env;
+		if (isContextObjectApplicable(owningBehavior)) {
+			// Complex Activities, StateMachines, Transition Actions and
+			// State Actions
+			env = createPreEnvironment(BehaviorUtil.getNearestActualClass(owningBehavior), element);
+			if (owningBehavior.getContext() != null) {
+				env.addElement("contextObject", new VariableDeclaration("contextObject", owningBehavior.getContext()), true);
+			}
+			addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
+			if (BehaviorUtil.hasExecutionInstance(owningBehavior)) {
+				env.addElement("this",
+						new VariableDeclaration("this", new ActivityVariableContext(owningBehavior, element, owningBehavior)), true);
+			} else {
+				addActivityStructureAsLocalContext(env, owningBehavior);
+			}
+		} else {
+			// Simple Synchronous methods
+			env = createPreEnvironment(owningBehavior.getContext(), element);
+			addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
+			addActivityStructureAsLocalContext(env, element);
+		}
+		return env;
+	}
+	public void addFlowParameters(Environment env, GuardedFlow edge) {
+		if (edge instanceof INakedTransition) {
+			List<INakedParameter> parameters = ((INakedTransition) edge).getParameters();
+			for (INakedParameter p : parameters) {
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+			}
+		} else if (edge instanceof INakedObjectFlow) {
+			//TODO won't work for object flows traversing control nodes 
+			INakedObjectNode source = (INakedObjectNode) ((INakedObjectFlow) edge).getSource();
+			env.addElement(source.getName(), new VariableDeclaration(source.getName(), source.getType()), false);
+		}
+	}
+	public void addPostEnvironment(Environment env, IModelElement element) {
+		if (element instanceof IParameterOwner) {
+			IParameterOwner owner = (IParameterOwner) element;
+			for (INakedParameter p : owner.getResultParameters()) {
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+				if (p.isReturn()) {
+					env.addElement("result", new VariableDeclaration("result", p.getType()), false);
+				}
+			}
+		} else if (element instanceof INakedAction) {
+			INakedAction owner = (INakedAction) element;
+			for (INakedOutputPin p : owner.getOutput()) {
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+			}
+		}
+	}
+	private void addTransitionParametersIfBehaviourContainedByTransition(Environment env, IParameterOwner paramOwner) {
+		if (paramOwner.getOwnerElement() instanceof INakedTransition) {
+			INakedTransition t = (INakedTransition) paramOwner.getOwnerElement();
+			for (INakedParameter p : t.getParameters()) {
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+			}
+		}
+	}
+
+	private void addAllParameters(Environment env, IParameterOwner paramOwner) {
+		for (IParameter p : paramOwner.getParameters()) {
+			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+		}
+	}
+
+
+	private static boolean isContextObjectApplicable(INakedBehavior owningBehavior) {
+		boolean isContextApplicable = owningBehavior instanceof INakedStateMachine
+				|| (owningBehavior instanceof INakedActivity && ((INakedActivity) owningBehavior).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)
+				|| owningBehavior.getOwnerElement() instanceof INakedTransition || owningBehavior.getOwnerElement() instanceof INakedState;
+		return isContextApplicable;
+	}
+
+	private void addActivityStructureAsLocalContext(Environment env, INakedElement element) {
+		if (element instanceof INakedStructuredActivityNode) {
+			addVariables(env, ((INakedStructuredActivityNode) element).getVariables());
+		} else if (element instanceof INakedActivity) {
+			addVariables(env, ((INakedActivity) element).getVariables());
+			addAllParameters(env, (IParameterOwner) element);
+		}
+		if (element instanceof INakedExpansionRegion) {
+			INakedExpansionRegion node = (INakedExpansionRegion) element;
+			List<INakedExpansionNode> input = node.getInputElement();
+			for (INakedExpansionNode i : input) {
+				// USe Basetype - from the inside it looks like multiplicity=1
+				env.addElement(i.getName(), new VariableDeclaration(i.getName(), i.getNakedBaseType()), false);
+			}
+		}
+		if (!(element instanceof INakedActivity || element == null)) {
+			addActivityStructureAsLocalContext(env, (INakedElement) element.getOwnerElement());
+		}
+	}
+
+	private void addVariables(Environment env, Collection<INakedActivityVariable> variables) {
+		for (INakedActivityVariable var : variables) {
+			env.addElement(var.getName(), new VariableDeclaration(var.getName(), var.getType()), false);
+		}
+	}
+
+}

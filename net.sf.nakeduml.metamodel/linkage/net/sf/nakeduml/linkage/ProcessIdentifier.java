@@ -25,7 +25,7 @@ public class ProcessIdentifier extends AbstractModelElementLinker{
 	public void visitBehavior(INakedActivity a){
 		if(BehaviorUtil.requiresExternalInput(a)){
 			a.setActivityKind(ActivityKind.PROCESS);
-		}else if(a.hasMultipleConcurrentResults() || BehaviorUtil.hasParallelFlows(a)){
+		}else if(a.hasMultipleConcurrentResults() || BehaviorUtil.hasParallelFlows(a) || BehaviorUtil.getNearestActualClass(a)==null){
 			a.setActivityKind(ActivityKind.COMPLEX_SYNCHRONOUS_METHOD);
 		}else{
 			a.setActivityKind(ActivityKind.SIMPLE_SYNCHRONOUS_METHOD);

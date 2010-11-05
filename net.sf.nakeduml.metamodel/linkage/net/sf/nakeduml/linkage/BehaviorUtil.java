@@ -2,17 +2,23 @@ package net.sf.nakeduml.linkage;
 
 import java.util.List;
 
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendObjectAction;
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -148,11 +154,45 @@ public class BehaviorUtil {
 	 * @return
 	 */
 	public static boolean hasExecutionInstance(IParameterOwner owner) {
-		return owner.isProcess() || owner.hasMultipleConcurrentResults()
+		return owner.isProcess()
+				|| owner.hasMultipleConcurrentResults()
+				|| (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() == ActivityKind.COMPLEX_SYNCHRONOUS_METHOD)
 				|| (owner instanceof INakedOperation && isUserResponsibility((INakedOperation) owner));
 	}
 
 	public static boolean isTaskOrProcess(INakedCallAction ca) {
 		return isUserTask(ca) || ca.isProcessCall();
+	}
+
+	public static boolean mustBeStored(INakedObjectNode node) {
+		if (hasExecutionInstance(node.getActivity())) {
+			if (node.getOwnerElement() instanceof INakedCallAction) {
+				INakedCallAction callAction = (INakedCallAction) node.getOwnerElement();
+				if (callAction instanceof INakedOpaqueAction
+						|| (callAction.getCalledElement() != null && BehaviorUtil.hasExecutionInstance(callAction.getCalledElement()))) {
+					// Results stored on the entity representing the message,
+					// don't implement this outputpin
+					return false;
+				} else {
+					return true;
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static INakedClassifier getNearestActualClass(INakedElementOwner ownerElement) {
+		// Returns the first ownerElement that has an OJClass
+		while (ownerElement instanceof INakedElement
+				&& !(ownerElement instanceof INakedClassifier && OJUtil.hasOJClass((INakedClassifier) ownerElement))) {
+			ownerElement = ((INakedElement) ownerElement).getOwnerElement();
+		}
+		if (ownerElement instanceof INakedClassifier) {
+			return (INakedClassifier) ownerElement;
+		} else {
+			return null;
+		}
 	}
 }

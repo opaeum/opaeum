@@ -90,17 +90,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
 	public void visitObjectNode(INakedObjectNode node) {
-		if (BehaviorUtil.hasExecutionInstance(node.getActivity())) {
-			if (node.getOwnerElement() instanceof INakedCallAction) {
-				INakedCallAction callAction = (INakedCallAction) node.getOwnerElement();
-				if (callAction instanceof INakedOpaqueAction
-						|| (callAction.getCalledElement() != null && BehaviorUtil.hasExecutionInstance(callAction.getCalledElement()))) {
-					// Results stored on the entity representing the message,
-					// don't implement this outputpin
-				} else {
-					implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
-				}
-			}
+		if (BehaviorUtil.mustBeStored(node)) {
 			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
@@ -119,7 +109,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
 		OpaqueActionMessageStructureImpl umlOwner = new OpaqueActionMessageStructureImpl(oa);
 		for (INakedPin pin : oa.getPins()) {
-			implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, pin));
+			implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, pin, false));
 		}
 	}
 

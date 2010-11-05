@@ -47,9 +47,9 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		activityClass.addToOperations(complete);
 		implementPostConditions(complete);
 		String literalExpression = activityClass.getName() + "State." + BpmUtil.stepLiteralName(node);
-		complete.getBody().addToStatements("NodeInstance waitingToken=findWaitingNode(" + literalExpression + ")");
+		complete.getBody().addToStatements("NodeInstance waitingToken=findWaitingNode(" + literalExpression + ".getQualifiedName())");
 		complete.getBody().addToStatements(
-				"List<TaskInstance> tasks=(List<TaskInstance>)processInstance.getTaskMgmtInstance().getUnfinishedTasks(waitingToken)");
+				"List<TaskInstance> tasks=(List<TaskInstance>)getProcessInstance().getTaskMgmtInstance().getUnfinishedTasks(waitingToken)");
 		OJIfStatement ifFound = new OJIfStatement();
 		ifFound.setCondition("tasks.size()==1");
 		OJBlock thenPart = ifFound.getThenPart();
@@ -93,7 +93,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 					results.setInitExp("new ArrayList<String>()");
 					actorIds.getBody().addToLocals(results);
 					OJBlock forEach = buildLoopThroughTarget(actorIds, actorIds.getBody(), actionMap);
-					forEach.addToStatements("results.add(" + actionMap.targetName() + ".getUsername())");
+					forEach.addToStatements("results.add(" + actionMap.targetName() + ".getUserName())");
 					actorIds.getBody().addToStatements("return results.toArray(new String[results.size()])");
 				}
 			} else {
@@ -108,7 +108,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 					actorId.setReturnType(new OJPathName("String"));
 					//Build if statement if necessary
 					OJBlock forEach = buildLoopThroughTarget(actorId, actorId.getBody(), actionMap);
-					forEach.addToStatements("return " + actionMap.targetName() + ".getUsername()");
+					forEach.addToStatements("return " + actionMap.targetName() + ".getUserName()");
 					if (targetElement.getNakedMultiplicity().getLower() == 0) {
 						actorId.getBody().addToStatements("return null");
 					}
