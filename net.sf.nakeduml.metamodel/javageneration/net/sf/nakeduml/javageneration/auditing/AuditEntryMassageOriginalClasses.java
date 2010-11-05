@@ -23,7 +23,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedEntity entity) {
-		if (isPersistent(entity) && hasOJClass(entity)) {
+		if (isPersistent(entity) && OJUtil.hasOJClass(entity)) {
 			OJPathName path = OJUtil.classifierPathname(entity);
 			OJAnnotatedClass ojClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 			if (ojClass != null) {

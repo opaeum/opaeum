@@ -20,7 +20,7 @@ public class DataModelWrapper extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses=true)
 	public void visitAttribute(INakedProperty p){
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
-		if(p.isNavigable() && map.isMany() && hasOJClass(p.getOwner()) && p.getOwner() instanceof INakedEntity){
+		if(p.isNavigable() && map.isMany() && OJUtil.hasOJClass(p.getOwner()) && p.getOwner() instanceof INakedEntity){
 			OJAnnotatedClass ojClass = findJavaClass(p.getOwner());
 			OJOperation oper = ojClass.findOperation(map.getter(), Collections.emptyList());
 			List<OJStatement> statements = oper.getBody().getStatements();

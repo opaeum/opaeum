@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration;
 
 import net.sf.nakeduml.javametamodel.OJPathName;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedInterface;

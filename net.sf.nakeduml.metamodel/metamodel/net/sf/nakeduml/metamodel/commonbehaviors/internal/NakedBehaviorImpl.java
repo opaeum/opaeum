@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
@@ -17,6 +19,10 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.ParameterUtil;
+import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.profiles.INakedProfile;
+import net.sf.nakeduml.metamodel.statemachines.INakedState;
+import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -153,7 +159,13 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	@Override
 	public CodeGenerationStrategy getCodeGenerationStrategy() {
 		if (super.getCodeGenerationStrategy() == null) {
-			return getContext().getCodeGenerationStrategy();
+			if (getOwnerElement() instanceof INakedTransition) {
+				return ((INakedTransition) getOwnerElement()).getStateMachine().getCodeGenerationStrategy();
+			} else if (getOwnerElement() instanceof INakedState) {
+				return ((INakedState) getOwnerElement()).getStateMachine().getCodeGenerationStrategy();
+			} else {
+				return CodeGenerationStrategy.all;
+			}
 		}
 		return super.getCodeGenerationStrategy();
 	}
@@ -165,20 +177,43 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	public INakedBehavioredClassifier getContext() {
 		// NB!! Behaviours can be owned by transitions or directly by packages
 		INakedElementOwner owner = getOwnerElement();
-		while (true) {
-			if (owner instanceof INakedBehavioredClassifier) {
-				return (INakedBehavioredClassifier) owner;
-			} else if (owner instanceof INakedElement) {
-				owner = ((INakedElement) owner).getOwnerElement();
-			} else {
-				return null;
+		if (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
+			return ((INakedActivity) owner).getContext();
+		} else if (owner instanceof INakedBehavioredClassifier) {
+			return (INakedBehavioredClassifier) owner;
+		} else if ((owner instanceof INakedTransition)) {
+			return ((INakedTransition) owner).getStateMachine().getContext();
+		} else if (owner instanceof INakedState) {
+			return ((INakedState) owner).getStateMachine().getContext();
+		} else {
+			while (true) {
+				if (owner instanceof INakedBehavioredClassifier) {
+					return (INakedBehavioredClassifier) owner;
+				} else if (owner instanceof INakedElement) {
+					owner = ((INakedElement) owner).getOwnerElement();
+				} else {
+					return null;
+				}
 			}
 		}
 	}
 
 	@Override
 	public INakedBehavioredClassifier getOwner() {
-		return getContext();
+		// Deprecated, implemented only for Octopus;
+		if (getContext() != null) {
+			return getContext();
+		} else {
+			INakedElement element=(INakedElement) getOwnerElement();
+			while(!(element instanceof INakedBehavioredClassifier || element instanceof INakedModel || element instanceof INakedProfile)){
+				element=(INakedElement) element.getOwnerElement();
+			}
+			if(element instanceof INakedBehavioredClassifier){
+				return (INakedBehavioredClassifier) element;
+			}
+			return null;
+			
+		}
 	}
 
 	@Override
@@ -204,39 +239,21 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		}
 		return false;
 	}
-/*
-	@Override
-	public List<IClassifier> getParamTypes() {
-		return ParameterUtil.parameterTypes(getArgumentParameters());
-	}
-
-	@Override
-	public String getSignature() {
-		return ParameterUtil.signature(this);
-	}
-
-	@Override
-	public boolean hasClassScope() {
-		return false;
-	}
-
-	@Override
-	public boolean isAbstract() {
-		return false;
-	}
-
-	@Override
-	public boolean isInfix() {
-		return false;
-	}
-
-	@Override
-	public boolean isOclDef() {
-		return false;
-	}
-
-	@Override
-	public boolean isPrefix() {
-		return false;
-	}*/
+	/*
+	 * @Override public List<IClassifier> getParamTypes() { return
+	 * ParameterUtil.parameterTypes(getArgumentParameters()); }
+	 * 
+	 * @Override public String getSignature() { return
+	 * ParameterUtil.signature(this); }
+	 * 
+	 * @Override public boolean hasClassScope() { return false; }
+	 * 
+	 * @Override public boolean isAbstract() { return false; }
+	 * 
+	 * @Override public boolean isInfix() { return false; }
+	 * 
+	 * @Override public boolean isOclDef() { return false; }
+	 * 
+	 * @Override public boolean isPrefix() { return false; }
+	 */
 }

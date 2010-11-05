@@ -5,6 +5,7 @@ import java.util.Collections;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -18,7 +19,7 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c) {
 		//TODO this should be a numl webservice step
-		if (hasOJClass(c) && !(c instanceof INakedInterface)) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)) {
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
 			for (INakedProperty p : c.getEffectiveAttributes()) {
@@ -41,7 +42,7 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 	
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedProperty np) {
-		if (!np.isDerived() && np.getNakedBaseType() instanceof INakedEntity && !np.isInverse() && hasOJClass(np.getOwner())) {
+		if (!np.isDerived() && np.getNakedBaseType() instanceof INakedEntity && !np.isInverse() && OJUtil.hasOJClass(np.getOwner())) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 			OJAnnotatedClass owner = findJavaClass(np.getOwner());
 			OJAnnotatedOperation o = (OJAnnotatedOperation)owner.findOperation(map.getter(), Collections.EMPTY_LIST);

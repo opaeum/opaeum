@@ -7,7 +7,7 @@ import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.oclengine.IOclContext;
 
@@ -23,7 +23,7 @@ public class NakedOpaqueBehaviorImpl extends NakedBehaviorImpl implements INaked
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
 		if (!classScope) {
 			for (INakedParameter p : getArgumentParameters()) {
-				results.add(new TypedPropertyBridge(this, p));
+				results.add(new TypedElementPropertyBridge(this, p));
 			}
 		}
 		return results;

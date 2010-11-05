@@ -82,7 +82,7 @@ public class NakedActivityEdgeImpl extends NakedModelElementImpl implements INak
 		return getSource();
 	}
 	public INakedClassifier getContext() {
-		return getTarget().getActivity();
+		return getTarget().getActivity().getContext();
 	}
 	public INakedActivity getOwningBehavior(){
 		return getActivity();

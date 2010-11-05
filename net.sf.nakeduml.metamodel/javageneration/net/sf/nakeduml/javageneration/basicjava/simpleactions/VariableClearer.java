@@ -8,8 +8,8 @@ import net.sf.nakeduml.metamodel.actions.INakedClearVariableAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class VariableClearer extends SimpleActionBuilder<INakedClearVariableAction>{
-	public VariableClearer(IOclEngine oclEngine,INakedClearVariableAction action){
-		super(oclEngine, action);
+	public VariableClearer(IOclEngine oclEngine,INakedClearVariableAction action, ObjectNodeExpressor expressor){
+		super(oclEngine, action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){

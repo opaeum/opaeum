@@ -25,7 +25,7 @@ public class ParticipationAnnotator extends StereotypeAnnotator{
 	public static final String PROPERTY_PARTICIPATION = "PropertyParticipation";
 	@VisitAfter(matchSubclasses = true)
 	public void visitAttribute(INakedProperty np){
-		if(super.hasOJClass(np.getOwner())){
+		if(super.OJUtil.hasOJClass(np.getOwner())){
 			OJAnnotatedClass ojClass = findJavaClass(np.getOwner());
 			StructuralFeatureMap smap = new NakedStructuralFeatureMap(np);
 			OJElement prop = ojClass.findOperation(smap.getter(), Collections.EMPTY_LIST);
@@ -34,7 +34,7 @@ public class ParticipationAnnotator extends StereotypeAnnotator{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void operation_Before(INakedOperation no){
-		if(super.hasOJClass(no.getOwner())){
+		if(super.OJUtil.hasOJClass(no.getOwner())){
 			OJAnnotatedClass ojClass = findJavaClass(no.getOwner());
 			NakedOperationMap smap = new NakedOperationMap(no);
 			OJElement prop = ojClass.findOperation(smap.javaOperName(), smap.javaParamTypePaths());

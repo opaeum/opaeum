@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -15,7 +16,7 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 public class SeamAnnotator extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses=true)
 	public void visitClass(INakedClassifier c) {
-		if (hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier && !c.getIsAbstract()) {
+		if (OJUtil.hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier && !c.getIsAbstract()) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			INakedClassifier nc = c;
 			OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"), nc.getMappingInfo().getJavaName()

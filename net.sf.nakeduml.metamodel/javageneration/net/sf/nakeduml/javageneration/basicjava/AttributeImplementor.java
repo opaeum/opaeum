@@ -18,6 +18,7 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
@@ -26,6 +27,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -45,7 +47,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class, INakedAssociationClass.class })
 	public void visitFeature(INakedClassifier entity) {
 		for (INakedProperty p : entity.getEffectiveAttributes()) {
-			if (p.getOwner() instanceof INakedInterface && hasOJClass(entity)) {
+			if (p.getOwner() instanceof INakedInterface && OJUtil.hasOJClass(entity)) {
 				if (p.getAssociation() instanceof INakedAssociationClass) {
 					// TODO test this may create duplicates
 					// buildAssociationClassLogic(entity,
@@ -62,14 +64,14 @@ public class AttributeImplementor extends StereotypeAnnotator {
 		//
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) ac.getEnd1());
 		if (map.isManyToMany()) {
-			new AssocClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac
-					.getEnd2().getNakedBaseType()));
+			new AssocClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()),
+					findJavaClass(ac.getEnd2().getNakedBaseType()));
 		}
 	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitFeature(INakedProperty p) {
-		if (hasOJClass(p.getOwner())) {
+		if (OJUtil.hasOJClass(p.getOwner())) {
 			if (p.getAssociation() instanceof INakedAssociationClass) {
 				// visitProperty(p.getOwner(),
 				// OJUtil.buildAssociationClassMap(p,getOclEngine().getOclLibrary()));
@@ -79,9 +81,26 @@ public class AttributeImplementor extends StereotypeAnnotator {
 		}
 	}
 
+	@VisitBefore(matchSubclasses = true)
+	public void visitVariable(INakedActivityVariable var) {
+		if (BehaviorUtil.hasExecutionInstance(var.getActivity())) {
+			implementAttributeFully(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
+		}
+	}
+
 	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
 	public void visitObjectNode(INakedObjectNode node) {
 		if (BehaviorUtil.hasExecutionInstance(node.getActivity())) {
+			if (node.getOwnerElement() instanceof INakedCallAction) {
+				INakedCallAction callAction = (INakedCallAction) node.getOwnerElement();
+				if (callAction instanceof INakedOpaqueAction
+						|| (callAction.getCalledElement() != null && BehaviorUtil.hasExecutionInstance(callAction.getCalledElement()))) {
+					// Results stored on the entity representing the message,
+					// don't implement this outputpin
+				} else {
+					implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+				}
+			}
 			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
@@ -115,6 +134,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(INakedParameter node) {
 		if (node.getOwnerElement() instanceof INakedStateMachine || node.getOwnerElement() instanceof INakedOpaqueBehavior) {
+			// Activity Parameters will be done through ParameterNodes
 			INakedBehavior sm = (INakedBehavior) node.getOwnerElement();
 			if (BehaviorUtil.hasExecutionInstance(sm)) {
 				implementAttributeFully(sm, OJUtil.buildStructuralFeatureMap(sm, node));
@@ -127,7 +147,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 		if (!OJUtil.isBuiltIn(p)) {
 			if (p.isDerived() || p.isReadOnly()) {
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
-				OJOperation getter = buildGetter(owner, map,true);
+				OJOperation getter = buildGetter(owner, map, true);
 				applyStereotypesAsAnnotations((p), getter);
 			} else {
 				implementAttributeFully(umlOwner, map);
@@ -146,7 +166,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 			buildRemover(owner, map);
 			buildRemoveAll(owner, map);
 			buildClear(owner, map);
-		} else if (map.isOneToOne()) {
+		} else if (map.isOne() && isPersistent(p.getNakedBaseType()) || p.getBaseType() instanceof INakedInterface) {
 			buildInternalAdder(owner, map);
 			buildInternalRemover(owner, map);
 		}
@@ -218,8 +238,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
 		INakedProperty p = map.getProperty();
-		if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable()
-				&& !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly())) {
+		if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable() && !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly())) {
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 			if (otherMap.isMany()) {
 				adder.getBody().addToStatements(map.umlName() + "." + otherMap.getter() + "().add(this)");
@@ -308,9 +327,9 @@ public class AttributeImplementor extends StereotypeAnnotator {
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
 		if (owner instanceof OJAnnotatedInterface) {
-		} else if(returnDefault){
+		} else if (returnDefault) {
 			getter.getBody().addToStatements("return " + map.javaDefaultValue());
-		}else{
+		} else {
 			getter.getBody().addToStatements("return " + map.umlName());
 		}
 		getter.setStatic(map.isStatic());

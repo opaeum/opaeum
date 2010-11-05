@@ -23,6 +23,7 @@ import net.hibernatehbmmetamodel.SubClass;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
@@ -61,7 +62,7 @@ public class HbmClassGenerator extends HbmJavaProducingVisitor {
 	public void visitClass(INakedClassifier c) {
 		//This is to make sure the dir is cleared if there are no sources to gen.
 		createTextPath(HbmTextSource.GEN_RESOURCE);
-		if (isPersistent(c) && hasOJClass(c) && (c.hasStereotype(SINGLE_TABLE_INHERITANCE) || isInSingleTableInheritance(c))) {
+		if (isPersistent(c) && OJUtil.hasOJClass(c) && (c.hasStereotype(SINGLE_TABLE_INHERITANCE) || isInSingleTableInheritance(c))) {
 			HibernateConfiguration hibernateConfiguration = null;
 			if (!c.hasSupertype()) {
 				hibernateConfiguration = new HibernateConfiguration(this.hbmWorkspace);

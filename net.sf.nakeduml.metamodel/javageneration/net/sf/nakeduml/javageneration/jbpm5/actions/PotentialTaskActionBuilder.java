@@ -22,34 +22,23 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-
 /**
- * Base class for all action builders that could potentially build a task representing a usertask. 
- *  
+ * Base class for all action builders that could potentially build a task
+ * representing a usertask.
+ * 
  * @param <A>
  */
-public abstract class PotentialTaskActionBuilder<A extends INakedInvocationAction> extends Jbpm5ActionBuilder<A>{
-	protected PotentialTaskActionBuilder(IOclEngine oclEngine,A node){
+public abstract class PotentialTaskActionBuilder<A extends INakedInvocationAction> extends Jbpm5ActionBuilder<A> {
+	protected PotentialTaskActionBuilder(IOclEngine oclEngine, A node) {
 		super(oclEngine, node);
 	}
-	protected <E extends INakedInputPin>StringBuilder populateArguments(OJOperation operation,Collection<E> input){
-		StringBuilder arguments = new StringBuilder();
-		Iterator<E> args = input.iterator();
-		while(args.hasNext()){
-			INakedObjectNode pin = args.next();
-			String argName = buildPinField(operation, operation.getBody(), pin);
-			arguments.append(argName);
-			if(args.hasNext()){
-				arguments.append(",");
-			}
-		}
-		return arguments;
-	}
+
 	@Override
-	public void implementSupportingTaskMethods(OJClass activityClass){
+	public void implementSupportingTaskMethods(OJClass activityClass) {
 		implementJbpmAssignmentsIfNecessary(activityClass);
 		implementCompleteMethod(activityClass);
 	}
+
 	private void implementCompleteMethod(OJClass activityClass) {
 		activityClass.addToImports(BpmUtil.getNodeInstance());
 		activityClass.addToImports(BpmUtil.getJbpm5Environment());
@@ -65,30 +54,33 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		ifFound.setCondition("tasks.size()==1");
 		OJBlock thenPart = ifFound.getThenPart();
 		thenPart.addToStatements("tasks.get(0).end()");
-		implementConditionalFlows(complete, thenPart,false);
+		implementConditionalFlows(complete, thenPart, false);
 		complete.getBody().addToStatements(ifFound);
 	}
+
 	@Override
-	public boolean requiresUserInteraction(){
+	public boolean requiresUserInteraction() {
 		return BehaviorUtil.isUserTask(node);
 	}
 
 	/**
-	 * Implements assignment methods. These methods return an array of strings holding the userNames of the set of users that could possbly
-	 * complete the task in question or
+	 * Implements assignment methods. These methods return an array of strings
+	 * holding the userNames of the set of users that could possbly complete the
+	 * task in question or
 	 */
-	private void implementJbpmAssignmentsIfNecessary(OJClassifier c){
+	private void implementJbpmAssignmentsIfNecessary(OJClassifier c) {
 		// for targets as well as swimlanes
-		if(BehaviorUtil.isUserTask(node)){
+		if (BehaviorUtil.isUserTask(node)) {
 			INakedTypedElement targetElement = node.getTargetElement();
-			NameWrapper cappedJavaName = node.getInPartition() == null ? node.getMappingInfo().getJavaName() : node.getInPartition().getMappingInfo()
-					.getJavaName();
+			NameWrapper cappedJavaName = node.getInPartition() == null ? node.getMappingInfo().getJavaName() : node.getInPartition()
+					.getMappingInfo().getJavaName();
 			cappedJavaName = cappedJavaName.getCapped();
 			ActionMap actionMap = new ActionMap(node);
-			if(targetElement.getNakedMultiplicity().getUpper() > 1){
+			if (targetElement.getNakedMultiplicity().getUpper() > 1) {
 				String getAcorIds = "getActorIdsFor" + cappedJavaName;
-				if(c.findOperation(getAcorIds, Collections.EMPTY_LIST) == null){
-					// do not duplicate these methods for swimlane references. One per
+				if (c.findOperation(getAcorIds, Collections.EMPTY_LIST) == null) {
+					// do not duplicate these methods for swimlane references.
+					// One per
 					// swimlane per process
 					OJOperation actorIds = new OJAnnotatedOperation();
 					actorIds.setName(getAcorIds);
@@ -104,21 +96,24 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 					forEach.addToStatements("results.add(" + actionMap.targetName() + ".getUsername())");
 					actorIds.getBody().addToStatements("return results.toArray(new String[results.size()])");
 				}
-			}else{
+			} else {
 				String getActorId = "getActorIdFor" + cappedJavaName;
-				if(c.findOperation(getActorId, Collections.EMPTY_LIST) == null){
-					// do not duplicate these methods for swimlane references. One per
+				if (c.findOperation(getActorId, Collections.EMPTY_LIST) == null) {
+					// do not duplicate these methods for swimlane references.
+					// One per
 					// swimlane per process
 					OJOperation actorId = new OJAnnotatedOperation();
 					actorId.setName(getActorId);
 					c.addToOperations(actorId);
 					actorId.setReturnType(new OJPathName("String"));
+					//Build if statement if necessary
 					OJBlock forEach = buildLoopThroughTarget(actorId, actorId.getBody(), actionMap);
 					forEach.addToStatements("return " + actionMap.targetName() + ".getUsername()");
-					actorId.getBody().addToStatements("return null");
+					if (targetElement.getNakedMultiplicity().getLower() == 0) {
+						actorId.getBody().addToStatements("return null");
+					}
 				}
 			}
 		}
 	}
-
 }

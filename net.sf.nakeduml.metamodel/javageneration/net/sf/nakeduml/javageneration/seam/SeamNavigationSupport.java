@@ -24,7 +24,7 @@ public class SeamNavigationSupport extends AbstractJavaProducingVisitor {
 		if (!(property.getNakedBaseType() instanceof INakedInterface) &&	property.getOtherEnd() != null && property.getOwner() instanceof INakedEntity) {
 
 			INakedClassifier c = property.getOwner();
-			if (hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier) {
+			if (OJUtil.hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier) {
 				OJAnnotatedClass ojClass = findJavaClass(c);
 				buildColumnRenderer(ojClass, property, "isGroupOwnershipValid");
 				buildColumnRenderer(ojClass, property, "isUserOwnershipValid");

@@ -194,12 +194,17 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 			}
 		} else if (te instanceof INakedPin) {
 			INakedPin node = (INakedPin) te;
-			if (name == null || name.equals(node.getNakedBaseType().getName())) {
-				// Generate a unique name
-				name = NameConverter.decapitalize(node.getNakedBaseType().getName() + node.getMappingInfo().getNakedUmlId());
+			if (name == null) {
+				if (node.getNakedBaseType() == null) {
+					//Value pins can have null baseTypes
+					name = "anonymousPin";
+				} else {
+					// Generate a unique name
+					name = NameConverter.decapitalize(node.getNakedBaseType().getName() + node.getMappingInfo().getNakedUmlId());
+				}
 			}
 		} else {
-			if (name == null || (te.getNakedBaseType()!=null && te.getName().equals(te.getNakedBaseType().getName()))) {
+			if (name == null || (te.getNakedBaseType() != null && te.getName().equals(te.getNakedBaseType().getName()))) {
 				// USe the type's name
 				name = NameConverter.decapitalize(te.getNakedBaseType().getName());
 			}

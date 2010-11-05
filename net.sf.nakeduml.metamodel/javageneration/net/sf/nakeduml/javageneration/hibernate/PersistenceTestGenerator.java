@@ -33,7 +33,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c) {
-		if ((isPersistent(c) /* || c instanceof INakedInterface */) && hasOJClass(c)) {
+		if ((isPersistent(c) /* || c instanceof INakedInterface */) && OJUtil.hasOJClass(c)) {
 			OJAnnotatedClass test = new OJAnnotatedClass();
 			test.addToImports(UtilityCreator.getUtilPathName() + ".HibernateConfigurator");
 			OJAnnotatedClass ojClass = findJavaClass(c);

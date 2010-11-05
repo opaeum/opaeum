@@ -8,6 +8,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
+import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
@@ -46,7 +47,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier cl) {
-		if (isPersistent(cl) && hasOJClass(cl)) {
+		if (isPersistent(cl) && OJUtil.hasOJClass(cl)) {
 			INakedComplexStructure complexType = (INakedComplexStructure) cl;
 			annotateComplexStructure(complexType);
 		}
@@ -60,13 +61,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	}
 
 	@VisitAfter()
-	public void visitOpaqueBehavior(INakedOpaqueBehavior o) {
-		if (BehaviorUtil.hasExecutionInstance(o)) {
-			annotateComplexStructure(o);
-		}
-	}
-
-	@VisitAfter()
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
 		OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
 		annotateComplexStructure(msg);
@@ -75,7 +69,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 	}
 
-	public void annotateComplexStructure(INakedComplexStructure complexType) {
+	private void annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
 		addEquals(ojClass);
@@ -150,7 +144,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(INakedClassifier entity) {
-		if (super.isPersistent(entity) && hasOJClass(entity)) {
+		if (super.isPersistent(entity) && OJUtil.hasOJClass(entity)) {
 			for (INakedProperty p : entity.getEffectiveAttributes()) {
 				if (p.getOwner() instanceof INakedInterface || p.getOwner() == entity) {
 					if (p.getAssociation() instanceof INakedAssociationClass) {
@@ -170,16 +164,22 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
 	public void visitObjectNode(INakedObjectNode node) {
-		if (BehaviorUtil.hasExecutionInstance(node.getActivity())) {
+		if (node.getActivity().isPersistent()) {
 			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node) {
-		if (node.getTargetElement() != null && BehaviorUtil.hasExecutionInstance(node.getActivity())
-				&& (BehaviorUtil.isUserTask(node) || BehaviorUtil.hasExecutionInstance(node.getCalledElement()))) {
-			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
+		if (node.getTargetElement() != null && node.getActivity().isPersistent()) {
+			if (BehaviorUtil.isUserTask(node) || node.getCalledElement().isProcess()) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
+				annotateProperty(node.getActivity(), map);
+			} else if (BehaviorUtil.hasExecutionInstance(node.getCalledElement())) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
+				OJAnnotatedField field = (OJAnnotatedField) findJavaClass(node.getActivity()).findField(map.umlName());
+				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+			}
 		}
 	}
 
@@ -187,7 +187,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	public void visitParameter(INakedParameter p) {
 		if (p.getOwnerElement() instanceof INakedStateMachine || p.getOwnerElement() instanceof INakedOpaqueBehavior) {
 			INakedBehavior sm = (INakedBehavior) p.getOwnerElement();
-			if (BehaviorUtil.hasExecutionInstance(sm)) {
+			if (sm.isPersistent()) {
 				annotateProperty(sm, OJUtil.buildStructuralFeatureMap(sm, p));
 			}
 		} else if (p.getOwnerElement() instanceof INakedOperation && ((INakedOperation) p.getOwnerElement()).shouldEmulateClass()) {

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJParameter;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
@@ -24,7 +25,7 @@ import nl.klasse.octopus.model.IParameter;
 public class OperationAnnotator extends StereotypeAnnotator {
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior o) {
-		if (hasOJClass(o.getContext()) && !o.isClassifierBehavior() && o.getOwnerElement() instanceof INakedClassifier) {
+		if (OJUtil.hasOJClass(o.getContext()) && !o.isClassifierBehavior() && o.getOwnerElement() instanceof INakedClassifier) {
 			// DO not do effects, state actions or classifier behavior - will be
 			// invoked elsewhere
 			if (o.getSpecification() == null || !o.getSpecification().getOwner().equals(o.getContext())) {

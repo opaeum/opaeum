@@ -15,6 +15,7 @@ import net.sf.nakeduml.javametamodel.OJParameter;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJStatement;
 import net.sf.nakeduml.javametamodel.OJTryStatement;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
@@ -35,7 +36,7 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 	}
 
 	@Override
-	public void implementActionOn(OJOperation operation) {
+	public void implementActionOn(OJAnnotatedOperation operation) {
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock block = buildLoopThroughTarget(operation, operation.getBody(), actionMap);
 		// TODO hacked to get through the code

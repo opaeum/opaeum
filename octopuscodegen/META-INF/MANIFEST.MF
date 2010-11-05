@@ -14,6 +14,7 @@ Export-Package: nl.klasse.octopus.codegen.helpers,
  nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.creators,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.visitors
-Require-Bundle: nl.klasse.octopus;bundle-version="2.2.0",
+Require-Bundle: nl.klasse.octopus,
  net.sf.nakeduml.javametamodel
+Bundle-ClassPath: .
 

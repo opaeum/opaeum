@@ -21,26 +21,13 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 public class AttributeExpressionGenerator extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
 	public void implementInterfaces(INakedClassifier c) {
-		if (hasOJClass(c) && !(c instanceof INakedInterface)) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)) {
 			for (INakedProperty p : c.getEffectiveAttributes()) {
-				if (p.getOwner() instanceof INakedInterface) {
+				if (p.getOwner() instanceof INakedInterface || p.getOwner()==c) {
 					implementAttributeExpressions(c, p);
 				}
 			}
 		}
-	}
-
-//	@VisitAfter()
-//	public void visitValuePin(INakedValuePin valuePin) {
-//		if (valuePin.getValue() != null) {
-//			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(valuePin.getActivity(), valuePin);
-//			addDerivationRule(valuePin.getActivity(), findJavaClass(valuePin.getActivity()), map, valuePin.getValue());
-//		}
-//	}
-
-	@VisitAfter(matchSubclasses = true)
-	public void property(INakedProperty attr) {
-		implementAttributeExpressions(attr.getOwner(), attr);
 	}
 
 	private void implementAttributeExpressions(INakedClassifier owner, INakedProperty attr) {

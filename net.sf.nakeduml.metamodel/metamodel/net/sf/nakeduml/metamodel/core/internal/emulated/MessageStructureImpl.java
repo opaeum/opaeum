@@ -33,7 +33,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure {
-	INakedElement element;
+	protected INakedElement element;
 	INakedClassifier owner;
 
 	protected MessageStructureImpl(INakedClassifier owner, INakedElement element) {

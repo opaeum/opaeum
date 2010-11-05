@@ -10,19 +10,23 @@ import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 //TODO implement post conditions 
@@ -31,15 +35,31 @@ import nl.klasse.octopus.oclengine.IOclContext;
 public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior behavior) {
-		if (hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier) {
+		if (OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier) {
+			// Ignore transition effects and state actions for now
 			if (BehaviorUtil.hasExecutionInstance(behavior)) {
-				// DO not do transition effects and state actions
 				addEvaluationMethod(behavior.getPreConditions(), "evaluatePreConditions", behavior);
 				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior);
 			} else {
 				NakedOperationMap mapper = new NakedOperationMap(behavior);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPreConditions(), true);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPostConditions(), false);
+			}
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitOpaqueBehavior(INakedOpaqueBehavior behavior) {
+		if (behavior.getBody() != null) {
+			if (BehaviorUtil.hasExecutionInstance(behavior)) {
+				OJAnnotatedClass javaContext = findJavaClass(behavior);
+				OJUtil.findOperation(javaContext, "execute");
+				//TODO create one if necessary
+			} else if(OJUtil.hasOJClass(behavior.getContext())){
+				OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
+				NakedOperationMap map = new NakedOperationMap(behavior);
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
+				this.addBody(oper, behavior.getContext(), map, behavior.getBody());
 			}
 		}
 	}
@@ -53,21 +73,20 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavioredClassifier(INakedBehavioredClassifier owner) {
 		for (INakedOperation oper : owner.getEffectiveOperations()) {
-			if (oper.getOwner() instanceof INakedInterface || oper.getOwner()==owner) {
-				processOperation(oper, owner);
-			}
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitDataTYpe(INakedDataType owner) {
-		for (INakedOperation oper : owner.getEffectiveOperations()) {
-			if (oper.getOwner() instanceof INakedInterface || oper.getOwner()==owner) {
+			if (oper.getOwner() instanceof INakedInterface || oper.getOwner() == owner) {
 				processOperation(oper, owner);
 			}
 		}
 	}
 
-	public void processOperation(INakedOperation oper, INakedClassifier owner) {
+	@VisitBefore(matchSubclasses = true)
+	public void visitDataTYpe(INakedDataType owner) {
+		for (IOperation oper : owner.getOperations()) {
+			processOperation((INakedOperation) oper, owner);
+		}
+	}
+
+	private void processOperation(INakedOperation oper, INakedClassifier owner) {
 		NakedOperationMap mapper = new NakedOperationMap(oper);
 		if (oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null) {
 			OJPathName path = OJUtil.classifierPathname(owner);
@@ -75,7 +94,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 			if (myOwner != null) {
 				OJAnnotatedOperation myOper = (OJAnnotatedOperation) myOwner.findOperation(mapper.javaOperName(),
 						mapper.javaParamTypePaths());
-				addBody(myOper, owner, mapper, oper.getBodyCondition());
+				INakedValueSpecification specification = oper.getBodyCondition().getSpecification();
+				addBody(myOper, owner, mapper, specification);
 			}
 		}
 		//
@@ -112,11 +132,9 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	private void addBody(OJAnnotatedOperation ojOper, INakedClassifier owner, NakedOperationMap map, INakedConstraint bodyCondition) {
+	private void addBody(OJAnnotatedOperation ojOper, INakedClassifier owner, NakedOperationMap map, INakedValueSpecification specification) {
 		if (map.getOperation().getReturnParameter() == null) {
-			ojOper.getBody().addToStatements(
-					ValueSpecificationUtil.expressValue(ojOper, bodyCondition.getSpecification(), owner, bodyCondition.getSpecification()
-							.getType()));
+			ojOper.getBody().addToStatements(ValueSpecificationUtil.expressValue(ojOper, specification, owner, specification.getType()));
 		} else {
 			String expString = "";
 			OJField result = new OJField();
@@ -124,9 +142,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 			result.setType(map.javaReturnTypePath());
 			result.setInitExp(map.javaReturnDefaultValue());
 			IParameterOwner oper = map.getOperation();
-			expString = "result= "
-					+ ValueSpecificationUtil.expressValue(ojOper, bodyCondition.getSpecification(), owner, oper.getReturnParameter()
-							.getType());
+			expString = "result= " + ValueSpecificationUtil.expressValue(ojOper, specification, owner, oper.getReturnParameter().getType());
 			ojOper.getBody().addToLocals(result);
 			ojOper.getBody().removeAllFromStatements();
 			ojOper.getBody().addToStatements(expString);

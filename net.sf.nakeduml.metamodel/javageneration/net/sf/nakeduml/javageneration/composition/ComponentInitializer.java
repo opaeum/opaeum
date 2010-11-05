@@ -30,7 +30,7 @@ import nl.klasse.octopus.model.IModelElement;
 public class ComponentInitializer extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(INakedEntity entity) {
-		if (hasOJClass(entity)) {
+		if (OJUtil.hasOJClass(entity)) {
 			OJAnnotatedClass ojClass = findJavaClass(entity);
 			OJOperation init = OJUtil.findOperation(ojClass, "init");
 			List<? extends INakedProperty> aws = entity.getOwnedAttributes();

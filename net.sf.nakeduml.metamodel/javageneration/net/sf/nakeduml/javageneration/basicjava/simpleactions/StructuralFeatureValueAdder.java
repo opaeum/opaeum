@@ -8,8 +8,8 @@ import net.sf.nakeduml.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class StructuralFeatureValueAdder extends SimpleActionBuilder<INakedAddStructuralFeatureValueAction>{
-	public StructuralFeatureValueAdder(IOclEngine oclEngine,INakedAddStructuralFeatureValueAction action){
-		super(oclEngine, action);
+	public StructuralFeatureValueAdder(IOclEngine oclEngine,INakedAddStructuralFeatureValueAction action, ObjectNodeExpressor expressor){
+		super(oclEngine, action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){

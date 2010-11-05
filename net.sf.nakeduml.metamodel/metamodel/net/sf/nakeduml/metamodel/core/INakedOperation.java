@@ -14,6 +14,7 @@ public interface INakedOperation extends IOperation,INakedNameSpace,IParameterOw
 	void setStatic(boolean b);
 	Set<? extends INakedBehavior> getMethods();
 	 void addMethod(INakedBehavior impl);
+	 //TODO move to code  generation class
 	boolean shouldEmulateClass();
 	boolean isUserResponsibility();
 	void setIsUserResponsibility(boolean b);

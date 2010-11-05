@@ -41,6 +41,7 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
 import nl.klasse.octopus.model.IDataType;
 import nl.klasse.octopus.model.IEnumLiteral;
+import nl.klasse.octopus.model.IInterface;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.INameSpace;
 import nl.klasse.octopus.model.IOperation;
@@ -758,7 +759,7 @@ public class TryAnalyzer extends Analyzer {
 			if (args != null && args.get(0) instanceof OclTypeLiteralExp) {
 				IClassifier argumentType = ((OclTypeLiteralExp)args.get(0)).getReferredClassifier();
 				if (! (Conformance.conformsTo(argumentType, sourceType) ||
-					   Conformance.conformsTo(sourceType, argumentType) )) {
+					   Conformance.conformsTo(sourceType, argumentType) || argumentType instanceof IInterface)) {
 					throw new AnalysisException(new OclError(currentFile, tree.getStartLine(), tree.getStartColumn(), 
 						  opname + ": " + argumentType.getName() + " does not conform to " +  sourceType.getName() + "\n"));
 				}

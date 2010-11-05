@@ -22,9 +22,9 @@ public class SeamSecuritySupport extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses=true)
 	public void visitPropertyBefore(INakedProperty property) {
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(property);
-		if(!property.isDerived() && property.isNavigable() && map.isMany() && hasOJClass(property.getOwner()) && property.getOwner() instanceof INakedEntity && property.getNakedBaseType() instanceof INakedEntity){
+		if(!property.isDerived() && property.isNavigable() && map.isMany() && OJUtil.hasOJClass(property.getOwner()) && property.getOwner() instanceof INakedEntity && property.getNakedBaseType() instanceof INakedEntity){
 			INakedClassifier c = property.getOwner();
-			if (hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier && !c.getIsAbstract()) {
+			if (OJUtil.hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier && !c.getIsAbstract()) {
 				OJAnnotatedClass ojClass = findJavaClass(c);
 				buildColumnRenderer(ojClass, property, "group");
 				buildColumnRenderer(ojClass, property, "user");

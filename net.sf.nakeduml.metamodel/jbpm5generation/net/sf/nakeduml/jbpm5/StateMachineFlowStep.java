@@ -120,7 +120,7 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 	public void populateRegion(NodesType nodes, ConnectionsType connections, INakedRegion region) {
 		List<INakedState> states = region.getStates();
 		int i = 1;
-		HashMap<SplitType, INakedState> splitNodes = new HashMap<SplitType, INakedState>();
+		HashMap<SplitType, INakedState> choiceNodes = new HashMap<SplitType, INakedState>();
 		for (INakedState state : states) {
 			i++;
 			targetIdMap.put(state, i);
@@ -134,11 +134,11 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 				addFinalNode(nodes, connections, i, state);
 				i++;
 			} else if (state.getKind().isFork()) {
-				// Not really supported
+				// TODO Not really supported, but can be done
 			} else if (state.getKind().isJoin()) {
-				// Not really supported
+				// TODO Not really supported but can be done
 			} else if (state.getKind().isChoice()) {
-				splitNodes.put(addSplit(i, nodes, state), state);
+				choiceNodes.put(addChoice(i, nodes, state), state);
 			} else if (state.getKind().isSimple()) {
 				addSimpleState(nodes, i, state);
 			} else if (state.getKind().isOrthogonal()) {
@@ -155,12 +155,12 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 			connection.setTo(targetIdMap.get(t.getTarget()) + "");
 			connections.getConnection().add(connection);
 		}
-		for (Map.Entry<SplitType, INakedState> entry : splitNodes.entrySet()) {
+		for (Map.Entry<SplitType, INakedState> entry : choiceNodes.entrySet()) {
 			this.doConstraints(entry.getValue(), entry.getKey());
 		}
 	}
 
-	private SplitType addSplit(int i, NodesType nodes, INakedState state) {
+	private SplitType addChoice(int i, NodesType nodes, INakedState state) {
 		SplitType split = ProcessFactory.eINSTANCE.createSplitType();
 		split.setType("2");
 		nodes.getSplit().add(split);

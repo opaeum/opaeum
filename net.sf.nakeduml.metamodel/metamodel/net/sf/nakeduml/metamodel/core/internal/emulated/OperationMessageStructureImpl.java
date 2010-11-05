@@ -31,7 +31,7 @@ public class OperationMessageStructureImpl extends MessageStructureImpl implemen
 			attributes = new ArrayList<INakedProperty>();
 			for(INakedElement p:oper.getOwnedElements()){
 				if(p instanceof INakedParameter){
-					attributes.add(new TypedPropertyBridge(this, (INakedTypedElement) p));
+					attributes.add(new TypedElementPropertyBridge(this, (INakedTypedElement) p));
 				}
 			}
 		}

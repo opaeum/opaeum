@@ -92,7 +92,7 @@ public class Environment implements INameSpace {
 		}
 	}
 
-	private void addStates(IClassifier c) {
+	public void addStates(IClassifier c) {
 		Iterator i = c.getStates().iterator();
 		while (i.hasNext()) {
 			IState s = (IState) i.next();

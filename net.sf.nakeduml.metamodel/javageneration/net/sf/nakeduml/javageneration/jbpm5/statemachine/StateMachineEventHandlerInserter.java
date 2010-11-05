@@ -12,6 +12,7 @@ import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.WaitForEventElements;
+import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javametamodel.OJAnnonymousInnerClass;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
@@ -22,12 +23,15 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.StateKind;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class StateMachineEventHandlerInserter extends AbstractEventHandlerInserter {
 	@VisitBefore(matchSubclasses = true)
@@ -47,8 +51,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 						fire.setName(fireOper);
 						javaStateMachine.addToOperations(fire);
 					}
-					BpmUtil.implementTimeEvent(fire, (INakedTimeEvent) wfe.getEvent(), we,
-							fromNode.getTransitions());
+					BpmUtil.implementTimeEvent(fire, (INakedTimeEvent) wfe.getEvent(), we, fromNode.getTransitions());
 					String cancelOper = map.getCancelTimersMethod();
 					OJOperation cancel = javaStateMachine.findOperation(cancelOper, Collections.EMPTY_LIST);
 					if (cancel == null) {
@@ -70,7 +73,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 			INakedState state = transition.getSource();
 			if (trigger == null) {
 				if (transition.getSource().getKind() != StateKind.INITIAL) {
-					// Naughty!!!1
+					// Naughty!!!
 					trigger = state;
 				} else {
 					continue;
@@ -103,20 +106,27 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 		listener.getClassDeclaration().addToOperations(onTransition);
 		INakedTransition transition = (INakedTransition) flow;
 		if (transition.getEffect() instanceof INakedActivity) {
-			for(OJParameter p:operationContext.getParameters()){
+			for (OJParameter p : operationContext.getParameters()) {
 				p.setFinal(true);
 			}
 			SimpleActivityMethodImplementor ai = new SimpleActivityMethodImplementor();
 			ai.initialize(workspace, javaModel, config, textWorkspace);
-			ai.implementActivityOn((INakedActivity) transition.getEffect(),onTransition);
+			ai.implementActivityOn((INakedActivity) transition.getEffect(), onTransition);
 			operationContext.getOwner().addToImports(listener.getClassDeclaration().getImports());
+		} else if (transition.getEffect() instanceof INakedOpaqueBehavior) {
+			INakedOpaqueBehavior b = (INakedOpaqueBehavior) transition.getEffect();
+			if (b.getBody() != null) {
+				IClassifier voidType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName);
+				String expression = ValueSpecificationUtil
+						.expressValue(onTransition, b.getBody(), transition.getStateMachine(), voidType);
+				onTransition.getBody().addToStatements(expression.replaceAll("this.", ""));//Get rid of this.
+			}
 		}
-		ifUmlNode.getThenPart().addToStatements(
-				"umlNode.takeTransition(\"" + calculateTargetNodeName(transition) + "\", listener)");
+		ifUmlNode.getThenPart().addToStatements("umlNode.takeTransition(\"" + calculateTargetNodeName(transition) + "\", listener)");
 	}
 
 	private String calculateTargetNodeName(INakedTransition flow) {
-		if(flow.getTarget().getIncoming().size()>1){
+		if (flow.getTarget().getIncoming().size() > 1) {
 			return BpmUtil.getArtificialJoinName(flow.getTarget());
 		}
 		return flow.getTarget().getMappingInfo().getPersistentName().toString();

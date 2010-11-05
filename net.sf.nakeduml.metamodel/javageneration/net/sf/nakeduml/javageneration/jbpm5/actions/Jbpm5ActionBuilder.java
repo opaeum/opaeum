@@ -5,6 +5,7 @@ import java.util.Collection;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractActionBuilder;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -14,6 +15,7 @@ import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
@@ -33,14 +35,40 @@ import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractActionBuilder {
-	protected A node;
+	protected static final class Jbpm5ObjectNodeExpressor extends ObjectNodeExpressor {
+		private final IOclEngine oclEngine;
 
-	protected Jbpm5ActionBuilder(IOclEngine oclEngine, A node) {
-		super(oclEngine);
-		this.node = node;
+		protected Jbpm5ObjectNodeExpressor(IOclEngine oclEngine) {
+			this.oclEngine = oclEngine;
+		}
+
+		public String expressInputPinOrOutParam(OJBlock block, INakedObjectNode pin) {
+			// Either an outputpin or parameterNode
+			INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
+			INakedObjectNode feedingNode = pin.getFeedingNode();
+			NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(feedingNode.getActivity(), feedingNode);
+			String call=feedingMap.getter() + "()";
+			if (feedingNode instanceof INakedOutputPin) {
+				call = retrieveFromExecutionInstanceIfNecessary(feedingNode, call);
+			}
+			return surroundWithSelectionAndTransformation(call, edge);
+		}
+
+		protected String initForResultVariable(NakedStructuralFeatureMap map) {
+			return map.getter() + "()";
+		}
 	}
 
-	public abstract void implementActionOn(OJOperation oper);
+	protected A node;
+	protected Jbpm5ObjectNodeExpressor expressor;
+
+	protected Jbpm5ActionBuilder(final IOclEngine oclEngine, A node) {
+		super(oclEngine, new Jbpm5ObjectNodeExpressor(oclEngine));
+		this.node = node;
+		this.expressor = (Jbpm5ObjectNodeExpressor) super.expressor;
+	}
+
+	public abstract void implementActionOn(OJAnnotatedOperation oper);
 
 	public void implementPreConditions(OJOperation oper) {
 		if (node instanceof PreAndPostConstrained) {
@@ -49,18 +77,18 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	public void implmementConditions(OJOperation oper, PreAndPostConstrained constrained, boolean pre) {
-		Collection<IOclContext> conditions =pre? constrained.getPreConditions(): constrained.getPostConditions();
+		Collection<IOclContext> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
 		if (conditions.size() > 0) {
 			OJBlock block = new OJBlock();
-
 			if (node instanceof INakedAction) {
-				//preConditions and PostConditions work on parameters - emulate pins as parameters
+				// preConditions and PostConditions work on parameters - emulate
+				// pins as parameters
 				for (INakedPin pin : ((INakedAction) node).getInput()) {
 					buildPinField(oper, block, pin);
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
-			oper.getBody().addToStatements(cg.buildConstraintsBlock(oper, block,conditions, pre));
+			oper.getBody().addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre));
 		}
 	}
 
@@ -99,15 +127,14 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	public void implementSupportingTaskMethods(OJClass activityClass) {
 	}
 
-
-
 	protected void continueFlow(OJBlock block, INakedActivityEdge edge) {
 		INakedActivityNode target = edge.getEffectiveTarget();
 		if (target.isImplicitJoin()) {
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_join_for_" + edge.getMappingInfo().getPersistentName().getWithoutId()
-					+ "\")");
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_join_for_"
+					+ edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
 		} else {
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"" + edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\""
+					+ edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
 		}
 	}
 
@@ -160,60 +187,10 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		ojClass.addToImports("org.jbpm.graph.exe.Token");
 	}
 
-	/**
-	 * Returns and expression string in Java that returns the value as
-	 * represenete
-	 * 
-	 * @param block
-	 * @param pin
-	 * @return
-	 */
-	@Override
-	protected String expressInputPinOrOutParam(OJBlock block, INakedObjectNode pin) {
-		// Either an outputpin or parameterNode
-		String expression = null;
-		INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
-		INakedObjectNode feedingNode = pin.getFeedingNode();
-		NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(feedingNode.getActivity(), feedingNode);
-		retrieveOutParamFromBehaviorInstance(block, feedingNode, feedingMap);
-		if (BehaviorUtil.hasExecutionInstance(pin.getActivity())) {
-			expression = feedingMap.getter() + "()";
-		} else {
-			expression = feedingMap.umlName();
-		}
-		return surroundWithSelectionAndTransformation(expression, edge);
-	}
-
-	protected void retrieveOutParamFromBehaviorInstance(OJBlock block, INakedObjectNode feedingNode, StructuralFeatureMap feedingMap) {
-		if (feedingNode.getOwnerElement() instanceof INakedCallAction) {
-			INakedCallAction callAction = (INakedCallAction) feedingNode.getOwnerElement();
-			// Was the invoked element a task or process?
-			// will be outputpin
-			INakedOutputPin outputPin = (INakedOutputPin) feedingNode;
-			if (BehaviorUtil.hasExecutionInstance(callAction.getCalledElement())) {
-				INakedParameter p = (INakedParameter) outputPin.getLinkedTypedElement();
-				if (callAction.getTargetElement() == null || callAction.getTargetElement().getNakedMultiplicity().isSingleObject()) {
-					// Only one call, so retrieve the single result
-					block.addToStatements(feedingMap.setter() + "(get" + callAction.getMappingInfo().getJavaName().getCapped() + "().get"
-							+ p.getMappingInfo().getJavaName().getCapped() + "())");
-				} else {
-					NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, getOclEngine().getOclLibrary());
-					// Multiple calls, so retrieve the result of the last
-					// call/TODO fix this - create for loop
-					ClassifierMap calledElement = new NakedClassifierMap(callAction.getMessageStructure());
-					String local = calledElement.javaType() + " " + actionMap.umlName();
-					String exp = "=(" + calledElement.javaType() + ")" + actionMap.getter() + "().get(" + actionMap.getter() + "().size())";
-					block.addToStatements(local + exp);
-					block.addToStatements(feedingMap.setter() + "(" + actionMap.umlName() + ".get"
-							+ p.getMappingInfo().getJavaName().getCapped() + "())");
-				}
-			}
-		}
-	}
-
 	public boolean waitsForEvent() {
 		return false;
 	}
+
 	protected final String buildPinField(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
 		if (pin == null) {
 			return "!!NoPin!!";
@@ -227,5 +204,4 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			return pinName;
 		}
 	}
-
 }

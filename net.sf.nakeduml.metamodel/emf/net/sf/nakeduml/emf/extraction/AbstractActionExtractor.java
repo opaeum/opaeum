@@ -31,11 +31,10 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValuePin;
 
-
-public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
-	protected <T extends INakedPin>List<T> populatePins(Activity emfActivity,List emfArguments){
+public abstract class AbstractActionExtractor extends CommonBehaviorExtractor {
+	protected <T extends INakedPin> List<T> populatePins(Activity emfActivity, List emfArguments) {
 		List<T> nakedArguments = new ArrayList<T>();
-		for(int i = 0;i < emfArguments.size();i++){
+		for (int i = 0; i < emfArguments.size(); i++) {
 			Pin arg = (Pin) emfArguments.get(i);
 			INakedPin nakedPin = initializePin(emfActivity, arg, null);
 			nakedPin.setIndex(i);
@@ -43,86 +42,67 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
 		}
 		return nakedArguments;
 	}
-	protected void addLocalPreAndPostConditions(INakedAction nakedAction,Action emfAction){
+
+	protected void addLocalPreAndPostConditions(INakedAction nakedAction, Action emfAction) {
 		super.addConstraints(nakedAction, emfAction.getLocalPreconditions(), emfAction.getLocalPostconditions());
 	}
-	protected INakedPin initializePin(Activity activity,Pin emfPin,Classifier expectedType){
+
+	protected INakedPin initializePin(Activity activity, Pin emfPin, Classifier expectedType) {
 		// Pins belong to actions and should always be initialized as part of
 		// the
 		// initialization of the action
 		NakedPinImpl resultingPin = null;
-		if(emfPin instanceof ValuePin){
+		if (emfPin instanceof ValuePin) {
 			ValuePin emfValuePin = (ValuePin) emfPin;
 			NakedValuePinImpl nakedValuePin = new NakedValuePinImpl();
 			initialize(nakedValuePin, emfPin, emfPin.getOwner());
 			INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-			if(nakedType != null){
+			if (nakedType != null) {
 				nakedValuePin.setBaseType(nakedType);
-			}else{
+			} else {
 				nakedValuePin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
 			}
 			resolveMultiplicityAndActualType(nakedValuePin, emfPin);
 			INakedBehavior context = (INakedBehavior) getNakedPeer(activity);
-			nakedValuePin.setValue(getValueSpecification(context, nakedValuePin,emfValuePin.getValue(), OclUsageType.INIT));
+			nakedValuePin.setValue(getValueSpecification(nakedValuePin, emfValuePin.getValue(), OclUsageType.INIT));
 			resultingPin = nakedValuePin;
-		}else if(emfPin instanceof InputPin){
-			if(emfPin.getIncomings().isEmpty() && emfPin.getName() != null && emfPin.getName().length() > 0){
-				// Fake valyue pin
-				NakedValuePinImpl nakedValuePin = new NakedValuePinImpl();
-				initialize(nakedValuePin, emfPin, emfPin.getOwner());
-				INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-				if(nakedType != null){
-					nakedValuePin.setBaseType(nakedType);
-				}else{
-					nakedValuePin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
-				}
-				resolveMultiplicityAndActualType(nakedValuePin, emfPin);
-				INakedValueSpecification valueSpecification = new NakedValueSpecificationImpl();
-				ParsedOclString parsedOclString = new ParsedOclString(emfPin.getName(), OclUsageType.BODY);
-				valueSpecification.setValue(parsedOclString);
-				parsedOclString.setExpressionString(emfPin.getName());
-				valueSpecification.initialize(nakedValuePin.getId() + "VS", emfPin.getName());
-				valueSpecification.setOwnerElement(nakedValuePin);
-				workspace.putModelElement(valueSpecification);
-				nakedValuePin.setValue(valueSpecification);
-				super.getErrorMap().linkElement(valueSpecification, emfPin);
-				super.getErrorMap().linkElement(parsedOclString, emfPin);
-				resultingPin = nakedValuePin;
-			}else{
-				resultingPin = new NakedInputPinImpl();
-				initialize(resultingPin, emfPin, emfPin.getOwner());
-				INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-				if(nakedType != null){
-					resultingPin.setBaseType(nakedType);
-				}else{
-					resultingPin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
-				}
-				resolveMultiplicityAndActualType(resultingPin, emfPin);
+		} else if (emfPin instanceof InputPin) {
+			resultingPin = new NakedInputPinImpl();
+			initialize(resultingPin, emfPin, emfPin.getOwner());
+			INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
+			if (nakedType != null) {
+				resultingPin.setBaseType(nakedType);
+			} else {
+				resultingPin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
 			}
-		}else if(emfPin instanceof OutputPin){
+			resolveMultiplicityAndActualType(resultingPin, emfPin);
+		} else if (emfPin instanceof OutputPin) {
 			resultingPin = new NakedOutputPinImpl();
 			initialize(resultingPin, emfPin, emfPin.getOwner());
 			INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-			if(nakedType != null){
+			if (nakedType != null) {
 				resultingPin.setBaseType(nakedType);
-			}else{
+			} else {
 				resultingPin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
 			}
 			resolveMultiplicityAndActualType(resultingPin, emfPin);
 		}
 		return resultingPin;
 	}
-	protected void resolveMultiplicityAndActualType(NakedPinImpl ae,Pin te){
+
+	protected void resolveMultiplicityAndActualType(NakedPinImpl ae, Pin te) {
 		populateMultiplicityAndBaseType(te, te.getType(), ae);
 	}
-	protected void populateMultiplicityAndBaseType(MultiplicityElement emfNode,Type type,NakedObjectNodeImpl ae){
+
+	protected void populateMultiplicityAndBaseType(MultiplicityElement emfNode, Type type, NakedObjectNodeImpl ae) {
 		ae.setMultiplicity(new NakedMultiplicityImpl(emfNode.getLower(), emfNode.getUpper() == -1 ? Integer.MAX_VALUE : emfNode.getUpper()));
 		ae.setIsOrdered(emfNode.isOrdered());
 		ae.setIsUnique(emfNode.isUnique());
 		ae.setBaseType((INakedClassifier) getNakedPeer(type));
 	}
-	protected void assignPartition(INakedActivityNode node,ActivityNode emfNode){
-		if(emfNode.getInPartitions().size() == 1){
+
+	protected void assignPartition(INakedActivityNode node, ActivityNode emfNode) {
+		if (emfNode.getInPartitions().size() == 1) {
 			node.setInPartition(((INakedActivityPartition) getNakedPeer((emfNode.getInPartitions().get(0)))));
 		}
 	}

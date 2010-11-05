@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jsf-api-1.2_13.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry including="**/*.java" kind="src" path="namegeneration"/>
+	<classpathentry kind="src" path="uigeneration"/>
 	<classpathentry including="**/*.java" kind="src" path="artefact"/>
 	<classpathentry including="**/*.java" kind="src" path="validation"/>
 	<classpathentry including="**/*.java" kind="src" path="textmetamodel"/>
@@ -18,13 +21,11 @@
 	<classpathentry kind="src" path="pommetamodel"/>
 	<classpathentry kind="src" path="pomgeneration"/>
 	<classpathentry kind="src" path="obsolete"/>
-	<classpathentry kind="src" path="uigeneration"/>
 	<classpathentry kind="src" path="uimetamodel"/>
 	<classpathentry kind="src" path="jbpm5generation"/>
 	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/collections-3.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/testng-5.12.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jsf-api-1.2_13.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/el-api-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/lang-2.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-jdk14-1.5.10.jar"/>

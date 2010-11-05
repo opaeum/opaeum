@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.uml2.uml.internal.impl.ActivityImpl;
-
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
@@ -21,7 +19,6 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -97,7 +94,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 
 	@VisitBefore(matchSubclasses = true)
 	public void transition(INakedTransition transition) {
-		if (transition.getGuard() != null && transition.getGuard().isValidOclValue()) {
+		if (transition.getGuard() != null && transition.getGuard().isValidOclValue() && transition.getSource().getKind().isChoice()) {
 			OJOperation getter = new OJAnnotatedOperation();
 			getter.setReturnType(new OJPathName("boolean"));
 			getter.setName(BpmUtil.getGuardMethod(transition));
@@ -114,7 +111,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 		javaStateMachine = findJavaClass(umlStateMachine);
 		addImports(javaStateMachine);
 		javaStateMachine.setName(umlStateMachine.getMappingInfo().getJavaName().toString());
-		super.implementRelationshipsWithContextAndProcess(umlStateMachine, javaStateMachine);
+		super.implementRelationshipsWithContextAndProcess(umlStateMachine, javaStateMachine,umlStateMachine.isPersistent());
 		OJPackage statePackage = findOrCreatePackage(javaStateMachine.getPathName().getHead());
 		statePackage.addToClasses(javaStateMachine);
 		OJPathName stateClass = statePackage.getPathName();
@@ -122,6 +119,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 		implementProcessInterfaceOperations(javaStateMachine, stateClass, umlStateMachine);
 		implementSpecificationOrStartClassifierBehaviour(umlStateMachine);
 		OJOperation execute = implementExecute(javaStateMachine, umlStateMachine);
+		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 	}
 
 	private void addImports(OJClass javaStateMachine) {

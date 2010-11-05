@@ -21,7 +21,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 public class ToXmlStringBuilder extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c) {
-		if (hasOJClass(c) && !(c instanceof INakedEnumeration)) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedEnumeration)) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildToXmlString(ojClass, c);
 		}

@@ -208,7 +208,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity entity){
-		if(hasOJClass(entity)){
+		if(OJUtil.hasOJClass(entity)){
 			if(entity.representsUser()){
 				OJAnnotatedClass ojClass = findJavaClass(entity);
 				//TODO this needs to become a uml library

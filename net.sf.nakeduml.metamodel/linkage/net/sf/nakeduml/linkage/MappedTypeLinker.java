@@ -96,7 +96,6 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 				getBuiltInTypes().getTypeMap().put(super.getPathNameInModel(simpleType).toString(), mappedType);
 			}
 		}// ... to here
-
 		// Check for steretypes with strategyFactory properties
 		if (simpleType.hasStereotype(StereotypeNames.VALUE_TYPE)) {
 			INakedInstanceSpecification stereotype = simpleType.getStereotype(StereotypeNames.VALUE_TYPE);
@@ -105,15 +104,18 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 				String javaType = firstValueFor.stringValue();
 				loadStrategies(simpleType, stereotype, javaType);
 			}
-			if(simpleType.getName().equals("DateTime")){
+			if (simpleType.getName().equals("DateTime")) {
 				getBuiltInTypes().setDateType(simpleType);
 			}
 		} else if (simpleType.hasStereotype(StereotypeNames.PRIMITIVE_TYPE)) {
 			loadStrategies(simpleType, simpleType.getStereotype(StereotypeNames.PRIMITIVE_TYPE), simpleType.getMappedImplementationType());
 		}
+		if(simpleType instanceof INakedPrimitiveType && ((INakedPrimitiveType) simpleType).getOclType()==null){
+			System.out.println(simpleType.getPathName() + " has no oclType!!");
+		}
 	}
 
-	public void loadStrategies(INakedSimpleType simpleType, INakedInstanceSpecification stereotype, String javaType) {
+	private void loadStrategies(INakedSimpleType simpleType, INakedInstanceSpecification stereotype, String javaType) {
 		getBuiltInTypes().getTypeMap().put(getPathNameInModel(simpleType).toString(), new MappedType(javaType));
 		if (stereotype.hasValueForFeature("strategyFactory")) {
 			INakedValueSpecification strategyFactory = stereotype.getFirstValueFor("strategyFactory");
@@ -137,6 +139,8 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.none);
 			MappedType mappedType = getBuiltInTypes().getTypeMap().get(super.getPathNameInModel(classifier).toString());
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());
+		} else {
+//			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.all);
 		}
 	}
 

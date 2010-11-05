@@ -10,6 +10,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedReceptionImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
@@ -130,7 +131,7 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 		}
 		if(p.getDefaultValue() != null){
 			OclUsageType ut = p.isDerived() ? OclUsageType.DERIVE : OclUsageType.INIT;
-			INakedValueSpecification vs = getValueSpecification(np.getOwner(),np, p.getDefaultValue(), ut);
+			INakedValueSpecification vs = getValueSpecification(np, p.getDefaultValue(), ut);
 			np.setInitialValue(vs);
 		}
 		// TODO look at implementing qualifiers as free attributes of the association
@@ -200,7 +201,7 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 			if(emfOper.getReturnResult() != null){
 				INakedConstraint constraint = new NakedConstraintImpl();
 				initialize(constraint, emfOper.getBodyCondition(), emfOper);
-				constraint.setSpecification(getValueSpecification(nakedOper.getOwner(),nakedOper, body, OclUsageType.BODY));
+				constraint.setSpecification(getValueSpecification(nakedOper, body, OclUsageType.BODY));
 				nakedOper.setBodyCondition(constraint);
 			}else{
 				getErrorMap().putError(nakedOper, CoreValidationRule.OCL, "Operation has a bodyCondition, but no return parameter");

@@ -8,8 +8,8 @@ import net.sf.nakeduml.metamodel.actions.INakedAddVariableValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class VariableValueAdder extends SimpleActionBuilder<INakedAddVariableValueAction>{
-	public VariableValueAdder(IOclEngine oclEngine,INakedAddVariableValueAction action){
-		super(oclEngine, action);
+	public VariableValueAdder(IOclEngine oclEngine,INakedAddVariableValueAction action, ObjectNodeExpressor expressor){
+		super(oclEngine, action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){

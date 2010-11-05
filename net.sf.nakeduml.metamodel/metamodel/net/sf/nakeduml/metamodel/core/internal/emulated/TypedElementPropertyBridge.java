@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
@@ -22,15 +25,24 @@ import nl.klasse.octopus.model.VisibilityKind;
  * @author abarnard
  * 
  */
-public class TypedPropertyBridge extends EmulatingElement implements INakedProperty {
+public class TypedElementPropertyBridge extends EmulatingElement implements INakedProperty {
 	INakedClassifier owner;
 	INakedTypedElement parameter;
 
-	public TypedPropertyBridge(INakedClassifier owner, INakedTypedElement parameter) {
+	public TypedElementPropertyBridge(INakedClassifier owner, INakedTypedElement parameter) {
 		super(parameter);
 		this.owner = owner;
 		this.parameter = parameter;
 	}
+	
+	@Override
+	public String getName() {
+		if(parameter.getOwnerElement() instanceof INakedAction && !(parameter.getOwnerElement() instanceof INakedOpaqueAction)){
+			return parameter.getName() + "On" + parameter.getOwnerElement().getMappingInfo().getJavaName().getCapped();
+		}
+		return super.getName();
+	}
+
 	public IMultiplicityKind getMultiplicity() {
 		return getNakedMultiplicity();
 	}

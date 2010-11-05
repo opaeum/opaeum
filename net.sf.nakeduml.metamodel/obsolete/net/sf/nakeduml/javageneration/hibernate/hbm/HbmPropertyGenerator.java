@@ -35,7 +35,7 @@ public class HbmPropertyGenerator extends HbmJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
 	public void annotateProperty(INakedProperty f) {
 		INakedClassifier owner = f.getOwner();		
-		if (isPersistent(owner) && hasOJClass(owner) && (owner.hasStereotype(SINGLE_TABLE_INHERITANCE) || isInSingleTableInheritance(owner))) {
+		if (isPersistent(owner) && OJUtil.hasOJClass(owner) && (owner.hasStereotype(SINGLE_TABLE_INHERITANCE) || isInSingleTableInheritance(owner))) {
 			if (!f.isDerived()) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 				if (map.isOne()) {

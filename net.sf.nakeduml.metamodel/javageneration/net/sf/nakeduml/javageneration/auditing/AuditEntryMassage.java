@@ -212,7 +212,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedClassifier c) {
-		if ((isPersistent(c) || c instanceof INakedInterface) && hasOJClass(c)) {
+		if ((isPersistent(c) || c instanceof INakedInterface) && OJUtil.hasOJClass(c)) {
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 			if (auditClass != null) {

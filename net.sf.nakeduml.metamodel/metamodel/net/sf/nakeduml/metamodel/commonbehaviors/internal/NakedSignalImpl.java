@@ -30,15 +30,19 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 	}
 	@SuppressWarnings("unchecked")
 	private List<INakedProperty> getOwnedArgumentParamaters(){
-		List<INakedProperty> list = new ArrayList(getOwnedAttributes());
+		List<INakedProperty> list = new ArrayList<INakedProperty>(getOwnedAttributes());
 		Collections.<INakedProperty>sort(list, new Comparator<INakedProperty>(){
 			public int compare(INakedProperty o1,INakedProperty o2){
-				return o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
+				int diff = o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
+				if(diff==0){
+					return o1.getName().compareTo(o2.getName());
+				}
+				return diff;
 			}
 		});
-		Iterator iter = list.iterator();
+		Iterator<INakedProperty> iter = list.iterator();
 		while(iter.hasNext()){
-			INakedProperty prop = (INakedProperty) iter.next();
+			INakedProperty prop = iter.next();
 			if(prop.isDerived() || prop.isReadOnly()){
 				iter.remove();
 			}

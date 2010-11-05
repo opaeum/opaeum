@@ -27,3 +27,4 @@ Export-Package: nl.klasse.octopus,
  nl.klasse.octopus.stdlib.internal.types,
  nl.klasse.tools.common,
  nl.klasse.tools.octopus 
+Bundle-ClassPath: .

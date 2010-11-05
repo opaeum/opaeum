@@ -6,21 +6,23 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class StructuralFeatureValueRemover extends SimpleActionBuilder<INakedRemoveStructuralFeatureValueAction>{
-	public StructuralFeatureValueRemover(IOclEngine oclEngine,INakedRemoveStructuralFeatureValueAction action){
-		super(oclEngine, action);
+public class StructuralFeatureValueRemover extends SimpleActionBuilder<INakedRemoveStructuralFeatureValueAction> {
+	public StructuralFeatureValueRemover(IOclEngine oclEngine, INakedRemoveStructuralFeatureValueAction action,
+			ObjectNodeExpressor expressor) {
+		super(oclEngine, action, expressor);
 	}
+
 	@Override
-	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
+	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
 		String valuePinField = buildPinExpression(operation, block, node.getValue());
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(operation, block, actionMap);
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(node.getFeature());
-		if(map.isOne()){
+		if (map.isOne()) {
 			forEach.addToStatements(actionMap.targetName() + "." + map.setter() + "(" + valuePinField + ")");
-		}else if(node.getValue().getNakedMultiplicity().isSingleObject()){
+		} else if (node.getValue().getNakedMultiplicity().isSingleObject()) {
 			forEach.addToStatements(actionMap.targetName() + "." + map.remover() + "(" + valuePinField + ")");
-		}else{
+		} else {
 			forEach.addToStatements(actionMap.targetName() + "." + map.removeAll() + "(" + valuePinField + ")");
 		}
 	}

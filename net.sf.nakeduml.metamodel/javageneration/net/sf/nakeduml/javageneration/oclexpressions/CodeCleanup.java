@@ -67,7 +67,7 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
-		if(hasOJClass(c)){
+		if(OJUtil.hasOJClass(c)){
 			OJClass ojClass = findJavaClass(c);
 			ojClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
 			OJOperation o = OJUtil.findOperation(ojClass, "hashCode");

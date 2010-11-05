@@ -28,7 +28,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor {
 		if (c instanceof INakedInterface) {
 			// TODO make source populations part of contract?
 
-		} else if (hasOJClass(c)) {
+		} else if (OJUtil.hasOJClass(c)) {
 			OJAnnotatedClass myClass = findJavaClass(c);
 			addConstraintsTo(c, myClass);
 			for (INakedInterfaceRealization ir : c.getInterfaceRealizations()) {

@@ -1,4 +1,9 @@
 package net.sf.nakeduml.metamodel.activities;
-import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-public interface INakedStructuredActivityNode extends INakedNameSpace,INakedActivityNode {
+
+import java.util.Collection;
+
+public interface INakedStructuredActivityNode extends INakedActivityNode {
+	Collection<INakedActivityNode> getChildren();
+	Collection<INakedActivityVariable> getVariables();
+	Collection<INakedActivityNode> getStartNodes();
 }

@@ -32,19 +32,7 @@ import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
-	@VisitBefore(matchSubclasses = true)
-	public void visitOpaqueBehavior(INakedOpaqueBehavior c) {
-		if (hasOJClass(c)) {
-			OJAnnotatedClass ojBehavior = findJavaClass(c);
-			INakedOpaqueBehavior ob = (INakedOpaqueBehavior) c;
-			if (ob.getContext() != null) {
-				implementExecute(ojBehavior, ob);
-				implementSpecificationOrStartClassifierBehaviour(ob);
-				super.addContextFieldAndConstructor(ojBehavior, ob, ob.getContext());
-			}
-			addGetName(c, ojBehavior);
-		}
-	}
+
 
 	@VisitBefore
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
@@ -73,7 +61,7 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 	@VisitAfter
 	public void visitOperation(INakedOperation o) {
 		if (BehaviorUtil.isUserResponsibility(o)) {
-			super.implementRelationshipFromContextToMessage(o, findJavaClass(o.getOwner()));
+			super.implementRelationshipFromContextToMessage(o, findJavaClass(o.getOwner()),true);
 			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
 			implementExecute(o,ojOperationClass);

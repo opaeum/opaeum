@@ -4,7 +4,8 @@ Bundle-Name: net.sf.nakeduml.util
 Bundle-SymbolicName: net.sf.nakeduml.util
 Bundle-Version: 1.0.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: javax.mail,
+Export-Package: javax.activation,
+ javax.mail,
  javax.persistence,
  javax.persistence.spi,
  net.sf.nakeduml.annotation,
@@ -116,7 +117,8 @@ Export-Package: javax.mail,
  org.hibernate.type,
  org.hibernate.usertype,
  org.hibernate.util
-Bundle-ClassPath: lib/junit.jar,
+Bundle-ClassPath: .,
+ lib/junit.jar,
  lib/hibernate-annotations-3.4.0.GA.jar,
  lib/hibernate-core-3.3.2.GA.jar,
  lib/dom4j-1.6.1.jar,

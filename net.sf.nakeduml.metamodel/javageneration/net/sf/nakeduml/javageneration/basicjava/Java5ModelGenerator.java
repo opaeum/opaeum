@@ -39,7 +39,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 		// two-way
 		// associations
 		// and should be built-in or pre-implemented
-		if (hasOJClass(c) && !(c instanceof INakedSimpleType)) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
 			ClassifierMap classifierMap = new NakedClassifierMap(c);
 			OJAnnotatedClass myClass;
 			if (c instanceof INakedEnumeration) {

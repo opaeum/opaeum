@@ -14,18 +14,13 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
-import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.linkage.InterfaceUtil;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
@@ -94,31 +89,6 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 
 	protected static OJConstructor findConstructor(OJAnnotatedClass c, OJPathName parameter1) {
 		return c.findConstructor(parameter1);
-	}
-
-	/**
-	 * Some classifiers in UML would not necessarily be generated as Java
-	 * classes. Returns false for NakedBehaviors that have one or less resulting
-	 * parameters
-	 * 
-	 */
-	protected static boolean hasOJClass(INakedClassifier c) {
-		if (c instanceof INakedClassifier) {
-			INakedClassifier nc = c;
-			if (nc.getCodeGenerationStrategy().isNone()) {
-				return false;
-			} else if (c instanceof INakedBehavior) {
-				return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
-			} else if (c instanceof INakedAssociation) {
-				return ((INakedAssociation) c).isClass();
-			} else if (c instanceof MessageStructureImpl) {
-				return true;
-			} else {
-				return true;
-			}
-		} else {
-			return false;
-		}
 	}
 
 	protected static boolean isPersistent(INakedClassifier c) {
@@ -190,6 +160,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	}
 
 	protected boolean hasEntityImplementationsOnly(INakedInterface ni) {
+		///TODO superfluous
 		boolean hasEntityImplementationsOnly = true;
 		for (INakedClassifier child : InterfaceUtil.getImplementationsOf(ni)) {
 			if (!(child instanceof INakedEntity)) {

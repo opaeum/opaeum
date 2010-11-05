@@ -4,10 +4,10 @@ import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IClassifier;
 //TODO implement oneToMany emulation with OpaqueActions
-public class ActionFeatureBridge extends TypedPropertyBridge{
+public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	private static final long serialVersionUID = 620463438474285488L;
 	INakedClassifier baseType;
 	IClassifier type;

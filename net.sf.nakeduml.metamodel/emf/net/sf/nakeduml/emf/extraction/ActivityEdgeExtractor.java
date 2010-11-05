@@ -22,12 +22,13 @@ import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ControlFlow;
 import org.eclipse.uml2.uml.ObjectFlow;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires =  {ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,
-	StructuralFeatureActionExtractor.class,VariableActionExtractor.class},after = {ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,
-			StructuralFeatureActionExtractor.class,VariableActionExtractor.class})
-public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
+@StepDependency(phase = EmfExtractionPhase.class, requires = { ActivityControlNodeExtractor.class, ObjectNodeExtractor.class,
+		ActionExtractor.class, StructuralFeatureActionExtractor.class, VariableActionExtractor.class }, after = {
+		ActivityControlNodeExtractor.class, ObjectNodeExtractor.class, ActionExtractor.class, StructuralFeatureActionExtractor.class,
+		VariableActionExtractor.class })
+public class ActivityEdgeExtractor extends CommonBehaviorExtractor {
 	@VisitBefore
-	public void visitObjectFlow(ObjectFlow f){
+	public void visitObjectFlow(ObjectFlow f) {
 		Activity activity = getActivity(f);
 		INakedClassifier nc = getNearestContext(activity);
 		NakedObjectFlowImpl nakedObjectFlow = new NakedObjectFlowImpl();
@@ -35,41 +36,45 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		nakedObjectFlow.setTransformation((INakedBehavior) getNakedPeer(f.getTransformation()));
 		nakedObjectFlow.setSelection((INakedBehavior) getNakedPeer(f.getSelection()));
 	}
+
 	@VisitBefore
-	public void visitControlFlow(ControlFlow f){
+	public void visitControlFlow(ControlFlow f) {
 		Activity activity = getActivity(f);
 		INakedClassifier nc = getNearestContext(activity);
 		initializeEdge(f, nc, new NakedActivityEdgeImpl());
 	}
-	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
-		initialize(nae, ae, ae.getActivity());
-		INakedValueSpecification guard = getValueSpecification((INakedBehavior) getNakedPeer(ae.getActivity()), nae, ae.getGuard(),
-				OclUsageType.BODY);
-		if(guard != null){
+
+	private void initializeEdge(ActivityEdge ae, INakedClassifier nc, INakedActivityEdge nae) {
+		
+		initialize(nae, ae, ae.getOwner());
+		INakedValueSpecification guard = getValueSpecification(nae, ae.getGuard(), OclUsageType.BODY);
+		if (guard != null) {
 			nae.setGuard(guard);
 			guard.setType(getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
 		}
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
-		INakedValueSpecification weight = getValueSpecification(nc, nae,ae.getWeight(), OclUsageType.BODY);
-		if(weight != null){
+		INakedValueSpecification weight = getValueSpecification(nae, ae.getWeight(), OclUsageType.BODY);
+		if (weight != null) {
 			weight.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			nae.setWeight(weight);
 		}
 	}
+
 	/**
-	 * Interim solution to ensure that a node is always guarranteed. If none is found to be built yet, this method creates an opaqy action or
-	 * control node.
+	 * Interim solution to ensure that a node is always guarranteed. If none is
+	 * found to be built yet, this method creates an opaqy action or control
+	 * node.
 	 * 
 	 * @param emfNode
 	 * @return
 	 */
-	private INakedActivityNode getNode(ActivityNode emfNode){
+	private INakedActivityNode getNode(ActivityNode emfNode) {
 		INakedActivityNode node = (INakedActivityNode) getNakedPeer(emfNode);
-		if(node == null){
-			if(emfNode instanceof Action){
+		if (node == null) {
+			if (emfNode instanceof Action) {
 				node = new NakedOpaqueActionImpl();
-			}else{
+			} else {
 				NakedControlNodeImpl cnode = new NakedControlNodeImpl();
 				cnode.setControlNodeType(ControlNodeType.MERGE_NODE);
 				node = cnode;

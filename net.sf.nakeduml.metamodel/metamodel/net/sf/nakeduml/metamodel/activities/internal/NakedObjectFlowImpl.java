@@ -1,5 +1,6 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -10,7 +11,7 @@ public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INaked
 	private INakedBehavior selection;
 	@Override
 	public INakedActivityNode getEffectiveTarget() {
-		if (getTarget() instanceof INakedInputPin || getTarget() instanceof INakedOutputPin) {
+		if (getTarget() instanceof INakedInputPin || getTarget() instanceof INakedOutputPin || getTarget() instanceof INakedExpansionNode) {
 			return (INakedActivityNode) getTarget().getOwnerElement();
 		} else {
 			return getTarget();

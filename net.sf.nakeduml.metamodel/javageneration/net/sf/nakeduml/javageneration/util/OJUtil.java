@@ -17,13 +17,19 @@ import net.sf.nakeduml.javametamodel.OJSimpleStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.name.NameConverter;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -60,7 +66,7 @@ public class OJUtil {
 		if (typedAndOrdered instanceof INakedProperty) {
 			linkedParameter = OJUtil.buildStructuralFeatureMap((INakedProperty) typedAndOrdered);
 		} else {
-			linkedParameter = new NakedStructuralFeatureMap(new TypedPropertyBridge(owner, typedAndOrdered));
+			linkedParameter = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(owner, typedAndOrdered));
 		}
 		return linkedParameter;
 	}
@@ -258,4 +264,30 @@ public class OJUtil {
 		execute.getOwner().addToImports(failedConstraints);
 		execute.addToThrows(failedConstraints);
 	}
+
+	/**
+	 * Some classifiers in UML would not necessarily be generated as Java
+	 * classes. Returns false for NakedBehaviors that have one or less resulting
+	 * parameters
+	 * 
+	 */
+	public static boolean hasOJClass(INakedClassifier c) {
+		if (c instanceof INakedClassifier) {
+			INakedClassifier nc = c;
+			if (nc.getCodeGenerationStrategy().isNone()) {
+				return false;
+			} else if (c instanceof INakedBehavior) {
+				return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
+			} else if (c instanceof INakedAssociation) {
+				return ((INakedAssociation) c).isClass();
+			} else if (c instanceof MessageStructureImpl) {
+				return true;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
+	}
+
 }

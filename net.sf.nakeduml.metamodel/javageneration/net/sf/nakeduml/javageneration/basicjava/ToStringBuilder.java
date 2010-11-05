@@ -25,7 +25,7 @@ public class ToStringBuilder extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c) {
-		if (hasOJClass(c)) {
+		if (OJUtil.hasOJClass(c)) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildToString(ojClass, c);
 		}

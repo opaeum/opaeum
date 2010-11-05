@@ -12,7 +12,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -37,7 +37,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
 		if(!classScope){
 			for(INakedParameter p:getArgumentParameters()){
-				results.add(new TypedPropertyBridge(this, p));
+				results.add(new TypedElementPropertyBridge(this, p));
 			}
 		}
 		return results;

@@ -9,7 +9,7 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
 
@@ -28,7 +28,7 @@ public class OpaqueActionMessageStructureImpl extends MessageStructureImpl {
 		if (attributes == null) {
 			attributes = new ArrayList<INakedProperty>();
 			for (INakedObjectNode p : action.getPins()) {
-				attributes.add(new TypedPropertyBridge(this, p));
+				attributes.add(new TypedElementPropertyBridge(this, p));
 			}
 		}
 		return attributes;

@@ -15,7 +15,7 @@ public class AuditFixAnnotations extends AbstractJavaProducingVisitorForAudit {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedClassifier classifier) {
-		if (isPersistent(classifier) && hasOJClass(classifier)) {
+		if (isPersistent(classifier) && OJUtil.hasOJClass(classifier)) {
 			OJPathName path = OJUtil.classifierPathname(classifier);
 			path.replaceTail(path.getLast()+"_Audit");
 			OJAnnotatedClass c = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);

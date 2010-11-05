@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.hql.ast.tree.ParameterNode;
+
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
@@ -21,8 +23,9 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.core.internal.emulated.TypedPropertyBridge;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IAttribute;
+import nl.klasse.octopus.model.ParameterDirectionKind;
 
 public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity{
 	private static final long serialVersionUID = -8111895180462880035L;
@@ -38,11 +41,13 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public Collection<INakedActivityNode> getStartNodes(){
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
 		for(INakedActivityNode node:getActivityNodes()){
-			//TODO fix to !(node instanceof INakedParameterNode) && node.getAllEffectiveOutgoing().size() > 0   
-			if(node.getAllEffectiveOutgoing().size() > 0 && node.getAllEffectiveIncoming().isEmpty()){
-				// All parameter nodes with outgoing but no incoming
-				// All initial nodes
-				// All actvity front
+			if(node instanceof INakedParameterNode){
+				INakedParameterNode parmNode = (INakedParameterNode) node;
+				//Ignore parameter nodes that have no outgoing edges, e.g. out-parameters
+				if(parmNode.getAllEffectiveIncoming().isEmpty()&& !parmNode.getAllEffectiveOutgoing().isEmpty()){
+					results.add(node);
+				}
+			}else if(node.getAllEffectiveIncoming().isEmpty()){
 				results.add(node);
 			}
 		}
@@ -56,15 +61,6 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		return getActivityKind() == ActivityKind.PROCESS;
 	}
 
-	private Collection<INakedOpaqueAction> getOpaqueActions(){
-		Collection<INakedOpaqueAction> results = new ArrayList<INakedOpaqueAction>();
-		for(INakedActivityNode n:getActivityNodesRecursively()){
-			if(n instanceof INakedOpaqueAction){
-				results.add((INakedOpaqueAction) n);
-			}
-		}
-		return results;
-	}
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
@@ -86,8 +82,9 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
 		if(!classScope){
 			for(INakedActivityNode node:getActivityNodesRecursively()){
-				if(node instanceof INakedOutputPin || node instanceof INakedParameterNode){
-					results.add(new TypedPropertyBridge(this, (INakedTypedElement) node));
+				//TODO reconsider the outputpin thing - that's what variables are for
+				if(node instanceof INakedParameterNode){
+					results.add(new TypedElementPropertyBridge(this, (INakedTypedElement) node));
 				}
 			}
 		}

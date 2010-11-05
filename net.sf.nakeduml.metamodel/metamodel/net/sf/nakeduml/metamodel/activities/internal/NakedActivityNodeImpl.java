@@ -95,7 +95,7 @@ public class NakedActivityNodeImpl extends NakedModelElementImpl implements INak
 		return getOutgoing(false);
 	}
 	@Override
-	public final void addOwnedElement(INakedElement element){
+	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
 	}
 }

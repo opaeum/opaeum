@@ -10,26 +10,26 @@ import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class StructuralFeatureReader extends SimpleActionBuilder<INakedReadStructuralFeatureAction>{
-	public StructuralFeatureReader(IOclEngine oclEngine,INakedReadStructuralFeatureAction action){
-		super(oclEngine, action);
+	public StructuralFeatureReader(IOclEngine oclEngine,INakedReadStructuralFeatureAction action, ObjectNodeExpressor expressor){
+		super(oclEngine, action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		INakedOutputPin result = node.getResult();
-		StructuralFeatureMap resultMap = buildResultVariable(operation, result);
+		NakedStructuralFeatureMap resultMap = expressor.maybeBuildResultVariable(operation, block, result);
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
 		String call = actionMap.targetName() + "." + new NakedStructuralFeatureMap(node.getFeature()).getter() + "()";
 		NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(node.getFeature());
 		if(resultMap.isCollection()){
 			if(featureMap.isMany()){
-				call = resultMap.umlName() + ".addAll(" + call + ")";
+				call = expressor.resultGetter(resultMap) + ".addAll(" + call + ")";
 			}else{
-				call = resultMap.umlName() + ".add(" + call + ")";
+				call = expressor.resultGetter(resultMap) + ".add(" + call + ")";
 			}
 		}else{
-			// TODO what if the feature is Many? Force the result map to be many!
-			call = resultMap.umlName() + "=" + call;
+			// TODO what if the feature is Many? Force the result map to be many?
+			call = expressor.resultSetter(resultMap,call);
 		}
 		fs.addToStatements(call);
 	}

@@ -63,6 +63,11 @@ public class PinLinker extends AbstractModelElementLinker {
 		if (pin != null) {
 			// TODO check if there is conformance
 			pin.setLinkedTypedElement(typedElement);
+			if(pin.getNakedMultiplicity().getUpper()<typedElement.getNakedMultiplicity().getUpper()){
+				pin.setMultiplicity(typedElement.getNakedMultiplicity());
+				pin.setIsUnique(typedElement.isUnique());
+				pin.setIsOrdered(typedElement.isOrdered());
+			}
 		}
 	}
 

@@ -9,4 +9,5 @@ Export-Package: net.sf.nakeduml.javametamodel,
  net.sf.nakeduml.javametamodel.generated,
  net.sf.nakeduml.javametamodel.utilities
 Bundle-SymbolicName: net.sf.nakeduml.javametamodel
+Bundle-ClassPath: .
 

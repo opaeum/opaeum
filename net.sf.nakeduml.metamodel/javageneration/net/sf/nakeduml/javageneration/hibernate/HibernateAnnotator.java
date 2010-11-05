@@ -74,7 +74,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 
 	@VisitAfter(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class })
 	public void visitComplexType(INakedComplexStructure entity) {
-		if (super.isPersistent(entity) && hasOJClass(entity)) {
+		if (super.isPersistent(entity) && OJUtil.hasOJClass(entity)) {
 			for (INakedProperty p : entity.getEffectiveAttributes()) {
 				if (p.getOwner() instanceof INakedInterface || p.getOwner()==entity) {
 					annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
@@ -114,7 +114,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier cl) {
-		if (isPersistent(cl) && hasOJClass(cl)) {
+		if (isPersistent(cl) && OJUtil.hasOJClass(cl)) {
 			annotateComplexStructure((INakedComplexStructure) cl);
 		} else if (cl instanceof INakedEnumeration) {
 			// TODO define enum typeDEF at package level, implement EnumType in

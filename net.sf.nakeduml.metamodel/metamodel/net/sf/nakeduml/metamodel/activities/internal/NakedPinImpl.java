@@ -1,5 +1,6 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -20,5 +21,9 @@ public class NakedPinImpl extends NakedObjectNodeImpl implements INakedPin{
 		}else{
 			return this.linkedTypedElement.getNakedBaseType();
 		}
+	}
+	@Override
+	public INakedAction getAction() {
+		return (INakedAction) getOwnerElement();
 	}
 }

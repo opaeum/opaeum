@@ -25,7 +25,7 @@ public class SeamListFilterSupport extends AbstractJavaProducingVisitor {
 	
 	@VisitAfter(matchSubclasses=true)
 	public void visitClass(INakedClassifier c) {
-		if (hasOJClass(c)&& isPersistent(c) && !c.getIsAbstract()) {
+		if (OJUtil.hasOJClass(c)&& isPersistent(c) && !c.getIsAbstract()) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Role"));
 			name.putAttribute(new OJAnnotationAttributeValue("name",c.getMappingInfo().getJavaName().getDecapped().toString()+FILTER_ROLE));

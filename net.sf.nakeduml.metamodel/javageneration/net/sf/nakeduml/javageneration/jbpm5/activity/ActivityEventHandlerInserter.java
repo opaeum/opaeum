@@ -17,6 +17,7 @@ import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -36,7 +37,7 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
 		super.initialize(workspace, javaModel, config, textWorkspace);
 		this.actionBuilder = new Jbpm5ActionBuilder(workspace.getOclEngine(), null){
 			@Override
-			public void implementActionOn(OJOperation oper){
+			public void implementActionOn(OJAnnotatedOperation oper){
 			}
 		};
 	}

@@ -26,7 +26,7 @@ public class SeamListNavigationSupport extends AbstractJavaProducingVisitor {
 
 			INakedProperty endToComposite = ((INakedEntity)property.getOwner()).getEndToComposite();
 			INakedClassifier c = endToComposite.getNakedBaseType();
-			if (hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier && !c.getIsAbstract()) {
+			if (OJUtil.hasOJClass(c)&& isPersistent(c) && c instanceof INakedClassifier && !c.getIsAbstract()) {
 				OJAnnotatedClass ojClass = findJavaClass(c);
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
 				if (map.isOneToMany()) {

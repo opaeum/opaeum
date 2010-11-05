@@ -1,7 +1,5 @@
-package net.sf.nakeduml.javageneration.jbpm5.actions;
+package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleActionBuilder;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedStartClassifierBehaviorAction;
@@ -9,8 +7,8 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class ClassifierBehaviorStarter extends SimpleActionBuilder<INakedStartClassifierBehaviorAction>{
-	public ClassifierBehaviorStarter(IOclEngine oclEngine,INakedStartClassifierBehaviorAction action){
-		super(oclEngine, action);
+	public ClassifierBehaviorStarter(IOclEngine oclEngine,INakedStartClassifierBehaviorAction action,ObjectNodeExpressor expressor){
+		super(oclEngine, action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){

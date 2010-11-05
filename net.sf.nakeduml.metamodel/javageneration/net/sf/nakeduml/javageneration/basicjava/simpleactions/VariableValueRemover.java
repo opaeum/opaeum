@@ -8,8 +8,8 @@ import net.sf.nakeduml.metamodel.actions.INakedRemoveVariableValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class VariableValueRemover extends SimpleActionBuilder<INakedRemoveVariableValueAction>{
-	public VariableValueRemover(IOclEngine oclEngine,INakedRemoveVariableValueAction action){
-		super(oclEngine, action);
+	public VariableValueRemover(IOclEngine oclEngine,INakedRemoveVariableValueAction action, ObjectNodeExpressor expressor){
+		super(oclEngine, action, expressor);
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){

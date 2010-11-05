@@ -1,65 +1,46 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
-import net.sf.nakeduml.javametamodel.OJClass;
-import net.sf.nakeduml.javametamodel.OJConstructor;
 import net.sf.nakeduml.javametamodel.OJPathName;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
-import net.sf.nakeduml.name.NameConverter;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import net.sf.nakeduml.util.ExceptionHolder;
+import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class ParameterNodeImplementor extends SimpleActionBuilder<INakedParameterNode>{
-	public ParameterNodeImplementor(IOclEngine oclEngine,INakedParameterNode action){
-		super(oclEngine, action);
+public class ParameterNodeImplementor extends SimpleActionBuilder<INakedParameterNode> {
+	public ParameterNodeImplementor(IOclEngine oclEngine, INakedParameterNode action, ObjectNodeExpressor objectNodeExpressor) {
+		super(oclEngine, action, objectNodeExpressor);
 	}
+
 	@Override
-	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		if(node.getParameter().isResult()){
-			if(node.getParameter().isException()){
-				operation.getOwner().addToImports(maybeCreateUtilException());
-				block.addToStatements("throw new ExceptionParameter(\"" + node.getParameter().getName() + "\","
-						+ expressInputPinOrOutParam(block, node) + ")");
-			}else{
-				block.addToStatements("return " + expressInputPinOrOutParam(block, node));
+	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
+		if (!node.getParameter().getDirection().equals(ParameterDirectionKind.IN) && node.getIncoming().size()>0) {
+			NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), node);
+			// consume input token where necessary
+			String call = super.expressor.expressInputPinOrOutParam(block, node);
+			if (node.getParameter().isResult()) {
+				if (node.getParameter().isException()) {
+					// TODO JBPM exception handling
+					// oper.getBody().addToStatements("processInstance.getRootToken().end()");
+					OJPathName pathName = OJUtil.classifierPathname(node.getNakedBaseType());
+					operation.getOwner().addToImports(pathName);
+					operation.getOwner().addToImports(new OJPathName(ExceptionHolder.class.getName()));
+					if (node.getActivity().getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
+						block.addToStatements(resultMap.setter() + "(" + call + ")");
+					}
+					operation.getBody().addToStatements("throw new ExceptionHolder(this,this," + call + ")");
+				} else {
+					if (node.getActivity().getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
+						block.addToStatements("return " + call);
+					} else {
+						block.addToStatements(resultMap.setter() + "(" + call + ")");
+					}
+				}
 			}
 		}
-	}
-	private OJPathName maybeCreateUtilException(){
-		OJClass ojClass = UtilityCreator.getUtilPack().findClass(new OJPathName("ExceptionParameter"));
-		if(ojClass == null){
-			OJAnnotatedClass c = new OJAnnotatedClass();
-			c.setName("ExceptionParameter");
-			c.setSuperclass(new OJPathName("java.lang.RuntimeException"));
-			OJConstructor con = new OJConstructor();
-			c.addToConstructors(con);
-			addField(con, "parameterName", "String");
-			addField(con, "value", "Object");
-			OJAnnotatedOperation oper = new OJAnnotatedOperation();
-			oper.setName("isParameter");
-			oper.addParam("name", "String");
-			oper.getBody().addToStatements("return name.equals(parameterName)");
-			oper.setReturnType(new OJPathName("boolean"));
-			c.addToOperations(oper);
-			ojClass = c;
-			UtilityCreator.getUtilPack().addToClasses(c);
-		}
-		return ojClass.getPathName();
-	}
-	private void addField(OJConstructor con,String name,String type){
-		OJAnnotatedField field = new OJAnnotatedField();
-		field.setName(name);
-		field.setType(new OJPathName(type));
-		((OJAnnotatedClass) con.getOwner()).addToFields(field);
-		con.addParam(name, type);
-		con.getBody().addToStatements("this." + name + "=" + name);
-		OJAnnotatedOperation getValue = new OJAnnotatedOperation();
-		getValue.setName("get" + NameConverter.capitalize(name));
-		getValue.getBody().addToStatements("return " + name);
-		getValue.setReturnType(new OJPathName(type));
-		con.getOwner().addToOperations(getValue);
 	}
 }
