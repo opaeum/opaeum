@@ -89,13 +89,17 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	}
 
 	public boolean hasMultipleConcurrentResults() {
-		int i = 0;
-		for (INakedParameter p : this.resultParameters) {
-			if (!p.isException()) {
-				i++;
+		if (getOwnedAttributes().size() > 0) {
+			return true;
+		} else {
+			int i = 0;
+			for (INakedParameter p : this.resultParameters) {
+				if (!p.isException()) {
+					i++;
+				}
 			}
+			return i > 1;
 		}
-		return i > 1;
 	}
 
 	public List<INakedParameter> getResultParameters() {
@@ -171,6 +175,14 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	}
 
 	public INakedParameter getReturnParameter() {
+		if(returnParameter==null){
+			for (INakedParameter parm : getOwnedParameters()) {
+				if(!parm.isException() && parm.isResult()){
+					return parm;
+				}
+				
+			}
+		}
 		return this.returnParameter;
 	}
 
@@ -204,15 +216,14 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		if (getContext() != null) {
 			return getContext();
 		} else {
-			INakedElement element=(INakedElement) getOwnerElement();
-			while(!(element instanceof INakedBehavioredClassifier || element instanceof INakedModel || element instanceof INakedProfile)){
-				element=(INakedElement) element.getOwnerElement();
+			INakedElement element = (INakedElement) getOwnerElement();
+			while (!(element instanceof INakedBehavioredClassifier || element instanceof INakedModel || element instanceof INakedProfile)) {
+				element = (INakedElement) element.getOwnerElement();
 			}
-			if(element instanceof INakedBehavioredClassifier){
+			if (element instanceof INakedBehavioredClassifier) {
 				return (INakedBehavioredClassifier) element;
 			}
 			return null;
-			
 		}
 	}
 

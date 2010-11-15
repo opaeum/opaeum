@@ -1,9 +1,7 @@
 package net.sf.nakeduml.javageneration;
 
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
-import nl.klasse.octopus.model.IState;
 
 public class NakedStateMap extends StateMap {
 

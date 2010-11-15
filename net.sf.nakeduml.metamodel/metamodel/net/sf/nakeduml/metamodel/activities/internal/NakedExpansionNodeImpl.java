@@ -8,4 +8,14 @@ public class NakedExpansionNodeImpl extends NakedObjectNodeImpl implements INake
 	public INakedExpansionRegion getExpansionRegion() {
 		return (INakedExpansionRegion) getOwnerElement();
 	}
+
+	@Override
+	public boolean isOutputElement() {
+		return getExpansionRegion().getOutputElement().contains(this);
+	}
+
+	@Override
+	public boolean isInputElement() {
+		return getExpansionRegion().getInputElement().contains(this);
+	}
 }

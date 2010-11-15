@@ -42,4 +42,9 @@ public class NakedSendObjectActionImpl extends NakedInvocationActionImpl impleme
 		return result;
 	}
 
+	@Override
+	public boolean isTask() {
+		return true;
+	}
+
 }

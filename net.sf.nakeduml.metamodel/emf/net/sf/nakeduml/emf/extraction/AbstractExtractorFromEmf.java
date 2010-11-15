@@ -21,6 +21,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Behavior;
@@ -129,7 +130,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		NakedValueSpecificationImpl nakedValueSpecification = (NakedValueSpecificationImpl) getNakedPeer(value);
 		if (nakedValueSpecification == null) {
 			if (value instanceof OpaqueExpression) {
-				ParsedOclString bodyExpression = parseOclStringFromValue(((OpaqueExpression) value), value.getName(), usage);
+				OpaqueExpression oe = ((OpaqueExpression) value);
+				ParsedOclString bodyExpression = buildParsedOclString(oe, usage, oe.getLanguages(), oe.getBodies());
 				if (bodyExpression != null) {
 					nakedValueSpecification = new NakedValueSpecificationImpl();
 					nakedValueSpecification.setValue(bodyExpression);
@@ -237,21 +239,21 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return null;
 	}
 
-	protected ParsedOclString parseOclStringFromValue(OpaqueExpression oe, String name, OclUsageType usageType) {
+	protected ParsedOclString buildParsedOclString(NamedElement oe, OclUsageType usageType, EList<String> languages, EList<String> bodies) {
 		String body = null;
-		for (int i = 0; i < oe.getLanguages().size(); i++) {
-			String language = oe.getLanguages().get(i);
-			if (language.equals("OCL") && oe.getBodies().size() > i) {
-				body = oe.getBodies().get(i);
+		for (int i = 0; i < languages.size(); i++) {
+			String language = languages.get(i);
+			if (language.equals("OCL") && bodies.size() > i) {
+				body = bodies.get(i);
 				break;
 			}
 		}
-		if (body == null && oe.getBodies().size() == 1) {
+		if (body == null && bodies.size() == 1) {
 			// Need something here
-			body = oe.getBodies().get(0);
+			body = bodies.get(0);
 		}
 		if (body != null && body.trim().length() > 0) {
-			ParsedOclString string = new ParsedOclString(name == null ? body : name, usageType);
+			ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usageType);
 			string.setExpressionString(body);
 			this.getErrorMap().linkElement(string, oe);
 			return string;
@@ -294,7 +296,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			this.getErrorMap().linkElement(string, c);
 			result = string;
 		} else if (defaultValue instanceof OpaqueExpression) {
-			result = parseOclStringFromValue((OpaqueExpression) defaultValue, name, oclUsageType);
+			OpaqueExpression oe = (OpaqueExpression) defaultValue;
+			result = buildParsedOclString(oe, oclUsageType, oe.getLanguages(), oe.getBodies());
 		} else {
 			// VALIDATION put an error here - valuespecification has to be an
 			// ocl string or an opaque expression

@@ -32,20 +32,20 @@ import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
-
-
 	@VisitBefore
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		INakedMessageStructure message = oa.getMessageStructure();
-		OJAnnotatedClass ojClass = findJavaClass(message);
-		implementExecute(oa,ojClass);
-		super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
-		addGetName(oa, ojClass);
-		addTaskInstance(ojClass);
-		addCompleteMethod(oa, ojClass);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getTargetElement());
-		OJAnnotatedField user=OJUtil.addProperty(ojClass, "user", map.javaBaseTypePath(), true);
-		user.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
+		if (oa.isTask() && oa.getTargetElement() != null) {
+			INakedMessageStructure message = oa.getMessageStructure();
+			OJAnnotatedClass ojClass = findJavaClass(message);
+			implementExecute(oa, ojClass);
+			super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
+			addGetName(oa, ojClass);
+			addTaskInstance(ojClass);
+			addCompleteMethod(oa, ojClass);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getTargetElement());
+			OJAnnotatedField user = OJUtil.addProperty(ojClass, "user", map.javaBaseTypePath(), true);
+			user.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
+		}
 	}
 
 	private void addTaskInstance(OJAnnotatedClass ojClass) {
@@ -61,10 +61,10 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 	@VisitAfter
 	public void visitOperation(INakedOperation o) {
 		if (BehaviorUtil.isUserResponsibility(o)) {
-			super.implementRelationshipFromContextToMessage(o, findJavaClass(o.getOwner()),true);
+			super.implementRelationshipFromContextToMessage(o, findJavaClass(o.getOwner()), true);
 			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
-			implementExecute(o,ojOperationClass);
+			implementExecute(o, ojOperationClass);
 			OJAnnotatedClass ojContext = findJavaClass(o.getOwner());
 			NakedOperationMap map = new NakedOperationMap(o);
 			OJOperation ojOper = ojContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
@@ -98,7 +98,7 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 		execute.setReturnType(new OJPathName("org.jbpm.taskmgmt.exe.TaskInstance"));
 		execute.setName("execute");
 		ojClass.addToOperations(execute);
-		if(element instanceof INakedOperation && element.getPreConditions().size()>0){
+		if (element instanceof INakedOperation && element.getPreConditions().size() > 0) {
 			OJUtil.addFailedConstraints(execute);
 			execute.getBody().addToStatements("evaluatePreConditions()");
 		}
@@ -146,11 +146,13 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction ca) {
 		// Always order invocations of processes or tasks by the executedOn date
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(ca, getOclEngine().getOclLibrary());
-		if (BehaviorUtil.isTaskOrProcess(ca) && map.isMany()) {
-			OJAnnotatedClass ojOwner = findJavaClass(ca.getActivity());
-			OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
-			field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.OrderBy"), "executedOn"));
+		if (BehaviorUtil.isTaskOrProcess(ca)) {
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(ca, getOclEngine().getOclLibrary());
+			if (map.isMany()) {
+				OJAnnotatedClass ojOwner = findJavaClass(ca.getActivity());
+				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
+				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.OrderBy"), "executedOn"));
+			}
 		}
 	}
 }

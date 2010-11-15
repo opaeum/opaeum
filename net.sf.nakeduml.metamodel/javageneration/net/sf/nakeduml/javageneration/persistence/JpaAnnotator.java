@@ -22,7 +22,11 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.actions.INakedVariableAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
@@ -55,23 +59,26 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitAfter()
 	public void visitOperation(INakedOperation o) {
-		if (o.shouldEmulateClass()) {
+		if (o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)) {
 			annotateComplexStructure(new OperationMessageStructureImpl(o));
 		}
 	}
 
 	@VisitAfter()
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
-		annotateComplexStructure(msg);
-		for (INakedPin p : oa.getPins()) {
-			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p, false));
+		if (oa.isTask()) {
+			OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
+			annotateComplexStructure(msg);
+			for (INakedPin p : oa.getPins()) {
+				annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p, false));
+			}
 		}
 	}
 
 	private void annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
+		addAllInstances(complexType, ojClass);
 		addEquals(ojClass);
 		String schema = complexType.getTaggedValue("Schema", "name");
 		if (schema == null || schema.isEmpty()) {
@@ -104,6 +111,22 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 					complexType.getMappingInfo().getPersistentName().getAsIs());
 			ojClass.addAnnotationIfNew(discriminatorValue);
 		}
+	}
+
+	public void addAllInstances(INakedComplexStructure complexType, OJAnnotatedClass ojClass) {
+		// TODO move elsewhere where dependency on Seam has been confirmed
+		OJAnnotatedOperation allInstances = new OJAnnotatedOperation("allInstances");
+		ojClass.addToOperations(allInstances);
+		allInstances.setStatic(true);
+		allInstances.getBody().addToStatements("EntityManager em =(EntityManager)org.jboss.seam.Component.getInstance(\"entityManager\")");
+		allInstances.getBody()
+				.addToStatements("return new HashSet(em.createQuery(\"from " + complexType.getName() + "\").getResultList())");
+		ojClass.addToImports(new OJPathName("javax.persistence.EntityManager"));
+		ojClass.addToImports(new OJPathName("java.util.HashSet"));
+		OJPathName set = new OJPathName("java.util.Set");
+		ojClass.addToImports(set.getDeepCopy());
+		set.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
+		allInstances.setReturnType(set);
 	}
 
 	/**
@@ -162,17 +185,31 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 	}
 
-	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
-	public void visitObjectNode(INakedObjectNode node) {
-		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStored(node)) {
+	@VisitBefore(matchSubclasses = true, match = { INakedOutputPin.class })
+	public void visitObjectNode(INakedOutputPin node) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
+			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitVariable(INakedActivityVariable var) {
+		if (var.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(var)) {
+			annotateProperty(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitExpansionNode(INakedExpansionNode node) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
 			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node) {
-		if (node.getTargetElement() != null && node.getActivity().isPersistent()) {
-			if (BehaviorUtil.isUserTask(node) || node.getCalledElement().isProcess()) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
+			if (node.isTask() || node.isProcessCall()) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
 				annotateProperty(node.getActivity(), map);
 			} else if (BehaviorUtil.hasExecutionInstance(node.getCalledElement())) {
@@ -185,9 +222,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(INakedParameter p) {
-		if (p.getOwnerElement() instanceof INakedStateMachine || p.getOwnerElement() instanceof INakedOpaqueBehavior) {
+		if (p.getOwnerElement() instanceof INakedBehavior) {
 			INakedBehavior sm = (INakedBehavior) p.getOwnerElement();
-			if (sm.isPersistent()) {
+			if (sm.isPersistent() && sm.getSpecification() == null) {
 				annotateProperty(sm, OJUtil.buildStructuralFeatureMap(sm, p));
 			}
 		} else if (p.getOwnerElement() instanceof INakedOperation && ((INakedOperation) p.getOwnerElement()).shouldEmulateClass()) {

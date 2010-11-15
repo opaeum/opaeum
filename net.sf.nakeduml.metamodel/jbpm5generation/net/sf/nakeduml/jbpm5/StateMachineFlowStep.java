@@ -37,15 +37,12 @@ import org.eclipse.emf.common.util.EList;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class StateMachineFlowStep extends FlowGenerationStep {
-	private Map<INakedState, Integer> targetIdMap;
-	private Map<INakedState, Integer> sourceIdMap;
-
 	@VisitAfter(matchSubclasses = true)
 	public void createRoot(INakedStateMachine sm) {
 		DocumentRoot root = super.createRoot(sm);
 		ProcessType process = root.getProcess();
-		sourceIdMap = new HashMap<INakedState, Integer>();
-		targetIdMap = new HashMap<INakedState, Integer>();
+		sourceIdMap = new HashMap<INakedElement, Integer>();
+		targetIdMap = new HashMap<INakedElement, Integer>();
 		buildStates(sm, process.getNodes().get(0), process.getConnections().get(0));
 	}
 
@@ -90,7 +87,7 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 			join.setType("1");
 			nodes.getJoin().add(join);
 			i++;
-			addFinalNode(i, nodes, "artificial_end");
+			addFinalNode(i, nodes, "artificial_end",false);
 			createConnectionBetweenLastTwoNodes(i, connections);
 			i++;
 			for (String s : regionIds) {
@@ -156,7 +153,7 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 			connections.getConnection().add(connection);
 		}
 		for (Map.Entry<SplitType, INakedState> entry : choiceNodes.entrySet()) {
-			this.doConstraints(entry.getValue(), entry.getKey());
+			addConstaintsToSplit(entry.getKey(), entry.getValue().getOutgoing());
 		}
 	}
 
@@ -183,55 +180,20 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 		return i;
 	}
 
-	private void doConstraints(INakedState state, SplitType split) {
-		ConstraintsType constraints = ProcessFactory.eINSTANCE.createConstraintsType();
-		split.getConstraints().add(constraints);
-		for (INakedTransition t : state.getOutgoing()) {
-			ConstraintType constraint = ProcessFactory.eINSTANCE.createConstraintType();
-			constraint.setDialect("mvel");
-			constraint.setToNodeId(this.targetIdMap.get(t.getTarget()) + "");
-			if (t.getGuard() == null) {
-				constraint.setValue("return true;");
-				constraint.setPriority("3");
-			} else {
-				if (t.getGuard().isOclValue()) {
-					constraint.setValue("return processObject." + BpmUtil.getGuardMethod(t) + "();");
-					constraint.setPriority("1");
-				} else if (t.getGuard().getValue() instanceof Boolean) {
-					constraint.setValue("return " + t.getGuard().getValue() + ";");
-					constraint.setPriority("2");
-				} else {
-					constraint.setValue("return true;");
-					constraint.setPriority("3");
-				}
-			}
-			constraint.setToType("DROOLS_DEFAULT");
-			constraint.setType("code");
-			constraints.getConstraint().add(constraint);
-		}
-	}
-
 	private final void addFinalNode(NodesType nodes, ConnectionsType connections, int i, INakedState state) {
 		if ((state.getContainer().getRegionOwner() instanceof INakedState)) {
-			addFinalNode(i, nodes, state.getMappingInfo().getPersistentName().getAsIs());
+			addFinalNode(i, nodes, state.getMappingInfo().getPersistentName().getAsIs(),false);
 		} else {
 			StateType node = ProcessFactory.eINSTANCE.createStateType();
 			node.setName(state.getMappingInfo().getPersistentName().getAsIs());
 			nodes.getState().add(node);
 			setBounds(i, node);
 			i++;
-			addFinalNode(i, nodes, state.getMappingInfo().getPersistentName() + "_end");
+			addFinalNode(i, nodes, state.getMappingInfo().getPersistentName() + "_end",false);
 			this.createConnectionBetweenLastTwoNodes(i, connections);
 		}
 	}
 
-	private void addFinalNode(int i, NodesType nodes, String name) {
-		EndType endNode = ProcessFactory.eINSTANCE.createEndType();
-		endNode.setName(name);
-		endNode.setTerminate("false");
-		nodes.getEnd().add(endNode);
-		setBounds(i, endNode);
-	}
 
 	private void addCompositeState(NodesType nodes, int i, INakedState state) {
 		NakedStateMap map = new NakedStateMap(state);

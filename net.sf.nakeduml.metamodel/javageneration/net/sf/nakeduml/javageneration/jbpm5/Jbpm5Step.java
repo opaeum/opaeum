@@ -13,6 +13,7 @@ import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineEventHandle
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineImplementor;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
+import net.sf.nakeduml.jbpm5.ActivityFlowStep;
 import net.sf.nakeduml.jbpm5.FlowGenerationStep;
 import net.sf.nakeduml.jbpm5.StateMachineFlowStep;
 import net.sf.nakeduml.linkage.PinLinker;
@@ -20,7 +21,7 @@ import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { PersistenceStep.class, OclExpressionExecution.class, PinLinker.class,
-		ProcessIdentifier.class,StateMachineFlowStep.class }, after = { PersistenceStep.class, OclExpressionExecution.class })
+		ProcessIdentifier.class,StateMachineFlowStep.class ,ActivityFlowStep.class}, after = { PersistenceStep.class, OclExpressionExecution.class })
 public class Jbpm5Step extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {

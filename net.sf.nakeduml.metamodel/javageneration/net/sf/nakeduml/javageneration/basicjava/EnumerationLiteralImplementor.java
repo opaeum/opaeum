@@ -35,11 +35,12 @@ public class EnumerationLiteralImplementor extends AttributeImplementor {
 		OJEnum myClass = (OJEnum) findJavaClass(c);
 		OJOperation values = OJUtil.findOperation(myClass, "getValues");
 		if (values != null) {
-			OJPathName results = new OJPathName("java.util.List");
+			OJPathName results = new OJPathName("java.util.Set");
 			results.addToElementTypes(OJUtil.classifierPathname(c));
 			values.setReturnType(results);
 			values.getBody().removeAllFromStatements();
-			values.getBody().addToStatements("return java.util.Arrays.asList(values())");
+			myClass.addToImports("java.util.HashSet");
+			values.getBody().addToStatements("return new HashSet<"+c.getName()+">(java.util.Arrays.asList(values()))");
 		}
 		OJAnnotatedOperation getName = new OJAnnotatedOperation();
 		getName.setName("getName");

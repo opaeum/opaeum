@@ -9,14 +9,35 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
+import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
+import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedOpaqueActionImpl extends NakedCallActionImpl implements INakedOpaqueAction {
 	private static final long serialVersionUID = -8741446980774863436L;
 	private INakedMessageStructure asClass;
+	private IOclContext bodyExpression;
+
+	public IOclContext getBodyExpression() {
+		return bodyExpression;
+	}
+
+	public void setBodyExpression(IOclContext bodyExpression) {
+		this.bodyExpression = bodyExpression;
+	}
 
 	public ActionType getActionType() {
 		return ActionType.OPAQUE_ACTION;
+	}
+
+	@Override
+	public INakedValueSpecification getBody() {
+		if (getBodyExpression() == null) {
+			return null;
+		} else {
+			return new NakedValueSpecificationImpl(getBodyExpression());
+		}
 	}
 
 	public List<INakedInputPin> getInputValues() {
@@ -48,9 +69,6 @@ public class NakedOpaqueActionImpl extends NakedCallActionImpl implements INaked
 		return null;
 	}
 
-	public boolean isProcessCall() {
-		return false;
-	}
 
 	@Override
 	public List<INakedPin> getPins() {
@@ -61,6 +79,6 @@ public class NakedOpaqueActionImpl extends NakedCallActionImpl implements INaked
 
 	@Override
 	public boolean isTask() {
-		return true;
+		return getBodyExpression() == null;
 	}
 }

@@ -12,6 +12,10 @@ public class NakedValueSpecificationImpl extends NakedModelElementImpl implement
 	private Object value;
 	private boolean isElementReference;
 	private IClassifier type;
+	public NakedValueSpecificationImpl(IOclContext ctx){
+		super();
+		this.value=ctx;
+	}
 	public NakedValueSpecificationImpl(){
 		super();
 	}

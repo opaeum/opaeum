@@ -27,13 +27,6 @@ public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements 
 	public IParameterOwner getCalledElement() {
 		return getBehavior();
 	}
-	public boolean isProcessCall() {
-		return getBehavior().isProcess();
-	}
-	@Override
-	public INakedClassifier getExpectedTargetType() {
-		return getBehavior().getContext();
-	}
 	@Override
 	public INakedMessageStructure getMessageStructure(){
 		return getBehavior();

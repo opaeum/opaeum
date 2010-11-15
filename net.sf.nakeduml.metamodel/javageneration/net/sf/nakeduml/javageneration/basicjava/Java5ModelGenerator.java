@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.List;
+import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -15,10 +16,13 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumLiteral;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -29,7 +33,6 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructur
 import net.sf.nakeduml.util.AbstractSignal;
 import nl.klasse.octopus.OctopusConstants;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.creators.DataTypeCreator;
 import nl.klasse.octopus.model.IDataType;
 
 public class Java5ModelGenerator extends StereotypeAnnotator {
@@ -51,8 +54,8 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 				// Create default constructor for inits
 				myClass.getDefaultConstructor();
 			}
-			//TODO find another place
-			if(c instanceof INakedSignal){
+			// TODO find another place
+			if (c instanceof INakedSignal) {
 				myClass.setSuperclass(new OJPathName(AbstractSignal.class.getName()));
 			}
 			myClass.setName(c.getName());
@@ -73,12 +76,17 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 					applyStereotypesAsAnnotations((l), ojLiteral);
 					oje.addToLiterals(ojLiteral);
 				}
-			} else if (c instanceof IDataType) {
+			} else if (c instanceof INakedDataType) {
 				// Create default constructor for inits
 				myClass.getDefaultConstructor();
 				// Signals and StructuredDataTypes
-				DataTypeCreator maker = new DataTypeCreator();
-				maker.createDataType(myClass, (IDataType) c);
+				// TODO implement hashCode and Equals methods
+			} else if (c instanceof INakedBehavior) {
+				INakedOperation specification = ((INakedBehavior) c).getSpecification();
+				if (specification != null) {
+					NakedClassifierMap map = new NakedClassifierMap(new OperationMessageStructureImpl(specification));
+					myClass.setSuperclass(map.javaTypePath());
+				}
 			}
 			applyStereotypesAsAnnotations((c), myClass);
 		}
@@ -103,13 +111,17 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no) {
-		if (no.shouldEmulateClass()) {
+		if (no.shouldEmulateClass() ||  BehaviorUtil. hasMethodsWithStructure(no)) {
 			this.visitClass(new OperationMessageStructureImpl(no.getOwner(), no));
 		}
 	}
 
+	
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		this.visitClass(new OpaqueActionMessageStructureImpl(oa));
+		if (oa.isTask()) {
+			this.visitClass(new OpaqueActionMessageStructureImpl(oa));
+		}
 	}
 }

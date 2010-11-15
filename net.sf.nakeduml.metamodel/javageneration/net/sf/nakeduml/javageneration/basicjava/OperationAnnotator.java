@@ -50,15 +50,17 @@ public class OperationAnnotator extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation o) {
-		if (o.isOclDef())
-			return;
-		INakedClassifier umlOwner = o.getOwner();
-		OJAnnotatedClass myOwner = findJavaClass(umlOwner);
-		OJAnnotatedOperation oper = createOperation(o, myOwner);
-		if (o.hasClassScope()) {
-			oper.setStatic(true);
+		if (OJUtil.hasOJClass(o.getOwner())) {
+			if (o.isOclDef())
+				return;
+			INakedClassifier umlOwner = o.getOwner();
+			OJAnnotatedClass myOwner = findJavaClass(umlOwner);
+			OJAnnotatedOperation oper = createOperation(o, myOwner);
+			if (o.hasClassScope()) {
+				oper.setStatic(true);
+			}
+			oper.setAbstract(o.isAbstract());
 		}
-		oper.setAbstract(o.isAbstract());
 	}
 
 	private OJAnnotatedOperation createOperation(IParameterOwner o, OJAnnotatedClass owner) {

@@ -50,7 +50,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOpaqueBehavior(INakedOpaqueBehavior behavior) {
-		if (behavior.getBody() != null) {
+		if (behavior.getBodyExpression() != null) {
 			if (BehaviorUtil.hasExecutionInstance(behavior)) {
 				OJAnnotatedClass javaContext = findJavaClass(behavior);
 				OJUtil.findOperation(javaContext, "execute");

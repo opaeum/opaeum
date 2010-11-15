@@ -51,6 +51,12 @@ public class ConstraintGenerator {
 			parameter.setType(l.getType());
 			parameters.add(parameter);
 		}
+		for (OJField l : block.getLocals()) {
+			OJParameter parameter = new OJParameter();
+			parameter.setName(l.getName());
+			parameter.setType(l.getType());
+			parameters.add(parameter);
+		}
 		OJAnnotatedField failedConstraints = new OJAnnotatedField();
 		failedConstraints.setType(new OJPathName("List<String>"));
 		failedConstraints.setName("failedConstraints");

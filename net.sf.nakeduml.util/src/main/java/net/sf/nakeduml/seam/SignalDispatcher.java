@@ -12,8 +12,8 @@ import javax.jms.QueueSession;
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
 
-import net.sf.nakeduml.util.AbstractEntity;
 import net.sf.nakeduml.util.AbstractSignal;
+import net.sf.nakeduml.util.ActiveObject;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component;
@@ -36,14 +36,14 @@ public class SignalDispatcher implements Synchronization {
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
 	static List<SignalToDispatch> signalsToMock = new ArrayList<SignalToDispatch>();
 
-	public static void sendSignal(AbstractEntity source, AbstractEntity target, AbstractSignal signal) {
+	public static void sendSignal(Object source, ActiveObject target, AbstractSignal signal) {
 		List<SignalToDispatch> signalsToDispatch = prepareSignalList();
 		signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 	}
 
-	public static void sendSignal(AbstractEntity source, Collection<? extends AbstractEntity> targets, AbstractSignal signal) {
+	public static void sendSignal(Object source, Collection<? extends ActiveObject> targets, AbstractSignal signal) {
 		List<SignalToDispatch> signalsToDispatch = prepareSignalList();
-		for (AbstractEntity target : targets) {
+		for (ActiveObject target : targets) {
 			signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 		}
 	}

@@ -75,7 +75,8 @@
 								<source>uigeneration</source>
 								<source>uimetamodel</source>
 								<source>obsolete</source>
-								<source>jaxb</source>
+								<source>pomgeneration</source>
+								<source>pommetamodel</source>
 							</sources>
 						</configuration>
 					</execution>

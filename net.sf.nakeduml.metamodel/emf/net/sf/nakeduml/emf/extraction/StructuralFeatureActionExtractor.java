@@ -12,7 +12,6 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ClearStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
@@ -25,10 +24,8 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 			NakedAddStructuralFeatureValueActionImpl nakedAction){
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
-		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject(), (Classifier) emfAction.getStructuralFeature()
-				.getOwner()));
-		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue(), (Classifier) emfAction.getStructuralFeature()
-				.getType()));
+		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
+		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 		nakedAction.setReplaceAll(emfAction.isReplaceAll());
@@ -38,8 +35,7 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 			NakedClearStructuralFeatureActionImpl nakedAction){
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
-		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject(), (Classifier) emfAction.getStructuralFeature()
-				.getOwner()));
+		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
@@ -48,10 +44,8 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 			NakedRemoveStructuralFeatureValueActionImpl nakedAction){
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
-		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject(), (Classifier) emfAction.getStructuralFeature()
-				.getOwner()));
-		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue(), (Classifier) emfAction.getStructuralFeature()
-				.getType()));
+		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
+		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
@@ -59,10 +53,8 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 	public void visitReadStructuralFeatureAction(ReadStructuralFeatureAction emfAction,NakedReadStructuralFeatureActionImpl nakedAction){
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
-		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject(), (Classifier) emfAction.getStructuralFeature()
-				.getOwner()));
-		nakedAction.setResult((INakedOutputPin) initializePin(emfActivity, emfAction.getResult(), (Classifier) emfAction.getStructuralFeature()
-				.getType()));
+		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
+		nakedAction.setResult((INakedOutputPin) initializePin(emfActivity, emfAction.getResult()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}

@@ -11,17 +11,22 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.contexts.Contexts;
+
 import net.sf.nakeduml.util.AbstractEntity;
 import net.sf.nakeduml.util.AbstractSignal;
+import net.sf.nakeduml.util.ActiveObject;
 import net.sf.nakeduml.util.IntrospectionUtil;
 
 public class SignalToDispatch implements Serializable {
 	private static final long serialVersionUID = -2996390224218437999L;
 	private AbstractSignal signal;
-	private AbstractEntity source;
-	private AbstractEntity target;
+	private Object source;
+	private ActiveObject target;
 
-	public SignalToDispatch(AbstractEntity source, AbstractEntity target, AbstractSignal signal) {
+	public SignalToDispatch(Object source, ActiveObject target, AbstractSignal signal) {
 		super();
 		this.signal = signal;
 		this.source = source;
@@ -31,13 +36,13 @@ public class SignalToDispatch implements Serializable {
 	public void prepareForDispatch() {
 		try {
 			this.source = duplicateWithId(this.source);
-			this.target = duplicateWithId(this.target);
+			this.target = (ActiveObject) duplicateWithId(this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
 			for (PropertyDescriptor pd : properties) {
 				if (pd.getWriteMethod() != null && pd.getReadMethod() != null) {
 					Object value = pd.getReadMethod().invoke(signal);
-					if (value instanceof AbstractEntity) {
-						pd.getWriteMethod().invoke(signal, duplicateWithId((AbstractEntity) value));
+					if (value instanceof ActiveObject) {
+						pd.getWriteMethod().invoke(signal, duplicateWithId((ActiveObject) value));
 					} else if (value instanceof Set<?>) {
 						copyCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
 					} else if (value instanceof List<?>) {
@@ -57,13 +62,13 @@ public class SignalToDispatch implements Serializable {
 	public void prepareForDelivery(EntityManager em) {
 		try {
 			this.source = resolve(em, this.source);
-			this.target = resolve(em, this.target);
+			this.target = (ActiveObject) resolve(em, this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
 			for (PropertyDescriptor pd : properties) {
 				if (pd.getWriteMethod() != null && pd.getReadMethod() != null) {
 					Object value = pd.getReadMethod().invoke(signal);
-					if (value instanceof AbstractEntity) {
-						pd.getWriteMethod().invoke(signal, resolve(em, (AbstractEntity) value));
+					if (value instanceof ActiveObject) {
+						pd.getWriteMethod().invoke(signal, resolve(em, (ActiveObject) value));
 					} else if (value instanceof Set<?>) {
 						resolveCollectionOnDelivery(em, pd, new HashSet<Object>(), (Set<?>) value);
 					} else if (value instanceof List<?>) {
@@ -83,8 +88,8 @@ public class SignalToDispatch implements Serializable {
 	private void resolveCollectionOnDelivery(EntityManager em, PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
 			throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		for (Object o : oldValue) {
-			if (o instanceof AbstractEntity) {
-				newValue.add(duplicateWithId((AbstractEntity) o));
+			if (o instanceof ActiveObject) {
+				newValue.add(duplicateWithId((ActiveObject) o));
 			} else {
 				newValue.add(o);
 			}
@@ -92,15 +97,25 @@ public class SignalToDispatch implements Serializable {
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
 
-	private AbstractEntity resolve(EntityManager em, AbstractEntity ae) {
-		return em.find(ae.getClass(), ae.getId());
+	private Object resolve(EntityManager em, Object ae) {
+		if (ae instanceof AbstractEntity) {
+			return em.find(ae.getClass(), ((AbstractEntity) ae).getId());
+		} else if (ae.getClass().isAnnotationPresent(Name.class)) {
+			if (Contexts.isEventContextActive() || Contexts.isApplicationContextActive()) {
+				return Component.getInstance(ae.getClass().getAnnotation(Name.class).value());
+			} else {
+				return ae;
+			}
+		} else {
+			throw new IllegalStateException("Only jpa entities and seam components can receive signals");
+		}
 	}
 
 	private void copyCollectionForDispatch(PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
 			throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		for (Object o : oldValue) {
-			if (o instanceof AbstractEntity) {
-				newValue.add(duplicateWithId((AbstractEntity) o));
+			if (o instanceof ActiveObject) {
+				newValue.add(duplicateWithId((ActiveObject) o));
 			} else {
 				newValue.add(o);
 			}
@@ -108,21 +123,23 @@ public class SignalToDispatch implements Serializable {
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
 
-	private AbstractEntity duplicateWithId(AbstractEntity inputSource) throws InstantiationException, IllegalAccessException {
-		AbstractEntity source = (AbstractEntity) IntrospectionUtil.getOriginalClass(inputSource).newInstance();
-		source.setId(this.source.getId());
+	private Object duplicateWithId(Object inputSource) throws InstantiationException, IllegalAccessException {
+		Object source = IntrospectionUtil.getOriginalClass(inputSource).newInstance();
+		if (source instanceof AbstractEntity) {
+			((AbstractEntity) source).setId(((AbstractEntity) inputSource).getId());
+		}
 		return source;
 	}
+
 	public AbstractSignal getSignal() {
 		return signal;
 	}
 
-	public AbstractEntity getSource() {
+	public Object getSource() {
 		return source;
 	}
 
-	public AbstractEntity getTarget() {
+	public ActiveObject getTarget() {
 		return target;
 	}
-
 }

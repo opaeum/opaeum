@@ -21,6 +21,7 @@ import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
+import net.sf.nakeduml.javametamodel.OJStatement;
 import net.sf.nakeduml.javametamodel.OJVisibilityKind;
 import net.sf.nakeduml.javametamodel.OJWhileStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -201,6 +202,13 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		OJOperation javaMethod = OJUtil.findOperation(ojContext, methodName.toString());
 		javaMethod.getOwner().addToImports(ojBehavior);
 		if (behavior.isProcess()) {
+			//Leave preconditions in tact
+			if(javaMethod.getBody().getStatements().size()>0){
+				OJStatement st = javaMethod.getBody().getStatements().get(javaMethod.getBody().getStatements().size()-1);
+				if(st.toJavaString().contains("return ")){
+					javaMethod.getBody().removeFromStatements(st);
+				}
+			}
 			ojContext.addToImports(ojBehavior);
 			OJAnnotatedField behaviorField = new OJAnnotatedField("_behavior", ojBehavior);
 			javaMethod.getBody().addToLocals(behaviorField);

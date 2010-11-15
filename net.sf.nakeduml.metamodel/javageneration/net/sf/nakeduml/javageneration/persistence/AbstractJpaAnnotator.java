@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.persistence;
 
+import org.eclipse.uml2.uml.Stereotype;
+
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javametamodel.OJPathName;
@@ -8,12 +10,15 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
+import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 public class AbstractJpaAnnotator extends AbstractJavaProducingVisitor {
 
@@ -85,6 +90,8 @@ public class AbstractJpaAnnotator extends AbstractJavaProducingVisitor {
 			mapXToOneSimpleType(f, owner, field);
 		} else if (isPersistent(f.getNakedBaseType())) {
 			mapXToOnePersistentType(f, owner, field);
+		}else if(f.getBaseType() instanceof INakedBehavior || f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
+			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.metamodel.actions.internal.NakedAcceptEventActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCallBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCallOperationActionImpl;
@@ -24,6 +25,8 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -37,35 +40,41 @@ import org.eclipse.uml2.uml.ExpansionRegion;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.SendObjectAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StartClassifierBehaviorAction;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {TypedElementExtractor.class,ActivityStructureExtractor.class},after = {
-		TypedElementExtractor.class,ActivityStructureExtractor.class})
-public class ActionExtractor extends AbstractActionExtractor{
+@StepDependency(phase = EmfExtractionPhase.class, requires = { TypedElementExtractor.class, ActivityStructureExtractor.class }, after = {
+		TypedElementExtractor.class, ActivityStructureExtractor.class })
+public class ActionExtractor extends AbstractActionExtractor {
 	@VisitBefore
-	public void visitCreateObjectAction(CreateObjectAction emfAction,NakedCreateObjectActionimpl nakedAction){
+	public void visitCreateObjectAction(CreateObjectAction emfAction, NakedCreateObjectActionimpl nakedAction) {
 		nakedAction.setClassifier((INakedClassifier) getNakedPeer(emfAction.getClassifier()));
-		nakedAction.setResult((INakedOutputPin) initializePin(emfAction.getActivity(), emfAction.getResult(), emfAction.getClassifier()));
+		nakedAction.setResult((INakedOutputPin) initializePin(emfAction.getActivity(), emfAction.getResult()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitStartClassifierBehaviorAction(StartClassifierBehaviorAction emfAction,NakedStartClassifierBehaviorActionImpl nakedAction){
-		nakedAction.setTarget((INakedInputPin) initializePin(emfAction.getActivity(), emfAction.getObject(), null));
-//		List<INakedOutputPin> arguments = populatePins(getActivity(emfAction), emfAction.getOutputs());
-//		nakedAction.set(arguments);
+	public void visitStartClassifierBehaviorAction(StartClassifierBehaviorAction emfAction,
+			NakedStartClassifierBehaviorActionImpl nakedAction) {
+		nakedAction.setTarget((INakedInputPin) initializePin(emfAction.getActivity(), emfAction.getObject()));
+		// List<INakedOutputPin> arguments =
+		// populatePins(getActivity(emfAction), emfAction.getOutputs());
+		// nakedAction.set(arguments);
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitCallBehaviorAction(CallBehaviorAction emfAction,NakedCallBehaviorActionImpl nakedAction){
+	public void visitCallBehaviorAction(CallBehaviorAction emfAction, NakedCallBehaviorActionImpl nakedAction) {
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setBehavior((INakedBehavior) getNakedPeer(emfAction.getBehavior()));
 		// RSA workardound - it forces the called behavior's name into the name
 		// of
 		// the action
+		nakedAction.setSynchronous(emfAction.isSynchronous());
 		nakedAction.setName("call" + emfAction.getBehavior().getName());
 		List<INakedInputPin> arguments = populatePins(emfActivity, emfAction.getArguments());
 		nakedAction.setArguments(arguments);
@@ -74,20 +83,24 @@ public class ActionExtractor extends AbstractActionExtractor{
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitOpaqueAction(OpaqueAction emfAction,NakedOpaqueActionImpl nakedAction){
+	public void visitOpaqueAction(OpaqueAction emfAction, NakedOpaqueActionImpl nakedAction) {
 		Activity emfActivity = getActivity(emfAction);
 		List<InputPin> inputs = new ArrayList<InputPin>(emfAction.getInputValues());
 		InputPin target = null;
-		for(InputPin p:inputs){
-			if(p.hasKeyword("target") || StereotypesHelper.hasStereotype(p, "target")){
+		for (InputPin p : inputs) {
+			if (p.hasKeyword("target") || StereotypesHelper.hasStereotype(p, "target")) {
 				target = p;
 			}
 		}
-		if(target != null){
-			nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, target, null));
+		if (target != null) {
+			nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, target));
 			inputs.remove(target);
 		}
+		ParsedOclString bodyExpression = super.buildParsedOclString(emfAction, OclUsageType.BODY, emfAction.getLanguages(),
+				emfAction.getBodies());
+		nakedAction.setBodyExpression(bodyExpression);
 		List<INakedInputPin> inputValues = populatePins(emfActivity, inputs);
 		nakedAction.setInputValues(inputValues);
 		List<INakedOutputPin> outputValues = populatePins(emfActivity, emfAction.getOutputValues());
@@ -95,59 +108,65 @@ public class ActionExtractor extends AbstractActionExtractor{
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitCallOperationAction(CallOperationAction emfAction,NakedCallOperationActionImpl nakedAction){
+	public void visitCallOperationAction(CallOperationAction emfAction, NakedCallOperationActionImpl nakedAction) {
 		Activity emfActivity = getActivity(emfAction);
-		nakedAction.setOperation((INakedOperation) getNakedPeer(emfAction.getOperation()));
-		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget(), emfAction.getOperation().getClass_()));
+		Operation operation = emfAction.getOperation();
+		nakedAction.setOperation((INakedOperation) getNakedPeer(operation));
+		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget()));
 		List<INakedInputPin> arguments = populatePins(emfActivity, emfAction.getArguments());
 		nakedAction.setArguments(arguments);
 		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
 		nakedAction.setResult(result);
+		nakedAction.setSynchronous(emfAction.isSynchronous());
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitSendSignalAction(SendSignalAction emfAction,NakedSendSignalActionImpl nakedAction){
+	public void visitSendSignalAction(SendSignalAction emfAction, NakedSendSignalActionImpl nakedAction) {
 		Activity emfActivity = getActivity(emfAction);
-		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget(), null));
+		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget()));
 		nakedAction.setSignal((INakedSignal) getNakedPeer(emfAction.getSignal()));
 		List<INakedInputPin> arguments = populatePins(emfActivity, emfAction.getArguments());
 		nakedAction.setArguments(arguments);
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitSendObjectAction(SendObjectAction emfAction,NakedSendObjectActionImpl nakedAction){
+	public void visitSendObjectAction(SendObjectAction emfAction, NakedSendObjectActionImpl nakedAction) {
 		Activity emfActivity = getActivity(emfAction);
-		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget(), null));
-		nakedAction.setRequest((INakedInputPin) initializePin(emfActivity, emfAction.getRequest(), null));
+		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget()));
+		nakedAction.setRequest((INakedInputPin) initializePin(emfActivity, emfAction.getRequest()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
-	}
-	@VisitBefore
-	public void visitAcceptEventAction(AcceptEventAction emfAction,NakedAcceptEventActionImpl nakedAction){
-		Activity emfActivity = getActivity(emfAction);
-		if(!emfAction.getTriggers().isEmpty()){
-			// we only support one trigger
-			nakedAction.setEvent(buildEvent(emfActivity, emfAction.getTriggers().iterator().next()));
-		}
-		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
-		nakedAction.setResult(result);
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
-	}
-	@VisitBefore
-	public void visitAcceptCallAction(AcceptCallAction emfAction,NakedAcceptEventActionImpl nakedAction){
-		Activity emfActivity = getActivity(emfAction);
-		if(!emfAction.getTriggers().isEmpty()){
-			// we only support one trigger
-			nakedAction.setEvent(buildEvent(emfActivity, emfAction.getTriggers().iterator().next()));
-		}
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
-		nakedAction.setResult(result);
 		assignPartition(nakedAction, emfAction);
 	}
 
+	@VisitBefore
+	public void visitAcceptEventAction(AcceptEventAction emfAction, NakedAcceptEventActionImpl nakedAction) {
+		Activity emfActivity = getActivity(emfAction);
+		if (!emfAction.getTriggers().isEmpty()) {
+			// we only support one trigger
+			nakedAction.setEvent(buildEvent(emfActivity, emfAction.getTriggers().iterator().next()));
+		}
+		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
+		nakedAction.setResult(result);
+		this.addLocalPreAndPostConditions(nakedAction, emfAction);
+		assignPartition(nakedAction, emfAction);
+	}
+
+	@VisitBefore
+	public void visitAcceptCallAction(AcceptCallAction emfAction, NakedAcceptEventActionImpl nakedAction) {
+		Activity emfActivity = getActivity(emfAction);
+		if (!emfAction.getTriggers().isEmpty()) {
+			// we only support one trigger
+			nakedAction.setEvent(buildEvent(emfActivity, emfAction.getTriggers().iterator().next()));
+		}
+		this.addLocalPreAndPostConditions(nakedAction, emfAction);
+		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
+		nakedAction.setResult(result);
+		assignPartition(nakedAction, emfAction);
+	}
 }

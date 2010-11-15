@@ -27,23 +27,29 @@ import nl.klasse.octopus.model.VisibilityKind;
  */
 public class TypedElementPropertyBridge extends EmulatingElement implements INakedProperty {
 	INakedClassifier owner;
-	INakedTypedElement parameter;
-	 boolean ensureLocallyUniqueName=true;
+	protected INakedTypedElement parameter;
+	boolean ensureLocallyUniqueName = true;
+
 	public TypedElementPropertyBridge(INakedClassifier owner, INakedTypedElement parameter) {
 		super(parameter);
 		this.owner = owner;
 		this.parameter = parameter;
 	}
+
 	public TypedElementPropertyBridge(INakedClassifier owner, INakedObjectNode pin, boolean ensureLocallyUniqueName) {
 		super(pin);
 		this.owner = owner;
-		this.parameter =pin;
-		this.ensureLocallyUniqueName=ensureLocallyUniqueName;
+		this.parameter = pin;
+		this.ensureLocallyUniqueName = ensureLocallyUniqueName;
 	}
-	
+
+	public INakedTypedElement getOriginal() {
+		return parameter;
+	}
+
 	@Override
 	public String getName() {
-		if(parameter.getOwnerElement() instanceof INakedAction && ensureLocallyUniqueName){
+		if (parameter.getOwnerElement() instanceof INakedAction && ensureLocallyUniqueName) {
 			return parameter.getName() + "On" + parameter.getOwnerElement().getMappingInfo().getJavaName().getCapped();
 		}
 		return super.getName();
@@ -52,9 +58,11 @@ public class TypedElementPropertyBridge extends EmulatingElement implements INak
 	public IMultiplicityKind getMultiplicity() {
 		return getNakedMultiplicity();
 	}
+
 	public IClassifier getBaseType() {
 		return getNakedBaseType();
 	}
+
 	public INakedClassifier getNakedBaseType() {
 		return parameter.getNakedBaseType();
 	}

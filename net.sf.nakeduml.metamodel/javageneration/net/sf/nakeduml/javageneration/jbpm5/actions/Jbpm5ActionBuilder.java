@@ -2,10 +2,10 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 
 import java.util.Collection;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractActionBuilder;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -14,58 +14,61 @@ import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
+import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
-import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractActionBuilder {
-	protected static final class Jbpm5ObjectNodeExpressor extends ObjectNodeExpressor {
-		private final IOclEngine oclEngine;
-
-		protected Jbpm5ObjectNodeExpressor(IOclEngine oclEngine) {
-			this.oclEngine = oclEngine;
-		}
-
-		public String expressInputPinOrOutParam(OJBlock block, INakedObjectNode pin) {
-			// Either an outputpin or parameterNode
-			INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
-			INakedObjectNode feedingNode = pin.getFeedingNode();
-			NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(feedingNode.getActivity(), feedingNode);
-			String call = feedingMap.getter() + "()";
-			if (feedingNode instanceof INakedOutputPin) {
-				call = retrieveFromExecutionInstanceIfNecessary(feedingNode, call);
-			}
-			return surroundWithSelectionAndTransformation(call, edge);
-		}
-
-		protected String initForResultVariable(NakedStructuralFeatureMap map) {
-			return map.getter() + "()";
-		}
-	}
-
 	protected A node;
 	protected Jbpm5ObjectNodeExpressor expressor;
+	public ActivityNodeMap getMap() {
+		return map;
+	}
+
+	protected ActivityNodeMap map;
 
 	protected Jbpm5ActionBuilder(final IOclEngine oclEngine, A node) {
 		super(oclEngine, new Jbpm5ObjectNodeExpressor(oclEngine));
 		this.node = node;
+		if (node instanceof INakedAction) {
+			this.map = new ActionMap((INakedAction) node);
+		} else {
+			this.map = new ActivityNodeMap(node);
+		}
 		this.expressor = (Jbpm5ObjectNodeExpressor) super.expressor;
+	}
+
+	public void setupVariables(OJAnnotatedOperation oper) {
+		setupVariables(oper, node);
+	}
+
+	private void setupVariables(OJAnnotatedOperation oper, INakedActivityNode node) {
+		if (node instanceof INakedStructuredActivityNode) {
+			Collection<INakedActivityVariable> variables = ((INakedStructuredActivityNode) node).getVariables();
+			for (INakedActivityVariable var : variables) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), var);
+				OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.umlName() + "\")");
+				oper.getOwner().addToImports(map.javaTypePath());
+				oper.getBody().addToLocals(field);
+			}
+		}
+		if (node.getOwnerElement() instanceof INakedActivityNode) {
+			setupVariables(oper, (INakedActivityNode) node.getOwnerElement());
+		}
 	}
 
 	public abstract void implementActionOn(OJAnnotatedOperation oper);
@@ -120,7 +123,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		continueFlow(block, edge);
 	}
 
-	public boolean requiresUserInteraction() {
+	public boolean isTask() {
 		return false;
 	}
 
@@ -172,8 +175,8 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			// ignore guards and weight here, just go straight to the artificial
 			// fork
 			// TODO implement a fork that evaluates conditions before leaving
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_fork_for_" + node.getMappingInfo().getPersistentName().getWithoutId()
-					+ "\")");
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_fork_for_"
+					+ node.getMappingInfo().getPersistentName().getWithoutId() + "\")");
 		} else {
 			for (INakedActivityEdge e : node.getDefaultOutgoing()) {
 				maybeContinueFlow(operationContext, block, e);
@@ -182,9 +185,8 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	private void getTokenFromExecutionContext(OJClassifier ojClass, OJBlock parentBlock) {
-		parentBlock.addToStatements("Token waitingToken=ExecutionContext.currentExecutionContext().getToken()");
-		ojClass.addToImports("org.jbpm.graph.exe.ExecutionContext");
-		ojClass.addToImports("org.jbpm.graph.exe.Token");
+		parentBlock.addToStatements("NodeInstance waitingToken=(NodeInstance)context.getNodeInstance()");
+		ojClass.addToImports(new OJPathName("org.jbpm.workflow.instance.NodeInstance"));
 	}
 
 	public boolean waitsForEvent() {
@@ -207,5 +209,9 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			block.addToLocals(field);
 			return pinName;
 		}
+	}
+
+	public boolean hasNodeMethod() {
+		return node instanceof INakedAction || node instanceof INakedObjectNode;
 	}
 }

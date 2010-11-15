@@ -41,12 +41,12 @@ public class ActivityStructureExtractor extends AbstractExtractorFromEmf {
 			NakedExpansionRegionImpl nakedRegion = new NakedExpansionRegionImpl();
 			ExpansionRegion emfRegion = (ExpansionRegion) emfNode;
 			super.initialize(nakedRegion, emfNode, resolveCorrectParent(emfNode));
-			for (ExpansionNode ie : emfRegion.getInputElements()) {
-				nakedRegion.getInputElement().add(populateExpansionNode(ie, new NakedExpansionNodeImpl()));
-			}
-			for (ExpansionNode oe : emfRegion.getOutputElements()) {
-				nakedRegion.getOutputElement().add(populateExpansionNode(oe, new NakedExpansionNodeImpl()));
-			}
+//			for (ExpansionNode ie : emfRegion.getInputElements()) {
+//				nakedRegion.getInputElement().add(populateExpansionNode(ie, new NakedExpansionNodeImpl()));
+//			}
+//			for (ExpansionNode oe : emfRegion.getOutputElements()) {
+//				nakedRegion.getOutputElement().add(populateExpansionNode(oe, new NakedExpansionNodeImpl()));
+//			}
 		} else {
 			NakedStructuredActivityNode nakedNode = new NakedStructuredActivityNode();
 			super.initialize(nakedNode, emfNode, resolveCorrectParent(emfNode));
@@ -59,12 +59,4 @@ public class ActivityStructureExtractor extends AbstractExtractorFromEmf {
 		return emfNode.getInStructuredNode() == null ? emfNode.getActivity() : emfNode.getInStructuredNode();
 	}
 
-	private INakedExpansionNode populateExpansionNode(ExpansionNode en, NakedExpansionNodeImpl non) {
-		non.setMultiplicity(new NakedMultiplicityImpl("0", "*"));
-		non.setBaseType((INakedClassifier) getNakedPeer(en.getType()));
-		non.setIsOrdered(true);
-		non.setIsUnique(false);
-		initialize(non, en, en.getOwner());
-		return non;
-	}
 }

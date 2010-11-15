@@ -1,32 +1,22 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.OpaqueActionCaller;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class OpaqueActionBuilder extends PotentialTaskActionBuilder<INakedOpaqueAction>{
-
+	OpaqueActionCaller delegate;
 	public OpaqueActionBuilder(IOclEngine oclEngine,INakedOpaqueAction node){
 		super(oclEngine, node);
+		delegate=new OpaqueActionCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node,getOclEngine().getOclLibrary());
-		OJAnnotatedField field = new OJAnnotatedField();
-		field.setName(node.getMappingInfo().getJavaName().getDecapped().getAsIs());
-		field.setType(OJUtil.classifierPathname(node.getMessageStructure()));
-		field.setInitExp("new " + field.getType().getLast() + "()");
-		operation.getBody().addToLocals(field);
-		String taskVarName = field.getName();
-		if(map.isCollection()){
-			operation.getBody().addToStatements(map.adder() + "(" + taskVarName + ")");
+		if(node.isTask()){
+			//build task variable
 		}else{
-			operation.getBody().addToStatements(map.setter() + "(" + taskVarName + ")");
+			delegate.implementActionOn(operation, operation.getBody());
 		}
-		StringBuilder arguments = populateArguments(operation, node.getArguments());
-		operation.getBody().addToStatements(taskVarName + ".execute(" + arguments + ")");
 	}
 }

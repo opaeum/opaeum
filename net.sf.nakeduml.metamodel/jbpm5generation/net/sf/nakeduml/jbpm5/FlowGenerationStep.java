@@ -5,10 +5,14 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -21,6 +25,8 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.drools.drools._5._0.process.ConnectionType;
 import org.drools.drools._5._0.process.ConnectionsType;
+import org.drools.drools._5._0.process.ConstraintType;
+import org.drools.drools._5._0.process.ConstraintsType;
 import org.drools.drools._5._0.process.DocumentRoot;
 import org.drools.drools._5._0.process.EndType;
 import org.drools.drools._5._0.process.HeaderType;
@@ -42,8 +48,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements TransformationStep {
-	TextWorkspace textWorkspace;
+	protected TextWorkspace textWorkspace;
 	private INakedModelWorkspace workspace;
+	protected Map<INakedElement, Integer> targetIdMap;
+	protected Map<INakedElement, Integer> sourceIdMap;
 
 	public void initialize(TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
 		this.textWorkspace = textWorkspace;
@@ -68,7 +76,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		processObject.setName("processObject");
 		TypeType processObjectType = ProcessFactory.eINSTANCE.createTypeType();
 		processObjectType.setClassName(behavior.getMappingInfo().getQualifiedJavaName());
-		processObjectType.setName("org.jbpm.process.core.datatype.impl.type.ObjectDataType");
+		processObjectType.setName("org.drools.process.core.datatype.impl.type.ObjectDataType");
 		processObject.getType().add(processObjectType);
 		root.getProcess().getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
 		root.getProcess().getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
@@ -141,6 +149,42 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 			path.add(ns.getName().toLowerCase());
 		}
 	}
+	protected void addFinalNode(int i, NodesType nodes, String name, boolean terminate) {
+		EndType endNode = ProcessFactory.eINSTANCE.createEndType();
+		endNode.setName(name);
+		endNode.setTerminate("false");
+		nodes.getEnd().add(endNode);
+		setBounds(i, endNode);
+	}
+
+	protected void addConstaintsToSplit(SplitType split, Collection<? extends GuardedFlow> outgoing) {
+		ConstraintsType constraints = ProcessFactory.eINSTANCE.createConstraintsType();
+		split.getConstraints().add(constraints);
+		for (GuardedFlow t : outgoing) {
+			ConstraintType constraint = ProcessFactory.eINSTANCE.createConstraintType();
+			constraint.setDialect("mvel");
+			constraint.setToNodeId(this.targetIdMap.get(t.getTarget()) + "");
+			if (t.getGuard() == null) {
+				constraint.setValue("return true;");
+				constraint.setPriority("3");
+			} else {
+				if (t.getGuard().isOclValue()) {
+					constraint.setValue("return processObject." + BpmUtil.getGuardMethod(t) + "(context);");
+					constraint.setPriority("1");
+				} else if (t.getGuard().getValue() instanceof Boolean) {
+					constraint.setValue("return " + t.getGuard().getValue() + ";");
+					constraint.setPriority("2");
+				} else {
+					constraint.setValue("return true;");
+					constraint.setPriority("3");
+				}
+			}
+			constraint.setToType("DROOLS_DEFAULT");
+			constraint.setType("code");
+			constraints.getConstraint().add(constraint);
+		}
+	}
+
 
 	@Override
 	public final Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {

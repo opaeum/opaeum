@@ -1,40 +1,101 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
+import net.sf.nakeduml.javametamodel.OJField;
+import net.sf.nakeduml.javametamodel.OJOperation;
+import net.sf.nakeduml.javametamodel.OJParameter;
+import net.sf.nakeduml.javametamodel.OJPathName;
+import net.sf.nakeduml.javametamodel.OJStatement;
+import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import net.sf.nakeduml.util.ExceptionHolder;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class Caller extends SimpleActionBuilder<INakedCallAction>{
-	public Caller(IOclEngine oclEngine,INakedCallAction action,ObjectNodeExpressor expressor){
+public class Caller extends SimpleActionBuilder<INakedCallAction> {
+	private NakedStructuralFeatureMap callMap;
+
+	public Caller(IOclEngine oclEngine, INakedCallAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
-	}
-	@Override
-	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		NakedStructuralFeatureMap resultMap = null;
-		INakedPin returnPin = node.getReturnPin();
-		if(returnPin != null){
-			resultMap = expressor.maybeBuildResultVariable(operation, block, returnPin);
+		if (BehaviorUtil.hasMessageStructure(node)) {
+			callMap = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
 		}
-		ActionMap actionMap = new ActionMap(node);
-		OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-		String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-				+ populateArguments(operation, node.getArguments()) + ")";
-		//TODO - support calling complex method that return immediately but with multiple results
-		if(returnPin != null){
-			if(resultMap.isCollection()){
-				if(returnPin.getLinkedTypedElement() != null && returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany()){
-					call = resultMap.umlName() + ".addAll(" + call + ")";
-				}else{
-					call = resultMap.umlName() + ".add(" + call + ")";
+	}
+
+	@Override
+	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
+		if (node.getCalledElement() == null) {
+			block.addToStatements("no operation or behavior to call!");
+		} else {
+			NakedStructuralFeatureMap resultMap = null;
+			INakedPin returnPin = node.getReturnPin();
+			ActionMap actionMap = new ActionMap(node);
+			String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
+					+ populateArguments(operation, node.getArguments()) + ")";
+			if (BehaviorUtil.hasMessageStructure(node)) {
+				resultMap = OJUtil.buildStructuralFeatureMap(node, oclEngine.getOclLibrary());
+			} else if (returnPin != null) {
+				resultMap = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin);
+			}
+			OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
+			if (resultMap != null) {
+				expressor.maybeBuildResultVariable(operation, block, resultMap);
+				boolean many = resultMap.isMany();
+				if (!(returnPin == null || returnPin.getLinkedTypedElement() == null || BehaviorUtil.hasMessageStructure(node))) {
+					many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();
 				}
-			}else{
-				call = resultMap.umlName() + "=" + call;
+				call=expressor.storeResults(resultMap, call, many);
+				//TODO if task or process, start it now, but only if in process
+			}
+			fs.addToStatements(call);
+		}
+	}
+
+	private <E extends INakedInputPin> StringBuilder populateArguments(OJOperation operation, Collection<E> input) {
+		StringBuilder arguments = new StringBuilder();
+		Iterator<? extends INakedInputPin> args = input.iterator();
+		while (args.hasNext()) {
+			INakedObjectNode pin = args.next();
+			arguments.append(buildPinExpression(operation, operation.getBody(), pin));
+			if (args.hasNext()) {
+				arguments.append(",");
 			}
 		}
-		fs.addToStatements(call);
+		return arguments;
+	}
+
+	public OJTryStatement surroundWithCatchIfNecessary(OJOperation operationContext, OJBlock originalBlock) {
+		boolean shouldSurround = !BehaviorUtil.isTaskOrProcess(node) && node.getExceptionPins().size() > 0;
+		if (shouldSurround) {
+			List<OJField> locals = new ArrayList<OJField>(originalBlock.getLocals());
+			List<OJStatement> statements = new ArrayList<OJStatement>(originalBlock.getStatements());
+			originalBlock.removeAllFromLocals();
+			originalBlock.removeAllFromStatements();
+			OJTryStatement tryStatement = new OJTryStatement();
+			originalBlock.addToStatements(tryStatement);
+			tryStatement.setCatchPart(new OJBlock());
+			tryStatement.setTryPart(new OJBlock());
+			tryStatement.getTryPart().addToLocals(locals);
+			tryStatement.getTryPart().addToStatements(statements);
+			operationContext.getOwner().addToImports(ExceptionHolder.class.getName());
+			tryStatement.setCatchParam(new OJParameter());
+			tryStatement.getCatchParam().setType(new OJPathName("ExceptionHolder"));
+			tryStatement.getCatchParam().setName("e");
+			return tryStatement;
+		} else {
+			return null;
+		}
 	}
 }

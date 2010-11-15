@@ -8,4 +8,5 @@ public interface INakedInvocationAction extends IActionWithTarget {
 	INakedInputPin getTarget();
 	void setTarget(INakedInputPin target);
 	boolean hasTarget();
+	boolean isTask();
 }

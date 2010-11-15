@@ -30,63 +30,66 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
+public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter {
 	private Jbpm5ActionBuilder<INakedActivityNode> actionBuilder;
+
 	@Override
-	public void initialize(INakedModelWorkspace workspace,OJPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace){
+	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
 		super.initialize(workspace, javaModel, config, textWorkspace);
-		this.actionBuilder = new Jbpm5ActionBuilder(workspace.getOclEngine(), null){
+		this.actionBuilder = new Jbpm5ActionBuilder(workspace.getOclEngine(), null) {
 			@Override
-			public void implementActionOn(OJAnnotatedOperation oper){
+			public void implementActionOn(OJAnnotatedOperation oper) {
 			}
 		};
 	}
+
 	@VisitBefore(matchSubclasses = true)
-	public void visitClass(INakedClassifier c){
-		if(c instanceof INakedActivity){
-			INakedActivity activity = (INakedActivity) c;
-			if(activity.isProcess()){
-				OJAnnotatedClass activityClass = findJavaClass(activity);
-				super.implementEventHandling(activityClass, activity, getEventActions(activity));
-			}
+	public void visitActivity(INakedActivity activity) {
+		if (activity.isProcess()) {
+			OJAnnotatedClass activityClass = findJavaClass(activity);
+			super.implementEventHandling(activityClass, activity, getEventActions(activity));
 		}
 	}
+
 	/**
-	 * Overrides the default guard logic and extends it with weight evaluation logic
+	 * Overrides the default guard logic and extends it with weight evaluation
+	 * logic
 	 */
 	@Override
-	protected void maybeContinueFlow(OJOperation operationContext,OJBlock block,GuardedFlow flow){
+	protected void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) {
 		actionBuilder.maybeContinueFlow(operationContext, block, (INakedActivityEdge) flow);
 	}
+
 	@Override
-	protected void implementEventConsumption(FromNode node,OJIfStatement ifNotNull){
+	protected void implementEventConsumption(FromNode node, OJIfStatement ifNotNull) {
 		INakedAcceptEventAction aea = (INakedAcceptEventAction) node.getWaitingElement();
-		for(INakedOutputPin argument:aea.getResult()){
+		for (INakedOutputPin argument : aea.getResult()) {
 			NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(argument.getActivity(), argument);
 			INakedTypedElement parm = argument.getLinkedTypedElement();
-			if(parm == null){
+			if (parm == null) {
 				ifNotNull.getThenPart().addToStatements(pinMap.setter() + "(unknown)");
-			}else{
-				if(pinMap.isOne()){
+			} else {
+				if (pinMap.isOne()) {
 					ifNotNull.getThenPart().addToStatements(pinMap.setter() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
-				}else{
+				} else {
 					ifNotNull.getThenPart().addToStatements(pinMap.adder() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
 				}
 			}
 		}
 	}
-	private Collection<WaitForEventElements> getEventActions(INakedActivity activity){
-		Map<INakedElement,WaitForEventElements> results = new HashMap<INakedElement,WaitForEventElements>();
-		for(INakedActivityNode node:activity.getActivityNodesRecursively()){
-			if(node instanceof INakedAcceptEventAction){
+
+	private Collection<WaitForEventElements> getEventActions(INakedActivity activity) {
+		Map<INakedElement, WaitForEventElements> results = new HashMap<INakedElement, WaitForEventElements>();
+		for (INakedActivityNode node : activity.getActivityNodesRecursively()) {
+			if (node instanceof INakedAcceptEventAction) {
 				INakedAcceptEventAction action = (INakedAcceptEventAction) node;
 				WaitForEventElements eventActions = results.get(action.getEvent());
-				if(eventActions == null){
+				if (eventActions == null) {
 					eventActions = new WaitForEventElements(action.getEvent());
 					results.put(action.getEvent(), eventActions);
 				}
-				for(INakedActivityEdge flow:action.getAllEffectiveOutgoing()){
-					eventActions.addWaitingNode(action, flow,true);
+				for (INakedActivityEdge flow : action.getAllEffectiveOutgoing()) {
+					eventActions.addWaitingNode(action, flow, true);
 				}
 			}
 		}

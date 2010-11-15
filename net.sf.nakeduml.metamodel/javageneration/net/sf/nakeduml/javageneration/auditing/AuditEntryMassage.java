@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.auditing;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
+import net.sf.nakeduml.javageneration.util.ActionFeatureBridge;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
@@ -29,11 +31,23 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.generated.OJVisibilityKindGEN;
+import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.linkage.TypeResolver;
+import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.name.NameConverter;
 import net.sf.nakeduml.util.AbstractEntity;
 
@@ -48,8 +62,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 
 	private void visitProperty(INakedClassifier owner, INakedProperty p) {
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-		if (isPersistent(owner) && !p.isDerived() && !(owner instanceof INakedInterface || getBaseTypeRoot(p) instanceof INakedInterface)
-				&& isPersistent(getBaseTypeRoot(p))) {
+		if (isPersistent(owner) && !p.isDerived() && !(owner instanceof INakedInterface || p.getNakedBaseType() instanceof INakedInterface)
+				&& (isPersistent(p.getNakedBaseType()))) {
 			OJPathName path = OJUtil.classifierPathname(owner);
 			path.replaceTail(path.getLast() + "_Audit");
 			OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
@@ -60,7 +74,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 				addOneToManyGetter(auditClass, (INakedEntity) owner, p, map);
 			} else if (map.isManyToMany()) {
-				if (p.isInverse()) {
+				if (p.isInverse() || p.getOtherEnd() == null) {
+					// TODO support for cases where otherEnd=null
 					field.removeAnnotation(new OJPathName("javax.persistence.JoinTable"));
 					field.removeAnnotation(new OJPathName("javax.persistence.ManyToMany"));
 					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
@@ -212,9 +227,9 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedClassifier c) {
+		OJPathName path = OJUtil.classifierPathname(c);
+		OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 		if ((isPersistent(c) || c instanceof INakedInterface) && OJUtil.hasOJClass(c)) {
-			OJPathName path = OJUtil.classifierPathname(c);
-			OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 			if (auditClass != null) {
 				if (auditClass.isAbstract()) {
 					auditClass.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
@@ -260,24 +275,75 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					addShallowCopy(c, auditClass);
 				}
 				super.createTextPath(auditClass, JavaTextSource.GEN_SRC);
-				if (c instanceof INakedBehavior) {
-					INakedBehavior b = (INakedBehavior) c;
-					if (b.isProcess()) {
-						OJAnnotatedField contextObject = (OJAnnotatedField) auditClass.findField("contextObject");
-						contextObject.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
-						OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
-						OJAnnotationValue contextObjectId = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-						joinColumns.addAnnotationValue(contextObjectId);
-						contextObjectId.putAttribute("unique", Boolean.FALSE);
-						contextObjectId.putAttribute("referencedColumnName", getRoot(b.getContext()).getMappingInfo().getPersistentName()
-								+ "_id");
-						contextObjectId.putAttribute("name", "context_object_id");
-						OJAnnotationValue contextObjectVersion = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-						contextObjectVersion.putAttribute("unique", Boolean.FALSE);
-						contextObjectVersion.putAttribute("referencedColumnName", "object_version");
-						contextObjectVersion.putAttribute("name", "context_object_version");
-						joinColumns.addAnnotationValue(contextObjectVersion);
-						contextObject.putAnnotation(joinColumns);
+			}
+		}
+		massageBehaviorLogic(c, auditClass);
+	}
+
+	private void massageBehaviorLogic(INakedClassifier c, OJAnnotatedClass auditClass) {
+		if (c instanceof INakedBehavior) {
+			INakedBehavior b = (INakedBehavior) c;
+			if (b.isProcess()) {
+				OJAnnotatedField contextObject = (OJAnnotatedField) auditClass.findField("contextObject");
+				contextObject.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
+				OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
+				OJAnnotationValue contextObjectId = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+				joinColumns.addAnnotationValue(contextObjectId);
+				contextObjectId.putAttribute("unique", Boolean.FALSE);
+				contextObjectId.putAttribute("referencedColumnName", getRoot(b.getContext()).getMappingInfo().getPersistentName() + "_id");
+				contextObjectId.putAttribute("name", "context_object_id");
+				OJAnnotationValue contextObjectVersion = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+				contextObjectVersion.putAttribute("unique", Boolean.FALSE);
+				contextObjectVersion.putAttribute("referencedColumnName", "object_version");
+				contextObjectVersion.putAttribute("name", "context_object_version");
+				joinColumns.addAnnotationValue(contextObjectVersion);
+				contextObject.putAnnotation(joinColumns);
+				List<? extends INakedParameter> parms = b.getOwnedParameters();
+				for (INakedParameter parm : parms) {
+					visitProperty(b, new TypedElementPropertyBridge(b, parm));
+				}
+				if (b instanceof INakedActivity) {
+					INakedActivity activity = (INakedActivity) b;
+					List<INakedActivityNode> nodes = ((INakedActivity) b).getActivityNodesRecursively();
+					for (INakedActivityNode node : nodes) {
+						if (node instanceof INakedOutputPin && BehaviorUtil.mustBeStoredOnActivity((INakedOutputPin) node)) {
+							visitProperty(new TypedElementPropertyBridge(activity, (INakedTypedElement) node));
+						} else if (node instanceof INakedExpansionNode && BehaviorUtil.mustBeStoredOnActivity((INakedExpansionNode) node)) {
+							visitProperty(new TypedElementPropertyBridge(activity, (INakedTypedElement) node));
+						} else if (node instanceof INakedCallAction && BehaviorUtil.mustBeStoredOnActivity((INakedCallAction) node)) {
+							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTarget) node);
+							TypeResolver.resolveCollection(bridge, bridge.getBaseType(), getOclEngine().getOclLibrary());
+							visitProperty(bridge);
+						}
+					}
+					Collection<INakedActivityVariable> vars = activity.getVariables();
+					for (INakedActivityVariable var : vars) {
+						visitProperty(new TypedElementPropertyBridge(activity, var));
+					}
+				}
+			}
+			if (BehaviorUtil.hasExecutionInstance(b)) {
+				INakedClassifier ctx = b.getContext();
+				if (ctx != null) {
+					OJAnnotatedOperation oper = null;
+					OJPathName ctxPath = OJUtil.classifierPathname(ctx);
+					ctxPath.replaceTail(ctxPath.getLast() + "_Audit");
+					OJAnnotatedClass ojCtx = (OJAnnotatedClass) this.javaModel.findIntfOrCls(ctxPath);
+					// TODO support overloading
+					if (b.getSpecification() == null) {
+						oper = (OJAnnotatedOperation) OJUtil.findOperation(ojCtx, b.getName());
+					} else {
+						oper = (OJAnnotatedOperation) OJUtil.findOperation(ojCtx, b.getSpecification().getName());
+					}
+					if (oper != null) {
+						oper.setBody(new OJBlock());
+						oper.getBody().addToStatements("return null");
+					}
+				}
+				List<OJOperation> operations = auditClass.getOperations();
+				for (OJOperation oper : operations) {
+					if (oper.getName().startsWith("do") && oper.getReturnType().getLast().equals("void")) {
+						oper.setBody(new OJBlock());
 					}
 				}
 			}
@@ -297,9 +363,11 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		}
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsBetweenFor" + owner.getMappingInfo().getJavaName());
-		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ owner.getMappingInfo().getJavaName().getDecapped() + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
-				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
+		oneToManyNamedQuery.putAttribute(
+				"query",
+				"from " + owner.getMappingInfo().getJavaName() + "_Audit a where a." + owner.getMappingInfo().getJavaName().getDecapped()
+						+ " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
+						+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
 
@@ -309,7 +377,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		previousVersion.setType(c.getPathName());
 		previousVersion.setName("previousVersion");
 		previousVersion.setOwner(c);
-		
 		OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		OJAnnotationAttributeValue nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
@@ -330,7 +397,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		joinColumn.putAttribute(referencedAnnotationAttribute);
 		joinColumns.addAnnotationValue(joinColumn);
 		previousVersion.addAnnotationIfNew(joinColumns);
-		
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
 		JpaUtil.fetchLazy(toOne);
 		previousVersion.addAnnotationIfNew(toOne);
@@ -346,7 +412,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		setter.getBody().addToStatements("this.previousVersion = previousVersion");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-		
 		setter = new OJAnnotatedOperation();
 		setter.setName("setPreviousVersion");
 		OJPathName auditedPathName = new OJPathName("net.sf.nakeduml.util.Audited");
@@ -354,14 +419,12 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-
 		setter = new OJAnnotatedOperation();
 		setter.setName("setPreviousVersionWithoutCheck");
 		setter.addParam("previousVersion", auditedPathName);
 		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-
 		getter = new OJAnnotatedOperation();
 		getter.setName("getPreviousVersion");
 		getter.setReturnType(auditedPathName);
@@ -580,7 +643,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 
 	private void renameAnyMetaDefAnnotations(OJAnnotatedClass c) {
 		for (OJField f : c.getFields()) {
-			Set<OJAnnotationValue> annotations = ((OJAnnotatedField) f).getAnnotations();
+			OJAnnotatedField annotatedField = (OJAnnotatedField) f;
+			Set<OJAnnotationValue> annotations = annotatedField.getAnnotations();
 			for (OJAnnotationValue ojAnnotationValue : annotations) {
 				if (ojAnnotationValue.getType().equals(new OJPathName("org.hibernate.annotations.AnyMetaDef"))) {
 					OJAnnotationAttributeValue rolDefMeta = ojAnnotationValue.findAttribute("name");
@@ -595,6 +659,10 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					String tableName = (String) rolDefMeta.getValues().remove(0);
 					rolDefMeta.addStringValue(tableName.substring(0, tableName.length()) + "Audit");
 				}
+			}
+			if (annotatedField.findAnnotation(new OJPathName("org.hibernate.annotations.ManyToAny")) != null) {
+				annotatedField.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+				annotatedField.removeAnnotation(new OJPathName("org.hibernate.annotations.ManyToAny"));
 			}
 		}
 	}

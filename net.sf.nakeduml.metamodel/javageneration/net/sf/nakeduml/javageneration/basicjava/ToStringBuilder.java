@@ -13,6 +13,7 @@ import net.sf.nakeduml.javametamodel.OJSimpleStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -33,14 +34,16 @@ public class ToStringBuilder extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no) {
-		if (no.shouldEmulateClass()) {
+		if (no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)) {
 			this.visitClass(new OperationMessageStructureImpl(no.getOwner(), no));
 		}
 	}
 
 	@VisitBefore()
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		this.visitClass(new OpaqueActionMessageStructureImpl(oa));
+		if (oa.isTask()) {
+			this.visitClass(new OpaqueActionMessageStructureImpl(oa));
+		}
 	}
 
 	private void buildToString(OJAnnotatedClass owner, INakedClassifier umlClass) {

@@ -18,7 +18,10 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
@@ -28,8 +31,10 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
+import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -37,6 +42,7 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
@@ -83,21 +89,30 @@ public class AttributeImplementor extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitVariable(INakedActivityVariable var) {
-		if (BehaviorUtil.hasExecutionInstance(var.getActivity())) {
+		if (BehaviorUtil.hasExecutionInstance(var.getActivity()) && var.getOwnerElement() instanceof INakedActivity) {
+			// Variables contained by StructuredActivityNodes require
+			// contextable variables which will be delegated to BPM engine
 			implementAttributeFully(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
 		}
 	}
 
-	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
-	public void visitObjectNode(INakedObjectNode node) {
-		if (BehaviorUtil.mustBeStored(node)) {
+	@VisitBefore(matchSubclasses = true)
+	public void visitOutputPin(INakedOutputPin node) {
+		if (BehaviorUtil.mustBeStoredOnActivity(node)) {
+			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitExpansionNode(INakedExpansionNode node) {
+		if (BehaviorUtil.mustBeStoredOnActivity(node)) {
 			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
 
 	@VisitBefore()
 	public void visitOperation(INakedOperation o) {
-		if (o.shouldEmulateClass()) {
+		if (o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)) {
 			OperationMessageStructureImpl umlOwner = new OperationMessageStructureImpl(o);
 			for (INakedParameter parm : o.getOwnedParameters()) {
 				implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, parm));
@@ -107,26 +122,27 @@ public class AttributeImplementor extends StereotypeAnnotator {
 
 	@VisitBefore()
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		OpaqueActionMessageStructureImpl umlOwner = new OpaqueActionMessageStructureImpl(oa);
-		for (INakedPin pin : oa.getPins()) {
-			implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, pin, false));
+		if (oa.isTask()) {
+			OpaqueActionMessageStructureImpl umlOwner = new OpaqueActionMessageStructureImpl(oa);
+			for (INakedPin pin : oa.getPins()) {
+				implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, pin, false));
+			}
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node) {
-		if (BehaviorUtil.hasExecutionInstance(node.getActivity())
-				&& (BehaviorUtil.isUserTask(node) || BehaviorUtil.hasExecutionInstance(node.getCalledElement()))) {
+		if ((BehaviorUtil.mustBeStoredOnActivity(node))) {
 			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(INakedParameter node) {
-		if (node.getOwnerElement() instanceof INakedStateMachine || node.getOwnerElement() instanceof INakedOpaqueBehavior) {
+		if (node.getOwnerElement() instanceof INakedBehavior) {
 			// Activity Parameters will be done through ParameterNodes
 			INakedBehavior sm = (INakedBehavior) node.getOwnerElement();
-			if (BehaviorUtil.hasExecutionInstance(sm)) {
+			if (BehaviorUtil.hasExecutionInstance(sm) && sm.getSpecification() == null) {
 				implementAttributeFully(sm, OJUtil.buildStructuralFeatureMap(sm, node));
 			}
 		}
@@ -135,7 +151,25 @@ public class AttributeImplementor extends StereotypeAnnotator {
 	private void visitProperty(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
 		INakedProperty p = map.getProperty();
 		if (!OJUtil.isBuiltIn(p)) {
-			if (p.isDerived() || p.isReadOnly()) {
+			if (p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
+				OJAnnotatedClass owner = findJavaClass(umlOwner);
+				buildSetter(owner, map);
+				buildField(owner, map);
+				OJOperation getter = buildGetter(owner, map, false);
+				getter.setBody(new OJBlock());
+				if (p.getNakedBaseType().hasTaggedValue(StereotypeNames.HELPER, "name")) {
+					String name = p.getNakedBaseType().getTaggedValue(StereotypeNames.HELPER, "name");
+					getter.getBody().addToStatements(
+							new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
+									+ ")org.jboss.seam.Component.getInstance(\"" + name + "\")"));
+					getter.getBody().addToStatements("return " + map.umlName());
+					owner.addToImports(map.javaBaseTypePath());
+				} else if (!p.getNakedBaseType().getIsAbstract()) {
+					getter.getBody().addToStatements(
+							new OJIfStatement(map.umlName() + "==null", map.umlName() + "=new " + map.javaBaseType() + "()"));
+					getter.getBody().addToStatements("return " + map.umlName());
+				}
+			} else if (p.isDerived() || p.isReadOnly()) {
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				OJOperation getter = buildGetter(owner, map, true);
 				applyStereotypesAsAnnotations((p), getter);
@@ -169,7 +203,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 		}
 	}
 
-	public OJAnnotatedField buildField(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
+	private OJAnnotatedField buildField(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		OJAnnotatedField field = new OJAnnotatedField();
 		field.setType(map.javaTypePath());
 		field.setName(map.umlName());
@@ -235,6 +269,10 @@ public class AttributeImplementor extends StereotypeAnnotator {
 				adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
 			} else {
 				adder.getBody().addToStatements(map.umlName() + "." + otherMap.setter() + "(this)");
+				// if(p.getBaseType() instanceof INakedInterface){
+				// adder.getBody().addToStatements(map.umlName() + "." +
+				// otherMap.getter() + "().add(this)");
+				// }
 			}
 		} else {
 			adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");

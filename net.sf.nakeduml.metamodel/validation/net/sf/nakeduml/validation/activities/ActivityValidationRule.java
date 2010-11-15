@@ -21,11 +21,12 @@ public enum ActivityValidationRule implements IValidationRule {
 	MORE_PINS_THAN_PARAMETERS("16", null);
 	ActivityValidationRule(String description, String messagePattern) {
 		this.description = description;
-		if(messagePattern==null){
-			messagePattern="{0} is invalid: {1}";
-		}else{
-		this.messagePattern = messagePattern;
-	}}
+		if (messagePattern == null) {
+			this.messagePattern = "{0} is invalid: {1}";
+		} else {
+			this.messagePattern = messagePattern;
+		}
+	}
 
 	public String getDescription() {
 		return description;
@@ -34,6 +35,7 @@ public enum ActivityValidationRule implements IValidationRule {
 	public String getMessagePattern() {
 		return messagePattern;
 	}
+
 	private String description;
 	private String messagePattern;
 }

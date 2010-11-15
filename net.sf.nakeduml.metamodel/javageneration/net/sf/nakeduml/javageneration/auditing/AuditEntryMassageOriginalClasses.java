@@ -15,12 +15,13 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJClassValue;
+import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisitorForAudit {
-
-
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedEntity entity) {
 		if (isPersistent(entity) && OJUtil.hasOJClass(entity)) {
@@ -30,14 +31,14 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 				addMakeAuditCopyIdOnly(entity, ojClass);
 				addMakeAuditCopyWithoutParentMethod(ojClass);
 				addMakeAuditCopyMethod(entity, ojClass);
-//				addEntityListenerAnnotation(ojClass);
+				// addEntityListenerAnnotation(ojClass);
 			}
 		}
 	}
 
+
 	private void addMakeAuditCopyIdOnly(INakedEntity entity, OJAnnotatedClass ojClass) {
 		ojClass.addToImports(new OJPathName("net.sf.nakeduml.util.AuditId"));
-		
 		OJAnnotatedOperation makeAuditCopyIdOnly = new OJAnnotatedOperation();
 		makeAuditCopyIdOnly.setName("makeAuditCopyIdOnly");
 		OJPathName pathName = ojClass.getPathName();
@@ -45,7 +46,6 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		pathName.getNames().add(remove + "_Audit");
 		makeAuditCopyIdOnly.setReturnType(pathName);
 		makeAuditCopyIdOnly.setAbstract(ojClass.isAbstract());
-
 		if (!ojClass.isAbstract()) {
 			OJBlock body = makeAuditCopyIdOnly.getBody();
 			OJAnnotatedField result = new OJAnnotatedField();
@@ -53,17 +53,14 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 			result.setType(pathName);
 			result.setInitExp("new " + pathName + "()");
 			body.addToLocals(result);
-
 			String rootClassName = entity.getMappingInfo().getJavaName().toString();
 			OJSimpleStatement setId = new OJSimpleStatement("result.setId(new  AuditId(getId(), getObjectVersion()))");
 			body.addToStatements(setId);
-			body.addToStatements("result.setOriginal(new "+rootClassName + "())");
+			body.addToStatements("result.setOriginal(new " + rootClassName + "())");
 			body.addToStatements("result.getOriginal().setId(getId())");
 			body.addToStatements("return result");
 		}
-
 		ojClass.addToOperations(makeAuditCopyIdOnly);
-
 	}
 
 	private void addMakeAuditCopyMethod(INakedEntity entity, OJAnnotatedClass ojClass) {
@@ -82,25 +79,24 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 			result.setType(pathName);
 			result.setInitExp("makeAuditCopyWithoutParent()");
 			body.addToLocals(result);
-
 			List<? extends INakedProperty> attributes = entity.getEffectiveAttributes();
 			for (INakedProperty property : attributes) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(property);
-				if (!property.isDerived() && !property.isComposite() && isPersistent((property).getNakedBaseType()) && (map.isManyToOne() || map.isOne())) {
+				if (!property.isDerived() && !property.isComposite() && isPersistent((property).getNakedBaseType())
+						&& (map.isManyToOne() || map.isOne())) {
 					OJIfStatement ifStatement = new OJIfStatement();
 					ifStatement.setCondition(map.getter() + "() != null");
 					OJBlock then = new OJBlock();
-					OJSimpleStatement thenStatement = new OJSimpleStatement("result." + map.setter() + "(" + map.getter() + "().makeAuditCopyIdOnly())");
+					OJSimpleStatement thenStatement = new OJSimpleStatement("result." + map.setter() + "(" + map.getter()
+							+ "().makeAuditCopyIdOnly())");
 					then.addToStatements(thenStatement);
 					ifStatement.setThenPart(then);
 					body.addToStatements(ifStatement);
 				}
 			}
-
 			String rootClassName = entity.getMappingInfo().getJavaName().toString();
-			body.addToStatements("result.setOriginal(new "+rootClassName + "())");
+			body.addToStatements("result.setOriginal(new " + rootClassName + "())");
 			body.addToStatements("result.getOriginal().setId(getId())");
-
 			body.addToStatements("return result");
 		}
 	}
@@ -135,5 +131,4 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		}
 		c.addToImplementedInterfaces(new OJPathName("net.sf.nakeduml.util.Auditable"));
 	}
-
 }

@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javametamodel;
 
+import java.util.Map;
+
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.utilities.JavaStringHelpers;
@@ -7,13 +9,21 @@ import net.sf.nakeduml.javametamodel.utilities.JavaUtil;
 
 public class OJAnnonymousInnerClass extends OJAnnotatedField {
 	private OJAnnotatedClass classDeclaration = new OJAnnotatedClass();
-	private OJClassifier outer;
+	private OJPathName outer;
 
-	public OJAnnonymousInnerClass(OJClassifier ojClassifier, String string, OJPathName ojPathName) {
-		super(string,ojPathName);
+	public OJAnnonymousInnerClass(OJPathName outer, String string, OJPathName ojPathName) {
+		super(string, ojPathName);
 		classDeclaration.setSuperclass(ojPathName);
-		this.outer=ojClassifier;
-		}
+		this.outer = outer;
+	}
+
+	@Override
+	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+		// TODO Auto-generated method stub
+		super.renameAll(renamePathNames, newName);
+		outer.renameAll(renamePathNames, newName);
+		classDeclaration.renameAll(renamePathNames, newName);
+	}
 
 	public OJAnnonymousInnerClass() {
 		// TODO Auto-generated constructor stub
@@ -55,17 +65,19 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		sb.append("\n");
 		sb.append(JavaStringHelpers.indent(classDeclaration.operations(), 2));
 		sb.append("};");
-		//TODO bit aggressive
-		return sb.toString().replaceAll("this", outer.getName() + ".this");
+		// TODO bit aggressive
+		return sb.toString().replaceAll("this", outer.getLast() + ".this");
 	}
-	public OJAnnotatedField getDeepCopy(){
-		OJAnnonymousInnerClass copy= new OJAnnonymousInnerClass();
+
+	public OJAnnotatedField getDeepCopy() {
+		OJAnnonymousInnerClass copy = new OJAnnonymousInnerClass();
 		copyDeepInto(copy);
 		return copy;
 	}
 
 	public void copyDeepInto(OJAnnonymousInnerClass copy) {
-		copy.classDeclaration=classDeclaration;
+		copy.classDeclaration = this.classDeclaration.getDeepCopy(copy.classDeclaration.getMyPackage());
+		copy.outer = this.outer.getDeepCopy();
 		super.copyDeepInfoInto(copy);
 	}
 }

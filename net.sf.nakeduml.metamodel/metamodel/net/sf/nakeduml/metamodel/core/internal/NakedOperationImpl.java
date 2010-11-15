@@ -6,11 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -155,7 +157,8 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return getReturnParameter() != null;
 	}
 	public boolean isUserResponsibility(){
-		return this.userResponsibility;
+		//All operations on an interface representing a user are userResponsibilities
+		return this.userResponsibility || getOwner() instanceof INakedInterface && ((INakedInterface)getOwner()).representsUser();
 	}
 	@Override
 	public VisibilityKind getVisibility(){

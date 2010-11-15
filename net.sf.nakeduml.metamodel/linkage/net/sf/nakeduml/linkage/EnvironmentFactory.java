@@ -97,14 +97,15 @@ public class EnvironmentFactory {
 			if (BehaviorUtil.hasExecutionInstance(owningBehavior)) {
 				env.addElement("this",
 						new VariableDeclaration("this", new ActivityVariableContext(owningBehavior, element, owningBehavior)), true);
+				addActivityStructureAsLocalContext(env, element,false);
 			} else {
-				addActivityStructureAsLocalContext(env, owningBehavior);
+				addActivityStructureAsLocalContext(env, element,true);
 			}
 		} else {
 			// Simple Synchronous methods
 			env = createPreEnvironment(owningBehavior.getContext(), element);
 			addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
-			addActivityStructureAsLocalContext(env, element);
+			addActivityStructureAsLocalContext(env, element,true);
 		}
 		return env;
 	}
@@ -159,10 +160,10 @@ public class EnvironmentFactory {
 		return isContextApplicable;
 	}
 
-	private void addActivityStructureAsLocalContext(Environment env, INakedElement element) {
+	private void addActivityStructureAsLocalContext(Environment env, INakedElement element, boolean includeActivity) {
 		if (element instanceof INakedStructuredActivityNode) {
 			addVariables(env, ((INakedStructuredActivityNode) element).getVariables());
-		} else if (element instanceof INakedActivity) {
+		} else if (element instanceof INakedActivity && includeActivity) {
 			addVariables(env, ((INakedActivity) element).getVariables());
 			addAllParameters(env, (IParameterOwner) element);
 		}
@@ -175,7 +176,7 @@ public class EnvironmentFactory {
 			}
 		}
 		if (!(element instanceof INakedActivity || element == null)) {
-			addActivityStructureAsLocalContext(env, (INakedElement) element.getOwnerElement());
+			addActivityStructureAsLocalContext(env, (INakedElement) element.getOwnerElement(),includeActivity);
 		}
 	}
 

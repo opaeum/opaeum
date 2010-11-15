@@ -7,44 +7,63 @@ import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import nl.klasse.octopus.model.IClassifier;
 
-public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode{
+public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode {
 	private static final long serialVersionUID = 9125417030702683972L;
 	INakedParameter parameter;
+
 	@Override
-	public String getMetaClass(){
+	public String getMetaClass() {
 		return "parameterNode";
 	}
-	public INakedParameter getParameter(){
+
+	public INakedParameter getParameter() {
 		return this.parameter;
 	}
-	public void setParameter(INakedParameter parameter){
+
+	public void setParameter(INakedParameter parameter) {
 		this.parameter = parameter;
 	}
+
 	@Override
-	public ObjectNodeType getObjectNodeType(){
+	public String getName() {
+		if (parameter == null) {
+			return super.getName();
+		} else {
+			return parameter.getName();
+		}
+	}
+
+	@Override
+	public ObjectNodeType getObjectNodeType() {
 		return ObjectNodeType.PARAMETER_NODE;
 	}
+
 	@Override
-	public INakedClassifier getNakedBaseType(){
+	public INakedClassifier getNakedBaseType() {
 		return this.parameter.getNakedBaseType();
 	}
+
 	@Override
-	public INakedMultiplicity getNakedMultiplicity(){
+	public INakedMultiplicity getNakedMultiplicity() {
 		return this.parameter.getNakedMultiplicity();
 	}
+
 	@Override
-	public IClassifier getType(){
+	public IClassifier getType() {
 		return this.parameter.getType();
 	}
+
 	@Override
-	public boolean isOrdered(){
+	public boolean isOrdered() {
 		return this.parameter.isOrdered();
 	}
+
 	@Override
-	public boolean isUnique(){
+	public boolean isUnique() {
 		return this.parameter.isUnique();
 	}
-	public boolean isException(){
+
+	public boolean isException() {
 		return this.parameter.isException();
 	}
 }

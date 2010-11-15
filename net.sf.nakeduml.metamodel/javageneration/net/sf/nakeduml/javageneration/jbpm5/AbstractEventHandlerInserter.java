@@ -111,7 +111,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			OJOperation ojOperation) {
 		OJStatement statement;
 		if (behavior.isClassifierBehavior()) {
-			statement = new OJSimpleStatement("getClassifierBehavior()."+callToEventHandler(nakedOperation, ojOperation));
+			statement = new OJSimpleStatement("getClassifierBehavior()." + callToEventHandler(nakedOperation, ojOperation));
 		} else {
 			NakedMessageStructureMap map = new NakedMessageStructureMap(behavior);
 			OJForStatement forEach = new OJForStatement("behavior", map.javaBaseTypePath(), map.fieldName());
@@ -158,11 +158,23 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				insertCallToOperationHandler(behavior, no);
 			}
 		}
-		processSignal.getBody().addToStatements("return false");
 		if (behavior.getContext() != null) {
 			OJAnnotatedClass context = findJavaClass(behavior.getContext());
-			context.addToOperations(processSignal.getDeepCopy());
+			OJOperation parentProcessSignal = OJUtil.findOperation(context, "processSignal");
+			if (parentProcessSignal == null) {
+				OJOperation copy = processSignal.getDeepCopy();
+				context.addToOperations(copy);
+				copy.getBody().addToStatements("return false");
+				
+			} else {
+				List<OJStatement> toStatements = parentProcessSignal.getBody().getStatements();
+				List<OJStatement> fromStatements = processSignal.getBody().getStatements();
+				for (OJStatement ojStatement : fromStatements) {
+					toStatements.add(toStatements.size() - 1, ojStatement);
+				}
+			}
 		}
+		processSignal.getBody().addToStatements("return false");
 	}
 
 	private void insertSignalCallInProcessSignal(OJAnnotatedOperation processSignal, INakedSignal signal) {

@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -8,7 +9,7 @@ import net.sf.nakeduml.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class StructuralFeatureValueAdder extends SimpleActionBuilder<INakedAddStructuralFeatureValueAction>{
-	public StructuralFeatureValueAdder(IOclEngine oclEngine,INakedAddStructuralFeatureValueAction action, ObjectNodeExpressor expressor){
+	public StructuralFeatureValueAdder(IOclEngine oclEngine,INakedAddStructuralFeatureValueAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override

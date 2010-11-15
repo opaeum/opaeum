@@ -7,9 +7,9 @@ import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
+import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.OpaqueActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
-import net.sf.nakeduml.javageneration.jbpm5.actions.SendObjectActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJClass;
@@ -22,12 +22,13 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.INakedSendObjectAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -70,47 +71,46 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 	}
 
 	private void implementNodeMethods(OJClass activityClass, INakedActivity activity) {
+		activityClass.addToImports(ActivityUtil.PROCESS_CONTEXT);
 		for (INakedActivityNode node : activity.getActivityNodesRecursively()) {
-			if (node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode) {
+			if (node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode
+					|| node instanceof INakedExpansionRegion || node instanceof INakedExpansionNode) {
 				this.implementNodeMethod(activityClass, node);
 			}
 		}
 	}
 
 	private void implementNodeMethod(OJClass activityClass, INakedActivityNode node) {
-		OJAnnotatedOperation operation = new OJAnnotatedOperation();
-		operation.setName("do" + node.getMappingInfo().getJavaName().getCapped());
-		activityClass.addToOperations(operation);
-		if (!node.getActivity().isProcess() && isJoin(node) && node.getAllEffectiveIncoming().size() > 1) {
-			OJAnnotatedField incomingTokenCount = new OJAnnotatedField();
-			incomingTokenCount.setType(new OJPathName("int"));
-			incomingTokenCount.setName("tokenCountTo" + node.getName());
-			incomingTokenCount.setInitExp("" + node.getAllEffectiveIncoming().size());
-			activityClass.addToFields(incomingTokenCount);
-			operation.getBody().addToStatements("if(--tokenCountTo" + node.getName() + ">0)return");
-		}
 		Jbpm5ActionBuilder<?> implementor = null;
-		if (node instanceof INakedCallAction) {
-			implementor = new CallActionBuilder(oclEngine, (INakedCallAction) node);
-		} else if (node instanceof INakedSendObjectAction) {
-			implementor = new SendObjectActionBuilder(oclEngine, (INakedSendObjectAction) node);
+		if (node instanceof INakedExpansionRegion) {
+			implementor = new ExpansionRegionBuilder(oclEngine, (INakedExpansionRegion) node);
 		} else if (node instanceof INakedOpaqueAction) {
 			implementor = new OpaqueActionBuilder(oclEngine, (INakedOpaqueAction) node);
+		} else if (node instanceof INakedCallAction) {
+			implementor = new CallActionBuilder(oclEngine, (INakedCallAction) node);
 		} else if (node instanceof INakedAcceptEventAction) {
 			implementor = new AcceptEventActionBuilder(oclEngine, (INakedAcceptEventAction) node);
 		} else if (node instanceof INakedParameterNode) {
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
 			implementor = new ParameterNodeBuilder(oclEngine, parameterNode);
 		} else {
-			implementor = new SimpleActionBridge(oclEngine, node, SimpleActivityMethodImplementor.resolveActionBuilder(node, oclEngine));
+			implementor = new SimpleActionBridge(oclEngine, node, SimpleActivityMethodImplementor.resolveActionBuilder(node, oclEngine,
+					new Jbpm5ObjectNodeExpressor(oclEngine)));
 		}
-		implementor.implementPreConditions(operation);
-		implementor.implementActionOn(operation);
-		if (implementor.requiresUserInteraction()) {
-			implementor.implementSupportingTaskMethods(activityClass);
-		} else if (!(implementor.waitsForEvent() || node instanceof INakedControlNode)) {
-			implementor.implementPostConditions(operation);
-			implementor.implementConditionalFlows(operation, operation.getBody(), true);
+		if (implementor.hasNodeMethod()) {
+			OJAnnotatedOperation operation = new OJAnnotatedOperation();
+			operation.setName(implementor.getMap().doActionMethod());
+			activityClass.addToOperations(operation);
+			operation.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+			implementor.setupVariables(operation);
+			implementor.implementPreConditions(operation);
+			implementor.implementActionOn(operation);
+			if (implementor.isTask()) {
+				implementor.implementSupportingTaskMethods(activityClass);
+			} else if (!(implementor.waitsForEvent() || node instanceof INakedControlNode)) {
+				implementor.implementPostConditions(operation);
+				implementor.implementConditionalFlows(operation, operation.getBody(), true);
+			}
 		}
 	}
 

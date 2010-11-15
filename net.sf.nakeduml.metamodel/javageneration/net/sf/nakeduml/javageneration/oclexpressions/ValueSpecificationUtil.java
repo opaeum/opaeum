@@ -39,7 +39,11 @@ public class ValueSpecificationUtil {
 	public static String expressValue(OJOperation operationContext, INakedValueSpecification valueSpec, INakedClassifier owner,
 			IClassifier expectedType) {
 		if (valueSpec == null) {
-			return expressDefaultOrImplicitObject(owner, expectedType);
+			if (expectedType == null) {
+				return "could not determine type of implicit object";
+			} else {
+				return expressDefaultOrImplicitObject(owner, expectedType);
+			}
 		} else if (valueSpec.isOclValue()) {
 			if (valueSpec.isValidOclValue()) {
 				String expression = null;

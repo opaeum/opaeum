@@ -22,10 +22,6 @@ public class ValueSpecificationTypeResolver extends AbstractModelElementLinker {
 	private void processValue(INakedValueSpecification value, INakedClassifier owner, IModelElement element, IClassifier type) {
 		if (value != null) {
 			value.setType(type);
-			if (value.getValue() instanceof ParsedOclString) {
-				ParsedOclString pos = (ParsedOclString) value.getValue();
-				pos.setContext(owner, element);
-			}
 		}
 	}
 

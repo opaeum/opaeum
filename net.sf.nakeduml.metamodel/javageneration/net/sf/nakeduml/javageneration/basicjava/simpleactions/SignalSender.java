@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -16,7 +17,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class SignalSender extends SimpleActionBuilder<INakedSendSignalAction> {
-	public SignalSender(IOclEngine oclEngine, INakedSendSignalAction action, ObjectNodeExpressor expressor) {
+	public SignalSender(IOclEngine oclEngine, INakedSendSignalAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
 
@@ -29,7 +30,7 @@ public class SignalSender extends SimpleActionBuilder<INakedSendSignalAction> {
 		while (args.hasNext()) {
 			INakedPin pin = args.next();
 			if (pin.getLinkedTypedElement() == null) {
-				block.addToStatements(signalName + ".couldNotLinkPinToProperty(" + buildPinExpression(operation, block, pin) + ")");
+				block.addToStatements(signalName + "couldNotLinkPinToProperty!!!");
 			} else {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) pin.getLinkedTypedElement());
 				block.addToStatements(signalName + "." + map.setter() + "(" + buildPinExpression(operation, block, pin) + ")");

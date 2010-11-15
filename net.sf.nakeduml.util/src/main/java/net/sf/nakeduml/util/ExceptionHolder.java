@@ -1,20 +1,26 @@
 package net.sf.nakeduml.util;
+
 public class ExceptionHolder extends RuntimeException {
 	private static final long serialVersionUID = 5555525547023115058L;
-	Object source;
-	Object context;
-	Object exception;
-	
-	public ExceptionHolder(Object source, Object context, Object exception) {
+	private Object source;
+	private String parameterName;
+	private Object exception;
+
+	public ExceptionHolder(Object source, String parameterName, Object exception) {
 		this.source = source;
-		this.context = context;
+		this.parameterName = parameterName;
 		this.exception = exception;
 	}
-	public Object getContext() {
-		return this.context;
+
+	public String getParameterName() {
+		return this.parameterName;
 	}
-	public Object getException() {
+
+	public Object getValue() {
 		return this.exception;
+	}
+	public boolean isParameter(String parameterName){
+		return this.parameterName.equals(parameterName);
 	}
 	public Object getSource() {
 		return this.source;

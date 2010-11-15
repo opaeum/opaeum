@@ -6,6 +6,7 @@ public class StereotypeNames {
 	public static final String HIERARCHY = "Hierarchy";
 	public static final String USER_GROUP = "UserGroup";
 	public static final String PRIMITIVE_TYPE = "PrimitiveType";
+	public static final String HELPER = "Helper";
 	//RUP
 	public static String BUSINESS_ACTOR = "BusinessActor";
 	public static String BUSINESS_WORKER = "BusinessWorker";

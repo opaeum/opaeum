@@ -23,6 +23,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedHelperClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedInterfaceImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPackageImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPowerTypeImpl;
@@ -130,11 +131,16 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 
 	@VisitBefore
 	public void visitClass(Class c) {
-		INakedEntity ne = new NakedEntityImpl();
-		initialize(ne, c, c.getNamespace());
-		boolean representsUser = representsUser(c);
-		ne.setRepresentsUser(representsUser);
-		initializeClassifier(ne, c);
+		if (StereotypesHelper.hasStereotype(c, "Helper")) {
+			NakedHelperClassImpl ne = new NakedHelperClassImpl();
+			initialize(ne, c, c.getNamespace());
+			initializeClassifier(ne, c);
+		} else {
+			INakedEntity ne = new NakedEntityImpl();
+			initialize(ne, c, c.getNamespace());
+			ne.setRepresentsUser(representsUser(c));
+			initializeClassifier(ne, c);
+		}
 	}
 
 	private boolean representsUser(Classifier c) {
@@ -196,41 +202,10 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	}
 
 	@VisitBefore
-	public void visitOpaqueBehavior(OpaqueBehavior a, NakedOpaqueBehaviorImpl nob) {
-		String body = findOclBody(a);
-		if (body != null && body.length() > 0) {
-			ParsedOclString string = new ParsedOclString(a.getName() + "BODY", OclUsageType.BODY);
-			string.setExpressionString(body);
-			string.setContext(nob.getContext(), nob);
-			getErrorMap().linkElement(string, a);
-			NakedValueSpecificationImpl nvs = new NakedValueSpecificationImpl();
-			nvs.initialize(getId(a) + "BODY", a.getName());
-			nvs.setOwnerElement(nob);
-			workspace.putModelElement(nvs);
-			nvs.setValue(string);
-			nob.setBody(nvs);
-			getErrorMap().linkElement(nvs, a);
-		}
-		addConstraints(nob, a.getPreconditions(), a.getPostconditions());
-		// addParametersAndConstraints(b, nakedOpaqueBehavior);
-		initializeClassifier(nob, a);
-	}
-
-	private String findOclBody(OpaqueBehavior a) {
-		if (a.getBodies().size() == 1 && a.getLanguages().size() == 0) {
-			return a.getBodies().get(0);
-		}
-		List languages = a.getLanguages();
-		// find the OCL body
-		int i = 0;
-		for (i = 0; i < languages.size(); i++) {
-			if ("OCL".equalsIgnoreCase(languages.get(i).toString())) {
-				if (a.getBodies().size() > i) {
-					return a.getBodies().get(i);
-				}
-			}
-		}
-		return null;
+	public void visitOpaqueBehavior(OpaqueBehavior ob, NakedOpaqueBehaviorImpl nob) {
+		nob.setBodyExpression(buildParsedOclString(ob, OclUsageType.BODY, ob.getLanguages(), ob.getBodies()));
+		addConstraints(nob, ob.getPreconditions(), ob.getPostconditions());
+		initializeClassifier(nob, ob);
 	}
 
 	@VisitBefore

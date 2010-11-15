@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
@@ -15,9 +17,13 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedInvocationAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.oclengine.IOclEngine;
@@ -29,8 +35,13 @@ import nl.klasse.octopus.oclengine.IOclEngine;
  * @param <A>
  */
 public abstract class PotentialTaskActionBuilder<A extends INakedInvocationAction> extends Jbpm5ActionBuilder<A> {
+	protected NakedStructuralFeatureMap callMap;
+
 	protected PotentialTaskActionBuilder(IOclEngine oclEngine, A node) {
 		super(oclEngine, node);
+		if (node instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedCallAction) node)) {
+			callMap = OJUtil.buildStructuralFeatureMap((INakedCallAction) node, getOclEngine().getOclLibrary());
+		}
 	}
 
 	@Override
@@ -38,6 +49,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		implementJbpmAssignmentsIfNecessary(activityClass);
 		implementCompleteMethod(activityClass);
 	}
+
 
 	private void implementCompleteMethod(OJClass activityClass) {
 		activityClass.addToImports(BpmUtil.getNodeInstance());
@@ -59,8 +71,8 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 	}
 
 	@Override
-	public boolean requiresUserInteraction() {
-		return BehaviorUtil.isUserTask(node);
+	public boolean isTask() {
+		return node.isTask();
 	}
 
 	/**
@@ -70,7 +82,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 	 */
 	private void implementJbpmAssignmentsIfNecessary(OJClassifier c) {
 		// for targets as well as swimlanes
-		if (BehaviorUtil.isUserTask(node)) {
+		if (node.isTask() && node.getTargetElement() != null) {
 			INakedTypedElement targetElement = node.getTargetElement();
 			NameWrapper cappedJavaName = node.getInPartition() == null ? node.getMappingInfo().getJavaName() : node.getInPartition()
 					.getMappingInfo().getJavaName();
@@ -106,7 +118,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 					actorId.setName(getActorId);
 					c.addToOperations(actorId);
 					actorId.setReturnType(new OJPathName("String"));
-					//Build if statement if necessary
+					// Build if statement if necessary
 					OJBlock forEach = buildLoopThroughTarget(actorId, actorId.getBody(), actionMap);
 					forEach.addToStatements("return " + actionMap.targetName() + ".getUserName()");
 					if (targetElement.getNakedMultiplicity().getLower() == 0) {

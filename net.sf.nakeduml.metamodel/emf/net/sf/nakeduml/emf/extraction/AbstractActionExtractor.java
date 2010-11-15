@@ -23,7 +23,6 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.OutputPin;
@@ -36,7 +35,7 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor {
 		List<T> nakedArguments = new ArrayList<T>();
 		for (int i = 0; i < emfArguments.size(); i++) {
 			Pin arg = (Pin) emfArguments.get(i);
-			INakedPin nakedPin = initializePin(emfActivity, arg, null);
+			INakedPin nakedPin = initializePin(emfActivity, arg);
 			nakedPin.setIndex(i);
 			nakedArguments.add((T) nakedPin);
 		}
@@ -47,7 +46,7 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor {
 		super.addConstraints(nakedAction, emfAction.getLocalPreconditions(), emfAction.getLocalPostconditions());
 	}
 
-	protected INakedPin initializePin(Activity activity, Pin emfPin, Classifier expectedType) {
+	protected INakedPin initializePin(Activity activity, Pin emfPin) {
 		// Pins belong to actions and should always be initialized as part of
 		// the
 		// initialization of the action
@@ -57,34 +56,21 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor {
 			NakedValuePinImpl nakedValuePin = new NakedValuePinImpl();
 			initialize(nakedValuePin, emfPin, emfPin.getOwner());
 			INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-			if (nakedType != null) {
-				nakedValuePin.setBaseType(nakedType);
-			} else {
-				nakedValuePin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
-			}
+			nakedValuePin.setBaseType(nakedType);
 			resolveMultiplicityAndActualType(nakedValuePin, emfPin);
-			INakedBehavior context = (INakedBehavior) getNakedPeer(activity);
 			nakedValuePin.setValue(getValueSpecification(nakedValuePin, emfValuePin.getValue(), OclUsageType.INIT));
 			resultingPin = nakedValuePin;
 		} else if (emfPin instanceof InputPin) {
 			resultingPin = new NakedInputPinImpl();
 			initialize(resultingPin, emfPin, emfPin.getOwner());
 			INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-			if (nakedType != null) {
-				resultingPin.setBaseType(nakedType);
-			} else {
-				resultingPin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
-			}
+			resultingPin.setBaseType(nakedType);
 			resolveMultiplicityAndActualType(resultingPin, emfPin);
 		} else if (emfPin instanceof OutputPin) {
 			resultingPin = new NakedOutputPinImpl();
 			initialize(resultingPin, emfPin, emfPin.getOwner());
 			INakedClassifier nakedType = (INakedClassifier) getNakedPeer((emfPin.getType()));
-			if (nakedType != null) {
-				resultingPin.setBaseType(nakedType);
-			} else {
-				resultingPin.setBaseType((INakedClassifier) getNakedPeer(expectedType));
-			}
+			resultingPin.setBaseType(nakedType);
 			resolveMultiplicityAndActualType(resultingPin, emfPin);
 		}
 		return resultingPin;

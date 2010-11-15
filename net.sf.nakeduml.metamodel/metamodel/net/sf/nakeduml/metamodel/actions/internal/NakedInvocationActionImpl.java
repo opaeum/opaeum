@@ -16,7 +16,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 public abstract class NakedInvocationActionImpl extends NakedActionImpl implements INakedInvocationAction {
 	private INakedInputPin target;
 	private List<INakedInputPin> arguments = new ArrayList<INakedInputPin>();
-
+	
 	public Set<INakedInputPin> getInput() {
 		Set<INakedInputPin> results = new HashSet<INakedInputPin>();
 		results.addAll(getArguments());
@@ -66,5 +66,8 @@ public abstract class NakedInvocationActionImpl extends NakedActionImpl implemen
 		} else {
 			return getTarget();
 		}
+	}
+	public boolean isTask(){
+		return false;
 	}
 }

@@ -10,6 +10,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
  */
@@ -46,15 +47,23 @@ public class TypeResolver extends AbstractModelElementLinker {
 			}
 			if (singleObject) {
 				aw.setType(type);
-			} else if (!aw.isOrdered() && aw.isUnique()) {
-				aw.setType(this.workspace.getOclEngine().getOclLibrary().lookupCollectionType(CollectionMetaType.SET, type));
-			} else if (aw.isOrdered() && aw.isUnique()) {
-				aw.setType(this.workspace.getOclEngine().getOclLibrary().lookupCollectionType(CollectionMetaType.SEQUENCE, type));
-			} else if (!aw.isOrdered() && !aw.isUnique()) {
-				aw.setType(this.workspace.getOclEngine().getOclLibrary().lookupCollectionType(CollectionMetaType.BAG, type));
-			} else if (aw.isOrdered() && !aw.isUnique()) {
-				aw.setType(this.workspace.getOclEngine().getOclLibrary().lookupCollectionType(CollectionMetaType.SEQUENCE, type));
+			} else {
+				IOclLibrary lib = this.workspace.getOclEngine().getOclLibrary();
+				resolveCollection(aw, type, lib);
 			}
+		}
+	}
+
+	//TODO move to utility class
+	public static void resolveCollection(INakedTypedElement aw, IClassifier type, IOclLibrary lib) {
+		if (!aw.isOrdered() && aw.isUnique()) {
+			aw.setType(lib.lookupCollectionType(CollectionMetaType.SET, type));
+		} else if (aw.isOrdered() && aw.isUnique()) {
+			aw.setType(lib.lookupCollectionType(CollectionMetaType.SEQUENCE, type));
+		} else if (!aw.isOrdered() && !aw.isUnique()) {
+			aw.setType(lib.lookupCollectionType(CollectionMetaType.BAG, type));
+		} else if (aw.isOrdered() && !aw.isUnique()) {
+			aw.setType(lib.lookupCollectionType(CollectionMetaType.SEQUENCE, type));
 		}
 	}
 }

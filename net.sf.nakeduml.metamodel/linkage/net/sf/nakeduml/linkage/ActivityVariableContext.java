@@ -62,8 +62,6 @@ public final class ActivityVariableContext extends MessageStructureImpl {
 			HashSet<INakedTypedElement> localVariables = new HashSet<INakedTypedElement>( activity.getVariables());
 			localVariables.addAll(activity.getOwnedParameters());
 			variables=localVariables;
-		} else if (element instanceof INakedStructuredActivityNode) {
-			variables = ((INakedStructuredActivityNode) element).getVariables();
 		}
 		if (variables != null) {
 			for (INakedTypedElement var : variables) {

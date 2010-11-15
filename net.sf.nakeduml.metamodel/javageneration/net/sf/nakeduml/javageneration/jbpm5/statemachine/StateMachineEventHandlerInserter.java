@@ -100,7 +100,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 		block.addToStatements(ifUmlNode);
 		operationContext.getOwner().addToImports("net.sf.nakeduml.util.UmlNode");
 		operationContext.getOwner().addToImports("net.sf.nakeduml.util.TransitionListener");
-		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner(), "listener", new OJPathName("net.sf.nakeduml.util.TransitionListener"));
+		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner().getPathName(), "listener", new OJPathName("net.sf.nakeduml.util.TransitionListener"));
 		ifUmlNode.getThenPart().addToLocals(listener);
 		OJAnnotatedOperation onTransition = new OJAnnotatedOperation("onTransition");
 		listener.getClassDeclaration().addToOperations(onTransition);

@@ -2,29 +2,17 @@ package net.sf.nakeduml.linkage;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
-import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
-import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
-import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -33,20 +21,12 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatingElement;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
-import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.CoreValidationRule;
 import net.sf.nakeduml.validation.namegeneration.UmlNameRegenerator;
@@ -55,13 +35,9 @@ import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.expressions.internal.analysis.expressions.AnalysisException;
 import nl.klasse.octopus.expressions.internal.analysis.expressions.ExpressionAnalyzer;
 import nl.klasse.octopus.expressions.internal.parser.javacc.OclParser;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
-import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.INameSpace;
-import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -73,13 +49,14 @@ import nl.klasse.octopus.oclengine.internal.OclErrContextImpl;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
-import nl.klasse.tools.common.Check;
 
-@StepDependency(phase = OclParsingPhase.class, after = { EnumerationValuesAttributeAdder.class }, requires = { MappedTypeLinker.class,
-		PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class,
-		EnumerationValuesAttributeAdder.class })
+@StepDependency(phase = LinkagePhase.class, after = { EnumerationValuesAttributeAdder.class, PinLinker.class, MappedTypeLinker.class,
+		SourcePopulationResolver.class, ReferenceResolver.class, TypeResolver.class, ProcessIdentifier.class }, requires = {
+		MappedTypeLinker.class, PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class,
+		UmlNameRegenerator.class, EnumerationValuesAttributeAdder.class })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
-	EnvironmentFactory environmentFactory ;
+	EnvironmentFactory environmentFactory;
+
 	@Override
 	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config) {
 		super.initialize(workspace, config);
@@ -114,13 +91,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			Environment env = environmentFactory.prepareBehaviorEnvironment(edge, owningBehavior);
 			environmentFactory.addFlowParameters(env, edge);
 			INakedClassifier context = edge.getOwningBehavior().getContext();
-			if(context==null){
-				context=BehaviorUtil.getNearestActualClass(owningBehavior);
+			if (context == null) {
+				context = BehaviorUtil.getNearestActualClass(owningBehavior);
 			}
 			edge.getGuard().setValue(replaceSingleParsedOclString(string, context, booleanType, env));
 		}
 	}
-
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
@@ -133,19 +109,17 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			returnType = ob.getReturnParameter().getType();
 		}
 		INakedClassifier c = ob.getContext();
-		INakedValueSpecification body = ob.getBody();
-		if (body != null && body.getValue() instanceof ParsedOclString) {
-			ParsedOclString bodyExpression = (ParsedOclString) body.getValue();
+		IOclContext body = ob.getBodyExpression();
+		if (body != null && body instanceof ParsedOclString) {
+			ParsedOclString bodyExpression = (ParsedOclString) body;
 			bodyExpression.setContext(ob.getContext(), ob);
 			if (ob.getContext() == null) {
 				INakedClassifier surrogateContext = BehaviorUtil.getNearestActualClass(ob.getOwnerElement());
 				Environment env = environmentFactory.createPreEnvironment(surrogateContext, ob);
-				body.setValue(replaceSingleParsedOclString(bodyExpression, surrogateContext, returnType, env));
-				body.setType(returnType);
+				ob.setBodyExpression(replaceSingleParsedOclString(bodyExpression, surrogateContext, returnType, env));
 			} else {
 				Environment env = environmentFactory.createPreEnvironment(ob.getContext(), ob);
-				body.setValue(replaceSingleParsedOclString(bodyExpression, c, returnType, env));
-				body.setType(returnType);
+				ob.setBodyExpression(replaceSingleParsedOclString(bodyExpression, ob.getContext(), returnType, env));
 			}
 		}
 	}
@@ -218,6 +192,19 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		}
 		a.setPreConditions(replaceParcedOclStringsForOclContext(ctx, a, a.getPreConditions()));
 		a.setPostConditions(replaceParcedOclStringsForOclContext(ctx, a, a.getPostConditions()));
+		if (a instanceof INakedOpaqueAction) {
+			INakedOpaqueAction oa = (INakedOpaqueAction) a;
+			if (oa.getReturnPin() != null && oa.getBodyExpression() != null) {
+				Environment env = environmentFactory.createPreEnvironment(ctx, oa);
+				ParsedOclString expression = (ParsedOclString) oa.getBodyExpression();
+				expression.setContext(ctx, oa);
+				IOclContext newExpression = replaceSingleParsedOclString(expression, ctx, oa.getReturnPin().getType(), env);
+				oa.setBodyExpression(newExpression);
+				if (newExpression instanceof OclContextImpl) {
+					overridePinType(oa.getReturnPin(), newExpression.getExpression().getExpressionType());
+				}
+			}
+		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
@@ -247,19 +234,23 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			}
 		}
 		if (type != null) {
-			pin.setType(type);
 			pin.getValue().setType(type);
-			if (type instanceof INakedClassifier) {
-				pin.setBaseType((INakedClassifier) type);
-				pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
-			} else if (type instanceof ICollectionType) {
-				ICollectionType collectionType = (ICollectionType) type;
-				pin.setBaseType((INakedClassifier) collectionType.getElementType());
-				pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), Integer.MAX_VALUE));
-			} else if (type instanceof StdlibPrimitiveType) {
-				StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
-				pin.setBaseType(getBuiltInTypes().lookupStandardType(standardType));
-			}
+			overridePinType(pin, type);
+		}
+	}
+
+	private void overridePinType(INakedPin pin, IClassifier type) {
+		pin.setType(type);
+		if (type instanceof INakedClassifier) {
+			pin.setBaseType((INakedClassifier) type);
+			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
+		} else if (type instanceof ICollectionType) {
+			ICollectionType collectionType = (ICollectionType) type;
+			pin.setBaseType((INakedClassifier) collectionType.getElementType());
+			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), Integer.MAX_VALUE));
+		} else if (type instanceof StdlibPrimitiveType) {
+			StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
+			pin.setBaseType(getBuiltInTypes().lookupStandardType(standardType));
 		}
 	}
 
@@ -269,8 +260,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		string.setContext(nearestActualClass, nearestActualClass);
 		Environment env = environmentFactory.prepareBehaviorEnvironment(pin, pin.getActivity());
 		INakedClassifier context = pin.getActivity().getContext();
-		if(context==null){
-			context=nearestActualClass;
+		if (context == null) {
+			context = nearestActualClass;
 		}
 		pin.getValue().setValue(replaceSingleParsedOclString(string, context, pin.getType(), env));
 	}
@@ -353,9 +344,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 			return errCtx;
 		}
 	}
-
-
-
 
 	private void putError(ParsedOclString holder, Exception e) {
 		this.getErrorMap().putError(holder, CoreValidationRule.OCL, e.toString());

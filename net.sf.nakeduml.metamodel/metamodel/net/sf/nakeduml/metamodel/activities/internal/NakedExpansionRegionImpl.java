@@ -6,34 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
-import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
-import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
-import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.model.VisibilityKind;
 
 public class NakedExpansionRegionImpl extends NakedStructuredActivityNode implements INakedExpansionRegion {
 	// NB this is not the containment relationship - these objects will be
 	// duplicated in ownedElements
 	private List<INakedExpansionNode> inputElement = new ArrayList<INakedExpansionNode>();
 	private List<INakedExpansionNode> outputElement = new ArrayList<INakedExpansionNode>();
+	
 
 	@Override
 	public Collection<INakedActivityNode> getStartNodes() {

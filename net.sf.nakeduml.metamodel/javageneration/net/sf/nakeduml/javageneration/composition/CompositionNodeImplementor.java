@@ -39,9 +39,7 @@ import nl.klasse.octopus.model.IModelElement;
  * 
  */
 public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
-
 	private static final OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
-
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 
 	@Override
@@ -53,7 +51,6 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c) {
 		if (isPersistent(c)) {
-
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
 			if (ojClassifier instanceof OJAnnotatedClass) {
@@ -77,7 +74,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 
 	@VisitAfter
 	public void visitInterface(INakedInterface i) {
-		if (hasEntityImplementationsOnly(i)) {
+		if (hasEntityImplementationsOnly(i) && OJUtil.hasOJClass(i)) {
 			OJPathName path = OJUtil.classifierPathname(i);
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
 			((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(COMPOSITION_NODE);
@@ -95,7 +92,6 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 			oper.setName("internalSetOwner");
 			NakedStructuralFeatureMap toOwnerMap = new NakedStructuralFeatureMap(endToComposite);
 			oper.addParam("newOwner", toOwnerMap.javaBaseTypePath());
-
 			// Leave body empty for derived feature
 			if (!endToComposite.isDerived()) {
 				oper.getBody().addToStatements("this." + toOwnerMap.umlName() + "=newOwner");
@@ -218,7 +214,6 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 	protected void addInit(INakedEntity ew, OJClass ojClass) {
 		OJOperation init = new OJAnnotatedOperation();
 		init.addParam("owner", COMPOSITION_NODE);
-
 		init.setName("init");
 		init.setBody(ojClass.getDefaultConstructor().getBody());
 		ojClass.getDefaultConstructor().setBody(new OJBlock());

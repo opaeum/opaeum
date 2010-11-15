@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.util;
 
 import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
@@ -31,6 +32,15 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 			this.multiplicity=(NakedMultiplicityImpl) action.getTargetElement().getNakedMultiplicity();
 		}
 		this.action=action;
+	}
+	public INakedAction getAction(){
+		return action;
+	}
+	public boolean isOrdered(){
+		return super.parameter==null?false:super.parameter.isOrdered();
+	}
+	public boolean isUnique(){
+		return super.parameter==null?false:super.parameter.isUnique();
 	}
 	@Override
 	public INakedClassifier getNakedBaseType(){

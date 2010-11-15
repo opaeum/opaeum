@@ -25,7 +25,8 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.validation.activities.ActivityValidationRule;
 
-@StepDependency(phase = LinkagePhase.class, after = { MappedTypeLinker.class }, requires = { MappedTypeLinker.class })
+@StepDependency(phase = LinkagePhase.class, after = { MappedTypeLinker.class }, before = { ObjectFlowLinker.class }, requires = {
+		MappedTypeLinker.class, ObjectFlowLinker.class })
 public class PinLinker extends AbstractModelElementLinker {
 	@VisitBefore(matchSubclasses = true)
 	public void linkTarget(IActionWithTarget action) {
@@ -33,12 +34,14 @@ public class PinLinker extends AbstractModelElementLinker {
 			action.getTarget().setBaseType(action.getExpectedTargetType());
 		}
 	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void linkResult(INakedCreateObjectAction action) {
 		if (action.getClassifier() != null && action.getResult() != null) {
 			action.getResult().setBaseType(action.getClassifier());
 		}
 	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void linkStructuralFeature(INakedReadStructuralFeatureAction action) {
 		linkTypedElement(action.getResult(), action.getFeature());
@@ -60,10 +63,9 @@ public class PinLinker extends AbstractModelElementLinker {
 	}
 
 	private void linkTypedElement(INakedPin pin, INakedTypedElement typedElement) {
-		if (pin != null) {
-			// TODO check if there is conformance
+		if (pin != null && typedElement != null) {
 			pin.setLinkedTypedElement(typedElement);
-			if(pin.getNakedMultiplicity().getUpper()<typedElement.getNakedMultiplicity().getUpper()){
+			if (pin.getNakedMultiplicity().getUpper() < typedElement.getNakedMultiplicity().getUpper()) {
 				pin.setMultiplicity(typedElement.getNakedMultiplicity());
 				pin.setIsUnique(typedElement.isUnique());
 				pin.setIsOrdered(typedElement.isOrdered());
@@ -86,14 +88,15 @@ public class PinLinker extends AbstractModelElementLinker {
 
 	@VisitBefore(matchSubclasses = true)
 	public void linkSignal(INakedSendSignalAction action) {
-		linkByNameIfRequired(action.getSignal(), action.getSignal().getArgumentParameters(), action.getArguments());
+		if (action.getSignal() != null) {
+			linkByNameIfRequired(action.getSignal(), action.getSignal().getArgumentParameters(), action.getArguments());
+		}
 	}
-
-
 
 	@VisitAfter(matchSubclasses = false)
 	public void link(INakedInputPin inputPin) {
-		//will primarily be for cases where there is no linkedTypedElement or given baseType, i.e. opaqueActions
+		// will primarily be for cases where there is no linkedTypedElement or
+		// given baseType, i.e. opaqueActions
 		if (inputPin.getIncoming().size() == 1) {
 			INakedActivityEdge in = inputPin.getIncoming().iterator().next();
 			if (in instanceof INakedObjectFlow) {
@@ -139,7 +142,7 @@ public class PinLinker extends AbstractModelElementLinker {
 						getErrorMap().putError(action, ActivityValidationRule.PIN_FOR_PARAMETER,
 								"Parameter " + p1.getName() + " of " + action.getCalledElement().getName());
 					} else {
-						action.getArguments().get(p1.getArgumentIndex()).setLinkedTypedElement(p1);
+						linkTypedElement(action.getArguments().get(p1.getArgumentIndex()), p1);
 					}
 				}
 			}
@@ -151,7 +154,7 @@ public class PinLinker extends AbstractModelElementLinker {
 						getErrorMap().putError(action, ActivityValidationRule.PIN_FOR_PARAMETER,
 								"Parameter " + p.getName() + " of " + action.getCalledElement().getName());
 					} else {
-						action.getResult().get(p.getResultIndex()).setLinkedTypedElement(p);
+						linkTypedElement(action.getResult().get(p.getResultIndex()), p);
 					}
 				}
 			}

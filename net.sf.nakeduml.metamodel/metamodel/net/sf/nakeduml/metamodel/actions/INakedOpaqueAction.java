@@ -4,6 +4,8 @@ import java.util.List;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import nl.klasse.octopus.oclengine.IOclContext;
 /**
  * Opaque actions are used only to assign arbitrary tasks to users. As such, it requires a target or a swimlane to
  * assign the task to a user or pool of users, hence IActionWithTarget. <BR>
@@ -16,4 +18,7 @@ public interface INakedOpaqueAction extends INakedCallAction{
 	List<INakedInputPin> getInputValues();
 	List<INakedOutputPin> getOutputValues();
 	List<INakedPin> getPins();
+	IOclContext getBodyExpression();
+	void setBodyExpression(IOclContext replaceSingleParsedOclString);
+	INakedValueSpecification getBody();
 }

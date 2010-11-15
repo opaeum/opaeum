@@ -29,10 +29,14 @@ import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -45,6 +49,7 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -55,20 +60,21 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.dialect.Dialect;
 
 public class HibernateAnnotator extends AbstractHibernateGenerator {
-
 	@VisitAfter()
 	public void visitOperation(INakedOperation o) {
-		if (o.shouldEmulateClass()) {
+		if (o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)) {
 			annotateComplexStructure(new OperationMessageStructureImpl(o));
 		}
 	}
 
 	@VisitAfter()
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
-		annotateComplexStructure(msg);
-		for (INakedPin p : oa.getPins()) {
-			annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p,false));
+		if (oa.isTask()) {
+			OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
+			annotateComplexStructure(msg);
+			for (INakedPin p : oa.getPins()) {
+				annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p, false));
+			}
 		}
 	}
 
@@ -76,7 +82,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 	public void visitComplexType(INakedComplexStructure entity) {
 		if (super.isPersistent(entity) && OJUtil.hasOJClass(entity)) {
 			for (INakedProperty p : entity.getEffectiveAttributes()) {
-				if (p.getOwner() instanceof INakedInterface || p.getOwner()==entity) {
+				if (p.getOwner() instanceof INakedInterface || p.getOwner() == entity) {
 					annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
 				}
 			}
@@ -85,44 +91,64 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 				mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
 				mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
 			}
-
 		}
 	}
 
-	@VisitBefore(matchSubclasses = true, match = { INakedParameterNode.class, INakedOutputPin.class })
-	public void visitObjectNode(INakedObjectNode node) {
-		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStored(node)) {
+	@VisitBefore(matchSubclasses = true, match = { INakedOutputPin.class })
+	public void visitOutputPin(INakedOutputPin node) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
+			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitVariable(INakedActivityVariable var) {
+		if (var.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(var)) {
+			annotateProperty(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitExpansionNode(INakedExpansionNode node) {
+		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
 			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node) {
-		if (node.getTargetElement() != null && BehaviorUtil.hasExecutionInstance(node.getActivity())
-				&& (BehaviorUtil.isUserTask(node) || BehaviorUtil.hasExecutionInstance(node.getCalledElement()))) {
+		if (BehaviorUtil.mustBeStoredOnActivity(node) && node.getActivity().isPersistent() && (node.isTask() || node.isProcessCall())) {
 			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
 		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitParameter(INakedParameter node) {
-		if (node.getOwnerElement() instanceof INakedStateMachine) {
-			INakedStateMachine sm = (INakedStateMachine) node.getOwnerElement();
-			annotateProperty(sm, OJUtil.buildStructuralFeatureMap(sm, node));
+	public void visitParameter(INakedParameter p) {
+		if (p.getOwnerElement() instanceof INakedBehavior) {
+			INakedBehavior sm = (INakedBehavior) p.getOwnerElement();
+			if (sm.isPersistent() && sm.getSpecification() == null) {
+				annotateProperty(sm, OJUtil.buildStructuralFeatureMap(sm, p));
+			}
+		} else if (p.getOwnerElement() instanceof INakedOperation && ((INakedOperation) p.getOwnerElement()).shouldEmulateClass()) {
+			OperationMessageStructureImpl o = new OperationMessageStructureImpl((INakedOperation) p.getOwnerElement());
+			annotateProperty(o, OJUtil.buildStructuralFeatureMap(o, p));
 		}
 	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier cl) {
-		if (isPersistent(cl) && OJUtil.hasOJClass(cl)) {
-			annotateComplexStructure((INakedComplexStructure) cl);
-		} else if (cl instanceof INakedEnumeration) {
-			// TODO define enum typeDEF at package level, implement EnumType in
-			// hibernate that uses persistent name
-		} else if (cl instanceof INakedInterface) {
-			if (super.hasEntityImplementationsOnly((INakedInterface) cl)) {
-				OJAnnotatedInterface owner = (OJAnnotatedInterface) findJavaClass(cl);
-				owner.addToSuperInterfaces(new OJPathName(HibernateEntity.class.getName()));
+		if (OJUtil.hasOJClass(cl)) {
+			if (isPersistent(cl)) {
+				annotateComplexStructure((INakedComplexStructure) cl);
+			} else if (cl instanceof INakedEnumeration) {
+				// TODO define enum typeDEF at package level, implement EnumType
+				// in
+				// hibernate that uses persistent name
+			} else if (cl instanceof INakedInterface) {
+				if (super.hasEntityImplementationsOnly((INakedInterface) cl)) {
+					OJAnnotatedInterface owner = (OJAnnotatedInterface) findJavaClass(cl);
+					owner.addToSuperInterfaces(new OJPathName(HibernateEntity.class.getName()));
+				}
 			}
 		}
 	}
@@ -189,7 +215,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 					// owner.addAnnotation(field, new OJAnnotation(new
 					// OJPathName("javax.persistence.Transient")));
 				}
-				if (f.getNakedBaseType() instanceof INakedInterface) {
+				if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
 					HibernateUtil.addManyToAny(ojOwner, field, f, map, InterfaceUtil.getImplementationsOf(f.getNakedBaseType()));
 					if (f.isComposite()) {
 						HibernateUtil.addCascade(field, CascadeType.ALL);
@@ -203,17 +229,18 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 	private void mapXToOne(INakedClassifier owner, NakedStructuralFeatureMap map) {
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
-		INakedProperty f=map.getProperty();
+		INakedProperty f = map.getProperty();
 		if (f.getNakedBaseType() instanceof INakedEnumeration) {
 			// TODO use custom type that uses the sqlName
 		} else if (f.getNakedBaseType() instanceof INakedSimpleType) {
-		} else if (f.getNakedBaseType() instanceof INakedInterface) {
+			// TODO use strategies
+		} else if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
 			HibernateUtil.addAny(ojOwner, field, f.getMappingInfo().getPersistentName().toString(),
 					InterfaceUtil.getImplementationsOf(f.getNakedBaseType()));
 			if (f.isComposite()) {
 				HibernateUtil.addCascade(field, CascadeType.ALL);
+				field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
 			}
-			field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
 		} else if (isPersistent(f.getNakedBaseType())) {
 		}
 		// TODO parameterize development mode

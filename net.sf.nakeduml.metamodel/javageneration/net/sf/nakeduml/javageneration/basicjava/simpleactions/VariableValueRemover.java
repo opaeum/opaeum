@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -8,7 +9,7 @@ import net.sf.nakeduml.metamodel.actions.INakedRemoveVariableValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class VariableValueRemover extends SimpleActionBuilder<INakedRemoveVariableValueAction>{
-	public VariableValueRemover(IOclEngine oclEngine,INakedRemoveVariableValueAction action, ObjectNodeExpressor expressor){
+	public VariableValueRemover(IOclEngine oclEngine,INakedRemoveVariableValueAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override

@@ -1,15 +1,16 @@
 package net.sf.nakeduml.util;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import net.sf.nakeduml.seam.SignalDispatcher;
 
-public class AbstractSignal {
+public class AbstractSignal implements Serializable {
 	public void send(Object from, Object to){}
-	public void send(AbstractEntity from, AbstractEntity to){
+	public void send(AbstractEntity from, ActiveObject to){
 		SignalDispatcher.sendSignal(from, to, this);
 	}
-	public void send(AbstractEntity from, Collection<? extends AbstractEntity> to){
+	public void send(AbstractEntity from, Collection<? extends ActiveObject> to){
 		SignalDispatcher.sendSignal(from, to, this);
 	}
 }

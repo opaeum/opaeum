@@ -9,22 +9,22 @@ import net.sf.nakeduml.metamodel.mapping.internal.MappingInfoImpl;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import nl.klasse.octopus.model.CollectionMetaType;
 
-@StepDependency(phase=LinkagePhase.class)
-public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker{
-	@VisitBefore(matchSubclasses=true)
-	public void enumeration(INakedEnumeration e){
+@StepDependency(phase = LinkagePhase.class, before = { NakedParsedOclStringResolver.class, TypeResolver.class })
+public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker {
+	@VisitBefore(matchSubclasses = true)
+	public void enumeration(INakedEnumeration e) {
 		NakedPropertyImpl values = new NakedPropertyImpl();
 		values.setBaseType(e);
 		values.setMultiplicity(new NakedMultiplicityImpl("0", "*"));
-		values.setType(workspace.getOclEngine().getOclLibrary().lookupCollectionType(CollectionMetaType.SEQUENCE, e));
 		MappingInfoImpl mi = new MappingInfoImpl();
 		mi.setJavaName(new SingularNameWrapper("values", "values"));
 		values.initialize("asf", "values");
+		values.setIsOrdered(false);
+		values.setIsUnique(true);
 		values.setDerived(true);
 		values.setReadOnly(true);
 		values.setHasClassScope(true);
 		values.setMappingInfo(mi);
 		e.addOwnedElement(values);
-		
 	}
 }

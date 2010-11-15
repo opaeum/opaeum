@@ -107,11 +107,11 @@ public class ActivityValidator extends AbstractValidator{
 			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS,
 					"AcceptEventActions can only be used in activities marked as a processes");
 		}else if(action instanceof INakedCallAction){
-			INakedCallAction callACtion = (INakedCallAction) action;
-			if(callACtion.getCalledElement().isProcess()){
+			INakedCallAction callAction = (INakedCallAction) action;
+			if(callAction.getCalledElement().isProcess()){
 				getErrorMap().putError(action, ActivityValidationRule.PROCESS_INVOCATION_ONLY_IN_PROCESS,
 						"Processes can only be invoked from activities marked as a processes");
-			}else if(BehaviorUtil.isUserTask(callACtion)){
+			}else if(callAction.isTask()){
 				getErrorMap().putError(action, ActivityValidationRule.RESPONSIBILITIY_INVOCATION_ONLY_IN_PROCESS,
 						"User Responsibiliteis can only be invoked from activities marked as a processes");
 			}

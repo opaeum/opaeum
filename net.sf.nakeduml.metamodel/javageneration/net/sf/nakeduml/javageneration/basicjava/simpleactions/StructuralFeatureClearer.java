@@ -1,13 +1,14 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedClearStructuralFeatureAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class StructuralFeatureClearer extends SimpleActionBuilder<INakedClearStructuralFeatureAction> {
-	public StructuralFeatureClearer(IOclEngine oclEngine, INakedClearStructuralFeatureAction action, ObjectNodeExpressor expressor) {
+	public StructuralFeatureClearer(IOclEngine oclEngine, INakedClearStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
 

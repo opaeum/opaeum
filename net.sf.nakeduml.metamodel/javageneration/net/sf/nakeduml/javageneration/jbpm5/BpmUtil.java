@@ -7,6 +7,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -45,8 +46,8 @@ public class BpmUtil{
 	public static String getArtificialJoinName(INakedElement target) {
 		return "join_for_"+target.getMappingInfo().getPersistentName();
 	}
-	public static String getGuardMethod(INakedTransition transition) {
-		return "is" +transition.getSource().getMappingInfo().getJavaName().getCapped() +transition.getMappingInfo().getJavaName().getCapped();
+	public static String getGuardMethod(GuardedFlow t) {
+		return "is" +t.getSource().getMappingInfo().getJavaName().getCapped() +t.getMappingInfo().getJavaName().getCapped();
 	}
 	public static void implementTimeEvent(OJOperation operation, INakedTimeEvent event, INakedElement source,
 			Collection<? extends GuardedFlow> outgoing) {
