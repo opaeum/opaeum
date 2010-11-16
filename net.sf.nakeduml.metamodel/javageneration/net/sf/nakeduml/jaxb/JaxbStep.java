@@ -6,9 +6,10 @@ import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemantics;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Step;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-@StepDependency(phase = JavaTransformationPhase.class, after={ExtendedCompositionSemantics.class,PersistenceUsingHibernateStep.class})
+@StepDependency(phase = JavaTransformationPhase.class, after={ExtendedCompositionSemantics.class,PersistenceUsingHibernateStep.class,Jbpm5Step.class})
 public class JaxbStep extends AbstractJavaTransformationStep {
 
 	@Override
