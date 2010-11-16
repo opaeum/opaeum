@@ -21,6 +21,7 @@ import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
@@ -212,6 +213,6 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	public boolean hasNodeMethod() {
-		return node instanceof INakedAction || node instanceof INakedObjectNode;
+		return node instanceof INakedAction || node instanceof INakedObjectNode || node instanceof INakedExpansionRegion;
 	}
 }
