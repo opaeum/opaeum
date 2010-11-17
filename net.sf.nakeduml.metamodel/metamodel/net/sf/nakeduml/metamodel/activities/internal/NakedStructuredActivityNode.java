@@ -26,7 +26,7 @@ public class NakedStructuredActivityNode extends NakedActivityNodeImpl implement
 		this.variables = variables;
 	}
 
-	public Collection<INakedActivityNode> getChildren() {
+	public Collection<INakedActivityNode> getActivityNodes() {
 		return children;
 	}
 
@@ -51,7 +51,7 @@ public class NakedStructuredActivityNode extends NakedActivityNodeImpl implement
 	@Override
 	public Collection<INakedActivityNode> getStartNodes() {
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
-		for (INakedActivityNode node : getChildren()) {
+		for (INakedActivityNode node : getActivityNodes()) {
 			if (node.getAllEffectiveIncoming().isEmpty()) {
 				results.add(node);
 			}

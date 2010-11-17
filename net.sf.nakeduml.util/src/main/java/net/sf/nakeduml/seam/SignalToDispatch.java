@@ -88,8 +88,8 @@ public class SignalToDispatch implements Serializable {
 	private void resolveCollectionOnDelivery(EntityManager em, PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
 			throws InstantiationException, IllegalAccessException, InvocationTargetException {
 		for (Object o : oldValue) {
-			if (o instanceof ActiveObject) {
-				newValue.add(duplicateWithId((ActiveObject) o));
+			if (o instanceof ActiveObject || o instanceof AbstractEntity) {
+				newValue.add(resolve(em, o));
 			} else {
 				newValue.add(o);
 			}

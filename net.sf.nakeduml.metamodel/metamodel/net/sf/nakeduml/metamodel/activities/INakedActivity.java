@@ -11,14 +11,9 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 /**
  * 
  */
-public interface INakedActivity extends INakedBehavior, INakedTriggerContainer {
+public interface INakedActivity extends INakedBehavior, INakedTriggerContainer ,ActivityNodeContainer{
 	ActivityKind getActivityKind();
 	void setActivityKind(ActivityKind kind);
-	Collection<INakedActivityVariable> getVariables();
-
-	Set<INakedActivityEdge> getActivityEdges();
-
-	Set<INakedActivityNode> getActivityNodes();
 
 	Set<INakedActivityPartition> getPartitions();
 
@@ -28,5 +23,4 @@ public interface INakedActivity extends INakedBehavior, INakedTriggerContainer {
 
 	List<INakedActivityNode> getActivityNodesRecursively();
 
-	Collection<INakedActivityNode> getStartNodes();
 }

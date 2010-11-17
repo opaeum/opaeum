@@ -322,24 +322,26 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					}
 				}
 			}
-			if (BehaviorUtil.hasExecutionInstance(b)) {
-				INakedClassifier ctx = b.getContext();
-				if (ctx != null) {
-					OJAnnotatedOperation oper = null;
-					OJPathName ctxPath = OJUtil.classifierPathname(ctx);
-					ctxPath.replaceTail(ctxPath.getLast() + "_Audit");
-					OJAnnotatedClass ojCtx = (OJAnnotatedClass) this.javaModel.findIntfOrCls(ctxPath);
-					// TODO support overloading
-					if (b.getSpecification() == null) {
-						oper = (OJAnnotatedOperation) OJUtil.findOperation(ojCtx, b.getName());
-					} else {
-						oper = (OJAnnotatedOperation) OJUtil.findOperation(ojCtx, b.getSpecification().getName());
-					}
-					if (oper != null) {
-						oper.setBody(new OJBlock());
+			INakedClassifier ctx = b.getContext();
+			if (ctx != null) {
+				OJAnnotatedOperation oper = null;
+				OJPathName ctxPath = OJUtil.classifierPathname(ctx);
+				ctxPath.replaceTail(ctxPath.getLast() + "_Audit");
+				OJAnnotatedClass ojCtx = (OJAnnotatedClass) this.javaModel.findIntfOrCls(ctxPath);
+				// TODO support overloading
+				if (b.getSpecification() == null) {
+					oper = (OJAnnotatedOperation) OJUtil.findOperation(ojCtx, b.getName());
+				} else {
+					oper = (OJAnnotatedOperation) OJUtil.findOperation(ojCtx, b.getSpecification().getName());
+				}
+				if (oper != null) {
+					oper.setBody(new OJBlock());
+					if (!oper.getReturnType().getLast().equals("void")) {
 						oper.getBody().addToStatements("return null");
 					}
 				}
+			}
+			if (BehaviorUtil.hasExecutionInstance(b)) {
 				List<OJOperation> operations = auditClass.getOperations();
 				for (OJOperation oper : operations) {
 					if (oper.getName().startsWith("do") && oper.getReturnType().getLast().equals("void")) {

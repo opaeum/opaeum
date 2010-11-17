@@ -36,6 +36,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -364,7 +365,9 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				return javaType.getName() + ".has no literals!!!!";
 			}
 
-		} else {
+		} else if(f.getBaseType() instanceof INakedHelperClass){
+			return "new " +f.getBaseType().getName() + "()";
+		}else{
 			throw new RuntimeException("Not implemented");
 			// return "\"" + f.getOwner().getName() + "::" + f.getName() + new
 			// Double(value).intValue() + "\"";

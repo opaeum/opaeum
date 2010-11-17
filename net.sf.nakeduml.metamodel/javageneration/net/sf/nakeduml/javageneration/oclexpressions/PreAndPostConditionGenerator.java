@@ -55,7 +55,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 				OJAnnotatedClass javaContext = findJavaClass(behavior);
 				OJUtil.findOperation(javaContext, "execute");
 				//TODO create one if necessary
-			} else if(OJUtil.hasOJClass(behavior.getContext())){
+			} else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier){
 				OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
 				NakedOperationMap map = new NakedOperationMap(behavior);
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());

@@ -17,21 +17,21 @@ public class NakedExpansionRegionImpl extends NakedStructuredActivityNode implem
 	// duplicated in ownedElements
 	private List<INakedExpansionNode> inputElement = new ArrayList<INakedExpansionNode>();
 	private List<INakedExpansionNode> outputElement = new ArrayList<INakedExpansionNode>();
-	
 
 	@Override
 	public Collection<INakedActivityNode> getStartNodes() {
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
-		for (INakedActivityNode node : getChildren()) {
-			if (node.getAllEffectiveIncoming().isEmpty()) {
-				if (node instanceof INakedExpansionNode) {
-					//Only add expansionNodes that lead to subsequent nodes 
-					if (node.getAllEffectiveOutgoing().size() > 0) {
+		for (INakedActivityNode node : getActivityNodes()) {
+			for (INakedActivityEdge edge : node.getAllEffectiveIncoming()) {
+				if (edge.getEffectiveSource() instanceof INakedExpansionNode) {
+					// Only add expansionNodes that lead to subsequent nodes
+					if (((INakedExpansionNode) edge.getEffectiveSource()).isInputElement()) {
 						results.add(node);
 					}
-				} else {
-					results.add(node);
 				}
+			}
+			if(node.getAllEffectiveIncoming().isEmpty()){
+				results.add(node);
 			}
 		}
 		return results;
