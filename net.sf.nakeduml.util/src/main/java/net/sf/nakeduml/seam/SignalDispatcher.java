@@ -26,41 +26,67 @@ import org.jboss.seam.contexts.Contexts;
 @Name("signalDispatcher")
 @Scope(ScopeType.EVENT)
 public class SignalDispatcher implements Synchronization {
-	@In
-	EntityManager entityManager;
-	@In
+	@In(create = true)
+	private EntityManager entityManager;
+	@In(create = true)
 	private QueueSession queueSession;
-	@In
+	@In(create = true)
 	QueueSender signalQueueSender;
+	static SignalDispatcher mockInstance = null;
 	static Map<EntityManager, SignalDispatcher> synchronization = new HashMap<EntityManager, SignalDispatcher>();
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
-	static List<SignalToDispatch> signalsToMock = new ArrayList<SignalToDispatch>();
 
-	public static void sendSignal(Object source, ActiveObject target, AbstractSignal signal) {
-		List<SignalToDispatch> signalsToDispatch = prepareSignalList();
+	public static SignalDispatcher getInstance() {
+		if (Contexts.isEventContextActive()) {
+			SignalDispatcher d = (SignalDispatcher) Component.getInstance("signalDispatcher");
+			if (!synchronization.containsKey(d.getEntityManager())) {
+				((Session) d.getEntityManager().getDelegate()).getTransaction().registerSynchronization(d);
+				synchronization.put(d.getEntityManager(), d);
+			}
+			return d;
+		} else {
+			if (mockInstance == null) {
+				mockInstance = new SignalDispatcher();
+			}
+			return mockInstance;
+		}
+	}
+
+	public QueueSession getQueueSession() {
+		return queueSession;
+	}
+
+	public QueueSender getSignalQueueSender() {
+		return signalQueueSender;
+	}
+
+	public void sendSignal(Object source, ActiveObject target, AbstractSignal signal) {
 		signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 	}
 
-	public static void sendSignal(Object source, Collection<? extends ActiveObject> targets, AbstractSignal signal) {
-		List<SignalToDispatch> signalsToDispatch = prepareSignalList();
+	public void sendSignal(Object source, Collection<? extends ActiveObject> targets, AbstractSignal signal) {
 		for (ActiveObject target : targets) {
 			signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 		}
 	}
 
-	private static List<SignalToDispatch> prepareSignalList() {
-		List<SignalToDispatch> signalsToDispatch = null;
-		if (Contexts.isEventContextActive()) {
-			SignalDispatcher d = (SignalDispatcher) Component.getInstance("signalDispatcher");
-			signalsToDispatch = d.signalsToDispatch;
-			if (!synchronization.containsKey(d.entityManager)) {
-				((Session) d.entityManager.getDelegate()).getTransaction().registerSynchronization(d);
-				synchronization.put(d.entityManager, d);
+	public void reset() {
+		this.signalsToDispatch.clear();
+	}
+
+	public SignalToDispatch getFirstSignalOfType(Class<? extends AbstractSignal> type) {
+		List<SignalToDispatch> result = getSignalsOfType(type);
+		return result.isEmpty() ? null : result.get(0);
+	}
+
+	public List<SignalToDispatch> getSignalsOfType(Class<? extends AbstractSignal> type) {
+		List<SignalToDispatch> result = new ArrayList<SignalToDispatch>();
+		for (SignalToDispatch signalToDispatch : this.signalsToDispatch) {
+			if (type.isInstance(signalToDispatch.getSignal())) {
+				result.add(signalToDispatch);
 			}
-		} else {
-			signalsToDispatch = signalsToMock;
 		}
-		return signalsToDispatch;
+		return result;
 	}
 
 	@Override
@@ -69,16 +95,20 @@ public class SignalDispatcher implements Synchronization {
 
 	@Override
 	public void beforeCompletion() {
-		synchronization.remove(entityManager);
+		synchronization.remove(getEntityManager());
 		try {
 			for (SignalToDispatch s : signalsToDispatch) {
 				s.prepareForDispatch();
 				signalQueueSender.send(queueSession.createObjectMessage(s));
 			}
-			signalQueueSender.close();
-			signalsToDispatch.clear();
+//			signalQueueSender.close();
+			reset();
 		} catch (JMSException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 }

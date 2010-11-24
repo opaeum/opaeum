@@ -22,15 +22,9 @@ public class NakedExpansionRegionImpl extends NakedStructuredActivityNode implem
 	public Collection<INakedActivityNode> getStartNodes() {
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
 		for (INakedActivityNode node : getActivityNodes()) {
-			for (INakedActivityEdge edge : node.getAllEffectiveIncoming()) {
-				if (edge.getEffectiveSource() instanceof INakedExpansionNode) {
-					// Only add expansionNodes that lead to subsequent nodes
-					if (((INakedExpansionNode) edge.getEffectiveSource()).isInputElement()) {
-						results.add(node);
-					}
-				}
-			}
-			if(node.getAllEffectiveIncoming().isEmpty()){
+			if (node instanceof INakedExpansionNode && (((INakedExpansionNode) node).isInputElement())) {
+				results.add(node);
+			} else if (node.getAllEffectiveIncoming().isEmpty()) {
 				results.add(node);
 			}
 		}

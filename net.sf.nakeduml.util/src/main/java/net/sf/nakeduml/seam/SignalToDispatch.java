@@ -100,7 +100,7 @@ public class SignalToDispatch implements Serializable {
 	private Object resolve(EntityManager em, Object ae) {
 		if (ae instanceof AbstractEntity) {
 			return em.find(ae.getClass(), ((AbstractEntity) ae).getId());
-		} else if (ae.getClass().isAnnotationPresent(Name.class)) {
+		} else if (IntrospectionUtil.getOriginalClass(ae).isAnnotationPresent(Name.class)) {
 			if (Contexts.isEventContextActive() || Contexts.isApplicationContextActive()) {
 				return Component.getInstance(ae.getClass().getAnnotation(Name.class).value());
 			} else {

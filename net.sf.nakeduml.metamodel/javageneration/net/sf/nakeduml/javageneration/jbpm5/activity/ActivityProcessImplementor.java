@@ -1,9 +1,12 @@
 package net.sf.nakeduml.javageneration.jbpm5.activity;
 
+import java.util.Set;
+
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
@@ -11,6 +14,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.OpaqueActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
+import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJOperation;
@@ -25,6 +29,7 @@ import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
@@ -32,7 +37,9 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
  * 
@@ -45,6 +52,26 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
 		super.initialize(workspace, javaModel, config, textWorkspace);
 		this.oclEngine = workspace.getOclEngine();
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitDecisionNode(INakedControlNode node) {
+		if (node.getControlNodeType().isDecisionNode() && OJUtil.hasOJClass(node.getActivity())) {
+			OJClass c = findJavaClass(node.getActivity());
+			Set<INakedActivityEdge> outgoing = node.getAllEffectiveOutgoing();
+			for (INakedActivityEdge edge : outgoing) {
+				if (edge.getGuard() != null) {
+					OJAnnotatedOperation oper = new OJAnnotatedOperation();
+					c.addToOperations(oper);
+					oper.setReturnType(new OJPathName("boolean"));
+					ActivityUtil.setupVariables(oper, node);
+					IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
+					oper.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(),booleanType));
+					oper.setName(BpmUtil.getGuardMethod(edge));
+					oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+				}
+			}
+		}
 	}
 
 	@VisitBefore(matchSubclasses = true)
@@ -112,9 +139,5 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 				implementor.implementConditionalFlows(operation, operation.getBody(), true);
 			}
 		}
-	}
-
-	private boolean isJoin(INakedActivityNode node) {
-		return node.isImplicitJoin() || node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isJoinNode();
 	}
 }

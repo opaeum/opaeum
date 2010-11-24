@@ -111,7 +111,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 	}
 
 	protected void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior, boolean persistent) {
-		ojBehavior.addToImports(BpmUtil.getJbpm5Environment());
+		ojBehavior.addToImports(BpmUtil.getJbpmKnowledgeSession());
 		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, "processInstance",
 				new OJPathName("WorkflowProcessInstance"), true);
 		if (persistent) {
@@ -123,7 +123,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			OJOperation getter = OJUtil.findOperation(ojBehavior, "getProcessInstance");
 			getter.setBody(new OJBlock());
 			OJIfStatement ifNull = new OJIfStatement("this.processInstance==null",
-					"this.processInstance=(WorkflowProcessInstance)Jbpm5Environment.getKnowledgeSession().getProcessInstance(getProcessInstanceId())");
+					"this.processInstance=(WorkflowProcessInstance)JbpmKnowledgeSession.getInstance().getKnowledgeSession().getProcessInstance(getProcessInstanceId())");
 			getter.getBody().addToStatements(ifNull);
 			getter.getBody().addToStatements("return this.processInstance");
 		}
@@ -260,7 +260,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 
 	protected void createJbpmProcess(IParameterOwner parameterOwner, OJOperation javaMethod) {
 		OJClass owner = (OJClass) javaMethod.getOwner();
-		owner.addToImports(BpmUtil.getJbpm5Environment());
+		owner.addToImports(BpmUtil.getJbpmKnowledgeSession());
 		owner.addToImports(WORKFLOW_PROCESS_INSTANCE);
 		owner.addToImports("org.jbpm.workflow.core.impl.WorkflowProcessImpl");
 		OJPathName mapPath = new OJPathName("java.util.HashMap");
@@ -273,7 +273,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		javaMethod.getBody().addToLocals(new OJAnnotatedField("processInstance", WORKFLOW_PROCESS_INSTANCE));
 		javaMethod.getBody().addToStatements("params.put(\"processObject\", this)");
 		javaMethod.getBody().addToStatements(
-				"processInstance = (WorkflowProcessInstance)Jbpm5Environment.getKnowledgeSession().startProcess(\""
+				"processInstance = (WorkflowProcessInstance)JbpmKnowledgeSession.getInstance().getKnowledgeSession().startProcess(\""
 						+ BpmUtil.generateProcessName(parameterOwner) + "\",params)");
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 	}

@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>util</artifactId>
-	<packaging>jar</packaging>
+	<packaging>ejb</packaging>
 	<name>util</name>
 	<version>1.0.0.4-SNAPSHOT</version>
 	<description>Utility classes for org.nakeduml.metamodel</description>
@@ -102,8 +102,18 @@
 			<version>5.0-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-flow-builder</artifactId>
+			<version>5.0-SNAPSHOT</version>
+		</dependency>		
+		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-api</artifactId>
+			<version>5.2.0.SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
 			<version>5.2.0.SNAPSHOT</version>
 		</dependency>
 		<dependency>

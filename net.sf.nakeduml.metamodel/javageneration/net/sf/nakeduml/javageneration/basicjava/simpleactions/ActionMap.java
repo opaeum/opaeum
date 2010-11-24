@@ -18,7 +18,7 @@ public class ActionMap extends ActivityNodeMap {
 	}
 
 	public String getFireTimersMethod() {
-		return "fireTimersFor" + action.getMappingInfo().getJavaName();
+		return super.doActionMethod();
 	}
 
 	public String getCancelTimersMethod() {

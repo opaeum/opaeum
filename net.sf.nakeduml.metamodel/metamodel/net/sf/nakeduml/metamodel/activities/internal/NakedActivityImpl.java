@@ -44,7 +44,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			if(node instanceof INakedParameterNode){
 				INakedParameterNode parmNode = (INakedParameterNode) node;
 				//Ignore parameter nodes that have no outgoing edges, e.g. out-parameters
-				if(parmNode.getAllEffectiveIncoming().isEmpty()&& !parmNode.getAllEffectiveOutgoing().isEmpty()){
+				if(parmNode.getParameter().isArgument() && parmNode.getAllEffectiveIncoming().isEmpty()){
 					results.add(node);
 				}
 			}else if(node.getAllEffectiveIncoming().isEmpty()){

@@ -41,11 +41,11 @@ public class IntrospectionUtil {
 			throw new RuntimeException(e);
 		}
 	}
-	public static Class getOriginalClass(Object target) {
-		Class c = target.getClass();
+	public static Class<?> getOriginalClass(Object target) {
+		Class<?> c = target.getClass();
 		return getOriginalClass(c);
 	}
-	public static Class getOriginalClass(Class c) {
+	public static Class<?> getOriginalClass(Class<?> c) {
 		while (c.getName().indexOf("$$") > -1) {
 			c = c.getSuperclass();
 		}

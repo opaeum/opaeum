@@ -5,7 +5,7 @@ import java.io.Serializable;
 public enum TimeUnit implements Serializable, AbstractEnum {
 	CALENDAR_YEAR("calendarYear"), BUSINESS_YEAR("businessYear"), BUSINESS_MONTH("businessMonth"), CALENDAR_MONTH("calendarMonth"), BUSINESS_WEEK(
 			"businessWeek"), CALENDAR_WEEK("calendarWeek"), CALENDAR_DAY("calendarDay"), BUSINESS_DAY("businessDay"), BUSINESS_MINUTE(
-			"businessMinute"), ACTUAL_MINUTE("actualMinute"), BUSINESS_HOUR("businessHour"), ACTUAL_HOUR("actualHour");
+			"businessMinute"), ACTUAL_MINUTE("actualMinute"), BUSINESS_HOUR("businessHour"), ACTUAL_HOUR("actualHour"), ACTUAL_SECOND("acutalSecond");
 	private String name;
 
 	TimeUnit(String code) {
@@ -13,9 +13,8 @@ public enum TimeUnit implements Serializable, AbstractEnum {
 	}
 
 	public static TimeUnit lookup(String name) {
-		for (int i = 0; i < values().length; i++) {
-			TimeUnit tu = values()[i];
-			if (tu.getName().equals(name)) {
+		for (TimeUnit tu :values()) {
+			if (tu.getName().equals(name) || tu.name().equals(name)) {
 				return tu;
 			}
 		}

@@ -33,8 +33,9 @@ public class BpmUtil{
 		result.addToNames(name);
 		return result;
 	}
-	public static OJPathName getJbpm5Environment() {
-		return UtilityCreator.getUtilPathName().append("Jbpm5Environment");
+	public static OJPathName getJbpmKnowledgeSession() {
+		return UtilityCreator.getUtilPathName().append("JbpmKnowledgeSession" +
+				"");
 	}
 	public static OJPathName getNodeInstance() {
 		return new OJPathName("org.jbpm.workflow.instance.NodeInstance");

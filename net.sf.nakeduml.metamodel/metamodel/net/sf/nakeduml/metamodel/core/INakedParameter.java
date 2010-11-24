@@ -45,5 +45,6 @@ public interface INakedParameter extends INakedTypedElement, IParameter {
 	void setIsOrdered(boolean ordered);
 	void setIsUnique(boolean unique);
 	void setMultiplicity(INakedMultiplicity nakedMultiplicityImpl);
+	boolean isArgument();
 
 }

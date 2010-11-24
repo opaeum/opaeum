@@ -6,6 +6,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractActionBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
 import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -20,12 +21,10 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -53,23 +52,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	public void setupVariables(OJAnnotatedOperation oper) {
-		setupVariables(oper, node);
-	}
-
-	private void setupVariables(OJAnnotatedOperation oper, INakedActivityNode node) {
-		if (node instanceof INakedStructuredActivityNode) {
-			Collection<INakedActivityVariable> variables = ((INakedStructuredActivityNode) node).getVariables();
-			for (INakedActivityVariable var : variables) {
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), var);
-				OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.umlName() + "\")");
-				oper.getOwner().addToImports(map.javaTypePath());
-				oper.getBody().addToLocals(field);
-			}
-		}
-		if (node.getOwnerElement() instanceof INakedActivityNode) {
-			setupVariables(oper, (INakedActivityNode) node.getOwnerElement());
-		}
+		ActivityUtil.setupVariables(oper, node);
 	}
 
 	public abstract void implementActionOn(OJAnnotatedOperation oper);

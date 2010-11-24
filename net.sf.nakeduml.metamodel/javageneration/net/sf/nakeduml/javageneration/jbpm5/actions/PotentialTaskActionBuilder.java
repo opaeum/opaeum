@@ -53,7 +53,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 
 	private void implementCompleteMethod(OJClass activityClass) {
 		activityClass.addToImports(BpmUtil.getNodeInstance());
-		activityClass.addToImports(BpmUtil.getJbpm5Environment());
+		activityClass.addToImports(BpmUtil.getJbpmKnowledgeSession());
 		OJOperation complete = new OJAnnotatedOperation();
 		complete.setName("on" + node.getMappingInfo().getJavaName().getCapped() + "Completed");
 		activityClass.addToOperations(complete);

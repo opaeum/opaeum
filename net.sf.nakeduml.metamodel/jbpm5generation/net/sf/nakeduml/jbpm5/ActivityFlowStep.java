@@ -83,7 +83,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		subProcess.setIndependent("false");
 		subProcess.setProcessId(BpmUtil.generateProcessName(node.getCalledElement()));
 		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
-		createAction(new ActionMap(node).doActionMethod(), onEntry.getAction());
+		createAction(new ActionMap(node).doActionMethod(), onEntry.getAction(),true);
 		subProcess.getOnEntry().add(onEntry);
 		setBounds(i, subProcess);
 		nodesType.getSubProcess().add(subProcess);
@@ -159,10 +159,14 @@ public class ActivityFlowStep extends FlowGenerationStep {
 	}
 
 	private void populate(ActivityNodeContainer container, NodesType nodesType, ConnectionsType connections) {
-		int i = 1;
+		int i = 0;
 		HashMap<SplitType, INakedActivityNode> choiceNodes = new HashMap<SplitType, INakedActivityNode>();
 		Collection<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>(container.getActivityNodes());
 		Collection<INakedActivityNode> startNodes = getEffectiveStartNodes(container);
+		activityNodes.removeAll(container.getStartNodes());// REmove the now
+															// redundant initial
+															// nodes
+		activityNodes.removeAll(startNodes);//
 		if (startNodes.size() > 1) {
 			INakedElement element = (INakedElement) container;
 			i = addArtificialStartNode(nodesType, i, element);
@@ -179,14 +183,15 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		} else if (startNodes.size() == 1) {
 			INakedActivityNode startNode = startNodes.iterator().next();
 			i = addArtificialStartNode(nodesType, i, startNode);
-			addNode(nodesType, connections, i, choiceNodes, startNode);
+			i = addNode(nodesType, connections, i, choiceNodes, startNode);
 			createConnectionBetweenLastTwoNodes(i, connections);
 		}
 		activityNodes.removeAll(startNodes);
 		for (INakedActivityNode node : activityNodes) {
 			i = addNode(nodesType, connections, i, choiceNodes, node);
-			if(node.getAllEffectiveOutgoing().isEmpty()){
-				addFinalNode(i, nodesType, "artificialFinalFor"+node.getName() , false);
+			if (requiresArtificialFinalNode(node)) {
+				i++;
+				addFinalNode(i, nodesType, "artificialFinalFor" + node.getName(), false);
 				createConnectionBetweenLastTwoNodes(i, connections);
 			}
 		}
@@ -207,11 +212,17 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		}
 	}
 
+	private boolean requiresArtificialFinalNode(INakedActivityNode node) {
+		boolean isFinalNode = node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isFinalNode();
+		boolean isOutputExpansionNode = node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement();
+		return (node.getAllEffectiveOutgoing().isEmpty() && !isFinalNode) || isOutputExpansionNode;
+	}
+
 	private Collection<INakedActivityNode> getEffectiveStartNodes(ActivityNodeContainer container) {
 		Set<INakedActivityNode> results = new HashSet<INakedActivityNode>();
 		Collection<INakedActivityNode> startNodes = container.getStartNodes();
 		for (INakedActivityNode sn : startNodes) {
-			if (isInitialNode(sn) || sn instanceof INakedParameterNode) {
+			if (isInitialNode(sn)) {
 				Set<INakedActivityEdge> outging = sn.getAllEffectiveOutgoing();
 				for (INakedActivityEdge edge : outging) {
 					results.add(edge.getEffectiveTarget());
@@ -224,7 +235,12 @@ public class ActivityFlowStep extends FlowGenerationStep {
 	}
 
 	private boolean isInitialNode(INakedActivityNode startNode) {
-		return startNode instanceof INakedControlNode && ((INakedControlNode) startNode).getControlNodeType().isInitialNode();
+		boolean isInitialNode = startNode instanceof INakedControlNode
+				&& ((INakedControlNode) startNode).getControlNodeType().isInitialNode();
+		boolean isInputParameter = startNode instanceof INakedParameterNode
+				&& ((INakedParameterNode) startNode).getParameter().isArgument();
+		boolean isInputExpansionNode = startNode instanceof INakedExpansionNode && ((INakedExpansionNode) startNode).isInputElement();
+		return isInitialNode || isInputParameter || isInputExpansionNode;
 	}
 
 	private int addArtificialForkNode(NodesType nodesType, int i, INakedElement element) {
@@ -257,9 +273,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 			sourceIdMap.put(node, i);
 			if (node instanceof INakedControlNode) {
 				INakedControlNode controlNode = (INakedControlNode) node;
-				if (controlNode.getControlNodeType().isInitialNode()) {
-					addStartNode(nodesType, i, node);
-				} else if (controlNode.getControlNodeType().isFlowFinalNode()) {
+				if (controlNode.getControlNodeType().isFlowFinalNode()) {
 					i = addFinalNode(nodesType, connections, i, node);
 				} else if (controlNode.getControlNodeType().isActivityFinalNode()) {
 					i = addFinalNode(nodesType, connections, i, node);
@@ -271,10 +285,12 @@ public class ActivityFlowStep extends FlowGenerationStep {
 					addJoin(nodesType, i, node, "2");
 				} else if (controlNode.getControlNodeType().isDecisionNode()) {
 					choiceNodes.put(addSplit(i, nodesType, node, "2"), node);
+				} else {
+					System.out.println(controlNode.getControlNodeType() + " not supported");
 				}
-			} else if (node instanceof INakedParameterNode) {
+			} else if (node instanceof INakedParameterNode && ((INakedParameterNode) node).getParameter().isResult()) {
 				addActionNode(nodesType, i, node);
-			} else if (node instanceof INakedExpansionNode) {
+			} else if (node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement()) {
 				addActionNode(nodesType, i, node);
 			} else if (node instanceof INakedAction) {
 				if (node instanceof INakedAcceptEventAction) {
@@ -298,7 +314,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		ActionNodeType actionNode = ProcessFactory.eINSTANCE.createActionNodeType();
 		setBounds(i, actionNode);
 		ActivityNodeMap map = new ActivityNodeMap(node);
-		createAction(map.doActionMethod(), actionNode.getAction());
+		createAction(map.doActionMethod(), actionNode.getAction(),true);
 		actionNode.setName(node.getMappingInfo().getPersistentName().getAsIs());
 		nodes.getActionNode().add(actionNode);
 	}
@@ -314,17 +330,18 @@ public class ActivityFlowStep extends FlowGenerationStep {
 			state.getOnEntry().add(onEntry);
 			OnExitType onExit = ProcessFactory.eINSTANCE.createOnExitType();
 			state.getOnExit().add(onExit);
-			createAction(map.getFireTimersMethod(), onEntry.getAction());
-			createAction(map.getCancelTimersMethod(), onExit.getAction());
+			createAction(map.doActionMethod(), onEntry.getAction(),true);
+			createAction(map.getCancelTimersMethod(), onExit.getAction(),false);
 		}
 	}
 
-	private ActionType createAction(String methodName, EList<ActionType> action) {
+	private ActionType createAction(String methodName, EList<ActionType> action, boolean passContext) {
 		ActionType entryAction = ProcessFactory.eINSTANCE.createActionType();
 		action.add(entryAction);
 		entryAction.setDialect("mvel");
 		entryAction.setType("expression");
-		entryAction.setValue("processObject." + methodName + "(context)");
+		String string = passContext?"context":"";
+		entryAction.setValue("processObject." + methodName + "("+string+")");
 		return entryAction;
 	}
 }

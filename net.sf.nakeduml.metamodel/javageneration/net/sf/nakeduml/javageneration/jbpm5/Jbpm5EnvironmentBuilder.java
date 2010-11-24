@@ -1,113 +1,118 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
-import net.sf.nakeduml.javametamodel.OJParameter;
+import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
-import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
+import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	private static final OJPathName STATEFUL_KNOWLEDGE_SESSION_PATH = new OJPathName("org.drools.runtime.StatefulKnowledgeSession");
-	private OJBlock readKnowledgeBaseBody;
+	private OJBlock prepareKnowledgeBaseBody;
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model) {
-		OJAnnotatedClass jbpm5Environment = new OJAnnotatedClass();
-		jbpm5Environment.setName("Jbpm5Environment");
-		UtilityCreator.getUtilPack().addToClasses(jbpm5Environment);
-		OJPathName threadLocalPath = new OJPathName("ThreadLocal");
-		OJAnnotatedField threadLocal = new OJAnnotatedField("session", threadLocalPath);
-		threadLocal.setStatic(true);
-		threadLocal.setInitExp("new ThreadLocal<StatefulKnowledgeSession>()");
-		jbpm5Environment.addToFields(threadLocal);
-		threadLocalPath.addToElementTypes(STATEFUL_KNOWLEDGE_SESSION_PATH);
-		super.createTextPath(jbpm5Environment, JavaTextSource.GEN_SRC);
-		jbpm5Environment.addToImports("java.util.Properties");
-		jbpm5Environment.addToImports("org.drools.KnowledgeBase");
-		jbpm5Environment.addToImports("org.drools.SessionConfiguration");
-		jbpm5Environment.addToImports("org.drools.builder.KnowledgeBuilder");
-		jbpm5Environment.addToImports("org.drools.builder.KnowledgeBuilderFactory");
-		jbpm5Environment.addToImports("org.drools.builder.ResourceType");
-		jbpm5Environment.addToImports("org.drools.compiler.ProcessBuilderFactory");
-		jbpm5Environment.addToImports("org.drools.impl.EnvironmentImpl");
-		jbpm5Environment.addToImports("org.drools.io.ResourceFactory");
-		jbpm5Environment.addToImports("org.drools.logger.KnowledgeRuntimeLogger");
-		jbpm5Environment.addToImports("org.drools.logger.KnowledgeRuntimeLoggerFactory");
-		jbpm5Environment.addToImports("org.drools.runtime.StatefulKnowledgeSession");
-		jbpm5Environment.addToImports("org.drools.runtime.process.ProcessRuntimeFactory");
-		jbpm5Environment.addToImports("org.jbpm.process.builder.ProcessBuilderFactoryServiceImpl");
-		jbpm5Environment.addToImports("org.jbpm.process.instance.ProcessRuntimeFactoryServiceImpl");
-		jbpm5Environment.addToImports("org.jbpm.process.instance.event.DefaultSignalManagerFactory");
-		jbpm5Environment.addToImports("org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
-		jbpm5Environment.addToImports("org.jbpm.workflow.instance.impl.NodeInstanceFactoryRegistry");
-		jbpm5Environment.addToImports("org.jbpm.workflow.instance.impl.factory.CreateNewNodeFactory");
-		jbpm5Environment.addToImports("org.jbpm.workflow.instance.impl.factory.ReuseNodeFactory");
-		jbpm5Environment.addToImports("org.jbpm.workflow.core.node.StateNode");
-		jbpm5Environment.addToImports("org.jbpm.workflow.core.node.Join");
-		jbpm5Environment.addToImports("org.jbpm.workflow.core.node.EndNode");
-		jbpm5Environment.addToImports("net.sf.nakeduml.jbpmstatemachine.Uml2StateInstance");
-		jbpm5Environment.addToImports("net.sf.nakeduml.jbpmstatemachine.Uml2EndStateInstance");
-		jbpm5Environment.addToImports("net.sf.nakeduml.jbpmstatemachine.Uml2JoinInstance");
-		OJAnnotatedOperation getKnowledgeRuntime = new OJAnnotatedOperation();
-		getKnowledgeRuntime.setName("getKnowledgeSession");
-		getKnowledgeRuntime.setStatic(true);
-		getKnowledgeRuntime.setReturnType(STATEFUL_KNOWLEDGE_SESSION_PATH);
-		OJIfStatement ifNull = new OJIfStatement("session.get()==null");
-		getKnowledgeRuntime.getBody().addToStatements(ifNull);
-		OJTryStatement tryStatement = new OJTryStatement();
-		ifNull.getThenPart().addToStatements(tryStatement);
-		tryStatement.getTryPart().addToStatements("KnowledgeBase kbase = readKnowledgeBase()");
-		tryStatement.getTryPart().addToStatements("Properties properties = new Properties()");
-		tryStatement.getTryPart().addToStatements(
-				"properties.setProperty(\"drools.processInstanceManagerFactory\", DefaultProcessInstanceManagerFactory.class.getName())");
-		tryStatement.getTryPart().addToStatements(
-				"properties.setProperty(\"drools.processSignalManagerFactory\", DefaultSignalManagerFactory.class.getName())");
-		tryStatement.getTryPart().addToStatements("SessionConfiguration cfg = new SessionConfiguration(properties)");
-		tryStatement.getTryPart().addToStatements("EnvironmentImpl env = new EnvironmentImpl()");
-		tryStatement.getTryPart().addToStatements("session.set(kbase.newStatefulKnowledgeSession(cfg,env))");
-		tryStatement.getTryPart().addToStatements(
-				"KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(session.get(), \"test\")");
-		getKnowledgeRuntime.getBody().addToStatements("return session.get()");
-		tryStatement.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
-		tryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
-		jbpm5Environment.addToOperations(getKnowledgeRuntime);
-		OJAnnotatedOperation readKnowledgeBase = new OJAnnotatedOperation();
-		jbpm5Environment.addToOperations(readKnowledgeBase);
-		readKnowledgeBase.setName("readKnowledgeBase");
-		readKnowledgeBase.setStatic(true);
-		readKnowledgeBase.setReturnType(new OJPathName("KnowledgeBase"));
-		readKnowledgeBaseBody = readKnowledgeBase.getBody();
-		readKnowledgeBaseBody
-				.addToStatements("ProcessBuilderFactory.setProcessBuilderFactoryService(new ProcessBuilderFactoryServiceImpl())");
-		readKnowledgeBaseBody
-				.addToStatements("ProcessRuntimeFactory.setProcessRuntimeFactoryService(new ProcessRuntimeFactoryServiceImpl())");
-		readKnowledgeBaseBody.addToStatements("KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder()");
-		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(StateNode.class, new CreateNewNodeFactory(Uml2StateInstance.class))");
-		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(EndNode.class, new CreateNewNodeFactory(Uml2EndStateInstance.class))");
-		readKnowledgeBaseBody.addToStatements("NodeInstanceFactoryRegistry.INSTANCE.register(Join.class, new ReuseNodeFactory(Uml2JoinInstance.class))");
+		createJbpmKnowledgeSession();
+		createJbpmKnowledgeBase();
+	}
+
+	private void createJbpmKnowledgeBase() {
+		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass();
+		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
+		OJPackage utilPack = UtilityCreator.getUtilPack();
+		utilPack.addToClasses(jbpmKnowledgeBase);
+		super.createTextPath(jbpmKnowledgeBase, JavaTextSource.GEN_SRC);
+		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
+		name.addStringValue("jbpmKnowledgeBase");
+		jbpmKnowledgeBase.addAnnotationIfNew(name);
+		addCommonImports(jbpmKnowledgeBase);
+		addEventScope(jbpmKnowledgeBase);
+		jbpmKnowledgeBase.setSuperclass(new OJPathName("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase"));
+		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation();
+		jbpmKnowledgeBase.addToOperations(prepareKnowledgeBase);
+		prepareKnowledgeBase.setName("prepareKnowledgeBuilder");
+		prepareKnowledgeBase.addParam("kbuilder", new OJPathName("KnowledgeBuilder"));
+		prepareKnowledgeBaseBody = prepareKnowledgeBase.getBody();
+		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeBase.getPathName());
+		jbpmKnowledgeBase.addToFields(instance);
+		instance.setStatic(true);
+		OJAnnotatedOperation getInstance = new OJAnnotatedOperation("getInstance", jbpmKnowledgeBase.getPathName());
+		jbpmKnowledgeBase.addToOperations(getInstance);
+		OJIfStatement ifEventContext = new OJIfStatement("Contexts.isEventContextActive()",
+				"return (JbpmKnowledgeBase)Component.getInstance(\"jbpmKnowledgeBase\")");
+		getInstance.getBody().addToStatements(ifEventContext);
+		ifEventContext.setElsePart(new OJBlock());
+		ifEventContext.getElsePart().addToStatements(new OJIfStatement("mockInstance==null", "mockInstance=new JbpmKnowledgeBase()"));
+		ifEventContext.getElsePart().addToStatements("return mockInstance");
+		getInstance.setStatic(true);
+	}
+
+	public void addEventScope(OJAnnotatedClass jbpmKnowledgeBase) {
+		OJAnnotationValue scope = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Scope"));
+		scope.addEnumValue(new OJEnumValue(new OJPathName("org.jboss.seam.ScopeType"), "EVENT"));
+		jbpmKnowledgeBase.addAnnotationIfNew(scope);
+	}
+
+	private void createJbpmKnowledgeSession() {
+		OJAnnotatedClass jbpmKnowledgeSession = new OJAnnotatedClass();
+		jbpmKnowledgeSession.setName("JbpmKnowledgeSession");
+		jbpmKnowledgeSession.setSuperclass(new OJPathName("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeSession"));
+		UtilityCreator.getUtilPack().addToClasses(jbpmKnowledgeSession);
+		addEventScope(jbpmKnowledgeSession);
+		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeSession.getPathName());
+		instance.setStatic(true);
+		jbpmKnowledgeSession.addToFields(instance);
+		super.createTextPath(jbpmKnowledgeSession, JavaTextSource.GEN_SRC);
+		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
+		name.addStringValue("jbpmKnowledgeSession");
+		jbpmKnowledgeSession.addAnnotationIfNew(name);
+		addCommonImports(jbpmKnowledgeSession);
+		OJAnnotatedOperation getInstance = new OJAnnotatedOperation();
+		getInstance.setName("getInstance");
+		getInstance.setStatic(true);
+		getInstance.setReturnType(jbpmKnowledgeSession.getPathName());
+		OJIfStatement ifEventContextActive = new OJIfStatement("Contexts.isEventContextActive()",
+				"return (JbpmKnowledgeSession)Component.getInstance(\"jbpmKnowledgeSession\")");
+		getInstance.getBody().addToStatements(ifEventContextActive);
+		OJIfStatement ifNull = new OJIfStatement("mockInstance==null", "mockInstance = new JbpmKnowledgeSession()");
+		ifEventContextActive.setElsePart(new OJBlock());
+		ifEventContextActive.getElsePart().addToStatements(ifNull);
+		ifEventContextActive.getElsePart().addToStatements("return mockInstance");
+		jbpmKnowledgeSession.addToOperations(getInstance);
+		OJAnnotatedOperation getKnowledgeBase =new OJAnnotatedOperation("getJbpmKnowledgeBase", new OJPathName("AbstractJbpmKnowledgeBase"));
+		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase");
+		getKnowledgeBase.getBody().addToStatements("return JbpmKnowledgeBase.getInstance()");
+		jbpmKnowledgeSession.addToOperations(getKnowledgeBase);		
+		OJAnnotatedOperation getEntityManager =new OJAnnotatedOperation("getEntityManager", new OJPathName("EntityManager"));
+		getEntityManager.getBody().addToStatements("return (EntityManager)Component.getInstance(\"entityManager\")");
+		jbpmKnowledgeSession.addToOperations(getEntityManager);
+		jbpmKnowledgeSession.addToImports("javax.persistence.EntityManager");
+	}
+
+	public void addCommonImports(OJAnnotatedClass jbpmKnowledgeSession) {
+		jbpmKnowledgeSession.addToImports("org.drools.KnowledgeBase");
+		jbpmKnowledgeSession.addToImports("org.drools.builder.KnowledgeBuilder");
+		jbpmKnowledgeSession.addToImports("org.drools.io.ResourceFactory");
+		jbpmKnowledgeSession.addToImports("org.drools.builder.ResourceType");
+		jbpmKnowledgeSession.addToImports("org.jboss.seam.Component");
+		jbpmKnowledgeSession.addToImports("org.jboss.seam.contexts.Contexts");
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior b) {
-		if (b.isProcess() && b instanceof INakedStateMachine) {
-			readKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\"" + b.getMappingInfo().getJavaPath()
-					+ ".rf\"), ResourceType.DRF)");
+		if (b.isProcess()) {
+			prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\""
+					+ b.getMappingInfo().getJavaPath() + ".rf\"), ResourceType.DRF)");
 		}
-	}
-
-	@VisitAfter(matchSubclasses = true)
-	public void visitModelAfter(INakedModel model) {
-		readKnowledgeBaseBody.addToStatements("return kbuilder.newKnowledgeBase()");
 	}
 }

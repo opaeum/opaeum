@@ -6,7 +6,7 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-public class NakedParameterImpl extends NakedTypedElementImpl implements INakedTypedElement,INakedParameter{
+public class NakedParameterImpl extends NakedTypedElementImpl implements INakedTypedElement, INakedParameter {
 	private static final long serialVersionUID = -1300669933351165122L;
 	private int argumentIndex;
 	private int resultIndex;
@@ -14,78 +14,105 @@ public class NakedParameterImpl extends NakedTypedElementImpl implements INakedT
 	private boolean isException = false;
 	private boolean isReturn = false;
 	private ParameterDirectionKind direction = ParameterDirectionKind.IN;
-	public NakedParameterImpl(){
+
+	public NakedParameterImpl() {
 	}
-	public boolean isRequired(){
+
+	public boolean isRequired() {
 		return getNakedMultiplicity().getLower() >= 1;
 	}
-	public boolean isOne(){
+
+	public boolean isOne() {
 		return getNakedMultiplicity().getUpper() == 1;
 	}
-	public int getUpperLimit(){
+
+	public int getUpperLimit() {
 		return getNakedMultiplicity().getLower();
 	}
-	public int getLowerLimit(){
+
+	public int getLowerLimit() {
 		return getNakedMultiplicity().getUpper();
 	}
-	public boolean isMany(){
+
+	public boolean isMany() {
 		return getNakedMultiplicity().getUpper() > 1;
 	}
+
 	@Override
-	public String getMetaClass(){
+	public String getMetaClass() {
 		return "Parameter";
 	}
-	public void setReturn(boolean isReturn){
+
+	public void setReturn(boolean isReturn) {
 		this.isReturn = isReturn;
 	}
-	public boolean isReturn(){
+
+	public boolean isReturn() {
 		return this.isReturn;
 	}
-	public IOperation getOwner(){
-		if(getOwnerElement() instanceof IOperation){
+
+	public IOperation getOwner() {
+		if (getOwnerElement() instanceof IOperation) {
 			return (IOperation) getOwnerElement();
 		}
 		return null;
 	}
-	public INakedBehavior getOwningBehaviour(){
-		if(getOwnerElement() instanceof INakedBehavior){
+
+	public INakedBehavior getOwningBehaviour() {
+		if (getOwnerElement() instanceof INakedBehavior) {
 			return (INakedBehavior) getOwnerElement();
 		}
 		return null;
 	}
 
-	public int getArgumentIndex(){
+	public int getArgumentIndex() {
 		return this.argumentIndex;
 	}
-	public void setArgumentIndex(int index){
+
+	public void setArgumentIndex(int index) {
 		this.argumentIndex = index;
 	}
-	public void setDirection(ParameterDirectionKind in){
+
+	public void setDirection(ParameterDirectionKind in) {
 		this.direction = in;
 	}
-	public ParameterDirectionKind getDirection(){
+
+	public ParameterDirectionKind getDirection() {
 		return this.direction;
 	}
-	public boolean isException(){
+
+	public boolean isException() {
 		return this.isException;
 	}
-	public void setException(boolean isException){
+
+	public void setException(boolean isException) {
 		this.isException = isException;
 	}
-	public int getExceptionIndex(){
+
+	public int getExceptionIndex() {
 		return this.exceptionIndex;
 	}
-	public void setExceptionIndex(int exceptionIndex){
+
+	public void setExceptionIndex(int exceptionIndex) {
 		this.exceptionIndex = exceptionIndex;
 	}
-	public int getResultIndex(){
+
+	public int getResultIndex() {
 		return this.resultIndex;
 	}
-	public void setResultIndex(int resultIndex){
+
+	public void setResultIndex(int resultIndex) {
 		this.resultIndex = resultIndex;
 	}
+
 	@Override
-	public boolean isResult(){
+	public boolean isResult() {
 		return isReturn() || ParameterDirectionKind.OUT.equals(getDirection()) || ParameterDirectionKind.INOUT.equals(getDirection());
+	}
+
+	@Override
+	public boolean isArgument() {
+		// TODO Auto-generated method stub
+		return ParameterDirectionKind.IN.equals(getDirection()) || ParameterDirectionKind.INOUT.equals(getDirection());
 	}
 }

@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.impl.EEnumLiteralImpl;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.Trigger;
 
 /**
  * Applies stereotypes to elements. Uses InstanceSpecifications to represent
@@ -36,12 +38,23 @@ import org.eclipse.uml2.uml.Stereotype;
  */
 @StepDependency(phase = EmfExtractionPhase.class, requires = { ConstraintExtractor.class }, after = { ConstraintExtractor.class })
 public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
+	@VisitAfter
+	public void visitTrigger(Trigger tr){
+
+	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element) {
+		System.out.println(element.getClass().getName());
+		INakedElement nakedPeer = getNakedPeer(element);
 		if (element instanceof Comment) {
 			visitComment((Comment) element);
+		}else if(element instanceof Trigger){
+			//TimeEvent are stored with the Trigger
+			Trigger trigger = (Trigger)element;
+			if(trigger.getEvent() instanceof TimeEvent){
+				element=trigger.getEvent();
+			}
 		}
-		INakedElement nakedPeer = getNakedPeer(element);
 		if (nakedPeer != null) {
 			addStereotypes(nakedPeer, element);
 			addKeywords(nakedPeer, element);
@@ -69,7 +82,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
 	}
 
 	private void addStereotypes(INakedElement nakedElement, Element modelElement) {
-		Iterator stereotypes = modelElement.getAppliedStereotypes().iterator();
+		Iterator<Stereotype> stereotypes = modelElement.getAppliedStereotypes().iterator();
 		while (stereotypes.hasNext()) {
 			Stereotype stereotype = (Stereotype) stereotypes.next();
 			INakedStereotype nakedStereotype = (INakedStereotype) getNakedPeer(stereotype);

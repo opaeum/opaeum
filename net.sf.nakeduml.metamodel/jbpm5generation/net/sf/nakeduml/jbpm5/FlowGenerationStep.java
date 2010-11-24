@@ -133,7 +133,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 				} else if (pd.getName().equals("x")) {
 					pd.getWriteMethod().invoke(flowState, (i * 50) + "");
 				} else if (pd.getName().equals("y")) {
-					pd.getWriteMethod().invoke(flowState, (i * 100) + "");
+					pd.getWriteMethod().invoke(flowState, (i * 50) + "");
 				}
 			}
 		} catch (RuntimeException e) {

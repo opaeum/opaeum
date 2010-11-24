@@ -1,4 +1,5 @@
 package net.sf.nakeduml.emf.extraction;
+
 import java.util.List;
 
 import javax.swing.event.ChangeEvent;
@@ -23,12 +24,14 @@ import org.eclipse.uml2.uml.ReceiveSignalEvent;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
+
 public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 	protected List<INakedTypedElement> getEnvironment(Element node) {
 		Behavior activity = getActivity(node);
 		// TODO add variables from containing StructuredNodes
 		return getEnvironment(activity);
 	}
+
 	protected Activity getActivity(Element node) {
 		// MUST return activity
 		Element e = node;
@@ -37,6 +40,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 		}
 		return (Activity) e;
 	}
+
 	// Precondition: the behaviour must have been populated
 	protected INakedElement buildEvent(Behavior behaviour, Trigger t) {
 		Event event = t.getEvent();
@@ -54,19 +58,21 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 			return getNakedPeer(ce.getOperation());
 		} else if (event instanceof ChangeEvent) {
 		} else if (event instanceof TimeEvent) {
-			String id = getId(event) + getId(behaviour);
 			INakedBehavior context = (INakedBehavior) getNakedPeer(behaviour);
-			NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) workspace.getModelElement(id);
+			// NB!!! TimeEvents are stored under the id of the Trigger to
+			// duplicate it in each context it is used.
+			NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) getNakedPeer(t);
 			if (nakedTimeEvent == null) {
 				nakedTimeEvent = new NakedTimeEventImpl();
 				TimeEvent emfTimeEvent = ((TimeEvent) event);
-				nakedTimeEvent.initialize(id, emfTimeEvent.getName());
-				//NB!!! Deviation from UML2 metamodel:
-				// We have to make the behaviour the owner to allow for the expression to be implemented correctly
-				//Without a behaviour context the expression is contextless and of limited use.
-				super.initialize(nakedTimeEvent,emfTimeEvent,behaviour);
-				INakedValueSpecification when = getValueSpecification(nakedTimeEvent,
-						emfTimeEvent.getWhen(), OclUsageType.DEF);
+				nakedTimeEvent.initialize(getId(t), emfTimeEvent.getName());
+				// NB!!! Deviation from UML2 metamodel:
+				// We have to make the behaviour the owner to allow for the
+				// expression to be implemented correctly
+				// Without a behaviour context the expression is contextless and
+				// of limited use.
+				super.initialize(nakedTimeEvent, emfTimeEvent, behaviour);
+				INakedValueSpecification when = getValueSpecification(nakedTimeEvent, emfTimeEvent.getWhen(), OclUsageType.DEF);
 				if (when != null) {
 					when.setType((INakedClassifier) getNakedPeer(emfTimeEvent.getWhen().getType()));
 					nakedTimeEvent.setWhen(when);
@@ -79,35 +85,37 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 		}
 		return null;
 	}
-	private TimeUnit resolveTimeUnit(TimeEvent emfTimeEvent){
-		if(emfTimeEvent.getName()!=null){
-			if(emfTimeEvent.getName().toLowerCase().contains("month")){
+
+	private TimeUnit resolveTimeUnit(TimeEvent emfTimeEvent) {
+		if (emfTimeEvent.getName() != null) {
+			if (emfTimeEvent.getName().toLowerCase().contains("month")) {
 				return TimeUnit.CALENDAR_MONTH;
 			}
-			if(emfTimeEvent.getName().toLowerCase().contains("week")){
+			if (emfTimeEvent.getName().toLowerCase().contains("week")) {
 				return TimeUnit.CALENDAR_WEEK;
 			}
-			if(emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("day")){
+			if (emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("day")) {
 				return TimeUnit.BUSINESS_DAY;
 			}
-			if(emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("hour")){
+			if (emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("hour")) {
 				return TimeUnit.BUSINESS_HOUR;
 			}
-			if(emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("minute")){
+			if (emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("minute")) {
 				return TimeUnit.BUSINESS_MINUTE;
 			}
-			if( emfTimeEvent.getName().toLowerCase().contains("day")){
+			if (emfTimeEvent.getName().toLowerCase().contains("day")) {
 				return TimeUnit.CALENDAR_DAY;
 			}
-			if(emfTimeEvent.getName().toLowerCase().contains("hour")){
+			if (emfTimeEvent.getName().toLowerCase().contains("hour")) {
 				return TimeUnit.ACTUAL_HOUR;
 			}
-			if(emfTimeEvent.getName().toLowerCase().contains("minute")){
+			if (emfTimeEvent.getName().toLowerCase().contains("minute")) {
 				return TimeUnit.ACTUAL_MINUTE;
 			}
 		}
 		return TimeUnit.BUSINESS_DAY;
 	}
+
 	protected INakedClassifier getNearestContext(Behavior b) {
 		if (b != null && b.getContext() != null) {
 			return (INakedClassifier) getNakedPeer(b.getContext());
@@ -115,6 +123,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 			return null;
 		}
 	}
+
 	protected INakedBehavior getOwnedBehavior(INakedElementOwner state, Behavior b) {
 		INakedBehavior nakedPeer = (INakedBehavior) getNakedPeer(b);
 		if (nakedPeer != null) {

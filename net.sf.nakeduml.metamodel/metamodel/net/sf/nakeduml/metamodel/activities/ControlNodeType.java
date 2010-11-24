@@ -29,4 +29,7 @@ public enum ControlNodeType implements Serializable {
 	public boolean isFlowFinalNode() {
 		return this == FLOW_FINAL_NODE;
 	}
+	public boolean isFinalNode() {
+		return isFlowFinalNode() || isActivityFinalNode();
+	}
 }

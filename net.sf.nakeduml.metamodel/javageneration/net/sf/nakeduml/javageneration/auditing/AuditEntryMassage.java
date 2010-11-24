@@ -344,7 +344,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 			if (BehaviorUtil.hasExecutionInstance(b)) {
 				List<OJOperation> operations = auditClass.getOperations();
 				for (OJOperation oper : operations) {
-					if (oper.getName().startsWith("do") && oper.getReturnType().getLast().equals("void")) {
+					if ((oper.getName().startsWith("do") || oper.getName().startsWith("fire")||oper.getName().startsWith("cancel")) && oper.getReturnType().getLast().equals("void")) {
 						oper.setBody(new OJBlock());
 					}
 				}

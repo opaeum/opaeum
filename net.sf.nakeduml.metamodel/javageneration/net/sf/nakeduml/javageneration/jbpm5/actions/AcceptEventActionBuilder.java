@@ -1,6 +1,6 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -18,7 +18,8 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 		if (node.getActionType().isAcceptTimeEventAction()) {
 			BpmUtil.implementTimeEvent(operation, (INakedTimeEvent) node.getEvent(), node, node.getAllEffectiveOutgoing());
 			OJOperation cancel = new OJAnnotatedOperation();
-			cancel.setName("cancel" + node.getMappingInfo().getJavaName().getCapped());
+			ActionMap map = new ActionMap(node);
+			cancel.setName(map.getCancelTimersMethod());
 			operation.getOwner().addToOperations(cancel);
 			BpmUtil.cancelTimer(cancel, (INakedTimeEvent) node.getEvent());
 		}
@@ -28,5 +29,4 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 	public boolean waitsForEvent() {
 		return true;
 	}
-
 }

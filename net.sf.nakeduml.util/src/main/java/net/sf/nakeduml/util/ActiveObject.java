@@ -1,5 +1,7 @@
 package net.sf.nakeduml.util;
 
-public interface ActiveObject {
+import java.io.Serializable;
+
+public interface ActiveObject extends Serializable {
 	boolean processSignal(AbstractSignal signal);
 }

@@ -126,5 +126,7 @@ Bundle-ClassPath: .,
  lib/drools-core-5.2.0.20101016.013225-332.jar,
  lib/drools-api-5.2.0.20101016.013225-334.jar,
  lib/jboss-seam-2.2.0.GA.jar,
- lib/javaee-api-5.jar
+ lib/javaee-api-5.jar,
+ lib/drools-compiler-5.2.0.SNAPSHOT.jar,
+ lib/jbpm-flow-builder-5.0-SNAPSHOT.jar
 
