@@ -42,10 +42,10 @@ public abstract class AbstractJbpmKnowledgeBase {
 		ProcessMarshallerFactory.setProcessMarshallerFactoryService(new ProcessMarshallerFactoryServiceImpl());
 		ProcessRuntimeFactory.setProcessRuntimeFactoryService(new ProcessRuntimeFactoryServiceImpl());
 		ProcessMarshallerRegistry.INSTANCE.register(RuleFlowProcess.RULEFLOW_TYPE, new UmlProcessMarshaller());
-		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 		NodeInstanceFactoryRegistry.INSTANCE.register(StateNode.class, new CreateNewNodeFactory(Uml2StateInstance.class));
 		NodeInstanceFactoryRegistry.INSTANCE.register(EndNode.class, new CreateNewNodeFactory(Uml2EndStateInstance.class));
 		NodeInstanceFactoryRegistry.INSTANCE.register(Join.class, new ReuseNodeFactory(Uml2JoinInstance.class));
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 		prepareKnowledgeBuilder(kbuilder);
 		return kbuilder.newKnowledgeBase();
 	}
