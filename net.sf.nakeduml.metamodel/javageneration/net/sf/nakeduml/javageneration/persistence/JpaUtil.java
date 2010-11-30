@@ -123,9 +123,9 @@ public class JpaUtil {
 		ojClass.addAnnotationIfNew(entity);
 	}
 
-	public static void addJoinTable(INakedProperty f, NakedStructuralFeatureMap map, OJAnnotatedField field) {
+	public static void addJoinTable(INakedClassifier umlOwner, INakedProperty f, NakedStructuralFeatureMap map, OJAnnotatedField field) {
 		// ManyToMany or non-navigable XToMany
-		String tableName = calculateTableName(f);
+		String tableName = calculateTableName(umlOwner, f);
 		String keyToParentTable = calculateKeyToOwnerTable(f);
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
@@ -156,13 +156,14 @@ public class JpaUtil {
 		return keyToParentTable;
 	}
 
-	static String calculateTableName(INakedProperty f) {
+	static String calculateTableName(INakedClassifier umlOwner, INakedProperty f) {
 		String tableName = null;
-		if (f instanceof INakedProperty && (f).getAssociation() != null) {
+		if (f instanceof INakedProperty && (f).getAssociation() != null &&!(f.getOwner() instanceof INakedInterface)) {
+			//For interfaces, create an association table per realization of the association.
 			INakedProperty p = f;
 			tableName = ((INakedAssociation) p.getAssociation()).getMappingInfo().getPersistentName().toString();
 		} else {
-			INakedClassifier nakedOwner = f.getOwner();
+			INakedClassifier nakedOwner = umlOwner;
 			tableName = nakedOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
 		}
 		return tableName;
