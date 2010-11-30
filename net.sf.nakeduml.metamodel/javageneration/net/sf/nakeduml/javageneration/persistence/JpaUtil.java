@@ -12,6 +12,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.name.NameConverter;
 
@@ -129,7 +130,10 @@ public class JpaUtil {
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
 		OJAnnotationValue otherJoinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", new Boolean(map.isOneToMany())));
+		if(map.isOneToMany() && !(map.getProperty().getBaseType() instanceof INakedInterface)){
+			//NB!!! unique==true messes the manyToAny mapping up
+			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", Boolean.TRUE));
+		}
 		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", f.getMappingInfo().getPersistentName().getAsIs()));
 		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("inverseJoinColumns", otherJoinColumn));
