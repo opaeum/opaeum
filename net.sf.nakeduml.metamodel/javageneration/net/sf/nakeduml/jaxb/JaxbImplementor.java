@@ -1,5 +1,6 @@
 package net.sf.nakeduml.jaxb;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -15,8 +16,11 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import nl.klasse.octopus.model.IClassifier;
 
 public class JaxbImplementor extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
@@ -28,6 +32,13 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 			for (INakedProperty p : c.getEffectiveAttributes()) {
 				if (p.getNakedBaseType() instanceof INakedInterface) {
 					addXmlAnyElement(owner, c, p);
+				}
+				if (p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
+					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<IClassifier>());
+					if (getter != null) {
+						JaxbAnnotator.addXmlTransient(getter);
+					}
 				}
 			}
 		}
@@ -41,7 +52,8 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getClassifierBehavior");
 				JaxbAnnotator.addXmlTransient(oper);
 			} else {
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "get" + behavior.getMappingInfo().getJavaName().getCapped());
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "get"
+						+ behavior.getMappingInfo().getJavaName().getCapped());
 				JaxbAnnotator.addXmlTransient(oper);
 			}
 		}
