@@ -44,7 +44,6 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element) {
-		System.out.println(element.getClass().getName());
 		INakedElement nakedPeer = getNakedPeer(element);
 		if (element instanceof Comment) {
 			visitComment((Comment) element);
