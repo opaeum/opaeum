@@ -538,6 +538,9 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 
 	private void addCopyToAuditStatements(OJAnnotatedClass c, INakedClassifier classifier, OJBlock body, boolean deep) {
 		// TODO use MappedTypes
+		
+		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) classifier);
+		
 		Set<String> javaTypes = new HashSet<String>();
 		javaTypes.add("String");
 		javaTypes.add("Integer");
@@ -549,8 +552,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		for (OJField ojField : fields) {
 			String javaType = ojField.getType().getLast();
 			if (javaTypes.contains(javaType)) {
-				OJOperation setter = findMethodIgnorecase(c, "set" + ojField.getName());
-				OJOperation getter = findMethodIgnorecase(c, "get" + ojField.getName());
+				OJOperation setter = findMethodIgnorecase(c, map.setter());
+				OJOperation getter = findMethodIgnorecase(c, map.getter());
 				body.addToStatements("to." + setter.getName() + "(from." + getter.getName() + "())");
 			}
 		}
