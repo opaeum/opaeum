@@ -92,8 +92,8 @@ public class HibernateUtil{
 		field.addAnnotationIfNew(cascade);
 	}
 
-	public static void addManyToAny(OJAnnotatedClass owner, OJAnnotatedField field, INakedProperty p, NakedStructuralFeatureMap map, Collection<INakedEntity> implementations) {
-		JpaUtil.addJoinTable(p,map,field);
+	public static void addManyToAny(INakedClassifier umlOwner, OJAnnotatedClass owner, OJAnnotatedField field, INakedProperty p, NakedStructuralFeatureMap map, Collection<INakedEntity> implementations) {
+		JpaUtil.addJoinTable(umlOwner,p,map,field);
 		OJAnnotationValue any = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.ManyToAny"));
 		OJAnnotationValue metaColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 		metaColumn.putAttribute(new OJAnnotationAttributeValue("name", p.getMappingInfo().getPersistentName()+ "_type"));

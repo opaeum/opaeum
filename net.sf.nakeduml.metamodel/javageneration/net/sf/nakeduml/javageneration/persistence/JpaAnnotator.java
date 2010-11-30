@@ -278,7 +278,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 				}
 			} else {
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToMany"));
-				JpaUtil.addJoinTable(p, map, field);
+				JpaUtil.addJoinTable(umlOwner, p, map, field);
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
