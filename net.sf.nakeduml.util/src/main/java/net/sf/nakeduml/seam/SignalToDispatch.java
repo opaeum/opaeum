@@ -100,14 +100,17 @@ public class SignalToDispatch implements Serializable {
 	private Object resolve(EntityManager em, Object ae) {
 		if (ae instanceof AbstractEntity) {
 			return em.find(ae.getClass(), ((AbstractEntity) ae).getId());
-		} else if (IntrospectionUtil.getOriginalClass(ae).isAnnotationPresent(Name.class)) {
-			if (Contexts.isEventContextActive() || Contexts.isApplicationContextActive()) {
-				return Component.getInstance(ae.getClass().getAnnotation(Name.class).value());
-			} else {
-				return ae;
-			}
 		} else {
-			throw new IllegalStateException("Only jpa entities and seam components can receive signals");
+			Class<?> originalClass = IntrospectionUtil.getOriginalClass(ae);
+			if (originalClass.isAnnotationPresent(Name.class)) {
+				if (Contexts.isEventContextActive() || Contexts.isApplicationContextActive()) {
+					return Component.getInstance(originalClass.getAnnotation(Name.class).value());
+				} else {
+					return ae;
+				}
+			} else {
+				throw new IllegalStateException("Only jpa entities and seam components can receive signals");
+			}
 		}
 	}
 

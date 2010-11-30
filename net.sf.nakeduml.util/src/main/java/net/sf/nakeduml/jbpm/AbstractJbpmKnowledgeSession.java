@@ -3,49 +3,48 @@ package net.sf.nakeduml.jbpm;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
 
 import org.drools.KnowledgeBase;
 import org.drools.SessionConfiguration;
-import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderFactory;
-import org.drools.builder.ResourceType;
-import org.drools.compiler.ProcessBuilderFactory;
 import org.drools.impl.EnvironmentFactory;
 import org.drools.impl.EnvironmentImpl;
-import org.drools.io.ResourceFactory;
-import org.drools.marshalling.impl.ProcessMarshallerFactory;
 import org.drools.runtime.Environment;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.process.ProcessRuntimeFactory;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
-import org.jbpm.marshalling.impl.ProcessMarshallerFactoryServiceImpl;
-import org.jbpm.marshalling.impl.ProcessMarshallerRegistry;
-import org.jbpm.process.builder.ProcessBuilderFactoryServiceImpl;
-import org.jbpm.process.instance.ProcessRuntimeFactoryServiceImpl;
-import org.jbpm.ruleflow.core.RuleFlowProcess;
-import org.jbpm.workflow.core.node.EndNode;
-import org.jbpm.workflow.core.node.Join;
-import org.jbpm.workflow.core.node.StateNode;
-import org.jbpm.workflow.instance.impl.NodeInstanceFactoryRegistry;
-import org.jbpm.workflow.instance.impl.factory.CreateNewNodeFactory;
-import org.jbpm.workflow.instance.impl.factory.ReuseNodeFactory;
+import org.jboss.seam.transaction.UserTransaction;
 
-public abstract class AbstractJbpmKnowledgeSession {
+public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
 	private StatefulKnowledgeSession knowledgeSession;
+	@In
+	UserTransaction transaction;
 
 	protected abstract EntityManager getEntityManager();
+
 	protected abstract AbstractJbpmKnowledgeBase getJbpmKnowledgeBase();
+
 	public StatefulKnowledgeSession getKnowledgeSession() {
 		if (this.knowledgeSession == null) {
 			this.knowledgeSession = createKnowledgeSession();
 		}
 		return this.knowledgeSession;
 	}
-	
-	protected StatefulKnowledgeSession createKnowledgeSession() {
+
+	protected StatefulKnowledgeSession createKnowledgeSession()  {
 		KnowledgeBase kbase = getJbpmKnowledgeBase().getKnowledgeBase();
 		if (Contexts.isEventContextActive()) {
+			try {
+				if (transaction.isActive()) {
+					transaction.registerSynchronization(this);
+				}else{
+					throw new IllegalStateException("Processes must be accessed from a transactional context");
+				}
+			} catch (SystemException e) {
+				throw new RuntimeException(e);
+			}
 			Properties properties = new Properties();
 			properties.setProperty("drools.commandService", "org.drools.persistence.session.SingleSessionCommandService");
 			properties.setProperty("drools.processInstanceManagerFactory",
@@ -67,5 +66,14 @@ public abstract class AbstractJbpmKnowledgeSession {
 		}
 	}
 
+	@Override
+	public void afterCompletion(int arg0) {
+		if (Contexts.isEventContextActive()) {
+			Contexts.getEventContext().remove("jbpmKnowledgeSession");
+		}
+	}
 
+	@Override
+	public void beforeCompletion() {
+	}
 }
