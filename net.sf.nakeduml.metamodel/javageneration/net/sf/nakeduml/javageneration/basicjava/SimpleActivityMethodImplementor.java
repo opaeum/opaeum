@@ -133,7 +133,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	private void implementNode(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode node) {
 		if (node instanceof INakedControlNode) {
 			implementControlNode(operation, block, (INakedControlNode) node);
-		}else if(node instanceof INakedExpansionRegion){
+		} else if (node instanceof INakedExpansionRegion) {
 			implementExpansionRegion(operation, block, (INakedExpansionRegion) node);
 		} else if (node != null) {
 			implementAction(operation, block, node);
@@ -141,11 +141,12 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	}
 
 	private void implementAction(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode node) {
-		SimpleActionBuilder<?> actionBuilder = resolveActionBuilder(node, getOclEngine(),new ObjectNodeExpressor(getOclEngine().getOclLibrary()));
+		SimpleActionBuilder<?> actionBuilder = resolveActionBuilder(node, getOclEngine(), new ObjectNodeExpressor(getOclEngine()
+				.getOclLibrary()));
 		if (actionBuilder != null) {
 			actionBuilder.implementActionOn(operation, block);
 			if (actionBuilder instanceof Caller) {
-				block =  surroundWithCatchIfRequired((INakedCallAction) node,(Caller) actionBuilder,operation, block);
+				block = surroundWithCatchIfRequired((INakedCallAction) node, (Caller) actionBuilder, operation, block);
 			}
 		}
 		maybeImplementNextNode(operation, block, node);
@@ -164,14 +165,14 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			block.addToLocals(outField);
 		}
 		ObjectNodeExpressor expressor = new ObjectNodeExpressor(getOclEngine().getOclLibrary());
-		
-		OJForStatement forEach = new OJForStatement(input.getName(), map.javaBaseTypePath(), expressor.expressInputPinOrOutParamOrExpansionNode(block, input));
+		OJForStatement forEach = new OJForStatement(input.getName(), map.javaBaseTypePath(),
+				expressor.expressInputPinOrOutParamOrExpansionNode(block, input));
 		block.addToStatements(forEach);
 		addVariables(region.getActivity(), region.getVariables(), forEach.getBody(), operation.getOwner());
-		//TODO get first node, likely an inputElement to implement
+		// TODO get first node, likely an inputElement to implement
 		if (input.getDefaultOutgoing().size() == 1) {
 			implementNode(operation, forEach.getBody(), input.getDefaultOutgoing().iterator().next().getEffectiveTarget());
-		}else{
+		} else {
 			implementNode(operation, forEach.getBody(), getFirstNode(region.getStartNodes()));
 		}
 		maybeImplementNextNode(operation, block, region);
@@ -216,7 +217,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		}
 	}
 
-	public static SimpleActionBuilder<?> resolveActionBuilder(INakedActivityNode node, IOclEngine oclEngine, AbstractObjectNodeExpressor expressor) {
+	public static SimpleActionBuilder<?> resolveActionBuilder(INakedActivityNode node, IOclEngine oclEngine,
+			AbstractObjectNodeExpressor expressor) {
 		SimpleActionBuilder<?> actionBuilder = null;
 		if (node instanceof INakedParameterNode) {
 			actionBuilder = new ParameterNodeImplementor(oclEngine, (INakedParameterNode) node, expressor);
@@ -259,14 +261,21 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	}
 
 	private static INakedActivityNode getFirstNode(Collection<INakedActivityNode> startNodes) {
-		if(startNodes.isEmpty()){
+		if (startNodes.isEmpty()) {
 			return null;
-		}else{
-			return startNodes.iterator().next();
+		} else {
+			// IGnore unconnected parameter nodes
+			for (INakedActivityNode node : startNodes) {
+				if (!(node.getAllEffectiveOutgoing().isEmpty() && node instanceof INakedParameterNode)) {
+					return node;
+				}
+			}
+			return null;
 		}
 	}
 
-	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall, Caller caller, OJAnnotatedOperation operationContext, OJBlock originalBlock) {
+	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall, Caller caller, OJAnnotatedOperation operationContext,
+			OJBlock originalBlock) {
 		boolean shouldSurround = nakedCall.getExceptionPins().size() > 0;
 		if (shouldSurround) {
 			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operationContext, originalBlock);
