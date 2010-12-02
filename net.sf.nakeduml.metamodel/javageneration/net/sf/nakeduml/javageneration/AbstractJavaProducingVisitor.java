@@ -69,7 +69,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 			String name = (String) iter.next();
 			child = parent.findPackage(new OJPathName(name));
 			if (child == null) {
-				child = new OJPackage();
+				child = new OJAnnotatedPackage();
 				child.setName(name);
 				parent.addToSubpackages(child);
 			}

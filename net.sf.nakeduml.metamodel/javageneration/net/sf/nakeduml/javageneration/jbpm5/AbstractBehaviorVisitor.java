@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -122,7 +123,8 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			processInstanceField.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			OJOperation getter = OJUtil.findOperation(ojBehavior, "getProcessInstance");
 			getter.setBody(new OJBlock());
-			OJIfStatement ifNull = new OJIfStatement("this.processInstance==null",
+			OJIfStatement ifNull = new OJIfStatement(
+					"this.processInstance==null",
 					"this.processInstance=(WorkflowProcessInstance)JbpmKnowledgeSession.getInstance().getKnowledgeSession().getProcessInstance(getProcessInstanceId())");
 			getter.getBody().addToStatements(ifNull);
 			getter.getBody().addToStatements("return this.processInstance");
@@ -180,7 +182,8 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			execute.getBody().addToStatements("evaluatePreConditions()");
 			OJUtil.addFailedConstraints(execute);
 		}
-		//TODO with complex synchronous methods and transient statemachines, set the processInstance in the first step
+		// TODO with complex synchronous methods and transient statemachines,
+		// set the processInstance in the first step
 		return execute;
 	}
 
@@ -202,10 +205,10 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		OJOperation javaMethod = OJUtil.findOperation(ojContext, methodName.toString());
 		javaMethod.getOwner().addToImports(ojBehavior);
 		if (behavior.isProcess()) {
-			//Leave preconditions in tact
-			if(javaMethod.getBody().getStatements().size()>0){
-				OJStatement st = javaMethod.getBody().getStatements().get(javaMethod.getBody().getStatements().size()-1);
-				if(st.toJavaString().contains("return ")){
+			// Leave preconditions in tact
+			if (javaMethod.getBody().getStatements().size() > 0) {
+				OJStatement st = javaMethod.getBody().getStatements().get(javaMethod.getBody().getStatements().size() - 1);
+				if (st.toJavaString().contains("return ")) {
 					javaMethod.getBody().removeFromStatements(st);
 				}
 			}
@@ -439,6 +442,11 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 
 	private void doGetInnermostNonParallelStep(OJClass ojBehavior, INakedBehavior umlBehavior) {
 		OJOperation getInnermostNonParallelStep = new OJAnnotatedOperation();
+		if (umlBehavior.getContext() != null && umlBehavior.isClassifierBehavior()) {
+			OJAnnotatedClass ojContext = findJavaClass(umlBehavior.getContext());
+			OJAnnotatedField field = OJUtil.addProperty(ojContext, "currentState", new OJPathName("net.sf.nakeduml.util.AbstractProcessStep"), true);
+			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+		}
 		getInnermostNonParallelStep.setName("getInnermostNonParallelStep");
 		getInnermostNonParallelStep.setReturnType(ReflectionUtil.getUtilInterface(AbstractProcessStep.class));
 		OJIfStatement ifMany = new OJIfStatement("getProcessInstance().getNodeInstances().size()>1", "return null");

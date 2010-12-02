@@ -83,13 +83,15 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter {
 		for (INakedActivityNode node : activity.getActivityNodesRecursively()) {
 			if (node instanceof INakedAcceptEventAction) {
 				INakedAcceptEventAction action = (INakedAcceptEventAction) node;
-				WaitForEventElements eventActions = results.get(action.getEvent());
-				if (eventActions == null) {
-					eventActions = new WaitForEventElements(action.getEvent());
-					results.put(action.getEvent(), eventActions);
-				}
-				for (INakedActivityEdge flow : action.getAllEffectiveOutgoing()) {
-					eventActions.addWaitingNode(action, flow, true);
+				if (action.getTrigger() != null && action.getTrigger().getEvent() != null) {
+					WaitForEventElements eventActions = results.get(action.getTrigger().getEvent());
+					if (eventActions == null) {
+						eventActions = new WaitForEventElements(action.getTrigger().getEvent());
+						results.put(action.getTrigger().getEvent(), eventActions);
+					}
+					for (INakedActivityEdge flow : action.getAllEffectiveOutgoing()) {
+						eventActions.addWaitingNode(action, flow, true);
+					}
 				}
 			}
 		}

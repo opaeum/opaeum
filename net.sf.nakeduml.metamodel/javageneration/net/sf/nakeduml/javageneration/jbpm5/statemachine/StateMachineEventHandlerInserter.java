@@ -69,20 +69,20 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 	private Collection<WaitForEventElements> getWaitForEventElements(INakedStateMachine ns) {
 		Map<INakedElement, WaitForEventElements> results = new HashMap<INakedElement, WaitForEventElements>();
 		for (INakedTransition transition : ns.getTransitions()) {
-			INakedElement trigger = transition.getTrigger();
+			INakedElement event = transition.getTrigger()==null?null:transition.getTrigger().getEvent();
 			INakedState state = transition.getSource();
-			if (trigger == null) {
+			if (event == null) {
 				if (transition.getSource().getKind() != StateKind.INITIAL) {
 					// Naughty!!!
-					trigger = state;
+					event = state;
 				} else {
 					continue;
 				}
 			}
-			WaitForEventElements eventActions = results.get(trigger);
+			WaitForEventElements eventActions = results.get(event);
 			if (eventActions == null) {
-				eventActions = new WaitForEventElements(trigger);
-				results.put(trigger, eventActions);
+				eventActions = new WaitForEventElements(event);
+				results.put(event, eventActions);
 			}
 			eventActions.addWaitingNode(state, transition, state.getKind().isRestingState());
 		}

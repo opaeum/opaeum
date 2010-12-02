@@ -16,12 +16,12 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation) {
 		if (node.getActionType().isAcceptTimeEventAction()) {
-			BpmUtil.implementTimeEvent(operation, (INakedTimeEvent) node.getEvent(), node, node.getAllEffectiveOutgoing());
+			BpmUtil.implementTimeEvent(operation, (INakedTimeEvent) node.getTrigger().getEvent(), node, node.getAllEffectiveOutgoing());
 			OJOperation cancel = new OJAnnotatedOperation();
 			ActionMap map = new ActionMap(node);
 			cancel.setName(map.getCancelTimersMethod());
 			operation.getOwner().addToOperations(cancel);
-			BpmUtil.cancelTimer(cancel, (INakedTimeEvent) node.getEvent());
+			BpmUtil.cancelTimer(cancel, (INakedTimeEvent) node.getTrigger().getEvent());
 		}
 	}
 

@@ -3,11 +3,12 @@ import java.util.List;
 
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 public interface INakedAcceptEventAction extends INakedAction {
-	INakedElement getEvent();
-	void setEvent(INakedElement trigger);
+	INakedTrigger getTrigger();
+	void setTrigger(INakedTrigger trigger);
 	List<INakedOutputPin> getResult();
 	List<INakedTypedElement> getParameters();
 }

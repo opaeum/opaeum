@@ -168,12 +168,18 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 				name = "write" + generateUmlName(action.getFeature()).getCapped() + action.getMappingInfo().getNakedUmlId();
 			} else if (nakedAction instanceof INakedAcceptEventAction) {
 				INakedAcceptEventAction action = (INakedAcceptEventAction) nakedAction;
-				if (action.getEvent() instanceof NakedTimeEventImpl) {
-					name = "waitFor" + generateUmlName(action.getEvent()) + action.getMappingInfo().getNakedUmlId();
-				} else if (action.getEvent() instanceof INakedOperation) {
-					name = "accept" + generateUmlName(action.getEvent()).getCapped() + action.getMappingInfo().getNakedUmlId();
-				} else if (action.getEvent() instanceof INakedSignal) {
-					name = "accept" + generateUmlName(action.getEvent()).getCapped() + action.getMappingInfo().getNakedUmlId();
+				if (action.getTrigger() == null) {
+					name = "anonymousAcceptEventAction" + action.getMappingInfo().getNakedUmlId();
+				} else {
+					if (action.getTrigger().getEvent() instanceof NakedTimeEventImpl) {
+						name = "waitFor" + generateUmlName(action.getTrigger().getEvent()) + action.getMappingInfo().getNakedUmlId();
+					} else if (action.getTrigger().getEvent() instanceof INakedOperation) {
+						name = "accept" + generateUmlName(action.getTrigger().getEvent()).getCapped()
+								+ action.getMappingInfo().getNakedUmlId();
+					} else if (action.getTrigger().getEvent() instanceof INakedSignal) {
+						name = "accept" + generateUmlName(action.getTrigger().getEvent()).getCapped()
+								+ action.getMappingInfo().getNakedUmlId();
+					}
 				}
 			} else {
 				name = "action" + nakedAction.getMappingInfo().getNakedUmlId();
@@ -196,7 +202,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 			INakedPin node = (INakedPin) te;
 			if (name == null) {
 				if (node.getNakedBaseType() == null) {
-					//Value pins can have null baseTypes
+					// Value pins can have null baseTypes
 					name = "anonymousPin";
 				} else {
 					// Generate a unique name
