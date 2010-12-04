@@ -99,7 +99,7 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	public Collection<INakedTransition> getTimeTriggerTransitions(){
 		Collection<INakedTransition> results = new ArrayList<INakedTransition>();
 		for(INakedTransition t:this.getOutgoing()){
-			if(t.getTrigger() instanceof INakedTimeEvent){
+			if(t.getTrigger() !=null && t.getTrigger().getEvent() instanceof INakedTimeEvent){
 				results.add(t);
 			}
 		}

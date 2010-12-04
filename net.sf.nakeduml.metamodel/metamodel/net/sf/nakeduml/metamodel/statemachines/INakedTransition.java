@@ -4,10 +4,12 @@ import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 
@@ -33,18 +35,18 @@ public interface INakedTransition extends INakedElementOwner,GuardedFlow{
 	 * TypedElement, but in fact they could be either Parameters in the case of an Operation trigger, or Attributes in the case of a Signal
 	 * trigger
 	 */
-	List<INakedParameter> getParameters();
+	List<? extends INakedTypedElement> getParameters();
 	String[] getParameterNames();
 	TransitionKind getKind();
 	INakedStateMachine getStateMachine();
 	PreAndPostConstrained getEffect();
-	INakedElement getTrigger();
+	INakedTrigger getTrigger();
+	void setTrigger(INakedTrigger trigger);
 	INakedValueSpecification getGuard();
 	boolean hasEffect();
 	void setEffect(INakedBehavior effect);
 	boolean hasTrigger();
 	boolean hasGuard();
-	void setTrigger(INakedElement trigger);
 	void setGuardConstraint(INakedConstraint guard);
 	INakedConstraint getGuardConstraint();
 	public INakedRegion getContainer();

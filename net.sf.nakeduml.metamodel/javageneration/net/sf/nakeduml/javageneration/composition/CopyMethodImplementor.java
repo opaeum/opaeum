@@ -110,6 +110,9 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 		oper.addParam("from", owner.getPathName());
 		oper.addParam("to", owner.getPathName());
 		addCopyStatements(classifier, owner, oper.getBody(), false, true);
+		if(classifier instanceof INakedEntity && ((INakedEntity) classifier).getClassifierBehavior()!=null){
+			oper.getBody().addToStatements("to.setCurrentState(from.getClassifierBehavior().getInnermostNonParallelStep())");
+		}
 		owner.addToOperations(oper);
 	}
 

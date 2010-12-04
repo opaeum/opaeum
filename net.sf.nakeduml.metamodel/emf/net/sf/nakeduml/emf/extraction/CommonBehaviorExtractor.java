@@ -5,7 +5,9 @@ import java.util.List;
 import javax.swing.event.ChangeEvent;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTriggerImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -42,30 +44,33 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 	}
 
 	// Precondition: the behaviour must have been populated
-	protected INakedElement buildEvent(Behavior behaviour, Trigger t) {
+	protected INakedTrigger buildTrigger(Behavior behaviour, Trigger t) {
 		Event event = t.getEvent();
+		INakedTrigger trigger=new NakedTriggerImpl();
+		initialize(trigger, t, behaviour);
 		if (event instanceof SignalEvent) {
 			SignalEvent se = (SignalEvent) event;
-			return getNakedPeer(se.getSignal());
+			trigger.setEvent(getNakedPeer(se.getSignal()));
 		} else if (event instanceof ReceiveSignalEvent) {
 			ReceiveSignalEvent se = (ReceiveSignalEvent) event;
-			return getNakedPeer(se.getSignal());
+			trigger.setEvent(getNakedPeer(se.getSignal()));
 		} else if (event instanceof CallEvent) {
 			CallEvent ce = (CallEvent) event;
-			return getNakedPeer(ce.getOperation());
+			trigger.setEvent(getNakedPeer(ce.getOperation()));
 		} else if (event instanceof ReceiveOperationEvent) {
 			ReceiveOperationEvent ce = (ReceiveOperationEvent) event;
-			return getNakedPeer(ce.getOperation());
+			trigger.setEvent(getNakedPeer(ce.getOperation()));
 		} else if (event instanceof ChangeEvent) {
 		} else if (event instanceof TimeEvent) {
 			INakedBehavior context = (INakedBehavior) getNakedPeer(behaviour);
-			// NB!!! TimeEvents are stored under the id of the Trigger to
+			// NB!!! TimeEvents are stored under a special id to
 			// duplicate it in each context it is used.
-			NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) getNakedPeer(t);
+			String id = getId(t)+getId(behaviour);
+			NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) workspace.getModelElement(id);
 			if (nakedTimeEvent == null) {
 				nakedTimeEvent = new NakedTimeEventImpl();
 				TimeEvent emfTimeEvent = ((TimeEvent) event);
-				nakedTimeEvent.initialize(getId(t), emfTimeEvent.getName());
+				nakedTimeEvent.initialize(id, emfTimeEvent.getName());
 				// NB!!! Deviation from UML2 metamodel:
 				// We have to make the behaviour the owner to allow for the
 				// expression to be implemented correctly
@@ -81,9 +86,9 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 				nakedTimeEvent.setRelative(emfTimeEvent.isRelative());
 				nakedTimeEvent.setTimeUnit(resolveTimeUnit(emfTimeEvent));
 			}
-			return nakedTimeEvent;
+			trigger.setEvent(nakedTimeEvent);
 		}
-		return null;
+		return trigger;
 	}
 
 	private TimeUnit resolveTimeUnit(TimeEvent emfTimeEvent) {

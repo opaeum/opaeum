@@ -27,7 +27,7 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBrid
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity{
+public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity {
 	private static final long serialVersionUID = -8111895180462880035L;
 	public static final String META_CLASS = "activity";
 	private ActivityKind activityKind;
@@ -35,101 +35,119 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	private Set<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>();
 	private Set<INakedActivityPartition> partitions = new HashSet<INakedActivityPartition>();
 	private Set<INakedActivityVariable> variables = new HashSet<INakedActivityVariable>();
-	public Set<INakedActivityPartition> getPartitions(){
+
+	public Set<INakedActivityPartition> getPartitions() {
 		return this.partitions;
 	}
-	public Collection<INakedActivityNode> getStartNodes(){
+
+	public Collection<INakedActivityNode> getStartNodes() {
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
-		for(INakedActivityNode node:getActivityNodes()){
-			if(node instanceof INakedParameterNode){
+		for (INakedActivityNode node : getActivityNodes()) {
+			if (node instanceof INakedParameterNode) {
 				INakedParameterNode parmNode = (INakedParameterNode) node;
-				//Ignore parameter nodes that have no outgoing edges, e.g. out-parameters
-				if(parmNode.getParameter().isArgument() && parmNode.getAllEffectiveIncoming().isEmpty()){
+				// Ignore parameter nodes that have no outgoing edges, e.g.
+				// out-parameters
+				if (parmNode.getParameter().isArgument() && parmNode.getAllEffectiveIncoming().isEmpty()) {
 					results.add(node);
 				}
-			}else if(node.getAllEffectiveIncoming().isEmpty()){
+			} else if (node.getAllEffectiveIncoming().isEmpty()) {
 				results.add(node);
 			}
 		}
 		return results;
 	}
+
 	@Override
-	public String getMetaClass(){
+	public String getMetaClass() {
 		return META_CLASS;
 	}
-	public boolean isProcess(){
+
+	public boolean isProcess() {
 		return getActivityKind() == ActivityKind.PROCESS;
 	}
 
 	@Override
-	public void addOwnedElement(INakedElement element){
+	public void addOwnedElement(INakedElement element) {
 		super.addOwnedElement(element);
-		if(element instanceof INakedActivityPartition){
+		if (element instanceof INakedActivityPartition) {
 			this.partitions.add((INakedActivityPartition) element);
 		}
-		if(element instanceof INakedActivityNode){
+		if (element instanceof INakedActivityNode) {
 			this.activityNodes.add((INakedActivityNode) element);
 		}
-		if(element instanceof INakedActivityEdge){
+		if (element instanceof INakedActivityEdge) {
 			this.activityEdges.add((INakedActivityEdge) element);
 		}
-		if(element instanceof INakedActivityVariable){
+		if (element instanceof INakedActivityVariable) {
 			this.variables.add((INakedActivityVariable) element);
 		}
 	}
+
 	@Override
-	protected List<IAttribute> getAllAttributesForOcl(boolean classScope){
+	protected List<IAttribute> getAllAttributesForOcl(boolean classScope) {
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
-		if(!classScope){
-			for(INakedActivityNode node:getActivityNodesRecursively()){
-				//TODO reconsider the outputpin thing - that's what variables are for
-				if(node instanceof INakedParameterNode){
+		if (!classScope) {
+			for (INakedActivityNode node : getActivityNodesRecursively()) {
+				// TODO reconsider the outputpin thing - that's what variables
+				// are for
+				if (node instanceof INakedParameterNode) {
 					results.add(new TypedElementPropertyBridge(this, (INakedTypedElement) node));
 				}
 			}
 		}
 		return results;
 	}
-	public List<INakedActivityNode> getActivityNodesRecursively(){
+
+	public List<INakedActivityNode> getActivityNodesRecursively() {
 		List<INakedElement> children = new ArrayList<INakedElement>(this.activityNodes);
 		List<INakedActivityNode> result = new ArrayList<INakedActivityNode>();
 		addNodesRecursively(children, result);
 		return result;
 	}
-	private static void addNodesRecursively(Collection<? extends INakedElement> children,List<? super INakedActivityNode> result){
-		for(INakedElement node:children){
-			if(node instanceof INakedActivityNode){
+
+	private static void addNodesRecursively(Collection<? extends INakedElement> children, List<? super INakedActivityNode> result) {
+		for (INakedElement node : children) {
+			if (node instanceof INakedActivityNode) {
 				result.add((INakedActivityNode) node);
 			}
-			if(node instanceof INakedElementOwner){
+			if (node instanceof INakedElementOwner) {
 				addNodesRecursively(((INakedElementOwner) node).getOwnedElements(), result);
 			}
 		}
 	}
-	public Set<INakedActivityEdge> getActivityEdges(){
+
+	public Set<INakedActivityEdge> getActivityEdges() {
 		return this.activityEdges;
 	}
-	public Set<INakedActivityNode> getActivityNodes(){
+
+	public Set<INakedActivityNode> getActivityNodes() {
 		return this.activityNodes;
 	}
-	public List<INakedElement> getAllMessageTriggers(){
+
+	public List<INakedElement> getAllMessageTriggers() {
 		List<INakedElement> results = new ArrayList<INakedElement>();
 		Iterator iter = getActivityNodesRecursively().iterator();
-		while(iter.hasNext()){
+		while (iter.hasNext()) {
 			INakedActivityNode element = (INakedActivityNode) iter.next();
-			if(element instanceof INakedAcceptEventAction){
-				results.add(((INakedAcceptEventAction) element).getEvent());
+			if (element instanceof INakedAcceptEventAction) {
+				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) element;
+				if (acceptEventAction.getTrigger() != null && acceptEventAction.getTrigger().getEvent() != null) {
+					results.add(acceptEventAction.getTrigger().getEvent());
+				}
 			}
 		}
 		return results;
 	}
-	public Collection<INakedActivityVariable> getVariables(){
+
+	public Collection<INakedActivityVariable> getVariables() {
 		return this.variables;
 	}
-	public ActivityKind getActivityKind(){
+
+	public ActivityKind getActivityKind() {
 		return this.activityKind;
 	}
-	public void setActivityKind(ActivityKind activityKind){
+
+	public void setActivityKind(ActivityKind activityKind) {
 		this.activityKind = activityKind;
 	}
 }

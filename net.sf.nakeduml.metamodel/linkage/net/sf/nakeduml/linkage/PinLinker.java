@@ -75,8 +75,8 @@ public class PinLinker extends AbstractModelElementLinker {
 
 	@VisitBefore(matchSubclasses = true)
 	public void linkAcceptEvent(INakedAcceptEventAction action) {
-		if (action.getEvent() instanceof INakedSignal) {
-			INakedSignal signal = (INakedSignal) action.getEvent();
+		if (action.getTrigger() != null && action.getTrigger().getEvent() instanceof INakedSignal) {
+			INakedSignal signal = (INakedSignal) action.getTrigger().getEvent();
 			linkByNameIfRequired(signal, signal.getArgumentParameters(), action.getResult());
 		} else {
 			List<INakedTypedElement> args = action.getParameters();

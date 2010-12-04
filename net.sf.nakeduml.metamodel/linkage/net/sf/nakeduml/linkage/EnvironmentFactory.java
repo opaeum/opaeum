@@ -21,6 +21,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -111,8 +112,8 @@ public class EnvironmentFactory {
 	}
 	public void addFlowParameters(Environment env, GuardedFlow edge) {
 		if (edge instanceof INakedTransition) {
-			List<INakedParameter> parameters = ((INakedTransition) edge).getParameters();
-			for (INakedParameter p : parameters) {
+			List<? extends INakedTypedElement> parameters = ((INakedTransition) edge).getParameters();
+			for (INakedTypedElement p : parameters) {
 				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
 			}
 		} else if (edge instanceof INakedObjectFlow) {
@@ -140,7 +141,7 @@ public class EnvironmentFactory {
 	private void addTransitionParametersIfBehaviourContainedByTransition(Environment env, IParameterOwner paramOwner) {
 		if (paramOwner.getOwnerElement() instanceof INakedTransition) {
 			INakedTransition t = (INakedTransition) paramOwner.getOwnerElement();
-			for (INakedParameter p : t.getParameters()) {
+			for (INakedTypedElement p : t.getParameters()) {
 				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
 			}
 		}

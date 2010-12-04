@@ -7,11 +7,13 @@ import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
@@ -28,7 +30,7 @@ public class NakedTransitionImpl extends NakedModelElementImpl implements INaked
 	protected INakedState source;
 	protected INakedState target;
 	PreAndPostConstrained effect;
-	INakedElement trigger;
+	INakedTrigger trigger;
 	private INakedConstraint guard;
 	private String[] parameterNames;
 
@@ -73,13 +75,17 @@ public class NakedTransitionImpl extends NakedModelElementImpl implements INaked
 		this.target = target;
 	}
 
-	public List getParameters() {
-		if (getTrigger() instanceof INakedSignal) {
-			return ((INakedSignal) getTrigger()).getArgumentParameters();
-		} else if (getTrigger() instanceof INakedOperation) {
-			return ((INakedOperation) getTrigger()).getArgumentParameters();
-		} else {
+	public List<? extends INakedTypedElement> getParameters() {
+		if (getTrigger() == null) {
 			return Collections.EMPTY_LIST;
+		} else {
+			if (getTrigger().getEvent() instanceof INakedSignal) {
+				return ((INakedSignal) getTrigger().getEvent()).getArgumentParameters();
+			} else if (getTrigger().getEvent() instanceof INakedOperation) {
+				return ((INakedOperation) getTrigger().getEvent()).getArgumentParameters();
+			} else {
+				return Collections.EMPTY_LIST;
+			}
 		}
 	}
 
@@ -134,7 +140,7 @@ public class NakedTransitionImpl extends NakedModelElementImpl implements INaked
 		return this.effect;
 	}
 
-	public INakedElement getTrigger() {
+	public INakedTrigger getTrigger() {
 		return this.trigger;
 	}
 
@@ -172,7 +178,8 @@ public class NakedTransitionImpl extends NakedModelElementImpl implements INaked
 		}
 	}
 
-	public void setTrigger(INakedElement trigger) {
+	@Override
+	public void setTrigger(INakedTrigger trigger) {
 		this.trigger = trigger;
 	}
 

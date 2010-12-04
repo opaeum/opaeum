@@ -1,5 +1,8 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -16,57 +19,40 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumLiteral;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.name.NameConverter;
 import net.sf.nakeduml.util.AbstractProcessStep;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
-
-	protected abstract INakedElement getEnclosingElement(INakedElement s);
+	protected abstract INakedElement getEnclosingElement(INakedElement step);
+	protected abstract Collection<INakedTrigger> getMethodTriggers(INakedElement step);
 
 	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
 		OJEnum e = new OJEnum();
-		e.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(AbstractProcessStep.class));
+		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(AbstractProcessStep.class);
+		e.addToImplementedInterfaces(abstractProcessStep);
 		e.setName(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
 		super.createTextPath(e, JavaTextSource.GEN_SRC);
-		OJOperation getParentState = new OJAnnotatedOperation();
-		getParentState.setName("getParentState");
-		getParentState.setReturnType(e.getPathName());
-		e.addToOperations(getParentState);
-		e.addToConstructors(new OJConstructor());
+		OJConstructor constructor = new OJConstructor();
+		e.addToConstructors(constructor);
+		addField(e, constructor, "parentState", abstractProcessStep);
+		addField(e, constructor, "persistentName", new OJPathName("String"));
+		addField(e, constructor, "humanName", new OJPathName("String"));
+		addField(e, constructor, "triggerMethods", new OJPathName("net.sf.nakeduml.util.TriggerMethod[]"));
+		e.addToImports("net.sf.nakeduml.util.TriggerMethod");
 		OJOperation getQualifiedName = new OJAnnotatedOperation();
 		getQualifiedName.setName("getQualifiedName");
 		getQualifiedName.setReturnType(new OJPathName("String"));
 		e.addToOperations(getQualifiedName);
-		OJAnnotatedField persistentName = new OJAnnotatedField();
-		persistentName.setName("persistentName");
-		persistentName.setType(new OJPathName("String"));
-		e.addToFields(persistentName);
-		OJConstructor constructor = new OJConstructor();
-		constructor.addParam("persistentName", new OJPathName("String"));
-		constructor.getBody().addToStatements("this.persistentName=persistentName");
-		e.addToConstructors(constructor);
-		if (hasStateComposition) {
-			OJAnnotatedField parent = new OJAnnotatedField();
-			parent.setName("parent");
-			parent.setType(e.getPathName());
-			e.addToFields(parent);
-//			OJIfStatement ifParentNull = new OJIfStatement("parent==null", "return persistentName");
-//			ifParentNull.setElsePart(new OJBlock());
-//			ifParentNull.getElsePart().addToStatements("return parent.getQualifiedName()+ \"/\" + persistentName");
-//			getQualifiedName.getBody().addToStatements(ifParentNull);
-			getQualifiedName.getBody().addToStatements("return persistentName");
-			getParentState.getBody().addToStatements("return parent");
-			OJConstructor constructor2 = constructor.getConstructorCopy();
-			constructor2.addParam(parent.getName(), parent.getType());
-			constructor2.getBody().addToStatements("this.parent=parent");
-			e.addToConstructors(constructor2);
-		} else {
-			getParentState.getBody().addToStatements("return null");
-			getQualifiedName.getBody().addToStatements("return persistentName");
-		}
+		// OJIfStatement ifParentNull = new OJIfStatement("parent==null", "return persistentName");
+		// ifParentNull.setElsePart(new OJBlock());
+		// ifParentNull.getElsePart().addToStatements("return parent.getQualifiedName()+ \"/\" + persistentName");
+		// getQualifiedName.getBody().addToStatements(ifParentNull);
+		getQualifiedName.getBody().addToStatements("return persistentName");
 		OJOperation resolve = new OJAnnotatedOperation();
 		resolve.setName("resolveByQualifiedName");
 		resolve.setStatic(true);
@@ -85,22 +71,54 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		return e;
 	}
 
+
 	protected void buildLiteral(INakedElement step, OJEnum e) {
 		OJEnumLiteral l = new OJEnumLiteral();
 		l.setName(BpmUtil.stepLiteralName(step));
 		e.addToLiterals(l);
-		OJAnnotatedField persistentName = new OJAnnotatedField();
-		persistentName.setType(e.getPathName());
-		persistentName.setName("persistentName");
-		persistentName.setInitExp('"' + step.getMappingInfo().getPersistentName().getWithoutId().getAsIs() + '"');
-		l.addToAttributeValues(persistentName);
 		if (getEnclosingElement(step) != null) {
-			OJAnnotatedField parent = new OJAnnotatedField();
-			parent.setType(e.getPathName());
-			parent.setName("parent");
-			parent.setInitExp(BpmUtil.stepLiteralName(getEnclosingElement(step)));
-			l.addToAttributeValues(parent);
+			addParameter(l, "parentState", BpmUtil.stepLiteralName(getEnclosingElement(step)));
+		}else{
+			addParameter(l, "parentState", "null");
 		}
+		addParameter(l, "persistentName", '"' + step.getMappingInfo().getPersistentName().getWithoutId().getAsIs() + '"');
+		addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
+		addParameter(l, "triggerMethods", buildTriggerMethodParameter(getMethodTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);
+	}
+	
+	private String buildTriggerMethodParameter(Collection<INakedTrigger> methodTriggers) {
+		StringBuilder sb = new StringBuilder("new TriggerMethod[]{");
+		Iterator<INakedTrigger> iter = methodTriggers.iterator();
+		while(iter.hasNext()){
+			INakedTrigger t = iter.next();
+			sb.append("new TriggerMethod(");
+			sb.append(t.isHumanTrigger());
+			sb.append(",\"");
+			sb.append(t.getEvent().getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs());
+			sb.append("\",\"");
+			sb.append(t.getEvent().getName());
+			sb.append("\")");
+			if(iter.hasNext()){
+				sb.append(',');
+			}
+		}
+		sb.append('}');
+		return sb.toString();
+	}
+	public void addParameter(OJEnumLiteral l, String name, String value) {
+		OJAnnotatedField persistentName = new OJAnnotatedField();
+		persistentName.setName(name);
+		persistentName.setInitExp(value);
+		l.addToAttributeValues(persistentName);
+	}
+	private void addField(OJEnum ojEnum, OJConstructor constr, String name, OJPathName type) {
+		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
+		getter.getBody().addToStatements("return this." + name);
+		ojEnum.addToOperations(getter);
+		constr.addParam(name, type);
+		constr.getBody().addToStatements("this." + name + "=" + name);
+		OJAnnotatedField field = new OJAnnotatedField(name, type);
+		ojEnum.addToFields(field);
 	}
 }

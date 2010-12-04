@@ -11,12 +11,14 @@ import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJConstructor;
+import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJSimpleStatement;
+import net.sf.nakeduml.javametamodel.OJVisibilityKind;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -97,6 +99,10 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 				oper.getBody().addToStatements("this." + toOwnerMap.umlName() + "=newOwner");
 			}
 			ojClass.addToOperations(oper);
+			OJField fieldToOwner = ojClass.findField(toOwnerMap.umlName());
+			if (fieldToOwner != null) {
+				fieldToOwner.setVisibility(OJVisibilityKind.PROTECTED);
+			}
 		}
 	}
 

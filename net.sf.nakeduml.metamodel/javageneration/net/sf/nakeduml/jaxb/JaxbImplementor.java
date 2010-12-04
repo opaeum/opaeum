@@ -51,6 +51,8 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 			if (behavior.isClassifierBehavior()) {
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getClassifierBehavior");
 				JaxbAnnotator.addXmlTransient(oper);
+				OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
+				getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
 			} else {
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "get"
 						+ behavior.getMappingInfo().getJavaName().getCapped());

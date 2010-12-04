@@ -107,7 +107,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 	};
 
 	@VisitBefore(matchSubclasses = true)
-	public void class_After(INakedStateMachine umlStateMachine) {
+	public void visitStateMachine(INakedStateMachine umlStateMachine) {
 		javaStateMachine = findJavaClass(umlStateMachine);
 		addImports(javaStateMachine);
 		javaStateMachine.setName(umlStateMachine.getMappingInfo().getJavaName().toString());

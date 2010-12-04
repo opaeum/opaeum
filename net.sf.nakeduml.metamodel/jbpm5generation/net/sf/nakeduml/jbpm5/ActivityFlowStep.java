@@ -325,7 +325,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		setBounds(i, state);
 		state.setName(action.getMappingInfo().getPersistentName().toString());
 		nodes.getState().add(state);
-		if (action.getEvent() instanceof INakedTimeEvent) {
+		if (action.getTrigger()!=null &&  action.getTrigger().getEvent() instanceof INakedTimeEvent) {
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 			state.getOnEntry().add(onEntry);
 			OnExitType onExit = ProcessFactory.eINSTANCE.createOnExitType();
