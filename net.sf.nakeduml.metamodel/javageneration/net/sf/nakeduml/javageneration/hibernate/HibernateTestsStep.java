@@ -9,7 +9,7 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { StandaloneHibernateStep.class }, after = { PersistenceUsingHibernateStep.class })
+@StepDependency(phase = JavaTransformationPhase.class, requires = { HibernateConfiguratorGenerator.class }, after = { PersistenceUsingHibernateStep.class })
 public class HibernateTestsStep extends AbstractJavaTransformationStep {
 	@Override
 	public void initialize(OJPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace) {

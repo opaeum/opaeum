@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javametamodel.OJBlock;
@@ -15,16 +16,18 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.generated.OJVisibilityKindGEN;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor{
+@StepDependency(phase = StandaloneHibernatePhase.class, requires = HibernateConfigGenerator.class)
+public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor implements StandaloneHibernateStep {
 	@Override
-	public void initialize(INakedModelWorkspace workspace,OJPackage javaModel,NakedUmlConfig config,
-			net.sf.nakeduml.textmetamodel.TextWorkspace textWorkspace){
+	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config, TextWorkspace textWorkspace, OJPackage javaModel) {
+
 		super.initialize(workspace, javaModel, config, textWorkspace);
-		generateHibernateConfigurator();
 	}
-	private void generateHibernateConfigurator(){
+
+	public void generate() {
 		OJPackage util = javaModel.findPackage(UtilityCreator.getUtilPathName());
 		OJAnnotatedClass hibernateConfigurator = new OJAnnotatedClass();
 		hibernateConfigurator.setName("HibernateConfigurator");
@@ -61,7 +64,8 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		main.setStatic(true);
 		hibernateConfigurator.addToOperations(main);
 	}
-	private void addCloseEntityManager(OJAnnotatedClass hibernateConfigurator){
+
+	private void addCloseEntityManager(OJAnnotatedClass hibernateConfigurator) {
 		OJOperation closeEntityManager = new OJAnnotatedOperation();
 		closeEntityManager.setName("closeEntityManager");
 		hibernateConfigurator.addToOperations(closeEntityManager);
@@ -77,7 +81,8 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		tryIt.setCatchParam(exception);
 		closeEntityManager.getBody().addToStatements(tryIt);
 	}
-	private void addGetEntityManager(OJAnnotatedClass hibernateConfigurator){
+
+	private void addGetEntityManager(OJAnnotatedClass hibernateConfigurator) {
 		OJAnnotatedField entityManagerFactory = new OJAnnotatedField();
 		entityManagerFactory.setName("entityManagerFactory");
 		entityManagerFactory.setType(new OJPathName("javax.persistence.EntityManagerFactory"));
@@ -86,12 +91,12 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		getEntityManagerFactory.setName("getEntityManagerFactory");
 		getEntityManagerFactory.setReturnType(entityManagerFactory.getType());
 		hibernateConfigurator.addToOperations(getEntityManagerFactory);
-		OJIfStatement ifNull = new OJIfStatement("this.entityManagerFactory==null",
-				"entityManagerFactory=getConfiguration().buildEntityManagerFactory()");
+		OJIfStatement ifNull = new OJIfStatement("this.entityManagerFactory==null", "entityManagerFactory=getConfiguration().buildEntityManagerFactory()");
 		getEntityManagerFactory.getBody().addToStatements(ifNull);
 		getEntityManagerFactory.getBody().addToStatements("return this.entityManagerFactory");
 	}
-	private void addGetEntityManagerFactory(OJAnnotatedClass hibernateConfigurator){
+
+	private void addGetEntityManagerFactory(OJAnnotatedClass hibernateConfigurator) {
 		OJAnnotatedField entityManager = new OJAnnotatedField();
 		entityManager.setName("entityManager");
 		entityManager.setType(new OJPathName("javax.persistence.EntityManager"));
@@ -104,7 +109,8 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		getEntityManager.getBody().addToStatements(ifNull);
 		getEntityManager.getBody().addToStatements("return this.entityManager");
 	}
-	private void addGetConfiguration(OJAnnotatedClass hibernateConfigurator){
+
+	private void addGetConfiguration(OJAnnotatedClass hibernateConfigurator) {
 		OJAnnotatedField configuration = new OJAnnotatedField();
 		configuration.setName("configuration");
 		configuration.setType(new OJPathName("org.hibernate.ejb.Ejb3Configuration"));
@@ -120,7 +126,8 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		getConfiguration.getBody().addToStatements(ifNull);
 		getConfiguration.getBody().addToStatements("return this.configuration");
 	}
-	public static OJPathName getConfiguratorPathName(){
+
+	public static OJPathName getConfiguratorPathName() {
 		return UtilityCreator.getUtilPathName().append("HibernateConfigurator");
 	}
 }

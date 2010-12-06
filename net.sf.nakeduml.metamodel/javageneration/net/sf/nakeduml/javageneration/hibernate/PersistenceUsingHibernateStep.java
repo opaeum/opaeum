@@ -11,7 +11,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {PersistenceStep.class,InverseCalculator.class,
-		PersistentNameGenerator.class},after = {OclExpressionExecution.class/* to ensure hibernate configurator is done afterwards*/,PersistenceStep.class}, before = {StandaloneHibernateStep.class})
+		PersistentNameGenerator.class},after = {OclExpressionExecution.class/* to ensure hibernate configurator is done afterwards*/,PersistenceStep.class}, before = {})
 public class PersistenceUsingHibernateStep extends AbstractJavaTransformationStep{
 	@Override
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){

@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTextProducingVisitor;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
@@ -16,9 +18,13 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.PropertiesSource;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import net.sf.nakeduml.visitor.AbstractOJVisitor;
 
-public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
+@StepDependency(phase = StandaloneHibernatePhase.class,requires=PersistenceUsingHibernateStep.class)
+public class HibernateConfigGenerator extends AbstractTextProducingVisitor implements StandaloneHibernateStep {
 	public static final class OJVisitor extends AbstractOJVisitor {
 		private final HashSet<OJClass> classes;
 
@@ -38,8 +44,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 
 	public static final String RESOURCE_DIR = "gen-src";
 
-	@VisitBefore
-	public void generateConfig(INakedModel o) {
+	public void generate() {
 		HashMap<String, Object> vars = new HashMap<String, Object>();
 		Set<OJClass> classesRecursively = getClassesRecursively();
 		List<OJClass> sortedClasses = new ArrayList<OJClass>(classesRecursively);
@@ -54,11 +59,12 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			}
 		});
 		vars.put("persistentClasses", sortedClasses);
-		// TODO parameterize this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// TODO parameterize this!/ later
+
 		vars.put("requiresAuditing", true);
 		vars.put("config", this.config);
-		processTemplate(o, "templates/Model/Jbpm4HibernateConfig.vsl", "${model.mappingInfo.javaName}.hibernate.config.xml",
-				CharArrayTextSource.TEST_RESOURCE, vars);
+		processTemplate(this.workspace.getGeneratingModelsOrProfiles().get(0), "templates/Model/Jbpm4HibernateConfig.vsl",
+				"hibernate.cfg.xml", PropertiesSource.GEN_RESOURCE, vars);
 	}
 
 	private Set<OJClass> getClassesRecursively() {
@@ -66,4 +72,12 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 		new OJVisitor(classes).startVisiting(super.javaModel);
 		return classes;
 	}
+
+	@Override
+	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config, TextWorkspace textWorkspace, OJPackage javaModel) {
+		super.initialize(workspace, config, textWorkspace);
+		this.javaModel=javaModel;
+
+	}
+
 }
