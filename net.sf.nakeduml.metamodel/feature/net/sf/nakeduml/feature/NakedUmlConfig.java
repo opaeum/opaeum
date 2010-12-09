@@ -35,6 +35,7 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_DATE_TYPE = "nakeduml.date.type";
 	private static final String NAKEDUML_MAPPED_TYPES_PACKAGE = "nakeduml.mapped.types.package";
 	private static final String NAKEDUML_SEAM_OR_WELD = "nakeduml.seam.or.weld";
+	private static final String NAKEDUML_PROJECT_NAME = "nakeduml.project.name";
 
 	private Properties props = new Properties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
@@ -236,6 +237,10 @@ public class NakedUmlConfig {
 
 	public Boolean getDataGeneration() {
 		return Boolean.valueOf(this.props.getProperty(NAKEDUML_DATA_GENERATION, "true"));
+	}
+
+	public String getProjectName() {
+		return this.props.getProperty(NAKEDUML_PROJECT_NAME, "nakedmonkey");
 	}
 
 	public Boolean isSeamAnnotations() {
