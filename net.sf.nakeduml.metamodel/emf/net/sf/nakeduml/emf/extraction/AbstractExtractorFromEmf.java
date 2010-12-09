@@ -110,7 +110,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 
 	static String getId(EObject e) {
-		return e.eResource().getURI().lastSegment() +"#"+ e.eResource().getURIFragment(e);
+		return e.eResource().getURI().lastSegment() +"@"+ e.eResource().getURIFragment(e);
 	}
 
 	protected INakedElement getNakedPeer(Element e) {

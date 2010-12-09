@@ -77,7 +77,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		processObject.setName("processObject");
 		TypeType processObjectType = ProcessFactory.eINSTANCE.createTypeType();
 		processObjectType.setClassName(behavior.getMappingInfo().getQualifiedJavaName());
-		processObjectType.setName("org.drools.process.core.datatype.impl.type.ObjectDataType");
+		processObjectType.setName("org.jbpm.process.core.datatype.impl.type.ObjectDataType");
 		processObject.getType().add(processObjectType);
 		root.getProcess().getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
 		root.getProcess().getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
