@@ -24,6 +24,7 @@ import net.sf.nakeduml.util.AbstractUser;
 import net.sf.nakeduml.util.ActiveEntity;
 import net.sf.nakeduml.util.ActiveObject;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 
@@ -33,8 +34,6 @@ import org.jboss.seam.annotations.Name;
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/SignalQueue") })
 @TransactionManagement(TransactionManagementType.BEAN)
 public class SignalMDB implements MessageListener {
-	@In
-	EntityManager entityManager;
 	@Resource
 	UserTransaction userTransaction;
 
@@ -43,7 +42,7 @@ public class SignalMDB implements MessageListener {
 		ObjectMessage obj = (ObjectMessage) message;
 		try {
 			SignalToDispatch signalToDispatch = (SignalToDispatch) obj.getObject();
-			signalToDispatch.prepareForDelivery(entityManager);
+			signalToDispatch.prepareForDelivery((EntityManager) Component.getInstance("entityManager"));
 			ActiveObject target = signalToDispatch.getTarget();
 			if (target instanceof AbstractEntity) {
 				processInTransaction(signalToDispatch, target);

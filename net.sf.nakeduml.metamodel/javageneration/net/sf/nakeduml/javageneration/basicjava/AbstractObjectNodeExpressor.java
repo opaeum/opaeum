@@ -55,9 +55,12 @@ public abstract class AbstractObjectNodeExpressor {
 		if (feedingNode.getOwnerElement() instanceof INakedCallAction) {
 			INakedCallAction callAction = (INakedCallAction) feedingNode.getOwnerElement();
 			if (BehaviorUtil.hasMessageStructure(callAction)) {
-				INakedTypedElement p = (INakedTypedElement) feedingNode.getLinkedTypedElement() == null ? feedingNode : feedingNode
-						.getLinkedTypedElement();
-				NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), p);
+				NakedStructuralFeatureMap pinMap=null; 			
+				if(feedingNode.getLinkedTypedElement()==null){
+					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode,false);
+				}else{
+					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode.getLinkedTypedElement());
+				}
 				NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, this.oclLibrary);
 				call = getterForStructuredResults(actionMap);
 				if (callAction.getTargetElement() == null || callAction.getTargetElement().getNakedMultiplicity().isSingleObject()) {

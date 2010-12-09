@@ -236,7 +236,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		if (event instanceof INakedTimeEvent) {
 			// apply persistent name semantics - a revision may occur after the
 			// original event was logged
-			methodName = "on_" + event.getMappingInfo().getPersistentName().getWithoutId();
+			methodName = BpmUtil.getTimerCallbackMethodName((INakedTimeEvent) event);
 		} else {
 			methodName = "on" + event.getMappingInfo().getJavaName().getCapped();
 		}

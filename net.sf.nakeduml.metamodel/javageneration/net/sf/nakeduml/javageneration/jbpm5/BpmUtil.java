@@ -58,7 +58,7 @@ public class BpmUtil{
 			INakedValueSpecification when = event.getWhen();
 			if (when != null) {
 				String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), when.getType());
-				String callBackMethodName = "on_" + event.getMappingInfo().getPersistentName();
+				String callBackMethodName = getTimerCallbackMethodName(event);
 				if (event.isRelative()) {
 					owner.addToImports(TimeUnit.class.getName());
 					TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
@@ -74,8 +74,11 @@ public class BpmUtil{
 			}
 		}
 	}
+	public static String getTimerCallbackMethodName(INakedTimeEvent event) {
+		return "on_" + event.getMappingInfo().getPersistentName();
+	}
 	public static void cancelTimer(OJOperation cancel, INakedTimeEvent event) {
-		String callBackMethodName = "on_" + event.getMappingInfo().getPersistentName();
+		String callBackMethodName = getTimerCallbackMethodName(event);
 		cancel.getBody().addToStatements(
 				"TimeEventDispatcher.getInstance().cancelTimer(this,\"" + callBackMethodName +"\")");
 	}

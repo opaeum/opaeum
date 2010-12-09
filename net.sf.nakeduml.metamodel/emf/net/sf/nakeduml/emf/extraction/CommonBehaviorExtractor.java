@@ -65,7 +65,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 			INakedBehavior context = (INakedBehavior) getNakedPeer(behaviour);
 			// NB!!! TimeEvents are stored under a special id to
 			// duplicate it in each context it is used.
-			String id = getId(t)+getId(behaviour);
+			String id = getId(event)+getId(behaviour);
 			NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) workspace.getModelElement(id);
 			if (nakedTimeEvent == null) {
 				nakedTimeEvent = new NakedTimeEventImpl();

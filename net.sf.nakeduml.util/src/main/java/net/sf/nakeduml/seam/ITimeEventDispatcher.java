@@ -3,6 +3,7 @@ package net.sf.nakeduml.seam;
 import java.util.Date;
 
 import javax.ejb.Local;
+import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 
@@ -21,4 +22,6 @@ public interface ITimeEventDispatcher {
 	public void scheduleEvent(AbstractEntity process, String callBackMethodNameParm, long duration, TimeUnit timeUnit);
 
 	public void cancelTimer(AbstractEntity process, String callBackMethodNameParm);
+
+	public Timer getTimer(AbstractEntity process, String onAbsoluteTimeEvent);
 }

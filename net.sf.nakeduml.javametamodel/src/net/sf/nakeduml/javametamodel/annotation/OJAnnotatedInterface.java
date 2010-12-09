@@ -12,6 +12,14 @@ import net.sf.nakeduml.javametamodel.utilities.JavaUtil;
 
 public class OJAnnotatedInterface extends OJAnnotatedClass {
 	private Set<OJPathName> superInterfaces = new HashSet<OJPathName>();
+	public OJAnnotatedInterface() {
+		super();
+	}
+
+
+	public OJAnnotatedInterface(String string) {
+		setName(string);
+	}
 
 	@Override
 	public String toJavaString() {

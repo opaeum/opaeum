@@ -31,17 +31,18 @@ public class ConstraintGenerator {
 	}
 
 	public void addConstraintChecks(OJOperation operation, Collection<IOclContext> constraints, boolean pre) {
-		OJBlock block = buildConstraintsBlock(operation,new OJBlock(), constraints, pre);
-		if(pre){
-			operation.getBody().getStatements().add(0,block);
-		}else if(operation.getReturnType()==null || operation.getReturnType().equals(new OJPathName("void"))){
+		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre);
+		if (pre) {
+			operation.getBody().getStatements().add(0, block);
+		} else if (operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))) {
 			operation.getBody().getStatements().add(block);
-		}else{
-			operation.getBody().getStatements().add(operation.getBody().getStatements().size()-1, block);
+		} else {
+			operation.getBody().getStatements().add(operation.getBody().getStatements().size() - 1, block);
 		}
 	}
 
-	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock block, Collection<IOclContext> constraints, boolean pre) {
+	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<IOclContext> constraints, boolean pre) {
+		OJBlock result = new OJBlock();
 		// Assume that there could be a last statement to return a value
 		// use all the local fields
 		List<OJParameter> parameters = new ArrayList<OJParameter>(operation.getParameters());
@@ -51,17 +52,19 @@ public class ConstraintGenerator {
 			parameter.setType(l.getType());
 			parameters.add(parameter);
 		}
-		for (OJField l : block.getLocals()) {
-			OJParameter parameter = new OJParameter();
-			parameter.setName(l.getName());
-			parameter.setType(l.getType());
-			parameters.add(parameter);
+		if (sourceBlock !=null && sourceBlock != operation.getBody()) {
+			for (OJField l : sourceBlock.getLocals()) {
+				OJParameter parameter = new OJParameter();
+				parameter.setName(l.getName());
+				parameter.setType(l.getType());
+				parameters.add(parameter);
+			}
 		}
 		OJAnnotatedField failedConstraints = new OJAnnotatedField();
 		failedConstraints.setType(new OJPathName("List<String>"));
 		failedConstraints.setName("failedConstraints");
 		failedConstraints.setInitExp("new ArrayList<String>()");
-		block.addToLocals(failedConstraints);
+		result.addToLocals(failedConstraints);
 		OJPathName failedConstraintsException = UtilityCreator.getUtilPathName().append("FailedConstraintsException");
 		context.addToImports(failedConstraintsException);
 		context.addToImports("java.util.ArrayList");
@@ -73,15 +76,15 @@ public class ConstraintGenerator {
 				ifBroken.setCondition("!" + expressionCreator.makeExpression(post.getExpression(), operation.isStatic(), parameters));
 				String qname = element.getPathName() + "::" + post.getName();
 				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
-				block.addToStatements(ifBroken);
+				result.addToStatements(ifBroken);
 			}
 			i++;
 		}
 		operation.addToThrows(failedConstraintsException);
 		OJIfStatement ifFailed = new OJIfStatement();
 		ifFailed.setCondition("failedConstraints.size()>0");
-		ifFailed.getThenPart().addToStatements("throw new FailedConstraintsException("+pre + "," +  "failedConstraints)");
-		block.addToStatements(ifFailed);
-		return block;
+		ifFailed.getThenPart().addToStatements("throw new FailedConstraintsException(" + pre + "," + "failedConstraints)");
+		result.addToStatements(ifFailed);
+		return result;
 	}
 }

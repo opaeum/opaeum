@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
@@ -11,6 +12,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
+import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
@@ -18,6 +20,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedInvocationAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -50,24 +53,38 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 		implementCompleteMethod(activityClass);
 	}
 
-
 	private void implementCompleteMethod(OJClass activityClass) {
 		activityClass.addToImports(BpmUtil.getNodeInstance());
 		activityClass.addToImports(BpmUtil.getJbpmKnowledgeSession());
-		OJOperation complete = new OJAnnotatedOperation();
-		complete.setName("on" + node.getMappingInfo().getJavaName().getCapped() + "Completed");
-		activityClass.addToOperations(complete);
-		implementPostConditions(complete);
+		// TODO find better place for this
+		OJAnnotatedOperation complete = null;
+		String completeMethodName = null;
+		if (node instanceof INakedCallOperationAction && ((INakedCallOperationAction) node).getOperation() != null) {
+			INakedCallOperationAction call = (INakedCallOperationAction) node;
+			NakedOperationMap map = new NakedOperationMap(call.getOperation());
+			activityClass.addToImplementedInterfaces(map.callbackListenerPath());
+			completeMethodName = map.callbackOperName();
+		} else {
+			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
+		}
+		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);
+		if (complete == null) {
+			complete = new OJAnnotatedOperation();
+			complete.setName(completeMethodName);
+			activityClass.addToOperations(complete);
+			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", new OJPathName("NodeInstance")));
+		}
 		String literalExpression = activityClass.getName() + "State." + BpmUtil.stepLiteralName(node);
-		complete.getBody().addToStatements("NodeInstance waitingToken=findWaitingNode(" + literalExpression + ".getQualifiedName())");
-		complete.getBody().addToStatements(
-				"List<TaskInstance> tasks=(List<TaskInstance>)getProcessInstance().getTaskMgmtInstance().getUnfinishedTasks(waitingToken)");
-		OJIfStatement ifFound = new OJIfStatement();
-		ifFound.setCondition("tasks.size()==1");
-		OJBlock thenPart = ifFound.getThenPart();
-		thenPart.addToStatements("tasks.get(0).end()");
-		implementConditionalFlows(complete, thenPart, false);
+		OJIfStatement ifFound = new OJIfStatement("(waitingNode=findWaitingNode(" + literalExpression + ".getQualifiedName()))!=null");
 		complete.getBody().addToStatements(ifFound);
+		implementConditions(complete, ifFound.getThenPart(), node, false);
+		if (callMap.isOne()) {
+		} else {
+			OJForStatement forEachTask = new OJForStatement("task", callMap.javaBaseTypePath(), callMap.getter() + "()");
+			ifFound.getThenPart().addToStatements(forEachTask);
+			forEachTask.getBody().addToStatements(new OJIfStatement("!task.getComplete()", "return"));
+		}
+		implementConditionalFlows(complete, ifFound.getThenPart(), false);
 	}
 
 	@Override

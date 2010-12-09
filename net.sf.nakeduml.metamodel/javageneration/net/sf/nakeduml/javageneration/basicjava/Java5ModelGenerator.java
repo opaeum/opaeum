@@ -1,18 +1,19 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.List;
-import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumLiteral;
@@ -33,7 +34,6 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructur
 import net.sf.nakeduml.util.AbstractSignal;
 import nl.klasse.octopus.OctopusConstants;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.model.IDataType;
 
 public class Java5ModelGenerator extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
@@ -113,6 +113,15 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 	public void visitOperation(INakedOperation no) {
 		if (no.shouldEmulateClass() ||  BehaviorUtil. hasMethodsWithStructure(no)) {
 			this.visitClass(new OperationMessageStructureImpl(no.getOwner(), no));
+			if(no.isUserResponsibility()){
+				NakedOperationMap map = new NakedOperationMap(no);
+				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
+				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
+				listener.setMyPackage(pack);
+				listener.addToOperations( new OJAnnotatedOperation(map.callbackOperName()));
+				
+				super.createTextPath(listener, JavaTextSource.GEN_SRC);
+			}
 		}
 	}
 

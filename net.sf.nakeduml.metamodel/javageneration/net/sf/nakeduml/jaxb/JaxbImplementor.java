@@ -52,7 +52,7 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getClassifierBehavior");
 				JaxbAnnotator.addXmlTransient(oper);
 				OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
-				getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
+				getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient")));
 			} else {
 				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "get"
 						+ behavior.getMappingInfo().getJavaName().getCapped());

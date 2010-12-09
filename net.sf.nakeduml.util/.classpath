@@ -8,7 +8,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.20101016.013225-332.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.0-SNAPSHOT.jar" sourcepath="/jbpm-flow"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.3.2.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.3.2.GA.jar" sourcepath="/home/ampie/.m2/repository/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>

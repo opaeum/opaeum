@@ -230,6 +230,11 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	public void visitAssociation(Association a, NakedAssociationImpl na) {
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
+		if(a.getName()==null){
+			//HACK!!! to avoid nullpointerexceptiosn in NAkedParsedOclStringResolver
+			//Something wrong with the phases
+			na.setName(a.getMemberEnds().get(0).getName() +"To"+ a.getMemberEnds().get(1).getName());
+		}
 	}
 
 	@VisitBefore
