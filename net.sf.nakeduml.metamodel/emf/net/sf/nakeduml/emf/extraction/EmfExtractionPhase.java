@@ -72,6 +72,6 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	}
 
 	private static String getIdFor(Package model) {
-		return EcoreUtil.getURI(model).toString();
+		return AbstractExtractorFromEmf.getId(model);
 	}
 }

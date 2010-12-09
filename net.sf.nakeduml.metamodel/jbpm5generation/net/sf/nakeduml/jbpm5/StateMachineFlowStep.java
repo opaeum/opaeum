@@ -18,13 +18,8 @@ import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
 
 import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
-import org.drools.drools._5._0.process.ConnectionType;
 import org.drools.drools._5._0.process.ConnectionsType;
-import org.drools.drools._5._0.process.ConstraintType;
-import org.drools.drools._5._0.process.ConstraintsType;
 import org.drools.drools._5._0.process.DocumentRoot;
-import org.drools.drools._5._0.process.EndType;
-import org.drools.drools._5._0.process.JoinType;
 import org.drools.drools._5._0.process.NodesType;
 import org.drools.drools._5._0.process.OnEntryType;
 import org.drools.drools._5._0.process.OnExitType;
@@ -37,6 +32,11 @@ import org.eclipse.emf.common.util.EList;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class StateMachineFlowStep extends FlowGenerationStep {
+	private static final int ARTIFICIAL_START_NODE_ID =300000;
+	private static final int ARTIFICIAL_FORK_ID =400000;
+	private static final int ARTIFICIAL_END_NODE_ID = 500000;
+	private static final int ARTIFICIAL_JOIN_ID = 600000;
+
 	@VisitAfter(matchSubclasses = true)
 	public void createRoot(INakedStateMachine sm) {
 		DocumentRoot root = super.createRoot(sm);
@@ -54,88 +54,60 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 			int i = 1;
 			// Create composite node per region.
 			StartType start = ProcessFactory.eINSTANCE.createStartType();
-			setBounds(i, start);
+			int startNodeId = owner.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID;
+			setBounds(i, start,startNodeId);
 			start.setName("artificial_start");
 			nodes.getStart().add(start);
 			i++;
-			SplitType split = ProcessFactory.eINSTANCE.createSplitType();
-			split.setName("artificial_fork");
-			setBounds(i, split);
-			split.setType("1");
-			nodes.getSplit().add(split);
-			createConnectionBetweenLastTwoNodes(i, connections);
+			int forkId = owner.getMappingInfo().getNakedUmlId() + ARTIFICIAL_FORK_ID;
+			super.addFork(nodes, i, "artificial_fork", forkId);
+			createConnection(connections,startNodeId, forkId);
 			i++;
-			List<String> regionIds = new ArrayList<String>();
+			List<Integer> regionIds = new ArrayList<Integer>();
 			for (INakedRegion region : regions) {
-				CompositeType node = ProcessFactory.eINSTANCE.createCompositeType();
-				node.setName(region.getName());
-				nodes.getComposite().add(node);
-				setBounds(i, node);
-				node.setHeight("500");
-				node.setWidth("500");
-				regionIds.add("" + i);
-				NodesType regionNodes = ProcessFactory.eINSTANCE.createNodesType();
-				node.getNodes().add(regionNodes);
-				ConnectionsType regionConnections = ProcessFactory.eINSTANCE.createConnectionsType();
-				node.getConnections().add(regionConnections);
+				CompositeType node = createCompositeState(nodes, i, region.getName(),region.getMappingInfo().getNakedUmlId());
 				i++;
-				populateRegion(regionNodes, regionConnections, region);
+				populateRegion(node.getNodes().get(0), node.getConnections().get(0), region);
+				regionIds.add(region.getMappingInfo().getNakedUmlId());
 			}
-			JoinType join = ProcessFactory.eINSTANCE.createJoinType();
-			join.setName("artificial_join");
-			setBounds(i, join);
-			join.setType("1");
-			nodes.getJoin().add(join);
+			int joinId = owner.getMappingInfo().getNakedUmlId() +ARTIFICIAL_JOIN_ID;
+			super.addJoin(nodes, i, "artificial_join", joinId);
 			i++;
-			addFinalNode(i, nodes, "artificial_end",false);
-			createConnectionBetweenLastTwoNodes(i, connections);
+			int endNodeId = owner.getMappingInfo().getNakedUmlId() + ARTIFICIAL_END_NODE_ID;
+			addFinalNode(nodes, i, "artificial_end",endNodeId);
+			createConnection(connections, joinId, endNodeId);
 			i++;
-			for (String s : regionIds) {
-				ConnectionType fromSplit = ProcessFactory.eINSTANCE.createConnectionType();
-				fromSplit.setFromType("DROOLS_DEFAULT");
-				fromSplit.setFrom(split.getId());
-				fromSplit.setTo(s);
-				connections.getConnection().add(fromSplit);
-				ConnectionType toJoin = ProcessFactory.eINSTANCE.createConnectionType();
-				toJoin.setFromType("DROOLS_DEFAULT");
-				toJoin.setFrom(s);
-				toJoin.setTo(join.getId());
-				connections.getConnection().add(toJoin);
+			for (Integer regionId : regionIds) {
+				createConnection(connections, forkId, regionId);
+				createConnection(connections,regionId, joinId);
 			}
 			// TODO create connection to each region
 		}
 	}
 
-	public void createConnectionBetweenLastTwoNodes(int i, ConnectionsType connections) {
-		ConnectionType startConn = ProcessFactory.eINSTANCE.createConnectionType();
-		startConn.setFromType("DROOLS_DEFAULT");
-		startConn.setFrom("" + (i - 1));
-		startConn.setTo("" + i);
-		connections.getConnection().add(startConn);
-	}
 
-	public void populateRegion(NodesType nodes, ConnectionsType connections, INakedRegion region) {
+	private void populateRegion(NodesType nodes, ConnectionsType connections, INakedRegion region) {
 		List<INakedState> states = region.getStates();
 		int i = 1;
 		HashMap<SplitType, INakedState> choiceNodes = new HashMap<SplitType, INakedState>();
 		for (INakedState state : states) {
 			i++;
-			targetIdMap.put(state, i);
 			if (state.getIncoming().size() > 1) {
-				i = insertArtificialJoin(nodes, connections, i, state);
+				i = insertArtificialMerge(nodes, connections, i, state);
+			}else{
+				targetIdMap.put(state, state.getMappingInfo().getNakedUmlId());
 			}
-			sourceIdMap.put(state, i);
+			sourceIdMap.put(state, state.getMappingInfo().getNakedUmlId());
 			if (state.getKind().isInitial()) {
 				addStartNode(nodes, i, state);
 			} else if (state.getKind().isFinal()) {
-				addFinalNode(nodes, connections, i, state);
-				i++;
+				i=addFinalNode(nodes, connections, i, state);
 			} else if (state.getKind().isFork()) {
 				// TODO Not really supported, but can be done
 			} else if (state.getKind().isJoin()) {
 				// TODO Not really supported but can be done
 			} else if (state.getKind().isChoice()) {
-				choiceNodes.put(addChoice(i, nodes, state), state);
+				choiceNodes.put(super.addChoice(nodes, i, state.getMappingInfo().getPersistentName().toString(), state.getMappingInfo().getNakedUmlId()), state);
 			} else if (state.getKind().isSimple()) {
 				addSimpleState(nodes, i, state);
 			} else if (state.getKind().isOrthogonal()) {
@@ -144,62 +116,47 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 				addCompositeState(nodes, i, state);
 			} else {
 				System.out.println(state.getName() + ":" + state.getKind() + " not supported yet");
+				//TODO history, deep history, junction
 			}
 		}
 		for (INakedTransition t : region.getTransitions()) {
-			ConnectionType connection = ProcessFactory.eINSTANCE.createConnectionType();
-			connection.setFrom(sourceIdMap.get(t.getSource()) + "");
-			connection.setTo(targetIdMap.get(t.getTarget()) + "");
-			connections.getConnection().add(connection);
+			createConnection(connections, sourceIdMap.get(t.getSource()), targetIdMap.get(t.getTarget()));
 		}
 		for (Map.Entry<SplitType, INakedState> entry : choiceNodes.entrySet()) {
-			addConstaintsToSplit(entry.getKey(), entry.getValue().getOutgoing());
+			addConstraintsToSplit(entry.getKey(), entry.getValue().getOutgoing());
 		}
 	}
 
-	private SplitType addChoice(int i, NodesType nodes, INakedState state) {
-		SplitType split = ProcessFactory.eINSTANCE.createSplitType();
-		split.setType("2");
-		nodes.getSplit().add(split);
-		split.setName(state.getMappingInfo().getPersistentName().toString());
-		setBounds(i, split);
-		return split;
-	}
-
-	private int insertArtificialJoin(NodesType nodes, ConnectionsType connections, int i, INakedState state) {
-		JoinType join = ProcessFactory.eINSTANCE.createJoinType();
-		join.setType("2");
-		join.setName(BpmUtil.getArtificialJoinName(state));
-		setBounds(i, join);
-		nodes.getJoin().add(join);
-		ConnectionType connection = ProcessFactory.eINSTANCE.createConnectionType();
-		connection.setFrom(i + "");
-		connection.setTo((i + 1) + "");
-		connections.getConnection().add(connection);
+	private int insertArtificialMerge(NodesType nodes, ConnectionsType connections, int i, INakedState state) {
+		int joinId = state.getMappingInfo().getNakedUmlId()+ARTIFICIAL_JOIN_ID;
+		super.addMerge(nodes, i, BpmUtil.getArtificialJoinName(state), joinId);
+		createConnection(connections, joinId, state.getMappingInfo().getNakedUmlId());
+		targetIdMap.put(state, joinId);
 		i++;
 		return i;
 	}
 
-	private final void addFinalNode(NodesType nodes, ConnectionsType connections, int i, INakedState state) {
+	private final int addFinalNode(NodesType nodes, ConnectionsType connections, int i, INakedState state) {
 		if ((state.getContainer().getRegionOwner() instanceof INakedState)) {
-			addFinalNode(i, nodes, state.getMappingInfo().getPersistentName().getAsIs(),false);
+			addFinalNode(nodes, i, state.getMappingInfo().getPersistentName().getAsIs(),state.getMappingInfo().getNakedUmlId());
 		} else {
 			StateType node = ProcessFactory.eINSTANCE.createStateType();
 			node.setName(state.getMappingInfo().getPersistentName().getAsIs());
 			nodes.getState().add(node);
-			setBounds(i, node);
+			setBounds(i, node,state.getMappingInfo().getNakedUmlId());
 			i++;
-			addFinalNode(i, nodes, state.getMappingInfo().getPersistentName() + "_end",false);
-			this.createConnectionBetweenLastTwoNodes(i, connections);
+			addFinalNode(nodes, i, state.getMappingInfo().getPersistentName() + "_end",state.getMappingInfo().getNakedUmlId()+ARTIFICIAL_END_NODE_ID );
+			this.createConnection(connections,state.getMappingInfo().getNakedUmlId() , state.getMappingInfo().getNakedUmlId()+ARTIFICIAL_END_NODE_ID);
 		}
+		return i;
 	}
 
 
 	private void addCompositeState(NodesType nodes, int i, INakedState state) {
+		String name = state.getMappingInfo().getPersistentName().toString();
+		Integer nakedUmlId = state.getMappingInfo().getNakedUmlId();
 		NakedStateMap map = new NakedStateMap(state);
-		CompositeType flowState = ProcessFactory.eINSTANCE.createCompositeType();
-		flowState.setName(state.getMappingInfo().getPersistentName().toString());
-		setBounds(i, flowState);
+		CompositeType flowState = createCompositeState(nodes, i, name, nakedUmlId);
 		if (state.getEntry() != null) {
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 			flowState.getOnEntry().add(onEntry);
@@ -210,18 +167,16 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 			flowState.getOnExit().add(onExit);
 			createAction(map.getOnExitMethod(), onExit.getAction());
 		}
-		nodes.getComposite().add(flowState);
-		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
-		flowState.getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
 		buildStates(state, flowState.getNodes().get(0), flowState.getConnections().get(0));
 	}
+
 
 	private void addSimpleState(NodesType nodes, int i, INakedState state) {
 		NakedStateMap map = new NakedStateMap(state);
 		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 		OnExitType onExit = ProcessFactory.eINSTANCE.createOnExitType();
 		StateType flowState = ProcessFactory.eINSTANCE.createStateType();
-		setBounds(i, flowState);
+		setBounds(i, flowState,state.getMappingInfo().getNakedUmlId());
 		flowState.setName(state.getMappingInfo().getPersistentName().toString());
 		if (state.getEntry() != null) {
 			createAction(map.getOnEntryMethod(), onEntry.getAction());

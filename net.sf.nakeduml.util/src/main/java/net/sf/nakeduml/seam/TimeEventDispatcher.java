@@ -51,10 +51,6 @@ public class TimeEventDispatcher implements ITimeEventDispatcher {
 		return (EntityManager) Component.getInstance("entityManager");
 	}
 
-	public static TimeEventDispatcher getMockinstance() {
-		return mockInstance;
-	}
-
 	public static ITimeEventDispatcher getInstance() {
 		if (Contexts.isEventContextActive()) {
 			ITimeEventDispatcher dispatcher = (ITimeEventDispatcher) Component.getInstance("timeEventDispatcher");
@@ -114,7 +110,7 @@ public class TimeEventDispatcher implements ITimeEventDispatcher {
 
 	public void cancelTimer(AbstractEntity process, String callBackMethodNameParm) {
 		TimeEvent te = new TimeEvent(process, callBackMethodNameParm);
-		if (Contexts.isEventContextActive()) {
+		if (timerService!=null) {
 			Collection<Timer> timers = timerService.getTimers();
 			for (Timer timer : timers) {
 				if (timer.getInfo() instanceof TimeEvent) {

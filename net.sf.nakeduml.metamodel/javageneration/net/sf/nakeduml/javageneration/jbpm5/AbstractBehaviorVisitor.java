@@ -89,6 +89,8 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		NakedMessageStructureMap map = new NakedMessageStructureMap(task);
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldName(), map.javaTypePath());
 		context.addToFields(field);
+		field.setInitExp(map.javaDefaultValue());
+		context.addToImports(map.javaDefaultTypePath());
 		if (persistent) {
 			OJAnnotationValue oneToMany = new OJAnnotationValue(new OJPathName(OneToMany.class.getName()));
 			HibernateUtil.addCascade(field, CascadeType.DELETE_ORPHAN);
@@ -124,7 +126,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			OJOperation getter = OJUtil.findOperation(ojBehavior, "getProcessInstance");
 			getter.setBody(new OJBlock());
 			OJIfStatement ifNull = new OJIfStatement(
-					"this.processInstance==null",
+					"this.processInstance==null || true",
 					"this.processInstance=(WorkflowProcessInstance)JbpmKnowledgeSession.getInstance().getKnowledgeSession().getProcessInstance(getProcessInstanceId())");
 			getter.getBody().addToStatements(ifNull);
 			getter.getBody().addToStatements("return this.processInstance");

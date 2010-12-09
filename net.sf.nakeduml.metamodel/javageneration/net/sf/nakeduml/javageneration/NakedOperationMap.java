@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
@@ -68,5 +69,18 @@ public class NakedOperationMap extends OperationMap {
 	@Override
 	public OJPathName javaParamTypePath(IParameter elem) {
 		return getParamMap().get(elem).javaTypePath();
+	}
+	public OJPathName callbackListenerPath(){
+		OJPathName path = OJUtil.packagePathname(getOperation().getNameSpace());
+		path.addToNames(callbackListener());
+		return path;
+	}
+
+	public String callbackListener() {
+		return getOperation().getMappingInfo().getJavaName().getCapped() + "Listener";
+	}
+
+	public String callbackOperName() {
+		return "on" + getOperation().getMappingInfo().getJavaName().getCapped() + "Complete";
 	}
 }
