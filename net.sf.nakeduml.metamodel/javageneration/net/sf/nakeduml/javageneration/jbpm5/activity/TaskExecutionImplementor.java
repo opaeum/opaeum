@@ -24,7 +24,6 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -33,6 +32,17 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructur
 
 public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 	@VisitBefore
+	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
+		// TODO find better place for this
+		if (BehaviorUtil.hasExecutionInstance(ob)) {
+			super.implementSpecificationOrStartClassifierBehaviour(ob);
+			if (ob.getContext() != null) {
+				addContextFieldAndConstructor(findJavaClass(ob), ob, ob.getContext());
+			}
+		}
+	}
+
+	@VisitBefore
 	public void visitOpaqueAction(INakedOpaqueAction oa) {
 		if (oa.isTask() && oa.getTargetElement() != null) {
 			INakedMessageStructure message = oa.getMessageStructure();
@@ -40,22 +50,14 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			implementExecute(oa, ojClass);
 			super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
 			addGetName(oa, ojClass);
-			addTaskInstance(ojClass);
-			addCompleteMethod(oa, ojClass);
+			OJAnnotatedOperation completeMethod = addCompleteMethod(oa, ojClass);
+			completeMethod.getBody().addToStatements("getContextObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed()");
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getTargetElement());
 			OJAnnotatedField user = OJUtil.addProperty(ojClass, "user", map.javaBaseTypePath(), true);
+			//TODO could be Interface - use @Any
+			
 			user.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
 		}
-	}
-
-	private void addTaskInstance(OJAnnotatedClass ojClass) {
-		OJPathName type = new OJPathName("org.jbpm.taskmgmt.exe.TaskInstance");
-		ojClass.addToImports(type);
-		OJAnnotatedField field = OJUtil.addProperty(ojClass, "taskInstance", type, true);
-		field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
-		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName(JoinColumn.class.getName()));
-		joinColumn.putAttribute("name", "task_instance");
-		field.addAnnotationIfNew(joinColumn);
 	}
 
 	@VisitAfter
@@ -77,12 +79,11 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			ojOper.setReturnType(behaviorClass);
 			super.addContextFieldAndConstructor(ojOperationClass, oc, o.getOwner());
 			addGetName(o, ojOperationClass);
-			addTaskInstance(ojOperationClass);
 			addCompleteMethod(o, ojOperationClass);
 		}
 	}
 
-	private void addCompleteMethod(PreAndPostConstrained constrained, OJAnnotatedClass ojOperationClass) {
+	private OJAnnotatedOperation addCompleteMethod(PreAndPostConstrained constrained, OJAnnotatedClass ojOperationClass) {
 		OJAnnotatedOperation complete = new OJAnnotatedOperation();
 		ojOperationClass.addToOperations(complete);
 		complete.setName("complete");
@@ -90,12 +91,13 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			complete.getBody().addToStatements("evaluatePostConditions()");
 			OJUtil.addFailedConstraints(complete);
 		}
-		complete.getBody().addToStatements("taskInstance.end()");
+		complete.getBody().addToStatements("setComplete(true)");
+		OJUtil.addProperty(ojOperationClass, "complete", new OJPathName("boolean"), true);
+		return complete;
 	}
 
 	private OJOperation implementExecute(PreAndPostConstrained element, OJAnnotatedClass ojClass) {
 		OJOperation execute = new OJAnnotatedOperation();
-		execute.setReturnType(new OJPathName("org.jbpm.taskmgmt.exe.TaskInstance"));
 		execute.setName("execute");
 		ojClass.addToOperations(execute);
 		if (element instanceof INakedOperation && element.getPreConditions().size() > 0) {
@@ -113,20 +115,6 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 		f.putAnnotation(temporal);
 		execute.getBody().addToStatements("setExecutedOn(new Date())");
 		OJBlock block = execute.getBody();
-		block.addToStatements("Token currentToken=ExecutionContext.currentExecutionContext().getToken()");
-		block.addToStatements("TaskNode node=(TaskNode)currentToken.getNode()");
-		block.addToStatements("Task task=(Task)node.getTasks().iterator().next()");
-		block.addToStatements("TaskInstance taskInstance = currentToken.getProcessInstance().getTaskMgmtInstance().createTaskInstance(task, currentToken)");
-		block.addToStatements("this.setTaskInstance(taskInstance)");
-		block.addToStatements("taskInstance.create()");
-		block.addToStatements("taskInstance.setVariableLocally(\"taskObject\",this)");
-		block.addToStatements("taskInstance.setBlocking(true)");
-		block.addToStatements("taskInstance.setSignalling(true)");
-		block.addToStatements("return taskInstance");
-		ojClass.addToImports("org.jbpm.graph.exe.ExecutionContext");
-		ojClass.addToImports("org.jbpm.graph.exe.Token");
-		ojClass.addToImports("org.jbpm.graph.node.TaskNode");
-		ojClass.addToImports("org.jbpm.taskmgmt.def.Task");
 		return execute;
 	}
 

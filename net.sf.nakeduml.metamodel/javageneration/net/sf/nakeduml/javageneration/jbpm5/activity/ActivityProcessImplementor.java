@@ -136,7 +136,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 				implementor.implementSupportingTaskMethods(activityClass);
 			} else if (!(implementor.waitsForEvent() || node instanceof INakedControlNode)) {
 				implementor.implementPostConditions(operation);
-				implementor.implementConditionalFlows(operation, operation.getBody(), true);
+//				implementor.implementConditionalFlows(operation, operation.getBody(), true);
 			}
 		}
 	}

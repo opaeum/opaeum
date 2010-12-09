@@ -2,46 +2,46 @@ package net.sf.nakeduml.seam;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.jms.JMSException;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.persistence.EntityManager;
+import javax.jms.MessageProducer;
+import javax.jms.Queue;
+import javax.jms.Session;
+import javax.jms.XAConnection;
+import javax.jms.XAConnectionFactory;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.transaction.Status;
 import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
 
 import net.sf.nakeduml.util.AbstractSignal;
 import net.sf.nakeduml.util.ActiveObject;
 
-import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.transaction.Transaction;
 
 @Name("signalDispatcher")
 @Scope(ScopeType.EVENT)
 public class SignalDispatcher implements Synchronization {
-	@In(create = true)
-	private EntityManager entityManager;
-	@In(create = true)
-	private QueueSession queueSession;
-	@In(create = true)
-	QueueSender signalQueueSender;
 	static SignalDispatcher mockInstance = null;
-	static Map<EntityManager, SignalDispatcher> synchronization = new HashMap<EntityManager, SignalDispatcher>();
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
+	private boolean isRegistered;
+
+	public boolean isRegistered() {
+		return isRegistered;
+	}
 
 	public static SignalDispatcher getInstance() {
 		if (Contexts.isEventContextActive()) {
 			SignalDispatcher d = (SignalDispatcher) Component.getInstance("signalDispatcher");
-			if (!synchronization.containsKey(d.getEntityManager())) {
-				((Session) d.getEntityManager().getDelegate()).getTransaction().registerSynchronization(d);
-				synchronization.put(d.getEntityManager(), d);
+			if (!d.isRegistered()) {
+				d.register();
 			}
 			return d;
 		} else {
@@ -52,12 +52,15 @@ public class SignalDispatcher implements Synchronization {
 		}
 	}
 
-	public QueueSession getQueueSession() {
-		return queueSession;
-	}
-
-	public QueueSender getSignalQueueSender() {
-		return signalQueueSender;
+	public void register() {
+		try {
+			if (Transaction.instance().isActive()) {
+				Transaction.instance().registerSynchronization(this);
+				isRegistered = true;
+			}
+		} catch (SystemException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void sendSignal(Object source, ActiveObject target, AbstractSignal signal) {
@@ -89,26 +92,38 @@ public class SignalDispatcher implements Synchronization {
 		return result;
 	}
 
+	// TODO currently happening outside of a transaction, move to inside a
+	// transaction but AFTER flush
 	@Override
 	public void afterCompletion(int arg0) {
+		isRegistered = false;
+		if (arg0 == Status.STATUS_COMMITTED) {
+			try {
+				// TODO make configurable
+				// NB!! Seam component management did not work in the
+				// afterCompletion context - the session was null
+				InitialContext initialContext = new InitialContext();
+				Queue queue = (Queue) initialContext.lookup("queue/SignalQueue");
+				XAConnectionFactory cf = (XAConnectionFactory) initialContext.lookup("/ConnectionFactory");
+				XAConnection connection = cf.createXAConnection();
+				Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+				MessageProducer producer = session.createProducer(queue);
+				for (SignalToDispatch s : signalsToDispatch) {
+					s.prepareForDispatch();
+					producer.send(session.createObjectMessage(s));
+				}
+				session.close();
+				connection.close();
+				reset();
+			} catch (JMSException e) {
+				throw new RuntimeException(e);
+			} catch (NamingException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	@Override
 	public void beforeCompletion() {
-		synchronization.remove(getEntityManager());
-		try {
-			for (SignalToDispatch s : signalsToDispatch) {
-				s.prepareForDispatch();
-				signalQueueSender.send(queueSession.createObjectMessage(s));
-			}
-//			signalQueueSender.close();
-			reset();
-		} catch (JMSException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public EntityManager getEntityManager() {
-		return entityManager;
 	}
 }

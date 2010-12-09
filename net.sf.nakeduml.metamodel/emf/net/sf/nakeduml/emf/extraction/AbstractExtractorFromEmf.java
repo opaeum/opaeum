@@ -109,8 +109,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return octopusKind;
 	}
 
-	protected String getId(EObject e) {
-		return EcoreUtil.getURI(e).toString();
+	static String getId(EObject e) {
+		return e.eResource().getURI().lastSegment() +"#"+ e.eResource().getURIFragment(e);
 	}
 
 	protected INakedElement getNakedPeer(Element e) {

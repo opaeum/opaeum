@@ -45,7 +45,7 @@ public class NakedMessageStructureMap {
 		return list;
 	}
 	public String javaDefaultValue() {
-		return "new " + javaDefaultTypePath().getLast() + "()";
+		return "new " + javaDefaultTypePath().getLast()+"<" +javaBaseTypePath().getLast()+ ">()";
 	}
 	public OJPathName javaBaseTypePath(){
 		return classifierMap.javaTypePath();

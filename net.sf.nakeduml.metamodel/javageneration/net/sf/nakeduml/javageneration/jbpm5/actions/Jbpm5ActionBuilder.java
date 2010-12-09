@@ -59,14 +59,13 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 
 	public void implementPreConditions(OJOperation oper) {
 		if (node instanceof PreAndPostConstrained) {
-			implmementConditions(oper, (PreAndPostConstrained) node, true);
+			implementConditions(oper, oper.getBody(),(PreAndPostConstrained) node, true);
 		}
 	}
 
-	public void implmementConditions(OJOperation oper, PreAndPostConstrained constrained, boolean pre) {
+	public void implementConditions(OJOperation oper, OJBlock block, PreAndPostConstrained constrained, boolean pre) {
 		Collection<IOclContext> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
 		if (conditions.size() > 0) {
-			OJBlock block = new OJBlock();
 			if (node instanceof INakedAction) {
 				// preConditions and PostConditions work on parameters - emulate
 				// pins as parameters
@@ -75,13 +74,13 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
-			oper.getBody().addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre));
+			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre));
 		}
 	}
 
 	public void implementPostConditions(OJOperation oper) {
 		if (node instanceof PreAndPostConstrained) {
-			implmementConditions(oper, (PreAndPostConstrained) node, false);
+			implementConditions(oper, oper.getBody(), (PreAndPostConstrained) node, false);
 		}
 	}
 

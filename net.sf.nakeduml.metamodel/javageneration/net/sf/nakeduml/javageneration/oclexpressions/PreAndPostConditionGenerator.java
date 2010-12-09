@@ -50,17 +50,22 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOpaqueBehavior(INakedOpaqueBehavior behavior) {
-		if (behavior.getBodyExpression() != null) {
-			if (BehaviorUtil.hasExecutionInstance(behavior)) {
-				OJAnnotatedClass javaContext = findJavaClass(behavior);
-				OJUtil.findOperation(javaContext, "execute");
-				//TODO create one if necessary
-			} else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier){
-				OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
-				NakedOperationMap map = new NakedOperationMap(behavior);
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
-				this.addBody(oper, behavior.getContext(), map, behavior.getBody());
+		if (BehaviorUtil.hasExecutionInstance(behavior)) {
+			OJAnnotatedClass javaContext = findJavaClass(behavior);
+			OJAnnotatedOperation execute = (OJAnnotatedOperation) OJUtil.findOperation(javaContext, "execute");
+			if (execute == null) {
+				execute = new OJAnnotatedOperation("execute");
+				javaContext.addToOperations(execute);
 			}
+			if (behavior.getBodyExpression() != null) {
+				NakedOperationMap map = new NakedOperationMap(behavior);
+				this.addBody(execute, behavior.getContext(), map, behavior.getBody());
+			}
+		} else if (OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression()!=null) {
+			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
+			NakedOperationMap map = new NakedOperationMap(behavior);
+			OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
+			this.addBody(oper, behavior.getContext(), map, behavior.getBody());
 		}
 	}
 

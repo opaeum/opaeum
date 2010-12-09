@@ -23,6 +23,11 @@ public class NakedOpaqueActionImpl extends NakedCallActionImpl implements INaked
 		return bodyExpression;
 	}
 
+	@Override
+	public boolean isSynchronous() {
+		return true;
+	}
+
 	public void setBodyExpression(IOclContext bodyExpression) {
 		this.bodyExpression = bodyExpression;
 	}
