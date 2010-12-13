@@ -7,7 +7,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedClearStructuralFeatureAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class StructuralFeatureClearer extends SimpleActionBuilder<INakedClearStructuralFeatureAction> {
+public class StructuralFeatureClearer extends SimpleNodeBuilder<INakedClearStructuralFeatureAction> {
 	public StructuralFeatureClearer(IOclEngine oclEngine, INakedClearStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

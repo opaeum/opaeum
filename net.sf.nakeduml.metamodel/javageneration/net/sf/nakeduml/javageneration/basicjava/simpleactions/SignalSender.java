@@ -16,7 +16,7 @@ import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class SignalSender extends SimpleActionBuilder<INakedSendSignalAction> {
+public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 	public SignalSender(IOclEngine oclEngine, INakedSendSignalAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

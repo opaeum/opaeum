@@ -3,10 +3,13 @@ package net.sf.nakeduml.emf.extraction;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
+import net.sf.nakeduml.metamodel.actions.internal.NakedExceptionHandlerImpl;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedInputPinImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedObjectNodeImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedOutputPinImpl;
@@ -20,9 +23,11 @@ import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.OutputPin;
@@ -41,6 +46,11 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor {
 		}
 		return nakedArguments;
 	}
+	protected void initAction(Action emfAction, NakedActionImpl nakedAction) {
+		this.addLocalPreAndPostConditions(nakedAction, emfAction);
+		assignPartition(nakedAction, emfAction);
+	}
+
 
 	protected void addLocalPreAndPostConditions(INakedAction nakedAction, Action emfAction) {
 		super.addConstraints(nakedAction, emfAction.getLocalPreconditions(), emfAction.getLocalPostconditions());

@@ -23,6 +23,7 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
@@ -35,6 +36,7 @@ import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.model.IClassifier;
@@ -55,22 +57,19 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitDecisionNode(INakedControlNode node) {
-		if (node.getControlNodeType().isDecisionNode() && OJUtil.hasOJClass(node.getActivity())) {
-			OJClass c = findJavaClass(node.getActivity());
-			Set<INakedActivityEdge> outgoing = node.getAllEffectiveOutgoing();
-			for (INakedActivityEdge edge : outgoing) {
-				if (edge.getGuard() != null) {
-					OJAnnotatedOperation oper = new OJAnnotatedOperation();
-					c.addToOperations(oper);
-					oper.setReturnType(new OJPathName("boolean"));
-					ActivityUtil.setupVariables(oper, node);
-					IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
-					oper.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(),booleanType));
-					oper.setName(BpmUtil.getGuardMethod(edge));
-					oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
-				}
-			}
+	public void activityEdge(INakedActivityEdge edge) {
+		if (edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())) {
+			INakedActivityNode node = edge.getEffectiveSource();
+			OJAnnotatedClass c = findJavaClass(edge.getActivity());
+			OJAnnotatedOperation oper = new OJAnnotatedOperation();
+			c.addToOperations(oper);
+			oper.setReturnType(new OJPathName("boolean"));
+			ActivityUtil.setupVariables(oper, node);
+			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
+			oper.getBody().addToStatements(
+					"return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(), booleanType));
+			oper.setName(BpmUtil.getGuardMethod(edge));
+			oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
 		}
 	}
 
@@ -86,6 +85,12 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 			implementSpecificationOrStartClassifierBehaviour(activity);
 			if (activity.getActivityKind() == ActivityKind.PROCESS) {
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
+			}
+			if (activity.isProcess()) {
+				OJAnnotatedOperation init = new OJAnnotatedOperation("init");
+				activityClass.addToOperations(init);
+				init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+				init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
 			}
 		}
 	}
@@ -121,7 +126,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
 			implementor = new ParameterNodeBuilder(oclEngine, parameterNode);
 		} else {
-			implementor = new SimpleActionBridge(oclEngine, node, SimpleActivityMethodImplementor.resolveActionBuilder(node, oclEngine,
+			implementor = new SimpleActionBridge(oclEngine, node, SimpleActivityMethodImplementor.resolveBuilder(node, oclEngine,
 					new Jbpm5ObjectNodeExpressor(oclEngine)));
 		}
 		if (implementor.hasNodeMethod()) {
@@ -136,7 +141,8 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 				implementor.implementSupportingTaskMethods(activityClass);
 			} else if (!(implementor.waitsForEvent() || node instanceof INakedControlNode)) {
 				implementor.implementPostConditions(operation);
-//				implementor.implementConditionalFlows(operation, operation.getBody(), true);
+				// implementor.implementConditionalFlows(operation,
+				// operation.getBody(), true);
 			}
 		}
 	}

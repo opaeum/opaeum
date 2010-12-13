@@ -85,4 +85,7 @@ public class BpmUtil{
 	public static String getArtificialForkName(IRegionOwner owner) {
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();
 	}
+	public static OJPathName getExceptionHolder() {
+		return new OJPathName("net.sf.nakeduml.util.ExceptionHolder");
+	}
 }

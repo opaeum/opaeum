@@ -23,6 +23,7 @@ import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
+import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionType;
 import org.drools.drools._5._0.process.ConnectionsType;
@@ -43,6 +44,7 @@ import org.drools.drools._5._0.process.TypeType;
 import org.drools.drools._5._0.process.VariableType;
 import org.drools.drools._5._0.process.VariablesType;
 import org.drools.drools._5._0.process.util.ProcessResourceFactoryImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -248,4 +250,14 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 	public final Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
 		return root.getOwnedElements();
 	}
+	protected final ActionType createAction(String methodName, EList<ActionType> action, boolean passContext) {
+		ActionType entryAction = ProcessFactory.eINSTANCE.createActionType();
+		action.add(entryAction);
+		entryAction.setDialect("mvel");
+		entryAction.setType("expression");
+		String string = passContext ? "context" : "";
+		entryAction.setValue("processObject." + methodName + "(" + string + ")");
+		return entryAction;
+	}
+
 }

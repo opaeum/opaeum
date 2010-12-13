@@ -9,6 +9,7 @@ import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
+import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
@@ -20,13 +21,14 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.validation.activities.ActivityValidationRule;
 
-@StepDependency(phase = LinkagePhase.class, after = { MappedTypeLinker.class }, before = { ObjectFlowLinker.class }, requires = {
-		MappedTypeLinker.class, ObjectFlowLinker.class })
+@StepDependency(phase = LinkagePhase.class, after = { MappedTypeLinker.class, ParameterLinker.class }, before = { ObjectFlowLinker.class }, requires = {
+		MappedTypeLinker.class, ObjectFlowLinker.class, ParameterLinker.class })
 public class PinLinker extends AbstractModelElementLinker {
 	@VisitBefore(matchSubclasses = true)
 	public void linkTarget(IActionWithTarget action) {
@@ -41,7 +43,14 @@ public class PinLinker extends AbstractModelElementLinker {
 			action.getResult().setBaseType(action.getClassifier());
 		}
 	}
-
+	@VisitBefore
+	public void linkExceptionInput(INakedExceptionHandler h){
+		if(h.getExceptionTypes().size()==1 && h.getExceptionInput()!=null){
+			INakedClassifier type = h.getExceptionTypes().iterator().next();
+			h.getExceptionInput().setBaseType(type);
+			h.getExceptionInput().setType(type);
+		}
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkStructuralFeature(INakedReadStructuralFeatureAction action) {
 		linkTypedElement(action.getResult(), action.getFeature());

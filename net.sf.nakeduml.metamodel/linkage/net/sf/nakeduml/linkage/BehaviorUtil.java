@@ -226,4 +226,7 @@ public class BehaviorUtil {
 			return false;
 		}
 	}
+	public static boolean shouldSurrounWithTry(INakedCallAction node) {
+		return !isTaskOrProcess(node) && node.hasExceptions();
+	}
 }

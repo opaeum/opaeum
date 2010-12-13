@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -18,7 +19,7 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpresso
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.OpaqueActionCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SignalSender;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleActionBuilder;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.StructuralFeatureClearer;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.StructuralFeatureReader;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.StructuralFeatureValueAdder;
@@ -41,13 +42,16 @@ import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import net.sf.nakeduml.metamodel.actions.INakedAddVariableValueAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedClearStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedClearVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
+import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.actions.INakedRaiseExceptionAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
@@ -55,6 +59,7 @@ import net.sf.nakeduml.metamodel.actions.INakedRemoveVariableValueAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.actions.INakedStartClassifierBehaviorAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
@@ -64,6 +69,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -74,19 +80,6 @@ import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisitor {
-	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		super.initialize(workspace, javaModel, config, textWorkspace);
-	}
-
-	@VisitAfter
-	public void addExceptionParameter(INakedModel m) {
-		OJClass ojClass = UtilityCreator.getUtilPack().findClass(new OJPathName("ExceptionParameter"));
-		if (ojClass != null) {
-			super.createTextPath(ojClass, JavaTextSource.GEN_SRC);
-		}
-	}
-
 	@VisitBefore
 	public void implementActivity(INakedActivity a) {
 		if (a.getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD && OJUtil.hasOJClass(a.getContext()) && !a.isClassifierBehavior()
@@ -114,7 +107,9 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		OJBlock block = oper.getBody();
 		INakedActivityNode first = getFirstNode(a.getStartNodes());
 		addVariables(a, a.getVariables(), oper.getBody(), oper.getOwner());
-		implementNode(oper, block, first);
+		if (first != null) {
+			implementNode(oper, block, first);
+		}
 	}
 
 	private void addVariables(INakedActivity a, Collection<INakedActivityVariable> vars, OJBlock body, OJClassifier owner) {
@@ -133,23 +128,38 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	private void implementNode(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode node) {
 		if (node instanceof INakedControlNode) {
 			implementControlNode(operation, block, (INakedControlNode) node);
-		} else if (node instanceof INakedExpansionRegion) {
-			implementExpansionRegion(operation, block, (INakedExpansionRegion) node);
-		} else if (node != null) {
-			implementAction(operation, block, node);
+		} else if (node instanceof INakedAction) {
+			if (node instanceof INakedExpansionRegion) {
+				implementExpansionRegion(operation, block, (INakedExpansionRegion) node);
+			} else if (node instanceof INakedStructuredActivityNode) {
+				implementStructuredActivityNode(operation, block, (INakedStructuredActivityNode) node);
+			} else if (node != null) {
+				implementObjectNodeOrAtomicAction(operation, block, node);
+			}
+		} else {
+			// OBject node
+			implementObjectNodeOrAtomicAction(operation, block, node);
 		}
 	}
 
-	private void implementAction(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode node) {
-		SimpleActionBuilder<?> actionBuilder = resolveActionBuilder(node, getOclEngine(), new ObjectNodeExpressor(getOclEngine()
-				.getOclLibrary()));
-		if (actionBuilder != null) {
-			actionBuilder.implementActionOn(operation, block);
-			if (actionBuilder instanceof Caller) {
-				block = surroundWithCatchIfRequired((INakedCallAction) node, (Caller) actionBuilder, operation, block);
+	private void implementStructuredActivityNode(OJAnnotatedOperation operation, OJBlock block, INakedStructuredActivityNode node) {
+		OJBlock nodeBlock = new OJBlock();
+		block.addToStatements(nodeBlock);
+		implementNode(operation, nodeBlock, getFirstNode(node.getStartNodes()));
+		maybeImplementNextNode(operation, block, node);
+	}
+
+	private void implementObjectNodeOrAtomicAction(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode node) {
+		SimpleNodeBuilder<?> builder = resolveBuilder(node, getOclEngine(), new ObjectNodeExpressor(getOclEngine().getOclLibrary()));
+		if (builder != null) {
+			builder.implementActionOn(operation, block);
+			if (builder instanceof Caller) {
+				block = surroundWithCatchIfRequired((INakedCallAction) node, (Caller) builder, operation, block);
 			}
 		}
-		maybeImplementNextNode(operation, block, node);
+		if (!(node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement())) {
+			maybeImplementNextNode(operation, block, node);
+		}
 	}
 
 	private void implementExpansionRegion(OJAnnotatedOperation operation, OJBlock block, INakedExpansionRegion region) {
@@ -217,9 +227,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		}
 	}
 
-	public static SimpleActionBuilder<?> resolveActionBuilder(INakedActivityNode node, IOclEngine oclEngine,
-			AbstractObjectNodeExpressor expressor) {
-		SimpleActionBuilder<?> actionBuilder = null;
+	public static SimpleNodeBuilder<?> resolveBuilder(INakedActivityNode node, IOclEngine oclEngine, AbstractObjectNodeExpressor expressor) {
+		SimpleNodeBuilder<?> actionBuilder = null;
 		if (node instanceof INakedParameterNode) {
 			actionBuilder = new ParameterNodeImplementor(oclEngine, (INakedParameterNode) node, expressor);
 		} else if (node instanceof INakedExpansionNode) {
@@ -250,6 +259,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			actionBuilder = new ClassifierBehaviorStarter(oclEngine, (INakedStartClassifierBehaviorAction) node, expressor);
 		} else if (node instanceof INakedSendSignalAction) {
 			actionBuilder = new SignalSender(oclEngine, (INakedSendSignalAction) node, expressor);
+		} else if (node instanceof INakedRaiseExceptionAction) {
+			actionBuilder = new ExceptionRaiser(oclEngine, (INakedRaiseExceptionAction) node, expressor);
 		}
 		return actionBuilder;
 	}
@@ -274,15 +285,14 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		}
 	}
 
-	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall, Caller caller, OJAnnotatedOperation operationContext,
+	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall, Caller caller, OJAnnotatedOperation operation,
 			OJBlock originalBlock) {
-		boolean shouldSurround = nakedCall.getExceptionPins().size() > 0;
-		if (shouldSurround) {
-			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operationContext, originalBlock);
+		if (BehaviorUtil.shouldSurrounWithTry(nakedCall)) {
+			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operation, originalBlock);
 			for (INakedOutputPin e : nakedCall.getExceptionPins()) {
 				NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(nakedCall.getContext(), e);
 				OJPathName pathName = OJUtil.classifierPathname(e.getNakedBaseType());
-				operationContext.getOwner().addToImports(pathName);
+				operation.getOwner().addToImports(pathName);
 				OJIfStatement statement = new OJIfStatement();
 				statement.setCondition("e.isParameter(\"" + e.getLinkedTypedElement().getName() + "\")");
 				OJField parm = new OJField();
@@ -293,7 +303,29 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				tryStatement.getCatchPart().addToStatements(statement);
 				if (e.getOutgoing().size() > 0) {
 					INakedActivityEdge outgoing = e.getOutgoing().iterator().next();
-					implementNode(operationContext, statement.getThenPart(), outgoing.getEffectiveTarget());
+					implementNode(operation, statement.getThenPart(), outgoing.getEffectiveTarget());
+				}
+				// break flow on exception
+				statement.getThenPart().addToStatements("return");
+				tryStatement.getCatchPart().addToStatements(statement);
+			}
+			for (INakedExceptionHandler e : nakedCall.getHandlers()) {
+				StringBuilder sb = new StringBuilder();
+				Iterator<INakedClassifier> iter = e.getExceptionTypes().iterator();
+				while (iter.hasNext()) {
+					INakedClassifier type = iter.next();
+					OJPathName pathName = OJUtil.classifierPathname(type);
+					sb.append("e.getValue() instanceof ");
+					sb.append(pathName.getLast());
+					operation.getOwner().addToImports(pathName);
+					if (iter.hasNext()) {
+						sb.append("||");
+					}
+				}
+				OJIfStatement statement = new OJIfStatement(sb.toString());
+				tryStatement.getCatchPart().addToStatements(statement);
+				if (e.getHandlerBody() != null) {
+					implementNode(operation, statement.getThenPart(), e.getHandlerBody());
 				}
 				// break flow on exception
 				statement.getThenPart().addToStatements("return");

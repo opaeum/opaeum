@@ -6,9 +6,12 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class ObjectNodeExpressor extends AbstractObjectNodeExpressor {
@@ -16,13 +19,13 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor {
 		super(oclLibrary);
 	}
 
-	public String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin) {
+	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin) {
 		// Either an outputpin or parameterNode
 		INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
 		INakedObjectNode feedingNode = pin.getFeedingNode();
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), feedingNode);
 		String call = map.umlName();// ParameterNode or top level output
-											// pin or expansion node
+									// pin or expansion node
 		if (feedingNode instanceof INakedOutputPin) {
 			call = retrieveFromExecutionInstanceIfNecessary((INakedOutputPin) feedingNode, call);
 		}

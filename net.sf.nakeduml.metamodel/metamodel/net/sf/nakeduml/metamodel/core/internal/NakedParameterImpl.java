@@ -13,6 +13,15 @@ public class NakedParameterImpl extends NakedTypedElementImpl implements INakedT
 	private int exceptionIndex;
 	private boolean isException = false;
 	private boolean isReturn = false;
+	private INakedParameter linkedParameter;
+	public INakedParameter getLinkedParameter() {
+		return linkedParameter;
+	}
+
+	public void setLinkedParameter(INakedParameter linkedParameter) {
+		this.linkedParameter = linkedParameter;
+	}
+
 	private ParameterDirectionKind direction = ParameterDirectionKind.IN;
 
 	public NakedParameterImpl() {

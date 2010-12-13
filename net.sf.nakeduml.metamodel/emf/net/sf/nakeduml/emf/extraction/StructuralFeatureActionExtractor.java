@@ -22,40 +22,36 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 	@VisitBefore
 	public void visitAddStructuralFeatureValueAction(AddStructuralFeatureValueAction emfAction,
 			NakedAddStructuralFeatureValueActionImpl nakedAction){
+		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
 		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
 		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 		nakedAction.setReplaceAll(emfAction.isReplaceAll());
 	}
 	@VisitBefore
 	public void visitClearStructuralFeatureValueAction(ClearStructuralFeatureAction emfAction,
 			NakedClearStructuralFeatureActionImpl nakedAction){
-		Activity emfActivity = getActivity(emfAction);
+		initAction(emfAction, nakedAction);
+Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
 		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 	}
 	@VisitBefore
 	public void visitRemoveStructuralFeatureValueAction(RemoveStructuralFeatureValueAction emfAction,
 			NakedRemoveStructuralFeatureValueActionImpl nakedAction){
+		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
 		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
 		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 	}
 	@VisitBefore
 	public void visitReadStructuralFeatureAction(ReadStructuralFeatureAction emfAction,NakedReadStructuralFeatureActionImpl nakedAction){
+		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
 		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
 		nakedAction.setResult((INakedOutputPin) initializePin(emfActivity, emfAction.getResult()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 	}
 }

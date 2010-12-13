@@ -180,6 +180,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	private void insertSignalCallInProcessSignal(OJAnnotatedOperation processSignal, INakedSignal signal) {
 		NakedClassifierMap map = new NakedClassifierMap(signal);
 		OJIfStatement ifInstance = new OJIfStatement("signal instanceof " + map.javaType());
+		processSignal.getOwner().addToImports(map.javaTypePath());
 		processSignal.getBody().addToStatements(ifInstance);
 		String signalFieldName = signal.getMappingInfo().getJavaName().getDecapped().toString();
 		OJAnnotatedField signalField = new OJAnnotatedField(signalFieldName, map.javaTypePath());

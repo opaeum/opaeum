@@ -35,6 +35,14 @@ public abstract class AbstractObjectNodeExpressor {
 		if (edge.getTransformation() != null) {
 			expression = edge.getTransformation().getMappingInfo().getJavaName() + "(" + expression + ")";
 		}
+		if(edge.getSelection()==null && edge.getTransformation()==null){
+			INakedObjectNode source=(INakedObjectNode) edge.getSource();
+			INakedObjectNode target = (INakedObjectNode) edge.getTarget();
+			if(target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany() &&( source.isOrdered()!=target.isOrdered() || source.isUnique()!=target.isUnique())){
+				NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap(edge.getActivity(), target);
+				expression="new " + targetMap.javaDefaultTypePath().getLast() + "<" + targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast() +">(" + expression +")";
+			}
+		}
 		return expression;
 	}
 
@@ -85,5 +93,10 @@ public abstract class AbstractObjectNodeExpressor {
 			}
 		}
 		return call;
+	}
+
+	public String expressExceptionInput(OJBlock block, INakedObjectNode pin) {
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin);
+		return   "(" + map.javaType() + ")e.getValue()";
 	}
 }

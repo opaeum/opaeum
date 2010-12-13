@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.activities.internal;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
@@ -20,8 +21,17 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	protected IClassifier type;
 	private INakedClassifier baseType;
 	private int index;
+	private INakedExceptionHandler incomingExceptionHandler;
 	public INakedObjectNode getFeedingNode(){
 		return getObjectNodeSource(getIncoming());
+	}
+	
+	public INakedExceptionHandler getIncomingExceptionHandler() {
+		return incomingExceptionHandler;
+	}
+
+	public void setIncomingExceptionHandler(INakedExceptionHandler incomingExceptionHandler) {
+		this.incomingExceptionHandler = incomingExceptionHandler;
 	}
 	private INakedObjectNode getObjectNodeSource(Collection<INakedActivityEdge> source){
 		Iterator<INakedActivityEdge> iter = source.iterator();

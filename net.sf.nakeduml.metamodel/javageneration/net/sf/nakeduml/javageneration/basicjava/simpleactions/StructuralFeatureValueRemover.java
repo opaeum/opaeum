@@ -7,7 +7,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class StructuralFeatureValueRemover extends SimpleActionBuilder<INakedRemoveStructuralFeatureValueAction> {
+public class StructuralFeatureValueRemover extends SimpleNodeBuilder<INakedRemoveStructuralFeatureValueAction> {
 	public StructuralFeatureValueRemover(IOclEngine oclEngine, INakedRemoveStructuralFeatureValueAction action,
 			AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);

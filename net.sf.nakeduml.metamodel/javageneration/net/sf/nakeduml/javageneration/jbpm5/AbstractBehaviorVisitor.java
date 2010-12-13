@@ -221,7 +221,6 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			populateBehavior(behavior, javaMethod);
 			NakedMessageStructureMap map = new NakedMessageStructureMap(behavior);
 			javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
-			javaMethod.getBody().addToStatements("_behavior.execute()");
 			javaMethod.getBody().addToStatements("return _behavior");
 			javaMethod.setReturnType(ojBehavior);
 		} else {

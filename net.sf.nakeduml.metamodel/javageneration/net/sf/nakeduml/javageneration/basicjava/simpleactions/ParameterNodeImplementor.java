@@ -12,7 +12,7 @@ import net.sf.nakeduml.util.ExceptionHolder;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class ParameterNodeImplementor extends SimpleActionBuilder<INakedParameterNode> {
+public class ParameterNodeImplementor extends SimpleNodeBuilder<INakedParameterNode> {
 	public ParameterNodeImplementor(IOclEngine oclEngine, INakedParameterNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
 		super(oclEngine, action, objectNodeExpressor);
 	}

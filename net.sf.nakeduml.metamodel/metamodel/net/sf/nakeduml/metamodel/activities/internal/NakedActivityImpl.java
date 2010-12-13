@@ -12,11 +12,13 @@ import org.hibernate.hql.ast.tree.ParameterNode;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
@@ -51,7 +53,9 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 					results.add(node);
 				}
 			} else if (node.getAllEffectiveIncoming().isEmpty()) {
-				results.add(node);
+				if (!(node instanceof INakedAction && ((INakedAction) node).handlesException())) {
+					results.add(node);
+				}
 			}
 		}
 		return results;

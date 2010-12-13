@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class OpaqueActionCaller extends SimpleActionBuilder<INakedOpaqueAction> {
+public class OpaqueActionCaller extends SimpleNodeBuilder<INakedOpaqueAction> {
 	public OpaqueActionCaller(IOclEngine oclEngine, INakedOpaqueAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

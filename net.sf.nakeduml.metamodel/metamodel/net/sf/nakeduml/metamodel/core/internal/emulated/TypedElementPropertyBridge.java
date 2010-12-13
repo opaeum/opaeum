@@ -6,7 +6,10 @@ import java.util.List;
 
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
@@ -49,7 +52,7 @@ public class TypedElementPropertyBridge extends EmulatingElement implements INak
 
 	@Override
 	public String getName() {
-		if (parameter.getOwnerElement() instanceof INakedAction && ensureLocallyUniqueName) {
+		if (parameter instanceof INakedOutputPin && parameter.getOwnerElement() instanceof INakedAction && ensureLocallyUniqueName) {
 			return parameter.getName() + "On" + parameter.getOwnerElement().getMappingInfo().getJavaName().getCapped();
 		}
 		return super.getName();

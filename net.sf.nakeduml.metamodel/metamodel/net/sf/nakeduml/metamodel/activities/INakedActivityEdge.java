@@ -19,5 +19,6 @@ public interface INakedActivityEdge extends GuardedFlow,INakedElementOwner{
 	INakedValueSpecification getWeight();
 	INakedActivityNode getEffectiveSource();
 	INakedActivity getActivity();
+	boolean hasGuard();
 	
 }

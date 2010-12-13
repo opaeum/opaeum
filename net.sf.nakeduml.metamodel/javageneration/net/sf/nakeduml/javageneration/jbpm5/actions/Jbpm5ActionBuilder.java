@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 import java.util.Collection;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.AbstractActionBuilder;
+import net.sf.nakeduml.javageneration.basicjava.AbstractNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
@@ -31,7 +31,7 @@ import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractActionBuilder {
+public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder {
 	protected A node;
 	protected Jbpm5ObjectNodeExpressor expressor;
 	public ActivityNodeMap getMap() {
@@ -103,7 +103,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				}
 			}
 		}
-		continueFlow(block, edge);
+		flowTo(block, edge.getEffectiveTarget());
 	}
 
 	public boolean isTask() {
@@ -113,14 +113,13 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	public void implementSupportingTaskMethods(OJClass activityClass) {
 	}
 
-	protected void continueFlow(OJBlock block, INakedActivityEdge edge) {
-		INakedActivityNode target = edge.getEffectiveTarget();
+	protected void flowTo(OJBlock block, INakedActivityNode target) {
 		if (target.isImplicitJoin()) {
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_join_for_"
-					+ edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"join_for_"
+					+ target.getMappingInfo().getPersistentName().getWithoutId() + "\")");
 		} else {
 			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\""
-					+ edge.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+					+ target.getMappingInfo().getPersistentName().getWithoutId() + "\")");
 		}
 	}
 

@@ -17,39 +17,39 @@ import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.RemoveVariableValueAction;
 import org.eclipse.uml2.uml.Variable;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {TypedElementExtractor.class,ActivityStructureExtractor.class},after = {
-		TypedElementExtractor.class,ActivityStructureExtractor.class})
-public class VariableActionExtractor extends AbstractActionExtractor{
+@StepDependency(phase = EmfExtractionPhase.class, requires = { TypedElementExtractor.class, ActivityStructureExtractor.class }, after = {
+		TypedElementExtractor.class, ActivityStructureExtractor.class })
+public class VariableActionExtractor extends AbstractActionExtractor {
 	@VisitBefore
-	public void visitAddVariableValueAction(AddVariableValueAction emfAction,NakedAddVariableValueActionImpl nakedAction){
+	public void visitAddVariableValueAction(AddVariableValueAction emfAction, NakedAddVariableValueActionImpl nakedAction) {
+		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		Variable variable = emfAction.getVariable();
 		nakedAction.setVariable((INakedActivityVariable) getNakedPeer(variable));
 		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 		nakedAction.setReplaceAll(emfAction.isReplaceAll());
 	}
+
 	@VisitBefore
-	public void visitReadVariableAction(ReadVariableAction emfAction,NakedReadVariableActionImpl nakedAction){
+	public void visitReadVariableAction(ReadVariableAction emfAction, NakedReadVariableActionImpl nakedAction) {
+		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setVariable((INakedActivityVariable) getNakedPeer(emfAction.getVariable()));
 		nakedAction.setResult((INakedOutputPin) initializePin(emfActivity, emfAction.getResult()));
 		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitRemoveVariableValueAction(RemoveVariableValueAction emfAction,NakedRemoveVariableValueActionImpl nakedAction){
+	public void visitRemoveVariableValueAction(RemoveVariableValueAction emfAction, NakedRemoveVariableValueActionImpl nakedAction) {
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setVariable((INakedActivityVariable) getNakedPeer(emfAction.getVariable()));
 		nakedAction.setValue((INakedInputPin) initializePin(emfActivity, emfAction.getValue()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 	}
+
 	@VisitBefore
-	public void visitClearVariableAction(ClearVariableAction emfAction,NakedClearVariableActionImpl nakedAction){
+	public void visitClearVariableAction(ClearVariableAction emfAction, NakedClearVariableActionImpl nakedAction) {
+		initAction(emfAction, nakedAction);
 		nakedAction.setVariable((INakedActivityVariable) getNakedPeer(emfAction.getVariable()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
-		assignPartition(nakedAction, emfAction);
 	}
 }

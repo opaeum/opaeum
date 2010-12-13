@@ -18,13 +18,14 @@ import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.util.ExceptionHolder;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class Caller extends SimpleActionBuilder<INakedCallAction> {
+public class Caller extends SimpleNodeBuilder<INakedCallAction> {
 	private NakedStructuralFeatureMap callMap;
 
 	public Caller(IOclEngine oclEngine, INakedCallAction action, AbstractObjectNodeExpressor expressor) {
@@ -77,22 +78,22 @@ public class Caller extends SimpleActionBuilder<INakedCallAction> {
 	}
 
 	public OJTryStatement surroundWithCatchIfNecessary(OJOperation operationContext, OJBlock originalBlock) {
-		boolean shouldSurround = !BehaviorUtil.isTaskOrProcess(node) && node.getExceptionPins().size() > 0;
+		boolean shouldSurround = BehaviorUtil.shouldSurrounWithTry(node);
 		if (shouldSurround) {
-			List<OJField> locals = new ArrayList<OJField>(originalBlock.getLocals());
+//			List<OJField> locals = new ArrayList<OJField>(originalBlock.getLocals());
 			List<OJStatement> statements = new ArrayList<OJStatement>(originalBlock.getStatements());
-			originalBlock.removeAllFromLocals();
+//			originalBlock.removeAllFromLocals();
 			originalBlock.removeAllFromStatements();
 			OJTryStatement tryStatement = new OJTryStatement();
-			originalBlock.addToStatements(tryStatement);
 			tryStatement.setCatchPart(new OJBlock());
 			tryStatement.setTryPart(new OJBlock());
-			tryStatement.getTryPart().addToLocals(locals);
+//			tryStatement.getTryPart().addToLocals(locals);
 			tryStatement.getTryPart().addToStatements(statements);
 			operationContext.getOwner().addToImports(ExceptionHolder.class.getName());
 			tryStatement.setCatchParam(new OJParameter());
 			tryStatement.getCatchParam().setType(new OJPathName("ExceptionHolder"));
 			tryStatement.getCatchParam().setName("e");
+			originalBlock.addToStatements(tryStatement);
 			return tryStatement;
 		} else {
 			return null;

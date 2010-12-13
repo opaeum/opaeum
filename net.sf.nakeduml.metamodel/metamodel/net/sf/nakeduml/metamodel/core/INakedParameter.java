@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.core;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 public interface INakedParameter extends INakedTypedElement, IParameter {
+	void setLinkedParameter(INakedParameter p);
 //	IParameterOwner getOwner();
 	/**
 	 * Octopus does not support a return direction. This augments Octopus with return semantics

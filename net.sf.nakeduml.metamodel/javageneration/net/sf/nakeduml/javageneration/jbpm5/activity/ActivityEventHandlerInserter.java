@@ -72,7 +72,13 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter {
 				if (pinMap.isOne()) {
 					ifNotNull.getThenPart().addToStatements(pinMap.setter() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
 				} else {
-					ifNotNull.getThenPart().addToStatements(pinMap.adder() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
+					if (parm.getNakedMultiplicity().isMany()) {
+						ifNotNull.getThenPart()
+						.addToStatements(pinMap.allAdder() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
+					} else {
+						ifNotNull.getThenPart()
+								.addToStatements(pinMap.adder() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
+					}
 				}
 			}
 		}
