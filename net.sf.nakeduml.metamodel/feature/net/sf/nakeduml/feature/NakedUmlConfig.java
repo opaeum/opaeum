@@ -36,6 +36,7 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_MAPPED_TYPES_PACKAGE = "nakeduml.mapped.types.package";
 	private static final String NAKEDUML_SEAM_OR_WELD = "nakeduml.seam.or.weld";
 	private static final String NAKEDUML_PROJECT_NAME = "nakeduml.project.name";
+	private static final String NAKEDUML_HIBERNATE_CFG_NAME = "nakeduml.hibernate.cfg.name";
 
 	private Properties props = new Properties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
@@ -243,6 +244,11 @@ public class NakedUmlConfig {
 		return this.props.getProperty(NAKEDUML_PROJECT_NAME, "nakedmonkey");
 	}
 
+	public String getHibernateCfgName() {
+		return this.props.getProperty(NAKEDUML_HIBERNATE_CFG_NAME, "java:/monkeySessionFactory");
+	}
+
+	
 	public Boolean isSeamAnnotations() {
 		return this.props.getProperty(NAKEDUML_SEAM_OR_WELD, "seam").equals("seam");
 	}

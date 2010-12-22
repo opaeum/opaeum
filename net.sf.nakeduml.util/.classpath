@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-annotations-3.5.6-Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-4.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javaee-api-5.jar"/>

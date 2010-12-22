@@ -28,11 +28,11 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 
-@Name("signalMDB")
-@MessageDriven(name = "SignalMDB", activationConfig = {
-		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/SignalQueue") })
-@TransactionManagement(TransactionManagementType.BEAN)
+//@Name("signalMDB")
+//@MessageDriven(name = "SignalMDB", activationConfig = {
+//		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+//		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/SignalQueue") })
+//@TransactionManagement(TransactionManagementType.BEAN)
 public class SignalMDB implements MessageListener {
 	@Resource
 	UserTransaction userTransaction;

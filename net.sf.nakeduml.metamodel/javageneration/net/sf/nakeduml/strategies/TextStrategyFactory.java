@@ -1,7 +1,5 @@
 package net.sf.nakeduml.strategies;
 
-import javax.persistence.Lob;
-
 import net.sf.nakeduml.javageneration.TestValueStrategy;
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
 import net.sf.nakeduml.javageneration.persistence.JpaStrategy;
@@ -13,12 +11,17 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.workspace.AbstractStrategyFactory;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.type.TextType;
+
 public class TextStrategyFactory extends AbstractStrategyFactory {
 	public static class MyJpaStrategy implements JpaStrategy {
 
 		@Override
 		public void annotate(OJAnnotatedField f, INakedProperty p) {
-			f.putAnnotation(new OJAnnotationValue(new OJPathName(Lob.class.getName())));
+			OJAnnotationValue type = new OJAnnotationValue(new OJPathName(Type.class.getName()));
+			type.putAttribute("type", TextType.class.getName());
+			f.putAnnotation(type);
 		}
 
 	}
