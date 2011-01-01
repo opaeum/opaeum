@@ -1,8 +1,9 @@
 package net.sf.nakeduml.javageneration.jbpm5.activity;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -10,8 +11,11 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
+import net.sf.nakeduml.javametamodel.OJConstructor;
+import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -23,14 +27,16 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
-public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
+public class TaskImplementor extends AbstractBehaviorVisitor {
 	@VisitBefore
 	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
 		// TODO find better place for this
@@ -48,14 +54,21 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			INakedMessageStructure message = oa.getMessageStructure();
 			OJAnnotatedClass ojClass = findJavaClass(message);
 			implementExecute(oa, ojClass);
-			super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
+			OJConstructor constr = super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
+			constr.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+			constr.getBody().addToStatements("this.processInstanceId=context.getProcessInstance().getId()");
+			constr.getBody().addToStatements(
+					"this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
+			OJUtil.addProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
+			ojClass.addToImports(Jbpm5Util.getNodeInstance());
 			addGetName(oa, ojClass);
+			implementRelationshipWithProcess(ojClass, true);
 			OJAnnotatedOperation completeMethod = addCompleteMethod(oa, ojClass);
-			completeMethod.getBody().addToStatements("getContextObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed()");
+			completeMethod.getBody().addToStatements(
+					"getContextObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getTargetElement());
 			OJAnnotatedField user = OJUtil.addProperty(ojClass, "user", map.javaBaseTypePath(), true);
-			//TODO could be Interface - use @Any
-			
+			// TODO could be Interface - use @Any
 			user.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
 		}
 	}
@@ -67,20 +80,57 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
 			implementExecute(o, ojOperationClass);
+			implementRelationshipWithProcess(ojOperationClass, true);
 			OJAnnotatedClass ojContext = findJavaClass(o.getOwner());
 			NakedOperationMap map = new NakedOperationMap(o);
 			OJOperation ojOper = ojContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
-			// TODO implement process Invocation on Execute method
 			OJPathName behaviorClass = ojOperationClass.getPathName();
-			createJbpmProcess(o, ojOper);
+			// createJbpmProcess(o, ojOper);
 			ojOper.getBody().addToStatements(o.getName() + " _" + o.getName() + "= new " + o.getName() + "(this)");
+			List<? extends INakedParameter> args = o.getArgumentParameters();
+			for (INakedParameter arg : args) {
+				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(oc, arg);
+				ojOper.getBody().addToStatements("_" + o.getName()+"."+argMap.setter() + "(" + argMap.umlName() + ")" );
+			}
 			ojOper.getBody().addToStatements("_" + o.getName() + ".execute()");
 			ojOper.getBody().addToStatements("return _" + o.getName());
 			ojOper.setReturnType(behaviorClass);
 			super.addContextFieldAndConstructor(ojOperationClass, oc, o.getOwner());
 			addGetName(o, ojOperationClass);
-			addCompleteMethod(o, ojOperationClass);
+			OJAnnotatedOperation completeMethod = addCompleteMethod(o, ojOperationClass);
+			OJAnnotatedField callBackListener = new OJAnnotatedField("callBackListener", map.callbackListenerPath());
+			completeMethod.getBody().addToLocals(callBackListener);
+			callBackListener.setInitExp(getCallbackListener(map) + "()");
+			// TODO pass nodeInstance as input parameter.
+			OJIfStatement ifNotNull = new OJIfStatement("callBackListener!=null", "callBackListener." + map.callbackOperName() + "(this)");
+			completeMethod.getBody().addToStatements(ifNotNull);
+			implementgetCallbackListener(ojOperationClass, map);
+			OJAnnotatedOperation init = new OJAnnotatedOperation("init");
+			init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+			init.getBody().addToStatements("this.processInstanceId=context.getProcessInstance().getId()");
+			init.getBody().addToStatements(
+					"this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
+			OJUtil.addProperty(ojOperationClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
+			ojOperationClass.addToImports(Jbpm5Util.getNodeInstance());
+			ojOperationClass.addToOperations(init);
 		}
+	}
+
+	public void implementgetCallbackListener(OJAnnotatedClass ojOperationClass, NakedOperationMap map) {
+		// getCAllbackLister
+		OJAnnotatedOperation getCallbackListener = new OJAnnotatedOperation(getCallbackListener(map), map.callbackListenerPath());
+		ojOperationClass.addToOperations(getCallbackListener);
+		OJIfStatement processInstanceNotNull = new OJIfStatement("getProcessInstance()!=null ");
+		getCallbackListener.getBody().addToStatements(processInstanceNotNull);
+		OJAnnotatedField processObject = new OJAnnotatedField("processObject", map.callbackListenerPath());
+		processInstanceNotNull.getThenPart().addToLocals(processObject);
+		processObject.setInitExp("(" + map.callbackListenerPath().getLast() + ")getProcessInstance().getVariable(\"processObject\")");
+		processInstanceNotNull.getThenPart().addToStatements("return processObject");
+		getCallbackListener.getBody().addToStatements("return null");
+	}
+
+	public String getCallbackListener(NakedOperationMap map) {
+		return "get" + map.callbackListenerPath().getLast();
 	}
 
 	private OJAnnotatedOperation addCompleteMethod(PreAndPostConstrained constrained, OJAnnotatedClass ojOperationClass) {
@@ -114,7 +164,6 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 				"javax.persistence.TemporalType"), "TIMESTAMP"));
 		f.putAnnotation(temporal);
 		execute.getBody().addToStatements("setExecutedOn(new Date())");
-		OJBlock block = execute.getBody();
 		return execute;
 	}
 
@@ -142,5 +191,11 @@ public class TaskExecutionImplementor extends AbstractBehaviorVisitor {
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.OrderBy"), "executedOn"));
 			}
 		}
+	}
+
+	@Override
+	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
+		// TODO This means the inheritance hierarchy needs works
+		return null;
 	}
 }

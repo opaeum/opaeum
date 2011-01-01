@@ -1,12 +1,14 @@
 package net.sf.nakeduml.javageneration.jbpm5.activity;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
@@ -36,6 +38,8 @@ import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -68,7 +72,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			oper.getBody().addToStatements(
 					"return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(), booleanType));
-			oper.setName(BpmUtil.getGuardMethod(edge));
+			oper.setName(Jbpm5Util.getGuardMethod(edge));
 			oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
 		}
 	}
@@ -85,6 +89,9 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 			implementSpecificationOrStartClassifierBehaviour(activity);
 			if (activity.getActivityKind() == ActivityKind.PROCESS) {
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
+			}else{
+				doIsStepActive(activityClass, activity);
+				super.addGetNodeInstancesRecursively(activityClass);
 			}
 			if (activity.isProcess()) {
 				OJAnnotatedOperation init = new OJAnnotatedOperation("init");
@@ -134,6 +141,9 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 			operation.setName(implementor.getMap().doActionMethod());
 			activityClass.addToOperations(operation);
 			operation.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+			if(implementor.isEffectiveFinalNode()){
+				implementor.implementFinalStep(operation.getBody());
+			}
 			implementor.setupVariables(operation);
 			implementor.implementPreConditions(operation);
 			implementor.implementActionOn(operation);
@@ -145,5 +155,10 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 				// operation.getBody(), true);
 			}
 		}
+	}
+
+	@Override
+	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
+		return Arrays.asList(umlBehavior);
 	}
 }

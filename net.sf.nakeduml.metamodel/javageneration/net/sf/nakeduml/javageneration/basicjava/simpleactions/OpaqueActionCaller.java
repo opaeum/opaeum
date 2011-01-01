@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
@@ -38,6 +39,13 @@ public class OpaqueActionCaller extends SimpleNodeBuilder<INakedOpaqueAction> {
 			expressor.maybeBuildResultVariable(operation, block, map);
 			expr=expressor.storeResults(map, expr, returnPin.getNakedMultiplicity().isMany());
 			block.addToStatements(expr);
+		}else if(!node.isSynchronous()){
+			NakedClassifierMap map = new NakedClassifierMap(node.getMessageStructure());
+			OJAnnotatedField taskVar = new OJAnnotatedField("task", map.javaTypePath());
+			taskVar.setInitExp("new " + map.javaType() + "()");
+			operation.getBody().addToLocals(taskVar);
+			operation.getBody().addToStatements("task.execute()");
+			//TODO assign task
 		}
 	}
 }

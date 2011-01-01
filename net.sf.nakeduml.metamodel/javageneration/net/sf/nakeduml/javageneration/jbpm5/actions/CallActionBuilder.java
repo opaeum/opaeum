@@ -1,14 +1,15 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.Caller;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJTryStatement;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -16,6 +17,7 @@ import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallAction> {
@@ -30,10 +32,14 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 	public void implementActionOn(OJAnnotatedOperation operation) {
 		delegate.implementActionOn(operation, operation.getBody());
 		if (BehaviorUtil.isTaskOrProcess(node) && node.isSynchronous()) {
-			//1. Setup variables for task or sub-process call
 		} else {
 			OJTryStatement tryStatement = delegate.surroundWithCatchIfNecessary(operation, operation.getBody());
 			if (tryStatement != null) {
+				OJPathName umlNodeInstance = ReflectionUtil.getUtilInterface(UmlNodeInstance.class);
+				operation.getOwner().addToImports(umlNodeInstance);
+				OJAnnotatedField waitingNode = new OJAnnotatedField("waitingNode", umlNodeInstance);
+				waitingNode.setInitExp("(" + umlNodeInstance.getLast() + ")context.getNodeInstance()");
+				tryStatement.getCatchPart().addToLocals(waitingNode);
 				implementExceptionPins(operation, tryStatement);
 				implementExceptionHandlers(operation, tryStatement);
 			}

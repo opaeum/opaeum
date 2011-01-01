@@ -8,11 +8,14 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
 import net.sf.nakeduml.javageneration.util.ActionFeatureBridge;
+import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
@@ -23,6 +26,7 @@ import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
@@ -47,6 +51,11 @@ import org.drools.drools._5._0.process.ProcessType;
 import org.drools.drools._5._0.process.SplitType;
 import org.drools.drools._5._0.process.StateType;
 import org.drools.drools._5._0.process.SubProcessType;
+import org.drools.drools._5._0.process.TypeType;
+import org.drools.drools._5._0.process.VariableType;
+import org.drools.drools._5._0.process.VariablesType;
+import org.eclipse.emf.common.util.EList;
+import org.jboss.seam.bpm.Jbpm;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class ActivityFlowStep extends FlowGenerationStep {
@@ -66,8 +75,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 			targetIdMap = new HashMap<INakedElement, Integer>();
 			NodesType nodesType = process.getNodes().get(0);
 			ConnectionsType connections = process.getConnections().get(0);
-			ActivityNodeContainer container = a;
-			populateContainer(container, nodesType, connections);
+			populateContainer(a, nodesType, connections, process.getHeader().get(0).getVariables());
 		}
 	}
 
@@ -86,7 +94,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		subProcess.getMapping().add(mapping);
 		subProcess.setWaitForCompletion("true");
 		subProcess.setIndependent("false");
-		subProcess.setProcessId(BpmUtil.generateProcessName(node.getCalledElement()));
+		subProcess.setProcessId(Jbpm5Util.generateProcessName(node.getCalledElement()));
 		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 		createAction(new ActionMap(node).doActionMethod(), onEntry.getAction(), true);
 		subProcess.getOnEntry().add(onEntry);
@@ -96,7 +104,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 
 	private int insertArtificialJoin(NodesType nodes, ConnectionsType connections, int i, INakedActivityNode state) {
 		int joinId = state.getMappingInfo().getNakedUmlId() + ARTIFICIAL_JOIN_ID;
-		addJoin(nodes, i, BpmUtil.getArtificialJoinName(state), joinId);
+		addJoin(nodes, i, Jbpm5Util.getArtificialJoinName(state), joinId);
 		createConnection(connections, joinId, state.getMappingInfo().getNakedUmlId());
 		i++;
 		targetIdMap.put(state, joinId);
@@ -109,7 +117,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		if ((state.getOwnerElement() instanceof INakedStructuredActivityNode)) {
 			addFinalNode(nodes, i, name, nakedUmlId);
 		} else {
-			addState(nodes, i, name, nakedUmlId);
+			addActionNode(nodes, i, state);
 			i++;
 			int finalNodeId = nakedUmlId + ARTIFICIAL_FINAL_NODE_ID;
 			addFinalNode(nodes, i, state.getMappingInfo().getPersistentName() + "_end", finalNodeId);
@@ -123,16 +131,35 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		flowState.setName(structuredNode.getMappingInfo().getPersistentName().toString());
 		setBounds(i, flowState, structuredNode.getMappingInfo().getNakedUmlId());
 		INakedExpansionNode inputElement = structuredNode.getInputElement().get(0);
-		flowState.setCollectionExpression("processObject." + ActivityUtil.getCollectionExpression(inputElement) + "(context)");
+		flowState.setCollectionExpression("processObject." + ActivityUtil.getCollectionExpression(inputElement) + "()");
 		flowState.setVariableName(inputElement.getName());
 		flowState.setWaitForCompletion("true");
 		nodes.getForEach().add(flowState);
 		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
 		flowState.getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
-		populateContainer(structuredNode, flowState.getNodes().get(0), flowState.getConnections().get(0));
+		NodesType localNodes = flowState.getNodes().get(0);
+		int startNodeId = structuredNode.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID;
+		addInitialNode(localNodes, 1, "initial_for_expansion_" + structuredNode.getMappingInfo().getPersistentName(), startNodeId);
+		ActionNodeType actionNode = ProcessFactory.eINSTANCE.createActionNodeType();
+		int actionNodeId = structuredNode.getMappingInfo().getNakedUmlId() + INIT_NODE_ID;
+		ConnectionsType localConnections = flowState.getConnections().get(0);
+		createConnection(localConnections, startNodeId, actionNodeId);
+		setBounds(2, actionNode, actionNodeId);
+		ActivityNodeMap map = new ActivityNodeMap(structuredNode);
+		createAction(map.doActionMethod(), actionNode.getAction(), true);
+		actionNode.setName(structuredNode.getMappingInfo().getPersistentName().getAsIs() + "_setup_vars");
+		localNodes.getActionNode().add(actionNode);
+		addCompositeNode(localNodes, 3, structuredNode);
+		createConnection(localConnections, actionNodeId, structuredNode.getMappingInfo().getNakedUmlId());
+		int finalNodeId = structuredNode.getMappingInfo().getNakedUmlId() + ARTIFICIAL_FINAL_NODE_ID;
+		addFinalNode(localNodes, 4, "final_for_" + structuredNode.getMappingInfo().getPersistentName(), finalNodeId);
+		createConnection(localConnections, structuredNode.getMappingInfo().getNakedUmlId(), finalNodeId);
+		// populateContainer(structuredNode, flowState.getNodes().get(0),
+		// flowState.getConnections().get(0));
 	}
 
-	private void populateContainer(ActivityNodeContainer container, NodesType nodesType, ConnectionsType connections) {
+	private void populateContainer(ActivityNodeContainer container, NodesType nodesType, ConnectionsType connections,
+			EList<VariablesType> vars) {
 		int i = 1;
 		HashMap<SplitType, INakedActivityNode> choiceNodes = new HashMap<SplitType, INakedActivityNode>();
 		Collection<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>(container.getActivityNodes());
@@ -144,21 +171,21 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		int startNodeId = container.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID;
 		addInitialNode(nodesType, i, "artificial_start_for_" + container.getMappingInfo().getPersistentName().getAsIs(), startNodeId);
 		i++;
-		if(container instanceof INakedActivity){
+		if (container instanceof INakedActivity) {
 			ActionNodeType actionNode = ProcessFactory.eINSTANCE.createActionNodeType();
-			int initNodeId = container.getMappingInfo().getNakedUmlId()+INIT_NODE_ID;
+			int initNodeId = container.getMappingInfo().getNakedUmlId() + INIT_NODE_ID;
 			setBounds(i, actionNode, initNodeId);
 			createAction("init", actionNode.getAction(), true);
 			actionNode.setName("init");
 			nodesType.getActionNode().add(actionNode);
 			i++;
 			createConnection(connections, startNodeId, initNodeId);
-			startNodeId=initNodeId;
+			startNodeId = initNodeId;
 		}
 		if (effectiveStartNodes.size() > 1) {
 			// INsert artificial Fork;
 			int forkId = container.getMappingInfo().getNakedUmlId() + ARTIFICIAL_FORK_ID;
-			addFork(nodesType, i, "artificialForkFor" + container.getMappingInfo().getPersistentName().getAsIs(), forkId);
+			addFork(nodesType, i, Jbpm5Util.getArtificialForkName(container), forkId);
 			createConnection(connections, startNodeId, forkId);
 			i++;
 			startNodeId = forkId;
@@ -189,16 +216,15 @@ public class ActivityFlowStep extends FlowGenerationStep {
 			}
 		}
 		for (Map.Entry<SplitType, INakedActivityNode> entry : choiceNodes.entrySet()) {
-			this.addConstraintsToSplit(entry.getKey(), entry.getValue().getAllEffectiveOutgoing());
+			this.addConstraintsToSplit(entry.getKey(), entry.getValue().getAllEffectiveOutgoing(), true);
 		}
-		
 	}
 
 	private boolean requiresArtificialFinalNode(INakedActivityNode node) {
 		boolean isFinalNode = node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isFinalNode();
 		boolean isOutputExpansionNode = node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement();
-		boolean hasExceptionHandler = node instanceof INakedAction && ((INakedAction)node).getHandlers().size()>0;
-		return (node.getAllEffectiveOutgoing().isEmpty() && !isFinalNode &&!hasExceptionHandler) || isOutputExpansionNode;
+		boolean hasExceptionHandler = node instanceof INakedAction && ((INakedAction) node).getHandlers().size() > 0;
+		return (node.getAllEffectiveOutgoing().isEmpty() && !isFinalNode && !hasExceptionHandler) || isOutputExpansionNode;
 	}
 
 	private Collection<INakedActivityNode> getEffectiveStartNodes(ActivityNodeContainer container) {
@@ -218,15 +244,18 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		}
 		return results;
 	}
-/**
- * Returns true if this node is dependent on the preceding InitialNode for its activation
- * @param edge
- * @return
- */
+
+	/**
+	 * Returns true if this node is dependent on the preceding InitialNode for
+	 * its activation
+	 * 
+	 * @param edge
+	 * @return
+	 */
 	private boolean dependsOnInitialNode(INakedActivityEdge edge) {
-		if(edge.getEffectiveTarget() instanceof INakedControlNode){
-			INakedControlNode node=(INakedControlNode) edge.getEffectiveTarget();
-			if(node.getControlNodeType()==ControlNodeType.MERGE_NODE){
+		if (edge.getEffectiveTarget() instanceof INakedControlNode) {
+			INakedControlNode node = (INakedControlNode) edge.getEffectiveTarget();
+			if (node.getControlNodeType() == ControlNodeType.MERGE_NODE) {
 				return true;
 			}
 		}
@@ -285,6 +314,8 @@ public class ActivityFlowStep extends FlowGenerationStep {
 					addWaitState(nodesType, i, (INakedAcceptEventAction) node);
 				} else if (action instanceof INakedCallAction && ((INakedCallAction) node).isProcessCall()) {
 					addSubProcessCall(nodesType, i, (INakedCallAction) node);
+				} else if (action instanceof INakedCallAction && ((INakedCallAction) node).isTask()) {
+					addWaitState(nodesType, i, (INakedCallAction) node);
 				} else if (action.hasExceptions()) {
 					addExceptionAwareState(nodesType, i, action);
 				} else if (node instanceof INakedExpansionRegion) {
@@ -296,7 +327,8 @@ public class ActivityFlowStep extends FlowGenerationStep {
 				}
 				Collection<INakedExceptionHandler> handlers = action.getHandlers();
 				for (INakedExceptionHandler handler : handlers) {
-					createConnection(connections, action.getMappingInfo().getNakedUmlId(), handler.getHandlerBody().getMappingInfo().getNakedUmlId());
+					createConnection(connections, action.getMappingInfo().getNakedUmlId(), handler.getHandlerBody().getMappingInfo()
+							.getNakedUmlId());
 				}
 			} else {
 				System.out.println(node.getName() + ":" + node.getClass().getName() + " not supported yet");
@@ -304,7 +336,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 			i++;
 			if (node.isImplicitFork()) {
 				i = insertArtificialFork(nodesType, connections, i, node);
-			} else if (node.isImplicitDecision()) {
+			} else if (requiresArtificialDecision(node)) {
 				i = insertArtificialChoice(nodesType, choiceNodes, connections, i, node);
 			} else {
 				sourceIdMap.put(node, node.getMappingInfo().getNakedUmlId());
@@ -320,14 +352,50 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		return i;
 	}
 
+	public boolean requiresArtificialDecision(INakedActivityNode node) {
+		return node.isImplicitDecision() && ! (node instanceof INakedAcceptEventAction) && !(node instanceof INakedCallAction && ((INakedCallAction)node).isTask());
+	}
+
+	private StateType addWaitState(NodesType nodes, int i, INakedCallAction task) {
+		StateType state = addState(nodes, i, task.getMappingInfo().getPersistentName().toString(), task.getMappingInfo()
+				.getNakedUmlId());
+		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
+		state.getOnEntry().add(onEntry);
+		ActionMap map = new ActionMap(task);
+		createAction(map.doActionMethod(), onEntry.getAction(), true);
+
+		return state;
+	}
+
 	private void addCompositeNode(NodesType nodesType, int i, INakedStructuredActivityNode node) {
-		CompositeType flowState= ProcessFactory.eINSTANCE.createCompositeType();
+		CompositeType flowState = ProcessFactory.eINSTANCE.createCompositeType();
 		flowState.setName(node.getMappingInfo().getPersistentName().toString());
 		setBounds(i, flowState, node.getMappingInfo().getNakedUmlId());
 		nodesType.getComposite().add(flowState);
 		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
 		flowState.getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
-		populateContainer(node, flowState.getNodes().get(0), flowState.getConnections().get(0));
+		populateContainer(node, flowState.getNodes().get(0), flowState.getConnections().get(0), flowState.getVariables());
+		Collection<INakedActivityVariable> variables = node.getVariables();
+		VariablesType variablesType = ProcessFactory.eINSTANCE.createVariablesType();
+		flowState.getVariables().add(variablesType);
+		for (INakedActivityVariable var : variables) {
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), var);
+			createVariable(variablesType, map.umlName(), map.javaTypePath().toString());
+		}
+		for (INakedActivityNode child : node.getActivityNodes()) {
+			if (child instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedCallAction) child)) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedCallAction) child, super.workspace.getOclEngine()
+						.getOclLibrary());
+				createVariable(variablesType, map.umlName(), map.javaTypePath().toString());
+			} else if (child instanceof INakedAction) {
+				INakedAction action = (INakedAction) child;
+				Collection<INakedOutputPin> output = action.getOutput();
+				for (INakedOutputPin outPin : output) {
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), outPin);
+					createVariable(variablesType, map.umlName(), map.javaTypePath().toString());
+				}
+			}
+		}
 	}
 
 	public void addExceptionAwareState(NodesType nodesType, int i, INakedAction action) {
@@ -341,7 +409,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 
 	private int insertArtificialFork(NodesType nodesType, ConnectionsType connections, int i, INakedActivityNode node) {
 		int forkId = node.getMappingInfo().getNakedUmlId() + ARTIFICIAL_FORK_ID;
-		addFork(nodesType, i, node.getMappingInfo().getPersistentName().getAsIs() + "_fork", forkId);
+		addFork(nodesType, i, Jbpm5Util.getArtificialForkName(node), forkId);
 		createConnection(connections, node.getMappingInfo().getNakedUmlId(), forkId);
 		i++;
 		sourceIdMap.put(node, node.getMappingInfo().getNakedUmlId() + ARTIFICIAL_FORK_ID);
@@ -375,9 +443,9 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		if (action.getTrigger() != null && action.getTrigger().getEvent() instanceof INakedTimeEvent) {
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 			state.getOnEntry().add(onEntry);
+			createAction(map.doActionMethod(), onEntry.getAction(), true);
 			OnExitType onExit = ProcessFactory.eINSTANCE.createOnExitType();
 			state.getOnExit().add(onExit);
-			createAction(map.doActionMethod(), onEntry.getAction(), true);
 			createAction(map.getCancelTimersMethod(), onExit.getAction(), false);
 		}
 	}

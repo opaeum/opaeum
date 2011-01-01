@@ -9,10 +9,9 @@ import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javametamodel.OJAnnonymousInnerClass;
+import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJForStatement;
@@ -30,14 +29,13 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerContainer;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.util.AbstractSignal;
+import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
@@ -165,7 +163,6 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				OJOperation copy = processSignal.getDeepCopy();
 				context.addToOperations(copy);
 				copy.getBody().addToStatements("return false");
-				
 			} else {
 				List<OJStatement> toStatements = parentProcessSignal.getBody().getStatements();
 				List<OJStatement> fromStatements = processSignal.getBody().getStatements();
@@ -237,7 +234,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		if (event instanceof INakedTimeEvent) {
 			// apply persistent name semantics - a revision may occur after the
 			// original event was logged
-			methodName = BpmUtil.getTimerCallbackMethodName((INakedTimeEvent) event);
+			methodName = Jbpm5Util.getTimerCallbackMethodName((INakedTimeEvent) event);
 		} else {
 			methodName = "on" + event.getMappingInfo().getJavaName().getCapped();
 		}
@@ -255,8 +252,10 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		processed.setInitExp("false");
 		listener.getBody().addToLocals(processed);
 		OJAnnotatedField nodes = new OJAnnotatedField();
-		nodes.setName("waitingToken");
-		nodes.setType(BpmUtil.getNodeInstance());
+		nodes.setName("waitingNode");
+		OJPathName umlNodeInstance = ReflectionUtil.getUtilInterface(UmlNodeInstance.class);
+		activityClass.addToImports(umlNodeInstance);
+		nodes.setType(umlNodeInstance);
 		listener.getBody().addToLocals(nodes);
 		for (FromNode node : eventActions.getWaitingNodes()) {
 			addLeavingLogic(listener, node, listener.getBody());
@@ -295,34 +294,34 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	}
 
 	private void addFindWaitingNode(OJClass activityClass) {
-		activityClass.addToImports(BpmUtil.getNodeInstance());
-		OJOperation findWaitingNode = new OJAnnotatedOperation();
-		activityClass.addToOperations(findWaitingNode);
-		findWaitingNode.setName("findWaitingNode");
-		findWaitingNode.addParam("step", new OJPathName("String"));
-		findWaitingNode.setReturnType(BpmUtil.getNodeInstance());
+		activityClass.addToImports(Jbpm5Util.getNodeInstance());
+		OJOperation findWaitingNodeByNodeId = new OJAnnotatedOperation();
+		activityClass.addToOperations(findWaitingNodeByNodeId);
+		findWaitingNodeByNodeId.setName("findWaitingNodeByNodeId");
+		findWaitingNodeByNodeId.addParam("step", new OJPathName("long"));
+		findWaitingNodeByNodeId.setReturnType(Jbpm5Util.getNodeInstance());
 		OJForStatement forNodeInstances = new OJForStatement();
 		forNodeInstances.setBody(new OJBlock());
-		forNodeInstances.setElemType(new OJPathName("NodeInstance"));
+		forNodeInstances.setElemType(Jbpm5Util.getNodeInstance());
 		forNodeInstances.setElemName("nodeInstance");
 		activityClass.addToImports("java.util.Collection");
 		forNodeInstances.setCollection("getNodeInstancesRecursively()");
-		findWaitingNode.getBody().addToStatements(forNodeInstances);
-		OJIfStatement ifNameEquals = new OJIfStatement("nodeInstance.getNode().getName().equals(step)", "return nodeInstance");
+		findWaitingNodeByNodeId.getBody().addToStatements(forNodeInstances);
+		OJIfStatement ifNameEquals = new OJIfStatement("(("+Jbpm5Util.getNode().getLast() +")nodeInstance.getNode()).getId()==step", "return nodeInstance");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);
-		findWaitingNode.getBody().addToStatements("return null");
+		findWaitingNodeByNodeId.getBody().addToStatements("return null");
 	}
 
 	private void addLeavingLogic(OJOperation operationContext, FromNode node, OJBlock body) {
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		body.addToStatements(ifTokenFound);
-		String literalExpression = operationContext.getOwner().getName() + "State." + BpmUtil.stepLiteralName(node.getWaitingElement());
+		String literalExpression = operationContext.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
 		if (node.isRestingNode()) {
-			ifTokenFound.setCondition("consumed==false && (waitingToken=findWaitingNode(" + literalExpression + ".getQualifiedName()))"
-					+ "!=null");
+			ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression
+					+ ".getId()))" + "!=null");
 		} else {
-			ifTokenFound.setCondition("consumed==false && (waitingToken=findWaitingNode(\""
-					+ node.getWaitingElement().getMappingInfo().getPersistentName() + "\"))" + "!=null");
+			ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId("
+					+ node.getWaitingElement().getMappingInfo().getNakedUmlId() + "l))" + "!=null");
 		}
 		implementEventConsumption(node, ifTokenFound);
 		OJIfStatement ifGuard = implementConditionalFlows(operationContext, node, ifTokenFound);

@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.jbpm5.statemachine;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJOperation;
@@ -22,6 +23,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -69,7 +71,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 				context.addToOperations(copy);
 			}
 			getter.getBody().addToStatements(
-					"return isStepActive(" + javaStateMachine.getName() + "State." + BpmUtil.stepLiteralName(state) + ")");
+					"return isStepActive(" + javaStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
 		}
 		implementMethodIfRequired(state, map.getOnEntryMethod(), state.getEntry());
 		implementMethodIfRequired(state, map.getOnExitMethod(), state.getExit());
@@ -97,7 +99,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 		if (transition.getGuard() != null && transition.getGuard().isValidOclValue() && transition.getSource().getKind().isChoice()) {
 			OJOperation getter = new OJAnnotatedOperation();
 			getter.setReturnType(new OJPathName("boolean"));
-			getter.setName(BpmUtil.getGuardMethod(transition));
+			getter.setName(Jbpm5Util.getGuardMethod(transition));
 			javaStateMachine.addToOperations(getter);
 			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			String expression = ValueSpecificationUtil.expressValue(getter, transition.getGuard(), transition.getStateMachine(),
@@ -131,5 +133,10 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 		javaStateMachine.addToImports(AbstractProcess.class.getName());
 		javaStateMachine.addToImports(AbstractProcessStep.class.getName());
 		javaStateMachine.addToImports(AbstractProcessStep.class.getName());
+	}
+
+	@Override
+	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
+		return ((INakedStateMachine)umlBehavior).getRegions();
 	}
 }

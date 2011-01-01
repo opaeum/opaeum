@@ -6,26 +6,31 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
 import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
-import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
+import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
@@ -34,6 +39,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder {
 	protected A node;
 	protected Jbpm5ObjectNodeExpressor expressor;
+
 	public ActivityNodeMap getMap() {
 		return map;
 	}
@@ -55,11 +61,16 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		ActivityUtil.setupVariables(oper, node);
 	}
 
+	public void implementFinalStep(OJBlock block) {
+		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName()
+				+ "State." + Jbpm5Util.stepLiteralName(node));
+	}
+
 	public abstract void implementActionOn(OJAnnotatedOperation oper);
 
 	public void implementPreConditions(OJOperation oper) {
 		if (node instanceof PreAndPostConstrained) {
-			implementConditions(oper, oper.getBody(),(PreAndPostConstrained) node, true);
+			implementConditions(oper, oper.getBody(), (PreAndPostConstrained) node, true);
 		}
 	}
 
@@ -71,6 +82,18 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				// pins as parameters
 				for (INakedPin pin : ((INakedAction) node).getInput()) {
 					buildPinField(oper, block, pin, false);
+				}
+				if (!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isTask()) {
+					// Most commonly used for Tasks where there would be a
+					// message structure T
+					// TODO support other output pins
+					for (INakedPin pin : ((INakedAction) node).getOutput()) {
+						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
+						oper.getOwner().addToImports(map.javaTypePath());
+						OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+						field.setInitExp("completedTask." + map.getter() + "()");
+						block.addToLocals(field);
+					}
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
@@ -115,11 +138,10 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 
 	protected void flowTo(OJBlock block, INakedActivityNode target) {
 		if (target.isImplicitJoin()) {
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"join_for_"
-					+ target.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+			
+			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialJoinName(target) + "\")");
 		} else {
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\""
-					+ target.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+			block.addToStatements("waitingNode.takeTransition(\"" + target.getMappingInfo().getPersistentName() + "\")");
 		}
 	}
 
@@ -157,8 +179,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			// ignore guards and weight here, just go straight to the artificial
 			// fork
 			// TODO implement a fork that evaluates conditions before leaving
-			block.addToStatements("getProcessInstance().signalEvent(\"signal\",\"artificial_fork_for_"
-					+ node.getMappingInfo().getPersistentName().getWithoutId() + "\")");
+			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
 		} else {
 			for (INakedActivityEdge e : node.getDefaultOutgoing()) {
 				maybeContinueFlow(operationContext, block, e);
@@ -167,8 +188,8 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	private void getTokenFromExecutionContext(OJClassifier ojClass, OJBlock parentBlock) {
-		parentBlock.addToStatements("NodeInstance waitingToken=(NodeInstance)context.getNodeInstance()");
-		ojClass.addToImports(new OJPathName("org.jbpm.workflow.instance.NodeInstance"));
+		parentBlock.addToStatements("UmlNodeInstance waitingNode=(UmlNodeInstance)context.getNodeInstance()");
+		ojClass.addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
 	}
 
 	public boolean waitsForEvent() {
@@ -194,6 +215,12 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 
 	public boolean hasNodeMethod() {
-		return node instanceof INakedAction || node instanceof INakedObjectNode || node instanceof INakedExpansionRegion;
+		// TODO refine this
+		return node instanceof INakedAction || node instanceof INakedObjectNode || node instanceof INakedExpansionRegion
+				|| (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isFinalNode());
+	}
+
+	public boolean isEffectiveFinalNode() {
+		return BehaviorUtil.isEffectiveFinalNode(node);
 	}
 }

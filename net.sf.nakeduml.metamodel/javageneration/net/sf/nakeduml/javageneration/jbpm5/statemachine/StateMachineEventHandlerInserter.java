@@ -9,10 +9,11 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.WaitForEventElements;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
+import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.javametamodel.OJAnnonymousInnerClass;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
@@ -30,6 +31,8 @@ import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.StateKind;
+import net.sf.nakeduml.util.TransitionListener;
+import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
@@ -51,7 +54,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 						fire.setName(fireOper);
 						javaStateMachine.addToOperations(fire);
 					}
-					BpmUtil.implementTimeEvent(fire, (INakedTimeEvent) wfe.getEvent(), we, fromNode.getTransitions());
+					Jbpm5Util.implementTimeEvent(fire, (INakedTimeEvent) wfe.getEvent(), we, fromNode.getTransitions());
 					String cancelOper = map.getCancelTimersMethod();
 					OJOperation cancel = javaStateMachine.findOperation(cancelOper, Collections.EMPTY_LIST);
 					if (cancel == null) {
@@ -59,7 +62,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 						cancel.setName(cancelOper);
 						javaStateMachine.addToOperations(cancel);
 					}
-					BpmUtil.cancelTimer(cancel, (INakedTimeEvent) wfe.getEvent());
+					Jbpm5Util.cancelTimer(cancel, (INakedTimeEvent) wfe.getEvent());
 				}
 			}
 		}
@@ -96,12 +99,10 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 
 	@Override
 	protected void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) {
-		OJIfStatement ifUmlNode = new OJIfStatement("waitingToken instanceof UmlNode", "UmlNode umlNode=(UmlNode)waitingToken");
-		block.addToStatements(ifUmlNode);
-		operationContext.getOwner().addToImports("net.sf.nakeduml.util.UmlNode");
-		operationContext.getOwner().addToImports("net.sf.nakeduml.util.TransitionListener");
-		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner().getPathName(), "listener", new OJPathName("net.sf.nakeduml.util.TransitionListener"));
-		ifUmlNode.getThenPart().addToLocals(listener);
+		operationContext.getOwner().addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
+		operationContext.getOwner().addToImports(ReflectionUtil.getUtilInterface(TransitionListener.class));
+		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner().getPathName(), "listener", ReflectionUtil.getUtilInterface(TransitionListener.class));
+		block.addToLocals(listener);
 		OJAnnotatedOperation onTransition = new OJAnnotatedOperation("onTransition");
 		listener.getClassDeclaration().addToOperations(onTransition);
 		INakedTransition transition = (INakedTransition) flow;
@@ -122,12 +123,12 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 				onTransition.getBody().addToStatements(expression);
 			}
 		}
-		ifUmlNode.getThenPart().addToStatements("umlNode.takeTransition(\"" + calculateTargetNodeName(transition) + "\", listener)");
+		block.addToStatements("waitingNode.takeTransition(\"" + calculateTargetNodeName(transition) + "\", listener)");
 	}
 
 	private String calculateTargetNodeName(INakedTransition flow) {
 		if (flow.getTarget().getIncoming().size() > 1) {
-			return BpmUtil.getArtificialJoinName(flow.getTarget());
+			return Jbpm5Util.getArtificialJoinName(flow.getTarget());
 		}
 		return flow.getTarget().getMappingInfo().getPersistentName().toString();
 	}

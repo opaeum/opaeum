@@ -41,6 +41,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.addToConstructors(constructor);
 		addField(e, constructor, "parentState", abstractProcessStep);
 		addField(e, constructor, "persistentName", new OJPathName("String"));
+		addField(e, constructor, "id", new OJPathName("long"));
 		addField(e, constructor, "humanName", new OJPathName("String"));
 		addField(e, constructor, "triggerMethods", new OJPathName("net.sf.nakeduml.util.TriggerMethod[]"));
 		e.addToImports("net.sf.nakeduml.util.TriggerMethod");
@@ -74,14 +75,15 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 
 	protected void buildLiteral(INakedElement step, OJEnum e) {
 		OJEnumLiteral l = new OJEnumLiteral();
-		l.setName(BpmUtil.stepLiteralName(step));
+		l.setName(Jbpm5Util.stepLiteralName(step));
 		e.addToLiterals(l);
 		if (getEnclosingElement(step) != null) {
-			addParameter(l, "parentState", BpmUtil.stepLiteralName(getEnclosingElement(step)));
+			addParameter(l, "parentState", Jbpm5Util.stepLiteralName(getEnclosingElement(step)));
 		}else{
 			addParameter(l, "parentState", "null");
 		}
 		addParameter(l, "persistentName", '"' + step.getMappingInfo().getPersistentName().getWithoutId().getAsIs() + '"');
+		addParameter(l, "id", step.getMappingInfo().getNakedUmlId().toString() + 'l');
 		addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
 		addParameter(l, "triggerMethods", buildTriggerMethodParameter(getMethodTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);

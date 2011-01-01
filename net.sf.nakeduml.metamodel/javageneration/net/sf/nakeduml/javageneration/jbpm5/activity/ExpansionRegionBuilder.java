@@ -24,13 +24,13 @@ public class ExpansionRegionBuilder extends Jbpm5ActionBuilder<INakedExpansionRe
 		OJAnnotatedClass owner = (OJAnnotatedClass) oper.getOwner();
 		INakedExpansionNode inputElement = node.getInputElement().get(0);
 		OJAnnotatedOperation collectionExpression=new OJAnnotatedOperation(ActivityUtil.getCollectionExpression(inputElement));
-		collectionExpression.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+//		oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
 		owner.addToOperations(collectionExpression);
 		collectionExpression.setReturnType(new OJPathName("java.util.Collection"));
 		OJBlock collectionBody = collectionExpression.getBody();
 		for (INakedExpansionNode expansionNode : outputElements) {
 			NakedStructuralFeatureMap map=OJUtil.buildStructuralFeatureMap(expansionNode.getActivity(), expansionNode);
-			collectionExpression.getBody().addToStatements("context.setVariable(\"" + map.umlName() + "\","+map.javaDefaultValue() + ")");
+			expressor.maybeBuildResultVariable(oper, oper.getBody(), map);
 			owner.addToImports(map.javaDefaultTypePath());
 			owner.addToImports(map.javaTypePath());
 		}
