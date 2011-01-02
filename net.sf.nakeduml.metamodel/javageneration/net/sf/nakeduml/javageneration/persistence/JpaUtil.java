@@ -130,17 +130,19 @@ public class JpaUtil {
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
 		OJAnnotationValue otherJoinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-		if(map.isOneToMany() && !(map.getProperty().getBaseType() instanceof INakedInterface)){
-			//NB!!! unique==true messes the manyToAny mapping up
-			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", Boolean.TRUE));
-		}
 		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", f.getMappingInfo().getPersistentName().getAsIs()));
-		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("inverseJoinColumns", otherJoinColumn));
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", keyToParentTable));
-		joinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
+
+		if(map.isOneToMany() && !(map.getProperty().getBaseType() instanceof INakedInterface)){
+			//NB!!! unique==true messes the manyToAny mapping up
+			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", Boolean.TRUE));
+			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
+			joinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
+		}
+		
 		field.addAnnotationIfNew(joinTable);
 	}
 
