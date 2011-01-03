@@ -143,7 +143,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsFor" + owner.getMappingInfo().getJavaName());
 		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ owner.getMappingInfo().getJavaName().getDecapped() + " =:original and a.deletedOn > "
+				+ /*owner.getMappingInfo().getJavaName().getDecapped()*/ "_original" + " =:original and a.deletedOn > "
 				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
@@ -364,7 +364,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsBetweenFor" + owner.getMappingInfo().getJavaName());
 		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ owner.getMappingInfo().getJavaName().getDecapped() + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
+				+ /*owner.getMappingInfo().getJavaName().getDecapped()*/ "_original" + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
 				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
