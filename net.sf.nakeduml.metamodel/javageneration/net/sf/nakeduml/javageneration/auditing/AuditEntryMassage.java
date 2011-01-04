@@ -231,6 +231,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 				if (auditClass.isAbstract()) {
 					auditClass.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
 				}
+				auditClass.removeFromOperations(OJUtil.findOperation(auditClass, "allInstances"));
 				removeAbstractEntityInterface(auditClass);
 				// TODO remove the underscore
 				auditClass.renameAll(this.classPathNames, "_Audit");

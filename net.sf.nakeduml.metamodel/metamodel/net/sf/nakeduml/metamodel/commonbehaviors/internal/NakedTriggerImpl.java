@@ -22,7 +22,7 @@ public class NakedTriggerImpl extends NakedModelElementImpl implements INakedTri
 	public void addStereotype(INakedInstanceSpecification s){
 		super.addStereotype(s);
 		if(s.hasValueForFeature("isHumanTrigger")){
-			isHumanTrigger=true;
+			isHumanTrigger=s.getFirstValueFor("isHumanTrigger").booleanValue();
 		}
 	}
 	public boolean isHumanTrigger() {
