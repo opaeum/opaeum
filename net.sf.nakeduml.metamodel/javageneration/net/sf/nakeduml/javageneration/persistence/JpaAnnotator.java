@@ -53,7 +53,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	@VisitAfter()
 	public void visitOperation(INakedOperation o) {
 		if (o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)) {
-			annotateComplexStructure(new OperationMessageStructureImpl(o));
+			OJAnnotatedClass ojClass = annotateComplexStructure(new OperationMessageStructureImpl(o));
+			if(o.getMethods().size()>0){
+				annotateInheritanceType(ojClass);
+			}
 		}
 	}
 
@@ -68,7 +71,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 	}
 
-	private void annotateComplexStructure(INakedComplexStructure complexType) {
+	private OJAnnotatedClass annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
 		addAllInstances(complexType, ojClass);
@@ -105,6 +108,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 					complexType.getMappingInfo().getPersistentName().getAsIs());
 			ojClass.addAnnotationIfNew(discriminatorValue);
 		}
+		return ojClass;
 	}
 
 	public void addAllInstances(INakedComplexStructure complexType, OJAnnotatedClass ojClass) {

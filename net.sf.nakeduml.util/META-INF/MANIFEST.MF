@@ -128,5 +128,7 @@ Bundle-ClassPath: .,
  lib/jboss-seam-2.2.0.GA.jar,
  lib/javaee-api-5.jar,
  lib/drools-compiler-5.2.0.SNAPSHOT.jar,
- lib/jbpm-flow-builder-5.0-SNAPSHOT.jar
+ lib/jbpm-flow-builder-5.0-SNAPSHOT.jar,
+ lib/jbpm-persistence-jpa-5.0-SNAPSHOT.jar,
+ lib/drools-persistence-jpa-5.2.0.SNAPSHOT.jar
 

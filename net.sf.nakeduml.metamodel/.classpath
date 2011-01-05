@@ -30,7 +30,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/lang-2.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-jdk14-1.5.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.5.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jboss-seam-2.2.0.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-seam-2.2.0.GA.jar" sourcepath="/home/ampie/.m2/repository/org/jboss/seam/jboss-seam/2.2.0.GA/jboss-seam-2.2.0.GA-sources.jar"/>
 	<classpathentry kind="src" path="jbpm5metamodel"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
