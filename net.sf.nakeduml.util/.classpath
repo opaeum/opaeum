@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.SNAPSHOT.jar" sourcepath="/drools-persistence-jpa"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-persistence-jpa-5.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javaee-api-5.jar"/>

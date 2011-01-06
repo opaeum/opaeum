@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
