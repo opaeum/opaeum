@@ -95,7 +95,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		processObject.setName(variableName);
 		TypeType processObjectType = ProcessFactory.eINSTANCE.createTypeType();
 		processObjectType.setClassName(qualifiedJavaName);
-		final String PKG="jbpm";
+		final String PKG="drools";
 		if(qualifiedJavaName.equals("java.lang.String")){
 			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.StringDataType");
 		}else if(qualifiedJavaName.equalsIgnoreCase("java.lang.Boolean")){
