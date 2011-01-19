@@ -206,6 +206,13 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			owner.setType(javaTypePath);
 			populate.addToParameters(owner);
 			block = populate.getBody();
+			
+			if (forExport) {
+				populate.getBody().addToStatements(
+						"dataGeneratorProperty.putExportProperty(\"" + c.getMappingInfo().getJavaName().getDecapped() + ".size\", 1)");
+			}
+
+			
 		}
 		testDataClass.addToOperations(populate);
 		if (forExport) {
