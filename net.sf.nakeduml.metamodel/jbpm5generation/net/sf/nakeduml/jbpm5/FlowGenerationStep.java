@@ -6,23 +6,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
-import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
+import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionType;
 import org.drools.drools._5._0.process.ConnectionsType;
@@ -43,6 +41,7 @@ import org.drools.drools._5._0.process.TypeType;
 import org.drools.drools._5._0.process.VariableType;
 import org.drools.drools._5._0.process.VariablesType;
 import org.drools.drools._5._0.process.util.ProcessResourceFactoryImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -50,7 +49,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements TransformationStep {
 	protected TextWorkspace textWorkspace;
-	private INakedModelWorkspace workspace;
+	protected INakedModelWorkspace workspace;
 	protected Map<INakedElement, Integer> targetIdMap;
 	protected Map<INakedElement, Integer> sourceIdMap;
 
@@ -70,19 +69,15 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		ProcessType process = root.getProcess();
 		HeaderType header = ProcessFactory.eINSTANCE.createHeaderType();
 		process.getHeader().add(header);
+		String variableName = "processObject";
+		String qualifiedJavaName = behavior.getMappingInfo().getQualifiedJavaName();
 		VariablesType variables = ProcessFactory.eINSTANCE.createVariablesType();
 		header.getVariables().add(variables);
-		VariableType processObject = ProcessFactory.eINSTANCE.createVariableType();
-		variables.getVariable().add(processObject);
-		processObject.setName("processObject");
-		TypeType processObjectType = ProcessFactory.eINSTANCE.createTypeType();
-		processObjectType.setClassName(behavior.getMappingInfo().getQualifiedJavaName());
-		processObjectType.setName("org.drools.process.core.datatype.impl.type.ObjectDataType");
-		processObject.getType().add(processObjectType);
+		createVariable(variables, variableName, qualifiedJavaName);
 		root.getProcess().getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
 		root.getProcess().getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
-		root.getProcess().setId(BpmUtil.generateProcessName(behavior));
-		root.getProcess().setName(BpmUtil.generateProcessName(behavior));
+		root.getProcess().setId(Jbpm5Util.generateProcessName(behavior));
+		root.getProcess().setName(Jbpm5Util.generateProcessName(behavior));
 		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getCurrentVersion());
 		root.getProcess().setType("RuleFlow");
@@ -92,6 +87,26 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		names.add(behavior.getName() + ".rf");
 		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"));
 		return root;
+	}
+
+	protected  void createVariable(VariablesType variables, String variableName, String qualifiedJavaName) {
+		VariableType processObject = ProcessFactory.eINSTANCE.createVariableType();
+		variables.getVariable().add(processObject);
+		processObject.setName(variableName);
+		TypeType processObjectType = ProcessFactory.eINSTANCE.createTypeType();
+		processObjectType.setClassName(qualifiedJavaName);
+		final String PKG="drools";
+		if(qualifiedJavaName.equals("java.lang.String")){
+			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.StringDataType");
+		}else if(qualifiedJavaName.equalsIgnoreCase("java.lang.Boolean")){
+			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.BooleanDataType");
+		}else if(qualifiedJavaName.equalsIgnoreCase("java.lang.Integer")){
+			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.IntegerDataType");
+		}else{
+			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.ObjectDataType");
+
+		}
+		processObject.getType().add(processObjectType);
 	}
 
 	protected final void addStartNode(NodesType nodes, int i, INakedElement state) {
@@ -216,7 +231,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		return node1;
 	}
 
-	protected void addConstraintsToSplit(SplitType split, Collection<? extends GuardedFlow> outgoing) {
+	protected void addConstraintsToSplit(SplitType split, Collection<? extends GuardedFlow> outgoing ,boolean passContext) {
 		ConstraintsType constraints = ProcessFactory.eINSTANCE.createConstraintsType();
 		split.getConstraints().add(constraints);
 		for (GuardedFlow t : outgoing) {
@@ -228,7 +243,8 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 				constraint.setPriority("3");
 			} else {
 				if (t.getGuard().isOclValue()) {
-					constraint.setValue("return processObject." + BpmUtil.getGuardMethod(t) + "(context);");
+					String param = passContext?"context":"";
+					constraint.setValue("return processObject." + Jbpm5Util.getGuardMethod(t) + "("+param+");");
 					constraint.setPriority("1");
 				} else if (t.getGuard().getValue() instanceof Boolean) {
 					constraint.setValue("return " + t.getGuard().getValue() + ";");
@@ -248,4 +264,14 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 	public final Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
 		return root.getOwnedElements();
 	}
+	protected final ActionType createAction(String methodName, EList<ActionType> action, boolean passContext) {
+		ActionType entryAction = ProcessFactory.eINSTANCE.createActionType();
+		action.add(entryAction);
+		entryAction.setDialect("mvel");
+		entryAction.setType("expression");
+		String string = passContext ? "context" : "";
+		entryAction.setValue("processObject." + methodName + "(" + string + ")");
+		return entryAction;
+	}
+
 }
