@@ -8,7 +8,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class StructuralFeatureValueAdder extends SimpleActionBuilder<INakedAddStructuralFeatureValueAction>{
+public class StructuralFeatureValueAdder extends SimpleNodeBuilder<INakedAddStructuralFeatureValueAction>{
 	public StructuralFeatureValueAdder(IOclEngine oclEngine,INakedAddStructuralFeatureValueAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}

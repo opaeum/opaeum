@@ -14,6 +14,7 @@ public class TimeEvent implements Serializable {
 
 	public TimeEvent(AbstractEntity process, String callBackMethodName) {
 		super();
+		// TODO this id may only be available after transaction commit!!!!!!!!
 		this.setProcessId(process.getId());
 		this.setProcessClass((Class<? extends AbstractEntity>) IntrospectionUtil.getOriginalClass(process.getClass()));
 		this.setCallBackMethodName(callBackMethodName);

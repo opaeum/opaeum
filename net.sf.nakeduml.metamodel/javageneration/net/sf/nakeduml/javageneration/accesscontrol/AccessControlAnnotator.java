@@ -7,7 +7,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJElement;
 import net.sf.nakeduml.javametamodel.OJPackage;
@@ -57,7 +57,7 @@ public class AccessControlAnnotator extends StereotypeAnnotator{
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(s.getOwner().getNameSpace()));
 		OJEnum ojClass = (OJEnum) p.findClass(new OJPathName(s.getOwner().getName() + "State"));
 		if(ojClass != null){
-			OJElement prop = ojClass.findLiteral(BpmUtil.stepLiteralName(s));
+			OJElement prop = ojClass.findLiteral(Jbpm5Util.stepLiteralName(s));
 			annotate(s, ojClass, "SecurityOnView", prop);
 			annotate(s, ojClass, "SecurityOnEdit", prop);
 		}
@@ -67,7 +67,7 @@ public class AccessControlAnnotator extends StereotypeAnnotator{
 		OJPackage p = findOrCreatePackage(OJUtil.classifierPathname(a.getActivity()));
 		OJEnum ojClass = (OJEnum) p.findClass(new OJPathName(a.getActivity().getName() + "State"));
 		if(ojClass != null){
-			OJElement prop = ojClass.findLiteral(BpmUtil.stepLiteralName(a));
+			OJElement prop = ojClass.findLiteral(Jbpm5Util.stepLiteralName(a));
 			annotate(a, ojClass, "SecurityOnView", prop);
 			annotate(a, ojClass, "SecurityOnEdit", prop);
 		}

@@ -34,9 +34,6 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 	private File getDirectoryFor(TextFileDirectory textDir){
 		try{
 			File mappedRoot = config.getMappedDestination(textDir.getOutputRoot().getName());
-			if(mappedRoot==null || mappedRoot.getAbsoluteFile().length()<3){
-				System.out.println();
-			}
 			File dir = new File(mappedRoot, textDir.getRelativePath());
 			return dir;
 		}catch(RuntimeException e){

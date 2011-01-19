@@ -1,5 +1,7 @@
 package net.sf.nakeduml.jbpm;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Properties;
 
 import javax.persistence.EntityManager;
@@ -10,6 +12,10 @@ import org.drools.KnowledgeBase;
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentFactory;
 import org.drools.impl.EnvironmentImpl;
+import org.drools.marshalling.ObjectMarshallingStrategy;
+import org.drools.marshalling.impl.ClassObjectMarshallingStrategyAcceptor;
+import org.drools.marshalling.impl.SerializablePlaceholderResolverStrategy;
+import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
 import org.drools.runtime.Environment;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
@@ -53,7 +59,22 @@ public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
 			properties.put("drools.processInstanceManagerFactory", "org.jbpm.persistence.processinstance.JPAProcessInstanceManagerFactory");
 			properties.put("drools.processSignalManagerFactory", "org.jbpm.persistence.processinstance.JPASignalManagerFactory");
 			SessionConfiguration config = new SessionConfiguration(properties);
-			Environment environment = EnvironmentFactory.newEnvironment();
+			final Environment environment = EnvironmentFactory.newEnvironment();
+	        environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[]{
+                    new JPAPlaceholderResolverStrategy(environment){
+
+						@Override
+						public Object read(ObjectInputStream is) throws IOException, ClassNotFoundException {
+					        String canonicalName = is.readUTF();
+					        Object id = is.readObject();
+					        EntityManager em =(EntityManager) environment.get(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER);
+					        return em.find(Class.forName(canonicalName), id);
+						}
+                    	
+                    },
+                    new SerializablePlaceholderResolverStrategy( ClassObjectMarshallingStrategyAcceptor.DEFAULT  )
+                     });
+
 			environment.set(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER, getEntityManager());
 			return kbase.newStatefulKnowledgeSession(config, environment);
 		} else {

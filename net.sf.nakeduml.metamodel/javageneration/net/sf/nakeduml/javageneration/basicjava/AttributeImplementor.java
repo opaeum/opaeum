@@ -159,9 +159,17 @@ public class AttributeImplementor extends StereotypeAnnotator {
 				getter.setBody(new OJBlock());
 				if (p.getNakedBaseType().hasTaggedValue(StereotypeNames.HELPER, "name")) {
 					String name = p.getNakedBaseType().getTaggedValue(StereotypeNames.HELPER, "name");
-					getter.getBody().addToStatements(
-							new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
-									+ ")org.jboss.seam.Component.getInstance(\"" + name + "\")"));
+					OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null");
+					OJIfStatement ifContextsActive = new OJIfStatement("org.jboss.seam.contexts.Contexts.isEventContextActive()",
+							map.umlName() + "=(" + map.javaBaseType() + ")org.jboss.seam.Component.getInstance(\"" + name + "\")");
+					ifNull.getThenPart().addToStatements(ifContextsActive);
+					ifContextsActive.setElsePart(new OJBlock());
+					if (map.getProperty().getBaseType() instanceof INakedInterface) {
+						ifContextsActive.getElsePart().addToStatements( "throw new IllegalStateException(\"Interface based helpers need to be set explicitly\")");
+					} else {
+						ifContextsActive.getElsePart().addToStatements(map.umlName() + "= new " + map.javaBaseType() + "()");
+					}
+					getter.getBody().addToStatements(ifNull);
 					getter.getBody().addToStatements("return " + map.umlName());
 					owner.addToImports(map.javaBaseTypePath());
 				} else if (!p.getNakedBaseType().getIsAbstract()) {

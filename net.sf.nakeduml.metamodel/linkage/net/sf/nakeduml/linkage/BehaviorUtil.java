@@ -226,4 +226,11 @@ public class BehaviorUtil {
 			return false;
 		}
 	}
+	public static boolean shouldSurrounWithTry(INakedCallAction node) {
+		return !isTaskOrProcess(node) && node.hasExceptions();
+	}
+	public static boolean isEffectiveFinalNode(INakedActivityNode node2) {
+		boolean hasExceptionHandler = node2 instanceof INakedAction && ((INakedAction)node2).getHandlers().size()>0;
+		return (node2.getAllEffectiveOutgoing().isEmpty() &&!hasExceptionHandler);
+	}
 }

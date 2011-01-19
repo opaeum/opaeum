@@ -143,7 +143,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsFor" + owner.getMappingInfo().getJavaName());
 		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ owner.getMappingInfo().getJavaName().getDecapped() + " =:original and a.deletedOn > "
+				+ /*owner.getMappingInfo().getJavaName().getDecapped()*/ "_original" + " =:original and a.deletedOn > "
 				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
@@ -231,6 +231,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 				if (auditClass.isAbstract()) {
 					auditClass.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
 				}
+				auditClass.removeFromOperations(OJUtil.findOperation(auditClass, "allInstances"));
 				removeAbstractEntityInterface(auditClass);
 				// TODO remove the underscore
 				auditClass.renameAll(this.classPathNames, "_Audit");
@@ -364,7 +365,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsBetweenFor" + owner.getMappingInfo().getJavaName());
 		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ owner.getMappingInfo().getJavaName().getDecapped() + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
+				+ /*owner.getMappingInfo().getJavaName().getDecapped()*/ "_original" + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
 				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
@@ -569,7 +570,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		original.setType(originalPathName);
 		String auditClassName = javaClass.getPathName().getNames().get(javaClass.getPathName().getNames().size() - 1);
 		auditClassName = auditClassName.substring(0, auditClassName.length() - 6);
-		original.setName(umlClass.getMappingInfo().getJavaName().getDecapped().toString());
+//		original.setName(umlClass.getMappingInfo().getJavaName().getDecapped().toString());
+		original.setName("_original");
 		original.setOwner(javaClass);
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
 		JpaUtil.fetchLazy(toOne);
@@ -582,13 +584,15 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		OJOperation getter = new OJAnnotatedOperation();
 		getter.setName("getOriginal");
 		getter.setReturnType(originalPathName);
-		getter.getBody().addToStatements("return " + umlClass.getMappingInfo().getJavaName().getDecapped());
+//		getter.getBody().addToStatements("return " + umlClass.getMappingInfo().getJavaName().getDecapped());
+		getter.getBody().addToStatements("return this._original");
 		getter.setStatic(false);
 		javaClass.addToOperations(getter);
 		OJOperation setter = new OJAnnotatedOperation();
 		setter.setName("setOriginal");
 		setter.addParam(NameConverter.decapitalize(auditClassName), originalPathName);
-		setter.getBody().addToStatements("this." + umlClass.getMappingInfo().getJavaName().getDecapped() + "= " + NameConverter.decapitalize(auditClassName));
+//		setter.getBody().addToStatements("this." + umlClass.getMappingInfo().getJavaName().getDecapped() + "= " + NameConverter.decapitalize(auditClassName));
+		setter.getBody().addToStatements("this._original = " + NameConverter.decapitalize(auditClassName));
 		setter.setStatic(false);
 		if (umlClass.getGeneralizations().size() > 0) {
 			setter.getBody().addToStatements("super.setOriginal( " + NameConverter.decapitalize(auditClassName) + ")");

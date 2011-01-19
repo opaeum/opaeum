@@ -15,11 +15,11 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public abstract class AbstractActionBuilder {
+public abstract class AbstractNodeBuilder {
 	protected IOclEngine oclEngine;
 	protected AbstractObjectNodeExpressor expressor;
 
-	protected AbstractActionBuilder(IOclEngine oclEngine, AbstractObjectNodeExpressor expressor) {
+	protected AbstractNodeBuilder(IOclEngine oclEngine, AbstractObjectNodeExpressor expressor) {
 		this.oclEngine = oclEngine;
 		this.expressor=expressor;
 	}
@@ -75,6 +75,8 @@ public abstract class AbstractActionBuilder {
 		if (pin instanceof INakedValuePin) {
 			expression = ValueSpecificationUtil.expressValue(operationContext, ((INakedValuePin) pin).getValue(), pin.getActivity(),
 					pin.getType());
+		}else if(pin.getIncomingExceptionHandler()!=null){
+			expression=this.expressor.expressExceptionInput(block,pin);
 		} else if (pin.getIncoming().size() == 0) {
 			expression = ValueSpecificationUtil.expressDefaultOrImplicitObject(pin.getActivity(), pin.getType());
 		} else if (pin.getIncoming().size() == 1) {

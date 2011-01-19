@@ -12,11 +12,12 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public abstract class NakedInvocationActionImpl extends NakedActionImpl implements INakedInvocationAction {
 	private INakedInputPin target;
 	private List<INakedInputPin> arguments = new ArrayList<INakedInputPin>();
-	
+
 	public Set<INakedInputPin> getInput() {
 		Set<INakedInputPin> results = new HashSet<INakedInputPin>();
 		results.addAll(getArguments());
@@ -61,13 +62,18 @@ public abstract class NakedInvocationActionImpl extends NakedActionImpl implemen
 	}
 
 	public ITargetElement getTargetElement() {
-		if (getTarget() == null) {
+		// Property Partition overrides the target
+		if (getInPartition() != null && getInPartition().getRepresents() instanceof INakedProperty) {
 			return getInPartition();
-		} else {
+		} else if (getTarget() != null) {
 			return getTarget();
+		} else {
+			// Classifier Partition
+			return getInPartition();
 		}
 	}
-	public boolean isTask(){
+
+	public boolean isTask() {
 		return false;
 	}
 }

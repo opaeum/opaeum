@@ -6,7 +6,7 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJElement;
 import net.sf.nakeduml.javametamodel.OJPackage;
@@ -47,7 +47,7 @@ public class ParticipationAnnotator extends StereotypeAnnotator{
 		OJEnum ojClass = (OJEnum) p.findClass(new OJPathName(ns.getOwner().getName() + "State"));
 		if(ojClass != null){
 			// We do not know if BPM has been generated
-			OJElement prop = ojClass.findLiteral(BpmUtil.stepLiteralName(ns));
+			OJElement prop = ojClass.findLiteral(Jbpm5Util.stepLiteralName(ns));
 			annotate(ns, ojClass, STATE_PARTICIPATION, prop);
 		}
 	}

@@ -12,7 +12,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
-public class NakedExpansionRegionImpl extends NakedStructuredActivityNode implements INakedExpansionRegion {
+public class NakedExpansionRegionImpl extends NakedStructuredActivityNodeImpl implements INakedExpansionRegion {
 	// NB this is not the containment relationship - these objects will be
 	// duplicated in ownedElements
 	private List<INakedExpansionNode> inputElement = new ArrayList<INakedExpansionNode>();

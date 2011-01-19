@@ -1,28 +1,29 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.util.Collection;
+
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityPartitionImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.internal.NakedExpansionNodeImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedExpansionRegionImpl;
-import net.sf.nakeduml.metamodel.activities.internal.NakedStructuredActivityNode;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
+import net.sf.nakeduml.metamodel.activities.internal.NakedStructuredActivityNodeImpl;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ActivityPartition;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.InputPin;
+import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Variable;
 
 @StepDependency(phase = EmfExtractionPhase.class, requires = { TypedElementExtractor.class }, after = { TypedElementExtractor.class })
-public class ActivityStructureExtractor extends AbstractExtractorFromEmf {
+public class ActivityStructureExtractor extends AbstractActionExtractor {
 	@VisitBefore
 	public void visitVariable(Variable emfNode, NakedActivityVariable ae) {
 		populateMultiplicityAndBaseType(emfNode, emfNode.getType(), ae);
@@ -37,26 +38,43 @@ public class ActivityStructureExtractor extends AbstractExtractorFromEmf {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitStructuredActivityNode(StructuredActivityNode emfNode) {
+		NakedStructuredActivityNodeImpl nakedNode = null;
 		if (emfNode instanceof ExpansionRegion) {
-			NakedExpansionRegionImpl nakedRegion = new NakedExpansionRegionImpl();
-			ExpansionRegion emfRegion = (ExpansionRegion) emfNode;
-			super.initialize(nakedRegion, emfNode, resolveCorrectParent(emfNode));
-//			for (ExpansionNode ie : emfRegion.getInputElements()) {
-//				nakedRegion.getInputElement().add(populateExpansionNode(ie, new NakedExpansionNodeImpl()));
-//			}
-//			for (ExpansionNode oe : emfRegion.getOutputElements()) {
-//				nakedRegion.getOutputElement().add(populateExpansionNode(oe, new NakedExpansionNodeImpl()));
-//			}
+			nakedNode = new NakedExpansionRegionImpl();
 		} else {
-			NakedStructuredActivityNode nakedNode = new NakedStructuredActivityNode();
-			super.initialize(nakedNode, emfNode, resolveCorrectParent(emfNode));
+			nakedNode = new NakedStructuredActivityNodeImpl();
 		}
-		//TODO set partition
+		super.initialize(nakedNode, emfNode, resolveCorrectParent(emfNode));
+		super.initAction(emfNode, nakedNode);
+		Collection<INakedInputPin> input = populatePins(emfNode.getActivity(), getInputs(emfNode));
+		nakedNode.setInput(input);
+		Collection<INakedOutputPin> output = populatePins(emfNode.getActivity(),getOutputs(emfNode));
+		nakedNode.setOutput(output);
+	}
+
+	private EList<InputPin> getInputs(StructuredActivityNode emfNode) {
+		EList<ActivityNode> nodes = emfNode.getNodes();
+		EList<InputPin> input = new BasicEList<InputPin>();
+		for (ActivityNode node : nodes) {
+			if(node instanceof InputPin && node.getOwner() == emfNode){
+				input.add((InputPin) node);
+			}
+		}
+		return input;
+	}
+	private EList<OutputPin> getOutputs(StructuredActivityNode emfNode) {
+		EList<ActivityNode> nodes = emfNode.getNodes();
+		EList<OutputPin> input = new BasicEList<OutputPin>();
+		for (ActivityNode node : nodes) {
+			if(node instanceof OutputPin && node.getOwner() == emfNode){
+				input.add((OutputPin) node);
+			}
+		}
+		return input;
 	}
 
 	private Element resolveCorrectParent(ActivityNode emfNode) {
 		// TODO check if this is necessary
 		return emfNode.getInStructuredNode() == null ? emfNode.getActivity() : emfNode.getInStructuredNode();
 	}
-
 }

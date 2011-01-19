@@ -53,7 +53,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	@VisitAfter()
 	public void visitOperation(INakedOperation o) {
 		if (o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)) {
-			annotateComplexStructure(new OperationMessageStructureImpl(o));
+			OJAnnotatedClass ojClass = annotateComplexStructure(new OperationMessageStructureImpl(o));
+			if(o.getMethods().size()>0){
+				annotateInheritanceType(ojClass);
+			}
 		}
 	}
 
@@ -68,7 +71,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 	}
 
-	private void annotateComplexStructure(INakedComplexStructure complexType) {
+	private OJAnnotatedClass annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
 		addAllInstances(complexType, ojClass);
@@ -96,7 +99,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		} else {
 			JpaUtil.addEntity(ojClass);
 		}
-		if (complexType.getGeneralizations().isEmpty()) {
+		boolean behaviourWithSpecification = complexType instanceof INakedBehavior && ((INakedBehavior)complexType).getSpecification()!=null;
+		if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()) {
 			String tableName = complexType.getMappingInfo().getPersistentName().getAsIs();
 			JpaUtil.addAndAnnotatedIdAndVersion(ojClass, tableName);
 		} else {
@@ -104,22 +108,39 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 					complexType.getMappingInfo().getPersistentName().getAsIs());
 			ojClass.addAnnotationIfNew(discriminatorValue);
 		}
+		return ojClass;
 	}
 
 	public void addAllInstances(INakedComplexStructure complexType, OJAnnotatedClass ojClass) {
+		OJPathName set = new OJPathName("java.util.Set");
+		ojClass.addToImports(set.getDeepCopy());
+		set.addToElementTypes(ojClass.getPathName());
+		OJAnnotatedField mockInstances = new OJAnnotatedField("mockedAllInstances", set);
+		mockInstances.setStatic(true);
+		ojClass.addToFields(mockInstances);
+		OJAnnotatedOperation mockAllInstances = new OJAnnotatedOperation("mockAllInstances");
+		ojClass.addToOperations(mockAllInstances);
+		mockAllInstances.addParam("newMocks", set);
+		mockAllInstances.setStatic(true);
+		mockAllInstances.getBody().addToStatements("mockedAllInstances=newMocks");
+		
 		// TODO move elsewhere where dependency on Seam has been confirmed
 		OJAnnotatedOperation allInstances = new OJAnnotatedOperation("allInstances");
 		ojClass.addToOperations(allInstances);
 		allInstances.setStatic(true);
-		allInstances.getBody().addToStatements("EntityManager em =(EntityManager)org.jboss.seam.Component.getInstance(\"entityManager\")");
-		allInstances.getBody()
+		OJIfStatement ifMocked=new OJIfStatement("mockedAllInstances==null");
+		allInstances.getBody().addToStatements(ifMocked);
+		ifMocked.getThenPart().addToStatements("EntityManager em =(EntityManager)org.jboss.seam.Component.getInstance(\"entityManager\")");
+		ifMocked.getThenPart()
 				.addToStatements("return new HashSet(em.createQuery(\"from " + complexType.getName() + "\").getResultList())");
+		ifMocked.setElsePart(new OJBlock());
+		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
 		ojClass.addToImports(new OJPathName("javax.persistence.EntityManager"));
 		ojClass.addToImports(new OJPathName("java.util.HashSet"));
-		OJPathName set = new OJPathName("java.util.Set");
+		OJPathName setExtends = new OJPathName("java.util.Set");
 		ojClass.addToImports(set.getDeepCopy());
-		set.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
-		allInstances.setReturnType(set);
+		setExtends.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
+		allInstances.setReturnType(setExtends);
 	}
 
 	/**

@@ -22,10 +22,11 @@ import net.sf.nakeduml.seam.TimeEventDispatcher;
 import net.sf.nakeduml.util.TimeUnit;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-public class BpmUtil{
+public class Jbpm5Util{
 	public static String stepLiteralName(INakedElement s){
 		return (s).getMappingInfo().getJavaName().getAsIs().toUpperCase();
 	}
+
 	public static OJPathName asyncInterfaceOf(INakedClassifier target){
 		OJPathName result = OJUtil.classifierPathname(target);
 		String name = "IAsync" + result.getLast();
@@ -38,7 +39,7 @@ public class BpmUtil{
 				"");
 	}
 	public static OJPathName getNodeInstance() {
-		return new OJPathName("org.jbpm.workflow.instance.NodeInstance");
+		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
 	}
 	public static String generateProcessName(IParameterOwner parameterOwner) {
 		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_"
@@ -82,7 +83,22 @@ public class BpmUtil{
 		cancel.getBody().addToStatements(
 				"TimeEventDispatcher.getInstance().cancelTimer(this,\"" + callBackMethodName +"\")");
 	}
-	public static String getArtificialForkName(IRegionOwner owner) {
+	public static String getArtificialForkName(INakedElement owner) {
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();
+	}
+	public static OJPathName getExceptionHolder() {
+		return new OJPathName("net.sf.nakeduml.util.ExceptionHolder");
+	}
+	public static String endNodeFieldNameFor(INakedElement flow) {
+		return "endNodeIn" + flow.getMappingInfo().getJavaName();
+	}
+	public static OJPathName getWorkflowProcesInstance() {
+		return new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
+	}
+	public static OJPathName getWorkflowProcessImpl() {
+		return new OJPathName("org.jbpm.workflow.core.impl.WorkflowProcessImpl");
+	}
+	public static OJPathName getNode() {
+		return new OJPathName("org.jbpm.workflow.core.impl.NodeImpl");
 	}
 }

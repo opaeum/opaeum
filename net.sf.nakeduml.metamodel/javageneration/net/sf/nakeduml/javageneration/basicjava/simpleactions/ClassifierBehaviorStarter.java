@@ -7,7 +7,7 @@ import net.sf.nakeduml.metamodel.actions.INakedStartClassifierBehaviorAction;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class ClassifierBehaviorStarter extends SimpleActionBuilder<INakedStartClassifierBehaviorAction>{
+public class ClassifierBehaviorStarter extends SimpleNodeBuilder<INakedStartClassifierBehaviorAction>{
 	public ClassifierBehaviorStarter(IOclEngine oclEngine,INakedStartClassifierBehaviorAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}

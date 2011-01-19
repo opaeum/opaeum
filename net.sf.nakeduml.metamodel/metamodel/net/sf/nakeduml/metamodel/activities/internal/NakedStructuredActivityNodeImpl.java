@@ -3,20 +3,27 @@ package net.sf.nakeduml.metamodel.activities.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.sf.nakeduml.metamodel.actions.ActionType;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
-public class NakedStructuredActivityNode extends NakedActivityNodeImpl implements INakedStructuredActivityNode {
+public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements INakedStructuredActivityNode {
 	Collection<INakedActivityNode> children = new ArrayList<INakedActivityNode>();
 	Collection<INakedActivityEdge> activityEdges = new ArrayList<INakedActivityEdge>();
+	Collection<INakedActivityVariable> variables = new ArrayList<INakedActivityVariable>();
+	private Collection<INakedOutputPin> output = new ArrayList<INakedOutputPin>();
+	private Collection<INakedInputPin> input = new ArrayList<INakedInputPin>();
+
 	public Collection<INakedActivityEdge> getActivityEdges() {
 		return activityEdges;
 	}
-
-	Collection<INakedActivityVariable> variables = new ArrayList<INakedActivityVariable>();
 
 	public Collection<INakedActivityVariable> getVariables() {
 		return variables;
@@ -46,16 +53,47 @@ public class NakedStructuredActivityNode extends NakedActivityNodeImpl implement
 		if (element instanceof INakedActivityEdge) {
 			activityEdges.add((INakedActivityEdge) element);
 		}
+		if(element instanceof INakedInputPin){
+			input.add((INakedInputPin) element);
+		}
+		if(element instanceof INakedOutputPin){
+			output.add((INakedOutputPin) element);
+		}
 	}
 
 	@Override
 	public Collection<INakedActivityNode> getStartNodes() {
 		Collection<INakedActivityNode> results = new ArrayList<INakedActivityNode>();
 		for (INakedActivityNode node : getActivityNodes()) {
-			if (node.getAllEffectiveIncoming().isEmpty()) {
-				results.add(node);
+			if (!(node instanceof INakedPin) && node.getAllEffectiveIncoming().isEmpty()) {
+				if (!(node instanceof INakedAction && ((INakedAction) node).handlesException())) {
+					results.add(node);
+				}
 			}
 		}
 		return results;
+	}
+
+	@Override
+	public Collection<INakedInputPin> getInput() {
+		return this.input;
+	}
+
+	@Override
+	public Collection<INakedOutputPin> getOutput() {
+		return this.output;
+	}
+
+	@Override
+	public ActionType getActionType() {
+		return ActionType.STRUCTURED_ACTIVITY_NODE;
+	}
+
+	public void setOutput(Collection<INakedOutputPin> output) {
+		this.output = output;
+	}
+
+	public void setInput(Collection<INakedInputPin> input) {
+		this.input = input;
 	}
 }

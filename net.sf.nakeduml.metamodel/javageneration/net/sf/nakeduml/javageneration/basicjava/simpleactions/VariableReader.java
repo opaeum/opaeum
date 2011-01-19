@@ -9,7 +9,7 @@ import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class VariableReader extends SimpleActionBuilder<INakedReadVariableAction> {
+public class VariableReader extends SimpleNodeBuilder<INakedReadVariableAction> {
 	public VariableReader(IOclEngine oclEngine, INakedReadVariableAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

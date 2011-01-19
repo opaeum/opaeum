@@ -126,5 +126,5 @@ Bundle-ClassPath: .,
  lib/javaee-api-5.jar,
  lib/drools-compiler-5.2.0.SNAPSHOT.jar,
  lib/jbpm-flow-builder-5.0-SNAPSHOT.jar,
- lib/hibernate-core-4.0.0-SNAPSHOT.jar
+ lib/drools-persistence-jpa-5.2.0.SNAPSHOT.jar
 

@@ -68,7 +68,7 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 					otherIndex = otherIndex == 1 ? 0 : 1;
 					
 					if (p.getAssociation().getMemberEnds().size()<2) {
-						System.out.println(p);
+						System.out.println("Association has fewer than 3 member ends!!!" + p);
 						return;
 					}
 					

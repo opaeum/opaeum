@@ -9,7 +9,7 @@ import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class StructuralFeatureReader extends SimpleActionBuilder<INakedReadStructuralFeatureAction> {
+public class StructuralFeatureReader extends SimpleNodeBuilder<INakedReadStructuralFeatureAction> {
 	public StructuralFeatureReader(IOclEngine oclEngine, INakedReadStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

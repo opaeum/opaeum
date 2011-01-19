@@ -112,13 +112,16 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no) {
 		if (no.shouldEmulateClass() ||  BehaviorUtil. hasMethodsWithStructure(no)) {
-			this.visitClass(new OperationMessageStructureImpl(no.getOwner(), no));
+			OperationMessageStructureImpl message = new OperationMessageStructureImpl(no.getOwner(), no);
+			this.visitClass(message);
 			if(no.isUserResponsibility()){
 				NakedOperationMap map = new NakedOperationMap(no);
 				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
 				listener.setMyPackage(pack);
-				listener.addToOperations( new OJAnnotatedOperation(map.callbackOperName()));
+				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
+				callBackOper.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
+				listener.addToOperations( callBackOper);
 				
 				super.createTextPath(listener, JavaTextSource.GEN_SRC);
 			}

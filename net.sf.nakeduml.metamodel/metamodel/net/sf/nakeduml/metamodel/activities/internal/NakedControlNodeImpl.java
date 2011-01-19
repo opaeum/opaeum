@@ -11,6 +11,14 @@ public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INake
 		this.controlNodeType = nt;
 	}
 	@Override
+	public boolean isImplicitDecision() {
+		if (getControlNodeType().isDecisionNode() || getControlNodeType().isForkNode()) {
+			return false;
+		} else {
+			return super.isImplicitDecision();
+		}
+	}
+	@Override
 	public boolean isImplicitFork() {
 		if (getControlNodeType().isDecisionNode() || getControlNodeType().isForkNode()) {
 			return false;

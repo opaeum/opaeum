@@ -1,14 +1,14 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleActionBuilder;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class SimpleActionBridge extends Jbpm5ActionBuilder<INakedActivityNode> {
-	private SimpleActionBuilder<?> delegate;
+	private SimpleNodeBuilder<?> delegate;
 
-	public SimpleActionBridge(IOclEngine oclEngine, INakedActivityNode node, SimpleActionBuilder<?> delegate) {
+	public SimpleActionBridge(IOclEngine oclEngine, INakedActivityNode node, SimpleNodeBuilder<?> delegate) {
 		super(oclEngine, node);
 		this.delegate = delegate;
 	}

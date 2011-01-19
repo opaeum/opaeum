@@ -8,7 +8,7 @@ import java.util.Map;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.NakedStateMap;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
@@ -123,13 +123,13 @@ public class StateMachineFlowStep extends FlowGenerationStep {
 			createConnection(connections, sourceIdMap.get(t.getSource()), targetIdMap.get(t.getTarget()));
 		}
 		for (Map.Entry<SplitType, INakedState> entry : choiceNodes.entrySet()) {
-			addConstraintsToSplit(entry.getKey(), entry.getValue().getOutgoing());
+			addConstraintsToSplit(entry.getKey(), entry.getValue().getOutgoing(),false);
 		}
 	}
 
 	private int insertArtificialMerge(NodesType nodes, ConnectionsType connections, int i, INakedState state) {
 		int joinId = state.getMappingInfo().getNakedUmlId()+ARTIFICIAL_JOIN_ID;
-		super.addMerge(nodes, i, BpmUtil.getArtificialJoinName(state), joinId);
+		super.addMerge(nodes, i, Jbpm5Util.getArtificialJoinName(state), joinId);
 		createConnection(connections, joinId, state.getMappingInfo().getNakedUmlId());
 		targetIdMap.put(state, joinId);
 		i++;

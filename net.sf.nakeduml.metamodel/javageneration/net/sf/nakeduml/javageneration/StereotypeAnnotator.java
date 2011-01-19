@@ -125,7 +125,8 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 
 	private boolean isBuiltIn(INakedClassifier stereotype) {
 		PathName pn = getPathNameInModel(stereotype);
-		return workspace.getMappedTypes().getTypeMap().containsKey(pn.toString());
+		boolean result = workspace.getMappedTypes().getTypeMap().containsKey(pn.toString());
+		return result;
 	}
 
 }

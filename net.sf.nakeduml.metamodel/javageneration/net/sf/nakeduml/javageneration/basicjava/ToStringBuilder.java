@@ -17,6 +17,7 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
@@ -55,6 +56,7 @@ public class ToStringBuilder extends StereotypeAnnotator {
 		sb.setType(new OJPathName("StringBuilder"));
 		sb.setInitExp("new StringBuilder()");
 		toString.getBody().addToLocals(sb);
+		toString.getBody().addToStatements("sb.append(super.toString())");
 		for (INakedProperty f : umlClass.getEffectiveAttributes()) {
 			if (!OJUtil.isBuiltIn(f)) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);

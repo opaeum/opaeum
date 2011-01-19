@@ -1,4 +1,5 @@
 package net.sf.nakeduml.metamodel.activities;
+import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -12,5 +13,8 @@ public interface INakedObjectNode extends INakedTypedElement, INakedActivityNode
 	void setIndex(int i);
 	INakedObjectNode getFeedingNode();
 	INakedObjectNode getFedNode();
+	INakedExceptionHandler getIncomingExceptionHandler();
+	void setIncomingExceptionHandler(INakedExceptionHandler incomingExceptionHandler);
+
 
 }

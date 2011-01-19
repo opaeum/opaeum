@@ -13,15 +13,17 @@ import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
+import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 
-public class ActionEnumerationImplementor extends ProcessStepEnumerationImplementor {
+public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationImplementor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedActivity c) {
-		if (c.getActivityKind() == ActivityKind.PROCESS) {
+		if (c.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
 			OJEnum e = super.buildOJEnum(c, hasStructuredNodes(c));
 			for (INakedActivityNode n : c.getActivityNodesRecursively()) {
 				if (isRestingNode(n)) {
@@ -32,12 +34,16 @@ public class ActionEnumerationImplementor extends ProcessStepEnumerationImplemen
 	}
 
 	private static boolean isRestingNode(INakedActivityNode n) {
-		if (BehaviorUtil.requiresExternalInput(n)) {
+		if (n instanceof INakedPin) {
+			return false;
+		} else if (BehaviorUtil.requiresExternalInput(n) || BehaviorUtil.isEffectiveFinalNode(n)) {
 			return true;
+		} else if (n instanceof INakedParameterNode) {
+			return ((INakedParameterNode) n).getParameter().isResult();
 		} else if (n instanceof INakedControlNode) {
 			INakedControlNode cNode = (INakedControlNode) n;
 			ControlNodeType cNodeType = cNode.getControlNodeType();
-			return cNodeType.isActivityFinalNode() || cNodeType.isFlowFinalNode() || cNodeType.isForkNode();
+			return cNodeType.isActivityFinalNode() || cNodeType.isFlowFinalNode() || cNodeType.isJoinNode();
 		} else {
 			return n instanceof INakedStructuredActivityNode;
 		}
@@ -60,10 +66,10 @@ public class ActionEnumerationImplementor extends ProcessStepEnumerationImplemen
 
 	@Override
 	protected Collection<INakedTrigger> getMethodTriggers(INakedElement step) {
-		Collection<INakedTrigger> result=new ArrayList<INakedTrigger>();
+		Collection<INakedTrigger> result = new ArrayList<INakedTrigger>();
 		if (step instanceof INakedAcceptEventAction) {
-			INakedAcceptEventAction a=(INakedAcceptEventAction) step;
-			if(a.getTrigger()!=null && a.getTrigger().getEvent() instanceof INakedOperation){
+			INakedAcceptEventAction a = (INakedAcceptEventAction) step;
+			if (a.getTrigger() != null && a.getTrigger().getEvent() instanceof INakedOperation) {
 				result.add(a.getTrigger());
 			}
 		}

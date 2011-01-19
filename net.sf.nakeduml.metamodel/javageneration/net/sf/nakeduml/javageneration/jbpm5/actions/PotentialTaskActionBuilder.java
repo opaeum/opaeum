@@ -1,14 +1,14 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
-import net.sf.nakeduml.javageneration.jbpm5.BpmUtil;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
@@ -22,13 +22,12 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedInvocationAction;
-import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
+import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 /**
@@ -54,28 +53,32 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 	}
 
 	private void implementCompleteMethod(OJClass activityClass) {
-		activityClass.addToImports(BpmUtil.getNodeInstance());
-		activityClass.addToImports(BpmUtil.getJbpmKnowledgeSession());
+		activityClass.addToImports(Jbpm5Util.getNodeInstance());
+		activityClass.addToImports(Jbpm5Util.getJbpmKnowledgeSession());
 		// TODO find better place for this
 		OJAnnotatedOperation complete = null;
 		String completeMethodName = null;
+		INakedMessageStructure message =null;
 		if (node instanceof INakedCallOperationAction && ((INakedCallOperationAction) node).getOperation() != null) {
 			INakedCallOperationAction call = (INakedCallOperationAction) node;
 			NakedOperationMap map = new NakedOperationMap(call.getOperation());
 			activityClass.addToImplementedInterfaces(map.callbackListenerPath());
 			completeMethodName = map.callbackOperName();
+			message=call.getMessageStructure();
 		} else {
+			message=((INakedOpaqueAction)node).getMessageStructure();
 			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}
 		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);
+		activityClass.addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
 		if (complete == null) {
 			complete = new OJAnnotatedOperation();
 			complete.setName(completeMethodName);
 			activityClass.addToOperations(complete);
-			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", new OJPathName("NodeInstance")));
+			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", ReflectionUtil.getUtilInterface(UmlNodeInstance.class)));
+			complete.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
 		}
-		String literalExpression = activityClass.getName() + "State." + BpmUtil.stepLiteralName(node);
-		OJIfStatement ifFound = new OJIfStatement("(waitingNode=findWaitingNode(" + literalExpression + ".getQualifiedName()))!=null");
+		OJIfStatement ifFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(completedTask.getNodeInstanceUniqueId()))!=null");
 		complete.getBody().addToStatements(ifFound);
 		implementConditions(complete, ifFound.getThenPart(), node, false);
 		if (callMap.isOne()) {

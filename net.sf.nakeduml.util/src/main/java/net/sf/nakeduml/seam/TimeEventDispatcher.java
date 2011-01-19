@@ -33,7 +33,7 @@ import org.jboss.seam.contexts.Contexts;
 public class TimeEventDispatcher implements ITimeEventDispatcher {
 	@Resource()
 	TimerService timerService;
-	Map<TimeEvent, Timer> mockedEvents;
+	Map<TimeEvent, Timer> mockedEvents=new HashMap<TimeEvent, Timer>();
 	private static final TimeEventDispatcher mockInstance = new TimeEventDispatcher(new HashMap<TimeEvent, Timer>());
 
 	public TimeEventDispatcher(HashMap<TimeEvent, Timer> hashMap) {

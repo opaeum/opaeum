@@ -13,7 +13,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class ObjectCreator extends SimpleActionBuilder<INakedCreateObjectAction>{
+public class ObjectCreator extends SimpleNodeBuilder<INakedCreateObjectAction>{
 	public ObjectCreator(IOclEngine oclEngine,INakedCreateObjectAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
