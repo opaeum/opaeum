@@ -72,5 +72,4 @@ public class JpaPomStep extends PomGenerationStep {
 		return result;
 	}
 
-
 }

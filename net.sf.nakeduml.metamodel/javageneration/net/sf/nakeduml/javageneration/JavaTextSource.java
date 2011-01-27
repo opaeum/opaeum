@@ -10,6 +10,10 @@ public class JavaTextSource implements TextSource {
 	public static final String TEST_SRC = "test-src";
 	public static final String GEN_SRC = "gen-src";
 	public static final String JPA_ROOT = "jpaRoot";
+	public static final String NAKED_PROJECT_ROOT = "nakedProjectRoot";
+	public static final String NAKED_PROJECT_EAR_ROOT = "nakedProjectEarRoot";
+	public static final String NAKED_PROJECT_WAR_ROOT = "nakedProjectWarRoot";
+	public static final String NAKED_PROJECT_EJB_ROOT = "nakedProjectEjbRoot";
 
 	OJElement javaSource;
 

@@ -37,6 +37,9 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_SEAM_OR_WELD = "nakeduml.seam.or.weld";
 	private static final String NAKEDUML_PROJECT_NAME = "nakeduml.project.name";
 	private static final String NAKEDUML_HIBERNATE_CFG_NAME = "nakeduml.hibernate.cfg.name";
+	private static final String NAKEDUML_PROJECT_GEN_ROOT = "nakeduml.project.gen.root";
+	private static final String NAKEDUML_PROJECT_GEN_NAME = "nakeduml.project.gen.name";
+	private static final String NAKEDUML_PROJECT_GEN_GROUPID = "nakeduml.project.gen.groupid";
 
 	private Properties props = new Properties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
@@ -247,7 +250,30 @@ public class NakedUmlConfig {
 	public String getHibernateCfgName() {
 		return this.props.getProperty(NAKEDUML_HIBERNATE_CFG_NAME, "java:/monkeySessionFactory");
 	}
+	
+	public String getNakedUmlProjectGenName() {
+		return this.props.getProperty(NAKEDUML_PROJECT_GEN_NAME, "nakedumlgenproject");
+	}
 
+	public void setNakedUmlProjectGenName(String name) {
+		this.props.setProperty(NAKEDUML_PROJECT_GEN_NAME, name);
+	}
+
+	public String getNakedUmlProjectGenGroupId() {
+		return this.props.getProperty(NAKEDUML_PROJECT_GEN_GROUPID, "nakedumlgenprojectgroupid");
+	}
+
+	public void setNakedUmlProjectGenGroupId(String name) {
+		this.props.setProperty(NAKEDUML_PROJECT_GEN_GROUPID, name);
+	}
+
+	public String getNakedUmlProjectGenRoot() {
+		return this.props.getProperty(NAKEDUML_PROJECT_GEN_ROOT, "/tmp");
+	}
+
+	public void setNakedUmlProjectGenRoot(String name) {
+		this.props.setProperty(NAKEDUML_PROJECT_GEN_ROOT, name);
+	}
 	
 	public Boolean isSeamAnnotations() {
 		return this.props.getProperty(NAKEDUML_SEAM_OR_WELD, "seam").equals("seam");

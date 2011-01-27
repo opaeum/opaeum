@@ -4,10 +4,11 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.apache.maven.pom.Dependency;
+import org.apache.maven.pom.DependencyManagement;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
-@StepDependency(requires={JpaPomStep.class},before={},after={JpaPomStep.class}, phase = PomGenerationPhase.class)
 
+@StepDependency(requires={JpaPomStep.class},before={},after={JpaPomStep.class}, phase = PomGenerationPhase.class)
 public class HibernatePomStep extends PomGenerationStep {
 
 	@Override

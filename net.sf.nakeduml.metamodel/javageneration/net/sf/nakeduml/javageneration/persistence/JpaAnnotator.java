@@ -74,7 +74,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	private OJAnnotatedClass annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
-		addAllInstances(complexType, ojClass);
+		//TODO readd using WELD
+//		addAllInstances(complexType, ojClass);
 		addEquals(ojClass);
 		String schema = complexType.getTaggedValue("Schema", "name");
 		if (schema == null || schema.isEmpty()) {

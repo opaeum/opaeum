@@ -69,7 +69,7 @@
 								<source>emf</source>
 								<source>detachment</source>
 								<source>strategies</source>
-								<source>seamgeneration</source>
+<!--								<source>seamgeneration</source>-->
 								<source>jbpm5metamodel</source>
 								<source>jbpm5generation</source>
 								<source>uigeneration</source>
@@ -77,6 +77,7 @@
 								<source>obsolete</source>
 								<source>pomgeneration</source>
 								<source>pommetamodel</source>
+								<source>projectgeneration</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -144,6 +145,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.1</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -206,76 +208,10 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>javax.el</groupId>
-			<artifactId>el-api</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.faces</groupId>
-			<artifactId>jsf-api</artifactId>
-			<version>1.2_12</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.faces</groupId>
-			<artifactId>jsf-impl</artifactId>
-			<version>1.2_12</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.framework</groupId>
-			<artifactId>richfaces-api</artifactId>
-			<version>3.3.3.Final</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.framework</groupId>
-			<artifactId>richfaces-impl</artifactId>
-			<version>3.3.3.Final</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
-			<version>2.2.0.GA</version>
-			<type>ejb</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam-ui</artifactId>
-			<version>2.2.0.GA</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces</groupId>
-			<artifactId>ui</artifactId>
-			<version>3.3.3.Final</version>
-			<type>pom</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.richfaces.ui</groupId>
-			<artifactId>richfaces-ui</artifactId>
-			<version>3.3.3.Final</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>1.0.1</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+        <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
@@ -291,16 +227,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.el</groupId>
-			<artifactId>el-ri</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>5.12.1</version>
+			<version>5.14.6</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -320,13 +249,6 @@
 			<groupId>org.eclipse.uml2.uml</groupId>
 			<artifactId>resources</artifactId>
 			<version>3.0.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.0.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

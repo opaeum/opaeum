@@ -51,11 +51,8 @@ import org.drools.drools._5._0.process.ProcessType;
 import org.drools.drools._5._0.process.SplitType;
 import org.drools.drools._5._0.process.StateType;
 import org.drools.drools._5._0.process.SubProcessType;
-import org.drools.drools._5._0.process.TypeType;
-import org.drools.drools._5._0.process.VariableType;
 import org.drools.drools._5._0.process.VariablesType;
 import org.eclipse.emf.common.util.EList;
-import org.jboss.seam.bpm.Jbpm;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class ActivityFlowStep extends FlowGenerationStep {

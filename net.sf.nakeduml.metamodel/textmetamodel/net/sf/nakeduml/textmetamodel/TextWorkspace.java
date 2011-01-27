@@ -4,9 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.nakeduml.feature.PhaseDependency;
-import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-
 public class TextWorkspace extends TextFileNode {
 	Set<TextOutputRoot> roots = new HashSet<TextOutputRoot>();
 
