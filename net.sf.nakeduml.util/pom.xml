@@ -13,6 +13,11 @@
 	<version>1.0.0.4-SNAPSHOT</version>
 	<description>Utility classes for org.nakeduml.metamodel</description>
 	<url>http://github.com/nakeduml</url>
+
+	<properties>
+		<seam.persistence.version>3.0.0.Beta2</seam.persistence.version>
+	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -97,6 +102,16 @@
 			<version>1.0.0.Final</version>
 			<type>pom</type>
 		</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.persistence</groupId>
+				<artifactId>seam-persistence-api</artifactId>
+				<version>${seam.persistence.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.persistence</groupId>
+				<artifactId>seam-persistence-impl</artifactId>
+				<version>${seam.persistence.version}</version>
+			</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

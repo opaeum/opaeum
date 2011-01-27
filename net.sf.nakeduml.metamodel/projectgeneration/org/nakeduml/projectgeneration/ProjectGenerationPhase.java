@@ -16,7 +16,6 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
