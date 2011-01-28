@@ -302,10 +302,20 @@ public class ProjectEjbPomStep extends PomGenerationStep {
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
 		addAnyElement(anyType.getAny(),"source", "src/main/generated-java");
-		addAnyElement(anyType.getAny(),"source", "src/main/generated-resources");
+
+		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
+		execution.getExecution().add(pluginExecution);
+		pluginExecution.setId("add-resource");
+		pluginExecution.setPhase("generate-resources");
+		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
+		pluginExecution.getGoals().getGoal().add("add-resource");
+		
+		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
+		anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
+		anyType = addAnyElement(anyType.getAny(),"resource");
+		addAnyElement(anyType.getAny(),"directory", "src/main/generated-resources");
 		
 		result[2].setExecutions(execution);
-
 		
 		return result;
 	}

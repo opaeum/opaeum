@@ -16,6 +16,13 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemantics;
+import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
+import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Step;
+import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
+import net.sf.nakeduml.jaxb.JaxbStep;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -61,7 +68,14 @@ public class ProjectGenerationPhase implements TransformationPhase<ProjectGenera
 		Set<Class<? extends TransformationStep>> steps = new HashSet<Class<? extends TransformationStep>>();
 		steps.add(StereotypeApplicationExtractor.class);
 		steps.add(ProjectGenerationStep.class);
-
+		
+		steps.add(PersistenceUsingHibernateStep.class);
+        steps.add(HibernateConfigGenerator.class);
+        steps.add(OclExpressionExecution.class);
+        steps.add(JaxbStep.class);
+        steps.add(AuditImplementationStep.class);
+        steps.add(ExtendedCompositionSemantics.class);
+		
 		WorkspaceMappingInfoImpl mappingInfo=new WorkspaceMappingInfoImpl(new File(modelFile.getParentFile(), model.getName()+".mapping.properties"));
 		process.execute(cfg, new EmfWorkspace(model, mappingInfo), steps);
 		//store maaping info
