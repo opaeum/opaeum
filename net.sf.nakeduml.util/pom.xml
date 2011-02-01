@@ -16,7 +16,7 @@
 
 	<properties>
 		<seam.persistence.version>3.0.0.Beta2</seam.persistence.version>
-	    <jbpm.version>5.0-SNAPSHOT</jbpm.version>
+		<jbpm.version>5.0-SNAPSHOT</jbpm.version>
 	</properties>
 
 	<build>
@@ -106,10 +106,27 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-6.0</artifactId>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.0-SP4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<version>1.0.0.Final</version>
-			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.jms</groupId>
+			<artifactId>jboss-jms-api_1.1_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -125,7 +142,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>4.8.2</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>

@@ -36,8 +36,6 @@ import org.jboss.seam.persistence.SeamManaged;
 @ApplicationScoped
 public class ManagedHibernateSessionProvider implements Serializable {
 
-	@Inject
-	FlushModeManager manager;
 	/**
 	 * 
 	 */
@@ -54,7 +52,6 @@ public class ManagedHibernateSessionProvider implements Serializable {
 	@Produces
 	@SeamManaged
 	public SessionFactory createSessionFactory() {
-		manager.setFlushModeType(FlushModeType.COMMIT);
 		return this.sessionFactory;
 	}
 }

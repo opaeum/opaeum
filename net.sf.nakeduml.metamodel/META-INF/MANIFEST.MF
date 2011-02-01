@@ -19,8 +19,7 @@ Bundle-ClassPath:
  lib/lang-2.1.0.jar,
  lib/slf4j-jdk14-1.5.10.jar,
  lib/slf4j-api-1.5.10.jar,
- lib/jboss-seam-2.2.0.GA.jar,
- lib/jsf-api-1.2_13.jar,
+ lib/commons-io-1.3.2.jar,
  .
 Export-Package: .,
  Activity,
@@ -102,4 +101,5 @@ Export-Package: .,
  net.sf.nakeduml.validation.core,
  net.sf.nakeduml.validation.namegeneration,
  net.sf.nakeduml.visitor,
+ org.apache.commons.io,
  org.apache.maven.pom
