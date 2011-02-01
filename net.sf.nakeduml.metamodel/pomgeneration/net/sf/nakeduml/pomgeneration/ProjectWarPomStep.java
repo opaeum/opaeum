@@ -112,7 +112,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setGroupId("org.nakeduml");
 		dependency.setArtifactId("util");
 		dependency.setVersion("${numl.version}");
-		dependency.setType("ejb");
+		dependency.setType("jar");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 
 		exclusion = POMFactory.eINSTANCE.createExclusion();

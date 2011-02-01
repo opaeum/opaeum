@@ -73,7 +73,6 @@ public class ProjectGenerationPhase implements TransformationPhase<AbstractProje
 		NakedUmlConfig cfg = new NakedUmlConfig(props, "NAKEDGENPROJECT");
 
 		cfg.setNakedUmlProjectGenRoot(args[1]);
-		cfg.setNakedUmlProjectGenName(args[2]);
 		cfg.setNakedUmlProjectGenGroupId(args[3]);
 
 		TransformationProcess process = new TransformationProcess();

@@ -1,7 +1,5 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +13,6 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaStrategy;
@@ -60,21 +57,14 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 
 	@VisitAfter
 	public void visit(INakedModel model) {
-
 		if (this.config.getDataGeneration()) {
 			// Out the properties file
 			Properties props = new Properties();
 			props.putAll(this.properties);
-			try {
-				props.store(new FileWriter(CharArrayTextSource.EJB_JAR_RESOURCE), "auto generated");
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
 			TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
 			List<String> path = Arrays.asList("data.generation.properties");
 			outputRoot.findOrCreateTextFile(path, new PropertiesSource(props));
 		}
-
 	}
 
 	@VisitBefore(matchSubclasses = true)

@@ -40,7 +40,6 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_HIBERNATE_DS_NAME = "nakeduml.hibernate.ds.name";
 	private static final String NAKEDUML_HIBERNATE_CFG_NAME = "nakeduml.hibernate.cfg.name";
 	private static final String NAKEDUML_PROJECT_GEN_ROOT = "nakeduml.project.gen.root";
-	private static final String NAKEDUML_PROJECT_GEN_NAME = "nakeduml.project.gen.name";
 	private static final String NAKEDUML_PROJECT_GEN_GROUPID = "nakeduml.project.gen.groupid";
 	private static final String NAKEDUML_ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
 
@@ -65,6 +64,9 @@ public class NakedUmlConfig {
 	}
 
 	public void loadDefaults(String projectName) {
+		if (!this.props.containsKey(NAKEDUML_PROJECT_NAME)) {
+			this.props.setProperty(NAKEDUML_PROJECT_NAME, projectName);
+		}
 		if (!this.props.containsKey(NAKEDUML_DOMAIN_PROJECT)) {
 			this.props.setProperty(NAKEDUML_DOMAIN_PROJECT, projectName + "Domain");
 		}
@@ -256,14 +258,6 @@ public class NakedUmlConfig {
 
 	public String getHibernateDSName() {
 		return this.props.getProperty(NAKEDUML_HIBERNATE_DS_NAME, "java:/DefaultDS");
-	}
-
-	public String getNakedUmlProjectGenName() {
-		return this.props.getProperty(NAKEDUML_PROJECT_GEN_NAME, "nakedumlgenproject");
-	}
-
-	public void setNakedUmlProjectGenName(String name) {
-		this.props.setProperty(NAKEDUML_PROJECT_GEN_NAME, name);
 	}
 
 	public String getNakedUmlProjectGenGroupId() {

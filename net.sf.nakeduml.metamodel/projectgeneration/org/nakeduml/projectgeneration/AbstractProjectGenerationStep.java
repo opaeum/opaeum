@@ -21,7 +21,7 @@ public abstract class AbstractProjectGenerationStep extends AbstractMavenProject
 	}
 	public abstract void generate();
 	protected File createRootFolder() {
-		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getNakedUmlProjectGenName());
+		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getProjectName());
 		if (root.exists()) {
 //			try {
 //				FileUtils.deleteDirectory(root);

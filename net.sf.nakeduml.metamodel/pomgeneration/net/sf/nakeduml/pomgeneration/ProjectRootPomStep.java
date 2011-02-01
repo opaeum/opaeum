@@ -34,8 +34,8 @@ public class ProjectRootPomStep extends PomGenerationStep {
 
 	@Override
 	public String[] getModules() {
-		return new String[] { this.config.getNakedUmlProjectGenName() + "-ear", this.config.getNakedUmlProjectGenName() + "-ejb",
-				this.config.getNakedUmlProjectGenName() + "-war" };
+		return new String[] { this.config.getProjectName() + "-ear", this.config.getProjectName() + "-ejb",
+				this.config.getProjectName() + "-war" };
 	}
 
 	@Override

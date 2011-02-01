@@ -102,4 +102,5 @@ Export-Package: .,
  net.sf.nakeduml.validation.namegeneration,
  net.sf.nakeduml.visitor,
  org.apache.commons.io,
- org.apache.maven.pom
+ org.apache.maven.pom,
+ org.nakeduml.projectgeneration

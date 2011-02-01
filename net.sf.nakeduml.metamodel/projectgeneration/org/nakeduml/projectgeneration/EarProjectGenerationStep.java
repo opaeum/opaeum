@@ -28,7 +28,7 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 
 
 	public void generate() {
-		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getNakedUmlProjectGenName());
+		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getProjectName());
 		if (root.exists()) {
 			try {
 				FileUtils.deleteDirectory(root);
@@ -37,9 +37,9 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 			}
 		}
 		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_ROOT, root);
-		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EAR_ROOT, new File(root, config.getNakedUmlProjectGenName() + "-ear"));
-		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EJB_ROOT, new File(root, config.getNakedUmlProjectGenName() + "-ejb"));
-		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_WAR_ROOT, new File(root, config.getNakedUmlProjectGenName() + "-war"));
+		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EAR_ROOT, new File(root, config.getProjectName() + "-ear"));
+		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EJB_ROOT, new File(root, config.getProjectName() + "-ejb"));
+		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_WAR_ROOT, new File(root, config.getProjectName() + "-war"));
 		mapOutput("project-src", new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/main/java"));
 		mapOutput(PROJECT_RESOURCES, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/main/resources"));
 		mapOutput("project-test-src", new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/test/java"));

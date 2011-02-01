@@ -32,7 +32,12 @@ public class AbstractMavenProjectProcess {
 		public File testResourcesFolder;
 		public File testFolder;
 		public File srcResourceFolder;
-		public File jpaRoot;
+		public File genSrcFolder;
+		public File genTestResourcesFolder;
+		public File genTestFolder;
+		public File genSrcResourceFolder;
+		public File webappFolder;
+		public File warRoot;
 	}
 
 	protected static void transform(String outputRoot, String modelLocation, Class<? extends TransformationStep>... features)
@@ -41,15 +46,15 @@ public class AbstractMavenProjectProcess {
 		Model model = UML2ModelLoader.loadModel(modelLocation);
 		EcoreUtil.resolveAll(model);
 		MavenDirectories mavenDirectories = new MavenDirectories();
-		mavenDirectories.srcFolder = new File(outputRoot + "/src/main/generated-java");
-		mavenDirectories.srcFolder.mkdirs();
-		mavenDirectories.srcResourceFolder = new File(outputRoot + "/src/main/generated-resources");
-		mavenDirectories.srcResourceFolder.mkdirs();
-		mavenDirectories.testFolder = new File(outputRoot + "/src/test/generated-java");
-		mavenDirectories.testFolder.mkdirs();
-		mavenDirectories.testResourcesFolder = new File(outputRoot + "/src/test/generated-resources");
-		mavenDirectories.testResourcesFolder.mkdirs();
-		mavenDirectories.jpaRoot = new File(outputRoot);
+		mavenDirectories.genSrcFolder = new File(outputRoot + "/src/main/generated-java");
+		mavenDirectories.genSrcFolder.mkdirs();
+		mavenDirectories.genSrcResourceFolder = new File(outputRoot + "/src/main/generated-resources");
+		mavenDirectories.genSrcResourceFolder.mkdirs();
+		mavenDirectories.genTestFolder = new File(outputRoot + "/src/test/generated-java");
+		mavenDirectories.genTestFolder.mkdirs();
+		mavenDirectories.genTestResourcesFolder = new File(outputRoot + "/src/test/generated-resources");
+		mavenDirectories.genTestResourcesFolder.mkdirs();
+		mavenDirectories.warRoot = new File(outputRoot);
 		Properties props = new Properties();
 		InputStreamReader inStream = getInputStream(model, "properties");
 		if (inStream != null) {
@@ -63,13 +68,12 @@ public class AbstractMavenProjectProcess {
 
 	public static void transform(Model model, MavenDirectories mavenDirectories, NakedUmlConfig cfg,
 			Class<? extends TransformationStep>... features) throws IOException {
-		cfg.mapOutputRoot(JavaTextSource.GEN_SRC, mavenDirectories.srcFolder);
-		cfg.mapOutputRoot(JavaTextSource.TEST_SRC, mavenDirectories.testFolder);
-		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE, mavenDirectories.testResourcesFolder);
-		// TODO remove this
-		cfg.mapOutputRoot(CharArrayTextSource.EJB_JAR_RESOURCE, mavenDirectories.testResourcesFolder);
-		cfg.mapOutputRoot(PropertiesSource.GEN_RESOURCE, mavenDirectories.srcResourceFolder);
-		cfg.mapOutputRoot(JavaTextSource.JPA_ROOT, mavenDirectories.jpaRoot);
+		cfg.mapOutputRoot(JavaTextSource.GEN_SRC, mavenDirectories.genSrcFolder);
+		cfg.mapOutputRoot(JavaTextSource.TEST_SRC, mavenDirectories.genTestFolder);
+		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE, mavenDirectories.genTestResourcesFolder);
+		cfg.mapOutputRoot(PropertiesSource.GEN_RESOURCE, mavenDirectories.genSrcResourceFolder);
+		cfg.mapOutputRoot(JavaTextSource.NAKED_PROJECT_ROOT, mavenDirectories.warRoot);
+		cfg.mapOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE, mavenDirectories.webappFolder);
 
 		TransformationProcess process = new TransformationProcess();
 		WorkspaceMappingInfoImpl mappingInfo = new WorkspaceMappingInfoImpl(getInputStream(model, "mappinginfo"));

@@ -66,11 +66,11 @@ public abstract class PomGenerationStep implements TransformationStep {
 	}
 
 	public String getName() {
-		return this.config.getNakedUmlProjectGenName();
+		return this.config.getProjectName();
 	}
 
 	public String getGroupId() {
-		return this.config.getNakedUmlProjectGenGroupId();
+		return this.config.getProjectName();
 	}
 
 	public boolean hasParent() {
@@ -94,7 +94,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 	}
 
 	public String getFinalName() {
-		return this.config.getNakedUmlProjectGenName();
+		return this.config.getProjectName();
 	}
 
 	public Properties getProperties() {
