@@ -19,7 +19,7 @@ import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
-public class ProjectEjbPomStep extends PomGenerationStep {
+public class ProjectEjbModulePomStep extends PomGenerationStep {
 
 	@Override
 	public boolean hasFinalName() {
@@ -186,6 +186,7 @@ public class ProjectEjbPomStep extends PomGenerationStep {
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.seam.persistence");
 		dependency.setArtifactId("seam-persistence-impl");
+		dependency.setType("ejb");
 		dependencies.add(dependency);
 
 		dependency = POMFactory.eINSTANCE.createDependency();

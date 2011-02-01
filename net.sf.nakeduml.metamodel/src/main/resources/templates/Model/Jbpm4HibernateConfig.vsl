@@ -7,14 +7,18 @@
 
 <hibernate-configuration>
 	<session-factory name="${config.hibernateCfgName}">
+	    <property name="connection.datasource">${config.hibernateDSName}</property>   
 		<property name="hibernate.dialect">${config.jdbcDialect}</property>
-		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>
-		<property name="hibernate.connection.url">${config.DBConnectionUrl}</property>
+<!--		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>-->
+<!--		<property name="hibernate.connection.url">${config.DBConnectionUrl}</property>-->
 		<property name="hibernate.connection.username">${config.DBUsername}</property>
 		<property name="hibernate.connection.password">${config.DBPassword}</property>
-		<property name="hibernate.format_sql">true</property>
-		<property name="hibernate.show_sql">false</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+		
 #foreach($model in $workspace.generatingModelsOrProfiles)    
     	<mapping package="${model.mappingInfo.qualifiedJavaName}"/>
 #end
@@ -40,7 +44,7 @@
 
 #end
 
-  <mapping class="net.sf.nakeduml.util.RevisionEntity"/>
+	  <mapping class="net.sf.nakeduml.util.RevisionEntity"/>
 
 #if($requiresAuditing)
 		<!--<event type="post-commit-insert">

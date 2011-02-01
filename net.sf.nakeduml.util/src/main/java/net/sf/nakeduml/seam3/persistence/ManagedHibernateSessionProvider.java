@@ -21,16 +21,27 @@
  */
 package net.sf.nakeduml.seam3.persistence;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.jboss.seam.persistence.FlushModeManager;
+import org.jboss.seam.persistence.FlushModeType;
 import org.jboss.seam.persistence.SeamManaged;
 
 @ApplicationScoped
-public class ManagedHibernateSessionProvider {
+public class ManagedHibernateSessionProvider implements Serializable {
 
+	@Inject
+	FlushModeManager manager;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 451924235442333986L;
 	private SessionFactory sessionFactory;
 
 	public ManagedHibernateSessionProvider() {
@@ -43,6 +54,7 @@ public class ManagedHibernateSessionProvider {
 	@Produces
 	@SeamManaged
 	public SessionFactory createSessionFactory() {
+		manager.setFlushModeType(FlushModeType.COMMIT);
 		return this.sessionFactory;
 	}
 }

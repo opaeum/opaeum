@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.persistence.GenerationType;
+
 public class NakedUmlConfig {
 	// TODO group these by feature - let every feature contribute its own config
 	// properties
@@ -34,12 +36,13 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_DATE_TIME_TYPE = "nakeduml.timestamp.type";
 	private static final String NAKEDUML_DATE_TYPE = "nakeduml.date.type";
 	private static final String NAKEDUML_MAPPED_TYPES_PACKAGE = "nakeduml.mapped.types.package";
-	private static final String NAKEDUML_SEAM_OR_WELD = "nakeduml.seam.or.weld";
 	private static final String NAKEDUML_PROJECT_NAME = "nakeduml.project.name";
+	private static final String NAKEDUML_HIBERNATE_DS_NAME = "nakeduml.hibernate.ds.name";
 	private static final String NAKEDUML_HIBERNATE_CFG_NAME = "nakeduml.hibernate.cfg.name";
 	private static final String NAKEDUML_PROJECT_GEN_ROOT = "nakeduml.project.gen.root";
 	private static final String NAKEDUML_PROJECT_GEN_NAME = "nakeduml.project.gen.name";
 	private static final String NAKEDUML_PROJECT_GEN_GROUPID = "nakeduml.project.gen.groupid";
+	private static final String NAKEDUML_ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
 
 	private Properties props = new Properties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
@@ -250,7 +253,11 @@ public class NakedUmlConfig {
 	public String getHibernateCfgName() {
 		return this.props.getProperty(NAKEDUML_HIBERNATE_CFG_NAME, "java:/monkeySessionFactory");
 	}
-	
+
+	public String getHibernateDSName() {
+		return this.props.getProperty(NAKEDUML_HIBERNATE_DS_NAME, "java:/DefaultDS");
+	}
+
 	public String getNakedUmlProjectGenName() {
 		return this.props.getProperty(NAKEDUML_PROJECT_GEN_NAME, "nakedumlgenproject");
 	}
@@ -275,10 +282,14 @@ public class NakedUmlConfig {
 		this.props.setProperty(NAKEDUML_PROJECT_GEN_ROOT, name);
 	}
 	
-	public Boolean isSeamAnnotations() {
-		return this.props.getProperty(NAKEDUML_SEAM_OR_WELD, "seam").equals("seam");
+	public String getIdGeneratorStrategy() {
+		return this.props.getProperty(NAKEDUML_ID_GENERATOR_STRATEGY, GenerationType.AUTO.name());
 	}
-	
+
+	public void setIdGeneratorStrategy(String name) {
+		this.props.setProperty(NAKEDUML_ID_GENERATOR_STRATEGY, name);
+	}
+
 	public void store(Writer writer) {
 		try {
 			props.store(writer, "NakedUML");

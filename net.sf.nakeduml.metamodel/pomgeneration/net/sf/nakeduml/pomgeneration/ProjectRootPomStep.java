@@ -13,7 +13,7 @@ import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 
-@StepDependency(phase = PomGenerationPhase.class, requires = { ProjectEarPomStep.class, ProjectEjbPomStep.class, ProjectWarPomStep.class })
+@StepDependency(phase = PomGenerationPhase.class, requires = { ProjectEarModulePomStep.class, ProjectEjbModulePomStep.class, ProjectWarModulePomStep.class })
 public class ProjectRootPomStep extends PomGenerationStep {
 
 	@Override
@@ -126,6 +126,7 @@ public class ProjectRootPomStep extends PomGenerationStep {
 		dependency.setArtifactId("seam-persistence-impl");
 		dependency.setVersion("${seam.persistence.version}");
 		dependency.setScope("runtime");
+		dependency.setType("ejb");
 		dependencies.add(dependency);
 
 		dependency = POMFactory.eINSTANCE.createDependency();

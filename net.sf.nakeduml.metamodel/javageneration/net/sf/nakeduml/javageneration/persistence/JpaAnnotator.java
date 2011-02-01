@@ -2,6 +2,8 @@ package net.sf.nakeduml.javageneration.persistence;
 
 import java.util.List;
 
+import javax.persistence.GenerationType;
+
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
@@ -102,8 +104,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 		boolean behaviourWithSpecification = complexType instanceof INakedBehavior && ((INakedBehavior)complexType).getSpecification()!=null;
 		if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()) {
-			String tableName = complexType.getMappingInfo().getPersistentName().getAsIs();
-			JpaUtil.addAndAnnotatedIdAndVersion(ojClass, tableName);
+			JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
+			JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
 		} else {
 			OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"),
 					complexType.getMappingInfo().getPersistentName().getAsIs());

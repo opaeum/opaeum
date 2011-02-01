@@ -160,6 +160,12 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.0-SP1</version>
+			<scope>provided</scope>
+		</dependency>	
+		<dependency>
 			<groupId>org.eclipse.uml2</groupId>
 			<artifactId>uml</artifactId>
 			<version>3.0.1</version>

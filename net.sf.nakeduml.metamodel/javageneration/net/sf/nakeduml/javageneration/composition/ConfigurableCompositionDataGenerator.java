@@ -4,11 +4,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.enterprise.context.RequestScoped;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -31,15 +32,12 @@ import net.sf.nakeduml.javametamodel.OJVisibilityKind;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
-import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
@@ -104,31 +102,16 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 	}
 
 	private void annotateClass(INakedEntity c, OJAnnotatedClass testDataClass) {
-		if (config.isSeamAnnotations()) {
-			OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"), NameConverter.decapitalize(getTestDataName(c)));
-			testDataClass.putAnnotation(name);
-			OJAnnotationValue autoCreate = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.AutoCreate"));
-			testDataClass.putAnnotation(autoCreate);
-
-			OJAnnotationValue scope = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Scope"));
-			scope.putAttribute(new OJAnnotationAttributeValue("value", new OJEnumValue(new OJPathName("org.jboss.seam.ScopeType"), "EVENT")));
-			testDataClass.putAnnotation(scope);
-		} else {
-
-		}
+		OJAnnotationValue scope = new OJAnnotationValue(new OJPathName(RequestScoped.class.getName()));
+		testDataClass.putAnnotation(scope);
 	}
 
 	private void addPropertyUtil(OJAnnotatedClass testDataClass) {
 		OJAnnotatedField propertyUtil = new OJAnnotatedField();
 		propertyUtil.setName("dataGeneratorProperty");
 		propertyUtil.setType(new OJPathName("net.sf.nakeduml.util.DataGeneratorProperty"));
-		if (config.isSeamAnnotations()) {
-			OJAnnotationValue in = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.In"));
-			propertyUtil.putAnnotation(in);
-		} else {
-			OJAnnotationValue in = new OJAnnotationValue(new OJPathName("javax.inject.Inject"));
-			propertyUtil.putAnnotation(in);
-		}
+		OJAnnotationValue in = new OJAnnotationValue(new OJPathName("javax.inject.Inject"));
+		propertyUtil.putAnnotation(in);
 		testDataClass.addToFields(propertyUtil);
 	}
 
@@ -432,8 +415,6 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			}
 		}
 		return "BLASDFASDFadsf";
-		// throw new RuntimeException(f.getBaseType().getPathName() +
-		// " not supported");
 	}
 
 	private String calcConfiguredValue(OJAnnotatedClass clazz, OJBlock block, INakedEntity c, INakedProperty f, String defaultStringValue) {
@@ -730,7 +711,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		} else {
 			property = NameConverter.decapitalize(entity.getName()) + ".size";
 		}
-		properties.put(property, "0");
+		properties.put(property, "3");
 		return property;
 	}
 
@@ -815,13 +796,8 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		OJAnnotatedField childController = new OJAnnotatedField();
 		childController.setName(NameConverter.decapitalize(baseTypePath.getLast()));
 		childController.setType(baseTypePath);
-		if (config.isSeamAnnotations()) {
-			OJAnnotationValue in = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.In"));
-			childController.putAnnotation(in);
-		} else {
-			OJAnnotationValue in = new OJAnnotationValue(new OJPathName("javax.inject.Inject"));
-			childController.putAnnotation(in);
-		}
+		OJAnnotationValue in = new OJAnnotationValue(new OJPathName("javax.inject.Inject"));
+		childController.putAnnotation(in);
 		testDataClass.addToFields(childController);
 	}
 

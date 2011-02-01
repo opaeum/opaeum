@@ -20,7 +20,6 @@ import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemantics;
 import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
-import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Step;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.jaxb.JaxbStep;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
@@ -30,8 +29,8 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Model;
 
-@PhaseDependency(before={FileGenerationPhase.class,PomGenerationPhase.class})
-public class ProjectGenerationPhase implements TransformationPhase<ProjectGenerationStep> {
+@PhaseDependency(before = { FileGenerationPhase.class, PomGenerationPhase.class })
+public class ProjectGenerationPhase implements TransformationPhase<AbstractProjectGenerationStep> {
 
 	private NakedUmlConfig config;
 	@InputModel
@@ -43,8 +42,8 @@ public class ProjectGenerationPhase implements TransformationPhase<ProjectGenera
 	}
 
 	@Override
-	public Object[] execute(List<ProjectGenerationStep> features) {
-		for (ProjectGenerationStep step : features) {
+	public Object[] execute(List<AbstractProjectGenerationStep> features) {
+		for (AbstractProjectGenerationStep step : features) {
 			step.initialize(config, textWorkspace);
 			step.generate();
 		}
@@ -52,33 +51,51 @@ public class ProjectGenerationPhase implements TransformationPhase<ProjectGenera
 	}
 
 	public static void main(String[] args) throws Exception {
-
+//		Properties props = new Properties();
+//		NakedUmlConfig cfg = new NakedUmlConfig(props, "NAKEDGENPROJECT");
+//		cfg.setNakedUmlProjectGenRoot(args[1]);
+//		cfg.setNakedUmlProjectGenName(args[2]);
+//		cfg.setNakedUmlProjectGenGroupId(args[3]);
+//		TransformationProcess process = new TransformationProcess();
+//		Set<Class<? extends TransformationStep>> steps = new HashSet<Class<? extends TransformationStep>>();
+//		if (args[0].equals("ear")) {
+//			steps.add(EarProjectGenerationStep.class);
+//		} else if (args[0].equals("war")) {
+//			steps.add(WarProjectGenerationStep.class);
+//		}
+//		process.execute(cfg, null, steps);
+		
 		Model model = UML2ModelLoader.loadModel("testmodels/testProjectGen.uml");
-        EcoreUtil.resolveAll(model);
-        File modelFile = new File(model.eResource().getURI().toFileString());
-        
+		EcoreUtil.resolveAll(model);
+		File modelFile = new File(model.eResource().getURI().toFileString());
+
 		Properties props = new Properties();
 		NakedUmlConfig cfg = new NakedUmlConfig(props, "NAKEDGENPROJECT");
-		
-		cfg.setNakedUmlProjectGenRoot(args[0]);
-		cfg.setNakedUmlProjectGenName(args[1]);
-		cfg.setNakedUmlProjectGenGroupId(args[2]);
-		
+
+		cfg.setNakedUmlProjectGenRoot(args[1]);
+		cfg.setNakedUmlProjectGenName(args[2]);
+		cfg.setNakedUmlProjectGenGroupId(args[3]);
+
 		TransformationProcess process = new TransformationProcess();
 		Set<Class<? extends TransformationStep>> steps = new HashSet<Class<? extends TransformationStep>>();
+
+//		if (args[0].equals("ear")) {
+//			steps.add(EarProjectGenerationStep.class);
+//		} else if (args[0].equals("war")) {
+			steps.add(WarProjectGenerationStep.class);
+//		}
+		
 		steps.add(StereotypeApplicationExtractor.class);
-		steps.add(ProjectGenerationStep.class);
-		
 		steps.add(PersistenceUsingHibernateStep.class);
-        steps.add(HibernateConfigGenerator.class);
-        steps.add(OclExpressionExecution.class);
-        steps.add(JaxbStep.class);
-        steps.add(AuditImplementationStep.class);
-        steps.add(ExtendedCompositionSemantics.class);
-		
-		WorkspaceMappingInfoImpl mappingInfo=new WorkspaceMappingInfoImpl(new File(modelFile.getParentFile(), model.getName()+".mapping.properties"));
+		steps.add(HibernateConfigGenerator.class);
+		steps.add(OclExpressionExecution.class);
+		steps.add(JaxbStep.class);
+		steps.add(AuditImplementationStep.class);
+		steps.add(ExtendedCompositionSemantics.class);
+
+		WorkspaceMappingInfoImpl mappingInfo = new WorkspaceMappingInfoImpl(new File(modelFile.getParentFile(), model.getName() + ".mapping.properties"));
 		process.execute(cfg, new EmfWorkspace(model, mappingInfo), steps);
-		//store maaping info
-		mappingInfo.store();
+		// store maaping info
+		mappingInfo.store();		
 	}
 }

@@ -8,11 +8,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
-
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
@@ -20,21 +16,16 @@ import net.sf.nakeduml.pomgeneration.ProjectRootPomStep;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextSource;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
+
+import org.apache.commons.io.FileUtils;
 
 @StepDependency(phase = ProjectGenerationPhase.class, requires = { TextFileGenerator.class, ProjectRootPomStep.class }, before = { ProjectRootPomStep.class,
 		TextFileGenerator.class })
-public class ProjectGenerationStep implements TransformationStep {
+public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 
 	private static final String PROJECT_RESOURCES = "project-resources";
 	private static final String PROJECT_WEBAPP = "project-webapp";
-	private TextWorkspace textWorkspace;
-	private NakedUmlConfig config;
 
-	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace) {
-		this.textWorkspace = textWorkspace;
-		this.config = config;
-	}
 
 	public void generate() {
 		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getNakedUmlProjectGenName());
@@ -59,7 +50,7 @@ public class ProjectGenerationStep implements TransformationStep {
 		mapOutput(CharArrayTextSource.TEST_RESOURCE, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT),
 				"/src/test/generated-resources"));
 		mapOutput(PROJECT_WEBAPP, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_WAR_ROOT), "/src/main/webapp"));
-		createEjbBeansXml();
+		createConfig("beans.xml", PROJECT_RESOURCES, "META-INF");
 		createWarBeansXml();
 		createConfig("faces-config.xml", PROJECT_WEBAPP, "WEB-INF");
 		createConfig("web.xml", PROJECT_WEBAPP, "WEB-INF");
@@ -129,22 +120,6 @@ public class ProjectGenerationStep implements TransformationStep {
 	private void createWarBeansXml() {
 		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(PROJECT_WEBAPP);
 		List<String> names = Arrays.asList("WEB-INF", "beans.xml");
-		or.findOrCreateTextFile(names, new TextSource() {
-			@Override
-			public char[] toCharArray() {
-				return "".toCharArray();
-			}
-
-			@Override
-			public boolean hasContent() {
-				return true;
-			}
-		});
-	}
-
-	private void createEjbBeansXml() {
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(PROJECT_RESOURCES);
-		List<String> names = Arrays.asList("META-INF", "beans.xml");
 		or.findOrCreateTextFile(names, new TextSource() {
 			@Override
 			public char[] toCharArray() {

@@ -11,6 +11,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -84,27 +85,16 @@ public class JpaUtil {
 		a.putAttribute(new OJAnnotationAttributeValue("cascade", new OJEnumValue(new OJPathName("javax.persistence.CascadeType"), "ALL")));
 	}
 
-	public static void addAndAnnotatedIdAndVersion(OJAnnotatedClass ojClass, String tableName) {
+	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy, OJAnnotatedClass ojClass, INakedComplexStructure complexType) {
 		OJUtil.addProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
-		JpaUtil.annotateId(tableName, ojClass);
+		JpaUtil.annotateId(jpaIdStrategy, complexType, ojClass);
 		JpaUtil.annotateVersion(ojClass);
 	}
 
-	private static void annotateId(String tableName, OJAnnotatedClass javaRoot) {
+	private static void annotateId(JpaIdStrategy jpaIdStrategy, INakedComplexStructure complexType, OJAnnotatedClass javaRoot) {
 		OJAnnotatedField idField = (OJAnnotatedField) javaRoot.findField("id");
-		OJAnnotationValue id = new OJAnnotationValue(new OJPathName("javax.persistence.Id"));
-		idField.putAnnotation(id);
-		OJAnnotationValue generatedValue = new OJAnnotationValue(new OJPathName("javax.persistence.GeneratedValue"));
-		generatedValue.putAttribute(new OJAnnotationAttributeValue("strategy", new OJEnumValue(new OJPathName("javax.persistence.GenerationType"), "TABLE")));
-		generatedValue.putAttribute(new OJAnnotationAttributeValue("generator", "id_generator"));
-		idField.putAnnotation(generatedValue);
-		OJAnnotationValue generator = new OJAnnotationValue(new OJPathName("javax.persistence.TableGenerator"));
-		generator.putAttribute(new OJAnnotationAttributeValue("name", "id_generator"));
-		generator.putAttribute(new OJAnnotationAttributeValue("table", "hi_value"));
-		generator.putAttribute(new OJAnnotationAttributeValue("pkColumnName", "type"));
-		generator.putAttribute(new OJAnnotationAttributeValue("pkColumnValue", tableName));
-		generator.putAttribute(new OJAnnotationAttributeValue("allocationSize", new Integer(20)));
-		javaRoot.putAnnotation(generator);
+		jpaIdStrategy.annotate(idField);
+		jpaIdStrategy.annotate(javaRoot, complexType);
 	}
 
 	private static void annotateVersion(OJAnnotatedClass javaRoot) {

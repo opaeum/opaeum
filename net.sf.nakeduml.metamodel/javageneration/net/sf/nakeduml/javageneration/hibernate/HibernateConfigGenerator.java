@@ -64,7 +64,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 		vars.put("requiresAuditing", true);
 		vars.put("config", this.config);
 		processTemplate(this.workspace.getGeneratingModelsOrProfiles().get(0), "templates/Model/Jbpm4HibernateConfig.vsl",
-				this.config.getProjectName()+ ".hibernate.cfg.xml", PropertiesSource.GEN_RESOURCE, vars);
+				/*this.config.getProjectName()+ "." + */"hibernate.cfg.xml", PropertiesSource.GEN_RESOURCE, vars);
 	}
 
 	private Set<OJClass> getClassesRecursively() {

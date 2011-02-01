@@ -10,7 +10,7 @@ import org.apache.maven.pom.Plugin;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = { ProjectRootPomStep.class }, before = {}, after = { ProjectRootPomStep.class }, phase = PomGenerationPhase.class)
-public class ProjectEarPomStep extends PomGenerationStep {
+public class ProjectEarModulePomStep extends PomGenerationStep {
 
 	@Override
 	public boolean hasParent() {
