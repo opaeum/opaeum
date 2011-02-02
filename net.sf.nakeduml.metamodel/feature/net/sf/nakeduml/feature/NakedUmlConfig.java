@@ -42,6 +42,7 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_PROJECT_GEN_ROOT = "nakeduml.project.gen.root";
 	private static final String NAKEDUML_PROJECT_GEN_GROUPID = "nakeduml.project.gen.groupid";
 	private static final String NAKEDUML_ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
+	private static final String NAKEDUML_TEST_DATA_SIZE = "nakeduml.test.data.size";
 
 	private Properties props = new Properties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
@@ -282,6 +283,10 @@ public class NakedUmlConfig {
 
 	public void setIdGeneratorStrategy(String name) {
 		this.props.setProperty(NAKEDUML_ID_GENERATOR_STRATEGY, name);
+	}
+
+	public String getTestDataSize() {
+		return this.props.getProperty(NAKEDUML_TEST_DATA_SIZE, "3");
 	}
 
 	public void store(Writer writer) {

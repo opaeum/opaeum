@@ -68,23 +68,22 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visit(INakedEntity c) {
+	public void visit(INakedEntity entity) {
 
-		if (OJUtil.hasOJClass(c) && !c.getIsAbstract()) {
+		if (OJUtil.hasOJClass(entity) && !entity.getIsAbstract()) {
 			OJAnnotatedClass testDataClass = new OJAnnotatedClass();
-			OJAnnotatedClass theClass = findJavaClass(c);
-			testDataClass.setName(getTestDataName(c));
+			OJAnnotatedClass theClass = findJavaClass(entity);
+			testDataClass.setName(getTestDataName(entity));
 			theClass.getMyPackage().addToClasses(testDataClass);
 
-			annotateClass(c, testDataClass);
+			annotateClass(entity, testDataClass);
 
-			addChildrenFields(c, testDataClass);
+			addChildrenFields(entity, testDataClass);
 			addPropertyUtil(testDataClass);
-			addCreate(c, testDataClass);
+			addCreate(entity, testDataClass);
 
-			addPopulateData(c, testDataClass, false);
-
-			addPopulateData(c, testDataClass, true);
+			addPopulateData(entity, testDataClass, false);
+			addPopulateData(entity, testDataClass, true);
 
 			super.createTextPath(testDataClass, JavaTextSource.GEN_SRC);
 		}
@@ -179,13 +178,12 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			owner.setType(javaTypePath);
 			populate.addToParameters(owner);
 			block = populate.getBody();
-			
+
 			if (forExport) {
 				populate.getBody().addToStatements(
 						"dataGeneratorProperty.putExportProperty(\"" + c.getMappingInfo().getJavaName().getDecapped() + ".size\", 1)");
 			}
 
-			
 		}
 		testDataClass.addToOperations(populate);
 		if (forExport) {
@@ -250,32 +248,37 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		}
 	}
 
-	private void populateSelf(OJAnnotatedClass test, INakedEntity c, OJBlock populate, boolean forExport) {
-		for (INakedProperty f : c.getEffectiveAttributes()) {
+	private void populateSelf(OJAnnotatedClass testClass, INakedEntity entity, OJBlock populate, boolean forExport) {
+		for (INakedProperty f : entity.getEffectiveAttributes()) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(f);
 			boolean isReadOnly = (f instanceof INakedProperty && (f).isReadOnly());
 			if (f instanceof INakedProperty) {
 				INakedProperty p = f;
 				boolean isEndToComposite = p.getOtherEnd() != null && p.getOtherEnd().isComposite();
 				if (p.getInitialValue() == null && !isEndToComposite) {
-					if (map.isOne() && !(f.isDerived() || isReadOnly || f.isInverse())) {
-						String defaultValue = calculateDefaultStringValue(test, populate, f);
+					if (map.isOne() && !(p.isDerived() || isReadOnly || p.isInverse())) {
 						if (!(map.couldBasetypeBePersistent())) {
 							if (!forExport) {
-								String str = calcConfiguredValue(test, populate, c, f, defaultValue);
-								populate.addToStatements(c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.setter() + "(" + str + ")");
-								constructPropertyName(c, p, defaultValue);
+								String defaultValue = "";
+								int count = 0;
+								while (count < Integer.valueOf(config.getTestDataSize())) {
+									defaultValue = calculateDefaultStringValue(testClass, populate, p);
+									addPropertyDefaultValueToPropertiesFile(entity, p, defaultValue, count);
+									count++;
+								}
+								String str = calcConfiguredValue(testClass, populate, entity, p, defaultValue);
+								populate.addToStatements(entity.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.setter() + "(" + str + ")");
 							} else {
 								String result = "";
-								if (c.getEndToComposite() != null) {
-									result = c.getEndToComposite().getName() + ".getName() + \"." + NameConverter.decapitalize(c.getName()) + "." + p.getName()
-											+ "_\" + String.valueOf(count)";
+								if (entity.getEndToComposite() != null) {
+									result = entity.getEndToComposite().getName() + ".getName() + \"." + NameConverter.decapitalize(entity.getName()) + "."
+											+ p.getName() + "_\" + String.valueOf(count)";
 									populate.addToStatements("dataGeneratorProperty.putExportProperty(" + result + ", "
-											+ c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "())");
+											+ entity.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "())");
 								} else {
-									result = NameConverter.decapitalize(c.getName()) + "." + p.getName() + "_\" + String.valueOf(count)";
+									result = NameConverter.decapitalize(entity.getName()) + "." + p.getName() + "_\" + String.valueOf(count)";
 									populate.addToStatements("dataGeneratorProperty.putExportProperty(\"" + result + ", "
-											+ c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "())");
+											+ entity.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "())");
 								}
 							}
 						}
@@ -442,8 +445,6 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			return "new " + f.getBaseType().getName() + "()";
 		} else {
 			throw new RuntimeException("Not implemented");
-			// return "\"" + f.getOwner().getName() + "::" + f.getName() + new
-			// Double(value).intValue() + "\"";
 		}
 	}
 
@@ -454,26 +455,44 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			if (p.isComposite() && !isHierarchical(c, p)) {
 
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-				
+
 				if (p.getNakedBaseType() instanceof INakedInterface && map.isOne()) {
-					//TODO sourcePopulation needs to handle redefinition and looks like WorkspaceElement.name has duplicates
-//					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-//					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
-//					for (INakedClassifier iNakedClassifier : classifiers) {
-//						if (!iNakedClassifier.getIsAbstract()) {
-//							
-//							OJIfStatement ifInstanceOf = new OJIfStatement(c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "()!=null && " + c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "() instanceof " + iNakedClassifier.getMappingInfo().getJavaName().toString());
-//							String s = "dataGeneratorProperty.putExportProperty(" + c.getMappingInfo().getJavaName().getDecapped().toString() + ".getName() + \"" + p.getMappingInfo().getJavaName().getDecapped().toString() + "\", \"" + iNakedClassifier.getMappingInfo().getQualifiedJavaName() + "\")";
-//							ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
-//							s = NameConverter.decapitalize(getTestDataName(iNakedClassifier)) + "." + FUNCTION
-//							+ iNakedClassifier.getMappingInfo().getJavaName() + "(" + c.getMappingInfo().getJavaName().getDecapped().toString() + ")";
-//							ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
-//							
-//							block.addToStatements(ifInstanceOf);
-//							testDataClass.addToImports(OJUtil.classifierPathname(iNakedClassifier));
-//						}
-//					}
-					
+					// TODO sourcePopulation needs to handle redefinition and
+					// looks like WorkspaceElement.name has duplicates
+					// INakedInterface inf = (INakedInterface)
+					// p.getNakedBaseType();
+					// Collection<INakedClassifier> classifiers =
+					// inf.getImplementingClassifiers();
+					// for (INakedClassifier iNakedClassifier : classifiers) {
+					// if (!iNakedClassifier.getIsAbstract()) {
+					//
+					// OJIfStatement ifInstanceOf = new
+					// OJIfStatement(c.getMappingInfo().getJavaName().getDecapped().toString()
+					// + "." + map.getter() + "()!=null && " +
+					// c.getMappingInfo().getJavaName().getDecapped().toString()
+					// + "." + map.getter() + "() instanceof " +
+					// iNakedClassifier.getMappingInfo().getJavaName().toString());
+					// String s = "dataGeneratorProperty.putExportProperty(" +
+					// c.getMappingInfo().getJavaName().getDecapped().toString()
+					// + ".getName() + \"" +
+					// p.getMappingInfo().getJavaName().getDecapped().toString()
+					// + "\", \"" +
+					// iNakedClassifier.getMappingInfo().getQualifiedJavaName()
+					// + "\")";
+					// ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
+					// s =
+					// NameConverter.decapitalize(getTestDataName(iNakedClassifier))
+					// + "." + FUNCTION
+					// + iNakedClassifier.getMappingInfo().getJavaName() + "(" +
+					// c.getMappingInfo().getJavaName().getDecapped().toString()
+					// + ")";
+					// ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
+					//
+					// block.addToStatements(ifInstanceOf);
+					// testDataClass.addToImports(OJUtil.classifierPathname(iNakedClassifier));
+					// }
+					// }
+
 				} else {
 					if (!p.getNakedBaseType().getIsAbstract()) {
 						block.addToStatements(new OJSimpleStatement(NameConverter.decapitalize(getTestDataName(p.getNakedBaseType())) + "." + FUNCTION
@@ -488,183 +507,196 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		}
 	}
 
-	private OJAnnotatedOperation addCreate(INakedEntity c, OJAnnotatedClass testDataClass) {
-
-		OJPathName element = new OJPathName(c.getMappingInfo().getQualifiedJavaName());
-		if (isHierachical(c)) {
-			// Build createNonHierarchicalXXX
-			OJAnnotatedOperation createNonHierarchical = new OJAnnotatedOperation();
-			createNonHierarchical.addToThrows(new OJPathName("java.text.ParseException"));
-
-			createNonHierarchical.setName("createNonHierarchical" + c.getMappingInfo().getJavaName());
-			OJPathName returnType = element;
-			createNonHierarchical.setReturnType(returnType);
-			createNonHierarchical.setVisibility(OJVisibilityKind.PRIVATE);
-			testDataClass.addToOperations(createNonHierarchical);
-			INakedProperty parent = c.getEndToComposite();
-			OJBlock block = new OJBlock();
-			createNonHierarchical.setBody(block);
-			OJField local = new OJField();
-			local.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
-			local.setType(returnType);
-			if (parent != null) {
-				OJParameter owner = new OJParameter();
-				owner.setName(parent.getMappingInfo().getJavaName().toString());
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(parent);
-				OJPathName javaTypePath = map.javaTypePath();
-				owner.setType(javaTypePath);
-				createNonHierarchical.addToParameters(owner);
-
-				OJParameter localI = new OJParameter();
-				localI.setType(new OJPathName("java.lang.Integer"));
-				localI.setName("i");
-				createNonHierarchical.addToParameters(localI);
-
-				local.setInitExp("new " + c.getMappingInfo().getJavaName() + "(" + parent.getMappingInfo().getJavaName().toString() + ")");
-			} else {
-				local.setInitExp("new " + c.getMappingInfo().getJavaName() + "()");
-			}
-			block.addToLocals(local);
-
-			populateSelf(testDataClass, c, block, false);
-
-			addCompositeChildren(c, block);
-			OJSimpleStatement returnStatement = new OJSimpleStatement("return " + local.getName());
-			block.addToStatements(returnStatement);
-
-			// Create method
-			OJAnnotatedOperation create = new OJAnnotatedOperation();
-			create.addToThrows(new OJPathName("java.text.ParseException"));
-			testDataClass.addToImports(new OJPathName("java.text.ParseException"));
-			create.setName("create" + c.getMappingInfo().getJavaName());
-			testDataClass.addToOperations(create);
-			parent = c.getEndToComposite();
-			block = new OJBlock();
-			create.setBody(block);
-
-			OJPathName integerPath = new OJPathName("java.util.Integer");
-			OJForStatement forX = new OJForStatement();
-			forX.setElemType(integerPath);
-			forX.setElemName("i");
-
-			forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(\"" + constructSizePropertyName(c) + "\",\"0\")");
-			OJBlock forXBLock = new OJBlock();
-			block.addToStatements(forX);
-			forX.setBody(forXBLock);
-
-			local = new OJField();
-			local.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
-			local.setType(returnType);
-
-			if (parent != null) {
-				OJParameter owner = new OJParameter();
-				owner.setName(parent.getMappingInfo().getJavaName().toString());
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(parent);
-				OJPathName javaTypePath = map.javaTypePath();
-				owner.setType(javaTypePath);
-				create.addToParameters(owner);
-				local.setInitExp("createNonHierarchical" + c.getMappingInfo().getJavaName() + "(" + parent.getMappingInfo().getJavaName().toString() + ",i)");
-			} else {
-				throw new RuntimeException("Not supported!");
-			}
-			forXBLock.addToLocals(local);
-			forXBLock.addToStatements(new OJSimpleStatement(local.getName() + " = createNonHierarchical" + c.getMappingInfo().getJavaName() + "("
-					+ local.getName() + ",i)"));
-			forXBLock.addToStatements("result.add(" + c.getMappingInfo().getJavaName().getDecapped() + ")");
-
-			OJPathName returnList = new OJPathName("java.util.List");
-			returnList.addToElementTypes(element);
-			create.setReturnType(returnList);
-			OJField listReturn = new OJField();
-			listReturn.setType(returnList);
-			listReturn.setName("result");
-			listReturn.setInitExp("new ArrayList<" + element.getLast() + ">()");
-			testDataClass.addToImports(new OJPathName("java.util.ArrayList"));
-			create.getBody().addToLocals(listReturn);
-
-			create.getBody().addToStatements("return " + listReturn.getName());
-
+	private OJAnnotatedOperation addCreate(INakedEntity entity, OJAnnotatedClass testDataClass) {
+		OJPathName element = new OJPathName(entity.getMappingInfo().getQualifiedJavaName());
+		if (isHierachical(entity)) {
+			OJAnnotatedOperation create = addCreateHierarchical(entity, testDataClass, element);
 			return create;
-
 		} else {
-			OJAnnotatedOperation create = new OJAnnotatedOperation();
-			create.setName("create" + c.getMappingInfo().getJavaName());
-			testDataClass.addToOperations(create);
-			OJBlock block = new OJBlock();
-			create.setBody(block);
-			create.addToThrows(new OJPathName("java.text.ParseException"));
-			testDataClass.addToImports(new OJPathName("java.text.ParseException"));
-
-			INakedProperty parent = c.getEndToComposite();
-			OJPathName integerPath = new OJPathName("java.util.Integer");
-
-			OJField local = new OJField();
-			local.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
-			local.setType(element);
-			if (parent != null) {
-				OJParameter owner = new OJParameter();
-				owner.setName(parent.getMappingInfo().getJavaName().toString());
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(parent);
-				OJPathName javaTypePath = map.javaTypePath();
-				owner.setType(javaTypePath);
-				create.addToParameters(owner);
-				local.setInitExp("new " + c.getMappingInfo().getJavaName() + "(" + parent.getMappingInfo().getJavaName().toString() + ")");
-
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(parent.getOtherEnd());
-				if (otherMap.isMany()) {
-					// Have for loop
-					OJForStatement forX = new OJForStatement();
-					forX.setElemType(integerPath);
-					forX.setElemName("i");
-					constructSizePropertyName(c);
-					forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString()
-							+ ".getName()+\"." + c.getMappingInfo().getJavaName().getDecapped().toString() + ".size\",\"0\")");
-					OJBlock forXBLock = new OJBlock();
-					forX.setBody(forXBLock);
-
-					block.addToStatements(forX);
-					block = forXBLock;
-				} else {
-					// Add variable i
-					OJField variableI = new OJField();
-					variableI.setType(integerPath);
-					variableI.setName("i");
-					variableI.setInitExp("0");
-					block.addToLocals(variableI);
-				}
-
-			} else {
-				local.setInitExp("new " + c.getMappingInfo().getJavaName() + "()");
-
-				OJForStatement forX = new OJForStatement();
-				forX.setElemType(integerPath);
-				forX.setElemName("i");
-				forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(\"" + constructSizePropertyName(c) + "\",\"0\")");
-				OJBlock forXBLock = new OJBlock();
-				forX.setBody(forXBLock);
-
-				block.addToStatements(forX);
-				block = forXBLock;
-				// Always have for loop
-			}
-			OJPathName returnList = new OJPathName("java.util.List");
-			returnList.addToElementTypes(element);
-			create.setReturnType(returnList);
-			OJField listReturn = new OJField();
-			listReturn.setType(returnList);
-			listReturn.setName("result");
-			listReturn.setInitExp("new ArrayList<" + element.getLast() + ">()");
-			testDataClass.addToImports(new OJPathName("java.util.ArrayList"));
-			create.getBody().addToLocals(listReturn);
-			block.addToLocals(local);
-
-			populateSelf(testDataClass, c, block, false);
-			block.addToStatements("result.add(" + c.getMappingInfo().getJavaName().getDecapped() + ")");
-
-			addCompositeChildren(c, block);
-			create.getBody().addToStatements("return " + listReturn.getName());
+			OJAnnotatedOperation create = addCreateNonHierarchical(entity, testDataClass, element);
 			return create;
 		}
+	}
+
+	private OJAnnotatedOperation addCreateNonHierarchical(INakedEntity entity, OJAnnotatedClass testDataClass, OJPathName element) {
+		OJAnnotatedOperation createOperation = new OJAnnotatedOperation();
+		createOperation.setName("create" + entity.getMappingInfo().getJavaName());
+		testDataClass.addToOperations(createOperation);
+		OJBlock block = new OJBlock();
+		createOperation.setBody(block);
+		createOperation.addToThrows(new OJPathName("java.text.ParseException"));
+		testDataClass.addToImports(new OJPathName("java.text.ParseException"));
+
+		INakedProperty parent = entity.getEndToComposite();
+
+		OJField local = new OJField();
+		local.setName(entity.getMappingInfo().getJavaName().getDecapped().toString());
+		local.setType(element);
+		if (parent != null) {
+			local.setInitExp("new " + entity.getMappingInfo().getJavaName() + "(" + parent.getMappingInfo().getJavaName().toString() + ")");
+			block = createNonHierarchicalForNonRoot(entity, createOperation, block, parent);
+		} else {
+			local.setInitExp("new " + entity.getMappingInfo().getJavaName() + "()");
+			block = createNonHierarchicalForRoot(entity, block);
+			// Always have for loop
+		}
+		OJPathName returnList = new OJPathName("java.util.List");
+		returnList.addToElementTypes(element);
+		createOperation.setReturnType(returnList);
+		OJField listReturn = new OJField();
+		listReturn.setType(returnList);
+		listReturn.setName("result");
+		listReturn.setInitExp("new ArrayList<" + element.getLast() + ">()");
+		testDataClass.addToImports(new OJPathName("java.util.ArrayList"));
+		createOperation.getBody().addToLocals(listReturn);
+		block.addToLocals(local);
+
+		populateSelf(testDataClass, entity, block, false);
+		block.addToStatements("result.add(" + entity.getMappingInfo().getJavaName().getDecapped() + ")");
+
+		addCompositeChildren(entity, block);
+		createOperation.getBody().addToStatements("return " + listReturn.getName());
+		return createOperation;
+	}
+
+	private OJBlock createNonHierarchicalForRoot(INakedEntity entity, OJBlock block) {
+		OJForStatement forX = new OJForStatement();
+		forX.setElemType(new OJPathName("java.util.Integer"));
+		forX.setElemName("i");
+		forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(\"" + constructSizePropertyName(entity) + "\",\"0\")");
+		OJBlock forXBLock = new OJBlock();
+		forX.setBody(forXBLock);
+
+		block.addToStatements(forX);
+		block = forXBLock;
+		return block;
+	}
+
+	private OJBlock createNonHierarchicalForNonRoot(INakedEntity entity, OJAnnotatedOperation create, OJBlock block, INakedProperty parent) {
+		OJParameter owner = new OJParameter();
+		owner.setName(parent.getMappingInfo().getJavaName().toString());
+		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(parent);
+		OJPathName javaTypePath = map.javaTypePath();
+		owner.setType(javaTypePath);
+		create.addToParameters(owner);
+
+		NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(parent.getOtherEnd());
+		if (otherMap.isMany()) {
+			// Have for loop
+			OJForStatement forX = new OJForStatement();
+			forX.setElemType(new OJPathName("java.util.Integer"));
+			forX.setElemName("i");
+			constructSizePropertyName(entity);
+			forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getName()+\"."
+					+ entity.getMappingInfo().getJavaName().getDecapped().toString() + ".size\",\"0\")");
+			OJBlock forXBLock = new OJBlock();
+			forX.setBody(forXBLock);
+
+			block.addToStatements(forX);
+			block = forXBLock;
+		} else {
+			// Add variable i
+			OJField variableI = new OJField();
+			variableI.setType(new OJPathName("java.util.Integer"));
+			variableI.setName("i");
+			variableI.setInitExp("0");
+			block.addToLocals(variableI);
+		}
+		return block;
+	}
+
+	private OJAnnotatedOperation addCreateHierarchical(INakedEntity c, OJAnnotatedClass testDataClass, OJPathName element) {
+		OJAnnotatedOperation createNonHierarchical = new OJAnnotatedOperation();
+		createNonHierarchical.addToThrows(new OJPathName("java.text.ParseException"));
+
+		createNonHierarchical.setName("createNonHierarchical" + c.getMappingInfo().getJavaName());
+		OJPathName returnType = element;
+		createNonHierarchical.setReturnType(returnType);
+		createNonHierarchical.setVisibility(OJVisibilityKind.PRIVATE);
+		testDataClass.addToOperations(createNonHierarchical);
+		INakedProperty parent = c.getEndToComposite();
+		OJBlock block = new OJBlock();
+		createNonHierarchical.setBody(block);
+		OJField local = new OJField();
+		local.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
+		local.setType(returnType);
+		if (parent != null) {
+			OJParameter owner = new OJParameter();
+			owner.setName(parent.getMappingInfo().getJavaName().toString());
+			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(parent);
+			OJPathName javaTypePath = map.javaTypePath();
+			owner.setType(javaTypePath);
+			createNonHierarchical.addToParameters(owner);
+
+			OJParameter localI = new OJParameter();
+			localI.setType(new OJPathName("java.lang.Integer"));
+			localI.setName("i");
+			createNonHierarchical.addToParameters(localI);
+
+			local.setInitExp("new " + c.getMappingInfo().getJavaName() + "(" + parent.getMappingInfo().getJavaName().toString() + ")");
+		} else {
+			local.setInitExp("new " + c.getMappingInfo().getJavaName() + "()");
+		}
+		block.addToLocals(local);
+
+		populateSelf(testDataClass, c, block, false);
+
+		addCompositeChildren(c, block);
+		OJSimpleStatement returnStatement = new OJSimpleStatement("return " + local.getName());
+		block.addToStatements(returnStatement);
+
+		// Create method
+		OJAnnotatedOperation create = new OJAnnotatedOperation();
+		create.addToThrows(new OJPathName("java.text.ParseException"));
+		testDataClass.addToImports(new OJPathName("java.text.ParseException"));
+		create.setName("create" + c.getMappingInfo().getJavaName());
+		testDataClass.addToOperations(create);
+		parent = c.getEndToComposite();
+		block = new OJBlock();
+		create.setBody(block);
+
+		OJPathName integerPath = new OJPathName("java.util.Integer");
+		OJForStatement forX = new OJForStatement();
+		forX.setElemType(integerPath);
+		forX.setElemName("i");
+
+		forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(\"" + constructSizePropertyName(c) + "\",\"0\")");
+		OJBlock forXBLock = new OJBlock();
+		block.addToStatements(forX);
+		forX.setBody(forXBLock);
+
+		local = new OJField();
+		local.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
+		local.setType(returnType);
+
+		if (parent != null) {
+			OJParameter owner = new OJParameter();
+			owner.setName(parent.getMappingInfo().getJavaName().toString());
+			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(parent);
+			OJPathName javaTypePath = map.javaTypePath();
+			owner.setType(javaTypePath);
+			create.addToParameters(owner);
+			local.setInitExp("createNonHierarchical" + c.getMappingInfo().getJavaName() + "(" + parent.getMappingInfo().getJavaName().toString() + ",i)");
+		} else {
+			throw new RuntimeException("Not supported!");
+		}
+		forXBLock.addToLocals(local);
+		forXBLock.addToStatements(new OJSimpleStatement(local.getName() + " = createNonHierarchical" + c.getMappingInfo().getJavaName() + "(" + local.getName()
+				+ ",i)"));
+		forXBLock.addToStatements("result.add(" + c.getMappingInfo().getJavaName().getDecapped() + ")");
+
+		OJPathName returnList = new OJPathName("java.util.List");
+		returnList.addToElementTypes(element);
+		create.setReturnType(returnList);
+		OJField listReturn = new OJField();
+		listReturn.setType(returnList);
+		listReturn.setName("result");
+		listReturn.setInitExp("new ArrayList<" + element.getLast() + ">()");
+		testDataClass.addToImports(new OJPathName("java.util.ArrayList"));
+		create.getBody().addToLocals(listReturn);
+
+		create.getBody().addToStatements("return " + listReturn.getName());
+		return create;
 	}
 
 	private String constructSourcePopulationProperty(INakedEntity entity, NakedStructuralFeatureMap map, String defaultValue) {
@@ -678,15 +710,14 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		return result;
 	}
 
-	private String constructPropertyName(INakedEntity owner, INakedProperty property, String defaultValue) {
+	private void addPropertyDefaultValueToPropertiesFile(INakedEntity owner, INakedProperty property, String defaultValue, int count) {
 		String result;
 		if (owner.getEndToComposite() != null) {
-			result = owner.getEndToComposite().getName() + "." + NameConverter.decapitalize(owner.getName()) + "." + property.getName() + "_0";
+			result = owner.getEndToComposite().getName() + "." + NameConverter.decapitalize(owner.getName()) + "." + property.getName() + "_" + count;
 		} else {
-			result = NameConverter.decapitalize(owner.getName()) + "." + property.getName() + "_0";
+			result = NameConverter.decapitalize(owner.getName()) + "." + property.getName() + "_" + count;
 		}
 		properties.put(result, defaultValue);
-		return result;
 	}
 
 	private String constructSizePropertyName(INakedEntity entity) {
@@ -701,7 +732,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		} else {
 			property = NameConverter.decapitalize(entity.getName()) + ".size";
 		}
-		properties.put(property, "3");
+		properties.put(property, config.getTestDataSize());
 		return property;
 	}
 
@@ -728,21 +759,35 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			if (p.isComposite() && !isHierarchical(c, p)) {
 
 				if (p.getNakedBaseType() instanceof INakedInterface && map.isOne()) {
-					//TODO sourcePopulation needs to handle redefinition and looks like WorkspaceElement.name has duplicates
+					// TODO sourcePopulation needs to handle redefinition and
+					// looks like WorkspaceElement.name has duplicates
 
-//					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-//					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
-//					for (INakedClassifier iNakedClassifier : classifiers) {
-//						String result = c.getMappingInfo().getJavaName().getDecapped().toString() + ".getName() + \"." +p.getMappingInfo().getJavaName().getDecapped().toString() + "\"";
-//						OJIfStatement ifInstanceOf = new OJIfStatement("dataGeneratorProperty.getProperty(" + result + ",\"\").equals(\""
-//								+ iNakedClassifier.getMappingInfo().getQualifiedJavaName().toString() + "\")", iNakedClassifier.getMappingInfo().getJavaName()
-//								.getDecapped().toString()
-//								+ "DataGenerator.create"
-//								+ iNakedClassifier.getMappingInfo().getJavaName().toString()
-//								+ "("
-//								+ c.getMappingInfo().getJavaName().getDecapped().toString() + ")");
-//						block.addToStatements(ifInstanceOf);
-//					}
+					// INakedInterface inf = (INakedInterface)
+					// p.getNakedBaseType();
+					// Collection<INakedClassifier> classifiers =
+					// inf.getImplementingClassifiers();
+					// for (INakedClassifier iNakedClassifier : classifiers) {
+					// String result =
+					// c.getMappingInfo().getJavaName().getDecapped().toString()
+					// + ".getName() + \"."
+					// +p.getMappingInfo().getJavaName().getDecapped().toString()
+					// + "\"";
+					// OJIfStatement ifInstanceOf = new
+					// OJIfStatement("dataGeneratorProperty.getProperty(" +
+					// result + ",\"\").equals(\""
+					// +
+					// iNakedClassifier.getMappingInfo().getQualifiedJavaName().toString()
+					// + "\")", iNakedClassifier.getMappingInfo().getJavaName()
+					// .getDecapped().toString()
+					// + "DataGenerator.create"
+					// +
+					// iNakedClassifier.getMappingInfo().getJavaName().toString()
+					// + "("
+					// +
+					// c.getMappingInfo().getJavaName().getDecapped().toString()
+					// + ")");
+					// block.addToStatements(ifInstanceOf);
+					// }
 
 				} else {
 					if (!p.getNakedBaseType().getIsAbstract()) {
@@ -761,16 +806,19 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		for (INakedProperty f : c.getEffectiveAttributes()) {
 			INakedProperty p = f;
 			if (f.isComposite() && !isHierarchical(c, p)) {
-				//TODO sourcePopulation needs to handle redefinition and looks like WorkspaceElement.name has duplicates
-				
+				// TODO sourcePopulation needs to handle redefinition and looks
+				// like WorkspaceElement.name has duplicates
+
 				if (f.getNakedBaseType() instanceof INakedInterface) {
-//					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-//					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
-//					for (INakedClassifier iNakedClassifier : classifiers) {
-//						if (!iNakedClassifier.getIsAbstract()) {
-//							addChildField(testDataClass, iNakedClassifier);
-//						}
-//					}
+					// INakedInterface inf = (INakedInterface)
+					// p.getNakedBaseType();
+					// Collection<INakedClassifier> classifiers =
+					// inf.getImplementingClassifiers();
+					// for (INakedClassifier iNakedClassifier : classifiers) {
+					// if (!iNakedClassifier.getIsAbstract()) {
+					// addChildField(testDataClass, iNakedClassifier);
+					// }
+					// }
 
 				} else {
 					if (!f.getNakedBaseType().getIsAbstract()) {
