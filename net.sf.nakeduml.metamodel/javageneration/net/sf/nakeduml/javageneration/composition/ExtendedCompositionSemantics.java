@@ -29,5 +29,13 @@ public class ExtendedCompositionSemantics extends AbstractJavaTransformationStep
 		ConfigurableCompositionDataGenerator sctdg = new ConfigurableCompositionDataGenerator();
 		sctdg.initialize(workspace, javaModel, config, textWorkspace);
 		sctdg.startVisiting(workspace);
+		
+		ConfigurableCompositionTreeInitializer ccti = new ConfigurableCompositionTreeInitializer();
+		ccti.initialize(workspace, javaModel, config, textWorkspace, sctdg.propertiesMap);
+		ccti.startVisiting(workspace);
+
+		ConfigurableCompositionPropertiesGenerator ccpg = new ConfigurableCompositionPropertiesGenerator();
+		ccpg.initialize(workspace, javaModel, config, textWorkspace, ccti.propertiesMap);
+		ccpg.startVisiting(workspace);
 	}
 }

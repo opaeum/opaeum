@@ -54,6 +54,11 @@ public abstract class PomGenerationStep implements TransformationStep {
 		return sourceFeature;
 	}
 
+	public static void addAnyAttribute(AnyType any, String elementName, String content) {
+		EStructuralFeature attributeFeature = ExtendedMetaData.INSTANCE.demandFeature(null, elementName, false);
+		any.eSet(attributeFeature, content);
+	}
+
 	public static AnyType addAnyElement(FeatureMap any, String elementName) {
 		EStructuralFeature sourceFeature = ExtendedMetaData.INSTANCE.demandFeature(null, elementName, true);
 		AnyType node = XMLTypeFactory.eINSTANCE.createAnyType();

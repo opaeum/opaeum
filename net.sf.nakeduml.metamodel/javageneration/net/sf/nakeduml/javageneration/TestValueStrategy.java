@@ -6,4 +6,5 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public interface TestValueStrategy {
 	public String getDefaultValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p);
+	public String getDefaultValue();
 }

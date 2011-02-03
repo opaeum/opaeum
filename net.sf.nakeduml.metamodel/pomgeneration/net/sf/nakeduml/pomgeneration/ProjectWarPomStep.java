@@ -33,7 +33,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setScope("provided");
 		dependency.setType("pom");
 		dependencies.add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("javax.enterprise");
 		dependency.setArtifactId("cdi-api");
@@ -100,7 +100,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setVersion("${seam.solder.version}");
 		dependency.setScope("runtime");
 		dependencies.add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.seam.config");
 		dependency.setArtifactId("seam-config-xml");
@@ -129,7 +129,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		exclusion.setArtifactId("jta");
 		dependency.getExclusions().getExclusion().add(exclusion);
 		dependencies.add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jbpm");
 		dependency.setArtifactId("jbpm-flow");
@@ -194,7 +194,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		exclusion.setArtifactId("dom4j");
 		dependency.getExclusions().getExclusion().add(exclusion);
 		dependencies.add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jbpm");
 		dependency.setArtifactId("jbpm-bam");
@@ -240,7 +240,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(exclusion);
 		dependencies.add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.drools");
 		dependency.setArtifactId("drools-core");
@@ -299,7 +299,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		exclusion.setArtifactId("hibernate-core");
 		dependency.getExclusions().getExclusion().add(exclusion);
 		dependencies.add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.arquillian");
 		dependency.setArtifactId("arquillian-junit");
@@ -334,7 +334,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		p.put("arquillian.version", "1.0.0.Alpha4");
 		return p;
 	}
-	
+
 	@Override
 	public boolean hasFinalName() {
 		return true;
@@ -380,10 +380,10 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.setPhase("generate-sources");
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
 		pluginExecution.getGoals().getGoal().add("add-source");
-		
+
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
-		addAnyElement(anyType.getAny(),"source", "src/main/generated-java");
+		addAnyElement(anyType.getAny(), "source", "src/main/generated-java");
 
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		execution.getExecution().add(pluginExecution);
@@ -391,16 +391,16 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.setPhase("generate-resources");
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
 		pluginExecution.getGoals().getGoal().add("add-resource");
-		
+
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 		AnyType resourcesAnyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
-		anyType = addAnyElement(resourcesAnyType.getAny(),"resource");
-		addAnyElement(anyType.getAny(),"directory", "src/main/generated-resources");
-		anyType = addAnyElement(resourcesAnyType.getAny(),"resource");
-		addAnyElement(anyType.getAny(),"directory", "src/main/webapp");
-		
+		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
+		addAnyElement(anyType.getAny(), "directory", "src/main/generated-resources");
+		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
+		addAnyElement(anyType.getAny(), "directory", "src/main/webapp");
+
 		result[1].setExecutions(execution);
-		
+
 		return result;
 	}
 
@@ -411,14 +411,14 @@ public class ProjectWarPomStep extends PomGenerationStep {
 
 	@Override
 	public Profile[] getProfiles() {
-		Profile[] profiles = new Profile[1];
-		
+		Profile[] profiles = new Profile[2];
+
 		Profile profile = POMFactory.eINSTANCE.createProfile();
 		profile.setId("jbossas-managed-6");
 		Activation activation = POMFactory.eINSTANCE.createActivation();
 		activation.setActiveByDefault(false);
 		profile.setActivation(activation);
-		
+
 		profile.setDependencies(POMFactory.eINSTANCE.createDependenciesType2());
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.arquillian.container");
@@ -427,7 +427,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setType("jar");
 		dependency.setScope("test");
 		profile.getDependencies().getDependency().add(dependency);
-		
+
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.jbossas");
 		dependency.setArtifactId("jboss-server-manager");
@@ -451,63 +451,87 @@ public class ProjectWarPomStep extends PomGenerationStep {
 
 		profile.setBuild(POMFactory.eINSTANCE.createBuildBase());
 		profile.getBuild().setTestResources(POMFactory.eINSTANCE.createTestResourcesType());
-		
+
 		Resource testResource = POMFactory.eINSTANCE.createResource();
 		testResource.setDirectory("src/test/resources");
 		profile.getBuild().getTestResources().getTestResource().add(testResource);
 		testResource = POMFactory.eINSTANCE.createResource();
 		testResource.setDirectory("src/test/resources-jbossas");
 		profile.getBuild().getTestResources().getTestResource().add(testResource);
-		
+
 		profile.getBuild().setPlugins(POMFactory.eINSTANCE.createPluginsType());
-		
-		
+
 		Plugin plugin = POMFactory.eINSTANCE.createPlugin();
 		plugin.setGroupId("org.apache.maven.plugins");
 		plugin.setArtifactId("maven-enforcer-plugin");
 		plugin.setVersion("1.0");
-		
+
 		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
 		PluginExecution pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		pluginExecution.setId("enforce-property");
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
-		pluginExecution.getGoals(). getGoal().add("enforce");
-		
+		pluginExecution.getGoals().getGoal().add("enforce");
+
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "rules");
-		anyType = addAnyElement(anyType.getAny(),"requireProperty");
-		addAnyElement(anyType.getAny(),"property", "jboss.home");
+		anyType = addAnyElement(anyType.getAny(), "requireProperty");
+		addAnyElement(anyType.getAny(), "property", "jboss.home");
 
 		addAnyElement(pluginExecution.getConfiguration().getAny(), "fail", "true");
-		
+
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
 
-		
 		plugin = POMFactory.eINSTANCE.createPlugin();
 		plugin.setGroupId("org.apache.maven.plugins");
 		plugin.setArtifactId("maven-surefire-plugin");
 		plugin.setVersion("2.7.1");
-		
+
 		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
 		addAnyElement(pluginExecution.getConfiguration().getAny(), "skip", "true");
-		
+
 		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		pluginExecution.setId("surefire-it");
 		pluginExecution.setPhase("integration-test");
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
-		pluginExecution.getGoals(). getGoal().add("test");
-		
+		pluginExecution.getGoals().getGoal().add("test");
+
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 		addAnyElement(pluginExecution.getConfiguration().getAny(), "skip", "false");
-		
+
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
-		
+
 		profiles[0] = profile;
+
+		profile = POMFactory.eINSTANCE.createProfile();
+		profile.setId("copy-war");
+		profile.setBuild(POMFactory.eINSTANCE.createBuildBase());
+		profile.getBuild().setPlugins(POMFactory.eINSTANCE.createPluginsType());
+
+		plugin = POMFactory.eINSTANCE.createPlugin();
+		plugin.setGroupId("org.apache.maven.plugins");
+		plugin.setArtifactId("maven-antrun-plugin");
+		plugin.setVersion("1.1");
+		plugin.setGoals(POMFactory.eINSTANCE.createGoalsType());
+		profile.getBuild().getPlugins().getPlugin().add(plugin);
+		addAnyElement(plugin.getGoals().getAny(), "goal", "run");
+
+		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
+		AnyType taskAnyType = addAnyElement(plugin.getConfiguration().getAny(), "tasks");
+		anyType = addAnyElement(taskAnyType.getAny(), "delete");
+		addAnyAttribute(anyType, "dir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war");
+		anyType = addAnyElement(taskAnyType.getAny(), "copy");
+		addAnyAttribute(anyType, "todir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war/");
+		anyType = addAnyElement(anyType.getAny(), "fileset");
+		addAnyAttribute(anyType, "dir", "target/${project.build.finalName}");
+		anyType = addAnyElement(anyType.getAny(), "include");
+		addAnyAttribute(anyType, "name", "**/*");
+
+		profiles[1] = profile;
 		return profiles;
-		
+
 	}
 
 }

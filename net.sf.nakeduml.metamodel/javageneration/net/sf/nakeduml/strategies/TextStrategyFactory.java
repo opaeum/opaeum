@@ -30,12 +30,17 @@ public class TextStrategyFactory extends AbstractStrategyFactory {
 
 		@Override
 		public String getDefaultStringValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
-			return "This is an extremely LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG clob";
+			return getDefaultStringValue();
 		}
 
 		@Override
 		public String parseConfiguredValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p, String configuredValue) {
 			return configuredValue;
+		}
+
+		@Override
+		public String getDefaultStringValue() {
+			return "This is an extremely LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG clob";
 		}
 	}
 	public static class MyTestValueStrategy implements TestValueStrategy{

@@ -34,7 +34,7 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 
 		@Override
 		public String getDefaultStringValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
-			return "2002-10-10";
+			return getDefaultStringValue();
 		}
 
 		@Override
@@ -43,12 +43,22 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 			return "dateTimeFormat.parse(" + configuredValue + ")";
 		}
 
+		@Override
+		public String getDefaultStringValue() {
+			return "2002-10-10";
+		}
+
 	}
 	public static class MyTestValueStrategy implements TestValueStrategy{
 
 		@Override
 		public String getDefaultValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
 			addSimpleDateFormat(owner,block);
+			return getDefaultValue();
+		}
+
+		@Override
+		public String getDefaultValue() {
 			return "dateTimeFormat.parse(\"2010-01-31\")";
 		}
 		

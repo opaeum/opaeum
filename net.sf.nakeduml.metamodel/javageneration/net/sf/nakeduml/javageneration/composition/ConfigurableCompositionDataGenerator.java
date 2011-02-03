@@ -1,16 +1,13 @@
 package net.sf.nakeduml.javageneration.composition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.enterprise.context.RequestScoped;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.JavaTextSource;
@@ -38,39 +35,26 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.name.NameConverter;
-import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.model.IEnumerationType;
 
 public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenerator {
 
 	private Map<String, String> properties = new HashMap<String, String>();
+	public Map<String, DataPopulatorPropertyEntry> propertiesMap = new HashMap<String, DataPopulatorPropertyEntry>();
 
 	@Override
 	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
 		super.initialize(workspace, javaModel, config, textWorkspace);
 	}
 
-	@VisitAfter
-	public void visit(INakedModel model) {
-		if (this.config.getDataGeneration()) {
-			// Out the properties file
-			Properties props = new Properties();
-			props.putAll(this.properties);
-			TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
-			List<String> path = Arrays.asList("data.generation.properties");
-			outputRoot.findOrCreateTextFile(path, new PropertiesSource(props));
-		}
-	}
-
 	@VisitBefore(matchSubclasses = true)
 	public void visit(INakedEntity entity) {
 
 		if (OJUtil.hasOJClass(entity) && !entity.getIsAbstract()) {
+			propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(entity.getName()+".name_0"));
 			OJAnnotatedClass testDataClass = new OJAnnotatedClass();
 			OJAnnotatedClass theClass = findJavaClass(entity);
 			testDataClass.setName(getTestDataName(entity));
@@ -104,11 +88,11 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		testDataClass.addToFields(propertyUtil);
 	}
 
-	private void addPopulateData(INakedEntity c, OJAnnotatedClass testDataClass, boolean forExport) {
+	private void addPopulateData(INakedEntity entity, OJAnnotatedClass testDataClass, boolean forExport) {
 		final String FUNCTION = forExport ? "export" : "populate";
 
 		OJAnnotatedOperation populate = new OJAnnotatedOperation();
-		populate.setName(FUNCTION + c.getMappingInfo().getJavaName());
+		populate.setName(FUNCTION + entity.getMappingInfo().getJavaName());
 		populate.setBody(new OJBlock());
 
 		OJField count = new OJField();
@@ -118,7 +102,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		populate.getBody().addToLocals(count);
 
 		OJBlock block;
-		INakedProperty parent = c.getEndToComposite();
+		INakedProperty parent = entity.getEndToComposite();
 		if (parent != null) {
 			OJParameter owner = new OJParameter();
 			owner.setName(parent.getMappingInfo().getJavaName().toString());
@@ -126,14 +110,14 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			OJPathName javaTypePath = map.javaTypePath();
 			owner.setType(javaTypePath);
 			populate.addToParameters(owner);
-			OJPathName instancePath = new OJPathName(c.getMappingInfo().getQualifiedJavaName());
+			OJPathName instancePath = new OJPathName(entity.getMappingInfo().getQualifiedJavaName());
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(parent.getOtherEnd());
 
 			if (otherMap.isMany()) {
 				if (forExport) {
 					populate.getBody().addToStatements(
 							"dataGeneratorProperty.putExportProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getName() + " + "\"."
-									+ c.getMappingInfo().getJavaName().getDecapped() + ".size\"," + parent.getMappingInfo().getJavaName().toString() + "."
+									+ entity.getMappingInfo().getJavaName().getDecapped() + ".size\"," + parent.getMappingInfo().getJavaName().toString() + "."
 									+ otherMap.getter() + "().size())");
 				}
 				OJForStatement forX = new OJForStatement();
@@ -147,7 +131,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				ifStatement.setThenPart(ifBlock);
 
 				OJField instance = new OJField();
-				instance.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
+				instance.setName(entity.getMappingInfo().getJavaName().getDecapped().toString());
 				instance.setType(instancePath);
 				instance.setInitExp("(" + instancePath.getLast() + ")iter");
 				ifBlock.addToLocals(instance);
@@ -161,7 +145,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 
 			} else {
 				OJField field = new OJField();
-				field.setName(NameConverter.decapitalize(c.getName()));
+				field.setName(NameConverter.decapitalize(entity.getName()));
 				field.setType(instancePath);
 				field.setInitExp("(" + instancePath.getLast() + ")" + parent.getMappingInfo().getJavaName().toString() + "." + otherMap.getter() + "()");
 				populate.getBody().addToLocals(field);
@@ -173,29 +157,29 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			}
 		} else {
 			OJParameter owner = new OJParameter();
-			owner.setName(c.getMappingInfo().getJavaName().getDecapped().toString());
-			OJPathName javaTypePath = new OJPathName(c.getMappingInfo().getQualifiedJavaName());
+			owner.setName(entity.getMappingInfo().getJavaName().getDecapped().toString());
+			OJPathName javaTypePath = new OJPathName(entity.getMappingInfo().getQualifiedJavaName());
 			owner.setType(javaTypePath);
 			populate.addToParameters(owner);
 			block = populate.getBody();
 
 			if (forExport) {
 				populate.getBody().addToStatements(
-						"dataGeneratorProperty.putExportProperty(\"" + c.getMappingInfo().getJavaName().getDecapped() + ".size\", 1)");
+						"dataGeneratorProperty.putExportProperty(\"" + entity.getMappingInfo().getJavaName().getDecapped() + ".size\", 1)");
 			}
 
 		}
 		testDataClass.addToOperations(populate);
 		if (forExport) {
-			populateSelf(testDataClass, c, block, true);
-			populateToOneOrManyToMany(testDataClass, c, block);
+			populateSelf(testDataClass, entity, block, true);
+			populateToOneOrManyToMany(testDataClass, entity, block);
 		} else {
-			populateSourcePopulationSelf(testDataClass, c, block);
+			populateSourcePopulationSelf(testDataClass, entity, block);
 		}
 
 		block.addToStatements(new OJSimpleStatement("count++"));
 
-		addPopulateChildren(c, testDataClass, block, forExport);
+		addPopulateChildren(entity, testDataClass, block, forExport);
 	}
 
 	private void populateToOneOrManyToMany(OJAnnotatedClass test, INakedEntity c, OJBlock populate) {
@@ -260,12 +244,12 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 						if (!(map.couldBasetypeBePersistent())) {
 							if (!forExport) {
 								String defaultValue = "";
-								int count = 0;
-								while (count < Integer.valueOf(config.getTestDataSize())) {
+//								int count = 0;
+//								while (count < Integer.valueOf(config.getTestDataSize())) {
 									defaultValue = calculateDefaultStringValue(testClass, populate, p);
-									addPropertyDefaultValueToPropertiesFile(entity, p, defaultValue, count);
-									count++;
-								}
+//									addPropertyDefaultValueToPropertiesFile(entity, p, defaultValue, count);
+//									count++;
+//								}
 								String str = calcConfiguredValue(testClass, populate, entity, p, defaultValue);
 								populate.addToStatements(entity.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.setter() + "(" + str + ")");
 							} else {
