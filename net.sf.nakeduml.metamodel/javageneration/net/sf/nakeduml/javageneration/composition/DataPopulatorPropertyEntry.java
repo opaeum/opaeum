@@ -22,6 +22,7 @@ public class DataPopulatorPropertyEntry {
 
 	public DataPopulatorPropertyEntry(String entityName) {
 		super();
+		this.level = 0;
 		this.entityName = entityName;
 	}
 
@@ -46,7 +47,7 @@ public class DataPopulatorPropertyEntry {
 		this.parent = parent;
 		if (parent != null) {
 			this.parent.children.add(this);
-			this.level = ++this.parent.level;
+			this.level = parent.level+1;
 		} else {
 			this.level = 0;
 		}
@@ -109,9 +110,16 @@ public class DataPopulatorPropertyEntry {
 		}
 	}
 	
-//	public static List<DataPopulatorPropertyEntry> getForLevel(DataPopulatorPropertyEntry node, int level) {
-//		
-//	}
+	public static void getForLevel(List<DataPopulatorPropertyEntry> result, DataPopulatorPropertyEntry node, int level) {
+		if (node.level==level) {
+			result.add(node);
+		} else {
+			List<DataPopulatorPropertyEntry> tempChildren = new ArrayList<DataPopulatorPropertyEntry>(node.getChildren());
+			for (DataPopulatorPropertyEntry child : tempChildren) {
+				getForLevel(result, child, level);
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		DataPopulatorPropertyEntry root = new DataPopulatorPropertyEntry("root");
@@ -127,13 +135,19 @@ public class DataPopulatorPropertyEntry {
 		child2.setParent(root);
 		DataPopulatorPropertyEntry child3 = new DataPopulatorPropertyEntry("child3");
 		child3.setParent(root);
+		
 //		DataPopulatorPropertyEntry copy = root.copy(null, "_1");
-		root.walk();
-		System.out.println("==========");
-		DataPopulatorPropertyEntry copy = root.walkAndCopy(null);
-		root.walk();
-		System.out.println("==========");
-		copy.walk();
+//		root.walk();
+//		System.out.println("==========");
+//		DataPopulatorPropertyEntry copy = root.walkAndCopy(null);
+//		root.walk();
+//		System.out.println("==========");
+//		copy.walk();
 
+		List<DataPopulatorPropertyEntry> level2 = new ArrayList<DataPopulatorPropertyEntry>(); 
+		getForLevel(level2,root,1);
+		for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : level2) {
+			System.out.println(dataPopulatorPropertyEntry.getEntityName());
+		}
 	}
 }
