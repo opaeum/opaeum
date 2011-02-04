@@ -47,6 +47,11 @@ public class TextStrategyFactory extends AbstractStrategyFactory {
 
 		@Override
 		public String getDefaultValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
+			return getDefaultValue();
+		}
+
+		@Override
+		public String getDefaultValue() {
 			return "\"This is an extremely LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG clob\"";
 		}
 		

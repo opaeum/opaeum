@@ -26,6 +26,7 @@ public class ExtendedCompositionSemantics extends AbstractJavaTransformationStep
 		FactoryMethodCreator fmc = new FactoryMethodCreator();
 		fmc.initialize(workspace, javaModel, config, textWorkspace);
 		fmc.startVisiting(workspace);
+		
 		ConfigurableCompositionDataGenerator sctdg = new ConfigurableCompositionDataGenerator();
 		sctdg.initialize(workspace, javaModel, config, textWorkspace);
 		sctdg.startVisiting(workspace);

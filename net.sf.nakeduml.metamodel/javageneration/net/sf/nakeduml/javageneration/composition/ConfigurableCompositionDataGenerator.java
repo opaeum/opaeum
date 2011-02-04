@@ -49,12 +49,11 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
 		super.initialize(workspace, javaModel, config, textWorkspace);
 	}
-
+	
 	@VisitBefore(matchSubclasses = true)
 	public void visit(INakedEntity entity) {
 
 		if (OJUtil.hasOJClass(entity) && !entity.getIsAbstract()) {
-			propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(entity.getName()+".name_0"));
 			OJAnnotatedClass testDataClass = new OJAnnotatedClass();
 			OJAnnotatedClass theClass = findJavaClass(entity);
 			testDataClass.setName(getTestDataName(entity));
@@ -242,14 +241,16 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				if (p.getInitialValue() == null && !isEndToComposite) {
 					if (map.isOne() && !(p.isDerived() || isReadOnly || p.isInverse())) {
 						if (!(map.couldBasetypeBePersistent())) {
+
+							INakedProperty parent = entity.getEndToComposite();
+							if (parent==null) {
+								propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(entity.getMappingInfo().getJavaName().getDecapped().toString()+".name_0"));
+							} else {
+								propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(parent.getOtherEnd().getMappingInfo().getJavaName().toString()+".name_0"));
+							}
 							if (!forExport) {
 								String defaultValue = "";
-//								int count = 0;
-//								while (count < Integer.valueOf(config.getTestDataSize())) {
-									defaultValue = calculateDefaultStringValue(testClass, populate, p);
-//									addPropertyDefaultValueToPropertiesFile(entity, p, defaultValue, count);
-//									count++;
-//								}
+								defaultValue = calculateDefaultStringValue(testClass, populate, p);
 								String str = calcConfiguredValue(testClass, populate, entity, p, defaultValue);
 								populate.addToStatements(entity.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.setter() + "(" + str + ")");
 							} else {

@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration.composition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,6 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
@@ -29,11 +29,11 @@ import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.model.IEnumerationType;
 
-public class ConfigurableCompositionPropertiesGenerator extends AbstractTestDataGenerator implements OutputProperties {
+public class ConfigurableCompositionPropertiesGenerator extends AbstractTestDataGenerator {
 
 	private Map<String, DataPopulatorPropertyEntry> propertiesMap = new HashMap<String, DataPopulatorPropertyEntry>();
 	private Properties props = new Properties();
-	
+
 	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace,
 			Map<String, DataPopulatorPropertyEntry> propertiesMap) {
 		super.initialize(workspace, javaModel, config, textWorkspace);
@@ -44,10 +44,19 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	public void visitBefore(INakedModel model) {
 		DataPopulatorPropertyEntry anyOne = this.propertiesMap.get(this.propertiesMap.keySet().iterator().next());
 		DataPopulatorPropertyEntry root = anyOne.getRoot();
-		//populate all the entries
-		root.walk(outputProperties);
-	}	
-	
+		// populate all the entries
+
+		List<DataPopulatorPropertyEntry> result = new ArrayList<DataPopulatorPropertyEntry>();
+		result.add(root);
+		DataPopulatorPropertyEntry.uhm2(result, 0, 2);
+		for (DataPopulatorPropertyEntry rootX : result) {
+			rootX.walk(this);
+		}
+		
+//		DataPopulatorPropertyEntry.walk(result,this);
+
+	}
+
 	@VisitAfter
 	public void visit(INakedModel model) {
 		if (this.config.getDataGeneration()) {
@@ -63,45 +72,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	public void outputProperties(String name, String value) {
 		props.put(name, value);
 	}
-	
-	@VisitBefore(matchSubclasses = true)
-	public void visit(INakedEntity entity) {
-		
-		for (INakedProperty f : entity.getEffectiveAttributes()) {
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(f);
-			boolean isReadOnly = (f instanceof INakedProperty && (f).isReadOnly());
-			if (f instanceof INakedProperty) {
-				INakedProperty p = f;
-				boolean isEndToComposite = p.getOtherEnd() != null && p.getOtherEnd().isComposite();
-				if (p.getInitialValue() == null && !isEndToComposite) {
-					if (map.isOne() && !(p.isDerived() || isReadOnly || p.isInverse())) {
-						if (!(map.couldBasetypeBePersistent())) {
-							String defaultValue = "";
-							int count = 0;
-							DataPopulatorPropertyEntry currentEntry = propertiesMap.get(entity.getName()+".name_0");
-							while (count < Integer.valueOf(config.getTestDataSize())) {
-								defaultValue = calculateDefaultStringValue(p);
-								
-								
-								if (currentEntry.isRoot()) {
-									if (p.getName().equals("name")) {
-										currentEntry.setValue(defaultValue); 
-									}
-								} else {
-									DataPopulatorPropertyEntry parentEntry = currentEntry.getParent();
-									DataPopulatorPropertyEntry currentEntry = propertiesMap.get(entity.getName()+"_name" + count);
-								}
-								
-								count++;
-							}
-						}
-					}
-				}
-			}
-		}
 
-	}
-	
 	private String calculateDefaultStringValue(INakedProperty f) {
 		if (f.getNakedBaseType() instanceof IEnumerationType) {
 			OJEnum javaType = (OJEnum) findJavaClass(f.getNakedBaseType());
@@ -125,8 +96,8 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			}
 		}
 		return "BLASDFASDFadsf";
-	}	
-	
+	}
+
 	protected String calculateDefaultValue(INakedProperty f) {
 		double value = Math.random() * 123456;
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
@@ -134,8 +105,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			if (baseType.hasStrategy(TestValueStrategy.class)) {
 				return baseType.getStrategy(TestValueStrategy.class).getDefaultValue();
-			} else if (workspace.getMappedTypes().getDateType() != null
-					&& f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getDateType())) {
+			} else if (workspace.getMappedTypes().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getDateType())) {
 				String javaDate = baseType.getMappingInfo().getQualifiedJavaName();
 				if (javaDate.equals("java.util.Date")) {
 					return "new Date()";
@@ -169,7 +139,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			return "\"" + f.getOwner().getName() + "::" + f.getName() + new Double(value).intValue() + "\"";
 		}
 	}// TODO read default values from tags in the model, either at property or
-	
+
 	protected String lookup(INakedProperty f) {
 		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
 		if (new NakedStructuralFeatureMap(f).isOneToOne()) {
@@ -177,7 +147,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 		} else {
 			return featureTest.getLast() + ".getInstance()";
 		}
-	}	
+	}
 
 	@Override
 	protected String getTestDataName(INakedClassifier child) {
