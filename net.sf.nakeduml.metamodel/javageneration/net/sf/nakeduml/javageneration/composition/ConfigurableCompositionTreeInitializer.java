@@ -38,6 +38,11 @@ public class ConfigurableCompositionTreeInitializer extends AbstractJavaProducin
 	}
 
 	private void populateSelf(INakedEntity entity) {
+		
+		INakedProperty nameProperty = entity.findEffectiveAttribute("name");
+		DataPopulatorPropertyEntry currentEntry = propertiesMap.get(entity.getName());
+		currentEntry.setProperty(nameProperty);
+		
 		for (INakedProperty f : entity.getEffectiveAttributes()) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(f);
 			boolean isReadOnly = (f instanceof INakedProperty && (f).isReadOnly());
@@ -47,9 +52,8 @@ public class ConfigurableCompositionTreeInitializer extends AbstractJavaProducin
 				if (p.getInitialValue() == null && !isEndToComposite) {
 					if (map.isOne() && !(p.isDerived() || isReadOnly || p.isInverse())) {
 						if (!(map.couldBasetypeBePersistent())) {
-							if (p.getName().equals("name")) {
-								DataPopulatorPropertyEntry currentEntry = propertiesMap.get(entity.getName());
-								currentEntry.setProperty(p);
+							if (!p.getName().equals("name")) {
+								currentEntry.addToOtherProperties(p);
 							}
 						}
 					}

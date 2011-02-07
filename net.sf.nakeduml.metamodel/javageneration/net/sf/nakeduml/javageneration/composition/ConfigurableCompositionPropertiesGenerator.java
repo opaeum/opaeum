@@ -44,29 +44,22 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	public void visitBefore(INakedModel model) {
 		DataPopulatorPropertyEntry anyOne = this.propertiesMap.get(this.propertiesMap.keySet().iterator().next());
 		DataPopulatorPropertyEntry root = anyOne.getRoot();
-		// populate all the entries
-
 		List<DataPopulatorPropertyEntry> result = new ArrayList<DataPopulatorPropertyEntry>();
 		result.add(root);
-		DataPopulatorPropertyEntry.uhm2(result, 0, 2);
+		DataPopulatorPropertyEntry.copyTreeRecursive(result, 0, 2);
 		for (DataPopulatorPropertyEntry rootX : result) {
 			rootX.walk(this);
 		}
-		
-//		DataPopulatorPropertyEntry.walk(result,this);
-
+		DataPopulatorPropertyEntry.walk(result, this);
 	}
 
 	@VisitAfter
 	public void visit(INakedModel model) {
 		if (this.config.getDataGeneration()) {
-			DataPopulatorPropertyEntry anyOne = this.propertiesMap.get(this.propertiesMap.keySet().iterator().next());
-			DataPopulatorPropertyEntry root = anyOne.getRoot();
-			root.walk(this);
+			TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
+			List<String> path = Arrays.asList("data.generation.properties");
+			outputRoot.findOrCreateTextFile(path, new PropertiesSource(props));
 		}
-		TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
-		List<String> path = Arrays.asList("data.generation.properties");
-		outputRoot.findOrCreateTextFile(path, new PropertiesSource(props));
 	}
 
 	public void outputProperties(String name, String value) {

@@ -79,7 +79,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setArtifactId("seam-persistence-impl");
 		dependency.setVersion("${seam.persistence.version}");
 		dependency.setScope("runtime");
-		dependency.setType("ejb");
+		dependency.setType("jar");
 		dependencies.add(dependency);
 
 		dependency = POMFactory.eINSTANCE.createDependency();
@@ -324,7 +324,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		Properties p = super.getProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
-		p.put("seam.persistence.version", "3.0.0.Beta2");
+		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
 		p.put("seam.solder.version", "3.0.0.Beta1");
 		p.put("seam.servlet.version", "3.0.0.Alpha3");
 		p.put("numl.version", "1.0.0.4-SNAPSHOT");

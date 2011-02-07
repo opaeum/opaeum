@@ -55,6 +55,7 @@ public class AbstractMavenProjectProcess {
 		mavenDirectories.genTestResourcesFolder = new File(outputRoot + "/src/test/generated-resources");
 		mavenDirectories.genTestResourcesFolder.mkdirs();
 		mavenDirectories.warRoot = new File(outputRoot);
+		mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
 		Properties props = new Properties();
 		InputStreamReader inStream = getInputStream(model, "properties");
 		if (inStream != null) {

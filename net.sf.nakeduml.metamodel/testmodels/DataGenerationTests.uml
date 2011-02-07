@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="datagenerationtest">
+  <elementImport xmi:id="_onV1ADCSEeCWzc6NLR9-uQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_onXqMDCSEeCWzc6NLR9-uQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <elementImport xmi:id="_onXqMTCSEeCWzc6NLR9-uQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_onXqMjCSEeCWzc6NLR9-uQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="DataGenerationTests">
+    <packagedElement xmi:type="uml:Package" xmi:id="_jAYMgDCSEeCWzc6NLR9-uQ" name="nakeduml">
+      <packagedElement xmi:type="uml:Class" xmi:id="_kazjIDCSEeCWzc6NLR9-uQ" name="Hand">
+        <ownedAttribute xmi:id="_pBs1wDCSEeCWzc6NLR9-uQ" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_sD95MDEcEeCWzc6NLR9-uQ" name="finger" type="_oYK84DEcEeCWzc6NLR9-uQ" aggregation="composite" association="_sEGcEDEcEeCWzc6NLR9-uQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sD95MTEcEeCWzc6NLR9-uQ" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sD95MjEcEeCWzc6NLR9-uQ"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_NlbP0DKgEeCk-tGxKLlMVw" name="other1">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_oYK84DEcEeCWzc6NLR9-uQ" name="Finger">
+        <ownedAttribute xmi:id="_pmg_UDEcEeCWzc6NLR9-uQ" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_RKmmwDKgEeCk-tGxKLlMVw" name="other2">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_sEGcEDEcEeCWzc6NLR9-uQ" name="A_&lt;hand>_&lt;finger>" memberEnd="_sEGcETEcEeCWzc6NLR9-uQ _sD95MDEcEeCWzc6NLR9-uQ" navigableOwnedEnd="_sEGcETEcEeCWzc6NLR9-uQ">
+        <ownedEnd xmi:id="_sEGcETEcEeCWzc6NLR9-uQ" name="hand" type="_kazjIDCSEeCWzc6NLR9-uQ" association="_sEGcEDEcEeCWzc6NLR9-uQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sEGcEjEcEeCWzc6NLR9-uQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sEGcEzEcEeCWzc6NLR9-uQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

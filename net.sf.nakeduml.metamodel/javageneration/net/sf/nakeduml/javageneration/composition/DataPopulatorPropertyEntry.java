@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.composition;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,25 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 public class DataPopulatorPropertyEntry {
 
 	private INakedProperty property;
+	//TODO refactor entityname to be 3 fields, name, name property and number
+	private String entityName;
+	private DataPopulatorPropertyEntry parent;
+	private List<DataPopulatorPropertyEntry> children = new ArrayList<DataPopulatorPropertyEntry>();
+	private String value;
+	private int level;
+	private boolean many = true;
+	List<INakedProperty> properties = new ArrayList<INakedProperty>();
 
+	public DataPopulatorPropertyEntry(String entityName) {
+		super();
+		this.level = 0;
+		this.entityName = entityName;
+	}
+	
+	public void addToOtherProperties(INakedProperty p) {
+		properties.add(p);
+	}
+	
 	public INakedProperty getProperty() {
 		return property;
 	}
@@ -19,13 +36,6 @@ public class DataPopulatorPropertyEntry {
 	public void setProperty(INakedProperty property) {
 		this.property = property;
 	}
-
-	private String entityName;
-	private DataPopulatorPropertyEntry parent;
-	private List<DataPopulatorPropertyEntry> children = new ArrayList<DataPopulatorPropertyEntry>();
-	private String value;
-	private int level;
-	private boolean many = true;
 
 	public boolean isMany() {
 		return many;
@@ -41,12 +51,6 @@ public class DataPopulatorPropertyEntry {
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public DataPopulatorPropertyEntry(String entityName) {
-		super();
-		this.level = 0;
-		this.entityName = entityName;
 	}
 
 	public String getEntityName() {
@@ -82,22 +86,33 @@ public class DataPopulatorPropertyEntry {
 	public void walk(ConfigurableCompositionPropertiesGenerator configurator) {
 		String defaultValue = configurator.calculateDefaultValue(this.property);
 		if (isRoot()) {
-			configurator.outputProperties(this.entityName, defaultValue);
+			configurator.outputProperties(this.entityName, defaultValue.substring(1,defaultValue.length()-1));
 		} else {
-			configurator.outputProperties(getParent().getValue() + "." + this.entityName, defaultValue);
+			configurator.outputProperties(getParent().getValue() + "." + this.entityName, defaultValue.substring(1,defaultValue.length()-1));
 		}
 		setValue(defaultValue.substring(1, defaultValue.length() - 1));
+		for (INakedProperty p : properties) {
+			String otherDefaultValue = configurator.calculateDefaultValue(this.property);
+			if (isRoot()) {
+				configurator.outputProperties(this.entityName.substring(0, this.entityName.length()-6) + p.getName() + this.entityName.substring(this.entityName.length()-2, this.entityName.length()), otherDefaultValue);
+			} else {
+				configurator.outputProperties(getParent().getValue() + "." + this.entityName.substring(0, this.entityName.length()-6) + p.getName() + this.entityName.substring(this.entityName.length()-2, this.entityName.length()), otherDefaultValue);
+			}
+		}
 		for (DataPopulatorPropertyEntry child : children) {
 			child.walk(configurator);
 		}
 	}
 
-	public static void walk(List<DataPopulatorPropertyEntry> roots, ConfigurableCompositionPropertiesGenerator configurator) {
-		for (DataPopulatorPropertyEntry root : roots) {
-			List<DataPopulatorPropertyEntry> distinctChildren = root.getDisctinctChildren();
-			for (DataPopulatorPropertyEntry child : distinctChildren) {
-				configurator.outputProperties(root.value+"."+child.entityName.substring(0, child.entityName.length()-7)+".size", "3");
+	public static void walk(List<DataPopulatorPropertyEntry> distinctRoots, ConfigurableCompositionPropertiesGenerator configurator) {
+		for (DataPopulatorPropertyEntry root : distinctRoots) {
+			if (root.isRoot()) {
+				configurator.outputProperties(root.entityName.substring(0,root.entityName.length()-7) + ".size", "3");
+			} else {
+				configurator.outputProperties(root.getParent().value + "." + root.entityName.substring(0, root.entityName.length() - 7) + ".size", "3");
 			}
+			List<DataPopulatorPropertyEntry> distinctChildren = root.getDisctinctChildren();
+			walk(distinctChildren, configurator);
 		}
 	}
 
@@ -123,6 +138,7 @@ public class DataPopulatorPropertyEntry {
 		DataPopulatorPropertyEntry copy = new DataPopulatorPropertyEntry(entityName);
 		copy.setParent(parent);
 		copy.setProperty(getProperty());
+		copy.properties=new ArrayList<INakedProperty>(this.properties);
 		List<DataPopulatorPropertyEntry> tempChildren = new ArrayList<DataPopulatorPropertyEntry>(children);
 		for (DataPopulatorPropertyEntry child : tempChildren) {
 			child.copy(copy);
@@ -184,17 +200,12 @@ public class DataPopulatorPropertyEntry {
 		DataPopulatorPropertyEntry child00 = new DataPopulatorPropertyEntry("child00.name0");
 		child00.setParent(child0);
 
-		// List<DataPopulatorPropertyEntry> result = new
-		// ArrayList<DataPopulatorPropertyEntry>();
-		// result.add(root0);
-		// uhm2(result, 0, 1);
-		// for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : result)
-		// {
-		// dataPopulatorPropertyEntry.walk();
-		// }
-
-		System.out.println(root0.getDepth());
-
+		List<DataPopulatorPropertyEntry> result = new ArrayList<DataPopulatorPropertyEntry>();
+		result.add(root0);
+		copyTreeRecursive(result, 0, 2);
+		for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : result) {
+			dataPopulatorPropertyEntry.walk();
+		}
 	}
 
 	public static List<DataPopulatorPropertyEntry> copyLevel(List<DataPopulatorPropertyEntry> levels, int numberOfCopies) {
@@ -212,7 +223,7 @@ public class DataPopulatorPropertyEntry {
 		return result;
 	}
 
-	public static void uhm2(List<DataPopulatorPropertyEntry> copiedLevel, int depth, int numberOfCopies) {
+	public static void copyTreeRecursive(List<DataPopulatorPropertyEntry> copiedLevel, int depth, int numberOfCopies) {
 		List<DataPopulatorPropertyEntry> result = new ArrayList<DataPopulatorPropertyEntry>();
 		for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : copiedLevel) {
 			dataPopulatorPropertyEntry.getForLevel(result, depth);
@@ -221,7 +232,7 @@ public class DataPopulatorPropertyEntry {
 			return;
 		}
 		result = copyLevel(result, numberOfCopies);
-		uhm2(result, ++depth, numberOfCopies);
+		copyTreeRecursive(result, ++depth, numberOfCopies);
 		if (depth == 1) {
 			copiedLevel.clear();
 			copiedLevel.addAll(result);

@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>numlcore</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.4-SNAPSHOT</version>
-	</parent>	
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>metamodel</artifactId>
@@ -69,7 +70,7 @@
 								<source>emf</source>
 								<source>detachment</source>
 								<source>strategies</source>
-<!--								<source>seamgeneration</source>-->
+								<!-- <source>seamgeneration</source> -->
 								<source>jbpm5metamodel</source>
 								<source>jbpm5generation</source>
 								<source>uigeneration</source>
@@ -213,11 +214,11 @@
 			<artifactId>cdi-api</artifactId>
 			<version>1.0-SP4</version>
 			<scope>compile</scope>
-		</dependency>		
-        <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-io</artifactId>
-        </dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>

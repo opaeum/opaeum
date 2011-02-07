@@ -59,8 +59,6 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			testDataClass.setName(getTestDataName(entity));
 			theClass.getMyPackage().addToClasses(testDataClass);
 
-			annotateClass(entity, testDataClass);
-
 			addChildrenFields(entity, testDataClass);
 			addPropertyUtil(testDataClass);
 			addCreate(entity, testDataClass);
@@ -71,11 +69,6 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			super.createTextPath(testDataClass, JavaTextSource.GEN_SRC);
 		}
 
-	}
-
-	private void annotateClass(INakedEntity c, OJAnnotatedClass testDataClass) {
-		OJAnnotationValue scope = new OJAnnotationValue(new OJPathName(RequestScoped.class.getName()));
-		testDataClass.putAnnotation(scope);
 	}
 
 	private void addPropertyUtil(OJAnnotatedClass testDataClass) {

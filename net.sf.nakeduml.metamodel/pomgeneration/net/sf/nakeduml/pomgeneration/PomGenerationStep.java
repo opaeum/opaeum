@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl;
 
 public abstract class PomGenerationStep implements TransformationStep {
 	protected NakedUmlConfig config;
@@ -46,6 +47,24 @@ public abstract class PomGenerationStep implements TransformationStep {
 		return new String[0];
 	}
 
+	public static boolean containsAnyElement(FeatureMap any, String elementName) {
+		for (FeatureMap.Entry entry : any) {
+			if (entry.getEStructuralFeature().getName().equals(elementName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void setAnyElement(FeatureMap any, String key, String property) {
+		for (FeatureMap.Entry entry : any) {
+			if (entry.getEStructuralFeature().getName().equals(key)) {
+				AnyTypeImpl value = (AnyTypeImpl) entry.getValue();
+				value.getMixed().set(0, FeatureMapUtil.createTextEntry(property));
+			}
+		}
+	}
+	
 	public static EStructuralFeature addAnyElement(FeatureMap any, String elementName, String content) {
 		EStructuralFeature sourceFeature = ExtendedMetaData.INSTANCE.demandFeature(null, elementName, true);
 		AnyType node = XMLTypeFactory.eINSTANCE.createAnyType();

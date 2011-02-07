@@ -90,12 +90,19 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	}
 
 	private void createProperties(PomGenerationStep step, DocumentRoot root) {
+		if (root.getProject().getProperties()==null) {
+			root.getProject().setProperties(POMFactory.eINSTANCE.createPropertiesType2());
+		}
 		Properties props = step.getProperties();
 	    @SuppressWarnings("rawtypes")
 		Enumeration e = props.propertyNames();
 	    while (e.hasMoreElements()) {
 	      String key = (String) e.nextElement();
-	      PomGenerationStep.addAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
+	      if (!PomGenerationStep.containsAnyElement(root.getProject().getProperties().getAny(), key)) {
+	    	  PomGenerationStep.addAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
+	      } else {
+	    	  PomGenerationStep.setAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
+	      }
 	    }
 	}
 

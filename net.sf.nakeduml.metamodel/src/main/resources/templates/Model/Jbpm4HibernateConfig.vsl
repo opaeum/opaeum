@@ -44,7 +44,7 @@
 
 #end
 
-	  <mapping class="net.sf.nakeduml.util.RevisionEntity"/>
+	    <mapping class="net.sf.nakeduml.util.RevisionEntity"/>
 
 #if($requiresAuditing)
 		<!--<event type="post-commit-insert">
