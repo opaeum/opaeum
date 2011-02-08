@@ -102,4 +102,8 @@ Export-Package: .,
  net.sf.nakeduml.validation.core,
  net.sf.nakeduml.validation.namegeneration,
  net.sf.nakeduml.visitor,
- org.apache.maven.pom
+ org.apache.maven.pom,
+ org.slf4j,
+ org.slf4j.helpers,
+ org.slf4j.impl,
+ org.slf4j.spi

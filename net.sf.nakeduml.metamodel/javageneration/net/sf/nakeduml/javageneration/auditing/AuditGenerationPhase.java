@@ -9,6 +9,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -22,6 +23,7 @@ public class AuditGenerationPhase implements TransformationPhase<AuditImplementa
 	INakedModelWorkspace workspace;
 	@InputModel
 	OJAnnotatedPackage javaModel;
+	
 
 	@Override
 	public void initialize(NakedUmlConfig config) {
@@ -30,9 +32,10 @@ public class AuditGenerationPhase implements TransformationPhase<AuditImplementa
 
 	@Override
 	public Object[] execute(List<AuditImplementationStep> features) {
+		OJPackage auditRoot = new OJPackage();
 		TransformationContext context = new TransformationContext();
 		for (AuditImplementationStep a : features) {
-			a.initialize(javaModel, config, textWorkspace);
+			a.initialize(javaModel, config, textWorkspace,auditRoot);
 			a.generate(workspace, context);
 		}
 		return new Object[] { javaModel };

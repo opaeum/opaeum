@@ -11,12 +11,14 @@ import net.sf.nakeduml.javametamodel.utilities.JavaUtil;
 
 public class OJAnnotatedField extends OJField implements OJAnnotatedElement {
 	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
-
+	private boolean isTransient=false;
 	public OJAnnotatedField(String string, OJPathName ojPathName) {
 		this.setName(string);
 		this.setType(ojPathName);
 	}
-
+	public void setTransient(boolean a){
+		this.isTransient=a;
+	}
 	public OJAnnotatedField() {
 		// TODO Auto-generated constructor stub
 	}
@@ -50,6 +52,9 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement {
 			sb.append("\n");
 		}
 		if (this.getOwner() != null) { // field is part of block statement
+			if(isTransient){
+				sb.append("transient ");
+			}
 			sb.append(visToJava(this));
 		}
 		if (sb.length() > 0) {

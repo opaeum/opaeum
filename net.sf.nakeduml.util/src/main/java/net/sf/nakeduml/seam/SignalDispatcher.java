@@ -28,7 +28,7 @@ import org.jboss.seam.transaction.Transaction;
 
 @Name("signalDispatcher")
 @Scope(ScopeType.EVENT)
-public class SignalDispatcher implements Synchronization {
+public class SignalDispatcher {
 	static SignalDispatcher mockInstance = null;
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
 	private boolean isRegistered;
@@ -55,7 +55,7 @@ public class SignalDispatcher implements Synchronization {
 	public void register() {
 		try {
 			if (Transaction.instance().isActive()) {
-				Transaction.instance().registerSynchronization(this);
+				Transaction.instance().registerSynchronization(new MySync());
 				isRegistered = true;
 			}
 		} catch (SystemException e) {
@@ -92,38 +92,40 @@ public class SignalDispatcher implements Synchronization {
 		return result;
 	}
 
-	// TODO currently happening outside of a transaction, move to inside a
-	// transaction but AFTER flush
-	@Override
-	public void afterCompletion(int arg0) {
-		isRegistered = false;
-		if (arg0 == Status.STATUS_COMMITTED) {
-			try {
-				// TODO make configurable
-				// NB!! Seam component management did not work in the
-				// afterCompletion context - the session was null
-				InitialContext initialContext = new InitialContext();
-				Queue queue = (Queue) initialContext.lookup("queue/SignalQueue");
-				XAConnectionFactory cf = (XAConnectionFactory) initialContext.lookup("/ConnectionFactory");
-				XAConnection connection = cf.createXAConnection();
-				Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-				MessageProducer producer = session.createProducer(queue);
-				for (SignalToDispatch s : signalsToDispatch) {
-					s.prepareForDispatch();
-					producer.send(session.createObjectMessage(s));
+	class MySync implements Synchronization {
+		// TODO currently happening outside of a transaction, move to inside a
+		// transaction but AFTER flush
+		@Override
+		public void afterCompletion(int arg0) {
+			isRegistered = false;
+			if (arg0 == Status.STATUS_COMMITTED) {
+				try {
+					// TODO make configurable
+					// NB!! Seam component management did not work in the
+					// afterCompletion context - the session was null
+					InitialContext initialContext = new InitialContext();
+					Queue queue = (Queue) initialContext.lookup("queue/SignalQueue");
+					XAConnectionFactory cf = (XAConnectionFactory) initialContext.lookup("/ConnectionFactory");
+					XAConnection connection = cf.createXAConnection();
+					Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+					MessageProducer producer = session.createProducer(queue);
+					for (SignalToDispatch s : signalsToDispatch) {
+						s.prepareForDispatch();
+						producer.send(session.createObjectMessage(s));
+					}
+					session.close();
+					connection.close();
+					reset();
+				} catch (JMSException e) {
+					throw new RuntimeException(e);
+				} catch (NamingException e) {
+					throw new RuntimeException(e);
 				}
-				session.close();
-				connection.close();
-				reset();
-			} catch (JMSException e) {
-				throw new RuntimeException(e);
-			} catch (NamingException e) {
-				throw new RuntimeException(e);
 			}
 		}
-	}
 
-	@Override
-	public void beforeCompletion() {
+		@Override
+		public void beforeCompletion() {
+		}
 	}
 }
