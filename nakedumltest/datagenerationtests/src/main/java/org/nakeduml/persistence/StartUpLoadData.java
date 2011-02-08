@@ -13,8 +13,8 @@ import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
 
-import datagenerationtest.datagenerationtests.nakeduml.Hand;
-import datagenerationtest.datagenerationtests.nakeduml.HandDataGenerator;
+import datagenerationtest.datagenerationtests.nakeduml.God;
+import datagenerationtest.datagenerationtests.nakeduml.GodDataGenerator;
 
 public class StartUpLoadData {
 
@@ -26,19 +26,18 @@ public class StartUpLoadData {
 	@Inject
 	private DataGeneratorProperty dataGeneratorProperty;
 	@Inject
-	private HandDataGenerator handDataGenerator;
+	private GodDataGenerator godDataGenerator;
 	 
 	public void onMessage(@Observes @Started WebApplication webapp) {
 		try {
 			transaction.begin();
-			Hand cmApplication = (Hand) session.createQuery("from Hand a where a.name = :name")
-					.setText("name", dataGeneratorProperty.getProperty("hand1.name_0")).uniqueResult();
-			if (cmApplication == null) {
-				List<Hand> hands;
-				hands = handDataGenerator.createHand();
-				for (Hand hand : hands) {
-					session.persist(hand);
-					handDataGenerator.populateHand(hand);
+			God thegod = (God) session.createQuery("from God a where a.name = :name")
+					.setText("name", dataGeneratorProperty.getProperty("god.name_0")).uniqueResult();
+			if (thegod == null) {
+				List<God> gods = godDataGenerator.createGod();
+				for (God god : gods) {
+					session.persist(god);
+					godDataGenerator.populateGod(god);
 				}
 				transaction.commit();
 			}

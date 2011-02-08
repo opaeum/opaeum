@@ -52,14 +52,13 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 	public static class MyTestValueStrategy implements TestValueStrategy{
 
 		@Override
-		public String getDefaultValue(OJAnnotatedClass owner, OJBlock block, INakedProperty p) {
-			addSimpleDateFormat(owner,block);
-			return getDefaultValue();
+		public String getDefaultValue() {
+			return "dateTimeFormat.parse(\"2010-01-31\")";
 		}
 
 		@Override
-		public String getDefaultValue() {
-			return "dateTimeFormat.parse(\"2010-01-31\")";
+		public void transformClass(OJAnnotatedClass owner, OJBlock block) {
+			addSimpleDateFormat(owner,block);
 		}
 		
 	}

@@ -50,15 +50,31 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	protected abstract String getTestDataName(INakedClassifier child);
 
 	protected String calculateDefaultValue(OJAnnotatedClass test, OJBlock block, INakedProperty f) {
-		double value = Math.random() * 123456;
+		String value  = calculateDefaultValue(f);
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			test.addToImports(new OJPathName((baseType).getMappingInfo().getQualifiedJavaName()));
 			if (baseType.hasStrategy(TestValueStrategy.class)) {
-				return baseType.getStrategy(TestValueStrategy.class).getDefaultValue(test, block, f);
-			} else if (workspace.getMappedTypes().getDateType() != null
-					&& f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getDateType())) {
+				baseType.getStrategy(TestValueStrategy.class).transformClass(test, block);
+			}
+		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
+			OJAnnotatedClass javaType = findJavaClass(f.getNakedBaseType());
+			test.addToImports(javaType.getPathName());
+		} else if (map.couldBasetypeBePersistent()) {
+			return lookup(test, f);
+		}
+		return value;
+	}
+	
+	public String calculateDefaultValue(INakedProperty f) {
+		double value = Math.random() * 123456;
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+		if (f.getNakedBaseType() instanceof INakedSimpleType) {
+			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
+			if (baseType.hasStrategy(TestValueStrategy.class)) {
+				return baseType.getStrategy(TestValueStrategy.class).getDefaultValue();
+			} else if (workspace.getMappedTypes().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getDateType())) {
 				String javaDate = baseType.getMappingInfo().getQualifiedJavaName();
 				if (javaDate.equals("java.util.Date")) {
 					return "new Date()";
@@ -83,24 +99,25 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			}
 			return "no TestValueStrategy found ";
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
-			OJAnnotatedClass javaType = findJavaClass(f.getNakedBaseType());
-			test.addToImports(javaType.getPathName());
 			return f.getNakedBaseType().getName() + ".values()[0]";
-
 		} else if (map.couldBasetypeBePersistent()) {
-			return lookup(test, f);
+			return lookup(f);
 		} else {
 			return "\"" + f.getOwner().getName() + "::" + f.getName() + new Double(value).intValue() + "\"";
 		}
-	}// TODO read default values from tags in the model, either at property or
-
-	protected String lookup(OJAnnotatedClass test, INakedProperty f) {
+	}
+	
+	protected String lookup(INakedProperty f) {
 		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
-		test.addToImports(featureTest);
 		if (new NakedStructuralFeatureMap(f).isOneToOne()) {
 			return featureTest.getLast() + ".createNew()";
 		} else {
 			return featureTest.getLast() + ".getInstance()";
 		}
+	}
+	protected String lookup(OJAnnotatedClass test, INakedProperty f) {
+		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
+		test.addToImports(featureTest);
+		return lookup(f);
 	}
 }

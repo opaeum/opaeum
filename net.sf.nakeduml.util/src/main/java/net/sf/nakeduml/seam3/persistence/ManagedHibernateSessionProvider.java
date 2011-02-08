@@ -25,12 +25,9 @@ import java.io.Serializable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.jboss.seam.persistence.FlushModeManager;
-import org.jboss.seam.persistence.FlushModeType;
 import org.jboss.seam.persistence.SeamManaged;
 
 @ApplicationScoped

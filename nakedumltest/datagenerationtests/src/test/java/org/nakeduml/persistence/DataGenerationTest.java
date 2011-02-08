@@ -31,7 +31,7 @@ import org.nakeduml.arquillian.ArtifactNames;
 import org.nakeduml.arquillian.MavenArtifactResolver;
 
 @RunWith(Arquillian.class)
-public class ManagedHibernateSessionTest extends ManagedHibernateSessionTestBase
+public class DataGenerationTest extends DataGenerationTestBase
 {
    @Deployment
    public static Archive<?> createTestArchive()

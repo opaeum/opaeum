@@ -92,7 +92,7 @@ public class DataPopulatorPropertyEntry {
 		}
 		setValue(defaultValue.substring(1, defaultValue.length() - 1));
 		for (INakedProperty p : properties) {
-			String otherDefaultValue = configurator.calculateDefaultValue(this.property);
+			String otherDefaultValue = configurator.calculateDefaultValue(p);
 			if (isRoot()) {
 				configurator.outputProperties(this.entityName.substring(0, this.entityName.length()-6) + p.getName() + this.entityName.substring(this.entityName.length()-2, this.entityName.length()), otherDefaultValue);
 			} else {

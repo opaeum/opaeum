@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
-
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
