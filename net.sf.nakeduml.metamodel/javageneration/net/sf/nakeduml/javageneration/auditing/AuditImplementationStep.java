@@ -22,9 +22,11 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 @StepDependency(phase = AuditGenerationPhase.class, requires = {})
 public class AuditImplementationStep extends AbstractJavaTransformationStep {
-	@Override
-	public void initialize(OJPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace) {
+	protected OJPackage newRoot;
+
+	public void initialize(OJPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace, OJPackage newRoot) {
 		super.initialize(pac, config, textWorkspace);
+		this.newRoot=newRoot;
 	}
 
 	public static final class OJVisitor extends VisitorAdapter<OJElement, OJPackage> {
@@ -62,12 +64,9 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		timestampAdder.initialize(workspace, javaModel, config, textWorkspace);
 		timestampAdder.startVisiting(workspace);
 		// Make copies of the root packages just below the model package
-		OJPackage newRoot = new OJPackage();
-		Set<OJPackage> rootCopies = new HashSet<OJPackage>();
 		Set<OJPackage> packages = this.javaModel.getSubpackages();
 		for (OJPackage ojPackage : packages) {
 			OJPackage deepCopy = ojPackage.getDeepCopy(null);
-			rootCopies.add(deepCopy);
 			deepCopy.setParent(newRoot);
 		}
 		// This next section must be here in the middle.

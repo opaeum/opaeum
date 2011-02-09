@@ -19,4 +19,6 @@ public abstract class AbstractJavaTransformationStep implements TransformationSt
 	}
 
 	public abstract void generate(INakedModelWorkspace workspace, TransformationContext context);
+
+
 }

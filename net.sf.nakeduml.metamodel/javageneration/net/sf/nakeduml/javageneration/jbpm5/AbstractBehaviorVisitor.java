@@ -114,6 +114,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		ojBehavior.addToImports(Jbpm5Util.getJbpmKnowledgeSession());
 		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, "processInstance",
 				new OJPathName("WorkflowProcessInstance"), true);
+		processInstanceField.setTransient(true);
 		if (persistent) {
 			OJAnnotatedField processInstanceIdField = OJUtil.addProperty(ojBehavior, "processInstanceId", new OJPathName("Long"), true);
 			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));

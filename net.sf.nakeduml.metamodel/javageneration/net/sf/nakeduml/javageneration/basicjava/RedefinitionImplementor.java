@@ -20,13 +20,12 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 
-//TODO if the property is not derived, remove the field 
-//TODO replace references to the field with the redefining field's getter
-//TODO downcast parameters to the correct type 
 public class RedefinitionImplementor extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void property(INakedProperty p) {
-		visitProperty(p.getOwner(), p);
+		if(!(p.getOwner() instanceof INakedInterface)){
+			visitProperty(p.getOwner(), p);
+		}
 	}
 
 	@VisitBefore(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class })
@@ -108,7 +107,7 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	public OJPathName getRawType(OJPathName pathName) {
+	private OJPathName getRawType(OJPathName pathName) {
 		OJPathName collectionType = pathName.getDeepCopy();
 		collectionType.removeAllFromElementTypes();
 		return collectionType;
@@ -126,7 +125,7 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	public void suppressTypeChecks(OJAnnotatedOperation o) {
+	private void suppressTypeChecks(OJAnnotatedOperation o) {
 		OJAnnotationValue suppress = new OJAnnotationValue(new OJPathName("SuppressWarnings"), "unchecked");
 		suppress.addStringValue("rawtypes");
 		o.putAnnotation(suppress);

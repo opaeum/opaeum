@@ -51,19 +51,15 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		operationAnnotator.startVisiting(workspace);
 
 
-//		AnotherInterfaceAttributeImplementor aiai = new AnotherInterfaceAttributeImplementor();
-//		aiai.initialize(workspace, javaModel, config, textWorkspace);
-//		aiai.startVisiting(workspace);
-		
 		ToXmlStringBuilder txsb = new ToXmlStringBuilder();
 		txsb.initialize(workspace, javaModel, config, textWorkspace);
 		txsb.startVisiting(workspace);
+		
 		ToStringBuilder tsb = new ToStringBuilder();
 		tsb.initialize(workspace, javaModel, config, textWorkspace);
 		tsb.startVisiting(workspace);
-		// ImplementedInterfacesGenerator implementedInterfacesAdder = new
-		// ImplementedInterfacesGenerator(javaModel);
-		// umlModel.accept(implementedInterfacesAdder);
+
+		
 		EnumerationLiteralImplementor eli = new EnumerationLiteralImplementor();
 		eli.initialize(workspace, javaModel, config, textWorkspace);
 		eli.startVisiting(workspace);
@@ -75,6 +71,11 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		HierarchicalSourcePopulationImplementor hsi = new HierarchicalSourcePopulationImplementor();
 		hsi.initialize(workspace, javaModel, config, textWorkspace);
 		hsi.startVisiting(workspace);
-		
+
+		HashcodeBuilder hcb = new HashcodeBuilder();
+		hcb.initialize(workspace, javaModel, config, textWorkspace);
+		hcb.startVisiting(workspace);
+
+
 	}
 }

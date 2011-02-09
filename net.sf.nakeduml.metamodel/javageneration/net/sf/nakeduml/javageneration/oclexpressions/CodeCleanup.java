@@ -72,7 +72,7 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 			ojClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
 			OJOperation o = OJUtil.findOperation(ojClass, "hashCode");
 			if(o != null){
-				ojClass.removeFromOperations(o);
+//				ojClass.removeFromOperations(o);
 			}
 		}
 	}
