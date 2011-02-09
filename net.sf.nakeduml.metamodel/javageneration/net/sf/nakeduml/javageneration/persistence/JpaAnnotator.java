@@ -349,10 +349,12 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		if (equals == null) {
 			equals = new OJAnnotatedOperation();
 			ojClass.addToOperations(equals);
+			equals.setName("equals");
+		}else{
+			equals.removeAllFromParameters();
+			equals.setBody(new OJBlock());
 		}
-		equals.setName("equals");
 		equals.addParam("o", new OJPathName("Object"));
-		equals.setBody(new OJBlock());
 		equals.setReturnType(new OJPathName("boolean"));
 		OJIfStatement ifThis = new OJIfStatement("this==o", "return true");
 		OJIfStatement ifNotInstance = new OJIfStatement("!(o instanceof " + ojClass.getName() + ")", "return false");

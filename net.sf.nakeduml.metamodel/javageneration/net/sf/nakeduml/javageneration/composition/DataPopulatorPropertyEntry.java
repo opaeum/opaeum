@@ -5,30 +5,58 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public class DataPopulatorPropertyEntry {
 
 	private INakedProperty property;
-	//TODO refactor entityname to be 3 fields, name, name property and number
+	// TODO refactor entityname to be 3 fields, name, name property and number
 	private String entityName;
+	private String entityQualifiedName;
 	private DataPopulatorPropertyEntry parent;
 	private List<DataPopulatorPropertyEntry> children = new ArrayList<DataPopulatorPropertyEntry>();
 	private String value;
 	private int level;
 	private boolean many = true;
+	private boolean isOne = false;
+	private String oneValue = "";
+	private String oneName = "";
 	List<INakedProperty> properties = new ArrayList<INakedProperty>();
 
-	public DataPopulatorPropertyEntry(String entityName) {
+	public DataPopulatorPropertyEntry(String entityQualifiedName, String entityName) {
 		super();
 		this.level = 0;
 		this.entityName = entityName;
+		this.entityQualifiedName = entityQualifiedName;
+	}
+
+	public DataPopulatorPropertyEntry(String entityQualifiedName, String entityName, boolean isOne, String oneName, String oneValue) {
+		super();
+		this.isOne = isOne;
+		this.oneName = oneName;
+		this.oneValue = oneValue;
+		this.level = 0;
+		this.entityName = entityName;
+		this.entityQualifiedName = entityQualifiedName;
 	}
 	
+	public String getEntityQualifiedName() {
+		return entityQualifiedName;
+	}
+
+	public String getOneValue() {
+		return oneValue;
+	}
+
+	public void setOneValue(String oneValue) {
+		this.oneValue = oneValue;
+	}
+
 	public void addToOtherProperties(INakedProperty p) {
 		properties.add(p);
 	}
-	
+
 	public INakedProperty getProperty() {
 		return property;
 	}
@@ -83,36 +111,48 @@ public class DataPopulatorPropertyEntry {
 		this.children = children;
 	}
 
-	public void walk(ConfigurableCompositionPropertiesGenerator configurator) {
+	public void outputCompositeProperties(ConfigurableCompositionPropertiesGenerator configurator) {
 		String defaultValue = configurator.calculateDefaultValue(this.property);
 		if (isRoot()) {
-			configurator.outputProperties(this.entityName, defaultValue.substring(1,defaultValue.length()-1));
+			configurator.outputProperties(this.entityName, defaultValue.substring(1, defaultValue.length() - 1));
 		} else {
-			configurator.outputProperties(getParent().getValue() + "." + this.entityName, defaultValue.substring(1,defaultValue.length()-1));
+			configurator.outputProperties(getParent().getValue() + "." + this.entityName, defaultValue.substring(1, defaultValue.length() - 1));
 		}
 		setValue(defaultValue.substring(1, defaultValue.length() - 1));
 		for (INakedProperty p : properties) {
 			String otherDefaultValue = configurator.calculateDefaultValue(p);
 			if (isRoot()) {
-				configurator.outputProperties(this.entityName.substring(0, this.entityName.length()-6) + p.getName() + this.entityName.substring(this.entityName.length()-2, this.entityName.length()), otherDefaultValue);
+				configurator.outputProperties(
+						this.entityName.substring(0, this.entityName.length() - 6) + p.getName()
+								+ this.entityName.substring(this.entityName.length() - 2, this.entityName.length()), otherDefaultValue);
 			} else {
-				configurator.outputProperties(getParent().getValue() + "." + this.entityName.substring(0, this.entityName.length()-6) + p.getName() + this.entityName.substring(this.entityName.length()-2, this.entityName.length()), otherDefaultValue);
+				configurator.outputProperties(getParent().getValue() + "." + this.entityName.substring(0, this.entityName.length() - 6) + p.getName()
+						+ this.entityName.substring(this.entityName.length() - 2, this.entityName.length()), otherDefaultValue);
 			}
 		}
 		for (DataPopulatorPropertyEntry child : children) {
-			child.walk(configurator);
+			child.outputCompositeProperties(configurator);
 		}
 	}
 
-	public static void walk(List<DataPopulatorPropertyEntry> distinctRoots, ConfigurableCompositionPropertiesGenerator configurator) {
+	public void outputToOneProperties(ConfigurableCompositionPropertiesGenerator configurator) {
+		if (isOne) {
+			configurator.outputProperties(value + "." + oneName, oneValue);
+		}
+		for (DataPopulatorPropertyEntry child : children) {
+			child.outputToOneProperties(configurator);
+		}
+	}
+	
+	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> distinctRoots, ConfigurableCompositionPropertiesGenerator configurator) {
 		for (DataPopulatorPropertyEntry root : distinctRoots) {
 			if (root.isRoot()) {
-				configurator.outputProperties(root.entityName.substring(0,root.entityName.length()-7) + ".size", "3");
+				configurator.outputProperties(root.entityName.substring(0, root.entityName.length() - 7) + ".size", "3");
 			} else {
 				configurator.outputProperties(root.getParent().value + "." + root.entityName.substring(0, root.entityName.length() - 7) + ".size", "3");
 			}
 			List<DataPopulatorPropertyEntry> distinctChildren = root.getDisctinctChildren();
-			walk(distinctChildren, configurator);
+			outputSizeProperties(distinctChildren, configurator);
 		}
 	}
 
@@ -135,10 +175,10 @@ public class DataPopulatorPropertyEntry {
 	}
 
 	public DataPopulatorPropertyEntry copy(DataPopulatorPropertyEntry parent) {
-		DataPopulatorPropertyEntry copy = new DataPopulatorPropertyEntry(entityName);
+		DataPopulatorPropertyEntry copy = new DataPopulatorPropertyEntry(entityQualifiedName, entityName);
 		copy.setParent(parent);
 		copy.setProperty(getProperty());
-		copy.properties=new ArrayList<INakedProperty>(this.properties);
+		copy.properties = new ArrayList<INakedProperty>(this.properties);
 		List<DataPopulatorPropertyEntry> tempChildren = new ArrayList<DataPopulatorPropertyEntry>(children);
 		for (DataPopulatorPropertyEntry child : tempChildren) {
 			child.copy(copy);
@@ -189,15 +229,15 @@ public class DataPopulatorPropertyEntry {
 	}
 
 	public static void main(String[] args) {
-		DataPopulatorPropertyEntry root0 = new DataPopulatorPropertyEntry("root0.name0");
-		DataPopulatorPropertyEntry child0 = new DataPopulatorPropertyEntry("child0.name0");
+		DataPopulatorPropertyEntry root0 = new DataPopulatorPropertyEntry(null, "root0.name0");
+		DataPopulatorPropertyEntry child0 = new DataPopulatorPropertyEntry(null, "child0.name0");
 		child0.setParent(root0);
-		DataPopulatorPropertyEntry child1 = new DataPopulatorPropertyEntry("child1.name0");
+		DataPopulatorPropertyEntry child1 = new DataPopulatorPropertyEntry(null, "child1.name0");
 		child1.setMany(false);
 		child1.setParent(root0);
-		DataPopulatorPropertyEntry child2 = new DataPopulatorPropertyEntry("child2.name0");
+		DataPopulatorPropertyEntry child2 = new DataPopulatorPropertyEntry(null, "child2.name0");
 		child2.setParent(root0);
-		DataPopulatorPropertyEntry child00 = new DataPopulatorPropertyEntry("child00.name0");
+		DataPopulatorPropertyEntry child00 = new DataPopulatorPropertyEntry(null, "child00.name0");
 		child00.setParent(child0);
 
 		List<DataPopulatorPropertyEntry> result = new ArrayList<DataPopulatorPropertyEntry>();
@@ -238,6 +278,33 @@ public class DataPopulatorPropertyEntry {
 			copiedLevel.addAll(result);
 		}
 
+	}
+
+	public void getEntityInstances(List<DataPopulatorPropertyEntry> entities, String entityQualifiedName) {
+		if (this.entityQualifiedName.equals(entityQualifiedName)) {
+			entities.add(this);
+		} else {
+			List<DataPopulatorPropertyEntry> tempChildren = new ArrayList<DataPopulatorPropertyEntry>(this.getChildren());
+			for (DataPopulatorPropertyEntry child : tempChildren) {
+				child.getEntityInstances(entities, entityQualifiedName);
+			}
+		}
+	}
+
+	public DataPopulatorPropertyEntry getCommonAncestor(DataPopulatorPropertyEntry one) {
+		if (entityQualifiedName.equals(one.entityQualifiedName)) {
+			return this;
+		} else {
+			if (parent != null && one.parent != null) {
+				return parent.getCommonAncestor(one.parent);
+			} else if (parent != null && one.parent == null) {
+				return parent.getCommonAncestor(one);
+			} else if (parent == null && one.parent != null) {
+				return getCommonAncestor(one.parent);
+			} else {
+				return null;
+			}
+		}
 	}
 
 }

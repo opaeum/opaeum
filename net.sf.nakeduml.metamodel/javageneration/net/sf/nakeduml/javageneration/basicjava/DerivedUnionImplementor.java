@@ -39,7 +39,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 	}
 
 	private void visitProperty(INakedClassifier owner, INakedProperty p) {
-		if (p.isNavigable()) {
+		if (p.isNavigable() && !(owner instanceof INakedInterface)) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 			OJClass c = findJavaClass(owner);
 			if (p.isDerivedUnion()) {
@@ -51,11 +51,6 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	@VisitAfter(matchSubclasses = true)
-	public void visitFeature(INakedEntity entity) {
-		for (INakedProperty p : entity.getEffectiveAttributes()) {
-		}
-	}
 /**
  * Ensures that a derived union is implemented for properties inherited from interfaces
  * @param entity

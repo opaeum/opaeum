@@ -235,9 +235,9 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 
 							INakedProperty parent = entity.getEndToComposite();
 							if (parent==null) {
-								propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(entity.getMappingInfo().getJavaName().getDecapped().toString()+".name_0"));
+								propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(entity.getMappingInfo().getQualifiedJavaName(), entity.getMappingInfo().getJavaName().getDecapped().toString()+".name_0"));
 							} else {
-								propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(parent.getOtherEnd().getMappingInfo().getJavaName().toString()+".name_0"));
+								propertiesMap.put(entity.getName(), new DataPopulatorPropertyEntry(entity.getMappingInfo().getQualifiedJavaName(), parent.getOtherEnd().getMappingInfo().getJavaName().toString()+".name_0"));
 							}
 							if (!forExport) {
 								String defaultValue = "";

@@ -52,6 +52,7 @@ abstract public class OJElementGEN {
 	public void setName(String element) {
 		if ( f_name != element ) {
 			f_name = element;
+
 		}
 	}
 	

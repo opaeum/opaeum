@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/junit-4.8.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-persistence-jpa-5.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jboss-logging-3.0.0.Beta4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-api-3.0.0.Beta2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.0-SP4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jboss-jms-api_1.1_spec-1.0.0.Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb-api_3.1_spec-1.0.0.Final.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/mail-1.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.SNAPSHOT.jar" sourcepath="/drools-persistence-jpa"/>
 	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javaee-api-5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-seam-2.2.0.GA.jar" sourcepath="/home/ampie/.m2/repository/org/jboss/seam/jboss-seam/2.2.0.GA/jboss-seam-2.2.0.GA-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.20101016.013225-334.jar" sourcepath="/home/ampie/.m2/repository/org/drools/drools-api/5.2.0.SNAPSHOT/drools-api-5.2.0.SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.20101016.013225-332.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.0-SNAPSHOT.jar" sourcepath="/jbpm-flow"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.3.2.GA.jar" sourcepath="/home/ampie/.m2/repository/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-annotations-3.4.0.GA.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

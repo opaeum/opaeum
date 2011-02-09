@@ -1,5 +1,6 @@
 package org.nakeduml.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,6 +67,8 @@ public class DataGenerationTestBase {
 		// The startup creates 3 objects
 		Assert.assertEquals(3, gods.size());
 		
+		List<Ring> rings = new ArrayList<Ring>();
+		
 		List<Hand> hands = session.createQuery("select h from Hand h").list();
 		Assert.assertEquals(9, hands.size());
 		for (Hand hand : hands) {
@@ -73,7 +76,13 @@ public class DataGenerationTestBase {
 			Assert.assertNotSame("",hand.getName());
 			Assert.assertNotNull(hand.getOther1());
 			Assert.assertNotSame("",hand.getOther1());
+			for (Finger finger: hand.getFinger()) {
+				if (finger.getRing()!=null) {
+					rings.add(finger.getRing());
+				}
+			}
 		}
+		Assert.assertEquals(9, rings.size());
 	}
 
 }

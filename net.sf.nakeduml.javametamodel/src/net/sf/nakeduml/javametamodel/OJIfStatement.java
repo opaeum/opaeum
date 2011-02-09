@@ -88,7 +88,8 @@ public class OJIfStatement extends OJIfStatementGEN {
 			String className = pathName.getNames().get(pathName.getNames().size() - 1);
 			String condition = getCondition();
 			if (condition.contains(" " + className + ")") || condition.contains(" " + className + " ")
-					|| condition.contains(" " + className + "&&") || condition.contains("(" + className + ")")) {
+					|| condition.contains(" " + className + "&&") || condition.contains("(" + className + ")")
+					|| condition.endsWith(" " + className)) {
 				condition = condition.replace(className, className + newName);
 			}
 			setCondition(condition);

@@ -78,12 +78,12 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_5VytgDM-EeCAGvdv9IjrAA" name="A_&lt;finger>_&lt;ring>" memberEnd="_5VytgTM-EeCAGvdv9IjrAA _5VythDM-EeCAGvdv9IjrAA" navigableOwnedEnd="_5VytgTM-EeCAGvdv9IjrAA _5VythDM-EeCAGvdv9IjrAA">
         <ownedEnd xmi:id="_5VytgTM-EeCAGvdv9IjrAA" name="finger" type="_oYK84DEcEeCWzc6NLR9-uQ" association="_5VytgDM-EeCAGvdv9IjrAA">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5VytgjM-EeCAGvdv9IjrAA" value="*"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5VytgjM-EeCAGvdv9IjrAA" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5VytgzM-EeCAGvdv9IjrAA"/>
         </ownedEnd>
         <ownedEnd xmi:id="_5VythDM-EeCAGvdv9IjrAA" name="ring" type="_0XNM4DLsEeCAGvdv9IjrAA" association="_5VytgDM-EeCAGvdv9IjrAA">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5VythTM-EeCAGvdv9IjrAA" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5VythjM-EeCAGvdv9IjrAA"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5VythjM-EeCAGvdv9IjrAA" value="1"/>
         </ownedEnd>
       </packagedElement>
     </packagedElement>

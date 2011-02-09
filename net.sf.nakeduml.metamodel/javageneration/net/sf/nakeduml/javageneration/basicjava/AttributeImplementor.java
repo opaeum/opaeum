@@ -154,7 +154,7 @@ public class AttributeImplementor extends StereotypeAnnotator {
 			if (p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				buildSetter(owner, map);
-				buildField(owner, map);
+				buildField(owner, map).setTransient(true);
 				OJOperation getter = buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
 				if (p.getNakedBaseType().hasTaggedValue(StereotypeNames.HELPER, "name")) {
