@@ -39,6 +39,7 @@ public class StartUpLoadData {
 					session.persist(god);
 					godDataGenerator.populateGod(god);
 				}
+				session.flush();
 				transaction.commit();
 			}
 		} catch (Exception e) {

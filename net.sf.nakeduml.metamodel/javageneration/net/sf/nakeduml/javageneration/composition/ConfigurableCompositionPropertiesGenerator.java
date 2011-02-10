@@ -93,6 +93,13 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 											DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(needsOne.getEntityQualifiedName(), needsOne.getEntityName(), true, f.getMappingInfo().getJavaName().getAsIs(), one.getValue());
 											newOne.setValue(needsOne.getValue());
 											newOne.setParent(needsOne.getParent());
+											
+											if (needsOne.getParent().getParent().getValue().equals(one.getParent().getValue())) {
+												System.out.println("SSSSSSSSSSSSSSS");
+											} else {
+												System.out.println("WWWWWWWWWWWWWWW");
+											}
+											
 											break;
 										}
 									}
@@ -119,6 +126,9 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	}
 
 	public void outputProperties(String name, String value) {
+		if (props.get(name)!=null) {
+			System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+		}
 		props.put(name, value);
 	}
 

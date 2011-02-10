@@ -144,15 +144,16 @@ public class DataPopulatorPropertyEntry {
 		}
 	}
 	
-	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> distinctRoots, ConfigurableCompositionPropertiesGenerator configurator) {
-		for (DataPopulatorPropertyEntry root : distinctRoots) {
-			if (root.isRoot()) {
-				configurator.outputProperties(root.entityName.substring(0, root.entityName.length() - 7) + ".size", "3");
-			} else {
-				configurator.outputProperties(root.getParent().value + "." + root.entityName.substring(0, root.entityName.length() - 7) + ".size", "3");
+	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> nodes, ConfigurableCompositionPropertiesGenerator configurator) {
+		for (DataPopulatorPropertyEntry node : nodes) {
+			if (node.isRoot()) {
+				configurator.outputProperties(node.entityName.substring(0, node.entityName.length() - 7) + ".size", "3");
 			}
-			List<DataPopulatorPropertyEntry> distinctChildren = root.getDisctinctChildren();
-			outputSizeProperties(distinctChildren, configurator);
+			List<DataPopulatorPropertyEntry> distinctChildren = node.getDisctinctChildren();
+			for (DataPopulatorPropertyEntry child : distinctChildren) {
+				configurator.outputProperties(child.getParent().value + "." + child.entityName.substring(0, child.entityName.length() - 7) + ".size", "3");
+			}
+			outputSizeProperties(node.getChildren(), configurator);
 		}
 	}
 
@@ -292,7 +293,7 @@ public class DataPopulatorPropertyEntry {
 	}
 
 	public DataPopulatorPropertyEntry getCommonAncestor(DataPopulatorPropertyEntry one) {
-		if (entityQualifiedName.equals(one.entityQualifiedName)) {
+		if (entityQualifiedName.equals(one.entityQualifiedName) && value.equals(one.value)) {
 			return this;
 		} else {
 			if (parent != null && one.parent != null) {
