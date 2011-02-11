@@ -543,22 +543,26 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		javaTypes.add("int");
 		javaTypes.add("Boolean");
 		javaTypes.add("boolean");
+		javaTypes.add("Date");
 		List<OJField> fields = c.getFields();
 		for (OJField ojField : fields) {
+			boolean foundMap = false;
 
 			NakedStructuralFeatureMap map = null;
 			for (INakedProperty attr : classifier.getOwnedAttributes()) {
 				map = new NakedStructuralFeatureMap(attr);
 				if (map.umlName().equals(ojField.getName())) {
-					String javaType = ojField.getType().getLast();
-					if (javaTypes.contains(javaType)) {
-						OJOperation setter = findMethodIgnorecase(c, map.setter());
-						OJOperation getter = findMethodIgnorecase(c, map.getter());
-						body.addToStatements("to." + setter.getName() + "(from." + getter.getName() + "())");
-					}
+					foundMap = true;
+					break;
 				}
 			}
 
+			String javaType = ojField.getType().getLast();
+			if (foundMap && javaTypes.contains(javaType)) {
+				OJOperation setter = findMethodIgnorecase(c, map.setter());
+				OJOperation getter = findMethodIgnorecase(c, map.getter());
+				body.addToStatements("to." + setter.getName() + "(from." + getter.getName() + "())");
+			}
 		}
 	}
 
