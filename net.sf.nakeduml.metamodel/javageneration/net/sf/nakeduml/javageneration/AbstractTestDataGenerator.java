@@ -2,13 +2,18 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
+import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -20,6 +25,72 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	public AbstractTestDataGenerator() {
 		super();
 	}
+
+	protected boolean isHierarchical(INakedEntity c) {
+		for (INakedProperty a : c.getEffectiveAttributes()) {
+			if (isHierarchical(c, a)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected boolean isInHierarchical(INakedEntity c) {
+		for (INakedProperty a : c.getEffectiveAttributes()) {
+			if (isHierarchical(c, a)) {
+				return true;
+			}
+		}
+		if (c.getEndToComposite()!=null && isInHierarchical((INakedEntity) c.getEndToComposite().getBaseType())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	protected List<INakedEntity> getHierarchicalRoots(INakedEntity entity) {
+		List<INakedEntity> result = new ArrayList<INakedEntity>();
+		List<IClassifier> generalizations = entity.getGeneralizations();
+		for (IClassifier generalization : generalizations) {
+			INakedEntity gen = (INakedEntity) generalization;
+			Collection<IClassifier> subs = gen.getSubClasses();
+			for (IClassifier sub : subs) {
+				if (!sub.equals(entity)) {
+					result.add((INakedEntity) sub);
+				}
+			}
+		}
+		return result;
+	}
+
+	protected boolean isHierarchical(INakedEntity c, INakedProperty p) {
+		if (p.isComposite() && p.getNakedBaseType().equals(c)) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected void createHierarchicalEntries(INakedEntity entity, List<StringBuilder> theList, StringBuilder currentPath) {
+		if (currentPath.toString().isEmpty()) {
+			currentPath.append(entity.getName());
+		} else {
+			currentPath.append("." + entity.getName());
+		}
+		if (isHierarchical(entity)) {
+			theList.remove(currentPath);
+			List<INakedEntity> hierarchicalRoots = getHierarchicalRoots(entity);
+			for (INakedEntity hierarchicalEntityRoot : hierarchicalRoots) {
+				StringBuilder alternativePath = new StringBuilder(currentPath.toString());
+				theList.add(alternativePath);
+				createHierarchicalEntries(hierarchicalEntityRoot, theList, alternativePath);
+			}
+		} else {
+			if (entity.getEndToComposite() != null) {
+				createHierarchicalEntries((INakedEntity) entity.getEndToComposite().getBaseType(), theList, currentPath);
+			}
+		}
+
+	}	
 
 	protected OJPathName getTestDataPath(INakedClassifier child) {
 		OJPathName testPath;
@@ -40,8 +111,8 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 
 	private void addImplementors(INakedInterface child, Collection<INakedClassifier> implementors) {
 		implementors.addAll(child.getImplementingClassifiers());
-		for(IClassifier c:child.getSubClasses()){
-			if(c instanceof INakedInterface){
+		for (IClassifier c : child.getSubClasses()) {
+			if (c instanceof INakedInterface) {
 				addImplementors((INakedInterface) c, implementors);
 			}
 		}
@@ -50,7 +121,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	protected abstract String getTestDataName(INakedClassifier child);
 
 	protected String calculateDefaultValue(OJAnnotatedClass test, OJBlock block, INakedProperty f) {
-		String value  = calculateDefaultValue(f);
+		String value = calculateDefaultValue(f);
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
@@ -65,6 +136,31 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			return lookup(test, f);
 		}
 		return value;
+	}
+
+	public String calculateDefaultStringValue(INakedProperty f) {
+		if (f.getNakedBaseType() instanceof IEnumerationType) {
+			OJEnum javaType = (OJEnum) findJavaClass(f.getNakedBaseType());
+			if (javaType.getLiterals().size() > 0) {
+				return javaType.getLiterals().get(0).getName();
+			} else {
+				return javaType.getName() + ".has no literals!!!!";
+			}
+		} else if (f.getNakedBaseType() instanceof INakedSimpleType) {
+			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
+			if (baseType.hasStrategy(ConfigurableDataStrategy.class)) {
+				return baseType.getStrategy(ConfigurableDataStrategy.class).getDefaultStringValue();
+			} else if (f.getNakedBaseType() instanceof INakedPrimitiveType) {
+				String calculateDefaultValue = calculateDefaultValue(f);
+				if (calculateDefaultValue.startsWith("\"") && calculateDefaultValue.endsWith("\"")) {
+					calculateDefaultValue = calculateDefaultValue.substring(1, calculateDefaultValue.length() - 1);
+				}
+				return calculateDefaultValue;
+			} else {
+				return "no ConfigurableDataStrategy strategy!!!";
+			}
+		}
+		return "BLASDFASDFadsf";
 	}
 	
 	public String calculateDefaultValue(INakedProperty f) {
@@ -92,7 +188,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				} else if (t.getOclType().getName().equals("Boolean")) {
 					return "" + ((Math.round(value) % 2) == 1);
 				} else if (f.getName().equals("name")) {
-					return "\"" + f.getOwner().getName() + value + "\"";
+					return "\"" + f.getOwner().getName() + UUID.randomUUID() + "\"";
 				} else {
 					return "\"" + f.getOwner().getName() + "." + f.getName() + value + "\"";
 				}
@@ -106,7 +202,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			return "\"" + f.getOwner().getName() + "::" + f.getName() + new Double(value).intValue() + "\"";
 		}
 	}
-	
+
 	protected String lookup(INakedProperty f) {
 		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
 		if (new NakedStructuralFeatureMap(f).isOneToOne()) {
@@ -115,6 +211,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			return featureTest.getLast() + ".getInstance()";
 		}
 	}
+
 	protected String lookup(OJAnnotatedClass test, INakedProperty f) {
 		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
 		test.addToImports(featureTest);

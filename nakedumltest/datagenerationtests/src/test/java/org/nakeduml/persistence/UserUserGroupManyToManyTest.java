@@ -1,9 +1,6 @@
 package org.nakeduml.persistence;
 
-import java.io.File;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.transaction.HeuristicMixedException;
@@ -11,8 +8,6 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-
-import net.sf.nakeduml.util.DataGeneratorProperty;
 
 import org.hibernate.Session;
 import org.jboss.arquillian.api.Deployment;
@@ -29,11 +24,12 @@ import org.nakeduml.arquillian.ArtifactNames;
 import org.nakeduml.arquillian.MavenArtifactResolver;
 
 import datagenerationtest.org.nakeduml.God;
-import datagenerationtest.org.nakeduml.GodDataGenerator;
+import datagenerationtest.org.nakeduml.User;
+import datagenerationtest.org.nakeduml.UserGroup;
 
 
 @RunWith(Arquillian.class)
-public class DataExportTest extends BaseTest {
+public class UserUserGroupManyToManyTest extends BaseTest {
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
@@ -52,37 +48,33 @@ public class DataExportTest extends BaseTest {
 	@Inject
 	Session session;
 
-	@Inject
-	GodDataGenerator godDataGenerator;
-	@Inject
-	DataGeneratorProperty dataGeneratorProperty;
-
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDataExport() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
+	public void testDataGeneration() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException {
 
 		List<God> gods = session.createQuery("select h from God h").list();
-		godDataGenerator.exportGod(gods);
-
-		Properties exportProperties = dataGeneratorProperty.getExportProperties();
-		Properties dataGenerationProperties = dataGeneratorProperty.getProperties();
-
-		dataGeneratorProperty.exportPropertiesToFile(new File("/tmp/exportProperties"));
-		
-		Enumeration<?> e = dataGenerationProperties.propertyNames();
-		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
-			Assert.assertNotNull(exportProperties.get(key));
+		for (God god : gods) {
+			Assert.assertNotNull(god.getName());
+			Assert.assertNotSame("", god.getName());
 		}
+		// The startup creates 3 objects
+		Assert.assertEquals(3, gods.size());
 		
-		e = exportProperties.propertyNames();
-		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
-			if (dataGenerationProperties.get(key)==null && !key.endsWith("size")) {
-				Assert.fail();
-			}
-		}		
+		List<User> users = session.createQuery("select h from User h").list();
+		Assert.assertEquals(9, users.size());
+		List<UserGroup> userGroups = session.createQuery("select h from UserGroup h").list();
+		Assert.assertEquals(9, userGroups.size());
+
+		for (User user : users) {
+			Assert.assertTrue(!user.getUserGroup().isEmpty());
+		}
+
+		for (UserGroup userGroup : userGroups) {
+			Assert.assertTrue(!userGroup.getUser().isEmpty());
+			Assert.assertTrue(!userGroup.getUserGroupModulePermission().isEmpty());
+		}
 
 	}
+
 }

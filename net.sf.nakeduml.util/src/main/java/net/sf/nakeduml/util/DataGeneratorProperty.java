@@ -20,6 +20,7 @@ public class DataGeneratorProperty {
 
 	private Properties properties;
 	private Properties exportProperties;
+
 	@Inject
     Logger logger;
 
@@ -98,5 +99,13 @@ public class DataGeneratorProperty {
 			logger.error("could not export properties to file", e);
 			return "failure" + e.getMessage();
 		}
+	}
+	
+	public Properties getExportProperties() {
+		return exportProperties;
+	}
+
+	public Properties getProperties() {
+		return properties;
 	}
 }

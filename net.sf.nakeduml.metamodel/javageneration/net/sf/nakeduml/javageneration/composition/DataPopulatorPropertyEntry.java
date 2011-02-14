@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public class DataPopulatorPropertyEntry {
@@ -24,23 +24,27 @@ public class DataPopulatorPropertyEntry {
 	private String oneName = "";
 	List<INakedProperty> properties = new ArrayList<INakedProperty>();
 
-	public DataPopulatorPropertyEntry(String entityQualifiedName, String entityName) {
+	public DataPopulatorPropertyEntry(int level, String entityQualifiedName, String entityName) {
 		super();
-		this.level = 0;
-		this.entityName = entityName;
+		this.level = level;
 		this.entityQualifiedName = entityQualifiedName;
+		this.entityName = entityName;
 	}
 
 	public DataPopulatorPropertyEntry(String entityQualifiedName, String entityName, boolean isOne, String oneName, String oneValue) {
 		super();
+		this.entityQualifiedName = entityQualifiedName;
+		this.entityName = entityName;
 		this.isOne = isOne;
 		this.oneName = oneName;
 		this.oneValue = oneValue;
 		this.level = 0;
-		this.entityName = entityName;
-		this.entityQualifiedName = entityQualifiedName;
 	}
-	
+
+	public int getLevel() {
+		return level;
+	}
+
 	public String getEntityQualifiedName() {
 		return entityQualifiedName;
 	}
@@ -97,9 +101,6 @@ public class DataPopulatorPropertyEntry {
 		this.parent = parent;
 		if (parent != null) {
 			this.parent.children.add(this);
-			this.level = parent.level + 1;
-		} else {
-			this.level = 0;
 		}
 	}
 
@@ -120,7 +121,10 @@ public class DataPopulatorPropertyEntry {
 		}
 		setValue(defaultValue.substring(1, defaultValue.length() - 1));
 		for (INakedProperty p : properties) {
-			String otherDefaultValue = configurator.calculateDefaultValue(p);
+			String otherDefaultValue = configurator.calculateDefaultStringValue(p);
+			if (!(p.getBaseType() instanceof INakedEnumeration)) {
+				otherDefaultValue = otherDefaultValue.substring(1, otherDefaultValue.length() - 1);
+			}
 			if (isRoot()) {
 				configurator.outputProperties(
 						this.entityName.substring(0, this.entityName.length() - 6) + p.getName()
@@ -159,10 +163,10 @@ public class DataPopulatorPropertyEntry {
 
 	public List<DataPopulatorPropertyEntry> getDisctinctChildren() {
 
-		Map<INakedProperty, DataPopulatorPropertyEntry> distinctNodeMap = new HashMap<INakedProperty, DataPopulatorPropertyEntry>();
+		Map<String, DataPopulatorPropertyEntry> distinctNodeMap = new HashMap<String, DataPopulatorPropertyEntry>();
 		for (DataPopulatorPropertyEntry child : children) {
-			if (!distinctNodeMap.containsKey(child.getProperty())) {
-				distinctNodeMap.put(child.getProperty(), child);
+			if (!distinctNodeMap.containsKey(child.getEntityQualifiedName())) {
+				distinctNodeMap.put(child.getEntityQualifiedName(), child);
 			}
 		}
 		return new ArrayList<DataPopulatorPropertyEntry>(distinctNodeMap.values());
@@ -176,7 +180,7 @@ public class DataPopulatorPropertyEntry {
 	}
 
 	public DataPopulatorPropertyEntry copy(DataPopulatorPropertyEntry parent) {
-		DataPopulatorPropertyEntry copy = new DataPopulatorPropertyEntry(entityQualifiedName, entityName);
+		DataPopulatorPropertyEntry copy = new DataPopulatorPropertyEntry(level,entityQualifiedName, entityName);
 		copy.setParent(parent);
 		copy.setProperty(getProperty());
 		copy.properties = new ArrayList<INakedProperty>(this.properties);
@@ -230,15 +234,15 @@ public class DataPopulatorPropertyEntry {
 	}
 
 	public static void main(String[] args) {
-		DataPopulatorPropertyEntry root0 = new DataPopulatorPropertyEntry(null, "root0.name0");
-		DataPopulatorPropertyEntry child0 = new DataPopulatorPropertyEntry(null, "child0.name0");
+		DataPopulatorPropertyEntry root0 = new DataPopulatorPropertyEntry(0,null, "root0.name0");
+		DataPopulatorPropertyEntry child0 = new DataPopulatorPropertyEntry(1,null, "child0.name0");
 		child0.setParent(root0);
-		DataPopulatorPropertyEntry child1 = new DataPopulatorPropertyEntry(null, "child1.name0");
+		DataPopulatorPropertyEntry child1 = new DataPopulatorPropertyEntry(1,null, "child1.name0");
 		child1.setMany(false);
 		child1.setParent(root0);
-		DataPopulatorPropertyEntry child2 = new DataPopulatorPropertyEntry(null, "child2.name0");
+		DataPopulatorPropertyEntry child2 = new DataPopulatorPropertyEntry(1,null, "child2.name0");
 		child2.setParent(root0);
-		DataPopulatorPropertyEntry child00 = new DataPopulatorPropertyEntry(null, "child00.name0");
+		DataPopulatorPropertyEntry child00 = new DataPopulatorPropertyEntry(2,null, "child00.name0");
 		child00.setParent(child0);
 
 		List<DataPopulatorPropertyEntry> result = new ArrayList<DataPopulatorPropertyEntry>();
@@ -307,5 +311,24 @@ public class DataPopulatorPropertyEntry {
 			}
 		}
 	}
+	
+	public void count(IntegerWrapper cnt) {
+		cnt.increment();
+		for (DataPopulatorPropertyEntry child : children) {
+			child.count(cnt);
+		}
+	}
 
+	public static Integer count(DataPopulatorPropertyEntry entry) {
+		IntegerWrapper count = entry.new IntegerWrapper();
+		entry.count(count);
+		return count.count;
+	}
+	
+	public class IntegerWrapper {
+		int count;
+		void increment() {
+			count++;
+		}
+	}
 }

@@ -23,14 +23,12 @@ package net.sf.nakeduml.seam3.persistence;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.jboss.seam.persistence.SeamManaged;
 
-@ApplicationScoped
 public class ManagedHibernateSessionProvider implements Serializable {
 
 	/**

@@ -13,23 +13,15 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.TestValueStrategy;
-import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPackage;
-import net.sf.nakeduml.javametamodel.OJPathName;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
-import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
-import nl.klasse.octopus.model.IEnumerationType;
 
 public class ConfigurableCompositionPropertiesGenerator extends AbstractTestDataGenerator {
 
@@ -53,11 +45,11 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 		for (DataPopulatorPropertyEntry rootX : rootList) {
 			rootX.outputCompositeProperties(this);
 		}
-		DataPopulatorPropertyEntry.outputSizeProperties(rootList, this);		
+		DataPopulatorPropertyEntry.outputSizeProperties(rootList, this);
 	}
-	
+
 	@VisitBefore(matchSubclasses = true)
-	public void visit(INakedEntity entity) {
+	public void setToOnes(INakedEntity entity) {
 		for (INakedProperty f : entity.getEffectiveAttributes()) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(f);
 			if (f instanceof INakedProperty) {
@@ -66,44 +58,62 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 					if ((map.isManyToMany() || map.isOne()) && !(f.isDerived() || f.isReadOnly() || f.isInverse())) {
 						if (map.couldBasetypeBePersistent()) {
 							if (!map.isManyToMany()) {
-								//Need to set the one here
-								
-								//Get all the entity instances in the tree
-								List<DataPopulatorPropertyEntry> entities = new ArrayList<DataPopulatorPropertyEntry>();
-								for (DataPopulatorPropertyEntry rootX : rootList) {
-									rootX.getEntityInstances(entities, entity.getMappingInfo().getQualifiedJavaName());
+								// Get all the entity instances in the tree
+								List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();
+								for (DataPopulatorPropertyEntry root : rootList) {
+									root.getEntityInstances(needsOneEntities, entity.getMappingInfo().getQualifiedJavaName());
 								}
 								List<DataPopulatorPropertyEntry> ones = new ArrayList<DataPopulatorPropertyEntry>();
-								for (DataPopulatorPropertyEntry rootX : rootList) {
-									rootX.getEntityInstances(ones, ((INakedClassifier)f.getBaseType()).getMappingInfo().getQualifiedJavaName());
+								for (DataPopulatorPropertyEntry root : rootList) {
+									root.getEntityInstances(ones, ((INakedClassifier) f.getBaseType()).getMappingInfo().getQualifiedJavaName());
 								}
-								
-								Iterator<DataPopulatorPropertyEntry> needsOneIterator = entities.iterator();
+
+								Iterator<DataPopulatorPropertyEntry> needsOneIterator = needsOneEntities.iterator();
 								while (needsOneIterator.hasNext()) {
 									DataPopulatorPropertyEntry needsOne = (DataPopulatorPropertyEntry) needsOneIterator.next();
-									
+
 									Iterator<DataPopulatorPropertyEntry> iterator = ones.iterator();
 									while (iterator.hasNext()) {
 										DataPopulatorPropertyEntry one = iterator.next();
-										
+
 										DataPopulatorPropertyEntry commonAncestor = needsOne.getCommonAncestor(one);
-										if (commonAncestor!=null) {
+										if (commonAncestor != null) {
 											needsOneIterator.remove();
 											iterator.remove();
-											DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(needsOne.getEntityQualifiedName(), needsOne.getEntityName(), true, f.getMappingInfo().getJavaName().getAsIs(), one.getValue());
+											DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(needsOne.getEntityQualifiedName(),
+													needsOne.getEntityName(), true, f.getMappingInfo().getJavaName().getAsIs(), one.getValue());
 											newOne.setValue(needsOne.getValue());
 											newOne.setParent(needsOne.getParent());
-											
-											if (needsOne.getParent().getParent().getValue().equals(one.getParent().getValue())) {
-												System.out.println("SSSSSSSSSSSSSSS");
-											} else {
-												System.out.println("WWWWWWWWWWWWWWW");
-											}
-											
 											break;
 										}
 									}
-									
+								}
+							} else if (map.isManyToMany()) {
+								List<DataPopulatorPropertyEntry> needsManyEntities = new ArrayList<DataPopulatorPropertyEntry>();
+								for (DataPopulatorPropertyEntry root : rootList) {
+									root.getEntityInstances(needsManyEntities, entity.getMappingInfo().getQualifiedJavaName());
+								}
+								List<DataPopulatorPropertyEntry> otherSideMany = new ArrayList<DataPopulatorPropertyEntry>();
+								for (DataPopulatorPropertyEntry root : rootList) {
+									root.getEntityInstances(otherSideMany, ((INakedClassifier) f.getBaseType()).getMappingInfo().getQualifiedJavaName());
+								}
+
+								Iterator<DataPopulatorPropertyEntry> needsManyIterator = needsManyEntities.iterator();
+								while (needsManyIterator.hasNext()) {
+									DataPopulatorPropertyEntry needsMany = (DataPopulatorPropertyEntry) needsManyIterator.next();
+									Iterator<DataPopulatorPropertyEntry> otherManyIterator = otherSideMany.iterator();
+									int i = 0;
+									while (otherManyIterator.hasNext()) {
+										DataPopulatorPropertyEntry otherMany = otherManyIterator.next();
+
+										DataPopulatorPropertyEntry commonAncestor = needsMany.getCommonAncestor(otherMany);
+										if (commonAncestor != null) {
+											DataPopulatorPropertyEntry newManyToMany = new DataPopulatorPropertyEntry(needsMany.getEntityQualifiedName(),
+													needsMany.getEntityName(), true, "set" + f.getMappingInfo().getJavaName().getCapped() + "_" + i++, otherMany.getValue());
+											newManyToMany.setValue(needsMany.getValue());
+											newManyToMany.setParent(needsMany.getParent());
+										}
+									}
 								}
 							}
 						}
@@ -126,9 +136,6 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	}
 
 	public void outputProperties(String name, String value) {
-		if (props.get(name)!=null) {
-			System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-		}
 		props.put(name, value);
 	}
 

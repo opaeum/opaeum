@@ -13,8 +13,8 @@ import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
 
-import datagenerationtest.datagenerationtests.nakeduml.God;
-import datagenerationtest.datagenerationtests.nakeduml.GodDataGenerator;
+import datagenerationtest.org.nakeduml.God;
+import datagenerationtest.org.nakeduml.GodDataGenerator;
 
 public class StartUpLoadData {
 
@@ -37,8 +37,8 @@ public class StartUpLoadData {
 				List<God> gods = godDataGenerator.createGod();
 				for (God god : gods) {
 					session.persist(god);
-					godDataGenerator.populateGod(god);
 				}
+				godDataGenerator.populateGod(gods);
 				session.flush();
 				transaction.commit();
 			}

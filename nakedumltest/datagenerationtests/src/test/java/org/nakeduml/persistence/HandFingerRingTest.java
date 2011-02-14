@@ -10,9 +10,6 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
-import junit.framework.Assert;
-import net.sf.nakeduml.seam3.persistence.ManagedHibernateSessionProvider;
-
 import org.hibernate.Session;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -22,33 +19,21 @@ import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.solder.log.TypedCategory;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nakeduml.arquillian.ArquillianUtils;
 import org.nakeduml.arquillian.ArtifactNames;
 import org.nakeduml.arquillian.MavenArtifactResolver;
 
-import datagenerationtest.datagenerationtests.nakeduml.Finger;
-import datagenerationtest.datagenerationtests.nakeduml.FingerDataGenerator;
-import datagenerationtest.datagenerationtests.nakeduml.God;
-import datagenerationtest.datagenerationtests.nakeduml.GodDataGenerator;
-import datagenerationtest.datagenerationtests.nakeduml.Hand;
-import datagenerationtest.datagenerationtests.nakeduml.HandDataGenerator;
-import datagenerationtest.datagenerationtests.nakeduml.Ring;
-import datagenerationtest.datagenerationtests.nakeduml.RingDataGenerator;
-import datagenerationtest.util.FailedConstraintsException;
-import datagenerationtest.util.InvariantError;
-import datagenerationtest.util.InvariantException;
-import datagenerationtest.util.Stdlib;
+import datagenerationtest.org.nakeduml.Finger;
+import datagenerationtest.org.nakeduml.God;
+import datagenerationtest.org.nakeduml.Hand;
+import datagenerationtest.org.nakeduml.Ring;
+
 
 @RunWith(Arquillian.class)
-public class DataGenerationTest {
-
-	public static Class<?>[] getTestClasses() {
-		return new Class[] { Stdlib.class, FailedConstraintsException.class, InvariantException.class, InvariantError.class, GodDataGenerator.class,
-				HandDataGenerator.class, FingerDataGenerator.class, RingDataGenerator.class, StartUpLoadData.class, DataGenerationTest.class, God.class,
-				Ring.class, Hand.class, Finger.class, ManagedHibernateSessionProvider.class };
-	}
+public class HandFingerRingTest extends BaseTest {
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
@@ -61,7 +46,7 @@ public class DataGenerationTest {
 	}
 
 	@Inject
-	@TypedCategory(DataGenerationTest.class)
+	@TypedCategory(HandFingerRingTest.class)
 	Logger log;
 
 	@Inject
@@ -73,7 +58,7 @@ public class DataGenerationTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testManagedHibernateSession() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
+	public void testDataGeneration() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException {
 
 		Assert.assertNotNull(log);
@@ -87,22 +72,19 @@ public class DataGenerationTest {
 		Assert.assertEquals(3, gods.size());
 
 		List<Ring> rings = new ArrayList<Ring>();
-
 		List<Hand> hands = session.createQuery("select h from Hand h").list();
 		Assert.assertEquals(9, hands.size());
 		for (Hand hand : hands) {
 			Assert.assertNotNull(hand.getName());
 			Assert.assertNotSame("", hand.getName());
-			Assert.assertNotNull(hand.getOther1());
-			Assert.assertNotSame("", hand.getOther1());
 			for (Finger finger : hand.getFinger()) {
 				if (finger.getRing() != null) {
 					rings.add(finger.getRing());
 				}
 			}
 		}
-
 		Assert.assertEquals(9, rings.size());
+		
 	}
 
 }

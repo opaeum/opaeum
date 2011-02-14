@@ -1,1 +1,4 @@
 /target
+/src/main/generated-java
+/src/main/generated-resources
+/test-output
