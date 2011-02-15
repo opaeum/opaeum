@@ -73,7 +73,7 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedProperty np) {
-		if (!np.isDerived() && np.getNakedBaseType() instanceof INakedEntity && !np.isInverse() && OJUtil.hasOJClass(np.getOwner())) {
+		if (np.getNakedBaseType() instanceof INakedEntity && !np.isInverse() && OJUtil.hasOJClass(np.getOwner())) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 			OJAnnotatedClass owner = findJavaClass(np.getOwner());
 			OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
