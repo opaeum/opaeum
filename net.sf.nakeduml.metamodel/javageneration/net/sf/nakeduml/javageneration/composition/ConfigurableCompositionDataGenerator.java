@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.composition;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,13 +56,13 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			DataPopulatorPropertyEntry current = modelInstanceMap.get(key);
 			DataPopulatorPropertyEntry parent = null;
 			int indexOf = key.indexOf(".");
-			if (indexOf!=-1) {
-				parent = modelInstanceMap.get(key.substring(indexOf+1, key.length()));
+			if (indexOf != -1) {
+				parent = modelInstanceMap.get(key.substring(indexOf + 1, key.length()));
 			}
 			current.setParent(parent);
 		}
-	}	
-	
+	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void visit(INakedEntity entity) {
 		if (OJUtil.hasOJClass(entity) && !entity.getIsAbstract()) {
@@ -104,7 +105,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			}
 		}
 	}
-	
+
 	private void addPropertyUtil(OJAnnotatedClass testDataClass) {
 		OJAnnotatedField propertyUtil = new OJAnnotatedField();
 		propertyUtil.setName("dataGeneratorProperty");
@@ -155,6 +156,14 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				ifStatement.setCondition("iter instanceof " + instancePath.getLast());
 				OJBlock ifBlock = new OJBlock();
 				ifStatement.setThenPart(ifBlock);
+
+				if (forExport) {
+					OJField manyCount = new OJField();
+					manyCount.setName("manyCount");
+					manyCount.setType(new OJPathName("java.util.Integer"));
+					manyCount.setInitExp("0");
+					ifBlock.addToLocals(manyCount);
+				}
 
 				OJField instance = new OJField();
 				instance.setName(entity.getMappingInfo().getJavaName().getDecapped().toString());
@@ -236,9 +245,10 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 								if (parent != null) {
 									otherMap = new NakedStructuralFeatureMap(parent.getOtherEnd());
 								}
-								String varName = otherMap != null && otherMap.isMany() ? "iter" : entity.getMappingInfo().getJavaName().getDecapped().toString();
+								String varName = otherMap != null && otherMap.isMany() ? "iter" : entity.getMappingInfo().getJavaName().getDecapped()
+										.toString();
 								forMany.getBody().addToStatements(
-										"dataGeneratorProperty.putExportProperty(" + varName + ".getName() + \"." + map.setter() + "_\" + count, "
+										"dataGeneratorProperty.putExportProperty(" + varName + ".getName() + \"." + map.setter() + "_\" + manyCount++, "
 												+ f.getMappingInfo().getJavaName().getDecapped().toString() + ".getName())");
 
 								populate.addToStatements(forMany);
@@ -441,7 +451,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		}
 		return "BLASDFASDFadsf";
 	}
-	
+
 	private String calcConfiguredValue(OJAnnotatedClass clazz, OJBlock block, INakedEntity c, INakedProperty f, String defaultStringValue) {
 		String configuredValue = "dataGeneratorProperty.getProperty(" + calcMapKey(c, f) + "+i, \"" + defaultStringValue + "\")";
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
@@ -491,39 +501,27 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				if (p.getNakedBaseType() instanceof INakedInterface && map.isOne()) {
 					// TODO sourcePopulation needs to handle redefinition and
 					// looks like WorkspaceElement.name has duplicates
-					// INakedInterface inf = (INakedInterface)
-					// p.getNakedBaseType();
-					// Collection<INakedClassifier> classifiers =
-					// inf.getImplementingClassifiers();
-					// for (INakedClassifier iNakedClassifier : classifiers) {
-					// if (!iNakedClassifier.getIsAbstract()) {
-					//
-					// OJIfStatement ifInstanceOf = new
-					// OJIfStatement(c.getMappingInfo().getJavaName().getDecapped().toString()
-					// + "." + map.getter() + "()!=null && " +
-					// c.getMappingInfo().getJavaName().getDecapped().toString()
-					// + "." + map.getter() + "() instanceof " +
-					// iNakedClassifier.getMappingInfo().getJavaName().toString());
-					// String s = "dataGeneratorProperty.putExportProperty(" +
-					// c.getMappingInfo().getJavaName().getDecapped().toString()
-					// + ".getName() + \"" +
-					// p.getMappingInfo().getJavaName().getDecapped().toString()
-					// + "\", \"" +
-					// iNakedClassifier.getMappingInfo().getQualifiedJavaName()
-					// + "\")";
-					// ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
-					// s =
-					// NameConverter.decapitalize(getTestDataName(iNakedClassifier))
-					// + "." + FUNCTION
-					// + iNakedClassifier.getMappingInfo().getJavaName() + "(" +
-					// c.getMappingInfo().getJavaName().getDecapped().toString()
-					// + ")";
-					// ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
-					//
-					// block.addToStatements(ifInstanceOf);
-					// testDataClass.addToImports(OJUtil.classifierPathname(iNakedClassifier));
-					// }
-					// }
+					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
+					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
+					for (INakedClassifier iNakedClassifier : classifiers) {
+						if (!iNakedClassifier.getIsAbstract()) {
+
+							OJIfStatement ifInstanceOf = new OJIfStatement(c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter()
+									+ "()!=null && " + c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "() instanceof "
+									+ iNakedClassifier.getMappingInfo().getJavaName().toString());
+							if (forExport) {
+								String s = "dataGeneratorProperty.putExportProperty(" + c.getMappingInfo().getJavaName().getDecapped().toString()
+										+ ".getName() + \"." + p.getMappingInfo().getJavaName().getDecapped().toString() + "\", \""
+										+ iNakedClassifier.getMappingInfo().getQualifiedJavaName() + "\")";
+								ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
+							}
+							String s = NameConverter.decapitalize(getTestDataName(iNakedClassifier)) + "." + FUNCTION
+									+ iNakedClassifier.getMappingInfo().getJavaName() + "(" + c.getMappingInfo().getJavaName().getDecapped().toString() + ")";
+							ifInstanceOf.addToThenPart(new OJSimpleStatement(s));
+							block.addToStatements(ifInstanceOf);
+							testDataClass.addToImports(OJUtil.classifierPathname(iNakedClassifier));
+						}
+					}
 
 				} else {
 					if (!p.getNakedBaseType().getIsAbstract()) {
@@ -761,36 +759,30 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			if (p.isComposite() && !isHierarchical(c, p)) {
 
 				if (p.getNakedBaseType() instanceof INakedInterface && map.isOne()) {
-					// TODO sourcePopulation needs to handle redefinition and
-					// looks like WorkspaceElement.name has duplicates
-
-					// INakedInterface inf = (INakedInterface)
-					// p.getNakedBaseType();
-					// Collection<INakedClassifier> classifiers =
-					// inf.getImplementingClassifiers();
-					// for (INakedClassifier iNakedClassifier : classifiers) {
-					// String result =
-					// c.getMappingInfo().getJavaName().getDecapped().toString()
-					// + ".getName() + \"."
-					// +p.getMappingInfo().getJavaName().getDecapped().toString()
-					// + "\"";
-					// OJIfStatement ifInstanceOf = new
-					// OJIfStatement("dataGeneratorProperty.getProperty(" +
-					// result + ",\"\").equals(\""
-					// +
-					// iNakedClassifier.getMappingInfo().getQualifiedJavaName().toString()
-					// + "\")", iNakedClassifier.getMappingInfo().getJavaName()
-					// .getDecapped().toString()
-					// + "DataGenerator.create"
-					// +
-					// iNakedClassifier.getMappingInfo().getJavaName().toString()
-					// + "("
-					// +
-					// c.getMappingInfo().getJavaName().getDecapped().toString()
-					// + ")");
-					// block.addToStatements(ifInstanceOf);
-					// }
-
+					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
+					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
+					for (INakedClassifier iNakedClassifier : classifiers) {
+						String result = c.getMappingInfo().getJavaName().getDecapped().toString() + ".getName() + \"."
+								+ p.getMappingInfo().getJavaName().getDecapped().toString() + "\"";
+						OJIfStatement ifInstanceOf = new OJIfStatement("dataGeneratorProperty.getProperty(" + result + ",\"\").equals(\""
+								+ iNakedClassifier.getMappingInfo().getQualifiedJavaName().toString() + "\")", iNakedClassifier.getMappingInfo().getJavaName()
+								.getDecapped().toString()
+								+ "DataGenerator.create"
+								+ iNakedClassifier.getMappingInfo().getJavaName().toString()
+								+ "("
+								+ c.getMappingInfo().getJavaName().getDecapped().toString() + ")");
+						block.addToStatements(ifInstanceOf);
+					}
+				} else if (p.getNakedBaseType() instanceof INakedInterface && map.isMany()) {
+					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
+					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
+					for (INakedClassifier iNakedClassifier : classifiers) {
+						OJPathName baseTypePath = getTestDataPath(iNakedClassifier);
+						OJSimpleStatement ojSimpleStatement = new OJSimpleStatement();
+						ojSimpleStatement.setExpression(NameConverter.decapitalize(baseTypePath.getLast()) + ".create"
+								+ iNakedClassifier.getMappingInfo().getJavaName() + "(" + c.getMappingInfo().getJavaName().getDecapped() + ")");
+						block.addToStatements(ojSimpleStatement);
+					}
 				} else {
 					if (!p.getNakedBaseType().getIsAbstract()) {
 						OJPathName baseTypePath = getTestDataPath(p.getNakedBaseType());
@@ -812,16 +804,13 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				// like WorkspaceElement.name has duplicates
 
 				if (f.getNakedBaseType() instanceof INakedInterface) {
-					// INakedInterface inf = (INakedInterface)
-					// p.getNakedBaseType();
-					// Collection<INakedClassifier> classifiers =
-					// inf.getImplementingClassifiers();
-					// for (INakedClassifier iNakedClassifier : classifiers) {
-					// if (!iNakedClassifier.getIsAbstract()) {
-					// addChildField(testDataClass, iNakedClassifier);
-					// }
-					// }
-
+					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
+					Collection<INakedClassifier> classifiers = inf.getImplementingClassifiers();
+					for (INakedClassifier iNakedClassifier : classifiers) {
+						if (!iNakedClassifier.getIsAbstract()) {
+							addChildField(testDataClass, iNakedClassifier);
+						}
+					}
 				} else {
 					if (!f.getNakedBaseType().getIsAbstract()) {
 						addChildField(testDataClass, p.getNakedBaseType());

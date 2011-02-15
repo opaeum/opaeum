@@ -3,10 +3,15 @@ package org.nakeduml.persistence;
 import net.sf.nakeduml.seam3.persistence.ManagedHibernateSessionProvider;
 import datagenerationtest.org.nakeduml.AbstractComponent;
 import datagenerationtest.org.nakeduml.AbstractFolder;
+import datagenerationtest.org.nakeduml.AbstractWorkspace;
 import datagenerationtest.org.nakeduml.Canvas;
 import datagenerationtest.org.nakeduml.CanvasDataGenerator;
+import datagenerationtest.org.nakeduml.Cell;
+import datagenerationtest.org.nakeduml.CellDataGenerator;
 import datagenerationtest.org.nakeduml.Component;
 import datagenerationtest.org.nakeduml.ComponentDataGenerator;
+import datagenerationtest.org.nakeduml.FakeWorkspace;
+import datagenerationtest.org.nakeduml.FakeWorkspaceDataGenerator;
 import datagenerationtest.org.nakeduml.Finger;
 import datagenerationtest.org.nakeduml.FingerDataGenerator;
 import datagenerationtest.org.nakeduml.Folder;
@@ -17,7 +22,12 @@ import datagenerationtest.org.nakeduml.GodFolder;
 import datagenerationtest.org.nakeduml.GodFolderDataGenerator;
 import datagenerationtest.org.nakeduml.Hand;
 import datagenerationtest.org.nakeduml.HandDataGenerator;
+import datagenerationtest.org.nakeduml.INetworkElement;
 import datagenerationtest.org.nakeduml.Module;
+import datagenerationtest.org.nakeduml.Neighbour;
+import datagenerationtest.org.nakeduml.NeighbourDataGenerator;
+import datagenerationtest.org.nakeduml.RealWorkspace;
+import datagenerationtest.org.nakeduml.RealWorkspaceDataGenerator;
 import datagenerationtest.org.nakeduml.Ring;
 import datagenerationtest.org.nakeduml.RingDataGenerator;
 import datagenerationtest.org.nakeduml.Subject;
@@ -32,21 +42,26 @@ import datagenerationtest.org.nakeduml.UserGroup;
 import datagenerationtest.org.nakeduml.UserGroupDataGenerator;
 import datagenerationtest.org.nakeduml.UserGroupModulePermission;
 import datagenerationtest.org.nakeduml.UserGroupModulePermissionDataGenerator;
+import datagenerationtest.org.nakeduml.WorkspaceElement;
+import datagenerationtest.org.nakeduml.WorkspaceElementDataGenerator;
 import datagenerationtest.util.FailedConstraintsException;
 import datagenerationtest.util.InvariantError;
 import datagenerationtest.util.InvariantException;
 import datagenerationtest.util.Stdlib;
 
-
 public abstract class BaseTest {
 
 	public static Class<?>[] getTestClasses() {
-		return new Class[] { UserUserGroupManyToManyTest.class, BaseTest.class, Stdlib.class, FailedConstraintsException.class, InvariantException.class, InvariantError.class, StartUpLoadData.class,
-				GodDataGenerator.class, God.class, GodFolderDataGenerator.class, GodFolder.class, AbstractFolder.class, Folder.class,
-				FolderDataGenerator.class, Subject.class, SubjectDataGenerator.class, SubjectFolder.class, SubjectFolderDataGenerator.class, Canvas.class,
-				CanvasDataGenerator.class, Component.class, ComponentDataGenerator.class, AbstractComponent.class, UI.class, Hand.class,
-				HandDataGenerator.class, User.class, UserDataGenerator.class, UserGroup.class, UserGroupDataGenerator.class, UserGroupModulePermission.class, UserGroupModulePermissionDataGenerator.class,  Finger.class, FingerDataGenerator.class, Ring.class, RingDataGenerator.class, UIDataGenerator.class, Module.class,
-				ManagedHibernateSessionProvider.class };
+		return new Class[] { UserUserGroupManyToManyTest.class, BaseTest.class, Stdlib.class, FailedConstraintsException.class, InvariantException.class,
+				InvariantError.class, StartUpLoadData.class, GodDataGenerator.class, God.class, GodFolderDataGenerator.class, GodFolder.class,
+				AbstractFolder.class, Folder.class, FolderDataGenerator.class, Subject.class, SubjectDataGenerator.class, SubjectFolder.class,
+				SubjectFolderDataGenerator.class, Canvas.class, CanvasDataGenerator.class, Component.class, ComponentDataGenerator.class,
+				AbstractComponent.class, UI.class, Hand.class, HandDataGenerator.class, User.class, UserDataGenerator.class, UserGroup.class,
+				UserGroupDataGenerator.class, UserGroupModulePermission.class, UserGroupModulePermissionDataGenerator.class, Finger.class,
+				FingerDataGenerator.class, Ring.class, RingDataGenerator.class, UIDataGenerator.class, Module.class, ManagedHibernateSessionProvider.class,
+				RealWorkspace.class, RealWorkspaceDataGenerator.class, FakeWorkspace.class, FakeWorkspaceDataGenerator.class, AbstractWorkspace.class,
+				WorkspaceElement.class, WorkspaceElementDataGenerator.class, Cell.class, CellDataGenerator.class, Neighbour.class,
+				NeighbourDataGenerator.class, INetworkElement.class };
 	}
 
 }

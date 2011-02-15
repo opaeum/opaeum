@@ -42,6 +42,18 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vUQqETgTEeCi75Iao-tZnA" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vUQqEjgTEeCi75Iao-tZnA"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_cFYL0Dg-EeCnOqctNZZr9A" name="abstractWorkspace" type="_MJog0Dg-EeCnOqctNZZr9A" isDerived="true" isDerivedUnion="true" aggregation="composite" association="_cFoDcDg-EeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cFYL0Tg-EeCnOqctNZZr9A" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cFYL0jg-EeCnOqctNZZr9A"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_sFyUYDg-EeCnOqctNZZr9A" name="realWorkspace" type="_kjfnoDg-EeCnOqctNZZr9A" aggregation="composite" subsettedProperty="_cFYL0Dg-EeCnOqctNZZr9A" association="_sGFPUDg-EeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sFyUYTg-EeCnOqctNZZr9A" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sFyUYjg-EeCnOqctNZZr9A"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_sgBZUDg-EeCnOqctNZZr9A" name="fakeWorkspace" type="_nfxLgDg-EeCnOqctNZZr9A" aggregation="composite" subsettedProperty="_cFYL0Dg-EeCnOqctNZZr9A" association="_sgXXkDg-EeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sgBZUTg-EeCnOqctNZZr9A" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sgBZUjg-EeCnOqctNZZr9A"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_3C4MwDUMEeCHW__l1Us0lQ" name="GodFolder">
         <generalization xmi:id="_kZK14DXsEeCHW__l1Us0lQ" general="_gp_1cDXsEeCHW__l1Us0lQ"/>
@@ -248,6 +260,71 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0PtQZTgTEeCi75Iao-tZnA" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0PtQZjgTEeCi75Iao-tZnA"/>
         </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_MJog0Dg-EeCnOqctNZZr9A" name="AbstractWorkspace" isAbstract="true">
+        <ownedAttribute xmi:id="_XnVTMDg-EeCnOqctNZZr9A" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_WI5BADjHEeCnOqctNZZr9A" name="workspaceElement" type="_TuNHQDjHEeCnOqctNZZr9A" aggregation="composite" association="_WJL78DjHEeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WI5BATjHEeCnOqctNZZr9A" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WI5BAjjHEeCnOqctNZZr9A"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_cFoDcDg-EeCnOqctNZZr9A" name="A_&lt;god>_&lt;abstractWorkspace>" memberEnd="_cFoDcTg-EeCnOqctNZZr9A _cFYL0Dg-EeCnOqctNZZr9A" navigableOwnedEnd="_cFoDcTg-EeCnOqctNZZr9A">
+        <ownedEnd xmi:id="_cFoDcTg-EeCnOqctNZZr9A" name="god" type="_xGrQQDLsEeCAGvdv9IjrAA" isDerived="true" isDerivedUnion="true" association="_cFoDcDg-EeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cFoDcjg-EeCnOqctNZZr9A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cFoDczg-EeCnOqctNZZr9A" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_kjfnoDg-EeCnOqctNZZr9A" name="RealWorkspace">
+        <generalization xmi:id="_p532cDg-EeCnOqctNZZr9A" general="_MJog0Dg-EeCnOqctNZZr9A"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_nfxLgDg-EeCnOqctNZZr9A" name="FakeWorkspace">
+        <generalization xmi:id="_qeXqoDg-EeCnOqctNZZr9A" general="_MJog0Dg-EeCnOqctNZZr9A"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_sGFPUDg-EeCnOqctNZZr9A" name="A_&lt;god>_&lt;realWorkspace>" memberEnd="_sGFPUTg-EeCnOqctNZZr9A _sFyUYDg-EeCnOqctNZZr9A" navigableOwnedEnd="_sGFPUTg-EeCnOqctNZZr9A">
+        <ownedEnd xmi:id="_sGFPUTg-EeCnOqctNZZr9A" name="god" type="_xGrQQDLsEeCAGvdv9IjrAA" subsettedProperty="_cFoDcTg-EeCnOqctNZZr9A" association="_sGFPUDg-EeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sGFPUjg-EeCnOqctNZZr9A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sGFPUzg-EeCnOqctNZZr9A" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_sgXXkDg-EeCnOqctNZZr9A" name="A_&lt;god>_&lt;fakeWorkspace>" memberEnd="_sgXXkTg-EeCnOqctNZZr9A _sgBZUDg-EeCnOqctNZZr9A" navigableOwnedEnd="_sgXXkTg-EeCnOqctNZZr9A">
+        <ownedEnd xmi:id="_sgXXkTg-EeCnOqctNZZr9A" name="god" type="_xGrQQDLsEeCAGvdv9IjrAA" subsettedProperty="_cFoDcTg-EeCnOqctNZZr9A" association="_sgXXkDg-EeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sgXXkjg-EeCnOqctNZZr9A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_sgXXkzg-EeCnOqctNZZr9A" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_TuNHQDjHEeCnOqctNZZr9A" name="WorkspaceElement">
+        <ownedAttribute xmi:id="_a0DIkDjHEeCnOqctNZZr9A" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_6qXq0DjQEeCnOqctNZZr9A" name="iNetworkElement" type="_w5KPcDjQEeCnOqctNZZr9A" aggregation="composite" association="_6qowkDjQEeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6qXq0TjQEeCnOqctNZZr9A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6qXq0jjQEeCnOqctNZZr9A"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_WJL78DjHEeCnOqctNZZr9A" name="A_&lt;abstractWorkspace>_&lt;workspaceElement>" memberEnd="_WJL78TjHEeCnOqctNZZr9A _WI5BADjHEeCnOqctNZZr9A" navigableOwnedEnd="_WJL78TjHEeCnOqctNZZr9A">
+        <ownedEnd xmi:id="_WJL78TjHEeCnOqctNZZr9A" name="abstractWorkspace" type="_MJog0Dg-EeCnOqctNZZr9A" association="_WJL78DjHEeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WJL78jjHEeCnOqctNZZr9A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WJL78zjHEeCnOqctNZZr9A" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_w5KPcDjQEeCnOqctNZZr9A" name="INetworkElement">
+        <ownedAttribute xmi:id="_4UTyYDjQEeCnOqctNZZr9A" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_6qowkDjQEeCnOqctNZZr9A" name="A_&lt;workspaceElement>_&lt;iNetworkElement>" memberEnd="_6qowkTjQEeCnOqctNZZr9A _6qXq0DjQEeCnOqctNZZr9A" navigableOwnedEnd="_6qowkTjQEeCnOqctNZZr9A">
+        <ownedEnd xmi:id="_6qowkTjQEeCnOqctNZZr9A" name="workspaceElement" type="_TuNHQDjHEeCnOqctNZZr9A" association="_6qowkDjQEeCnOqctNZZr9A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6qowkjjQEeCnOqctNZZr9A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6qowkzjQEeCnOqctNZZr9A" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_G0Q00DjREeCnOqctNZZr9A" name="Cell" clientDependency="_J9eogDjREeCnOqctNZZr9A">
+        <interfaceRealization xmi:id="_J9eogDjREeCnOqctNZZr9A" name="InterfaceRealization1" supplier="_w5KPcDjQEeCnOqctNZZr9A" client="_G0Q00DjREeCnOqctNZZr9A" contract="_w5KPcDjQEeCnOqctNZZr9A"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_q-Hn0DjlEeCnOqctNZZr9A" name="Neighbour" clientDependency="_zrCUoDjlEeCnOqctNZZr9A">
+        <interfaceRealization xmi:id="_zrCUoDjlEeCnOqctNZZr9A" name="InterfaceRealization1" supplier="_w5KPcDjQEeCnOqctNZZr9A" client="_q-Hn0DjlEeCnOqctNZZr9A" contract="_w5KPcDjQEeCnOqctNZZr9A"/>
       </packagedElement>
     </packagedElement>
   </packagedElement>

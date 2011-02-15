@@ -41,13 +41,35 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				return true;
 			}
 		}
-		if (c.getEndToComposite()!=null && isInHierarchical((INakedEntity) c.getEndToComposite().getBaseType())) {
+		if (c.getEndToComposite() != null && isInHierarchical((INakedEntity) c.getEndToComposite().getBaseType())) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	protected List<INakedEntity> getConcreteImplementations(INakedEntity entity) {
+		List<INakedEntity> result = new ArrayList<INakedEntity>();
+		Collection<IClassifier> subs = entity.getSubClasses();
+		for (IClassifier sub : subs) {
+			if (!sub.equals(entity)) {
+				result.add((INakedEntity) sub);
+			}
+		}
+		return result;
+	}
+	
+	protected List<INakedEntity> getConcreteImplementations(INakedInterface entity) {
+		List<INakedEntity> result = new ArrayList<INakedEntity>();
+		Collection<INakedClassifier> subs = entity.getImplementingClassifiers();
+		for (IClassifier sub : subs) {
+			if (!sub.equals(entity)) {
+				result.add((INakedEntity) sub);
+			}
+		}
+		return result;
+	}	
+	
 	protected List<INakedEntity> getHierarchicalRoots(INakedEntity entity) {
 		List<INakedEntity> result = new ArrayList<INakedEntity>();
 		List<IClassifier> generalizations = entity.getGeneralizations();
@@ -69,7 +91,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		}
 		return false;
 	}
-	
+
 	protected void createHierarchicalEntries(INakedEntity entity, List<StringBuilder> theList, StringBuilder currentPath) {
 		if (currentPath.toString().isEmpty()) {
 			currentPath.append(entity.getName());
@@ -84,13 +106,48 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				theList.add(alternativePath);
 				createHierarchicalEntries(hierarchicalEntityRoot, theList, alternativePath);
 			}
+		} else if (isCompositeParentAbstract(entity)) {
+			theList.remove(currentPath);
+			List<INakedEntity> concreteImpls = getConcreteImplementations((INakedEntity) entity.getEndToComposite().getBaseType());
+			for (INakedEntity concreteImpl : concreteImpls) {
+				StringBuilder alternativePath = new StringBuilder(currentPath.toString());
+				theList.add(alternativePath);
+				createHierarchicalEntries(concreteImpl, theList, alternativePath);
+			}
+//		} else if (compositeOwnersInverseIsInterface(entity)) {
+//			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(entity.getEndToComposite());
+//			if (map.isOne()) {
+//				theList.remove(currentPath);
+//				List<INakedEntity> concreteImpls = getConcreteImplementations((INakedEntity) entity.getEndToComposite().getBaseType());
+//				for (INakedEntity concreteImpl : concreteImpls) {
+//					StringBuilder alternativePath = new StringBuilder(currentPath.toString());
+//					theList.add(alternativePath);
+//					createHierarchicalEntries(concreteImpl, theList, alternativePath);
+//				}
+//			}
 		} else {
 			if (entity.getEndToComposite() != null) {
 				createHierarchicalEntries((INakedEntity) entity.getEndToComposite().getBaseType(), theList, currentPath);
 			}
 		}
 
-	}	
+	}
+
+	private boolean compositeOwnersInverseIsInterface(INakedEntity entity) {
+		if (entity.getEndToComposite() == null) {
+			return false;
+		} else {
+			return (entity.getEndToComposite().getOtherEnd().getBaseType() instanceof INakedInterface);
+		}
+	}
+
+	private boolean isCompositeParentAbstract(INakedEntity entity) {
+		if (entity.getEndToComposite() == null) {
+			return false;
+		} else {
+			return entity.getEndToComposite().getBaseType().getIsAbstract();
+		}
+	}
 
 	protected OJPathName getTestDataPath(INakedClassifier child) {
 		OJPathName testPath;
@@ -162,7 +219,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		}
 		return "BLASDFASDFadsf";
 	}
-	
+
 	public String calculateDefaultValue(INakedProperty f) {
 		double value = Math.random() * 123456;
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);

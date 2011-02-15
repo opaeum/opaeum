@@ -20,7 +20,9 @@ public class DataPopulatorPropertyEntry {
 	private int level;
 	private boolean many = true;
 	private boolean isOne = false;
+	private boolean isInterface = false;
 	private String oneValue = "";
+	private String implementingInterface = "";
 	private String oneName = "";
 	List<INakedProperty> properties = new ArrayList<INakedProperty>();
 
@@ -30,6 +32,15 @@ public class DataPopulatorPropertyEntry {
 		this.entityQualifiedName = entityQualifiedName;
 		this.entityName = entityName;
 	}
+	
+	public DataPopulatorPropertyEntry(int level, String entityQualifiedName, String entityName, boolean isInterface, String implementingInterface) {
+		super();
+		this.level = level;
+		this.entityQualifiedName = entityQualifiedName;
+		this.entityName = entityName;
+		this.isInterface = isInterface;
+		this.implementingInterface = implementingInterface;
+	}	
 
 	public DataPopulatorPropertyEntry(String entityQualifiedName, String entityName, boolean isOne, String oneName, String oneValue) {
 		super();
@@ -147,6 +158,15 @@ public class DataPopulatorPropertyEntry {
 			child.outputToOneProperties(configurator);
 		}
 	}
+	
+	public void outputToCompositeOneInterface(ConfigurableCompositionPropertiesGenerator configurator) {
+		if (isInterface) {
+			configurator.outputProperties(value, implementingInterface);
+		}
+		for (DataPopulatorPropertyEntry child : children) {
+			child.outputToCompositeOneInterface(configurator);
+		}
+	}	
 	
 	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> nodes, ConfigurableCompositionPropertiesGenerator configurator) {
 		for (DataPopulatorPropertyEntry node : nodes) {

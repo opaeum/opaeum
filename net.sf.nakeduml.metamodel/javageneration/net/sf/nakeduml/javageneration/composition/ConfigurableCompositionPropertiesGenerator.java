@@ -16,6 +16,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -109,7 +110,8 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 										DataPopulatorPropertyEntry commonAncestor = needsMany.getCommonAncestor(otherMany);
 										if (commonAncestor != null) {
 											DataPopulatorPropertyEntry newManyToMany = new DataPopulatorPropertyEntry(needsMany.getEntityQualifiedName(),
-													needsMany.getEntityName(), true, "set" + f.getMappingInfo().getJavaName().getCapped() + "_" + i++, otherMany.getValue());
+													needsMany.getEntityName(), true, "set" + f.getMappingInfo().getJavaName().getCapped() + "_" + i++,
+													otherMany.getValue());
 											newManyToMany.setValue(needsMany.getValue());
 											newManyToMany.setParent(needsMany.getParent());
 										}
@@ -119,6 +121,29 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 						}
 					}
 				}
+				
+				NakedStructuralFeatureMap compositeMap = new NakedStructuralFeatureMap(f);
+				if (f.isComposite() && compositeMap.isOne()) {
+					
+					List<INakedEntity> result = getConcreteImplementations((INakedInterface)f.getBaseType());
+					//choose one
+					// Get all the entity instances in the tree
+					List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();
+					for (DataPopulatorPropertyEntry root : rootList) {
+						root.getEntityInstances(needsOneEntities, entity.getMappingInfo().getQualifiedJavaName());
+					}
+					
+					for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : needsOneEntities) {
+						
+						DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(dataPopulatorPropertyEntry.getLevel(), dataPopulatorPropertyEntry.getEntityQualifiedName()+"iNetworkElementXXX",
+								dataPopulatorPropertyEntry.getEntityName()+"iNetworkElementXXX", true, result.get(0).getMappingInfo().getQualifiedJavaName());
+						
+						newOne.setValue(dataPopulatorPropertyEntry.getValue() + "." + f.getMappingInfo().getJavaName().getAsIs());
+						newOne.setParent(dataPopulatorPropertyEntry.getParent());
+					}
+					
+				}				
+				
 			}
 		}
 	}
@@ -127,6 +152,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	public void visit(INakedModel model) {
 		for (DataPopulatorPropertyEntry rootX : rootList) {
 			rootX.outputToOneProperties(this);
+			rootX.outputToCompositeOneInterface(this);
 		}
 		if (this.config.getDataGeneration()) {
 			TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);

@@ -1,9 +1,6 @@
 package org.nakeduml.persistence;
 
-import java.io.File;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.transaction.HeuristicMixedException;
@@ -11,8 +8,6 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-
-import net.sf.nakeduml.util.DataGeneratorProperty;
 
 import org.hibernate.Session;
 import org.jboss.arquillian.api.Deployment;
@@ -28,12 +23,15 @@ import org.nakeduml.arquillian.ArquillianUtils;
 import org.nakeduml.arquillian.ArtifactNames;
 import org.nakeduml.arquillian.MavenArtifactResolver;
 
+import datagenerationtest.org.nakeduml.Cell;
+import datagenerationtest.org.nakeduml.FakeWorkspace;
 import datagenerationtest.org.nakeduml.God;
-import datagenerationtest.org.nakeduml.GodDataGenerator;
+import datagenerationtest.org.nakeduml.RealWorkspace;
+import datagenerationtest.org.nakeduml.WorkspaceElement;
 
 
 @RunWith(Arquillian.class)
-public class DataExportTest extends BaseTest {
+public class InterfaceTest extends BaseTest {
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
@@ -52,40 +50,33 @@ public class DataExportTest extends BaseTest {
 	@Inject
 	Session session;
 
-	@Inject
-	GodDataGenerator godDataGenerator;
-	@Inject
-	DataGeneratorProperty dataGeneratorProperty;
-
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDataExport() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
+	public void testDataGeneration() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException {
 
 		List<God> gods = session.createQuery("select h from God h").list();
-		godDataGenerator.exportGod(gods);
-
-		Properties exportProperties = dataGeneratorProperty.getExportProperties();
-		Properties dataGenerationProperties = dataGeneratorProperty.getProperties();
-
-		dataGeneratorProperty.exportPropertiesToFile(new File("/tmp/exportProperties"));
-		
-		Enumeration<?> e = dataGenerationProperties.propertyNames();
-		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
-			if (exportProperties.get(key)==null) {
-				System.out.println(key + " ::: " + dataGenerationProperties.getProperty(key));
-			}
-//			Assert.assertNotNull(exportProperties.get(key));
+		for (God god : gods) {
+			Assert.assertNotNull(god.getName());
+			Assert.assertNotSame("", god.getName());
 		}
+		// The startup creates 3 objects
+		Assert.assertEquals(3, gods.size());
 		
-		e = exportProperties.propertyNames();
-		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
-			if (dataGenerationProperties.get(key)==null && !key.endsWith("size")) {
-				Assert.fail();
-			}
-		}		
+		List<RealWorkspace> realWorkspaces = session.createQuery("select h from RealWorkspace h").list();
+		Assert.assertEquals(9, realWorkspaces.size());
+		List<FakeWorkspace> fakeWorkspaces = session.createQuery("select h from FakeWorkspace h").list();
+		Assert.assertEquals(9, fakeWorkspaces.size());
+		List<WorkspaceElement> workspaceElements = session.createQuery("select h from WorkspaceElement h").list();
+		Assert.assertEquals(54, workspaceElements.size());
+		List<Cell> cells = session.createQuery("select h from Cell h").list();
+		Assert.assertEquals(54, cells.size());
+
+//		List<Many1> many1s = session.createQuery("select h from Many1 h").list();
+//		Assert.assertEquals(162, many1s.size());
+//		List<Many2> many2s = session.createQuery("select h from Many2 h").list();
+//		Assert.assertEquals(162, many2s.size());
 
 	}
+
 }
