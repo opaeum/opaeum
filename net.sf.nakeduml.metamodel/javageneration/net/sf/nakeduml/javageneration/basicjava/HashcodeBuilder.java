@@ -68,7 +68,7 @@ public class HashcodeBuilder extends StereotypeAnnotator {
 				}
 				getUid.setBody(new OJBlock());
 				owner.addToImports(new OJPathName(UUID.class.getName()));
-				getUid.getBody().addToStatements(new OJIfStatement("this.uid==null", "uid=UUID.randomUUID().toString()"));
+				getUid.getBody().addToStatements(new OJIfStatement("this.uid==null || this.uid.trim().length()==0", "uid=UUID.randomUUID().toString()"));
 				getUid.getBody().addToStatements("return this.uid");
 			}
 		}
