@@ -549,7 +549,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 			boolean foundMap = false;
 
 			NakedStructuralFeatureMap map = null;
-			for (INakedProperty attr : classifier.getOwnedAttributes()) {
+			for (INakedProperty attr : classifier.getEffectiveAttributes()) {
 				map = new NakedStructuralFeatureMap(attr);
 				if (map.umlName().equals(ojField.getName())) {
 					foundMap = true;
