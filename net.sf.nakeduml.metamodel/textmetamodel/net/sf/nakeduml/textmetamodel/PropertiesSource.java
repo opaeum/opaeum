@@ -8,11 +8,15 @@ import java.util.Properties;
 
 public class PropertiesSource implements TextSource {
 	public static final String GEN_RESOURCE = "gen-resource";
-	private Properties p;
+	private Properties properties;
+
+	public Properties getProperties() {
+		return properties;
+	}
 
 	public PropertiesSource(Properties p) {
 		super();
-		this.p = p;
+		this.properties = p;
 	}
 
 	@Override
@@ -23,7 +27,7 @@ public class PropertiesSource implements TextSource {
 	@Override
 	public char[] toCharArray() {
 		List<String> sorted = new ArrayList<String>();
-		Enumeration<?> e = p.propertyNames();
+		Enumeration<?> e = properties.propertyNames();
 		while (e.hasMoreElements()) {
 			String key = (String) e.nextElement();
 			sorted.add(key);
@@ -33,7 +37,7 @@ public class PropertiesSource implements TextSource {
 		for (String key : sorted) {
 			stringBuilder.append(key);
 			stringBuilder.append("=");
-			stringBuilder.append(p.getProperty(key));
+			stringBuilder.append(properties.getProperty(key));
 			stringBuilder.append("\n");
 		}
 		return stringBuilder.toString().toCharArray();

@@ -48,17 +48,25 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		}
 	}
 
-	protected List<INakedEntity> getConcreteImplementations(INakedEntity entity) {
-		List<INakedEntity> result = new ArrayList<INakedEntity>();
-		Collection<IClassifier> subs = entity.getSubClasses();
-		for (IClassifier sub : subs) {
-			if (!sub.equals(entity)) {
-				result.add((INakedEntity) sub);
+	protected List<INakedEntity> getConcreteImplementations(IClassifier entity) {
+		if (entity instanceof INakedInterface) {
+			return getConcreteImplementations((INakedInterface)entity);
+		} else {
+			List<INakedEntity> result = new ArrayList<INakedEntity>();
+			Collection<IClassifier> subs = entity.getSubClasses();
+			for (IClassifier sub : subs) {
+				if (!sub.equals(entity)) {
+					if (sub instanceof INakedEntity) {
+						result.add((INakedEntity) sub);
+					} else {
+						System.out.println("sssssssssssssss");
+					}
+				}
 			}
+			return result;
 		}
-		return result;
 	}
-	
+
 	protected List<INakedEntity> getConcreteImplementations(INakedInterface entity) {
 		List<INakedEntity> result = new ArrayList<INakedEntity>();
 		Collection<INakedClassifier> subs = entity.getImplementingClassifiers();
@@ -68,8 +76,8 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			}
 		}
 		return result;
-	}	
-	
+	}
+
 	protected List<INakedEntity> getHierarchicalRoots(INakedEntity entity) {
 		List<INakedEntity> result = new ArrayList<INakedEntity>();
 		List<IClassifier> generalizations = entity.getGeneralizations();
@@ -114,17 +122,22 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				theList.add(alternativePath);
 				createHierarchicalEntries(concreteImpl, theList, alternativePath);
 			}
-//		} else if (compositeOwnersInverseIsInterface(entity)) {
-//			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(entity.getEndToComposite());
-//			if (map.isOne()) {
-//				theList.remove(currentPath);
-//				List<INakedEntity> concreteImpls = getConcreteImplementations((INakedEntity) entity.getEndToComposite().getBaseType());
-//				for (INakedEntity concreteImpl : concreteImpls) {
-//					StringBuilder alternativePath = new StringBuilder(currentPath.toString());
-//					theList.add(alternativePath);
-//					createHierarchicalEntries(concreteImpl, theList, alternativePath);
-//				}
-//			}
+			// } else if (compositeOwnersInverseIsInterface(entity)) {
+			// NakedStructuralFeatureMap map = new
+			// NakedStructuralFeatureMap(entity.getEndToComposite());
+			// if (map.isOne()) {
+			// theList.remove(currentPath);
+			// List<INakedEntity> concreteImpls =
+			// getConcreteImplementations((INakedEntity)
+			// entity.getEndToComposite().getBaseType());
+			// for (INakedEntity concreteImpl : concreteImpls) {
+			// StringBuilder alternativePath = new
+			// StringBuilder(currentPath.toString());
+			// theList.add(alternativePath);
+			// createHierarchicalEntries(concreteImpl, theList,
+			// alternativePath);
+			// }
+			// }
 		} else {
 			if (entity.getEndToComposite() != null) {
 				createHierarchicalEntries((INakedEntity) entity.getEndToComposite().getBaseType(), theList, currentPath);
@@ -245,7 +258,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 				} else if (t.getOclType().getName().equals("Boolean")) {
 					return "" + ((Math.round(value) % 2) == 1);
 				} else if (f.getName().equals("name")) {
-					return "\"" + f.getOwner().getName() + UUID.randomUUID() + "\"";
+					return "\"" + f.getOwner().getName() + value + "\"";
 				} else {
 					return "\"" + f.getOwner().getName() + "." + f.getName() + value + "\"";
 				}
