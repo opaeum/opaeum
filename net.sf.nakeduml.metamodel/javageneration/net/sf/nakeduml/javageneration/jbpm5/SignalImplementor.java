@@ -31,7 +31,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 public class SignalImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitReceptionsFor(INakedEntity e){
-		if(e.getEffectiveReceptions().size() > 0 || e.getClassifierBehavior() != null){
+		if(e.getEffectiveReceptions().size() > 0){
 			OJAnnotatedClass ojEntity = super.findJavaClass(e);
 			Set<INakedSignal> coveredSignals = new HashSet<INakedSignal>();
 			OJAnnotatedClass asyncService = buildAsyncService(ojEntity);
