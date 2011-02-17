@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public class DataPopulatorPropertyEntry {
 
-	private INakedProperty property;
 	// TODO refactor entityname to be 3 fields, name, name property and number
 	private String entityName;
 	private String entityQualifiedName;
@@ -72,14 +71,6 @@ public class DataPopulatorPropertyEntry {
 		properties.add(p);
 	}
 
-	public INakedProperty getProperty() {
-		return property;
-	}
-
-	public void setProperty(INakedProperty property) {
-		this.property = property;
-	}
-
 	public boolean isMany() {
 		return many;
 	}
@@ -124,7 +115,8 @@ public class DataPopulatorPropertyEntry {
 	}
 
 	public void outputCompositeProperties(ConfigurableCompositionPropertiesGenerator configurator) {
-		String defaultValue = configurator.calculateDefaultValue(this.property);
+		String defaultValue = UUID.randomUUID().toString();
+		
 		if (isRoot()) {
 			configurator.outputProperties(this.entityName, defaultValue.substring(1, defaultValue.length() - 1));
 		} else {
@@ -133,15 +125,12 @@ public class DataPopulatorPropertyEntry {
 		setValue(defaultValue.substring(1, defaultValue.length() - 1));
 		for (INakedProperty p : properties) {
 			String otherDefaultValue = configurator.calculateDefaultStringValue(p);
-			if (!(p.getBaseType() instanceof INakedEnumeration)) {
-				otherDefaultValue = otherDefaultValue.substring(1, otherDefaultValue.length() - 1);
-			}
 			if (isRoot()) {
 				configurator.outputProperties(
-						this.entityName.substring(0, this.entityName.length() - 6) + p.getName()
+						this.entityName.substring(0, this.entityName.length() - 5) + p.getName()
 								+ this.entityName.substring(this.entityName.length() - 2, this.entityName.length()), otherDefaultValue);
 			} else {
-				configurator.outputProperties(getParent().getValue() + "." + this.entityName.substring(0, this.entityName.length() - 6) + p.getName()
+				configurator.outputProperties(getParent().getValue() + "." + this.entityName.substring(0, this.entityName.length() - 5) + p.getName()
 						+ this.entityName.substring(this.entityName.length() - 2, this.entityName.length()), otherDefaultValue);
 			}
 		}
@@ -171,11 +160,11 @@ public class DataPopulatorPropertyEntry {
 	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> nodes, ConfigurableCompositionPropertiesGenerator configurator) {
 		for (DataPopulatorPropertyEntry node : nodes) {
 			if (node.isRoot()) {
-				configurator.outputProperties(node.entityName.substring(0, node.entityName.length() - 7) + ".size", "3");
+				configurator.outputProperties(node.entityName.substring(0, node.entityName.length() - 6) + ".size", "3");
 			}
 			List<DataPopulatorPropertyEntry> distinctChildren = node.getDisctinctChildren();
 			for (DataPopulatorPropertyEntry child : distinctChildren) {
-				configurator.outputProperties(child.getParent().value + "." + child.entityName.substring(0, child.entityName.length() - 7) + ".size", "3");
+				configurator.outputProperties(child.getParent().value + "." + child.entityName.substring(0, child.entityName.length() - 6) + ".size", "3");
 			}
 			outputSizeProperties(node.getChildren(), configurator);
 		}
@@ -202,7 +191,7 @@ public class DataPopulatorPropertyEntry {
 	public DataPopulatorPropertyEntry copy(DataPopulatorPropertyEntry parent) {
 		DataPopulatorPropertyEntry copy = new DataPopulatorPropertyEntry(level,entityQualifiedName, entityName);
 		copy.setParent(parent);
-		copy.setProperty(getProperty());
+//		copy.setProperty(getProperty());
 		copy.properties = new ArrayList<INakedProperty>(this.properties);
 		List<DataPopulatorPropertyEntry> tempChildren = new ArrayList<DataPopulatorPropertyEntry>(children);
 		for (DataPopulatorPropertyEntry child : tempChildren) {

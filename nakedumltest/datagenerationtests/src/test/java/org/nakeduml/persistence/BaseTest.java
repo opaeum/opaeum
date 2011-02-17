@@ -26,6 +26,8 @@ import datagenerationtest.org.nakeduml.INetworkElement;
 import datagenerationtest.org.nakeduml.Module;
 import datagenerationtest.org.nakeduml.Neighbour;
 import datagenerationtest.org.nakeduml.NeighbourDataGenerator;
+import datagenerationtest.org.nakeduml.NoName;
+import datagenerationtest.org.nakeduml.NoNameDataGenerator;
 import datagenerationtest.org.nakeduml.RealWorkspace;
 import datagenerationtest.org.nakeduml.RealWorkspaceDataGenerator;
 import datagenerationtest.org.nakeduml.Ring;
@@ -61,7 +63,7 @@ public abstract class BaseTest {
 				FingerDataGenerator.class, Ring.class, RingDataGenerator.class, UIDataGenerator.class, Module.class, ManagedHibernateSessionProvider.class,
 				RealWorkspace.class, RealWorkspaceDataGenerator.class, FakeWorkspace.class, FakeWorkspaceDataGenerator.class, AbstractWorkspace.class,
 				WorkspaceElement.class, WorkspaceElementDataGenerator.class, Cell.class, CellDataGenerator.class, Neighbour.class,
-				NeighbourDataGenerator.class, INetworkElement.class };
+				NeighbourDataGenerator.class, INetworkElement.class, NoName.class, NoNameDataGenerator.class };
 	}
 
 }

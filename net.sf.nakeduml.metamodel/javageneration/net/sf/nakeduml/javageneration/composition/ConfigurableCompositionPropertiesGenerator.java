@@ -42,10 +42,14 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 		DataPopulatorPropertyEntry root = anyOne.getRoot();
 		rootList = new ArrayList<DataPopulatorPropertyEntry>();
 		rootList.add(root);
-		DataPopulatorPropertyEntry.copyTreeRecursive(rootList, 0, 2);
+		System.out.println("Starting tree copy");
+		DataPopulatorPropertyEntry.copyTreeRecursive(rootList, 0, 1);
+		System.out.println("End tree copy");
 		for (DataPopulatorPropertyEntry rootX : rootList) {
+			System.out.println("Root outputCompositeProperties");
 			rootX.outputCompositeProperties(this);
 		}
+		System.out.println("Root outputSizeProperties");
 		DataPopulatorPropertyEntry.outputSizeProperties(rootList, this);
 	}
 
@@ -125,7 +129,14 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 				NakedStructuralFeatureMap compositeMap = new NakedStructuralFeatureMap(f);
 				if (f.isComposite() && compositeMap.isOne()) {
 					
-					List<INakedEntity> result = getConcreteImplementations((INakedInterface)f.getBaseType());
+					INakedEntity toOne = null;
+					if (f.getBaseType() instanceof INakedInterface || f.getBaseType().getIsAbstract()) {
+						List<INakedEntity> result = getConcreteImplementations(f.getBaseType());
+						toOne = result.get(0);
+					} else {
+						toOne = entity; 
+					}
+					
 					//choose one
 					// Get all the entity instances in the tree
 					List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();
@@ -135,8 +146,8 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 					
 					for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : needsOneEntities) {
 						
-						DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(dataPopulatorPropertyEntry.getLevel(), dataPopulatorPropertyEntry.getEntityQualifiedName()+"iNetworkElementXXX",
-								dataPopulatorPropertyEntry.getEntityName()+"iNetworkElementXXX", true, result.get(0).getMappingInfo().getQualifiedJavaName());
+						DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(dataPopulatorPropertyEntry.getLevel(), dataPopulatorPropertyEntry.getEntityQualifiedName()+"_ToOne",
+								dataPopulatorPropertyEntry.getEntityName()+"_ToOne", true, toOne.getMappingInfo().getQualifiedJavaName());
 						
 						newOne.setValue(dataPopulatorPropertyEntry.getValue() + "." + f.getMappingInfo().getJavaName().getAsIs());
 						newOne.setParent(dataPopulatorPropertyEntry.getParent());

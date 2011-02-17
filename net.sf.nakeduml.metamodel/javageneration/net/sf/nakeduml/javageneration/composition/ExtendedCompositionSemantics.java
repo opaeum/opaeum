@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.composition;
 
+import org.apache.commons.lang.time.StopWatch;
+
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
@@ -26,17 +28,16 @@ public class ExtendedCompositionSemantics extends AbstractJavaTransformationStep
 		FactoryMethodCreator fmc = new FactoryMethodCreator();
 		fmc.initialize(workspace, javaModel, config, textWorkspace);
 		fmc.startVisiting(workspace);
-		
+
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 		ConfigurableCompositionDataGenerator sctdg = new ConfigurableCompositionDataGenerator();
 		sctdg.initialize(workspace, javaModel, config, textWorkspace);
 		sctdg.startVisiting(workspace);
-		
-//		ConfigurableCompositionTreeInitializer ccti = new ConfigurableCompositionTreeInitializer();
-//		ccti.initialize(workspace, javaModel, config, textWorkspace, sctdg.modelInstanceMap);
-//		ccti.startVisiting(workspace);
-
 		ConfigurableCompositionPropertiesGenerator ccpg = new ConfigurableCompositionPropertiesGenerator();
 		ccpg.initialize(workspace, javaModel, config, textWorkspace, sctdg.modelInstanceMap);
 		ccpg.startVisiting(workspace);
+		stopWatch.split();
+		System.out.println("data generation took " + stopWatch.toSplitString());
 	}
 }
