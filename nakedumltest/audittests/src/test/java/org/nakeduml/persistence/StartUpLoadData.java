@@ -13,8 +13,8 @@ import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
 
-import datagenerationtest.org.nakeduml.God;
-import datagenerationtest.org.nakeduml.GodDataGenerator;
+import audittest.org.nakeduml.audit.God;
+import audittest.org.nakeduml.audit.GodDataGenerator;
 
 public class StartUpLoadData {
 
