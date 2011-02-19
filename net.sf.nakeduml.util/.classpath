@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb3-ext-api-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/arquillian-api-1.0.0.Alpha4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/shrinkwrap-api-1.0.0-alpha-11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/arquillian-junit-1.0.0.Alpha4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.0-SP4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
