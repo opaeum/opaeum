@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
 
@@ -78,7 +79,7 @@ public class EmfWorkspace implements Element {
 		for (Resource r : entryModel.eResource().getResourceSet().getResources()) {
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if (!fileString.contains("UML_METAMODELS") && pkg != null) {
+			if (!fileString.contains("UML_METAMODELS") && (pkg instanceof Profile || pkg instanceof Model)) {
 				result.add(pkg);
 			}
 		}
