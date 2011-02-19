@@ -1,4 +1,4 @@
-package org.nakeduml.arquillian;
+package net.sf.nakeduml.arquillian;
 
 import javax.ejb.EJB;
 

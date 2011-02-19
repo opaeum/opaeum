@@ -2,9 +2,6 @@ package net.sf.nakeduml.util;
 
 import java.util.List;
 
-import javax.persistence.FlushModeType;
-import javax.persistence.Query;
-
 import org.drools.common.InternalKnowledgeRuntime;
 import org.drools.runtime.EnvironmentName;
 import org.hibernate.FlushMode;

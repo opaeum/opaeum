@@ -7,6 +7,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.textmetamodel.TextSource;
 
 public class JavaTextSource implements TextSource {
+	public static final String GEN_TEST_SRC = "gen-test-src";
 	public static final String TEST_SRC = "test-src";
 	public static final String GEN_SRC = "gen-src";
 	public static final String JPA_ROOT = "jpaRoot";

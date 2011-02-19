@@ -55,7 +55,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass ojClass = new OJAnnotatedClass();
 		ojClass.setName(pathName.getLast() + "TestData");
 		UtilityCreator.getUtilPack().addToClasses(ojClass);
-		super.createTextPath(ojClass, JavaTextSource.TEST_SRC);
+		super.createTextPath(ojClass, JavaTextSource.GEN_TEST_SRC);
 		ojClass.addToImports(HibernateConfiguratorGenerator.getConfiguratorPathName());
 		ojClass.addToImports("java.util.List");
 		OJAnnotatedOperation main = OJUtil.buildMain(ojClass);

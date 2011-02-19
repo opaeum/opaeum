@@ -157,16 +157,16 @@ public class DataPopulatorPropertyEntry {
 		}
 	}	
 	
-	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> nodes, ConfigurableCompositionPropertiesGenerator configurator) {
+	public static void outputSizeProperties(List<DataPopulatorPropertyEntry> nodes, ConfigurableCompositionPropertiesGenerator configurator, int size) {
 		for (DataPopulatorPropertyEntry node : nodes) {
 			if (node.isRoot()) {
-				configurator.outputProperties(node.entityName.substring(0, node.entityName.length() - 6) + ".size", "3");
+				configurator.outputProperties(node.entityName.substring(0, node.entityName.length() - 6) + ".size", String.valueOf(size));
 			}
 			List<DataPopulatorPropertyEntry> distinctChildren = node.getDisctinctChildren();
 			for (DataPopulatorPropertyEntry child : distinctChildren) {
-				configurator.outputProperties(child.getParent().value + "." + child.entityName.substring(0, child.entityName.length() - 6) + ".size", "3");
+				configurator.outputProperties(child.getParent().value + "." + child.entityName.substring(0, child.entityName.length() - 6) + ".size", String.valueOf(size));
 			}
-			outputSizeProperties(node.getChildren(), configurator);
+			outputSizeProperties(node.getChildren(), configurator, size);
 		}
 	}
 

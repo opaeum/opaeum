@@ -20,7 +20,7 @@ public class CMDataGeneratorTest extends net.sf.nakeduml.pomgeneration.AbstractM
 	}
 
 	public static void transform(Class<? extends TransformationStep>... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/cmdatagenerationtests", "/usr/share/cm-data/cm-model/cm.uml", classes);
+		transform("../nakedumltest/cmdatagenerationtests", "/usr/share/cm-data/cm-model/cm.uml", false, classes);
 	}
 
 }

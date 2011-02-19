@@ -19,13 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.nakeduml.arquillian;
+package net.sf.nakeduml.arquillian;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+
 
 public class ArquillianUtils {
 
@@ -59,6 +60,8 @@ public class ArquillianUtils {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS_API));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS));
 		if (includeEmptyBeansXml) {
 			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
 		}

@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-
 import org.drools.common.InternalKnowledgeRuntime;
 import org.drools.definition.process.Process;
 import org.drools.runtime.EnvironmentName;

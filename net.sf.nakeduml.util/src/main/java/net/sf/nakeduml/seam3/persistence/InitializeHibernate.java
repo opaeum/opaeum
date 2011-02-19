@@ -1,5 +1,7 @@
 package net.sf.nakeduml.seam3.persistence;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.TransactionManagement;
@@ -16,4 +18,14 @@ public class InitializeHibernate {
 	@Inject
 	Session session;
 	
+	@PostConstruct
+	public void init() {
+		
+	}
+	
+	//This is to ensure closed is called and the tables dropped
+	@PreDestroy
+	public void destroy() {
+		session.getSessionFactory().close();
+	}
 }

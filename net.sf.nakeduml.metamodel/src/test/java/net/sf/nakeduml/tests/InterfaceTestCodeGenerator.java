@@ -16,6 +16,6 @@ public class InterfaceTestCodeGenerator extends net.sf.nakeduml.pomgeneration.Ab
 				OclExpressionExecution.class, StereotypeApplicationExtractor.class,HibernatePomStep.class);
 	}
 	public static void transform(Class<? extends TransformationStep> ... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/interfacetests", "testmodels/InterfaceTests.uml",classes);
+		transform("../nakedumltest/interfacetests", "testmodels/InterfaceTests.uml",false, classes);
 	}
 }

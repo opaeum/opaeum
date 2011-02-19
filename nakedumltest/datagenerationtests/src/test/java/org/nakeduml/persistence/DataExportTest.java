@@ -1,6 +1,7 @@
 package org.nakeduml.persistence;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
@@ -12,6 +13,8 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
+import net.sf.nakeduml.arquillian.ArquillianUtils;
+import net.sf.nakeduml.test.NakedUtilTestClasses;
 import net.sf.nakeduml.util.DataGeneratorProperty;
 
 import org.hibernate.Session;
@@ -24,9 +27,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nakeduml.arquillian.ArquillianUtils;
-import org.nakeduml.arquillian.ArtifactNames;
-import org.nakeduml.arquillian.MavenArtifactResolver;
 
 import datagenerationtest.org.nakeduml.God;
 import datagenerationtest.org.nakeduml.GodDataGenerator;
@@ -36,11 +36,11 @@ import datagenerationtest.org.nakeduml.GodDataGenerator;
 public class DataExportTest extends BaseTest {
 
 	@Deployment
-	public static Archive<?> createTestArchive() {
+	public static Archive<?> createTestArchive() throws IllegalArgumentException, ClassNotFoundException, IOException {
 		WebArchive war = ArquillianUtils.createWarArchive(true);
 		war.addWebResource("hibernate.cfg.xml", "classes/hibernate.cfg.xml");
 		war.addWebResource("data.generation.properties", "data.generation.properties");
-		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.NAKED_UML_UTIL));
+		war.addClasses(NakedUtilTestClasses.getTestClasses()); 
 		war.addClasses(getTestClasses());
 		return war;
 	}

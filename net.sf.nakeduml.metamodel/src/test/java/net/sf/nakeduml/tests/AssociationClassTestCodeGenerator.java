@@ -12,12 +12,12 @@ import net.sf.nakeduml.pomgeneration.HibernatePomStep;
 
 public class AssociationClassTestCodeGenerator extends net.sf.nakeduml.pomgeneration.AbstractMavenProjectProcess {
 	public static void main(String[] args) throws Exception {
-		transform(PersistenceUsingHibernateStep.class, ExtendedCompositionSemantics.class,
-				OclExpressionExecution.class, StereotypeApplicationExtractor.class,HibernatePomStep.class);
+		transform(PersistenceUsingHibernateStep.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
+				HibernatePomStep.class);
 	}
 
-	public static void transform(Class<? extends TransformationStep> ... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/assocationclasstests", "testmodels/AssociationClassTests.uml",classes);
+	public static void transform(Class<? extends TransformationStep>... classes) throws Exception, IOException, FileNotFoundException {
+		transform("../nakedumltest/assocationclasstests", "testmodels/AssociationClassTests.uml", false, classes);
 	}
 
 }

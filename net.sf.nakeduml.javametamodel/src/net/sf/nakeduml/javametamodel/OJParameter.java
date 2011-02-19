@@ -5,7 +5,7 @@ import java.util.Map;
 import net.sf.nakeduml.javametamodel.generated.OJParameterGEN;
 
 public class OJParameter extends OJParameterGEN {
-	private boolean isFinal;
+	protected boolean isFinal;
 
 	/******************************************************
 	 * The constructor for this classifier.

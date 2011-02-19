@@ -17,6 +17,6 @@ public class ProcessCodeGenerator extends net.sf.nakeduml.pomgeneration.Abstract
 	}
 
 	public static void transform(Class<? extends TransformationStep>... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/processmodel", "testmodels/processmodel.uml", classes);
+		transform("../nakedumltest/processmodel", "testmodels/processmodel.uml", false, classes);
 	}
 }

@@ -8,18 +8,26 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.pomgeneration.ProjectWarPomStep;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextSource;
 
-@StepDependency(phase = ProjectGenerationPhase.class, requires = { TextFileGenerator.class }, before = { TextFileGenerator.class })
+@StepDependency(phase = ProjectGenerationPhase.class, requires = { ProjectWarPomStep.class, ProjectTestGenerationStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
 public class WarProjectGenerationStep extends AbstractProjectGenerationStep {
 
-	public void generate() {
+	@VisitBefore
+	public void visitModel(INakedModel model) {
 		createConfig("beans.xml", CharArrayTextSource.WEBAPP_RESOURCE, "WEB-INF");
 		createConfig("faces-config.xml", CharArrayTextSource.WEBAPP_RESOURCE, "WEB-INF");
 		createConfig("web.xml", CharArrayTextSource.WEBAPP_RESOURCE, "WEB-INF");
+		createConfig("arquillian.xml", CharArrayTextSource.TEST_RESOURCE, "");
+		createConfig("log4j.properties", CharArrayTextSource.TEST_RESOURCE, "");
+		createConfig("hornetq-jms.xml", CharArrayTextSource.TEST_RESOURCE_JBOSSAS, "");
+		createConfig("jndi.properties", CharArrayTextSource.TEST_RESOURCE_JBOSSAS, "");
 		createDefaultHtmlPages("home.xhtml");
 		createDefaultHtmlPages("index.html");
 		createDefaultHtmlPages("template.xhtml");

@@ -8,7 +8,6 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.apache.maven.pom.Activation;
-import org.apache.maven.pom.ConfigurationType2;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.ExecutionsType;
@@ -399,6 +398,31 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
 		addAnyElement(anyType.getAny(), "directory", "src/main/webapp");
 
+		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
+		execution.getExecution().add(pluginExecution);
+		pluginExecution.setId("add-test-source");
+		pluginExecution.setPhase("generate-test-sources");
+		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
+		pluginExecution.getGoals().getGoal().add("add-test-source");
+
+		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
+		resourcesAnyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
+		addAnyElement(resourcesAnyType.getAny(), "source", "src/test/generated-java");
+		
+		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
+		execution.getExecution().add(pluginExecution);
+		pluginExecution.setId("add-test-resource");
+		pluginExecution.setPhase("generate-test-resources");
+		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
+		pluginExecution.getGoals().getGoal().add("add-test-resource");
+
+		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
+		resourcesAnyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
+		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
+		addAnyElement(anyType.getAny(), "directory", "src/test/generated-resource-jbossas");
+		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
+		addAnyElement(anyType.getAny(), "directory", "src/test/generated-resources");
+		
 		result[1].setExecutions(execution);
 
 		return result;
@@ -416,7 +440,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		Profile profile = POMFactory.eINSTANCE.createProfile();
 		profile.setId("jbossas-managed-6");
 		Activation activation = POMFactory.eINSTANCE.createActivation();
-		activation.setActiveByDefault(false);
+		activation.setActiveByDefault(true);
 		profile.setActivation(activation);
 
 		profile.setDependencies(POMFactory.eINSTANCE.createDependenciesType2());

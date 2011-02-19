@@ -1,4 +1,4 @@
-package org.nakeduml.arquillian;
+package net.sf.nakeduml.arquillian;
 
 public class ArtifactNames {
 	public static final String NAKED_UML_UTIL = "org.nakeduml:util";
@@ -10,6 +10,9 @@ public class ArtifactNames {
 
 	public static final String SEAM_SERVLET_API = "org.jboss.seam.servlet:seam-servlet-api";
 	public static final String SEAM_SERVLET_IMPL = "org.jboss.seam.servlet:seam-servlet-impl";
+
+	public static final String SEAM_JMS_API = "org.jboss.seam.jms:seam-jms-api";
+	public static final String SEAM_JMS = "org.jboss.seam.jms:seam-jms";
 
 	public static final String HIBERNATE_SEARCH = "org.hibernate:hibernate-search";
 	public static final String LUCENE_CORE = "org.apache.lucene:lucene-core";

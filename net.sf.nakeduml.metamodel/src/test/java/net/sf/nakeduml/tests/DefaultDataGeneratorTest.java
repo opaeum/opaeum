@@ -20,7 +20,7 @@ public class DefaultDataGeneratorTest extends net.sf.nakeduml.pomgeneration.Abst
 	}
 
 	public static void transform(Class<? extends TransformationStep>... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/datagenerationtests", "testmodels/DataGenerationTests.uml", classes);
+		transform("../nakedumltest/datagenerationtests", "testmodels/DataGenerationTests.uml", false, classes);
 	}
 
 }

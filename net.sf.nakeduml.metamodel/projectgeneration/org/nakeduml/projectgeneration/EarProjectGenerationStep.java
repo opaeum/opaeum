@@ -9,9 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.pomgeneration.ProjectRootPomStep;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
@@ -27,7 +29,9 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 	private static final String PROJECT_WEBAPP = "project-webapp";
 
 
-	public void generate() {
+	@Override
+	@VisitBefore
+	public void visitModel(INakedModel model) {
 		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getProjectName());
 		if (root.exists()) {
 			try {
@@ -46,7 +50,7 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 		mapOutput("project-test-resources", new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/test/resources"));
 		mapOutput(JavaTextSource.GEN_SRC, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/main/generated-java"));
 		mapOutput(PropertiesSource.GEN_RESOURCE, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/main/generated-resources"));
-		mapOutput(JavaTextSource.TEST_SRC, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/test/generated-java"));
+		mapOutput(JavaTextSource.GEN_TEST_SRC, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/test/generated-java"));
 		mapOutput(CharArrayTextSource.TEST_RESOURCE, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT),
 				"/src/test/generated-resources"));
 		mapOutput(PROJECT_WEBAPP, new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_WAR_ROOT), "/src/main/webapp"));
@@ -137,4 +141,5 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 		destination.mkdirs();
 		config.mapOutputRoot(name, destination);
 	}
+
 }

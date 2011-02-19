@@ -50,7 +50,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			rootX.outputCompositeProperties(this);
 		}
 		System.out.println("Root outputSizeProperties");
-		DataPopulatorPropertyEntry.outputSizeProperties(rootList, this);
+		DataPopulatorPropertyEntry.outputSizeProperties(rootList, this, 2);
 	}
 
 	@VisitBefore(matchSubclasses = true)

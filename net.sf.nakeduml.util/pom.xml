@@ -17,6 +17,7 @@
 	<properties>
 		<seam.persistence.version>3.0.0.Beta2</seam.persistence.version>
 		<jbpm.version>5.0-SNAPSHOT</jbpm.version>
+	    <arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
 
 	<build>
@@ -123,6 +124,13 @@
 			<version>1.0.0.Final</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.ejb3</groupId>
+			<artifactId>jboss-ejb3-ext-api</artifactId>
+			<version>1.1.1</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -248,6 +256,13 @@
 			<version>3.6.0.Final</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian</groupId>
+			<artifactId>arquillian-junit</artifactId>
+			<version>${arquillian.version}</version>
+			<type>jar</type>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

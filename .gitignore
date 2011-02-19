@@ -2,3 +2,9 @@
 /nakedumltest/cmdatagenerationtests/.project
 /nakedumltest/cmdatagenerationtests/src/main/generated-java
 /nakedumltest/cmdatagenerationtests/src/main/generated-resources
+/nakedumltest/audittests/src/main/generated-resources
+/nakedumltest/audittests/src/main/generated-java
+/nakedumltest/audittests/target
+/nakedumltest/jbpmtest/src/main/generated-resources
+/nakedumltest/jbpmtest/src/main/generated-java
+/nakedumltest/jbpmtest/target

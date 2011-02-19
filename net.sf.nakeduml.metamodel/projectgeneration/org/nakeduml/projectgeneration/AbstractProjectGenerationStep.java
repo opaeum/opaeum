@@ -1,25 +1,22 @@
 package org.nakeduml.projectgeneration;
 
 import java.io.File;
-import java.io.IOException;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.pomgeneration.AbstractMavenProjectProcess;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-import org.apache.commons.io.FileUtils;
-
 public abstract class AbstractProjectGenerationStep extends AbstractMavenProjectProcess implements TransformationStep {
 
-	protected TextWorkspace textWorkspace;
-	protected NakedUmlConfig config;
-
-	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace) {
+	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace, OJAnnotatedPackage javaModel) {
 		this.textWorkspace = textWorkspace;
 		this.config = config;
+		this.javaModel = javaModel;
 	}
-	public abstract void generate();
+	public abstract void visitModel(INakedModel model);
 	protected File createRootFolder() {
 		File root = new File(config.getNakedUmlProjectGenRoot() + "/" + config.getProjectName());
 		if (root.exists()) {

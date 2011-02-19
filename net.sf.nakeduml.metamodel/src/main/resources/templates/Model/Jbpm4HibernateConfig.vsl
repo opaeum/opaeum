@@ -47,9 +47,15 @@
 	    <mapping class="net.sf.nakeduml.util.RevisionEntity"/>
 
 #if($requiresAuditing)
-		<!--<event type="post-commit-insert">
-			<listener class="util.NakedUmlAuditTrailInterceptor" />
-		</event>-->
+		<event type="post-insert">
+			<listener class="net.sf.nakeduml.audit.AuditListener" />
+		</event>
+		<event type="post-update">
+			<listener class="net.sf.nakeduml.audit.AuditListener" />
+		</event>
+		<event type="flush">
+			<listener class="net.sf.nakeduml.audit.AuditListener" />
+		</event>
 #end
 	</session-factory>
 </hibernate-configuration>

@@ -146,14 +146,6 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 
 	}
 
-	private boolean compositeOwnersInverseIsInterface(INakedEntity entity) {
-		if (entity.getEndToComposite() == null) {
-			return false;
-		} else {
-			return (entity.getEndToComposite().getOtherEnd().getBaseType() instanceof INakedInterface);
-		}
-	}
-
 	private boolean isCompositeParentAbstract(INakedEntity entity) {
 		if (entity.getEndToComposite() == null) {
 			return false;

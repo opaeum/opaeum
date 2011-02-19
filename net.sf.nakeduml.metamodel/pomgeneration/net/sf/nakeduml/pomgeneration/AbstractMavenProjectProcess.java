@@ -16,6 +16,7 @@ import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
@@ -26,10 +27,11 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Model;
 
-public class AbstractMavenProjectProcess {
+public class AbstractMavenProjectProcess extends AbstractJavaProducingVisitor {
 	public static class MavenDirectories {
 		public File srcFolder;
 		public File testResourcesFolder;
+		public File getTestJbossResourcesFolder;
 		public File testFolder;
 		public File srcResourceFolder;
 		public File genSrcFolder;
@@ -40,7 +42,7 @@ public class AbstractMavenProjectProcess {
 		public File warRoot;
 	}
 
-	protected static void transform(String outputRoot, String modelLocation, Class<? extends TransformationStep>... features)
+	protected static void transform(String outputRoot, String modelLocation, boolean initApp, Class<? extends TransformationStep>... features)
 			throws Exception, IOException, FileNotFoundException {
 		long start = System.currentTimeMillis();
 		Model model = UML2ModelLoader.loadModel(modelLocation);
@@ -54,8 +56,21 @@ public class AbstractMavenProjectProcess {
 		mavenDirectories.genTestFolder.mkdirs();
 		mavenDirectories.genTestResourcesFolder = new File(outputRoot + "/src/test/generated-resources");
 		mavenDirectories.genTestResourcesFolder.mkdirs();
-		mavenDirectories.warRoot = new File(outputRoot);
-		mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
+		mavenDirectories.getTestJbossResourcesFolder = new File(outputRoot + "/src/test/generated-resource-jbossas");
+		mavenDirectories.getTestJbossResourcesFolder.mkdirs();
+		
+		if (initApp) {
+			mavenDirectories.srcFolder = new File(outputRoot + "/src/main/java");
+			mavenDirectories.srcFolder.mkdirs();
+			mavenDirectories.srcResourceFolder = new File(outputRoot + "/src/main/resources");
+			mavenDirectories.srcResourceFolder.mkdirs();
+			mavenDirectories.testFolder = new File(outputRoot + "/src/test/java");
+			mavenDirectories.testFolder.mkdirs();
+			mavenDirectories.testResourcesFolder = new File(outputRoot + "/src/test/resources");
+			mavenDirectories.testResourcesFolder.mkdirs();
+			mavenDirectories.warRoot = new File(outputRoot);
+			mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
+		}
 		Properties props = new Properties();
 		InputStreamReader inStream = getInputStream(model, "properties");
 		if (inStream != null) {
@@ -63,23 +78,27 @@ public class AbstractMavenProjectProcess {
 		}
 
 		NakedUmlConfig cfg = new NakedUmlConfig(props, model.getName());
-		transform(model, mavenDirectories, cfg, features);
+		transform(model, mavenDirectories, cfg, initApp, features);
 		System.out.println(System.currentTimeMillis() - start);
 	}
 
-	public static void transform(Model model, MavenDirectories mavenDirectories, NakedUmlConfig cfg,
-			Class<? extends TransformationStep>... features) throws IOException {
+	public static void transform(Model model, MavenDirectories mavenDirectories, NakedUmlConfig cfg, boolean initApp, Class<? extends TransformationStep>... features)
+			throws IOException {
 		cfg.mapOutputRoot(JavaTextSource.GEN_SRC, mavenDirectories.genSrcFolder);
-		cfg.mapOutputRoot(JavaTextSource.TEST_SRC, mavenDirectories.genTestFolder);
+		cfg.mapOutputRoot(JavaTextSource.GEN_TEST_SRC, mavenDirectories.genTestFolder);
 		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE, mavenDirectories.genTestResourcesFolder);
 		cfg.mapOutputRoot(PropertiesSource.GEN_RESOURCE, mavenDirectories.genSrcResourceFolder);
 		cfg.mapOutputRoot(JavaTextSource.NAKED_PROJECT_ROOT, mavenDirectories.warRoot);
-		cfg.mapOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE, mavenDirectories.webappFolder);
-
+		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE_JBOSSAS, mavenDirectories.getTestJbossResourcesFolder);
+		
+		if (initApp) {
+			cfg.mapOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE, mavenDirectories.webappFolder);
+		}
+		
 		TransformationProcess process = new TransformationProcess();
 		WorkspaceMappingInfoImpl mappingInfo = new WorkspaceMappingInfoImpl(getInputStream(model, "mappinginfo"));
-		HashSet<Class<? extends TransformationStep>> classes = new HashSet<Class<? extends TransformationStep>>(Arrays.asList(features) );
-		process.execute(cfg, new EmfWorkspace(model, mappingInfo),classes);
+		HashSet<Class<? extends TransformationStep>> classes = new HashSet<Class<? extends TransformationStep>>(Arrays.asList(features));
+		process.execute(cfg, new EmfWorkspace(model, mappingInfo), classes);
 		cfg.store(getOutputStream(model, "properties"));
 		mappingInfo.store(getOutputStream(model, "mappinginfo"));
 	}

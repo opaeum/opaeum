@@ -1,4 +1,4 @@
-package org.nakeduml.arquillian;
+package net.sf.nakeduml.arquillian;
 
 import java.io.File;
 import java.util.ArrayList;

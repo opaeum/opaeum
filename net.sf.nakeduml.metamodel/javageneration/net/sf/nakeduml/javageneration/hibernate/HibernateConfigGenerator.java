@@ -12,12 +12,10 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTextProducingVisitor;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -59,9 +57,15 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 			}
 		});
 		vars.put("persistentClasses", sortedClasses);
-		// TODO parameterize this!/ later
-
-		vars.put("requiresAuditing", true);
+		//TODO find better way of knowing the audit step is present
+		boolean requiresAudit = false;
+		for (OJClass ojClass : sortedClasses) {
+			requiresAudit = ojClass.getName().endsWith("Audit");
+			if (requiresAudit) {
+				break;
+			}
+		}
+		vars.put("requiresAuditing", requiresAudit);
 		vars.put("config", this.config);
 		processTemplate(this.workspace.getGeneratingModelsOrProfiles().get(0), "templates/Model/Jbpm4HibernateConfig.vsl",
 				/*this.config.getProjectName()+ "." + */"hibernate.cfg.xml", PropertiesSource.GEN_RESOURCE, vars);

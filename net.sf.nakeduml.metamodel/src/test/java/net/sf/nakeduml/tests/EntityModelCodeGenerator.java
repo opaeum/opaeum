@@ -17,6 +17,6 @@ public class EntityModelCodeGenerator extends net.sf.nakeduml.pomgeneration.Abst
 	}
 
 	public static void transform(Class<? extends TransformationStep>... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/entitymodel", "testmodels/entitymodel.uml", classes);
+		transform("../nakedumltest/entitymodel", "testmodels/entitymodel.uml", false, classes);
 	}
 }
