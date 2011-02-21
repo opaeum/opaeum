@@ -55,7 +55,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass ojClass = new OJAnnotatedClass();
 		ojClass.setName(pathName.getLast() + "TestData");
 		UtilityCreator.getUtilPack().addToClasses(ojClass);
-		super.createTextPath(ojClass, JavaTextSource.GEN_TEST_SRC);
+		super.createTextPath(ojClass, JavaTextSource.TEST_SRC);
 		ojClass.addToImports(HibernateConfiguratorGenerator.getConfiguratorPathName());
 		ojClass.addToImports("java.util.List");
 		OJAnnotatedOperation main = OJUtil.buildMain(ojClass);
@@ -89,32 +89,32 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		OJIfStatement ifNotEmpty = new OJIfStatement("!list.isEmpty()", "user.addRole((" + userRoleInterface.getLast() + ")list.get(0))");
 		addRole.getBody().addToStatements(ifNotEmpty);
 	}
-//	private void buildRoleMapping(OJPathName abstractUserPathame){
-//		OJAnnotatedClass userRoleMapping = new OJAnnotatedClass();
-//		userRoleMapping.setName("UserRoleMapping");
-//		JpaUtil.addAndAnnotatedIdAndVersion(userRoleMapping, "user_role_mapping");
-//		JpaUtil.addEntity(userRoleMapping);
-//		JpaUtil.buildTableAnnotation(userRoleMapping, "user_role_mapping", this.config);
-//		UtilityCreator.getUtilPack().addToClasses(userRoleMapping);
-//		createTextPath(userRoleMapping, JavaTextSource.GEN_SRC);
-//		OJPathName mappedRoles = new OJPathName("java.util.Collection");
-//		mappedRoles.addToElementTypes(userRoleMapping.getPathName());
-//		//TODO this needs to become a uml library
-////		OJPathName userRolePath = ReflectionUtil.getUtilInterface(AbstractUserRole.class);
-//		OJPathName userRolePath = abstractUserRoleInterface;
-//		OJAnnotatedField role = OJUtil.addProperty(userRoleMapping, "role", userRolePath, true);
+	private void buildRoleMapping(OJPathName abstractUserPathame){
+		OJAnnotatedClass userRoleMapping = new OJAnnotatedClass();
+		userRoleMapping.setName("UserRoleMapping");
+		JpaUtil.addAndAnnotatedIdAndVersion(userRoleMapping, "user_role_mapping");
+		JpaUtil.addEntity(userRoleMapping);
+		JpaUtil.buildTableAnnotation(userRoleMapping, "user_role_mapping", this.config);
+		UtilityCreator.getUtilPack().addToClasses(userRoleMapping);
+		createTextPath(userRoleMapping, JavaTextSource.GEN_SRC);
+		OJPathName mappedRoles = new OJPathName("java.util.Collection");
+		mappedRoles.addToElementTypes(userRoleMapping.getPathName());
+		//TODO this needs to become a uml library
+//		OJPathName userRolePath = ReflectionUtil.getUtilInterface(AbstractUserRole.class);
+		OJPathName userRolePath = abstractUserRoleInterface;
+		OJAnnotatedField role = OJUtil.addProperty(userRoleMapping, "role", userRolePath, true);
 //		HibernateUtil.addAny(userRoleMapping, role, "role_id", getConcreteUserRoles());
-//		OJAnnotatedField user = OJUtil.addProperty(userRoleMapping, "user", abstractUserPathame, true);
-//		JpaUtil.addJoinColumn(user, "user_id", false);
-//		OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
-//		JpaUtil.cascadeAll(manyToOne);
-//		user.addAnnotationIfNew(manyToOne);
-//		OJAnnotatedField roleName = OJUtil.addProperty(userRoleMapping, "roleName", new OJPathName("String"), true);
-//		JpaUtil.addColumn(roleName, "role_name", false);
-//		roleName.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.security.management.RoleName")));
-//		OJAnnotatedOperation setRole = (OJAnnotatedOperation) userRoleMapping.findOperation("setRole", Collections.singletonList(userRolePath));
-//		setRole.getBody().addToStatements("this.roleName=role.getRoleNameForSecurity()");
-//	}
+		OJAnnotatedField user = OJUtil.addProperty(userRoleMapping, "user", abstractUserPathame, true);
+		JpaUtil.addJoinColumn(user, "user_id", false);
+		OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
+		JpaUtil.cascadeAll(manyToOne);
+		user.addAnnotationIfNew(manyToOne);
+		OJAnnotatedField roleName = OJUtil.addProperty(userRoleMapping, "roleName", new OJPathName("String"), true);
+		JpaUtil.addColumn(roleName, "role_name", false);
+		roleName.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.security.management.RoleName")));
+		OJAnnotatedOperation setRole = (OJAnnotatedOperation) userRoleMapping.findOperation("setRole", Collections.singletonList(userRolePath));
+		setRole.getBody().addToStatements("this.roleName=role.getRoleNameForSecurity()");
+	}
 	private Collection<INakedEntity> getConcreteUserRoles(){
 		Collection<INakedEntity> results = new ArrayList<INakedEntity>();
 		for(INakedElement e:workspace.getAllElements()){

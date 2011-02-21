@@ -10,15 +10,24 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJElement;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import net.sf.nakeduml.util.AbstractSignal;
 
 @StepDependency(phase = AuditGenerationPhase.class, requires = {})
 public class AuditImplementationStep extends AbstractJavaTransformationStep {
@@ -26,35 +35,34 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 
 	public void initialize(OJPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace, OJPackage newRoot) {
 		super.initialize(pac, config, textWorkspace);
-		this.newRoot=newRoot;
+		this.newRoot = newRoot;
 	}
 
-	public static final class OJVisitor extends VisitorAdapter<OJElement, OJPackage> {
-		private final HashSet<OJClass> persistentClasses;
+	public static final class NakedElementVisitor extends AbstractJavaProducingVisitor {
+		private final HashSet<OJPathName> persistentClasses;
 
-		private OJVisitor(HashSet<OJClass> classes) {
+		@Override
+		public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
+			return root.getOwnedElements();
+		}
+
+		private NakedElementVisitor(HashSet<OJPathName> classes) {
 			this.persistentClasses = classes;
 		}
 
-		@Override
-		public Collection<? extends OJElement> getChildren(OJElement root) {
-			if (root instanceof OJPackage) {
-				Set<OJElement> results = new HashSet<OJElement>();
-				OJPackage ojp = (OJPackage) root;
-				results.addAll(ojp.getSubpackages());
-				return results;
+		@VisitBefore(matchSubclasses = true)
+		public void visitClass(INakedClassifier p) {
+			if ((isPersistent(p) || isPersistentInterface(p)) && !isInNakedUmlUtil(p)) {
+				persistentClasses.add(new OJPathName(p.getMappingInfo().getQualifiedJavaName()));
 			}
-			return Collections.emptySet();
 		}
 
-		@VisitBefore(matchSubclasses = true)
-		public void visitPackage(OJPackage p) {
-			for (OJClass c : p.getClasses()) {
-				if ((c instanceof OJAnnotatedInterface && !((OJAnnotatedInterface) c).getPathName().getFirst().startsWith("util"))
-						|| c instanceof OJAnnotatedClass && ((OJAnnotatedClass) c).hasAnnotation(new OJPathName("javax.persistence.Table"))) {
-					persistentClasses.add(c);
-				}
-			}
+		private boolean isPersistentInterface(INakedClassifier p) {
+			return (p instanceof INakedInterface && p.getStereotype(StereotypeNames.HELPER) == null);
+		}
+
+		private boolean isInNakedUmlUtil(INakedClassifier p) {
+			return (p.getMappingInfo().getQualifiedJavaName().startsWith(AbstractSignal.class.getPackage().getName()));
 		}
 	}
 
@@ -77,7 +85,7 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		anotherAuditEntryOriginalClassesGenerator.initialize(workspace, this.javaModel, config, textWorkspace);
 		anotherAuditEntryOriginalClassesGenerator.startVisiting(workspace);
 		// Visit copy classes
-		Set<OJClass> classes = getClassesRecursively(newRoot);
+		Set<OJPathName> classes = getClassesRecursively(workspace);
 		AuditEntryMassage aeg = new AuditEntryMassage();
 		aeg.initialize(workspace, newRoot, config, textWorkspace, classes);
 		aeg.startVisiting(workspace);
@@ -90,10 +98,10 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 			owner.addToClasses(auditClass);
 		}
 	}
-	
-	private Set<OJClass> getClassesRecursively(OJPackage copy) {
-		final HashSet<OJClass> classes = new HashSet<OJClass>();
-		new OJVisitor(classes).startVisiting(copy);
+
+	private Set<OJPathName> getClassesRecursively(INakedModelWorkspace workspace) {
+		final HashSet<OJPathName> classes = new HashSet<OJPathName>();
+		new NakedElementVisitor(classes).startVisiting(workspace);
 		return classes;
 	}
 	

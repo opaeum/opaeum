@@ -1,5 +1,7 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,7 +25,6 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Constraint;
@@ -43,6 +44,24 @@ import org.eclipse.uml2.uml.ValueSpecification;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements TransformationStep {
 	protected INakedModelWorkspace workspace;
+	private HashSet<INakedElement> existingModels;
+	@Override
+	public Collection<? extends Element> getChildren(Element root) {
+		if (root instanceof EmfWorkspace) {
+			Collection<Element> children = new HashSet<Element>();
+			EmfWorkspace w = (EmfWorkspace) root;
+			for (Element element : w.getOwnedElements()) {
+				INakedElement nakedElement = workspace.getModelElement(getId(element));
+				if(nakedElement==null || !existingModels.contains(nakedElement)){
+					children.add(element);
+				}
+			}
+			return children;
+		} else {
+			return super.getChildren(root);
+		}
+	}
+
 
 	@Override
 	protected Object resolvePeer(Element o, Class peerClass) {
@@ -110,7 +129,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 
 	static String getId(EObject e) {
-		return e.eResource().getURI().lastSegment() +"@"+ e.eResource().getURIFragment(e);
+		return e.eResource().getURI().lastSegment() + "@" + e.eResource().getURIFragment(e);
 	}
 
 	protected INakedElement getNakedPeer(Element e) {
@@ -313,6 +332,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 
 	public void initialize(INakedModelWorkspace workspace2) {
 		this.workspace = workspace2;
+		this.existingModels=new HashSet<INakedElement>(workspace.getOwnedElements());
+
 	}
 
 	private NakedMultiplicityImpl toNakedMultiplicity(MultiplicityElement te) {

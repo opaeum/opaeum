@@ -116,7 +116,7 @@ public class TaskImplementor extends AbstractBehaviorVisitor {
 		}
 	}
 
-	public void implementgetCallbackListener(OJAnnotatedClass ojOperationClass, NakedOperationMap map) {
+	private void implementgetCallbackListener(OJAnnotatedClass ojOperationClass, NakedOperationMap map) {
 		// getCAllbackLister
 		OJAnnotatedOperation getCallbackListener = new OJAnnotatedOperation(getCallbackListener(map), map.callbackListenerPath());
 		ojOperationClass.addToOperations(getCallbackListener);
@@ -195,7 +195,7 @@ public class TaskImplementor extends AbstractBehaviorVisitor {
 
 	@Override
 	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
-		// TODO This means the inheritance hierarchy needs works
+		// TODO This means the inheritance hierarchy needs work
 		return null;
 	}
 }

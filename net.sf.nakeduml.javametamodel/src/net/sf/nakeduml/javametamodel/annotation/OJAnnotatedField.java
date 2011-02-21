@@ -90,10 +90,7 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement {
 		super.renameAll(renamePathNames, newName);
 		Set<OJAnnotationValue> annotations = getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {
-			Set<OJPathName> usedTypes = ojAnnotationValue.getAllTypesUsed();
-			for (OJPathName usedType : usedTypes) {
-				usedType.renameAll(renamePathNames, newName);
-			}
+			ojAnnotationValue.renameAll(renamePathNames, newName);
 		}
 	}
 
