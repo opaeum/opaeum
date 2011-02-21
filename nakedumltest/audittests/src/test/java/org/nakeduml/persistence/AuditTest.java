@@ -26,7 +26,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import audittest.org.nakeduml.audit.Finger;
 import audittest.org.nakeduml.audit.God;
 import audittest.org.nakeduml.audit.God_Audit;
 
@@ -42,7 +41,6 @@ public class AuditTest extends BaseTest {
 		war.addWebResource("hibernate.cfg.xml", "classes/hibernate.cfg.xml");
 		war.addWebResource("data.generation.properties", "data.generation.properties");
 		war.addClasses(NakedUtilTestClasses.getTestClasses());
-		war.addPackages(true, Finger.class.getPackage());
 		war.addClasses(getTestClasses());
 		war.addManifestResource(HORNETQ_JMS_DEPLOYMENT_CONFIG);
 		return war;
