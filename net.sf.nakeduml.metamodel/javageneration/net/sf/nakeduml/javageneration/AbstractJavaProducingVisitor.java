@@ -20,6 +20,7 @@ import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -141,7 +142,8 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
 		if (root instanceof INakedModelWorkspace) {
-			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+			List<INakedPackage> generatingModelsOrProfiles = ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+			return generatingModelsOrProfiles;
 		} else {
 			return super.getChildren(root);
 		}

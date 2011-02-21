@@ -39,6 +39,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 
 	public Object[] execute(List<AbstractExtractorFromEmf> features) {
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
+		modelWorkspace.clearGeneratingModelOrProfiles();
 		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
 			modelWorkspace.addGeneratingModelOrProfileId(getIdFor(gp));
 		}
@@ -54,12 +55,14 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 				}
 				System.out.println("Loaded mappings: " + mappedTypesUri);
 			} catch (IOException e1) {
-				System.out.println("Could not load mappedTypes in " + mappedTypesUri);
-				System.out.println(e);
+//				System.out.println("Could not load mappedTypes in " + mappedTypesUri);
+//				System.out.println(e);
 			}
 		}
 		for (AbstractExtractorFromEmf v : features) {
 			v.initialize(modelWorkspace);
+		}
+		for (AbstractExtractorFromEmf v : features) {
 			v.startVisiting(emfWorkspace);
 		}
 		INakedPackage nakedPackage = getNakedPackage(emfWorkspace.getEntryModel());

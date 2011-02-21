@@ -89,22 +89,21 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		return root;
 	}
 
-	protected  void createVariable(VariablesType variables, String variableName, String qualifiedJavaName) {
+	protected void createVariable(VariablesType variables, String variableName, String qualifiedJavaName) {
 		VariableType processObject = ProcessFactory.eINSTANCE.createVariableType();
 		variables.getVariable().add(processObject);
 		processObject.setName(variableName);
 		TypeType processObjectType = ProcessFactory.eINSTANCE.createTypeType();
 		processObjectType.setClassName(qualifiedJavaName);
-		final String PKG="drools";
-		if(qualifiedJavaName.equals("java.lang.String")){
-			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.StringDataType");
-		}else if(qualifiedJavaName.equalsIgnoreCase("java.lang.Boolean")){
-			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.BooleanDataType");
-		}else if(qualifiedJavaName.equalsIgnoreCase("java.lang.Integer")){
-			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.IntegerDataType");
-		}else{
-			processObjectType.setName("org."+PKG+".process.core.datatype.impl.type.ObjectDataType");
-
+		final String PKG = "drools";
+		if (qualifiedJavaName.equals("java.lang.String")) {
+			processObjectType.setName("org." + PKG + ".process.core.datatype.impl.type.StringDataType");
+		} else if (qualifiedJavaName.equalsIgnoreCase("java.lang.Boolean")) {
+			processObjectType.setName("org." + PKG + ".process.core.datatype.impl.type.BooleanDataType");
+		} else if (qualifiedJavaName.equalsIgnoreCase("java.lang.Integer")) {
+			processObjectType.setName("org." + PKG + ".process.core.datatype.impl.type.IntegerDataType");
+		} else {
+			processObjectType.setName("org." + PKG + ".process.core.datatype.impl.type.ObjectDataType");
 		}
 		processObject.getType().add(processObjectType);
 	}
@@ -231,7 +230,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		return node1;
 	}
 
-	protected void addConstraintsToSplit(SplitType split, Collection<? extends GuardedFlow> outgoing ,boolean passContext) {
+	protected void addConstraintsToSplit(SplitType split, Collection<? extends GuardedFlow> outgoing, boolean passContext) {
 		ConstraintsType constraints = ProcessFactory.eINSTANCE.createConstraintsType();
 		split.getConstraints().add(constraints);
 		for (GuardedFlow t : outgoing) {
@@ -243,8 +242,8 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 				constraint.setPriority("3");
 			} else {
 				if (t.getGuard().isOclValue()) {
-					String param = passContext?"context":"";
-					constraint.setValue("return processObject." + Jbpm5Util.getGuardMethod(t) + "("+param+");");
+					String param = passContext ? "context" : "";
+					constraint.setValue("return processObject." + Jbpm5Util.getGuardMethod(t) + "(" + param + ");");
 					constraint.setPriority("1");
 				} else if (t.getGuard().getValue() instanceof Boolean) {
 					constraint.setValue("return " + t.getGuard().getValue() + ";");
@@ -262,8 +261,13 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 
 	@Override
 	public final Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
-		return root.getOwnedElements();
+		if (root instanceof INakedModelWorkspace) {
+			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+		} else {
+			return root.getOwnedElements();
+		}
 	}
+
 	protected final ActionType createAction(String methodName, EList<ActionType> action, boolean passContext) {
 		ActionType entryAction = ProcessFactory.eINSTANCE.createActionType();
 		action.add(entryAction);
@@ -273,5 +277,4 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		entryAction.setValue("processObject." + methodName + "(" + string + ")");
 		return entryAction;
 	}
-
 }

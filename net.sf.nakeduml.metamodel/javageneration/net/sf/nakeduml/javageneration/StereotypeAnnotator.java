@@ -2,22 +2,19 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.Collection;
 
-import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
-
 import net.sf.nakeduml.javametamodel.OJElement;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedElement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
-import net.sf.nakeduml.javametamodel.annotation.OJClassValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
@@ -60,7 +57,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 				// 1. initialValue caused duplicate elements ????
 				// 2. THere might not be a slot for the feature
 				if (slot.getDefiningFeature().getInitialValue() != null) {
-					addValue(stereotypeApplication, aa, slot.getDefiningFeature().getInitialValue());
+					addValue(stereotypeApplication, aa, slot, slot.getDefiningFeature().getInitialValue());
 				} else {
 					if (sfm.javaType().endsWith("int")) {
 						aa.addNumberValue(new Integer(0));
@@ -74,7 +71,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 				}
 			} else {
 				for (INakedValueSpecification vs : slot.getValues()) {
-					addValue(stereotypeApplication, aa, vs);
+					addValue(stereotypeApplication, aa, slot,vs);
 				}
 			}
 		}
@@ -87,7 +84,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	private void addValue(INakedInstanceSpecification is, OJAnnotationAttributeValue aa, INakedValueSpecification vs) {
+	private void addValue(INakedInstanceSpecification is, OJAnnotationAttributeValue aa, INakedSlot slot, INakedValueSpecification vs) {
 		if (vs.getValue() instanceof Boolean) {
 			aa.addBooleanValue(vs.booleanValue());
 		} else if (vs.getValue() instanceof Number) {
@@ -98,10 +95,8 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 			INakedClassifier stereotype = is.getClassifier();
 			INakedEnumerationLiteral l = (INakedEnumerationLiteral) vs.getValue();
 			INakedEnumeration en = (INakedEnumeration) l.getEnumeration();
-			// If the stereotype is predefined, but the enumeration isn't, the
-			// enumeration is probably
-			// coming from a user model
-			if (isBuiltIn(stereotype) && !isBuiltIn(en)) {
+			if (slot.getDefiningFeature().getBaseType() instanceof INakedPrimitiveType) {
+				//String
 				aa.addStringValue(l.getName());
 			} else {
 				ClassifierMap ecm = new NakedClassifierMap(en);
@@ -111,8 +106,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 		} else if (vs.getValue() instanceof INakedClassifier) {
 			
 			OJPathName path = new OJPathName( ((INakedClassifier) vs.getValue()).getMappingInfo().getQualifiedJavaName() );
-			OJClassValue ojClassValue = new OJClassValue(path);
-			aa.addClassValue(ojClassValue);
+			aa.addClassValue(path);
 			
 		} else if (vs.getValue() instanceof INakedInstanceSpecification) {
 			aa.addAnnotationValue(buildAnnotation((INakedInstanceSpecification) vs.getValue()));

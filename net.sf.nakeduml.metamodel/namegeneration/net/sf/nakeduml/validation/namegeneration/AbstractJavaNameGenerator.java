@@ -20,7 +20,6 @@ import nl.klasse.octopus.model.IModelElement;
 
 public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator {
 	protected final NameWrapper generateJavaName(INakedElement element) {
-
 		String name = element.getName();
 		if (element instanceof INakedClassifier) {
 			INakedClassifier nc = (INakedClassifier) element;
@@ -70,20 +69,19 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator {
 		}
 		return new SingularNameWrapper(name, null);
 	}
-	public final String generateQualifiedJavaName(IModelElement me) {
+
+	protected final String generateQualifiedJavaName(IModelElement me) {
 		String generatedName = null;
 		if (me instanceof INakedPackage) {
 			INakedPackage nakedPackage = ((INakedPackage) me);
-			if (nakedPackage.getCodeGenerationStrategy().isNone()) {
+			if (nakedPackage.getMappedImplementationPackage() != null) {
 				generatedName = nakedPackage.getMappedImplementationPackage();
-			}
-			if (generatedName == null) {
+			} else {
 				if (nakedPackage.isRootPackage() || nakedPackage.getParent() == null) {
 					generatedName = me.getName();
 				} else {
 					generatedName = generateQualifiedJavaName(nakedPackage.getParent()).toLowerCase() + "." + me.getName();
 				}
-				nakedPackage.setMappedImplementationPackage(generatedName);
 			}
 		} else if (me instanceof INakedAssociation) {
 			generatedName = pathname(me.getPathName()).toJavaString();
@@ -107,7 +105,8 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator {
 			generatedName = generatedQualifiedJavaName.toLowerCase() + "." + me.getName();
 		} else if (me instanceof INakedOpaqueAction) {
 			INakedOpaqueAction action = (INakedOpaqueAction) me;
-			// TODO support for mapping of Responsibilities, OpaqueActions or OpaqueBehavior
+			// TODO support for mapping of Responsibilities, OpaqueActions or
+			// OpaqueBehavior
 			// generatedName = type.getMappedImplementationType();
 			String generatedQualifiedJavaName = generateQualifiedJavaName(action.getMessageStructure().getNameSpace());
 			// Always keep packages in lowercase
@@ -121,18 +120,19 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator {
 			}
 			generatedName = generatedName + "." + generateJavaName(state);
 		} else {
-			// TODO for actions and valuespecs, maybe ensure that the owning behavior is the direct java namespace
+			// TODO for actions and valuespecs, maybe ensure that the owning
+			// behavior is the direct java namespace
 			generatedName = pathname(me.getPathName()).toJavaString();
 		}
 		generatedName = generatedName.trim();
 		return generatedName;
 	}
+
 	private OJPathName pathname(PathName pathName) {
 		OJPathName result = new OJPathName();
-		for(String s:pathName.getNames()){
+		for (String s : pathName.getNames()) {
 			result.addToNames(s);
 		}
 		return result;
 	}
-
 }

@@ -16,6 +16,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -37,6 +38,8 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
+import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
@@ -49,6 +52,7 @@ import net.sf.nakeduml.name.NameConverter;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextOutputRoot;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import nl.klasse.octopus.model.IEnumLiteral;
 import nl.klasse.octopus.model.IEnumerationType;
 
 public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenerator {
@@ -267,8 +271,8 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 							}
 
 						} else if (f.getNakedBaseType() instanceof INakedInterface) {
-							populate.addToStatements("!!!" + f.getNakedBaseType().getName()
-									+ " does not have any persistent implementations. Source population is not resolvable");
+//							populate.addToStatements("!!!" + f.getNakedBaseType().getName()
+//									+ " does not have any persistent implementations. Source population is not resolvable");
 
 						}
 					}
@@ -287,7 +291,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				if (p.getInitialValue() == null && !isEndToComposite) {
 					if (map.isOne() && !(f.isDerived() || isReadOnly || f.isInverse())) {
 						String defaultValue = calculateDefaultStringValue(test, populate, f);
-						if (!(map.couldBasetypeBePersistent())) {
+						if (!(map.couldBasetypeBePersistent() || map.getProperty().getNakedBaseType() instanceof INakedInterface)) {
 							if (!forExport) {
 								String str = calcConfiguredValue(test, populate, c, f, defaultValue);
 								populate.addToStatements(c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.setter() + "(" + str + ")");
@@ -360,8 +364,8 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 							populate.addToStatements(ifSourcePopulationNotEmpty);
 
 						} else if (f.getNakedBaseType() instanceof INakedInterface) {
-							populate.addToStatements("!!!" + f.getNakedBaseType().getName()
-									+ " does not have any persistent implementations. Source population is not resolvable");
+//							populate.addToStatements("!!!" + f.getNakedBaseType().getName()
+//									+ " does not have any persistent implementations. Source population is not resolvable");
 
 						}
 					}
@@ -411,11 +415,12 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 
 	private String calculateDefaultStringValue(OJAnnotatedClass test, OJBlock block, INakedProperty f) {
 		if (f.getNakedBaseType() instanceof IEnumerationType) {
-			OJEnum javaType = (OJEnum) findJavaClass(f.getNakedBaseType());
-			if (javaType.getLiterals().size() > 0) {
-				return javaType.getLiterals().get(0).getName();
+			INakedEnumeration en= (INakedEnumeration) f.getNakedBaseType();
+			NakedClassifierMap map = new NakedClassifierMap(en);
+			if (en.getLiterals().size() > 0) {
+				return map.javaType() +"." + en.getLiterals().get(0).getName().toUpperCase();
 			} else {
-				return javaType.getName() + ".has no literals!!!!";
+				return map.javaType() + ".has no literals!!!!";
 			}
 		} else if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
@@ -459,15 +464,18 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			return "no configurable data generation strategy!!!";
 
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
-			OJEnum javaType = (OJEnum) findJavaClass(f.getNakedBaseType());
-			clazz.addToImports(javaType.getPathName());
-			if (javaType.getLiterals().size() > 0) {
-				return javaType.getName() + ".valueOf(" + configuredValue + ")";
+			INakedEnumeration en = (INakedEnumeration)f.getNakedBaseType();
+			NakedClassifierMap map = new NakedClassifierMap(en);
+			clazz.addToImports(map.javaDefaultTypePath());
+			if (en.getLiterals().size() > 0) {
+				return map.javaType() + ".valueOf(" + configuredValue + ")";
 			} else {
-				return javaType.getName() + ".has no literals!!!!";
+				return map.javaType() + ".has no literals!!!!";
 			}
 
 		} else if (f.getBaseType() instanceof INakedHelperClass) {
+			return "new " + f.getBaseType().getName() + "()";
+		} else if (f.getBaseType() instanceof INakedInterface) {
 			return "new " + f.getBaseType().getName() + "()";
 		} else {
 			throw new RuntimeException("Not implemented");

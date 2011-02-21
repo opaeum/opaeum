@@ -22,35 +22,40 @@ import net.sf.nakeduml.seam.TimeEventDispatcher;
 import net.sf.nakeduml.util.TimeUnit;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-public class Jbpm5Util{
-	public static String stepLiteralName(INakedElement s){
+public class Jbpm5Util {
+	public static String stepLiteralName(INakedElement s) {
 		return (s).getMappingInfo().getJavaName().getAsIs().toUpperCase();
 	}
 
-	public static OJPathName asyncInterfaceOf(INakedClassifier target){
+	public static OJPathName asyncInterfaceOf(INakedClassifier target) {
 		OJPathName result = OJUtil.classifierPathname(target);
 		String name = "IAsync" + result.getLast();
-		result=result.getHead();
+		result = result.getHead();
 		result.addToNames(name);
 		return result;
 	}
+
 	public static OJPathName getJbpmKnowledgeSession() {
-		return UtilityCreator.getUtilPathName().append("JbpmKnowledgeSession" +
-				"");
+		return new OJPathName("org.nakeduml.jbpm5.JbpmKnowledgeSession");
 	}
+
 	public static OJPathName getNodeInstance() {
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
 	}
+
 	public static String generateProcessName(IParameterOwner parameterOwner) {
 		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_"
 				+ parameterOwner.getMappingInfo().getPersistentName();
 	}
+
 	public static String getArtificialJoinName(INakedElement target) {
-		return "join_for_"+target.getMappingInfo().getPersistentName();
+		return "join_for_" + target.getMappingInfo().getPersistentName();
 	}
+
 	public static String getGuardMethod(GuardedFlow t) {
-		return "is" +t.getSource().getMappingInfo().getJavaName().getCapped() +t.getMappingInfo().getJavaName().getCapped();
+		return "is" + t.getSource().getMappingInfo().getJavaName().getCapped() + t.getMappingInfo().getJavaName().getCapped();
 	}
+
 	public static void implementTimeEvent(OJOperation operation, INakedTimeEvent event, INakedElement source,
 			Collection<? extends GuardedFlow> outgoing) {
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
@@ -64,8 +69,8 @@ public class Jbpm5Util{
 					owner.addToImports(TimeUnit.class.getName());
 					TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
 					operation.getBody().addToStatements(
-							"TimeEventDispatcher.getInstance().scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit."
-									+ timeUnit.name() + ")");
+							"TimeEventDispatcher.getInstance().scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr
+									+ ",TimeUnit." + timeUnit.name() + ")");
 				} else {
 					operation.getBody().addToStatements(
 							"TimeEventDispatcher.getInstance().scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ")");
@@ -75,29 +80,36 @@ public class Jbpm5Util{
 			}
 		}
 	}
+
 	public static String getTimerCallbackMethodName(INakedTimeEvent event) {
 		return "on_" + event.getMappingInfo().getPersistentName();
 	}
+
 	public static void cancelTimer(OJOperation cancel, INakedTimeEvent event) {
 		String callBackMethodName = getTimerCallbackMethodName(event);
-		cancel.getBody().addToStatements(
-				"TimeEventDispatcher.getInstance().cancelTimer(this,\"" + callBackMethodName +"\")");
+		cancel.getBody().addToStatements("TimeEventDispatcher.getInstance().cancelTimer(this,\"" + callBackMethodName + "\")");
 	}
+
 	public static String getArtificialForkName(INakedElement owner) {
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();
 	}
+
 	public static OJPathName getExceptionHolder() {
 		return new OJPathName("net.sf.nakeduml.util.ExceptionHolder");
 	}
+
 	public static String endNodeFieldNameFor(INakedElement flow) {
 		return "endNodeIn" + flow.getMappingInfo().getJavaName();
 	}
+
 	public static OJPathName getWorkflowProcesInstance() {
 		return new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
 	}
+
 	public static OJPathName getWorkflowProcessImpl() {
 		return new OJPathName("org.jbpm.workflow.core.impl.WorkflowProcessImpl");
 	}
+
 	public static OJPathName getNode() {
 		return new OJPathName("org.jbpm.workflow.core.impl.NodeImpl");
 	}

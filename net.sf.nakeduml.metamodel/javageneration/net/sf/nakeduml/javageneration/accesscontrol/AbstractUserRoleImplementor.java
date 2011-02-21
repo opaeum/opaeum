@@ -111,7 +111,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 //		OJPathName userRolePath = ReflectionUtil.getUtilInterface(AbstractUserRole.class);
 		OJPathName userRolePath = abstractUserRoleInterface;
 		OJAnnotatedField role = OJUtil.addProperty(userRoleMapping, "role", userRolePath, true);
-		HibernateUtil.addAny(userRoleMapping, role, "role_id", getConcreteUserRoles());
+//		HibernateUtil.addAny(userRoleMapping, role, "role_id", getConcreteUserRoles());
 		OJAnnotatedField user = OJUtil.addProperty(userRoleMapping, "user", abstractUserPathame, true);
 		JpaUtil.addJoinColumn(user, "user_id", false);
 		OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));

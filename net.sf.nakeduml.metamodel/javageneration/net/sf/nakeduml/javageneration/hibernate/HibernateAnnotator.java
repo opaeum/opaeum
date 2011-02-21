@@ -216,7 +216,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 					// OJPathName("javax.persistence.Transient")));
 				}
 				if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
-					HibernateUtil.addManyToAny(owner, ojOwner, field, f, map, InterfaceUtil.getImplementationsOf(f.getNakedBaseType()));
+					HibernateUtil.addManyToAny(owner,field, map);
 					if (f.isComposite()) {
 						HibernateUtil.addCascade(field, CascadeType.ALL);
 					}
@@ -235,8 +235,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 		} else if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			// TODO use strategies
 		} else if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
-			HibernateUtil.addAny(ojOwner, field, f.getMappingInfo().getPersistentName().toString(),
-					InterfaceUtil.getImplementationsOf(f.getNakedBaseType()));
+			HibernateUtil.addAny(field, map);
 			if (f.isComposite()) {
 				HibernateUtil.addCascade(field, CascadeType.ALL);
 				field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
