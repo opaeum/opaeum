@@ -429,7 +429,7 @@
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
     <jboss.domain>default</jboss.domain>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
-    <numl.version>1.0.0.4-SNAPSHOT</numl.version>
+    <numl.version>1.0.0.5-SNAPSHOT</numl.version>
     <hibernate.version>3.6.0.Final</hibernate.version>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
     <seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>

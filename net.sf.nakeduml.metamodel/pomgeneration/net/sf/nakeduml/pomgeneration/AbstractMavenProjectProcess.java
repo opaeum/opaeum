@@ -48,6 +48,7 @@ public class AbstractMavenProjectProcess extends AbstractJavaProducingVisitor {
 		Model model = UML2ModelLoader.loadModel(modelLocation);
 		EcoreUtil.resolveAll(model);
 		MavenDirectories mavenDirectories = new MavenDirectories();
+		mavenDirectories.warRoot = new File(outputRoot);
 		mavenDirectories.genSrcFolder = new File(outputRoot + "/src/main/generated-java");
 		mavenDirectories.genSrcFolder.mkdirs();
 		mavenDirectories.genSrcResourceFolder = new File(outputRoot + "/src/main/generated-resources");
@@ -68,7 +69,6 @@ public class AbstractMavenProjectProcess extends AbstractJavaProducingVisitor {
 			mavenDirectories.testFolder.mkdirs();
 			mavenDirectories.testResourcesFolder = new File(outputRoot + "/src/test/resources");
 			mavenDirectories.testResourcesFolder.mkdirs();
-			mavenDirectories.warRoot = new File(outputRoot);
 			mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
 		}
 		Properties props = new Properties();
