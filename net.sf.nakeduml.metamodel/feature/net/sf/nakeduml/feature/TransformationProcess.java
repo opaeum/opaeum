@@ -1,10 +1,14 @@
 package net.sf.nakeduml.feature;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 /**
  * This class will become the entry point for the entire transformation process
@@ -16,6 +20,7 @@ import java.util.Set;
 public class TransformationProcess {
 	Set<Object> models = new HashSet<Object>();
 	Set<Class<? extends TransformationStep>> actualClasses = new HashSet<Class<? extends TransformationStep>>();
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void execute(NakedUmlConfig config, Object sourceModel, Set<Class<? extends TransformationStep>> proposedStepClasses) {
 		replaceModels(sourceModel);
@@ -27,8 +32,8 @@ public class TransformationProcess {
 			setInputModelsFor(phase);
 			phase.initialize(config);
 			Class<? extends TransformationPhase<? extends TransformationStep>> class1 = (Class) phase.getClass();
-			Steps steps  = new Steps();
-			steps.initializeFromClasses(getStepsForPhase(class1,actualClasses));
+			Steps steps = new Steps();
+			steps.initializeFromClasses(getStepsForPhase(class1, actualClasses));
 			List featuresFor = steps.getExecutionUnits();
 			System.out.println("Executing phase " + phase.getClass() + " .... ");
 			long time = System.currentTimeMillis();
@@ -38,18 +43,17 @@ public class TransformationProcess {
 		}
 	}
 
-
 	private Set<Class<? extends TransformationStep>> getStepsForPhase(
-			Class<? extends TransformationPhase<? extends TransformationStep>> phaseClass, Set<Class<? extends TransformationStep>> stepClasses) {
+			Class<? extends TransformationPhase<? extends TransformationStep>> phaseClass,
+			Set<Class<? extends TransformationStep>> stepClasses) {
 		Set<Class<? extends TransformationStep>> results = new HashSet<Class<? extends TransformationStep>>();
 		for (Class<? extends TransformationStep> stepClass : stepClasses) {
-			if(stepClass.getAnnotation(StepDependency.class).phase()==phaseClass){
+			if (stepClass.getAnnotation(StepDependency.class).phase() == phaseClass) {
 				results.add(stepClass);
 			}
 		}
 		return results;
 	}
-
 
 	private Set<Class<? extends TransformationPhase<? extends TransformationStep>>> getPhaseClassesFor(
 			Set<Class<? extends TransformationStep>> stepClasses) {
@@ -126,6 +130,7 @@ public class TransformationProcess {
 		}
 		return null;
 	}
+
 	public Set<Class<? extends TransformationStep>> ensurePresenceOfDependencies(Set<Class<? extends TransformationStep>> selectedFeatures) {
 		try {
 			for (Class<? extends TransformationStep> c : selectedFeatures) {
@@ -136,12 +141,22 @@ public class TransformationProcess {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	private void ensureRequiredDependenciesPresent(Class<? extends TransformationStep> stepClass) throws IllegalAccessException, InstantiationException {
+
+	private void ensureRequiredDependenciesPresent(Class<? extends TransformationStep> stepClass) throws IllegalAccessException,
+			InstantiationException {
 		if (!actualClasses.contains(stepClass)) {
 			actualClasses.add(stepClass);
 			for (Class<? extends TransformationStep> c : stepClass.getAnnotation(StepDependency.class).requires()) {
 				ensureRequiredDependenciesPresent(c);
+			}
+		}
+	}
+
+	public void removeModel(Class<TextWorkspace> class1) {
+		Collection<Object> models = new ArrayList<Object>(this.models);
+		for (Object object : models) {
+			if (class1.isInstance(object)) {
+				this.models.remove(object);
 			}
 		}
 	}

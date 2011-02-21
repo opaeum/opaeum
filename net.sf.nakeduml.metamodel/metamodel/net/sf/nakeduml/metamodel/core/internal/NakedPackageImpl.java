@@ -29,6 +29,8 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 	private CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.all;
 	private boolean isRootPackage;
 	private List<INakedPackage> subpackages = new ArrayList<INakedPackage>();
+	private boolean isSchema;
+	private boolean isLinked;
 
 	public NakedPackageImpl() {
 		super();
@@ -46,6 +48,12 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 		} else {
 			return (INakedNameSpace) getOwnerElement();
 		}
+	}
+	public void setLinked(boolean isLinked) {
+		this.isLinked = isLinked;
+	}
+	public boolean isLinked() {
+		return isLinked;
 	}
 
 	/**
@@ -66,6 +74,9 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 		if (stereotype.hasValueForFeature(TagNames.MAPPED_IMPLEMENTATION_PACKAGE)) {
 			this.mappedImplementationPackage = stereotype.getFirstValueFor(TagNames.MAPPED_IMPLEMENTATION_PACKAGE).stringValue();
 		}
+		if (stereotype.hasValueForFeature(TagNames.IS_SCHEMA)) {
+			this.isSchema= stereotype.getFirstValueFor(TagNames.IS_SCHEMA).booleanValue();
+		}
 		if (stereotype.hasValueForFeature(TagNames.CODE_GENERATION_STRATEGY)) {
 			String s = stereotype.getFirstValueFor(TagNames.CODE_GENERATION_STRATEGY).stringValue();
 			this.codeGenerationStrategy = Enum.valueOf(CodeGenerationStrategy.class, s);
@@ -75,7 +86,9 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 		}
 		super.addStereotype(stereotype);
 	}
-
+	public boolean isSchema(){
+		return isSchema;
+	}
 	public CodeGenerationStrategy getCodeGenerationStrategy() {
 		if (this.codeGenerationStrategy == null) {
 			if (getOwnerElement() instanceof INakedPackage && !isRootPackage()) {

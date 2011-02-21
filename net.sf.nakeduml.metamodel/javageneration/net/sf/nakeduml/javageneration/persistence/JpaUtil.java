@@ -13,6 +13,8 @@ import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
+import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.name.NameConverter;
 
@@ -23,13 +25,25 @@ public class JpaUtil {
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner, String tableName, NakedUmlConfig config) {
 		return buildTableAnnotation(owner, tableName, config, null);
 	}
-
-	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner, String tableName, NakedUmlConfig config, String schema) {
+	public static INakedPackage getNearestSchema(INakedNameSpace ns){
+		while(!(isSchema(ns) || ns==null)){
+			ns=ns.getNameSpace();
+		}
+		if(isSchema(ns)){
+			return (INakedPackage) ns;
+		}
+		return null;
+	}
+	private static boolean isSchema(INakedNameSpace ns) {
+		return (ns instanceof INakedPackage && ((INakedPackage)ns).isSchema());
+	}
+	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner, String tableName, NakedUmlConfig config, INakedNameSpace ns) {
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
 		table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + tableName + BACKTICK));
 		if (config.needsSchema()) {
-			if (schema != null && !schema.isEmpty()) {
-				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema + BACKTICK));
+			INakedPackage schema=getNearestSchema(ns);
+			if (schema!=null) {
+				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema.getMappingInfo().getPersistentName()+ BACKTICK));
 			} else {
 				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
 			}
@@ -123,8 +137,9 @@ public class JpaUtil {
 		ojClass.addAnnotationIfNew(entity);
 	}
 
-	public static void addJoinTable(INakedClassifier umlOwner, INakedProperty f, NakedStructuralFeatureMap map, OJAnnotatedField field) {
+	public static void addJoinTable(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedField field) {
 		// ManyToMany or non-navigable XToMany
+		INakedProperty f=map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
 		String keyToParentTable = calculateKeyToOwnerTable(f);
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));

@@ -40,11 +40,16 @@ public class EmfWorkspace implements Element {
 	private WorkspaceMappingInfoImpl mappingInfo;
 
 	public EmfWorkspace(Package model, WorkspaceMappingInfoImpl mappingInfo) {
+		this(mappingInfo);
 		this.entryModel = model;
 		addGeneratingModelOrProfile(model);
+	}
+	public EmfWorkspace(WorkspaceMappingInfoImpl mappingInfo) {
 		this.mappingInfo = mappingInfo;
 	}
-
+	public void clearGeneratingModels(){
+		this.generatingModels.clear();
+	}
 	public WorkspaceMappingInfoImpl getMappingInfo() {
 		return mappingInfo;
 	}
@@ -59,6 +64,7 @@ public class EmfWorkspace implements Element {
 
 	public void setEntryModel(Package p) {
 		this.entryModel = p;
+		addGeneratingModelOrProfile(p);
 	}
 
 	public boolean isGeneratingModelOrProfile(Package p) {
@@ -85,7 +91,7 @@ public class EmfWorkspace implements Element {
 		return result;
 	}
 
-	public Package getPackageFrom(Resource r) {
+	private Package getPackageFrom(Resource r) {
 		for (EObject o : r.getContents()) {
 			if (o instanceof Package) {
 				return (Package) o;

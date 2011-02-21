@@ -3,6 +3,7 @@ package net.sf.nakeduml.javametamodel.annotation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.javametamodel.OJElement;
@@ -17,7 +18,6 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 public abstract class OJMetaValue extends OJElement {
 	protected List<Object> values = new ArrayList<Object>();
 
-	
 	public List<Object> getValues() {
 		return values;
 	}
@@ -84,11 +84,8 @@ public abstract class OJMetaValue extends OJElement {
 				s.add((OJPathName) o);
 			} else if (o instanceof OJEnumValue) {
 				// Enumeration literal value
-				
-				//Do not add this as fully qualified name is used
-//				s.add(((OJEnumValue) o).getType());
-			} else if (o instanceof OJClassValue) {
-				s.add(((OJClassValue) o).getType());
+				// Do not add this as fully qualified name is used
+				// s.add(((OJEnumValue) o).getType());
 			}
 		}
 	}
@@ -109,10 +106,6 @@ public abstract class OJMetaValue extends OJElement {
 		addValue(value);
 	}
 
-	public void addClassValue(OJClassValue value) {
-		addValue(value);
-	}
-	
 	public void addBooleanValue(Boolean value) {
 		addValue(value);
 	}
@@ -121,10 +114,12 @@ public abstract class OJMetaValue extends OJElement {
 		addValue(value);
 	}
 
-
 	public void addNumberValue(Number value) {
-
 		addValue(value);
+	}
+
+	public void addClassValue(OJPathName ojPathName) {
+		addValue(ojPathName);
 	}
 
 	protected String toJavaValueExpression() {
@@ -148,20 +143,21 @@ public abstract class OJMetaValue extends OJElement {
 		return expression;
 	}
 
-	public void copyInfoInto(OJMetaValue copy){
+	public void copyInfoInto(OJMetaValue copy) {
 		super.copyInfoInto(copy);
-		for(Object o:values){
+		for (Object o : values) {
 			copy.values.add(o);
 		}
 	}
-	public void copyDeepInfoInto(OJMetaValue copy){
+
+	public void copyDeepInfoInto(OJMetaValue copy) {
 		super.copyInfoInto(copy);
-		for(Object o:values){
+		for (Object o : values) {
 			if (o instanceof OJPathName) {
-				copy.values.add(((OJPathName)o).getDeepCopy());
+				copy.values.add(((OJPathName) o).getDeepCopy());
 			} else if (o instanceof OJAnnotationValue) {
-				copy.values.add(((OJAnnotationValue)o).getDeepCopy());
-				//TODO ENumVAlue
+				copy.values.add(((OJAnnotationValue) o).getDeepCopy());
+				// TODO ENumVAlue
 			} else {
 				copy.values.add(o);
 			}
@@ -185,8 +181,6 @@ public abstract class OJMetaValue extends OJElement {
 			return ((OJPathName) o).getLast() + ".class";
 		} else if (o instanceof OJEnumValue) {
 			return ((OJEnumValue) o).toJavaString();
-		} else if (o instanceof OJClassValue) {
-			return ((OJClassValue) o).toJavaString();
 		} else if (o instanceof OJAnnotationValue) {
 			return ((OJAnnotationValue) o).toJavaString();
 		} else {
@@ -194,19 +188,33 @@ public abstract class OJMetaValue extends OJElement {
 			// throw new IllegalStateException();
 		}
 	}
-	public List<OJAnnotationValue> getAnnotationValues(){
+
+	public List<OJAnnotationValue> getAnnotationValues() {
 		return getValuesOf(OJAnnotationValue.class);
 	}
-	public List<String> getStringValues(){
+
+	public List<String> getStringValues() {
 		return getValuesOf(String.class);
 	}
 
+	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+		// rename class literals only, enums and annotations don't have audit
+		// entries
+		for (Object object : this.values) {
+			if (object instanceof OJPathName) {
+				((OJPathName) object).renameAll(renamePathNames, newName);
+			}else if(object instanceof OJAnnotationValue){
+				((OJAnnotationValue) object).renameAll(renamePathNames, newName);
+			}
+		}
+	}
+
 	@SuppressWarnings("unchecked")
-	private <T> List<T> getValuesOf(Class<T> c){
-		List<T> results=new ArrayList<T>();
-		for(Object value:this.values){
-			if(value.getClass()==c){
-				results.add((T)value);
+	private <T> List<T> getValuesOf(Class<T> c) {
+		List<T> results = new ArrayList<T>();
+		for (Object value : this.values) {
+			if (value.getClass() == c) {
+				results.add((T) value);
 			}
 		}
 		return results;

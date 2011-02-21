@@ -109,6 +109,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 			pcs.setExpressionString(pcs.getExpressionString() + "->select(o|o." + other + ".oclIsUndefined() or o." + other + "=self)");
 //			System.out.println("oneToOne:" + pcs.getExpressionString());
 		} else {
+			if(!(constr.getSpecification().getOclValue() instanceof ParsedOclString)){
+				System.out.println();
+			}
 			ParsedOclString pcs = (ParsedOclString) constr.getSpecification().getOclValue();
 			pcs.setExpressionString(pcs.getExpressionString() + "->asSet()");
 //			System.out.println("toMany:" + pcs.getExpressionString());
@@ -138,7 +141,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 					if (union.length() == 0) {
 						union.append(builtOcl);
 						union.append("->collect(g|g.oclAsType(");
-						union.append(p.getNakedBaseType().getPathName());
+						union.append( p.getNakedBaseType().getMappingInfo().getQualifiedUmlName());
 						union.append("))->asSet()");
 					} else if (OJUtil.buildStructuralFeatureMap(p).isMany() && p.isUnique()) {
 						union.append("->union(").append(builtOcl).append(")");
@@ -151,7 +154,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 		} else if (p.getNakedBaseType() instanceof INakedEnumeration) {
 			if (p.getNakedBaseType().findAttribute("values") != null) {
 				INakedEnumeration en = (INakedEnumeration) p.getNakedBaseType();
-				ocl = en.getPathName().toString() + "::values";
+				ocl = en.getMappingInfo().getQualifiedUmlName().toString() + "::values";
 			}
 		}
 		return ocl;
@@ -175,8 +178,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite);
 			ocl = pathToCommonComposite.toString() + pathFromCommonComposite;
 		} else {
-			throw new IllegalStateException("No compositional ancestor found between " + owner.getPathName() + " and "
-					+ baseType.getPathName());
+			throw new IllegalStateException("No compositional ancestor found between " + owner.getMappingInfo().getQualifiedUmlName()+ " and "
+					+ baseType.getMappingInfo().getQualifiedUmlName());
 		}
 		return ocl;
 	}
@@ -249,9 +252,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 			// otherEnd's type may be the superType
 			// Select only those that are of baseType,
 			expression.append("->select(c|c.oclIsKindOf(");
-			expression.append(baseType.getPathName());
+			expression.append(baseType.getMappingInfo().getQualifiedUmlName());
 			expression.append("))->collect(c|c.oclAsType(");
-			expression.append(baseType.getPathName());
+			expression.append(baseType.getMappingInfo().getQualifiedUmlName());
 			expression.append("))");
 		}
 	}
@@ -266,12 +269,4 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 		// TODO provide lookups for Output pins for tasks
 	}
 
-	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
-		if (root instanceof INakedModelWorkspace) {
-			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
-		} else {
-			return super.getChildren(root);
-		}
-	}
 }
