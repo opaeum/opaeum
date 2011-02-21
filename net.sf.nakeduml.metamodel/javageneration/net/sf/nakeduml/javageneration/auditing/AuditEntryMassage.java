@@ -10,6 +10,7 @@ import java.util.Set;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
@@ -28,10 +29,12 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.generated.OJVisibilityKindGEN;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.linkage.TypeResolver;
 import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -44,6 +47,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -52,7 +56,7 @@ import net.sf.nakeduml.name.NameConverter;
 import net.sf.nakeduml.util.AbstractEntity;
 
 public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
-	private static final String AUDIT_ID_USER_TYPE = "net.sf.nakeduml.util.AuditIdUserType";
+	public static final String AUDIT_ID_USER_TYPE = "net.sf.nakeduml.util.AuditIdUserType";
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitProperty(INakedProperty p) {
@@ -659,18 +663,10 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 			OJAnnotatedField annotatedField = (OJAnnotatedField) f;
 			Set<OJAnnotationValue> annotations = annotatedField.getAnnotations();
 			for (OJAnnotationValue ojAnnotationValue : annotations) {
-				if (ojAnnotationValue.getType().equals(new OJPathName("org.hibernate.annotations.AnyMetaDef"))) {
-					OJAnnotationAttributeValue rolDefMeta = ojAnnotationValue.findAttribute("name");
-					String tableName = (String) rolDefMeta.getValues().remove(0);
-					rolDefMeta.addStringValue(tableName.substring(0, tableName.length()) + "Audit");
-					OJAnnotationAttributeValue idType = ojAnnotationValue.findAttribute("idType");
-					idType.getValues().remove(0);
-					idType.addStringValue(AUDIT_ID_USER_TYPE);
-				}
 				if (ojAnnotationValue.getType().equals(new OJPathName("org.hibernate.annotations.Any"))) {
 					OJAnnotationAttributeValue rolDefMeta = ojAnnotationValue.findAttribute("metaDef");
-					String tableName = (String) rolDefMeta.getValues().remove(0);
-					rolDefMeta.addStringValue(tableName.substring(0, tableName.length()) + "Audit");
+					String metaDefName = (String) rolDefMeta.getValues().remove(0);
+					rolDefMeta.addStringValue(metaDefName.substring(0, metaDefName.length()) + "Audit");
 				}
 			}
 			if (annotatedField.findAnnotation(new OJPathName("org.hibernate.annotations.ManyToAny")) != null) {

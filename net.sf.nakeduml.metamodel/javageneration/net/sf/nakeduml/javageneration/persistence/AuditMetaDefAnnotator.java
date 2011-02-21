@@ -8,21 +8,22 @@ import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 
-public class MetaDefAnnotator extends AbstractMetaDefAnnotator {
-	protected String getMetaDefName(INakedInterface i) {
-		return HibernateUtil.metadefName(i);
-	}
-
-	protected String getIdType() {
-		return "long";
-	}
-
-	protected OJPathName getTargetEntity(OJPathName javaTypePath) {
-		return javaTypePath;
-	}
+public class AuditMetaDefAnnotator extends AbstractMetaDefAnnotator {
 	@VisitAfter
 	public void visitInterface(INakedInterface i) {
 		doInterface(i);
+	}
+
+	protected String getMetaDefName(INakedInterface i) {
+		return HibernateUtil.metadefName(i)+"Audit";
+	}
+
+	protected String getIdType() {
+		return AuditEntryMassage.AUDIT_ID_USER_TYPE;
+	}
+
+	protected OJPathName getTargetEntity(OJPathName javaTypePath) {
+		return new OJPathName(javaTypePath+"_Audit");
 	}
 
 	protected String getOutputRoot() {
