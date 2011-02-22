@@ -168,6 +168,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 									+ c.getMappingInfo().getJavaName().getDecapped() + ".size\"," + parent.getMappingInfo().getJavaName().toString() + "."
 									+ otherMap.getter() + "().size())");
 				}
+				testDataClass.addToImports(otherMap.javaBaseDefaultTypePath());
 				OJForStatement forX = new OJForStatement();
 				forX.setElemType(otherMap.javaBaseTypePath());
 				forX.setElemName("iter");
@@ -241,6 +242,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 					if ((map.isManyToMany() || map.isOne()) && !(f.isDerived() || f.isReadOnly() || f.isInverse())) {
 						if (map.couldBasetypeBePersistent()) {
 							if (map.isManyToMany()) {
+								test.addToImports(map.javaBaseDefaultTypePath());
 
 								OJForStatement forMany = new OJForStatement(f.getMappingInfo().getJavaName().getDecapped().toString(), map.javaBaseTypePath(),
 										c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "()");

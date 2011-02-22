@@ -141,7 +141,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 					if (union.length() == 0) {
 						union.append(builtOcl);
 						union.append("->collect(g|g.oclAsType(");
-						union.append( p.getNakedBaseType().getMappingInfo().getQualifiedUmlName());
+						union.append( getPathNameInModel(p.getNakedBaseType()));
 						union.append("))->asSet()");
 					} else if (OJUtil.buildStructuralFeatureMap(p).isMany() && p.isUnique()) {
 						union.append("->union(").append(builtOcl).append(")");
@@ -154,7 +154,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 		} else if (p.getNakedBaseType() instanceof INakedEnumeration) {
 			if (p.getNakedBaseType().findAttribute("values") != null) {
 				INakedEnumeration en = (INakedEnumeration) p.getNakedBaseType();
-				ocl = en.getMappingInfo().getQualifiedUmlName().toString() + "::values";
+				ocl = getPathNameInModel(en).toString() + "::values";
 			}
 		}
 		return ocl;
@@ -178,8 +178,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite);
 			ocl = pathToCommonComposite.toString() + pathFromCommonComposite;
 		} else {
-			throw new IllegalStateException("No compositional ancestor found between " + owner.getMappingInfo().getQualifiedUmlName()+ " and "
-					+ baseType.getMappingInfo().getQualifiedUmlName());
+			throw new IllegalStateException("No compositional ancestor found between " + getPathNameInModel(owner)+ " and "
+					+ getPathNameInModel(baseType));
 		}
 		return ocl;
 	}
@@ -252,9 +252,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 			// otherEnd's type may be the superType
 			// Select only those that are of baseType,
 			expression.append("->select(c|c.oclIsKindOf(");
-			expression.append(baseType.getMappingInfo().getQualifiedUmlName());
+			expression.append(getPathNameInModel(baseType));
 			expression.append("))->collect(c|c.oclAsType(");
-			expression.append(baseType.getMappingInfo().getQualifiedUmlName());
+			expression.append(getPathNameInModel(baseType));
 			expression.append("))");
 		}
 	}
