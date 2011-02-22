@@ -74,22 +74,6 @@ public class ProjectRootPomStep extends PomGenerationStep {
 		dependencies.add(dependency);
 
 		dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.spec");
-		dependency.setArtifactId("jboss-javaee-6.0");
-		dependency.setVersion("1.0.0.Final");
-		dependency.setScope("provided");
-		dependency.setType("pom");
-		dependencies.add(dependency);
-
-		dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("javax.enterprise");
-		dependency.setArtifactId("cdi-api");
-		dependency.setVersion("1.0-SP1");
-		dependency.setScope("provided");
-		dependency.setType("jar");
-		dependencies.add(dependency);
-		
-		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.slf4j");
 		dependency.setArtifactId("slf4j-log4j12");
 		dependency.setVersion("1.6.1");

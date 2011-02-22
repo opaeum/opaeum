@@ -75,19 +75,6 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 	}
 
 	@VisitBefore(matchSubclasses = false)
-<<<<<<< HEAD
-	public void visitTextFile(TextFile file) throws IOException {
-		if (file.hasContent()) {
-			File dir = getDirectoryFor(file.getParent());
-			FileWriter fw = new FileWriter(new File(dir, file.getName()));
-			if (file.getTextSource() instanceof PropertiesSource) {
-				((PropertiesSource)file.getTextSource()).getProperties().store(fw, "NakedUml Generated");
-			} else {
-				fw.write(file.getContent());
-			}
-			fw.flush();
-			fw.close();
-=======
 	public void visitTextFile(TextFile textFile) throws IOException {
 		if (textFile.hasContent()) {
 			File dir = getDirectoryFor(textFile.getParent());
@@ -99,7 +86,6 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 				fw.flush();
 				fw.close();
 			}
->>>>>>> master
 		}
 	}
 

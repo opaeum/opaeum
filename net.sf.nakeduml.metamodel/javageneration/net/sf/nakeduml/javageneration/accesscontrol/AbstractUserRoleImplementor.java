@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.accesscontrol;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -9,6 +10,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateConfiguratorGenerator;
+import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
@@ -18,7 +20,9 @@ import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -92,7 +96,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 	private void buildRoleMapping(OJPathName abstractUserPathame){
 		OJAnnotatedClass userRoleMapping = new OJAnnotatedClass();
 		userRoleMapping.setName("UserRoleMapping");
-		JpaUtil.addAndAnnotatedIdAndVersion(userRoleMapping, "user_role_mapping");
+//		JpaUtil.addAndAnnotatedIdAndVersion(userRoleMapping, "user_role_mapping");
 		JpaUtil.addEntity(userRoleMapping);
 		JpaUtil.buildTableAnnotation(userRoleMapping, "user_role_mapping", this.config);
 		UtilityCreator.getUtilPack().addToClasses(userRoleMapping);

@@ -311,7 +311,6 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				boolean isEndToComposite = p.getOtherEnd() != null && p.getOtherEnd().isComposite();
 				if (p.getInitialValue() == null && !isEndToComposite) {
 					if (map.isOne() && !(f.isDerived() || isReadOnly || f.isInverse())) {
-						String defaultValue = calculateDefaultStringValue(test, populate, f);
 						if (!(map.couldBasetypeBePersistent() || map.getProperty().getNakedBaseType() instanceof INakedInterface)) {
 							if (!forExport) {
 								String defaultValue = "";

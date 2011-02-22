@@ -67,14 +67,9 @@ public class OJPathName extends OJPathNameGEN {
 	 * End of implemented operations.
 	*******************************************************/
 		
-//	public boolean equals(OJPathName other){
-//		// TODO improve this: check order
-//		if (this.getNames().containsAll(other.getNames()) &&
-//		    other.getNames().containsAll(this.getNames())) {
-//			return true;
-//		}
-//		return false;
-//	}
+	public boolean equals(Object other){
+		return other instanceof OJPathName && super.equals((OJPathName)other);
+	}
 
 	public int hashCode() {
 		return this.getLast().hashCode();

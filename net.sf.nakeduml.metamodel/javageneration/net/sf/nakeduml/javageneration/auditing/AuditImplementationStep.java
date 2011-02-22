@@ -71,7 +71,6 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		TimestampAdder timestampAdder = new TimestampAdder();
 		timestampAdder.initialize(workspace, javaModel, config, textWorkspace);
 		timestampAdder.startVisiting(workspace);
-		
 		// Make copies of the root packages just below the model package
 		Set<OJPackage> packages = this.javaModel.getSubpackages();
 		for (OJPackage ojPackage : packages) {
@@ -92,10 +91,19 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		AuditFixAnnotations auditFixAnnotations = new AuditFixAnnotations();
 		auditFixAnnotations.initialize(workspace, newRoot, config, textWorkspace, classes);
 		auditFixAnnotations.startVisiting(workspace);
-		
-		for (OJClass auditClass : classes) {
-			OJPackage owner = this.javaModel.findPackage(auditClass.getMyPackage().getPathName());
-			owner.addToClasses(auditClass);
+		mergePackages(packages);
+	}
+
+	public void mergePackages(Set<OJPackage> packages) {
+		for (OJPackage pkg : packages) {
+			Set<OJClass> auditClasses = pkg.getClasses();
+			for (OJClass ojClass : auditClasses) {
+				if (ojClass.getName().endsWith("_Audit")) {
+					OJPackage owner = this.javaModel.findPackage(ojClass.getMyPackage().getPathName());
+					owner.addToClasses(ojClass);
+				}
+			}
+			mergePackages(pkg.getSubpackages());
 		}
 	}
 
@@ -104,5 +112,4 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		new NakedElementVisitor(classes).startVisiting(workspace);
 		return classes;
 	}
-	
 }

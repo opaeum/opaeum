@@ -46,7 +46,6 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		dependency.setArtifactId("slf4j-log4j12");
 		dependency.setVersion("1.6.1");
 		dependencies.add(dependency);
-
 		dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.seam.servlet");
 		dependency.setArtifactId("seam-servlet-api");
