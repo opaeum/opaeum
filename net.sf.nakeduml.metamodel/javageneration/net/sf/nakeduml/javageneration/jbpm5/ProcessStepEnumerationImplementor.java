@@ -36,7 +36,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.setName(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
-		super.createTextPath(e, JavaTextSource.GEN_SRC);
+		super.createTextPath(e, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
 		addField(e, constructor, "parentState", abstractProcessStep);

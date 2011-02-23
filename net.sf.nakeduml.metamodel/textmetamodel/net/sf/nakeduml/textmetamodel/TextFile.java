@@ -1,16 +1,22 @@
 package net.sf.nakeduml.textmetamodel;
 
-public class TextFile extends TextFileNode {
+public class TextFile extends TextOutputNode {
 	private TextSource textSource;
 	private char[] content;
+	private boolean overwrite;
 
 	public TextSource getTextSource() {
 		return this.textSource;
 	}
 
-	public TextFile(TextFileDirectory parent, String name, TextSource source) {
+	public TextFile(TextDirectory parent, String name, TextSource source, boolean overwrite) {
 		super(parent, name);
 		this.textSource = source;
+		this.overwrite = overwrite;
+	}
+
+	public boolean overwrite() {
+		return overwrite;
 	}
 
 	public char[] getContent() {
@@ -20,13 +26,13 @@ public class TextFile extends TextFileNode {
 		return content;
 	}
 
-	public TextOutputRoot getOutputRoot() {
-		TextFileDirectory parent = getParent();
+	public SourceFolder getOutputRoot() {
+		TextDirectory parent = getParent();
 		while (true) {
-			if (parent instanceof TextOutputRoot) {
-				return (TextOutputRoot) parent;
-			} else if (parent.getParent() instanceof TextFileDirectory) {
-				parent = (TextFileDirectory) parent.getParent();
+			if (parent instanceof SourceFolder) {
+				return (SourceFolder) parent;
+			} else if (parent.getParent() instanceof TextDirectory) {
+				parent = (TextDirectory) parent.getParent();
 			} else {
 				throw new IllegalStateException("No TextOutputRoot found in file hierarchy");
 			}
@@ -34,9 +40,10 @@ public class TextFile extends TextFileNode {
 	}
 
 	@Override
-	public TextFileDirectory getParent() {
-		return (TextFileDirectory) super.getParent();
+	public TextDirectory getParent() {
+		return (TextDirectory) super.getParent();
 	}
+
 	@Override
 	public boolean hasContent() {
 		return textSource.hasContent();

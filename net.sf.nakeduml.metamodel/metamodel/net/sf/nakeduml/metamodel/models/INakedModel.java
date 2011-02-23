@@ -1,8 +1,8 @@
 package net.sf.nakeduml.metamodel.models;
 
-import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
-public interface INakedModel extends INakedPackage {
+public interface INakedModel extends INakedRootObject{
 	void setViewpoint(String s);
 
 	String getViewpoint();

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javametamodel.OJClass;
@@ -17,7 +18,7 @@ import net.sf.nakeduml.javametamodel.OJElement;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class AbstractOJVisitor extends VisitorAdapter<OJElement,OJPackage> {
@@ -59,9 +60,10 @@ public class AbstractOJVisitor extends VisitorAdapter<OJElement,OJPackage> {
 		return Collections.emptySet();
 	}	
 	
-	protected void createTextPath(OJClassifier c,String outputRoot){
+	protected void createTextPath(OJClassifier c,Enum<?> id){
 		try{
-			TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
+			OutputRoot outputRoot= config.getOutputRoot(id);
+			SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
 			List<String> names = c.getPathName().getHead().getNames();
 			names.add(c.getName() + ".java");
 			or.findOrCreateTextFile(names, new JavaTextSource(c));

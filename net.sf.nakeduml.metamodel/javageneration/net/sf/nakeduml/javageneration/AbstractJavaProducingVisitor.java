@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJConstructor;
@@ -21,10 +22,15 @@ import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextFile;
+import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.model.IClassifier;
@@ -36,6 +42,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 	protected INakedModelWorkspace workspace;
+	private INakedRootObject currentModelOrProfile;
 
 	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
 		this.javaModel = javaModel;
@@ -44,30 +51,44 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		this.workspace = workspace;
 	}
 
-	public void createTextPath(OJClassifier c, String outputRoot) {
-		try {
-			TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
-			List<String> names = c.getPathName().getHead().getNames();
-			names.add(c.getName() + ".java");
-			or.findOrCreateTextFile(names, new JavaTextSource(c));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	@Override
+	public void visitRecursively(INakedElementOwner o) {
+		if (o instanceof INakedRootObject) {
+			this.currentModelOrProfile = (INakedRootObject) o;
 		}
+		super.visitRecursively(o);
 	}
 
-	protected void createTextPathIfRequired(OJAnnotatedPackage p, String outputRoot) {
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
+	protected TextFile createTextPath(OJClassifier c, JavaTextSource.OutputRootId id) {
+		OutputRoot outputRoot = config.getOutputRoot(id);
+		SourceFolder or = getSourceFolder(outputRoot);
+		List<String> names = c.getPathName().getHead().getNames();
+		names.add(c.getName() + ".java");
+		return or.findOrCreateTextFile(names, new JavaTextSource(c), outputRoot.overwriteFiles());
+	}
+
+	private SourceFolder getSourceFolder(OutputRoot outputRoot) {
+		String projectPrefix = outputRoot.useEntryModelName() ? workspace.getEntryModel().getFileName() : currentModelOrProfile
+				.getFileName();
+		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
+		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
+		return or;
+	}
+
+	protected void createTextPathIfRequired(OJAnnotatedPackage p, JavaTextSource.OutputRootId id) {
+		OutputRoot outputRoot = config.getOutputRoot(id);
+		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = p.getPathName().getNames();
 		names.add("package-info.java");
-		or.findOrCreateTextFile(names, new JavaTextSource(p));
+		or.findOrCreateTextFile(names, new JavaTextSource(p), outputRoot.overwriteFiles());
 	}
 
 	protected final OJPackage findOrCreatePackage(OJPathName packageName) {
 		OJPackage parent = this.javaModel;
 		OJPackage child = null;
-		Iterator iter = packageName.getNames().iterator();
+		Iterator<String> iter = packageName.getNames().iterator();
 		while (iter.hasNext()) {
-			String name = (String) iter.next();
+			String name = iter.next();
 			child = parent.findPackage(new OJPathName(name));
 			if (child == null) {
 				child = new OJAnnotatedPackage();
@@ -82,8 +103,8 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	protected OJAnnotatedClass findJavaClass(INakedClassifier classifier) {
 		OJPathName path = OJUtil.classifierPathname(classifier);
 		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if(owner==null){
-			owner=(OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		if (owner == null) {
+			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 		}
 		return owner;
 	}
@@ -142,7 +163,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
 		if (root instanceof INakedModelWorkspace) {
-			List<INakedPackage> generatingModelsOrProfiles = ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+			List<INakedRootObject> generatingModelsOrProfiles = ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
 			return generatingModelsOrProfiles;
 		} else {
 			return super.getChildren(root);
@@ -162,7 +183,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	}
 
 	protected boolean hasEntityImplementationsOnly(INakedInterface ni) {
-		///TODO superfluous
+		// /TODO superfluous
 		boolean hasEntityImplementationsOnly = true;
 		for (INakedClassifier child : InterfaceUtil.getImplementationsOf(ni)) {
 			if (!(child instanceof INakedEntity)) {
@@ -171,6 +192,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		}
 		return hasEntityImplementationsOnly;
 	}
+
 	protected final IOclEngine getOclEngine() {
 		return workspace.getOclEngine();
 	}

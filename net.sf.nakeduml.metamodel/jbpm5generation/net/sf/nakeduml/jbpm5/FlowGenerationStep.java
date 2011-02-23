@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
@@ -17,7 +18,7 @@ import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.drools.drools._5._0.process.ActionType;
@@ -52,10 +53,12 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 	protected INakedModelWorkspace workspace;
 	protected Map<INakedElement, Integer> targetIdMap;
 	protected Map<INakedElement, Integer> sourceIdMap;
+	protected NakedUmlConfig config;
 
-	public void initialize(TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
+	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
+		this.config = config;
 	}
 
 	protected DocumentRoot createRoot(INakedBehavior behavior) {
@@ -81,11 +84,11 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getCurrentVersion());
 		root.getProcess().setType("RuleFlow");
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
+		SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(this.config.getOutputRoot(PropertiesSource.GEN_RESOURCE));
 		List<String> names = new ArrayList<String>();
 		addNames(behavior.getNameSpace(), names);
 		names.add(behavior.getName() + ".rf");
-		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"));
+		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"), true);
 		return root;
 	}
 

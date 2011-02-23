@@ -21,7 +21,7 @@ import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.name.NameConverter;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = HibernateHbmPhase.class,requires = {AuditImplementationStep.class, BasicJavaModelStep.class,PersistentNameGenerator.class},after = {HbmPersistence.class})
@@ -120,7 +120,7 @@ public class HbmAuditer extends AbstractHbmTransformationStep {
 
 	protected void createTextPath(HibernateConfiguration hibernateConfiguration,String outputRoot){
 		try{
-			TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
+			SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
 			List<String> names = hibernateConfiguration.getPath();
 			or.findOrCreateTextFile(names, new HbmTextSource(hibernateConfiguration));
 		}catch(Exception e){

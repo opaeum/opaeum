@@ -13,7 +13,7 @@ import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.pomgeneration.ProjectWarPomStep;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextSource;
 
 @StepDependency(phase = ProjectGenerationPhase.class, requires = { ProjectWarPomStep.class, ProjectTestGenerationStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
@@ -48,7 +48,7 @@ public class WarProjectGenerationStep extends AbstractProjectGenerationStep {
 			}
 		}
 
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE);
+		SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE);
 		List<String> names = Arrays.asList(name);
 		or.findOrCreateTextFile(names, new TextSource() {
 			@Override
@@ -78,7 +78,7 @@ public class WarProjectGenerationStep extends AbstractProjectGenerationStep {
 			}
 		}
 
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(target);
+		SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(target);
 		List<String> names = Arrays.asList(dir, name);
 		or.findOrCreateTextFile(names, new TextSource() {
 			@Override

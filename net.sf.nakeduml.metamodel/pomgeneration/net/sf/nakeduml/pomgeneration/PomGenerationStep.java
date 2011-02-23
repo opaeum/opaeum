@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
@@ -18,6 +19,8 @@ import org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl;
 
 public abstract class PomGenerationStep implements TransformationStep {
 	protected NakedUmlConfig config;
+	protected INakedModelWorkspace workspace;
+	
 
 	public abstract String getTargetDir();
 
@@ -85,8 +88,9 @@ public abstract class PomGenerationStep implements TransformationStep {
 		return node;
 	}
 
-	public void initialize(NakedUmlConfig config) {
+	public void initialize(NakedUmlConfig config, INakedModelWorkspace workspace) {
 		this.config = config;
+		this.workspace=workspace;
 	}
 
 	public String getName() {
@@ -94,7 +98,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 	}
 
 	public String getGroupId() {
-		return this.config.getProjectName();
+		return this.config.getGroupId();
 	}
 
 	public boolean hasParent() {

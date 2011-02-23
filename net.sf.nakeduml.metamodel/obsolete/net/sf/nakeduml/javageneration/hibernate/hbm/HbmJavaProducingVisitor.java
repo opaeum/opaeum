@@ -5,13 +5,13 @@ import java.util.List;
 import net.hibernatehbmmetamodel.HbmElement;
 import net.hibernatehbmmetamodel.HibernateConfiguration;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 
 public abstract class HbmJavaProducingVisitor extends AbstractJavaProducingVisitor {
 
 	protected void createTextPath(HibernateConfiguration hibernateConfiguration,String outputRoot){
 		try{
-			TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
+			SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
 			List<String> names = hibernateConfiguration.getPath();
 			or.findOrCreateTextFile(names, new HbmTextSource(hibernateConfiguration));
 		}catch(Exception e){

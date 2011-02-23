@@ -1,17 +1,17 @@
 package net.sf.nakeduml.textmetamodel;
 
-public abstract class TextFileNode{
-	protected TextFileNode parent;
+public abstract class TextOutputNode{
+	protected TextOutputNode parent;
 	protected String name;
-	protected TextFileNode(TextFileNode parent,String name){
+	protected TextOutputNode(TextOutputNode parent,String name){
 		this(name);
 		this.parent = parent;
 	}
-	protected TextFileNode(String name){
+	protected TextOutputNode(String name){
 		super();
 		this.name = name;
 	}
-	public TextFileNode getParent(){
+	public TextOutputNode getParent(){
 		return this.parent;
 	}
 	public String getName(){

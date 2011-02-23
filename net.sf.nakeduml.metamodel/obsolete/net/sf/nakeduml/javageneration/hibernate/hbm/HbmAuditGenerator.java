@@ -13,7 +13,7 @@ import net.hibernatehbmmetamodel.SubClass;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 
 public class HbmAuditGenerator extends HbmJavaProducingVisitor {
 	public static final boolean DEVELOPMENT_MODE = true;
@@ -28,7 +28,7 @@ public class HbmAuditGenerator extends HbmJavaProducingVisitor {
 	}	
 	public void createTextPath(HibernateConfiguration hibernateConfiguration,String outputRoot){
 		try{
-			TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
+			SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(outputRoot);
 			List<String> names = hibernateConfiguration.getPath();
 			or.findOrCreateTextFile(names, new HbmTextSource(hibernateConfiguration));
 		}catch(Exception e){

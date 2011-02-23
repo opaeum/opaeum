@@ -3,7 +3,6 @@ package net.sf.nakeduml.pomgeneration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -22,8 +21,6 @@ import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Model;
 
@@ -72,7 +69,7 @@ public class AbstractMavenProjectProcess  {
 			mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
 		}
 		Properties props = new Properties();
-		InputStreamReader inStream = getInputStream(model, "properties");
+		InputStreamReader inStream = UML2ModelLoader.getInputStream(model, "properties");
 		if (inStream != null) {
 			props.load(inStream);
 		}
@@ -82,7 +79,7 @@ public class AbstractMavenProjectProcess  {
 		System.out.println(System.currentTimeMillis() - start);
 	}
 
-	public static void transform(Model model, MavenDirectories mavenDirectories, NakedUmlConfig cfg, boolean initApp, Class<? extends TransformationStep>... features)
+	public static void transform(EmfWorkspace workspace, MavenDirectories mavenDirectories, NakedUmlConfig cfg, boolean initApp, Class<? extends TransformationStep>... features)
 			throws IOException {
 		cfg.mapOutputRoot(JavaTextSource.GEN_SRC, mavenDirectories.genSrcFolder);
 		cfg.mapOutputRoot(JavaTextSource.GEN_TEST_SRC, mavenDirectories.genTestFolder);
@@ -96,7 +93,6 @@ public class AbstractMavenProjectProcess  {
 		}
 		
 		TransformationProcess process = new TransformationProcess();
-		WorkspaceMappingInfoImpl mappingInfo = new WorkspaceMappingInfoImpl(getInputStream(model, "mappinginfo"));
 		HashSet<Class<? extends TransformationStep>> classes = new HashSet<Class<? extends TransformationStep>>(Arrays.asList(features));
 		process.execute(cfg, new EmfWorkspace(model, mappingInfo), classes);
 		cfg.store(getOutputStream(model, "properties"));
@@ -107,21 +103,6 @@ public class AbstractMavenProjectProcess  {
 		OutputStream outStream = model.eResource().getResourceSet().getURIConverter()
 				.createOutputStream(model.eResource().getURI().trimFileExtension().appendFileExtension(extension));
 		return new OutputStreamWriter(outStream);
-	}
-
-	public static InputStreamReader getInputStream(Model model, String extension) {
-		try {
-			URIConverter uriConverter = model.eResource().getResourceSet().getURIConverter();
-			URI uri = model.eResource().getURI().trimFileExtension().appendFileExtension(extension);
-			if (uriConverter.exists(uri, null)) {
-				InputStream inStream = uriConverter.createInputStream(uri);
-				return new InputStreamReader(inStream);
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return null;
-		}
 	}
 
 }

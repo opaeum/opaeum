@@ -1,6 +1,6 @@
 package net.sf.nakeduml.emf.extraction;
 
-import java.util.List;
+import java.io.File;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -14,7 +14,6 @@ import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaboration
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
@@ -29,7 +28,6 @@ import net.sf.nakeduml.metamodel.core.internal.NakedPackageImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPowerTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.internal.NakedStructuredDataType;
-import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.INakedModel;
@@ -43,7 +41,6 @@ import net.sf.nakeduml.metamodel.usecases.internal.NakedActorImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
-import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
@@ -78,9 +75,12 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	 */
 	@VisitBefore
 	public void visitProfile(Profile p) {
-		INakedPackage pw = new NakedProfileImpl();
-		pw.initialize(getId(p), p.getName());
-		this.workspace.putModelElement(pw);
+		NakedProfileImpl np = new NakedProfileImpl();
+		np.initialize(getId(p), p.getName());
+		if (p.eResource().getURI().isFile()) {
+			np.setModelFile(new File(p.eResource().getURI().toFileString()));
+		}
+		this.workspace.putModelElement(np);
 	}
 
 	@VisitBefore
@@ -93,9 +93,12 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 
 	@VisitBefore
 	public void visitModel(Model p) {
-		INakedModel pw = new NakedModelImpl();
-		pw.initialize(getId(p), p.getName());
-		this.workspace.putModelElement(pw);
+		NakedModelImpl nm = new NakedModelImpl();
+		nm.initialize(getId(p), p.getName());
+		if (p.eResource().getURI().isFile()) {
+			nm.setModelFile(new File(p.eResource().getURI().toFileString()));
+		}
+		this.workspace.putModelElement(nm);
 	}
 
 	@VisitBefore
@@ -230,10 +233,11 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	public void visitAssociation(Association a, NakedAssociationImpl na) {
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
-		if(a.getName()==null){
-			//HACK!!! to avoid nullpointerexceptiosn in NAkedParsedOclStringResolver
-			//Something wrong with the phases
-			na.setName(a.getMemberEnds().get(0).getName() +"To"+ a.getMemberEnds().get(1).getName());
+		if (a.getName() == null) {
+			// HACK!!! to avoid nullpointerexceptiosn in
+			// NAkedParsedOclStringResolver
+			// Something wrong with the phases
+			na.setName(a.getMemberEnds().get(0).getName() + "To" + a.getMemberEnds().get(1).getName());
 		}
 	}
 

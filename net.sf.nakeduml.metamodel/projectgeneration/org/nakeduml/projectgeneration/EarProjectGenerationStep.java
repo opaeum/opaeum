@@ -16,7 +16,7 @@ import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.pomgeneration.ProjectRootPomStep;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextSource;
 
 import org.apache.commons.io.FileUtils;
@@ -41,7 +41,7 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 			}
 		}
 		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_ROOT, root);
-		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EAR_ROOT, new File(root, config.getProjectName() + "-ear"));
+		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EAR_ROOT, new File(root, workspace.getEntryModel().getFileName() + "-ear"));
 		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_EJB_ROOT, new File(root, config.getProjectName() + "-ejb"));
 		config.mapOutputRoot(JavaTextSource.NAKED_PROJECT_WAR_ROOT, new File(root, config.getProjectName() + "-war"));
 		mapOutput("project-src", new File(config.getMappedDestination(JavaTextSource.NAKED_PROJECT_EJB_ROOT), "/src/main/java"));
@@ -78,7 +78,7 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 			}
 		}
 
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(PROJECT_WEBAPP);
+		SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(PROJECT_WEBAPP);
 		List<String> names = Arrays.asList(name);
 		or.findOrCreateTextFile(names, new TextSource() {
 			@Override
@@ -107,7 +107,7 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 			}
 		}
 
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(target);
+		SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(target);
 		List<String> names = Arrays.asList(dir, name);
 		or.findOrCreateTextFile(names, new TextSource() {
 			@Override
@@ -122,7 +122,7 @@ public class EarProjectGenerationStep extends AbstractProjectGenerationStep {
 	}
 
 	private void createWarBeansXml() {
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(PROJECT_WEBAPP);
+		SourceFolder or = textWorkspace.findOrCreateTextOutputRoot(PROJECT_WEBAPP);
 		List<String> names = Arrays.asList("WEB-INF", "beans.xml");
 		or.findOrCreateTextFile(names, new TextSource() {
 			@Override

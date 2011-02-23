@@ -10,22 +10,17 @@ import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.TextFile;
-import net.sf.nakeduml.textmetamodel.TextFileDirectory;
+import net.sf.nakeduml.textmetamodel.TextDirectory;
 
 @StepDependency(phase = FileGenerationPhase.class)
 public class TextFileGenerator extends AbstractTextNodeVisitor implements TransformationStep {
-	private boolean clean;
 
 	public TextFileGenerator() {
-		this(true);
 	}
 
-	public TextFileGenerator(boolean clean) {
-		this.clean = clean;
-	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitTextFileDirectory(TextFileDirectory textDir) {
+	public void visitTextFileDirectory(TextDirectory textDir) {
 		File dir = getDirectoryFor(textDir);
 		if (!dir.exists()) {
 			if (textDir.hasContent()) {
@@ -33,7 +28,7 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 			}
 		} else {
 			for (File child : dir.listFiles()) {
-				if (clean && !textDir.hasChild(child.getName()) && isSourceDirectory(child)) {
+				if (textDir.getSourceFolder().shouldClean() && !textDir.hasChild(child.getName()) && isSourceDirectory(child)) {
 					deleteTree(child);
 				}
 			}
@@ -45,9 +40,9 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 		return b;
 	}
 
-	private File getDirectoryFor(TextFileDirectory textDir) {
+	private File getDirectoryFor(TextDirectory textDir) {
 		try {
-			File mappedRoot = config.getMappedDestination(textDir.getOutputRoot().getName());
+			File mappedRoot = config.getOutputRoot();
 			File dir = new File(mappedRoot, textDir.getRelativePath());
 			return dir;
 		} catch (RuntimeException e) {
@@ -76,11 +71,11 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 
 	@VisitBefore(matchSubclasses = false)
 	public void visitTextFile(TextFile textFile) throws IOException {
-		if (textFile.hasContent()) {
+		if (textFile.hasContent() ) {
 			File dir = getDirectoryFor(textFile.getParent());
 			dir.mkdirs();
 			File osFile = new File(dir, textFile.getName());
-			if (!osFile.exists() || getNumberOfChars(osFile) != textFile.getContent().length) {
+			if (!osFile.exists() || textFile.overwrite()) {
 				FileWriter fw = new FileWriter(osFile);
 				fw.write(textFile.getContent());
 				fw.flush();
@@ -89,15 +84,4 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 		}
 	}
 
-	private long getNumberOfChars(File osFile) throws IOException {
-		return 0;
-		// char[] d=new char[1000];
-		// FileReader frf=new FileReader(osFile);
-		// int size =0;
-		// int charsRead;
-		// while((charsRead=frf.read(d))!=-1){
-		// size+=charsRead;
-		// }
-		// return size;
-	}
 }

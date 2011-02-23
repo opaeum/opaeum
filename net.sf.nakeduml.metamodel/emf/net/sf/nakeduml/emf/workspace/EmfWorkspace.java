@@ -1,5 +1,6 @@
 package net.sf.nakeduml.emf.workspace;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -39,7 +41,6 @@ public class EmfWorkspace implements Element {
 	Set<Package> supportingModels = new HashSet<Package>();
 	Package entryModel;
 	private WorkspaceMappingInfoImpl mappingInfo;
-
 	public EmfWorkspace(Package model, WorkspaceMappingInfoImpl mappingInfo) {
 		this(mappingInfo);
 		this.entryModel = model;
@@ -68,8 +69,22 @@ public class EmfWorkspace implements Element {
 		addGeneratingModelOrProfile(p);
 	}
 
-	public boolean isGeneratingModelOrProfile(Package p) {
+	private boolean isGeneratingModelOrProfile(Package p, File entryModelFile) {
+		URI uri = p.eResource().getURI();
+		if(uri.isFile()){
+			File packageFile = new File( uri.toFileString());
+			packageFile.getParentFile().equals(entryModelFile.getParentFile());
+		}
 		return generatingModels.contains(p);
+	}
+	public void guessGeneratingModelsAndProfiles(){
+		generatingModels.clear();
+		File entryModelFile = new File(entryModel.eResource().getURI().toFileString());
+		for(Element e:getOwnedElements()){
+			if(isGeneratingModelOrProfile((Package) e,entryModelFile)){
+				generatingModels.add((Package) e);
+			}
+		}
 	}
 
 	public void addGeneratingModelOrProfile(Package p) {
@@ -85,11 +100,14 @@ public class EmfWorkspace implements Element {
 		for (Resource r : entryModel.eResource().getResourceSet().getResources()) {
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if (!fileString.contains("UML_METAMODELS") && (pkg instanceof Profile || pkg instanceof Model)) {
+			if (!fileString.contains("UML_METAMODELS") && isRootObject(pkg)) {
 				result.add(pkg);
 			}
 		}
 		return result;
+	}
+	private boolean isRootObject(Package pkg) {
+		return ((pkg instanceof Profile || pkg instanceof Model) && pkg.getOwner()==null);
 	}
 
 	private Package getPackageFrom(Resource r) {

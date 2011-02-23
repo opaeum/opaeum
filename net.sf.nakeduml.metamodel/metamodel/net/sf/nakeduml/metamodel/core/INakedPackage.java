@@ -20,4 +20,5 @@ public interface INakedPackage extends INakedNameSpace, IPackage {
 	void setLinked(boolean isLinked);
 
 	boolean isLinked();
+
 }

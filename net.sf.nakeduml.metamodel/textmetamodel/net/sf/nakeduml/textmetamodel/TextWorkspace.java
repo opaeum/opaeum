@@ -4,30 +4,31 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TextWorkspace extends TextFileNode {
-	Set<TextOutputRoot> roots = new HashSet<TextOutputRoot>();
+public class TextWorkspace extends TextOutputNode {
+	Set<TextProject> projects = new HashSet<TextProject>();
 
 	public TextWorkspace() {
 		super("Workspace");
 	}
 
-	public TextOutputRoot findOrCreateTextOutputRoot(String name) {
-		for (TextOutputRoot r : roots) {
+	public TextProject findOrCreateTextProject(String name) {
+		for (TextProject r : projects) {
 			if (r.name.equals(name)) {
 				return r;
 			}
 		}
-		TextOutputRoot result = new TextOutputRoot(this, name);
-		roots.add(result);
+		TextProject result = new TextProject(this, name);
+		projects.add(result);
 		return result;
 	}
 
-	public Collection<TextOutputRoot> getTextOutputRoots() {
-		return roots;
+	public Collection<TextProject> getTextProjects() {
+		return projects;
 	}
 
 	@Override
 	public boolean hasContent(){
-		return true;
+		return projects.size()>0;
 	}
+
 }

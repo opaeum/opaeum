@@ -21,7 +21,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class ConfigurableCompositionPropertiesGenerator extends AbstractTestDataGenerator {
@@ -166,7 +166,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			rootX.outputToCompositeOneInterface(this);
 		}
 		if (this.config.getDataGeneration()) {
-			TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
+			SourceFolder outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
 			List<String> path = Arrays.asList("data.generation.properties");
 			outputRoot.findOrCreateTextFile(path, new PropertiesSource(props));
 		}

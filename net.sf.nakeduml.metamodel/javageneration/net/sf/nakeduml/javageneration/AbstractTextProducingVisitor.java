@@ -15,7 +15,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.ResourceLoader;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.apache.velocity.Template;
@@ -81,7 +81,7 @@ public class AbstractTextProducingVisitor extends AbstractJavaProducingVisitor{
 		List<String> path = Arrays.asList(new String(fileNameWriter.toCharArray()).split("[/]"));
 		contentWriter.close();
 		if(Boolean.TRUE.equals(context.get("shouldGenerate"))){
-			TextOutputRoot outputRoot = textWorkspace.findOrCreateTextOutputRoot(outputRootName);
+			SourceFolder outputRoot = textWorkspace.findOrCreateTextOutputRoot(outputRootName);
 			outputRoot.findOrCreateTextFile(path, new CharArrayTextSource(contentWriter));
 		}
 	}
