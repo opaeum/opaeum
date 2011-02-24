@@ -42,6 +42,7 @@ public class ManagedHibernateSessionProvider implements Serializable {
 		Configuration config = new Configuration();
 		config.configure();
 		this.sessionFactory = config.buildSessionFactory();
+		System.out.println(this.sessionFactory.getDefinedFilterNames());
 	}
 
 	@Produces

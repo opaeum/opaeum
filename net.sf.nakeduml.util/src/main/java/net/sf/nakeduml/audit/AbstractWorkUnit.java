@@ -11,6 +11,7 @@ public class AbstractWorkUnit implements Serializable {
 	private static final long serialVersionUID = 1706148228216480337L;
 	private RevisionEntity revisionEntity;
 	private LinkedList<Audited> auditedEntities;
+	private long sequence;
 	
 	public AbstractWorkUnit() {
 		super();
@@ -31,5 +32,13 @@ public class AbstractWorkUnit implements Serializable {
 	public void setAuditedEntities(LinkedList<Audited> auditedEntities) {
 		this.auditedEntities = auditedEntities;
 	}
+	
+	public long getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(long sequence) {
+		this.sequence = sequence;
+	}	
 
 }

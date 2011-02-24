@@ -4,6 +4,9 @@
 /nakedumltest/cmdatagenerationtests/src/main/generated-resources
 /nakedumltest/audittests/src/main/generated-resources
 /nakedumltest/audittests/src/main/generated-java
+/nakedumltest/audittests/src/test/generated-java
+/nakedumltest/audittests/src/test/generated-resources
+/nakedumltest/audittests/src/test/generated-resource-jbossas
 /nakedumltest/audittests/target
 /nakedumltest/jbpmtest/src/main/generated-resources
 /nakedumltest/jbpmtest/src/main/generated-java

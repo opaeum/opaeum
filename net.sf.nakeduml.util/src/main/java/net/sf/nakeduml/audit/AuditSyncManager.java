@@ -20,7 +20,7 @@ public class AuditSyncManager {
 		if (verSync == null) {
 			// No worries about registering a transaction twice - a transaction
 			// is single thread
-			verSync = new AuditSync(this, session);
+			verSync = new AuditSync(this, session, false);
 			auditSyncs.put(transaction, verSync);
 			transaction.registerSynchronization(verSync);
 		}
@@ -30,4 +30,5 @@ public class AuditSyncManager {
 	public void remove(Transaction transaction) {
 		auditSyncs.remove(transaction);
 	}
+	
 }

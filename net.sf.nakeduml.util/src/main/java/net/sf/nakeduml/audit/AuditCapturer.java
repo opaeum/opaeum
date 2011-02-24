@@ -14,6 +14,7 @@ import net.sf.nakeduml.util.AuditId;
 import net.sf.nakeduml.util.Audited;
 import net.sf.nakeduml.util.RevisionEntity;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 
 @TransactionAttribute
@@ -21,8 +22,8 @@ public class AuditCapturer {
 
 	@Inject
 	private Session session;
-
 	public void persistAudit(AbstractWorkUnit workUnit) {
+		session.setFlushMode(FlushMode.COMMIT);
 		try {
 			RevisionEntity revisionEntity = new RevisionEntity();
 			session.persist(revisionEntity);

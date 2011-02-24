@@ -76,8 +76,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	private OJAnnotatedClass annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
-		//TODO readd using WELD
-//		addAllInstances(complexType, ojClass);
+		addAllInstances(complexType, ojClass);
 		addEquals(ojClass);
 		String schema = complexType.getTaggedValue("Schema", "name");
 		if (schema == null || schema.isEmpty()) {
@@ -133,12 +132,12 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked=new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("EntityManager em =(EntityManager)org.jboss.seam.Component.getInstance(\"entityManager\")");
+		ifMocked.getThenPart().addToStatements("Session session =(Session)net.sf.nakeduml.seam.Component.INSTANCE.getInstance(Session.class)");
 		ifMocked.getThenPart()
-				.addToStatements("return new HashSet(em.createQuery(\"from " + complexType.getName() + "\").getResultList())");
+				.addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
-		ojClass.addToImports(new OJPathName("javax.persistence.EntityManager"));
+		ojClass.addToImports(new OJPathName("org.hibernate.Session"));
 		ojClass.addToImports(new OJPathName("java.util.HashSet"));
 		OJPathName setExtends = new OJPathName("java.util.Set");
 		ojClass.addToImports(set.getDeepCopy());

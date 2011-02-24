@@ -24,6 +24,7 @@
 	<classpathentry kind="src" path="obsolete"/>
 	<classpathentry kind="src" path="uimetamodel"/>
 	<classpathentry kind="src" path="jbpm5generation"/>
+	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/collections-3.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/testng-5.12.1.jar"/>
