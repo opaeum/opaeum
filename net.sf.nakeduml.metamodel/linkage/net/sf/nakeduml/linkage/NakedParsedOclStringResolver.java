@@ -386,13 +386,4 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		}
 	}
 
-	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
-		// Only do the selected model
-		if (root instanceof INakedModelWorkspace) {
-			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
-		} else {
-			return super.getChildren(root);
-		}
-	}
 }

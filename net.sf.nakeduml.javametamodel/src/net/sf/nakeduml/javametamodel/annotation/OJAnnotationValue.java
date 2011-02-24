@@ -1,8 +1,10 @@
 package net.sf.nakeduml.javametamodel.annotation;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -192,9 +194,9 @@ public class OJAnnotationValue extends OJMetaValue {
 	}
 
 	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-		Set<OJPathName> usedTypes = getAllTypesUsed();
-		for (OJPathName usedType : usedTypes) {
-			usedType.renameAll(renamePathNames, newName);
+		super.renameAll(renamePathNames, newName);
+		for (OJAnnotationAttributeValue attr : this.attributes.values()) {
+			attr.renameAll(renamePathNames, newName);
 		}
 	}
 
@@ -202,6 +204,7 @@ public class OJAnnotationValue extends OJMetaValue {
 		attributes.remove(string);
 		
 	}
+
 
 
 }

@@ -43,37 +43,18 @@ public class HibernateUtil{
 		return d;
 	}
 
-	public static void addAny(OJAnnotatedClass owner, OJAnnotatedField field,String column,Collection<INakedEntity> implementations){
+	public static void addAny(OJAnnotatedField field,NakedStructuralFeatureMap map){
+		INakedProperty p = map.getProperty();
+		String column=p.getMappingInfo().getPersistentName().getAsIs();
 		JpaUtil.addJoinColumn(field, column, false);
 		OJAnnotationValue any = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Any"));
 		OJAnnotationValue metaColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 		metaColumn.putAttribute(new OJAnnotationAttributeValue("name", column + "_type"));
 		any.putAttribute(new OJAnnotationAttributeValue("metaColumn", metaColumn));
-		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(owner, field)));
+		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(p.getNakedBaseType())));
 		field.addAnnotationIfNew(any);
-		addMetaDef(owner,field, implementations);
 	}
 
-	private static String metadefName(OJAnnotatedClass owner,OJAnnotatedField field){
-		return owner.getName() + field.getName() + "MetaDef";
-	}
-
-	private static void addMetaDef(OJAnnotatedClass owner, OJAnnotatedField field, Collection<INakedEntity> implementations) {
-		OJAnnotationValue metaDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AnyMetaDef"));
-		metaDef.putAttribute(new OJAnnotationAttributeValue("name", metadefName(owner, field)));
-		metaDef.putAttribute(new OJAnnotationAttributeValue("idType", "long"));
-		metaDef.putAttribute(new OJAnnotationAttributeValue("metaType", "string"));
-		OJAnnotationAttributeValue metaDefsAttr = new OJAnnotationAttributeValue("metaValues");
-		for(INakedClassifier c:implementations){
-			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
-			//Use qualified persistent name
-			metaValue.putAttribute(new OJAnnotationAttributeValue("value", c.getMappingInfo().getQualifiedJavaName()));
-			metaValue.putAttribute(new OJAnnotationAttributeValue("targetEntity", OJUtil.classifierPathname(c)));
-			metaDefsAttr.addAnnotationValue(metaValue);
-		}
-		metaDef.putAttribute(metaDefsAttr);
-		field.addAnnotationIfNew(metaDef);
-	}
 
 	public static void applyFilter(OJAnnotatedField field, Dialect dialect){
 		OJAnnotationValue filter = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Filter"));
@@ -92,15 +73,18 @@ public class HibernateUtil{
 		field.addAnnotationIfNew(cascade);
 	}
 
-	public static void addManyToAny(INakedClassifier umlOwner, OJAnnotatedClass owner, OJAnnotatedField field, INakedProperty p, NakedStructuralFeatureMap map, Collection<INakedEntity> implementations) {
-		JpaUtil.addJoinTable(umlOwner,p,map,field);
+	public static void addManyToAny(INakedClassifier umlOwner, OJAnnotatedField field, NakedStructuralFeatureMap map) {
+		JpaUtil.addJoinTable(umlOwner,map,field);
 		OJAnnotationValue any = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.ManyToAny"));
 		OJAnnotationValue metaColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
+		INakedProperty p=map.getProperty();
 		metaColumn.putAttribute(new OJAnnotationAttributeValue("name", p.getMappingInfo().getPersistentName()+ "_type"));
 		any.putAttribute(new OJAnnotationAttributeValue("metaColumn", metaColumn));
-		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(owner, field)));
+		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(p.getNakedBaseType())));
 		field.addAnnotationIfNew(any);
-		addMetaDef(owner, field, implementations);
 		
+	}
+	public static String metadefName(INakedClassifier nakedBaseType) {
+		return nakedBaseType.getMappingInfo().getJavaName().getAsIs();
 	}
 }

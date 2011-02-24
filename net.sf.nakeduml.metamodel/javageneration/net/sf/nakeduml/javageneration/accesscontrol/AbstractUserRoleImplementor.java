@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.accesscontrol;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -9,6 +10,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateConfiguratorGenerator;
+import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJClass;
@@ -18,7 +20,9 @@ import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -55,7 +59,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass ojClass = new OJAnnotatedClass();
 		ojClass.setName(pathName.getLast() + "TestData");
 		UtilityCreator.getUtilPack().addToClasses(ojClass);
-		super.createTextPath(ojClass, JavaTextSource.GEN_TEST_SRC);
+		super.createTextPath(ojClass, JavaTextSource.TEST_SRC);
 		ojClass.addToImports(HibernateConfiguratorGenerator.getConfiguratorPathName());
 		ojClass.addToImports("java.util.List");
 		OJAnnotatedOperation main = OJUtil.buildMain(ojClass);
@@ -89,32 +93,32 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		OJIfStatement ifNotEmpty = new OJIfStatement("!list.isEmpty()", "user.addRole((" + userRoleInterface.getLast() + ")list.get(0))");
 		addRole.getBody().addToStatements(ifNotEmpty);
 	}
-//	private void buildRoleMapping(OJPathName abstractUserPathame){
-//		OJAnnotatedClass userRoleMapping = new OJAnnotatedClass();
-//		userRoleMapping.setName("UserRoleMapping");
+	private void buildRoleMapping(OJPathName abstractUserPathame){
+		OJAnnotatedClass userRoleMapping = new OJAnnotatedClass();
+		userRoleMapping.setName("UserRoleMapping");
 //		JpaUtil.addAndAnnotatedIdAndVersion(userRoleMapping, "user_role_mapping");
-//		JpaUtil.addEntity(userRoleMapping);
-//		JpaUtil.buildTableAnnotation(userRoleMapping, "user_role_mapping", this.config);
-//		UtilityCreator.getUtilPack().addToClasses(userRoleMapping);
-//		createTextPath(userRoleMapping, JavaTextSource.GEN_SRC);
-//		OJPathName mappedRoles = new OJPathName("java.util.Collection");
-//		mappedRoles.addToElementTypes(userRoleMapping.getPathName());
-//		//TODO this needs to become a uml library
-////		OJPathName userRolePath = ReflectionUtil.getUtilInterface(AbstractUserRole.class);
-//		OJPathName userRolePath = abstractUserRoleInterface;
-//		OJAnnotatedField role = OJUtil.addProperty(userRoleMapping, "role", userRolePath, true);
+		JpaUtil.addEntity(userRoleMapping);
+		JpaUtil.buildTableAnnotation(userRoleMapping, "user_role_mapping", this.config);
+		UtilityCreator.getUtilPack().addToClasses(userRoleMapping);
+		createTextPath(userRoleMapping, JavaTextSource.GEN_SRC);
+		OJPathName mappedRoles = new OJPathName("java.util.Collection");
+		mappedRoles.addToElementTypes(userRoleMapping.getPathName());
+		//TODO this needs to become a uml library
+//		OJPathName userRolePath = ReflectionUtil.getUtilInterface(AbstractUserRole.class);
+		OJPathName userRolePath = abstractUserRoleInterface;
+		OJAnnotatedField role = OJUtil.addProperty(userRoleMapping, "role", userRolePath, true);
 //		HibernateUtil.addAny(userRoleMapping, role, "role_id", getConcreteUserRoles());
-//		OJAnnotatedField user = OJUtil.addProperty(userRoleMapping, "user", abstractUserPathame, true);
-//		JpaUtil.addJoinColumn(user, "user_id", false);
-//		OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
-//		JpaUtil.cascadeAll(manyToOne);
-//		user.addAnnotationIfNew(manyToOne);
-//		OJAnnotatedField roleName = OJUtil.addProperty(userRoleMapping, "roleName", new OJPathName("String"), true);
-//		JpaUtil.addColumn(roleName, "role_name", false);
-//		roleName.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.security.management.RoleName")));
-//		OJAnnotatedOperation setRole = (OJAnnotatedOperation) userRoleMapping.findOperation("setRole", Collections.singletonList(userRolePath));
-//		setRole.getBody().addToStatements("this.roleName=role.getRoleNameForSecurity()");
-//	}
+		OJAnnotatedField user = OJUtil.addProperty(userRoleMapping, "user", abstractUserPathame, true);
+		JpaUtil.addJoinColumn(user, "user_id", false);
+		OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
+		JpaUtil.cascadeAll(manyToOne);
+		user.addAnnotationIfNew(manyToOne);
+		OJAnnotatedField roleName = OJUtil.addProperty(userRoleMapping, "roleName", new OJPathName("String"), true);
+		JpaUtil.addColumn(roleName, "role_name", false);
+		roleName.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.security.management.RoleName")));
+		OJAnnotatedOperation setRole = (OJAnnotatedOperation) userRoleMapping.findOperation("setRole", Collections.singletonList(userRolePath));
+		setRole.getBody().addToStatements("this.roleName=role.getRoleNameForSecurity()");
+	}
 	private Collection<INakedEntity> getConcreteUserRoles(){
 		Collection<INakedEntity> results = new ArrayList<INakedEntity>();
 		for(INakedElement e:workspace.getAllElements()){

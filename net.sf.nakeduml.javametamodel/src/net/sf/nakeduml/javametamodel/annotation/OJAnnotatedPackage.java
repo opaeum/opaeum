@@ -69,4 +69,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 		}
 		super.copyDeepInfoInto(owner, copy);
 	}
+	public OJAnnotationValue findAnnotation(OJPathName ojPathName) {
+		return AnnotationHelper.getAnnotation(this, ojPathName);
+	}
 }

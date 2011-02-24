@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.core.INakedPackage;
+
 /**
  * VisitorAdapter is an abstract adapter class that traverses a tree starting
  * with the root. Subclasses have to annotate methods that serve as so called
@@ -71,7 +73,8 @@ public abstract class VisitorAdapter<NODE, ROOT extends NODE> {
 		for (VisitSpec v : beforeMethods) {
 			maybeVisit(o, v);
 		}
-		for (NODE child : new ArrayList<NODE>(getChildren(o))) {
+		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
+		for (NODE child : children) {
 			visitRecursively(child);
 		}
 		for (VisitSpec v : afterMethods) {

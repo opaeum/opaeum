@@ -27,6 +27,7 @@ import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
+import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
@@ -153,8 +154,13 @@ public class OJUtil {
 	private static void addParentsToPath(INakedNameSpace c, OJPathName path) {
 		INakedNameSpace parent = c.getParent();
 		if (parent != null) {
-			addParentsToPath(parent, path);
-			path.addToNames(parent.getName().toLowerCase());
+			if (parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null) {
+				OJPathName pn = new OJPathName(((INakedPackage) parent).getMappedImplementationPackage());
+				path.addToNames(pn.getNames());
+			} else {
+				addParentsToPath(parent, path);
+				path.addToNames(parent.getName().toLowerCase());
+			}
 		}
 	}
 
@@ -167,10 +173,14 @@ public class OJUtil {
 	 * @return
 	 */
 	public static OJPathName packagePathname(INakedNameSpace p) {
-		OJPathName path = new OJPathName();
-		addParentsToPath(p, path);
-		path.addToNames(p.getName().toLowerCase());
-		return path;
+		if (p instanceof INakedPackage && ((INakedPackage) p).getMappedImplementationPackage() != null) {
+			return new OJPathName(((INakedPackage) p).getMappedImplementationPackage());
+		} else {
+			OJPathName path = new OJPathName();
+			addParentsToPath(p, path);
+			path.addToNames(p.getName().toLowerCase());
+			return path;
+		}
 	}
 
 	/**
@@ -183,7 +193,7 @@ public class OJUtil {
 	 */
 	public static OJPathName classifierPathname(INakedClassifier classifier) {
 		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
-			return new OJPathName((classifier).getMappedImplementationType());
+			return new OJPathName(classifier.getMappedImplementationType());
 		} else {
 			OJPathName path = packagePathname(classifier.getNameSpace());
 			path.addToNames(classifier.getName());
@@ -292,8 +302,8 @@ public class OJUtil {
 		}
 	}
 
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner, INakedObjectNode pin, boolean ensureUniqueness) {
-		return new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin,ensureUniqueness));
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner, INakedObjectNode pin,
+			boolean ensureUniqueness) {
+		return new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniqueness));
 	}
-
 }

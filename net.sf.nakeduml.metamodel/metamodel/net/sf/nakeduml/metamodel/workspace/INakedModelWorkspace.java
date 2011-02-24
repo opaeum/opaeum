@@ -32,4 +32,5 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	void removeElementById(String id);
 	void addGeneratingModelOrProfileId(String idFor);
 	String getName();
+	void clearGeneratingModelOrProfiles();
 }

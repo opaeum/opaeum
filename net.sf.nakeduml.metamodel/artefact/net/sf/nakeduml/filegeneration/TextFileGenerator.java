@@ -1,6 +1,7 @@
 package net.sf.nakeduml.filegeneration;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -13,6 +14,16 @@ import net.sf.nakeduml.textmetamodel.TextFileDirectory;
 
 @StepDependency(phase = FileGenerationPhase.class)
 public class TextFileGenerator extends AbstractTextNodeVisitor implements TransformationStep {
+	private boolean clean;
+
+	public TextFileGenerator() {
+		this(true);
+	}
+
+	public TextFileGenerator(boolean clean) {
+		this.clean = clean;
+	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitTextFileDirectory(TextFileDirectory textDir) {
 		File dir = getDirectoryFor(textDir);
@@ -22,7 +33,7 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 			}
 		} else {
 			for (File child : dir.listFiles()) {
-				if (!textDir.hasChild(child.getName()) && isSourceDirectory(child)) {
+				if (clean && !textDir.hasChild(child.getName()) && isSourceDirectory(child)) {
 					deleteTree(child);
 				}
 			}
@@ -64,17 +75,29 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 	}
 
 	@VisitBefore(matchSubclasses = false)
-	public void visitTextFile(TextFile file) throws IOException {
-		if (file.hasContent()) {
-			File dir = getDirectoryFor(file.getParent());
-			FileWriter fw = new FileWriter(new File(dir, file.getName()));
-			if (file.getTextSource() instanceof PropertiesSource) {
-				((PropertiesSource)file.getTextSource()).getProperties().store(fw, "NakedUml Generated");
-			} else {
-				fw.write(file.getContent());
+	public void visitTextFile(TextFile textFile) throws IOException {
+		if (textFile.hasContent()) {
+			File dir = getDirectoryFor(textFile.getParent());
+			dir.mkdirs();
+			File osFile = new File(dir, textFile.getName());
+			if (!osFile.exists() || getNumberOfChars(osFile) != textFile.getContent().length) {
+				FileWriter fw = new FileWriter(osFile);
+				fw.write(textFile.getContent());
+				fw.flush();
+				fw.close();
 			}
-			fw.flush();
-			fw.close();
 		}
+	}
+
+	private long getNumberOfChars(File osFile) throws IOException {
+		return 0;
+		// char[] d=new char[1000];
+		// FileReader frf=new FileReader(osFile);
+		// int size =0;
+		// int charsRead;
+		// while((charsRead=frf.read(d))!=-1){
+		// size+=charsRead;
+		// }
+		// return size;
 	}
 }

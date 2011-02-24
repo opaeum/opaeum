@@ -2,6 +2,7 @@ package net.sf.nakeduml.textmetamodel;
 
 public class TextFile extends TextFileNode {
 	private TextSource textSource;
+	private char[] content;
 
 	public TextSource getTextSource() {
 		return this.textSource;
@@ -13,7 +14,10 @@ public class TextFile extends TextFileNode {
 	}
 
 	public char[] getContent() {
-		return textSource.toCharArray();
+		if (content == null) {
+			content = textSource.toCharArray();
+		}
+		return content;
 	}
 
 	public TextOutputRoot getOutputRoot() {
@@ -33,9 +37,8 @@ public class TextFile extends TextFileNode {
 	public TextFileDirectory getParent() {
 		return (TextFileDirectory) super.getParent();
 	}
-
 	@Override
-	public boolean hasContent(){
+	public boolean hasContent() {
 		return textSource.hasContent();
 	}
 }

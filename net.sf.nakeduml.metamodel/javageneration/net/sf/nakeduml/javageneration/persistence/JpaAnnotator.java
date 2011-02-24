@@ -77,13 +77,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
 		addAllInstances(complexType, ojClass);
-		addEquals(ojClass);
-		String schema = complexType.getTaggedValue("Schema", "name");
-		if (schema == null || schema.isEmpty()) {
-			schema = complexType.getNameSpace().getTaggedValue("Schema", "name");
-		}
 		OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(),
-				this.config, schema);
+				this.config, complexType.getNameSpace());
 		if (complexType instanceof INakedEntity) {
 			OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
 			if (uniqueConstraints.hasValues()) {
@@ -294,7 +289,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 				}
 			} else {
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToMany"));
-				JpaUtil.addJoinTable(umlOwner, p, map, field);
+				JpaUtil.addJoinTable(umlOwner, map, field);
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);

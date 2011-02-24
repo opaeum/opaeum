@@ -13,4 +13,5 @@ public class TagNames {
 	public static final String CODE_GENERATION_STRATEGY = "codeGenerationStrategy";
 	public static final String MAPPED_IMPLEMENTATION_PACKAGE = "mappedImplementationPackage";
 	public static final String IS_ROOT_PACKAGE = "isRootPackage";
+	public static final String IS_SCHEMA = "isSchema";
 }

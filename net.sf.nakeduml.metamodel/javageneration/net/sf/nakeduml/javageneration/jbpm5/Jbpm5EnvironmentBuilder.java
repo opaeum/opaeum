@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
+import java.util.Collection;
+
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
@@ -13,15 +15,16 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
-	private static final OJPathName STATEFUL_KNOWLEDGE_SESSION_PATH = new OJPathName("org.drools.runtime.StatefulKnowledgeSession");
 	private OJBlock prepareKnowledgeBaseBody;
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitModel(INakedModel model) {
+	public void visitWorkspace(INakedModelWorkspace model) {
 		createJbpmKnowledgeSession();
 		createJbpmKnowledgeBase();
 	}
@@ -29,7 +32,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	private void createJbpmKnowledgeBase() {
 		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass();
 		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
-		OJPackage utilPack = UtilityCreator.getUtilPack();
+		OJPackage utilPack = findOrCreatePackage(Jbpm5Util.getJbpmKnowledgeSession().getHead());
 		utilPack.addToClasses(jbpmKnowledgeBase);
 		super.createTextPath(jbpmKnowledgeBase, JavaTextSource.GEN_SRC);
 		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
@@ -67,7 +70,8 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJAnnotatedClass jbpmKnowledgeSession = new OJAnnotatedClass();
 		jbpmKnowledgeSession.setName("JbpmKnowledgeSession");
 		jbpmKnowledgeSession.setSuperclass(new OJPathName("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeSession"));
-		UtilityCreator.getUtilPack().addToClasses(jbpmKnowledgeSession);
+		OJPackage utilPack = findOrCreatePackage(Jbpm5Util.getJbpmKnowledgeSession().getHead());
+		utilPack.addToClasses(jbpmKnowledgeSession);
 		addEventScope(jbpmKnowledgeSession);
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeSession.getPathName());
 		instance.setStatic(true);
@@ -99,7 +103,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.addToImports("javax.persistence.EntityManager");
 	}
 
-	public void addCommonImports(OJAnnotatedClass jbpmKnowledgeSession) {
+	private void addCommonImports(OJAnnotatedClass jbpmKnowledgeSession) {
 		jbpmKnowledgeSession.addToImports("org.drools.KnowledgeBase");
 		jbpmKnowledgeSession.addToImports("org.drools.builder.KnowledgeBuilder");
 		jbpmKnowledgeSession.addToImports("org.drools.io.ResourceFactory");
@@ -115,4 +119,10 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 					+ b.getMappingInfo().getJavaPath() + ".rf\"), ResourceType.DRF)");
 		}
 	}
+
+	@Override
+	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
+		return root.getOwnedElements();
+	}
+	
 }

@@ -197,4 +197,9 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	public void addGeneratingModelOrProfileId(String packageId) {
 		generatingModelOrProfileIds.add(packageId);
 	}
+
+	@Override
+	public void clearGeneratingModelOrProfiles() {
+		generatingModelOrProfileIds.clear();
+	}
 }

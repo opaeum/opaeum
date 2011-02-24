@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJConstructor;
 import net.sf.nakeduml.javametamodel.OJPathName;
@@ -19,9 +20,9 @@ public class SuperTypeGenerator extends AbstractJavaProducingVisitor{
 			OJAnnotatedClass myClass = findJavaClass(c);
 			if(myClass != null){
 				for(INakedGeneralization g:c.getNakedGeneralizations()){
-					OJAnnotatedClass superClass = findJavaClass(g.getGeneral());
-					myClass.setSuperclass(superClass.getPathName());
-					myClass.addToImports(superClass.getPathName());
+					NakedClassifierMap map = new NakedClassifierMap(g.getGeneral());
+					myClass.setSuperclass(map.javaTypePath());
+					myClass.addToImports(map.javaTypePath());
 					OJConstructor constructor = myClass.getDefaultConstructor();
 					constructor.getBody().addToStatements("super()");
 				}

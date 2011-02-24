@@ -160,12 +160,12 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			Collection<INakedClassifier> implementors = new ArrayList<INakedClassifier>();
 			addImplementors((INakedInterface) child, implementors);
 			INakedClassifier next = implementors.iterator().next();
-			OJClass javaChild = findJavaClass(next);
-			testPath = javaChild.getPathName().getCopy();
+			NakedClassifierMap map = new NakedClassifierMap(next);
+			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(next));
 		} else {
-			OJClass javaChild = findJavaClass(child);
-			testPath = javaChild.getPathName().getCopy();
+			NakedClassifierMap map = new NakedClassifierMap(child);
+			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(child));
 		}
 		return testPath;

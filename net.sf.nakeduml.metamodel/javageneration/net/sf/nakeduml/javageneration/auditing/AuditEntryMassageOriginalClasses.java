@@ -14,10 +14,6 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
-import net.sf.nakeduml.javametamodel.annotation.OJClassValue;
-import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
@@ -103,7 +99,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 
 	private void addEntityListenerAnnotation(OJAnnotatedClass c) {
 		OJAnnotationValue entityListener = new OJAnnotationValue(new OJPathName("javax.persistence.EntityListeners"));
-		entityListener.addClassValue(new OJClassValue(new OJPathName("util.NakedUmlEJB3AuditListener")));
+		entityListener.addClassValue(new OJPathName("util.NakedUmlEJB3AuditListener"));
 		c.addAnnotationIfNew(entityListener);
 	}
 

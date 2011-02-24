@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Model;
 
-public class AbstractMavenProjectProcess extends AbstractJavaProducingVisitor {
+public class AbstractMavenProjectProcess  {
 	public static class MavenDirectories {
 		public File srcFolder;
 		public File testResourcesFolder;
