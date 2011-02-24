@@ -26,7 +26,7 @@ public class FlowGenerationPhase implements TransformationPhase<FlowGenerationSt
 	@Override
 	public Object[] execute(List<FlowGenerationStep> features) {
 		for (FlowGenerationStep step : features) {
-			step.initialize(textWorkspace, workspace);
+			step.initialize(config,textWorkspace, workspace);
 			step.startVisiting(workspace);
 		}
 		return new Object[]{textWorkspace};

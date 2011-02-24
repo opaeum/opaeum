@@ -276,7 +276,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					// fixToOneJoinColumns(c, auditClass);
 					addShallowCopy(c, auditClass);
 				}
-				super.createTextPath(auditClass, JavaTextSource.GEN_SRC);
+				super.createTextPath(auditClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			}
 		}
 		massageBehaviorLogic(c, auditClass);

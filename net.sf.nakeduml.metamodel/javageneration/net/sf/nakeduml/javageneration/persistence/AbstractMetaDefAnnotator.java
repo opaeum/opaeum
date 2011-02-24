@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -57,7 +58,15 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 
 	protected abstract String getMetaDefName(INakedInterface i);
 
-	protected abstract String getOutputRoot();
+	protected final JavaTextSource.OutputRootId getOutputRoot(){
+		if(workspace.isSingleModelWorkspace()){
+			//One model
+			return JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC;
+		}else{
+			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC;
+			
+		}
+	}
 
 	private OJAnnotationValue getAnyMetaDefs(OJAnnotatedPackage p) {
 		OJAnnotationValue anyMetaDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.AnyMetaDefs"));

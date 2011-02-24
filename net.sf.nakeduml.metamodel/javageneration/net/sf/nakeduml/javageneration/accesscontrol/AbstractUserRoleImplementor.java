@@ -59,7 +59,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass ojClass = new OJAnnotatedClass();
 		ojClass.setName(pathName.getLast() + "TestData");
 		UtilityCreator.getUtilPack().addToClasses(ojClass);
-		super.createTextPath(ojClass, JavaTextSource.TEST_SRC);
+		super.createTextPath(ojClass, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
 		ojClass.addToImports(HibernateConfiguratorGenerator.getConfiguratorPathName());
 		ojClass.addToImports("java.util.List");
 		OJAnnotatedOperation main = OJUtil.buildMain(ojClass);
@@ -100,7 +100,7 @@ public class AbstractUserRoleImplementor extends AbstractJavaProducingVisitor{
 		JpaUtil.addEntity(userRoleMapping);
 		JpaUtil.buildTableAnnotation(userRoleMapping, "user_role_mapping", this.config);
 		UtilityCreator.getUtilPack().addToClasses(userRoleMapping);
-		createTextPath(userRoleMapping, JavaTextSource.GEN_SRC);
+		createTextPath(userRoleMapping, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		OJPathName mappedRoles = new OJPathName("java.util.Collection");
 		mappedRoles.addToElementTypes(userRoleMapping.getPathName());
 		//TODO this needs to become a uml library

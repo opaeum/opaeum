@@ -36,7 +36,7 @@ public class OclExpressionExecution extends AbstractJavaTransformationStep {
 		cc.startVisiting(workspace);
 		OJPackage util= javaModel.findPackage(UtilityCreator.getUtilPathName());
 		for(OJClassifier c:util.getClasses()){			
-			cc.createTextPath(c, JavaTextSource.GEN_SRC);
+			cc.createTextPath(c, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		}
 	}
 }

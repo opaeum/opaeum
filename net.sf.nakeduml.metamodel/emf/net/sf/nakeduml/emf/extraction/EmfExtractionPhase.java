@@ -57,6 +57,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 //				System.out.println(e);
 			}
 		}
+		//FIrst initialize to allow extractors to determine previously extracted models
 		for (AbstractExtractorFromEmf v : features) {
 			v.initialize(modelWorkspace);
 		}
@@ -66,8 +67,8 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
 			modelWorkspace.addGeneratingModelOrProfile((INakedRootObject) getNakedPackage(gp));
 		}
-		INakedPackage nakedPackage = getNakedPackage(emfWorkspace.getEntryModel());
-		modelWorkspace.setEntryModel((INakedRootObject) nakedPackage);
+		modelWorkspace.setName(emfWorkspace.getName());
+		modelWorkspace.setSingleModelWorkspace(emfWorkspace.isSingleModelWorkspace());
 		return new Object[] {};
 	}
 

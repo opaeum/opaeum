@@ -1,10 +1,12 @@
 package net.sf.nakeduml.pomgeneration;
 
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.DependencyManagement;
+import org.apache.maven.pom.DocumentRoot;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 
@@ -66,14 +68,10 @@ public class HibernatePomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public String getTargetDir() {
-		return JavaTextSource.JPA_ROOT;
+	protected OutputRoot getTargetDir() {
+		return config.getOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 
-	@Override
-	public String getArtifactSuffix() {
-		return "JPA";
-	}
 	@Override
 	public Plugin[] getPlugins() {
 		Plugin[] result = new Plugin[0];

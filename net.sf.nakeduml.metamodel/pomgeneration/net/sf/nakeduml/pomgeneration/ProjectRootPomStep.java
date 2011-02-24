@@ -13,7 +13,7 @@ import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 
-@StepDependency(phase = PomGenerationPhase.class, requires = { ProjectEarModulePomStep.class, ProjectEjbModulePomStep.class, ProjectWarModulePomStep.class })
+@StepDependency(phase = PomGenerationPhase.class, requires = { ProjectEjbModulePomStep.class})
 public class ProjectRootPomStep extends PomGenerationStep {
 
 	@Override
@@ -48,10 +48,6 @@ public class ProjectRootPomStep extends PomGenerationStep {
 		return "pom";
 	}
 
-	@Override
-	public String getArtifactSuffix() {
-		return "";
-	}
 
 	@Override
 	public Dependency[] getDependencyManagementDependencies() {

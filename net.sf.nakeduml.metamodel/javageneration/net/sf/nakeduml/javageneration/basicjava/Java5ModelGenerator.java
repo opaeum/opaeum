@@ -65,7 +65,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
 			OJPackage pack = findOrCreatePackage(path);
 			myClass.setMyPackage(pack);
-			super.createTextPath(myClass, JavaTextSource.GEN_SRC);
+			super.createTextPath(myClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			if (c instanceof INakedEnumeration) {
 				OJEnum oje = (OJEnum) myClass;
 				INakedEnumeration e = (INakedEnumeration) c;
@@ -106,7 +106,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 			OJPathName path = OJUtil.packagePathname(p.getParent());
 			currentPack.setParent(this.javaModel.findPackage(path));
 		}
-		super.createTextPathIfRequired(currentPack, JavaTextSource.GEN_SRC);
+		super.createTextPathIfRequired(currentPack, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 
 	@VisitBefore(matchSubclasses = true)
@@ -123,7 +123,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 				callBackOper.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
 				listener.addToOperations( callBackOper);
 				
-				super.createTextPath(listener, JavaTextSource.GEN_SRC);
+				super.createTextPath(listener, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			}
 		}
 	}

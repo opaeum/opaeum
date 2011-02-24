@@ -13,7 +13,7 @@ public class OutputRoot {
 		this.projectSuffix = projectSuffix;
 		this.sourceFolder = sourceFolder;
 	}
-	public boolean useEntryModelName(){
+	public boolean useWorkspaceName(){
 		return useEntryModelName;
 	}
 	public void dontCleanDirectories(){

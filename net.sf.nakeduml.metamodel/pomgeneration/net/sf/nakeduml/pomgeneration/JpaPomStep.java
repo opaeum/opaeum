@@ -1,6 +1,8 @@
 package net.sf.nakeduml.pomgeneration;
 
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 
@@ -49,14 +51,10 @@ public class JpaPomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public String getTargetDir() {
-		return JavaTextSource.JPA_ROOT;
+	public OutputRoot getTargetDir() {
+		return config.getOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE);
 	}
 
-	@Override
-	public String getArtifactSuffix() {
-		return "JPA";
-	}
 
 	@Override
 	public Plugin[] getPlugins() {

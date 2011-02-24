@@ -42,7 +42,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 			test.setName(testName);
 			OJPackage testPackage = ojClass.getMyPackage();
 			testPackage.addToClasses(test);
-			super.createTextPath(test, JavaTextSource.GEN_TEST_SRC);
+			super.createTextPath(test, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
 			INakedClassifier nc = c;
 			addPopulate(ojClass, test, nc);
 			OJAnnotatedField instance = new OJAnnotatedField();

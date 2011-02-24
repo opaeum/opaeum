@@ -34,9 +34,6 @@ public class Jbpm5Step extends AbstractJavaTransformationStep {
 		ActivityNodeEnumerationImplementor action = new ActivityNodeEnumerationImplementor();
 		action.initialize(workspace, javaModel, config, textWorkspace);
 		action.startVisiting(workspace);
-		SignalImplementor si = new SignalImplementor();
-		si.initialize(workspace, javaModel, config, textWorkspace);
-		si.startVisiting(workspace);
 		TaskImplementor uiei = new TaskImplementor();
 		uiei.initialize(workspace, javaModel, config, textWorkspace);
 		uiei.startVisiting(workspace);

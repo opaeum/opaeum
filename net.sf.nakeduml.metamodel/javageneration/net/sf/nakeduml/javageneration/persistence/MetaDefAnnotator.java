@@ -25,7 +25,4 @@ public class MetaDefAnnotator extends AbstractMetaDefAnnotator {
 		doInterface(i);
 	}
 
-	protected String getOutputRoot() {
-		return JavaTextSource.GEN_SRC;
-	}
 }

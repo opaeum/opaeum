@@ -34,7 +34,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
 		OJPackage utilPack = findOrCreatePackage(Jbpm5Util.getJbpmKnowledgeSession().getHead());
 		utilPack.addToClasses(jbpmKnowledgeBase);
-		super.createTextPath(jbpmKnowledgeBase, JavaTextSource.GEN_SRC);
+		super.createTextPath(jbpmKnowledgeBase, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
 		name.addStringValue("jbpmKnowledgeBase");
 		jbpmKnowledgeBase.addAnnotationIfNew(name);
@@ -76,7 +76,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeSession.getPathName());
 		instance.setStatic(true);
 		jbpmKnowledgeSession.addToFields(instance);
-		super.createTextPath(jbpmKnowledgeSession, JavaTextSource.GEN_SRC);
+		super.createTextPath(jbpmKnowledgeSession, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
 		name.addStringValue("jbpmKnowledgeSession");
 		jbpmKnowledgeSession.addAnnotationIfNew(name);

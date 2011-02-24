@@ -36,7 +36,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	private IOclEngine oclEngine = new OclEngine();
 	private ErrorMap validator = new ErrorMap();
 	private List<INakedRootObject> generatingModelOrProfiles = new ArrayList<INakedRootObject>();
-	private INakedRootObject entryModel;
+	private boolean singleModelWorkspace;
 
 	public NakedModelWorkspaceImpl() {
 	}
@@ -45,9 +45,6 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		return this.oclEngine;
 	}
 
-	public INakedRootObject getEntryModel() {
-		return entryModel;
-	}
 
 	public void setWorkspaceMappingInfo(IWorkspaceMappingInfo modelMappingInfo) {
 		this.modelMappingInfo = modelMappingInfo;
@@ -209,8 +206,14 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		generatingModelOrProfiles.clear();
 	}
 
+
 	@Override
-	public void setEntryModel(INakedRootObject nakedPackage) {
-		this.entryModel = nakedPackage;
+	public boolean isSingleModelWorkspace() {
+		return this.singleModelWorkspace;
+	}
+
+	@Override
+	public void setSingleModelWorkspace(boolean singleModelWorkspace) {
+		this.singleModelWorkspace = singleModelWorkspace;
 	}
 }

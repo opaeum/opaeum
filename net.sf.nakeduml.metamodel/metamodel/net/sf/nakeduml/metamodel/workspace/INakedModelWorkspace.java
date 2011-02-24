@@ -34,7 +34,7 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	
 	List<INakedRootObject> getGeneratingModelsOrProfiles();
 	void clearGeneratingModelOrProfiles();
-	INakedRootObject getEntryModel();
-	void setEntryModel(INakedRootObject nakedPackage);
 	void addGeneratingModelOrProfile(INakedRootObject modelElement);
+	boolean isSingleModelWorkspace();
+	void setSingleModelWorkspace(boolean singleModelWorkspace);
 }

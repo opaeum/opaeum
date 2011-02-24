@@ -35,7 +35,6 @@ import nl.klasse.octopus.model.IClassifier;
 @StepDependency(phase = ProjectGenerationPhase.class, requires = { TextFileGenerator.class }, before = { TextFileGenerator.class })
 public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 
-	private INakedModel model;
 	private Set<INakedPackage> packages = new HashSet<INakedPackage>();
 
 	@VisitBefore(matchSubclasses = true)
@@ -45,7 +44,6 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 	
 	@VisitAfter(matchSubclasses = true)
 	public void visitModel(INakedModel model) {
-		this.model = model;
 		// Fetch root entity
 		INakedEntity root = findRootEntity();
 		createStartOperation(root);
@@ -58,9 +56,9 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 		dummyTest.setSuperclass(baseTest.getPathName());
 		dummyTest.setName("DummyTest");
 		dummyTest.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.junit.runner.RunWith"), new OJPathName("org.jboss.arquillian.junit.Arquillian")));
-		OJAnnotatedPackage owner = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(model));
+		OJAnnotatedPackage owner = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(currentModel));
 		owner.addToClasses(dummyTest);
-		super.createTextPath(dummyTest, JavaTextSource.GEN_TEST_SRC);
+		super.createTextPath(dummyTest, JavaTextSource.OutputRootId.WEBAPP_GEN_TEST_SRC);
 
 		OJAnnotatedField session = new OJAnnotatedField("session", new OJPathName("org.hibernate.Session"));
 		session.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
@@ -95,7 +93,7 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 		test.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.SuppressWarnings"),"unchecked"));
 		
 		
-		test.getBody().addToStatements("List<" + root.getMappingInfo().getJavaName() + "> roots = session.createQuery(\"select h from God h\").list()");
+		test.getBody().addToStatements("List<" + root.getMappingInfo().getJavaName() + "> roots = session.createQuery(\"select h from "+ root.getMappingInfo().getJavaName() +" h\").list()");
 		dummyTest.addToOperations(test);
 		dummyTest.addToImports(new OJPathName("java.util.List"));
 		dummyTest.addToImports(OJUtil.classifierPathname(root));
@@ -107,9 +105,9 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 	private OJAnnotatedClass createBaseTestClass() {
 		OJAnnotatedClass baseTest = new OJAnnotatedClass();
 		baseTest.setName("BaseTest");
-		OJAnnotatedPackage owner = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(model));
+		OJAnnotatedPackage owner = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(currentModel));
 		owner.addToClasses(baseTest);
-		super.createTextPath(baseTest, JavaTextSource.GEN_TEST_SRC);
+		super.createTextPath(baseTest, JavaTextSource.OutputRootId.WEBAPP_GEN_TEST_SRC);
 		createGetTestPackagesOper(baseTest);
 		return baseTest;
 	}
@@ -149,7 +147,7 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 			getTestPackages.getBody().addToStatements(addPackage);
 		}
 		
-		baseTest.addToImports(new OJPathName(model.getName() + ".util.Stdlib"));
+		baseTest.addToImports(new OJPathName(currentModel.getName() + ".util.Stdlib"));
 		OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(Stdlib.class.getPackage())");
 		getTestPackages.getBody().addToStatements(addPackage);
 		addPackage = new OJSimpleStatement("packages.add(BaseTest.class.getPackage())");
@@ -164,9 +162,9 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 	private void createStartOperation(INakedEntity root) {
 		OJAnnotatedClass startUp = new OJAnnotatedClass();
 		startUp.setName("StartUp");
-		OJAnnotatedPackage owner = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(model));
+		OJAnnotatedPackage owner = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(currentModel));
 		owner.addToClasses(startUp);
-		super.createTextPath(startUp, JavaTextSource.GEN_TEST_SRC);
+		super.createTextPath(startUp, JavaTextSource.OutputRootId.WEBAPP_GEN_TEST_SRC);
 
 		OJPathName rootPathname = OJUtil.classifierPathname(root);
 		startUp.addToImports(rootPathname);
@@ -194,7 +192,7 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 	}
 
 	private INakedEntity findRootEntity() {
-		INakedEntity firstEntity = findFirstEntity(model);
+		INakedEntity firstEntity = findFirstEntity(currentModel);
 		return findRootEntity(firstEntity);
 	}
 

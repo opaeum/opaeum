@@ -9,9 +9,11 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
+import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -166,9 +168,10 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			rootX.outputToCompositeOneInterface(this);
 		}
 		if (this.config.getDataGeneration()) {
-			SourceFolder outputRoot = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
+			OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE);
+			SourceFolder sourceFolder = getSourceFolder(outputRoot);
 			List<String> path = Arrays.asList("data.generation.properties");
-			outputRoot.findOrCreateTextFile(path, new PropertiesSource(props));
+			sourceFolder.findOrCreateTextFile(path, new PropertiesSource(props),outputRoot.overwriteFiles());
 		}
 	}
 

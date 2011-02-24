@@ -3,6 +3,7 @@ package net.sf.nakeduml.pomgeneration;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
@@ -115,22 +116,6 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		
 	}
 
-	@Override
-	public boolean hasParent() {
-		return true;
-	}
-
-	public String getParentGroupId() {
-		return super.getGroupId();
-	}
-
-	public String getParentArtifactId() {
-		return super.getName();
-	}
-
-	public String getParentVersion() {
-		return "0.0.1";
-	}
 
 	@Override
 	public String getPackaging() {
@@ -265,14 +250,11 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public String getTargetDir() {
-		return JavaTextSource.NAKED_PROJECT_EJB_ROOT;
+	public OutputRoot getTargetDir() {
+		return  config.getOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 
-	@Override
-	public String getArtifactSuffix() {
-		return "-ejb";
-	}
+
 
 	@Override
 	public Plugin[] getPlugins() {
@@ -321,9 +303,6 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		return result;
 	}
 
-	@Override
-	public String getName() {
-		return super.getName() + "-ejb";
-	}
+
 
 }

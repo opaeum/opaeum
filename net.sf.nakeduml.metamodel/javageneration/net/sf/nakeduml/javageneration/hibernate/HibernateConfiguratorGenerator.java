@@ -32,7 +32,7 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		OJAnnotatedClass hibernateConfigurator = new OJAnnotatedClass();
 		hibernateConfigurator.setName("HibernateConfigurator");
 		util.addToClasses(hibernateConfigurator);
-		super.createTextPath(hibernateConfigurator, JavaTextSource.GEN_SRC);
+		super.createTextPath(hibernateConfigurator, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
 		OJAnnotatedField instance = new OJAnnotatedField();
 		instance.setType(hibernateConfigurator.getPathName());
 		instance.setName("INSTANCE");

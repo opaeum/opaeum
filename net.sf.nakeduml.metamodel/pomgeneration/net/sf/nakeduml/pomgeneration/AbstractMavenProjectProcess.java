@@ -10,9 +10,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 
-import net.sf.nakeduml.emf.load.UML2ModelLoader;
+import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -42,7 +43,7 @@ public class AbstractMavenProjectProcess  {
 	protected static void transform(String outputRoot, String modelLocation, boolean initApp, Class<? extends TransformationStep>... features)
 			throws Exception, IOException, FileNotFoundException {
 		long start = System.currentTimeMillis();
-		Model model = UML2ModelLoader.loadModel(modelLocation);
+		Model model = EmfWorkspaceLoader.loadModel(modelLocation);
 		EcoreUtil.resolveAll(model);
 		MavenDirectories mavenDirectories = new MavenDirectories();
 		mavenDirectories.genSrcFolder = new File(outputRoot + "/src/main/generated-java");
@@ -56,20 +57,9 @@ public class AbstractMavenProjectProcess  {
 		mavenDirectories.getTestJbossResourcesFolder = new File(outputRoot + "/src/test/generated-resource-jbossas");
 		mavenDirectories.getTestJbossResourcesFolder.mkdirs();
 		
-		if (initApp) {
-			mavenDirectories.srcFolder = new File(outputRoot + "/src/main/java");
-			mavenDirectories.srcFolder.mkdirs();
-			mavenDirectories.srcResourceFolder = new File(outputRoot + "/src/main/resources");
-			mavenDirectories.srcResourceFolder.mkdirs();
-			mavenDirectories.testFolder = new File(outputRoot + "/src/test/java");
-			mavenDirectories.testFolder.mkdirs();
-			mavenDirectories.testResourcesFolder = new File(outputRoot + "/src/test/resources");
-			mavenDirectories.testResourcesFolder.mkdirs();
-			mavenDirectories.warRoot = new File(outputRoot);
-			mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
-		}
+
 		Properties props = new Properties();
-		InputStreamReader inStream = UML2ModelLoader.getInputStream(model, "properties");
+		InputStreamReader inStream = EmfWorkspaceLoader.getInputStream(model, "properties");
 		if (inStream != null) {
 			props.load(inStream);
 		}
@@ -81,25 +71,25 @@ public class AbstractMavenProjectProcess  {
 
 	public static void transform(EmfWorkspace workspace, MavenDirectories mavenDirectories, NakedUmlConfig cfg, boolean initApp, Class<? extends TransformationStep>... features)
 			throws IOException {
-		cfg.mapOutputRoot(JavaTextSource.GEN_SRC, mavenDirectories.genSrcFolder);
-		cfg.mapOutputRoot(JavaTextSource.GEN_TEST_SRC, mavenDirectories.genTestFolder);
-		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE, mavenDirectories.genTestResourcesFolder);
-		cfg.mapOutputRoot(PropertiesSource.GEN_RESOURCE, mavenDirectories.genSrcResourceFolder);
-		cfg.mapOutputRoot(JavaTextSource.NAKED_PROJECT_ROOT, mavenDirectories.warRoot);
-		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE_JBOSSAS, mavenDirectories.getTestJbossResourcesFolder);
-		
-		if (initApp) {
-			cfg.mapOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE, mavenDirectories.webappFolder);
-		}
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, false, "-domain", "src/main/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "-domain", "src/test/generated-java");
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false, "-domain", "src/test/generated-resources" );
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE, false, "-domain", "src/main/generated-resources" );
+		OutputRoot jbossResources = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE_JBOSSAS, false, "-adapter", "src/test/jboss-resources" );
+		jbossResources.dontCleanDirectories();
+		jbossResources.dontOverwriteFiles();
+		OutputRoot webAppRoot = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, true, "-webapp", "src/main/webapp");
+		webAppRoot.dontCleanDirectories();
+		webAppRoot.dontOverwriteFiles();
 		
 		TransformationProcess process = new TransformationProcess();
 		HashSet<Class<? extends TransformationStep>> classes = new HashSet<Class<? extends TransformationStep>>(Arrays.asList(features));
-		process.execute(cfg, new EmfWorkspace(model, mappingInfo), classes);
-		cfg.store(getOutputStream(model, "properties"));
-		mappingInfo.store(getOutputStream(model, "mappinginfo"));
+		process.execute(cfg, workspace, classes);
+		cfg.store(getOutputStream(workspace.getEntryModel(), "properties"));
+		workspace.getMappingInfo().store();
 	}
 
-	public static OutputStreamWriter getOutputStream(Model model, String extension) throws IOException {
+	public static OutputStreamWriter getOutputStream(Package model, String extension) throws IOException {
 		OutputStream outStream = model.eResource().getResourceSet().getURIConverter()
 				.createOutputStream(model.eResource().getURI().trimFileExtension().appendFileExtension(extension));
 		return new OutputStreamWriter(outStream);

@@ -27,7 +27,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model){
-		super.createTextPath(ReflectionUtil.duplicateInterface(SecureObject.class), JavaTextSource.GEN_SRC);
+		super.createTextPath(ReflectionUtil.duplicateInterface(SecureObject.class), JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity entity){

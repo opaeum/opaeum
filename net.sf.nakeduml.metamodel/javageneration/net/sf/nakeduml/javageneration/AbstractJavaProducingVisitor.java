@@ -59,7 +59,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		super.visitRecursively(o);
 	}
 
-	protected TextFile createTextPath(OJClassifier c, JavaTextSource.OutputRootId id) {
+	public TextFile createTextPath(OJClassifier c, JavaTextSource.OutputRootId id) {
 		OutputRoot outputRoot = config.getOutputRoot(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = c.getPathName().getHead().getNames();
@@ -67,8 +67,8 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		return or.findOrCreateTextFile(names, new JavaTextSource(c), outputRoot.overwriteFiles());
 	}
 
-	private SourceFolder getSourceFolder(OutputRoot outputRoot) {
-		String projectPrefix = outputRoot.useEntryModelName() ? workspace.getEntryModel().getFileName() : currentModelOrProfile
+	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentModelOrProfile
 				.getFileName();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());

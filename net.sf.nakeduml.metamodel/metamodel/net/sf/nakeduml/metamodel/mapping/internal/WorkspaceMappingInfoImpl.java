@@ -27,7 +27,7 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo {
 	private float currentVersion;
 	private int nakedUmlIdMaxValue;
 
-	public WorkspaceMappingInfoImpl() {
+	private WorkspaceMappingInfoImpl() {
 		this.properties = new Properties();
 	}
 

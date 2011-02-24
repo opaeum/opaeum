@@ -3,7 +3,9 @@ package net.sf.nakeduml.pomgeneration;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.apache.maven.pom.Dependency;
@@ -20,11 +22,11 @@ import org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl;
 public abstract class PomGenerationStep implements TransformationStep {
 	protected NakedUmlConfig config;
 	protected INakedModelWorkspace workspace;
+	private INakedRootObject model;
 	
 
-	public abstract String getTargetDir();
+	protected abstract OutputRoot getTargetDir();
 
-	public abstract String getArtifactSuffix();
 
 	public String getPackaging() {
 		return "jar";
@@ -92,37 +94,25 @@ public abstract class PomGenerationStep implements TransformationStep {
 		this.config = config;
 		this.workspace=workspace;
 	}
-
-	public String getName() {
-		return this.config.getProjectName();
+	public boolean useWorkspaceName(){
+		return this.getTargetDir().useWorkspaceName();
+	}
+	public String getProjectName() {
+		if(useWorkspaceName()){
+			return this.workspace.getName()+getTargetDir().getProjectSuffix();
+		}else{
+			return this.model.getName()+getTargetDir().getProjectSuffix();
+		}
 	}
 
-	public String getGroupId() {
-		return this.config.getGroupId();
-	}
 
-	public boolean hasParent() {
-		return false;
-	}
-
-	public String getParentGroupId() {
-		return null;
-	}
-
-	public String getParentArtifactId() {
-		return null;
-	}
-
-	public String getParentVersion() {
-		return null;
-	}
 
 	public boolean hasFinalName() {
 		return false;
 	}
 
 	public String getFinalName() {
-		return this.config.getProjectName();
+		return this.workspace.getName();
 	}
 
 	public Properties getProperties() {
@@ -131,6 +121,12 @@ public abstract class PomGenerationStep implements TransformationStep {
 
 	public Profile[] getProfiles() {
 		return new Profile[0];
+	}
+
+
+	public void setModel(INakedRootObject model) {
+		this.model=model;
+		
 	}
 
 }

@@ -1,22 +1,22 @@
 package net.sf.nakeduml.filegeneration;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextDirectory;
+import net.sf.nakeduml.textmetamodel.TextFile;
+import net.sf.nakeduml.textmetamodel.TextProject;
 
 @StepDependency(phase = FileGenerationPhase.class)
 public class TextFileGenerator extends AbstractTextNodeVisitor implements TransformationStep {
 
 	public TextFileGenerator() {
 	}
+
 
 
 	@VisitBefore(matchSubclasses = true)
@@ -43,7 +43,15 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements Transf
 	private File getDirectoryFor(TextDirectory textDir) {
 		try {
 			File mappedRoot = config.getOutputRoot();
-			File dir = new File(mappedRoot, textDir.getRelativePath());
+			if(!mappedRoot.exists()){
+				mappedRoot.mkdirs();
+			}
+			TextProject textProject= (TextProject) textDir.getSourceFolder().getParent();
+			File projectDir = new File(mappedRoot, textProject.getName());
+			if(!projectDir.exists() && textProject.hasContent()){
+				projectDir.mkdirs();				
+			}
+			File dir = new File(projectDir, textDir.getRelativePath());
 			return dir;
 		} catch (RuntimeException e) {
 			e.printStackTrace();

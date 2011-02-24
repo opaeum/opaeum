@@ -22,50 +22,50 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
-public class UML2ModelLoader {
+public class EmfWorkspaceLoader {
 	protected static ResourceSet RESOURCE_SET;
 
 	protected static void registerResourceFactories() {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
 
-	public static EmfWorkspace loadDirectory(File entryModel) throws Exception {
-		String extension=entryModel.getName().substring(entryModel.getName().lastIndexOf("."));
+	public static EmfWorkspace loadDirectory(File dir, String workspaceName, String extension) throws Exception {
 		System.out.println("UML2ModelLoader.loadDirectory()");
 		long time = System.currentTimeMillis();
 		ResourceSet resourceSet = setupStandAloneAppForUML2();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, UMLResource.Factory.INSTANCE);
-		File[] files = entryModel.getParentFile().listFiles();
-		Package result = null;
+		File[] files = dir.listFiles();
+		Package pkg = null;
 		for (File file : files) {
 			if (file.getName().endsWith(extension)) {
-				Package pkg = load(resourceSet, URI.createFileURI(file.getAbsolutePath()));
-				if (file.equals(entryModel)) {
-					result = pkg;
-				}
+				pkg = load(resourceSet, URI.createFileURI(file.getAbsolutePath()));
 			}
 		}
 		EcoreUtil.resolveAll(resourceSet);
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
-		WorkspaceMappingInfoImpl mappingInfo = new WorkspaceMappingInfoImpl(getInputStream(result, "mappinginfo"));
-		EmfWorkspace emfWorkspace = new EmfWorkspace(result, mappingInfo);
-		emfWorkspace.guessGeneratingModelsAndProfiles();
+		WorkspaceMappingInfoImpl mappingInfo = getMappingInfo(dir, workspaceName);
+		EmfWorkspace emfWorkspace = new EmfWorkspace(mappingInfo);
+		emfWorkspace.guessGeneratingModelsAndProfiles(dir);
 		return emfWorkspace;
 	}
 
-	public static Model loadModel(String relativePath) throws Exception {
+	public static EmfWorkspace loadModel(String relativePath, String workspaceName) throws Exception {
 		URI model_uri = URI.createFileURI(new File(relativePath).getAbsolutePath());
-		Model model = loadModel(model_uri);
-		return model;
+		return loadModel(model_uri, workspaceName);
 	}
 
-	public static Model loadModel(URI model_uri) throws Exception {
+	public static EmfWorkspace loadModel(URI model_uri, String workspaceName) throws Exception {
 		long time = System.currentTimeMillis();
 		System.out.println("UML2ModelLoader.loadModel()");
+		File dir = new File(model_uri.toFileString()).getParentFile();
 		Model model = (Model) load(getResourceSetSingleton(), model_uri);
 		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		System.out.println("UML2ModelLoader.loadModel() took " + (System.currentTimeMillis() - time) + "ms");
-		return model;
+		return new EmfWorkspace(model, getMappingInfo(dir, workspaceName));
+	}
+
+	private static WorkspaceMappingInfoImpl getMappingInfo(File dir, String workspaceName) {
+		return new WorkspaceMappingInfoImpl(new File(dir, workspaceName + ".mappinginfo"));
 	}
 
 	private static ResourceSet getResourceSetSingleton() throws Exception {

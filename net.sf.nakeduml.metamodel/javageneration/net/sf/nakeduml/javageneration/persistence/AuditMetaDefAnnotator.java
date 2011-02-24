@@ -26,7 +26,4 @@ public class AuditMetaDefAnnotator extends AbstractMetaDefAnnotator {
 		return new OJPathName(javaTypePath+"_Audit");
 	}
 
-	protected String getOutputRoot() {
-		return JavaTextSource.GEN_SRC;
-	}
 }

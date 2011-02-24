@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.DocumentRoot;
@@ -30,36 +33,99 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 @PhaseDependency(after = { JavaTransformationPhase.class }, before = { FileGenerationPhase.class })
 public class PomGenerationPhase implements TransformationPhase<PomGenerationStep> {
-
+	@InputModel
+	private INakedModelWorkspace workspace;
 	private NakedUmlConfig config;
 	private Map<String, DocumentRoot> rootMap = new HashMap<String, DocumentRoot>();
+	DocumentRoot parentPom;
 
 	@Override
 	public void initialize(NakedUmlConfig config) {
 		this.config = config;
+		parentPom = buildPomRoot(config.getOutputRoot(), workspace.getName(), "pom");
 	}
 
 	@Override
 	public Object[] execute(List<PomGenerationStep> features) {
 		for (PomGenerationStep step : features) {
-			step.initialize(config);
-			DocumentRoot root = rootMap.get(step.getTargetDir());
-			if (root == null) {
-				root = createRoot(step);
+			step.initialize(config, workspace);
+			if (step.getTargetDir().useWorkspaceName()) {
+				String prefix = workspace.getName();
+				DocumentRoot root = getRoot(step, prefix);
+				updatePom(step, root);
+			} else {
+				List<INakedRootObject> models = workspace.getGeneratingModelsOrProfiles();
+				for (INakedRootObject model : models) {
+					step.setModel(model);
+					DocumentRoot root = getRoot(step, model.getFileName());
+					updatePom(step, root);
+				}
 			}
-			createProperties(step, root);
-			createModules(step, root);
-			createParent(step, root);
-			createDependencyManagement(step, root);
-			createDependencies(step, root);
-			createPluginManagement(step, root);
-			createPlugins(step, root);
-			addFinalName(step, root);
-			createProfile(step, root);
-			outputToFile(root);
 		}
 		return new Object[0];
+	}
 
+	private DocumentRoot getRoot(PomGenerationStep step, String prefix) {
+		String projectName = prefix + step.getTargetDir().getProjectSuffix();
+		DocumentRoot root = rootMap.get(projectName);
+		if (root == null) {
+			File jpaRoot = new File(config.getOutputRoot(), projectName);
+			root = buildPomRoot(step, jpaRoot);
+			this.rootMap.put(projectName, root);
+		}
+		return root;
+	}
+
+	private DocumentRoot buildPomRoot(PomGenerationStep step, File jpaRoot) {
+		String projectName = step.getProjectName();
+		String packaging = step.getPackaging();
+		return buildPomRoot(jpaRoot, projectName, packaging);
+	}
+
+	private DocumentRoot buildPomRoot(File jpaRoot, String projectName, String packaging) {
+		DocumentRoot root;
+		ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new POMResourceFactoryImpl());
+		resourceSet.getPackageRegistry().put(POMPackage.eNS_URI, POMPackage.eINSTANCE);
+		Resource r = null;
+		try {
+			r = resourceSet.getResource(URI.createFileURI(jpaRoot.getAbsolutePath() + "/pom.xml"), true);
+		} catch (Exception e) {
+		}
+		if (r == null) {
+			r = resourceSet.createResource(URI.createFileURI(jpaRoot.getAbsolutePath() + "/pom.xml"));
+			root = POMFactory.eINSTANCE.createDocumentRoot();
+			r.getContents().add(root);
+			Model model = POMFactory.eINSTANCE.createModel();
+			root.setProject(model);
+			model.setModelVersion("4.0.0");
+			model.setGroupId(workspace.getName());
+			model.setArtifactId(projectName);
+			model.setVersion("0.0.1");
+			model.setPackaging(packaging);
+			model.setName(projectName);
+			model.setDependencies(POMFactory.eINSTANCE.createDependenciesType());
+			model.setDependencyManagement(POMFactory.eINSTANCE.createDependencyManagement());
+			model.getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
+			model.setProperties(POMFactory.eINSTANCE.createPropertiesType2());
+		} else {
+			root = (DocumentRoot) r.getContents().get(0);
+		}
+		return root;
+	}
+
+	private void updatePom(PomGenerationStep step, DocumentRoot root) {
+		createProperties(step, root);
+		createModules(step, root);
+		createParent(step, root);
+		createDependencyManagement(step, root);
+		createDependencies(step, root);
+		createPluginManagement(step, root);
+		createPlugins(step, root);
+		addFinalName(step, root);
+		createProfile(step, root);
+		outputToFile(root);
 	}
 
 	private void createProfile(PomGenerationStep step, DocumentRoot root) {
@@ -69,7 +135,6 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			if (isNewProfile(root, newProfile)) {
 				if (root.getProject().getProfiles() == null) {
 					root.getProject().setProfiles(POMFactory.eINSTANCE.createProfilesType());
-
 				}
 				root.getProject().getProfiles().getProfile().add(newProfile);
 			}
@@ -90,20 +155,20 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	}
 
 	private void createProperties(PomGenerationStep step, DocumentRoot root) {
-		if (root.getProject().getProperties()==null) {
+		if (root.getProject().getProperties() == null) {
 			root.getProject().setProperties(POMFactory.eINSTANCE.createPropertiesType2());
 		}
 		Properties props = step.getProperties();
-	    @SuppressWarnings("rawtypes")
+		@SuppressWarnings("rawtypes")
 		Enumeration e = props.propertyNames();
-	    while (e.hasMoreElements()) {
-	      String key = (String) e.nextElement();
-	      if (!PomGenerationStep.containsAnyElement(root.getProject().getProperties().getAny(), key)) {
-	    	  PomGenerationStep.addAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
-	      } else {
-	    	  PomGenerationStep.setAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
-	      }
-	    }
+		while (e.hasMoreElements()) {
+			String key = (String) e.nextElement();
+			if (!PomGenerationStep.containsAnyElement(root.getProject().getProperties().getAny(), key)) {
+				PomGenerationStep.addAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
+			} else {
+				PomGenerationStep.setAnyElement(root.getProject().getProperties().getAny(), key, props.getProperty(key));
+			}
+		}
 	}
 
 	private void addFinalName(PomGenerationStep step, DocumentRoot root) {
@@ -113,7 +178,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	}
 
 	private void createParent(PomGenerationStep step, DocumentRoot root) {
-		if (step.hasParent() && root.getProject().getParent()==null) {
+		if (step.hasParent() && root.getProject().getParent() == null) {
 			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 			root.getProject().getParent().setGroupId(step.getParentGroupId());
 			root.getProject().getParent().setArtifactId(step.getParentArtifactId());
@@ -145,7 +210,6 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				}
 				if (root.getProject().getBuild().getPlugins() == null) {
 					root.getProject().getBuild().setPlugins(POMFactory.eINSTANCE.createPluginsType2());
-
 				}
 				root.getProject().getBuild().getPlugins().getPlugin().add(newPlugin);
 			}
@@ -193,7 +257,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		String[] modules = step.getModules();
 		for (String module : modules) {
 			if (isNewModule(root, module)) {
-				if (root.getProject().getModules()==null) {
+				if (root.getProject().getModules() == null) {
 					root.getProject().setModules(POMFactory.eINSTANCE.createModulesType());
 				}
 				root.getProject().getModules().getModule().add(module);
@@ -228,7 +292,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	}
 
 	private boolean isNewPluginManagement(DocumentRoot root, Plugin newPlugin) {
-		if (root.getProject().getBuild() == null || root.getProject().getBuild().getPluginManagement()==null || root.getProject().getBuild().getPluginManagement().getPlugins()==null) {
+		if (root.getProject().getBuild() == null || root.getProject().getBuild().getPluginManagement() == null
+				|| root.getProject().getBuild().getPluginManagement().getPlugins() == null) {
 			return true;
 		} else {
 			for (Plugin oldPlugin : root.getProject().getBuild().getPluginManagement().getPlugins().getPlugin()) {
@@ -240,42 +305,6 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 	}
 
-	public DocumentRoot createRoot(PomGenerationStep step) {
-		DocumentRoot root;
-		File jpaRoot = config.getMappedDestination(step.getTargetDir());
-		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new POMResourceFactoryImpl());
-		resourceSet.getPackageRegistry().put(POMPackage.eNS_URI, POMPackage.eINSTANCE);
-		Resource r = null;
-		try {
-			r = resourceSet.getResource(URI.createFileURI(jpaRoot.getAbsolutePath() + "/pom.xml"), true);
-		} catch (Exception e) {
-		}
-		if (r == null) {
-			r = resourceSet.createResource(URI.createFileURI(jpaRoot.getAbsolutePath() + "/pom.xml"));
-			root = POMFactory.eINSTANCE.createDocumentRoot();
-			r.getContents().add(root);
-			Model model = POMFactory.eINSTANCE.createModel();
-			root.setProject(model);
-			model.setModelVersion("4.0.0");
-			model.setGroupId(step.getGroupId());
-			model.setArtifactId(step.getName());
-			model.setVersion("0.0.1");
-			model.setPackaging(step.getPackaging());
-			model.setName(step.getName());
-			model.setDependencies(POMFactory.eINSTANCE.createDependenciesType());
-			model.setDependencyManagement(POMFactory.eINSTANCE.createDependencyManagement());
-			model.getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
-			model.setProperties(POMFactory.eINSTANCE.createPropertiesType2());
-		} else {
-			root = (DocumentRoot) r.getContents().get(0);
-
-		}
-		this.rootMap.put(step.getTargetDir(), root);
-		return root;
-	}
-
 	private boolean isNewDepedency(DocumentRoot root, Dependency newDep) {
 		for (Dependency oldDep : root.getProject().getDependencies().getDependency()) {
 			if (oldDep.getGroupId().equals(newDep.getGroupId()) && oldDep.getArtifactId().equals(newDep.getArtifactId())) {
@@ -284,7 +313,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 		return true;
 	}
-	
+
 	private boolean isNewDepedencyManagement(DocumentRoot root, Dependency newDepMan) {
 		for (Dependency oldDep : root.getProject().getDependencyManagement().getDependencies().getDependency()) {
 			if (oldDep.getGroupId().equals(newDepMan.getGroupId()) && oldDep.getArtifactId().equals(newDepMan.getArtifactId())) {
@@ -293,5 +322,4 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 		return true;
 	}
-	
 }

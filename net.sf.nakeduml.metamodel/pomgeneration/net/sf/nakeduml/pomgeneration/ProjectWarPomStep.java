@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.apache.maven.pom.Activation;
@@ -338,10 +340,6 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		return true;
 	}
 
-	@Override
-	public boolean hasParent() {
-		return false;
-	}
 
 	@Override
 	public String getPackaging() {
@@ -349,14 +347,11 @@ public class ProjectWarPomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public String getTargetDir() {
-		return JavaTextSource.NAKED_PROJECT_ROOT;
+	public OutputRoot getTargetDir() {
+		return config.getOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE);
 	}
 
-	@Override
-	public String getArtifactSuffix() {
-		return "-war";
-	}
+
 
 	@Override
 	public Plugin[] getPlugins() {
@@ -425,11 +420,6 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		result[1].setExecutions(execution);
 
 		return result;
-	}
-
-	@Override
-	public String getName() {
-		return super.getName() + "-war";
 	}
 
 	@Override

@@ -5,9 +5,14 @@ import java.io.CharArrayWriter;
 import net.sf.nakeduml.textmetamodel.TextSource;
 
 public class CharArrayTextSource implements TextSource {
-	public static final String TEST_RESOURCE = "test-resource";
-	public static final String TEST_RESOURCE_JBOSSAS = "test-resource-jbossas";
-	public static final String WEBAPP_RESOURCE = "webapp-resource";
+	public enum OutputRootId {
+		DOMAIN_GEN_RESOURCE,
+		DOMAIN_TEST_RESOURCE,
+		DOMAIN_GEN_TEST_RESOURCE,
+		WEBAPP_RESOURCE,
+		WEB_TEST_RESOURCE_JBOSSAS,
+		WEB_TEST_RESOURCE,
+		INTEGRATED_ADAPTORS_GEN_RESOURCE};
 	CharArrayWriter writer;
 
 	public CharArrayTextSource(CharArrayWriter contentWriter) {
