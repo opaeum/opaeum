@@ -1,8 +1,10 @@
 package net.sf.nakeduml.audit;
 
 import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
@@ -58,6 +60,10 @@ public class AuditCapturer {
 							} catch (NoSuchMethodException e) {
 								e.printStackTrace();
 							}
+							
+							//TODO check if wanted
+//							setOtherSideOfOneToOne(audited, fetchedOne, oneName);
+							
 						}
 					}
 				}
@@ -65,6 +71,26 @@ public class AuditCapturer {
 			session.flush();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+	}
+	private void setOtherSideOfOneToOne(Audited audited, Audited fetchedOne, String oneName) throws IntrospectionException, IllegalAccessException,
+			InvocationTargetException {
+		BeanInfo bi;
+		bi = Introspector.getBeanInfo(fetchedOne.getClass());
+		PropertyDescriptor[] oneToOnePds = bi.getPropertyDescriptors();
+		for (PropertyDescriptor oneToOnePd : oneToOnePds) {
+			if (oneToOnePd.getReadMethod() != null && oneToOnePd.getWriteMethod() != null && audited.getClass().isAssignableFrom(oneToOnePd.getPropertyType())
+					&& !oneToOnePd.getWriteMethod().getName().equals("setPreviousVersion")) {
+				String oneToOneName = oneToOnePd.getWriteMethod().getParameterTypes()[0].getSimpleName();
+				try {
+					Method setter = fetchedOne.getClass().getMethod("z_internalAddTo" + oneToOneName.substring(0, oneName.length() - 6),
+							oneToOnePd.getWriteMethod().getParameterTypes()[0]);
+					setter.invoke(fetchedOne, audited);
+					break;
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

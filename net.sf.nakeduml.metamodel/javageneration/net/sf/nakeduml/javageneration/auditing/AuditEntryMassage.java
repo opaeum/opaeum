@@ -10,7 +10,6 @@ import java.util.Set;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTextSource;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
@@ -29,12 +28,10 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.generated.OJVisibilityKindGEN;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.linkage.TypeResolver;
 import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -47,7 +44,6 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -108,29 +104,39 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					joinTable.putAttribute(inverseJoinColumns);
 					field.addAnnotationIfNew(joinTable);
 				}
-			} else if (map.isOne()) {
+			} else if (map.isOne() && !p.isInverse()) {
 				field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
-				OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
-				OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-				OJAnnotationAttributeValue nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
-				nameAnnotationAttribute.addStringValue(p.getMappingInfo().getPersistentName().getWithoutId() + "_original_id");
-				joinColumn.putAttribute(nameAnnotationAttribute);
-				OJAnnotationAttributeValue referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
-				referencedAnnotationAttribute.addStringValue(getBaseTypeRoot(p).getMappingInfo().getPersistentName() + "_id");
-				joinColumn.putAttribute(referencedAnnotationAttribute);
-				joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
-				joinColumns.addAnnotationValue(joinColumn);
-				joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-				nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
-				nameAnnotationAttribute.addStringValue(p.getMappingInfo().getPersistentName().getWithoutId() + "_object_version");
-				joinColumn.putAttribute(nameAnnotationAttribute);
-				referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
-				referencedAnnotationAttribute.addStringValue("object_version");
-				joinColumn.putAttribute(referencedAnnotationAttribute);
-				joinColumns.addAnnotationValue(joinColumn);
-				field.addAnnotationIfNew(joinColumns);
+				addJoinColumns(p, field);
+			} else if (map.isOneToOne()) {
+				field.removeAnnotation(new OJPathName("javax.persistence.OneToOne"));
+				OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
+				JpaUtil.fetchLazy(manyToOne);
+				field.addAnnotationIfNew(manyToOne);
+				addJoinColumns(p, field);
 			}
 		}
+	}
+
+	private void addJoinColumns(INakedProperty p, OJAnnotatedField field) {
+		OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
+		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+		OJAnnotationAttributeValue nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
+		nameAnnotationAttribute.addStringValue(p.getMappingInfo().getPersistentName().getWithoutId() + "_original_id");
+		joinColumn.putAttribute(nameAnnotationAttribute);
+		OJAnnotationAttributeValue referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
+		referencedAnnotationAttribute.addStringValue(getBaseTypeRoot(p).getMappingInfo().getPersistentName() + "_id");
+		joinColumn.putAttribute(referencedAnnotationAttribute);
+		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
+		joinColumns.addAnnotationValue(joinColumn);
+		joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+		nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
+		nameAnnotationAttribute.addStringValue(p.getMappingInfo().getPersistentName().getWithoutId() + "_object_version");
+		joinColumn.putAttribute(nameAnnotationAttribute);
+		referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
+		referencedAnnotationAttribute.addStringValue("object_version");
+		joinColumn.putAttribute(referencedAnnotationAttribute);
+		joinColumns.addAnnotationValue(joinColumn);
+		field.addAnnotationIfNew(joinColumns);
 	}
 
 	private void addOriginalNamedQuery(OJAnnotatedClass auditClass, INakedClassifier owner) {

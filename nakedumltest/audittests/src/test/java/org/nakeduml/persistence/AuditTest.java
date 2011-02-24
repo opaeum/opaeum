@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import audittest.org.nakeduml.audit.Angel;
+import audittest.org.nakeduml.audit.Angel_Audit;
 import audittest.org.nakeduml.audit.Demon;
 import audittest.org.nakeduml.audit.Finger;
 import audittest.org.nakeduml.audit.God;
@@ -60,7 +61,9 @@ public class AuditTest extends BaseTest {
 	@Test
 	public void testAudit() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException, InterruptedException {
-		
+
+		Date start = new Date();
+
 		God god = createAndTestGod();
 		updateAndTestGod(god);
 		testAuditQuery(god);
@@ -69,19 +72,29 @@ public class AuditTest extends BaseTest {
 		Finger finger = addAndTestFinger(hand);
 		Ring ring = addAndTestRing(god);
 		setRingOnFinger(finger, ring);
-		
+
 		Angel angel = createAndTestAngel(god);
 		Demon demon = createAndTestDemon(god);
-		
+
 		setOneToOne(angel, demon);
-		checkAuditOneToOne(angel, demon);
+		checkAuditOneToOne(angel, demon, start);
 	}
 
-	private void checkAuditOneToOne(Angel angel, Demon demon) {
+	@SuppressWarnings("unchecked")
+	private void checkAuditOneToOne(Angel angel, Demon demon, Date start) {
 		auditController.updateDemon(demon, "name2");
 		auditController.updateDemon(demon, "name3");
 		auditController.updateDemon(demon, "name4");
 		session.get(Angel.class, angel.getId());
+		Date end = new Date();
+		List<Angel_Audit> angelAudits = session.getNamedQuery("GetAuditsBetweenForAngelAudit").setParameter("original", angel).setParameter("start", start)
+				.setParameter("end", end).list();
+		Assert.assertEquals(2, angelAudits.size());
+		auditController.updateAngel(angel, "name3");
+		angelAudits = session.getNamedQuery("GetAuditsBetweenForAngelAudit").setParameter("original", angel).setParameter("start", end)
+				.setParameter("end", new Date()).list();
+		Assert.assertEquals(1, angelAudits.size());
+		Assert.assertEquals("name4", angelAudits.get(0).getDemon().getName());
 	}
 
 	private void setOneToOne(Angel angel, Demon demon) throws InterruptedException {
@@ -148,6 +161,7 @@ public class AuditTest extends BaseTest {
 		return ring;
 	}
 
+	@SuppressWarnings("unchecked")
 	private God testAuditBetweenQuery() {
 		God god;
 		List<God_Audit> result;
@@ -160,6 +174,7 @@ public class AuditTest extends BaseTest {
 		return god;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void testAuditQuery(God god) {
 		List<God_Audit> result = session.getNamedQuery("GetAuditsForGodAudit").setParameter("original", god).list();
 		Assert.assertEquals(4, result.size());
@@ -180,6 +195,7 @@ public class AuditTest extends BaseTest {
 		Assert.assertEquals(session.createSQLQuery("select count(1) from revision_entity").uniqueResult(), Integer.valueOf(4));
 	}
 
+	@SuppressWarnings("unchecked")
 	private God createAndTestGod() throws InterruptedException {
 		God god = auditController.captureGod("god1");
 		Assert.assertEquals(1, God.allInstances().size());
