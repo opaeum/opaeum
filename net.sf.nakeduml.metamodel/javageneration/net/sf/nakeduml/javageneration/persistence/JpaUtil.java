@@ -19,6 +19,8 @@ import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.name.NameConverter;
 
+import org.hibernate.annotations.Filter;
+
 public class JpaUtil {
 
 	public static final String BACKTICK = "";
@@ -203,6 +205,11 @@ public class JpaUtil {
 				namedQueries.putAttribute(oneToManyNamedQueryAttr);
 			}
 		}
+	}
+	public static OJAnnotationValue buildFilterAnnotation(String name) {
+		OJAnnotationValue filter = new OJAnnotationValue(new OJPathName(Filter.class.getName()));
+		filter.putAttribute("name", "noDeletedObjects");
+		return filter;
 	}
 
 }

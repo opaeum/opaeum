@@ -59,6 +59,7 @@ public class AbstractMavenProjectProcess  {
 		mavenDirectories.genTestResourcesFolder.mkdirs();
 		mavenDirectories.getTestJbossResourcesFolder = new File(outputRoot + "/src/test/generated-resource-jbossas");
 		mavenDirectories.getTestJbossResourcesFolder.mkdirs();
+		mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
 		
 		if (initApp) {
 			mavenDirectories.srcFolder = new File(outputRoot + "/src/main/java");
@@ -69,7 +70,6 @@ public class AbstractMavenProjectProcess  {
 			mavenDirectories.testFolder.mkdirs();
 			mavenDirectories.testResourcesFolder = new File(outputRoot + "/src/test/resources");
 			mavenDirectories.testResourcesFolder.mkdirs();
-			mavenDirectories.webappFolder = new File(outputRoot + "/src/main/webapp");
 		}
 		Properties props = new Properties();
 		InputStreamReader inStream = getInputStream(model, "properties");
@@ -91,8 +91,8 @@ public class AbstractMavenProjectProcess  {
 		cfg.mapOutputRoot(JavaTextSource.NAKED_PROJECT_ROOT, mavenDirectories.warRoot);
 		cfg.mapOutputRoot(CharArrayTextSource.TEST_RESOURCE_JBOSSAS, mavenDirectories.getTestJbossResourcesFolder);
 		
+		cfg.mapOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE, mavenDirectories.webappFolder);
 		if (initApp) {
-			cfg.mapOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE, mavenDirectories.webappFolder);
 		}
 		
 		TransformationProcess process = new TransformationProcess();

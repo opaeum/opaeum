@@ -105,6 +105,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 					complexType.getMappingInfo().getPersistentName().getAsIs());
 			ojClass.addAnnotationIfNew(discriminatorValue);
 		}
+		
+		ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
 		return ojClass;
 	}
 
@@ -363,5 +365,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		ifNotInstance.addToElsePart(ifIdNull);
 		ifIdNull.addToElsePart("return getId().equals(other.getId())");
 		equals.getBody().addToStatements(ifThis);
+	}
+	
+	public void addFilter() {
+		
 	}
 }

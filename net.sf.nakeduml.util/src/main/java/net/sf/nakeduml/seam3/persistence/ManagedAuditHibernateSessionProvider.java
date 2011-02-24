@@ -29,18 +29,22 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.jboss.seam.persistence.SeamManaged;
 
-public class ManagedHibernateSessionProvider implements Serializable {
+public class ManagedAuditHibernateSessionProvider implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 451924235442333986L;
 	private SessionFactory sessionFactory;
 
-	public ManagedHibernateSessionProvider() {
+	public ManagedAuditHibernateSessionProvider() {
 		super();
 		Configuration config = new Configuration();
 		config.configure();
 		this.sessionFactory = config.buildSessionFactory();
 	}
 
+	@Audit
 	@Produces
 	@SeamManaged
 	public SessionFactory createSessionFactory() {

@@ -91,12 +91,12 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		AuditFixAnnotations auditFixAnnotations = new AuditFixAnnotations();
 		auditFixAnnotations.initialize(workspace, newRoot, config, textWorkspace, classes);
 		auditFixAnnotations.startVisiting(workspace);
-		mergePackages(packages);
+		mergePackages(newRoot.getSubpackages());
 	}
 
 	public void mergePackages(Set<OJPackage> packages) {
 		for (OJPackage pkg : packages) {
-			Set<OJClass> auditClasses = pkg.getClasses();
+			Set<OJClass> auditClasses = new HashSet<OJClass>(pkg.getClasses());
 			for (OJClass ojClass : auditClasses) {
 				if (ojClass.getName().endsWith("_Audit")) {
 					OJPackage owner = this.javaModel.findPackage(ojClass.getMyPackage().getPathName());

@@ -17,11 +17,11 @@ public class AuditSequencer implements Serializable {
 		return sequence.containsKey(l);
 	}
 	
-	public void put(Long l) {
+	public synchronized void put(Long l) {
 		sequence.put(l, l);
 	}
 	
-	public Long getAndIncrement() {
+	public synchronized Long getAndIncrement() {
 		return count++;
 	}
 	
