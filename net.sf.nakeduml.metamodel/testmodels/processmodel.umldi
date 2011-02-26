@@ -1198,17 +1198,16 @@
               <element href="processmodel.uml#_XZr6MNOgEd-BDN4BI3P4Lw"/>
             </semanticModel>
           </contained>
-          <contained xsi:type="di:GraphNode" xmi:id="_8FAgoNRmEd-_rNybTVK8eA" position="42,1" size="-1,-1">
-            <property xmi:id="_8FAgodRmEd-_rNybTVK8eA" key="portPosition" value="8"/>
-            <anchorage xmi:id="__eMC8dRmEd-_rNybTVK8eA" graphEdge="__eOfMNRmEd-_rNybTVK8eA"/>
-            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_8FAgotRmEd-_rNybTVK8eA" presentation="default">
-              <element href="processmodel.uml#_8E_SgNRmEd-_rNybTVK8eA"/>
+          <contained xsi:type="di:GraphNode" xmi:id="_NoktMEHEEeCk-NcBz_BiFQ" position="148,0" size="-1,-1">
+            <property xmi:id="_NoktMUHEEeCk-NcBz_BiFQ" key="isVisibleLabel" value="visible"/>
+            <property xmi:id="_NoktMkHEEeCk-NcBz_BiFQ" key="portPosition" value="8"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_NoktM0HEEeCk-NcBz_BiFQ" presentation="default">
+              <element href="processmodel.uml#_NoZHAEHEEeCk-NcBz_BiFQ"/>
             </semanticModel>
           </contained>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_P6EG8NOgEd-BDN4BI3P4Lw" position="83,7" size="40,27">
           <property xmi:id="_P6EG8dOgEd-BDN4BI3P4Lw" key="portPosition" value="8"/>
-          <anchorage xmi:id="__eMC8NRmEd-_rNybTVK8eA" graphEdge="__eOfMNRmEd-_rNybTVK8eA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_P6EG8tOgEd-BDN4BI3P4Lw" presentation="default">
             <element href="processmodel.uml#_nnCFwFHkEdyTle4M6qyXzw"/>
           </semanticModel>
@@ -1423,17 +1422,6 @@
           <contained xsi:type="di:EdgeObjectUV" xmi:id="_fVFDNdQ_Ed-_rNybTVK8eA" id="nameEdgeObject" uDistance="6" vDistance="6"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_fVFDNtQ_Ed-_rNybTVK8eA" visible="false" id="interruptibleEdgeObject"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_fVFDN9Q_Ed-_rNybTVK8eA" visible="false" id="interruptibleIconEdgeObject"/>
-        </contained>
-        <contained xsi:type="di:GraphEdge" xmi:id="__eOfMNRmEd-_rNybTVK8eA" anchor="__eMC8NRmEd-_rNybTVK8eA __eMC8dRmEd-_rNybTVK8eA">
-          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__eOfMdRmEd-_rNybTVK8eA" presentation="default">
-            <element href="processmodel.uml#__emSoNRmEd-_rNybTVK8eA"/>
-          </semanticModel>
-          <contained xsi:type="di:EdgeObjectOffset" xmi:id="__eOfMtRmEd-_rNybTVK8eA" id="stereotypeEdgeObject"/>
-          <contained xsi:type="di:EdgeObjectUV" xmi:id="__eOfM9RmEd-_rNybTVK8eA" visible="false" id="guardEdgeObject" uDistance="6" vDistance="6"/>
-          <contained xsi:type="di:EdgeObjectUV" xmi:id="__eOfNNRmEd-_rNybTVK8eA" visible="false" id="weightEdgeObject" uDistance="6" vDistance="-6"/>
-          <contained xsi:type="di:EdgeObjectUV" xmi:id="__eOfNdRmEd-_rNybTVK8eA" id="nameEdgeObject" uDistance="6" vDistance="6"/>
-          <contained xsi:type="di:EdgeObjectOffset" xmi:id="__eOfNtRmEd-_rNybTVK8eA" visible="false" id="interruptibleEdgeObject"/>
-          <contained xsi:type="di:EdgeObjectOffset" xmi:id="__eOfN9RmEd-_rNybTVK8eA" visible="false" id="interruptibleIconEdgeObject"/>
         </contained>
       </diagrams>
     </subdiagrams>

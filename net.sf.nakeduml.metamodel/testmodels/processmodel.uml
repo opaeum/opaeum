@@ -935,8 +935,9 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fILqJFHkEdyTle4M6qyXzw" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fILqJVHkEdyTle4M6qyXzw" value="1"/>
         </argument>
-        <argument xmi:id="_8E_SgNRmEd-_rNybTVK8eA" name="date" incoming="__emSoNRmEd-_rNybTVK8eA">
-          <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8E_SgdRmEd-_rNybTVK8eA" value="*"/>
+        <argument xmi:id="_NoZHAEHEEeCk-NcBz_BiFQ" name="date">
+          <type xmi:type="uml:DataType" href="../../net.sf.nakeduml.eclipse/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NoZHAUHEEeCk-NcBz_BiFQ" value="*"/>
         </argument>
         <result xmi:id="_XZo24NOgEd-BDN4BI3P4Lw" name="upperLimit" outgoing="_fVWwANQ_Ed-_rNybTVK8eA">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
@@ -950,7 +951,7 @@
           <upperBound xmi:type="uml:LiteralInteger" xmi:id="_6DMIANOkEd-_rNybTVK8eA" name="LiteralInteger1"/>
         </target>
       </node>
-      <node xmi:type="uml:ActivityParameterNode" xmi:id="_nnCFwFHkEdyTle4M6qyXzw" name="date" outgoing="__emSoNRmEd-_rNybTVK8eA" parameter="_nnCFwlHkEdyTle4M6qyXzw">
+      <node xmi:type="uml:ActivityParameterNode" xmi:id="_nnCFwFHkEdyTle4M6qyXzw" name="date" parameter="_nnCFwlHkEdyTle4M6qyXzw">
         <type xmi:type="uml:DataType" href="../../net.sf.nakeduml.eclipse/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         <upperBound xmi:type="uml:LiteralInteger" xmi:id="_nnCFwVHkEdyTle4M6qyXzw" value="1"/>
       </node>
@@ -1098,10 +1099,6 @@
       <edge xmi:type="uml:ObjectFlow" xmi:id="_fVWwANQ_Ed-_rNybTVK8eA" name="ObjectFlow2" source="_XZo24NOgEd-BDN4BI3P4Lw" target="_njMSIFHlEdyTle4M6qyXzw">
         <guard xmi:type="uml:LiteralBoolean" xmi:id="_fVWwAdQ_Ed-_rNybTVK8eA" value="true"/>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_fVWwAtQ_Ed-_rNybTVK8eA" value="1"/>
-      </edge>
-      <edge xmi:type="uml:ObjectFlow" xmi:id="__emSoNRmEd-_rNybTVK8eA" name="ObjectFlow3" source="_nnCFwFHkEdyTle4M6qyXzw" target="_8E_SgNRmEd-_rNybTVK8eA">
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="__em5sNRmEd-_rNybTVK8eA" value="true"/>
-        <weight xmi:type="uml:LiteralInteger" xmi:id="__em5sdRmEd-_rNybTVK8eA" value="1"/>
       </edge>
       <group xmi:type="uml:ActivityPartition" xmi:id="_TjmboNOvEd-_rNybTVK8eA" name="ActivityPartition1" node="_y3ai8FHmEdyTle4M6qyXzw" represents="_GeCWsFIHEdy3_a0-MsQy1g" edge="_xIpMoFHpEdyTle4M6qyXzw"/>
     </packagedElement>

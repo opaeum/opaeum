@@ -15,6 +15,7 @@ public class Component extends BeanManagerAware {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T getInstance(Class<T> type) {
 		BeanManager beanManager = getBeanManager();
         Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(type, DefaultLiteral.INSTANCE));
