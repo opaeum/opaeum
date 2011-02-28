@@ -2,13 +2,10 @@ package net.sf.nakeduml.jbpm;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.Properties;
 
 import javax.enterprise.context.ContextNotActiveException;
-import javax.persistence.EntityManager;
-import javax.transaction.Synchronization;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import org.drools.KnowledgeBase;
 import org.drools.SessionConfiguration;
@@ -22,14 +19,13 @@ import org.drools.runtime.Environment;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
+import org.jboss.seam.persistence.transaction.TransactionScoped;
 
-
-public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
+@TransactionScoped
+public abstract class AbstractJbpmKnowledgeSession /* implements Synchronization */ {
 	private StatefulKnowledgeSession knowledgeSession;
-	@In
-	UserTransaction transaction;
 
-	protected abstract Session getSession();
+	protected abstract Session getHibernateSession();
 
 	protected abstract AbstractJbpmKnowledgeBase getJbpmKnowledgeBase();
 
@@ -43,15 +39,15 @@ public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
 	protected StatefulKnowledgeSession createKnowledgeSession()  {
 		KnowledgeBase kbase = getJbpmKnowledgeBase().getKnowledgeBase();
 		try {
-			try {
-				if (transaction.isActive()) {
-					transaction.registerSynchronization(this);
-				}else{
-					throw new IllegalStateException("Processes must be accessed from a transactional context");
-				}
-			} catch (SystemException e) {
-				throw new RuntimeException(e);
-			}
+//			try {
+//				if (transaction.isActive()) {
+//					transaction.registerSynchronization(this);
+//				}else{
+//					throw new IllegalStateException("Processes must be accessed from a transactional context");
+//				}
+//			} catch (SystemException e) {
+//				throw new RuntimeException(e);
+//			}
 			Properties properties = new Properties();
 			properties.setProperty("drools.commandService", "org.drools.persistence.session.SingleSessionCommandService");
 			properties.setProperty("drools.processInstanceManagerFactory",
@@ -68,15 +64,15 @@ public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
 						public Object read(ObjectInputStream is) throws IOException, ClassNotFoundException {
 					        String canonicalName = is.readUTF();
 					        Object id = is.readObject();
-					        EntityManager em =(EntityManager) environment.get(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER);
-					        return em.find(Class.forName(canonicalName), id);
+					        Session db =(Session) environment.get(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER);
+					        return db.get(Class.forName(canonicalName), (Serializable) id);
 						}
                     	
                     },
                     new SerializablePlaceholderResolverStrategy( ClassObjectMarshallingStrategyAcceptor.DEFAULT  )
                      });
 
-			environment.set(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER, getEntityManager());
+			environment.set(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER, getHibernateSession());
 			return kbase.newStatefulKnowledgeSession(config, environment);
 		} catch (ContextNotActiveException e) {
 			Properties props = new Properties();
@@ -88,14 +84,14 @@ public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
 		}
 	}
 
-	@Override
-	public void afterCompletion(int arg0) {
-		if (Contexts.isEventContextActive()) {
-			Contexts.getEventContext().remove("jbpmKnowledgeSession");
-		}
-	}
-
-	@Override
-	public void beforeCompletion() {
-	}
+//	@Override
+//	public void afterCompletion(int arg0) {
+//		if (Contexts.isEventContextActive()) {
+//			Contexts.getEventContext().remove("jbpmKnowledgeSession");
+//		}
+//	}
+//
+//	@Override
+//	public void beforeCompletion() {
+//	}
 }
