@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Properties;
 
+import javax.enterprise.context.ContextNotActiveException;
 import javax.persistence.EntityManager;
+import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
@@ -19,15 +21,15 @@ import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
 import org.drools.runtime.Environment;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.hibernate.Session;
 
 
-//TODO Weld
-public abstract class AbstractJbpmKnowledgeSession /*implements Synchronization*/ {
+public abstract class AbstractJbpmKnowledgeSession implements Synchronization {
 	private StatefulKnowledgeSession knowledgeSession;
 	@In
 	UserTransaction transaction;
 
-	protected abstract EntityManager getEntityManager();
+	protected abstract Session getSession();
 
 	protected abstract AbstractJbpmKnowledgeBase getJbpmKnowledgeBase();
 
@@ -40,7 +42,7 @@ public abstract class AbstractJbpmKnowledgeSession /*implements Synchronization*
 
 	protected StatefulKnowledgeSession createKnowledgeSession()  {
 		KnowledgeBase kbase = getJbpmKnowledgeBase().getKnowledgeBase();
-		if (Contexts.isEventContextActive()) {
+		try {
 			try {
 				if (transaction.isActive()) {
 					transaction.registerSynchronization(this);
@@ -76,7 +78,7 @@ public abstract class AbstractJbpmKnowledgeSession /*implements Synchronization*
 
 			environment.set(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER, getEntityManager());
 			return kbase.newStatefulKnowledgeSession(config, environment);
-		} else {
+		} catch (ContextNotActiveException e) {
 			Properties props = new Properties();
 			props.setProperty("drools.processInstanceManagerFactory", "org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
 			props.setProperty("drools.processSignalManagerFactory", "org.jbpm.process.instance.event.DefaultSignalManagerFactory");
