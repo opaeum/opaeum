@@ -8,6 +8,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import net.sf.nakeduml.audit.AuditSyncManager;
+import net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase;
+import net.sf.nakeduml.jbpmstatemachine.UmlProcessMarshaller;
 import net.sf.nakeduml.seam.Component;
 import net.sf.nakeduml.seam3.persistence.InitializeHibernate;
 import net.sf.nakeduml.util.AbstractEntity;
@@ -20,6 +22,8 @@ public class NakedUtilTestClasses {
 		classes.addAll(getClasses(AbstractEntity.class.getPackage().getName()));
 		classes.addAll(getClasses(InitializeHibernate.class.getPackage().getName()));
 		classes.addAll(getClasses(AuditSyncManager.class.getPackage().getName()));
+		classes.addAll(getClasses(AbstractJbpmKnowledgeBase.class.getPackage().getName()));
+		classes.addAll(getClasses(UmlProcessMarshaller.class.getPackage().getName()));
 		return classes.toArray(new Class[classes.size()]);
 	}
 

@@ -25,9 +25,9 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 public class Jbpm5Step extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
-//		Jbpm5EnvironmentBuilder eb = new Jbpm5EnvironmentBuilder();
-//		eb.initialize(workspace, javaModel, config, textWorkspace);
-//		eb.startVisiting(workspace);
+		Jbpm5EnvironmentBuilder eb = new Jbpm5EnvironmentBuilder();
+		eb.initialize(workspace, javaModel, config, textWorkspace);
+		eb.startVisiting(workspace);
 		ActivityProcessImplementor ab = new ActivityProcessImplementor();
 		ab.initialize(workspace, javaModel, config, textWorkspace);
 		ab.startVisiting(workspace);

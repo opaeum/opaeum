@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-bam"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-bpmn2"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-flow"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-flow-builder"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-human-task"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-persistence-jpa"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-workitems"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.M1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-impl-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-solder-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb3-ext-api-1.1.1.jar"/>
@@ -10,11 +21,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.0-SP4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.20101016.013225-334.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.20101016.013225-332.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar" sourcepath="/home/pieter/.m2/repository/org/hibernate/hibernate-core/3.6.0.Final/hibernate-core-3.6.0.Final-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>

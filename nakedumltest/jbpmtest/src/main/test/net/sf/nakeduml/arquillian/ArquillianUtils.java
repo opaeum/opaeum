@@ -62,10 +62,26 @@ public class ArquillianUtils {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS_API));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS));
+		
+		includeJbpm(war);
+		
 		if (includeEmptyBeansXml) {
 			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
 		}
 		return war;
+	}
+
+	private static void includeJbpm(WebArchive war) {
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_FLOW));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_FLOW_BUILDER));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_BPMN2));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_PERSISTENCE_JPA));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_BAM));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_API));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_PERSISTENCE_API));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_COMPILER));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_CORE));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.MVEL));
 	}
 
 }

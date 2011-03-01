@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.drools.WorkItemHandlerNotFoundException;
 import org.drools.common.InternalKnowledgeRuntime;
-import org.drools.persistence.processinstance.WorkItemInfo;
+import org.drools.persistence.info.WorkItemInfo;
 import org.drools.process.instance.WorkItem;
 import org.drools.process.instance.WorkItemManager;
 import org.drools.process.instance.impl.WorkItemImpl;

@@ -39,7 +39,7 @@ public class DummyTest extends BaseTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void test() {
-		List<TheBoss> roots = session.createQuery("select h from God h").list();
+		List<TheBoss> roots = session.createQuery("select h from TheBoss h").list();
 		Assert.assertTrue(roots.size()>0);
 	}
 

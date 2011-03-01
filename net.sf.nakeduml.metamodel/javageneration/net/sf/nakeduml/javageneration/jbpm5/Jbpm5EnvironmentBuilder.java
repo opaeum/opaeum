@@ -2,13 +2,17 @@ package net.sf.nakeduml.javageneration.jbpm5;
 
 import java.util.Collection;
 
+import javax.enterprise.context.ContextNotActiveException;
+
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJPackage;
+import net.sf.nakeduml.javametamodel.OJParameter;
 import net.sf.nakeduml.javametamodel.OJPathName;
+import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
@@ -16,9 +20,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	private OJBlock prepareKnowledgeBaseBody;
@@ -35,11 +37,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJPackage utilPack = findOrCreatePackage(Jbpm5Util.getJbpmKnowledgeSession().getHead());
 		utilPack.addToClasses(jbpmKnowledgeBase);
 		super.createTextPath(jbpmKnowledgeBase, JavaTextSource.GEN_SRC);
-		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
-		name.addStringValue("jbpmKnowledgeBase");
-		jbpmKnowledgeBase.addAnnotationIfNew(name);
 		addCommonImports(jbpmKnowledgeBase);
-		addEventScope(jbpmKnowledgeBase);
 		jbpmKnowledgeBase.setSuperclass(new OJPathName("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase"));
 		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation();
 		jbpmKnowledgeBase.addToOperations(prepareKnowledgeBase);
@@ -49,14 +47,19 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeBase.getPathName());
 		jbpmKnowledgeBase.addToFields(instance);
 		instance.setStatic(true);
+		
 		OJAnnotatedOperation getInstance = new OJAnnotatedOperation("getInstance", jbpmKnowledgeBase.getPathName());
 		jbpmKnowledgeBase.addToOperations(getInstance);
-		OJIfStatement ifEventContext = new OJIfStatement("Contexts.isEventContextActive()",
-				"return (JbpmKnowledgeBase)Component.getInstance(\"jbpmKnowledgeBase\")");
-		getInstance.getBody().addToStatements(ifEventContext);
-		ifEventContext.setElsePart(new OJBlock());
-		ifEventContext.getElsePart().addToStatements(new OJIfStatement("mockInstance==null", "mockInstance=new JbpmKnowledgeBase()"));
-		ifEventContext.getElsePart().addToStatements("return mockInstance");
+		
+		OJTryStatement contextNotActive = new OJTryStatement();
+		contextNotActive.setTryPart(new OJBlock());
+		contextNotActive.getTryPart().addToStatements("return (JbpmKnowledgeBase)Component.INSTANCE.getInstance(JbpmKnowledgeBase.class)");
+		contextNotActive.setCatchPart(new OJBlock());
+		contextNotActive.getCatchPart().addToStatements(new OJIfStatement("mockInstance==null", "mockInstance=new JbpmKnowledgeBase()"));
+		contextNotActive.getCatchPart().addToStatements("return mockInstance");
+		contextNotActive.setCatchParam(new OJParameter("e", new OJPathName(ContextNotActiveException.class.getName())));
+		getInstance.getBody().addToStatements(contextNotActive);
+		
 		getInstance.setStatic(true);
 	}
 
@@ -72,35 +75,36 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.setSuperclass(new OJPathName("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeSession"));
 		OJPackage utilPack = findOrCreatePackage(Jbpm5Util.getJbpmKnowledgeSession().getHead());
 		utilPack.addToClasses(jbpmKnowledgeSession);
-		addEventScope(jbpmKnowledgeSession);
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeSession.getPathName());
 		instance.setStatic(true);
 		jbpmKnowledgeSession.addToFields(instance);
 		super.createTextPath(jbpmKnowledgeSession, JavaTextSource.GEN_SRC);
-		OJAnnotationValue name = new OJAnnotationValue(new OJPathName("org.jboss.seam.annotations.Name"));
-		name.addStringValue("jbpmKnowledgeSession");
-		jbpmKnowledgeSession.addAnnotationIfNew(name);
 		addCommonImports(jbpmKnowledgeSession);
 		OJAnnotatedOperation getInstance = new OJAnnotatedOperation();
 		getInstance.setName("getInstance");
 		getInstance.setStatic(true);
 		getInstance.setReturnType(jbpmKnowledgeSession.getPathName());
-		OJIfStatement ifEventContextActive = new OJIfStatement("Contexts.isEventContextActive()",
-				"return (JbpmKnowledgeSession)Component.getInstance(\"jbpmKnowledgeSession\")");
-		getInstance.getBody().addToStatements(ifEventContextActive);
+		
+		OJTryStatement contextNotActive = new OJTryStatement();
+		contextNotActive.setTryPart(new OJBlock());
+		contextNotActive.getTryPart().addToStatements("return (JbpmKnowledgeSession)Component.INSTANCE.getInstance(JbpmKnowledgeSession.class)");
+		contextNotActive.setCatchParam(new OJParameter("e", new OJPathName(ContextNotActiveException.class.getName())));
+		
+		getInstance.getBody().addToStatements(contextNotActive);
+		
 		OJIfStatement ifNull = new OJIfStatement("mockInstance==null", "mockInstance = new JbpmKnowledgeSession()");
-		ifEventContextActive.setElsePart(new OJBlock());
-		ifEventContextActive.getElsePart().addToStatements(ifNull);
-		ifEventContextActive.getElsePart().addToStatements("return mockInstance");
+		contextNotActive.getCatchPart().addToStatements(ifNull);
+		contextNotActive.getCatchPart().addToStatements("return mockInstance");
 		jbpmKnowledgeSession.addToOperations(getInstance);
+		
 		OJAnnotatedOperation getKnowledgeBase =new OJAnnotatedOperation("getJbpmKnowledgeBase", new OJPathName("AbstractJbpmKnowledgeBase"));
 		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase");
 		getKnowledgeBase.getBody().addToStatements("return JbpmKnowledgeBase.getInstance()");
 		jbpmKnowledgeSession.addToOperations(getKnowledgeBase);		
-		OJAnnotatedOperation getEntityManager =new OJAnnotatedOperation("getEntityManager", new OJPathName("EntityManager"));
-		getEntityManager.getBody().addToStatements("return (EntityManager)Component.getInstance(\"entityManager\")");
-		jbpmKnowledgeSession.addToOperations(getEntityManager);
-		jbpmKnowledgeSession.addToImports("javax.persistence.EntityManager");
+		OJAnnotatedOperation getHibernateSession =new OJAnnotatedOperation("getHibernateSession", new OJPathName("org.hibernate.Session"));
+		getHibernateSession.getBody().addToStatements("return (Session)Component.INSTANCE.getInstance(Session.class)");
+		jbpmKnowledgeSession.addToOperations(getHibernateSession);
+		jbpmKnowledgeSession.addToImports("org.hibernate.Session");
 	}
 
 	private void addCommonImports(OJAnnotatedClass jbpmKnowledgeSession) {
@@ -108,8 +112,8 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.addToImports("org.drools.builder.KnowledgeBuilder");
 		jbpmKnowledgeSession.addToImports("org.drools.io.ResourceFactory");
 		jbpmKnowledgeSession.addToImports("org.drools.builder.ResourceType");
-		jbpmKnowledgeSession.addToImports("org.jboss.seam.Component");
-		jbpmKnowledgeSession.addToImports("org.jboss.seam.contexts.Contexts");
+		jbpmKnowledgeSession.addToImports("javax.enterprise.context.ContextNotActiveException");
+		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.seam.Component");
 	}
 
 	@VisitBefore(matchSubclasses = true)
