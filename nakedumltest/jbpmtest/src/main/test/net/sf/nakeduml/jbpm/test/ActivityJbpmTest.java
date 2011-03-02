@@ -33,8 +33,9 @@ public class ActivityJbpmTest extends BaseTest {
 	static public Archive<?> createTestArchive() throws IllegalArgumentException, IOException, ClassNotFoundException {
 		WebArchive war = ArquillianUtils.createWarArchive(false);
 		war.addWebResource("WEB-INF/beans.xml", "beans.xml");
-		war.addWebResource("hibernate.cfg.xml", "classes/hibernate.cfg.xml");
+		war.addWebResource("jbpm-war.hibernate.cfg.xml", "classes/hibernate.cfg.xml");
 		war.addWebResource("data.generation.properties", "data.generation.properties");
+		war.addWebResource("jbpm/jbpm/application/OrderProcess.rf", "jbpm/jbpm/application/OrderProcess.rf");
 		war.addClasses(NakedUtilTestClasses.getTestClasses());
 		war.addPackages(true, getTestPackages());
 		war.addPackage(ReflectHelper.classForName("jbpm" + ".package-info").getPackage());

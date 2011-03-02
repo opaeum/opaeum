@@ -28,4 +28,5 @@ public class ArtifactNames {
 	public static final String LUCENE_CORE = "org.apache.lucene:lucene-core";
 	public static final String LUCENE_ANALYZERS = "org.apache.lucene:lucene-analyzers";
 	public static final String MVEL = "org.mvel:mvel2";
+	public static final String ANTLR = "org.antlr:antlr";
 }

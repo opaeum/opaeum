@@ -78,10 +78,13 @@ public class ArquillianUtils {
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_PERSISTENCE_JPA));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_BAM));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_API));
-		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_PERSISTENCE_API));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_PERSISTENCE_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_COMPILER));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_CORE));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.MVEL));
+
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.ANTLR));
+
 	}
 
 }

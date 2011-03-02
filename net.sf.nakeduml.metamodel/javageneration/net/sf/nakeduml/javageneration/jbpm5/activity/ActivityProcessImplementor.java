@@ -93,7 +93,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 				doIsStepActive(activityClass, activity);
 				super.addGetNodeInstancesRecursively(activityClass);
 			}
-			if (activity.isProcess()) {
+			if (activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
 				OJAnnotatedOperation init = new OJAnnotatedOperation("init");
 				activityClass.addToOperations(init);
 				init.addParam("context", ActivityUtil.PROCESS_CONTEXT);

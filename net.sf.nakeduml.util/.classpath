@@ -9,13 +9,13 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-workitems"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.M1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.M1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.M1.jar" sourcepath="/home/pieter/.m2/repository/org/drools/drools-compiler/5.2.0.M1/drools-compiler-5.2.0.M1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.M1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-impl-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-solder-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb3-ext-api-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/arquillian-api-1.0.0.Alpha4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/shrinkwrap-api-1.0.0-alpha-11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/shrinkwrap-api-1.0.0-alpha-11.jar" sourcepath="/home/pieter/.m2/repository/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/arquillian-junit-1.0.0.Alpha4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-api-3.0.0-SNAPSHOT.jar"/>
