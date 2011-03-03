@@ -74,7 +74,7 @@ public class OclUtilityCreator {
 	 * @return
 	 */
 	public static OJPathName getStdlibPath() {
-		return stdlibPath.getCopy();
+		return new OJPathName( UtilityCreator.getUtilPathName()+"."+stdlibPath.getLast());
 	}
 
 	/**

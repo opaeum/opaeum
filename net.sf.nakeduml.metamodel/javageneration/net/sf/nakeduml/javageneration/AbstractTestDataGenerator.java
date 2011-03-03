@@ -12,6 +12,7 @@ import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
+import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -48,35 +49,11 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		}
 	}
 
-	protected List<INakedEntity> getConcreteImplementations(IClassifier entity) {
-		if (entity instanceof INakedInterface) {
-			return getConcreteImplementations((INakedInterface)entity);
-		} else {
-			List<INakedEntity> result = new ArrayList<INakedEntity>();
-			Collection<IClassifier> subs = entity.getSubClasses();
-			for (IClassifier sub : subs) {
-				if (!sub.equals(entity)) {
-					if (sub instanceof INakedEntity) {
-						result.add((INakedEntity) sub);
-					} else {
-						System.out.println("sssssssssssssss");
-					}
-				}
-			}
-			return result;
-		}
+	protected List<INakedEntity> getConcreteImplementations(INakedClassifier entity) {
+		return new ArrayList<INakedEntity>(InterfaceUtil.getImplementationsOf(entity,currentRootObject.getDependencies()));
 	}
 
-	protected List<INakedEntity> getConcreteImplementations(INakedInterface entity) {
-		List<INakedEntity> result = new ArrayList<INakedEntity>();
-		Collection<INakedClassifier> subs = entity.getImplementingClassifiers();
-		for (IClassifier sub : subs) {
-			if (!sub.equals(entity)) {
-				result.add((INakedEntity) sub);
-			}
-		}
-		return result;
-	}
+
 
 	protected List<INakedEntity> getHierarchicalRoots(INakedEntity entity) {
 		List<INakedEntity> result = new ArrayList<INakedEntity>();

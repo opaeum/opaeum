@@ -25,11 +25,6 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class PersistenceTestGenerator extends AbstractTestDataGenerator {
-	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config,
-			net.sf.nakeduml.textmetamodel.TextWorkspace textWorkspace) {
-		super.initialize(workspace, javaModel, config, textWorkspace);
-	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c) {
@@ -99,7 +94,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		test.addToOperations(getInstance);
 		OJIfStatement ifNull = new OJIfStatement();
 		ifNull.setCondition("instance==null");
-		Collection<? extends INakedClassifier> subClasses = InterfaceUtil.getImplementationsOf(c);
+		Collection<? extends INakedClassifier> subClasses = InterfaceUtil.getImplementationsOf(c,currentRootObject.getDependencies());
 		if (c.getIsAbstract()) {
 			if (subClasses.size() > 0) {
 				INakedClassifier child = subClasses.iterator().next();
@@ -133,7 +128,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		createNew.setName("createNew");
 		createNew.setReturnType(ojClass.getPathName());
 		test.addToOperations(createNew);
-		Collection<? extends INakedClassifier> subClasses = InterfaceUtil.getImplementationsOf(c);
+		Collection<? extends INakedClassifier> subClasses = InterfaceUtil.getImplementationsOf(c,currentRootObject.getDependencies());
 		if (c.getIsAbstract()) {
 			if (subClasses.size() > 0) {
 				INakedClassifier child = subClasses.iterator().next();

@@ -33,8 +33,7 @@ public class JavaTransformationPhase implements TransformationPhase<AbstractJava
 		this.config = config;
 	}
 
-	public Object[] execute(List<AbstractJavaTransformationStep> features) {
-		TransformationContext context = new TransformationContext();
+	public Object[] execute(List<AbstractJavaTransformationStep> features,TransformationContext context) {
 		javaModel = new OJAnnotatedPackage();
 		for (AbstractJavaTransformationStep f : features) {
 			f.initialize(javaModel, config, textWorkspace);

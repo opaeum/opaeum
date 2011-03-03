@@ -3,9 +3,11 @@ package net.sf.nakeduml.metamodel.workspace.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -21,6 +23,7 @@ import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedTypes;
+import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
@@ -35,8 +38,10 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	private String name;
 	private IOclEngine oclEngine = new OclEngine();
 	private ErrorMap validator = new ErrorMap();
-	private List<INakedRootObject> generatingModelOrProfiles = new ArrayList<INakedRootObject>();
+	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
+	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
 	private boolean singleModelWorkspace;
+	private String directoryName;
 
 	public NakedModelWorkspaceImpl() {
 	}
@@ -44,7 +49,6 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	public IOclEngine getOclEngine() {
 		return this.oclEngine;
 	}
-
 
 	public void setWorkspaceMappingInfo(IWorkspaceMappingInfo modelMappingInfo) {
 		this.modelMappingInfo = modelMappingInfo;
@@ -69,7 +73,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		while (mw.getOwnerElement() instanceof INakedElement) {
 			mw = (INakedElement) mw.getOwnerElement();
 		}
-		return generatingModelOrProfiles.contains(mw);
+		return generatingRootObjects.contains(mw);
 	}
 
 	public INakedElement getModelElement(Object id) {
@@ -134,9 +138,11 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 
 	public void setName(String string) {
 		this.name = string;
+		if(name==null) throw new IllegalStateException();
 	}
 
 	public String getName() {
+		
 		return this.name;
 	}
 
@@ -193,27 +199,47 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 
 	@Override
 	public List<INakedRootObject> getGeneratingModelsOrProfiles() {
-		return generatingModelOrProfiles;
+		return generatingRootObjects;
 	}
 
+
 	@Override
-	public void addGeneratingModelOrProfile(INakedRootObject p) {
-		generatingModelOrProfiles.add(p);
+	public void addGeneratingRootObject(INakedRootObject p) {
+		generatingRootObjects.add(p);
 	}
 
 	@Override
 	public void clearGeneratingModelOrProfiles() {
-		generatingModelOrProfiles.clear();
+		generatingRootObjects.clear();
 	}
 
 
 	@Override
-	public boolean isSingleModelWorkspace() {
-		return this.singleModelWorkspace;
+	public String getMetaClass() {
+		return "workspace";
 	}
 
 	@Override
-	public void setSingleModelWorkspace(boolean singleModelWorkspace) {
-		this.singleModelWorkspace = singleModelWorkspace;
+	public boolean isPrimaryModel(INakedRootObject rootObject) {
+		return primaryRootObjects.contains(rootObject);
+	}
+
+	@Override
+	public void addPrimaryModel(INakedRootObject rootObject) {
+		primaryRootObjects.add(rootObject);
+		
+	}
+
+	public void setDirectoryName(String directoryName) {
+		this.directoryName = directoryName;
+	}
+
+	public String getDirectoryName() {
+		return directoryName;
+	}
+
+	@Override
+	public Collection<INakedRootObject> getPrimaryRootObjects() {
+		return primaryRootObjects;
 	}
 }

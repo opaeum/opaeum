@@ -68,7 +68,7 @@ public class HibernatePomStep extends PomGenerationStep {
 	}
 
 	@Override
-	protected OutputRoot getTargetDir() {
+	protected OutputRoot getExampleTargetDir() {
 		return config.getOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 

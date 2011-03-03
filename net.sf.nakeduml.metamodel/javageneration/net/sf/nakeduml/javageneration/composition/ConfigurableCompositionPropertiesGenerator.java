@@ -28,15 +28,9 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class ConfigurableCompositionPropertiesGenerator extends AbstractTestDataGenerator {
 
-	private Map<String, DataPopulatorPropertyEntry> propertiesMap = new HashMap<String, DataPopulatorPropertyEntry>();
+	private Map<String, DataPopulatorPropertyEntry> propertiesMap;
 	private Properties props = new Properties();
 	private List<DataPopulatorPropertyEntry> rootList;
-
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace,
-			Map<String, DataPopulatorPropertyEntry> propertiesMap) {
-		super.initialize(workspace, javaModel, config, textWorkspace);
-		this.propertiesMap = propertiesMap;
-	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitBefore(INakedModel model) {
@@ -68,11 +62,11 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 								// Get all the entity instances in the tree
 								List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();
 								for (DataPopulatorPropertyEntry root : rootList) {
-									root.getEntityInstances(needsOneEntities, entity.getMappingInfo().getQualifiedJavaName());
+									root.addEntityInstances(needsOneEntities, entity.getMappingInfo().getQualifiedJavaName());
 								}
 								List<DataPopulatorPropertyEntry> ones = new ArrayList<DataPopulatorPropertyEntry>();
 								for (DataPopulatorPropertyEntry root : rootList) {
-									root.getEntityInstances(ones, ((INakedClassifier) f.getBaseType()).getMappingInfo().getQualifiedJavaName());
+									root.addEntityInstances(ones, ((INakedClassifier) f.getBaseType()).getMappingInfo().getQualifiedJavaName());
 								}
 
 								Iterator<DataPopulatorPropertyEntry> needsOneIterator = needsOneEntities.iterator();
@@ -98,11 +92,11 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 							} else if (map.isManyToMany()) {
 								List<DataPopulatorPropertyEntry> needsManyEntities = new ArrayList<DataPopulatorPropertyEntry>();
 								for (DataPopulatorPropertyEntry root : rootList) {
-									root.getEntityInstances(needsManyEntities, entity.getMappingInfo().getQualifiedJavaName());
+									root.addEntityInstances(needsManyEntities, entity.getMappingInfo().getQualifiedJavaName());
 								}
 								List<DataPopulatorPropertyEntry> otherSideMany = new ArrayList<DataPopulatorPropertyEntry>();
 								for (DataPopulatorPropertyEntry root : rootList) {
-									root.getEntityInstances(otherSideMany, ((INakedClassifier) f.getBaseType()).getMappingInfo().getQualifiedJavaName());
+									root.addEntityInstances(otherSideMany, ((INakedClassifier) f.getBaseType()).getMappingInfo().getQualifiedJavaName());
 								}
 
 								Iterator<DataPopulatorPropertyEntry> needsManyIterator = needsManyEntities.iterator();
@@ -133,7 +127,10 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 					
 					INakedEntity toOne = null;
 					if (f.getBaseType() instanceof INakedInterface || f.getBaseType().getIsAbstract()) {
-						List<INakedEntity> result = getConcreteImplementations(f.getBaseType());
+						List<INakedEntity> result = getConcreteImplementations(f.getNakedBaseType());
+						if(result.isEmpty()){
+							return;
+						}
 						toOne = result.get(0);
 					} else {
 						toOne = entity; 
@@ -143,7 +140,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 					// Get all the entity instances in the tree
 					List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();
 					for (DataPopulatorPropertyEntry root : rootList) {
-						root.getEntityInstances(needsOneEntities, entity.getMappingInfo().getQualifiedJavaName());
+						root.addEntityInstances(needsOneEntities, entity.getMappingInfo().getQualifiedJavaName());
 					}
 					
 					for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : needsOneEntities) {
@@ -183,6 +180,11 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 	protected String getTestDataName(INakedClassifier child) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setModelInstanceMap(Map<String, DataPopulatorPropertyEntry> modelInstanceMap) {
+		this.propertiesMap=modelInstanceMap;
+		
 	}
 
 }

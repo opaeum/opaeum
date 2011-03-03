@@ -31,11 +31,9 @@ public class AuditGenerationPhase implements TransformationPhase<AuditImplementa
 	}
 
 	@Override
-	public Object[] execute(List<AuditImplementationStep> features) {
-		OJPackage auditRoot = new OJPackage();
-		TransformationContext context = new TransformationContext();
+	public Object[] execute(List<AuditImplementationStep> features,TransformationContext context) {
 		for (AuditImplementationStep a : features) {
-			a.initialize(javaModel, config, textWorkspace,auditRoot);
+			a.initialize(javaModel, config, textWorkspace);
 			a.generate(workspace, context);
 		}
 		return new Object[] { javaModel };

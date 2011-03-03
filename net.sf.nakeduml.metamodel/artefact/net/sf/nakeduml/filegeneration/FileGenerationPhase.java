@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
@@ -17,7 +18,7 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 		this.config=config;
 	}
 
-	public Object[] execute(List<AbstractTextNodeVisitor> features) {
+	public Object[] execute(List<AbstractTextNodeVisitor> features,TransformationContext context) {
 		for (AbstractTextNodeVisitor feature : features) {
 			feature.initialize(config);
 			feature.startVisiting(textWorkspace);

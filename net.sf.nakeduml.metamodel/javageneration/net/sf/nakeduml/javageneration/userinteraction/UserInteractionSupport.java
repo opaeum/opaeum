@@ -15,13 +15,13 @@ public class UserInteractionSupport extends AbstractJavaTransformationStep{
 	@Override
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){
 		CompositionTraversalAnnotator cta = new CompositionTraversalAnnotator();
-		cta.initialize(workspace, javaModel, config, textWorkspace);
+		cta.initialize(javaModel, config, textWorkspace, context);
 		cta.startVisiting(workspace);
 		ParticipationAnnotator pa = new ParticipationAnnotator();
-		pa.initialize(workspace, javaModel, config, textWorkspace);
+		pa.initialize(javaModel, config, textWorkspace, context);
 		pa.startVisiting(workspace);
 		AbstractUserRoleImplementor aui = new AbstractUserRoleImplementor();
-		aui.initialize(workspace, javaModel, config, textWorkspace);
+		aui.initialize(javaModel, config, textWorkspace, context);
 		aui.startVisiting(workspace);
 		// TODO UserInteractionSpecification and ParticipationSpecification
 		// annotator

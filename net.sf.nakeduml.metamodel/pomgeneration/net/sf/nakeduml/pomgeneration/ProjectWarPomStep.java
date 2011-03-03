@@ -320,8 +320,8 @@ public class ProjectWarPomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public Properties getProperties() {
-		Properties p = super.getProperties();
+	public Properties getParentPomProperties() {
+		Properties p = super.getParentPomProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
 		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
@@ -347,7 +347,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public OutputRoot getTargetDir() {
+	public OutputRoot getExampleTargetDir() {
 		return config.getOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE);
 	}
 
@@ -375,8 +375,8 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("add-source");
 
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
-		addAnyElement(anyType.getAny(), "source", "src/main/generated-java");
+		AnyType anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "source", "src/main/generated-java");
 
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		execution.getExecution().add(pluginExecution);
@@ -386,11 +386,11 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("add-resource");
 
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType resourcesAnyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
-		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
-		addAnyElement(anyType.getAny(), "directory", "src/main/generated-resources");
-		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
-		addAnyElement(anyType.getAny(), "directory", "src/main/webapp");
+		AnyType resourcesAnyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
+		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/main/generated-resources");
+		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/main/webapp");
 
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		execution.getExecution().add(pluginExecution);
@@ -400,8 +400,8 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("add-test-source");
 
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		resourcesAnyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
-		addAnyElement(resourcesAnyType.getAny(), "source", "src/test/generated-java");
+		resourcesAnyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
+		PomUtil.addAnyElementWithContent(resourcesAnyType.getAny(), "source", "src/test/generated-java");
 		
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		execution.getExecution().add(pluginExecution);
@@ -411,11 +411,11 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("add-test-resource");
 
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		resourcesAnyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
-		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
-		addAnyElement(anyType.getAny(), "directory", "src/test/generated-resource-jbossas");
-		anyType = addAnyElement(resourcesAnyType.getAny(), "resource");
-		addAnyElement(anyType.getAny(), "directory", "src/test/generated-resources");
+		resourcesAnyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
+		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/test/generated-resource-jbossas");
+		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/test/generated-resources");
 		
 		result[1].setExecutions(execution);
 
@@ -486,11 +486,11 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("enforce");
 
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "rules");
-		anyType = addAnyElement(anyType.getAny(), "requireProperty");
-		addAnyElement(anyType.getAny(), "property", "jboss.home");
+		AnyType anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "rules");
+		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(), "requireProperty");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "property", "jboss.home");
 
-		addAnyElement(pluginExecution.getConfiguration().getAny(), "fail", "true");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "fail", "true");
 
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
@@ -501,7 +501,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		plugin.setVersion("2.7.1");
 
 		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
-		addAnyElement(pluginExecution.getConfiguration().getAny(), "skip", "true");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "true");
 
 		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
@@ -511,7 +511,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("test");
 
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		addAnyElement(pluginExecution.getConfiguration().getAny(), "skip", "false");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "false");
 
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
@@ -529,18 +529,18 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		plugin.setVersion("1.1");
 		plugin.setGoals(POMFactory.eINSTANCE.createGoalsType());
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
-		addAnyElement(plugin.getGoals().getAny(), "goal", "run");
+		PomUtil.addAnyElementWithContent(plugin.getGoals().getAny(), "goal", "run");
 
 		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
-		AnyType taskAnyType = addAnyElement(plugin.getConfiguration().getAny(), "tasks");
-		anyType = addAnyElement(taskAnyType.getAny(), "delete");
-		addAnyAttribute(anyType, "dir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war");
-		anyType = addAnyElement(taskAnyType.getAny(), "copy");
-		addAnyAttribute(anyType, "todir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war/");
-		anyType = addAnyElement(anyType.getAny(), "fileset");
-		addAnyAttribute(anyType, "dir", "target/${project.build.finalName}");
-		anyType = addAnyElement(anyType.getAny(), "include");
-		addAnyAttribute(anyType, "name", "**/*");
+		AnyType taskAnyType = PomUtil.addEmptyAnyElement(plugin.getConfiguration().getAny(), "tasks");
+		anyType = PomUtil.addEmptyAnyElement(taskAnyType.getAny(), "delete");
+		PomUtil.addAnyAttribute(anyType, "dir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war");
+		anyType = PomUtil.addEmptyAnyElement(taskAnyType.getAny(), "copy");
+		PomUtil.addAnyAttribute(anyType, "todir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war/");
+		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(), "fileset");
+		PomUtil.addAnyAttribute(anyType, "dir", "target/${project.build.finalName}");
+		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(), "include");
+		PomUtil.addAnyAttribute(anyType, "name", "**/*");
 
 		profiles[1] = profile;
 		return profiles;

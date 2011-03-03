@@ -32,4 +32,5 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	INakedInstanceSpecification getStereotype(String name);
 	String getDocumentation();
 	void setDocumentation(String d);
+	 INakedRootObject getNakedRoot();
 }

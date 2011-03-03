@@ -49,8 +49,5 @@ public class OperationMessageStructureImpl extends MessageStructureImpl implemen
 	public INakedOperation getOperation(){
 		return oper;
 	}
-	@Override
-	public IPackage getRoot() {
-		return getOperation().getOwner().getRoot();
-	}
+
 }

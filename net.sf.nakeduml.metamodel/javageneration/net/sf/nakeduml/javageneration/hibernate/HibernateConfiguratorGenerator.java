@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javametamodel.OJBlock;
@@ -15,19 +14,12 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.generated.OJVisibilityKindGEN;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-@StepDependency(phase = StandaloneHibernatePhase.class, requires = HibernateConfigGenerator.class)
-public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor implements StandaloneHibernateStep {
-	@Override
-	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config, TextWorkspace textWorkspace, OJPackage javaModel) {
-
-		super.initialize(workspace, javaModel, config, textWorkspace);
-	}
-
-	public void generate() {
+public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor {
+//TODO port to support multiple projects
+	public void generate(TransformationContext context) {
+		super.transformationContext=context;
 		OJPackage util = javaModel.findPackage(UtilityCreator.getUtilPathName());
 		OJAnnotatedClass hibernateConfigurator = new OJAnnotatedClass();
 		hibernateConfigurator.setName("HibernateConfigurator");
@@ -130,4 +122,6 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 	public static OJPathName getConfiguratorPathName() {
 		return UtilityCreator.getUtilPathName().append("HibernateConfigurator");
 	}
+
+
 }

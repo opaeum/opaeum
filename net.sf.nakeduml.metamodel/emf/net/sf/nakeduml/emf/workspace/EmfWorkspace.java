@@ -39,21 +39,39 @@ import org.eclipse.uml2.uml.Stereotype;
  */
 public class EmfWorkspace implements Element {
 	Set<Package> generatingModels = new HashSet<Package>();
+	Set<Package> primaryModels = new HashSet<Package>();
+
+
 	private WorkspaceMappingInfoImpl mappingInfo;
-	private boolean singleModelWorkspace;
 	private ResourceSet resourceSet;
 	private String name;
-	public EmfWorkspace(Package model, WorkspaceMappingInfoImpl mappingInfo) {
-		this(mappingInfo);
-		this.singleModelWorkspace=true;
+	private String directoryName;
+
+	public String getDirectoryName() {
+		return directoryName;
+	}
+
+	public EmfWorkspace(File modelDir, Package model, WorkspaceMappingInfoImpl mappingInfo, String name) {
+		this(modelDir,model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
 	}
-	public EmfWorkspace(WorkspaceMappingInfoImpl mappingInfo) {
+
+	public EmfWorkspace(File modelDir, ResourceSet rs, WorkspaceMappingInfoImpl mappingInfo, String name) {
 		this.mappingInfo = mappingInfo;
+		directoryName=modelDir.getName();
+		for (Element pkg : getOwnedElements()) {
+			if((pkg instanceof Model || pkg instanceof Profile) && isPrimaryModelOrProfile((Package) pkg, modelDir)){
+				primaryModels.add((Package) pkg);
+			}
+		}
+		this.resourceSet = rs;
+		this.name = name;
 	}
-	public void clearGeneratingModels(){
-		this.generatingModels.clear();
+	public Set<Package> getPrimaryModels() {
+		return primaryModels;
 	}
+
+
 	public WorkspaceMappingInfoImpl getMappingInfo() {
 		return mappingInfo;
 	}
@@ -62,19 +80,19 @@ public class EmfWorkspace implements Element {
 		return this.generatingModels;
 	}
 
-
-	private boolean isGeneratingModelOrProfile(Package p, File entryModelFile) {
+	private boolean isPrimaryModelOrProfile(Package p, File entryModelDir) {
 		URI uri = p.eResource().getURI();
-		if(uri.isFile()){
-			File packageFile = new File( uri.toFileString());
-			packageFile.getParentFile().equals(entryModelFile);
+		if (uri.isFile()) {
+			File packageFile = new File(uri.toFileString());
+			packageFile.getParentFile().equals(entryModelDir);
 		}
 		return generatingModels.contains(p);
 	}
-	public void guessGeneratingModelsAndProfiles(File dir){
+
+	public void guessGeneratingModelsAndProfiles(File dir) {
 		generatingModels.clear();
-		for(Element e:getOwnedElements()){
-			if(isGeneratingModelOrProfile((Package) e,dir)){
+		for (Element e : getOwnedElements()) {
+			if (isPrimaryModelOrProfile((Package) e, dir)) {
 				generatingModels.add((Package) e);
 			}
 		}
@@ -82,7 +100,7 @@ public class EmfWorkspace implements Element {
 
 	public void addGeneratingModelOrProfile(Package p) {
 		generatingModels.add(p);
-		this.resourceSet=p.eResource().getResourceSet();
+		this.resourceSet = p.eResource().getResourceSet();
 	}
 
 	public EList<Element> getOwnedElements() {
@@ -96,8 +114,9 @@ public class EmfWorkspace implements Element {
 		}
 		return result;
 	}
+
 	private boolean isRootObject(Package pkg) {
-		return ((pkg instanceof Profile || pkg instanceof Model) && pkg.getOwner()==null);
+		return ((pkg instanceof Profile || pkg instanceof Model) && pkg.getOwner() == null);
 	}
 
 	private Package getPackageFrom(Resource r) {
@@ -342,9 +361,8 @@ public class EmfWorkspace implements Element {
 	public Object eInvoke(EOperation arg0, EList<?> arg1) throws InvocationTargetException {
 		return null;
 	}
-	public boolean isSingleModelWorkspace() {
-		return this.singleModelWorkspace;
-	}
+
+
 	public String getName() {
 		return this.name;
 	}

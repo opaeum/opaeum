@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.composition;
 
 import java.util.List;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
@@ -15,7 +14,6 @@ import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJSimpleStatement;
 import net.sf.nakeduml.javametamodel.OJVisibilityKind;
@@ -27,8 +25,7 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.util.CompositionNode;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IModelElement;
@@ -44,11 +41,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 	private static final OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 
-	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		// TODO Auto-generated method stub
-		super.initialize(workspace, javaModel, config, textWorkspace);
-	}
+
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c) {
@@ -76,7 +69,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 
 	@VisitAfter
 	public void visitInterface(INakedInterface i) {
-		if (hasEntityImplementationsOnly(i) && OJUtil.hasOJClass(i)) {
+		if (!i.hasStereotype(StereotypeNames.HELPER)  && OJUtil.hasOJClass(i)) {
 			OJPathName path = OJUtil.classifierPathname(i);
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
 			((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(COMPOSITION_NODE);

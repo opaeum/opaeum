@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javametamodel.OJPackage;
@@ -25,7 +26,7 @@ public class UserInteractionTransformationPhase implements TransformationPhase<A
 	@InputModel
 	private OJPackage javaModel;
 	private NakedUmlConfig config;
-	public Object[] execute(List<AbstractUserInteractionTransformationStep> features){
+	public Object[] execute(List<AbstractUserInteractionTransformationStep> features,TransformationContext context){
 		INakedPackage generatingModel = modelWorkspace.getGeneratingModelsOrProfiles().get(0);
 		uiWorkspace.setName(generatingModel .getName());
 		for(AbstractUserInteractionTransformationStep d:features){

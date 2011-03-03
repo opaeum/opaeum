@@ -12,7 +12,9 @@ public class CharArrayTextSource implements TextSource {
 		WEBAPP_RESOURCE,
 		WEB_TEST_RESOURCE_JBOSSAS,
 		WEB_TEST_RESOURCE,
-		INTEGRATED_ADAPTORS_GEN_RESOURCE};
+		INTEGRATED_ADAPTORS_GEN_RESOURCE
+	};
+
 	CharArrayWriter writer;
 
 	public CharArrayTextSource(CharArrayWriter contentWriter) {
@@ -22,8 +24,8 @@ public class CharArrayTextSource implements TextSource {
 	public char[] toCharArray() {
 		return writer.toCharArray();
 	}
-	public boolean hasContent(){
+
+	public boolean hasContent() {
 		return true;
 	}
-
 }

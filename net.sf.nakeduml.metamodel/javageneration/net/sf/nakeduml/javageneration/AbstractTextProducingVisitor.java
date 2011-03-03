@@ -11,30 +11,40 @@ import java.util.Stack;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
-import net.sf.nakeduml.javametamodel.OJPackage;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.ResourceLoader;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-public class AbstractTextProducingVisitor extends AbstractJavaProducingVisitor {
+public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 	protected VelocityEngine ve;
-
+	protected NakedUmlConfig config;
+	protected TextWorkspace textWorkspace;
+	protected INakedRootObject currentRootObject;
 	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		this.initialize(workspace, config, textWorkspace);
+	public void visitRecursively(INakedElementOwner o) {
+		if(o instanceof INakedRootObject){
+			this.currentRootObject=(INakedRootObject) o;
+		}
+		super.visitRecursively(o);
 	}
 
-	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		this.workspace = workspace;
+	protected TransformationContext transformationContext;
+
+	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		this.config = config;
-		this.textWorkspace = textWorkspace;
+		this.transformationContext=context;
+		this.textWorkspace=textWorkspace;
 		this.ve = new VelocityEngine();
 		Properties velocityProperties = new Properties();
 		velocityProperties.put("resource.loader", "class");
@@ -54,7 +64,7 @@ public class AbstractTextProducingVisitor extends AbstractJavaProducingVisitor {
 		processTemplate(element, templateResource, destinationExpression, outputRootId, emptyMap);
 	}
 
-	protected void processTemplate(INakedElement element, String templateResource, String destinationExpression, Enum<?> outputRootId,
+	protected void processTemplate(INakedElementOwner element, String templateResource, String destinationExpression, Enum<?> outputRootId,
 			Map<String, Object> vars) {
 		VelocityContext context = new VelocityContext();
 		for (Map.Entry<String, Object> var : vars.entrySet()) {
@@ -74,7 +84,7 @@ public class AbstractTextProducingVisitor extends AbstractJavaProducingVisitor {
 			template.merge(context, contentWriter);
 			this.ve.evaluate(context, fileNameWriter, templateResource,/* logTag */destinationExpression);
 		} catch (Throwable e) {
-			System.out.println(templateResource + " could not merge " + element.getPathName());
+			System.out.println(templateResource + " could not merge " + element.getName());
 			System.out.println(new String(contentWriter.toCharArray()));
 			e.printStackTrace();
 		}
@@ -86,6 +96,13 @@ public class AbstractTextProducingVisitor extends AbstractJavaProducingVisitor {
 			SourceFolder sourceFolder = getSourceFolder(outputRoot);
 			sourceFolder.findOrCreateTextFile(path, new CharArrayTextSource(contentWriter), outputRoot.overwriteFiles());
 		}
+	}
+	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentRootObject
+				.getFileName();
+		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
+		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
+		return or;
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.CompositionSiblingsFinder;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
@@ -35,7 +36,11 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 		PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class }, before = NakedParsedOclStringResolver.class)
 public class SourcePopulationResolver extends AbstractModelElementLinker {
 	private Map<INakedClassifier, List<IClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier, List<IClassifier>>();
-
+	private INakedRootObject currentRootObject;
+	@VisitBefore(matchSubclasses=true)
+	public void visitRootObject(INakedRootObject r){
+		this.currentRootObject=r;
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedEntity c) {
 		if (c.getStereotype(HIERARCHY) != null) {
@@ -131,12 +136,12 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 	private String buildOcl(ICompositionParticipant owner, INakedProperty p) {
 		String ocl = null;
 		if (p.getNakedBaseType() instanceof ICompositionParticipant) {
-			if (InterfaceUtil.getImplementationsOf(p.getNakedBaseType()).isEmpty()) {
+			if (InterfaceUtil.getImplementationsOf(p.getNakedBaseType(),currentRootObject.getDependencies()).isEmpty()) {
 				ICompositionParticipant baseType = (ICompositionParticipant) p.getNakedBaseType();
 				ocl = buildOcl(owner, p, baseType);
 			} else {
 				StringBuilder union = new StringBuilder();
-				for (INakedEntity c : InterfaceUtil.getImplementationsOf(p.getNakedBaseType())) {
+				for (INakedEntity c : InterfaceUtil.getImplementationsOf(p.getNakedBaseType(),currentRootObject.getDependencies())) {
 					String builtOcl = buildOcl(owner, p, c);
 					if (union.length() == 0) {
 						union.append(builtOcl);

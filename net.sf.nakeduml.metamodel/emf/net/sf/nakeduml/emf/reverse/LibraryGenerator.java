@@ -51,7 +51,7 @@ public class LibraryGenerator extends AbstractUmlGenerator {
 			Enumeration<JarEntry> entries = jarFile.entries();
 			ResourceSetImpl resourceSet = new ResourceSetImpl();
 			if (profileFile.exists()) {
-				library = EmfWorkspaceLoader.loadModel(profileFile.getAbsolutePath());
+				library = EmfWorkspaceLoader.loadModel(URI.createFileURI(profileFile.getAbsolutePath()));
 				importPrimitiveTypes(library);
 				createClasses(entries, library);
 				library.eResource().save(null);

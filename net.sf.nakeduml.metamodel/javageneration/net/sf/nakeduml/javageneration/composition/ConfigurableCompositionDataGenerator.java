@@ -49,10 +49,6 @@ import nl.klasse.octopus.model.IEnumerationType;
 public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenerator {
 	public Map<String, DataPopulatorPropertyEntry> modelInstanceMap = new HashMap<String, DataPopulatorPropertyEntry>();
 
-	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		super.initialize(workspace, javaModel, config, textWorkspace);
-	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void placeInTree(INakedModel model) {
@@ -81,7 +77,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			addPopulateData(entity, testDataClass, false);
 			addPopulateData(entity, testDataClass, true);
 			// TODO put in integrated adapator?
-			super.createTextPath(testDataClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+			super.createTextPath(testDataClass, JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
 		}
 	}
 

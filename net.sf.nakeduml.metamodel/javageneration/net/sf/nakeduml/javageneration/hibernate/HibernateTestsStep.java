@@ -9,18 +9,18 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { HibernateConfiguratorGenerator.class }, after = { PersistenceUsingHibernateStep.class })
+@StepDependency(phase = JavaTransformationPhase.class, requires = {}, after = { PersistenceUsingHibernateStep.class })
 public class HibernateTestsStep extends AbstractJavaTransformationStep {
-	@Override
-	public void initialize(OJPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		super.initialize(pac, config, textWorkspace);
-	}
 
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
 
 		PersistenceTestGenerator ptg = new PersistenceTestGenerator();
-		ptg.initialize(workspace, javaModel, config, textWorkspace);
+		ptg.initialize(javaModel, config, textWorkspace, context);
 		ptg.startVisiting(workspace);
+		
+		HibernateConfiguratorGenerator hcg=new HibernateConfiguratorGenerator();
+		hcg.initialize(javaModel, config, textWorkspace, context);
+		hcg.generate(context);
 	}
 }

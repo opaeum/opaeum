@@ -15,6 +15,7 @@ public class SourceFolder extends TextDirectory {
 	@Override
 	protected void appendNameToRelativePath(StringBuilder sb) {
 		sb.append("/");
+		sb.append(name);
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import nl.klasse.octopus.expressions.internal.types.PathName;
@@ -40,7 +41,9 @@ public abstract class NakedModelElementImpl implements Serializable, INakedEleme
 	public String getDocumentation() {
 		return documentation;
 	}
-
+	public INakedRootObject getNakedRoot(){
+		return ((INakedElement)getOwnerElement()).getNakedRoot();
+	}
 	public void setDocumentation(String documentation) {
 		this.documentation = documentation;
 	}

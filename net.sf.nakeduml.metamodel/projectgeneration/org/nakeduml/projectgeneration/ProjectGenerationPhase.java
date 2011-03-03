@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
@@ -30,9 +31,9 @@ public class ProjectGenerationPhase implements TransformationPhase<AbstractProje
 	}
 
 	@Override
-	public Object[] execute(List<AbstractProjectGenerationStep> features) {
+	public Object[] execute(List<AbstractProjectGenerationStep> features,TransformationContext context) {
 		for (AbstractProjectGenerationStep step : features) {
-			step.initialize(workspace, javaModel, config, textWorkspace);
+			step.initialize(javaModel, config, textWorkspace,context);
 			step.startVisiting(workspace);
 		}
 		return new Object[0];

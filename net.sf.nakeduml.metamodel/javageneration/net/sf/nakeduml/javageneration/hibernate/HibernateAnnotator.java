@@ -145,7 +145,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 				// in
 				// hibernate that uses persistent name
 			} else if (cl instanceof INakedInterface) {
-				if (super.hasEntityImplementationsOnly((INakedInterface) cl)) {
+				if (!cl.hasStereotype(StereotypeNames.HELPER)  && OJUtil.hasOJClass(cl)) {
 					OJAnnotatedInterface owner = (OJAnnotatedInterface) findJavaClass(cl);
 					owner.addToSuperInterfaces(new OJPathName(HibernateEntity.class.getName()));
 				}

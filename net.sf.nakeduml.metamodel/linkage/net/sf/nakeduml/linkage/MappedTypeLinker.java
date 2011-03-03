@@ -31,20 +31,17 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 	public void setBuiltInType(INakedSimpleType simpleType) {
 		String name = simpleType.getName();
 		// TODO get rid of this....
-		if (simpleType.getNameSpace().getName().equalsIgnoreCase(config.getMappedTypesPackage())) {
-			if (name.equalsIgnoreCase(config.getEMailAddressType())) {
-				getBuiltInTypes().setEmailAddressType(simpleType);
-				updateDefaultType(simpleType, "java.lang.String");
-			} else if (name.equalsIgnoreCase(config.getDateType())) {
-				getBuiltInTypes().setDateType(simpleType);
-				updateDefaultType(simpleType, "java.util.Date");
-			} else if (name.equalsIgnoreCase(config.getRealType())) {
-				updateDefaultType(simpleType, "java.lang.Double");
-				getBuiltInTypes().setRealType(simpleType);
-				((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-						.lookupStandardType(IOclLibrary.RealTypeName));
-			}
-			// .... up to here
+		if (name.equalsIgnoreCase(config.getEMailAddressType())) {
+			getBuiltInTypes().setEmailAddressType(simpleType);
+			updateDefaultType(simpleType, "java.lang.String");
+		} else if (name.equalsIgnoreCase(config.getDateType())) {
+			getBuiltInTypes().setDateType(simpleType);
+			updateDefaultType(simpleType, "java.util.Date");
+		} else if (name.equalsIgnoreCase(config.getRealType())) {
+			updateDefaultType(simpleType, "java.lang.Double");
+			getBuiltInTypes().setRealType(simpleType);
+			((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
+					.lookupStandardType(IOclLibrary.RealTypeName));
 		} else if (simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes")
 				|| simpleType.getNameSpace().getName().equalsIgnoreCase("uml")) {
 			INakedPrimitiveType primitiveType = (INakedPrimitiveType) simpleType;
@@ -87,15 +84,6 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 						.lookupStandardType(IOclLibrary.RealTypeName));
 			}
 		}
-		// delete this ....
-		if (isInMappedTypesPackage(simpleType)) {
-			MappedType mappedType = getBuiltInTypes().getTypeMap().get(simpleType.getName());
-			if (mappedType != null) {
-				// put under correct path
-				// TODO getPathNameInModel may not be necessary anymore
-				getBuiltInTypes().getTypeMap().put(super.getPathNameInModel(simpleType).toString(), mappedType);
-			}
-		}// ... to here
 		// Check for steretypes with strategyFactory properties
 		if (simpleType.hasStereotype(StereotypeNames.VALUE_TYPE)) {
 			INakedInstanceSpecification stereotype = simpleType.getStereotype(StereotypeNames.VALUE_TYPE);
@@ -110,7 +98,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 		} else if (simpleType.hasStereotype(StereotypeNames.PRIMITIVE_TYPE)) {
 			loadStrategies(simpleType, simpleType.getStereotype(StereotypeNames.PRIMITIVE_TYPE), simpleType.getMappedImplementationType());
 		}
-		if(simpleType instanceof INakedPrimitiveType && ((INakedPrimitiveType) simpleType).getOclType()==null){
+		if (simpleType instanceof INakedPrimitiveType && ((INakedPrimitiveType) simpleType).getOclType() == null) {
 			System.out.println(simpleType.getPathName() + " has no oclType!!");
 		}
 	}
@@ -135,19 +123,13 @@ public final class MappedTypeLinker extends AbstractModelElementLinker {
 	@VisitAfter(matchSubclasses = true)
 	public void setCodeGenerationStrategy(INakedClassifier classifier) {
 		boolean isMapped = getBuiltInTypes().getTypeMap().containsKey(getPathNameInModel(classifier).toString());
-		if (isInMappedTypesPackage(classifier) || isMapped) {
+		if (isMapped) {
 			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.none);
 			MappedType mappedType = getBuiltInTypes().getTypeMap().get(super.getPathNameInModel(classifier).toString());
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());
 		} else {
-//			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.all);
+			// classifier.setCodeGenerationStrategy(CodeGenerationStrategy.all);
 		}
-	}
-
-	// TODO get rid of this
-	private boolean isInMappedTypesPackage(INakedClassifier classifier) {
-		return (classifier.getNameSpace().getName().equalsIgnoreCase(config.getMappedTypesPackage()) && getBuiltInTypes().getTypeMap()
-				.containsKey(classifier.getName()));
 	}
 
 	private void updateDefaultType(INakedSimpleType javaType, String qualifiedJavaReal) {

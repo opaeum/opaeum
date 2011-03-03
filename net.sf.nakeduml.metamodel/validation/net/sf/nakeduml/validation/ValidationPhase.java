@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -20,7 +21,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator> {
 		this.config = config;
 	}
 
-	public Object[] execute(List<AbstractValidator> validators) {
+	public Object[] execute(List<AbstractValidator> validators,TransformationContext context) {
 		for (INakedPackage p : modelWorkspace.getGeneratingModelsOrProfiles()) {
 			for (AbstractValidator v : validators) {
 				v.initialize(modelWorkspace, config);

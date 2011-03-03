@@ -111,7 +111,8 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 				p.setFinal(true);
 			}
 			SimpleActivityMethodImplementor ai = new SimpleActivityMethodImplementor();
-			ai.initialize(workspace, javaModel, config, textWorkspace);
+			ai.initialize(javaModel, config, textWorkspace, this.transformationContext);
+			ai.setWorkspace(workspace);
 			ai.implementActivityOn((INakedActivity) transition.getEffect(), onTransition);
 			operationContext.getOwner().addToImports(listener.getClassDeclaration().getImports());
 		} else if (transition.getEffect() instanceof INakedOpaqueBehavior) {

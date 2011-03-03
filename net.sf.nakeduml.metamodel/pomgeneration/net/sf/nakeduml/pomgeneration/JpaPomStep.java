@@ -1,5 +1,8 @@
 package net.sf.nakeduml.pomgeneration;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
@@ -11,63 +14,34 @@ import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 
-@StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
+@StepDependency(requires = {BasicJavaDomainPomStep.class}, before = {}, after = {}, phase = PomGenerationPhase.class)
 public class JpaPomStep extends PomGenerationStep {
 
 	@Override
 	public Dependency[] getDependencies() {
-		Dependency[] result = new Dependency[5];
-		result[0] = POMFactory.eINSTANCE.createDependency();
-		result[0].setGroupId("javax.persistence");
-		result[0].setArtifactId("persistence-api");
-		result[0].setVersion("1.0");
-		result[0].setScope("compile");
-		result[0].setType("jar");
-		result[1] = POMFactory.eINSTANCE.createDependency();
-		result[1].setGroupId("javax.transaction");
-		result[1].setArtifactId("jta");
-		result[1].setVersion("1.1");
-		result[1].setScope("compile");
-		result[1].setType("jar");
-		result[2] = POMFactory.eINSTANCE.createDependency();
-		result[2].setGroupId("net.sf.nakeduml");
-		result[2].setArtifactId("nakedumlutil");
-		result[2].setVersion("0.0.1");
-		result[2].setScope("compile");
-		result[2].setType("jar");
-		result[3] = POMFactory.eINSTANCE.createDependency();
-		result[3].setGroupId("net.sf.nakeduml");
-		result[3].setArtifactId("nakedumlutil");
-		result[3].setVersion("0.0.1");
-		result[3].setScope("compile");
-		result[3].setType("jar");
-		result[4] = POMFactory.eINSTANCE.createDependency();
-		result[4].setGroupId("org.testng");
-		result[4].setArtifactId("testng");
-		result[4].setVersion("5.14");
-		result[4].setScope("compile");
-		result[4].setType("jar");
-		return result;
+		Collection<Dependency> result = new ArrayList<Dependency>();
+		Dependency persistenceApi = POMFactory.eINSTANCE.createDependency();
+		persistenceApi.setGroupId("javax.persistence");
+		persistenceApi.setArtifactId("persistence-api");
+		persistenceApi.setVersion("1.0");
+		persistenceApi.setScope("provided");
+		persistenceApi.setType("jar");
+		result.add(persistenceApi);
+		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
+		nakedUmlUtil.setGroupId("net.sf.nakeduml");
+		nakedUmlUtil.setArtifactId("nakedumlutil");
+		nakedUmlUtil.setVersion("0.0.1");
+		nakedUmlUtil.setScope("compile");
+		nakedUmlUtil.setType("jar");
+		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 
 	@Override
-	public OutputRoot getTargetDir() {
+	public OutputRoot getExampleTargetDir() {
 		return config.getOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE);
 	}
 
 
-	@Override
-	public Plugin[] getPlugins() {
-		Plugin[] result = new Plugin[1];
-		result[0] = POMFactory.eINSTANCE.createPlugin();
-		result[0].setGroupId("org.apache.maven.plugins");
-		result[0].setArtifactId("maven-compiler-plugin");
-		result[0].setVersion("2.3.1");
-		ConfigurationType2 cfg = POMFactory.eINSTANCE.createConfigurationType2();
-		addAnyElement(cfg.getAny(), "source", "1.6");
-		addAnyElement(cfg.getAny(), "target", "1.6");
-		result[0].setConfiguration(cfg);
-		return result;
-	}
+	
 
 }

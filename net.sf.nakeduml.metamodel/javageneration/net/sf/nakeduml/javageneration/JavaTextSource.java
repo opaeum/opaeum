@@ -8,7 +8,7 @@ import net.sf.nakeduml.textmetamodel.TextSource;
 
 public class JavaTextSource implements TextSource {
 	public enum OutputRootId {
-		DOMAIN_GEN_TEST_SRC, DOMAIN_TEST_SRC, DOMAIN_GEN_SRC,WEBAPP_GEN_TEST_SRC, INTEGRATED_ADAPTORS_GEN_SRC
+		DOMAIN_GEN_TEST_SRC, DOMAIN_TEST_SRC, DOMAIN_GEN_SRC, WEBAPP_GEN_TEST_SRC,ADAPTOR_GEN_SRC, INTEGRATED_ADAPTORS_GEN_SRC;
 	}
 
 	OJElement javaSource;

@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -15,7 +16,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	private INakedModelWorkspace modelWorkspace;
 	public void initialize(NakedUmlConfig config){
 	}
-	public Object[] execute(List<AbstractNameGenerator> validators){
+	public Object[] execute(List<AbstractNameGenerator> validators,TransformationContext context){
 		for(AbstractNameGenerator ng:validators){
 			ng.startVisiting(modelWorkspace);
 		}

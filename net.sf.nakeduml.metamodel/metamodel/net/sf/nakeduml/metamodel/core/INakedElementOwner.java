@@ -8,4 +8,6 @@ public interface INakedElementOwner {
 	void setName(String string);
 	void addOwnedElement(INakedElement element);
 	void removeOwnedElement(INakedElement element);
+	String getMetaClass();
+	String getName();
 }

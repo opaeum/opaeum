@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
@@ -41,7 +42,6 @@ import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
@@ -52,13 +52,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
  * 
  */
 public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
-	private IOclEngine oclEngine;
 
-	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		super.initialize(workspace, javaModel, config, textWorkspace);
-		this.oclEngine = workspace.getOclEngine();
-	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void activityEdge(INakedActivityEdge edge) {
@@ -122,19 +116,19 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 	private void implementNodeMethod(OJClass activityClass, INakedActivityNode node) {
 		Jbpm5ActionBuilder<?> implementor = null;
 		if (node instanceof INakedExpansionRegion) {
-			implementor = new ExpansionRegionBuilder(oclEngine, (INakedExpansionRegion) node);
+			implementor = new ExpansionRegionBuilder(getOclEngine(), (INakedExpansionRegion) node);
 		} else if (node instanceof INakedOpaqueAction) {
-			implementor = new OpaqueActionBuilder(oclEngine, (INakedOpaqueAction) node);
+			implementor = new OpaqueActionBuilder(getOclEngine(), (INakedOpaqueAction) node);
 		} else if (node instanceof INakedCallAction) {
-			implementor = new CallActionBuilder(oclEngine, (INakedCallAction) node);
+			implementor = new CallActionBuilder(getOclEngine(), (INakedCallAction) node);
 		} else if (node instanceof INakedAcceptEventAction) {
-			implementor = new AcceptEventActionBuilder(oclEngine, (INakedAcceptEventAction) node);
+			implementor = new AcceptEventActionBuilder(getOclEngine(), (INakedAcceptEventAction) node);
 		} else if (node instanceof INakedParameterNode) {
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
-			implementor = new ParameterNodeBuilder(oclEngine, parameterNode);
+			implementor = new ParameterNodeBuilder(getOclEngine(), parameterNode);
 		} else {
-			implementor = new SimpleActionBridge(oclEngine, node, SimpleActivityMethodImplementor.resolveBuilder(node, oclEngine,
-					new Jbpm5ObjectNodeExpressor(oclEngine)));
+			implementor = new SimpleActionBridge(getOclEngine(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getOclEngine(),
+					new Jbpm5ObjectNodeExpressor(getOclEngine())));
 		}
 		if (implementor.hasNodeMethod()) {
 			OJAnnotatedOperation operation = new OJAnnotatedOperation();
@@ -161,4 +155,5 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor {
 	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
 		return Arrays.asList(umlBehavior);
 	}
+
 }

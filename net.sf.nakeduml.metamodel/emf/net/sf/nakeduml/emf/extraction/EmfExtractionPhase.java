@@ -12,6 +12,7 @@ import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -38,9 +39,10 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		this.config = config;
 	}
 
-	public Object[] execute(List<AbstractExtractorFromEmf> features) {
+	public Object[] execute(List<AbstractExtractorFromEmf> features, TransformationContext context) {
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
+		modelWorkspace.setName(emfWorkspace.getName());
 		for (Element e : emfWorkspace.getOwnedElements()) {
 			URI mappedTypesUri = e.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 			try {
@@ -65,10 +67,12 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 			v.startVisiting(emfWorkspace);
 		}
 		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
-			modelWorkspace.addGeneratingModelOrProfile((INakedRootObject) getNakedPackage(gp));
+			modelWorkspace.addGeneratingRootObject((INakedRootObject) getNakedPackage(gp));
 		}
-		modelWorkspace.setName(emfWorkspace.getName());
-		modelWorkspace.setSingleModelWorkspace(emfWorkspace.isSingleModelWorkspace());
+		for (Package gp : emfWorkspace.getPrimaryModels()) {
+			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
+		}
+		modelWorkspace.setDirectoryName(emfWorkspace.getDirectoryName());
 		return new Object[] {};
 	}
 

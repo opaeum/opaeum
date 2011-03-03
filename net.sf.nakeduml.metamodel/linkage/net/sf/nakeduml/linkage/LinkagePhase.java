@@ -6,6 +6,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -21,7 +22,7 @@ public class LinkagePhase implements
 	private INakedModelWorkspace modelWorkspace;
 
 
-	public Object[] execute(List<AbstractModelElementLinker> linkers) {
+	public Object[] execute(List<AbstractModelElementLinker> linkers,TransformationContext context) {
 		modelWorkspace.getOclEngine().setOclLibrary(new OclLibraryImpl());
 		for (AbstractModelElementLinker d : linkers) {
 			d.initialize(modelWorkspace, config);

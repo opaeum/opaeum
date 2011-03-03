@@ -27,6 +27,7 @@ public class TransformationProcess {
 		Phases phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
 		phases.initializeFromClasses(getPhaseClassesFor(actualClasses));
+		TransformationContext context = new TransformationContext(actualClasses);
 		List<TransformationPhase<? extends TransformationStep>> phaseList = phases.getExecutionUnits();
 		for (TransformationPhase<? extends TransformationStep> phase : phaseList) {
 			setInputModelsFor(phase);
@@ -37,7 +38,8 @@ public class TransformationProcess {
 			List featuresFor = steps.getExecutionUnits();
 			System.out.println("Executing phase " + phase.getClass() + " .... ");
 			long time = System.currentTimeMillis();
-			Object[] execute = phase.execute(featuresFor);
+			Object[] execute = phase.execute(featuresFor,context);
+			context.featuresApplied(featuresFor);
 			replaceModels(execute);
 			System.out.println("Executing phase " + phase.getClass() + " took " + (System.currentTimeMillis() - time) + "ms");
 		}
@@ -152,7 +154,7 @@ public class TransformationProcess {
 		}
 	}
 
-	public void removeModel(Class<TextWorkspace> class1) {
+	public void removeModel(Class<?> class1) {
 		Collection<Object> models = new ArrayList<Object>(this.models);
 		for (Object object : models) {
 			if (class1.isInstance(object)) {

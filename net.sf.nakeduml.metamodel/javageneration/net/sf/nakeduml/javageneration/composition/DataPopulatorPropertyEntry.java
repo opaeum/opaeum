@@ -294,13 +294,13 @@ public class DataPopulatorPropertyEntry {
 
 	}
 
-	public void getEntityInstances(List<DataPopulatorPropertyEntry> entities, String entityQualifiedName) {
+	public void addEntityInstances(List<DataPopulatorPropertyEntry> entities, String entityQualifiedName) {
 		if (this.entityQualifiedName.equals(entityQualifiedName)) {
 			entities.add(this);
 		} else {
 			List<DataPopulatorPropertyEntry> tempChildren = new ArrayList<DataPopulatorPropertyEntry>(this.getChildren());
 			for (DataPopulatorPropertyEntry child : tempChildren) {
-				child.getEntityInstances(entities, entityQualifiedName);
+				child.addEntityInstances(entities, entityQualifiedName);
 			}
 		}
 	}

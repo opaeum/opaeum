@@ -12,14 +12,21 @@ public class TextWorkspace extends TextOutputNode {
 	}
 
 	public TextProject findOrCreateTextProject(String name) {
+		TextProject result = findTextProject(name);
+		if (result == null) {
+			result = new TextProject(this, name);
+			projects.add(result);
+		}
+		return result;
+	}
+
+	public TextProject findTextProject(String name) {
 		for (TextProject r : projects) {
 			if (r.name.equals(name)) {
 				return r;
 			}
 		}
-		TextProject result = new TextProject(this, name);
-		projects.add(result);
-		return result;
+		return null;
 	}
 
 	public Collection<TextProject> getTextProjects() {
@@ -27,8 +34,8 @@ public class TextWorkspace extends TextOutputNode {
 	}
 
 	@Override
-	public boolean hasContent(){
-		return projects.size()>0;
+	public boolean hasContent() {
+		return projects.size() > 0;
 	}
 
 }

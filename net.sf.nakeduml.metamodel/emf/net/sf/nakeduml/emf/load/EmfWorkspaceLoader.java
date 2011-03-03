@@ -44,24 +44,25 @@ public class EmfWorkspaceLoader {
 		EcoreUtil.resolveAll(resourceSet);
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
 		WorkspaceMappingInfoImpl mappingInfo = getMappingInfo(dir, workspaceName);
-		EmfWorkspace emfWorkspace = new EmfWorkspace(mappingInfo);
+		EmfWorkspace emfWorkspace = new EmfWorkspace(dir,getResourceSetSingleton(), mappingInfo,workspaceName);
 		emfWorkspace.guessGeneratingModelsAndProfiles(dir);
 		return emfWorkspace;
 	}
 
-	public static EmfWorkspace loadModel(String relativePath, String workspaceName) throws Exception {
-		URI model_uri = URI.createFileURI(new File(relativePath).getAbsolutePath());
-		return loadModel(model_uri, workspaceName);
+	public static EmfWorkspace loadSingleModelWorkspace(URI model_uri, String workspaceName) throws Exception {
+		Model model = loadModel(model_uri);
+		File dir = new File(model_uri.toFileString()).getParentFile();
+		EmfWorkspace result = new EmfWorkspace(dir,model, getMappingInfo(dir, workspaceName),workspaceName);
+		return result;
 	}
 
-	public static EmfWorkspace loadModel(URI model_uri, String workspaceName) throws Exception {
+	public static Model loadModel(URI model_uri) throws Exception {
 		long time = System.currentTimeMillis();
 		System.out.println("UML2ModelLoader.loadModel()");
-		File dir = new File(model_uri.toFileString()).getParentFile();
 		Model model = (Model) load(getResourceSetSingleton(), model_uri);
 		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		System.out.println("UML2ModelLoader.loadModel() took " + (System.currentTimeMillis() - time) + "ms");
-		return new EmfWorkspace(model, getMappingInfo(dir, workspaceName));
+		return model;
 	}
 
 	private static WorkspaceMappingInfoImpl getMappingInfo(File dir, String workspaceName) {
@@ -129,18 +130,5 @@ public class EmfWorkspaceLoader {
 		}
 	}
 
-	public static InputStreamReader getInputStream(Package model, String extension) {
-		try {
-			URIConverter uriConverter = model.eResource().getResourceSet().getURIConverter();
-			URI uri = model.eResource().getURI().trimFileExtension().appendFileExtension(extension);
-			if (uriConverter.exists(uri, null)) {
-				InputStream inStream = uriConverter.createInputStream(uri);
-				return new InputStreamReader(inStream);
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return null;
-		}
-	}
+	
 }

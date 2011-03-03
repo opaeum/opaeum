@@ -13,10 +13,10 @@ public class RedefinitionAndUnions extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
 		RedefinitionImplementor rdi = new RedefinitionImplementor();
-		rdi.initialize(workspace, javaModel, config, textWorkspace);
+		rdi.initialize(javaModel, config, textWorkspace, context);
 		rdi.startVisiting(workspace);
 		DerivedUnionImplementor dui = new DerivedUnionImplementor();
-		dui.initialize(workspace, javaModel, config, textWorkspace);
+		dui.initialize(javaModel, config, textWorkspace, context);
 		dui.startVisiting(workspace);
 	}
 }
