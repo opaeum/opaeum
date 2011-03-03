@@ -4,9 +4,11 @@ import java.util.Set;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemantics;
 import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Step;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.pomgeneration.ProjectWarPomStep;
 

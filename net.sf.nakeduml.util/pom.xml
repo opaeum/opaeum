@@ -3,21 +3,23 @@
 	<parent>
 		<artifactId>numlcore</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.4-SNAPSHOT</version>
+		<version>1.0.0.5-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>util</artifactId>
-	<packaging>ejb</packaging>
+	<packaging>jar</packaging>
 	<name>util</name>
-	<version>1.0.0.4-SNAPSHOT</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>Utility classes for org.nakeduml.metamodel</description>
 	<url>http://github.com/nakeduml</url>
 
 	<properties>
 		<seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-		<jbpm.version>5.0-SNAPSHOT</jbpm.version>
-	    <arquillian.version>1.0.0.Alpha4</arquillian.version>
+		<seam.solder.version>3.0.0-SNAPSHOT</seam.solder.version>
+		<jbpm.version>5.1-SNAPSHOT</jbpm.version>
+		<drools.version>5.2.0.M1</drools.version>
+		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
 
 	<build>
@@ -130,7 +132,7 @@
 			<version>1.1.1</version>
 			<type>jar</type>
 			<scope>provided</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -146,6 +148,18 @@
 			<groupId>org.jboss.seam.persistence</groupId>
 			<artifactId>seam-persistence-impl</artifactId>
 			<version>${seam.persistence.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.solder</groupId>
+			<artifactId>seam-solder-api</artifactId>
+			<version>${seam.solder.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.solder</groupId>
+			<artifactId>seam-solder-impl</artifactId>
+			<version>${seam.solder.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -208,17 +222,17 @@
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-api</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-persistence-jpa</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>

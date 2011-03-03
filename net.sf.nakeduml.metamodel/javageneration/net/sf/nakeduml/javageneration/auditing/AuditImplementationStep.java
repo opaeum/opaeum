@@ -43,10 +43,7 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 
 	private void mergePackages(Set<OJPackage> packages) {
 		for (OJPackage pkg : packages) {
-			Set<OJClass> auditClasses =new HashSet<OJClass>( pkg.getClasses());
-			OJPackage newPkg = this.javaModel.findPackage(pkg.getPathName());
-			if (newPkg.equals(pkg))
-				throw new RuntimeException();
+			Set<OJClass> auditClasses = new HashSet<OJClass>(pkg.getClasses());
 			for (OJClass ojClass : auditClasses) {
 				if (ojClass.getName().endsWith("_Audit")) {
 					newPkg.addToClasses(ojClass);

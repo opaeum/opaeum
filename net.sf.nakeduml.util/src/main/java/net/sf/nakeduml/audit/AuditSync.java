@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -21,6 +23,8 @@ import net.sf.nakeduml.util.Audited;
 
 import org.hibernate.Transaction;
 import org.hibernate.event.EventSource;
+import org.jboss.seam.persistence.util.InstanceResolver;
+import org.jboss.seam.solder.beanManager.BeanManagerLocator;
 
 public class AuditSync implements Synchronization {
 
@@ -29,13 +33,19 @@ public class AuditSync implements Synchronization {
 	private final LinkedList<Audited> auditedEntities;
 	private final Map<Pair<String, Integer>, Audited> usedIds;
 	private AbstractWorkUnit abstractWorkUnit;
+	private boolean isAsync = false;
+	Instance<AuditSequencer> auditSequencerInstance;
+	Instance<AuditCapturer> auditCapturerInstance;
 
-	public AuditSync(AuditSyncManager manager, EventSource session) {
+	public AuditSync(AuditSyncManager manager, EventSource session, boolean isAsync) {
 		this.manager = manager;
 		transaction = session.getTransaction();
 		auditedEntities = new LinkedList<Audited>();
 		usedIds = new HashMap<Pair<String, Integer>, Audited>();
 		abstractWorkUnit = new AbstractWorkUnit();
+		this.isAsync = isAsync;
+		this.auditSequencerInstance = lookupAuditSequencerInstance();
+		this.auditCapturerInstance = lookupAuditCapturer();
 	}
 
 	public void addAudited(Audited audited) {
@@ -53,13 +63,20 @@ public class AuditSync implements Synchronization {
 
 	@Override
 	public void beforeCompletion() {
+		if (!isAsync) {
+			AuditCapturer auditCapturer = auditCapturerInstance.get();
+			abstractWorkUnit.setAuditedEntities(auditedEntities);
+			auditCapturer.persistAudit(abstractWorkUnit);
+			manager.remove(transaction);
+		}
 	}
 
 	@Override
 	public void afterCompletion(int status) {
-		if (Status.STATUS_COMMITTED == status) {
+		if (isAsync && Status.STATUS_COMMITTED == status) {
 			try {
 				abstractWorkUnit.setAuditedEntities(auditedEntities);
+				abstractWorkUnit.setSequence(auditSequencerInstance.get().getAndIncrement());
 				sendAuditMessage();
 			} catch (NamingException e) {
 				throw new RuntimeException(e);
@@ -109,5 +126,15 @@ public class AuditSync implements Synchronization {
 		}
 	}
 
-
+	private Instance<AuditSequencer> lookupAuditSequencerInstance() {
+		BeanManagerLocator locator = new BeanManagerLocator();
+		BeanManager beanManager = locator.getBeanManager();
+		return InstanceResolver.getInstance(AuditSequencer.class, beanManager);
+	}
+	
+	private Instance<AuditCapturer> lookupAuditCapturer() {
+		BeanManagerLocator locator = new BeanManagerLocator();
+		BeanManager beanManager = locator.getBeanManager();
+		return InstanceResolver.getInstance(AuditCapturer.class, beanManager);
+	}	
 }

@@ -31,9 +31,6 @@ import org.jboss.seam.persistence.SeamManaged;
 
 public class ManagedHibernateSessionProvider implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 451924235442333986L;
 	private SessionFactory sessionFactory;
 

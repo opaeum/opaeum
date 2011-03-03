@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.1-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-persistence-jpa-5.1-SNAPSHOT.jar" sourcepath="/jbpm-persistence-jpa"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.1-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mvel2-2.1.RC1.jar" sourcepath="/home/pieter/.m2/repository/org/mvel/mvel2/2.1.RC1/mvel2-2.1.RC1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.M1.jar" sourcepath="/home/pieter/.m2/repository/org/drools/drools-compiler/5.2.0.M1/drools-compiler-5.2.0.M1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.M1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-impl-3.0.0-SNAPSHOT.jar" sourcepath="/seam-persistence-impl"/>
+	<classpathentry exported="true" kind="lib" path="lib/seam-solder-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb3-ext-api-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/arquillian-api-1.0.0.Alpha4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/shrinkwrap-api-1.0.0-alpha-11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/shrinkwrap-api-1.0.0-alpha-11.jar" sourcepath="/home/pieter/.m2/repository/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/arquillian-junit-1.0.0.Alpha4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.0-SP4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.20101016.013225-334.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.20101016.013225-332.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar" sourcepath="/home/pieter/.m2/repository/org/hibernate/hibernate-core/3.6.0.Final/hibernate-core-3.6.0.Final-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb-api_3.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-jms-api_1.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-logging-3.0.0.Beta4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-persistence-jpa-5.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/junit-4.8.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/junit-4.8.2.jar" sourcepath="/home/pieter/.m2/repository/junit/junit/4.8.2/junit-4.8.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mail-1.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

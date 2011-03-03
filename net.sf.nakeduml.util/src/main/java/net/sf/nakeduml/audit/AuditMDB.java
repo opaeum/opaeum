@@ -16,11 +16,17 @@ import org.jboss.ejb3.annotation.defaults.PoolDefaults;
 public class AuditMDB implements MessageListener {
 	@Inject
 	private AuditCapturer auditCapturer;
+	@Inject
+	private AuditSequencer auditSequencer;
 	
 	public void onMessage(Message arg0) {
 		ObjectMessage message = (ObjectMessage) arg0;
 		try {
 			AbstractWorkUnit workUnit = (AbstractWorkUnit) message.getObject();
+			if (workUnit.getSequence()!=0 && !auditSequencer.contains(workUnit.getSequence()-1)) {
+				throw new IncorrectSequenceException();
+			}
+			auditSequencer.put(workUnit.getSequence());
 			auditCapturer.persistAudit(workUnit);
 		} catch (Exception e) {
 			e.printStackTrace();

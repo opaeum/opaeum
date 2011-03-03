@@ -105,6 +105,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 					complexType.getMappingInfo().getPersistentName().getAsIs());
 			ojClass.addAnnotationIfNew(discriminatorValue);
 		}
+		
+		ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
 		return ojClass;
 	}
 
@@ -127,12 +129,12 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked=new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("EntityManager em =(EntityManager)org.jboss.seam.Component.getInstance(\"entityManager\")");
+		ifMocked.getThenPart().addToStatements("Session session =(Session)net.sf.nakeduml.seam.Component.INSTANCE.getInstance(Session.class)");
 		ifMocked.getThenPart()
-				.addToStatements("return new HashSet(em.createQuery(\"from " + complexType.getName() + "\").getResultList())");
+				.addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
-		ojClass.addToImports(new OJPathName("javax.persistence.EntityManager"));
+		ojClass.addToImports(new OJPathName("org.hibernate.Session"));
 		ojClass.addToImports(new OJPathName("java.util.HashSet"));
 		OJPathName setExtends = new OJPathName("java.util.Set");
 		ojClass.addToImports(set.getDeepCopy());
@@ -363,5 +365,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		ifNotInstance.addToElsePart(ifIdNull);
 		ifIdNull.addToElsePart("return getId().equals(other.getId())");
 		equals.getBody().addToStatements(ifThis);
+	}
+	
+	public void addFilter() {
+		
 	}
 }
