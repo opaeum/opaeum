@@ -217,9 +217,9 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 								test.addToImports(map.javaBaseDefaultTypePath());
 
 								OJForStatement forMany = new OJForStatement(f.getMappingInfo().getJavaName().getDecapped().toString(), map.javaBaseTypePath(),
-										c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "()");
+										entity.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "()");
 
-								INakedProperty parent = c.getEndToComposite();
+								INakedProperty parent = entity.getEndToComposite();
 								NakedStructuralFeatureMap otherMap = null;
 								if (parent != null) {
 									otherMap = new NakedStructuralFeatureMap(parent.getOtherEnd());

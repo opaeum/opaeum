@@ -152,7 +152,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 					joinTable.putAttribute(inverseJoinColumns);
 					field.addAnnotationIfNew(joinTable);
 				}
-<<<<<<< HEAD
 			} else if (map.isOne() && !p.isInverse()) {
 				field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
 				addJoinColumns(p, field);
@@ -162,36 +161,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 				JpaUtil.fetchLazy(manyToOne);
 				field.addAnnotationIfNew(manyToOne);
 				addJoinColumns(p, field);
-=======
-			} else if (map.isOne()) {
-				if (map.getProperty().isInverse()) {
-					// OneToOne inverse not supported - other side results in a many
-					//
-					field.removeAnnotation(new OJPathName("javax.persistence.OneToOne"));
-					field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
-				} else {
-					field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
-					OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
-					OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-					OJAnnotationAttributeValue nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
-					nameAnnotationAttribute.addStringValue(p.getMappingInfo().getPersistentName().getWithoutId() + "_original_id");
-					joinColumn.putAttribute(nameAnnotationAttribute);
-					OJAnnotationAttributeValue referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
-					referencedAnnotationAttribute.addStringValue(getBaseTypeRoot(p).getMappingInfo().getPersistentName() + "_id");
-					joinColumn.putAttribute(referencedAnnotationAttribute);
-					joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", false));
-					joinColumns.addAnnotationValue(joinColumn);
-					joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-					nameAnnotationAttribute = new OJAnnotationAttributeValue("name");
-					nameAnnotationAttribute.addStringValue(p.getMappingInfo().getPersistentName().getWithoutId() + "_object_version");
-					joinColumn.putAttribute(nameAnnotationAttribute);
-					referencedAnnotationAttribute = new OJAnnotationAttributeValue("referencedColumnName");
-					referencedAnnotationAttribute.addStringValue("object_version");
-					joinColumn.putAttribute(referencedAnnotationAttribute);
-					joinColumns.addAnnotationValue(joinColumn);
-					field.addAnnotationIfNew(joinColumns);
-				}
->>>>>>> master
 			}
 		}
 	}
