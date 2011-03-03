@@ -6,6 +6,7 @@ import net.sf.nakeduml.util.BaseAuditable;
 
 import org.hibernate.event.EventSource;
 import org.hibernate.event.def.DefaultPersistEventListener;
+import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 
 public class PrePersistListener extends DefaultPersistEventListener {
 
@@ -20,7 +21,10 @@ public class PrePersistListener extends DefaultPersistEventListener {
 		if (entity instanceof BaseAuditable) {
 			BaseAuditable baseAuditable = (BaseAuditable) entity;
 			baseAuditable.defaultCreate();
-		}
+		} else if (entity instanceof ProcessInstanceInfo) {
+			ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;
+			processInstanceInfo.update();
+		}		
 		return super.saveWithRequestedId(entity, requestedId, entityName, anything, source);
 	}
 
@@ -29,8 +33,11 @@ public class PrePersistListener extends DefaultPersistEventListener {
 		if (entity instanceof BaseAuditable) {
 			BaseAuditable baseAuditable = (BaseAuditable) entity;
 			baseAuditable.defaultCreate();
-		}
-		return super.saveWithGeneratedId(entity, entityName, anything, source, requiresImmediateIdAccess);
+		} else if (entity instanceof ProcessInstanceInfo) {
+			ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;
+			processInstanceInfo.update();
+		}		
+		return super.saveWithGeneratedId(entity, entityName, anything, source, true);
 	}
 	
 }

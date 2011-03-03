@@ -1,4 +1,4 @@
-package net.sf.nakeduml.util;
+package net.sf.nakeduml.jbpm.obsolete;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +26,7 @@ public class HibernateProcessInstanceManager implements ProcessInstanceManager {
     public void addProcessInstance(ProcessInstance processInstance) {
         ProcessInstanceInfo processInstanceInfo = new ProcessInstanceInfo( processInstance, this.kruntime.getEnvironment() );
         Session session = (Session) this.kruntime.getEnvironment().get( EnvironmentName.CMD_SCOPED_ENTITY_MANAGER );
+//        processInstanceInfo.update();
         session.persist( processInstanceInfo );
         //em.refresh( processInstanceInfo  );
 //        em.flush();

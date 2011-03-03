@@ -18,6 +18,8 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -118,7 +120,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior b) {
-		if (b.isProcess()) {
+		if (b.isProcess() || (b instanceof INakedActivity && ((INakedActivity)b).getActivityKind()!= ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)) {
 			prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\""
 					+ b.getMappingInfo().getJavaPath() + ".rf\"), ResourceType.DRF)");
 		}

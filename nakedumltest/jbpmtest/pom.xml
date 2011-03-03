@@ -46,7 +46,9 @@
               <goal>add-test-source</goal>
             </goals>
             <configuration>
-              <sources><source>src/test/generated-java</source></sources>
+              <sources><source>src/test/generated-java</source>
+              <source>src/main/test</source>
+              </sources>
             </configuration>
           </execution>
           <execution>
@@ -380,37 +382,14 @@
       <version>2.1.RC1</version>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-      <version>${hibernate.version}</version>
-      <type>jar</type>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>antlr</artifactId>
-          <groupId>antlr</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>cglib</artifactId>
-          <groupId>cglib</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-collections</artifactId>
-          <groupId>commons-collections</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>dom4j</artifactId>
-          <groupId>dom4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>javassist</artifactId>
-          <groupId>javassist</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jta</artifactId>
-          <groupId>javax.transaction</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr</artifactId>
+      <version>3.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr-runtime</artifactId>
+      <version>3.2</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -449,11 +428,11 @@
   </dependencyManagement>
   <properties>
     <seam.solder.version>3.0.0.Beta1</seam.solder.version>
-    <drools.version>5.2.0-alpha1</drools.version>
+    <drools.version>5.2.0.M1</drools.version>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
     <jboss.domain>default</jboss.domain>
-    <jbpm.version>5.0-SNAPSHOT</jbpm.version>
+    <jbpm.version>5.1-SNAPSHOT</jbpm.version>
     <numl.version>1.0.0.5-SNAPSHOT</numl.version>
     <hibernate.version>3.6.0.Final</hibernate.version>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>

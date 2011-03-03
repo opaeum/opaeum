@@ -18,6 +18,7 @@
 		<seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
 		<seam.solder.version>3.0.0-SNAPSHOT</seam.solder.version>
 		<jbpm.version>5.1-SNAPSHOT</jbpm.version>
+		<drools.version>5.2.0.M1</drools.version>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
 
@@ -221,17 +222,17 @@
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-api</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-persistence-jpa</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>

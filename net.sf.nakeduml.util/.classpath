@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-bam"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-bpmn2"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-flow"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-flow-builder"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-human-task"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-persistence-jpa"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jbpm-workitems"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.1-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-persistence-jpa-5.1-SNAPSHOT.jar" sourcepath="/jbpm-persistence-jpa"/>
+	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.1-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mvel2-2.1.RC1.jar" sourcepath="/home/pieter/.m2/repository/org/mvel/mvel2/2.1.RC1/mvel2-2.1.RC1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-persistence-jpa-5.2.0.M1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-api-5.2.0.M1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-compiler-5.2.0.M1.jar" sourcepath="/home/pieter/.m2/repository/org/drools/drools-compiler/5.2.0.M1/drools-compiler-5.2.0.M1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/drools-core-5.2.0.M1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-impl-3.0.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/seam-persistence-impl-3.0.0-SNAPSHOT.jar" sourcepath="/seam-persistence-impl"/>
 	<classpathentry exported="true" kind="lib" path="lib/seam-solder-api-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb3-ext-api-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/arquillian-api-1.0.0.Alpha4.jar"/>
@@ -27,9 +24,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb-api_3.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-jms-api_1.1_spec-1.0.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jboss-logging-3.0.0.Beta4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-5.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-flow-builder-5.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jbpm-persistence-jpa-5.0-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/junit-4.8.2.jar" sourcepath="/home/pieter/.m2/repository/junit/junit/4.8.2/junit-4.8.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mail-1.4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-1.6.1.jar"/>

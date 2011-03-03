@@ -1,4 +1,4 @@
-package net.sf.nakeduml.util;
+package net.sf.nakeduml.jbpm.obsolete;
 
 import java.util.HashMap;
 import java.util.HashSet;

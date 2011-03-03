@@ -1,4 +1,4 @@
-package net.sf.nakeduml.util;
+package net.sf.nakeduml.jbpm.obsolete;
 
 import org.drools.common.InternalKnowledgeRuntime;
 import org.jbpm.process.instance.ProcessInstanceManager;

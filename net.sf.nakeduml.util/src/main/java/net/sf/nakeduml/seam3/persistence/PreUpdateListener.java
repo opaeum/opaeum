@@ -11,6 +11,7 @@ import org.hibernate.event.def.DefaultFlushEntityEventListener;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.type.Type;
+import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 
 public class PreUpdateListener extends DefaultFlushEntityEventListener {
 
@@ -19,9 +20,14 @@ public class PreUpdateListener extends DefaultFlushEntityEventListener {
 	@Override
 	protected boolean invokeInterceptor(SessionImplementor session, Object entity, EntityEntry entry, Object[] values, EntityPersister persister) {
 		boolean isDirty = false;
-		if (entry.getStatus() != Status.DELETED && entity instanceof BaseAuditable) {
-			BaseAuditable baseAuditable = (BaseAuditable) entity;
-			baseAuditable.defaultUpdate();
+		if (entry.getStatus() != Status.DELETED) {
+			if (entity instanceof BaseAuditable) {
+				BaseAuditable baseAuditable = (BaseAuditable) entity;
+				baseAuditable.defaultUpdate();
+			} else if (entity instanceof ProcessInstanceInfo) {
+				ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;
+				processInstanceInfo.update();
+			}
 			isDirty = copyState(entity, persister.getPropertyTypes(), values, session.getFactory());
 		}
 		return super.invokeInterceptor(session, entity, entry, values, persister) || isDirty;

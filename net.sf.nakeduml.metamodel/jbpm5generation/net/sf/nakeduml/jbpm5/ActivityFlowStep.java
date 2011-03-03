@@ -168,7 +168,7 @@ public class ActivityFlowStep extends FlowGenerationStep {
 		int startNodeId = container.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID;
 		addInitialNode(nodesType, i, "artificial_start_for_" + container.getMappingInfo().getPersistentName().getAsIs(), startNodeId);
 		i++;
-		if (container instanceof INakedActivity) {
+		if (container instanceof INakedActivity && ((INakedActivity) container).isProcess()) {
 			ActionNodeType actionNode = ProcessFactory.eINSTANCE.createActionNodeType();
 			int initNodeId = container.getMappingInfo().getNakedUmlId() + INIT_NODE_ID;
 			setBounds(i, actionNode, initNodeId);
