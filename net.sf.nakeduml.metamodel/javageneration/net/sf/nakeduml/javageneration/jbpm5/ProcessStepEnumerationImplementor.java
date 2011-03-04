@@ -22,7 +22,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.util.AbstractProcessStep;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {

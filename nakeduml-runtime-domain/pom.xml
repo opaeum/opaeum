@@ -15,9 +15,9 @@
 	<url>http://github.com/nakeduml</url>
 
 	<properties>
-		<seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-		<jbpm.version>5.0-SNAPSHOT</jbpm.version>
-	    <arquillian.version>1.0.0.Alpha4</arquillian.version>
+		<jbpm.version>5.0.0</jbpm.version>
+		<drools.version>5.2.0.M1</drools.version>
+	      <arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
 
 	<build>
@@ -63,6 +63,14 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-flow</artifactId>
 			<version>${jbpm.version}</version>
@@ -75,12 +83,12 @@
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-api</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>

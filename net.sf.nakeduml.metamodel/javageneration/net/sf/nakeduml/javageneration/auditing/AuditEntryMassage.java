@@ -54,7 +54,7 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.util.AbstractEntity;
 import net.sf.nakeduml.util.AbstractSignal;
 

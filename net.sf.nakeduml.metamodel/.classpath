@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cdi-api-1.0-SP4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsf-api-1.2_13.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-io-1.3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

@@ -1,5 +1,4 @@
 package net.sf.nakeduml.metamodel.name;
-import net.sf.nakeduml.name.NameConverter;
 public class PluralNameWrapper extends NameWrapper {
 	private static final long serialVersionUID = 170346098L;
 	String singular;

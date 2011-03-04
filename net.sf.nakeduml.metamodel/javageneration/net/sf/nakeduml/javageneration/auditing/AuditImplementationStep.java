@@ -3,15 +3,12 @@ package net.sf.nakeduml.javageneration.auditing;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.ejb.FinderException;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
-import net.sf.nakeduml.javametamodel.generated.OJPackageGEN;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = AuditGenerationPhase.class, requires = {})

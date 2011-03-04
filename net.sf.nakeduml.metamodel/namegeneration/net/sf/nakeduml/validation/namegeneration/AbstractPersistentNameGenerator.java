@@ -6,10 +6,10 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
-import net.sf.nakeduml.name.NameConverter;
 public abstract class AbstractPersistentNameGenerator extends AbstractNameGenerator {
 	protected final String generateQualifiedPersistentName(INakedElement nme) {
 		if (nme instanceof INakedState) {

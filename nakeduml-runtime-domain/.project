@@ -1,6 +1,6 @@
 <projectDescription>
   <name>nakeduml-runtime-domain</name>
-  <comment>Utility Domain classes for NakedUml. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <comment>Runtime for NakedUml Domain projects. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
   <projects/>
   <buildSpec>
     <buildCommand>

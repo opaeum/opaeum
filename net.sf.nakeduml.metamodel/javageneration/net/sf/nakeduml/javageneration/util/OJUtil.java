@@ -33,7 +33,7 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IAssociationClass;
 import nl.klasse.octopus.model.IAssociationEnd;

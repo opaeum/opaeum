@@ -15,9 +15,11 @@
 	<url>http://github.com/nakeduml</url>
 
 	<properties>
-		<seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-		<jbpm.version>5.0-SNAPSHOT</jbpm.version>
-	    <arquillian.version>1.0.0.Alpha4</arquillian.version>
+		<seam.persistence.version>3.0.0.CR1</seam.persistence.version>
+		<seam.solder.version>3.0.0.Beta1</seam.solder.version>
+		<jbpm.version>5.0.0</jbpm.version>
+		<drools.version>5.2.0.M1</drools.version>
+		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
 
 	<build>
@@ -29,6 +31,37 @@
 				<configuration>
 					<ejbVersion>3.0</ejbVersion>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/test</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -58,9 +91,29 @@
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.7</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-runtime-domain</artifactId>
+			<version>1.0.0.5-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
@@ -85,7 +138,7 @@
 			<version>1.1.1</version>
 			<type>jar</type>
 			<scope>provided</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -101,6 +154,18 @@
 			<groupId>org.jboss.seam.persistence</groupId>
 			<artifactId>seam-persistence-impl</artifactId>
 			<version>${seam.persistence.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.solder</groupId>
+			<artifactId>seam-solder-api</artifactId>
+			<version>${seam.solder.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.solder</groupId>
+			<artifactId>seam-solder-impl</artifactId>
+			<version>${seam.solder.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -153,7 +218,7 @@
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-persistence-jpa</artifactId>
-			<version>5.2.0-alpha1</version>
+			<version>${drools.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
@@ -190,7 +255,7 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>3.6.0.Final</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.arquillian</groupId>

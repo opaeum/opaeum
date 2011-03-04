@@ -10,7 +10,7 @@ import java.util.jar.JarFile;
 
 import net.sf.nakeduml.emf.extraction.EmfExtractionPhase;
 import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;

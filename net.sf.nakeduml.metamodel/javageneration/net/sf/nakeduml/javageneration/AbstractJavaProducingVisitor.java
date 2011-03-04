@@ -60,7 +60,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		super.visitRecursively(o);
 	}
 
-	public TextFile createTextPath(OJClassifier c, JavaTextSource.OutputRootId id) {
+	public TextFile createTextPath(OJClassifier c, Enum<?> id) {
 		OutputRoot outputRoot = config.getOutputRoot(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = c.getPathName().getHead().getNames();

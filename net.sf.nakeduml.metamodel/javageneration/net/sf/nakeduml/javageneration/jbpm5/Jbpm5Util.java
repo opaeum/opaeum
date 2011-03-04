@@ -7,20 +7,13 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
-import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.name.NameWrapper;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
-import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
-import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
-import net.sf.nakeduml.seam.TimeEventDispatcher;
 import net.sf.nakeduml.util.TimeUnit;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class Jbpm5Util {
 	public static String stepLiteralName(INakedElement s) {
@@ -60,7 +53,7 @@ public class Jbpm5Util {
 			Collection<? extends GuardedFlow> outgoing) {
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		for (GuardedFlow out : outgoing) {
-			owner.addToImports(TimeEventDispatcher.class.getName());
+			owner.addToImports("net.sf.nakeduml.seam.TimeEventDispatcher");
 			INakedValueSpecification when = event.getWhen();
 			if (when != null) {
 				String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), when.getType());

@@ -18,7 +18,7 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 
 public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
