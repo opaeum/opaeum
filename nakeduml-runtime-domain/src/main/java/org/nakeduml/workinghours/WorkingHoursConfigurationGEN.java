@@ -8,9 +8,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.util.AbstractEntity;
-import net.sf.nakeduml.util.AbstractProcess;
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.CompositionNode;
+
 abstract public class WorkingHoursConfigurationGEN implements  AbstractEntity, CompositionNode {
 	private int f_businessDaysPerMonth = 0;
 	private int f_businessHoursPerWeek = 0;

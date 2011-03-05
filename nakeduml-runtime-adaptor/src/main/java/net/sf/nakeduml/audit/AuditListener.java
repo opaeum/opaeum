@@ -1,14 +1,7 @@
 package net.sf.nakeduml.audit;
 
-import net.sf.nakeduml.util.Auditable;
-import net.sf.nakeduml.util.Audited;
-import net.sf.nakeduml.util.RevisionType;
-
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.engine.EntityEntry;
-import org.hibernate.engine.SessionImplementor;
-import org.hibernate.engine.Status;
 import org.hibernate.event.EventSource;
 import org.hibernate.event.FlushEvent;
 import org.hibernate.event.FlushEventListener;
@@ -18,7 +11,9 @@ import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
-import org.hibernate.persister.entity.EntityPersister;
+import org.nakeduml.runtime.domain.Auditable;
+import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.RevisionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

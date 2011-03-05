@@ -2,7 +2,8 @@ package net.sf.nakeduml.userinteractionmetamodel;
 
 import net.sf.nakeduml.domainmetamodel.DomainTypedElement;
 import net.sf.nakeduml.domainmetamodel.SecurityOnUserAction;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
 
 abstract public class TypedElementParticipation extends Participation implements CompositionNode {
 	private SecurityOnUserAction additionalSecurityOnView;

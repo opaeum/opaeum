@@ -1,7 +1,8 @@
 package net.sf.nakeduml.userinteractionmetamodel;
 
 import net.sf.nakeduml.domainmetamodel.SecurityOnUserAction;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
 
 public class TypedElementField extends TypedElementParticipation implements CompositionNode {
 	private LookupKind lookupKind;

@@ -21,20 +21,13 @@ import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureIm
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
-import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
-import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -44,7 +37,6 @@ import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
 public class AttributeImplementor extends StereotypeAnnotator {
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
@@ -159,16 +151,8 @@ public class AttributeImplementor extends StereotypeAnnotator {
 				getter.setBody(new OJBlock());
 				if (p.getNakedBaseType().hasTaggedValue(StereotypeNames.HELPER, "name")) {
 					String name = p.getNakedBaseType().getTaggedValue(StereotypeNames.HELPER, "name");
-					OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null");
-					OJIfStatement ifContextsActive = new OJIfStatement("org.jboss.seam.contexts.Contexts.isEventContextActive()",
-							map.umlName() + "=(" + map.javaBaseType() + ")org.jboss.seam.Component.getInstance(\"" + name + "\")");
-					ifNull.getThenPart().addToStatements(ifContextsActive);
-					ifContextsActive.setElsePart(new OJBlock());
-					if (map.getProperty().getBaseType() instanceof INakedInterface) {
-						ifContextsActive.getElsePart().addToStatements( "throw new IllegalStateException(\"Interface based helpers need to be set explicitly\")");
-					} else {
-						ifContextsActive.getElsePart().addToStatements(map.umlName() + "= new " + map.javaBaseType() + "()");
-					}
+					OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
+							+ ")org.nakeduml.environment.Environment.getInstance().getComponent(" + map.javaTypePath() + ".class)");
 					getter.getBody().addToStatements(ifNull);
 					getter.getBody().addToStatements("return " + map.umlName());
 					owner.addToImports(map.javaBaseTypePath());

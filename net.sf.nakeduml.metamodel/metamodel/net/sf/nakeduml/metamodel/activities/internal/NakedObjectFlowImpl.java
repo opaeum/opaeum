@@ -1,9 +1,11 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 
+import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 
@@ -59,5 +61,21 @@ public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INaked
 		} else {
 			return getSource();
 		}
+	}
+
+	@Override
+	public INakedObjectNode getOriginatingObjectNode() {
+		if(getSource() instanceof INakedObjectNode){
+			return (INakedObjectNode) getSource();
+		}else{
+			for (INakedActivityEdge edge : getSource().getAllEffectiveIncoming()) {
+				if(edge instanceof INakedObjectFlow){
+					//TODO add validation for cases where multilple flows of different types are present 
+					//TODO add validation for cases no incoming object flows are present 
+					return ((INakedObjectFlow) edge).getOriginatingObjectNode();
+				}
+			}
+		}
+		return null;
 	}
 }

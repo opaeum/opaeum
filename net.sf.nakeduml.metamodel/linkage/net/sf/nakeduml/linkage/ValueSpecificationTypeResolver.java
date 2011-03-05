@@ -10,7 +10,6 @@ import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
 @StepDependency(phase = LinkagePhase.class, requires = { TypeResolver.class }, after = { TypeResolver.class })
 public class ValueSpecificationTypeResolver extends AbstractModelElementLinker {

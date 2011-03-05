@@ -2,11 +2,10 @@ package net.sf.nakeduml.seam3.persistence;
 
 import java.io.Serializable;
 
-import net.sf.nakeduml.util.BaseAuditable;
-
 import org.hibernate.event.EventSource;
 import org.hibernate.event.def.DefaultPersistEventListener;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
+import org.nakeduml.runtime.domain.BaseAuditable;
 
 public class PrePersistListener extends DefaultPersistEventListener {
 

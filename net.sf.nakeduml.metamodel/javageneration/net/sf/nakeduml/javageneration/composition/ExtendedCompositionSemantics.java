@@ -1,7 +1,5 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import org.apache.commons.lang.time.StopWatch;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
@@ -11,6 +9,8 @@ import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.linkage.SourcePopulationResolver;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.pomgeneration.Seam3PomStep;
+
+import org.apache.commons.lang.time.StopWatch;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {BasicJavaModelStep.class,OclExpressionExecution.class,SourcePopulationResolver.class,Seam3PomStep.class},after = {BasicJavaModelStep.class,
 		OclExpressionExecution.class})

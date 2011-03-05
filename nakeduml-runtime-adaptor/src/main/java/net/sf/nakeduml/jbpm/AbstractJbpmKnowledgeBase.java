@@ -1,10 +1,5 @@
 package net.sf.nakeduml.jbpm;
 
-import net.sf.nakeduml.jbpmstatemachine.Uml2EndStateInstance;
-import net.sf.nakeduml.jbpmstatemachine.Uml2JoinInstance;
-import net.sf.nakeduml.jbpmstatemachine.Uml2StateInstance;
-import net.sf.nakeduml.jbpmstatemachine.UmlProcessMarshaller;
-
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
@@ -22,6 +17,10 @@ import org.jbpm.workflow.core.node.StateNode;
 import org.jbpm.workflow.instance.impl.NodeInstanceFactoryRegistry;
 import org.jbpm.workflow.instance.impl.factory.CreateNewNodeFactory;
 import org.jbpm.workflow.instance.impl.factory.ReuseNodeFactory;
+import org.nakeduml.jbpm.domain.Uml2EndStateInstance;
+import org.nakeduml.jbpm.domain.Uml2JoinInstance;
+import org.nakeduml.jbpm.domain.Uml2StateInstance;
+import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
 
 public abstract class AbstractJbpmKnowledgeBase {
 	private KnowledgeBase knowledgeBase;

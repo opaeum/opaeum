@@ -1,5 +1,7 @@
 package net.sf.nakeduml.validation.namegeneration;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
@@ -25,7 +27,6 @@ import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;

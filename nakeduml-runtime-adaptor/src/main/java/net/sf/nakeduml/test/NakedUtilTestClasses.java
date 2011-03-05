@@ -6,10 +6,11 @@ import java.util.List;
 
 import net.sf.nakeduml.audit.AuditSyncManager;
 import net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase;
-import net.sf.nakeduml.jbpmstatemachine.UmlProcessMarshaller;
 import net.sf.nakeduml.seam.Component;
 import net.sf.nakeduml.seam3.persistence.InitializeHibernate;
-import net.sf.nakeduml.util.AbstractEntity;
+
+import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
+import org.nakeduml.runtime.domain.AbstractEntity;
 
 public class NakedUtilTestClasses {
 

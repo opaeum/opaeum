@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.annotation.UserInteractionKind;
+import org.nakeduml.annotation.UserInteractionKind;
+
 public class UIMEntity extends UIMClassifier implements Serializable {
 	private static final long serialVersionUID = 3937749529683117688L;
 	private SecureUserAction securityOnAudit = new SecureUserAction();

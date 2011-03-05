@@ -16,8 +16,6 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
-import org.testng.internal.annotations.AnnotationHelper;
-
 /**
  * This class optimses one-to-one relationships by implementing the inverse end as a singleton list. When using Hibernate for persistence,
  * this is needed to ensure that Hibernate resolves the entity from the cache

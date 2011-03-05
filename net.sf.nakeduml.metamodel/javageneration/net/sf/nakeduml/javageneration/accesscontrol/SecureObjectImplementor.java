@@ -16,10 +16,11 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.util.AbstractUser;
-import net.sf.nakeduml.util.AbstractUserRole;
-import net.sf.nakeduml.util.CompositionNode;
-import net.sf.nakeduml.util.SecureObject;
+
+import org.nakeduml.runtime.domain.AbstractUser;
+import org.nakeduml.runtime.domain.AbstractUserRole;
+import org.nakeduml.runtime.domain.CompositionNode;
+import org.nakeduml.runtime.domain.SecureObject;
 
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	

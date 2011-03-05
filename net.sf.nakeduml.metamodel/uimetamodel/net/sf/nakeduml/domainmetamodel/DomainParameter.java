@@ -1,6 +1,6 @@
 package net.sf.nakeduml.domainmetamodel;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
 
 public class DomainParameter extends DomainTypedElement implements CompositionNode {
 	private ParameterDirection direction;

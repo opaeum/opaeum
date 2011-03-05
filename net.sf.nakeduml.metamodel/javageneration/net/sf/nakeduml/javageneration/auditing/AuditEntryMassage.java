@@ -54,12 +54,16 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.name.NameConverter;
-import net.sf.nakeduml.util.AbstractEntity;
-import net.sf.nakeduml.util.AbstractSignal;
+
+import org.nakeduml.name.NameConverter;
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.AuditId;
+import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.RevisionEntity;
+import org.nakeduml.runtime.domain.RevisionType;
 
 public class AuditEntryMassage extends AbstractJavaProducingVisitor {
-	public static final String AUDIT_ID_USER_TYPE = "net.sf.nakeduml.util.AuditIdUserType";
 	private Map<String, OJPathName> classPathNames;
 
 	public static final class ClassCollector extends AbstractJavaProducingVisitor {
@@ -79,7 +83,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 		}
 
 		private boolean isInNakedUmlUtil(INakedClassifier p) {
-			return (p.getMappingInfo().getQualifiedJavaName().startsWith(AbstractSignal.class.getPackage().getName()));
+			String qjn = p.getMappingInfo().getQualifiedJavaName();
+			return qjn.startsWith(AbstractSignal.class.getPackage().getName());
 		}
 	}
 
@@ -334,11 +339,11 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 						params.add(new OJPathName("int"));
 						auditClass.removeFromOperations(auditClass.findOperation("setObjectVersion", params));
 						// Add auditedId field
-						OJUtil.addProperty(auditClass, "id", new OJPathName("net.sf.nakeduml.util.AuditId"), true);
+						OJUtil.addProperty(auditClass, "id", new OJPathName(AuditId.class.getName()), true);
 						annotateEmbeddedId(c, auditClass);
 					}
 					// Add Audited
-					auditClass.addToImplementedInterfaces(new OJPathName("net.sf.nakeduml.util.Audited"));
+					auditClass.addToImplementedInterfaces(new OJPathName(Audited.class.getName()));
 					// Fix toOne join columns to reference 2 columns, id and
 					// objectVersion
 					// fixToOneJoinColumns(c, auditClass);
@@ -501,7 +506,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 		c.addToOperations(setter);
 		setter = new OJAnnotatedOperation();
 		setter.setName("setPreviousVersion");
-		OJPathName auditedPathName = new OJPathName("net.sf.nakeduml.util.Audited");
+		OJPathName auditedPathName = new OJPathName(Audited.class.getName());
 		setter.addParam("previousVersion", auditedPathName);
 		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
 		setter.setStatic(false);
@@ -594,7 +599,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 	}
 
 	private void addShallowCopy(INakedClassifier classifier, OJAnnotatedClass c) {
-		c.addToImports(new OJPathName("net.sf.nakeduml.util.AuditId"));
+		c.addToImports(new OJPathName(AuditId.class.getName()));
 		OJOperation oper = new OJAnnotatedOperation();
 		oper.setVisibility(OJVisibilityKindGEN.PUBLIC);
 		oper.setName("copyShallowState");
@@ -692,7 +697,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 		OJAnnotatedOperation originalForAbstractEntity = new OJAnnotatedOperation();
 		originalForAbstractEntity.setName("setOriginal");
 		originalForAbstractEntity.addParam(NameConverter.decapitalize(auditClassName),
-				new OJPathName("net.sf.nakeduml.util.AbstractEntity"));
+				new OJPathName(AbstractEntity.class.getName()));
 		originalForAbstractEntity.getBody().addToStatements(
 				"setOriginal((" + umlClass.getMappingInfo().getJavaName() + ") " + NameConverter.decapitalize(auditClassName) + ")");
 		javaClass.addToOperations(originalForAbstractEntity);
@@ -700,7 +705,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 
 	private void addRevisionField(OJAnnotatedClass c) {
 		OJAnnotatedField revision = new OJAnnotatedField();
-		OJPathName revisionPath = new OJPathName("net.sf.nakeduml.util.RevisionEntity");
+		OJPathName revisionPath = new OJPathName(RevisionEntity.class.getName());
 		revision.setType(revisionPath);
 		revision.setName("revision");
 		revision.setOwner(c);
@@ -725,7 +730,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 
 	private void addRevisionTypeField(OJAnnotatedClass c) {
 		OJAnnotatedField revisionType = new OJAnnotatedField();
-		OJPathName revisionPath = new OJPathName("net.sf.nakeduml.util.RevisionType");
+		OJPathName revisionPath = new OJPathName(RevisionType.class.getName());
 		revisionType.setType(revisionPath);
 		revisionType.setName("revisionType");
 		revisionType.setOwner(c);

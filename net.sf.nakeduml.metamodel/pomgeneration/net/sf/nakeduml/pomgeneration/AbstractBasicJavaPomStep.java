@@ -3,12 +3,11 @@ package net.sf.nakeduml.pomgeneration;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.POMFactory;
-
-import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import nl.klasse.octopus.model.IImportedElement;
+
+import org.apache.maven.pom.Dependency;
+import org.apache.maven.pom.POMFactory;
 
 public abstract class AbstractBasicJavaPomStep extends PomGenerationStep {
 
@@ -23,7 +22,7 @@ public abstract class AbstractBasicJavaPomStep extends PomGenerationStep {
 		result.add(jMock);
 		Dependency jMockLegacy = POMFactory.eINSTANCE.createDependency();
 		jMockLegacy.setGroupId("org.jmock");
-		jMockLegacy.setArtifactId("jmock-egacy");
+		jMockLegacy.setArtifactId("jmock-legacy");
 		jMockLegacy.setVersion("2.5.1");
 		jMockLegacy.setScope("test");
 		jMockLegacy.setType("jar");

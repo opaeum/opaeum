@@ -3,7 +3,8 @@ package net.sf.nakeduml.userinteractionmetamodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
+
 
 public class UserInteractionFolder extends AbstractUserInteractionFolder implements CompositionNode {
 	private AbstractUserInteractionFolder parentFolder;

@@ -1,7 +1,5 @@
 package net.sf.nakeduml.tests;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;

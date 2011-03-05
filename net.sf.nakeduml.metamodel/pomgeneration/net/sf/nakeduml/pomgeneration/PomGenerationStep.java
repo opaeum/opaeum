@@ -42,9 +42,9 @@ public abstract class PomGenerationStep implements TransformationStep {
 		return this.getExampleTargetDir().useWorkspaceName();
 	}
 
-	public String getProjectName() {
+	public final String getProjectName() {
 		if (useWorkspaceName()) {
-			return this.workspace.getName() + getExampleTargetDir().getProjectSuffix();
+			return this.workspace.getDirectoryName() + getExampleTargetDir().getProjectSuffix();
 		} else {
 			return this.model.getFileName() + getExampleTargetDir().getProjectSuffix();
 		}

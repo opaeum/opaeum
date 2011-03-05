@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
-
 /**
  * This class will become the entry point for the entire transformation process
  * 
@@ -23,6 +21,7 @@ public class TransformationProcess {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void execute(NakedUmlConfig config, Object sourceModel, Set<Class<? extends TransformationStep>> proposedStepClasses) {
+		actualClasses=new HashSet<Class<? extends TransformationStep>>();
 		replaceModels(sourceModel);
 		Phases phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);

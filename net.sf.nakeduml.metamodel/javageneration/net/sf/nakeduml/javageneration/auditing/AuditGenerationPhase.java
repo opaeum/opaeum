@@ -9,7 +9,6 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;

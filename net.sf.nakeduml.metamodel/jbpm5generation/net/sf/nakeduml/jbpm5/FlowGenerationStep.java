@@ -107,7 +107,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		return root;
 	}
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentModelOrProfile
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentModelOrProfile
 				.getFileName();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());

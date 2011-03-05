@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
+
 
 public class DomainEntity extends DomainClassifier implements CompositionNode {
 	private Set<DomainOperation> operation = new HashSet<DomainOperation>();

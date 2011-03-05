@@ -11,13 +11,12 @@ import java.util.LinkedList;
 import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
 
-import net.sf.nakeduml.util.AbstractEntity;
-import net.sf.nakeduml.util.AuditId;
-import net.sf.nakeduml.util.Audited;
-import net.sf.nakeduml.util.RevisionEntity;
-
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AuditId;
+import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.RevisionEntity;
 
 @TransactionAttribute
 public class AuditCapturer {

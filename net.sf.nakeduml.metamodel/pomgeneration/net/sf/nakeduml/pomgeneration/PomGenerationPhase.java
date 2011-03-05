@@ -4,10 +4,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -16,6 +16,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
@@ -35,9 +36,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 
-@PhaseDependency(after = { JavaTransformationPhase.class }, before = { FileGenerationPhase.class })
+@PhaseDependency(after = { JavaTransformationPhase.class,FlowGenerationPhase.class }, before = { FileGenerationPhase.class })
 public class PomGenerationPhase implements TransformationPhase<PomGenerationStep> {
 	@InputModel
 	private INakedModelWorkspace workspace;
@@ -46,12 +49,13 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private NakedUmlConfig config;
 	private Map<String, DocumentRoot> rootMap = new HashMap<String, DocumentRoot>();
 	DocumentRoot parentPom;
+	public static final String NUML_VERSION = "1.0.0.5-SNAPSHOT";
 
 	@Override
 	public void initialize(NakedUmlConfig config) {
 		this.config = config;
 		if (config.generateMavenPoms()) {
-			parentPom = buildPomRoot(config.getOutputRoot(), workspace.getName(), "pom");
+			parentPom = buildPomRoot(config.getOutputRoot(), workspace.getDirectoryName(), "pom", true);
 			Plugin compiler = POMFactory.eINSTANCE.createPlugin();
 			compiler.setGroupId("org.apache.maven.plugins");
 			compiler.setArtifactId("maven-compiler-plugin");
@@ -86,7 +90,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			for (PomGenerationStep step : features) {
 				step.initialize(config, workspace);
 				if (step.getExampleTargetDir().useWorkspaceName()) {
-					String prefix = workspace.getName();
+					String prefix = workspace.getDirectoryName();
 					DocumentRoot root = getRoot(step, prefix);
 					updatePom(step, root);
 				} else {
@@ -99,11 +103,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				}
 			}
 		}
-		try {
-			this.parentPom.eResource().save(Collections.emptyMap());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		for (DocumentRoot documentRoot : this.rootMap.values()) {
+			outputToFile(documentRoot);
 		}
+		outputToFile(parentPom);
 		return new Object[0];
 	}
 
@@ -112,22 +115,24 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		DocumentRoot root = rootMap.get(projectName);
 		if (root == null) {
 			File projectRoot = new File(config.getOutputRoot(), projectName);
-			root = buildPomRoot(projectRoot, step.getProjectName(), step.getPackaging());
+			root = buildPomRoot(projectRoot, step.getProjectName(), step.getPackaging(),false);
 			this.rootMap.put(projectName, root);
 		}
 		return root;
 	}
 
-	private DocumentRoot buildPomRoot(File projectRoot, String projectName, String packaging) {
+	private DocumentRoot buildPomRoot(File projectRoot, String projectName, String packaging, boolean load) {
 		DocumentRoot root;
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
 				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new POMResourceFactoryImpl());
 		resourceSet.getPackageRegistry().put(POMPackage.eNS_URI, POMPackage.eINSTANCE);
 		Resource r = null;
-		try {
-			r = resourceSet.getResource(URI.createFileURI(projectRoot.getAbsolutePath() + "/pom.xml"), true);
-		} catch (Exception e) {
+		if (load) {
+			try {
+				r = resourceSet.getResource(URI.createFileURI(projectRoot.getAbsolutePath()		 + "/pom.xml"), true);
+			} catch (Exception e) {
+			}
 		}
 		if (r == null) {
 			r = resourceSet.createResource(URI.createFileURI(projectRoot.getAbsolutePath() + "/pom.xml"));
@@ -157,11 +162,13 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			PomUtil.populatePropertiesFrom(parentPom.getProject(), step.getParentPomProperties());
 			PomUtil.populatePropertiesFrom(root.getProject(), step.getProperties());
 			PomUtil.createModuleIfNew(parentPom, step.getProjectName());
+			Properties props = new Properties();
+			props.put(workspace.getDirectoryName() + ".version", config.getMavenGroupVersion());
+			PomUtil.populatePropertiesFrom(parentPom.getProject(), props);
 			createParent(step, root);
 			createDependencies(step, root);
 			createPlugins(step, root);
 			createProfile(step, root);
-			outputToFile(root);
 			updateSourceFolders(root, tp);
 		}
 	}
@@ -205,22 +212,29 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 	}
 
-
 	private void createParent(PomGenerationStep step, DocumentRoot root) {
 		if (root.getProject().getParent() == null) {
 			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 		}
 		root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 		root.getProject().getParent().setGroupId(config.getMavenGroupId());
-		root.getProject().getParent().setArtifactId(workspace.getName());
+		root.getProject().getParent().setArtifactId(workspace.getDirectoryName());
 		root.getProject().getParent().setVersion(config.getMavenGroupVersion());
 	}
 
 	private void outputToFile(DocumentRoot root) {
 		try {
+			File pomFile = new File(root.eResource().getURI().toFileString());
+			if (pomFile.exists()) {
+				pomFile.delete();
+			}
+			Map<Object, Object> options = new HashMap<Object, Object>();
+			options.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+			options.put(XMLResource.OPTION_SAVE_ONLY_IF_CHANGED, Boolean.FALSE);
+			options.put(XMLResource.SCHEMA_LOCATION, "http://maven.apache.org/xsd/maven-4.0.0.xsd");
 			// TODO create text resource
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			root.eResource().save(baos, null);
+			root.eResource().save(baos, options);
 			String s = new String(baos.toByteArray());
 			s = s.replaceAll("pom:", "");
 			s = s.replaceAll(":pom", "");
@@ -263,6 +277,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				Dependency childDependency = POMFactory.eINSTANCE.createDependency();
 				childDependency.setArtifactId(newDep.getArtifactId());
 				childDependency.setGroupId(newDep.getGroupId());
+				if ("pom".equals(newDep.getType())) {
+					childDependency.setType("pom");
+					childDependency.setVersion(newDep.getVersion());
+				}
 				root.getProject().getDependencies().getDependency().add(childDependency);
 			}
 			if (PomUtil.isNewDepedencyManagement(parentPom, newDep)) {

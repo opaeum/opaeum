@@ -2,9 +2,9 @@ package net.sf.nakeduml.seam;
 
 import java.io.Serializable;
 
-import net.sf.nakeduml.util.AbstractEntity;
-import net.sf.nakeduml.util.AbstractProcess;
-import net.sf.nakeduml.util.IntrospectionUtil;
+
+import org.nakeduml.runtime.adaptor.IntrospectionUtil;
+import org.nakeduml.runtime.domain.AbstractEntity;
 
 public class TimeEvent implements Serializable {
 	private static final long serialVersionUID = 1859791139038182369L;

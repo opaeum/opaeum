@@ -4,7 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.domainmetamodel.DomainElement;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
+
 import util.Stdlib;
 
 public class UserInteractionElement implements CompositionNode {

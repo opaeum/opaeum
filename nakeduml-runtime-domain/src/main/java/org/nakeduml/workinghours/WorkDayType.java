@@ -1,6 +1,6 @@
 package org.nakeduml.workinghours;
-import net.sf.nakeduml.util.AbstractEnum;
-import net.sf.nakeduml.util.MetaIdentifiable;
+import org.nakeduml.runtime.domain.AbstractEnum;
+import org.nakeduml.runtime.domain.MetaIdentifiable;
 public class WorkDayType implements MetaIdentifiable, AbstractEnum {
 	/**
 	 * 

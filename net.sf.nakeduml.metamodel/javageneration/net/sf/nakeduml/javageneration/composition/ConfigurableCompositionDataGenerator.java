@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
@@ -20,7 +21,6 @@ import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJParameter;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJSimpleStatement;
@@ -29,21 +29,15 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
-import net.sf.nakeduml.javametamodel.annotation.OJEnum;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedHelperClass;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.name.NameConverter;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
-import nl.klasse.octopus.model.IEnumLiteral;
 import nl.klasse.octopus.model.IEnumerationType;
 
 public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenerator {
@@ -104,7 +98,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 	private void addPropertyUtil(OJAnnotatedClass testDataClass) {
 		OJAnnotatedField propertyUtil = new OJAnnotatedField();
 		propertyUtil.setName("dataGeneratorProperty");
-		propertyUtil.setType(new OJPathName("net.sf.nakeduml.util.DataGeneratorProperty"));
+		propertyUtil.setType(new OJPathName("org.nakeduml.runtime.adaptor.DataGeneratorProperty"));
 		OJAnnotationValue in = new OJAnnotationValue(new OJPathName("javax.inject.Inject"));
 		propertyUtil.putAnnotation(in);
 		testDataClass.addToFields(propertyUtil);

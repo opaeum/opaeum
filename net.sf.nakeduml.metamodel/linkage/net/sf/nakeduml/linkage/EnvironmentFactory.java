@@ -27,7 +27,6 @@ import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.metamodel.workspace.MappedTypes;
 import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IClassifier;
@@ -84,7 +83,6 @@ public class EnvironmentFactory {
 		return env;
 	}
 
-
 	public Environment prepareBehaviorEnvironment(INakedElement element, INakedBehavior owningBehavior) {
 		Environment env;
 		if (isContextObjectApplicable(owningBehavior)) {
@@ -98,18 +96,19 @@ public class EnvironmentFactory {
 			if (BehaviorUtil.hasExecutionInstance(owningBehavior)) {
 				env.addElement("this",
 						new VariableDeclaration("this", new ActivityVariableContext(owningBehavior, element, owningBehavior)), true);
-				addActivityStructureAsLocalContext(env, element,false);
+				addActivityStructureAsLocalContext(env, element, false);
 			} else {
-				addActivityStructureAsLocalContext(env, element,true);
+				addActivityStructureAsLocalContext(env, element, true);
 			}
 		} else {
 			// Simple Synchronous methods
 			env = createPreEnvironment(owningBehavior.getContext(), element);
 			addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
-			addActivityStructureAsLocalContext(env, element,true);
+			addActivityStructureAsLocalContext(env, element, true);
 		}
 		return env;
 	}
+
 	public void addFlowParameters(Environment env, GuardedFlow edge) {
 		if (edge instanceof INakedTransition) {
 			List<? extends INakedTypedElement> parameters = ((INakedTransition) edge).getParameters();
@@ -117,11 +116,14 @@ public class EnvironmentFactory {
 				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
 			}
 		} else if (edge instanceof INakedObjectFlow) {
-			//TODO won't work for object flows traversing control nodes 
-			INakedObjectNode source = (INakedObjectNode) ((INakedObjectFlow) edge).getSource();
-			env.addElement(source.getName(), new VariableDeclaration(source.getName(), source.getType()), false);
+			INakedObjectFlow objectFlow = (INakedObjectFlow) edge;
+			INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
+			if (origin != null) {
+				env.addElement(origin.getName(), new VariableDeclaration(origin.getName(), origin.getType()), false);
+			}
 		}
 	}
+
 	public void addPostEnvironment(Environment env, IModelElement element) {
 		if (element instanceof IParameterOwner) {
 			IParameterOwner owner = (IParameterOwner) element;
@@ -138,6 +140,7 @@ public class EnvironmentFactory {
 			}
 		}
 	}
+
 	private void addTransitionParametersIfBehaviourContainedByTransition(Environment env, IParameterOwner paramOwner) {
 		if (paramOwner.getOwnerElement() instanceof INakedTransition) {
 			INakedTransition t = (INakedTransition) paramOwner.getOwnerElement();
@@ -152,7 +155,6 @@ public class EnvironmentFactory {
 			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
 		}
 	}
-
 
 	private static boolean isContextObjectApplicable(INakedBehavior owningBehavior) {
 		boolean isContextApplicable = owningBehavior instanceof INakedStateMachine
@@ -177,7 +179,7 @@ public class EnvironmentFactory {
 			}
 		}
 		if (!(element instanceof INakedActivity || element == null)) {
-			addActivityStructureAsLocalContext(env, (INakedElement) element.getOwnerElement(),includeActivity);
+			addActivityStructureAsLocalContext(env, (INakedElement) element.getOwnerElement(), includeActivity);
 		}
 	}
 
@@ -186,5 +188,4 @@ public class EnvironmentFactory {
 			env.addElement(var.getName(), new VariableDeclaration(var.getName(), var.getType()), false);
 		}
 	}
-
 }

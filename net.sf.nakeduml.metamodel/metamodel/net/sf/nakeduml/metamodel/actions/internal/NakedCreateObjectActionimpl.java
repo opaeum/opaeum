@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;

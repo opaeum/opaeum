@@ -112,7 +112,7 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		getConfiguration.setReturnType(configuration.getType());
 		hibernateConfigurator.addToOperations(getConfiguration);
 		OJIfStatement ifNull = new OJIfStatement("this.configuration==null", "configuration=new Ejb3Configuration()");
-		ifNull.getThenPart().addToStatements("this.configuration.configure(\"" + workspace.getName() + ".hibernate.config.xml\")");
+		ifNull.getThenPart().addToStatements("this.configuration.configure(\"" + workspace.getDirectoryName() + ".hibernate.config.xml\")");
 		ifNull.getThenPart().addToStatements("this.configuration.setProperty(\"hibernate.validator.autoregister_listeners\", \"false\")");
 		ifNull.getThenPart().addToStatements("this.entityManagerFactory=this.configuration.buildEntityManagerFactory()");
 		getConfiguration.getBody().addToStatements(ifNull);

@@ -5,8 +5,6 @@ import java.util.Collection;
 
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedExecutableNode;
-import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
 public class NakedExecutableNodeImpl extends NakedActivityNodeImpl implements INakedExecutableNode {

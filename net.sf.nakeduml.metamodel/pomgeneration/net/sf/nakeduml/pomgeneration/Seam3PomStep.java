@@ -7,12 +7,10 @@ import java.util.Properties;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
-import org.apache.maven.pom.ExecutionsType;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.PluginExecution;
@@ -20,25 +18,13 @@ import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
-@StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaAdaptorPomStep.class })
+@StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaIntegratedAdaptorPomStep.class, BasicJavaAdaptorPomStep.class })
 public class Seam3PomStep extends PomGenerationStep {
 	@Override
 	public Dependency[] getDependencies() {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
-		Dependency jeeSpec = POMFactory.eINSTANCE.createDependency();
-		jeeSpec.setGroupId("org.jboss.spec");
-		jeeSpec.setArtifactId("jboss-javaee-6.0");
-		jeeSpec.setVersion("1.0.0.Final");
-		jeeSpec.setScope("provided");
-		jeeSpec.setType("pom");
-		dependencies.add(jeeSpec);
-		Dependency cdi = POMFactory.eINSTANCE.createDependency();
-		cdi.setGroupId("javax.enterprise");
-		cdi.setArtifactId("cdi-api");
-		cdi.setVersion("1.0-SP1");
-		cdi.setScope("provided");
-		cdi.setType("jar");
-		dependencies.add(cdi);
+		addJeeSpec(dependencies);
+		addCdi(dependencies);
 		Dependency slf4j = POMFactory.eINSTANCE.createDependency();
 		slf4j.setGroupId("org.slf4j");
 		slf4j.setArtifactId("slf4j-log4j12");
@@ -103,6 +89,27 @@ public class Seam3PomStep extends PomGenerationStep {
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 
+	protected void addCdi(List<Dependency> dependencies) {
+		Dependency cdi = POMFactory.eINSTANCE.createDependency();
+		cdi.setGroupId("javax.enterprise");
+		cdi.setArtifactId("cdi-api");
+		cdi.setVersion("1.0-SP1");
+		cdi.setScope("provided");
+		cdi.setType("jar");
+		dependencies.add(cdi);
+	}
+
+	protected void addJeeSpec(List<Dependency> dependencies) {
+		Dependency jeeSpec = POMFactory.eINSTANCE.createDependency();
+		jeeSpec.setGroupId("org.jboss.spec");
+		jeeSpec.setArtifactId("jboss-javaee-6.0");
+		jeeSpec.setVersion("1.0.0.Final");
+		jeeSpec.setScope("provided");
+		jeeSpec.setVersion("1.0.0.Final");
+		jeeSpec.setType("pom");
+		dependencies.add(jeeSpec);
+	}
+
 	@Override
 	public Properties getParentPomProperties() {
 		Properties p = super.getParentPomProperties();
@@ -134,63 +141,6 @@ public class Seam3PomStep extends PomGenerationStep {
 		return config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE);
 	}
 
-	@Override
-	public Plugin[] getPlugins() {
-		Plugin[] result = new Plugin[2];
-		result[0] = POMFactory.eINSTANCE.createPlugin();
-		result[0].setGroupId("org.apache.maven.plugins");
-		result[0].setArtifactId("maven-compiler-plugin");
-		result[0].setVersion("2.3.2");
-		result[1] = POMFactory.eINSTANCE.createPlugin();
-		result[1].setGroupId("org.codehaus.mojo");
-		result[1].setArtifactId("build-helper-maven-plugin");
-		result[1].setVersion("1.5");
-		ExecutionsType execution = POMFactory.eINSTANCE.createExecutionsType();
-		PluginExecution pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
-		execution.getExecution().add(pluginExecution);
-		pluginExecution.setId("add-source");
-		pluginExecution.setPhase("generate-sources");
-		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
-		pluginExecution.getGoals().getGoal().add("add-source");
-		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
-		PomUtil.addAnyElementWithContent(anyType.getAny(), "source", "src/main/generated-java");
-		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
-		execution.getExecution().add(pluginExecution);
-		pluginExecution.setId("add-resource");
-		pluginExecution.setPhase("generate-resources");
-		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
-		pluginExecution.getGoals().getGoal().add("add-resource");
-		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType resourcesAnyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
-		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
-		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/main/generated-resources");
-		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
-		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/main/webapp");
-		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
-		execution.getExecution().add(pluginExecution);
-		pluginExecution.setId("add-test-source");
-		pluginExecution.setPhase("generate-test-sources");
-		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
-		pluginExecution.getGoals().getGoal().add("add-test-source");
-		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		resourcesAnyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
-		PomUtil.addAnyElementWithContent(resourcesAnyType.getAny(), "source", "src/test/generated-java");
-		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
-		execution.getExecution().add(pluginExecution);
-		pluginExecution.setId("add-test-resource");
-		pluginExecution.setPhase("generate-test-resources");
-		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
-		pluginExecution.getGoals().getGoal().add("add-test-resource");
-		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		resourcesAnyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
-		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
-		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/test/generated-resource-jbossas");
-		anyType = PomUtil.addEmptyAnyElement(resourcesAnyType.getAny(), "resource");
-		PomUtil.addAnyElementWithContent(anyType.getAny(), "directory", "src/test/generated-resources");
-		result[1].setExecutions(execution);
-		return result;
-	}
 
 	@Override
 	public Profile[] getProfiles() {

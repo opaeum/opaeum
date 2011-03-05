@@ -26,9 +26,10 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.util.CompositionNode;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IModelElement;
+
+import org.nakeduml.runtime.domain.CompositionNode;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java
@@ -59,6 +60,9 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 					addRemoveFromOwner(entity, ojClass);
 					addMarkDeleted(entity, ojClass);
 					addAddToOwningObject(entity, ojClass);
+					if(entity.getName().contains("siemens")){
+						System.out.println();
+					}
 					addInit(entity, ojClass);
 					addConstructorForTests(ojClass, entity);
 					addInternalSetOwner(entity, ojClass);

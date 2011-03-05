@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.domainmetamodel.DomainOperation;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
+
 import util.Stdlib;
 
 public class OperationUserInteraction extends UserInteraction implements CompositionNode {

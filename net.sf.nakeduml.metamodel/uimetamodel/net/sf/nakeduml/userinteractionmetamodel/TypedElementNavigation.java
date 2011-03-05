@@ -1,6 +1,6 @@
 package net.sf.nakeduml.userinteractionmetamodel;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
 
 abstract public class TypedElementNavigation extends TypedElementParticipation implements CompositionNode, Navigation {
 	private ClassifierUserInteraction resultingUserInteraction;

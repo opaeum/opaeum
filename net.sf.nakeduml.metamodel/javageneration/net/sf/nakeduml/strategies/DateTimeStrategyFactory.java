@@ -3,7 +3,6 @@ package net.sf.nakeduml.strategies;
 import java.util.List;
 
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import net.sf.nakeduml.javageneration.TestValueStrategy;
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;

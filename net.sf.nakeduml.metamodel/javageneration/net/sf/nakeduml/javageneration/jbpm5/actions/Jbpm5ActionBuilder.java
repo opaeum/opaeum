@@ -30,11 +30,12 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
+
+import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder {
 	protected A node;

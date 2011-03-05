@@ -18,7 +18,11 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
-public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisitor{
+import org.nakeduml.runtime.domain.AuditId;
+import org.nakeduml.runtime.domain.Auditable;
+import org.nakeduml.runtime.domain.Audited;
+
+public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedEntity entity) {
 		if (isPersistent(entity) && OJUtil.hasOJClass(entity)) {
@@ -33,9 +37,8 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		}
 	}
 
-
 	private void addMakeAuditCopyIdOnly(INakedEntity entity, OJAnnotatedClass ojClass) {
-		ojClass.addToImports(new OJPathName("net.sf.nakeduml.util.AuditId"));
+		ojClass.addToImports(new OJPathName(AuditId.class.getName()));
 		OJAnnotatedOperation makeAuditCopyIdOnly = new OJAnnotatedOperation();
 		makeAuditCopyIdOnly.setName("makeAuditCopyIdOnly");
 		OJPathName pathName = ojClass.getPathName();
@@ -66,7 +69,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		OJPathName pathName = ojClass.getPathName();
 		String remove = pathName.getNames().remove(pathName.getNames().size() - 1);
 		pathName.getNames().add(remove + "_Audit");
-		operation.setReturnType(new OJPathName("net.sf.nakeduml.util.Audited"));
+		operation.setReturnType(new OJPathName(Audited.class.getName()));
 		operation.setOwner(ojClass);
 		operation.setAbstract(ojClass.isAbstract());
 		if (!ojClass.isAbstract()) {
@@ -126,6 +129,6 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 			body.addToStatements("result.copyShallowState((" + c.getPathName() + ")this,result)");
 			body.addToStatements("return result");
 		}
-		c.addToImplementedInterfaces(new OJPathName("net.sf.nakeduml.util.Auditable"));
+		c.addToImplementedInterfaces(new OJPathName(Auditable.class.getName()));
 	}
 }

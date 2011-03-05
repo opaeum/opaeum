@@ -40,8 +40,6 @@ import org.eclipse.uml2.uml.Stereotype;
 public class EmfWorkspace implements Element {
 	Set<Package> generatingModels = new HashSet<Package>();
 	Set<Package> primaryModels = new HashSet<Package>();
-
-
 	private WorkspaceMappingInfoImpl mappingInfo;
 	private ResourceSet resourceSet;
 	private String name;
@@ -52,25 +50,25 @@ public class EmfWorkspace implements Element {
 	}
 
 	public EmfWorkspace(File modelDir, Package model, WorkspaceMappingInfoImpl mappingInfo, String name) {
-		this(modelDir,model.eResource().getResourceSet(), mappingInfo, name);
+		this(modelDir, model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
 	}
 
 	public EmfWorkspace(File modelDir, ResourceSet rs, WorkspaceMappingInfoImpl mappingInfo, String name) {
+		this.resourceSet = rs;
 		this.mappingInfo = mappingInfo;
-		directoryName=modelDir.getName();
+		directoryName = modelDir.getName();
 		for (Element pkg : getOwnedElements()) {
-			if((pkg instanceof Model || pkg instanceof Profile) && isPrimaryModelOrProfile((Package) pkg, modelDir)){
+			if (isPrimaryModelOrProfile((Package) pkg, modelDir)) {
 				primaryModels.add((Package) pkg);
 			}
 		}
-		this.resourceSet = rs;
 		this.name = name;
 	}
+
 	public Set<Package> getPrimaryModels() {
 		return primaryModels;
 	}
-
 
 	public WorkspaceMappingInfoImpl getMappingInfo() {
 		return mappingInfo;
@@ -81,12 +79,18 @@ public class EmfWorkspace implements Element {
 	}
 
 	private boolean isPrimaryModelOrProfile(Package p, File entryModelDir) {
-		URI uri = p.eResource().getURI();
-		if (uri.isFile()) {
-			File packageFile = new File(uri.toFileString());
-			packageFile.getParentFile().equals(entryModelDir);
+		if (p instanceof Model) {
+			URI uri = p.eResource().getURI();
+			if (uri.isFile()) {
+				File packageFile = new File(uri.toFileString());
+				return packageFile.getParentFile().equals(entryModelDir);
+			}
+			if (uri.isPlatform()) {
+				File packageFile = new File(uri.toPlatformString(true));
+				return packageFile.getParentFile().equals(entryModelDir);
+			}
 		}
-		return generatingModels.contains(p);
+		return false;
 	}
 
 	public void guessGeneratingModelsAndProfiles(File dir) {
@@ -362,8 +366,11 @@ public class EmfWorkspace implements Element {
 		return null;
 	}
 
-
 	public String getName() {
 		return this.name;
+	}
+
+	public void setDirectoryName(String name2) {
+		this.directoryName = name2;
 	}
 }

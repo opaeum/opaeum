@@ -9,11 +9,9 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTriggerImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.util.TimeUnit;
 import nl.klasse.octopus.model.OclUsageType;
 
 import org.eclipse.uml2.uml.Activity;
@@ -26,6 +24,7 @@ import org.eclipse.uml2.uml.ReceiveSignalEvent;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
+import org.nakeduml.runtime.domain.TimeUnit;
 
 public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 	protected List<INakedTypedElement> getEnvironment(Element node) {

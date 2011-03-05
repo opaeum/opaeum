@@ -3,10 +3,8 @@ package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IAttribute;

@@ -1,8 +1,8 @@
 package net.sf.nakeduml.javageneration.auditing;
 
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import org.nakeduml.runtime.domain.AuditId;
+
 import net.sf.nakeduml.javageneration.hibernate.AbstractMetaDefAnnotator;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
@@ -23,7 +23,7 @@ public class AuditMetaDefAnnotator extends AbstractMetaDefAnnotator {
 	}
 
 	protected String getIdType() {
-		return AuditEntryMassage.AUDIT_ID_USER_TYPE;
+		return AuditId.class.getName();
 	}
 
 	protected OJPathName getTargetEntity(OJPathName javaTypePath) {

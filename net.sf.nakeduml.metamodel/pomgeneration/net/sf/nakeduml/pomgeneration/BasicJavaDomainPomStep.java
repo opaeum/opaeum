@@ -1,17 +1,13 @@
 package net.sf.nakeduml.pomgeneration;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import nl.klasse.octopus.model.IImportedElement;
 
 import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 
 @StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)

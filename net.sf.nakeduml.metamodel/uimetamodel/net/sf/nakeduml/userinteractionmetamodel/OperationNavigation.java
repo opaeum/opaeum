@@ -5,7 +5,9 @@ import java.util.Set;
 
 import net.sf.nakeduml.domainmetamodel.DomainOperation;
 import net.sf.nakeduml.domainmetamodel.SecurityOnUserAction;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
+
 import util.Stdlib;
 
 public class OperationNavigation extends Participation implements CompositionNode, Navigation {

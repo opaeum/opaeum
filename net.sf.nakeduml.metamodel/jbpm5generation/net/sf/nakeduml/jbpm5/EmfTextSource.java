@@ -3,9 +3,9 @@ package net.sf.nakeduml.jbpm5;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 import net.sf.nakeduml.textmetamodel.TextSource;
+
+import org.eclipse.emf.ecore.resource.Resource;
 
 public class EmfTextSource implements TextSource {
 	Resource resource;

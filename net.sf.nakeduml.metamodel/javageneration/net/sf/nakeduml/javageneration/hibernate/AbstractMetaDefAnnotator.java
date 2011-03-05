@@ -5,28 +5,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.nakeduml.environment.domain.AbstractDomainEnvironment;
+import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
+
+//TODO execute for the domain projects as well as adapter projects
 public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisitor {
 	private boolean isIntegrationPhase;
 
 	public final class InterfaceCollector extends AbstractJavaProducingVisitor {
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
+		@VisitBefore
 		public void visitInterface(INakedInterface i){
 			interfaces.add(i);
 		}
@@ -38,22 +48,51 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 	}
 
 	public void startVisiting(INakedModelWorkspace root) {
+		super.workspace=root;
 		if(isIntegrationPhase){
-			Set<INakedInterface> interfaces = collectInterfaces(((Collection<? extends INakedElement>) root.getOwnedElements()));
+			OJPathName pathName = new OJPathName(config.getMavenGroupId() + ".util");
+			addEnvironment(pathName, workspace.getDirectoryName()
+					+ "-hibernate.cfg.xml", JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC);
+
+			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
+			Set<INakedInterface> interfaces = collectInterfaces((ownedElements));
 			for (INakedInterface i : interfaces) {
-				doInterface(i, new OJPathName(workspace.getName() + ".integratedutil"), InterfaceUtil.getImplementationsOf(i,null));
+				doInterface(i, pathName, InterfaceUtil.getImplementationsOf(i,(Collection<INakedRootObject>) ownedElements));
 			}
 		}else{
-			List<INakedRootObject> generatingModelsOrProfiles = root.getGeneratingModelsOrProfiles();
+			List<INakedRootObject> generatingModelsOrProfiles = workspace.getGeneratingModelsOrProfiles();
 			for (INakedRootObject rootObject : generatingModelsOrProfiles) {
 				if(rootObject instanceof INakedModel){
+					super.currentRootObject=rootObject;
+					addEnvironment(UtilityCreator.getUtilPathName(), rootObject.getFileName()
+							+ "-hibernate.cfg.xml", JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
+
 					Set<INakedInterface> interfaces = collectInterfaces(((INakedModel) rootObject).getDependencies());
 					for (INakedInterface i : interfaces) {
-						doInterface(i, new OJPathName(rootObject.getMappingInfo().getQualifiedJavaName()+ ".util"), InterfaceUtil.getImplementationsOf(i,null));
+						doInterface(i, UtilityCreator.getUtilPathName(), InterfaceUtil.getImplementationsOf(i,(Collection<INakedRootObject>) workspace.getOwnedElements()));
 					}
 				}
 			}
 		}
+	}
+
+	private void addEnvironment(OJPathName utilPackagePath, String configName, OutputRootId outputRootId) {
+		OJAnnotatedClass domainEnvironment = new OJAnnotatedClass();
+		domainEnvironment.setName("DomainEnvironment");
+		//TODO parameterise this
+		domainEnvironment.setSuperclass(new OJPathName(AbstractDomainEnvironment.class.getName()));
+		OJPackage pkg =findOrCreatePackage(utilPackagePath);
+		pkg.addToClasses(domainEnvironment);
+		OJAnnotatedOperation getHibernateConfigName = new OJAnnotatedOperation("getHibernateConfigName", new OJPathName("java.lang.String"));
+		domainEnvironment.addToOperations(getHibernateConfigName);
+		getHibernateConfigName.getBody().addToStatements("return \"" +configName+"\"");
+		OJAnnotatedOperation createJbpmKnowledgeBase = new OJAnnotatedOperation("createJbpmKnowledgeBase", new OJPathName(AbstractJbpmKnowledgeBase.class.getName()));
+		domainEnvironment.addToOperations(createJbpmKnowledgeBase);
+		OJPathName jbpmKnowledgeBase = utilPackagePath.getDeepCopy();
+		jbpmKnowledgeBase.addToNames("JbpmKnowledgeBase");
+		domainEnvironment.addToImports(jbpmKnowledgeBase);
+		createJbpmKnowledgeBase.getBody().addToStatements("return new " + jbpmKnowledgeBase.getLast() + "()");
+		createTextPath(domainEnvironment, outputRootId);
 	}
 
 	private Set<INakedInterface> collectInterfaces(Collection<? extends INakedElement> ownedElements) {

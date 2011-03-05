@@ -19,12 +19,11 @@ import javax.naming.NamingException;
 import javax.transaction.Status;
 import javax.transaction.Synchronization;
 
-import net.sf.nakeduml.util.Audited;
-
 import org.hibernate.Transaction;
 import org.hibernate.event.EventSource;
 import org.jboss.seam.persistence.util.InstanceResolver;
 import org.jboss.seam.solder.beanManager.BeanManagerLocator;
+import org.nakeduml.runtime.domain.Audited;
 
 public class AuditSync implements Synchronization {
 

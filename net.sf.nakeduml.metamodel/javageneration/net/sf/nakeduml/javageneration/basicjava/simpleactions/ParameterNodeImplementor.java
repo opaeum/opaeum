@@ -9,7 +9,6 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
-import net.sf.nakeduml.util.ExceptionHolder;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.oclengine.IOclEngine;
 

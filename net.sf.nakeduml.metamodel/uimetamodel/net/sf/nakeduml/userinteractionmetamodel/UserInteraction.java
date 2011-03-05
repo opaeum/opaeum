@@ -1,6 +1,6 @@
 package net.sf.nakeduml.userinteractionmetamodel;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
 
 public class UserInteraction extends UserInteractionElement implements CompositionNode {
 	private Boolean inHierarchy = false;

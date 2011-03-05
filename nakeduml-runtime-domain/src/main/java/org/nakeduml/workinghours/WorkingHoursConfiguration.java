@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.nakeduml.util.TimeUnit;
+import org.nakeduml.runtime.domain.TimeUnit;
+
 //This class is timezone agnostic. It assumes that all the Calendar objects
 // that it is being passed
 // are correctly timezoned.

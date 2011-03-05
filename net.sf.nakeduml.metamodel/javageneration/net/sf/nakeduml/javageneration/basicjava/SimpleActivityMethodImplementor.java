@@ -4,11 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.Caller;
@@ -31,12 +28,10 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.VariableValueRemov
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
-import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -71,11 +66,8 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
@@ -290,7 +282,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		if (BehaviorUtil.shouldSurrounWithTry(nakedCall)) {
 			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operation, originalBlock);
 			for (INakedOutputPin e : nakedCall.getExceptionPins()) {
-				NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(nakedCall.getContext(), e);
+				NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(nakedCall.getActivity().getContext(), e);
 				OJPathName pathName = OJUtil.classifierPathname(e.getNakedBaseType());
 				operation.getOwner().addToImports(pathName);
 				OJIfStatement statement = new OJIfStatement();

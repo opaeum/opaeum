@@ -8,7 +8,6 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.linkage.MappedTypeLinker;
 import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.linkage.ReferenceResolver;
@@ -16,7 +15,6 @@ import net.sf.nakeduml.linkage.TypeResolver;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.namegeneration.JavaNameRegenerator;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {TextFileGenerator.class,MappedTypeLinker.class,ReferenceResolver.class,
 		JavaNameRegenerator.class,TypeResolver.class,RedefinitionAndUnions.class,ProcessIdentifier.class})

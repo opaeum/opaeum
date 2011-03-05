@@ -22,7 +22,6 @@ import net.sf.nakeduml.metamodel.workspace.MappedType;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 
@@ -43,6 +42,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		modelWorkspace.setName(emfWorkspace.getName());
+		modelWorkspace.setDirectoryName(emfWorkspace.getDirectoryName());
 		for (Element e : emfWorkspace.getOwnedElements()) {
 			URI mappedTypesUri = e.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 			try {
@@ -72,7 +72,6 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		for (Package gp : emfWorkspace.getPrimaryModels()) {
 			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
 		}
-		modelWorkspace.setDirectoryName(emfWorkspace.getDirectoryName());
 		return new Object[] {};
 	}
 

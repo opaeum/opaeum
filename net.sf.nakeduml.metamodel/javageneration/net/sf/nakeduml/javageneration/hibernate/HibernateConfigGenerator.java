@@ -21,6 +21,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 	boolean isIntegrationPhase = true;
@@ -53,15 +54,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			}
 		}
 
-		@VisitBefore(matchSubclasses = true)
-		public void visitModel(INakedModel model) {
-			packages.add(OJUtil.packagePathname(model));
-		}
 
-		@VisitBefore(matchSubclasses = true)
-		public void visitInterface(INakedInterface it) {
-			packages.add(OJUtil.packagePathname(it.getNameSpace()));
-		}
 
 		@Override
 		public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
@@ -75,12 +68,12 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 	public void visitWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
 			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
-			HashMap<String, Object> vars = buildVars(ownedElements);
-			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "hibernate.cfg.xml", getOutputRootId(), vars);
+			HashMap<String, Object> vars = buildVars(ownedElements, new OJPathName(config.getMavenGroupId() + ".util"));
+			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", workspace.getDirectoryName()+ "-hibernate.cfg.xml", getOutputRootId(), vars);
 		}
 	}
 
-	private HashMap<String, Object> buildVars(Collection<? extends INakedElement> models) {
+	private HashMap<String, Object> buildVars(Collection<? extends INakedElement> models, OJPathName pkg) {
 		HashMap<String, Object> vars = new HashMap<String, Object>();
 		boolean requiresAudit = transformationContext.isFeatureSelected(AuditImplementationStep.class);
 		vars.put("requiresAuditing", requiresAudit);
@@ -93,15 +86,15 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			}
 		}
 		vars.put("persistentClasses", collector.classes);
-		vars.put("packages", collector.packages);
+		vars.put("pkg", pkg);
 		return vars;
 	}
 
 	@VisitBefore
 	public void visitModel(INakedModel model) {
 		if (!isIntegrationPhase) {
-			HashMap<String, Object> vars = buildVars(model.getDependencies());
-			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", "hibernate.cfg.xml", getOutputRootId(), vars);
+			HashMap<String, Object> vars = buildVars(model.getDependencies(),UtilityCreator.getUtilPathName());
+			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", model.getFileName()+ "-hibernate.cfg.xml", getOutputRootId(), vars);
 		}
 	}
 

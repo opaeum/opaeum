@@ -5,6 +5,8 @@ import static net.sf.nakeduml.metamodel.core.internal.StereotypeNames.HIERARCHY;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
@@ -18,7 +20,6 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 
 public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)

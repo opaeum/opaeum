@@ -1,7 +1,8 @@
 package net.sf.nakeduml.domainmetamodel;
 
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionWorkspace;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
 
 public class RootDomainPackage extends DomainPackage implements CompositionNode {
 	private UserInteractionWorkspace userInteractionWorkspace;

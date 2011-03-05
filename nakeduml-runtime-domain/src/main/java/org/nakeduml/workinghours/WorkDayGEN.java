@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.nakeduml.util.AbstractEntity;
-import net.sf.nakeduml.util.AbstractProcess;
-import net.sf.nakeduml.util.CompositionNode;
-import net.sf.nakeduml.util.MetaIdentifiable;
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.CompositionNode;
+import org.nakeduml.runtime.domain.MetaIdentifiable;
+
 //JDK5@CompositionFromOwningObject(attribute="workDay")
 abstract public class WorkDayGEN implements CompositionNode, AbstractEntity, MetaIdentifiable {
 	private WorkDayType f_type = WorkDayType.lookup(0);

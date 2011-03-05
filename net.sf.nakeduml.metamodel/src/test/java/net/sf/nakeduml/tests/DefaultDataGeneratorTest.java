@@ -5,13 +5,12 @@ import java.util.Set;
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemantics;
-import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
 import net.sf.nakeduml.javageneration.hibernate.HibernateTestsStep;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
-import net.sf.nakeduml.pomgeneration.ProjectWarPomStep;
+import net.sf.nakeduml.pomgeneration.WarPomStep;
 
-import org.nakeduml.projectgeneration.WarProjectGenerationStep;
+import org.nakeduml.projectgeneration.WarProjectConfigurationStep;
 
 public class DefaultDataGeneratorTest extends net.sf.nakeduml.pomgeneration.MavenProjectTransformationConfiguration {
 	protected DefaultDataGeneratorTest(String outputRoot, String modelDirectory) {
@@ -25,7 +24,7 @@ public class DefaultDataGeneratorTest extends net.sf.nakeduml.pomgeneration.Mave
 	@Override
 	protected Set<Class<? extends TransformationStep>> getSteps() {
 		return toSet(PersistenceUsingHibernateStep.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
-				ProjectWarPomStep.class, WarProjectGenerationStep.class,HibernateTestsStep.class);
+				WarPomStep.class, WarProjectConfigurationStep.class,HibernateTestsStep.class);
 	}
 
 }

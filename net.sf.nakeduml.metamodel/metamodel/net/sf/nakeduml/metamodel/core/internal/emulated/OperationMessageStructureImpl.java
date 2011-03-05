@@ -12,7 +12,6 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.IClass;
-import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public class OperationMessageStructureImpl extends MessageStructureImpl implements IClass{

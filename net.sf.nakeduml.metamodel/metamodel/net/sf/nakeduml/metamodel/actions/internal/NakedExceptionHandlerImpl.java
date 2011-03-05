@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;

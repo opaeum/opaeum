@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.annotation.OperationParticipationKind;
+import org.nakeduml.annotation.OperationParticipationKind;
+
 
 public class UIMOperation extends UIMElement implements Serializable,UIMMenuElement{
 	private static final long serialVersionUID = -1229455188894548493L;

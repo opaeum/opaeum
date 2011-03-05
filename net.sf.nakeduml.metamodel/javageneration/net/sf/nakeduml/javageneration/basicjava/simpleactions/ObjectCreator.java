@@ -5,12 +5,10 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
-import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 public class ObjectCreator extends SimpleNodeBuilder<INakedCreateObjectAction>{

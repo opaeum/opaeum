@@ -14,7 +14,6 @@ import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public abstract class AbstractObjectNodeExpressor {
@@ -31,31 +30,34 @@ public abstract class AbstractObjectNodeExpressor {
 	public abstract String setterForSingleResult(NakedStructuralFeatureMap resultMap, String call);
 
 	public abstract String getterForStructuredResults(NakedStructuralFeatureMap resultMap);
-	protected INakedObjectNode getEffectiveSource(INakedObjectFlow edge){
+
+
+	protected String surroundWithSelectionAndTransformation(String expression, INakedObjectFlow edge) {
 		if(edge.getSource() instanceof INakedControlNode){
-			Set<INakedActivityEdge> flows = edge.getSource().getAllEffectiveIncoming();
-			for (INakedActivityEdge flow : flows) {
+			Set<INakedActivityEdge> incoming = edge.getSource().getIncoming();
+			for (INakedActivityEdge flow : incoming) {
 				if(flow instanceof INakedObjectFlow){
-					return getEffectiveSource((INakedObjectFlow) flow);
+					//TODO with merges, find out which transition was actually taken
+					expression=surroundWithSelectionAndTransformation(expression, (INakedObjectFlow) flow);
+					break;
 				}
 			}
 		}
-		return null;
-	}
-	
-	protected String surroundWithSelectionAndTransformation(String expression, INakedObjectFlow edge) {
 		if (edge.getSelection() != null) {
 			expression = edge.getSelection().getMappingInfo().getJavaName() + "(" + expression + ")";
 		}
 		if (edge.getTransformation() != null) {
 			expression = edge.getTransformation().getMappingInfo().getJavaName() + "(" + expression + ")";
 		}
-		if(edge.getSelection()==null && edge.getTransformation()==null){
-			INakedObjectNode source=(INakedObjectNode) getEffectiveSource(edge);
+		if (edge.getSelection() == null && edge.getTransformation() == null) {
+			INakedObjectNode source = (INakedObjectNode) edge.getOriginatingObjectNode();
+			//TODO what if the target is a controlNode
 			INakedObjectNode target = (INakedObjectNode) edge.getTarget();
-			if(target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany() &&( source.isOrdered()!=target.isOrdered() || source.isUnique()!=target.isUnique())){
+			if (target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany()
+					&& (source.isOrdered() != target.isOrdered() || source.isUnique() != target.isUnique())) {
 				NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap(edge.getActivity(), target);
-				expression="new " + targetMap.javaDefaultTypePath().getLast() + "<" + targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast() +">(" + expression +")";
+				expression = "new " + targetMap.javaDefaultTypePath().getLast() + "<"
+						+ targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast() + ">(" + expression + ")";
 			}
 		}
 		return expression;
@@ -78,10 +80,10 @@ public abstract class AbstractObjectNodeExpressor {
 		if (feedingNode.getOwnerElement() instanceof INakedCallAction) {
 			INakedCallAction callAction = (INakedCallAction) feedingNode.getOwnerElement();
 			if (BehaviorUtil.hasMessageStructure(callAction)) {
-				NakedStructuralFeatureMap pinMap=null; 			
-				if(feedingNode.getLinkedTypedElement()==null){
-					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode,false);
-				}else{
+				NakedStructuralFeatureMap pinMap = null;
+				if (feedingNode.getLinkedTypedElement() == null) {
+					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode, false);
+				} else {
 					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode.getLinkedTypedElement());
 				}
 				NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, this.oclLibrary);
@@ -112,6 +114,6 @@ public abstract class AbstractObjectNodeExpressor {
 
 	public String expressExceptionInput(OJBlock block, INakedObjectNode pin) {
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin);
-		return   "(" + map.javaType() + ")e.getValue()";
+		return "(" + map.javaType() + ")e.getValue()";
 	}
 }

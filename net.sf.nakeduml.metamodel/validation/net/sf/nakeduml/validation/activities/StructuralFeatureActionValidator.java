@@ -10,7 +10,7 @@ import net.sf.nakeduml.validation.ValidationPhase;
 public class StructuralFeatureActionValidator extends AbstractValidator {
 	@VisitBefore(matchSubclasses=true)
 	public void visistStructuralFeatureAction(INakedStructuralFeatureAction a) {
-		if (a.getObject() == null) {
+		if (a.getObject() == null ) {
 			if (a.getInPartition() == null) {
 				if (!a.getContext().conformsTo(a.getExpectedTargetType())) {
 					getErrorMap().putError(a, StructuralFeatureActionValidationRule.TARGET_OBJECT_DOES_NOT_CONFORM_TO_OWNER,a.getInPartition(),

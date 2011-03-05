@@ -1,20 +1,13 @@
 package net.sf.nakeduml.seam;
 
-import java.io.Serializable;
+import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.ActiveObject;
+public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch {
+	private static final long serialVersionUID = 1986170768555066115L;
 
-//TODO Weld
-public class SignalToDispatch implements Serializable {
-//	private static final long serialVersionUID = -2996390224218437999L;
-//	private AbstractSignal signal;
-//	private Object source;
-//	private ActiveObject target;
-//
-//	public SignalToDispatch(Object source, ActiveObject target, AbstractSignal signal) {
-//		super();
-//		this.signal = signal;
-//		this.source = source;
-//		this.target = target;
-//	}
+	public SignalToDispatch(Object source, ActiveObject target, AbstractSignal signal) {
+		super(source,target,signal);
+	}
 //
 //	public void prepareForDispatch() {
 //		try {

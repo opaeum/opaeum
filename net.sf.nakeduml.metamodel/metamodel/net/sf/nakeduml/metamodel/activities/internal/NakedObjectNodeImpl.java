@@ -34,14 +34,8 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 		this.incomingExceptionHandler = incomingExceptionHandler;
 	}
 	private INakedObjectNode getObjectNodeSource(Collection<INakedActivityEdge> source){
-		Iterator<INakedActivityEdge> iter = source.iterator();
-		if(iter.hasNext()){
-			INakedObjectFlow flow = (INakedObjectFlow) iter.next();
-			if(flow.getSource() instanceof INakedObjectNode){
-				return (INakedObjectNode) flow.getSource();
-			}else if(flow.getSource() instanceof INakedControlNode){
-				return getObjectNodeSource(flow.getSource().getIncoming());
-			}
+		for (INakedActivityEdge edge : source) {
+			return ((INakedObjectFlow)edge).getOriginatingObjectNode();
 		}
 		return null;
 	}

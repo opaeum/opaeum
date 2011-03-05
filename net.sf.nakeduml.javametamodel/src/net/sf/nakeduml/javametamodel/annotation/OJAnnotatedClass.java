@@ -21,9 +21,17 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
 	private List<String> genericTypeParams = new ArrayList<String>();
 
+	public OJAnnotatedClass() {
+	}
+
+	public OJAnnotatedClass(String string) {
+		setName(string);
+	}
+
 	public OJAnnotationValue findAnnotation(OJPathName path) {
 		return AnnotationHelper.getAnnotation(this, path);
 	}
+
 	public boolean addAnnotationIfNew(OJAnnotationValue value) {
 		return AnnotationHelper.maybeAddAnnotation(value, this);
 	}
@@ -35,8 +43,9 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	public OJAnnotationValue putAnnotation(OJAnnotationValue value) {
 		return AnnotationHelper.putAnnotation(value, this);
 	}
-	public OJAnnotationValue removeAnnotation(OJPathName type){
-		return AnnotationHelper.removeAnnotation(this,type);
+
+	public OJAnnotationValue removeAnnotation(OJPathName type) {
+		return AnnotationHelper.removeAnnotation(this, type);
 	}
 
 	public OJConstructor findConstructor(OJPathName parameter1) {
@@ -205,12 +214,10 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 
 	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
 		setName(getName() + newName);
-
 		Set<OJConstructor> constructors = getConstructors();
 		for (OJConstructor ojConstructor : constructors) {
 			ojConstructor.renameAll(renamePathNames, newName);
 		}
-		
 		// This is a jipo to make sure imports are correct.
 		// renaming OJForStatement does not seem to add the renamed paths to the
 		// imports
@@ -222,7 +229,6 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 			newImports.add(newImport);
 		}
 		addToImports(newImports);
-
 		Set<OJAnnotationValue> annotations = getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {
 			ojAnnotationValue.renameAll(renamePathNames, newName);
@@ -234,7 +240,6 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 		for (OJPathName ojPathName : implementedInterfaces) {
 			ojPathName.renameAll(renamePathNames, newName);
 		}
-
 		List<OJField> fields = getFields();
 		for (OJField ojField : fields) {
 			ojField.renameAll(renamePathNames, newName);

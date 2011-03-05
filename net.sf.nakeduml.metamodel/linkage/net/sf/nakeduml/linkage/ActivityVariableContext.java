@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
-import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;

@@ -3,9 +3,11 @@ package net.sf.nakeduml.uigeneration;
 import static net.sf.nakeduml.uigeneration.StereotypeNames.PARTICIPATION_KIND;
 import static net.sf.nakeduml.uigeneration.StereotypeNames.getTag;
 import static net.sf.nakeduml.uigeneration.StereotypeNames.resolve;
+
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.userinteractionmetamodel.ClassifierUserInteraction;
 import net.sf.nakeduml.userinteractionmetamodel.OperationParticipationKind;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;

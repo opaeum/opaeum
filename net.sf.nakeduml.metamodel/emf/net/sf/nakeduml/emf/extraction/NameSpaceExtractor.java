@@ -30,7 +30,6 @@ import net.sf.nakeduml.metamodel.core.internal.NakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.internal.NakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.models.internal.NakedModelImpl;
 import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
 import net.sf.nakeduml.metamodel.profiles.internal.NakedProfileImpl;

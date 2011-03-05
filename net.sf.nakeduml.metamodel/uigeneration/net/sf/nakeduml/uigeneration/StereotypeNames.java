@@ -1,9 +1,10 @@
 package net.sf.nakeduml.uigeneration;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 
 public class StereotypeNames {
 	// Stereotypes

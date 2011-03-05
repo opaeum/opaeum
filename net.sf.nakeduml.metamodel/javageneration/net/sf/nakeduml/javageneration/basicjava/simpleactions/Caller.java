@@ -10,22 +10,20 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
-import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJParameter;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJStatement;
 import net.sf.nakeduml.javametamodel.OJTryStatement;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
-import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.util.ExceptionHolder;
 import nl.klasse.octopus.oclengine.IOclEngine;
+
+import org.nakeduml.runtime.domain.ExceptionHolder;
 
 public class Caller extends SimpleNodeBuilder<INakedCallAction> {
 	private NakedStructuralFeatureMap callMap;

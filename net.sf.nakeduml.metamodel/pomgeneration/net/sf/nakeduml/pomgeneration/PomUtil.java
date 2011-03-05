@@ -7,6 +7,7 @@ import java.util.Set;
 
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 
+import org.apache.maven.pom.Build;
 import org.apache.maven.pom.ConfigurationType3;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.DocumentRoot;
@@ -14,9 +15,11 @@ import org.apache.maven.pom.Model;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.PluginExecution;
+import org.apache.maven.pom.PluginsType2;
 import org.apache.maven.pom.PropertiesType2;
 import org.apache.maven.pom.Repository;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -42,7 +45,7 @@ public class PomUtil {
 		return node;
 	}
 
-	public static void addAnyAttribute(AnyType any, String elementName, String content) {
+	public static void addAnyAttribute(EObject any, String elementName, String content) {
 		EStructuralFeature attributeFeature = ExtendedMetaData.INSTANCE.demandFeature(null, elementName, false);
 		any.eSet(attributeFeature, content);
 	}
@@ -118,7 +121,8 @@ public class PomUtil {
 	}
 
 	public static boolean isBuiltInFolder(String relativePath) {
-		return builtInFolders.contains(relativePath);
+		return false;//Bug in m2Eclipse
+//		return builtInFolders.contains(relativePath);
 	}
 
 	private static AnyType findOrCreateAnyType(FeatureMap featuresOnParent, String elementName) {
@@ -159,7 +163,18 @@ public class PomUtil {
 
 	private static Plugin findOrCreatePlugin(DocumentRoot pom, String artifactId, String groupId) {
 		Plugin result = null;
-		EList<Plugin> plugins = pom.getProject().getBuild().getPlugins().getPlugin();
+		Model project = pom.getProject();
+		Build build = project.getBuild();
+		if(build == null){
+			build=POMFactory.eINSTANCE.createBuild();
+			project.setBuild(build);
+		}
+		PluginsType2 plugins2 = build.getPlugins();
+		if(plugins2==null){
+			plugins2=POMFactory.eINSTANCE.createPluginsType2();
+			build.setPlugins(plugins2);
+		}
+		EList<Plugin> plugins = plugins2.getPlugin();
 		for (Plugin plugin : plugins) {
 			if (plugin.getArtifactId().equals(artifactId)) {
 				result = plugin;
@@ -212,13 +227,12 @@ public class PomUtil {
 		for (FeatureMap.Entry entry : fm.getAny()) {
 			if (entry.getEStructuralFeature().getName().equals("source")) {
 				AnyType any = (AnyType) entry.getValue();
-				System.out.println("CDATA class=" + any.getMixed().get(0).getValue().getClass());
 				if (any.getMixed().get(0).getValue().equals(sf.getRelativePath())) {
 					hasPathEntry = true;
 				}
 			}
 		}
-		if (hasPathEntry) {
+		if (!hasPathEntry) {
 			addAnyElementWithContent(fm.getAny(), "source", sf.getRelativePath());
 		}
 	}

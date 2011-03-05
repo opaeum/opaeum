@@ -3,10 +3,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.nakeduml.util.AbstractEntity;
-import net.sf.nakeduml.util.AbstractProcess;
-import net.sf.nakeduml.util.CompositionNode;
-import net.sf.nakeduml.util.MetaIdentifiable;
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.CompositionNode;
+import org.nakeduml.runtime.domain.MetaIdentifiable;
+
 //JDK5@CompositionFromOwningObject(attribute="recurringHoliday")
 abstract public class RecurringHolidayGEN implements CompositionNode, AbstractEntity, MetaIdentifiable {
 	private int f_month = 0;

@@ -76,7 +76,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	private OJAnnotatedClass annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		buildToString(ojClass, complexType);
-		addAllInstances(complexType, ojClass);
 		OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(),
 				this.config, complexType.getNameSpace());
 		if (complexType instanceof INakedEntity) {
@@ -110,37 +109,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		return ojClass;
 	}
 
-	public void addAllInstances(INakedComplexStructure complexType, OJAnnotatedClass ojClass) {
-		OJPathName set = new OJPathName("java.util.Set");
-		ojClass.addToImports(set.getDeepCopy());
-		set.addToElementTypes(ojClass.getPathName());
-		OJAnnotatedField mockInstances = new OJAnnotatedField("mockedAllInstances", set);
-		mockInstances.setStatic(true);
-		ojClass.addToFields(mockInstances);
-		OJAnnotatedOperation mockAllInstances = new OJAnnotatedOperation("mockAllInstances");
-		ojClass.addToOperations(mockAllInstances);
-		mockAllInstances.addParam("newMocks", set);
-		mockAllInstances.setStatic(true);
-		mockAllInstances.getBody().addToStatements("mockedAllInstances=newMocks");
-		
-		// TODO move elsewhere where dependency on Seam has been confirmed
-		OJAnnotatedOperation allInstances = new OJAnnotatedOperation("allInstances");
-		ojClass.addToOperations(allInstances);
-		allInstances.setStatic(true);
-		OJIfStatement ifMocked=new OJIfStatement("mockedAllInstances==null");
-		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("Session session =(Session)net.sf.nakeduml.seam.Component.INSTANCE.getInstance(Session.class)");
-		ifMocked.getThenPart()
-				.addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
-		ifMocked.setElsePart(new OJBlock());
-		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
-		ojClass.addToImports(new OJPathName("org.hibernate.Session"));
-		ojClass.addToImports(new OJPathName("java.util.HashSet"));
-		OJPathName setExtends = new OJPathName("java.util.Set");
-		ojClass.addToImports(set.getDeepCopy());
-		setExtends.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
-		allInstances.setReturnType(setExtends);
-	}
 
 	/**
 	 * Includes all appropriately qualified relationships and one-to-one

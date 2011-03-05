@@ -2,8 +2,6 @@ package net.sf.nakeduml.javageneration.userinteraction;
 
 import java.util.Collections;
 
-import net.sf.nakeduml.annotation.CompositionFromOwningObject;
-import net.sf.nakeduml.annotation.CompositionToOwnedObject;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
@@ -16,6 +14,9 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+
+import org.nakeduml.annotation.CompositionFromOwningObject;
+import org.nakeduml.annotation.CompositionToOwnedObject;
 //TODO delete?
 public class CompositionTraversalAnnotator extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)

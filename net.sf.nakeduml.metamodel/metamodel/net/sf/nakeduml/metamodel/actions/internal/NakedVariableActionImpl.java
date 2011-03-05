@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 

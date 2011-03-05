@@ -10,7 +10,9 @@ import java.util.Set;
 
 import net.sf.nakeduml.domainmetamodel.DomainClassifier;
 import net.sf.nakeduml.domainmetamodel.DomainEntity;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
+
 import util.CompOperationNavigationOndouble;
 import util.CompPropertyFieldOndouble;
 import util.CompPropertyNavigationOndouble;

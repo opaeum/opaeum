@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/nakeduml-runtime-domain"/>
 	<classpathentry exported="true" kind="lib" path="lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-core-3.6.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>

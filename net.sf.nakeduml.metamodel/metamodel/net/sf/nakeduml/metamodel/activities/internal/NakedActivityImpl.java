@@ -7,10 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.hql.ast.tree.ParameterNode;
-
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
@@ -18,8 +15,6 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -27,7 +22,6 @@ import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IAttribute;
-import nl.klasse.octopus.model.ParameterDirectionKind;
 
 public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity {
 	private static final long serialVersionUID = -8111895180462880035L;

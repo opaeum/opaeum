@@ -38,12 +38,12 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
-import net.sf.nakeduml.util.AbstractProcess;
-import net.sf.nakeduml.util.AbstractProcessStep;
-import net.sf.nakeduml.util.ActiveEntity;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.hibernate.annotations.CascadeType;
+import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.AbstractProcessStep;
+import org.nakeduml.runtime.domain.ActiveEntity;
 
 /**
  * Provides the behavior related logic common to statemachines and activities:
@@ -54,6 +54,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(AbstractProcess.class.getName());
 	public static final OJPathName ABSTRACT_PROCESS_STEP = new OJPathName(AbstractProcessStep.class.getName());
 	public static final OJPathName ACTIVE_ENTITY = new OJPathName(ActiveEntity.class.getName());
+	private static final OJPathName STATEFUL_KNOWLEDGE_SESSION = new OJPathName("org.drools.runtime.StatefulKnowledgeSession");
 
 	protected abstract Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior);
 
@@ -111,7 +112,6 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 	}
 
 	protected void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior, boolean persistent) {
-		ojBehavior.addToImports(Jbpm5Util.getJbpmKnowledgeSession());
 		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, "processInstance",
 				new OJPathName("WorkflowProcessInstance"), true);
 		processInstanceField.setTransient(true);
@@ -127,9 +127,10 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			getter.setBody(new OJBlock());
 			OJIfStatement ifNull = new OJIfStatement(
 					"this.processInstance==null || true",
-					"this.processInstance=(WorkflowProcessInstance)JbpmKnowledgeSession.getInstance().getKnowledgeSession().getProcessInstance(getProcessInstanceId())");
+					"this.processInstance=(WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
 			OJIfStatement ifNotNull = new OJIfStatement("this.processInstance!=null", "((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true)");
 			ifNull.getThenPart().addToStatements(ifNotNull);
+			ojBehavior.addToImports(STATEFUL_KNOWLEDGE_SESSION);
 			getter.getBody().addToStatements(ifNull);
 			getter.getBody().addToStatements("return this.processInstance");
 		}
@@ -266,7 +267,6 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 
 	protected void createJbpmProcess(IParameterOwner parameterOwner, OJOperation javaMethod) {
 		OJClass owner = (OJClass) javaMethod.getOwner();
-		owner.addToImports(Jbpm5Util.getJbpmKnowledgeSession());
 		owner.addToImports(Jbpm5Util.getWorkflowProcesInstance());
 		owner.addToImports(Jbpm5Util.getWorkflowProcessImpl());
 		OJPathName mapPath = new OJPathName("java.util.HashMap");
@@ -279,9 +279,10 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		javaMethod.getBody().addToLocals(new OJAnnotatedField("processInstance", Jbpm5Util.getWorkflowProcesInstance()));
 		javaMethod.getBody().addToStatements("params.put(\"processObject\", this)");
 		javaMethod.getBody().addToStatements(
-				"processInstance = (WorkflowProcessInstance)JbpmKnowledgeSession.getInstance().getKnowledgeSession().startProcess(\""
+				"processInstance = (WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\""
 						+ Jbpm5Util.generateProcessName(parameterOwner) + "\",params)");
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
+		javaMethod.getOwner().addToImports(STATEFUL_KNOWLEDGE_SESSION);
 	}
 
 	protected void invokeSimpleBehavior(INakedBehavior behavior, OJPathName activityClass, OJOperation javaMethod) {

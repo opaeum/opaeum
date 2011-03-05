@@ -3,6 +3,8 @@ package net.sf.nakeduml.javageneration.composition;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
@@ -26,7 +28,6 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 import nl.klasse.octopus.model.IModelElement;
 
 public class CopyMethodImplementor extends AbstractJavaProducingVisitor {

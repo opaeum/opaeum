@@ -34,11 +34,12 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.util.AbstractSignal;
-import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
+
+import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public abstract class AbstractEventHandlerInserter extends AbstractJavaProducingVisitor {
 	protected abstract void implementEventConsumption(FromNode node, OJIfStatement ifNotNull);

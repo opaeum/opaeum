@@ -13,7 +13,10 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.util.TimeUnit;
+
+import org.nakeduml.environment.ITimeEventDispatcher;
+import org.nakeduml.runtime.domain.ExceptionHolder;
+import org.nakeduml.runtime.domain.TimeUnit;
 
 public class Jbpm5Util {
 	public static String stepLiteralName(INakedElement s) {
@@ -28,9 +31,6 @@ public class Jbpm5Util {
 		return result;
 	}
 
-	public static OJPathName getJbpmKnowledgeSession() {
-		return new OJPathName("org.nakeduml.jbpm5.JbpmKnowledgeSession");
-	}
 
 	public static OJPathName getNodeInstance() {
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
@@ -53,8 +53,8 @@ public class Jbpm5Util {
 			Collection<? extends GuardedFlow> outgoing) {
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		for (GuardedFlow out : outgoing) {
-			owner.addToImports("net.sf.nakeduml.seam.TimeEventDispatcher");
 			INakedValueSpecification when = event.getWhen();
+			operation.getOwner().addToImports(ITimeEventDispatcher.class.getName());
 			if (when != null) {
 				String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), when.getType());
 				String callBackMethodName = getTimerCallbackMethodName(event);
@@ -62,14 +62,14 @@ public class Jbpm5Util {
 					owner.addToImports(TimeUnit.class.getName());
 					TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
 					operation.getBody().addToStatements(
-							"TimeEventDispatcher.getInstance().scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr
+							"org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr
 									+ ",TimeUnit." + timeUnit.name() + ")");
 				} else {
 					operation.getBody().addToStatements(
-							"TimeEventDispatcher.getInstance().scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ")");
+							"org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ")");
 				}
 			} else {
-				operation.getBody().addToStatements("TimeEventDispatcher.getInstance().createTimer(NO WHEN EXPRESSION SPECIFIED)");
+				operation.getBody().addToStatements("org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).createTimer(NO WHEN EXPRESSION SPECIFIED)");
 			}
 		}
 	}
@@ -79,8 +79,9 @@ public class Jbpm5Util {
 	}
 
 	public static void cancelTimer(OJOperation cancel, INakedTimeEvent event) {
+		cancel.getOwner().addToImports(ITimeEventDispatcher.class.getName());
 		String callBackMethodName = getTimerCallbackMethodName(event);
-		cancel.getBody().addToStatements("TimeEventDispatcher.getInstance().cancelTimer(this,\"" + callBackMethodName + "\")");
+		cancel.getBody().addToStatements("org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).cancelTimer(this,\"" + callBackMethodName + "\")");
 	}
 
 	public static String getArtificialForkName(INakedElement owner) {
@@ -88,7 +89,7 @@ public class Jbpm5Util {
 	}
 
 	public static OJPathName getExceptionHolder() {
-		return new OJPathName("net.sf.nakeduml.util.ExceptionHolder");
+		return new OJPathName(ExceptionHolder.class.getName());
 	}
 
 	public static String endNodeFieldNameFor(INakedElement flow) {

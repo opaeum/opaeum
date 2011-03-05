@@ -2,6 +2,8 @@ package net.sf.nakeduml.javageneration.persistence;
 
 import java.util.List;
 
+import org.nakeduml.runtime.domain.AbstractEntity;
+
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -20,7 +22,6 @@ import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.util.AbstractEntity;
 import nl.klasse.octopus.model.IModelElement;
 
 /**

@@ -7,7 +7,9 @@ import java.util.Set;
 
 import net.sf.nakeduml.domainmetamodel.DomainParameter;
 import net.sf.nakeduml.domainmetamodel.ParameterDirection;
-import net.sf.nakeduml.util.CompositionNode;
+
+import org.nakeduml.runtime.domain.CompositionNode;
+
 import util.Stdlib;
 
 public class ParameterField extends TypedElementField implements CompositionNode {

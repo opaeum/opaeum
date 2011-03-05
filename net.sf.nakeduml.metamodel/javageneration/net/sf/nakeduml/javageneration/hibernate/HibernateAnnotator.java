@@ -19,22 +19,19 @@ import net.sf.nakeduml.javametamodel.OJStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.javametamodel.generated.OJVisibilityKindGEN;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
-import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
@@ -52,12 +49,11 @@ import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
-import net.sf.nakeduml.util.HibernateEntity;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.dialect.Dialect;
+import org.nakeduml.runtime.domain.HibernateEntity;
 
 public class HibernateAnnotator extends AbstractHibernateGenerator {
 	@VisitAfter()
@@ -155,6 +151,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 
 	private void annotateComplexStructure(INakedComplexStructure complexType) {
 		OJAnnotatedClass owner = findJavaClass(complexType);
+		addAllInstances(complexType, owner);
 		OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
 		if (table != null && table.hasAttribute("uniqueConstraints")) {
 			OJAnnotationAttributeValue attr = table.findAttribute("uniqueConstraints");
@@ -378,5 +375,36 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 				}
 			}
 		}
+	}
+	private void addAllInstances(INakedComplexStructure complexType, OJAnnotatedClass ojClass) {
+		OJPathName set = new OJPathName("java.util.Set");
+		ojClass.addToImports(set.getDeepCopy());
+		set.addToElementTypes(ojClass.getPathName());
+		OJAnnotatedField mockInstances = new OJAnnotatedField("mockedAllInstances", set);
+		mockInstances.setStatic(true);
+		ojClass.addToFields(mockInstances);
+		OJAnnotatedOperation mockAllInstances = new OJAnnotatedOperation("mockAllInstances");
+		ojClass.addToOperations(mockAllInstances);
+		mockAllInstances.addParam("newMocks", set);
+		mockAllInstances.setStatic(true);
+		mockAllInstances.getBody().addToStatements("mockedAllInstances=newMocks");
+		
+		// TODO move elsewhere where dependency on Seam has been confirmed
+		OJAnnotatedOperation allInstances = new OJAnnotatedOperation("allInstances");
+		ojClass.addToOperations(allInstances);
+		allInstances.setStatic(true);
+		OJIfStatement ifMocked=new OJIfStatement("mockedAllInstances==null");
+		allInstances.getBody().addToStatements(ifMocked);
+		ifMocked.getThenPart().addToStatements("Session session =org.nakeduml.environment.Environment.getInstance().getComponent(Session.class)");
+		ifMocked.getThenPart()
+				.addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
+		ifMocked.setElsePart(new OJBlock());
+		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
+		ojClass.addToImports(new OJPathName("org.hibernate.Session"));
+		ojClass.addToImports(new OJPathName("java.util.HashSet"));
+		OJPathName setExtends = new OJPathName("java.util.Set");
+		ojClass.addToImports(set.getDeepCopy());
+		setExtends.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
+		allInstances.setReturnType(setExtends);
 	}
 }

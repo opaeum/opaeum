@@ -12,6 +12,7 @@ import java.util.Stack;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -26,15 +27,16 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
+public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor {
 	protected VelocityEngine ve;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 	protected INakedRootObject currentRootObject;
+
 	@Override
 	public void visitRecursively(INakedElementOwner o) {
-		if(o instanceof INakedRootObject){
-			this.currentRootObject=(INakedRootObject) o;
+		if (o instanceof INakedRootObject) {
+			this.currentRootObject = (INakedRootObject) o;
 		}
 		super.visitRecursively(o);
 	}
@@ -43,8 +45,8 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 
 	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		this.config = config;
-		this.transformationContext=context;
-		this.textWorkspace=textWorkspace;
+		this.transformationContext = context;
+		this.textWorkspace = textWorkspace;
 		this.ve = new VelocityEngine();
 		Properties velocityProperties = new Properties();
 		velocityProperties.put("resource.loader", "class");
@@ -97,9 +99,9 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 			sourceFolder.findOrCreateTextFile(path, new CharArrayTextSource(contentWriter), outputRoot.overwriteFiles());
 		}
 	}
+
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentRootObject
-				.getFileName();
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentRootObject.getFileName();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
@@ -112,5 +114,11 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		} else {
 			return super.getChildren(root);
 		}
+	}
+
+	public void findOrCreateTextFile(CharArrayWriter outputBuilder, Enum<?> outputRootId, String... names) {
+		OutputRoot outputRoot = config.getOutputRoot(outputRootId);
+		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
+		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new CharArrayTextSource(outputBuilder), outputRoot.overwriteFiles());
 	}
 }

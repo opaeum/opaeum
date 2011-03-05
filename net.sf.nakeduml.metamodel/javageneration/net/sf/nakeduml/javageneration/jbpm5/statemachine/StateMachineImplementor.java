@@ -28,10 +28,11 @@ import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
-import net.sf.nakeduml.util.AbstractProcess;
-import net.sf.nakeduml.util.AbstractProcessStep;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
+
+import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.AbstractProcessStep;
 
 public class StateMachineImplementor extends AbstractBehaviorVisitor {
 	private OJAnnotatedClass javaStateMachine;

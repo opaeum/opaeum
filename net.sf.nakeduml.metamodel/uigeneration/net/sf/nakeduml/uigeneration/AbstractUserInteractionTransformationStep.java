@@ -5,6 +5,8 @@ import static net.sf.nakeduml.uigeneration.StereotypeNames.getTag;
 import java.util.Collection;
 import java.util.List;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.domainmetamodel.DomainClassifier;
 import net.sf.nakeduml.domainmetamodel.DomainPackage;
 import net.sf.nakeduml.domainmetamodel.SecurityOnUserAction;
@@ -26,7 +28,6 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;

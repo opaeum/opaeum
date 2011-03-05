@@ -7,7 +7,6 @@ import java.util.Properties;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
@@ -21,7 +20,7 @@ import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class)
-public class ProjectWarPomStep extends PomGenerationStep {
+public class WarPomStep extends PomGenerationStep {
 
 	@Override
 	public Dependency[] getDependencies() {

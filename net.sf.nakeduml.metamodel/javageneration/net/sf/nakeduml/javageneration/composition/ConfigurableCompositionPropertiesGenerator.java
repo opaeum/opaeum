@@ -2,29 +2,24 @@ package net.sf.nakeduml.javageneration.composition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class ConfigurableCompositionPropertiesGenerator extends AbstractTestDataGenerator {
 

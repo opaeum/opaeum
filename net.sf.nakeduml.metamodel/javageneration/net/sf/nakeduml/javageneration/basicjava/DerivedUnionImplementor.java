@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.List;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;

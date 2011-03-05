@@ -70,7 +70,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 	}
 
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentRootObject.getFileName();
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentRootObject.getFileName();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;

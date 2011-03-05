@@ -12,9 +12,10 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.util.Constrained;
-import net.sf.nakeduml.util.IInvariantError;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+
+import org.nakeduml.runtime.domain.Constrained;
+import org.nakeduml.runtime.domain.IInvariantError;
 
 /**
  * This class implements the Constrained interface on classes that have invariants.

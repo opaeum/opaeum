@@ -3,8 +3,8 @@ package net.sf.nakeduml.audit;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import net.sf.nakeduml.util.Audited;
-import net.sf.nakeduml.util.RevisionEntity;
+import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.RevisionEntity;
 
 public class AbstractWorkUnit implements Serializable {
 

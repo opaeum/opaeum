@@ -2,7 +2,8 @@ package net.sf.nakeduml.obsolete.uimetamodel;
 
 import java.io.Serializable;
 
-import net.sf.nakeduml.annotation.UserInteractionKind;
+import org.nakeduml.annotation.UserInteractionKind;
+
 
 public class UIMState  implements Serializable{
 	private static final long serialVersionUID = -3934535676949392268L;

@@ -2,10 +2,7 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Set;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
@@ -21,10 +18,8 @@ import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJOperation;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
@@ -41,10 +36,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**

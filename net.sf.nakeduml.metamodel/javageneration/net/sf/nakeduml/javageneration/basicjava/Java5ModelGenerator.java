@@ -9,6 +9,7 @@ import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -30,12 +31,11 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.util.AbstractSignal;
-import nl.klasse.octopus.OctopusConstants;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+
+import org.nakeduml.runtime.domain.AbstractSignal;
 
 public class Java5ModelGenerator extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
@@ -89,6 +89,16 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 					NakedClassifierMap map = new NakedClassifierMap(new OperationMessageStructureImpl(specification));
 					myClass.setSuperclass(map.javaTypePath());
 				}
+			}
+			//TODO this won;t work put it somewhere else AFTER interface generation
+			if(c.getStereotype(StereotypeNames.HELPER)!=null && c instanceof INakedInterface){
+				OJAnnotatedClass impl = new OJAnnotatedClass(myClass.getName() + "Impl");
+				impl.addToImplementedInterfaces(myClass.getPathName());
+				myClass.getMyPackage().addToClasses(impl);
+				for(OJOperation oper:myClass.getOperations()){
+					impl.addToOperations(oper.getDeepCopy());
+				}
+				super.createTextPath(impl, JavaTextSource.OutputRootId.DOMAIN_SRC);
 			}
 			applyStereotypesAsAnnotations((c), myClass);
 		}

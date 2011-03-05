@@ -17,9 +17,9 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.name.NameConverter;
 
 import org.hibernate.annotations.Filter;
+import org.nakeduml.name.NameConverter;
 
 public class JpaUtil {
 

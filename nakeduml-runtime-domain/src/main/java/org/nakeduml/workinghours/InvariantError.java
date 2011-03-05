@@ -1,5 +1,5 @@
 package org.nakeduml.workinghours;
-import net.sf.nakeduml.util.IInvariantError;
+import org.nakeduml.runtime.domain.IInvariantError;
 public class InvariantError implements IInvariantError {
 	private Object instance = null;
 	private String message = "";

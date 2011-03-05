@@ -1,9 +1,6 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.javageneration.JavaTextSource;
-import net.sf.nakeduml.javageneration.auditing.AuditEntryMassage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 

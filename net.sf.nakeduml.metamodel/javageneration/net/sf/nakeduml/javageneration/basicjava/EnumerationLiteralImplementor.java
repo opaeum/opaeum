@@ -25,7 +25,6 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationLiteralImpl;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IEnumLiteral;
 
@@ -33,6 +32,9 @@ public class EnumerationLiteralImplementor extends AttributeImplementor {
 	@VisitBefore(matchSubclasses = true)
 	public void generateExtraConstructor(INakedEnumeration c) {
 		OJEnum myClass = (OJEnum) findJavaClass(c);
+		if(myClass==null){
+			System.out.println();
+		}
 		OJOperation values = OJUtil.findOperation(myClass, "getValues");
 		if (values != null) {
 			OJPathName results = new OJPathName("java.util.Set");

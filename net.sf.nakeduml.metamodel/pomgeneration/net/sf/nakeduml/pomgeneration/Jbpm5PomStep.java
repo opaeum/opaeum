@@ -7,28 +7,20 @@ import java.util.Properties;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 
-import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
-import org.apache.maven.pom.ExecutionsType;
 import org.apache.maven.pom.POMFactory;
-import org.apache.maven.pom.Plugin;
-import org.apache.maven.pom.PluginExecution;
-import org.apache.maven.pom.Profile;
-import org.apache.maven.pom.Resource;
-import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaDomainPomStep.class })
 public class Jbpm5PomStep extends PomGenerationStep {
 	@Override
 	public Dependency[] getDependencies() {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
-		addJbpmFlow(dependencies);
-		addJbpmFlowBuilder(dependencies);
-		addJbpmPersistenceJpa(dependencies);
-		addDroolsCore(dependencies);
+//		addJbpmFlow(dependencies);
+//		addJbpmFlowBuilder(dependencies);
+////		addJbpmPersistenceJpa(dependencies);
+//		addDroolsCore(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 

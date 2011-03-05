@@ -3,8 +3,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.nakeduml.annotation.LookupModeKind;
-import net.sf.nakeduml.annotation.UserInteractionKind;
+import org.nakeduml.annotation.LookupModeKind;
+import org.nakeduml.annotation.UserInteractionKind;
 public abstract class UIMTypedElement<PK extends Enum> extends UIMElement implements Serializable {
 	private UIMClassifier baseType;
 	private Double displayIndex;

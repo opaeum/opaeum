@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.activities;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface INakedExpansionRegion extends INakedStructuredActivityNode {

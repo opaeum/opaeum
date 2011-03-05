@@ -1,6 +1,6 @@
 package net.sf.nakeduml.obsolete.uimetamodel;
-import net.sf.nakeduml.annotation.OperationParticipationKind;
-import net.sf.nakeduml.annotation.UserInteractionKind;
+import org.nakeduml.annotation.OperationParticipationKind;
+import org.nakeduml.annotation.UserInteractionKind;
 public class OperationParticipationCalculator extends ParticipationCalculator<OperationParticipationKind> {
 	UIMOperation operation;
 	public void initialize(UIMOperation operation) {

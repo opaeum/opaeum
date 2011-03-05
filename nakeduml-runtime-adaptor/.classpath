@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/nakeduml-runtime-domain"/>
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
@@ -85,7 +86,6 @@
 			<attribute name="javadoc_location" value="jar:file:/home/ampie/.m2/repository/org/mvel/mvel2/2.1.RC1/mvel2-2.1.RC1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.5-SNAPSHOT/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.5-SNAPSHOT/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0.CR1/seam-persistence-api-3.0.0.CR1.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0.CR1/seam-persistence-api-3.0.0.CR1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/persistence/seam-persistence-api/3.0.0.CR1/seam-persistence-api-3.0.0.CR1-javadoc.jar!/"/>

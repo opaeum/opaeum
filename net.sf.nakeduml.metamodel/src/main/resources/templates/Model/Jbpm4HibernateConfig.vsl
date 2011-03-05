@@ -29,12 +29,10 @@
 #set($requiresJbpm=true)      
 #end
 #end
-#foreach($c in $persistentResources)
-		<mapping resource="${c.mappingInfo.hbmPath}" />
-#end 
 #foreach($c in $persistentClasses)
-		<mapping class="${c.pathName}" />
+		<mapping class="${c}" />
 #end 
+		<mapping package="${pkg}" />
 #if($requiresJbpm)
 		<mapping class="org.drools.persistence.info.SessionInfo" />
 		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceInfo" />

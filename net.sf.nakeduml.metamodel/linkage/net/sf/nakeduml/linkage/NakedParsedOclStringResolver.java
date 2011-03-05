@@ -18,7 +18,6 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -186,7 +185,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitAction(INakedAction a) {
-		INakedClassifier ctx = a.getContext();
+		INakedClassifier ctx = a.getActivity().getContext();
 		if (ctx == null) {
 			ctx = BehaviorUtil.getNearestActualClass(a);
 		}

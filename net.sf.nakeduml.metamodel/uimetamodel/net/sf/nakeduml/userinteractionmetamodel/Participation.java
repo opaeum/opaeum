@@ -1,6 +1,6 @@
 package net.sf.nakeduml.userinteractionmetamodel;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
 
 abstract public class Participation extends UserInteractionElement implements CompositionNode {
 	private Double displayIndex = 0D;

@@ -17,8 +17,9 @@ import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.oclengine.IOclEngine;
+
+import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallAction> {
 	private Caller delegate;

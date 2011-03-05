@@ -16,7 +16,6 @@ import net.sf.nakeduml.metamodel.actions.internal.NakedSendSignalActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -26,7 +25,6 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
-import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallOperationAction;

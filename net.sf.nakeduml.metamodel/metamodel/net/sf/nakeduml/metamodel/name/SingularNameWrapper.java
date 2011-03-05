@@ -1,5 +1,7 @@
 package net.sf.nakeduml.metamodel.name;
 
+import org.nakeduml.name.NameConverter;
+
 
 public class SingularNameWrapper extends NameWrapper{
 	private static final long serialVersionUID = 12135125L;

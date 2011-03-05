@@ -1,6 +1,6 @@
 package net.sf.nakeduml.obsolete.uimetamodel;
 
-import net.sf.nakeduml.annotation.PropertyParticipationKind;
+import org.nakeduml.annotation.PropertyParticipationKind;
 
 public class UIMPropertyParticipation extends UIMTypedElementParticipation{
 	/**

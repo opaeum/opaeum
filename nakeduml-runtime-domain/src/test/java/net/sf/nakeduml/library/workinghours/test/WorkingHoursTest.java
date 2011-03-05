@@ -2,12 +2,12 @@ package net.sf.nakeduml.library.workinghours.test;
 
 import java.util.Calendar;
 
+import org.nakeduml.runtime.domain.TimeUnit;
 import org.nakeduml.workinghours.Holiday;
 import org.nakeduml.workinghours.WorkDay;
 import org.nakeduml.workinghours.WorkingHoursConfiguration;
 
 import junit.framework.TestCase;
-import net.sf.nakeduml.util.TimeUnit;
 
 public class WorkingHoursTest extends TestCase{
 	WorkingHoursConfiguration wh = new WorkingHoursConfiguration();

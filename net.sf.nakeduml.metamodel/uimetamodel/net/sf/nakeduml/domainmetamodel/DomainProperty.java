@@ -1,6 +1,6 @@
 package net.sf.nakeduml.domainmetamodel;
 
-import net.sf.nakeduml.util.CompositionNode;
+import org.nakeduml.runtime.domain.CompositionNode;
 
 public class DomainProperty extends DomainTypedElement implements CompositionNode {
 	private DomainClassifier classifier;

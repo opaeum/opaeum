@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;

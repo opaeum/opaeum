@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.annotation.UserInteractionKind;
+import org.nakeduml.annotation.UserInteractionKind;
+
 //TODO read from the InstanceSpecification as per Stereotype
 public abstract class ParticipationCalculator<T extends Enum> {
 	private static final long serialVersionUID = 6810669608933976170L;

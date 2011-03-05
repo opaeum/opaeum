@@ -7,7 +7,6 @@ import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
 import net.sf.nakeduml.metamodel.mapping.internal.MappingInfoImpl;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
-import nl.klasse.octopus.model.CollectionMetaType;
 
 @StepDependency(phase = LinkagePhase.class, before = { NakedParsedOclStringResolver.class, TypeResolver.class })
 public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker {

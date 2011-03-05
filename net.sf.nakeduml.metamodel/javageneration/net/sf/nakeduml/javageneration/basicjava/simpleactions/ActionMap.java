@@ -79,9 +79,9 @@ public class ActionMap extends ActivityNodeMap {
 		if (targetIsImplicitObject()) {
 			if (getActionWithTarget().getExpectedTargetType() != null) {
 				if (BehaviorUtil.hasExecutionInstance(getActionWithTarget().getActivity())) {
-					if (getActionWithTarget().getContext() != null
-							&& getActionWithTarget().getContext().conformsTo(getActionWithTarget().getExpectedTargetType())) {
-						return getActionWithTarget().getContext();
+					if (getActionWithTarget().getActivity().getContext() != null
+							&& getActionWithTarget().getActivity().getContext().conformsTo(getActionWithTarget().getExpectedTargetType())) {
+						return getActionWithTarget().getActivity().getContext();
 					}
 				}
 			}

@@ -2,7 +2,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements INakedCallBehaviorAction {

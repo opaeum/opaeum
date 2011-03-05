@@ -22,8 +22,10 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.name.NameConverter;
-import net.sf.nakeduml.util.AbstractProcessStep;
+
+import org.nakeduml.name.NameConverter;
+import org.nakeduml.runtime.domain.AbstractProcessStep;
+import org.nakeduml.runtime.domain.TriggerMethod;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
 	protected abstract INakedElement getEnclosingElement(INakedElement step);
@@ -43,8 +45,8 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		addField(e, constructor, "persistentName", new OJPathName("String"));
 		addField(e, constructor, "id", new OJPathName("long"));
 		addField(e, constructor, "humanName", new OJPathName("String"));
-		addField(e, constructor, "triggerMethods", new OJPathName("net.sf.nakeduml.util.TriggerMethod[]"));
-		e.addToImports("net.sf.nakeduml.util.TriggerMethod");
+		addField(e, constructor, "triggerMethods", new OJPathName(TriggerMethod.class.getName()+"[]"));
+		e.addToImports(TriggerMethod.class.getName());
 		OJOperation getQualifiedName = new OJAnnotatedOperation();
 		getQualifiedName.setName("getQualifiedName");
 		getQualifiedName.setReturnType(new OJPathName("String"));

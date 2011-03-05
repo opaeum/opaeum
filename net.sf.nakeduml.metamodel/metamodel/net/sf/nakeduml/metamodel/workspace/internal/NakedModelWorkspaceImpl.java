@@ -23,7 +23,6 @@ import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedTypes;
-import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 

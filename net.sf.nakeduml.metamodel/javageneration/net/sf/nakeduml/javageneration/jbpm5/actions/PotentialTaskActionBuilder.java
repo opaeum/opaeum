@@ -25,10 +25,10 @@ import net.sf.nakeduml.metamodel.actions.INakedInvocationAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
-import net.sf.nakeduml.util.UmlNodeInstance;
 import nl.klasse.octopus.oclengine.IOclEngine;
+
+import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 /**
  * Base class for all action builders that could potentially build a task
@@ -54,7 +54,6 @@ public abstract class PotentialTaskActionBuilder<A extends INakedInvocationActio
 
 	private void implementCompleteMethod(OJClass activityClass) {
 		activityClass.addToImports(Jbpm5Util.getNodeInstance());
-		activityClass.addToImports(Jbpm5Util.getJbpmKnowledgeSession());
 		// TODO find better place for this
 		OJAnnotatedOperation complete = null;
 		String completeMethodName = null;

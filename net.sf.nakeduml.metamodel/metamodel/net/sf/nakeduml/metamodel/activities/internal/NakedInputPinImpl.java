@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 
-import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 
 public class NakedInputPinImpl extends NakedPinImpl implements INakedInputPin {

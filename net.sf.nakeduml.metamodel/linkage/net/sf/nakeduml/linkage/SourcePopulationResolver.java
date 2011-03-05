@@ -17,7 +17,6 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -27,7 +26,7 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.CompositionSiblingsFinder;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
@@ -81,7 +80,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 
 	private void buildSourcePopulationConstraint(ICompositionParticipant owner, INakedProperty p) {
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
-		if (!isComposition && shouldResolve(p, owner) && !p.isDerived() && !p.isReadOnly()) {
+		if (!isComposition && shouldResolve(p, owner) && !p.isDerived() && !p.isReadOnly() ) {
 			INakedConstraint constr = getSourcePopulationConstraint(p, owner);
 			if (constr == null) {
 				if (owner.hasStereotype(HIERARCHY)) {
@@ -190,8 +189,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 	}
 
 	private boolean shouldResolve(INakedTypedElement p, INakedClassifier owner) {
-		return ((p.getNakedBaseType() instanceof ICompositionParticipant || (p.getNakedBaseType() instanceof INakedEnumeration)
-				&& owner instanceof ICompositionParticipant));
+		INakedClassifier baseType = p.getNakedBaseType();
+		return ((baseType instanceof ICompositionParticipant || (baseType instanceof INakedEnumeration)
+				&& owner instanceof ICompositionParticipant)) && !(baseType.hasStereotype(StereotypeNames.HELPER) || owner.hasStereotype(StereotypeNames.HELPER));
 	}
 
 	private INakedConstraint getSourcePopulationConstraint(INakedTypedElement t, INakedClassifier owner) {

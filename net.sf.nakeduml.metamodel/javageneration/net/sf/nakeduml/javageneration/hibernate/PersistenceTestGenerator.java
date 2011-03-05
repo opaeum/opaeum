@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.hibernate;
 
 import java.util.Collection;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.JavaTextSource;
@@ -21,7 +20,6 @@ import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class PersistenceTestGenerator extends AbstractTestDataGenerator {
