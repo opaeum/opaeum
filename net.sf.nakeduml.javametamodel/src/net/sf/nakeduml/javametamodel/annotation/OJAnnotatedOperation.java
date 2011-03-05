@@ -106,5 +106,9 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		OJAnnotatedOperation result = new OJAnnotatedOperation();
 		copyValuesDeep(result);
 		return result;
+	}
+	@Override
+	public OJAnnotationValue findAnnotation(OJPathName ojPathName) {
+		return AnnotationHelper.getAnnotation(this, ojPathName);
 	}		
 }

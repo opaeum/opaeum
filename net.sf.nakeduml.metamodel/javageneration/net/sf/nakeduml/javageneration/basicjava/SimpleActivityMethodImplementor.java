@@ -10,6 +10,7 @@ import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.Caller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ClassifierBehaviorStarter;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ControlNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ExpansionNodeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectCreator;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
@@ -62,6 +63,8 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
+import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
@@ -195,7 +198,23 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		case DECISION_NODE:
 			// implementNode(oper, block,
 			// first.getDefaultOutgoing().iterator().next().getEffectiveTarget());
+			
 			OJBlock elseBlock = block;
+			
+			INakedActivityEdge incomingEdge = cn.getIncoming().iterator().next();
+			if (incomingEdge instanceof INakedObjectFlow) {
+				OJField decisionNodeVar = new OJField();
+				decisionNodeVar.setName(incomingEdge.getSource().getName());
+				INakedClassifier type = ((INakedObjectNode)incomingEdge.getSource()).getNakedBaseType();
+				decisionNodeVar.setType(OJUtil.classifierPathname(type));
+
+				SimpleNodeBuilder<?> builder = resolveBuilder(cn, getOclEngine(), new ObjectNodeExpressor(getOclEngine().getOclLibrary()));
+				String expression = builder.buildControlNodeExpression(operation, block, cn);
+				decisionNodeVar.setInitExp(expression);
+				
+				elseBlock.addToLocals(decisionNodeVar);
+			}
+			
 			OJIfStatement ifStatement = null;
 			for (INakedActivityEdge edge : cn.getConditionalOutgoing()) {
 				ifStatement = new OJIfStatement();
@@ -253,13 +272,17 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			actionBuilder = new SignalSender(oclEngine, (INakedSendSignalAction) node, expressor);
 		} else if (node instanceof INakedRaiseExceptionAction) {
 			actionBuilder = new ExceptionRaiser(oclEngine, (INakedRaiseExceptionAction) node, expressor);
+		} else if (node instanceof INakedControlNode) {
+			actionBuilder = new ControlNodeBuilder(oclEngine, (INakedControlNode) node, expressor);
 		}
 		return actionBuilder;
 	}
 
 	private void maybeImplementNextNode(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode pn) {
 		if (pn.getDefaultOutgoing().size() == 1) {
-			implementNode(operation, block, pn.getDefaultOutgoing().iterator().next().getEffectiveTarget());
+			OJBlock nodeBlock = new OJBlock();
+			block.addToStatements(nodeBlock);
+			implementNode(operation, nodeBlock, pn.getDefaultOutgoing().iterator().next().getEffectiveTarget());
 		}
 	}
 

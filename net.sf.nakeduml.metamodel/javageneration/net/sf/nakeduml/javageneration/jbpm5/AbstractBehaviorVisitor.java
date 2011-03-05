@@ -91,10 +91,12 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		context.addToImports(map.javaDefaultTypePath());
 		if (persistent) {
 			OJAnnotationValue oneToMany = new OJAnnotationValue(new OJPathName(OneToMany.class.getName()));
-			HibernateUtil.addCascade(field, CascadeType.DELETE_ORPHAN);
+//			HibernateUtil.addCascade(field, CascadeType.DELETE_ORPHAN);
 			field.addAnnotationIfNew(oneToMany);
 			oneToMany.putAttribute("mappedBy", "contextObject");
 			oneToMany.putAttribute("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
+			oneToMany.putAttribute("orphanRemoval", true);
+			oneToMany.putAttribute("cascade", new OJEnumValue(new OJPathName("javax.persistence.CascadeType"), "ALL"));
 		} else {
 			OJAnnotationValue transientA = new OJAnnotationValue(new OJPathName(Transient.class.getName()));
 			field.addAnnotationIfNew(transientA);

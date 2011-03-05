@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.audit.AuditSyncManager;
-import net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase;
-import net.sf.nakeduml.seam.Component;
-import net.sf.nakeduml.seam3.persistence.InitializeHibernate;
-
+import org.nakeduml.audit.AuditSyncManager;
+import org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeBase;
+import org.nakeduml.environment.adaptor.Component;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
 import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.seam3.persistence.InitializeHibernate;
 
 public class NakedUtilTestClasses {
 

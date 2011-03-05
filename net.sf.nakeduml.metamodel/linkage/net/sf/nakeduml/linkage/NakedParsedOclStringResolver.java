@@ -50,9 +50,9 @@ import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
 @StepDependency(phase = LinkagePhase.class, after = { EnumerationValuesAttributeAdder.class, PinLinker.class, MappedTypeLinker.class,
-		SourcePopulationResolver.class, ReferenceResolver.class, TypeResolver.class, ProcessIdentifier.class }, requires = {
-		MappedTypeLinker.class, PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class,
-		UmlNameRegenerator.class, EnumerationValuesAttributeAdder.class })
+		SourcePopulationResolver.class, ReferenceResolver.class, TypeResolver.class, ProcessIdentifier.class }, requires = { MappedTypeLinker.class,
+		PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class, UmlNameRegenerator.class,
+		EnumerationValuesAttributeAdder.class })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 	EnvironmentFactory environmentFactory;
 
@@ -280,8 +280,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker {
 		}
 	}
 
-	private Collection<IOclContext> replaceParcedOclStringsForOclContext(INakedClassifier c, INakedElement element,
-			Collection<? extends IOclContext> invs) {
+	private Collection<IOclContext> replaceParcedOclStringsForOclContext(INakedClassifier c, INakedElement element, Collection<? extends IOclContext> invs) {
 		Collection<IOclContext> loopResults = new ArrayList<IOclContext>();
 		for (IOclContext cont : invs) {
 			if (cont instanceof ParsedOclString) {

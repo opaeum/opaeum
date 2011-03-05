@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public abstract class AbstractObjectNodeExpressor {
@@ -22,7 +23,7 @@ public abstract class AbstractObjectNodeExpressor {
 	public AbstractObjectNodeExpressor(IOclLibrary oclLibrary) {
 		this.oclLibrary = oclLibrary;
 	}
-
+	abstract public String expressControlNode(OJBlock block, INakedControlNode controlNode);
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin);
 
 	abstract public OJAnnotatedField maybeBuildResultVariable(OJAnnotatedOperation operation, OJBlock block, NakedStructuralFeatureMap map);

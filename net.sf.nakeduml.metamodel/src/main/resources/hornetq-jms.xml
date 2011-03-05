@@ -5,4 +5,7 @@
    <queue name="AuditQueue">
       <entry name="/queue/AuditQueue" />
    </queue>
+   <queue name="SignalQueue">
+      <entry name="/queue/SignalQueue" />
+   </queue>
 </configuration>

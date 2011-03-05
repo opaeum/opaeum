@@ -8,5 +8,6 @@ public interface OJAnnotatedElement {
 	OJAnnotationValue putAnnotation(OJAnnotationValue an);
 	OJAnnotationValue removeAnnotation(OJPathName type);
 	boolean addAnnotationIfNew(OJAnnotationValue value);
+	OJAnnotationValue findAnnotation(OJPathName ojPathName);
 	
 }

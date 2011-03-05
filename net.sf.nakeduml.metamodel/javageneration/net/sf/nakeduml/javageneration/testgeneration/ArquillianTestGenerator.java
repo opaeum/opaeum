@@ -220,6 +220,9 @@ public class ArquillianTestGenerator extends AbstractJavaProducingVisitor {
 	private void addClassFields(OJAnnotatedClass startUp, INakedEntity root) {
 		OJAnnotatedField session = new OJAnnotatedField("session", new OJPathName("org.hibernate.Session"));
 		session.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
+		OJPathName dependent = new OJPathName("org.nakeduml.seam3.persistence.DependentScopedSession");
+		session.addAnnotationIfNew(new OJAnnotationValue(dependent));
+		startUp.addToImports(dependent);
 		startUp.addToFields(session);
 		OJAnnotatedField transaction = new OJAnnotatedField("transaction", new OJPathName(
 				"org.jboss.seam.persistence.transaction.SeamTransaction"));

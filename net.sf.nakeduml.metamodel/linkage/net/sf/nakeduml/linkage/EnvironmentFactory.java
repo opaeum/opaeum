@@ -8,7 +8,10 @@ import java.util.Map;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
@@ -94,8 +97,7 @@ public class EnvironmentFactory {
 			}
 			addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
 			if (BehaviorUtil.hasExecutionInstance(owningBehavior)) {
-				env.addElement("this",
-						new VariableDeclaration("this", new ActivityVariableContext(owningBehavior, element, owningBehavior)), true);
+				env.addElement("this", new VariableDeclaration("this", new ActivityVariableContext(owningBehavior, element, owningBehavior)), true);
 				addActivityStructureAsLocalContext(env, element, false);
 			} else {
 				addActivityStructureAsLocalContext(env, element, true);
