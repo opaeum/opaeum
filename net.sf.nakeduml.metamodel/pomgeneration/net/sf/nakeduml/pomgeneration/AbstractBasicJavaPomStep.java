@@ -10,6 +10,14 @@ import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 
 public abstract class AbstractBasicJavaPomStep extends PomGenerationStep {
+	protected void addNumlTestAdaptor(Collection<Dependency> result) {
+		Dependency numlAdaptor=POMFactory.eINSTANCE.createDependency();
+		numlAdaptor.setGroupId("org.nakeduml");
+		numlAdaptor.setArtifactId("nakeduml-test-adaptor");
+		numlAdaptor.setScope("test");
+		numlAdaptor.setVersion(PomGenerationPhase.NUML_VERSION);
+		result.add(numlAdaptor);
+	}
 
 	protected Collection<Dependency> getTestDepedencies() {
 		Collection<Dependency> result = new ArrayList<Dependency>();

@@ -122,7 +122,7 @@ public class ArquillianTestGenerator extends AbstractJavaProducingVisitor {
 		createTestArchive.setThrows(new HashSet<OJPathName>(Arrays.asList(new OJPathName(ClassNotFoundException.class.getName()),
 				ioExceptionPath, illegalArgumentException)));
 		dummyTest.addToImports(new OJPathName("org.jboss.shrinkwrap.api.spec.WebArchive"));
-		dummyTest.addToImports(new OJPathName("org.nakeduml.arquillian.ArquillianUtils"));
+		dummyTest.addToImports(new OJPathName("org.nakeduml.test.adaptor.ArquillianUtils"));
 		dummyTest.addToImports(new OJPathName("org.nakeduml.test.NakedUtilTestClasses"));
 		createTestArchive.getBody().addToStatements("WebArchive war = ArquillianUtils.createWarArchive(false)");
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"WEB-INF/beans.xml\", \"beans.xml\")");

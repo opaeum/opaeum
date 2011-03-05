@@ -19,6 +19,7 @@ public class BasicJavaIntegratedAdaptorPomStep extends AbstractBasicJavaPomStep 
 		for (INakedRootObject rootObject : workspace.getPrimaryRootObjects()) {
 			addDependencyToRootObject("-adaptor", rootObject,dependencies);
 		}
+		addNumlTestAdaptor(dependencies);
 		addSeamServlet(dependencies);
 		return (Dependency[]) dependencies.toArray(new Dependency[dependencies.size()]);
 	}

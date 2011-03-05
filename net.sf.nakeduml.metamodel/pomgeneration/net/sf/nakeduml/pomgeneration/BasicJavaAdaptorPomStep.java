@@ -17,17 +17,23 @@ public class BasicJavaAdaptorPomStep extends AbstractBasicJavaPomStep {
 	@Override
 	public Dependency[] getDependencies() {
 		Collection<Dependency> result = getBasicDependencies("-adaptor");
+		addNumlAdaptor(result);
+		addNumlTestAdaptor(result);
+		addCdi(result);
+		addDependencyToRootObject("-domain", model, result);
+		addArquillian(result);
+
+		return (Dependency[]) result.toArray(new Dependency[result.size()]);
+	}
+
+
+	private void addNumlAdaptor(Collection<Dependency> result) {
 		Dependency numlAdaptor=POMFactory.eINSTANCE.createDependency();
 		numlAdaptor.setGroupId("org.nakeduml");
 		numlAdaptor.setArtifactId("nakeduml-runtime-adaptor");
 		numlAdaptor.setScope("compile");
 		numlAdaptor.setVersion(PomGenerationPhase.NUML_VERSION);
 		result.add(numlAdaptor);
-		addCdi(result);
-		addDependencyToRootObject("-domain", model, result);
-		addArquillian(result);
-
-		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 
 

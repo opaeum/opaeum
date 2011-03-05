@@ -15,12 +15,14 @@ import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.linkage.InterfaceUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -41,8 +43,10 @@ public class AbstractEntityImplementor extends AbstractJavaProducingVisitor {
 		OJPathName path = OJUtil.classifierPathname(c);
 		OJClassifier ojClassifier = super.findJavaClass(c);
 		if (ojClassifier instanceof OJAnnotatedInterface) {
-			((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(ABSTRACT_ENTITY);
-			ojClassifier.addToImports(ABSTRACT_ENTITY);
+			if (c.getStereotype(StereotypeNames.HELPER) == null) {
+				((OJAnnotatedInterface) ojClassifier).addToSuperInterfaces(ABSTRACT_ENTITY);
+				ojClassifier.addToImports(ABSTRACT_ENTITY);
+			}
 		} else if (ojClassifier instanceof OJClass) {
 			OJClass ojClass = (OJClass) ojClassifier;
 			if (isPersistent(c)) {
@@ -57,7 +61,6 @@ public class AbstractEntityImplementor extends AbstractJavaProducingVisitor {
 				}
 			}
 		}
-
 	}
 
 	private void addDiscriminatorInitialization(INakedEntity entity, OJClass ojClass) {
