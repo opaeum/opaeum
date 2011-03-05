@@ -3,57 +3,47 @@ package net.sf.nakeduml.feature;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.persistence.GenerationType;
 
 public class NakedUmlConfig {
-	// TODO group these by feature - let every feature contribute its own config
-	// properties
-	public static final String NAKEDUML_COMPOSITE_NODE_INTERFACE = "nakeduml.compositenode.interface";
-	public static final String NAKEDUML_TEST_SOURCE_DIRECTORY = "nakeduml.test.source.directory";
-	public static final String NAKEDUML_HAR_SOURCE_DIRECTORY = "nakeduml.har.source.directory";
-	public static final String NAKEDUML_SQL_DIRECTORY = "nakeduml.sql.directory";
-	public static final String NAKEDUML_WEBUI_PROJECT = "nakeduml.webui.project";
-	public static final String NAKEDUML_DOMAIN_PROJECT = "nakeduml.domain.project";
-	public static final String JDBC_DIALECT = "nakeduml.jdbc.dialect";
-	public static final String NAKEDUML_LIST_COLUMNS = "nakeduml.list.columns";
-	public static final String NAKEDUML_NEED_SCHEMA = "nakeduml.needSchema";
-	public static final String NAKEDUML_DEFAULT_SCHEMA = "nakeduml.default.schema";
-	public static final String NAKEDUML_APPLICATION_PAGES_XML = "naked.uml.application.pages.xml.path";
-	public static final String NAKEDUML_TOOMANY_DATATABLE_ROWS = "nakeduml.toomany.datatable.rows";
-	public static final String NAKEDUML_ENVERS_AUDITED = "nakeduml.envers.audited";
-	public static final String NAKEDUML_DATA_GENERATION = "nakeduml.data.generation";
+	private static final String JDBC_CONNECTION_URL = "nakeduml.jdbc.connection.url";
+	private static final String DB_USERNAME = "nakeduml.jdbc.connection.username";
+	private static final String DB_PASSWORD = "nakeduml.jdbc.connection.password";
+	private static final String JDBC_DIALECT = "nakeduml.jdbc.dialect";
+	private static final String NAKEDUML_LIST_COLUMNS = "nakeduml.list.columns";
+	private static final String NAKEDUML_NEED_SCHEMA = "nakeduml.needSchema";
+	private static final String NAKEDUML_DEFAULT_SCHEMA = "nakeduml.default.schema";
+	private static final String NAKEDUML_DATA_GENERATION = "nakeduml.data.generation";
 	private static final String JDBC_DRIVER_CLASS = "nakeduml.jdbc.driver.class";
 	private static final String NAKEDUML_REAL_TYPE = "nakeduml.real.type";
 	private static final String NAKEDUML_EMAIL_ADDRESS_TYPE = "nakeduml.email.address.type";
 	private static final String NAKEDUML_DATE_TIME_TYPE = "nakeduml.timestamp.type";
 	private static final String NAKEDUML_DATE_TYPE = "nakeduml.date.type";
-	private static final String NAKEDUML_MAPPED_TYPES_PACKAGE = "nakeduml.mapped.types.package";
-	private static final String NAKEDUML_PROJECT_NAME = "nakeduml.project.name";
 	private static final String NAKEDUML_HIBERNATE_DS_NAME = "nakeduml.hibernate.ds.name";
-	private static final String NAKEDUML_HIBERNATE_CFG_NAME = "nakeduml.hibernate.cfg.name";
-	private static final String NAKEDUML_PROJECT_GEN_ROOT = "nakeduml.project.gen.root";
 	private static final String NAKEDUML_PROJECT_GEN_GROUPID = "nakeduml.project.gen.groupid";
 	private static final String NAKEDUML_ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
 	private static final String NAKEDUML_TEST_DATA_SIZE = "nakeduml.test.data.size";
-
-	private Properties props = new Properties();
+	private static final String MAVEN_GROUPID = "nakeduml.maven.groupid";
+	private static final String MAVEN_GROUP_VERSION = "nakeduml.maven.group.version";
+	private static final String GENERATE_MAVEN_POMS = "nakeduml.generate.poms";
+	private Properties props = new SortedProperties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
-	private Set<String> selectedFeatures = new HashSet<String>();
+	private File outputRoot;
+	private Map<Enum<?>, OutputRoot> outputRoots = new HashMap<Enum<?>, OutputRoot>();
+	private File file;
 
-	public NakedUmlConfig(Properties props2, String projectName) {
-		this.props = props2;
-		loadDefaults(projectName);
+	public NakedUmlConfig() {
 	}
 
 	public void load(File file, String projectName) throws IOException {
+		this.file = file;
 		if (file.exists()) {
 			FileInputStream stream = new FileInputStream(file);
 			if (stream != null) {
@@ -65,53 +55,20 @@ public class NakedUmlConfig {
 	}
 
 	public void loadDefaults(String projectName) {
-		if (!this.props.containsKey(NAKEDUML_PROJECT_NAME)) {
-			this.props.setProperty(NAKEDUML_PROJECT_NAME, projectName);
-		}
-		if (!this.props.containsKey(NAKEDUML_DOMAIN_PROJECT)) {
-			this.props.setProperty(NAKEDUML_DOMAIN_PROJECT, projectName + "Domain");
-		}
-		if (!this.props.containsKey(NAKEDUML_WEBUI_PROJECT)) {
-			this.props.setProperty(NAKEDUML_WEBUI_PROJECT, projectName + "WebUI");
-		}
 		if (!this.props.containsKey(JDBC_DIALECT)) {
 			this.props.setProperty(JDBC_DIALECT, "org.hibernate.dialect.HSQLDialect");
 		}
 		if (!this.props.containsKey(JDBC_DRIVER_CLASS)) {
 			this.props.setProperty(JDBC_DRIVER_CLASS, "org.hsqldb.jdbcDriver");
 		}
-		if (!this.props.containsKey("nakeduml.jdbc.connection.password")) {
-			this.props.setProperty("nakeduml.jdbc.connection.password", "");
+		if (!this.props.containsKey(DB_PASSWORD)) {
+			this.props.setProperty(DB_PASSWORD, "");
 		}
-		if (!this.props.containsKey("nakeduml.jdbc.connection.username")) {
-			this.props.setProperty("nakeduml.jdbc.connection.username", "sa");
+		if (!this.props.containsKey(DB_USERNAME)) {
+			this.props.setProperty(DB_USERNAME, "sa");
 		}
-		if (!this.props.containsKey("nakeduml.jdbc.connection.url")) {
-			this.props.setProperty("nakeduml.jdbc.connection.url", "jdbc:hsqldb:hsql:///test");
-		}
-		if (!this.props.containsKey(NAKEDUML_HAR_SOURCE_DIRECTORY)) {
-			this.props.setProperty(NAKEDUML_HAR_SOURCE_DIRECTORY, "har-src");
-		}
-		if (!this.props.containsKey(NAKEDUML_TEST_SOURCE_DIRECTORY)) {
-			this.props.setProperty(NAKEDUML_TEST_SOURCE_DIRECTORY, "test-src");
-		}
-		if (!this.props.containsKey("nakeduml.naming.context.factory")) {
-			this.props.setProperty("nakeduml.naming.context.factory", "org.jnp.interfaces.NamingContextFactory");
-		}
-		if (!this.props.containsKey("nakeduml.naming.providerurl")) {
-			this.props.setProperty("nakeduml.naming.providerurl", "locModelalhost");
-		}
-		if (!this.props.containsKey(NAKEDUML_SQL_DIRECTORY)) {
-			this.props.setProperty(NAKEDUML_SQL_DIRECTORY, "sql");
-		}
-		if (!this.props.containsKey("nakeduml.jdbc.datasource.connection.url")) {
-			this.props.setProperty("nakeduml.jdbc.datasource.connection.url", "jdbc:hsqldb:hsql://test");
-		}
-		if (!this.props.containsKey("nakeduml.jdbc.database.name")) {
-			this.props.setProperty("nakeduml.jdbc.database.name", projectName);
-		}
-		if (!this.props.containsKey(NAKEDUML_MAPPED_TYPES_PACKAGE)) {
-			this.props.setProperty(NAKEDUML_MAPPED_TYPES_PACKAGE, "Types");
+		if (!this.props.containsKey(JDBC_CONNECTION_URL)) {
+			this.props.setProperty(JDBC_CONNECTION_URL, "jdbc:hsqldb:hsql:///" + projectName);
 		}
 		if (!this.props.containsKey(NAKEDUML_DATE_TIME_TYPE)) {
 			this.props.setProperty(NAKEDUML_DATE_TIME_TYPE, "Date");
@@ -125,11 +82,9 @@ public class NakedUmlConfig {
 		if (!this.props.containsKey(NAKEDUML_EMAIL_ADDRESS_TYPE)) {
 			this.props.setProperty(NAKEDUML_EMAIL_ADDRESS_TYPE, "EMailAddress");
 		}
-
-	}
-
-	public String getDatasourceConnectionUrl() {
-		return this.props.getProperty("nakeduml.jdbc.datasource.connection.url");
+		if (!this.props.containsKey(GENERATE_MAVEN_POMS)) {
+			this.props.setProperty(GENERATE_MAVEN_POMS, "true");
+		}
 	}
 
 	public String getJdbcDialect() {
@@ -141,43 +96,19 @@ public class NakedUmlConfig {
 	}
 
 	public String getDBPassword() {
-		return this.props.getProperty("nakeduml.jdbc.connection.password");
+		return this.props.getProperty(DB_PASSWORD);
+	}
+
+	public boolean generateMavenPoms() {
+		return "true".equals(this.props.getProperty(GENERATE_MAVEN_POMS,"true"));
 	}
 
 	public String getDBUsername() {
-		return this.props.getProperty("nakeduml.jdbc.connection.username");
+		return this.props.getProperty(DB_USERNAME);
 	}
 
 	public String getDBConnectionUrl() {
-		return this.props.getProperty("nakeduml.jdbc.connection.url");
-	}
-
-	public String getHarSourceDirectory() {
-		return this.props.getProperty(NAKEDUML_HAR_SOURCE_DIRECTORY);
-	}
-
-	public String getGenSourceDirectory() {
-		return this.props.getProperty(NAKEDUML_TEST_SOURCE_DIRECTORY);
-	}
-
-	public String getInitialContextFactory() {
-		return this.props.getProperty("nakeduml.naming.context.factory");
-	}
-
-	public String getProviderUrl() {
-		return this.props.getProperty("nakeduml.naming.providerurl");
-	}
-
-	public String getDomainProject() {
-		return this.props.getProperty(NAKEDUML_DOMAIN_PROJECT);
-	}
-
-	public String getWebUIProject() {
-		return this.props.getProperty(NAKEDUML_WEBUI_PROJECT);
-	}
-
-	public String getSqlDirectory() {
-		return this.props.getProperty(NAKEDUML_SQL_DIRECTORY);
+		return this.props.getProperty(JDBC_CONNECTION_URL);
 	}
 
 	public String getDateType() {
@@ -188,33 +119,16 @@ public class NakedUmlConfig {
 		return this.props.getProperty(NAKEDUML_REAL_TYPE);
 	}
 
-	public String getMappedTypesPackage() {
-		return this.props.getProperty(NAKEDUML_MAPPED_TYPES_PACKAGE);
-	}
-
 	public String getEMailAddressType() {
 		return this.props.getProperty(NAKEDUML_EMAIL_ADDRESS_TYPE);
 	}
 
-	public boolean generateFeature(String featureName) {
-		return "true".equals(this.props.getProperty(featureName));
-	}
-
-	public String getName() {
-		return "SomeName";
-	}
-
-	public void mapOutputRoot(String name, File destination) {
-		this.outputRootMap.put(name, destination);
+	public void setOutputRoot(File destination) {
+		this.outputRoot = destination;
 	}
 
 	public File getMappedDestination(String name) {
 		return this.outputRootMap.get(name);
-	}
-
-	@Deprecated
-	public Set<String> getSelectedFeatures() {
-		return this.selectedFeatures;
 	}
 
 	public int getNumberOfColumns() {
@@ -229,54 +143,22 @@ public class NakedUmlConfig {
 		return this.props.getProperty(NAKEDUML_DEFAULT_SCHEMA);
 	}
 
-	public String getApplicationPagesXmlPath() {
-		return this.props.getProperty(NAKEDUML_APPLICATION_PAGES_XML, "");
-	}
-
-	public String getTooManyRataTableRows() {
-		return this.props.getProperty(NAKEDUML_TOOMANY_DATATABLE_ROWS, "10");
-	}
-
-	public String getCompositeNodeInterface() {
-		return this.props.getProperty(NAKEDUML_COMPOSITE_NODE_INTERFACE, "util.CompositionNode");
-	}
-
-	public Boolean getEnversAudited() {
-		return Boolean.valueOf(this.props.getProperty(NAKEDUML_ENVERS_AUDITED, "false"));
-	}
-
 	public Boolean getDataGeneration() {
 		return Boolean.valueOf(this.props.getProperty(NAKEDUML_DATA_GENERATION, "true"));
-	}
-
-	public String getProjectName() {
-		return this.props.getProperty(NAKEDUML_PROJECT_NAME, "nakedmonkey");
-	}
-
-	public String getHibernateCfgName() {
-		return this.props.getProperty(NAKEDUML_HIBERNATE_CFG_NAME, "java:/monkeySessionFactory");
 	}
 
 	public String getHibernateDSName() {
 		return this.props.getProperty(NAKEDUML_HIBERNATE_DS_NAME, "java:/DefaultDS");
 	}
 
-	public String getNakedUmlProjectGenGroupId() {
-		return this.props.getProperty(NAKEDUML_PROJECT_GEN_GROUPID, "nakedumlgenprojectgroupid");
+	public String getMavenGroupId() {
+		return this.props.getProperty(MAVEN_GROUPID, "nakedumlgenprojectgroupid");
 	}
 
 	public void setNakedUmlProjectGenGroupId(String name) {
 		this.props.setProperty(NAKEDUML_PROJECT_GEN_GROUPID, name);
 	}
 
-	public String getNakedUmlProjectGenRoot() {
-		return this.props.getProperty(NAKEDUML_PROJECT_GEN_ROOT, "/tmp");
-	}
-
-	public void setNakedUmlProjectGenRoot(String name) {
-		this.props.setProperty(NAKEDUML_PROJECT_GEN_ROOT, name);
-	}
-	
 	public String getIdGeneratorStrategy() {
 		return this.props.getProperty(NAKEDUML_ID_GENERATOR_STRATEGY, GenerationType.AUTO.name());
 	}
@@ -289,13 +171,37 @@ public class NakedUmlConfig {
 		return this.props.getProperty(NAKEDUML_TEST_DATA_SIZE, "3");
 	}
 
+	public void store() {
+		try {
+			store(new FileWriter(file));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public void store(Writer writer) {
 		try {
 			props.store(writer, "NakedUML");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
+	public File getOutputRoot() {
+		return outputRoot;
+	}
+
+	public OutputRoot getOutputRoot(Enum<?> id) {
+		return outputRoots.get(id);
+	}
+
+	public OutputRoot mapOutputRoot(Enum<?> id, boolean useEntryModelName, String projectSuffix, String sourceFolder) {
+		OutputRoot value = new OutputRoot(useEntryModelName, projectSuffix, sourceFolder);
+		outputRoots.put(id, value);
+		return value;
+	}
+
+	public String getMavenGroupVersion() {
+		return this.props.getProperty(MAVEN_GROUP_VERSION, "0.0.1-SNAPSHOT");
+	}
 }

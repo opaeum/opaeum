@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+import net.sf.nakeduml.feature.SortedProperties;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 
@@ -27,8 +28,8 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo {
 	private float currentVersion;
 	private int nakedUmlIdMaxValue;
 
-	public WorkspaceMappingInfoImpl() {
-		this.properties = new Properties();
+	private WorkspaceMappingInfoImpl() {
+		this.properties = new SortedProperties();
 	}
 
 	public WorkspaceMappingInfoImpl(File file) {

@@ -54,7 +54,7 @@ public class OpaqueActionMessageStructureImpl extends MessageStructureImpl {
 
 	@Override
 	public IPackage getRoot() {
-		return getOpaqueAction().getActivity().getRoot();
+		return getOpaqueAction().getActivity().getNakedRoot();
 	}
 
 

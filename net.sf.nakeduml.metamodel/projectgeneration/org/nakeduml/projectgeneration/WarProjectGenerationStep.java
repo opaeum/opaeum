@@ -1,42 +1,63 @@
 package org.nakeduml.projectgeneration;
 
 import java.io.BufferedReader;
+import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.pomgeneration.ProjectWarPomStep;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextSource;
 
-@StepDependency(phase = ProjectGenerationPhase.class, requires = { ProjectWarPomStep.class, ProjectTestGenerationStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
+@StepDependency(phase = ProjectGenerationPhase.class, requires = { ProjectWarPomStep.class, ProjectTestGenerationStep.class,
+		TextFileGenerator.class }, before = { TextFileGenerator.class })
 public class WarProjectGenerationStep extends AbstractProjectGenerationStep {
 
 	@VisitBefore
 	public void visitModel(INakedModel model) {
-		createConfig("beans.xml", CharArrayTextSource.WEBAPP_RESOURCE, "WEB-INF");
-		createConfig("faces-config.xml", CharArrayTextSource.WEBAPP_RESOURCE, "WEB-INF");
-		createConfig("web.xml", CharArrayTextSource.WEBAPP_RESOURCE, "WEB-INF");
-		createConfig("arquillian.xml", CharArrayTextSource.TEST_RESOURCE, "");
-		createConfig("log4j.properties", CharArrayTextSource.TEST_RESOURCE, "");
-		createConfig("hornetq-jms.xml", CharArrayTextSource.TEST_RESOURCE_JBOSSAS, "");
-		createConfig("jndi.properties", CharArrayTextSource.TEST_RESOURCE_JBOSSAS, "");
+		createConfig("beans.xml", CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, "WEB-INF");
+		createConfig("faces-config.xml", CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, "WEB-INF");
+		createConfig("web.xml", CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, "WEB-INF");
+		createConfig("arquillian.xml", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE);
+		createConfig("log4j.properties", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE);
+		createConfig("hornetq-jms.xml", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE_JBOSSAS);
+		createConfig("jndi.properties", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE_JBOSSAS);
 		createDefaultHtmlPages("home.xhtml");
 		createDefaultHtmlPages("index.html");
 		createDefaultHtmlPages("template.xhtml");
 	}
 
+	private void createConfig(String name, OutputRootId outputRootId) {
+		CharArrayWriter outputBuilder = copyResource(name);
+		findOrCreateTextFile(outputBuilder, outputRootId, name);
+	}
+
 	private void createDefaultHtmlPages(String name) {
+		final CharArrayWriter outputBuilder = copyResource(name);
+		findOrCreateTextFile(outputBuilder, CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, name);
+	}
+
+
+	private void createConfig(String name, Enum<?> outputRootId, String dir) {
+		CharArrayWriter outputBuilder = copyResource(name);
+		findOrCreateTextFile(outputBuilder, outputRootId, dir, name);
+	}
+
+	private CharArrayWriter copyResource(String name) {
 		final InputStream inputStream = this.getClass().getResourceAsStream("/" + name);
 		String string;
-		final StringBuilder outputBuilder = new StringBuilder();
+		final CharArrayWriter outputBuilder = new CharArrayWriter();
 		if (inputStream != null) {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			try {
@@ -47,50 +68,6 @@ public class WarProjectGenerationStep extends AbstractProjectGenerationStep {
 				throw new RuntimeException(e);
 			}
 		}
-
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(CharArrayTextSource.WEBAPP_RESOURCE);
-		List<String> names = Arrays.asList(name);
-		or.findOrCreateTextFile(names, new TextSource() {
-			@Override
-			public char[] toCharArray() {
-				return outputBuilder.toString().toCharArray();
-			}
-
-			@Override
-			public boolean hasContent() {
-				return true;
-			}
-		});
+		return outputBuilder;
 	}
-
-	private void createConfig(String name, String target, String dir) {
-		final InputStream inputStream = this.getClass().getResourceAsStream("/" + name);
-		String string;
-		final StringBuilder outputBuilder = new StringBuilder();
-		if (inputStream != null) {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-			try {
-				while (null != (string = reader.readLine())) {
-					outputBuilder.append(string).append('\n');
-				}
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(target);
-		List<String> names = Arrays.asList(dir, name);
-		or.findOrCreateTextFile(names, new TextSource() {
-			@Override
-			public char[] toCharArray() {
-				return outputBuilder.toString().toCharArray();
-			}
-
-			@Override
-			public boolean hasContent() {
-				return true;
-			}
-		});
-	}
-
 }

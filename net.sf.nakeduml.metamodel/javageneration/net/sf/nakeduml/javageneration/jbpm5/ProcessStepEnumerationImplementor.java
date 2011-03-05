@@ -22,7 +22,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.util.AbstractProcessStep;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
@@ -36,7 +36,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.setName(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
-		super.createTextPath(e, JavaTextSource.GEN_SRC);
+		super.createTextPath(e, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
 		addField(e, constructor, "parentState", abstractProcessStep);

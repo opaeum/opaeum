@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class DependenciesTest {
 	public static class SomeStep implements TransformationStep{}
 	public static class AbstractPhase implements TransformationPhase<SomeStep> {
-		public Object[] execute(List features) {
+		public Object[] execute(List features, TransformationContext context) {
 			return null;
 		}
 

@@ -9,8 +9,10 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import nl.klasse.octopus.expressions.internal.types.PathName;
+import nl.klasse.octopus.model.IPackage;
 
 public class EmulatingElement implements INakedElement {
 	String documentation;
@@ -53,7 +55,12 @@ public class EmulatingElement implements INakedElement {
 	public INakedNameSpace getNameSpace() {
 		return element.getNameSpace();
 	}
-
+	public INakedRootObject getNakedRoot(){
+		return ((INakedElement)getOwnerElement()).getNakedRoot();
+	}
+	public IPackage getRoot(){
+		return getNakedRoot();
+	}
 	public INakedElementOwner getOwnerElement() {
 		return element.getOwnerElement();
 	}

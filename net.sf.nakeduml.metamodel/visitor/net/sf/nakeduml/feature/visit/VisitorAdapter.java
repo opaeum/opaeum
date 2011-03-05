@@ -28,6 +28,7 @@ import net.sf.nakeduml.metamodel.core.INakedPackage;
 public abstract class VisitorAdapter<NODE, ROOT extends NODE> {
 	protected List<VisitSpec> beforeMethods = new ArrayList<VisitSpec>();
 	protected List<VisitSpec> afterMethods = new ArrayList<VisitSpec>();
+	protected ROOT workspace;
 
 	protected VisitorAdapter() {
 		// No polymorphism suport in visit methods
@@ -46,7 +47,7 @@ public abstract class VisitorAdapter<NODE, ROOT extends NODE> {
 	 * Implement this method to provide the logic for traversal from a node to
 	 * its children
 	 */
-	public abstract Collection<? extends NODE> getChildren(NODE root);
+	public abstract Collection<? extends NODE> getChildren(NODE parent);
 
 	/**
 	 * "Visit" methods can either have one or two parameters. When there is only
@@ -66,6 +67,7 @@ public abstract class VisitorAdapter<NODE, ROOT extends NODE> {
 	}
 
 	public void startVisiting(ROOT root) {
+		this.workspace=root;
 		visitRecursively(root);
 	}
 

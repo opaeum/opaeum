@@ -18,7 +18,8 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.utilities.InvariantError;
 
-/** Class ...
+/**
+ * Class ...
  */
 abstract public class OJPackageGEN extends OJElement {
 	private Set<OJClass> f_classes = new HashSet<OJClass>();
@@ -28,585 +29,662 @@ abstract public class OJPackageGEN extends OJElement {
 	static protected boolean usesAllInstances = false;
 	static protected List<OJPackage> allInstances = new ArrayList<OJPackage>();
 
-	/** Constructor for OJPackageGEN
+	/**
+	 * Constructor for OJPackageGEN
 	 * 
-	 * @param name 
-	 * @param comment 
+	 * @param name
+	 * @param comment
 	 */
 	protected OJPackageGEN(String name, String comment) {
 		super();
 		super.setName(name);
 		super.setComment(comment);
-		if ( usesAllInstances ) {
-			allInstances.add(((OJPackage)this));
-		}
-	}
-	
-	/** Default constructor for OJPackage
-	 */
-	protected OJPackageGEN() {
-		super();
-		if ( usesAllInstances ) {
-			allInstances.add(((OJPackage)this));
+		if (usesAllInstances) {
+			allInstances.add(((OJPackage) this));
 		}
 	}
 
-	/** Implements the user defined operation '+ getPathName() : OJPathName'
+	/**
+	 * Default constructor for OJPackage
+	 */
+	protected OJPackageGEN() {
+		super();
+		if (usesAllInstances) {
+			allInstances.add(((OJPackage) this));
+		}
+	}
+
+	/**
+	 * Implements the user defined operation '+ getPathName() : OJPathName'
 	 */
 	public OJPathName getPathName() {
 		return this.getParent().getPathName().append(this.getName());
 	}
-	
-	/** Implements the user defined operation '+ findClass( path: OJPathName ) : OJClass'
+
+	/**
+	 * Implements the user defined operation '+ findClass( path: OJPathName ) :
+	 * OJClass'
 	 * 
-	 * @param path 
+	 * @param path
 	 */
 	public OJClass findClass(OJPathName path) {
-		return (path.isSingleName() ?
-			this.findLocalClass(path.getLast()) :
-			this.findLocalPackage(path.getFirst()).findClass(path.getTail()));
+		return (path.isSingleName() ? this.findLocalClass(path.getLast()) : this.findLocalPackage(path.getFirst())
+				.findClass(path.getTail()));
 	}
-	
-	/** Implements the user defined operation '- findLocalClass( name: String ) : OJClass'
+
+	/**
+	 * Implements the user defined operation '- findLocalClass( name: String ) :
+	 * OJClass'
 	 * 
-	 * @param name 
+	 * @param name
 	 */
 	protected OJClass findLocalClass(String name) {
 		return any1(name);
 	}
-	
-	/** Implements the user defined operation '+ findPackage( path: OJPathName ) : OJPackage'
+
+	/**
+	 * Implements the user defined operation '+ findPackage( path: OJPathName )
+	 * : OJPackage'
 	 * 
-	 * @param path 
+	 * @param path
 	 */
 	public OJPackage findPackage(OJPathName path) {
-		return (path.isSingleName() ?
-			this.findLocalPackage(path.getLast()) :
-			this.findLocalPackage(path.getFirst()).findPackage(path.getTail()));
+		return (path.isSingleName() ? this.findLocalPackage(path.getLast()) : this.findLocalPackage(path.getFirst()).findPackage(
+				path.getTail()));
 	}
-	
-	/** Implements the user defined operation '- findLocalPackage( name: String ) : OJPackage'
+
+	/**
+	 * Implements the user defined operation '- findLocalPackage( name: String )
+	 * : OJPackage'
 	 * 
-	 * @param name 
+	 * @param name
 	 */
 	protected OJPackage findLocalPackage(String name) {
 		return any2(name);
 	}
-	
-	/** Implements the setter for feature '+ classes : Set(OJClass)'
+
+	/**
+	 * Implements the setter for feature '+ classes : Set(OJClass)'
 	 * 
-	 * @param elements 
+	 * @param elements
 	 */
 	public void setClasses(Set<OJClass> elements) {
-		if ( this.f_classes != elements ) {
+		if (this.f_classes != elements) {
 			Iterator it = this.f_classes.iterator();
-			while ( it.hasNext() ) {
+			while (it.hasNext()) {
 				OJClass x = (OJClass) it.next();
-				x.z_internalRemoveFromMyPackage( (OJPackage)((OJPackage)this) );
+				x.z_internalRemoveFromMyPackage((OJPackage) ((OJPackage) this));
 			}
 			this.f_classes = elements;
-			if ( f_classes != null ) {
+			if (f_classes != null) {
 				it = f_classes.iterator();
-				while ( it.hasNext() ) {
+				while (it.hasNext()) {
 					OJClass x = (OJClass) it.next();
-					x.z_internalAddToMyPackage( (OJPackage)((OJPackage)this) );
+					x.z_internalAddToMyPackage((OJPackage) ((OJPackage) this));
 				}
 			}
 		}
 	}
-	
-	/** Implements addition of a single element to feature '+ classes : Set(OJClass)'
+
+	/**
+	 * Implements addition of a single element to feature '+ classes :
+	 * Set(OJClass)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void addToClasses(OJClass element) {
-		if ( element == null ) {
+		if (element == null) {
 			return;
 		}
-		if ( this.f_classes.contains(element) ) {
+		if (this.f_classes.contains(element)) {
 			return;
 		}
 		this.f_classes.add(element);
-		if ( element.getMyPackage() != null ) {
+		if (element.getMyPackage() != null) {
 			element.getMyPackage().z_internalRemoveFromClasses(element);
 		}
-		element.z_internalAddToMyPackage( (OJPackage)((OJPackage)this) );
+		element.z_internalAddToMyPackage((OJPackage) ((OJPackage) this));
 	}
-	
-	/** Implements removal of a single element from feature '+ classes : Set(OJClass)'
+
+	/**
+	 * Implements removal of a single element from feature '+ classes :
+	 * Set(OJClass)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void removeFromClasses(OJClass element) {
-		if ( element == null ) {
+		if (element == null) {
 			return;
 		}
 		this.f_classes.remove(element);
-		element.z_internalRemoveFromMyPackage( (OJPackage)((OJPackage)this) );
+		element.z_internalRemoveFromMyPackage((OJPackage) ((OJPackage) this));
 	}
-	
-	/** Implements the getter for + classes : Set(OJClass)
+
+	/**
+	 * Implements the getter for + classes : Set(OJClass)
 	 */
 	public Set<OJClass> getClasses() {
-		if ( f_classes != null ) {
+		if (f_classes != null) {
 			return Collections.unmodifiableSet(f_classes);
 		} else {
 			return null;
 		}
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+
+	/**
+	 * This operation should NOT be used by clients. It implements the correct
+	 * addition of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalAddToClasses(OJClass element) {
 		this.f_classes.add(element);
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+
+	/**
+	 * This operation should NOT be used by clients. It implements the correct
+	 * removal of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalRemoveFromClasses(OJClass element) {
 		this.f_classes.remove(element);
 	}
-	
-	/** Implements the addition of a number of elements to classes
+
+	/**
+	 * Implements the addition of a number of elements to classes
 	 * 
-	 * @param newElems 
+	 * @param newElems
 	 */
 	public void addToClasses(Collection<OJClass> newElems) {
 		Iterator it = newElems.iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJClass ) {
-				this.addToClasses((OJClass)item);
+			if (item instanceof OJClass) {
+				this.addToClasses((OJClass) item);
 			}
 		}
 	}
-	
-	/** Implements the removal of a number of elements from classes
+
+	/**
+	 * Implements the removal of a number of elements from classes
 	 * 
-	 * @param oldElems 
+	 * @param oldElems
 	 */
 	public void removeFromClasses(Collection<OJClass> oldElems) {
 		Iterator it = oldElems.iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJClass ) {
-				this.removeFromClasses((OJClass)item);
+			if (item instanceof OJClass) {
+				this.removeFromClasses((OJClass) item);
 			}
 		}
 	}
-	
-	/** Implements the removal of all elements from classes
+
+	/**
+	 * Implements the removal of all elements from classes
 	 */
 	public void removeAllFromClasses() {
-		/* make a copy of the collection in order to avoid a ConcurrentModificationException*/
+		/*
+		 * make a copy of the collection in order to avoid a
+		 * ConcurrentModificationException
+		 */
 		Iterator it = new HashSet<OJClass>(getClasses()).iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJClass ) {
-				this.removeFromClasses((OJClass)item);
+			if (item instanceof OJClass) {
+				this.removeFromClasses((OJClass) item);
 			}
 		}
 	}
-	
-	/** Implements the setter for feature '+ interfaces : Set(OJInterface)'
+
+	/**
+	 * Implements the setter for feature '+ interfaces : Set(OJInterface)'
 	 * 
-	 * @param elements 
+	 * @param elements
 	 */
 	public void setInterfaces(Set<OJInterface> elements) {
-		if ( this.f_interfaces != elements ) {
+		if (this.f_interfaces != elements) {
 			Iterator it = this.f_interfaces.iterator();
-			while ( it.hasNext() ) {
+			while (it.hasNext()) {
 				OJInterface x = (OJInterface) it.next();
-				x.z_internalRemoveFromMyPackage( (OJPackage)((OJPackage)this) );
+				x.z_internalRemoveFromMyPackage((OJPackage) ((OJPackage) this));
 			}
 			this.f_interfaces = elements;
-			if ( f_interfaces != null ) {
+			if (f_interfaces != null) {
 				it = f_interfaces.iterator();
-				while ( it.hasNext() ) {
+				while (it.hasNext()) {
 					OJInterface x = (OJInterface) it.next();
-					x.z_internalAddToMyPackage( (OJPackage)((OJPackage)this) );
+					x.z_internalAddToMyPackage((OJPackage) ((OJPackage) this));
 				}
 			}
 		}
 	}
-	
-	/** Implements addition of a single element to feature '+ interfaces : Set(OJInterface)'
+
+	/**
+	 * Implements addition of a single element to feature '+ interfaces :
+	 * Set(OJInterface)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void addToInterfaces(OJInterface element) {
-		if ( element == null ) {
+		if (element == null) {
 			return;
 		}
-		if ( this.f_interfaces.contains(element) ) {
+		if (this.f_interfaces.contains(element)) {
 			return;
 		}
 		this.f_interfaces.add(element);
-		if ( element.getMyPackage() != null ) {
+		if (element.getMyPackage() != null) {
 			element.getMyPackage().z_internalRemoveFromInterfaces(element);
 		}
-		element.z_internalAddToMyPackage( (OJPackage)((OJPackage)this) );
+		element.z_internalAddToMyPackage((OJPackage) ((OJPackage) this));
 	}
-	
-	/** Implements removal of a single element from feature '+ interfaces : Set(OJInterface)'
+
+	/**
+	 * Implements removal of a single element from feature '+ interfaces :
+	 * Set(OJInterface)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void removeFromInterfaces(OJInterface element) {
-		if ( element == null ) {
+		if (element == null) {
 			return;
 		}
 		this.f_interfaces.remove(element);
-		element.z_internalRemoveFromMyPackage( (OJPackage)((OJPackage)this) );
+		element.z_internalRemoveFromMyPackage((OJPackage) ((OJPackage) this));
 	}
-	
-	/** Implements the getter for + interfaces : Set(OJInterface)
+
+	/**
+	 * Implements the getter for + interfaces : Set(OJInterface)
 	 */
 	public Set<OJInterface> getInterfaces() {
-		if ( f_interfaces != null ) {
+		if (f_interfaces != null) {
 			return Collections.unmodifiableSet(f_interfaces);
 		} else {
 			return null;
 		}
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+
+	/**
+	 * This operation should NOT be used by clients. It implements the correct
+	 * addition of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalAddToInterfaces(OJInterface element) {
 		this.f_interfaces.add(element);
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+
+	/**
+	 * This operation should NOT be used by clients. It implements the correct
+	 * removal of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalRemoveFromInterfaces(OJInterface element) {
 		this.f_interfaces.remove(element);
 	}
-	
-	/** Implements the addition of a number of elements to interfaces
+
+	/**
+	 * Implements the addition of a number of elements to interfaces
 	 * 
-	 * @param newElems 
+	 * @param newElems
 	 */
 	public void addToInterfaces(Collection<OJInterface> newElems) {
 		Iterator it = newElems.iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJInterface ) {
-				this.addToInterfaces((OJInterface)item);
+			if (item instanceof OJInterface) {
+				this.addToInterfaces((OJInterface) item);
 			}
 		}
 	}
-	
-	/** Implements the removal of a number of elements from interfaces
+
+	/**
+	 * Implements the removal of a number of elements from interfaces
 	 * 
-	 * @param oldElems 
+	 * @param oldElems
 	 */
 	public void removeFromInterfaces(Collection<OJInterface> oldElems) {
 		Iterator it = oldElems.iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJInterface ) {
-				this.removeFromInterfaces((OJInterface)item);
+			if (item instanceof OJInterface) {
+				this.removeFromInterfaces((OJInterface) item);
 			}
 		}
 	}
-	
-	/** Implements the removal of all elements from interfaces
+
+	/**
+	 * Implements the removal of all elements from interfaces
 	 */
 	public void removeAllFromInterfaces() {
-		/* make a copy of the collection in order to avoid a ConcurrentModificationException*/
+		/*
+		 * make a copy of the collection in order to avoid a
+		 * ConcurrentModificationException
+		 */
 		Iterator it = new HashSet<OJInterface>(getInterfaces()).iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJInterface ) {
-				this.removeFromInterfaces((OJInterface)item);
+			if (item instanceof OJInterface) {
+				this.removeFromInterfaces((OJInterface) item);
 			}
 		}
 	}
-	
-	/** Implements the setter of association end parent
+
+	/**
+	 * Implements the setter of association end parent
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void setParent(OJPackage element) {
-		if ( this.f_parent != element ) {
-			if ( this.f_parent != null ) {
-				this.f_parent.z_internalRemoveFromSubpackages( (OJPackage)((OJPackage)this) );
+		if (this.f_parent != element) {
+			if (this.f_parent != null) {
+				this.f_parent.z_internalRemoveFromSubpackages((OJPackage) ((OJPackage) this));
 			}
 			this.f_parent = element;
-			if ( element != null ) {
-				element.z_internalAddToSubpackages( (OJPackage)((OJPackage)this) );
+			if (element != null) {
+				element.z_internalAddToSubpackages((OJPackage) ((OJPackage) this));
 			}
 		}
 	}
-	
-	/** Implements the getter for parent
+
+	/**
+	 * Implements the getter for parent
 	 */
 	public OJPackage getParent() {
 		return f_parent;
 	}
-	
-	/** Should NOT be used by clients! Implements the correct setting of the link for + parent : OJPackage 
-						when a single element is added to it.
+
+	/**
+	 * Should NOT be used by clients! Implements the correct setting of the link
+	 * for + parent : OJPackage when a single element is added to it.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalAddToParent(OJPackage element) {
 		this.f_parent = element;
 	}
-	
-	/** Should NOT be used by clients! Implements the correct setting of the link for + parent : OJPackage 
-						when a single element is removed to it.
+
+	/**
+	 * Should NOT be used by clients! Implements the correct setting of the link
+	 * for + parent : OJPackage when a single element is removed to it.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalRemoveFromParent(OJPackage element) {
 		this.f_parent = null;
 	}
-	
-	/** Implements the setter for feature '+ subpackages : Set(OJPackage)'
+
+	/**
+	 * Implements the setter for feature '+ subpackages : Set(OJPackage)'
 	 * 
-	 * @param elements 
+	 * @param elements
 	 */
 	public void setSubpackages(Set<OJPackage> elements) {
-		if ( this.f_subpackages != elements ) {
+		if (this.f_subpackages != elements) {
 			Iterator it = this.f_subpackages.iterator();
-			while ( it.hasNext() ) {
+			while (it.hasNext()) {
 				OJPackage x = (OJPackage) it.next();
-				x.z_internalRemoveFromParent( (OJPackage)((OJPackage)this) );
+				x.z_internalRemoveFromParent((OJPackage) ((OJPackage) this));
 			}
 			this.f_subpackages = elements;
-			if ( f_subpackages != null ) {
+			if (f_subpackages != null) {
 				it = f_subpackages.iterator();
-				while ( it.hasNext() ) {
+				while (it.hasNext()) {
 					OJPackage x = (OJPackage) it.next();
-					x.z_internalAddToParent( (OJPackage)((OJPackage)this) );
+					x.z_internalAddToParent((OJPackage) ((OJPackage) this));
 				}
 			}
 		}
 	}
-	
-	/** Implements addition of a single element to feature '+ subpackages : Set(OJPackage)'
+
+	/**
+	 * Implements addition of a single element to feature '+ subpackages :
+	 * Set(OJPackage)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void addToSubpackages(OJPackage element) {
-		if ( element == null ) {
+		if (element == null) {
 			return;
 		}
-		if ( this.f_subpackages.contains(element) ) {
+		if (this.f_subpackages.contains(element)) {
 			return;
 		}
 		this.f_subpackages.add(element);
-		if ( element.getParent() != null ) {
+		if (element.getParent() != null) {
 			element.getParent().z_internalRemoveFromSubpackages(element);
 		}
-		element.z_internalAddToParent( (OJPackage)((OJPackage)this) );
+		element.z_internalAddToParent((OJPackage) ((OJPackage) this));
 	}
-	
-	/** Implements removal of a single element from feature '+ subpackages : Set(OJPackage)'
+
+	/**
+	 * Implements removal of a single element from feature '+ subpackages :
+	 * Set(OJPackage)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void removeFromSubpackages(OJPackage element) {
-		if ( element == null ) {
+		if (element == null) {
 			return;
 		}
 		this.f_subpackages.remove(element);
-		element.z_internalRemoveFromParent( (OJPackage)((OJPackage)this) );
+		element.z_internalRemoveFromParent((OJPackage) ((OJPackage) this));
 	}
-	
-	/** Implements the getter for + subpackages : Set(OJPackage)
+
+	/**
+	 * Implements the getter for + subpackages : Set(OJPackage)
 	 */
 	public Set<OJPackage> getSubpackages() {
-		if ( f_subpackages != null ) {
+		if (f_subpackages != null) {
 			return Collections.unmodifiableSet(f_subpackages);
 		} else {
 			return null;
 		}
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+
+	/**
+	 * This operation should NOT be used by clients. It implements the correct
+	 * addition of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalAddToSubpackages(OJPackage element) {
+		for (OJPackage pkg : f_subpackages) {
+			if (pkg.getName().equals(element.getName()))
+				throw new RuntimeException();
+		}
 		this.f_subpackages.add(element);
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+
+	/**
+	 * This operation should NOT be used by clients. It implements the correct
+	 * removal of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
 	public void z_internalRemoveFromSubpackages(OJPackage element) {
 		this.f_subpackages.remove(element);
 	}
-	
-	/** Implements the addition of a number of elements to subpackages
+
+	/**
+	 * Implements the addition of a number of elements to subpackages
 	 * 
-	 * @param newElems 
+	 * @param newElems
 	 */
 	public void addToSubpackages(Collection<OJPackage> newElems) {
 		Iterator it = newElems.iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJPackage ) {
-				this.addToSubpackages((OJPackage)item);
+			if (item instanceof OJPackage) {
+				this.addToSubpackages((OJPackage) item);
 			}
 		}
 	}
-	
-	/** Implements the removal of a number of elements from subpackages
+
+	/**
+	 * Implements the removal of a number of elements from subpackages
 	 * 
-	 * @param oldElems 
+	 * @param oldElems
 	 */
 	public void removeFromSubpackages(Collection<OJPackage> oldElems) {
 		Iterator it = oldElems.iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJPackage ) {
-				this.removeFromSubpackages((OJPackage)item);
+			if (item instanceof OJPackage) {
+				this.removeFromSubpackages((OJPackage) item);
 			}
 		}
 	}
-	
-	/** Implements the removal of all elements from subpackages
+
+	/**
+	 * Implements the removal of all elements from subpackages
 	 */
 	public void removeAllFromSubpackages() {
-		/* make a copy of the collection in order to avoid a ConcurrentModificationException*/
+		/*
+		 * make a copy of the collection in order to avoid a
+		 * ConcurrentModificationException
+		 */
 		Iterator it = new HashSet<OJPackage>(getSubpackages()).iterator();
-		while ( (it.hasNext()) ) {
+		while ((it.hasNext())) {
 			Object item = it.next();
-			if ( item instanceof OJPackage ) {
-				this.removeFromSubpackages((OJPackage)item);
+			if (item instanceof OJPackage) {
+				this.removeFromSubpackages((OJPackage) item);
 			}
 		}
 	}
-	
-	/** Implements ->any( c : OJClass | c.name = name )
+
+	/**
+	 * Implements ->any( c : OJClass | c.name = name )
 	 * 
-	 * @param name 
+	 * @param name
 	 */
 	private OJClass any1(String name) {
 		OJClass result = null;
 		Iterator it = this.getClasses().iterator();
-		while ( it.hasNext() ) {
+		while (it.hasNext()) {
 			OJClass c = (OJClass) it.next();
-			if ( c.getName().equals(name) ) {
+			if (c.getName().equals(name)) {
 				return c;
 			}
 		}
 		return result;
 	}
-	
-	/** Implements ->any( c : OJPackage | c.name = name )
+
+	/**
+	 * Implements ->any( c : OJPackage | c.name = name )
 	 * 
-	 * @param name 
+	 * @param name
 	 */
 	private OJPackage any2(String name) {
 		OJPackage result = null;
 		Iterator it = this.getSubpackages().iterator();
-		while ( it.hasNext() ) {
+		while (it.hasNext()) {
 			OJPackage c = (OJPackage) it.next();
-			if ( c.getName().equals(name) ) {
+			if (c.getName().equals(name)) {
 				return c;
 			}
 		}
 		return result;
 	}
-	
-	/** Checks all invariants of this object and returns a list of messages about broken invariants
+
+	/**
+	 * Checks all invariants of this object and returns a list of messages about
+	 * broken invariants
 	 */
 	public List<InvariantError> checkAllInvariants() {
 		List<InvariantError> result = new ArrayList<InvariantError>();
 		return result;
 	}
-	
-	/** Implements a check on the multiplicities of all attributes and association ends
+
+	/**
+	 * Implements a check on the multiplicities of all attributes and
+	 * association ends
 	 */
 	public List<InvariantError> checkMultiplicities() {
 		List<InvariantError> result = new ArrayList<InvariantError>();
-		if ( getParent() == null ) {
+		if (getParent() == null) {
 			String message = "Mandatory feature 'parent' in object '";
 			message = message + this.getIdString();
 			message = message + "' of type '" + this.getClass().getName() + "' has no value.";
-			result.add(new InvariantError(((OJPackage)this), message));
+			result.add(new InvariantError(((OJPackage) this), message));
 		}
 		return result;
 	}
-	
-	/** Default toString implementation for OJPackage
+
+	/**
+	 * Default toString implementation for OJPackage
 	 */
 	public String toString() {
 		String result = "";
 		result = super.toString();
 		return result;
 	}
-	
-	/** Returns the default identifier for OJPackage
+
+	/**
+	 * Returns the default identifier for OJPackage
 	 */
 	public String getIdString() {
 		String result = "";
 		result = super.getIdString();
 		return result;
 	}
-	
-	/** Implements the OCL allInstances operation
+
+	/**
+	 * Implements the OCL allInstances operation
 	 */
 	static public List allInstances() {
-		if ( !usesAllInstances ) {
-			throw new RuntimeException("allInstances is not implemented for ((OJPackage)this) class. Set usesAllInstances to true, if you want allInstances() implemented.");
+		if (!usesAllInstances) {
+			throw new RuntimeException(
+					"allInstances is not implemented for ((OJPackage)this) class. Set usesAllInstances to true, if you want allInstances() implemented.");
 		}
 		return allInstances;
 	}
-	
-	/** Returns a copy of this instance. True parts, i.e. associations marked
-			'aggregate' or 'composite', and attributes, are copied as well. References to
-			other objects, i.e. associations not marked 'aggregate' or 'composite', will not
-			be copied. The returned copy will refer to the same objects as the original (this)
-			instance.
+
+	/**
+	 * Returns a copy of this instance. True parts, i.e. associations marked
+	 * 'aggregate' or 'composite', and attributes, are copied as well.
+	 * References to other objects, i.e. associations not marked 'aggregate' or
+	 * 'composite', will not be copied. The returned copy will refer to the same
+	 * objects as the original (this) instance.
 	 */
 	public OJElement getCopy() {
 		OJPackage result = new OJPackage();
 		this.copyInfoInto(result);
 		return result;
 	}
-	
-	/** Copies all attributes and associations of this instance into 'copy'.
-			True parts, i.e. associations marked 'aggregate' or 'composite', and attributes, 
-			are copied as well. References to other objects, i.e. associations not marked 
-			'aggregate' or 'composite', will not be copied. The 'copy' will refer 
-			to the same objects as the original (this) instance.
+
+	/**
+	 * Copies all attributes and associations of this instance into 'copy'. True
+	 * parts, i.e. associations marked 'aggregate' or 'composite', and
+	 * attributes, are copied as well. References to other objects, i.e.
+	 * associations not marked 'aggregate' or 'composite', will not be copied.
+	 * The 'copy' will refer to the same objects as the original (this)
+	 * instance.
 	 * 
-	 * @param copy 
+	 * @param copy
 	 */
 	public void copyInfoInto(OJPackage copy) {
 		super.copyInfoInto(copy);
 		Iterator classesIt = new ArrayList<OJClass>(getClasses()).iterator();
-		while ( classesIt.hasNext() ) {
+		while (classesIt.hasNext()) {
 			OJClass elem = (OJClass) classesIt.next();
 			copy.addToClasses(elem);
 		}
 		Iterator interfacesIt = new ArrayList<OJInterface>(getInterfaces()).iterator();
-		while ( interfacesIt.hasNext() ) {
+		while (interfacesIt.hasNext()) {
 			OJInterface elem = (OJInterface) interfacesIt.next();
 			copy.addToInterfaces(elem);
 		}
-		if ( getParent() != null ) {
+		if (getParent() != null) {
 			copy.setParent(getParent());
 		}
 		Iterator subpackagesIt = new ArrayList<OJPackage>(getSubpackages()).iterator();
-		while ( subpackagesIt.hasNext() ) {
+		while (subpackagesIt.hasNext()) {
 			OJPackage elem = (OJPackage) subpackagesIt.next();
 			copy.addToSubpackages(elem);
 		}
 	}
-
 }

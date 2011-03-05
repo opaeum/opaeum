@@ -9,5 +9,5 @@ public interface TransformationPhase<FEATURE extends TransformationStep> {
 	 * @param features
 	 * @return OutputModels that will overwrite /replace any existing models in the context
 	 */
-	public Object[] execute(List<FEATURE> features );
+	public Object[] execute(List<FEATURE> features, TransformationContext context);
 }

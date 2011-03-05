@@ -350,4 +350,9 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			return originalBlock;
 		}
 	}
+
+	public void setWorkspace(INakedModelWorkspace workspace) {
+		this.workspace=workspace;
+		
+	}
 }

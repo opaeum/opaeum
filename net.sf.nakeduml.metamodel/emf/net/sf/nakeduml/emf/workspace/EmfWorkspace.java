@@ -1,5 +1,6 @@
 package net.sf.nakeduml.emf.workspace;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -20,6 +22,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
@@ -36,21 +39,39 @@ import org.eclipse.uml2.uml.Stereotype;
  */
 public class EmfWorkspace implements Element {
 	Set<Package> generatingModels = new HashSet<Package>();
-	Set<Package> supportingModels = new HashSet<Package>();
-	Package entryModel;
-	private WorkspaceMappingInfoImpl mappingInfo;
+	Set<Package> primaryModels = new HashSet<Package>();
 
-	public EmfWorkspace(Package model, WorkspaceMappingInfoImpl mappingInfo) {
-		this(mappingInfo);
-		this.entryModel = model;
+
+	private WorkspaceMappingInfoImpl mappingInfo;
+	private ResourceSet resourceSet;
+	private String name;
+	private String directoryName;
+
+	public String getDirectoryName() {
+		return directoryName;
+	}
+
+	public EmfWorkspace(File modelDir, Package model, WorkspaceMappingInfoImpl mappingInfo, String name) {
+		this(modelDir,model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
 	}
-	public EmfWorkspace(WorkspaceMappingInfoImpl mappingInfo) {
+
+	public EmfWorkspace(File modelDir, ResourceSet rs, WorkspaceMappingInfoImpl mappingInfo, String name) {
 		this.mappingInfo = mappingInfo;
+		directoryName=modelDir.getName();
+		for (Element pkg : getOwnedElements()) {
+			if((pkg instanceof Model || pkg instanceof Profile) && isPrimaryModelOrProfile((Package) pkg, modelDir)){
+				primaryModels.add((Package) pkg);
+			}
+		}
+		this.resourceSet = rs;
+		this.name = name;
 	}
-	public void clearGeneratingModels(){
-		this.generatingModels.clear();
+	public Set<Package> getPrimaryModels() {
+		return primaryModels;
 	}
+
+
 	public WorkspaceMappingInfoImpl getMappingInfo() {
 		return mappingInfo;
 	}
@@ -59,37 +80,43 @@ public class EmfWorkspace implements Element {
 		return this.generatingModels;
 	}
 
-	public Package getEntryModel() {
-		return this.entryModel;
-	}
-
-	public void setEntryModel(Package p) {
-		this.entryModel = p;
-		addGeneratingModelOrProfile(p);
-	}
-
-	public boolean isGeneratingModelOrProfile(Package p) {
+	private boolean isPrimaryModelOrProfile(Package p, File entryModelDir) {
+		URI uri = p.eResource().getURI();
+		if (uri.isFile()) {
+			File packageFile = new File(uri.toFileString());
+			packageFile.getParentFile().equals(entryModelDir);
+		}
 		return generatingModels.contains(p);
+	}
+
+	public void guessGeneratingModelsAndProfiles(File dir) {
+		generatingModels.clear();
+		for (Element e : getOwnedElements()) {
+			if (isPrimaryModelOrProfile((Package) e, dir)) {
+				generatingModels.add((Package) e);
+			}
+		}
 	}
 
 	public void addGeneratingModelOrProfile(Package p) {
 		generatingModels.add(p);
-	}
-
-	public void addSupportingModelOrPackage(Package p) {
-		supportingModels.add(p);
+		this.resourceSet = p.eResource().getResourceSet();
 	}
 
 	public EList<Element> getOwnedElements() {
 		final EList<Element> result = new BasicEList<Element>();
-		for (Resource r : entryModel.eResource().getResourceSet().getResources()) {
+		for (Resource r : resourceSet.getResources()) {
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if (!fileString.contains("UML_METAMODELS") && (pkg instanceof Profile || pkg instanceof Model)) {
+			if (!fileString.contains("UML_METAMODELS") && isRootObject(pkg)) {
 				result.add(pkg);
 			}
 		}
 		return result;
+	}
+
+	private boolean isRootObject(Package pkg) {
+		return ((pkg instanceof Profile || pkg instanceof Model) && pkg.getOwner() == null);
 	}
 
 	private Package getPackageFrom(Resource r) {
@@ -333,5 +360,10 @@ public class EmfWorkspace implements Element {
 
 	public Object eInvoke(EOperation arg0, EList<?> arg1) throws InvocationTargetException {
 		return null;
+	}
+
+
+	public String getName() {
+		return this.name;
 	}
 }

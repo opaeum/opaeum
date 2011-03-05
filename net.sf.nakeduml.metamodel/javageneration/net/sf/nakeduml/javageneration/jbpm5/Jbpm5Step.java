@@ -4,8 +4,8 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityEventHandlerInserter;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.TaskImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
@@ -14,47 +14,44 @@ import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineImplementor
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.jbpm5.ActivityFlowStep;
-import net.sf.nakeduml.jbpm5.FlowGenerationStep;
 import net.sf.nakeduml.jbpm5.StateMachineFlowStep;
 import net.sf.nakeduml.linkage.PinLinker;
 import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.pomgeneration.Jbpm5PomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { PersistenceStep.class, OclExpressionExecution.class, PinLinker.class,
-		ProcessIdentifier.class,StateMachineFlowStep.class ,ActivityFlowStep.class}, after = { PersistenceStep.class, OclExpressionExecution.class })
+		ProcessIdentifier.class,StateMachineFlowStep.class ,ActivityFlowStep.class,Jbpm5PomStep.class}, after = { PersistenceStep.class, OclExpressionExecution.class })
 public class Jbpm5Step extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
-		Jbpm5EnvironmentBuilder eb = new Jbpm5EnvironmentBuilder();
-		eb.initialize(workspace, javaModel, config, textWorkspace);
+		Jbpm5EnvironmentBuilder eb = new Jbpm5EnvironmentBuilder(false);
+		eb.initialize(javaModel, config, textWorkspace, context);
 		eb.startVisiting(workspace);
 		ActivityProcessImplementor ab = new ActivityProcessImplementor();
-		ab.initialize(workspace, javaModel, config, textWorkspace);
+		ab.initialize(javaModel, config, textWorkspace, context);
 		ab.startVisiting(workspace);
 		ActivityNodeEnumerationImplementor action = new ActivityNodeEnumerationImplementor();
-		action.initialize(workspace, javaModel, config, textWorkspace);
+		action.initialize(javaModel, config, textWorkspace, context);
 		action.startVisiting(workspace);
-		SignalImplementor si = new SignalImplementor();
-		si.initialize(workspace, javaModel, config, textWorkspace);
-		si.startVisiting(workspace);
 		TaskImplementor uiei = new TaskImplementor();
-		uiei.initialize(workspace, javaModel, config, textWorkspace);
+		uiei.initialize(javaModel, config, textWorkspace, context);
 		uiei.startVisiting(workspace);
 		StateMachineImplementor smimpl = new StateMachineImplementor();
-		smimpl.initialize(workspace, javaModel, config, textWorkspace);
+		smimpl.initialize(javaModel, config, textWorkspace, context);
 		smimpl.startVisiting(workspace);
 		StateEnumerationImplementor statimpl = new StateEnumerationImplementor();
-		statimpl.initialize(workspace, javaModel, config, textWorkspace);
+		statimpl.initialize(javaModel, config, textWorkspace, context);
 		statimpl.startVisiting(workspace);
 		BehaviorEnvironmentBuilder beb = new BehaviorEnvironmentBuilder();
-		beb.initialize(workspace, javaModel, config, textWorkspace);
+		beb.initialize(javaModel, config, textWorkspace, context);
 		beb.startVisiting(workspace);
 		// Lastly we insert the events - add to end of methods.
 		ActivityEventHandlerInserter aehi = new ActivityEventHandlerInserter();
-		aehi.initialize(workspace, javaModel, config, textWorkspace);
+		aehi.initialize(javaModel, config, textWorkspace, context);
 		aehi.startVisiting(workspace);
 		StateMachineEventHandlerInserter smehi = new StateMachineEventHandlerInserter();
-		smehi.initialize(workspace, javaModel, config, textWorkspace);
+		smehi.initialize(javaModel, config, textWorkspace, context);
 		smehi.startVisiting(workspace);
 		/*
 		 * JpdlDeployerGenerator jdg = new JpdlDeployerGenerator();

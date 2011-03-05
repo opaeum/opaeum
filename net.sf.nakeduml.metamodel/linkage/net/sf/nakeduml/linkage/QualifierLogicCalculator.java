@@ -3,7 +3,7 @@ package net.sf.nakeduml.linkage;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {MappedTypeLinker.class,PinLinker.class,
 		ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class},requires = {MappedTypeLinker.class,

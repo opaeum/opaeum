@@ -5,7 +5,7 @@ import java.util.Set;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import nl.klasse.octopus.model.IOperation;
 
-public interface INakedOperation extends IOperation,INakedNameSpace,IParameterOwner{
+public interface INakedOperation extends IOperation,INakedPackageableElement,IParameterOwner{
 	boolean isQuery();
 	INakedClassifier getOwner();
 	boolean hasReturnParameter();

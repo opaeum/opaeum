@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
@@ -19,6 +20,7 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
@@ -27,21 +29,12 @@ import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter {
 	private Jbpm5ActionBuilder<INakedActivityNode> actionBuilder;
 
-	@Override
-	public void initialize(INakedModelWorkspace workspace, OJPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		super.initialize(workspace, javaModel, config, textWorkspace);
-		this.actionBuilder = new Jbpm5ActionBuilder(workspace.getOclEngine(), null) {
-			@Override
-			public void implementActionOn(OJAnnotatedOperation oper) {
-			}
-		};
-	}
+
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitActivity(INakedActivity activity) {
@@ -57,7 +50,7 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter {
 	 */
 	@Override
 	protected void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) {
-		actionBuilder.maybeContinueFlow(operationContext, block, (INakedActivityEdge) flow);
+		getActionBuilder().maybeContinueFlow(operationContext, block, (INakedActivityEdge) flow);
 	}
 
 	@Override
@@ -102,5 +95,16 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter {
 			}
 		}
 		return results.values();
+	}
+
+	private Jbpm5ActionBuilder<INakedActivityNode> getActionBuilder() {
+		if(actionBuilder==null){
+			actionBuilder=new Jbpm5ActionBuilder<INakedActivityNode>(workspace.getOclEngine(), null) {
+				@Override
+				public void implementActionOn(OJAnnotatedOperation oper) {
+				}
+			};
+		}
+		return actionBuilder;
 	}
 }

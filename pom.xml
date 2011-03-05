@@ -24,10 +24,23 @@
 		<developerConnection>scm:git:git@github.com:nakeduml/nakeduml.git</developerConnection>
 		<url>scm:git:git@github.com:nakeduml/nakeduml.git</url>
 	</scm>
+	<repositories>
+		<repository>
+			<id>repository.jboss.org</id>
+			<name>JBoss Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<modules>
 		<module>net.sf.nakeduml.javametamodel</module>
 		<module>net.sf.nakeduml.metamodel</module>
 		<module>net.sf.nakeduml.util</module>
+		<module>nakeduml-runtime-domain</module>
+		<module>nakeduml-runtime-adaptor</module>
 	</modules>
 
 	<properties>

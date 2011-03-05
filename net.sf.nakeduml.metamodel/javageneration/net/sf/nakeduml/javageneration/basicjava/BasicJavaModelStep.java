@@ -29,51 +29,48 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 	}
 	@Override
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){
-		UtilityCreator utilMaker = new UtilityCreator();
-		UtilityCreator.setUtilPathName(new OJPathName(workspace.getName() + ".util"));
 		StdlibMap.javaRealType.replaceTail("double");
 		StdlibMap.javaRealObjectType.replaceTail("Double");
 
 //		INakedPackage umlModel = workspace.getEntryModel();
 		Java5ModelGenerator maker = new Java5ModelGenerator();
-		maker.initialize(workspace, javaModel, config, textWorkspace);
+		maker.initialize(javaModel, config, textWorkspace, context);
 		maker.startVisiting(workspace);
-		utilMaker.makeUtilPack(javaModel);
 		SuperTypeGenerator superTypeAdder = new SuperTypeGenerator();
-		superTypeAdder.initialize(workspace, javaModel, config, textWorkspace);
+		superTypeAdder.initialize(javaModel, config, textWorkspace, context);
 		superTypeAdder.startVisiting(workspace);
 		AttributeImplementor ai = new AttributeImplementor();
-		ai.initialize(workspace, javaModel, config, textWorkspace);
+		ai.initialize(javaModel, config, textWorkspace, context);
 		ai.startVisiting(workspace);
 
 		OperationAnnotator operationAnnotator = new OperationAnnotator();
-		operationAnnotator.initialize(workspace, javaModel, config, textWorkspace);
+		operationAnnotator.initialize(javaModel, config, textWorkspace, context);
 		operationAnnotator.startVisiting(workspace);
 
 
 		ToXmlStringBuilder txsb = new ToXmlStringBuilder();
-		txsb.initialize(workspace, javaModel, config, textWorkspace);
+		txsb.initialize(javaModel, config, textWorkspace, context);
 		txsb.startVisiting(workspace);
 		
 		ToStringBuilder tsb = new ToStringBuilder();
-		tsb.initialize(workspace, javaModel, config, textWorkspace);
+		tsb.initialize(javaModel, config, textWorkspace, context);
 		tsb.startVisiting(workspace);
 
 		
 		EnumerationLiteralImplementor eli = new EnumerationLiteralImplementor();
-		eli.initialize(workspace, javaModel, config, textWorkspace);
+		eli.initialize(javaModel, config, textWorkspace, context);
 		eli.startVisiting(workspace);
 
 		SimpleActivityMethodImplementor sami = new SimpleActivityMethodImplementor();
-		sami.initialize(workspace, javaModel, config, textWorkspace);
+		sami.initialize(javaModel, config, textWorkspace, context);
 		sami.startVisiting(workspace);
 		
 		HierarchicalSourcePopulationImplementor hsi = new HierarchicalSourcePopulationImplementor();
-		hsi.initialize(workspace, javaModel, config, textWorkspace);
+		hsi.initialize(javaModel, config, textWorkspace, context);
 		hsi.startVisiting(workspace);
 
 		HashcodeBuilder hcb = new HashcodeBuilder();
-		hcb.initialize(workspace, javaModel, config, textWorkspace);
+		hcb.initialize(javaModel, config, textWorkspace, context);
 		hcb.startVisiting(workspace);
 
 

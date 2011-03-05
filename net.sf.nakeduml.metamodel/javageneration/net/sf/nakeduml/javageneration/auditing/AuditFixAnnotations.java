@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -11,7 +12,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 
-public class AuditFixAnnotations extends AbstractJavaProducingVisitorForAudit {
+public class AuditFixAnnotations extends AbstractJavaProducingVisitor{
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedClassifier classifier) {

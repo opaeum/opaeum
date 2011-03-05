@@ -3,6 +3,7 @@ package net.sf.nakeduml.javageneration.auditing;
 import java.util.List;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
@@ -17,7 +18,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
-public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisitorForAudit {
+public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClasses(INakedEntity entity) {
 		if (isPersistent(entity) && OJUtil.hasOJClass(entity)) {

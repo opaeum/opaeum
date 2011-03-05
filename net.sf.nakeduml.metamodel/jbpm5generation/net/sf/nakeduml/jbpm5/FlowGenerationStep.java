@@ -7,17 +7,21 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
+import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextOutputRoot;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.drools.drools._5._0.process.ActionType;
@@ -52,10 +56,22 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 	protected INakedModelWorkspace workspace;
 	protected Map<INakedElement, Integer> targetIdMap;
 	protected Map<INakedElement, Integer> sourceIdMap;
+	protected NakedUmlConfig config;
+	private INakedRootObject currentModelOrProfile;
 
-	public void initialize(TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
+
+	@Override
+	public void visitRecursively(INakedElementOwner o) {
+		if(o instanceof INakedRootObject){
+			this.currentModelOrProfile=(INakedRootObject) o;
+		}
+		super.visitRecursively(o);
+	}
+
+	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
+		this.config = config;
 	}
 
 	protected DocumentRoot createRoot(INakedBehavior behavior) {
@@ -81,12 +97,21 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getCurrentVersion());
 		root.getProcess().setType("RuleFlow");
-		TextOutputRoot or = textWorkspace.findOrCreateTextOutputRoot(PropertiesSource.GEN_RESOURCE);
+		
+		OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE);
+		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = new ArrayList<String>();
 		addNames(behavior.getNameSpace(), names);
 		names.add(behavior.getName() + ".rf");
-		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"));
+		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"), outputRoot.overwriteFiles());
 		return root;
+	}
+	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentModelOrProfile
+				.getFileName();
+		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
+		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
+		return or;
 	}
 
 	protected void createVariable(VariablesType variables, String variableName, String qualifiedJavaName) {

@@ -14,6 +14,16 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 	}
 	public OJAnnotatedPackage() {
 	}
+	
+	@Override
+	public void addToSubpackages(OJPackage element) {
+		for (OJPackage pkg : getSubpackages()) {
+			if(pkg.getName().equals(element.getName())){
+				throw new IllegalStateException();
+			}
+		}
+		super.addToSubpackages(element);
+	}
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
 		return AnnotationHelper.maybeAddAnnotation(value, this);
 	}

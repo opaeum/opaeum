@@ -101,7 +101,7 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 	}
 
 	public IPackage getRoot() {
-		return getParent().getRoot();
+		return getParent().getNakedRoot();
 	}
 
 	public Collection<IPackage> getSubpackages() {

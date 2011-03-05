@@ -15,13 +15,13 @@ public class AccessControl extends AbstractJavaTransformationStep{
 	@Override
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){
 		SecureObjectImplementor soi = new SecureObjectImplementor();
-		soi.initialize(workspace, javaModel, config, textWorkspace);
+		soi.initialize(javaModel, config, textWorkspace, context);
 		soi.startVisiting(workspace);
 		AbstractUserRoleImplementor aui = new AbstractUserRoleImplementor();
-		aui.initialize(workspace, javaModel, config, textWorkspace);
+		aui.initialize(javaModel, config, textWorkspace, context);
 		aui.startVisiting(workspace);
 		AccessControlAnnotator aca = new AccessControlAnnotator();
-		aca.initialize(workspace, javaModel, config, textWorkspace);
+		aca.initialize(javaModel, config, textWorkspace, context);
 		aca.startVisiting(workspace);
 	}
 }

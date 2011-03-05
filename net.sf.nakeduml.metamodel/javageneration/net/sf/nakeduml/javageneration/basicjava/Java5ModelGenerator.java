@@ -31,9 +31,11 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.util.AbstractSignal;
 import nl.klasse.octopus.OctopusConstants;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class Java5ModelGenerator extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
@@ -65,7 +67,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
 			OJPackage pack = findOrCreatePackage(path);
 			myClass.setMyPackage(pack);
-			super.createTextPath(myClass, JavaTextSource.GEN_SRC);
+			super.createTextPath(myClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			if (c instanceof INakedEnumeration) {
 				OJEnum oje = (OJEnum) myClass;
 				INakedEnumeration e = (INakedEnumeration) c;
@@ -92,43 +94,36 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 		}
 	}
 
+
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitPackage(INakedPackage p) {
-		OJAnnotatedPackage currentPack = new OJAnnotatedPackage();
+		OJAnnotatedPackage currentPack = findOrCreatePackage(OJUtil.packagePathname(p));
 		currentPack.setName(p.getName().toLowerCase());
 		if (p.getDocumentation() != null) {
 			currentPack.setComment(p.getDocumentation());
 		}
 		super.applyStereotypesAsAnnotations(p, currentPack);
-		if (p.getParent() == null || p.getParent().getName().equals(OctopusConstants.OCTOPUS_INVISIBLE_PACK_NAME)) {
-			currentPack.setParent(this.javaModel);
-		} else {
-			OJPathName path = OJUtil.packagePathname(p.getParent());
-			currentPack.setParent(this.javaModel.findPackage(path));
-		}
-		super.createTextPathIfRequired(currentPack, JavaTextSource.GEN_SRC);
+		super.createTextPathIfRequired(currentPack, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no) {
-		if (no.shouldEmulateClass() ||  BehaviorUtil. hasMethodsWithStructure(no)) {
+		if (no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)) {
 			OperationMessageStructureImpl message = new OperationMessageStructureImpl(no.getOwner(), no);
 			this.visitClass(message);
-			if(no.isUserResponsibility()){
+			if (no.isUserResponsibility()) {
 				NakedOperationMap map = new NakedOperationMap(no);
 				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
 				listener.setMyPackage(pack);
 				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
 				callBackOper.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
-				listener.addToOperations( callBackOper);
-				
-				super.createTextPath(listener, JavaTextSource.GEN_SRC);
+				listener.addToOperations(callBackOper);
+				super.createTextPath(listener, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			}
 		}
 	}
-
-	
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitOpaqueAction(INakedOpaqueAction oa) {

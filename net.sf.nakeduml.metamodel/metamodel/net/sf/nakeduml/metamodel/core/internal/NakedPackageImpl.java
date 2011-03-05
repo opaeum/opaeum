@@ -133,7 +133,7 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 	}
 
 	public IPackage getRoot() {
-		return isRootPackage() || getParent() == null ? this : super.getRoot();
+		return isRootPackage() || getParent() == null ? this : super.getNakedRoot();
 	}
 
 	public Collection getSubpackages() {

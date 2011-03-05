@@ -15,7 +15,7 @@ public class JaxbStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
 		JaxbImplementor ea = new JaxbImplementor();
-		ea.initialize(workspace, javaModel, config, textWorkspace);
+		ea.initialize(javaModel, config, textWorkspace, context);
 		ea.startVisiting(workspace);
 	}
 

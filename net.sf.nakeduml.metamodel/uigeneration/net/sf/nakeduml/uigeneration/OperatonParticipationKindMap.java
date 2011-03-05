@@ -5,7 +5,7 @@ import static net.sf.nakeduml.uigeneration.StereotypeNames.getTag;
 import static net.sf.nakeduml.uigeneration.StereotypeNames.resolve;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.userinteractionmetamodel.ClassifierUserInteraction;
 import net.sf.nakeduml.userinteractionmetamodel.OperationParticipationKind;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;

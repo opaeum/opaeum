@@ -9,13 +9,12 @@ import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import nl.klasse.octopus.codegen.helpers.GenerationHelpers;
 
-
 /**
- * ModelTransformer : 
+ * ModelTransformer :
  */
 public class UtilityCreator {
-	static private OJPathName utilPath 			= new OJPathName("utilities"); 
-	static private OJPackage utilPack			= null;
+	static private OJPathName utilPath = new OJPathName("utilities");
+	static private OJPackage utilPack = null;
 
 	/**
 	 * 
@@ -24,7 +23,7 @@ public class UtilityCreator {
 		super();
 	}
 
-	public OJPackage makeUtilPack(OJPackage javamodel){
+	public OJPackage makeUtilPack(OJPackage javamodel) {
 		utilPack = GenerationHelpers.createPackage(javamodel, utilPath);
 		utilPath = utilPack.getPathName();
 		return utilPack;
@@ -51,4 +50,8 @@ public class UtilityCreator {
 		return utilPack;
 	}
 
+	public static void setUtilPackage(OJPackage findPackage) {
+		utilPack = findPackage;
+		utilPath=findPackage.getPathName();
+	}
 }

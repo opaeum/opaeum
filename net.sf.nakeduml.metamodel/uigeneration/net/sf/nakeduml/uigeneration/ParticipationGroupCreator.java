@@ -12,7 +12,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;
 import net.sf.nakeduml.userinteractionmetamodel.ClassifierUserInteraction;
 import net.sf.nakeduml.userinteractionmetamodel.ParticipationGroup;

@@ -9,8 +9,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import net.sf.nakeduml.emf.extraction.EmfExtractionPhase;
-import net.sf.nakeduml.emf.load.UML2ModelLoader;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -51,7 +51,7 @@ public class LibraryGenerator extends AbstractUmlGenerator {
 			Enumeration<JarEntry> entries = jarFile.entries();
 			ResourceSetImpl resourceSet = new ResourceSetImpl();
 			if (profileFile.exists()) {
-				library = UML2ModelLoader.loadModel(profileFile.getAbsolutePath());
+				library = EmfWorkspaceLoader.loadModel(URI.createFileURI(profileFile.getAbsolutePath()));
 				importPrimitiveTypes(library);
 				createClasses(entries, library);
 				library.eResource().save(null);

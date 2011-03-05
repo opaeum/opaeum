@@ -12,9 +12,11 @@ import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
@@ -37,12 +39,10 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		this.config = config;
 	}
 
-	public Object[] execute(List<AbstractExtractorFromEmf> features) {
+	public Object[] execute(List<AbstractExtractorFromEmf> features, TransformationContext context) {
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
-		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
-			modelWorkspace.addGeneratingModelOrProfileId(getIdFor(gp));
-		}
+		modelWorkspace.setName(emfWorkspace.getName());
 		for (Element e : emfWorkspace.getOwnedElements()) {
 			URI mappedTypesUri = e.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 			try {
@@ -59,14 +59,20 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 //				System.out.println(e);
 			}
 		}
+		//FIrst initialize to allow extractors to determine previously extracted models
 		for (AbstractExtractorFromEmf v : features) {
 			v.initialize(modelWorkspace);
 		}
 		for (AbstractExtractorFromEmf v : features) {
 			v.startVisiting(emfWorkspace);
 		}
-		INakedPackage nakedPackage = getNakedPackage(emfWorkspace.getEntryModel());
-		modelWorkspace.setName(nakedPackage.getName());
+		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
+			modelWorkspace.addGeneratingRootObject((INakedRootObject) getNakedPackage(gp));
+		}
+		for (Package gp : emfWorkspace.getPrimaryModels()) {
+			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
+		}
+		modelWorkspace.setDirectoryName(emfWorkspace.getDirectoryName());
 		return new Object[] {};
 	}
 

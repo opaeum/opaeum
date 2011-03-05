@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Properties;
 
 public class PropertiesSource implements TextSource {
-	public static final String GEN_RESOURCE = "gen-resource";
 	private Properties properties;
 
 	public Properties getProperties() {

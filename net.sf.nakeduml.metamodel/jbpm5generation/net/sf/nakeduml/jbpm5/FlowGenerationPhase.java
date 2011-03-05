@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
@@ -24,9 +25,9 @@ public class FlowGenerationPhase implements TransformationPhase<FlowGenerationSt
 	}
 
 	@Override
-	public Object[] execute(List<FlowGenerationStep> features) {
+	public Object[] execute(List<FlowGenerationStep> features,TransformationContext context) {
 		for (FlowGenerationStep step : features) {
-			step.initialize(textWorkspace, workspace);
+			step.initialize(config,textWorkspace, workspace);
 			step.startVisiting(workspace);
 		}
 		return new Object[]{textWorkspace};

@@ -3,12 +3,15 @@ package net.sf.nakeduml.javageneration.auditing;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
@@ -46,18 +49,57 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import net.sf.nakeduml.name.NameConverter;
+import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.name.NameConverter;
 import net.sf.nakeduml.util.AbstractEntity;
+import net.sf.nakeduml.util.AbstractSignal;
 
-public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
+public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 	public static final String AUDIT_ID_USER_TYPE = "net.sf.nakeduml.util.AuditIdUserType";
+	private Map<String, OJPathName> classPathNames;
+
+	public static final class ClassCollector extends AbstractJavaProducingVisitor {
+		protected Map<String, OJPathName> persistentClasses = new HashMap<String, OJPathName>();
+
+
+		@VisitBefore(matchSubclasses = true)
+		public void visitClass(INakedClassifier p) {
+			if ((isPersistent(p) || isPersistentInterface(p)) && !isInNakedUmlUtil(p)) {
+				OJPathName pn = new OJPathName(p.getMappingInfo().getQualifiedJavaName());
+				persistentClasses.put(pn.toJavaString(),pn);
+			}
+		}
+
+		private boolean isPersistentInterface(INakedClassifier p) {
+			return (p instanceof INakedInterface && p.getStereotype(StereotypeNames.HELPER) == null);
+		}
+
+		private boolean isInNakedUmlUtil(INakedClassifier p) {
+			return (p.getMappingInfo().getQualifiedJavaName().startsWith(AbstractSignal.class.getPackage().getName()));
+		}
+	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitProperty(INakedProperty p) {
 		INakedClassifier owner = p.getOwner();
 		visitProperty(owner, p);
+	}
+
+	@VisitBefore
+	public void visitModel(INakedModel model) {
+		ClassCollector cc = new ClassCollector();
+		Collection<INakedRootObject> dependencies = model.getDependencies();
+		for (INakedRootObject dep : dependencies) {
+			if (dep instanceof INakedModel) {
+				cc.visitRecursively(dep);
+			}
+		}
+		cc.visitRecursively(model);
+		this.classPathNames=cc.persistentClasses;
 	}
 
 	private void visitProperty(INakedClassifier owner, INakedProperty p) {
@@ -67,6 +109,10 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 			OJPathName path = OJUtil.classifierPathname(owner);
 			path.replaceTail(path.getLast() + "_Audit");
 			OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+			if (auditClass == null) {
+				System.out.println("Audit class not found:" + path);
+				return;
+			}
 			OJAnnotatedField field = (OJAnnotatedField) auditClass.findField(map.umlName());
 			if (map.isOneToMany()) {
 				field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
@@ -88,14 +134,16 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					joinColumn1.putAttribute("referencedColumnName", getRoot(owner).getMappingInfo().getPersistentName() + "_id");
 					joinColumns.addAnnotationValue(joinColumn1);
 					OJAnnotationValue joinColumn2 = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-					joinColumn2.putAttribute("name", p.getOtherEnd().getMappingInfo().getPersistentName().getWithoutId() + "_object_version");
+					joinColumn2.putAttribute("name", p.getOtherEnd().getMappingInfo().getPersistentName().getWithoutId()
+							+ "_object_version");
 					joinColumn2.putAttribute("referencedColumnName", "object_version");
 					joinColumns.addAnnotationValue(joinColumn2);
 					joinTable.putAttribute(joinColumns);
 					OJAnnotationAttributeValue inverseJoinColumns = new OJAnnotationAttributeValue("joinColumns");
 					OJAnnotationValue inverseJoinColumn1 = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 					inverseJoinColumn1.putAttribute("name", p.getMappingInfo().getPersistentName().getWithoutId() + "_original_id");
-					inverseJoinColumn1.putAttribute("referencedColumnName", getBaseTypeRoot(p).getMappingInfo().getPersistentName() + "_id");
+					inverseJoinColumn1
+							.putAttribute("referencedColumnName", getBaseTypeRoot(p).getMappingInfo().getPersistentName() + "_id");
 					inverseJoinColumns.addAnnotationValue(joinColumn1);
 					OJAnnotationValue inverseJoinColumn2 = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 					inverseJoinColumn2.putAttribute("name", p.getMappingInfo().getPersistentName().getWithoutId() + "_object_version");
@@ -152,9 +200,22 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		}
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsFor" + owner.getMappingInfo().getJavaName());
-		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ /*owner.getMappingInfo().getJavaName().getDecapped()*/ "_original" + " =:original and a.deletedOn > "
-				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
+		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a." + /*
+																														 * owner
+																														 * .
+																														 * getMappingInfo
+																														 * (
+																														 * )
+																														 * .
+																														 * getJavaName
+																														 * (
+																														 * )
+																														 * .
+																														 * getDecapped
+																														 * (
+																														 * )
+																														 */"_original"
+				+ " =:original and a.deletedOn > " + HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
 
@@ -191,7 +252,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		f.setType(result);
 		f.setInitExp("entityManager.createNativeQuery(\"select * from " + resultPath.getElementTypes().get(0).getLast() + " a where a."
 				+ p.getOtherEnd().getMappingInfo().getPersistentName().getWithoutId() + "_original_id = :originalId and a.deleted_on > "
-				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName() + "\", " + resultPath.getElementTypes().get(0).getLast()
+				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName() + "\", "
+				+ resultPath.getElementTypes().get(0).getLast()
 				+ ".class).setParameter(\"originalId\", getId().getOriginalId()).getResultList()");
 		oper.getBody().addToLocals(f);
 		OJForStatement forS = new OJForStatement("", "", "tmpAudit", "queryResult");
@@ -282,7 +344,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					// fixToOneJoinColumns(c, auditClass);
 					addShallowCopy(c, auditClass);
 				}
-				super.createTextPath(auditClass, JavaTextSource.GEN_SRC);
+				super.createTextPath(auditClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			}
 		}
 		massageBehaviorLogic(c, auditClass);
@@ -374,9 +436,25 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		}
 		OJAnnotationValue oneToManyNamedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		oneToManyNamedQuery.putAttribute("name", "GetAuditsBetweenFor" + owner.getMappingInfo().getJavaName());
-		oneToManyNamedQuery.putAttribute("query", "from " + owner.getMappingInfo().getJavaName() + "_Audit a where a."
-				+ /*owner.getMappingInfo().getJavaName().getDecapped()*/ "_original" + " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
-				+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
+		oneToManyNamedQuery.putAttribute(
+				"query",
+				"from " + owner.getMappingInfo().getJavaName() + "_Audit a where a." + /*
+																						 * owner
+																						 * .
+																						 * getMappingInfo
+																						 * (
+																						 * )
+																						 * .
+																						 * getJavaName
+																						 * (
+																						 * )
+																						 * .
+																						 * getDecapped
+																						 * (
+																						 * )
+																						 */"_original"
+						+ " =:original and (a.createdOn between :start and :end) and a.deletedOn > "
+						+ HibernateUtil.getHibernateDialect(this.config).getCurrentTimestampSQLFunctionName());
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
 
@@ -453,8 +531,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		originalIdAttributeOverride.putAttribute(name);
 		OJAnnotationAttributeValue column = new OJAnnotationAttributeValue("column");
 		OJAnnotationValue columnAnnotation = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-		columnAnnotation.putAttribute(new OJAnnotationAttributeValue("name", JpaUtil.BACKTICK + c.getMappingInfo().getPersistentName() + "_id"
-				+ JpaUtil.BACKTICK));
+		columnAnnotation.putAttribute(new OJAnnotationAttributeValue("name", JpaUtil.BACKTICK + c.getMappingInfo().getPersistentName()
+				+ "_id" + JpaUtil.BACKTICK));
 		column.addAnnotationValue(columnAnnotation);
 		originalIdAttributeOverride.putAttribute(column);
 		attributeOverrides.addAnnotationValue(originalIdAttributeOverride);
@@ -545,7 +623,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 
 	private void addCopyToAuditStatements(OJAnnotatedClass c, INakedClassifier classifier, OJBlock body, boolean deep) {
 		// TODO use MappedTypes
-
 		Set<String> javaTypes = new HashSet<String>();
 		javaTypes.add("String");
 		javaTypes.add("Integer");
@@ -557,7 +634,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		List<OJField> fields = c.getFields();
 		for (OJField ojField : fields) {
 			boolean foundMap = false;
-
 			NakedStructuralFeatureMap map = null;
 			for (INakedProperty attr : classifier.getEffectiveAttributes()) {
 				map = new NakedStructuralFeatureMap(attr);
@@ -566,7 +642,6 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 					break;
 				}
 			}
-
 			String javaType = ojField.getType().getLast();
 			if (foundMap && javaTypes.contains(javaType)) {
 				OJOperation setter = findMethodIgnorecase(c, map.setter());
@@ -583,7 +658,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		original.setType(originalPathName);
 		String auditClassName = javaClass.getPathName().getNames().get(javaClass.getPathName().getNames().size() - 1);
 		auditClassName = auditClassName.substring(0, auditClassName.length() - 6);
-//		original.setName(umlClass.getMappingInfo().getJavaName().getDecapped().toString());
+		// original.setName(umlClass.getMappingInfo().getJavaName().getDecapped().toString());
 		original.setName("_original");
 		original.setOwner(javaClass);
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
@@ -597,14 +672,17 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		OJOperation getter = new OJAnnotatedOperation();
 		getter.setName("getOriginal");
 		getter.setReturnType(originalPathName);
-//		getter.getBody().addToStatements("return " + umlClass.getMappingInfo().getJavaName().getDecapped());
+		// getter.getBody().addToStatements("return " +
+		// umlClass.getMappingInfo().getJavaName().getDecapped());
 		getter.getBody().addToStatements("return this._original");
 		getter.setStatic(false);
 		javaClass.addToOperations(getter);
 		OJOperation setter = new OJAnnotatedOperation();
 		setter.setName("setOriginal");
 		setter.addParam(NameConverter.decapitalize(auditClassName), originalPathName);
-//		setter.getBody().addToStatements("this." + umlClass.getMappingInfo().getJavaName().getDecapped() + "= " + NameConverter.decapitalize(auditClassName));
+		// setter.getBody().addToStatements("this." +
+		// umlClass.getMappingInfo().getJavaName().getDecapped() + "= " +
+		// NameConverter.decapitalize(auditClassName));
 		setter.getBody().addToStatements("this._original = " + NameConverter.decapitalize(auditClassName));
 		setter.setStatic(false);
 		if (umlClass.getGeneralizations().size() > 0) {
@@ -613,7 +691,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitorForAudit {
 		javaClass.addToOperations(setter);
 		OJAnnotatedOperation originalForAbstractEntity = new OJAnnotatedOperation();
 		originalForAbstractEntity.setName("setOriginal");
-		originalForAbstractEntity.addParam(NameConverter.decapitalize(auditClassName), new OJPathName("net.sf.nakeduml.util.AbstractEntity"));
+		originalForAbstractEntity.addParam(NameConverter.decapitalize(auditClassName),
+				new OJPathName("net.sf.nakeduml.util.AbstractEntity"));
 		originalForAbstractEntity.getBody().addToStatements(
 				"setOriginal((" + umlClass.getMappingInfo().getJavaName() + ") " + NameConverter.decapitalize(auditClassName) + ")");
 		javaClass.addToOperations(originalForAbstractEntity);

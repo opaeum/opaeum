@@ -1,87 +1,116 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.AbstractTextProducingVisitor;
-import net.sf.nakeduml.javametamodel.OJClass;
-import net.sf.nakeduml.javametamodel.OJPackage;
+import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.PropertiesSource;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
-import net.sf.nakeduml.visitor.AbstractOJVisitor;
 
-@StepDependency(phase = StandaloneHibernatePhase.class,requires=PersistenceUsingHibernateStep.class)
-public class HibernateConfigGenerator extends AbstractTextProducingVisitor implements StandaloneHibernateStep {
-	public static final class OJVisitor extends AbstractOJVisitor {
-		private final HashSet<OJClass> classes;
+public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
+	boolean isIntegrationPhase = true;
 
-		private OJVisitor(HashSet<OJClass> classes) {
-			this.classes = classes;
+	public HibernateConfigGenerator(boolean isIntegrationPhase) {
+		super();
+		this.isIntegrationPhase = isIntegrationPhase;
+	}
+
+	public static final class MappingCollector extends AbstractJavaProducingVisitor {
+		private final HashSet<OJPathName> classes = new HashSet<OJPathName>();
+		private final HashSet<OJPathName> packages = new HashSet<OJPathName>();
+
+		@VisitBefore(matchSubclasses = true)
+		public void visitClassifier(INakedClassifier c) {
+			if (isPersistent(c)) {
+				classes.add(OJUtil.classifierPathname(c));
+			}
+		}
+
+		public void visitOpaqueAction(INakedOpaqueAction a) {
+			if (a.isTask()) {
+				classes.add(OJUtil.classifierPathname(a.getMessageStructure()));
+			}
+		}
+
+		public void visitOperation(INakedOperation o) {
+			if (o.isUserResponsibility()) {
+				classes.add(OJUtil.classifierPathname(new OperationMessageStructureImpl(o)));
+			}
 		}
 
 		@VisitBefore(matchSubclasses = true)
-		public void visitPackage(OJPackage p) {
-			for (OJClass c : p.getClasses()) {
-				if (c instanceof OJAnnotatedClass && ((OJAnnotatedClass) c).hasAnnotation(new OJPathName("javax.persistence.Table"))) {
-					classes.add(c);
-				}
-			}
+		public void visitModel(INakedModel model) {
+			packages.add(OJUtil.packagePathname(model));
+		}
+
+		@VisitBefore(matchSubclasses = true)
+		public void visitInterface(INakedInterface it) {
+			packages.add(OJUtil.packagePathname(it.getNameSpace()));
+		}
+
+		@Override
+		public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
+			return super.getChildren(root);
 		}
 	}
 
 	public static final String RESOURCE_DIR = "gen-src";
 
-	public void generate() {
-		HashMap<String, Object> vars = new HashMap<String, Object>();
-		Set<OJClass> classesRecursively = getClassesRecursively();
-		List<OJClass> sortedClasses = new ArrayList<OJClass>(classesRecursively);
-		Collections.sort(sortedClasses, new Comparator<OJClass>() {
-			@Override
-			public int compare(OJClass o1, OJClass o2) {
-				if (o1.getName().endsWith("Audit")) {
-					return 1;
-				} else {
-					return -1;
-				}
-			}
-		});
-		vars.put("persistentClasses", sortedClasses);
-		//TODO find better way of knowing the audit step is present
-		boolean requiresAudit = false;
-		for (OJClass ojClass : sortedClasses) {
-			requiresAudit = ojClass.getName().endsWith("Audit");
-			if (requiresAudit) {
-				break;
-			}
+	@VisitBefore
+	public void visitWorkspace(INakedModelWorkspace workspace) {
+		if (isIntegrationPhase) {
+			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
+			HashMap<String, Object> vars = buildVars(ownedElements);
+			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "hibernate.cfg.xml", getOutputRootId(), vars);
 		}
+	}
+
+	private HashMap<String, Object> buildVars(Collection<? extends INakedElement> models) {
+		HashMap<String, Object> vars = new HashMap<String, Object>();
+		boolean requiresAudit = transformationContext.isFeatureSelected(AuditImplementationStep.class);
 		vars.put("requiresAuditing", requiresAudit);
 		vars.put("config", this.config);
-		processTemplate(this.workspace.getGeneratingModelsOrProfiles().get(0), "templates/Model/Jbpm4HibernateConfig.vsl",
-				/*this.config.getProjectName()+ "." + */"hibernate.cfg.xml", PropertiesSource.GEN_RESOURCE, vars);
+		MappingCollector collector = new MappingCollector();
+		// do all models
+		for (INakedElement element : models) {
+			if (element instanceof INakedModel) {
+				collector.visitRecursively(element);
+			}
+		}
+		vars.put("persistentClasses", collector.classes);
+		vars.put("packages", collector.packages);
+		return vars;
 	}
 
-	private Set<OJClass> getClassesRecursively() {
-		final HashSet<OJClass> classes = new HashSet<OJClass>();
-		new OJVisitor(classes).startVisiting(super.javaModel);
-		return classes;
+	@VisitBefore
+	public void visitModel(INakedModel model) {
+		if (!isIntegrationPhase) {
+			HashMap<String, Object> vars = buildVars(model.getDependencies());
+			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", "hibernate.cfg.xml", getOutputRootId(), vars);
+		}
 	}
 
-	@Override
-	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config, TextWorkspace textWorkspace, OJPackage javaModel) {
-		super.initialize(workspace, config, textWorkspace);
-		this.javaModel=javaModel;
 
+	private OutputRootId getOutputRootId() {
+		if (isIntegrationPhase) {
+			return CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE;
+		} else {
+			return CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE;
+		}
 	}
-
 }

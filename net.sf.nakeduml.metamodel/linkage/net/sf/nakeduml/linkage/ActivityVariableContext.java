@@ -30,7 +30,7 @@ public final class ActivityVariableContext extends MessageStructureImpl {
 
 	@Override
 	public IPackage getRoot() {
-		return activity.getRoot();
+		return activity.getNakedRoot();
 	}
 
 	@Override

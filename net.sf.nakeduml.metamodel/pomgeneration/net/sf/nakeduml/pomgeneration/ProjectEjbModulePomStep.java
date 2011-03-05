@@ -3,6 +3,7 @@ package net.sf.nakeduml.pomgeneration;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
@@ -79,11 +80,11 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		pluginExecution.getGoals(). getGoal().add("enforce");
 		
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "rules");
-		anyType = addAnyElement(anyType.getAny(),"requireProperty");
-		addAnyElement(anyType.getAny(),"property", "jboss.home");
+		AnyType anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "rules");
+		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(),"requireProperty");
+		PomUtil.addAnyElementWithContent(anyType.getAny(),"property", "jboss.home");
 
-		addAnyElement(pluginExecution.getConfiguration().getAny(), "fail", "true");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "fail", "true");
 		
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
@@ -95,7 +96,7 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		plugin.setVersion("2.7.1");
 		
 		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
-		addAnyElement(pluginExecution.getConfiguration().getAny(), "skip", "true");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "true");
 		
 		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
@@ -105,7 +106,7 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		pluginExecution.getGoals(). getGoal().add("test");
 		
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		addAnyElement(pluginExecution.getConfiguration().getAny(), "skip", "false");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "false");
 		
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
@@ -115,22 +116,6 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		
 	}
 
-	@Override
-	public boolean hasParent() {
-		return true;
-	}
-
-	public String getParentGroupId() {
-		return super.getGroupId();
-	}
-
-	public String getParentArtifactId() {
-		return super.getName();
-	}
-
-	public String getParentVersion() {
-		return "0.0.1";
-	}
 
 	@Override
 	public String getPackaging() {
@@ -265,14 +250,11 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public String getTargetDir() {
-		return JavaTextSource.NAKED_PROJECT_EJB_ROOT;
+	public OutputRoot getExampleTargetDir() {
+		return  config.getOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 
-	@Override
-	public String getArtifactSuffix() {
-		return "-ejb";
-	}
+
 
 	@Override
 	public Plugin[] getPlugins() {
@@ -285,7 +267,7 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		result[1].setArtifactId("maven-ejb-plugin");
 		result[1].setVersion("2.3");
 		ConfigurationType2 cfg = POMFactory.eINSTANCE.createConfigurationType2();
-		addAnyElement(cfg.getAny(), "ejbVersion", "3.0");
+		PomUtil.addAnyElementWithContent(cfg.getAny(), "ejbVersion", "3.0");
 		result[1].setConfiguration(cfg);
 
 		result[2] = POMFactory.eINSTANCE.createPlugin();
@@ -301,8 +283,8 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("add-source");
 		
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
-		addAnyElement(anyType.getAny(),"source", "src/main/generated-java");
+		AnyType anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "sources");
+		PomUtil.addAnyElementWithContent(anyType.getAny(),"source", "src/main/generated-java");
 
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
 		execution.getExecution().add(pluginExecution);
@@ -312,18 +294,15 @@ public class ProjectEjbModulePomStep extends PomGenerationStep {
 		pluginExecution.getGoals().getGoal().add("add-resource");
 		
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		anyType = addAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
-		anyType = addAnyElement(anyType.getAny(),"resource");
-		addAnyElement(anyType.getAny(),"directory", "src/main/generated-resources");
+		anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "resources");
+		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(),"resource");
+		PomUtil.addAnyElementWithContent(anyType.getAny(),"directory", "src/main/generated-resources");
 		
 		result[2].setExecutions(execution);
 		
 		return result;
 	}
 
-	@Override
-	public String getName() {
-		return super.getName() + "-ejb";
-	}
+
 
 }

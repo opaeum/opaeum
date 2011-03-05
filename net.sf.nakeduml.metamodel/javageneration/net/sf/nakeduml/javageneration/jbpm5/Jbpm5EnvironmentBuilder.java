@@ -3,6 +3,7 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import java.util.Collection;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
@@ -22,19 +23,64 @@ import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import nl.klasse.octopus.model.IImportedElement;
 
 import org.jboss.seam.solder.beanManager.BeanManagerUnavailableException;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
+	public class BehaviorVisitor extends VisitorAdapter<INakedElement, INakedModel> {
+		@VisitBefore(matchSubclasses = true)
+		public void visitBehavior(INakedBehavior b) {
+			if (b.isProcess()) {
+				prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\""
+						+ b.getMappingInfo().getJavaPath() + ".rf\"), ResourceType.DRF)");
+			}
+		}
+
+		@Override
+		public Collection<? extends INakedElement> getChildren(INakedElement parent) {
+			return parent.getOwnedElements();
+		}
+	}
+
 	private OJBlock prepareKnowledgeBaseBody;
+	boolean isIntegrationPhase = true;
+
+	public Jbpm5EnvironmentBuilder(boolean isIntegrationPhase) {
+		this.isIntegrationPhase = isIntegrationPhase;
+	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitWorkspace(INakedModelWorkspace model) {
-		createJbpmKnowledgeSession();
-		createJbpmKnowledgeBase();
+	public void visitWorkspace(INakedModelWorkspace workspace) {
+		if (isIntegrationPhase) {
+			createJbpmKnowledgeSession();
+			createJbpmKnowledgeBase();
+			visitModels(workspace.getOwnedElements());
+		}
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitModel(INakedModel model) {
+		if (!isIntegrationPhase) {
+			createJbpmKnowledgeSession();
+			createJbpmKnowledgeBase();
+			BehaviorVisitor visitor = visitModels(model.getDependencies());
+			visitor.startVisiting(model);
+		}
+	}
+
+	private BehaviorVisitor visitModels(Collection<? extends INakedElement> roots) {
+		BehaviorVisitor visitor = new BehaviorVisitor();
+		for (INakedElement root : roots) {
+			if (root instanceof INakedModel) {
+				visitor.startVisiting((INakedModel) root);
+			}
+		}
+		return visitor;
 	}
 
 	@VisitBefore
@@ -50,7 +96,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
 		OJPackage utilPack = findOrCreatePackage(Jbpm5Util.getJbpmKnowledgeSession().getHead());
 		utilPack.addToClasses(jbpmKnowledgeBase);
-		super.createTextPath(jbpmKnowledgeBase, JavaTextSource.GEN_SRC);
+		super.createTextPath(jbpmKnowledgeBase, getOutputRootId());
 		addCommonImports(jbpmKnowledgeBase);
 		jbpmKnowledgeBase.setSuperclass(new OJPathName("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase"));
 		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation();
@@ -92,7 +138,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeSession.getPathName());
 		instance.setStatic(true);
 		jbpmKnowledgeSession.addToFields(instance);
-		super.createTextPath(jbpmKnowledgeSession, JavaTextSource.GEN_SRC);
+		super.createTextPath(jbpmKnowledgeSession, getOutputRootId());
 		addCommonImports(jbpmKnowledgeSession);
 		OJAnnotatedOperation getInstance = new OJAnnotatedOperation();
 		getInstance.setName("getInstance");
@@ -121,6 +167,14 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.addToImports("org.hibernate.Session");
 	}
 
+	private OutputRootId getOutputRootId() {
+		if (isIntegrationPhase) {
+			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC;
+		} else {
+			return JavaTextSource.OutputRootId.DOMAIN_GEN_SRC;
+		}
+	}
+
 	private void addCommonImports(OJAnnotatedClass jbpmKnowledgeSession) {
 		jbpmKnowledgeSession.addToImports("org.drools.KnowledgeBase");
 		jbpmKnowledgeSession.addToImports("org.drools.builder.KnowledgeBuilder");
@@ -128,19 +182,6 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.addToImports("org.drools.builder.ResourceType");
 		jbpmKnowledgeSession.addToImports("org.jboss.seam.solder.beanManager.BeanManagerUnavailableException");
 		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.seam3.Component");
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior b) {
-		if (b.isProcess() || (b instanceof INakedActivity && ((INakedActivity) b).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)) {
-			prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\"" + b.getMappingInfo().getJavaPath()
-					+ ".rf\"), ResourceType.DRF)");
-		}
-	}
-
-	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
-		return root.getOwnedElements();
 	}
 
 }

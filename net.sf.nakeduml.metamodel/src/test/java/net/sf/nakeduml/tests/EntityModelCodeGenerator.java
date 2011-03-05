@@ -2,6 +2,7 @@ package net.sf.nakeduml.tests;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Set;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.feature.TransformationStep;
@@ -10,13 +11,18 @@ import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.pomgeneration.HibernatePomStep;
 
-public class EntityModelCodeGenerator extends net.sf.nakeduml.pomgeneration.AbstractMavenProjectProcess {
-	public static void main(String[] args) throws Exception {
-		transform(OclExpressionExecution.class, StereotypeApplicationExtractor.class/*, BusinessProcessManagementStep.class*/,
-				PersistenceUsingHibernateStep.class, HibernatePomStep.class, HibernateTestsStep.class);
+public class EntityModelCodeGenerator extends net.sf.nakeduml.pomgeneration.MavenProjectTransformationConfiguration {
+	protected EntityModelCodeGenerator(String outputRoot, String modelDirectory) {
+		super(outputRoot, modelDirectory);
 	}
 
-	public static void transform(Class<? extends TransformationStep>... classes) throws Exception, IOException, FileNotFoundException {
-		transform("../nakedumltest/entitymodel", "testmodels/entitymodel.uml", false, classes);
+	public static void main(String[] args) throws Exception {
+		new EntityModelCodeGenerator("../nakedumltest/entitymodel", "testmodels").transformSingleModel("entitymodel.uml");
+	}
+
+	@Override
+	protected Set<Class<? extends TransformationStep>> getSteps() {
+		return toSet(OclExpressionExecution.class, StereotypeApplicationExtractor.class/*, BusinessProcessManagementStep.class*/,
+				PersistenceUsingHibernateStep.class, HibernatePomStep.class, HibernateTestsStep.class);
 	}
 }

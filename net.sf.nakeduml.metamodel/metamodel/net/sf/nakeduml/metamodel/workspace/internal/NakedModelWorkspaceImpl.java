@@ -3,15 +3,18 @@ package net.sf.nakeduml.metamodel.workspace.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.ClassifierDependencyComparator;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
@@ -20,6 +23,7 @@ import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedTypes;
+import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
@@ -34,7 +38,10 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	private String name;
 	private IOclEngine oclEngine = new OclEngine();
 	private ErrorMap validator = new ErrorMap();
-	private List<String> generatingModelOrProfileIds=new ArrayList<String>();
+	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
+	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
+	private boolean singleModelWorkspace;
+	private String directoryName;
 
 	public NakedModelWorkspaceImpl() {
 	}
@@ -63,10 +70,10 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	}
 
 	private boolean isInGeneratingModel(INakedElement mw) {
-		while(mw.getOwnerElement() instanceof INakedElement){
-			mw=(INakedElement) mw.getOwnerElement();
+		while (mw.getOwnerElement() instanceof INakedElement) {
+			mw = (INakedElement) mw.getOwnerElement();
 		}
-		return generatingModelOrProfileIds.contains(mw.getId());
+		return generatingRootObjects.contains(mw);
 	}
 
 	public INakedElement getModelElement(Object id) {
@@ -77,8 +84,8 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		}
 	}
 
-	public Collection getElementsOfType(String metaClass) {
-		List results = new ArrayList();
+	public Collection<? extends INakedElement> getElementsOfType(String metaClass) {
+		List<INakedElement> results = new ArrayList<INakedElement>();
 		for (INakedPackage np : getGeneratingModelsOrProfiles()) {
 			if (np.getMetaClass().equalsIgnoreCase(metaClass)) {
 				results.add(np);
@@ -101,7 +108,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		}
 	}
 
-	public Collection getAllElements() {
+	public Collection<INakedElement> getAllElements() {
 		return this.allElementsByModelId.values();
 	}
 
@@ -131,9 +138,11 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 
 	public void setName(String string) {
 		this.name = string;
+		if(name==null) throw new IllegalStateException();
 	}
 
 	public String getName() {
+		
 		return this.name;
 	}
 
@@ -168,38 +177,69 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		return result;
 	}
 
+	@Override
 	public List<INakedComplexStructure> getClassElementsInDependencyOrder() {
 		return getClasses(INakedComplexStructure.class);
 	}
 
+	@Override
 	public Collection<INakedPackage> getChildren() {
 		return children;
 	}
 
+	@Override
 	public void removeElementById(String id) {
 		allElementsByModelId.remove(id);
 	}
 
+	@Override
 	public void removeOwnedElement(INakedElement element) {
 		this.children.remove(element);
 	}
 
-	public List<INakedPackage> getGeneratingModelsOrProfiles() {
-		List<INakedPackage> results = new ArrayList<INakedPackage>();
-		for(INakedPackage e:children){
-			if(generatingModelOrProfileIds.contains( e.getId())){
-				results.add(e);
-			}
-		}
-		return results;
+	@Override
+	public List<INakedRootObject> getGeneratingModelsOrProfiles() {
+		return generatingRootObjects;
 	}
 
-	public void addGeneratingModelOrProfileId(String packageId) {
-		generatingModelOrProfileIds.add(packageId);
+
+	@Override
+	public void addGeneratingRootObject(INakedRootObject p) {
+		generatingRootObjects.add(p);
 	}
 
 	@Override
 	public void clearGeneratingModelOrProfiles() {
-		generatingModelOrProfileIds.clear();
+		generatingRootObjects.clear();
+	}
+
+
+	@Override
+	public String getMetaClass() {
+		return "workspace";
+	}
+
+	@Override
+	public boolean isPrimaryModel(INakedRootObject rootObject) {
+		return primaryRootObjects.contains(rootObject);
+	}
+
+	@Override
+	public void addPrimaryModel(INakedRootObject rootObject) {
+		primaryRootObjects.add(rootObject);
+		
+	}
+
+	public void setDirectoryName(String directoryName) {
+		this.directoryName = directoryName;
+	}
+
+	public String getDirectoryName() {
+		return directoryName;
+	}
+
+	@Override
+	public Collection<INakedRootObject> getPrimaryRootObjects() {
+		return primaryRootObjects;
 	}
 }
