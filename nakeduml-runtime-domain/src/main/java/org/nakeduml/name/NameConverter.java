@@ -1,4 +1,4 @@
-package net.sf.nakeduml.metamodel.name;
+package org.nakeduml.name;
 public class NameConverter {
 	private static final String SINGULAR_SUFFIX = "ButOnlyOne";
 	public static String toUpperCase(String name) {

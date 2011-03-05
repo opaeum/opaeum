@@ -1,37 +1,50 @@
 package org.nakeduml.projectgeneration;
 
+import java.io.BufferedReader;
 import java.io.CharArrayWriter;
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationStep;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.AbstractTextProducingVisitor;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.textmetamodel.SourceFolder;
-import net.sf.nakeduml.textmetamodel.TextProject;
 
-public abstract class AbstractProjectGenerationStep extends AbstractJavaProducingVisitor implements TransformationStep {
+public abstract class AbstractProjectGenerationStep extends AbstractTextProducingVisitor implements TransformationStep {
 	protected INakedModel currentModel;
 
-	@Override
-	public void visitRecursively(INakedElementOwner o) {
-		super.visitRecursively(o);
-		if (o instanceof INakedModel) {
-			this.currentModel = (INakedModel) o;
-		}
+
+	protected void createConfig(String name, OutputRootId outputRootId) {
+		CharArrayWriter outputBuilder = copyResource(name);
+		findOrCreateTextFile(outputBuilder, outputRootId, name);
 	}
 
-	public abstract void visitModel(INakedModel model);
+	protected void createDefaultHtmlPages(String name) {
+		final CharArrayWriter outputBuilder = copyResource(name);
+		findOrCreateTextFile(outputBuilder, CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, name);
+	}
 
-	protected void findOrCreateTextFile(final CharArrayWriter outputBuilder, Enum<?> outputRootId, String... names) {
-		OutputRoot outputRoot = config.getOutputRoot(outputRootId);
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getName() : currentModel.getFileName();
-		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
-		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
-		List<String> nameList = Arrays.asList(names);
-		or.findOrCreateTextFile(nameList, new CharArrayTextSource(outputBuilder), outputRoot.overwriteFiles());
+	protected void createConfig(String name, Enum<?> outputRootId, String dir) {
+		CharArrayWriter outputBuilder = copyResource(name);
+		findOrCreateTextFile(outputBuilder, outputRootId, dir, name);
+	}
+
+	protected CharArrayWriter copyResource(String name) {
+		final InputStream inputStream = this.getClass().getResourceAsStream("/" + name);
+		String string;
+		final CharArrayWriter outputBuilder = new CharArrayWriter();
+		if (inputStream != null) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			try {
+				while (null != (string = reader.readLine())) {
+					outputBuilder.append(string).append('\n');
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return outputBuilder;
 	}
 }

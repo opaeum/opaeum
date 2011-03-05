@@ -15,7 +15,7 @@ import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 @PhaseDependency(before = { FileGenerationPhase.class, PomGenerationPhase.class }, after = { JavaTransformationPhase.class })
-public class ProjectGenerationPhase implements TransformationPhase<AbstractProjectGenerationStep> {
+public class DefaultConfigGenerationPhase implements TransformationPhase<AbstractProjectGenerationStep> {
 
 	private NakedUmlConfig config;
 	@InputModel
@@ -33,7 +33,7 @@ public class ProjectGenerationPhase implements TransformationPhase<AbstractProje
 	@Override
 	public Object[] execute(List<AbstractProjectGenerationStep> features,TransformationContext context) {
 		for (AbstractProjectGenerationStep step : features) {
-			step.initialize(javaModel, config, textWorkspace,context);
+			step.initialize(config, textWorkspace,context);
 			step.startVisiting(workspace);
 		}
 		return new Object[0];

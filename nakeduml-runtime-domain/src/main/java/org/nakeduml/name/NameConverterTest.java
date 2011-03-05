@@ -1,4 +1,4 @@
-package net.sf.nakeduml.metamodel.name;
+package org.nakeduml.name;
 public class NameConverterTest{ 
 	public void testIt() throws Exception {
 		assertEquals("abc_dfg", NameConverter.toUnderscoreStyle("abcDfg"));
