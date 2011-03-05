@@ -39,8 +39,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.nakeduml.projectgeneration.DefaultConfigGenerationPhase;
 
-@PhaseDependency(after = { JavaTransformationPhase.class,FlowGenerationPhase.class }, before = { FileGenerationPhase.class })
+@PhaseDependency(after = { JavaTransformationPhase.class,FlowGenerationPhase.class ,DefaultConfigGenerationPhase.class}, before = { FileGenerationPhase.class })
 public class PomGenerationPhase implements TransformationPhase<PomGenerationStep> {
 	@InputModel
 	private INakedModelWorkspace workspace;
@@ -180,6 +181,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				if (sf.getRelativePath().contains("resources")) {
 					PomUtil.maybeAddResourcePath(root, sf);
 				} else if (sf.getRelativePath().contains("java")) {
+					PomUtil.maybeAddJavaPath(root, sf);
+				} else if (sf.getRelativePath().contains("webapp")) {
 					PomUtil.maybeAddJavaPath(root, sf);
 				}
 			}

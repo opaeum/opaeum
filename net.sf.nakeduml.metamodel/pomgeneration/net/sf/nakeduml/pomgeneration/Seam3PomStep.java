@@ -18,13 +18,14 @@ import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
-@StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaIntegratedAdaptorPomStep.class, BasicJavaAdaptorPomStep.class })
+@StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaIntegratedAdaptorPomStep.class })
 public class Seam3PomStep extends PomGenerationStep {
 	@Override
 	public Dependency[] getDependencies() {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
-		addJeeSpec(dependencies);
+		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
+		super.addSeamServlet(dependencies);
 		Dependency slf4j = POMFactory.eINSTANCE.createDependency();
 		slf4j.setGroupId("org.slf4j");
 		slf4j.setArtifactId("slf4j-log4j12");
@@ -72,43 +73,12 @@ public class Seam3PomStep extends PomGenerationStep {
 		nakedUmlUtil.setVersion("${numl.version}");
 		nakedUmlUtil.setType("jar");
 		nakedUmlUtil.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.arquillian");
-		dependency.setArtifactId("arquillian-junit");
-		dependency.setVersion("${arquillian.version}");
-		dependency.setType("jar");
-		dependency.setScope("test");
-		dependencies.add(dependency);
-		dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("junit");
-		dependency.setArtifactId("junit");
-		dependency.setVersion("4.8.2");
-		dependency.setType("jar");
-		dependency.setScope("test");
-		dependencies.add(dependency);
+		super.addArquillian(dependencies);
+		super.addJunit(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 
-	protected void addCdi(List<Dependency> dependencies) {
-		Dependency cdi = POMFactory.eINSTANCE.createDependency();
-		cdi.setGroupId("javax.enterprise");
-		cdi.setArtifactId("cdi-api");
-		cdi.setVersion("1.0-SP1");
-		cdi.setScope("provided");
-		cdi.setType("jar");
-		dependencies.add(cdi);
-	}
 
-	protected void addJeeSpec(List<Dependency> dependencies) {
-		Dependency jeeSpec = POMFactory.eINSTANCE.createDependency();
-		jeeSpec.setGroupId("org.jboss.spec");
-		jeeSpec.setArtifactId("jboss-javaee-6.0");
-		jeeSpec.setVersion("1.0.0.Final");
-		jeeSpec.setScope("provided");
-		jeeSpec.setVersion("1.0.0.Final");
-		jeeSpec.setType("pom");
-		dependencies.add(jeeSpec);
-	}
 
 	@Override
 	public Properties getParentPomProperties() {
@@ -138,9 +108,8 @@ public class Seam3PomStep extends PomGenerationStep {
 
 	@Override
 	public OutputRoot getExampleTargetDir() {
-		return config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE);
+		return config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE);
 	}
-
 
 	@Override
 	public Profile[] getProfiles() {

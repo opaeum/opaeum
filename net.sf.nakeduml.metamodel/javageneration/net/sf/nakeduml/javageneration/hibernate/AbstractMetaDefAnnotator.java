@@ -52,7 +52,7 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 		if(isIntegrationPhase){
 			OJPathName pathName = new OJPathName(config.getMavenGroupId() + ".util");
 			addEnvironment(pathName, workspace.getDirectoryName()
-					+ "-hibernate.cfg.xml", JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC);
+					+ "-hibernate.cfg.xml", JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 
 			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
 			Set<INakedInterface> interfaces = collectInterfaces((ownedElements));
@@ -64,12 +64,16 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 			for (INakedRootObject rootObject : generatingModelsOrProfiles) {
 				if(rootObject instanceof INakedModel){
 					super.currentRootObject=rootObject;
+					if(rootObject.getName().contains("huawei_umts")){
+						System.out.println();
+					}
 					addEnvironment(UtilityCreator.getUtilPathName(), rootObject.getFileName()
 							+ "-hibernate.cfg.xml", JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
 
-					Set<INakedInterface> interfaces = collectInterfaces(((INakedModel) rootObject).getDependencies());
+					Collection<INakedRootObject> dependencies = ((INakedModel) rootObject).getDependencies();
+					Set<INakedInterface> interfaces = collectInterfaces(dependencies);
 					for (INakedInterface i : interfaces) {
-						doInterface(i, UtilityCreator.getUtilPathName(), InterfaceUtil.getImplementationsOf(i,(Collection<INakedRootObject>) workspace.getOwnedElements()));
+						doInterface(i, UtilityCreator.getUtilPathName(), InterfaceUtil.getImplementationsOf(i,dependencies));
 					}
 				}
 			}
@@ -136,7 +140,7 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 
 	protected final JavaTextSource.OutputRootId getOutputRoot() {
 		if (isIntegrationPhase) {
-			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC;
+			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC;
 		} else {
 			// One model
 			return JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC;

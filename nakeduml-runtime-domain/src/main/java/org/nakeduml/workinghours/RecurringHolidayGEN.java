@@ -2,6 +2,7 @@ package org.nakeduml.workinghours;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractProcess;
@@ -19,6 +20,7 @@ abstract public class RecurringHolidayGEN implements CompositionNode, AbstractEn
 	private Long id;
 	private Date deletedOn;
 	private int objectVersion;
+	private String uid;
 	/**
 	 * Constructor for RecurringHolidayGEN
 	 * 
@@ -304,5 +306,11 @@ abstract public class RecurringHolidayGEN implements CompositionNode, AbstractEn
 	}
 	public boolean isUserOwnershipValid() {
 		return false;
+	}
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
 	}
 }

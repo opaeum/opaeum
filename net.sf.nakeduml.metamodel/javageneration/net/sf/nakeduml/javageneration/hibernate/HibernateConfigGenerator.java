@@ -101,7 +101,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 
 	private OutputRootId getOutputRootId() {
 		if (isIntegrationPhase) {
-			return CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE;
+			return CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE;
 		} else {
 			return CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE;
 		}

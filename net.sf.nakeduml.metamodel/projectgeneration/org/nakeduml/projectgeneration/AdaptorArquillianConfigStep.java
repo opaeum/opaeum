@@ -5,10 +5,11 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.pomgeneration.BasicJavaAdaptorPomStep;
 import net.sf.nakeduml.pomgeneration.WarPomStep;
 
-@StepDependency(phase = DefaultConfigGenerationPhase.class, requires = { WarPomStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
-public class AdaptorJbossConfigStep extends AbstractProjectGenerationStep {
+@StepDependency(phase = DefaultConfigGenerationPhase.class, requires = { BasicJavaAdaptorPomStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
+public class AdaptorArquillianConfigStep extends AbstractProjectGenerationStep {
 	@VisitBefore
 	public void visitModel(INakedModel model) {
 		createConfig("beans.xml", CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, "META-INF");

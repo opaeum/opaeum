@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractProcess;
@@ -24,6 +25,7 @@ abstract public class WorkingHoursConfigurationGEN implements  AbstractEntity, C
 	private Long id;
 	private Date deletedOn;
 	private int objectVersion;
+	private String uid;
 	/**
 	 * Default constructor for WorkingHoursConfiguration
 	 */
@@ -728,4 +730,11 @@ abstract public class WorkingHoursConfigurationGEN implements  AbstractEntity, C
 	public boolean isUserOwnershipValid() {
 		return false;
 	}
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
+	}
+
 }

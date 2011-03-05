@@ -95,7 +95,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 
 	private OutputRootId getOutputRootId() {
 		if (isIntegrationPhase) {
-			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC;
+			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC;
 		} else {
 			return JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC;
 		}

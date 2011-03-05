@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractProcess;
@@ -21,6 +22,7 @@ abstract public class HolidayGEN implements AbstractEntity,MetaIdentifiable{
 	private Long id;
 	private Date deletedOn;
 	private int objectVersion;
+	private String uid;
 	/**
 	 * This constructor is intended for easy initialization in unit tests
 	 * 
@@ -327,4 +329,11 @@ abstract public class HolidayGEN implements AbstractEntity,MetaIdentifiable{
 	public boolean isUserOwnershipValid(){
 		return false;
 	}
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
+	}
+
 }

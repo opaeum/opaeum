@@ -5,22 +5,22 @@ import java.util.Collection;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource;
-import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
 
-@StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
+@StepDependency(requires = {}, before = {}, after = {}, phase = PomGenerationPhase.class)
 public class BasicJavaIntegratedAdaptorPomStep extends AbstractBasicJavaPomStep {
 	//TODO properties  - jmock
 	@Override
 	public Dependency[] getDependencies() {
-		Collection<Dependency> result = getTestDepedencies();
+		Collection<Dependency> dependencies = getTestDepedencies();
 		for (INakedRootObject rootObject : workspace.getPrimaryRootObjects()) {
-			addDependencyToRootObject("-adaptor", rootObject,result);
+			addDependencyToRootObject("-adaptor", rootObject,dependencies);
 		}
-		return (Dependency[]) result.toArray(new Dependency[result.size()]);
+		addSeamServlet(dependencies);
+		return (Dependency[]) dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 
 	@Override
@@ -30,6 +30,6 @@ public class BasicJavaIntegratedAdaptorPomStep extends AbstractBasicJavaPomStep 
 
 	@Override
 	protected OutputRoot getExampleTargetDir() {
-		return config.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC);
+		return config.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 	}
 }

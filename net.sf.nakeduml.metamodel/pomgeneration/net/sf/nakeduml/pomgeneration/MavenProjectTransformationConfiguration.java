@@ -82,15 +82,28 @@ public abstract class MavenProjectTransformationConfiguration {
 		OutputRoot domainTestSrc = cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_TEST_SRC, false, "-domain", "src/test/java");
 		domainTestSrc.dontCleanDirectories();
 		domainTestSrc.dontOverwriteFiles();
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false, "-domain", "src/test/generated-resources");
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE, false, "-domain", "src/main/generated-resources");
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC, false, "-adaptor", "src/main/generated-java");
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "-adaptor", "src/test/generated-java");
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE_JBOSSAS, false, "-adaptor", "src/test/jboss-resources");
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE, false, "-adaptor", "src/test/resources");
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, false, "-adaptor", "src/main/resources");
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC, true, "-integrated", "src/main/generated-java");
-		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false, "-domain", "src/test/generated-resources");
-		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE, false, "-domain", "src/main/generated-resources");
-		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE, true, "-integrated",
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, true, "-integrated", "src/main/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC, true, "-integrated", "src/test/generated-java");
+		OutputRoot integratedTestResource = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_TEST_RESOURCE, false,
+				"-integrated", "src/test/resources");
+		integratedTestResource.dontCleanDirectories();
+		integratedTestResource.dontOverwriteFiles();
+		OutputRoot integratedResource = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_RESOURCE, false,
+				"-integrated", "src/test/resources");
+		integratedResource.dontCleanDirectories();
+		integratedResource.dontOverwriteFiles();
+		OutputRoot integratedJboss = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_TEST_RESOURCE_JBOSSAS, false,
+				"-integrated", "src/test/jboss-resources");
+		integratedJboss.dontCleanDirectories();
+		integratedJboss.dontOverwriteFiles();
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, "-integrated",
 				"src/main/generated-resources");
 		OutputRoot webTestResources = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE, true, "-web",
 				"src/test/resources");
@@ -100,8 +113,8 @@ public abstract class MavenProjectTransformationConfiguration {
 				"src/test/jboss-resources");
 		jbossResources.dontCleanDirectories();
 		jbossResources.dontOverwriteFiles();
-		OutputRoot webGenSrc= cfg.mapOutputRoot(JavaTextSource.OutputRootId.WEBAPP_GEN_TEST_SRC, true, "-webapp", "src/test/generated-java");
-		OutputRoot webAppRoot = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, true, "-webapp", "src/main/webapp");
+		OutputRoot webGenSrc = cfg.mapOutputRoot(JavaTextSource.OutputRootId.WEBAPP_GEN_TEST_SRC, true, "-web", "src/test/generated-java");
+		OutputRoot webAppRoot = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, true, "-web", "src/main/webapp");
 		webAppRoot.dontCleanDirectories();
 		webAppRoot.dontOverwriteFiles();
 	}
@@ -114,10 +127,10 @@ public abstract class MavenProjectTransformationConfiguration {
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(modelDirectory, outputRoot.getName(), "uml");
 		workspace.setDirectoryName(this.outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
-		OutputRoot iags = cfg.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_SRC);
+		OutputRoot iags = cfg.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 		// iags.overwriteFiles();
 		// iags.dontCleanDirectories();
-		OutputRoot iagr = cfg.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE);
+		OutputRoot iagr = cfg.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE);
 		// iagr.overwriteFiles();
 		// iagr.dontCleanDirectories();
 		process.removeModel(OJAnnotatedPackage.class);

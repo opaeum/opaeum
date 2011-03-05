@@ -1,4 +1,4 @@
-package net.sf.nakeduml.test;
+package org.nakeduml.test;
 
 import java.io.IOException;
 import java.util.ArrayList;

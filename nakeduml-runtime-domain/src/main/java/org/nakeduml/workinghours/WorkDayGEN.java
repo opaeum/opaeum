@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractProcess;
@@ -11,6 +12,7 @@ import org.nakeduml.runtime.domain.MetaIdentifiable;
 
 //JDK5@CompositionFromOwningObject(attribute="workDay")
 abstract public class WorkDayGEN implements CompositionNode, AbstractEntity, MetaIdentifiable {
+	private String uid = null;
 	private WorkDayType f_type = WorkDayType.lookup(0);
 	private int f_endMinutes = 0;
 	private int f_endHours = 0;
@@ -391,5 +393,11 @@ abstract public class WorkDayGEN implements CompositionNode, AbstractEntity, Met
 		to.setStartHours(from.getStartHours());
 		to.setType(from.getType());
 		to.setEndHours(from.getEndHours());
+	}
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
 	}
 }

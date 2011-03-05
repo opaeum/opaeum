@@ -160,7 +160,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			rootX.outputToCompositeOneInterface(this);
 		}
 		if (this.config.getDataGeneration()) {
-			OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTORS_GEN_RESOURCE);
+			OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE);
 			SourceFolder sourceFolder = getSourceFolder(outputRoot);
 			List<String> path = Arrays.asList("data.generation.properties");
 			sourceFolder.findOrCreateTextFile(path, new PropertiesSource(props),outputRoot.overwriteFiles());

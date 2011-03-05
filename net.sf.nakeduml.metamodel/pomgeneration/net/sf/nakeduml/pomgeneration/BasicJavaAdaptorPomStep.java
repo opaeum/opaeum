@@ -25,16 +25,9 @@ public class BasicJavaAdaptorPomStep extends AbstractBasicJavaPomStep {
 		result.add(numlAdaptor);
 		addCdi(result);
 		addDependencyToRootObject("-domain", model, result);
+		addArquillian(result);
+
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
-	}
-	protected void addCdi(Collection<Dependency> dependencies) {
-		Dependency cdi = POMFactory.eINSTANCE.createDependency();
-		cdi.setGroupId("javax.enterprise");
-		cdi.setArtifactId("cdi-api");
-		cdi.setVersion("1.0-SP1");
-		cdi.setScope("provided");
-		cdi.setType("jar");
-		dependencies.add(cdi);
 	}
 
 

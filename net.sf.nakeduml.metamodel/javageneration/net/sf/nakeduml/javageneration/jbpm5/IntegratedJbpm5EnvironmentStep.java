@@ -10,7 +10,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.pomgeneration.WarPomStep;
 import net.sf.nakeduml.pomgeneration.Seam3PomStep;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { ProcessIdentifier.class,TextFileGenerator.class,WarPomStep.class}, after = {})
+@StepDependency(phase = JavaTransformationPhase.class, requires = { ProcessIdentifier.class,TextFileGenerator.class}, after = {})
 public class IntegratedJbpm5EnvironmentStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
