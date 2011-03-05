@@ -20,7 +20,7 @@ import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
 import org.jboss.seam.solder.beanManager.BeanManagerUnavailableException;
-import org.nakeduml.jbpm.HibernateEnvironmentBuilder;
+import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;
 
 public abstract class AbstractJbpmKnowledgeSession {
 	private StatefulKnowledgeSession knowledgeSession;

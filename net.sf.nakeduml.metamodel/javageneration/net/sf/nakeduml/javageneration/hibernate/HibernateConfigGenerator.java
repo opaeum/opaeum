@@ -25,6 +25,7 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 	boolean isIntegrationPhase = true;
+	boolean isAdaptorEnvironment;
 
 	public HibernateConfigGenerator(boolean isIntegrationPhase) {
 		super();
@@ -33,7 +34,6 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 
 	public static final class MappingCollector extends AbstractJavaProducingVisitor {
 		private final HashSet<OJPathName> classes = new HashSet<OJPathName>();
-		private final HashSet<OJPathName> packages = new HashSet<OJPathName>();
 
 		@VisitBefore(matchSubclasses = true)
 		public void visitClassifier(INakedClassifier c) {
@@ -54,8 +54,6 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			}
 		}
 
-
-
 		@Override
 		public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
 			return super.getChildren(root);
@@ -69,7 +67,8 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 		if (isIntegrationPhase) {
 			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
 			HashMap<String, Object> vars = buildVars(ownedElements, new OJPathName(config.getMavenGroupId() + ".util"));
-			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", workspace.getDirectoryName()+ "-hibernate.cfg.xml", getOutputRootId(), vars);
+			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", workspace.getDirectoryName() + "-hibernate.cfg.xml",
+					getOutputRootId(), vars);
 		}
 	}
 
@@ -78,6 +77,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 		boolean requiresAudit = transformationContext.isFeatureSelected(AuditImplementationStep.class);
 		vars.put("requiresAuditing", requiresAudit);
 		vars.put("config", this.config);
+		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
 		MappingCollector collector = new MappingCollector();
 		// do all models
 		for (INakedElement element : models) {
@@ -93,15 +93,20 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 	@VisitBefore
 	public void visitModel(INakedModel model) {
 		if (!isIntegrationPhase) {
-			HashMap<String, Object> vars = buildVars(model.getDependencies(),UtilityCreator.getUtilPathName());
-			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", model.getFileName()+ "-hibernate.cfg.xml", getOutputRootId(), vars);
+			HashMap<String, Object> vars = buildVars(model.getDependencies(), UtilityCreator.getUtilPathName());
+			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", model.getFileName() + "-hibernate.cfg.xml",
+					getOutputRootId(), vars);
+			isAdaptorEnvironment = true;
+			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", model.getFileName() + "-hibernate.cfg.xml",
+					getOutputRootId(), vars);
 		}
 	}
-
 
 	private OutputRootId getOutputRootId() {
 		if (isIntegrationPhase) {
 			return CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE;
+		} else if (isAdaptorEnvironment) {
+			return CharArrayTextSource.OutputRootId.ADAPTOR_GEN_TEST_RESOURCE;
 		} else {
 			return CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE;
 		}

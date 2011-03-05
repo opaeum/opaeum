@@ -19,9 +19,7 @@
 		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 		
-#foreach($model in $workspace.generatingModelsOrProfiles)    
-    	<mapping package="${model.mappingInfo.qualifiedJavaName}"/>
-#end
+
 #set($requiresJbpm=false)      
 #set($classElements=$workspace.classElementsInDependencyOrder)      
 #foreach($c in $classElements)
@@ -40,24 +38,26 @@
 		<mapping class="org.drools.persistence.info.WorkItemInfo" />
 #end
 
-	    <mapping class="net.sf.nakeduml.util.RevisionEntity"/>
+	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
 
-#if($requiresAuditing)
-		<event type="post-insert">
-			<listener class="net.sf.nakeduml.audit.AuditListener" />
-		</event>
-		<event type="post-update">
-			<listener class="net.sf.nakeduml.audit.AuditListener" />
-		</event>
-		<event type="flush">
-			<listener class="net.sf.nakeduml.audit.AuditListener" />
-		</event>
-#end
+#if($isAdaptorEnvironment)
 		<event type="flush-entity">
-			<listener class="net.sf.nakeduml.seam3.persistence.PreUpdateListener" />
+			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
 		</event>
 		<event type="create">
-			<listener class="net.sf.nakeduml.seam3.persistence.PrePersistListener" />
+			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
 		</event>
+#if($requiresAuditing)
+		<event type="post-insert">
+			<listener class="org.nakeduml.audit.AuditListener" />
+		</event>
+		<event type="post-update">
+			<listener class="org.nakeduml.audit.AuditListener" />
+		</event>
+		<event type="flush">
+			<listener class="org.nakeduml.audit.AuditListener" />
+		</event>
+#end
+#end		
 	</session-factory>
 </hibernate-configuration>

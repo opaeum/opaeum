@@ -1,4 +1,4 @@
-package org.nakeduml.jbpm;
+package org.nakeduml.jbpm.adaptor;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.nakeduml.seam3.persistence;
+package org.nakeduml.hibernate.adaptor;
 
 import org.hibernate.EntityMode;
 import org.hibernate.SessionFactory;

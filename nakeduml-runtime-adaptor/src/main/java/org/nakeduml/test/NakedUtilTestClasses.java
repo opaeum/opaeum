@@ -5,22 +5,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nakeduml.audit.AuditSyncManager;
+import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeBase;
-import org.nakeduml.environment.adaptor.Component;
+import org.nakeduml.hibernate.adaptor.PrePersistListener;
+import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
+import org.nakeduml.runtime.adaptor.IntrospectionUtil;
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.seam3.persistence.InitializeHibernate;
+import org.nakeduml.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 
 public class NakedUtilTestClasses {
 
 	public static Package[] getTestPackages() throws ClassNotFoundException, IOException {
 		List<Package> packages = new ArrayList<Package>();
-		packages.add(Component.class.getPackage());
+		packages.add(Environment.class.getPackage());
 		packages.add(AbstractEntity.class.getPackage());
-		packages.add(InitializeHibernate.class.getPackage());
+		packages.add(ManagedHibernateSessionFactoryProvider.class.getPackage());
 		packages.add(AuditSyncManager.class.getPackage());
 		packages.add(UmlProcessMarshaller.class.getPackage());
 		packages.add(AbstractJbpmKnowledgeBase.class.getPackage());
+		packages.add(PrePersistListener.class.getPackage());
+		packages.add(HibernateProcessPersistenceContext.class.getPackage());
+		packages.add(IntrospectionUtil.class.getPackage());
 		Package[] result = new Package[packages.size()];
 		packages.toArray(result);
 		return result;

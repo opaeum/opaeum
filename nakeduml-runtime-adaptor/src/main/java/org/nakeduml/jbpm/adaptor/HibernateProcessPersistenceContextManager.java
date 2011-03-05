@@ -1,4 +1,4 @@
-package org.nakeduml.jbpm;
+package org.nakeduml.jbpm.adaptor;
 
 import org.drools.persistence.PersistenceContext;
 import org.hibernate.Session;

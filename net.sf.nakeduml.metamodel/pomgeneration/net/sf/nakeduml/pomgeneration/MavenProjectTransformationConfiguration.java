@@ -88,6 +88,7 @@ public abstract class MavenProjectTransformationConfiguration {
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "-adaptor", "src/test/generated-java");
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE_JBOSSAS, false, "-adaptor", "src/test/jboss-resources");
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE, false, "-adaptor", "src/test/resources");
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, false, "-adaptor", "src/test/generated-resources");
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, false, "-adaptor", "src/main/resources");
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, true, "-integrated", "src/main/generated-java");
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC, true, "-integrated", "src/test/generated-java");
