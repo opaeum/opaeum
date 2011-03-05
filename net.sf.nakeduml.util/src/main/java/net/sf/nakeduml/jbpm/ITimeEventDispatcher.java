@@ -1,11 +1,10 @@
-package net.sf.nakeduml.seam;
+package net.sf.nakeduml.jbpm;
 
 import java.util.Date;
 
 import javax.ejb.Local;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
-import javax.persistence.EntityManager;
 
 import net.sf.nakeduml.util.AbstractEntity;
 import net.sf.nakeduml.util.TimeUnit;
@@ -13,7 +12,7 @@ import net.sf.nakeduml.util.TimeUnit;
 public interface ITimeEventDispatcher {
 	public TimerService getTimerService();
 
-	public EntityManager getEntityManager();
+//	public EntityManager getEntityManager();
 	
 	public void fireMockedTimers(String methodName);
 

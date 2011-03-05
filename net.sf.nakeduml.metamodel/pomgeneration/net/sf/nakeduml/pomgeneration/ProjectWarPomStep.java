@@ -327,7 +327,7 @@ public class ProjectWarPomStep extends PomGenerationStep {
 		p.put("seam.servlet.version", "3.0.0.Alpha3");
 		p.put("numl.version", "1.0.0.5-SNAPSHOT");
 		p.put("hibernate.version", "3.6.0.Final");
-		p.put("drools.version", "5.2.1.M1");
+		p.put("drools.version", "5.2.0.M1");
 		p.put("jbpm.version", "5.1-SNAPSHOT");
 		p.put("arquillian.version", "1.0.0.Alpha4");
 		return p;

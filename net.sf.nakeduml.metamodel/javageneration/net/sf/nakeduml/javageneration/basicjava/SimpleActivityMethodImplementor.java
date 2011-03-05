@@ -4,15 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.Caller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ClassifierBehaviorStarter;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ControlNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ExpansionNodeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectCreator;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
@@ -31,12 +29,10 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.VariableValueRemov
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
-import net.sf.nakeduml.javametamodel.OJClass;
 import net.sf.nakeduml.javametamodel.OJClassifier;
 import net.sf.nakeduml.javametamodel.OJField;
 import net.sf.nakeduml.javametamodel.OJForStatement;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
@@ -67,15 +63,13 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
+import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
@@ -203,7 +197,23 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		case DECISION_NODE:
 			// implementNode(oper, block,
 			// first.getDefaultOutgoing().iterator().next().getEffectiveTarget());
+			
 			OJBlock elseBlock = block;
+			
+			INakedActivityEdge incomingEdge = cn.getIncoming().iterator().next();
+			if (incomingEdge instanceof INakedObjectFlow) {
+				OJField decisionNodeVar = new OJField();
+				decisionNodeVar.setName(incomingEdge.getSource().getName());
+				INakedClassifier type = ((INakedObjectNode)incomingEdge.getSource()).getNakedBaseType();
+				decisionNodeVar.setType(OJUtil.classifierPathname(type));
+
+				SimpleNodeBuilder<?> builder = resolveBuilder(cn, getOclEngine(), new ObjectNodeExpressor(getOclEngine().getOclLibrary()));
+				String expression = builder.buildControlNodeExpression(operation, block, cn);
+				decisionNodeVar.setInitExp(expression);
+				
+				elseBlock.addToLocals(decisionNodeVar);
+			}
+			
 			OJIfStatement ifStatement = null;
 			for (INakedActivityEdge edge : cn.getConditionalOutgoing()) {
 				ifStatement = new OJIfStatement();
@@ -261,13 +271,17 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			actionBuilder = new SignalSender(oclEngine, (INakedSendSignalAction) node, expressor);
 		} else if (node instanceof INakedRaiseExceptionAction) {
 			actionBuilder = new ExceptionRaiser(oclEngine, (INakedRaiseExceptionAction) node, expressor);
+		} else if (node instanceof INakedControlNode) {
+			actionBuilder = new ControlNodeBuilder(oclEngine, (INakedControlNode) node, expressor);
 		}
 		return actionBuilder;
 	}
 
 	private void maybeImplementNextNode(OJAnnotatedOperation operation, OJBlock block, INakedActivityNode pn) {
 		if (pn.getDefaultOutgoing().size() == 1) {
-			implementNode(operation, block, pn.getDefaultOutgoing().iterator().next().getEffectiveTarget());
+			OJBlock nodeBlock = new OJBlock();
+			block.addToStatements(nodeBlock);
+			implementNode(operation, nodeBlock, pn.getDefaultOutgoing().iterator().next().getEffectiveTarget());
 		}
 	}
 

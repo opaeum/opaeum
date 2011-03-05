@@ -30,6 +30,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.seam3.persistence.DependentScopedSession;
 import nl.klasse.octopus.model.IClassifier;
 
 @StepDependency(phase = ProjectGenerationPhase.class, requires = { TextFileGenerator.class }, before = { TextFileGenerator.class })
@@ -86,7 +87,7 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"WEB-INF/beans.xml\", \"beans.xml\")");
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"hibernate.cfg.xml\", \"classes/hibernate.cfg.xml\")");
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"data.generation.properties\", \"data.generation.properties\")");
-		createTestArchive.getBody().addToStatements("war.addClasses(NakedUtilTestClasses.getTestClasses())");
+		createTestArchive.getBody().addToStatements("war.addPackages(true, NakedUtilTestClasses.getTestPackages())");
 		createTestArchive.getBody().addToStatements("war.addPackages(true, getTestPackages())");
 		createTestArchive.getBody().addToStatements("return war");
 		
@@ -177,6 +178,9 @@ public class ProjectTestGenerationStep extends AbstractProjectGenerationStep {
 	private void addClassFields(OJAnnotatedClass startUp, INakedEntity root) {
 		OJAnnotatedField session = new OJAnnotatedField("session", new OJPathName("org.hibernate.Session"));
 		session.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
+		OJPathName dependent = new OJPathName(DependentScopedSession.class.getName());
+		session.addAnnotationIfNew(new OJAnnotationValue(dependent));
+		startUp.addToImports(dependent);
 		startUp.addToFields(session);
 		OJAnnotatedField transaction = new OJAnnotatedField("transaction", new OJPathName("org.jboss.seam.persistence.transaction.SeamTransaction"));
 		transaction.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));

@@ -1,4 +1,4 @@
-package net.sf.nakeduml.seam;
+package net.sf.nakeduml.jbpm;
 
 import java.io.Serializable;
 

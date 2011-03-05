@@ -23,27 +23,40 @@ package net.sf.nakeduml.seam3.persistence;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.jboss.seam.persistence.SeamManaged;
+import org.jboss.seam.persistence.transaction.TransactionScoped;
 
 public class ManagedHibernateSessionProvider implements Serializable {
 
 	private static final long serialVersionUID = 451924235442333986L;
-	private SessionFactory sessionFactory;
 
-	public ManagedHibernateSessionProvider() {
-		super();
-		Configuration config = new Configuration();
-		config.configure();
-		this.sessionFactory = config.buildSessionFactory();
-	}
-
+	@Inject
+	private ManagedHibernateSessionFactoryProvider managedHibernateSessionFactoryProvider;
+	
+	@RequestScoped
 	@Produces
 	@SeamManaged
 	public SessionFactory createSessionFactory() {
-		return this.sessionFactory;
+		return managedHibernateSessionFactoryProvider.getSessionFactory();
 	}
+	
+	@DependentScopedSession
+	@Produces
+	@SeamManaged
+	public SessionFactory createDependentSessionFactory() {
+		return managedHibernateSessionFactoryProvider.getSessionFactory();
+	}
+	
+	@TransactionScopedSession
+	@TransactionScoped
+	@Produces
+	@SeamManaged
+	public SessionFactory createTransactedSessionFactory() {
+		return managedHibernateSessionFactoryProvider.getSessionFactory();
+	}		
 }

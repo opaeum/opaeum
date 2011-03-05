@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJForStatement;
@@ -9,6 +8,7 @@ import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -86,6 +86,11 @@ public abstract class AbstractNodeBuilder {
 		}
 		return expression;
 	}
+	
+	protected String buildControlNodeExpression(OJOperation operationContext, OJBlock block, INakedControlNode cn) {
+		return expressor.expressControlNode(block, cn);
+	}
+	
 	protected final IOclEngine getOclEngine() {
 		return oclEngine;
 	}

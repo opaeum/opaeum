@@ -129,7 +129,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked=new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("Session session =(Session)net.sf.nakeduml.seam.Component.INSTANCE.getInstance(Session.class)");
+		ifMocked.getThenPart().addToStatements("Session session =(Session)net.sf.nakeduml.seam3.Component.INSTANCE.getInstance(Session.class)");
 		ifMocked.getThenPart()
 				.addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
 		ifMocked.setElsePart(new OJBlock());

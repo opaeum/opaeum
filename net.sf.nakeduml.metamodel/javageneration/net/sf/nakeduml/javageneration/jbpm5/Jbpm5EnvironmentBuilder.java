@@ -2,11 +2,11 @@ package net.sf.nakeduml.javageneration.jbpm5;
 
 import java.util.Collection;
 
-import javax.enterprise.context.ContextNotActiveException;
-
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.persistence.JpaUtil;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJIfStatement;
 import net.sf.nakeduml.javametamodel.OJPackage;
@@ -16,13 +16,17 @@ import net.sf.nakeduml.javametamodel.OJTryStatement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
 import net.sf.nakeduml.javametamodel.annotation.OJEnumValue;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+
+import org.jboss.seam.solder.beanManager.BeanManagerUnavailableException;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	private OJBlock prepareKnowledgeBaseBody;
@@ -31,6 +35,14 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	public void visitWorkspace(INakedModelWorkspace model) {
 		createJbpmKnowledgeSession();
 		createJbpmKnowledgeBase();
+	}
+
+	@VisitBefore
+	public void visitModel(INakedModel p) {
+		OJAnnotatedPackage ap = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(p));
+		if (ap != null) {
+			JpaUtil.addNamedQueries(ap, "ProcessInstancesWaitingForEvent", "select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
+		}
 	}
 
 	private void createJbpmKnowledgeBase() {
@@ -49,19 +61,19 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeBase.getPathName());
 		jbpmKnowledgeBase.addToFields(instance);
 		instance.setStatic(true);
-		
+
 		OJAnnotatedOperation getInstance = new OJAnnotatedOperation("getInstance", jbpmKnowledgeBase.getPathName());
 		jbpmKnowledgeBase.addToOperations(getInstance);
-		
+
 		OJTryStatement contextNotActive = new OJTryStatement();
 		contextNotActive.setTryPart(new OJBlock());
 		contextNotActive.getTryPart().addToStatements("return (JbpmKnowledgeBase)Component.INSTANCE.getInstance(JbpmKnowledgeBase.class)");
 		contextNotActive.setCatchPart(new OJBlock());
 		contextNotActive.getCatchPart().addToStatements(new OJIfStatement("mockInstance==null", "mockInstance=new JbpmKnowledgeBase()"));
 		contextNotActive.getCatchPart().addToStatements("return mockInstance");
-		contextNotActive.setCatchParam(new OJParameter("e", new OJPathName(ContextNotActiveException.class.getName())));
+		contextNotActive.setCatchParam(new OJParameter("e", new OJPathName(BeanManagerUnavailableException.class.getName())));
 		getInstance.getBody().addToStatements(contextNotActive);
-		
+
 		getInstance.setStatic(true);
 	}
 
@@ -86,24 +98,24 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		getInstance.setName("getInstance");
 		getInstance.setStatic(true);
 		getInstance.setReturnType(jbpmKnowledgeSession.getPathName());
-		
+
 		OJTryStatement contextNotActive = new OJTryStatement();
 		contextNotActive.setTryPart(new OJBlock());
 		contextNotActive.getTryPart().addToStatements("return (JbpmKnowledgeSession)Component.INSTANCE.getInstance(JbpmKnowledgeSession.class)");
-		contextNotActive.setCatchParam(new OJParameter("e", new OJPathName(ContextNotActiveException.class.getName())));
-		
+		contextNotActive.setCatchParam(new OJParameter("e", new OJPathName(BeanManagerUnavailableException.class.getName())));
+
 		getInstance.getBody().addToStatements(contextNotActive);
-		
+
 		OJIfStatement ifNull = new OJIfStatement("mockInstance==null", "mockInstance = new JbpmKnowledgeSession()");
 		contextNotActive.getCatchPart().addToStatements(ifNull);
 		contextNotActive.getCatchPart().addToStatements("return mockInstance");
 		jbpmKnowledgeSession.addToOperations(getInstance);
-		
-		OJAnnotatedOperation getKnowledgeBase =new OJAnnotatedOperation("getJbpmKnowledgeBase", new OJPathName("AbstractJbpmKnowledgeBase"));
+
+		OJAnnotatedOperation getKnowledgeBase = new OJAnnotatedOperation("getJbpmKnowledgeBase", new OJPathName("AbstractJbpmKnowledgeBase"));
 		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.jbpm.AbstractJbpmKnowledgeBase");
 		getKnowledgeBase.getBody().addToStatements("return JbpmKnowledgeBase.getInstance()");
-		jbpmKnowledgeSession.addToOperations(getKnowledgeBase);		
-		OJAnnotatedOperation getHibernateSession =new OJAnnotatedOperation("getHibernateSession", new OJPathName("org.hibernate.Session"));
+		jbpmKnowledgeSession.addToOperations(getKnowledgeBase);
+		OJAnnotatedOperation getHibernateSession = new OJAnnotatedOperation("getHibernateSession", new OJPathName("org.hibernate.Session"));
 		getHibernateSession.getBody().addToStatements("return (Session)Component.INSTANCE.getInstance(Session.class)");
 		jbpmKnowledgeSession.addToOperations(getHibernateSession);
 		jbpmKnowledgeSession.addToImports("org.hibernate.Session");
@@ -114,15 +126,15 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.addToImports("org.drools.builder.KnowledgeBuilder");
 		jbpmKnowledgeSession.addToImports("org.drools.io.ResourceFactory");
 		jbpmKnowledgeSession.addToImports("org.drools.builder.ResourceType");
-		jbpmKnowledgeSession.addToImports("javax.enterprise.context.ContextNotActiveException");
-		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.seam.Component");
+		jbpmKnowledgeSession.addToImports("org.jboss.seam.solder.beanManager.BeanManagerUnavailableException");
+		jbpmKnowledgeSession.addToImports("net.sf.nakeduml.seam3.Component");
 	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior b) {
-		if (b.isProcess() || (b instanceof INakedActivity && ((INakedActivity)b).getActivityKind()!= ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)) {
-			prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\""
-					+ b.getMappingInfo().getJavaPath() + ".rf\"), ResourceType.DRF)");
+		if (b.isProcess() || (b instanceof INakedActivity && ((INakedActivity) b).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)) {
+			prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\"" + b.getMappingInfo().getJavaPath()
+					+ ".rf\"), ResourceType.DRF)");
 		}
 	}
 
@@ -130,5 +142,5 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
 		return root.getOwnedElements();
 	}
-	
+
 }

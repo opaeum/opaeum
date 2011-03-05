@@ -13,8 +13,8 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
-import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
+import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
@@ -149,5 +149,11 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 
 	protected String initForResultVariable(NakedStructuralFeatureMap map) {
 		return map.getter() + "()";
+	}
+
+	@Override
+	public String expressControlNode(OJBlock block, INakedControlNode controlNode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

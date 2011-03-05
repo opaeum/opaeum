@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.drools.persistence.info.SessionInfo;
 import org.drools.persistence.info.WorkItemInfo;
+import org.hibernate.FlushMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jbpm.persistence.ProcessPersistenceContext;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
@@ -11,7 +13,7 @@ import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 public class HibernateProcessPersistenceContext implements ProcessPersistenceContext {
 
 	private Session session;
-	
+
 	public HibernateProcessPersistenceContext(Session session) {
 		this.session = session;
 	}
@@ -78,7 +80,10 @@ public class HibernateProcessPersistenceContext implements ProcessPersistenceCon
 
 	@Override
 	public List<Long> getProcessInstancesWaitingForEvent(String type) {
-		throw new IllegalStateException("not supported");
+		Query processInstancesForEvent = session.getNamedQuery("ProcessInstancesWaitingForEvent");
+		processInstancesForEvent.setFlushMode(FlushMode.COMMIT);
+		processInstancesForEvent.setParameter("type", type);
+		return (List<Long>) processInstancesForEvent.list();
 	}
 
 }

@@ -23,7 +23,7 @@ public abstract class AbstractObjectNodeExpressor {
 	public AbstractObjectNodeExpressor(IOclLibrary oclLibrary) {
 		this.oclLibrary = oclLibrary;
 	}
-
+	abstract public String expressControlNode(OJBlock block, INakedControlNode controlNode);
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin);
 
 	abstract public OJAnnotatedField maybeBuildResultVariable(OJAnnotatedOperation operation, OJBlock block, NakedStructuralFeatureMap map);
@@ -50,7 +50,7 @@ public abstract class AbstractObjectNodeExpressor {
 		if (edge.getTransformation() != null) {
 			expression = edge.getTransformation().getMappingInfo().getJavaName() + "(" + expression + ")";
 		}
-		if(edge.getSelection()==null && edge.getTransformation()==null){
+		if(edge.getSelection()==null && edge.getTransformation()==null && getEffectiveSource(edge)!=null){
 			INakedObjectNode source=(INakedObjectNode) getEffectiveSource(edge);
 			INakedObjectNode target = (INakedObjectNode) edge.getTarget();
 			if(target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany() &&( source.isOrdered()!=target.isOrdered() || source.isUnique()!=target.isUnique())){

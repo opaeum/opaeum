@@ -5,6 +5,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedElement;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
@@ -181,31 +182,38 @@ public class JpaUtil {
 	public static void addNamedQueryForUniquenessConstraints(OJAnnotatedClass ojClass, INakedEntity entity) {
 		for (INakedProperty p : entity.getUniquenessConstraints()) {
 			if (!p.getOtherEnd().getQualifiers().isEmpty()) {
-				OJAnnotationValue namedQueries = ojClass.findAnnotation(new OJPathName("javax.persistence.NamedQueries"));
-				if (namedQueries==null) {
-					namedQueries = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQueries"));
-					ojClass.addAnnotationIfNew(namedQueries);
-				}
-				OJAnnotationAttributeValue oneToManyNamedQueryAttr = namedQueries.findAttribute("value");
-				if (oneToManyNamedQueryAttr==null) {
-					oneToManyNamedQueryAttr = new OJAnnotationAttributeValue("value");
-					namedQueries.putAttribute(oneToManyNamedQueryAttr);
-				}				
-				
-				OJAnnotationValue namedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-				String queryName = "from " + entity.getMappingInfo().getJavaName() + " a where a." + map.umlName() + " = :" + map.umlName();
+				String queryString = "from " + entity.getMappingInfo().getJavaName() + " a where a." + map.umlName() + " = :" + map.umlName();
+				String queryName = "Query" + entity.getMappingInfo().getJavaName() + "With";
 				for (INakedProperty q : p.getOtherEnd().getQualifiers()) {
 					NakedStructuralFeatureMap qualifiedMap = new NakedStructuralFeatureMap(q);
-					namedQuery.putAttribute("name", "Query" + entity.getMappingInfo().getJavaName() + "With" + NameConverter.capitalize(qualifiedMap.umlName())+"For"+NameConverter.capitalize(map.umlName()));
-					queryName += " and a."+ qualifiedMap.umlName() + " = :" + qualifiedMap.umlName();
+					queryString += " and a."+ qualifiedMap.umlName() + " = :" + qualifiedMap.umlName();
+					queryName += NameConverter.capitalize(qualifiedMap.umlName());
 				}
-				namedQuery.putAttribute("query", queryName);
-				oneToManyNamedQueryAttr.addAnnotationValue(namedQuery);
-				namedQueries.putAttribute(oneToManyNamedQueryAttr);
+				queryName += "For"+NameConverter.capitalize(map.umlName());
+				addNamedQueries(ojClass, queryName, queryString);
 			}
 		}
 	}
+	
+	public static void addNamedQueries(OJAnnotatedElement pack, String name, String query) {
+		OJAnnotationValue namedQueries = pack.findAnnotation(new OJPathName("javax.persistence.NamedQueries"));
+		if (namedQueries==null) {
+			namedQueries = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQueries"));
+			pack.addAnnotationIfNew(namedQueries);
+		}
+		OJAnnotationAttributeValue namedQueryAttr = namedQueries.findAttribute("value");
+		if (namedQueryAttr==null) {
+			namedQueryAttr = new OJAnnotationAttributeValue("value");
+			namedQueries.putAttribute(namedQueryAttr);
+		}				
+		OJAnnotationValue namedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
+		namedQuery.putAttribute("name", name);
+		namedQuery.putAttribute("query", query);
+		namedQueryAttr.addAnnotationValue(namedQuery);
+		namedQueries.putAttribute(namedQueryAttr);
+	}
+	
 	public static OJAnnotationValue buildFilterAnnotation(String name) {
 		OJAnnotationValue filter = new OJAnnotationValue(new OJPathName(Filter.class.getName()));
 		filter.putAttribute("name", "noDeletedObjects");

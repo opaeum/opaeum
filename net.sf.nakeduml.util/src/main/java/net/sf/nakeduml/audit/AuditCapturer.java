@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
 
+import net.sf.nakeduml.seam3.persistence.DependentScopedSession;
 import net.sf.nakeduml.util.AbstractEntity;
 import net.sf.nakeduml.util.AuditId;
 import net.sf.nakeduml.util.Audited;
@@ -22,6 +23,7 @@ import org.hibernate.Session;
 @TransactionAttribute
 public class AuditCapturer {
 
+	@DependentScopedSession
 	@Inject
 	private Session session;
 	public void persistAudit(AbstractWorkUnit workUnit) {

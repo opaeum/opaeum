@@ -33,9 +33,9 @@ public class PrePersistListener extends DefaultPersistEventListener {
 		if (entity instanceof BaseAuditable) {
 			BaseAuditable baseAuditable = (BaseAuditable) entity;
 			baseAuditable.defaultCreate();
-		} else if (entity instanceof ProcessInstanceInfo) {
-			ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;
-			processInstanceInfo.update();
+//		} else if (entity instanceof ProcessInstanceInfo) {
+//			ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;
+//			processInstanceInfo.update();
 		}		
 		return super.saveWithGeneratedId(entity, entityName, anything, source, true);
 	}

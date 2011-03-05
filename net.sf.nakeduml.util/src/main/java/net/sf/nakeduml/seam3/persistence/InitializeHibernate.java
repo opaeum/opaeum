@@ -15,12 +15,13 @@ import org.hibernate.Session;
 @TransactionManagement(TransactionManagementType.BEAN)
 public class InitializeHibernate {
 
+	@DependentScopedSession
 	@Inject
 	Session session;
 	
 	@PostConstruct
 	public void init() {
-		
+		System.out.println("init");
 	}
 	
 	//This is to ensure closed is called and the tables dropped

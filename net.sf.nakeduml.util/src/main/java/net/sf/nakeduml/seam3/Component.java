@@ -1,4 +1,4 @@
-package net.sf.nakeduml.seam;
+package net.sf.nakeduml.seam3;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;

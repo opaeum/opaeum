@@ -7,6 +7,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
+import net.sf.nakeduml.jbpm.TimeEventDispatcher;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
@@ -18,7 +19,6 @@ import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
-import net.sf.nakeduml.seam.TimeEventDispatcher;
 import net.sf.nakeduml.util.TimeUnit;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 

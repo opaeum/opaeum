@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
+import javax.inject.Inject;
+
 import org.drools.KnowledgeBase;
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentFactory;
@@ -23,7 +25,8 @@ public abstract class AbstractJbpmKnowledgeSession {
 	
 	private StatefulKnowledgeSession knowledgeSession;
 
-	protected abstract Session getHibernateSession();
+	@Inject
+	protected Session session;
 
 	protected abstract AbstractJbpmKnowledgeBase getJbpmKnowledgeBase();
 
@@ -37,6 +40,9 @@ public abstract class AbstractJbpmKnowledgeSession {
 	protected StatefulKnowledgeSession createKnowledgeSession() {
 		KnowledgeBase kbase = getJbpmKnowledgeBase().getKnowledgeBase();
 		try {
+			if (session==null) {
+				return setUpDefault(kbase);
+			}
 			Properties properties = new Properties();
 			properties.setProperty("drools.processInstanceManagerFactory", "org.jbpm.persistence.processinstance.JPAProcessInstanceManagerFactory");
 			properties.setProperty("drools.workItemManagerFactory", "org.drools.persistence.jpa.processinstance.JPAWorkItemManagerFactory");
@@ -44,8 +50,7 @@ public abstract class AbstractJbpmKnowledgeSession {
 			SessionConfiguration config = new SessionConfiguration(properties);
 			final Environment environment = EnvironmentFactory.newEnvironment();
 	        environment.set( EnvironmentName.PERSISTENCE_CONTEXT_MANAGER,
-	                 new HibernateEnvironmentBuilder(getHibernateSession()).getPersistenceContextManager() );			
-			
+	                 new HibernateEnvironmentBuilder(session).getPersistenceContextManager() );			
 			
 			environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[] { new JPAPlaceholderResolverStrategy(environment) {
 
@@ -59,16 +64,19 @@ public abstract class AbstractJbpmKnowledgeSession {
 
 			}, new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT) });
 
-//			environment.set(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER, getHibernateSession());
 			return kbase.newStatefulKnowledgeSession(config, environment);
 		} catch (BeanManagerUnavailableException e) {
-			Properties props = new Properties();
-			props.setProperty("drools.processInstanceManagerFactory", "org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
-			props.setProperty("drools.processSignalManagerFactory", "org.jbpm.process.instance.event.DefaultSignalManagerFactory");
-			SessionConfiguration cfg = new SessionConfiguration(props);
-			EnvironmentImpl env = new EnvironmentImpl();
-			return kbase.newStatefulKnowledgeSession(cfg, env);
+			return setUpDefault(kbase);
 		}
+	}
+
+	private StatefulKnowledgeSession setUpDefault(KnowledgeBase kbase) {
+		Properties props = new Properties();
+		props.setProperty("drools.processInstanceManagerFactory", "org.jbpm.process.instance.impl.DefaultProcessInstanceManagerFactory");
+		props.setProperty("drools.processSignalManagerFactory", "org.jbpm.process.instance.event.DefaultSignalManagerFactory");
+		SessionConfiguration cfg = new SessionConfiguration(props);
+		EnvironmentImpl env = new EnvironmentImpl();
+		return kbase.newStatefulKnowledgeSession(cfg, env);
 	}
 
 }
