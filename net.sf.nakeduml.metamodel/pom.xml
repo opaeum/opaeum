@@ -161,6 +161,13 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-runtime-domain</artifactId>
+			<version>1.0.0.5-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>	
+		<dependency>
 			<groupId>org.eclipse.uml2</groupId>
 			<artifactId>uml</artifactId>
 			<version>3.0.1</version>
