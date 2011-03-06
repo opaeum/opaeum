@@ -7,47 +7,16 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import jbpm.jbpm.Application;
-import jbpm.jbpm.OrderX;
 import jbpm.jbpm.application.SimpleSync1;
 import jbpm.jbpm.application.SimpleSync1State;
-import jbpm.jbpm.dispatch.SimpleAsyncShipping;
-import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
 
 import org.hibernate.Session;
 import org.junit.Assert;
 
-public class ProcessController {
+public class SimpleSyncController {
 
 	@Inject
 	private Session session;
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void testSignal() {
-		List<Application> roots = session.createQuery("select h from Application h").list();
-		Assert.assertTrue(roots.size()>0);
-		Application app = roots.get(0);
-		for (OrderX order : app.getOrderX()) {
-			order.setNeedsShipping(true);
-		}
-		SimpleAsyncShipping shipping = app.getDispatch().SimpleAsyncShipping();
-		shipping.execute();
-		Assert.assertTrue( shipping.isStepActive(SimpleAsyncShippingState.EMAILCUSTOMER) );
-		session.flush();
-	}
-	
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void testReceiveEvent() {
-		List<Application> roots = session.createQuery("select h from Application h").list();
-		Assert.assertTrue(roots.size()>0);
-		Application app = roots.get(0);
-		for (OrderX order : app.getOrderX()) {
-			order.setNeedsShipping(true);
-		}
-		SimpleAsyncShipping shipping = app.getDispatch().SimpleAsyncShipping();
-		shipping.execute();
-		Assert.assertTrue( shipping.isStepActive(SimpleAsyncShippingState.EMAILCUSTOMER) );
-		session.flush();
-	}	
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void testProcess() {

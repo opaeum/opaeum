@@ -15,9 +15,9 @@ import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
 
 @RunWith(Arquillian.class)
-public class SignalTest extends BaseTest {
+public class SimpleSyncTest extends BaseTest {
 	@Inject
-	private SimpleAsyncShippingController processController;
+	private SimpleSyncController processController;
 	private static final String HORNETQ_JMS_DEPLOYMENT_CONFIG = "hornetq-jms.xml";
 
 	@Deployment
@@ -37,14 +37,9 @@ public class SignalTest extends BaseTest {
 	}
 	
 	@Test
-	public void testSignal() {
-		processController.testSignal();
+	public void test() {
+		processController.testProcess();
+		processController.doOperationTest();
 	}
-	
-	@Test
-	public void testReceiveEvent() throws InterruptedException {
-		Thread.sleep(2000);
-		processController.testReceiveEvent();
-	}	
 
 }

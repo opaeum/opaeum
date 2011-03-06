@@ -154,10 +154,6 @@
       <artifactId>jmock-legacy</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.nakeduml</groupId>
       <artifactId>jbpm-adaptor</artifactId>
     </dependency>

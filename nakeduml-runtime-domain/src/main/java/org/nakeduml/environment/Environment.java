@@ -1,6 +1,7 @@
 package org.nakeduml.environment;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 public abstract class Environment {
@@ -45,7 +46,11 @@ public abstract class Environment {
 		Properties properties;
 		try {
 			properties = new Properties();
-			properties.load(Thread.currentThread().getContextClassLoader().getResource("/"+PROPERTIES_FILE_NAME).openStream());
+			URL resource = Thread.currentThread().getContextClassLoader().getResource("/"+PROPERTIES_FILE_NAME);
+			if (resource==null) {
+				resource = Thread.currentThread().getContextClassLoader().getResource(PROPERTIES_FILE_NAME);
+			}
+			properties.load(resource.openStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
