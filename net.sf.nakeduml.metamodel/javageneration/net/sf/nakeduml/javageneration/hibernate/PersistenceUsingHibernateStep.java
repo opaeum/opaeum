@@ -19,7 +19,7 @@ public class PersistenceUsingHibernateStep extends AbstractJavaTransformationSte
 		HibernateAnnotator ha = new HibernateAnnotator();
 		ha.initialize(javaModel, config, textWorkspace, context);
 		ha.startVisiting(workspace);
-		MetaDefAnnotator mda = new MetaDefAnnotator(false);
+		HibernatePackageAnnotator mda = new HibernatePackageAnnotator(false);
 		mda.initialize(javaModel, config, textWorkspace, context);
 		mda.startVisiting(workspace);
 		HibernateConfigGenerator hcg = new HibernateConfigGenerator(false);

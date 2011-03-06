@@ -10,7 +10,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 public class IntegratedAuditMetaDefStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
-		AuditMetaDefAnnotator mda = new AuditMetaDefAnnotator(true);
+		AuditHibernatePackageAnnotator mda = new AuditHibernatePackageAnnotator(true);
 		mda.initialize(javaModel, config, textWorkspace, context);
 		mda.startVisiting(workspace);
 	}

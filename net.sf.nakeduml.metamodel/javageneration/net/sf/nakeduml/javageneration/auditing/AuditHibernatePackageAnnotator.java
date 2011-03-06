@@ -3,19 +3,19 @@ package net.sf.nakeduml.javageneration.auditing;
 import org.nakeduml.runtime.domain.AuditId;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.hibernate.AbstractMetaDefAnnotator;
+import net.sf.nakeduml.javageneration.hibernate.AbstractHibernatePackageAnnotator;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-public class AuditMetaDefAnnotator extends AbstractMetaDefAnnotator {
-	public AuditMetaDefAnnotator(boolean isIntegrationPhase) {
+public class AuditHibernatePackageAnnotator extends AbstractHibernatePackageAnnotator {
+	public AuditHibernatePackageAnnotator(boolean isIntegrationPhase) {
 		super(isIntegrationPhase);
 	}
 
-	public AuditMetaDefAnnotator() {
+	public AuditHibernatePackageAnnotator() {
 		super(true);
 	}
 

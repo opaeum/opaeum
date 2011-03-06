@@ -296,11 +296,6 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 
 	@VisitBefore
 	public void visitModel(INakedModel p) {
-		OJAnnotatedPackage ap = (OJAnnotatedPackage) javaModel.findPackage(OJUtil.packagePathname(p));
-		OJAnnotationValue filterDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.FilterDef"));
-		filterDef.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
-		filterDef.putAttribute(new OJAnnotationAttributeValue("defaultCondition", "deleted_on > " + getCurrentTimestampSQLFunction()));
-		ap.putAnnotation(filterDef);
 		OJClass stdLib = UtilityCreator.getUtilPack().findClass(new OJPathName("Stdlib"));
 		OJAnnotatedField future = new OJAnnotatedField();
 		future.setName("FUTURE");
@@ -312,10 +307,6 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 		stdLib.addToFields(future);
 	}
 
-	private String getCurrentTimestampSQLFunction() {
-		Dialect dialect = HibernateUtil.getHibernateDialect(this.config);
-		return dialect.getCurrentTimestampSQLFunctionName();
-	}
 
 	private void enableHibernateProxy(INakedComplexStructure entity, OJAnnotatedClass owner) {
 		if (entity.getSubClasses().size() > 0) {

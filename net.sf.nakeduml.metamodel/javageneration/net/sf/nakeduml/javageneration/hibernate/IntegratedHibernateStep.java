@@ -11,7 +11,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 public class IntegratedHibernateStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
-		MetaDefAnnotator mda = new MetaDefAnnotator(true);
+		HibernatePackageAnnotator mda = new HibernatePackageAnnotator(true);
 		mda.initialize(javaModel, config, textWorkspace, context);
 		mda.startVisiting(workspace);
 		HibernateConfigGenerator hcg = new HibernateConfigGenerator(true);

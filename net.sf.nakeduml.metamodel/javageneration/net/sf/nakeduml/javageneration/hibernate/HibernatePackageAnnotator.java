@@ -6,8 +6,8 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-public class MetaDefAnnotator extends AbstractMetaDefAnnotator {
-	public MetaDefAnnotator(boolean isIntegrationPhase) {
+public class HibernatePackageAnnotator extends AbstractHibernatePackageAnnotator {
+	public HibernatePackageAnnotator(boolean isIntegrationPhase) {
 		super(isIntegrationPhase);
 	}
 

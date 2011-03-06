@@ -30,11 +30,12 @@ import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.hibernate.dialect.Dialect;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.domain.DomainEnvironment;
 import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
 
-public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisitor {
+public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor {
 	private boolean isIntegrationPhase;
 
 	public final class InterfaceCollector extends AbstractJavaProducingVisitor {
@@ -46,16 +47,18 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 		}
 	}
 
-	public AbstractMetaDefAnnotator(boolean isIntegrationPhase) {
+	public AbstractHibernatePackageAnnotator(boolean isIntegrationPhase) {
 		super();
 		this.isIntegrationPhase = isIntegrationPhase;
 	}
 
 	public abstract void visitWorkspace(INakedModelWorkspace root);
+
 	public abstract void visitModel(INakedModel model);
 
 	protected void doWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
+			applyFilter(true);
 			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
 			Set<INakedInterface> interfaces = collectInterfaces((ownedElements));
 			for (INakedInterface i : interfaces) {
@@ -65,8 +68,23 @@ public abstract class AbstractMetaDefAnnotator extends AbstractJavaProducingVisi
 		}
 	}
 
+	protected void applyFilter(boolean isAdaptor) {
+		OJAnnotatedPackage ap = (OJAnnotatedPackage) javaModel.findPackage(HibernateUtil.getHibernatePackage(isAdaptor));
+		OJAnnotationValue filterDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.FilterDef"));
+		filterDef.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
+		filterDef.putAttribute(new OJAnnotationAttributeValue("defaultCondition", "deleted_on > " + getCurrentTimestampSQLFunction()));
+		ap.putAnnotation(filterDef);
+	}
+
+	private String getCurrentTimestampSQLFunction() {
+		Dialect dialect = HibernateUtil.getHibernateDialect(this.config);
+		return dialect.getCurrentTimestampSQLFunctionName();
+	}
+
 	protected void doModel(INakedModel model) {
 		if (!isIntegrationPhase) {
+			applyFilter(true);
+			applyFilter(false);
 			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(((INakedModel) model).getDependencies());
 			selfAndDependencies.add(model);
 			Set<INakedInterface> interfaces = collectInterfaces(selfAndDependencies);
