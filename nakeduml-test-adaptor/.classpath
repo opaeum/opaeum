@@ -1,0 +1,17 @@
+<classpath>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/arquillian/arquillian-api/1.0.0.Alpha4/arquillian-api-1.0.0.Alpha4.jar" sourcepath="M2_REPO/org/jboss/arquillian/arquillian-api/1.0.0.Alpha4/arquillian-api-1.0.0.Alpha4-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/arquillian/arquillian-impl-base/1.0.0.Alpha4/arquillian-impl-base-1.0.0.Alpha4.jar" sourcepath="M2_REPO/org/jboss/arquillian/arquillian-impl-base/1.0.0.Alpha4/arquillian-impl-base-1.0.0.Alpha4-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/arquillian/arquillian-junit/1.0.0.Alpha4/arquillian-junit-1.0.0.Alpha4.jar" sourcepath="M2_REPO/org/jboss/arquillian/arquillian-junit/1.0.0.Alpha4/arquillian-junit-1.0.0.Alpha4-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/arquillian/arquillian-spi/1.0.0.Alpha4/arquillian-spi-1.0.0.Alpha4.jar" sourcepath="M2_REPO/org/jboss/arquillian/arquillian-spi/1.0.0.Alpha4/arquillian-spi-1.0.0.Alpha4-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.2/junit-4.8.2.jar" sourcepath="M2_REPO/junit/junit/4.8.2/junit-4.8.2-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/home/pieter/.m2/repository/junit/junit/4.8.2/junit-4.8.2-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11.jar" sourcepath="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-impl-base/1.0.0-alpha-11/shrinkwrap-impl-base-1.0.0-alpha-11.jar" sourcepath="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-impl-base/1.0.0-alpha-11/shrinkwrap-impl-base-1.0.0-alpha-11-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-spi/1.0.0-alpha-11/shrinkwrap-spi-1.0.0-alpha-11.jar" sourcepath="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-spi/1.0.0-alpha-11/shrinkwrap-spi-1.0.0-alpha-11-sources.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+</classpath>

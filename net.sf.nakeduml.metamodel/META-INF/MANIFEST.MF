@@ -103,4 +103,11 @@ Export-Package: .,
  net.sf.nakeduml.validation.namegeneration,
  org.apache.commons.io,
  org.apache.maven.pom,
- org.nakeduml.projectgeneration
+ org.nakeduml.annotation,
+ org.nakeduml.environment,
+ org.nakeduml.environment.domain,
+ org.nakeduml.jbpm.domain,
+ org.nakeduml.name,
+ org.nakeduml.projectgeneration,
+ org.nakeduml.runtime.domain,
+ org.nakeduml.workinghours
