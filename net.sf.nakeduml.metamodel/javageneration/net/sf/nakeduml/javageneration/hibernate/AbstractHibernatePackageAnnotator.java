@@ -69,7 +69,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	}
 
 	protected void applyFilter(boolean isAdaptor) {
-		OJAnnotatedPackage ap = (OJAnnotatedPackage) javaModel.findPackage(HibernateUtil.getHibernatePackage(isAdaptor));
+		OJAnnotatedPackage ap = findOrCreatePackage(HibernateUtil.getHibernatePackage(isAdaptor));
 		OJAnnotationValue filterDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.FilterDef"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("defaultCondition", "deleted_on > " + getCurrentTimestampSQLFunction()));
