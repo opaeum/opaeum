@@ -7,6 +7,7 @@ import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJPackage;
@@ -22,7 +23,6 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
-
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	public class BehaviorVisitor extends VisitorAdapter<INakedElement, INakedModel> {
@@ -50,8 +50,8 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
-			OJPathName pn = new OJPathName(config.getMavenGroupId() + ".util");
-			createJbpmKnowledgeBase(pn);
+			OJPathName pn = new OJPathName(config.getMavenGroupId() + ".util.jbpm.adaptor");
+			createJbpmKnowledgeBase(pn, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 			visitModels(workspace.getOwnedElements());
 		}
 	}
@@ -59,13 +59,21 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model) {
 		if (!isIntegrationPhase) {
-			OJPathName utilPathname = UtilityCreator.getUtilPathName();
-			createJbpmKnowledgeBase(utilPathname);
+			OJPathName adaptorUtilPathname = UtilityCreator.getUtilPathName().append("jbpm").append("adaptor");
+			createJbpmKnowledgeBase(adaptorUtilPathname, OutputRootId.ADAPTOR_GEN_TEST_SRC);
 			BehaviorVisitor visitor = visitModels(model.getDependencies());
 			visitor.startVisiting(model);
-			OJAnnotatedPackage util=findOrCreatePackage(utilPathname);
-			JpaUtil.addNamedQueries(util, "ProcessInstancesWaitingForEvent", "select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
-
+			OJPathName domainUtilPathname = UtilityCreator.getUtilPathName().append("jbpm").append("domain");
+			createJbpmKnowledgeBase(domainUtilPathname, OutputRootId.DOMAIN_GEN_TEST_SRC);
+			visitor.startVisiting(model);
+			JpaUtil.addNamedQueries(
+					findOrCreatePackage(HibernateUtil.getHibernatePackage(true)),
+					"ProcessInstancesWaitingForEvent",
+					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
+			JpaUtil.addNamedQueries(
+					findOrCreatePackage(HibernateUtil.getHibernatePackage(false)),
+					"ProcessInstancesWaitingForEvent",
+					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}
 
@@ -79,12 +87,12 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		return visitor;
 	}
 
-	private void createJbpmKnowledgeBase(OJPathName utilPathName) {
+	private void createJbpmKnowledgeBase(OJPathName utilPathName, Enum<?> outputRootId) {
 		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass();
 		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
 		OJPackage utilPack = findOrCreatePackage(utilPathName);
 		utilPack.addToClasses(jbpmKnowledgeBase);
-		super.createTextPath(jbpmKnowledgeBase, getOutputRootId());
+		super.createTextPath(jbpmKnowledgeBase, outputRootId);
 		addCommonImports(jbpmKnowledgeBase);
 		jbpmKnowledgeBase.setSuperclass(new OJPathName(AbstractJbpmKnowledgeBase.class.getName()));
 		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation();
@@ -95,18 +103,6 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		OJAnnotatedField instance = new OJAnnotatedField("mockInstance", jbpmKnowledgeBase.getPathName());
 		jbpmKnowledgeBase.addToFields(instance);
 		instance.setStatic(true);
-
-	}
-
-
-
-
-	private OutputRootId getOutputRootId() {
-		if (isIntegrationPhase) {
-			return JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC;
-		} else {
-			return JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC;
-		}
 	}
 
 	private void addCommonImports(OJAnnotatedClass jbpmKnowledgeSession) {
@@ -115,5 +111,4 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		jbpmKnowledgeSession.addToImports("org.drools.io.ResourceFactory");
 		jbpmKnowledgeSession.addToImports("org.drools.builder.ResourceType");
 	}
-
 }

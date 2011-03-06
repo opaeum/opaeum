@@ -15,7 +15,7 @@ import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
 import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
 
-public abstract class AbstractDomainEnvironment extends Environment {
+public class DomainEnvironment extends Environment {
 	private MockTimeEventDispatcher timeEventDispatcher = new MockTimeEventDispatcher();
 	private MockSignalDispatcher signalDispatcher = new MockSignalDispatcher();
 	private StatefulKnowledgeSession knowledgeSession;
@@ -66,8 +66,11 @@ public abstract class AbstractDomainEnvironment extends Environment {
 		}
 		return knowledgeSession;
 	}
+	protected  AbstractJbpmKnowledgeBase createJbpmKnowledgeBase(){
+		return (AbstractJbpmKnowledgeBase) instantiateImplementation(JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
+	}
 
-	protected abstract AbstractJbpmKnowledgeBase createJbpmKnowledgeBase();
-
-	protected abstract String getHibernateConfigName();
+	protected String getHibernateConfigName(){
+		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
+	}
 }

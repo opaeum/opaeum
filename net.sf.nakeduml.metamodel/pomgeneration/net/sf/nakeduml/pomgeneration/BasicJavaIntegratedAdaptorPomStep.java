@@ -11,7 +11,7 @@ import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
 
 @StepDependency(requires = {}, before = {}, after = {}, phase = PomGenerationPhase.class)
-public class BasicJavaIntegratedAdaptorPomStep extends AbstractBasicJavaPomStep {
+public class BasicJavaIntegratedAdaptorPomStep extends PomGenerationStep {
 	//TODO properties  - jmock
 	@Override
 	public Dependency[] getDependencies() {

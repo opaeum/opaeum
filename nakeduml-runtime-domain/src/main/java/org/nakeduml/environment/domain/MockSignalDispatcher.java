@@ -9,10 +9,8 @@ import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
 
-
-public class MockSignalDispatcher implements ISignalDispatcher{
+public class MockSignalDispatcher implements ISignalDispatcher {
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
-
 
 	public void sendSignal(Object source, ActiveObject target, AbstractSignal signal) {
 		signalsToDispatch.add(new SignalToDispatch(source, target, signal));
@@ -43,4 +41,17 @@ public class MockSignalDispatcher implements ISignalDispatcher{
 		return result;
 	}
 
+	@Override
+	public void deliverAllPendingSignals() {
+		for (SignalToDispatch signal : this.signalsToDispatch) {
+			signal.getTarget().processSignal(signal.getSignal());
+		}
+	}
+
+	@Override
+	public void deliverPendingSignalsOfType(Class<? extends AbstractSignal> type) {
+		for (SignalToDispatch signal : getSignalsOfType(type)) {
+			signal.getTarget().processSignal(signal.getSignal());
+		}
+	}
 }

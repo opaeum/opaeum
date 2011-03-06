@@ -19,7 +19,7 @@ public class AuditTest extends net.sf.nakeduml.pomgeneration.MavenProjectTransfo
 	}
 
 	public static void main(String[] args) throws Exception {
-		new AuditTest("../nakedumltest/audittests", "testmodels").transformSingleModel("AuditTests.uml");
+		new AuditTest("../nakedumltest/audittests", "testmodels").generateCodeForSingleModel("AuditTests.uml");
 	}
 
 	@Override

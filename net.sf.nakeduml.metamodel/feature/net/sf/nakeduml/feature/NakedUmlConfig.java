@@ -201,8 +201,8 @@ public class NakedUmlConfig {
 		return outputRoots.get(id);
 	}
 
-	public OutputRoot mapOutputRoot(Enum<?> id, boolean useEntryModelName, String projectSuffix, String sourceFolder) {
-		OutputRoot value = new OutputRoot(useEntryModelName, projectSuffix, sourceFolder);
+	public OutputRoot mapOutputRoot(Enum<?> id, boolean useWorkspaceName, String projectSuffix, String relativeSourceFolder) {
+		OutputRoot value = new OutputRoot(useWorkspaceName, projectSuffix, relativeSourceFolder);
 		outputRoots.put(id, value);
 		return value;
 	}

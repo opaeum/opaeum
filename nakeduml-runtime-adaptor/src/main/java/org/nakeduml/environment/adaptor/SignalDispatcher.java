@@ -19,10 +19,11 @@ import javax.transaction.SystemException;
 
 import org.jboss.seam.persistence.transaction.DefaultTransaction;
 import org.jboss.seam.persistence.transaction.SeamTransaction;
+import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
 
-public class SignalDispatcher {
+public class SignalDispatcher implements ISignalDispatcher {
 	@Inject
 	@DefaultTransaction
 	private SeamTransaction transaction;
@@ -31,14 +32,6 @@ public class SignalDispatcher {
 
 	public boolean isRegistered() {
 		return isRegistered;
-	}
-
-	public static SignalDispatcher getInstance() {
-		SignalDispatcher d = (SignalDispatcher) Component.INSTANCE.getInstance(SignalDispatcher.class);
-		if (!d.isRegistered()) {
-			d.register();
-		}
-		return d;
 	}
 
 	public void register() {
@@ -116,5 +109,22 @@ public class SignalDispatcher {
 		@Override
 		public void beforeCompletion() {
 		}
+	}
+
+	@Override
+	public void deliverAllPendingSignals() {
+	   for(SignalToDispatch s: this.signalsToDispatch){
+		   s.getTarget().processSignal(s.getSignal());
+	   }
+		   
+		
+	}
+
+	@Override
+	public void deliverPendingSignalsOfType(Class<? extends AbstractSignal> type) {
+		   for(SignalToDispatch s: getSignalsOfType(type)){
+			   s.getTarget().processSignal(s.getSignal());
+		   }
+		
 	}
 }

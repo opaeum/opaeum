@@ -16,7 +16,7 @@ public class ProcessCodeGenerator extends net.sf.nakeduml.pomgeneration.MavenPro
 	}
 
 	public static void main(String[] args) throws Exception {
-		new ProcessCodeGenerator("../nakedumltest/processmodel", "testmodels/").transformSingleModel("processmodel.uml");
+		new ProcessCodeGenerator("../nakedumltest/processmodel", "testmodels/").generateCodeForSingleModel("processmodel.uml");
 	}
 
 	@Override

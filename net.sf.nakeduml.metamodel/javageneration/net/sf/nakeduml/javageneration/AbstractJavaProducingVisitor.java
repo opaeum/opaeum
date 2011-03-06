@@ -56,6 +56,11 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 				OJPathName utilPath = new OJPathName(pkg.getMappingInfo().getQualifiedJavaName() + ".util");
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
 			}
+		}else if(o instanceof INakedModelWorkspace){
+			if (javaModel != null) {
+				OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
+				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
+			}
 		}
 		super.visitRecursively(o);
 	}
@@ -94,7 +99,12 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 			if (child == null) {
 				child = new OJAnnotatedPackage();
 				child.setName(name);
-				parent.addToSubpackages(child);
+				try{
+					
+					parent.addToSubpackages(child);
+				}catch(Exception e){
+					System.out.println();
+				}
 			}
 			parent = child;
 		}

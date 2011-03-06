@@ -10,24 +10,25 @@ import javax.inject.Inject;
 import org.drools.KnowledgeBase;
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentFactory;
-import org.drools.impl.EnvironmentImpl;
 import org.drools.marshalling.ObjectMarshallingStrategy;
 import org.drools.marshalling.impl.ClassObjectMarshallingStrategyAcceptor;
 import org.drools.marshalling.impl.SerializablePlaceholderResolverStrategy;
 import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
-import org.drools.runtime.Environment;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
-import org.jboss.seam.solder.beanManager.BeanManagerUnavailableException;
+import org.nakeduml.environment.Environment;
+import org.drools.impl.EnvironmentFactory;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;
 
-public abstract class AbstractJbpmKnowledgeSession {
+public abstract class JbpmKnowledgeSession {
 	private StatefulKnowledgeSession knowledgeSession;
 	@Inject
 	protected Session session;
 
-	protected abstract AbstractJbpmKnowledgeBase getJbpmKnowledgeBase();
+	protected AbstractJbpmKnowledgeBase getJbpmKnowledgeBase(){
+		return (AbstractJbpmKnowledgeBase) Environment.instantiateImplementation(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
+	}
 
 	public StatefulKnowledgeSession getKnowledgeSession() {
 		if (this.knowledgeSession == null) {
@@ -44,7 +45,7 @@ public abstract class AbstractJbpmKnowledgeSession {
 		properties.setProperty("drools.workItemManagerFactory", "org.drools.persistence.jpa.processinstance.JPAWorkItemManagerFactory");
 		properties.put("drools.processSignalManagerFactory", "org.jbpm.persistence.processinstance.JPASignalManagerFactory");
 		SessionConfiguration config = new SessionConfiguration(properties);
-		final Environment environment = EnvironmentFactory.newEnvironment();
+		final org.drools.runtime.Environment environment = EnvironmentFactory.newEnvironment();
 		environment.set(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER,
 				new HibernateEnvironmentBuilder(session).getPersistenceContextManager());
 		environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[] {

@@ -11,7 +11,7 @@ import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
 
 @StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
-public class BasicJavaDomainPomStep extends AbstractBasicJavaPomStep{
+public class BasicJavaDomainPomStep extends PomGenerationStep{
 	//TODO properties  - jmock
 	@Override
 	public Dependency[] getDependencies() {

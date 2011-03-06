@@ -3,18 +3,18 @@ package net.sf.nakeduml.feature;
 public class OutputRoot {
 	boolean overwriteFiles=true;
 	boolean cleanDirectories=true;
-	boolean useEntryModelName;
+	boolean userWorkspaceName;
 	String sourceFolder;
 	String projectSuffix;
 	
-	public OutputRoot(boolean useEntryModelName, String projectSuffix, String sourceFolder) {
+	public OutputRoot(boolean useWorkspaceName, String projectSuffix, String sourceFolder) {
 		super();
-		this.useEntryModelName = useEntryModelName;
+		this.userWorkspaceName = useWorkspaceName;
 		this.projectSuffix = projectSuffix;
 		this.sourceFolder = sourceFolder;
 	}
 	public boolean useWorkspaceName(){
-		return useEntryModelName;
+		return userWorkspaceName;
 	}
 	public void dontCleanDirectories(){
 		cleanDirectories=false;

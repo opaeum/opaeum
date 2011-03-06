@@ -18,7 +18,7 @@ public class DefaultDataGeneratorTest extends net.sf.nakeduml.pomgeneration.Mave
 	}
 
 	public static void main(String[] args) throws Exception {
-		new DefaultDataGeneratorTest("../nakedumltest/datagenerationtests", "testmodels").transformSingleModel("DataGenerationTests.uml");
+		new DefaultDataGeneratorTest("../nakedumltest/datagenerationtests", "testmodels").generateCodeForSingleModel("DataGenerationTests.uml");
 	}
 
 	@Override

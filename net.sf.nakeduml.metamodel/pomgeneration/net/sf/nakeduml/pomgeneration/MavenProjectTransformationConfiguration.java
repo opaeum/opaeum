@@ -36,8 +36,8 @@ public abstract class MavenProjectTransformationConfiguration {
 	/**
 	 * May be called multiple times
 	 */
-	protected void transformSingleModel(String modelFileName) throws Exception, IOException, FileNotFoundException {
-		System.out.println("Transforming single model: " + modelFileName);
+	protected void generateCodeForSingleModel(String modelFileName) throws Exception, IOException, FileNotFoundException {
+		System.out.println("Generating code for single model: " + modelFileName);
 		process.removeModel(TextWorkspace.class);
 		process.removeModel(OJPackage.class);
 		long start = System.currentTimeMillis();
@@ -49,7 +49,7 @@ public abstract class MavenProjectTransformationConfiguration {
 		cfg.store();
 		workspace.getMappingInfo().store();
 		process.execute(cfg, workspace, getSteps());
-		System.out.println("Transforming model '" + modelFileName + "' took " + (System.currentTimeMillis() - start) + " ms");
+		System.out.println("Generating code for model '" + modelFileName + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {

@@ -15,7 +15,7 @@ public class EntityModelCodeGenerator extends net.sf.nakeduml.pomgeneration.Mave
 	}
 
 	public static void main(String[] args) throws Exception {
-		new EntityModelCodeGenerator("../nakedumltest/entitymodel", "testmodels").transformSingleModel("entitymodel.uml");
+		new EntityModelCodeGenerator("../nakedumltest/entitymodel", "testmodels").generateCodeForSingleModel("entitymodel.uml");
 	}
 
 	@Override

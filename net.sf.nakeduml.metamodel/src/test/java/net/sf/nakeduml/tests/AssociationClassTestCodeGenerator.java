@@ -16,7 +16,7 @@ public class AssociationClassTestCodeGenerator extends net.sf.nakeduml.pomgenera
 
 	public static void main(String[] args) throws Exception {
 		new AssociationClassTestCodeGenerator("../nakedumltest/assocationclasstests", "testmodels/")
-				.transformSingleModel("AssociationClassTests.uml");
+				.generateCodeForSingleModel("AssociationClassTests.uml");
 	}
 
 	@Override

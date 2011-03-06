@@ -17,7 +17,9 @@ public class JbpmTest extends net.sf.nakeduml.pomgeneration.MavenProjectTransfor
 	}
 
 	public static void main(String[] args) throws Exception {
-		new JbpmTest("../nakedumltest/jbpmtest", "testmodels").transformSingleModel("jbpm.uml");
+		JbpmTest jbpmTest = new JbpmTest("../nakedumltest/jbpmtest", "testmodels");
+		jbpmTest.generateCodeForSingleModel("jbpm.uml");
+		jbpmTest.generateIntegrationCode();
 	}
 
 	@Override

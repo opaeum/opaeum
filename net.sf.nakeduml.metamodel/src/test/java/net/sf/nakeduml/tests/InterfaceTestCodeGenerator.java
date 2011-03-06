@@ -15,7 +15,7 @@ public class InterfaceTestCodeGenerator extends net.sf.nakeduml.pomgeneration.Ma
 	}
 
 	public static void main(String[] args) throws Exception {
-		new InterfaceTestCodeGenerator("../nakedumltest/interfacetests", "testmodels").transformSingleModel("InterfaceTests.uml");
+		new InterfaceTestCodeGenerator("../nakedumltest/interfacetests", "testmodels").generateCodeForSingleModel("InterfaceTests.uml");
 	}
 
 	@Override

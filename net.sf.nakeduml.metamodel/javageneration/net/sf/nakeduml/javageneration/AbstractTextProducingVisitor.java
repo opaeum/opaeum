@@ -11,17 +11,21 @@ import java.util.Stack;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SortedProperties;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
+import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import net.sf.nakeduml.textmetamodel.ResourceLoader;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -36,7 +40,13 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor {
 	@Override
 	public void visitRecursively(INakedElementOwner o) {
 		if (o instanceof INakedRootObject) {
-			this.currentRootObject = (INakedRootObject) o;
+			INakedRootObject pkg = (INakedRootObject) o;
+			this.currentRootObject = pkg;
+			OJPathName utilPath = new OJPathName(pkg.getMappingInfo().getQualifiedJavaName() + ".util");
+			UtilityCreator.setUtilPathName(utilPath);
+		} else if (o instanceof INakedModelWorkspace) {
+			OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
+			UtilityCreator.setUtilPathName(utilPath);
 		}
 		super.visitRecursively(o);
 	}
@@ -120,5 +130,11 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor {
 		OutputRoot outputRoot = config.getOutputRoot(outputRootId);
 		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
 		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new CharArrayTextSource(outputBuilder), outputRoot.overwriteFiles());
+	}
+
+	public void findOrCreateTextFile(SortedProperties outputBuilder, Enum<?> outputRootId, String... names) {
+		OutputRoot outputRoot = config.getOutputRoot(outputRootId);
+		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
+		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new PropertiesSource(outputBuilder), outputRoot.overwriteFiles());
 	}
 }

@@ -1,9 +1,13 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.nakeduml.environment.Environment;
+
+import net.sf.nakeduml.feature.SortedProperties;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.AbstractTextProducingVisitor;
@@ -11,6 +15,7 @@ import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -18,14 +23,17 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.PropertiesSource;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
+	private static final String CDI_ENVIRONMENT = "org.nakeduml.environment.adaptor.CdiEnvironment";
+	private static final String DOMAIN_ENVIRONMENT = "org.nakeduml.environment.domain.DomainEnvironment";
 	boolean isIntegrationPhase = true;
-	boolean isAdaptorEnvironment;
 
 	public HibernateConfigGenerator(boolean isIntegrationPhase) {
 		super();
@@ -60,19 +68,45 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 		}
 	}
 
-	public static final String RESOURCE_DIR = "gen-src";
-
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
-			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
-			HashMap<String, Object> vars = buildVars(ownedElements, new OJPathName(config.getMavenGroupId() + ".util"));
-			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", workspace.getDirectoryName() + "-hibernate.cfg.xml",
-					getOutputRootId(), vars);
+			String hibernateConfigName = workspace.getDirectoryName() + "-hibernate.cfg.xml";
+			generateConfigAndEnvironment((Collection<INakedRootObject>) workspace.getOwnedElements(), hibernateConfigName,
+					OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
 		}
 	}
 
-	private HashMap<String, Object> buildVars(Collection<? extends INakedElement> models, OJPathName pkg) {
+	@VisitBefore
+	public void visitModel(INakedModel model) {
+		if (!isIntegrationPhase) {
+			String hibernateConfigName = model.getFileName() + "-hibernate.cfg.xml";
+			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getDependencies());
+			selfAndDependencies.add(model);
+			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false);
+			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, true);
+		}
+	}
+
+	private void generateConfigAndEnvironment(Collection<INakedRootObject> models, String hibernateConfigName, OutputRootId outputRootId,
+			boolean isAdaptorEnvironment) {
+		SortedProperties domainSortedProperties = new SortedProperties();
+		if (isAdaptorEnvironment) {
+			domainSortedProperties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
+					+ ".jbpm.adaptor.JbpmKnowledgeBase");
+		} else {
+			domainSortedProperties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
+					+ ".jbpm.domain.JbpmKnowledgeBase");
+		}
+		domainSortedProperties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? CDI_ENVIRONMENT
+				: DOMAIN_ENVIRONMENT);
+		domainSortedProperties.setProperty(Environment.HIBERNATE_CONFIG_NAME, hibernateConfigName);
+		findOrCreateTextFile(domainSortedProperties, outputRootId, Environment.PROPERTIES_FILE_NAME);
+		HashMap<String, Object> vars = buildVars(models, isAdaptorEnvironment);
+		processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", hibernateConfigName, outputRootId, vars);
+	}
+
+	private HashMap<String, Object> buildVars(Collection<? extends INakedElement> models, boolean isAdaptorEnvironment) {
 		HashMap<String, Object> vars = new HashMap<String, Object>();
 		boolean requiresAudit = transformationContext.isFeatureSelected(AuditImplementationStep.class);
 		vars.put("requiresAuditing", requiresAudit);
@@ -86,29 +120,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			}
 		}
 		vars.put("persistentClasses", collector.classes);
-		vars.put("pkg", pkg);
+		vars.put("pkg", HibernateUtil.getHibernatePackage(isAdaptorEnvironment));
 		return vars;
-	}
-
-	@VisitBefore
-	public void visitModel(INakedModel model) {
-		if (!isIntegrationPhase) {
-			HashMap<String, Object> vars = buildVars(model.getDependencies(), UtilityCreator.getUtilPathName());
-			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", model.getFileName() + "-hibernate.cfg.xml",
-					getOutputRootId(), vars);
-			isAdaptorEnvironment = true;
-			processTemplate(model, "templates/Model/Jbpm4HibernateConfig.vsl", model.getFileName() + "-hibernate.cfg.xml",
-					getOutputRootId(), vars);
-		}
-	}
-
-	private OutputRootId getOutputRootId() {
-		if (isIntegrationPhase) {
-			return CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE;
-		} else if (isAdaptorEnvironment) {
-			return CharArrayTextSource.OutputRootId.ADAPTOR_GEN_TEST_RESOURCE;
-		} else {
-			return CharArrayTextSource.OutputRootId.DOMAIN_GEN_TEST_RESOURCE;
-		}
 	}
 }
