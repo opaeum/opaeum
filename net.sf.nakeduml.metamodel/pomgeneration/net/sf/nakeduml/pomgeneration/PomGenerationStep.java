@@ -153,7 +153,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		testNg.setGroupId("org.testng");
 		testNg.setArtifactId("testng");
 		testNg.setVersion("5.14");
-		testNg.setScope("compile");
+		testNg.setScope("test");
 		testNg.setType("jar");
 		result.add(testNg);
 		return result;

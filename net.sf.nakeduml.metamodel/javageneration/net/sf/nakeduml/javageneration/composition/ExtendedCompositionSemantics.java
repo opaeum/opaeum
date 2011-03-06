@@ -13,8 +13,8 @@ import net.sf.nakeduml.pomgeneration.Seam3PomStep;
 
 import org.apache.commons.lang.time.StopWatch;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { BasicJavaModelStep.class, OclExpressionExecution.class,
-		SourcePopulationResolver.class, BasicJavaAdaptorPomStep.class }, after = { BasicJavaModelStep.class, OclExpressionExecution.class })
+@StepDependency(phase = JavaTransformationPhase.class, requires = { BasicJavaModelStep.class, OclExpressionExecution.class, SourcePopulationResolver.class,
+		BasicJavaAdaptorPomStep.class }, after = { BasicJavaModelStep.class, OclExpressionExecution.class })
 public class ExtendedCompositionSemantics extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
@@ -38,7 +38,7 @@ public class ExtendedCompositionSemantics extends AbstractJavaTransformationStep
 		ConfigurableCompositionPropertiesGenerator ccpg = new ConfigurableCompositionPropertiesGenerator();
 		ccpg.initialize(javaModel, config, textWorkspace, context);
 		ccpg.setModelInstanceMap(sctdg.modelInstanceMap);
-		// ccpg.startVisiting(workspace);
+		ccpg.startVisiting(workspace);
 		stopWatch.split();
 		System.out.println("data generation took " + stopWatch.toSplitString());
 	}

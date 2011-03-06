@@ -39,6 +39,7 @@ public class WarPomStep extends PomGenerationStep {
 		addSeamConfig(dependencies);
 		addArquillian(dependencies);
 		addJunit(dependencies);
+		addNumlTestAdaptor(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 

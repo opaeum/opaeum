@@ -139,16 +139,13 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 					}
 					
 					for (DataPopulatorPropertyEntry dataPopulatorPropertyEntry : needsOneEntities) {
-						
 						DataPopulatorPropertyEntry newOne = new DataPopulatorPropertyEntry(dataPopulatorPropertyEntry.getLevel(), dataPopulatorPropertyEntry.getEntityQualifiedName()+"_ToOne",
 								dataPopulatorPropertyEntry.getEntityName()+"_ToOne", true, toOne.getMappingInfo().getQualifiedJavaName());
 						
 						newOne.setValue(dataPopulatorPropertyEntry.getValue() + "." + f.getMappingInfo().getJavaName().getAsIs());
 						newOne.setParent(dataPopulatorPropertyEntry.getParent());
 					}
-					
 				}				
-				
 			}
 		}
 	}
@@ -160,7 +157,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 			rootX.outputToCompositeOneInterface(this);
 		}
 		if (this.config.getDataGeneration()) {
-			OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE);
+			OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_GEN_RESOURCE);
 			SourceFolder sourceFolder = getSourceFolder(outputRoot);
 			List<String> path = Arrays.asList("data.generation.properties");
 			sourceFolder.findOrCreateTextFile(path, new PropertiesSource(props),outputRoot.overwriteFiles());
@@ -179,7 +176,6 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 
 	public void setModelInstanceMap(Map<String, DataPopulatorPropertyEntry> modelInstanceMap) {
 		this.propertiesMap=modelInstanceMap;
-		
 	}
 
 }

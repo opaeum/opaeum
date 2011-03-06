@@ -23,7 +23,9 @@ public abstract class AbstractObjectNodeExpressor {
 	public AbstractObjectNodeExpressor(IOclLibrary oclLibrary) {
 		this.oclLibrary = oclLibrary;
 	}
+
 	abstract public String expressControlNode(OJBlock block, INakedControlNode controlNode);
+
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin);
 
 	abstract public OJAnnotatedField maybeBuildResultVariable(OJAnnotatedOperation operation, OJBlock block, NakedStructuralFeatureMap map);
@@ -32,14 +34,14 @@ public abstract class AbstractObjectNodeExpressor {
 
 	public abstract String getterForStructuredResults(NakedStructuralFeatureMap resultMap);
 
-
 	protected String surroundWithSelectionAndTransformation(String expression, INakedObjectFlow edge) {
-		if(edge.getSource() instanceof INakedControlNode){
+		if (edge.getSource() instanceof INakedControlNode) {
 			Set<INakedActivityEdge> incoming = edge.getSource().getIncoming();
 			for (INakedActivityEdge flow : incoming) {
-				if(flow instanceof INakedObjectFlow){
-					//TODO with merges, find out which transition was actually taken
-					expression=surroundWithSelectionAndTransformation(expression, (INakedObjectFlow) flow);
+				if (flow instanceof INakedObjectFlow) {
+					// TODO with merges, find out which transition was actually
+					// taken
+					expression = surroundWithSelectionAndTransformation(expression, (INakedObjectFlow) flow);
 					break;
 				}
 			}
@@ -52,13 +54,15 @@ public abstract class AbstractObjectNodeExpressor {
 		}
 		if (edge.getSelection() == null && edge.getTransformation() == null) {
 			INakedObjectNode source = (INakedObjectNode) edge.getOriginatingObjectNode();
-			//TODO what if the target is a controlNode
-			INakedObjectNode target = (INakedObjectNode) edge.getTarget();
-			if (target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany()
-					&& (source.isOrdered() != target.isOrdered() || source.isUnique() != target.isUnique())) {
-				NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap(edge.getActivity(), target);
-				expression = "new " + targetMap.javaDefaultTypePath().getLast() + "<"
-						+ targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast() + ">(" + expression + ")";
+			// TODO what if the target is a controlNode
+			if (edge.getTarget() instanceof INakedObjectNode) {
+				INakedObjectNode target = (INakedObjectNode) edge.getTarget();
+				if (target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany()
+						&& (source.isOrdered() != target.isOrdered() || source.isUnique() != target.isUnique())) {
+					NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap(edge.getActivity(), target);
+					expression = "new " + targetMap.javaDefaultTypePath().getLast() + "<" + targetMap.javaDefaultTypePath().getElementTypes().get(0).getLast()
+							+ ">(" + expression + ")";
+				}
 			}
 		}
 		return expression;

@@ -5,7 +5,6 @@ import java.util.Collection;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
@@ -15,14 +14,11 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-
-import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
 
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	public class BehaviorVisitor extends VisitorAdapter<INakedElement, INakedModel> {
@@ -51,8 +47,13 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	public void visitWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
 			OJPathName pn = new OJPathName(config.getMavenGroupId() + ".util.jbpm.adaptor");
-			createJbpmKnowledgeBase(pn, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
+			createJbpmKnowledgeBase(pn, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, isIntegrationPhase);
 			visitModels(workspace.getOwnedElements());
+
+			JpaUtil.addNamedQueries(
+					findOrCreatePackage(HibernateUtil.getHibernatePackage(true)),
+					"ProcessInstancesWaitingForEvent",
+					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}
 
@@ -60,11 +61,11 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 	public void visitModel(INakedModel model) {
 		if (!isIntegrationPhase) {
 			OJPathName adaptorUtilPathname = UtilityCreator.getUtilPathName().append("jbpm").append("adaptor");
-			createJbpmKnowledgeBase(adaptorUtilPathname, OutputRootId.ADAPTOR_GEN_TEST_SRC);
+			createJbpmKnowledgeBase(adaptorUtilPathname, OutputRootId.ADAPTOR_GEN_TEST_SRC, isIntegrationPhase);
 			BehaviorVisitor visitor = visitModels(model.getDependencies());
 			visitor.startVisiting(model);
 			OJPathName domainUtilPathname = UtilityCreator.getUtilPathName().append("jbpm").append("domain");
-			createJbpmKnowledgeBase(domainUtilPathname, OutputRootId.DOMAIN_GEN_TEST_SRC);
+			createJbpmKnowledgeBase(domainUtilPathname, OutputRootId.DOMAIN_GEN_TEST_SRC, isIntegrationPhase);
 			visitor.startVisiting(model);
 			JpaUtil.addNamedQueries(
 					findOrCreatePackage(HibernateUtil.getHibernatePackage(true)),
@@ -87,14 +88,18 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor {
 		return visitor;
 	}
 
-	private void createJbpmKnowledgeBase(OJPathName utilPathName, Enum<?> outputRootId) {
+	private void createJbpmKnowledgeBase(OJPathName utilPathName, Enum<?> outputRootId, boolean isIntegrationPhase2) {
 		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass();
 		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
 		OJPackage utilPack = findOrCreatePackage(utilPathName);
 		utilPack.addToClasses(jbpmKnowledgeBase);
 		super.createTextPath(jbpmKnowledgeBase, outputRootId);
 		addCommonImports(jbpmKnowledgeBase);
-		jbpmKnowledgeBase.setSuperclass(new OJPathName(AbstractJbpmKnowledgeBase.class.getName()));
+		if (isIntegrationPhase2) {
+			jbpmKnowledgeBase.setSuperclass(new OJPathName("org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeBase"));
+		} else {
+			jbpmKnowledgeBase.setSuperclass(new OJPathName("org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase"));
+		}
 		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation();
 		jbpmKnowledgeBase.addToOperations(prepareKnowledgeBase);
 		prepareKnowledgeBase.setName("prepareKnowledgeBuilder");

@@ -8,7 +8,7 @@ public abstract class Environment {
 	public static final String JBPM_KNOWLEDGE_BASE_IMPLEMENTATION = "nakeduml.jbpm.knowledgebase.implementation";
 	public static final String ENVIRONMENT_IMPLEMENTATION = "nakeduml.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "nakeduml.env.properties";
-	private static ThreadLocal<Environment> instance;
+	private static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
 
 	/**
 	 * For mocking purposes
@@ -30,7 +30,7 @@ public abstract class Environment {
 		Object newInstance;
 		try {
 			Properties properties = loadProperties();
-			newInstance = (Environment) Class.forName(properties.getProperty(environmentImplementation)).newInstance();
+			newInstance = Class.forName(properties.getProperty(environmentImplementation)).newInstance();
 		} catch (InstantiationException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {

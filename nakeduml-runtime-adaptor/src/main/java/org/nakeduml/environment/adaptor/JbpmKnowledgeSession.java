@@ -18,16 +18,17 @@ import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
 import org.nakeduml.environment.Environment;
-import org.drools.impl.EnvironmentFactory;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;
+import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
+import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContextManager;
 
-public abstract class JbpmKnowledgeSession {
+public class JbpmKnowledgeSession {
 	private StatefulKnowledgeSession knowledgeSession;
 	@Inject
 	protected Session session;
 
 	protected AbstractJbpmKnowledgeBase getJbpmKnowledgeBase(){
-		return (AbstractJbpmKnowledgeBase) Environment.instantiateImplementation(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
+		return (AbstractJbpmKnowledgeBase) Environment.getInstance().instantiateImplementation(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
 
 	public StatefulKnowledgeSession getKnowledgeSession() {
@@ -51,12 +52,12 @@ public abstract class JbpmKnowledgeSession {
 		environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[] {
 				new JPAPlaceholderResolverStrategy(environment) {
 					@Override
-					public Object read(ObjectInputStream is) throws IOException, ClassNotFoundException {
-						String canonicalName = is.readUTF();
-						Object id = is.readObject();
-						Session db = (Session) environment.get(EnvironmentName.CMD_SCOPED_ENTITY_MANAGER);
-						return db.get(Class.forName(canonicalName), (Serializable) id);
-					}
+	 				public Object read(ObjectInputStream is) throws IOException, ClassNotFoundException {
+	 					String canonicalName = is.readUTF();
+	 					Object id = is.readObject();
+						HibernateProcessPersistenceContextManager db = (HibernateProcessPersistenceContextManager) environment.get(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER);
+						return ((HibernateProcessPersistenceContext)db.getProcessPersistenceContext()).getSession().get(Class.forName(canonicalName), (Serializable) id);
+	 				}
 				}, new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT) });
 		return kbase.newStatefulKnowledgeSession(config, environment);
 	}

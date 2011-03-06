@@ -17,6 +17,10 @@ public class HibernateProcessPersistenceContext implements ProcessPersistenceCon
 	public HibernateProcessPersistenceContext(Session session) {
 		this.session = session;
 	}
+	
+	public Session getSession() {
+		return this.session;
+	}
 
 	@Override
 	public void close() {

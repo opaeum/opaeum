@@ -1,5 +1,6 @@
 package org.nakeduml.environment.adaptor;
 
+import org.drools.runtime.StatefulKnowledgeSession;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 
@@ -12,6 +13,8 @@ public class CdiEnvironment extends Environment {
 				d.register();
 			}
 			return (T) d;
+		} else if (clazz == StatefulKnowledgeSession.class) {
+			return  (T) Component.INSTANCE.getInstance(JbpmKnowledgeSession.class).getKnowledgeSession();			
 		} else {
 			return Component.INSTANCE.getInstance(clazz);
 		}

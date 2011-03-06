@@ -1,6 +1,5 @@
 package org.nakeduml.environment.adaptor;
 
-import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.TransactionManagement;
@@ -15,9 +14,10 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import org.hibernate.Session;
+import org.jboss.seam.persistence.transaction.DefaultTransaction;
+import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractUser;
 import org.nakeduml.runtime.domain.ActiveObject;
@@ -28,8 +28,9 @@ import org.nakeduml.runtime.domain.ActiveObject;
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/SignalQueue") })
 @TransactionManagement(TransactionManagementType.BEAN)
 public class SignalMDB implements MessageListener {
-	@Resource
-	UserTransaction userTransaction;
+	@Inject
+	@DefaultTransaction
+	private SeamTransaction transaction;
 	@Inject
 	private Session session;
 
@@ -56,9 +57,10 @@ public class SignalMDB implements MessageListener {
 
 	private void processInTransaction(SignalToDispatch signalToDispatch, ActiveObject target) {
 		try {
-			userTransaction.begin();
+			transaction.begin();
 			target.processSignal(signalToDispatch.getSignal());
-			userTransaction.commit();
+			session.flush();
+			transaction.commit();
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (NotSupportedException e) {

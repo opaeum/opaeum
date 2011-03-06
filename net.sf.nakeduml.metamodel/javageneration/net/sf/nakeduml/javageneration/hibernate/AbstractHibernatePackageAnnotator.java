@@ -3,21 +3,13 @@ package net.sf.nakeduml.javageneration.hibernate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.feature.SortedProperties;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javametamodel.OJPackage;
 import net.sf.nakeduml.javametamodel.OJPathName;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
-import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
@@ -28,12 +20,8 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.hibernate.dialect.Dialect;
-import org.nakeduml.environment.Environment;
-import org.nakeduml.environment.domain.DomainEnvironment;
-import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
 
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor {
 	private boolean isIntegrationPhase;
@@ -58,7 +46,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 
 	protected void doWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
-			applyFilter(true);
+			applyFilter(true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
 			Set<INakedInterface> interfaces = collectInterfaces((ownedElements));
 			for (INakedInterface i : interfaces) {
@@ -68,12 +56,13 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 	}
 
-	protected void applyFilter(boolean isAdaptor) {
+	protected void applyFilter(boolean isAdaptor, OutputRootId outputRoot) {
 		OJAnnotatedPackage ap = findOrCreatePackage(HibernateUtil.getHibernatePackage(isAdaptor));
 		OJAnnotationValue filterDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.FilterDef"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("defaultCondition", "deleted_on > " + getCurrentTimestampSQLFunction()));
 		ap.putAnnotation(filterDef);
+		createTextPathIfRequired(ap, outputRoot);
 	}
 
 	private String getCurrentTimestampSQLFunction() {
@@ -83,8 +72,8 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 
 	protected void doModel(INakedModel model) {
 		if (!isIntegrationPhase) {
-			applyFilter(true);
-			applyFilter(false);
+			applyFilter(true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
+			applyFilter(false, OutputRootId.DOMAIN_GEN_TEST_SRC);
 			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(((INakedModel) model).getDependencies());
 			selfAndDependencies.add(model);
 			Set<INakedInterface> interfaces = collectInterfaces(selfAndDependencies);
