@@ -7,11 +7,11 @@
 		<version>1.0.0.5-SNAPSHOT</version>
 	</parent>	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.klasse.octopuscodegen</groupId>
-	<artifactId>octopuscodegen</artifactId>
+	<groupId>org.nakeduml.ocl</groupId>
+	<artifactId>codegen</artifactId>
 	<packaging>jar</packaging>
 	<name>octopuscodegen</name>
-	<version>1.0.0.4</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>OCL support</description>
 	<url>http://github.com/nakeduml</url>
 	<build>
@@ -49,8 +49,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>nl.klasse.octopus</groupId>
-			<artifactId>octopus</artifactId>
+			<groupId>org.nakeduml.ocl</groupId>
+			<artifactId>metamodel</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>javametamodel</artifactId>
-			<version>1.0.0.5-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

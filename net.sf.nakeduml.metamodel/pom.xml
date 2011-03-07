@@ -203,16 +203,16 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>nl.klasse.octopus</groupId>
-			<artifactId>octopus</artifactId>
-			<version>1.0.0.4</version>
+			<groupId>org.nakeduml.ocl</groupId>
+			<artifactId>metamodel</artifactId>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>nl.klasse.octopuscodegen</groupId>
-			<artifactId>octopuscodegen</artifactId>
-			<version>1.0.0.4</version>
+			<groupId>org.nakeduml.ocl</groupId>
+			<artifactId>codegen</artifactId>
+			<version>${project.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

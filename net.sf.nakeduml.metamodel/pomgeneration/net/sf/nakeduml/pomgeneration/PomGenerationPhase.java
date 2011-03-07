@@ -183,7 +183,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				} else if (sf.getRelativePath().contains("java")) {
 					PomUtil.maybeAddJavaPath(root, sf);
 				} else if (sf.getRelativePath().contains("webapp")) {
-					PomUtil.maybeAddJavaPath(root, sf);
+					PomUtil.maybeAddResourcePath(root, sf);
 				}
 			}
 		}

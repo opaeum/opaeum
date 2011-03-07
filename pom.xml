@@ -42,6 +42,7 @@
 		<module>octopuscodegen</module>
 		<module>nakeduml-runtime-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
+<!--		<module>nakedumltest/jbpmtestintegration</module>-->
 	</modules>
 
 	<properties>

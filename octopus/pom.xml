@@ -7,11 +7,11 @@
 		<version>1.0.0.5-SNAPSHOT</version>
 	</parent>	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>nl.klasse.octopus</groupId>
-	<artifactId>octopus</artifactId>
+	<groupId>org.nakeduml.ocl</groupId>
+	<artifactId>metamodel</artifactId>
 	<packaging>jar</packaging>
 	<name>octopus</name>
-	<version>1.0.0.4</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>OCL support</description>
 	<url>http://github.com/nakeduml</url>
 	<build>
