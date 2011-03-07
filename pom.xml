@@ -38,7 +38,8 @@
 	<modules>
 		<module>net.sf.nakeduml.javametamodel</module>
 		<module>net.sf.nakeduml.metamodel</module>
-		<module>net.sf.nakeduml.util</module>
+		<module>octopus</module>
+		<module>octopuscodegen</module>
 		<module>nakeduml-runtime-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
 	</modules>

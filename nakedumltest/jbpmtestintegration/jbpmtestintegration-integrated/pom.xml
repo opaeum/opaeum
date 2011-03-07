@@ -188,10 +188,6 @@
       <artifactId>arquillian-testng</artifactId>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
     </dependency>

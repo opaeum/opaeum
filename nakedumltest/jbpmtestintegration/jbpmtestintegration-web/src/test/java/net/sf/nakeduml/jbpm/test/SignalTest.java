@@ -4,17 +4,18 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import jbpm.jbpm.dispatch.SimpleAsyncShipping;
+import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
+
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-@RunWith(Arquillian.class)
 public class SignalTest extends BaseTest {
 	@Inject
 	private SimpleAsyncShippingController processController;
@@ -37,14 +38,11 @@ public class SignalTest extends BaseTest {
 	}
 	
 	@Test
-	public void testSignal() {
-		processController.testSignal();
-	}
-	
-	@Test
-	public void testReceiveEvent() throws InterruptedException {
+	public void testSignal() throws InterruptedException {
+		SimpleAsyncShipping shipping = processController.testSignal();
+		Assert.assertTrue( shipping.isStepActive(SimpleAsyncShippingState.EMAILCUSTOMER) );
 		Thread.sleep(2000);
-		processController.testReceiveEvent();
+		Assert.assertTrue( processController.isActivityFinal() );
 	}	
 
 }

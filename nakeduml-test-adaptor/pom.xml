@@ -32,19 +32,12 @@
     </plugins>
   </build>
   <dependencies>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.8.2</version>
-        <type>jar</type>
-        <scope>compile</scope>
-      </dependency>
-    <dependency>
-      <groupId>org.jboss.arquillian</groupId>
-      <artifactId>arquillian-junit</artifactId>
-      <version>1.0.0.Alpha4</version>
-        <type>jar</type>
-        <scope>compile</scope>
-    </dependency>
+  	<dependency>
+  		<groupId>org.jboss.shrinkwrap</groupId>
+  		<artifactId>shrinkwrap-api</artifactId>
+  		<version>1.0.0-alpha-11</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
   </dependencies>
 </project>

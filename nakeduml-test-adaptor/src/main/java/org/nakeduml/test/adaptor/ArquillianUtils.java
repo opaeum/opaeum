@@ -54,6 +54,21 @@ public class ArquillianUtils {
 
 	public static WebArchive createWarArchive(boolean includeEmptyBeansXml) {
 		WebArchive war = ShrinkWrap.createDomain().getArchiveFactory().create(WebArchive.class, "test.war");
+		includeSeam(war);
+		includeJbpm(war);
+		includeJCommander(war);
+		
+		if (includeEmptyBeansXml) {
+			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
+		}
+		return war;
+	}
+
+	private static void includeJCommander(WebArchive war) {
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JCOMMANDER));
+	}
+
+	private static void includeSeam(WebArchive war) {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_IMPL));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
@@ -62,13 +77,6 @@ public class ArquillianUtils {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS_API));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS));
-		
-		includeJbpm(war);
-		
-		if (includeEmptyBeansXml) {
-			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
-		}
-		return war;
 	}
 
 	private static void includeJbpm(WebArchive war) {

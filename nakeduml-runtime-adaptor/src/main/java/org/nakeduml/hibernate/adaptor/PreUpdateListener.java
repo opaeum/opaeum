@@ -10,6 +10,7 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.type.Type;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
+import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.BaseAuditable;
 
 public class PreUpdateListener extends DefaultFlushEntityEventListener {
@@ -23,6 +24,9 @@ public class PreUpdateListener extends DefaultFlushEntityEventListener {
 			if (entity instanceof BaseAuditable) {
 				BaseAuditable baseAuditable = (BaseAuditable) entity;
 				baseAuditable.defaultUpdate();
+//			} else if (entity instanceof AbstractProcess) {
+//				ProcessInstanceInfo processInstanceInfo =session.immediateLoad(ProcessInstanceInfo.class.getName(), ((AbstractProcess)entity).getProcessInstanceId() );
+//				processInstanceInfo.update();
 			} else if (entity instanceof ProcessInstanceInfo) {
 				ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;
 				processInstanceInfo.update();

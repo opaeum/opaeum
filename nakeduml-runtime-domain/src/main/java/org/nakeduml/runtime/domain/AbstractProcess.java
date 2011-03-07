@@ -5,4 +5,5 @@ public interface AbstractProcess extends ActiveObject{
 	Set<AbstractProcessStep> getActiveLeafSteps();
 	AbstractProcessStep getInnermostNonParallelStep();
 	void forceToStep(AbstractProcessStep step);
+//	Long getProcessInstanceId();
 }

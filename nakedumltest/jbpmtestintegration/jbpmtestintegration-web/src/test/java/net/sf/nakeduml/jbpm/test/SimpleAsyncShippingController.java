@@ -12,7 +12,7 @@ import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
 
 import org.hibernate.Session;
-import org.junit.Assert;
+import org.testng.Assert;
 
 public class SimpleAsyncShippingController {
 
@@ -20,7 +20,7 @@ public class SimpleAsyncShippingController {
 	private Session session;
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void testSignal() {
+	public SimpleAsyncShipping testSignal() {
 		List<Application> roots = session.createQuery("select h from Application h").list();
 		Assert.assertTrue(roots.size()>0);
 		Application app = roots.get(0);
@@ -34,18 +34,18 @@ public class SimpleAsyncShippingController {
 		}
 		SimpleAsyncShipping shipping = app.getDispatch().SimpleAsyncShipping();
 		shipping.execute();
-		Assert.assertTrue( shipping.isStepActive(SimpleAsyncShippingState.EMAILCUSTOMER) );
 		session.flush();
+		return shipping;
 	}
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void testReceiveEvent() {
+	public boolean isActivityFinal() {
+		session.clear();
 		List<Application> roots = session.createQuery("select h from Application h").list();
 		Assert.assertTrue(roots.size()>0);
 		Application app = roots.get(0);
 		SimpleAsyncShipping shipping = app.getDispatch().getSimpleAsyncShipping().get(0);
-		Assert.assertTrue( shipping.isStepActive(SimpleAsyncShippingState.ACTIVITYFINALNODE1) );
-		session.flush();
+		return shipping.isStepActive(SimpleAsyncShippingState.ACTIVITYFINALNODE1);
 	}	
 	
 }

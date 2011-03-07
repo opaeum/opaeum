@@ -74,7 +74,6 @@ public class Seam3PomStep extends PomGenerationStep {
 		nakedUmlUtil.setType("jar");
 		nakedUmlUtil.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		super.addArquillian(dependencies);
-		super.addJunit(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 

@@ -114,16 +114,6 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependencies.add(dependency);
 	}
 
-	protected void addJunit(Collection<Dependency> dependencies) {
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("junit");
-		dependency.setArtifactId("junit");
-		dependency.setVersion("4.8.2");
-		dependency.setType("jar");
-		dependency.setScope("test");
-		dependencies.add(dependency);
-	}
-
 	protected void addNumlTestAdaptor(Collection<Dependency> result) {
 		Dependency numlAdaptor=POMFactory.eINSTANCE.createDependency();
 		numlAdaptor.setGroupId("org.nakeduml");
@@ -152,7 +142,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		Dependency testNg = POMFactory.eINSTANCE.createDependency();
 		testNg.setGroupId("org.testng");
 		testNg.setArtifactId("testng");
-		testNg.setVersion("5.14");
+		testNg.setVersion("5.14.9");
 		testNg.setScope("test");
 		testNg.setType("jar");
 		result.add(testNg);

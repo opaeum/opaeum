@@ -7,7 +7,7 @@ import jbpm.jbpm.application.SimpleSync1;
 import jbpm.jbpm.application.SimpleSync1State;
 import junit.framework.Assert;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 public class JbpmProcessTest {
 

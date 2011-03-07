@@ -30,4 +30,7 @@ public class ArtifactNames {
 	public static final String MVEL = "org.mvel:mvel2";
 	public static final String ANTLR = "org.antlr:antlr";
 	public static final String ANTLR_RUNTIME = "org.antlr:antlr-runtime";
+	public static final String SLF4J_API    = "org.slf4j:slf4j-api";
+	public static final String JCOMMANDER = "com.beust:jcommander";
+
 }

@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nakeduml.util.jbpm.adaptor.JbpmKnowledgeBase;
-
 import jbpm.jbpm.EmailCustomerSignal;
 import jbpm.jbpm.TheBoss;
 import jbpm.jbpm.application.SimpleSync1;
 import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.util.Stdlib;
 
-public class BaseTest {
+import org.jboss.arquillian.testng.Arquillian;
+import org.nakeduml.util.jbpm.adaptor.JbpmKnowledgeBase;
+
+public class BaseTest extends Arquillian {
 
 	static public Package[] getTestPackages() throws IOException, ClassNotFoundException {
 		List<Package> packages = new ArrayList<Package>();

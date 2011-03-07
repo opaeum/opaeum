@@ -6,15 +6,13 @@ import javax.inject.Inject;
 
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-@RunWith(Arquillian.class)
 public class SimpleSyncTest extends BaseTest {
 	@Inject
 	private SimpleSyncController processController;
@@ -38,8 +36,8 @@ public class SimpleSyncTest extends BaseTest {
 	
 	@Test
 	public void test() {
-		processController.testProcess();
-		processController.doOperationTest();
+		Assert.assertTrue(  processController.testProcessAndTestForJOINNODE1andSHIP() );
+		Assert.assertTrue(  processController.doOperationTestAndTestForActivityFinalNode1() );			
 	}
 
 }
