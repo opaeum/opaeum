@@ -16,7 +16,7 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedField;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
-import net.sf.nakeduml.linkage.InterfaceUtil;
+import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -92,8 +92,8 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		test.addToOperations(getInstance);
 		OJIfStatement ifNull = new OJIfStatement();
 		ifNull.setCondition("instance==null");
-		Collection<? extends INakedClassifier> subClasses = InterfaceUtil.getImplementationsOf(c,currentRootObject.getDependencies());
 		if (c.getIsAbstract()) {
+			Collection<? extends INakedClassifier> subClasses = getConcreteImplementations(c);
 			if (subClasses.size() > 0) {
 				INakedClassifier child = subClasses.iterator().next();
 				OJPathName testPath = getTestDataPath(child);
@@ -126,7 +126,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		createNew.setName("createNew");
 		createNew.setReturnType(ojClass.getPathName());
 		test.addToOperations(createNew);
-		Collection<? extends INakedClassifier> subClasses = InterfaceUtil.getImplementationsOf(c,currentRootObject.getDependencies());
+		Collection<? extends INakedClassifier> subClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(c,getModelInScope());
 		if (c.getIsAbstract()) {
 			if (subClasses.size() > 0) {
 				INakedClassifier child = subClasses.iterator().next();

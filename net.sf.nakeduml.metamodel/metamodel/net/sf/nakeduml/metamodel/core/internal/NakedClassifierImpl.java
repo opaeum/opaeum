@@ -419,9 +419,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return (Collection) subClasses;
 	}
 
-	public boolean hasSubtypes() {
-		return getSubClasses().size() > 0;
-	}
 
 	public List<IClassifier> getGeneralizations() {
 		List<IClassifier> results = new ArrayList<IClassifier>();

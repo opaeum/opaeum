@@ -92,30 +92,4 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 	public INakedProperty getProperty(){
 		return((INakedProperty) feature);
 	}
-	public boolean couldBasetypeBePersistent(){
-		INakedClassifier baseType = getProperty().getNakedBaseType();
-		return isPersistent(baseType);
-	}
-	private static boolean isPersistent(INakedClassifier baseType){
-		if(baseType instanceof INakedComplexStructure){
-			return ((INakedComplexStructure) baseType).isPersistent();
-		}else if(baseType instanceof INakedInterface){
-			INakedInterface intfBaseType = (INakedInterface) baseType;
-			for(INakedClassifier impl:intfBaseType.getImplementingClassifiers()){
-				if(isPersistent(impl)){
-					return true;
-				}
-			}
-			for(IClassifier nc:intfBaseType.getSubClasses()){
-				if(nc instanceof INakedClassifier){//Should be
-					if(isPersistent((INakedClassifier) nc)){
-						return true;
-					}
-				}
-			}
-			return false;
-		}else{
-			return false;
-		}
-	}
 }

@@ -3,6 +3,7 @@ package net.sf.nakeduml.uigeneration;
 import static net.sf.nakeduml.uigeneration.StereotypeNames.getTag;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.nakeduml.name.NameConverter;
@@ -15,6 +16,7 @@ import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javametamodel.OJPackage;
+import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -26,8 +28,10 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;
@@ -36,7 +40,7 @@ import net.sf.nakeduml.userinteractionmetamodel.OperationUserInteractionKind;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionWorkspace;
 
-public abstract class AbstractUserInteractionTransformationStep extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace> implements
+public abstract class AbstractUserInteractionTransformationStep extends NakedElementOwnerVisitor implements
 		TransformationStep{
 	protected TextWorkspace textWorkspace;
 	protected INakedPackage entryModel;
@@ -167,7 +171,7 @@ public abstract class AbstractUserInteractionTransformationStep extends VisitorA
 				List<INakedValueSpecification> values = slot.getValues();
 				for(INakedValueSpecification v:values){
 					INakedInterface ni = (INakedInterface) v.getValue();
-					Collection<INakedClassifier> roles = ni.getImplementingClassifiers();
+					Collection<INakedEntity> roles = GeneralizationUtil.getConcreteEntityImplementationsOf(ni, getModelInScope());
 					for (INakedClassifier role : roles) {
 						result.addToRequiredRoles(getDomainNameOf(role));
 					}

@@ -17,6 +17,8 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
@@ -60,7 +62,7 @@ public class ToStringBuilder extends StereotypeAnnotator {
 			if (!OJUtil.isBuiltIn(f)) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 				if (map.isOne() && !f.isInverse()) {
-					if (map.couldBasetypeBePersistent()) {
+					if (map.getProperty().getNakedBaseType() instanceof INakedEntity || map.getProperty().getNakedBaseType() instanceof INakedInterface) {
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.umlName() + "=null;\")");
 						ifNull.setElsePart(new OJBlock());
 						OJSimpleStatement b = null;

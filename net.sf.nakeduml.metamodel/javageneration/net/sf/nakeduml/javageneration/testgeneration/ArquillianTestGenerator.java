@@ -73,10 +73,9 @@ public class ArquillianTestGenerator extends AbstractJavaProducingVisitor {
 	public void visitModel(INakedModel model) {
 		if (!isIntegrationPhase) {
 			PackgeCollector collector = new PackgeCollector();
-			for (INakedRootObject root : model.getDependencies()) {
+			for (INakedRootObject root : getModelInScope()) {
 				collector.visitRecursively(root);
 			}
-			collector.visitRecursively(model);
 			// Fetch root entity
 			OJAnnotatedClass baseTest = createBaseTestClass(collector.packages,UtilityCreator.getUtilPathName());
 			createDummyTestClass(baseTest, collector.rootEntity, UtilityCreator.getUtilPathName());

@@ -1,4 +1,5 @@
-package org.nakeduml.environment.adaptor;
+package org.nakeduml.environment;
+
 
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;

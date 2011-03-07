@@ -32,7 +32,6 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	boolean isPowerTypeInstance();
 	void addSubClass(INakedClassifier c);
 	void removeSubClass(INakedClassifier specific);
-	boolean hasSubtypes();
 	Collection<? extends INakedGeneralization> getNakedGeneralizations();
 	Collection<? extends INakedInterfaceRealization> getInterfaceRealizations();
 	/**

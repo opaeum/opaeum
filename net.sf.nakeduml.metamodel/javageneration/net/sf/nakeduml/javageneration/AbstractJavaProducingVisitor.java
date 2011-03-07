@@ -32,40 +32,36 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
+public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
-	protected INakedRootObject currentRootObject;
 	protected TransformationContext transformationContext;
-
-	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
+	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		this.javaModel = javaModel;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 		this.transformationContext = context;
 	}
-
 	@Override
-	public void visitRecursively(INakedElementOwner o) {
-		if (o instanceof INakedRootObject) {
+	public void visitRecursively(INakedElementOwner o){
+		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.currentRootObject = pkg;
-			if (javaModel != null) {
+			if(javaModel != null){
 				OJPathName utilPath = new OJPathName(pkg.getMappingInfo().getQualifiedJavaName() + ".util");
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
 			}
 		}else if(o instanceof INakedModelWorkspace){
-			if (javaModel != null) {
+			if(javaModel != null){
 				OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
 			}
 		}
 		super.visitRecursively(o);
 	}
-
-	public TextFile createTextPath(OJClassifier c, Enum<?> id) {
+	public TextFile createTextPath(OJClassifier c,Enum<?> id){
 		OutputRoot outputRoot = config.getOutputRoot(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = c.getPathName().getHead().getNames();
@@ -73,96 +69,83 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		TextFile file = or.findOrCreateTextFile(names, new JavaTextSource(c), outputRoot.overwriteFiles());
 		return file;
 	}
-
-	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+	protected SourceFolder getSourceFolder(OutputRoot outputRoot){
 		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentRootObject.getFileName();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
 	}
-
-	protected void createTextPathIfRequired(OJAnnotatedPackage p, JavaTextSource.OutputRootId id) {
+	protected void createTextPathIfRequired(OJAnnotatedPackage p,JavaTextSource.OutputRootId id){
 		OutputRoot outputRoot = config.getOutputRoot(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = p.getPathName().getNames();
 		names.add("package-info.java");
 		or.findOrCreateTextFile(names, new JavaTextSource(p), outputRoot.overwriteFiles());
 	}
-
-	protected final OJAnnotatedPackage findOrCreatePackage(OJPathName packageName) {
+	protected final OJAnnotatedPackage findOrCreatePackage(OJPathName packageName){
 		OJAnnotatedPackage parent = this.javaModel;
 		OJAnnotatedPackage child = null;
 		Iterator<String> iter = packageName.getNames().iterator();
-		while (iter.hasNext()) {
+		while(iter.hasNext()){
 			String name = iter.next();
 			child = (OJAnnotatedPackage) parent.findPackage(new OJPathName(name));
-			if (child == null) {
+			if(child == null){
 				child = new OJAnnotatedPackage();
 				child.setName(name);
-				try{
-					
-					parent.addToSubpackages(child);
-				}catch(Exception e){
-					System.out.println();
-				}
+				parent.addToSubpackages(child);
 			}
 			parent = child;
 		}
 		return child;
 	}
-
-	protected OJAnnotatedClass findJavaClass(INakedClassifier classifier) {
+	protected OJAnnotatedClass findJavaClass(INakedClassifier classifier){
 		OJPathName path = OJUtil.classifierPathname(classifier);
 		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if (owner == null) {
+		if(owner == null){
 			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 		}
 		return owner;
 	}
-
-	protected static OJConstructor findConstructor(OJAnnotatedClass c, OJPathName parameter1) {
+	protected static OJConstructor findConstructor(OJAnnotatedClass c,OJPathName parameter1){
 		return c.findConstructor(parameter1);
 	}
-
-	protected static boolean isPersistent(INakedClassifier c) {
+	protected static boolean isPersistent(INakedClassifier c){
 		// what about interfaces implemented by persistent classifiers??????
 		// They can be persisted in Hibernate but not JPA
 		// Interfaces are so different from normal persisten classifiers that
 		// they have to be treated separately and explicitly
-		if (c instanceof INakedComplexStructure) {
+		if(c instanceof INakedComplexStructure){
 			return ((INakedComplexStructure) c).isPersistent();
-		} else {
+		}else{
 			return false;
 		}
 	}
-
-	protected static List<OJPathName> toOJPathNames(List<?> l) {
+	protected static List<OJPathName> toOJPathNames(List<?> l){
 		List<OJPathName> result = new ArrayList<OJPathName>();
 		Iterator<?> iter = l.iterator();
-		while (iter.hasNext()) {
+		while(iter.hasNext()){
 			Object o = iter.next();
 			ClassifierMap map = null;
-			if (o instanceof INakedTypedElement) {
+			if(o instanceof INakedTypedElement){
 				map = new NakedClassifierMap(((INakedTypedElement) o).getType());
-			} else if (o instanceof INakedClassifier) {
+			}else if(o instanceof INakedClassifier){
 				map = new NakedClassifierMap((INakedClassifier) o);
-			} else {
+			}else{
 				map = new ClassifierMap((IClassifier) o);
 			}
 			result.add(map.javaTypePath());
 		}
 		return result;
 	}
-
-	protected OJPackage findOrCreatePackageForClass(String qualifiedJavaClassName) {
+	protected OJPackage findOrCreatePackageForClass(String qualifiedJavaClassName){
 		StringTokenizer st = new StringTokenizer(qualifiedJavaClassName, ".");
 		OJPackage p = this.javaModel;
 		int countTokens = st.countTokens();
-		for (int i = 0; i < countTokens - 1; i++) {
+		for(int i = 0;i < countTokens - 1;i++){
 			String name = st.nextToken();
 			OJPackage prev = p;
 			p = prev.findPackage(new OJPathName(name));
-			if (p == null) {
+			if(p == null){
 				p = new OJPackage();
 				p.setName(name);
 				prev.addToSubpackages(p);
@@ -170,31 +153,27 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor {
 		}
 		return p;
 	}
-
 	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
-		if (root instanceof INakedModelWorkspace) {
+	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
+		if(root instanceof INakedModelWorkspace){
 			List<INakedRootObject> generatingModelsOrProfiles = ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
 			return generatingModelsOrProfiles;
-		} else {
+		}else{
 			return super.getChildren(root);
 		}
 	}
-
-	public static boolean isInSingleTableInheritance(INakedClassifier c) {
+	public static boolean isInSingleTableInheritance(INakedClassifier c){
 		INakedClassifier superType = c.getSupertype();
-		if (superType != null && superType.hasStereotype(SINGLE_TABLE_INHERITANCE)) {
+		if(superType != null && superType.hasStereotype(SINGLE_TABLE_INHERITANCE)){
 			return true;
-		} else {
-			if (superType == null) {
+		}else{
+			if(superType == null){
 				return false;
 			}
 			return isInSingleTableInheritance(superType);
 		}
 	}
-
-
-	protected final IOclEngine getOclEngine() {
+	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
 	}
 }

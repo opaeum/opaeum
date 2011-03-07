@@ -10,10 +10,10 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
-import org.nakeduml.jbpm.domain.AbstractJbpmKnowledgeBase;
 
 public class DomainEnvironment extends Environment {
 	private MockTimeEventDispatcher timeEventDispatcher = new MockTimeEventDispatcher();

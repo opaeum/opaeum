@@ -15,7 +15,7 @@ import net.sf.nakeduml.javametamodel.OJOperation;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedInterface;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
-import net.sf.nakeduml.linkage.InterfaceUtil;
+import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;

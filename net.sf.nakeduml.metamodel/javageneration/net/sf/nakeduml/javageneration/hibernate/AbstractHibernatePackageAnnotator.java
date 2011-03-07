@@ -13,7 +13,7 @@ import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedPackage;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationAttributeValue;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotationValue;
-import net.sf.nakeduml.linkage.InterfaceUtil;
+import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -50,7 +50,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
 			Set<INakedInterface> interfaces = collectInterfaces((ownedElements));
 			for (INakedInterface i : interfaces) {
-				doInterface(i, InterfaceUtil.getImplementationsOf(i, (Collection<INakedRootObject>) ownedElements), true,
+				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, (Collection<INakedRootObject>) ownedElements), true,
 						OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 			}
 		}
@@ -74,12 +74,11 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		if (!isIntegrationPhase) {
 			applyFilter(true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
 			applyFilter(false, OutputRootId.DOMAIN_GEN_TEST_SRC);
-			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(((INakedModel) model).getDependencies());
-			selfAndDependencies.add(model);
+			Collection<INakedRootObject> selfAndDependencies = getModelInScope();
 			Set<INakedInterface> interfaces = collectInterfaces(selfAndDependencies);
 			for (INakedInterface i : interfaces) {
-				doInterface(i, InterfaceUtil.getImplementationsOf(i, selfAndDependencies), true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
-				doInterface(i, InterfaceUtil.getImplementationsOf(i, selfAndDependencies), false, OutputRootId.DOMAIN_GEN_TEST_SRC);
+				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies), true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
+				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies), false, OutputRootId.DOMAIN_GEN_TEST_SRC);
 			}
 		}
 	}
