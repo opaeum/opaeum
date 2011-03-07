@@ -176,7 +176,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 		return ocl;
 	}
 	private boolean shouldResolve(INakedTypedElement p,INakedClassifier owner){
-		return owner.getStereotype(StereotypeNames.HELPER) == null
+		return p.getNakedBaseType().getStereotype(StereotypeNames.HELPER) == null
 				&& ((p.getNakedBaseType() instanceof ICompositionParticipant || (p.getNakedBaseType() instanceof INakedEnumeration)
 						&& owner instanceof ICompositionParticipant));
 	}
