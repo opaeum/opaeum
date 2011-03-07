@@ -18,6 +18,26 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>add-test-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/test/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
             <id>add-resource</id>
             <phase>generate-resources</phase>
             <goals>
@@ -37,35 +57,11 @@
               <sources><source>src/main/generated-java</source></sources>
             </configuration>
           </execution>
-          <execution>
-            <id>add-test-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/test/generated-java</source></sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-test-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
   <dependencies>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-runtime-domain</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
@@ -75,11 +71,12 @@
       <artifactId>jmock-legacy</artifactId>
     </dependency>
     <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.8.2</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>nakeduml-runtime-domain</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

@@ -16,7 +16,6 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	@Override
 	public Dependency[] getDependencies() {
 		Collection<Dependency> result = getBasicDependencies("-adaptor");
-		addJbpmJpa(result);
 		addNumlAdaptor(result);
 		addNumlTestAdaptor(result);
 		addCdi(result);
@@ -24,15 +23,6 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		addDependencyToRootObject("-domain", model, result);
 		addArquillian(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
-	}
-
-	private void addJbpmJpa(Collection<Dependency> result) {
-		Dependency numlAdaptor = POMFactory.eINSTANCE.createDependency();
-		numlAdaptor.setGroupId("org.jbpm");
-		numlAdaptor.setArtifactId("jbpm-persistence-jpa");
-		numlAdaptor.setScope("compile");
-		numlAdaptor.setVersion("5.1-SNAPSHOT");
-		result.add(numlAdaptor);
 	}
 
 	private void addNumlAdaptor(Collection<Dependency> result) {

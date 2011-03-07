@@ -78,7 +78,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 	protected void addArquillian(Collection<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.arquillian");
-		dependency.setArtifactId("arquillian-junit");
+		dependency.setArtifactId("arquillian-testng");
 		dependency.setVersion("${arquillian.version}");
 		dependency.setType("jar");
 		dependency.setScope("test");

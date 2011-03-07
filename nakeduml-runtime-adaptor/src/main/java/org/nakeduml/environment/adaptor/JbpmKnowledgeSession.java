@@ -28,7 +28,7 @@ public class JbpmKnowledgeSession {
 	protected Session session;
 
 	protected AbstractJbpmKnowledgeBase getJbpmKnowledgeBase(){
-		return (AbstractJbpmKnowledgeBase) Environment.getInstance().instantiateImplementation(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
+		return (AbstractJbpmKnowledgeBase) Environment.instantiateImplementation(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
 
 	public StatefulKnowledgeSession getKnowledgeSession() {
