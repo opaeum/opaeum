@@ -25,7 +25,7 @@ public class JbpmTest extends net.sf.nakeduml.pomgeneration.MavenProjectTransfor
 		JbpmTest jbpmTest = null;
 		File f = new File("net.sf.nakeduml.metamodel/testmodels/jbpm");
 		if (f.exists()) {
-			jbpmTest = new JbpmTest("../nakedumltest/jbpmtestintegration","net.sf.nakeduml.metamodel/testmodels/jbpm");
+			jbpmTest = new JbpmTest("nakedumltest/jbpmtestintegration","net.sf.nakeduml.metamodel/testmodels/jbpm");
 		} else {
 			jbpmTest = new JbpmTest("../nakedumltest/jbpmtestintegration","testmodels/jbpm");
 		}
