@@ -38,7 +38,7 @@ public class ExtendedCompositionSemantics extends AbstractJavaTransformationStep
 		ConfigurableCompositionPropertiesGenerator ccpg = new ConfigurableCompositionPropertiesGenerator();
 		ccpg.initialize(javaModel, config, textWorkspace, context);
 		ccpg.setModelInstanceMap(sctdg.modelInstanceMap);
-		ccpg.startVisiting(workspace);
+//		ccpg.startVisiting(workspace);
 		stopWatch.split();
 		System.out.println("data generation took " + stopWatch.toSplitString());
 	}

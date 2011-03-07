@@ -15,7 +15,9 @@ import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedOperation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
+import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public class ToXmlStringBuilder extends StereotypeAnnotator {
@@ -44,7 +46,7 @@ public class ToXmlStringBuilder extends StereotypeAnnotator {
 					OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"<" + map.umlName() + "/>\")");
 					ifNull.setElsePart(new OJBlock());
 					ifNull.getElsePart().addToStatements("sb.append(\"<" + map.umlName() + ">\")");
-					if (map.couldBasetypeBePersistent()) {
+					if (map.getProperty().getNakedBaseType() instanceof INakedEntity || map.getProperty().getNakedBaseType() instanceof INakedInterface) {
 						if (f.isComposite()) {
 							ifNull.getElsePart().addToStatements("sb.append(" + map.getter() + "().toXmlString())");
 						} else {

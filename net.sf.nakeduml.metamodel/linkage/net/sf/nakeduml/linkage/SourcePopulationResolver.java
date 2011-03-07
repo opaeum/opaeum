@@ -34,7 +34,7 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 		ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class }, requires = { MappedTypeLinker.class,
 		PinLinker.class, ReferenceResolver.class, TypeResolver.class, ValueSpecificationTypeResolver.class }, before = NakedParsedOclStringResolver.class)
 public class SourcePopulationResolver extends AbstractModelElementLinker {
-	private Map<INakedClassifier, List<IClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier, List<IClassifier>>();
+	private Map<INakedClassifier, Collection<INakedClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier, Collection<INakedClassifier>>();
 	private INakedRootObject currentRootObject;
 	@VisitBefore(matchSubclasses=true)
 	public void visitRootObject(INakedRootObject r){
@@ -43,15 +43,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedEntity c) {
 		if (c.getStereotype(HIERARCHY) != null) {
-			List<IClassifier> subClasses = new ArrayList<IClassifier>();
-			hierarchicalSubClasses.put(c.getEndToComposite().getNakedBaseType(), subClasses);
-			Collection<IClassifier> classifiers = c.getEndToComposite().getNakedBaseType().getSubClasses();
-			for (IClassifier iClassifier : classifiers) {
-				if (iClassifier.equals(c)) {
-					continue;
-				}
-				getSubClasses(subClasses, iClassifier);
-			}
+			INakedClassifier baseType = c.getEndToComposite().getNakedBaseType();
+			hierarchicalSubClasses.put(baseType, GeneralizationUtil.getAllSubClassifiers(baseType, getModelInScope()));
 		}
 	}
 
@@ -71,12 +64,6 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 		}
 	}
 
-	private void getSubClasses(List<IClassifier> subClasses, IClassifier iClassifier) {
-		subClasses.add(iClassifier);
-		for (IClassifier classifier : iClassifier.getSubClasses()) {
-			getSubClasses(subClasses, classifier);
-		}
-	}
 
 	private void buildSourcePopulationConstraint(ICompositionParticipant owner, INakedProperty p) {
 		boolean isComposition = p.isComposite() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite());
@@ -86,8 +73,8 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 				if (owner.hasStereotype(HIERARCHY)) {
 					// Find concrete owners of root of hierarchy
 					ICompositionParticipant e = (ICompositionParticipant) owner.getEndToComposite().getNakedBaseType();
-					List<IClassifier> subClasses = hierarchicalSubClasses.get(e);
-					for (IClassifier iClassifier : subClasses) {
+					Collection<INakedClassifier> subClasses = hierarchicalSubClasses.get(e);
+					for (INakedClassifier iClassifier : subClasses) {
 						if (!iClassifier.getIsAbstract()) {
 							e = (ICompositionParticipant) iClassifier;
 							constr = buildOclConstraint(p, constr, e);
@@ -135,13 +122,13 @@ public class SourcePopulationResolver extends AbstractModelElementLinker {
 	private String buildOcl(ICompositionParticipant owner, INakedProperty p) {
 		String ocl = null;
 		if (p.getNakedBaseType() instanceof ICompositionParticipant) {
-			if (InterfaceUtil.getImplementationsOf(p.getNakedBaseType(),currentRootObject.getDependencies()).isEmpty()) {
+			if (GeneralizationUtil.getAllSubClassifiers(p.getNakedBaseType(),getModelInScope()).isEmpty()) {
 				ICompositionParticipant baseType = (ICompositionParticipant) p.getNakedBaseType();
 				ocl = buildOcl(owner, p, baseType);
 			} else {
 				StringBuilder union = new StringBuilder();
-				for (INakedEntity c : InterfaceUtil.getImplementationsOf(p.getNakedBaseType(),currentRootObject.getDependencies())) {
-					String builtOcl = buildOcl(owner, p, c);
+				for (INakedClassifier c : GeneralizationUtil.getAllSubClassifiers(p.getNakedBaseType(),getModelInScope())) {
+					String builtOcl = buildOcl(owner, p, (ICompositionParticipant) c);
 					if (union.length() == 0) {
 						union.append(builtOcl);
 						union.append("->collect(g|g.oclAsType(");

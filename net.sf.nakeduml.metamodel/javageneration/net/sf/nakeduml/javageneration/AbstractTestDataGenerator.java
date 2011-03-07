@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
@@ -10,12 +11,13 @@ import net.sf.nakeduml.javametamodel.OJBlock;
 import net.sf.nakeduml.javametamodel.OJPathName;
 import net.sf.nakeduml.javametamodel.annotation.OJAnnotatedClass;
 import net.sf.nakeduml.javametamodel.annotation.OJEnum;
-import net.sf.nakeduml.linkage.InterfaceUtil;
+import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IEnumerationType;
@@ -48,7 +50,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	}
 
 	protected List<INakedEntity> getConcreteImplementations(INakedClassifier entity) {
-		return new ArrayList<INakedEntity>(InterfaceUtil.getImplementationsOf(entity,currentRootObject.getDependencies()));
+		return new ArrayList<INakedEntity>(GeneralizationUtil.getConcreteEntityImplementationsOf(entity,getModelInScope()));
 	}
 
 
@@ -58,7 +60,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		List<IClassifier> generalizations = entity.getGeneralizations();
 		for (IClassifier generalization : generalizations) {
 			INakedEntity gen = (INakedEntity) generalization;
-			Collection<IClassifier> subs = gen.getSubClasses();
+			Collection<INakedEntity> subs = getConcreteImplementations(gen);
 			for (IClassifier sub : subs) {
 				if (!sub.equals(entity)) {
 					result.add((INakedEntity) sub);
@@ -132,8 +134,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	protected OJPathName getTestDataPath(INakedClassifier child) {
 		OJPathName testPath;
 		if (child instanceof INakedInterface) {
-			Collection<INakedClassifier> implementors = new ArrayList<INakedClassifier>();
-			addImplementors((INakedInterface) child, implementors);
+			Collection<INakedEntity> implementors =getConcreteImplementations(child);
 			INakedClassifier next = implementors.iterator().next();
 			NakedClassifierMap map = new NakedClassifierMap(next);
 			testPath = map.javaTypePath().getCopy();
@@ -146,14 +147,6 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		return testPath;
 	}
 
-	private void addImplementors(INakedInterface child, Collection<INakedClassifier> implementors) {
-		implementors.addAll(child.getImplementingClassifiers());
-		for (IClassifier c : child.getSubClasses()) {
-			if (c instanceof INakedInterface) {
-				addImplementors((INakedInterface) c, implementors);
-			}
-		}
-	}
 
 	protected abstract String getTestDataName(INakedClassifier child);
 
@@ -169,7 +162,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
 			OJAnnotatedClass javaType = findJavaClass(f.getNakedBaseType());
 			test.addToImports(javaType.getPathName());
-		} else if (map.couldBasetypeBePersistent()) {
+		} else if (getConcreteImplementations(f.getNakedBaseType()).size()>0) {
 			return lookup(test, f);
 		}
 		return value;
@@ -233,7 +226,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			return "no TestValueStrategy found ";
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
 			return f.getNakedBaseType().getName() + ".values()[0]";
-		} else if (map.couldBasetypeBePersistent()) {
+		} else if (getConcreteImplementations(f.getNakedBaseType()).size()>0) {
 			return lookup(f);
 		} else {
 			return "\"" + f.getOwner().getName() + "::" + f.getName() + new Double(value).intValue() + "\"";

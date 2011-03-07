@@ -52,7 +52,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 				boolean isEndToComposite = f.getOtherEnd() != null && f.getOtherEnd().isComposite();
 				if (f.getInitialValue() == null && !isEndToComposite) {
 					if ((map.isManyToMany() || map.isOne()) && !(f.isDerived() || f.isReadOnly() || f.isInverse())) {
-						if (map.couldBasetypeBePersistent()) {
+						if (super.getConcreteImplementations(map.getProperty().getNakedBaseType()).size()>0) {
 							if (!map.isManyToMany()) {
 								// Get all the entity instances in the tree
 								List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();

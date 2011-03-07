@@ -97,13 +97,11 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor {
 	@VisitBefore
 	public void visitModel(INakedModel model) {
 		ClassCollector cc = new ClassCollector();
-		Collection<INakedRootObject> dependencies = model.getDependencies();
-		for (INakedRootObject dep : dependencies) {
+		for (INakedRootObject dep : getModelInScope()) {
 			if (dep instanceof INakedModel) {
 				cc.visitRecursively(dep);
 			}
 		}
-		cc.visitRecursively(model);
 		this.classPathNames=cc.persistentClasses;
 	}
 

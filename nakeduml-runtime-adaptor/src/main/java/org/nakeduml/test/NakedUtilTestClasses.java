@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.nakeduml.audit.AuditSyncManager;
 import org.nakeduml.environment.Environment;
-import org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeBase;
 import org.nakeduml.hibernate.adaptor.PrePersistListener;
 import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
@@ -23,7 +22,6 @@ public class NakedUtilTestClasses {
 		packages.add(ManagedHibernateSessionFactoryProvider.class.getPackage());
 		packages.add(AuditSyncManager.class.getPackage());
 		packages.add(UmlProcessMarshaller.class.getPackage());
-		packages.add(AbstractJbpmKnowledgeBase.class.getPackage());
 		packages.add(PrePersistListener.class.getPackage());
 		packages.add(HibernateProcessPersistenceContext.class.getPackage());
 		packages.add(IntrospectionUtil.class.getPackage());
