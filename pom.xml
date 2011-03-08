@@ -24,14 +24,18 @@
 		<developerConnection>scm:git:git@github.com:nakeduml/nakeduml.git</developerConnection>
 		<url>scm:git:git@github.com:nakeduml/nakeduml.git</url>
 	</scm>
+
+
 	<repositories>
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+		</repository>
+		<repository>
+			<id>repository.central.org</id>
+			<name>Central Repository</name>
+			<url>https://repository.sonatype.org/content/repositories/central/</url>
 		</repository>
 	</repositories>
 
