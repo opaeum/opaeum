@@ -5,6 +5,18 @@
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.5-SNAPSHOT</version>
 	</parent>
+	<repositories>
+		<repository>
+			<id>repository.jboss.org</id>
+			<name>JBoss Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>repository.central.org</id>
+			<name>Central Repository</name>
+			<url>https://repository.sonatype.org/content/repositories/central/</url>
+		</repository>		
+	</repositories>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>metamodel</artifactId>
@@ -183,10 +195,46 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.eclipse.uml2</groupId> -->
+		<!-- <artifactId>uml</artifactId> -->
+		<!-- <version>3.0.1</version> -->
+		<!-- <type>jar</type> -->
+		<!-- <scope>compile</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.eclipse.uml2.uml</groupId> -->
+		<!-- <artifactId>resources</artifactId> -->
+		<!-- <version>3.0.0</version> -->
+		<!-- <type>jar</type> -->
+		<!-- <scope>compile</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.eclipse.emf</groupId> -->
+		<!-- <artifactId>validation</artifactId> -->
+		<!-- <version>1.3.0</version> -->
+		<!-- <type>jar</type> -->
+		<!-- <scope>compile</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.eclipse.emf</groupId> -->
+		<!-- <artifactId>transaction</artifactId> -->
+		<!-- <version>1.3.0</version> -->
+		<!-- <type>jar</type> -->
+		<!-- <scope>compile</scope> -->
+		<!-- </dependency> -->
+
 		<dependency>
 			<groupId>org.eclipse.uml2</groupId>
-			<artifactId>uml</artifactId>
-			<version>3.0.1</version>
+			<artifactId>org.eclipse.uml2.uml</artifactId>
+			<version>3.1.0.v201006071150</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.uml2</groupId>
+			<artifactId>org.eclipse.uml2.resources</artifactId>
+			<version>3.1.0.v201006071150</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -197,13 +245,10 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>transaction</artifactId>
-			<version>1.3.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
+
+
+
+
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>javametamodel</artifactId>
@@ -266,13 +311,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.10</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.uml2.uml</groupId>
-			<artifactId>resources</artifactId>
-			<version>3.0.0</version>
-			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
