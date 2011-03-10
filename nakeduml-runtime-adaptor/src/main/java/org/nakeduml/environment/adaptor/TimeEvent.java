@@ -2,8 +2,8 @@ package org.nakeduml.environment.adaptor;
 
 import java.io.Serializable;
 
-import org.nakeduml.runtime.adaptor.IntrospectionUtil;
 import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 public class TimeEvent implements Serializable {
 	private static final long serialVersionUID = 1859791139038182369L;

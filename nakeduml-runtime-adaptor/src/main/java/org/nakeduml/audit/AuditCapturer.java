@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.RevisionEntity;
 import org.nakeduml.seam3.persistence.DependentScopedSession;
 
@@ -38,11 +39,11 @@ public class AuditCapturer {
 			for (Audited audited : entities) {
 				// Set the aboriginal
 				AbstractEntity original = audited.getOriginal();
-				AbstractEntity fetchedOriginal = (AbstractEntity) session.get(AnotherUtil.getOriginalClass(original.getClass()), original.getId());
+				AbstractEntity fetchedOriginal = (AbstractEntity) session.get(IntrospectionUtil.getOriginalClass(original.getClass()), original.getId());
 				audited.setOriginal(fetchedOriginal);
 
 				AuditId id = new AuditId(audited.getId().getOriginalId(), audited.getId().getObjectVersion() - 1);
-				Audited fetchedPreviousVersion = (Audited) session.get(AnotherUtil.getOriginalClass(audited.getClass()), id);
+				Audited fetchedPreviousVersion = (Audited) session.get(IntrospectionUtil.getOriginalClass(audited.getClass()), id);
 				audited.setPreviousVersion(fetchedPreviousVersion);
 
 				BeanInfo bi = Introspector.getBeanInfo(audited.getClass());
@@ -52,7 +53,7 @@ public class AuditCapturer {
 							&& !pd.getWriteMethod().getName().equals("setPreviousVersion")) {
 						Audited one = (Audited) pd.getReadMethod().invoke(audited);
 						if (one != null) {
-							Audited fetchedOne = (Audited) session.get(AnotherUtil.getOriginalClass(one.getClass()), one.getId());
+							Audited fetchedOne = (Audited) session.get(IntrospectionUtil.getOriginalClass(one.getClass()), one.getId());
 							String oneName = pd.getWriteMethod().getParameterTypes()[0].getSimpleName();
 							try {
 								Method setter = audited.getClass().getMethod("z_internalAddTo" + oneName.substring(0, oneName.length() - 6),

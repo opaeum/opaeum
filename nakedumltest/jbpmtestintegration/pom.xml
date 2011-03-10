@@ -212,17 +212,24 @@
         <type>jar</type>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.version}</version>
+        <type>jar</type>
+        <scope>provided</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
     <jbpmtestintegration.version>0.0.1</jbpmtestintegration.version>
     <seam.solder.version>3.0.0.Beta1</seam.solder.version>
-    <drools.version>5.2.1.M1</drools.version>
+    <drools.version>5.2.0-alpha1</drools.version>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
     <jboss.domain>default</jboss.domain>
-    <jbpm.version>5.1-SNAPSHOT</jbpm.version>
-    <numl.version>1.0.0.5-SNAPSHOT</numl.version>
+    <jbpm.version>5.0-SNAPSHOT</jbpm.version>
+    <numl.version>1.0.0.4-SNAPSHOT</numl.version>
     <hibernate.version>3.6.0.Final</hibernate.version>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
     <seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>

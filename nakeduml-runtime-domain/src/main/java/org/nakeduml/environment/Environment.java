@@ -9,16 +9,8 @@ public abstract class Environment {
 	public static final String JBPM_KNOWLEDGE_BASE_IMPLEMENTATION = "nakeduml.jbpm.knowledgebase.implementation";
 	public static final String ENVIRONMENT_IMPLEMENTATION = "nakeduml.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "nakeduml.env.properties";
-	private static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
+	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
 
-	/**
-	 * For mocking purposes
-	 * 
-	 * @param e
-	 */
-	public static void setEnvironment(Environment e) {
-		instance.set(e);
-	}
 
 	public static Environment getInstance() {
 		if (instance.get() == null) {

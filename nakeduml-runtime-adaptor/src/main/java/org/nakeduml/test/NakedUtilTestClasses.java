@@ -9,8 +9,8 @@ import org.nakeduml.environment.Environment;
 import org.nakeduml.hibernate.adaptor.PrePersistListener;
 import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
-import org.nakeduml.runtime.adaptor.IntrospectionUtil;
 import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 
 public class NakedUtilTestClasses {
