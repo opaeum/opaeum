@@ -28,6 +28,16 @@
             </configuration>
           </execution>
           <execution>
+            <id>add-test-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
             <id>add-test-source</id>
             <phase>generate-sources</phase>
             <goals>
@@ -47,25 +57,11 @@
               <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
-          <execution>
-            <id>add-test-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
   <dependencies>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-runtime-domain</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
@@ -77,6 +73,10 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>nakeduml-runtime-domain</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

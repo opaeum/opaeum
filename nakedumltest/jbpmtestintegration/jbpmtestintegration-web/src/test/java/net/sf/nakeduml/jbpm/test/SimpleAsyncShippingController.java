@@ -12,7 +12,6 @@ import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
 
 import org.hibernate.Session;
-import org.testng.Assert;
 
 public class SimpleAsyncShippingController {
 
@@ -22,7 +21,6 @@ public class SimpleAsyncShippingController {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SimpleAsyncShipping testSignal() {
 		List<Application> roots = session.createQuery("select h from Application h").list();
-		Assert.assertTrue(roots.size()>0);
 		Application app = roots.get(0);
 		for (OrderX order : app.getOrderX()) {
 			order.setNeedsShipping(false);
@@ -42,7 +40,6 @@ public class SimpleAsyncShippingController {
 	public boolean isActivityFinal() {
 		session.clear();
 		List<Application> roots = session.createQuery("select h from Application h").list();
-		Assert.assertTrue(roots.size()>0);
 		Application app = roots.get(0);
 		SimpleAsyncShipping shipping = app.getDispatch().getSimpleAsyncShipping().get(0);
 		return shipping.isStepActive(SimpleAsyncShippingState.ACTIVITYFINALNODE1);

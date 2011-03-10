@@ -9,7 +9,7 @@ import junit.framework.Assert;
 
 import org.testng.annotations.Test;
 
-public class JbpmProcessTest {
+public class SimpleSyncTest {
 
 	@Test
 	public void test() {

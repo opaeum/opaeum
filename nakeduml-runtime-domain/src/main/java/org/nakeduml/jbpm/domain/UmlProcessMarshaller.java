@@ -12,6 +12,7 @@ import org.drools.marshalling.impl.PersisterEnums;
 import org.drools.runtime.process.WorkflowProcessInstance;
 import org.jbpm.marshalling.impl.AbstractProcessInstanceMarshaller;
 import org.jbpm.ruleflow.instance.RuleFlowProcessInstance;
+import org.jbpm.workflow.core.impl.WorkflowProcessImpl;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.jbpm.workflow.instance.impl.WorkflowProcessInstanceImpl;
 import org.jbpm.workflow.instance.node.CompositeContextNodeInstance;
@@ -36,6 +37,9 @@ public class UmlProcessMarshaller extends AbstractProcessInstanceMarshaller {
 
 	protected NodeInstanceImpl readNodeInstanceContent(int nodeType, ObjectInputStream stream, MarshallerReaderContext context,
 			WorkflowProcessInstance processInstance) throws IOException {
+		
+		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
+		
 		NodeInstanceImpl nodeInstance = null;
 		switch (nodeType) {
 		case PersisterEnums.RULE_SET_NODE_INSTANCE:
