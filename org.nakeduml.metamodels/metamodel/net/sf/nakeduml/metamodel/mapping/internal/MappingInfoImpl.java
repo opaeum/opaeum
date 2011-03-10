@@ -16,7 +16,6 @@ public class MappingInfoImpl extends AbstractMappingInfo {
 	private String singularHumanName;
 	private String pluralHumanName;
 	private String qualifiedUmlName;
-	private boolean generated;
 
 	public String getIdInModel() {
 		return idInModel;
@@ -99,7 +98,6 @@ public class MappingInfoImpl extends AbstractMappingInfo {
 
 	public MappingInfoImpl(String idInModel, String values) {
 		this.idInModel = idInModel;
-		this.generated=true;
 		Scanner scanner = new Scanner(values).useDelimiter(DEL);
 		this.sinceRevision = scanner.nextInt();
 		this.sinceVersion = scanner.nextFloat();
@@ -117,13 +115,6 @@ public class MappingInfoImpl extends AbstractMappingInfo {
 	}
 
 
-	public MappingInfoImpl(boolean generated) {
-		this.generated=generated;
-	}
-
-	public boolean isGenerated() {
-		return generated;
-	}
 
 	public String toString() {
 		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + qualifiedJavaName

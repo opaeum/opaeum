@@ -33,13 +33,12 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	private Map<String, INakedElement> allElementsByModelId = new HashMap<String, INakedElement>();
 	private INakedEntity rootUserEntity;
 	private IWorkspaceMappingInfo modelMappingInfo;
-	private Collection<INakedPackage> children = new ArrayList<INakedPackage>();
+	private Collection<INakedRootObject> children = new ArrayList<INakedRootObject>();
 	private String name;
 	private IOclEngine oclEngine = new OclEngine();
 	private ErrorMap validator = new ErrorMap();
 	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
 	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
-	private boolean singleModelWorkspace;
 	private String directoryName;
 
 	public NakedModelWorkspaceImpl() {
@@ -61,19 +60,13 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 			throw new IllegalArgumentException(msg);
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
-		IMappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), isInGeneratingModel(mw));
+		IMappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId());
 		mw.setMappingInfo(vi);
-		if (mw instanceof INakedModel || mw instanceof INakedProfile) {
-			this.children.add((INakedPackage) mw);
+		if (mw instanceof INakedRootObject) {
+			this.children.add((INakedRootObject) mw);
 		}
 	}
 
-	private boolean isInGeneratingModel(INakedElement mw) {
-		while (mw.getOwnerElement() instanceof INakedElement) {
-			mw = (INakedElement) mw.getOwnerElement();
-		}
-		return generatingRootObjects.contains(mw);
-	}
 
 	public INakedElement getModelElement(Object id) {
 		if (id == null) {
@@ -128,7 +121,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	}
 
 	public IMappingInfo getMappingInfo() {
-		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation", false);
+		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation");
 	}
 
 	public Collection getOwnedElements() {
@@ -146,7 +139,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	}
 
 	public void addOwnedElement(INakedElement element) {
-		this.children.add((INakedPackage) element);
+		this.children.add((INakedRootObject) element);
 	}
 
 	public MappedTypes getMappedTypes() {
@@ -182,7 +175,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	}
 
 	@Override
-	public Collection<INakedPackage> getChildren() {
+	public Collection<INakedRootObject> getRootObjects() {
 		return children;
 	}
 
