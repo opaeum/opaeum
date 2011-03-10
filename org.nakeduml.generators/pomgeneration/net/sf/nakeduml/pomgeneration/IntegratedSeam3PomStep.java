@@ -25,7 +25,6 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
-		super.addSeamServlet(dependencies);
 		Dependency slf4j = POMFactory.eINSTANCE.createDependency();
 		slf4j.setGroupId("org.slf4j");
 		slf4j.setArtifactId("slf4j-log4j12");
@@ -86,7 +85,7 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		p.put("jboss.domain", "default");
 		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
 		p.put("seam.solder.version", "3.0.0.Beta1");
-		p.put("numl.version", )
+		p.put("numl.version",PomGenerationPhase.NUML_VERSION );
 		return p;
 	}
 

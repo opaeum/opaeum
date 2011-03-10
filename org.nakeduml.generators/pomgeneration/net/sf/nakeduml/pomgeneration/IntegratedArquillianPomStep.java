@@ -16,6 +16,9 @@ public class IntegratedArquillianPomStep extends PomGenerationStep{
 	public Dependency[] getDependencies(){
 		Collection<Dependency> result = new HashSet<Dependency>();
 		addArquillian(result);
+		//TODO figure out how to do arquillian tests without the web stuff
+		addSeamServlet(result);
+		addSeamServletImpl(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 

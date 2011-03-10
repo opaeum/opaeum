@@ -75,19 +75,6 @@ public class WarPomStep extends PomGenerationStep {
 		dependencies.add(dependency);
 	}
 
-	private void addSeamServletImpl(List<Dependency> dependencies) {
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.seam.servlet");
-		dependency.setArtifactId("seam-servlet-impl");
-		dependency.setVersion("${seam.servlet.version}");
-		dependency.setScope("runtime");
-		Exclusion exclusion = POMFactory.eINSTANCE.createExclusion();
-		exclusion.setGroupId("org.jboss.logging");
-		exclusion.setArtifactId("jboss-logging");
-		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
-		dependency.getExclusions().getExclusion().add(exclusion);
-		dependencies.add(dependency);
-	}
 
 	private void addSlf4j(List<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();

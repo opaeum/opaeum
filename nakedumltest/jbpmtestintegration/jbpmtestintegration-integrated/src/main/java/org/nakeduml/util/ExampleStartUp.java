@@ -20,8 +20,8 @@ public class ExampleStartUp {
 	@Inject
 	@DependentScopedSession
 	private Session session;
-	@DefaultTransaction
 	@Inject
+	@DefaultTransaction
 	private SeamTransaction transaction;
 	@Inject
 	private DataGeneratorProperty dataGeneratorProperty;
@@ -29,7 +29,7 @@ public class ExampleStartUp {
 	private ApplicationDataGenerator rootDataGenerator;
 
 
-	public void start(@Started @Observes WebApplication webapp) {
+	public void start(@Observes @Started WebApplication webapp) {
 		try {
 			Application theApplication = (Application)session.createQuery("from Application a where a.name = :name").setText("name", dataGeneratorProperty.getProperty("application.name_0")).uniqueResult();
 			transaction.begin();

@@ -6,7 +6,7 @@
    xmlns:jbossmanaged="urn:arq:org.jboss.arquillian.container.jbossas.managed_6">
 
    <engine>
-      <deploymentExportPath>/tmp/</deploymentExportPath>
+      <deploymentExportPath>/tmp/arquillian</deploymentExportPath>
    </engine>
    
    <jbossmanaged:container>

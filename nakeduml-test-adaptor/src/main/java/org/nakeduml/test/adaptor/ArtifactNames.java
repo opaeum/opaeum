@@ -33,4 +33,8 @@ public class ArtifactNames {
 	public static final String SLF4J_API    = "org.slf4j:slf4j-api";
 	public static final String JCOMMANDER = "com.beust:jcommander";
 
+	public static final String COMMONS_POOL = "commons-pool:commons-pool";
+	public static final String COMMONS_NET = "commons-net:commons-net";
+	public static final String JCRAFT_JSCH = "com.jcraft:jsch";
+
 }

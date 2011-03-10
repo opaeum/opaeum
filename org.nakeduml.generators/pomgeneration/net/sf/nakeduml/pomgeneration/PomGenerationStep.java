@@ -87,19 +87,27 @@ public abstract class PomGenerationStep implements TransformationStep {
 	protected void addArquillian(Collection<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.arquillian");
-		dependency.setArtifactId("arquillian-testng");
+		dependency.setArtifactId("arquillian-junit");
 		dependency.setVersion("${arquillian.version}");
 		dependency.setType("jar");
 		dependency.setScope("test");
 		dependencies.add(dependency);
 	}
-
+//TODO move to WarPomStep when we have figured out how to do integreation tests from an ejb
 	protected void addSeamServlet(Collection<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.seam.servlet");
 		dependency.setArtifactId("seam-servlet-api");
 		dependency.setVersion("${seam.servlet.version}");
 		dependency.setScope("compile");
+		dependencies.add(dependency);
+	}
+	protected void addSeamServletImpl(Collection<Dependency> dependencies) {
+		Dependency dependency = POMFactory.eINSTANCE.createDependency();
+		dependency.setGroupId("org.jboss.seam.servlet");
+		dependency.setArtifactId("seam-servlet-impl");
+		dependency.setVersion("${seam.servlet.version}");
+		dependency.setScope("runtime");
 		dependencies.add(dependency);
 	}
 
@@ -149,9 +157,9 @@ public abstract class PomGenerationStep implements TransformationStep {
 		jMockLegacy.setType("jar");
 		result.add(jMockLegacy);
 		Dependency testNg = POMFactory.eINSTANCE.createDependency();
-		testNg.setGroupId("org.testng");
-		testNg.setArtifactId("testng");
-		testNg.setVersion("5.14.9");
+		testNg.setGroupId("junit");
+		testNg.setArtifactId("junit");
+		testNg.setVersion("4.8.2");
 		testNg.setScope("test");
 		testNg.setType("jar");
 		result.add(testNg);
