@@ -10,7 +10,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 public class IntegratedTestJavaGenerationStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
-		ArquillianTestGenerator atg = new ArquillianTestGenerator(true);
+		ArquillianTestJavaGenerator atg = new ArquillianTestJavaGenerator(true);
 		atg.initialize(javaModel, config, textWorkspace, context);
 		atg.startVisiting(workspace);
 	}

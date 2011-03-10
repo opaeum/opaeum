@@ -32,8 +32,8 @@ public class ExampleIntegrationTest extends BaseTest {
 		return war;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
+	@SuppressWarnings("unchecked")
 	public void test() {
 		List<Application> roots = session.createQuery("select h from Application h").list();
 		Assert.assertTrue(roots.size()>0);

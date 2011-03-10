@@ -17,6 +17,7 @@ import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 
 public abstract class PomGenerationStep implements TransformationStep {
+	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected NakedUmlConfig config;
 	protected INakedModelWorkspace workspace;
 	protected INakedRootObject model;
@@ -127,7 +128,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		numlAdaptor.setGroupId("org.nakeduml");
 		numlAdaptor.setArtifactId("nakeduml-test-adaptor");
 		numlAdaptor.setScope("test");
-		numlAdaptor.setVersion(PomGenerationPhase.NUML_VERSION);
+		numlAdaptor.setVersion("${numl.version}");
 		result.add(numlAdaptor);
 	}
 
@@ -153,7 +154,6 @@ public abstract class PomGenerationStep implements TransformationStep {
 		testNg.setVersion("5.14.9");
 		testNg.setScope("test");
 		testNg.setType("jar");
-//		testNg.setClassifier("jdk15");
 		result.add(testNg);
 		return result;
 	}

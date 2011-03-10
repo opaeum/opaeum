@@ -28,13 +28,13 @@
             </configuration>
           </execution>
           <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
+            <id>add-resource</id>
+            <phase>generate-resources</phase>
             <goals>
-              <goal>add-source</goal>
+              <goal>add-resource</goal>
             </goals>
             <configuration>
-              <sources><source>src/main/generated-java</source></sources>
+              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -48,13 +48,13 @@
             </configuration>
           </execution>
           <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
             <goals>
-              <goal>add-resource</goal>
+              <goal>add-source</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
+              <sources><source>src/main/generated-java</source></sources>
             </configuration>
           </execution>
         </executions>
@@ -73,6 +73,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.nakeduml</groupId>

@@ -38,9 +38,9 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedParameter;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
-public class ArquillianTestGenerator extends AbstractJavaProducingVisitor{
+public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 	boolean isIntegrationPhase = false;
-	public ArquillianTestGenerator(boolean isIntegrationPhase){
+	public ArquillianTestJavaGenerator(boolean isIntegrationPhase){
 		super();
 		this.isIntegrationPhase = isIntegrationPhase;
 	}

@@ -198,6 +198,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			ignores.add(tp.getName() + "/.classpath");
 			ignores.add(tp.getName() + "/test-output");
 			ignores.add(tp.getName() + "/target");
+			ignores.add(tp.getName() + "/pom.xml");
 			PomUtil.populatePropertiesFrom(parentPom.getProject(), step.getParentPomProperties());
 			PomUtil.populatePropertiesFrom(root.getProject(), step.getProperties());
 			PomUtil.createModuleIfNew(parentPom, step.getProjectName());
@@ -308,8 +309,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		Dependency[] dependencies;
 		dependencies = step.getDependencies();
 		for(Dependency newDep:dependencies){
-			if(PomUtil.isNewDepedency(root, newDep)){
-				Dependency childDependency = POMFactory.eINSTANCE.createDependency();
+			Dependency childDependency = null;
+			if(childDependency == null){
+				childDependency = PomUtil.getNewDepedency(root, newDep);
+				childDependency = POMFactory.eINSTANCE.createDependency();
 				childDependency.setArtifactId(newDep.getArtifactId());
 				childDependency.setGroupId(newDep.getGroupId());
 				if("pom".equals(newDep.getType())){
@@ -320,9 +323,14 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				root.getProject().getDependencies().getDependency().add(childDependency);
 			}
 			Dependency oldDep = PomUtil.getExisitingDependencyInDepedencyManagement(parentPom, newDep);
-			if(oldDep==null){
+			if(oldDep == null){
 				parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
 			}else{
+				if(oldDep.getScope() == null){
+					childDependency.setScope(newDep.getScope());
+				}else if(!oldDep.getScope().equals(newDep.getScope())){
+					childDependency.setScope(newDep.getScope());
+				}
 				oldDep.setVersion(newDep.getVersion());
 			}
 		}
