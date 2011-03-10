@@ -4,18 +4,17 @@ import javax.inject.Inject;
 
 import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
+import net.sf.nakeduml.ripper.JbpmWebTest;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nakeduml.util.BaseTest;
 
 @RunWith(Arquillian.class)
-public class SimpleAsyncWebTest extends BaseTest {
+public class SimpleAsyncWebTest extends JbpmWebTest {
 	@Inject
 	private SimpleAsyncShippingController processController;
-	private static final String HORNETQ_JMS_DEPLOYMENT_CONFIG = "hornetq-jms.xml";
 
 	@Test
 	public void testSignal() throws InterruptedException {

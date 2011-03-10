@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class SimpleSyncTest {
 
-	@Test
+//	@Test
 	public void test() {
 		Application application = new Application();
 		new Product(application); 
@@ -25,7 +25,7 @@ public class SimpleSyncTest {
 		assert p.isStepActive(SimpleSync1State.ACTIVITYFINALNODE1);
 	}
 
-	@Test
+//	@Test
 	public void testSimpleAction() {
 		Application application = new Application();
 		Product product = new Product(application);

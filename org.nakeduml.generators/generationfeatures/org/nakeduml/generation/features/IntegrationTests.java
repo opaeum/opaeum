@@ -15,5 +15,6 @@ public class IntegrationTests extends AbstractJavaTransformationStep{
 	@Override
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){
 		// TODO Auto-generated method stub
+		System.out.println("");
 	}
 }

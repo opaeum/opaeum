@@ -12,6 +12,7 @@ import org.nakeduml.bootstrap.WarBootstrapStep;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
 import org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects;
+import org.nakeduml.generation.features.IntegrationTests;
 import org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels;
 import org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects;
 import org.nakeduml.generation.features.PersistenceUsingHibernate;
@@ -80,20 +81,11 @@ public class JbpmTest extends AbstractTestCodeGenerator{
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	protected Set<Class<? extends TransformationStep>> getSteps(){
-		return toSet(PersistenceUsingHibernateStep.class, 
-				ExtendedCompositionSemantics.class, 
-				OclExpressionExecution.class, 
-				StereotypeApplicationExtractor.class,
-				BpmUsingJbpm5.class,
-				PersistenceUsingHibernate.class,
-				HibernateIntegratedAcrossMultipleProjects.class, 
-				Jbpm5IntegratedAcrossMultipleProjects.class, 
-				IntegrationTestsAcrossMultipleModels.class, 
-				WarBootstrapStep.class,
-				AddRipDependencies.class);
+		Set<Class<? extends TransformationStep>> steps = super.getSteps();
+		steps.add(AddRipDependencies.class);
+		return steps;
 	}
 	
 }

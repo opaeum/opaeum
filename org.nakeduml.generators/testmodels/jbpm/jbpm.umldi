@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_BLX6wTpzEeCKr_45Ih7B5Q" activeDiagram="_93SF0EmyEeCFaJvOEQDIzw">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_BLX6wTpzEeCKr_45Ih7B5Q" activeDiagram="_oTaXgElsEeCQ2fq_6NmJ6A">
   <model href="jbpm.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_BLblIDpzEeCKr_45Ih7B5Q" position="0,0" size="100,100" name="jbpm" viewport="0,46">
     <property xmi:id="_BSxjQDpzEeCKr_45Ih7B5Q" key="pageFormatName" value="A4"/>
@@ -1018,7 +1018,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_oTZwcElsEeCQ2fq_6NmJ6A">
     <model href="jbpm.uml#_jZpzQElsEeCQ2fq_6NmJ6A"/>
-    <diagrams xmi:id="_oTaXgElsEeCQ2fq_6NmJ6A" position="0,0" size="100,100" name="rip" viewport="-35,844">
+    <diagrams xmi:id="_oTaXgElsEeCQ2fq_6NmJ6A" position="0,0" size="100,100" name="rip" viewport="0,693">
       <property xmi:id="_oTvusElsEeCQ2fq_6NmJ6A" key="pageFormatName" value="A3"/>
       <property xmi:id="_oTvusUlsEeCQ2fq_6NmJ6A" key="diagramWidth" value="1188"/>
       <property xmi:id="_oTvusklsEeCQ2fq_6NmJ6A" key="diagramHeight" value="1680"/>
@@ -1592,10 +1592,32 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_4sGDMkqKEeClzIHhNO5_Xw" id="stereotypeEdgeObject"/>
       </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_IP4vsEskEeCRDqUdR1yzmg" position="549,944" size="230,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_IP4vsUskEeCRDqUdR1yzmg" presentation="default">
+          <element href="jbpm.uml#_IQZGAEskEeCRDqUdR1yzmg"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_IP4vskskEeCRDqUdR1yzmg">
+          <property xmi:id="_IP4vs0skEeCRDqUdR1yzmg" key="eStructuralFeatureID" value="37"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_IP4vtEskEeCRDqUdR1yzmg" presentation="default">
+            <element href="jbpm.uml#_IQZGAEskEeCRDqUdR1yzmg"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_IP4vtUskEeCRDqUdR1yzmg">
+          <property xmi:id="_IP4vtkskEeCRDqUdR1yzmg" key="eStructuralFeatureID" value="38 41 "/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_IP4vt0skEeCRDqUdR1yzmg" presentation="default">
+            <element href="jbpm.uml#_IQZGAEskEeCRDqUdR1yzmg"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_MouYMEskEeCRDqUdR1yzmg" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MouYMUskEeCRDqUdR1yzmg" presentation="default">
+              <element href="jbpm.uml#_MrQHwEskEeCRDqUdR1yzmg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+      </contained>
     </diagrams>
     <subdiagrams xmi:id="_93RewEmyEeCFaJvOEQDIzw">
       <model href="jbpm.uml#_62w7IEmyEeCFaJvOEQDIzw"/>
-      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" viewport="49,0">
+      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" viewport="0,288">
         <property xmi:id="_95If8EmyEeCFaJvOEQDIzw" key="pageFormatName" value="A3"/>
         <property xmi:id="_95If8UmyEeCFaJvOEQDIzw" key="diagramWidth" value="1188"/>
         <property xmi:id="_95If8kmyEeCFaJvOEQDIzw" key="diagramHeight" value="1680"/>

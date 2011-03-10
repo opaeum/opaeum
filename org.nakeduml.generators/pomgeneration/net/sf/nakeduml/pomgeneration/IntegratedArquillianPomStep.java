@@ -9,9 +9,15 @@ import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 
 import org.apache.maven.pom.Dependency;
+import org.apache.maven.pom.Profile;
 
 @StepDependency(requires = {BasicJavaIntegratedAdaptorPomStep.class},before = {},after = {},phase = PomGenerationPhase.class)
 public class IntegratedArquillianPomStep extends PomGenerationStep{
+	@Override
+	public Profile[] getProfiles() {
+		return new Profile[]{createArquillianProfile()};
+	}
+
 	@Override
 	public Dependency[] getDependencies(){
 		Collection<Dependency> result = new HashSet<Dependency>();
@@ -26,5 +32,6 @@ public class IntegratedArquillianPomStep extends PomGenerationStep{
 	protected OutputRoot getExampleTargetDir(){
 		return config.getOutputRoot(OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 	}
+	
 	
 }

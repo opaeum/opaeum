@@ -4,6 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jbpm.jbpm.Department;
+import jbpm.jbpm.nodedefinition.EISConnection;
+import jbpm.jbpm.rip.NodeDefinition;
+import jbpm.util.Stdlib;
+import net.sf.nakeduml.jbpm.test.SimpleAsyncWebTest;
+import net.sf.nakeduml.jbpm.test.SimpleSyncWebTest;
+
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
@@ -12,11 +19,7 @@ import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
 import org.nakeduml.test.adaptor.ArtifactNames;
 import org.nakeduml.test.adaptor.MavenArtifactResolver;
-
-import jbpm.jbpm.Department;
-import jbpm.jbpm.nodedefinition.EISConnection;
-import jbpm.jbpm.rip.NodeDefinition;
-import jbpm.util.Stdlib;
+import org.nakeduml.util.jbpm.adaptor.JbpmKnowledgeBase;
 
 public class JbpmWebTest {
 	private static final String HORNETQ_JMS_DEPLOYMENT_CONFIG = "hornetq-jms.xml";
@@ -43,7 +46,6 @@ public class JbpmWebTest {
 		Package[] result = new Package[packages.size()];
 		packages.toArray(result);
 		war.addPackages(true, result);
-		war.addPackage(ReflectHelper.classForName("org.nakeduml.util.hibernate.adaptor.package-info").getPackage());
 		war.addManifestResource(HORNETQ_JMS_DEPLOYMENT_CONFIG);
 		return war;
 	}
@@ -53,7 +55,11 @@ public class JbpmWebTest {
 		packages.add(NodeDefinition.class.getPackage());
 		packages.add(Department.class.getPackage());
 		packages.add(Stdlib.class.getPackage());
+		packages.add(SimpleSyncWebTest.class.getPackage());
+		packages.add(SimpleAsyncWebTest.class.getPackage());
 		packages.add(JbpmWebTest.class.getPackage());
+		packages.add(JbpmKnowledgeBase.class.getPackage());
+		packages.add(ReflectHelper.classForName("org.nakeduml.util.hibernate.adaptor.package-info").getPackage());
 		return packages;
 	}
 
