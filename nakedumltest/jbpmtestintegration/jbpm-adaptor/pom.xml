@@ -18,34 +18,13 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>add-test-resource</id>
-<<<<<<< HEAD
+            <id>add-resource</id>
             <phase>generate-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
             <goals>
               <goal>add-resource</goal>
             </goals>
             <configuration>
               <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-test-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/test/generated-java</source></sources>
             </configuration>
           </execution>
           <execution>
@@ -59,13 +38,23 @@
             </configuration>
           </execution>
           <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
             <goals>
-              <goal>add-resource</goal>
+              <goal>add-test-source</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
+              <sources><source>src/test/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
         </executions>
@@ -82,8 +71,8 @@
       <artifactId>jmock-legacy</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
     </dependency>
     <dependency>
       <groupId>org.nakeduml</groupId>
@@ -111,25 +100,18 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
     </dependency>
-			<dependency>
-				<groupId>commons-pool</groupId>
-				<artifactId>commons-pool</artifactId>
-				<version>1.5.5</version>
-				<type>jar</type>
-				<scope>compile</scope>
-			</dependency>
-			    			<dependency>
-				<groupId>com.jcraft</groupId>
-				<artifactId>jsch</artifactId>
-				<version>0.1.42</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-net</groupId>
-				<artifactId>commons-net</artifactId>
-				<version>2.0</version>
-				<type>jar</type>
-				<scope>compile</scope>
-			</dependency>    
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies/>

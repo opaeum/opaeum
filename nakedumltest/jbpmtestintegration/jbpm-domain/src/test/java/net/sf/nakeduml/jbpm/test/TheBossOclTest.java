@@ -3,7 +3,7 @@ package net.sf.nakeduml.jbpm.test;
 import jbpm.jbpm.TheBoss;
 
 import org.junit.Assert;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 public class TheBossOclTest {
 	@Test

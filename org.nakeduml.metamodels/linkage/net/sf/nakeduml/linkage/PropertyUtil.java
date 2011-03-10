@@ -20,10 +20,10 @@ public class PropertyUtil{
 	}
 
 	public static boolean isManyToOne(INakedProperty p){
-		return isMany(p) && isOne(p.getOtherEnd());
+		return isMany(p.getOtherEnd()) && isOne(p);
 	}
 
 	public static boolean isOneToMany(INakedProperty p){
-		return isOne(p) && isMany(p.getOtherEnd());
+		return isOne(p.getOtherEnd()) && isMany(p);
 	}
 }

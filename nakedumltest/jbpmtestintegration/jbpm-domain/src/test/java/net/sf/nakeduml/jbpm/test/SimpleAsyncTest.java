@@ -8,9 +8,9 @@ import jbpm.jbpm.Product;
 import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
 
+import org.junit.Test;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
-import org.testng.annotations.Test;
 
 public class SimpleAsyncTest {
 

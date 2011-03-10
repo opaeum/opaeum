@@ -13,10 +13,10 @@ import jbpm.jbpm.rip.network.RipProcessState;
 import jbpm.jbpm.rip.network.ripprocess.RipActivity;
 import jbpm.jbpm.rip.network.ripprocess.RipActivityState;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 public class RipperTest {
 
@@ -44,7 +44,7 @@ public class RipperTest {
 		Assert.assertFalse(ripProcess.isStepActive(RipProcessState.ACTIVITYFINALNODE1));
 		Assert.assertTrue(ripProcess.isStepActive(RipProcessState.CALLRIPACTIVITY));
 		for (RipActivity ripActivity : ripProcess.getRipActivity()) {
-			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.NODEDEFINITIONTORIPSENDSIGNALACTION));
+			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.MMLCOMMANDTORIPSENDSIGNALACTION));
 		}
 		Environment.getInstance().getComponent(ISignalDispatcher.class).deliverAllPendingSignals();
 		for (RipActivity ripActivity : ripProcess.getRipActivity()) {

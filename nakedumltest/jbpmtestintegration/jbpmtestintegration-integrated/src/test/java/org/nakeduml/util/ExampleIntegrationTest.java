@@ -9,13 +9,16 @@ import jbpm.jbpm.Application;
 
 import org.hibernate.Session;
 import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
+@RunWith(Arquillian.class)
 public class ExampleIntegrationTest extends BaseTest {
 	@Inject
 	private Session session;
@@ -24,19 +27,19 @@ public class ExampleIntegrationTest extends BaseTest {
 	@Deployment
 	static public Archive<?> createTestArchive() throws IllegalArgumentException, IOException, ClassNotFoundException {
 		WebArchive war = ArquillianUtils.createWarArchive(false);
-		war.addWebResource("WEB-INF/beans.xml", "beans.xml");
-		war.addWebResource("hibernate.cfg.xml", "classes/hibernate.cfg.xml");
+		war.addWebResource("META-INF/beans.xml", "beans.xml");
+		war.addWebResource("jbpmtestintegration-hibernate.cfg.xml", "classes/hibernate.cfg.xml");
 		war.addWebResource("data.generation.properties", "data.generation.properties");
 		war.addPackages(true, NakedUtilTestClasses.getTestPackages());
 		war.addPackages(true, getTestPackages());
 		return war;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
+	@SuppressWarnings("unchecked")
 	public void test() {
 		List<Application> roots = session.createQuery("select h from Application h").list();
-		Assert.assertTrue(roots.size()>0);
+		Assert.assertFalse(roots.size()>0);
 	}
 
 }

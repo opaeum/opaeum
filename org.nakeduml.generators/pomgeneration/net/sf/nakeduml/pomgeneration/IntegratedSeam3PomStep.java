@@ -25,7 +25,6 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
-		super.addSeamServlet(dependencies);
 		Dependency slf4j = POMFactory.eINSTANCE.createDependency();
 		slf4j.setGroupId("org.slf4j");
 		slf4j.setArtifactId("slf4j-log4j12");

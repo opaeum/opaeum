@@ -24,7 +24,6 @@ package org.nakeduml.test.adaptor;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 
@@ -34,11 +33,6 @@ public class ArquillianUtils {
 
 	public static WebArchive createTestArchive() {
 		return createWarArchive(true);
-	}
-
-	public static JavaArchive createJavaArchive() {
-		return ShrinkWrap.create(JavaArchive.class, "test.jar").addManifestResource(EMPTY_BEANS_XML, "beans.xml");
-
 	}
 
 	public static EnterpriseArchive createEarArchive() {
@@ -73,10 +67,15 @@ public class ArquillianUtils {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_IMPL));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
-		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
-		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
+//		archive.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
+//		archive.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS_API));
 //		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS));
+	}
+
+	public static void includeSeamServlet(WebArchive war) {
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
 	}
 
 	private static void includeJbpm(WebArchive war) {
