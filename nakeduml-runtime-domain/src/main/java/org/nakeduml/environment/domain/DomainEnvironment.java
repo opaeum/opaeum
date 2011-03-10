@@ -56,6 +56,9 @@ public class DomainEnvironment extends Environment{
 		}
 		return this.hibernateSession;
 	}
+	public void reset() {
+		
+	}
 	private StatefulKnowledgeSession getKnowledgeSession(){
 		if(this.knowledgeSession == null){
 			if(this.abstractJbpmKnowledgeBase == null){

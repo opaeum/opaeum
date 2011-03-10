@@ -784,6 +784,9 @@
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </ownedAttribute>
         </packagedElement>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_IQZGAEskEeCRDqUdR1yzmg" name="RipHelper">
+          <ownedOperation xmi:id="_MrQHwEskEeCRDqUdR1yzmg" name="rip"/>
+        </packagedElement>
       </packagedElement>
     </packagedElement>
     <profileApplication xmi:id="_TO3SwEmEEeCQ2fq_6NmJ6A">
@@ -795,4 +798,5 @@
   </uml:Model>
   <NakedProfile:Helper xmi:id="_UVDewEmEEeCQ2fq_6NmJ6A"/>
   <cmProfile:XMLTransient xmi:id="_KdI6QEmLEeCQ2fq_6NmJ6A" base_Property="_CrjNQEmLEeCQ2fq_6NmJ6A"/>
+  <NakedProfile:Helper xmi:id="_LLmS4EskEeCRDqUdR1yzmg" base_Classifier="_IQZGAEskEeCRDqUdR1yzmg"/>
 </xmi:XMI>

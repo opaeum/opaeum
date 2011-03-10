@@ -20,7 +20,7 @@ import org.nakeduml.environment.ISignalDispatcher;
 
 public class RipperTest {
 
-	@Test
+//	@Test
 	public void testRipProcess() {
 		Application application = new Application();
 		application.setName("cmApplication");

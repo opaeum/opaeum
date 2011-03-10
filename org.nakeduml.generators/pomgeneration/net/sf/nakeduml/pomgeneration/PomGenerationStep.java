@@ -11,10 +11,15 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.model.IImportedElement;
 
+import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
+import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
+import org.apache.maven.pom.PluginExecution;
 import org.apache.maven.pom.Profile;
+import org.apache.maven.pom.Resource;
+import org.eclipse.emf.ecore.xml.type.AnyType;
 
 public abstract class PomGenerationStep implements TransformationStep {
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
@@ -189,5 +194,82 @@ public abstract class PomGenerationStep implements TransformationStep {
 		}else{
 			//TODO Model level stereotype, or numlconfig.properties get group id and version artifactid=filename
 		}
+	}
+
+	public Profile createArquillianProfile() {
+		Profile profile = POMFactory.eINSTANCE.createProfile();
+		profile.setId("jbossas-managed-6");
+		Activation activation = POMFactory.eINSTANCE.createActivation();
+		activation.setActiveByDefault(true);
+		profile.setActivation(activation);
+		profile.setDependencies(POMFactory.eINSTANCE.createDependenciesType2());
+		Dependency dependency = POMFactory.eINSTANCE.createDependency();
+		dependency.setGroupId("org.jboss.arquillian.container");
+		dependency.setArtifactId("arquillian-jbossas-managed-6");
+		dependency.setVersion("${arquillian.version}");
+		dependency.setType("jar");
+		dependency.setScope("test");
+		profile.getDependencies().getDependency().add(dependency);
+		dependency = POMFactory.eINSTANCE.createDependency();
+		dependency.setGroupId("org.jboss.jbossas");
+		dependency.setArtifactId("jboss-server-manager");
+		dependency.setVersion("1.0.3.GA");
+		dependency.setType("jar");
+		dependency.setScope("test");
+		profile.getDependencies().getDependency().add(dependency);
+		dependency = POMFactory.eINSTANCE.createDependency();
+		dependency.setGroupId("org.jboss.jbossas");
+		dependency.setArtifactId("jboss-as-client");
+		dependency.setVersion("6.0.0.20101110-CR1");
+		dependency.setType("pom");
+		dependency.setScope("test");
+		Exclusion exclusion = POMFactory.eINSTANCE.createExclusion();
+		exclusion.setGroupId("cglib");
+		exclusion.setArtifactId("cglib");
+		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		dependency.getExclusions().getExclusion().add(exclusion);
+		profile.getDependencies().getDependency().add(dependency);
+		profile.setBuild(POMFactory.eINSTANCE.createBuildBase());
+		profile.getBuild().setTestResources(POMFactory.eINSTANCE.createTestResourcesType());
+		Resource testResource = POMFactory.eINSTANCE.createResource();
+		testResource.setDirectory("src/test/resources");
+		profile.getBuild().getTestResources().getTestResource().add(testResource);
+		testResource = POMFactory.eINSTANCE.createResource();
+		testResource.setDirectory("src/test/resources-jbossas");
+		profile.getBuild().getTestResources().getTestResource().add(testResource);
+		profile.getBuild().setPlugins(POMFactory.eINSTANCE.createPluginsType());
+		Plugin plugin = POMFactory.eINSTANCE.createPlugin();
+		plugin.setGroupId("org.apache.maven.plugins");
+		plugin.setArtifactId("maven-enforcer-plugin");
+		plugin.setVersion("1.0");
+		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
+		PluginExecution pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
+		pluginExecution.setId("enforce-property");
+		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
+		pluginExecution.getGoals().getGoal().add("enforce");
+		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
+		AnyType anyType = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "rules");
+		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(), "requireProperty");
+		PomUtil.addAnyElementWithContent(anyType.getAny(), "property", "jboss.home");
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "fail", "true");
+		plugin.getExecutions().getExecution().add(pluginExecution);
+		profile.getBuild().getPlugins().getPlugin().add(plugin);
+		plugin = POMFactory.eINSTANCE.createPlugin();
+		plugin.setGroupId("org.apache.maven.plugins");
+		plugin.setArtifactId("maven-surefire-plugin");
+		plugin.setVersion("2.7.1");
+		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "true");
+		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
+		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
+		pluginExecution.setId("surefire-it");
+		pluginExecution.setPhase("integration-test");
+		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
+		pluginExecution.getGoals().getGoal().add("test");
+		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
+		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "false");
+		plugin.getExecutions().getExecution().add(pluginExecution);
+		profile.getBuild().getPlugins().getPlugin().add(plugin);
+		return profile;
 	}
 }

@@ -6,6 +6,7 @@ import org.nakeduml.bootstrap.WarBootstrapStep;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
 import org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects;
+import org.nakeduml.generation.features.IntegrationTests;
 import org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels;
 import org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects;
 import org.nakeduml.generation.features.PersistenceUsingHibernate;
@@ -34,6 +35,7 @@ public class AbstractTestCodeGenerator extends MavenProjectCodeGenerator{
 				HibernateIntegratedAcrossMultipleProjects.class, 
 				Jbpm5IntegratedAcrossMultipleProjects.class, 
 				IntegrationTestsAcrossMultipleModels.class, 
+				IntegrationTests.class,
 				WarBootstrapStep.class);
 	}
 }

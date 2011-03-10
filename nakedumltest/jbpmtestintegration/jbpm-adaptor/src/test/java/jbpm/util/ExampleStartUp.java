@@ -1,8 +1,7 @@
-package org.nakeduml.util;
+package jbpm.util;
 
 import java.util.List;
 
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import jbpm.jbpm.Application;
@@ -11,17 +10,15 @@ import jbpm.jbpm.ApplicationDataGenerator;
 import org.hibernate.Session;
 import org.jboss.seam.persistence.transaction.DefaultTransaction;
 import org.jboss.seam.persistence.transaction.SeamTransaction;
-import org.jboss.seam.servlet.WebApplication;
-import org.jboss.seam.servlet.event.Started;
 import org.nakeduml.runtime.adaptor.DataGeneratorProperty;
 import org.nakeduml.seam3.persistence.DependentScopedSession;
 
 public class ExampleStartUp {
-	@Inject
 	@DependentScopedSession
-	private Session session;
 	@Inject
+	private Session session;
 	@DefaultTransaction
+	@Inject
 	private SeamTransaction transaction;
 	@Inject
 	private DataGeneratorProperty dataGeneratorProperty;
@@ -29,7 +26,7 @@ public class ExampleStartUp {
 	private ApplicationDataGenerator rootDataGenerator;
 
 
-	public void start(@Observes @Started WebApplication webapp) {
+	public void start() {
 		try {
 			Application theApplication = (Application)session.createQuery("from Application a where a.name = :name").setText("name", dataGeneratorProperty.getProperty("application.name_0")).uniqueResult();
 			transaction.begin();

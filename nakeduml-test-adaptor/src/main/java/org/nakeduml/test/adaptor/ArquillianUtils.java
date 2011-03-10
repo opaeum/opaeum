@@ -50,7 +50,6 @@ public class ArquillianUtils {
 		WebArchive war = ShrinkWrap.createDomain().getArchiveFactory().create(WebArchive.class, "test.war");
 		includeSeam(war);
 		includeJbpm(war);
-		includeJCommander(war);
 		
 		if (includeEmptyBeansXml) {
 			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
