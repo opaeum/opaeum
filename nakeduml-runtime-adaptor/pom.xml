@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>numlcore</artifactId>
+		<artifactId>numl-core</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.5-SNAPSHOT</version>
 	</parent>
@@ -9,9 +9,8 @@
 	<groupId>org.nakeduml</groupId>
 	<artifactId>nakeduml-runtime-adaptor</artifactId>
 	<packaging>jar</packaging>
-	<name>NakedUml Adaptor Runtime</name>
-	<version>1.0.0.5-SNAPSHOT</version>
-	<description>Runtime classes NakedUml Adaptor projects</description>
+	<name>NakedUml Runtime for Adaptor Projects</name>
+	<version>${numl.version}</version>
 	<url>http://github.com/nakeduml</url>
 
 	<properties>
@@ -111,7 +110,7 @@
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>nakeduml-runtime-domain</artifactId>
-			<version>1.0.0.5-SNAPSHOT</version>
+			<version>${numl.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -245,9 +244,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>3.6.0.Final</version>
-			<type>jar</type>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

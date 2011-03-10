@@ -6,11 +6,11 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
-	<artifactId>numlcore</artifactId>
+	<artifactId>numl-core</artifactId>
 	<packaging>pom</packaging>
-	<name>numlcore</name>
+	<name>numl-core</name>
 	<version>1.0.0.5-SNAPSHOT</version>
-	<description>Uml code generation and execution engine for JEE environment</description>
+	<description>Uml model compiler for the JBoss JEE and jBPM environment</description>
 	<url>http://github.com/nakeduml</url>
 	<licenses>
 		<license>
@@ -27,7 +27,7 @@
 
 
 	<repositories>
-		<repository>
+		<!--repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss Repository</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public</url>
@@ -36,18 +36,20 @@
 			<id>repository.central.org</id>
 			<name>Central Repository</name>
 			<url>https://repository.sonatype.org/content/repositories/central/</url>
-		</repository>
+		</repository-->
 	</repositories>
 
 	<modules>
-		<module>net.sf.nakeduml.javametamodel</module>
-		<module>net.sf.nakeduml.metamodel</module>
-		<module>octopus</module>
-		<module>octopuscodegen</module>
+		<module>org.nakeduml.ocl.metamodel</module>
+		<module>org.nakeduml.java.metamodel</module>
+		<module>org.nakeduml.ocl.java.generator</module>
+		<module>org.nakeduml.metamodels</module>
+		<module>org.nakeduml.java.generator</module>
 		<module>nakeduml-runtime-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>
-		<module>nakedumltest/jbpmtestintegration</module>
+		<module>org.nakeduml.generators</module>
+		<!--module>nakedumltest/jbpmtestintegration</module-->
 	</modules>
 
 	<properties>
@@ -58,12 +60,21 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>1.3.2</version>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>5.14.9</version>
 				<type>jar</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>3.6.0.Final</version>
+				<type>jar</type>
+				<scope>compile</scope>
 			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 	<build>

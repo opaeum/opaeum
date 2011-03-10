@@ -19,6 +19,7 @@
         <executions>
           <execution>
             <id>add-test-resource</id>
+<<<<<<< HEAD
             <phase>generate-resources</phase>
             <goals>
               <goal>add-test-resource</goal>
@@ -28,8 +29,8 @@
             </configuration>
           </execution>
           <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
             <goals>
               <goal>add-resource</goal>
             </goals>
@@ -57,6 +58,16 @@
               <sources><source>src/main/generated-java</source></sources>
             </configuration>
           </execution>
+          <execution>
+            <id>add-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
@@ -73,6 +84,10 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>jbpm-domain</artifactId>
     </dependency>
     <dependency>
       <groupId>org.nakeduml</groupId>
@@ -93,12 +108,8 @@
       <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>jbpm-domain</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.arquillian</groupId>
-      <artifactId>arquillian-testng</artifactId>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
     </dependency>
 			<dependency>
 				<groupId>commons-pool</groupId>

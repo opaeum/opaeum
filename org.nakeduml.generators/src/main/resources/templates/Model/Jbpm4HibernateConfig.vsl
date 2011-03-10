@@ -1,0 +1,63 @@
+#set($shouldGenerate=true)
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory name="${workspace.directoryName}-hibernate-config">
+	    <property name="connection.datasource">${config.hibernateDSName}</property>   
+		<property name="hibernate.dialect">${config.jdbcDialect}</property>
+<!--		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>-->
+<!--		<property name="hibernate.connection.url">${config.DBConnectionUrl}</property>-->
+		<property name="hibernate.connection.username">${config.DBUsername}</property>
+		<property name="hibernate.connection.password">${config.DBPassword}</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+		
+
+#set($requiresJbpm=false)      
+#set($classElements=$workspace.classElementsInDependencyOrder)      
+#foreach($c in $classElements)
+#if($c.isProcess())
+#set($requiresJbpm=true)      
+#end
+#end
+#foreach($c in $persistentClasses)
+		<mapping class="${c}" />
+#end 
+		<mapping package="${pkg}" />
+#if($requiresJbpm)
+		<mapping class="org.drools.persistence.info.SessionInfo" />
+		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceInfo" />
+		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceEventInfo" />
+		<mapping class="org.drools.persistence.info.WorkItemInfo" />
+#end
+
+	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
+
+#if($isAdaptorEnvironment)
+		<event type="flush-entity">
+			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
+		</event>
+		<event type="create">
+			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
+		</event>
+#if($requiresAuditing)
+		<event type="post-insert">
+			<listener class="org.nakeduml.audit.AuditListener" />
+		</event>
+		<event type="post-update">
+			<listener class="org.nakeduml.audit.AuditListener" />
+		</event>
+		<event type="flush">
+			<listener class="org.nakeduml.audit.AuditListener" />
+		</event>
+#end
+#end		
+	</session-factory>
+</hibernate-configuration>

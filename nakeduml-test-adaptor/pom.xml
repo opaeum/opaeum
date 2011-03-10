@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>numlcore</artifactId>
+    <artifactId>numl-core</artifactId>
     <groupId>org.nakeduml</groupId>
     <version>1.0.0.5-SNAPSHOT</version>
   </parent>
@@ -9,8 +9,8 @@
   <groupId>org.nakeduml</groupId>
   <artifactId>nakeduml-test-adaptor</artifactId>
   <packaging>jar</packaging>
-  <name>nakeduml-test-adaptor</name>
-  <version>1.0.0.5-SNAPSHOT</version>
+  <name>NakedUML Test Infrastructure for Adaptor Projects </name>
+  <version>${numl.version}</version>
   <build>
     <plugins>
       <plugin>

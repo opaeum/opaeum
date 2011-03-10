@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.nakeduml.runtime.adaptor.IntrospectionUtil;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch {
 	private static final long serialVersionUID = -2996390224218437999L;
