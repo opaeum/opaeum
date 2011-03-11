@@ -8,31 +8,20 @@ import javax.inject.Inject;
 import jbpm.jbpm.Application;
 
 import org.hibernate.Session;
-import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nakeduml.test.NakedUtilTestClasses;
-import org.nakeduml.test.adaptor.ArquillianUtils;
 
 @RunWith(Arquillian.class)
-public class ExampleIntegrationTest extends BaseTest {
+public class ExampleIntegrationTest {
 	@Inject
 	private Session session;
 
 
-	@Deployment
 	static public Archive<?> createTestArchive() throws IllegalArgumentException, IOException, ClassNotFoundException {
-		WebArchive war = ArquillianUtils.createWarArchive(false);
-		war.addWebResource("META-INF/beans.xml", "beans.xml");
-		war.addWebResource("jbpm-hibernate.cfg.xml", "classes/hibernate.cfg.xml");
-		war.addWebResource("data.generation.properties", "data.generation.properties");
-		war.addPackages(true, NakedUtilTestClasses.getTestPackages());
-		war.addPackages(true, getTestPackages());
-		return war;
+		return TestUtil.createTestArchive();
 	}
 	
 	@SuppressWarnings("unchecked")

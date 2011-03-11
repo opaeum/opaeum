@@ -483,6 +483,7 @@
           </ownedAttribute>
           <ownedBehavior xmi:type="uml:Activity" xmi:id="_62w7IEmyEeCFaJvOEQDIzw" name="RipProcess">
             <ownedBehavior xmi:type="uml:Activity" xmi:id="_ea5D4EoUEeCFaJvOEQDIzw" name="RipActivity">
+              <ownedAttribute xmi:id="_bsqx4Eu7EeCD2ITeubLIbQ" name="helper" type="_IQZGAEskEeCRDqUdR1yzmg"/>
               <ownedParameter xmi:id="_cm97QEosEeCFaJvOEQDIzw" name="NodeDefinitionToRip" type="_DfTDkEl5EeCQ2fq_6NmJ6A"/>
               <node xmi:type="uml:ActivityFinalNode" xmi:id="_WtxKsEoVEeCFaJvOEQDIzw" name="RipActivityActivityFinalNode1" incoming="_waKtYEtHEeCRDqUdR1yzmg"/>
               <node xmi:type="uml:SendSignalAction" xmi:id="_iRT_AEoYEeCFaJvOEQDIzw" name="nodeDefinitionToRipSignal" signal="_yYgsEEoYEeCFaJvOEQDIzw">
@@ -520,8 +521,10 @@
                   <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1aLDkEtHEeCRDqUdR1yzmg" value="*"/>
                   <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_06O_QEtHEeCRDqUdR1yzmg"/>
                 </argument>
-                <target xmi:id="_oj57wEtHEeCRDqUdR1yzmg" name="target" type="_IQZGAEskEeCRDqUdR1yzmg">
-                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oj57wUtHEeCRDqUdR1yzmg" value="*"/>
+                <target xmi:type="uml:ValuePin" xmi:id="__tJzAEu6EeCD2ITeubLIbQ" name="ValuePin1" type="_IQZGAEskEeCRDqUdR1yzmg">
+                  <value xmi:type="uml:OpaqueExpression" xmi:id="_Hm7LoEu7EeCD2ITeubLIbQ" name="OpaqueExpression1">
+                    <body>self.helper</body>
+                  </value>
                 </target>
               </node>
               <edge xmi:type="uml:ObjectFlow" xmi:id="_QM6YMEtGEeCRDqUdR1yzmg" name="ObjectFlow1" source="_HaaaEEtBEeCRDqUdR1yzmg" target="_MjWQgEtGEeCRDqUdR1yzmg">
