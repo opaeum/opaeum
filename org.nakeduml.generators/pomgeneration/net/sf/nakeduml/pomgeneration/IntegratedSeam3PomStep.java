@@ -85,12 +85,7 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		p.put("jboss.domain", "default");
 		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
 		p.put("seam.solder.version", "3.0.0.Beta1");
-		p.put("seam.servlet.version", "3.0.0.Alpha3");
-		p.put("numl.version", "1.0.0.4-SNAPSHOT");
-		p.put("hibernate.version", "3.6.0.Final");
-		p.put("drools.version", "5.2.0-alpha1");
-		p.put("jbpm.version", "5.0-SNAPSHOT");
-		p.put("arquillian.version", "1.0.0.Alpha4");
+		p.put("numl.version",PomGenerationPhase.NUML_VERSION );
 		return p;
 	}
 

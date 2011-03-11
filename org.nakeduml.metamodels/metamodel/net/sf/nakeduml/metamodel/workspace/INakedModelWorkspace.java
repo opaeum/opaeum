@@ -7,7 +7,6 @@ import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
@@ -42,7 +41,7 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 
 	<E extends INakedComplexStructure> List<E> getClasses(Class<E> c);
 
-	Collection<INakedPackage> getChildren();
+	Collection<INakedRootObject> getRootObjects();
 
 	void removeElementById(String id);
 

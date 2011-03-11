@@ -2,7 +2,7 @@ package net.sf.nakeduml.metamodel.mapping;
 
 
 public interface IWorkspaceMappingInfo {
-	IMappingInfo getMappingInfo(String modelId, boolean generated);
+	IMappingInfo getMappingInfo(String modelId);
 	void store();
 	void incrementRevision();
 	int getCurrentRevision();

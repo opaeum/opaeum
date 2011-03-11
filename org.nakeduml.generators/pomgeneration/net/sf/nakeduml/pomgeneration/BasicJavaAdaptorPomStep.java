@@ -1,6 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
 import java.util.Collection;
+import java.util.Properties;
 
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
@@ -31,8 +32,15 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		numlAdaptor.setGroupId("org.nakeduml");
 		numlAdaptor.setArtifactId("nakeduml-runtime-adaptor");
 		numlAdaptor.setScope("compile");
-		numlAdaptor.setVersion(PomGenerationPhase.NUML_VERSION);
+		numlAdaptor.setVersion("${numl.version}");
 		result.add(numlAdaptor);
+	}
+
+	@Override
+	public Properties getProperties(){
+		Properties properties = super.getProperties();
+		properties.put("numl.version", PomGenerationPhase.NUML_VERSION);
+		return properties;
 	}
 
 	@Override

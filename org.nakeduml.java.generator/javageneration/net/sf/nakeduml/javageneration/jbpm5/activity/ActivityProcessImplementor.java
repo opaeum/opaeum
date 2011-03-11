@@ -65,7 +65,12 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitSendSignalAction(INakedSendSignalAction a){
 		if(a.getTargetElement() != null){
-			findJavaClass(a.getTargetElement().getNakedBaseType()).addToImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
+			OJAnnotatedClass ojClass = findJavaClass(a.getTargetElement().getNakedBaseType());
+			if(ojClass != null){
+				ojClass.addToImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
+			}else{
+				System.out.println();
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

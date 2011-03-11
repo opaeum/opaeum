@@ -21,7 +21,6 @@ import net.sf.nakeduml.metamodel.name.NameWrapper;
  * package.
  */
 public interface IMappingInfo {
-	public boolean isGenerated();
 
 	public String getJavaPath();
 

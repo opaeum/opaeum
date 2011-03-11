@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
 public class WarPomStep extends PomGenerationStep {
+
 	@Override
 	public Dependency[] getDependencies() {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
@@ -88,14 +89,7 @@ public class WarPomStep extends PomGenerationStep {
 		Properties p = super.getParentPomProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
-		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
-		p.put("seam.solder.version", "3.0.0.Beta1");
-		p.put("seam.servlet.version", "3.0.0.Alpha3");
-		p.put("numl.version", "1.0.0.5-SNAPSHOT");
-		p.put("hibernate.version", "3.6.0.Final");
-		p.put("drools.version", "5.2.1.M1");
-		p.put("jbpm.version", "5.1-SNAPSHOT");
-		p.put("arquillian.version", "1.0.0.Alpha4");
+		p.put("arquillian.version", ARQUILLIAN_VERSION);
 		return p;
 	}
 

@@ -34,7 +34,7 @@ public class OclTestsStep extends AbstractJavaTransformationStep {
 			OJAnnotatedPackage pkg = findOrCreatePackage(pn.getHead());
 			OJAnnotatedClass test = new OJAnnotatedClass(pn.getLast() + "Test");
 			pkg.addToClasses(test);
-			OJAnnotatedInterface testInterface = new OJAnnotatedInterface("I" + pn.getLast() + "Test");
+			OJAnnotatedInterface testInterface = new OJAnnotatedInterface(pn.getLast() + "TestContract");
 			pkg.addToClasses(testInterface);
 			test.addToImplementedInterfaces(testInterface.getPathName());
 			for (INakedProperty p : entity.getOwnedAttributes()) {
@@ -57,7 +57,6 @@ public class OclTestsStep extends AbstractJavaTransformationStep {
 					// +")");
 				}
 			}
-			// TODO operations
 			if (test.getOperations().size() > 0) {
 				createTextPath(testInterface, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
 				createTextPath(test, JavaTextSource.OutputRootId.DOMAIN_TEST_SRC);
@@ -69,7 +68,7 @@ public class OclTestsStep extends AbstractJavaTransformationStep {
 			
 			OJAnnotatedOperation testInitialValue = new OJAnnotatedOperation(name);
 			testInterface.addToOperations(testInitialValue.getDeepCopy());
-			testInitialValue.putAnnotation(new OJAnnotationValue(new OJPathName("org.testng.annotations.Test")));
+			testInitialValue.putAnnotation(new OJAnnotationValue(new OJPathName("org.junit.Test")));
 			test.addToOperations(testInitialValue);
 			if (!entity.getIsAbstract()) {
 				INakedProperty endToComposite = entity.getEndToComposite();

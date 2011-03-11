@@ -287,13 +287,13 @@ public class PomUtil {
 		childPom.getProject().getBuild().getPlugins().getPlugin().add(newPlugin);
 	}
 
-	public static boolean isNewDepedency(DocumentRoot root, Dependency newDep) {
+	public static Dependency getNewDepedency(DocumentRoot root, Dependency newDep) {
 		for (Dependency oldDep : root.getProject().getDependencies().getDependency()) {
 			if (oldDep.getGroupId().equals(newDep.getGroupId()) && oldDep.getArtifactId().equals(newDep.getArtifactId())) {
-				return false;
+				return oldDep;
 			}
 		}
-		return true;
+		return null;
 	}
 
 	public static Dependency getExisitingDependencyInDepedencyManagement(DocumentRoot root, Dependency newDepMan) {

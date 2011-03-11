@@ -27,7 +27,7 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
 		nakedUmlUtil.setGroupId("org.nakeduml");
 		nakedUmlUtil.setArtifactId("nakeduml-runtime-domain");
-		nakedUmlUtil.setVersion(PomGenerationPhase.NUML_VERSION);
+		nakedUmlUtil.setVersion("${numl.version}");
 		nakedUmlUtil.setScope("compile");
 		nakedUmlUtil.setType("jar");
 		result.add(nakedUmlUtil);
@@ -44,6 +44,7 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	public Properties getParentPomProperties(){
 		Properties props = super.getParentPomProperties();
 		props.put("hibernate.version", "3.6.0.Final");
+		props.put("numl.version", PomGenerationPhase.NUML_VERSION);
 		return props;
 	}
 }
