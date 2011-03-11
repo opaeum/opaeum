@@ -16,7 +16,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import net.sf.nakeduml.metamodel.core.internal.NakedModelElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -24,7 +24,7 @@ import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
 import net.sf.nakeduml.metamodel.statemachines.TransitionKind;
 
-public class NakedTransitionImpl extends NakedModelElementImpl implements INakedElement, INakedTransition {
+public class NakedTransitionImpl extends NakedElementImpl implements INakedElement, INakedTransition {
 	private static final long serialVersionUID = 133077616488879831L;
 	protected INakedState source;
 	protected INakedState target;

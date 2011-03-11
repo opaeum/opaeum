@@ -19,7 +19,7 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	List<INakedComment> getComments();
 	INakedElementOwner getOwnerElement();
 	void setOwnerElement(INakedElementOwner element);
-	void initialize(String id, String name);
+	void initialize(String id, String name,boolean storeMappingInfo);
 	void setMappingInfo(IMappingInfo vi);
 	IMappingInfo getMappingInfo();
 	INakedNameSpace getNameSpace();
@@ -33,4 +33,5 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	String getDocumentation();
 	void setDocumentation(String d);
 	 INakedRootObject getNakedRoot();
+	public boolean isStoreMappingInfo();
 }

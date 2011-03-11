@@ -10,7 +10,17 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 	private transient boolean isNewInVersion = false;
 	private transient boolean isNewInRevision = false;
 	private transient boolean requiresSqlRename = false;
+	private transient boolean shouldStore;
+	@Override
+	public void setStore(boolean store){
+		this.shouldStore = store;
+	}
+	@Override
+	public boolean shouldStore(){
+		return shouldStore;
+	}
 	/**
+	 * 
 	 * A Human readable version of name, generated from the "humanName" and "plural" taggedValues to generate user instructions. In most
 	 * cases, except for elements with a multiplicity, this would be a singular name. The plural of this NameWrapper would come from the
 	 * taggedValue "plural".

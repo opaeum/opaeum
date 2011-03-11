@@ -3,9 +3,9 @@ package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.internal.NakedModelElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
-public class NakedTriggerImpl extends NakedModelElementImpl implements INakedTrigger{
+public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 	private INakedElement event;
 	private boolean isHumanTrigger;
 	@Override

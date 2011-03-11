@@ -2,7 +2,7 @@ package net.sf.nakeduml.metamodel.core.internal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
-public class NakedInterfaceRealizationImpl extends NakedModelElementImpl implements INakedInterfaceRealization {
+public class NakedInterfaceRealizationImpl extends NakedElementImpl implements INakedInterfaceRealization {
 	INakedInterface contract;
 	INakedClassifier implementingClassifier;
 	@Override

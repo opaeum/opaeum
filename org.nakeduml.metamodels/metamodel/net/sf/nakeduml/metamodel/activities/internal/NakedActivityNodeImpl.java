@@ -11,9 +11,9 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.internal.NakedModelElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
-public class NakedActivityNodeImpl extends NakedModelElementImpl implements INakedActivityNode {
+public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode {
 	@Override
 	public Collection<INakedElement> getOwnedElements() {
 		// activity nodes have to derive this collection, so duplicate it to

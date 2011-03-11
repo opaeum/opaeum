@@ -69,7 +69,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 			if (nakedTimeEvent == null) {
 				nakedTimeEvent = new NakedTimeEventImpl();
 				TimeEvent emfTimeEvent = ((TimeEvent) event);
-				nakedTimeEvent.initialize(id, emfTimeEvent.getName());
+				nakedTimeEvent.initialize(id, emfTimeEvent.getName(),true);
 				// NB!!! Deviation from UML2 metamodel:
 				// We have to make the behaviour the owner to allow for the
 				// expression to be implemented correctly

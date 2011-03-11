@@ -64,7 +64,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
 		for (String s : e.getKeywords()) {
 			INakedInstanceSpecification is = new NakedInstanceSpecificationImpl();
 			// No classifier - string classifier will be assigned during linkage
-			is.initialize(nakedPeer.getId() + s, s);
+			is.initialize(nakedPeer.getId() + s, s,false);
 			nakedPeer.addStereotype(is);
 			workspace.putModelElement(is);
 		}
@@ -100,8 +100,8 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
 		INakedInstanceSpecification instanceSpec = new NakedInstanceSpecificationImpl();
 		instanceSpec.setClassifier(nakedStereotype);
 		instanceSpec.setName(nakedStereotype.getName());
-		String stereotypeApplicationId = getId(modelElement) + stereotype.getName();
-		instanceSpec.initialize(stereotypeApplicationId, stereotype.getName());
+		String stereotypeApplicationId = getId(modelElement) +"#"+ stereotype.getName();
+		instanceSpec.initialize(stereotypeApplicationId, stereotype.getName(),false);
 		workspace.putModelElement(instanceSpec);
 		EObject application = modelElement.getStereotypeApplication(stereotype);
 		Iterator<? extends INakedProperty> attributes = nakedStereotype.getEffectiveAttributes().iterator();
@@ -113,7 +113,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
 				Object value = application.eGet(structuralFeature);
 				INakedSlot slot = new NakedSlotImpl();
 				slot.setDefiningFeature(attribute);
-				slot.initialize(attribute.getId() + stereotypeApplicationId, attribute.getName());
+				slot.initialize(attribute.getId() +"#"+ stereotypeApplicationId, attribute.getName(),false);
 				if (value instanceof EList) {
 					Iterator<? extends EObject> iter = ((EList<? extends EObject>) value).iterator();
 					int i = 0;
@@ -161,7 +161,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf {
 			} else {
 				valueSpec.setValue(value);
 			}
-			valueSpec.initialize(slot.getId() + index, slot.getName());
+			valueSpec.initialize(slot.getId() + index, slot.getName(),false);
 			valueSpec.setOwnerElement(slot);
 			slot.addOwnedElement(valueSpec);
 			workspace.putModelElement(valueSpec);

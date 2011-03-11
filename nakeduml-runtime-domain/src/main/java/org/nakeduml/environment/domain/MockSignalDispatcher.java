@@ -43,7 +43,9 @@ public class MockSignalDispatcher implements ISignalDispatcher {
 
 	@Override
 	public void deliverAllPendingSignals() {
-		for (SignalToDispatch signal : this.signalsToDispatch) {
+		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
+		signalsToDispatch.clear();
+		for (SignalToDispatch signal : signals) {
 			signal.getTarget().processSignal(signal.getSignal());
 		}
 	}

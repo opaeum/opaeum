@@ -86,7 +86,7 @@ public class EmulatingElement implements INakedElement {
 		return element.hasTaggedValue(stereotype, tag);
 	}
 
-	public void initialize(String id, String name) {
+	public void initialize(String id, String name, boolean b) {
 	}
 
 	public void setMappingInfo(IMappingInfo vi) {
@@ -114,5 +114,11 @@ public class EmulatingElement implements INakedElement {
 	}
 
 	public void removeOwnedElement(INakedElement element) {
+	}
+
+	@Override
+	public boolean isStoreMappingInfo(){
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

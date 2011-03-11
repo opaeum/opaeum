@@ -4,7 +4,7 @@ import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
-public class NakedConstraintImpl extends NakedModelElementImpl implements INakedConstraint{
+public class NakedConstraintImpl extends NakedElementImpl implements INakedConstraint{
 	INakedValueSpecification specification;
 	INakedElement constrainedElement;
 	public INakedElement getConstrainedElement(){

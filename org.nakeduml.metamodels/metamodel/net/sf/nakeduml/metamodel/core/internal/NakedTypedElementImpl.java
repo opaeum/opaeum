@@ -6,7 +6,7 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IMultiplicityKind;
 
-public class NakedTypedElementImpl extends NakedModelElementImpl implements INakedTypedElement {
+public class NakedTypedElementImpl extends NakedElementImpl implements INakedTypedElement {
 	private static final long serialVersionUID = -5574117047617953873L;
 	private boolean ordered;
 	private boolean unique;

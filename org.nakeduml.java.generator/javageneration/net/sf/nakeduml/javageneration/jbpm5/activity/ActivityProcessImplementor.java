@@ -39,6 +39,7 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.ActiveObject;
 
@@ -66,10 +67,10 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 	public void visitSendSignalAction(INakedSendSignalAction a){
 		if(a.getTargetElement() != null){
 			OJAnnotatedClass ojClass = findJavaClass(a.getTargetElement().getNakedBaseType());
-			if(ojClass != null){
+			if(ojClass instanceof OJAnnotatedInterface){
+				((OJAnnotatedInterface) ojClass).addToSuperInterfaces(new OJPathName(ActiveObject.class.getName()));
+			}else if(ojClass!=null){
 				ojClass.addToImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
-			}else{
-				System.out.println();
 			}
 		}
 	}

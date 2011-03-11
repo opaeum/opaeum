@@ -32,10 +32,9 @@ public class EmfWorkspaceLoader {
 		ResourceSet resourceSet = setupStandAloneAppForUML2();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, UMLResource.Factory.INSTANCE);
 		File[] files = dir.listFiles();
-		Package pkg = null;
 		for (File file : files) {
 			if (file.getName().endsWith(extension)) {
-				pkg = load(resourceSet, URI.createFileURI(file.getAbsolutePath()));
+				load(resourceSet, URI.createFileURI(file.getAbsolutePath()));
 			}
 		}
 		EcoreUtil.resolveAll(resourceSet);

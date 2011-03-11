@@ -63,7 +63,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf {
 				Enumeration powerType = (Enumeration) generalizationSet.getPowertype();
 				INakedPowerTypeInstance ptl = new NakedPowerTypeInstanceImpl();
 				SingularNameWrapper nameWrapper = new SingularNameWrapper(child.getName(), null);
-				ptl.initialize(getId(g) + "EnumerationLiteral", nameWrapper.getDecapped().toString());
+				ptl.initialize(getId(g) + "EnumerationLiteral", nameWrapper.getDecapped().toString(),false);
 				this.workspace.putModelElement(ptl);
 				nakedGeneralization.setPowerTypeLiteral(ptl);
 				INakedPowerType ptw = (INakedPowerType) getNakedPeer(powerType);

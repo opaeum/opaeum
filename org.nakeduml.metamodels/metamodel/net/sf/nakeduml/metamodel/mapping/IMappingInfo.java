@@ -138,4 +138,8 @@ public interface IMappingInfo {
 	void setQualifiedUmlName(String qualifiedUmlName);
 
 	IMappingInfo getCopy();
+
+	public void setStore(boolean store);
+
+	public boolean shouldStore();
 }

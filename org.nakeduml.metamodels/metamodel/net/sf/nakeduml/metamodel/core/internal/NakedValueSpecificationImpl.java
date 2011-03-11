@@ -7,7 +7,7 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.internal.OclContextImpl;
 
-public class NakedValueSpecificationImpl extends NakedModelElementImpl implements INakedValueSpecification{
+public class NakedValueSpecificationImpl extends NakedElementImpl implements INakedValueSpecification{
 	private static final long serialVersionUID = 4330871931428233762L;
 	private Object value;
 	private boolean isElementReference;

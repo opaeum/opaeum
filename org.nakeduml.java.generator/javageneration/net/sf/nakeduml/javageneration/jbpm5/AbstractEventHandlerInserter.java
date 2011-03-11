@@ -177,6 +177,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 
 	private void insertSignalCallInProcessSignal(OJAnnotatedOperation processSignal, INakedSignal signal) {
 		NakedClassifierMap map = new NakedClassifierMap(signal);
+		
 		OJIfStatement ifInstance = new OJIfStatement("signal instanceof " + map.javaType());
 		processSignal.getOwner().addToImports(map.javaTypePath());
 		processSignal.getBody().addToStatements(ifInstance);
@@ -205,6 +206,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			// if context==null, the handler has already been implemented
 			OJPathName path = OJUtil.classifierPathname(behavior.getContext());
 			OJClass myOwner = (OJClass) this.javaModel.findIntfOrCls(path);
+			myOwner.addToImports(signal.getMappingInfo().getQualifiedJavaName());
 			String signalReception = "on" + signal.getMappingInfo().getJavaName().getCapped();
 			OJOperation ojOperation = OJUtil.findOperation(myOwner, signalReception);
 			if (ojOperation == null) {
