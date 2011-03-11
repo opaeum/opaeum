@@ -57,7 +57,13 @@ public class DomainEnvironment extends Environment{
 		return this.hibernateSession;
 	}
 	public void reset() {
-		
+		signalDispatcher.reset();
+		timeEventDispatcher.reset();
+		knowledgeSession=null;
+		if (hibernateSession!=null) {
+		hibernateSession.clear();
+		}
+		components.clear();
 	}
 	private StatefulKnowledgeSession getKnowledgeSession(){
 		if(this.knowledgeSession == null){

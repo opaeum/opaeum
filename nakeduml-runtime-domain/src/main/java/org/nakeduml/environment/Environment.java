@@ -50,4 +50,5 @@ public abstract class Environment {
 	}
 
 	public abstract <T> T getComponent(Class<T> clazz);
+	public abstract void reset();
 }

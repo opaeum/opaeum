@@ -19,13 +19,13 @@ public class SessionManager {
 
 	Logger logger = LoggerFactory.getLogger(SessionManager.class);
 	private Map<String, Session> sessionMap = new ConcurrentHashMap<String, Session>();
-	private Map<String, List<NodeConnectionSpecCount>> sessionPortCount = new ConcurrentHashMap<String, List<NodeConnectionSpecCount>>();
+	private Map<String, List<NodeDefinitionCount>> sessionPortCount = new ConcurrentHashMap<String, List<NodeDefinitionCount>>();
 
-	public Map<String, List<NodeConnectionSpecCount>> getSessionPortCount() {
+	public Map<String, List<NodeDefinitionCount>> getSessionPortCount() {
 		return sessionPortCount;
 	}
 
-	public void setSessionPortCount(Map<String, List<NodeConnectionSpecCount>> sessionPortCount) {
+	public void setSessionPortCount(Map<String, List<NodeDefinitionCount>> sessionPortCount) {
 		this.sessionPortCount = sessionPortCount;
 	}
 
@@ -90,8 +90,8 @@ public class SessionManager {
 		Session session = sessionMap.get(nodeDefinition.getSshTunnelSpec().getHost());
 		try {
 			session.setPortForwardingL(nodeDefinition.getSshTunnelSpec().getLport(), nodeDefinition.getHost(), nodeDefinition.getPort());
-			List<NodeConnectionSpecCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
-			lportCount.add(new NodeConnectionSpecCount(nodeDefinition.getSshTunnelSpec().getLport(), new Integer(1), nodeDefinition.getName()));
+			List<NodeDefinitionCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
+			lportCount.add(new NodeDefinitionCount(nodeDefinition.getSshTunnelSpec().getLport(), new Integer(1), nodeDefinition.getName()));
 		} catch (JSchException e) {
 			throw new RuntimeException(e);
 		}
@@ -104,8 +104,8 @@ public class SessionManager {
 					nodeDefinition.getSshTunnelSpec().getPassword());
 			session.setPortForwardingL(nodeDefinition.getSshTunnelSpec().getLport(), nodeDefinition.getHost(), nodeDefinition.getPort());
 			sessionMap.put(nodeDefinition.getSshTunnelSpec().getHost(), session);
-			List<NodeConnectionSpecCount> lportCount = new ArrayList<NodeConnectionSpecCount>();
-			lportCount.add(new NodeConnectionSpecCount(nodeDefinition.getSshTunnelSpec().getLport(), new Integer(1), nodeDefinition.getName()));
+			List<NodeDefinitionCount> lportCount = new ArrayList<NodeDefinitionCount>();
+			lportCount.add(new NodeDefinitionCount(nodeDefinition.getSshTunnelSpec().getLport(), new Integer(1), nodeDefinition.getName()));
 			sessionPortCount.put(nodeDefinition.getSshTunnelSpec().getHost(), lportCount);
 			List<Integer> lports = new ArrayList<Integer>();
 			lports.add(nodeDefinition.getSshTunnelSpec().getLport());
@@ -115,28 +115,28 @@ public class SessionManager {
 	}
 
 	public boolean containsPortForward(NodeDefinition nodeDefinition) {
-		List<NodeConnectionSpecCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
-		return lportCount.contains(new NodeConnectionSpecCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
+		List<NodeDefinitionCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
+		return lportCount.contains(new NodeDefinitionCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
 	}
 
 	public void increment(NodeDefinition nodeDefinition) {
-		List<NodeConnectionSpecCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
-		int indexOf = lportCount.indexOf(new NodeConnectionSpecCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
-		NodeConnectionSpecCount nodeConnectionSpecCount = lportCount.get(indexOf);
+		List<NodeDefinitionCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
+		int indexOf = lportCount.indexOf(new NodeDefinitionCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
+		NodeDefinitionCount nodeConnectionSpecCount = lportCount.get(indexOf);
 		nodeConnectionSpecCount.increment();
 	}
 
 	public void destroy(NodeDefinition nodeDefinition) throws JSchException {
 		logger.info("YYYYYYYYYYYYYYYYYYY destroy " + nodeDefinition.getHost() + " " + nodeDefinition.getSshTunnelSpec().getLport());
 
-		List<NodeConnectionSpecCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
-		int indexOf = lportCount.indexOf(new NodeConnectionSpecCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
-		NodeConnectionSpecCount nodeConnectionSpecCount = lportCount.get(indexOf);
+		List<NodeDefinitionCount> lportCount = sessionPortCount.get(nodeDefinition.getSshTunnelSpec().getHost());
+		int indexOf = lportCount.indexOf(new NodeDefinitionCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
+		NodeDefinitionCount nodeConnectionSpecCount = lportCount.get(indexOf);
 		nodeConnectionSpecCount.decrement();
 		if (nodeConnectionSpecCount.getCount() == 0) {
 			logger.info("BBBBBBBBBBBBBBBBBBBBB destroy " + nodeDefinition.getHost() + " " + nodeDefinition.getSshTunnelSpec().getLport());
 			// close port
-			lportCount.remove(new NodeConnectionSpecCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
+			lportCount.remove(new NodeDefinitionCount(nodeDefinition.getSshTunnelSpec().getLport(), 0, nodeDefinition.getName()));
 			Session session = sessionMap.get(nodeDefinition.getSshTunnelSpec().getHost());
 			try {
 				session.delPortForwardingL(nodeDefinition.getSshTunnelSpec().getLport());
@@ -155,7 +155,7 @@ public class SessionManager {
 		return sessionMap;
 	}
 	
-	public class NodeConnectionSpecCount {
+	public class NodeDefinitionCount {
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -173,7 +173,7 @@ public class SessionManager {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			NodeConnectionSpecCount other = (NodeConnectionSpecCount) obj;
+			NodeDefinitionCount other = (NodeDefinitionCount) obj;
 			if (!getOuterType().equals(other.getOuterType()))
 				return false;
 			if (lport != other.lport)
@@ -188,7 +188,7 @@ public class SessionManager {
 		private int lport;
 		private int count;
 		private String name;
-		public NodeConnectionSpecCount(int lport, int count, String name) {
+		public NodeDefinitionCount(int lport, int count, String name) {
 			super();
 			this.lport = lport;
 			this.count = count;

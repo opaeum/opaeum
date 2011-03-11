@@ -484,45 +484,93 @@
           <ownedBehavior xmi:type="uml:Activity" xmi:id="_62w7IEmyEeCFaJvOEQDIzw" name="RipProcess">
             <ownedBehavior xmi:type="uml:Activity" xmi:id="_ea5D4EoUEeCFaJvOEQDIzw" name="RipActivity">
               <ownedParameter xmi:id="_cm97QEosEeCFaJvOEQDIzw" name="NodeDefinitionToRip" type="_DfTDkEl5EeCQ2fq_6NmJ6A"/>
-              <node xmi:type="uml:ActivityFinalNode" xmi:id="_WtxKsEoVEeCFaJvOEQDIzw" name="RipActivityActivityFinalNode1" incoming="_YjfFoEpWEeCFaJvOEQDIzw"/>
-              <node xmi:type="uml:SendSignalAction" xmi:id="_iRT_AEoYEeCFaJvOEQDIzw" name="MMLCommandToRipSendSignalAction" signal="_yYgsEEoYEeCFaJvOEQDIzw">
-                <argument xmi:id="_C-JRgEotEeCFaJvOEQDIzw" name="MMLCOmmandToRipInputPin" incoming="_KkhNAEotEeCFaJvOEQDIzw" type="_ECnuEEmwEeCFaJvOEQDIzw">
+              <node xmi:type="uml:ActivityFinalNode" xmi:id="_WtxKsEoVEeCFaJvOEQDIzw" name="RipActivityActivityFinalNode1" incoming="_waKtYEtHEeCRDqUdR1yzmg"/>
+              <node xmi:type="uml:SendSignalAction" xmi:id="_iRT_AEoYEeCFaJvOEQDIzw" name="nodeDefinitionToRipSignal" signal="_yYgsEEoYEeCFaJvOEQDIzw">
+                <argument xmi:id="_C-JRgEotEeCFaJvOEQDIzw" name="nodeDefinition" incoming="_tURBgEtJEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
                   <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_C-JRgUotEeCFaJvOEQDIzw" value="*"/>
                 </argument>
               </node>
-              <node xmi:type="uml:AcceptEventAction" xmi:id="_Yd0PMEoZEeCFaJvOEQDIzw" name="MMLCommandDoneRipAcceptEventAction" outgoing="_YjfFoEpWEeCFaJvOEQDIzw">
+              <node xmi:type="uml:AcceptEventAction" xmi:id="_Yd0PMEoZEeCFaJvOEQDIzw" name="nodeDefinitionAcceptEvent">
+                <result xmi:id="_HaaaEEtBEeCRDqUdR1yzmg" name="nodeDefinition" outgoing="_QM6YMEtGEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HaaaEUtBEeCRDqUdR1yzmg" value="*"/>
+                </result>
                 <trigger xmi:id="_icxLoEoZEeCFaJvOEQDIzw" name="Trigger1" event="_2tocwEoZEeCFaJvOEQDIzw"/>
               </node>
-              <node xmi:type="uml:ActivityParameterNode" xmi:id="_cnRdQEosEeCFaJvOEQDIzw" name="MMLCommandToRipInputParameter" outgoing="_KkhNAEotEeCFaJvOEQDIzw" type="_ECnuEEmwEeCFaJvOEQDIzw" parameter="_cm97QEosEeCFaJvOEQDIzw">
+              <node xmi:type="uml:ActivityParameterNode" xmi:id="_cnRdQEosEeCFaJvOEQDIzw" name="NodeDefinitionToRipInputParameter" outgoing="_tURBgEtJEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A" parameter="_cm97QEosEeCFaJvOEQDIzw">
                 <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cnRdQUosEeCFaJvOEQDIzw" value="*"/>
               </node>
-              <edge xmi:type="uml:ObjectFlow" xmi:id="_KkhNAEotEeCFaJvOEQDIzw" name="ObjectFlow1" source="_cnRdQEosEeCFaJvOEQDIzw" target="_C-JRgEotEeCFaJvOEQDIzw">
-                <guard xmi:type="uml:LiteralBoolean" xmi:id="_KkhNAUotEeCFaJvOEQDIzw" value="true"/>
-                <weight xmi:type="uml:LiteralInteger" xmi:id="_KkhNAkotEeCFaJvOEQDIzw" value="1"/>
+              <node xmi:type="uml:ForkNode" xmi:id="_MjWQgEtGEeCRDqUdR1yzmg" name="ForkNode1" outgoing="_XegWgEtGEeCRDqUdR1yzmg _kdu7IEtIEeCRDqUdR1yzmg" incoming="_QM6YMEtGEeCRDqUdR1yzmg"/>
+              <node xmi:type="uml:OpaqueAction" xmi:id="_OeNasEtGEeCRDqUdR1yzmg" name="findMMLCommands">
+                <inputValue xmi:id="_Wt0gcEtGEeCRDqUdR1yzmg" name="nodeDefinition" incoming="_XegWgEtGEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Wt0gcUtGEeCRDqUdR1yzmg" value="*"/>
+                </inputValue>
+                <outputValue xmi:id="_cQYfMEtIEeCRDqUdR1yzmg" name="mMLCommand" outgoing="_jgiTEEtIEeCRDqUdR1yzmg" type="_ECnuEEmwEeCFaJvOEQDIzw">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cQYfMUtIEeCRDqUdR1yzmg" value="*"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_faUroEtIEeCRDqUdR1yzmg" value="*"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fUS8IEtIEeCRDqUdR1yzmg"/>
+                </outputValue>
+                <body>nodeDefinition.network.mMLCommand</body>
+              </node>
+              <node xmi:type="uml:CallOperationAction" xmi:id="_msyCEEtHEeCRDqUdR1yzmg" name="rip" outgoing="_waKtYEtHEeCRDqUdR1yzmg" operation="_MrQHwEskEeCRDqUdR1yzmg">
+                <argument xmi:id="_oj4toEtHEeCRDqUdR1yzmg" name="nodeDefinitionToRip " incoming="_kdu7IEtIEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oj4toUtHEeCRDqUdR1yzmg" value="*"/>
+                </argument>
+                <argument xmi:id="_oj5UsEtHEeCRDqUdR1yzmg" name="mmlCommands" incoming="_jgiTEEtIEeCRDqUdR1yzmg" type="_ECnuEEmwEeCFaJvOEQDIzw">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oj5UsUtHEeCRDqUdR1yzmg" value="*"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1aLDkEtHEeCRDqUdR1yzmg" value="*"/>
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_06O_QEtHEeCRDqUdR1yzmg"/>
+                </argument>
+                <target xmi:id="_oj57wEtHEeCRDqUdR1yzmg" name="target" type="_IQZGAEskEeCRDqUdR1yzmg">
+                  <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oj57wUtHEeCRDqUdR1yzmg" value="*"/>
+                </target>
+              </node>
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_QM6YMEtGEeCRDqUdR1yzmg" name="ObjectFlow1" source="_HaaaEEtBEeCRDqUdR1yzmg" target="_MjWQgEtGEeCRDqUdR1yzmg">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_QM6YMUtGEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_QM6YMktGEeCRDqUdR1yzmg" value="1"/>
               </edge>
-              <edge xmi:type="uml:ControlFlow" xmi:id="_YjfFoEpWEeCFaJvOEQDIzw" name="ControlFlow1" source="_Yd0PMEoZEeCFaJvOEQDIzw" target="_WtxKsEoVEeCFaJvOEQDIzw">
-                <guard xmi:type="uml:LiteralBoolean" xmi:id="_YjfFoUpWEeCFaJvOEQDIzw" value="true"/>
-                <weight xmi:type="uml:LiteralInteger" xmi:id="_YjfFokpWEeCFaJvOEQDIzw" value="1"/>
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_XegWgEtGEeCRDqUdR1yzmg" name="ObjectFlow3" source="_MjWQgEtGEeCRDqUdR1yzmg" target="_Wt0gcEtGEeCRDqUdR1yzmg">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_XegWgUtGEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_XegWgktGEeCRDqUdR1yzmg" value="1"/>
+              </edge>
+              <edge xmi:type="uml:ControlFlow" xmi:id="_waKtYEtHEeCRDqUdR1yzmg" name="ControlFlow4" source="_msyCEEtHEeCRDqUdR1yzmg" target="_WtxKsEoVEeCFaJvOEQDIzw">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_waKtYUtHEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_waKtYktHEeCRDqUdR1yzmg" value="1"/>
+              </edge>
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_jgiTEEtIEeCRDqUdR1yzmg" name="ObjectFlow2" source="_cQYfMEtIEeCRDqUdR1yzmg" target="_oj5UsEtHEeCRDqUdR1yzmg">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_jgiTEUtIEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_jgiTEktIEeCRDqUdR1yzmg" value="1"/>
+              </edge>
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_kdu7IEtIEeCRDqUdR1yzmg" name="ObjectFlow4" source="_MjWQgEtGEeCRDqUdR1yzmg" target="_oj4toEtHEeCRDqUdR1yzmg">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_kdu7IUtIEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_kdu7IktIEeCRDqUdR1yzmg" value="1"/>
+              </edge>
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_tURBgEtJEeCRDqUdR1yzmg" name="ObjectFlow5" source="_cnRdQEosEeCFaJvOEQDIzw" target="_C-JRgEotEeCFaJvOEQDIzw">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_tURBgUtJEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_tURBgktJEeCRDqUdR1yzmg" value="1"/>
               </edge>
             </ownedBehavior>
             <node xmi:type="uml:ExpansionRegion" xmi:id="_iUV4wEmzEeCFaJvOEQDIzw" name="NodeDefinitionExpansionRegion" outgoing="_dvSu4EokEeCFaJvOEQDIzw" inputElement="_kjM9AEmzEeCFaJvOEQDIzw">
-              <node xmi:type="uml:ExpansionNode" xmi:id="_kjM9AEmzEeCFaJvOEQDIzw" name="inputExpansionNodeMMLCommand" incoming="_OqSTgEm0EeCFaJvOEQDIzw" type="_ECnuEEmwEeCFaJvOEQDIzw" regionAsInput="_iUV4wEmzEeCFaJvOEQDIzw">
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_TggoMEtMEeCRDqUdR1yzmg" name="ObjectFlow1" source="_kjM9AEmzEeCFaJvOEQDIzw" target="_msK7kEoqEeCFaJvOEQDIzw">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_TggoMUtMEeCRDqUdR1yzmg" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_TggoMktMEeCRDqUdR1yzmg" value="1"/>
+              </edge>
+              <node xmi:type="uml:ExpansionNode" xmi:id="_kjM9AEmzEeCFaJvOEQDIzw" name="inputExpansionNodeDefinition" outgoing="_TggoMEtMEeCRDqUdR1yzmg" incoming="_OqSTgEm0EeCFaJvOEQDIzw" type="_DfTDkEl5EeCQ2fq_6NmJ6A" regionAsInput="_iUV4wEmzEeCFaJvOEQDIzw">
                 <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kjM9AUmzEeCFaJvOEQDIzw" value="*"/>
               </node>
               <node xmi:type="uml:CallBehaviorAction" xmi:id="_krxxIEoqEeCFaJvOEQDIzw" name="CallRipActivity" behavior="_ea5D4EoUEeCFaJvOEQDIzw">
-                <argument xmi:id="_msK7kEoqEeCFaJvOEQDIzw" name="mmlCommandToRip" type="_ECnuEEmwEeCFaJvOEQDIzw">
+                <argument xmi:id="_msK7kEoqEeCFaJvOEQDIzw" name="nodeDefinitionToRip" incoming="_TggoMEtMEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
                   <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_msK7kUoqEeCFaJvOEQDIzw" value="*"/>
                 </argument>
               </node>
             </node>
             <node xmi:type="uml:InitialNode" xmi:id="_EU9ecEm0EeCFaJvOEQDIzw" name="InitialNode1" outgoing="_GnsWEEm0EeCFaJvOEQDIzw"/>
-            <node xmi:type="uml:OpaqueAction" xmi:id="_FidMUEm0EeCFaJvOEQDIzw" name="retrieveMMLCommandsToRip" incoming="_GnsWEEm0EeCFaJvOEQDIzw">
-              <outputValue xmi:id="_LRSXYEm0EeCFaJvOEQDIzw" name="outputpinMMLCommands" outgoing="_OqSTgEm0EeCFaJvOEQDIzw" type="_ECnuEEmwEeCFaJvOEQDIzw">
+            <node xmi:type="uml:OpaqueAction" xmi:id="_FidMUEm0EeCFaJvOEQDIzw" name="retrieveNodeDefinitionsToRip" incoming="_GnsWEEm0EeCFaJvOEQDIzw">
+              <outputValue xmi:id="_LRSXYEm0EeCFaJvOEQDIzw" name="outputpinNodeDefinition" outgoing="_OqSTgEm0EeCFaJvOEQDIzw" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
                 <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LRSXYUm0EeCFaJvOEQDIzw" value="*"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4Nd58ErsEeCRDqUdR1yzmg" value="*"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4A5dkErsEeCRDqUdR1yzmg"/>
               </outputValue>
-              <body>(nodeDefinition->select(n|n.active=true)).network.mMLCommand</body>
+              <body>nodeDefinition->select(n|n.active=true)</body>
             </node>
             <node xmi:type="uml:ActivityFinalNode" xmi:id="_cQ4QIEokEeCFaJvOEQDIzw" name="ActivityFinalNode1" incoming="_dvSu4EokEeCFaJvOEQDIzw"/>
             <edge xmi:type="uml:ControlFlow" xmi:id="_GnsWEEm0EeCFaJvOEQDIzw" name="ControlFlow1" source="_EU9ecEm0EeCFaJvOEQDIzw" target="_FidMUEm0EeCFaJvOEQDIzw">
@@ -538,7 +586,7 @@
               <weight xmi:type="uml:LiteralInteger" xmi:id="_dvSu4kokEeCFaJvOEQDIzw" value="1"/>
             </edge>
           </ownedBehavior>
-          <nestedClassifier xmi:type="uml:Signal" xmi:id="_yYgsEEoYEeCFaJvOEQDIzw" name="MMLCommandToRipSignal">
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_yYgsEEoYEeCFaJvOEQDIzw" name="NodeDefinitionToRipSignal">
             <ownedAttribute xmi:id="_Ace9IEoZEeCFaJvOEQDIzw" name="nodeDefinitionToRip" type="_DfTDkEl5EeCQ2fq_6NmJ6A"/>
           </nestedClassifier>
         </packagedElement>
@@ -777,7 +825,7 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JSdlJkmyEeCFaJvOEQDIzw" value="1"/>
           </ownedEnd>
         </packagedElement>
-        <packagedElement xmi:type="uml:ReceiveSignalEvent" xmi:id="_2tocwEoZEeCFaJvOEQDIzw" name="MMLCommandRippedReceiveSignalEvent" signal="_yYgsEEoYEeCFaJvOEQDIzw"/>
+        <packagedElement xmi:type="uml:ReceiveSignalEvent" xmi:id="_2tocwEoZEeCFaJvOEQDIzw" name="NodeDefinitionRippedReceiveSignalEvent" signal="_yYgsEEoYEeCFaJvOEQDIzw"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_xcyj4EqKEeClzIHhNO5_Xw" name="HuaweiNodeDefinition">
           <generalization xmi:id="_4sXwAEqKEeClzIHhNO5_Xw" general="_DfTDkEl5EeCQ2fq_6NmJ6A"/>
           <ownedAttribute xmi:id="_zrAu8EqKEeClzIHhNO5_Xw" name="isM2000">
@@ -785,7 +833,13 @@
           </ownedAttribute>
         </packagedElement>
         <packagedElement xmi:type="uml:Interface" xmi:id="_IQZGAEskEeCRDqUdR1yzmg" name="RipHelper">
-          <ownedOperation xmi:id="_MrQHwEskEeCRDqUdR1yzmg" name="rip"/>
+          <ownedOperation xmi:id="_MrQHwEskEeCRDqUdR1yzmg" name="rip">
+            <ownedParameter xmi:id="_fKKCUEtAEeCRDqUdR1yzmg" name="nodeDefinitionToRip " type="_DfTDkEl5EeCQ2fq_6NmJ6A"/>
+            <ownedParameter xmi:id="_jaiSYEtAEeCRDqUdR1yzmg" name="mmlCommands" type="_ECnuEEmwEeCFaJvOEQDIzw">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tgaWMEtAEeCRDqUdR1yzmg" value="*"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tSOJMEtAEeCRDqUdR1yzmg"/>
+            </ownedParameter>
+          </ownedOperation>
         </packagedElement>
       </packagedElement>
     </packagedElement>

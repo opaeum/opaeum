@@ -107,4 +107,8 @@ public class MockTimeEventDispatcher implements ITimeEventDispatcher {
 		MockTimer te = new MockTimer(process, callBackMethodName);
 		return mockedEvents.get(te);
 	}
+
+	public void reset() {
+		mockedEvents.clear();		
+	}
 }

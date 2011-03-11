@@ -19,4 +19,9 @@ public class CdiEnvironment extends Environment {
 			return Component.INSTANCE.getInstance(clazz);
 		}
 	}
+
+	@Override
+	public void reset() {
+		//Yikes, good luck
+	}
 }

@@ -12,11 +12,10 @@ import org.junit.Test;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 
-public class SimpleAsyncTest {
+public class SimpleAsyncTest extends BaseTest {
 
 	@Test
 	public void testSignal() throws InterruptedException {
-		
 		Application application = new Application();
 		application.setName("cmApplication");
 		Customer customer = new Customer(application);
