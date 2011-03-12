@@ -11,9 +11,9 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.internal.NakedModelElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
-public class NakedActivityEdgeImpl extends NakedModelElementImpl implements INakedActivityEdge {
+public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedActivityEdge {
 	private static final long serialVersionUID = 6408889822146373878L;
 	private INakedActivityNode source;
 	private INakedActivityNode target;

@@ -22,7 +22,7 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 /**
  * @author Ampie Barnard
  */
-public abstract class NakedModelElementImpl implements Serializable, INakedElement {
+public abstract class NakedElementImpl implements Serializable, INakedElement {
 	private static final long serialVersionUID = -825314743586339864L;
 	/**
 	 * A The ID of this element's namespace as supplied by the modelling tool of
@@ -37,6 +37,7 @@ public abstract class NakedModelElementImpl implements Serializable, INakedEleme
 	private List<INakedComment> comments = new ArrayList<INakedComment>();
 	private String name;
 	private String documentation;
+	private boolean storeMappingInfo;
 
 	public String getDocumentation() {
 		return documentation;
@@ -80,7 +81,7 @@ public abstract class NakedModelElementImpl implements Serializable, INakedEleme
 		}
 	}
 
-	public NakedModelElementImpl() {
+	public NakedElementImpl() {
 	}
 
 	public List<INakedComment> getComments() {
@@ -126,7 +127,7 @@ public abstract class NakedModelElementImpl implements Serializable, INakedEleme
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof NakedModelElementImpl)) {
+		if (!(obj instanceof NakedElementImpl)) {
 			return false;
 		} else if (this == obj) {
 			return true;
@@ -140,11 +141,15 @@ public abstract class NakedModelElementImpl implements Serializable, INakedEleme
 		}
 	}
 
-	public void initialize(String id, String name) {
+	public void initialize(String id, String name, boolean storeMappingInfo) {
 		this.id = id;
 		this.setName(name == null || name.trim().length() == 0 ? null : name);
+		this.storeMappingInfo=storeMappingInfo;
 	}
 
+	public boolean isStoreMappingInfo(){
+		return storeMappingInfo;
+	}
 	public void setMappingInfo(IMappingInfo vi) {
 		this.mappingInfo = vi;
 	}

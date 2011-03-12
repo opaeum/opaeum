@@ -100,7 +100,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		}
 		if (wrapper.getId() == null || wrapper.getName() == null) {
 			// allow callers to do own initilization
-			wrapper.initialize(getId(modelElement), name);
+			wrapper.initialize(getId(modelElement), name,true);
 		}
 		getErrorMap().linkElement(wrapper, modelElement);
 		this.workspace.putModelElement(wrapper);

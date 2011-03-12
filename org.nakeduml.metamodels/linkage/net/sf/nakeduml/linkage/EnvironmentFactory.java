@@ -23,6 +23,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
@@ -48,15 +49,19 @@ public class EnvironmentFactory {
 		// TODO add a variable that contains 'currentUser'
 		Environment parent = new Environment();
 		Environment env = new Environment();
-		env.addPackageContents(c.getNameSpace());
 		env.setParent(parent);
 		env.addElement("self", new VariableDeclaration("self", c), true);
 		env.addStates(c);
-		while (c.getNameSpace() instanceof INakedClassifier && c.getNameSpace().getNameSpace() != null) {
+		INakedNameSpace ns=c;
+		while (ns instanceof INakedClassifier && c.getNameSpace().getNameSpace() != null) {
 			// import everything up to the nearest package.
-			c = (INakedClassifier) c.getNameSpace();
-			env.addPackageContents(c.getNameSpace());
+			env.addPackageContents(ns);
+			ns=ns.getNameSpace();
 		}
+		if(ns!=null){
+			env.addPackageContents(ns);
+		}
+		
 		if (workspace.getMappedTypes().getDateType() != null) {
 			env.addElement("now", new VariableDeclaration("now", workspace.getMappedTypes().getDateType()), true);
 		}

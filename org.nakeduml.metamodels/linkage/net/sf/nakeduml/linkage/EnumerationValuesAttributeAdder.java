@@ -17,7 +17,7 @@ public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker 
 		values.setMultiplicity(new NakedMultiplicityImpl("0", "*"));
 		MappingInfoImpl mi = new MappingInfoImpl();
 		mi.setJavaName(new SingularNameWrapper("values", "values"));
-		values.initialize("asf", "values");
+		values.initialize("asf", "values",false);
 		values.setIsOrdered(false);
 		values.setIsUnique(true);
 		values.setDerived(true);

@@ -7,12 +7,12 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.internal.NakedModelElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
 import org.nakeduml.runtime.domain.TimeUnit;
-public class NakedTimeEventImpl extends NakedModelElementImpl implements INakedTimeEvent {
+public class NakedTimeEventImpl extends NakedElementImpl implements INakedTimeEvent {
 	static public final String TIME_UNIT = "timeUnit";
 	private static final long serialVersionUID = -4132717082708308377L;
 	private boolean isRelative;

@@ -4,7 +4,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IModelElement;
 
-public class NakedImportedElementImpl extends NakedModelElementImpl implements INakedElement, IImportedElement {
+public class NakedImportedElementImpl extends NakedElementImpl implements INakedElement, IImportedElement {
 	private static final long serialVersionUID = 1630029513308357488L;
 	IModelElement element;
 

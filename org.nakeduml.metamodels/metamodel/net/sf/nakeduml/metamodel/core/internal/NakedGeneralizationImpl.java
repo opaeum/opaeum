@@ -6,7 +6,7 @@ import net.sf.nakeduml.metamodel.core.INakedPowerTypeInstance;
 /**
  * @author Ampie Barnard
  */
-public class NakedGeneralizationImpl extends NakedModelElementImpl implements INakedElement, INakedGeneralization {
+public class NakedGeneralizationImpl extends NakedElementImpl implements INakedElement, INakedGeneralization {
 	private static final long serialVersionUID = 6461786164692252056L;
 	protected INakedClassifier supertype;
 	protected INakedClassifier subtype;

@@ -6,9 +6,9 @@ import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.internal.NakedModelElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
-public class NakedExceptionHandlerImpl extends NakedModelElementImpl implements INakedExceptionHandler{
+public class NakedExceptionHandlerImpl extends NakedElementImpl implements INakedExceptionHandler{
 	INakedObjectNode exceptionInput;
 	INakedAction handlerBody;
 	Collection<INakedClassifier> exceptionTypes;

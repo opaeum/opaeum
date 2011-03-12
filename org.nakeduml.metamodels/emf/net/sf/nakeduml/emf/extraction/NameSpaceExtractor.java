@@ -75,7 +75,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	@VisitBefore
 	public void visitProfile(Profile p) {
 		NakedProfileImpl np = new NakedProfileImpl();
-		np.initialize(getId(p), p.getName());
+		np.initialize(getId(p), p.getName(),true);
 		if (p.eResource().getURI().isFile()) {
 			np.setModelFile(new File(p.eResource().getURI().toFileString()));
 		}
@@ -93,7 +93,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	@VisitBefore
 	public void visitModel(Model p) {
 		NakedModelImpl nm = new NakedModelImpl();
-		nm.initialize(getId(p), p.getName());
+		nm.initialize(getId(p), p.getName(),true);
 		if (p.eResource().getURI().isFile()) {
 			nm.setModelFile(new File(p.eResource().getURI().toFileString()));
 		}

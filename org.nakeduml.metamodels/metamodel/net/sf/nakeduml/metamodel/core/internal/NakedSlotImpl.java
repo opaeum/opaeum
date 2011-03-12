@@ -10,7 +10,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
-public class NakedSlotImpl extends NakedModelElementImpl implements INakedSlot,Serializable{
+public class NakedSlotImpl extends NakedElementImpl implements INakedSlot,Serializable{
 	private static final long serialVersionUID = 3768032110306457324L;
 	private INakedProperty definingFeature;
 	private List<INakedValueSpecification> values = new ArrayList<INakedValueSpecification>();

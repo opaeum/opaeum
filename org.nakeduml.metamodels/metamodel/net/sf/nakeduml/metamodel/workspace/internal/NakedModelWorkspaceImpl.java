@@ -60,7 +60,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 			throw new IllegalArgumentException(msg);
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
-		IMappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId());
+		IMappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
 		if (mw instanceof INakedRootObject) {
 			this.children.add((INakedRootObject) mw);
@@ -121,7 +121,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 	}
 
 	public IMappingInfo getMappingInfo() {
-		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation");
+		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation",false);
 	}
 
 	public Collection getOwnedElements() {

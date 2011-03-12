@@ -51,7 +51,9 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.currentRootObject = pkg;
 			if(javaModel != null){
-				OJPathName utilPath = new OJPathName(pkg.getMappingInfo().getQualifiedJavaName() + ".util");
+				String qualifiedJavaName = pkg.getMappingInfo().getQualifiedJavaName();
+				
+				OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
 			}
 		}else if(o instanceof INakedModelWorkspace){
