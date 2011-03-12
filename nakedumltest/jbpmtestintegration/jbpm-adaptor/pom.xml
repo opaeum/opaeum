@@ -24,7 +24,21 @@
               <goal>add-test-resource</goal>
             </goals>
             <configuration>
+<<<<<<< HEAD
               <resources><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
+=======
+              <resources><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/test/generated-java</source><source>src/test/java</source></sources>
+>>>>>>> bb0cfaafef41c517a79f6dc81029a41ba4396fce
             </configuration>
           </execution>
           <execution>
@@ -148,16 +162,8 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
+      <groupId>org.jboss.arquillian</groupId>
+      <artifactId>arquillian-junit</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.common</groupId>
@@ -206,6 +212,7 @@
       <artifactId>hibernate-core</artifactId>
     </dependency>
     <dependency>
+<<<<<<< HEAD
       <groupId>org.jboss.weld</groupId>
       <artifactId>weld-core-test</artifactId>
     </dependency>
@@ -224,6 +231,22 @@
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>scheduling</artifactId>
+=======
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.common</groupId>
+      <artifactId>google-guava</artifactId>
+>>>>>>> bb0cfaafef41c517a79f6dc81029a41ba4396fce
     </dependency>
   </dependencies>
   <dependencyManagement>

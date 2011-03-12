@@ -81,6 +81,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 	}
 	private void addObjectFlowVariable(INakedActivityEdge edge,OJAnnotatedOperation oper,INakedObjectFlow objectFlow){
 		INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
+		//TODO the originatingObjectNode may not have the correct type after transformations and selections
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), origin, false);
 		OJAnnotatedField sourceField = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);

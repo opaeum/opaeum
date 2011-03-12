@@ -700,7 +700,7 @@
               </outputValue>
               <body>nodeDefinition->select(n|n.active=true)</body>
             </node>
-            <node xmi:type="uml:ActivityFinalNode" xmi:id="_cQ4QIEokEeCFaJvOEQDIzw" name="ActivityFinalNode1" incoming="_ZUVR0EwZEeCD2ITeubLIbQ _tjv8AEwaEeCD2ITeubLIbQ"/>
+            <node xmi:type="uml:ActivityFinalNode" xmi:id="_cQ4QIEokEeCFaJvOEQDIzw" name="ActivityFinalNode1" incoming="_67LtMEyIEeCT1fhneIHFNA"/>
             <node xmi:type="uml:ReadVariableAction" xmi:id="_Cg2S8EwZEeCD2ITeubLIbQ" name="ReadVariableNetworkRipSuccess" incoming="_JNns8EwZEeCD2ITeubLIbQ" variable="_kWElIEwSEeCD2ITeubLIbQ">
               <result xmi:id="_MKTggEwZEeCD2ITeubLIbQ" name="networkSoftwareVersionRipSuccess" outgoing="_nvZ-0EwaEeCD2ITeubLIbQ">
                 <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
@@ -723,6 +723,7 @@
               </inputValue>
               <body>networkSoftwareVersionRipSuccess</body>
             </node>
+            <node xmi:type="uml:MergeNode" xmi:id="_5Tq80EyIEeCT1fhneIHFNA" name="MergeNode1" outgoing="_67LtMEyIEeCT1fhneIHFNA" incoming="_tjv8AEwaEeCD2ITeubLIbQ _ZUVR0EwZEeCD2ITeubLIbQ"/>
             <edge xmi:type="uml:ControlFlow" xmi:id="_GnsWEEm0EeCFaJvOEQDIzw" name="ControlFlow1" source="_EU9ecEm0EeCFaJvOEQDIzw" target="_FidMUEm0EeCFaJvOEQDIzw">
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_GnsWEUm0EeCFaJvOEQDIzw" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_GnsWEkm0EeCFaJvOEQDIzw" value="1"/>
@@ -746,7 +747,7 @@
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_JNns8UwZEeCD2ITeubLIbQ" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_JNns8kwZEeCD2ITeubLIbQ" value="1"/>
             </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="_ZUVR0EwZEeCD2ITeubLIbQ" name="ControlFlow4" source="_PH6hIEwZEeCD2ITeubLIbQ" target="_cQ4QIEokEeCFaJvOEQDIzw">
+            <edge xmi:type="uml:ControlFlow" xmi:id="_ZUVR0EwZEeCD2ITeubLIbQ" name="ControlFlow4" source="_PH6hIEwZEeCD2ITeubLIbQ" target="_5Tq80EyIEeCT1fhneIHFNA">
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_ZUVR0UwZEeCD2ITeubLIbQ" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_ZUVR0kwZEeCD2ITeubLIbQ" value="1"/>
             </edge>
@@ -754,7 +755,7 @@
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_nvZ-0UwaEeCD2ITeubLIbQ" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_nvZ-0kwaEeCD2ITeubLIbQ" value="1"/>
             </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="_tjv8AEwaEeCD2ITeubLIbQ" name="ControlFlow6" source="_mowf0EwaEeCD2ITeubLIbQ" target="_cQ4QIEokEeCFaJvOEQDIzw">
+            <edge xmi:type="uml:ControlFlow" xmi:id="_tjv8AEwaEeCD2ITeubLIbQ" name="ControlFlow6" source="_mowf0EwaEeCD2ITeubLIbQ" target="_5Tq80EyIEeCT1fhneIHFNA">
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_tjv8AUwaEeCD2ITeubLIbQ" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_tjv8AkwaEeCD2ITeubLIbQ" value="1"/>
             </edge>
@@ -767,6 +768,10 @@
             <edge xmi:type="uml:ControlFlow" xmi:id="_oJ764ExrEeCD2ITeubLIbQ" source="_-Vh3IEwaEeCD2ITeubLIbQ" target="_PH6hIEwZEeCD2ITeubLIbQ">
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_oJ764UxrEeCD2ITeubLIbQ" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_oJ764kxrEeCD2ITeubLIbQ" value="1"/>
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="_67LtMEyIEeCT1fhneIHFNA" name="ControlFlow5" source="_5Tq80EyIEeCT1fhneIHFNA" target="_cQ4QIEokEeCFaJvOEQDIzw">
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_67LtMUyIEeCT1fhneIHFNA" value="true"/>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_67LtMkyIEeCT1fhneIHFNA" value="1"/>
             </edge>
           </ownedBehavior>
           <nestedClassifier xmi:type="uml:Signal" xmi:id="_yYgsEEoYEeCFaJvOEQDIzw" name="NodeDefinitionToRipSignal">

@@ -193,6 +193,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			OJBlock elseBlock = block;
 			INakedActivityEdge incomingEdge = cn.getIncoming().iterator().next();
 			if(incomingEdge instanceof INakedObjectFlow){
+				// TODO the originatingOBjectNode my not have the correct type after transformations and selections
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(cn.getActivity(), ((INakedObjectFlow) incomingEdge).getOriginatingObjectNode(), false);
 				OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 				ObjectNodeExpressor expressor = new ObjectNodeExpressor(getOclEngine().getOclLibrary());

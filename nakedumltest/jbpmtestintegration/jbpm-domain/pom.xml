@@ -19,12 +19,25 @@
         <executions>
           <execution>
             <id>add-test-source</id>
+<<<<<<< HEAD
+=======
             <phase>generate-sources</phase>
             <goals>
               <goal>add-test-source</goal>
             </goals>
             <configuration>
               <sources><source>src/test/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-source</id>
+>>>>>>> bb0cfaafef41c517a79f6dc81029a41ba4396fce
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/main/generated-java</source></sources>
             </configuration>
           </execution>
           <execution>
@@ -40,6 +53,7 @@
           <execution>
             <id>add-test-resource</id>
             <phase>generate-resources</phase>
+<<<<<<< HEAD
             <goals>
               <goal>add-test-resource</goal>
             </goals>
@@ -50,11 +64,13 @@
           <execution>
             <id>add-source</id>
             <phase>generate-sources</phase>
+=======
+>>>>>>> bb0cfaafef41c517a79f6dc81029a41ba4396fce
             <goals>
-              <goal>add-source</goal>
+              <goal>add-test-resource</goal>
             </goals>
             <configuration>
-              <sources><source>src/main/generated-java</source></sources>
+              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
         </executions>

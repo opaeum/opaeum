@@ -55,7 +55,7 @@ import org.drools.drools._5._0.process.VariablesType;
 import org.eclipse.emf.common.util.EList;
 
 @StepDependency(phase = FlowGenerationPhase.class)
-public class ActivityFlowStep extends FlowGenerationStep {
+public class ActivityFlowStep extends AbstractFlowStep {
 	private static final int ARTIFICIAL_JOIN_ID = 100000;
 	private static final int ARTIFICIAL_FORK_ID = 200000;
 	private static final int ARTIFICIAL_START_NODE_ID = 300000;

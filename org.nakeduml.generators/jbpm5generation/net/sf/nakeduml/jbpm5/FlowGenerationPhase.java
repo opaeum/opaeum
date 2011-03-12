@@ -12,7 +12,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 @PhaseDependency(after=JavaTransformationPhase.class, before=FileGenerationPhase.class)
-public class FlowGenerationPhase implements TransformationPhase<FlowGenerationStep> {
+public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep> {
 	@InputModel
 	INakedModelWorkspace workspace;
 	@InputModel
@@ -25,8 +25,8 @@ public class FlowGenerationPhase implements TransformationPhase<FlowGenerationSt
 	}
 
 	@Override
-	public Object[] execute(List<FlowGenerationStep> features,TransformationContext context) {
-		for (FlowGenerationStep step : features) {
+	public Object[] execute(List<AbstractFlowStep> features,TransformationContext context) {
+		for (AbstractFlowStep step : features) {
 			step.initialize(config,textWorkspace, workspace);
 			step.startVisiting(workspace);
 		}

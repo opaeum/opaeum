@@ -24,7 +24,11 @@
               <goal>add-resource</goal>
             </goals>
             <configuration>
+<<<<<<< HEAD
               <resources><resource><directory>src/main/webapp</directory></resource></resources>
+=======
+              <resources><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource></resources>
+>>>>>>> bb0cfaafef41c517a79f6dc81029a41ba4396fce
             </configuration>
           </execution>
           <execution>

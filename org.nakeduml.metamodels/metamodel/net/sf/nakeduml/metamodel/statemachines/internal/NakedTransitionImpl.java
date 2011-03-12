@@ -223,4 +223,9 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	public void setGuardConstraint(INakedConstraint guard) {
 		addOwnedElement(effect);
 	}
+
+	@Override
+	public INakedElement getEffectiveTarget(){
+		return getTarget();
+	}
 }

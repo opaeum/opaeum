@@ -12,10 +12,10 @@ import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.jbpm.rip.NodeType;
 import jbpm.jbpm.rip.SoftwareVersion;
 import jbpm.jbpm.rip.SshTunnelSpec;
-import jbpm.jbpm.rip.network.RipProcess;
-import jbpm.jbpm.rip.network.RipProcessState;
-import jbpm.jbpm.rip.network.ripprocess.RipActivity;
-import jbpm.jbpm.rip.network.ripprocess.RipActivityState;
+import jbpm.jbpm.rip.networksoftwareversion.RipProcess;
+import jbpm.jbpm.rip.networksoftwareversion.RipProcessState;
+import jbpm.jbpm.rip.networksoftwareversion.ripprocess.RipActivity;
+import jbpm.jbpm.rip.networksoftwareversion.ripprocess.RipActivityState;
 
 import org.hibernate.Session;
 
@@ -49,7 +49,7 @@ public class RipTestController {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void testRipNetwork(Network network) {
-		Network networkToRip = (Network) session.get(Network.class, network.getId());
+		NetworkSoftwareVersion networkToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, network.getId());
 		RipProcess ripProcess = networkToRip.RipProcess();
 		ripProcess.execute();
 		session.flush();
@@ -58,10 +58,10 @@ public class RipTestController {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean assertProcessCompleted(Network network) {
 		session.clear();
-		Network networkRipped = (Network) session.get(Network.class, network.getId());
+		NetworkSoftwareVersion networkRipped = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, network.getId());
 		for (RipProcess ripProcess : networkRipped.getRipProcess()) {
 			for (RipActivity ripActivity : ripProcess.getRipActivity()) {
-				if (!ripActivity.isStepActive(RipActivityState.RIPACTIVITYACTIVITYFINALNODE1)) {
+				if (!ripActivity.isStepActive(RipActivityState.RIPPEDSUCCESSFULLY)) {
 					return false;
 				}
 			}
