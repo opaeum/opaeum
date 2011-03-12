@@ -24,6 +24,9 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		addCdi(result);
 		addJbossJeeSpec(result);
 		addHibernate(result);
+		//Required for testing with cdi
+		addWeldCoreTest(result);
+		addSeamScheduling(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 
@@ -40,6 +43,7 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	public Properties getProperties(){
 		Properties properties = super.getProperties();
 		properties.put("numl.version", PomGenerationPhase.NUML_VERSION);
+		properties.put("weld.core.test.version", "1.0.1-Final");
 		return properties;
 	}
 
@@ -52,4 +56,43 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	protected OutputRoot getExampleTargetDir() {
 		return config.getOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
 	}
+	
+	private void addWeldCoreTest(Collection<Dependency> result) {
+		Dependency weldCoreTest = POMFactory.eINSTANCE.createDependency();
+		weldCoreTest.setGroupId("org.jboss.weld");
+		weldCoreTest.setArtifactId("weld-core-test");
+		weldCoreTest.setScope("test");
+		weldCoreTest.setVersion("${weld.core.test.version}");
+		result.add(weldCoreTest);
+		Dependency servlet = POMFactory.eINSTANCE.createDependency();
+		servlet.setGroupId("javax.servlet");
+		servlet.setArtifactId("servlet-api");
+		servlet.setScope("test");
+		servlet.setVersion("2.5");
+		result.add(servlet);
+		Dependency jbossTestHarness = POMFactory.eINSTANCE.createDependency();
+		jbossTestHarness.setGroupId("org.jboss.test-harness");
+		jbossTestHarness.setArtifactId("jboss-test-harness");
+		jbossTestHarness.setScope("test");
+		jbossTestHarness.setVersion("1.1.0-SNAPSHOT");
+		result.add(jbossTestHarness);
+		
+		Dependency weldSe = POMFactory.eINSTANCE.createDependency();
+		weldSe.setGroupId("org.jboss.weld");
+		weldSe.setArtifactId("weld-se");
+		weldSe.setScope("test");
+		weldSe.setVersion("1.0.1-Final");
+		result.add(weldSe);
+	}
+	
+	private void addSeamScheduling(Collection<Dependency> dependencies) {
+		Dependency seamScheduling = POMFactory.eINSTANCE.createDependency();
+		seamScheduling.setGroupId("org.jboss.seam");
+		seamScheduling.setArtifactId("scheduling");
+		seamScheduling.setVersion("${seam.scheduling.version}");
+		seamScheduling.setScope("compile");
+		seamScheduling.setType("jar");
+		dependencies.add(seamScheduling);		
+	}
+	
 }

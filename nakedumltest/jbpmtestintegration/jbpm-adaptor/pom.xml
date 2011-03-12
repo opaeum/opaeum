@@ -24,17 +24,7 @@
               <goal>add-test-resource</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-test-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
+              <resources><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -55,6 +45,16 @@
             </goals>
             <configuration>
               <sources><source>src/main/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/test/generated-java</source><source>src/test/java</source></sources>
             </configuration>
           </execution>
         </executions>
@@ -148,8 +148,6 @@
   </profiles>
   <dependencies>
     <dependency>
-<<<<<<< HEAD
-=======
       <groupId>commons-pool</groupId>
       <artifactId>commons-pool</artifactId>
     </dependency>
@@ -162,7 +160,14 @@
       <artifactId>jsch</artifactId>
     </dependency>
     <dependency>
->>>>>>> d78c0e5c07484158e53dcb430aeeaf7e40861360
+      <groupId>com.google.common</groupId>
+      <artifactId>google-guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.arquillian</groupId>
+      <artifactId>arquillian-junit</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
     </dependency>
@@ -201,15 +206,31 @@
       <artifactId>hibernate-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.arquillian</groupId>
-      <artifactId>arquillian-junit</artifactId>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-core-test</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.test-harness</groupId>
+      <artifactId>jboss-test-harness</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-se</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>scheduling</artifactId>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies/>
   </dependencyManagement>
   <properties>
     <numl.version>1.0.0.5-SNAPSHOT</numl.version>
+    <weld.core.test.version>1.0.1-Final</weld.core.test.version>
   </properties>
 </project>
