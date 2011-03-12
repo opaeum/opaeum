@@ -87,10 +87,7 @@ public abstract class AbstractNodeBuilder {
 		}
 		return expression;
 	}
-	
-	protected String buildControlNodeExpression(OJOperation operationContext, OJBlock block, INakedControlNode cn) {
-		return expressor.expressControlNode(block, cn);
-	}
+
 	
 	protected final IOclEngine getOclEngine() {
 		return oclEngine;

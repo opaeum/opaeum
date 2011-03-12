@@ -152,9 +152,5 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 		return map.getter() + "()";
 	}
 
-	@Override
-	public String expressControlNode(OJBlock block, INakedControlNode controlNode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }

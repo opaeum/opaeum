@@ -14,8 +14,8 @@ import org.nakeduml.runtime.adaptor.DataGeneratorProperty;
 import org.nakeduml.seam3.persistence.DependentScopedSession;
 
 public class ExampleStartUp {
-	@DependentScopedSession
 	@Inject
+	@DependentScopedSession
 	private Session session;
 	@Inject
 	@DefaultTransaction

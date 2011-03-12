@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
@@ -22,6 +23,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -29,6 +31,8 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
+import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -39,6 +43,7 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.ActiveObject;
@@ -57,11 +62,30 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 			c.addToOperations(oper);
 			oper.setReturnType(new OJPathName("boolean"));
 			ActivityUtil.setupVariables(oper, node);
+			INakedActivityNode source = edge.getEffectiveSource();
+			if(edge instanceof INakedObjectFlow){
+				addObjectFlowVariable(edge, oper, (INakedObjectFlow) edge);
+			}else if((source instanceof INakedControlNode && ((INakedControlNode) source).getControlNodeType() == ControlNodeType.DECISION_NODE)){
+				// NB!! we are doing it here for both controlflows and objectflows which is not entirely to uml spec but what the heck,
+				// looks like a good idea
+				if(source.getIncoming().size() == 1 && source.getIncoming().iterator().next() instanceof INakedObjectFlow){
+					INakedObjectFlow objectFlow = (INakedObjectFlow) source.getIncoming().iterator().next();
+					addObjectFlowVariable(edge, oper, objectFlow);
+				}
+			}
 			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			oper.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(), booleanType));
 			oper.setName(Jbpm5Util.getGuardMethod(edge));
 			oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
 		}
+	}
+	private void addObjectFlowVariable(INakedActivityEdge edge,OJAnnotatedOperation oper,INakedObjectFlow objectFlow){
+		INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), origin, false);
+		OJAnnotatedField sourceField = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+		oper.getBody().addToLocals(sourceField);
+		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getOclEngine());
+		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitSendSignalAction(INakedSendSignalAction a){
@@ -69,7 +93,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 			OJAnnotatedClass ojClass = findJavaClass(a.getTargetElement().getNakedBaseType());
 			if(ojClass instanceof OJAnnotatedInterface){
 				((OJAnnotatedInterface) ojClass).addToSuperInterfaces(new OJPathName(ActiveObject.class.getName()));
-			}else if(ojClass!=null){
+			}else if(ojClass != null){
 				ojClass.addToImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
 			}
 		}

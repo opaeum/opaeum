@@ -18,18 +18,6 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor {
 		super(oclLibrary);
 	}
 
-	public final String expressControlNode(OJBlock block, INakedControlNode controlNode) {
-		// Either an outputpin or parameterNode
-		INakedObjectFlow edge = (INakedObjectFlow)controlNode.getIncoming().iterator().next();
-		INakedObjectNode feedingNode = (INakedObjectNode) edge.getSource();
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(controlNode.getActivity(), feedingNode);
-		String call = map.umlName();// ParameterNode or top level output
-									// pin or expansion node
-		if (feedingNode instanceof INakedOutputPin) {
-			call = retrieveFromExecutionInstanceIfNecessary((INakedOutputPin) feedingNode, call);
-		}
-		return surroundWithSelectionAndTransformation(call, edge);
-	}
 	
 	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin) {
 		// Either an outputpin or parameterNode
