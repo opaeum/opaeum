@@ -43,7 +43,6 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	public Properties getProperties(){
 		Properties properties = super.getProperties();
 		properties.put("numl.version", PomGenerationPhase.NUML_VERSION);
-		properties.put("seam.scheduling.version", "1.0.0-SNAPSHOT");
 		return properties;
 	}
 

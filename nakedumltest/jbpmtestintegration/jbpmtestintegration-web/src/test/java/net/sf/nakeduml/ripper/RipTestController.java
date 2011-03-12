@@ -25,29 +25,6 @@ public class RipTestController {
 	Session session;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public Application createTestData() {
-		Application application = new Application();
-		application.setName("cmApplication");
-		Network network = new Network(application);
-		network.setName("Botswana");
-		NetworkSoftwareVersion networkSoftwareVersion = new NetworkSoftwareVersion(network);
-		networkSoftwareVersion.setName("BotswanaR12");
-		networkSoftwareVersion.setSoftwareVersion(SoftwareVersion.R12);
-		NodeDefinition nodeDefinition = new NodeDefinition(networkSoftwareVersion);
-		nodeDefinition.setName("Botswana_BSC1");
-		nodeDefinition.setActive(true);
-		nodeDefinition.setNodeType(NodeType.BSC);
-		SshTunnelSpec sshTunnelSpec = new SshTunnelSpec(network);
-		sshTunnelSpec.setName("Botswana_machine1");
-		nodeDefinition.setSshTunnelSpec(sshTunnelSpec);
-		MMLCommand mmlCommand = new MMLCommand(network);
-		mmlCommand.setSoftwareVersion(SoftwareVersion.R12);
-		session.persist(application);
-		session.flush();
-		return application;
-	}
-
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void testRipNetwork(NetworkSoftwareVersion networkSoftwareVersion) {
 		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
 		RipProcess ripProcess = networkSoftwareVersionToRip.RipProcess();
@@ -55,7 +32,6 @@ public class RipTestController {
 		session.flush();
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean assertProcessCompleted(NetworkSoftwareVersion networkSoftwareVersion) {
 		session.clear();
 		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
@@ -71,6 +47,17 @@ public class RipTestController {
 		}
 		return true;
 	}
+	
+	public boolean assertProcessCompletedWithFailure(NetworkSoftwareVersion networkSoftwareVersion) {
+		session.clear();
+		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
+		for (RipProcess ripProcess : networkSoftwareVersionToRip.getRipProcess()) {
+			if (ripProcess.getLastSuccesfulRip()!=null && ripProcess.getLastUnsuccessfulRip()==null) {
+				return false;
+			}
+		}
+		return true;
+	}	
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean isStepActive(RipProcess ripProcess, RipProcessState ripProcessState) {
@@ -81,5 +68,85 @@ public class RipTestController {
 	public boolean isStepActive(RipActivity ripActivity, RipActivityState ripActivityState) {
 		return ripActivity.isStepActive(ripActivityState);
 	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public Application createTestData() {
+		Application application = createApplication();
+		Network network = createNetwork(application);
+		NetworkSoftwareVersion networkSoftwareVersion = createNetworkSoftwareVersion(network);
+		NodeDefinition nodeDefinition = createNodeDefinition(networkSoftwareVersion);
+		SshTunnelSpec sshTunnelSpec = createSshTunnel(network);
+		nodeDefinition.setSshTunnelSpec(sshTunnelSpec);
+		createMMLCommand(network);
+		session.persist(application);
+		session.flush();		
+		return application;
+	}
+
+	private  Application createBadTestData() {
+		Application application = createApplication();
+		Network network = createNetwork(application);
+		NetworkSoftwareVersion networkSoftwareVersion = createNetworkSoftwareVersion(network);
+		NodeDefinition nodeDefinition = createNodeDefinition(networkSoftwareVersion);
+		SshTunnelSpec sshTunnelSpec = createSshTunnel(network);
+		sshTunnelSpec.setHost("x.x.x.x");
+		nodeDefinition.setSshTunnelSpec(sshTunnelSpec);
+		createMMLCommand(network);
+		session.persist(application);
+		session.flush();		
+		return application;
+	}
+
+	private void createMMLCommand(Network network) {
+		MMLCommand mmlCommand = new MMLCommand(network);
+		mmlCommand.setSoftwareVersion(SoftwareVersion.R12);
+		mmlCommand.setCommand("RLCP");
+		mmlCommand.setSuffix(":CELL=ALL;");
+	}
+
+	private SshTunnelSpec createSshTunnel(Network network) {
+		SshTunnelSpec sshTunnelSpec = new SshTunnelSpec(network);
+		sshTunnelSpec.setName("Botswana_machine1");
+		sshTunnelSpec.setHost("1.bw.mtn");
+		sshTunnelSpec.setUsername("rorotika");
+		sshTunnelSpec.setPassword("ror0t1ka1");
+		sshTunnelSpec.setActive(true);
+		sshTunnelSpec.setLport(7777);
+		sshTunnelSpec.setTimeout(20000);
+		return sshTunnelSpec;
+	}
+
+	private NodeDefinition createNodeDefinition(NetworkSoftwareVersion networkSoftwareVersion) {
+		NodeDefinition nodeDefinition = new NodeDefinition(networkSoftwareVersion);
+		nodeDefinition.setName("FTMSS01");
+		nodeDefinition.setActive(true);
+		nodeDefinition.setHost("10.32.41.6");
+		nodeDefinition.setPort(23);
+		nodeDefinition.setSoTimeout(20000);
+		nodeDefinition.setTimeout(10000);
+		nodeDefinition.setUsername("rorotika");
+		nodeDefinition.setPassword("Ror0t1ka321");
+		nodeDefinition.setNodeType(NodeType.BSC);
+		return nodeDefinition;
+	}
+
+	private NetworkSoftwareVersion createNetworkSoftwareVersion(Network network) {
+		NetworkSoftwareVersion networkSoftwareVersion = new NetworkSoftwareVersion(network);
+		networkSoftwareVersion.setName("BotswanaR12");
+		networkSoftwareVersion.setSoftwareVersion(SoftwareVersion.R12);
+		return networkSoftwareVersion;
+	}
+
+	private Network createNetwork(Application application) {
+		Network network = new Network(application);
+		network.setName("Botswana");
+		return network;
+	}
+
+	private Application createApplication() {
+		Application application = new Application();
+		application.setName("cmApplication");
+		return application;
+	}	
 
 }

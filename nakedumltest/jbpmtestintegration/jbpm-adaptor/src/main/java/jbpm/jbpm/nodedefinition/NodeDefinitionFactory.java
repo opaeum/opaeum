@@ -2,23 +2,32 @@ package jbpm.jbpm.nodedefinition;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import jbpm.jbpm.rip.NodeDefinition;
 
 import org.hibernate.Session;
+import org.nakeduml.seam3.persistence.DependentScopedSession;
 
-public class NodeDefinitionFactory {
+public class NodeDefinitionFactory implements INodeDefinitionFactory {
 
+	@DependentScopedSession
 	@Inject
 	private Session session;
+	private List<NodeDefinition> nodeDefinitions;
 	
 	@SuppressWarnings("unchecked")
-	@ApplicationScoped
+	@PostConstruct
+	public void startUp() {
+		nodeDefinitions = session.createQuery("from NodeDefinition a order by a.name").list();
+	}
+	
+	@RequestScoped
 	@Produces
 	public List<NodeDefinition> get() {
-		return session.createQuery("from NodeDefinition a order by a.name").list();
+		return this.nodeDefinitions;
 	}
 }

@@ -9,7 +9,7 @@ import jbpm.jbpm.rip.NodeType;
 import jbpm.jbpm.rip.SoftwareVersion;
 import jbpm.jbpm.rip.SshTunnelSpec;
 
-public class RipperInitData {
+public class RipDomainInitData {
 	public static Application createTestData() {
 		Application application = new Application();
 		application.setName("cmApplication");

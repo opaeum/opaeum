@@ -35,15 +35,15 @@ public class RipHelperImpl implements RipHelper {
 
 	@Override
 	public boolean rip(NodeDefinition nodeDefinitionToRip_, Set<MMLCommand> mmlCommands) {
-		logger.info("ripping yippee");
 		int count = 0;
 		while (true) {
 			try {
+				logger.info("ripping node definition {}, attempt {}", nodeDefinitionToRip_.getName(), count+1);
 				ripNodeDefinition(nodeDefinitionToRip_, mmlCommands);
 				break;
 			} catch (RuntimeException e) {
 				count++;
-				if (count > 2) {
+				if (count > 0) {
 					logger.warn(e.getMessage(),e);
 					return false;
 				}
@@ -97,7 +97,7 @@ public class RipHelperImpl implements RipHelper {
 		dir.mkdirs();
 		String fileName = getFileName(connectionSpec);
 		File file = new File(dir, fileName);
-		logger.info("ripping file to #0", file.getAbsolutePath());
+		logger.info("ripping file to {}", file.getAbsolutePath());
 		// Ensure file cleared
 		Files.write(new String().getBytes(), file);
 		String heading = "CM DUMP BEGIN\nTime stamp: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS:%1$tL\nNode: %2$s\n";

@@ -70,7 +70,7 @@ public class RipHelperTest {
 		}
 	}
 
-	private Application createTestData() {
+	public static Application createTestData() {
 		Application application = createApplication();
 		Network network = createNetwork(application);
 		NetworkSoftwareVersion networkSoftwareVersion = createNetworkSoftwareVersion(network);
@@ -81,7 +81,7 @@ public class RipHelperTest {
 		return application;
 	}
 
-	private Application createBadTestData() {
+	private static Application createBadTestData() {
 		Application application = createApplication();
 		Network network = createNetwork(application);
 		NetworkSoftwareVersion networkSoftwareVersion = createNetworkSoftwareVersion(network);
@@ -93,14 +93,14 @@ public class RipHelperTest {
 		return application;
 	}
 
-	private void createMMLCommand(Network network) {
+	private static void createMMLCommand(Network network) {
 		MMLCommand mmlCommand = new MMLCommand(network);
 		mmlCommand.setSoftwareVersion(SoftwareVersion.R12);
 		mmlCommand.setCommand("RLCP");
 		mmlCommand.setSuffix(":CELL=ALL;");
 	}
 
-	private SshTunnelSpec createSshTunnel(Network network) {
+	private static SshTunnelSpec createSshTunnel(Network network) {
 		SshTunnelSpec sshTunnelSpec = new SshTunnelSpec(network);
 		sshTunnelSpec.setName("Botswana_machine1");
 		sshTunnelSpec.setHost("1.bw.mtn");
@@ -113,7 +113,7 @@ public class RipHelperTest {
 		return sshTunnelSpec;
 	}
 
-	private NodeDefinition createNodeDefinition(NetworkSoftwareVersion networkSoftwareVersion) {
+	private static NodeDefinition createNodeDefinition(NetworkSoftwareVersion networkSoftwareVersion) {
 		NodeDefinition nodeDefinition = new NodeDefinition(networkSoftwareVersion);
 		nodeDefinition.setName("FTMSS01");
 		nodeDefinition.setActive(true);
@@ -128,20 +128,20 @@ public class RipHelperTest {
 		return nodeDefinition;
 	}
 
-	private NetworkSoftwareVersion createNetworkSoftwareVersion(Network network) {
+	private static NetworkSoftwareVersion createNetworkSoftwareVersion(Network network) {
 		NetworkSoftwareVersion networkSoftwareVersion = new NetworkSoftwareVersion(network);
 		networkSoftwareVersion.setName("BotswanaR12");
 		networkSoftwareVersion.setSoftwareVersion(SoftwareVersion.R12);
 		return networkSoftwareVersion;
 	}
 
-	private Network createNetwork(Application application) {
+	private static Network createNetwork(Application application) {
 		Network network = new Network(application);
 		network.setName("Botswana");
 		return network;
 	}
 
-	private Application createApplication() {
+	private static Application createApplication() {
 		Application application = new Application();
 		application.setName("cmApplication");
 		return application;

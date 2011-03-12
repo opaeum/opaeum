@@ -707,7 +707,7 @@
                 <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MKTggUwZEeCD2ITeubLIbQ" value="*"/>
               </result>
             </node>
-            <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_PH6hIEwZEeCD2ITeubLIbQ" name="SetNetworkSoftwareVersionRipLastSuccess" outgoing="_ZUVR0EwZEeCD2ITeubLIbQ" incoming="_oJ764ExrEeCD2ITeubLIbQ" structuralFeature="_ZpdX0EwaEeCD2ITeubLIbQ">
+            <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_PH6hIEwZEeCD2ITeubLIbQ" name="SetNetworkSoftwareVersionRipLastSuccess" outgoing="_ZUVR0EwZEeCD2ITeubLIbQ" incoming="_2T8bsEzdEeCONMVXUpwSgg" structuralFeature="_ZpdX0EwaEeCD2ITeubLIbQ">
               <value xmi:type="uml:ValuePin" xmi:id="_deY-MExrEeCD2ITeubLIbQ" name="currentDate">
                 <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
                 <value xmi:type="uml:OpaqueExpression" xmi:id="_kFwTwExrEeCD2ITeubLIbQ" name="OpaqueExpression1">
@@ -715,15 +715,30 @@
                 </value>
               </value>
             </node>
-            <node xmi:type="uml:DecisionNode" xmi:id="_mowf0EwaEeCD2ITeubLIbQ" name="isSuccessNetworkSoftwareVersion" outgoing="_tjv8AEwaEeCD2ITeubLIbQ _CtlcgEwbEeCD2ITeubLIbQ" incoming="_nvZ-0EwaEeCD2ITeubLIbQ"/>
-            <node xmi:type="uml:OpaqueAction" xmi:id="_-Vh3IEwaEeCD2ITeubLIbQ" name="OpaqueAction1" outgoing="_oJ764ExrEeCD2ITeubLIbQ">
-              <inputValue xmi:id="__GeL4EwaEeCD2ITeubLIbQ" name="InputPin1" incoming="_CtlcgEwbEeCD2ITeubLIbQ">
-                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__GeL4UwaEeCD2ITeubLIbQ" value="*"/>
-              </inputValue>
-              <body>networkSoftwareVersionRipSuccess</body>
+            <node xmi:type="uml:DecisionNode" xmi:id="_mowf0EwaEeCD2ITeubLIbQ" name="isSuccessNetworkSoftwareVersion" outgoing="_tjv8AEwaEeCD2ITeubLIbQ _wcAX8EzdEeCONMVXUpwSgg _xCvn0EzdEeCONMVXUpwSgg" incoming="_nvZ-0EwaEeCD2ITeubLIbQ"/>
+            <node xmi:type="uml:MergeNode" xmi:id="_5Tq80EyIEeCT1fhneIHFNA" name="MergeNode1" outgoing="_67LtMEyIEeCT1fhneIHFNA" incoming="_tjv8AEwaEeCD2ITeubLIbQ _ZUVR0EwZEeCD2ITeubLIbQ _66atAEzcEeCONMVXUpwSgg"/>
+            <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_mgIaIEzcEeCONMVXUpwSgg" name="SetNetworkSoftwareVersionRipLastFailure" outgoing="_66atAEzcEeCONMVXUpwSgg" incoming="_3GX-MEzdEeCONMVXUpwSgg" structuralFeature="_cXymUEwaEeCD2ITeubLIbQ">
+              <value xmi:type="uml:ValuePin" xmi:id="_rTmwMEzcEeCONMVXUpwSgg" name="currentDate">
+                <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+                <value xmi:type="uml:OpaqueExpression" xmi:id="_8seggEzcEeCONMVXUpwSgg" name="OpaqueExpression1">
+                  <body>now</body>
+                </value>
+              </value>
             </node>
-            <node xmi:type="uml:MergeNode" xmi:id="_5Tq80EyIEeCT1fhneIHFNA" name="MergeNode1" outgoing="_67LtMEyIEeCT1fhneIHFNA" incoming="_tjv8AEwaEeCD2ITeubLIbQ _ZUVR0EwZEeCD2ITeubLIbQ"/>
+            <node xmi:type="uml:OpaqueAction" xmi:id="_mkUhIEzdEeCONMVXUpwSgg" name="OpaqueAction1" outgoing="_3GX-MEzdEeCONMVXUpwSgg">
+              <inputValue xmi:id="_oDLEwEzdEeCONMVXUpwSgg" name="InputPin1" incoming="_xCvn0EzdEeCONMVXUpwSgg">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oDLEwUzdEeCONMVXUpwSgg" value="*"/>
+              </inputValue>
+              <body>name</body>
+            </node>
+            <node xmi:type="uml:OpaqueAction" xmi:id="_nBPGoEzdEeCONMVXUpwSgg" name="OpaqueAction2" outgoing="_2T8bsEzdEeCONMVXUpwSgg">
+              <inputValue xmi:id="_oclDQEzdEeCONMVXUpwSgg" name="InputPin1" incoming="_wcAX8EzdEeCONMVXUpwSgg">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oclqUEzdEeCONMVXUpwSgg" value="*"/>
+              </inputValue>
+              <body>name</body>
+            </node>
             <edge xmi:type="uml:ControlFlow" xmi:id="_GnsWEEm0EeCFaJvOEQDIzw" name="ControlFlow1" source="_EU9ecEm0EeCFaJvOEQDIzw" target="_FidMUEm0EeCFaJvOEQDIzw">
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_GnsWEUm0EeCFaJvOEQDIzw" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_GnsWEkm0EeCFaJvOEQDIzw" value="1"/>
@@ -759,19 +774,33 @@
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_tjv8AUwaEeCD2ITeubLIbQ" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_tjv8AkwaEeCD2ITeubLIbQ" value="1"/>
             </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_CtlcgEwbEeCD2ITeubLIbQ" name="ObjectFlow5" source="_mowf0EwaEeCD2ITeubLIbQ" target="__GeL4EwaEeCD2ITeubLIbQ">
-              <guard xmi:type="uml:OpaqueExpression" xmi:id="_EJWP4EwbEeCD2ITeubLIbQ">
-                <body>networkSoftwareVersionRipSuccess=true</body>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_CtlcgkwbEeCD2ITeubLIbQ" value="1"/>
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="_oJ764ExrEeCD2ITeubLIbQ" source="_-Vh3IEwaEeCD2ITeubLIbQ" target="_PH6hIEwZEeCD2ITeubLIbQ">
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_oJ764UxrEeCD2ITeubLIbQ" value="true"/>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_oJ764kxrEeCD2ITeubLIbQ" value="1"/>
-            </edge>
             <edge xmi:type="uml:ControlFlow" xmi:id="_67LtMEyIEeCT1fhneIHFNA" name="ControlFlow5" source="_5Tq80EyIEeCT1fhneIHFNA" target="_cQ4QIEokEeCFaJvOEQDIzw">
               <guard xmi:type="uml:LiteralBoolean" xmi:id="_67LtMUyIEeCT1fhneIHFNA" value="true"/>
               <weight xmi:type="uml:LiteralInteger" xmi:id="_67LtMkyIEeCT1fhneIHFNA" value="1"/>
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="_66atAEzcEeCONMVXUpwSgg" name="ControlFlow9" source="_mgIaIEzcEeCONMVXUpwSgg" target="_5Tq80EyIEeCT1fhneIHFNA">
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_66atAUzcEeCONMVXUpwSgg" value="true"/>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_66atAkzcEeCONMVXUpwSgg" value="1"/>
+            </edge>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_wcAX8EzdEeCONMVXUpwSgg" name="ObjectFlow3" source="_mowf0EwaEeCD2ITeubLIbQ" target="_oclDQEzdEeCONMVXUpwSgg">
+              <guard xmi:type="uml:OpaqueExpression" xmi:id="_0vLdUEzdEeCONMVXUpwSgg">
+                <body>networkSoftwareVersionRipSuccess=true</body>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_wcAX8kzdEeCONMVXUpwSgg" value="1"/>
+            </edge>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_xCvn0EzdEeCONMVXUpwSgg" name="ObjectFlow5" source="_mowf0EwaEeCD2ITeubLIbQ" target="_oDLEwEzdEeCONMVXUpwSgg">
+              <guard xmi:type="uml:OpaqueExpression" xmi:id="_h4Wr0EzeEeCONMVXUpwSgg">
+                <body>networkSoftwareVersionRipSuccess=false</body>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_xCvn0kzdEeCONMVXUpwSgg" value="1"/>
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="_2T8bsEzdEeCONMVXUpwSgg" name="ControlFlow7" source="_nBPGoEzdEeCONMVXUpwSgg" target="_PH6hIEwZEeCD2ITeubLIbQ">
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_2T8bsUzdEeCONMVXUpwSgg" value="true"/>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_2T8bskzdEeCONMVXUpwSgg" value="1"/>
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="_3GX-MEzdEeCONMVXUpwSgg" name="ControlFlow8" source="_mkUhIEzdEeCONMVXUpwSgg" target="_mgIaIEzcEeCONMVXUpwSgg">
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_3GX-MUzdEeCONMVXUpwSgg" value="true"/>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_3GX-MkzdEeCONMVXUpwSgg" value="1"/>
             </edge>
           </ownedBehavior>
           <nestedClassifier xmi:type="uml:Signal" xmi:id="_yYgsEEoYEeCFaJvOEQDIzw" name="NodeDefinitionToRipSignal">

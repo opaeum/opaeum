@@ -6,7 +6,6 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 
-import org.jboss.seam.scheduling.Frequent;
 import org.jboss.seam.scheduling.annotations.Scheduled;
 import org.jboss.seam.scheduling.events.Event;
 import org.jboss.seam.scheduling.util.WebBeansManagerUtils;
@@ -27,13 +26,13 @@ public class CronTest extends AbstractCDITest {
     private Logger log = LoggerFactory.getLogger(CronTest.class);
     
     @Override
-    public List<Class<? extends Object>> getAdditionalWebBeans() {
+    protected List<Class<? extends Object>> getAdditionalWebBeans() {
         List<Class<? extends Object>> list = new ArrayList<Class<? extends Object>>(1);
         list.add(CronTest.class);
         return list;    	
     }
-    
-    @Test
+
+	@Test
     public void testScheduleDoesFire()
     {
         log.info("Testing shedule observer receiving events");
@@ -73,12 +72,6 @@ public class CronTest extends AbstractCDITest {
         this.namedEventObserved = true;
     }
 
-    public void onTypesafeSchedule(@Observes @Frequent Event event)
-    {
-        log.info("Event observed: " + event.toString());
-        this.typesafeEventObserved = true;
-    }    
-    
     /**
      * @return if the unnamed, scheduled event has been observed.
      */

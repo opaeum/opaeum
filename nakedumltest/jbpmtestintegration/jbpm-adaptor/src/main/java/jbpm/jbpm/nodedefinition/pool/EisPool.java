@@ -16,14 +16,15 @@ import jbpm.jbpm.rip.NodeDefinition;
 import org.apache.commons.pool.PoolUtils;
 import org.apache.commons.pool.impl.GenericKeyedObjectPool;
 import org.apache.commons.pool.impl.GenericKeyedObjectPool.Config;
-import org.jboss.logging.BasicLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 @Startup
 public class EisPool {
 
-	@Inject
-	private BasicLogger logger;
+	Logger logger = LoggerFactory.getLogger(EisPool.class);
+	
 	private GenericKeyedObjectPool pool;
 	private Integer maxTotal;
 	private Integer maxActive;
@@ -142,10 +143,6 @@ public class EisPool {
 		return sb.toString();
 	}
 
-	//For Mocking
-	public void setLogger(BasicLogger logger) {
-		this.logger = logger;
-	}
 	public void setKeyedFactory(SshTunnelKeyedConnectionFactory keyedFactory) {
 		this.keyedFactory = keyedFactory;
 	}
