@@ -25,7 +25,7 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		addJbossJeeSpec(result);
 		addHibernate(result);
 		//Required for testing with cdi
-		addWeldCoreTest(result);
+//		addWeldCoreTest(result);
 		addSeamScheduling(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
@@ -43,7 +43,7 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	public Properties getProperties(){
 		Properties properties = super.getProperties();
 		properties.put("numl.version", PomGenerationPhase.NUML_VERSION);
-		properties.put("weld.core.test.version", "1.0.1-Final");
+		properties.put("seam.scheduling.version", "1.0.0-SNAPSHOT");
 		return properties;
 	}
 

@@ -12,6 +12,7 @@ import org.jboss.seam.scheduling.events.Event;
 import org.jboss.seam.scheduling.util.WebBeansManagerUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.nakeduml.test.adaptor.AbstractCDITest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

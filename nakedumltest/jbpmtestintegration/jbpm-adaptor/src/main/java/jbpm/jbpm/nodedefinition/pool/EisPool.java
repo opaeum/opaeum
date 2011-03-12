@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PreDestroy;
+import javax.ejb.Startup;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,6 +19,7 @@ import org.apache.commons.pool.impl.GenericKeyedObjectPool.Config;
 import org.jboss.logging.BasicLogger;
 
 @Singleton
+@Startup
 public class EisPool {
 
 	@Inject

@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.rip.Network;
+import jbpm.jbpm.rip.NetworkSoftwareVersion;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
@@ -19,9 +20,9 @@ public class RipperWebTest extends JbpmWebTest {
 	@Test
 	public void testRipProcess() throws InterruptedException {
 		Application application = ripTestController.createTestData();
-		Network network = application.getNetwork().iterator().next();
-		ripTestController.testRipNetwork(network);
+		NetworkSoftwareVersion networkSoftwareVersion = application.getNetwork().iterator().next().getNetworkSoftwareVersion().iterator().next();
+		ripTestController.testRipNetwork(networkSoftwareVersion);
 		Thread.sleep(2000);
-		Assert.assertTrue(ripTestController.assertProcessCompleted(network));
+		Assert.assertTrue(ripTestController.assertProcessCompleted(networkSoftwareVersion));
 	}
 }

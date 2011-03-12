@@ -48,18 +48,18 @@ public class RipTestController {
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void testRipNetwork(Network network) {
-		NetworkSoftwareVersion networkToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, network.getId());
-		RipProcess ripProcess = networkToRip.RipProcess();
+	public void testRipNetwork(NetworkSoftwareVersion networkSoftwareVersion) {
+		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
+		RipProcess ripProcess = networkSoftwareVersionToRip.RipProcess();
 		ripProcess.execute();
 		session.flush();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public boolean assertProcessCompleted(Network network) {
+	public boolean assertProcessCompleted(NetworkSoftwareVersion networkSoftwareVersion) {
 		session.clear();
-		NetworkSoftwareVersion networkRipped = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, network.getId());
-		for (RipProcess ripProcess : networkRipped.getRipProcess()) {
+		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
+		for (RipProcess ripProcess : networkSoftwareVersionToRip.getRipProcess()) {
 			for (RipActivity ripActivity : ripProcess.getRipActivity()) {
 				if (!ripActivity.isStepActive(RipActivityState.RIPPEDSUCCESSFULLY)) {
 					return false;

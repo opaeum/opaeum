@@ -30,18 +30,7 @@ public class RipperTest extends BaseTest{
 	@Test
 	public void testRipProcess() {
 		Application app = RipperInitData.createTestData();
-		class AnyMatcher<S> extends BaseMatcher<S>{
 
-			@Override
-			public boolean matches(Object arg0){
-				return true;
-			}
-
-			@Override
-			public void describeTo(Description arg0){
-				
-			}
-		};
 		Mockery mockery = new Mockery();
 		final RipHelper ripHelper = mockery.mock(RipHelper.class);
 		mockery.checking(new Expectations() {{

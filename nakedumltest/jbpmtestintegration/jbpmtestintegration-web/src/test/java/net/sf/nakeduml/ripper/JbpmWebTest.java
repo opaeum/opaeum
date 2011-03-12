@@ -29,6 +29,7 @@ public class JbpmWebTest {
 		WebArchive war = ArquillianUtils.createWarArchive(false);
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SCHEDULING));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.COMMONS_NET));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.COMMONS_POOL));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JCRAFT_JSCH));
@@ -38,8 +39,8 @@ public class JbpmWebTest {
 		war.addWebResource("nakeduml.env.properties", "nakeduml.env.properties");
 		war.addWebResource("jbpm/jbpm/application/SimpleSync1.rf", "jbpm/jbpm/application/SimpleSync1.rf");
 		war.addWebResource("jbpm/jbpm/dispatch/SimpleAsyncShipping.rf", "jbpm/jbpm/dispatch/SimpleAsyncShipping.rf");
-		war.addWebResource("jbpm/jbpm/rip/network/RipProcess.rf", "jbpm/jbpm/rip/network/RipProcess.rf");
-		war.addWebResource("jbpm/jbpm/rip/network/ripprocess/RipActivity.rf", "jbpm/jbpm/rip/network/ripprocess/RipActivity.rf");
+		war.addWebResource("jbpm/jbpm/rip/networksoftwareversion/RipProcess.rf", "jbpm/jbpm/rip/networksoftwareversion/RipProcess.rf");
+		war.addWebResource("jbpm/jbpm/rip/networksoftwareversion/ripprocess/RipActivity.rf", "jbpm/jbpm/rip/networksoftwareversion/ripprocess/RipActivity.rf");
 		war.addPackages(true, NakedUtilTestClasses.getTestPackages());
 		List<Package> packages = getTestPackages();
 		packages.add(EISConnection.class.getPackage());

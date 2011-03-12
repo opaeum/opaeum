@@ -1,9 +1,12 @@
-package jbpm.jbpm.nodefinition.cron;
+package org.nakeduml.test.adaptor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import jbpm.jbpm.nodefinition.cron.AnotherTestBean;
+import jbpm.jbpm.nodefinition.cron.TestBean;
 
 import org.jboss.seam.scheduling.quartz.QuartzStarter;
 import org.jboss.weld.manager.BeanManagerImpl;
