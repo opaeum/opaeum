@@ -24,17 +24,7 @@
               <goal>add-test-resource</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-test-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
+              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -45,6 +35,16 @@
             </goals>
             <configuration>
               <resources><resource><directory>src/main/resources</directory></resource><resource><directory>src/main/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
             </configuration>
           </execution>
           <execution>
@@ -148,18 +148,6 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
     </dependency>
@@ -196,6 +184,22 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.common</groupId>
+      <artifactId>google-guava</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.arquillian</groupId>

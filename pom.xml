@@ -49,7 +49,6 @@
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>
 		<module>org.nakeduml.generators</module>
-		<module>nakedumltest/jbpmtestintegration</module>
 	</modules>
 
 	<properties>

@@ -24,17 +24,7 @@
               <goal>add-test-resource</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/main/java</source><source>src/main/generated-java</source></sources>
+              <resources><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -45,6 +35,16 @@
             </goals>
             <configuration>
               <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/main/generated-java</source><source>src/main/java</source></sources>
             </configuration>
           </execution>
           <execution>
@@ -148,28 +148,16 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock</artifactId>
+      <groupId>org.jboss.seam.servlet</groupId>
+      <artifactId>seam-servlet-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock-legacy</artifactId>
+      <groupId>org.jboss.seam.servlet</groupId>
+      <artifactId>seam-servlet-impl</artifactId>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>jbpm-adaptor</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-test-adaptor</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
+      <groupId>org.jboss.arquillian</groupId>
+      <artifactId>arquillian-junit</artifactId>
     </dependency>
     <dependency>
       <groupId>org.jboss.spec</groupId>
@@ -211,16 +199,28 @@
       <artifactId>arquillian-junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.seam.servlet</groupId>
-      <artifactId>seam-servlet-api</artifactId>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.arquillian</groupId>
-      <artifactId>arquillian-junit</artifactId>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-legacy</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.seam.servlet</groupId>
-      <artifactId>seam-servlet-impl</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>jbpm-adaptor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>nakeduml-test-adaptor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

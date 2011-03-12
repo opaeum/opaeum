@@ -11,6 +11,7 @@ public interface GuardedFlow extends INakedElement{
 	INakedValueSpecification getGuard();
 	INakedClassifier getContext();
 	INakedBehavior getOwningBehavior();
+	INakedElement getEffectiveTarget();
 	INakedElement getTarget();
 	INakedElement getSource();
 }

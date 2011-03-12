@@ -51,7 +51,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements TransformationStep {
+public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements TransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";
 	protected TextWorkspace textWorkspace;
 	protected INakedModelWorkspace workspace;
@@ -262,7 +262,8 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 		for (GuardedFlow t : outgoing) {
 			ConstraintType constraint = ProcessFactory.eINSTANCE.createConstraintType();
 			constraint.setDialect("mvel");
-			constraint.setToNodeId(this.targetIdMap.get(t.getTarget()) + "");
+			Integer toNodeId = this.targetIdMap.get(t.getEffectiveTarget());
+			constraint.setToNodeId(toNodeId + "");
 			if (t.getGuard() == null) {
 				constraint.setValue("return true;");
 				constraint.setPriority("3");
