@@ -33,16 +33,15 @@ public class RipTestController {
 		NetworkSoftwareVersion networkSoftwareVersion = new NetworkSoftwareVersion(network);
 		networkSoftwareVersion.setName("BotswanaR12");
 		networkSoftwareVersion.setSoftwareVersion(SoftwareVersion.R12);
-		NodeDefinition nodeDefinition = new NodeDefinition(network);
+		NodeDefinition nodeDefinition = new NodeDefinition(networkSoftwareVersion);
 		nodeDefinition.setName("Botswana_BSC1");
-		nodeDefinition.setSoftwareVersion(SoftwareVersion.R12);
 		nodeDefinition.setActive(true);
+		nodeDefinition.setNodeType(NodeType.BSC);
 		SshTunnelSpec sshTunnelSpec = new SshTunnelSpec(network);
 		sshTunnelSpec.setName("Botswana_machine1");
 		nodeDefinition.setSshTunnelSpec(sshTunnelSpec);
 		MMLCommand mmlCommand = new MMLCommand(network);
 		mmlCommand.setSoftwareVersion(SoftwareVersion.R12);
-		mmlCommand.setNodeType(NodeType.BSC);
 		session.persist(application);
 		session.flush();
 		return application;

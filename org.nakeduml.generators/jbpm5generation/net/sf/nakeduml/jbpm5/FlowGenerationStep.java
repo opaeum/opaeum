@@ -52,6 +52,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements TransformationStep {
+	public static final String JBPM_PROCESS_EXTENSION = "rf";
 	protected TextWorkspace textWorkspace;
 	protected INakedModelWorkspace workspace;
 	protected Map<INakedElement, Integer> targetIdMap;
@@ -76,7 +77,7 @@ public class FlowGenerationStep extends VisitorAdapter<INakedElementOwner, INake
 
 	protected DocumentRoot createRoot(INakedBehavior behavior) {
 		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("rf", new ProcessResourceFactoryImpl());
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(JBPM_PROCESS_EXTENSION, new ProcessResourceFactoryImpl());
 		resourceSet.getPackageRegistry().put(ProcessPackage.eNS_URI, ProcessPackage.eINSTANCE);
 		Resource r = resourceSet.createResource(URI.createFileURI("temp.rf"));
 		DocumentRoot root = ProcessFactory.eINSTANCE.createDocumentRoot();

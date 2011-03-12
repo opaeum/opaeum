@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EricssonManagedConnection implements EISConnection {
-	Logger logger = LoggerFactory.getLogger(EricssonManagedConnection.class);
 
+	Logger logger = LoggerFactory.getLogger(EricssonManagedConnection.class);
 	private static final int MAX_CHARS = 6097152;
 	private static final String BLANK = "";
 	private static final String COMMAND_PROMPT = "Enter command:";

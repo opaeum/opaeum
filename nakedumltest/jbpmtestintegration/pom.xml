@@ -36,10 +36,10 @@
     </pluginManagement>
   </build>
   <modules>
+    <module>jbpmtestintegration-web</module>
     <module>jbpmtestintegration-integrated</module>
     <module>jbpm-adaptor</module>
     <module>jbpm-domain</module>
-    <module>jbpmtestintegration-web</module>
   </modules>
   <repositories>
     <repository>
@@ -51,6 +51,12 @@
   <dependencies/>
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.nakeduml</groupId>
+        <artifactId>jbpmtestintegration-integrated</artifactId>
+        <version>0.0.1</version>
+        <scope>compile</scope>
+      </dependency>
       <dependency>
         <groupId>org.jboss.spec</groupId>
         <artifactId>jboss-javaee-6.0</artifactId>
@@ -71,16 +77,15 @@
         <version>1.6.1</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.seam.persistence</groupId>
-        <artifactId>seam-persistence-api</artifactId>
-        <version>${seam.persistence.version}</version>
+        <groupId>org.jboss.seam.servlet</groupId>
+        <artifactId>seam-servlet-api</artifactId>
+        <version>${seam.servlet.version}</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.jboss.seam.persistence</groupId>
-        <artifactId>seam-persistence-impl</artifactId>
-        <version>${seam.persistence.version}</version>
-        <type>jar</type>
+        <groupId>org.jboss.seam.servlet</groupId>
+        <artifactId>seam-servlet-impl</artifactId>
+        <version>${seam.servlet.version}</version>
         <scope>runtime</scope>
       </dependency>
       <dependency>
@@ -88,12 +93,6 @@
         <artifactId>seam-solder-api</artifactId>
         <version>${seam.solder.version}</version>
         <scope>compile</scope>
-        <exclusions>
-          <exclusion>
-            <artifactId>jboss-logging</artifactId>
-            <groupId>org.jboss.logging</groupId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.seam.solder</groupId>
@@ -112,6 +111,12 @@
         <artifactId>arquillian-junit</artifactId>
         <version>${arquillian.version}</version>
         <type>jar</type>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nakeduml</groupId>
+        <artifactId>nakeduml-test-adaptor</artifactId>
+        <version>${numl.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -137,6 +142,20 @@
       </dependency>
       <dependency>
         <groupId>org.nakeduml</groupId>
+        <artifactId>jbpm-adaptor</artifactId>
+        <version>${jbpmtestintegration.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.version}</version>
+        <type>jar</type>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nakeduml</groupId>
         <artifactId>jbpm-domain</artifactId>
         <version>${jbpmtestintegration.version}</version>
         <type>jar</type>
@@ -150,48 +169,29 @@
       </dependency>
       <dependency>
         <groupId>org.nakeduml</groupId>
-        <artifactId>nakeduml-test-adaptor</artifactId>
-        <version>${numl.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>${hibernate.version}</version>
-        <type>jar</type>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.nakeduml</groupId>
         <artifactId>nakeduml-runtime-domain</artifactId>
         <version>${numl.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.nakeduml</groupId>
-        <artifactId>jbpmtestintegration-integrated</artifactId>
-        <version>0.0.1</version>
+        <groupId>org.jboss.seam.persistence</groupId>
+        <artifactId>seam-persistence-api</artifactId>
+        <version>${seam.persistence.version}</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.jboss.seam.servlet</groupId>
-        <artifactId>seam-servlet-api</artifactId>
-        <version>${seam.servlet.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.seam.servlet</groupId>
-        <artifactId>seam-servlet-impl</artifactId>
-        <version>${seam.servlet.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.nakeduml</groupId>
-        <artifactId>jbpm-adaptor</artifactId>
-        <version>${jbpmtestintegration.version}</version>
+        <groupId>org.jboss.seam.persistence</groupId>
+        <artifactId>seam-persistence-impl</artifactId>
+        <version>${seam.persistence.version}</version>
         <type>jar</type>
         <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>seam-solder</artifactId>
+            <groupId>org.jboss.seam.solder</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>commons-pool</groupId>
@@ -208,19 +208,24 @@
         <artifactId>jsch</artifactId>
         <version>0.1.42</version>
       </dependency>
+      <dependency>
+        <groupId>com.google.common</groupId>
+        <artifactId>google-guava</artifactId>
+        <version>0.99-r1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
     <jboss.domain>default</jboss.domain>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
-    <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-    <numl.version>1.0.0.5-SNAPSHOT</numl.version>
-    <seam.servlet.version>3.0.0.CR1</seam.servlet.version>
-    <seam.solder.version>3.0.0.Beta1</seam.solder.version>
+    <arquillian.version>1.0.0.Alpha4</arquillian.version>
     <jbpmtestintegration.version>0.0.1</jbpmtestintegration.version>
+    <hibernate.version>3.6.0.Final</hibernate.version>
+    <numl.version>1.0.0.5-SNAPSHOT</numl.version>
+    <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
+    <seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>
+    <seam.solder.version>3.0.0.Beta1</seam.solder.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
     <drools.version>5.2.0-alpha1</drools.version>
-    <hibernate.version>3.6.0.Final</hibernate.version>
-    <arquillian.version>1.0.0.Alpha4</arquillian.version>
   </properties>
 </project>

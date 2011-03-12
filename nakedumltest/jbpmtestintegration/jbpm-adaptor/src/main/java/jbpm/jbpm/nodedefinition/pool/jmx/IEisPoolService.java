@@ -1,4 +1,4 @@
-package jbpm.jbpm.nodedefinition.pool;
+package jbpm.jbpm.nodedefinition.pool.jmx;
 
 import org.jboss.ejb3.annotation.Management;
 

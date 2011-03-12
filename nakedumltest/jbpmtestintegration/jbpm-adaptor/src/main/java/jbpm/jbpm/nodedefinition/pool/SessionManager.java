@@ -1,4 +1,4 @@
-package jbpm.jbpm.nodedefinition;
+package jbpm.jbpm.nodedefinition.pool;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,12 @@
-package jbpm.jbpm.nodedefinition;
+package jbpm.jbpm.nodedefinition.pool;
 
+import jbpm.jbpm.nodedefinition.EISConnection;
+import jbpm.jbpm.nodedefinition.EricssonManagedConnection;
+import jbpm.jbpm.nodedefinition.HuaweiM2000ManagedConnection;
+import jbpm.jbpm.nodedefinition.HuaweiManagedConnection;
+import jbpm.jbpm.nodedefinition.NodeDefinitionWrapper;
 import jbpm.jbpm.rip.HuaweiNodeDefinition;
 import jbpm.jbpm.rip.NodeDefinition;
-import jbpm.jbpm.rip.Technology;
 
 import org.apache.commons.pool.BaseKeyedPoolableObjectFactory;
 import org.slf4j.Logger;
@@ -20,13 +24,13 @@ public class SshTunnelKeyedConnectionFactory extends BaseKeyedPoolableObjectFact
 
 	@Override
 	public Object makeObject(Object key) throws Exception {
-		NodeConnectionSpecWrapper wrapper = (NodeConnectionSpecWrapper) key;
+		NodeDefinitionWrapper wrapper = (NodeDefinitionWrapper) key;
 		NodeDefinition nodeDefinition = wrapper.getNodeDefinition();
 		if (nodeDefinition.getRequiresSshTunnel()) {
 			if (!sessionManager.containsSession(nodeDefinition.getSshTunnelSpec().getHost())) {
 				sessionManager.createSessionAndPortForward(nodeDefinition);
 				logger.info("port forwarding done for session  for node " + nodeDefinition.getName() + ", application "
-						+ nodeDefinition.getNetwork().getApplication().getName() + ", network " + nodeDefinition.getNetwork().getName() + " on port "
+						+ nodeDefinition.getNetworkSoftwareVersion().getNetwork().getApplication().getName() + ", network " + nodeDefinition.getNetworkSoftwareVersion().getNetwork().getName() + " on port "
 						+ nodeDefinition.getSshTunnelSpec().getLport());
 			} else {
 				// Increment
@@ -38,7 +42,7 @@ public class SshTunnelKeyedConnectionFactory extends BaseKeyedPoolableObjectFact
 			}
 		}
 		try {
-			switch (nodeDefinition.getSoftwareVersion()) {
+			switch (nodeDefinition.getNetworkSoftwareVersion().getSoftwareVersion()) {
 			case R12:
 				return new EricssonManagedConnection(nodeDefinition);
 			case BSC_6K:
@@ -62,7 +66,7 @@ public class SshTunnelKeyedConnectionFactory extends BaseKeyedPoolableObjectFact
 
 	@Override
 	public void destroyObject(Object key, Object obj) throws Exception {
-		NodeConnectionSpecWrapper wrapper = (NodeConnectionSpecWrapper) key;
+		NodeDefinitionWrapper wrapper = (NodeDefinitionWrapper) key;
 		NodeDefinition nodeConnectionSpec = wrapper.getNodeDefinition();
 		EISConnection ericssonManagedConnection = (EISConnection) obj;
 		if (nodeConnectionSpec.getRequiresSshTunnel()) {

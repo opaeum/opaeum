@@ -2,6 +2,7 @@ package net.sf.nakeduml.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -115,6 +116,35 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setScope("runtime");
 		dependencies.add(dependency);
 	}
+	
+	protected void addSeamSolderImpl(Collection<Dependency> dependencies) {
+		Dependency solderImpl = POMFactory.eINSTANCE.createDependency();
+		solderImpl.setGroupId("org.jboss.seam.solder");
+		solderImpl.setArtifactId("seam-solder-impl");
+		solderImpl.setVersion("${seam.solder.version}");
+		solderImpl.setScope("runtime");
+		dependencies.add(solderImpl);
+		solderImpl = POMFactory.eINSTANCE.createDependency();
+		solderImpl.setGroupId("org.jboss.seam.config");
+		solderImpl.setArtifactId("seam-config-xml");
+		solderImpl.setVersion("3.0.0.Beta2");
+		solderImpl.setScope("test");
+		dependencies.add(solderImpl);
+	}
+
+	protected void addSeamSolderApi(Collection<Dependency> dependencies) {
+		Dependency solder = POMFactory.eINSTANCE.createDependency();
+		solder.setGroupId("org.jboss.seam.solder");
+		solder.setArtifactId("seam-solder-api");
+		solder.setVersion("${seam.solder.version}");
+		solder.setScope("compile");
+		Exclusion excludeLoggin = POMFactory.eINSTANCE.createExclusion();
+		excludeLoggin.setGroupId("org.jboss.logging");
+		excludeLoggin.setArtifactId("jboss-logging");
+		solder.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		solder.getExclusions().getExclusion().add(excludeLoggin);
+		dependencies.add(solder);
+	}	
 
 	protected void addCdi(Collection<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();

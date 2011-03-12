@@ -8,15 +8,8 @@ import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 
-import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
-import org.apache.maven.pom.Plugin;
-import org.apache.maven.pom.PluginExecution;
-import org.apache.maven.pom.Profile;
-import org.apache.maven.pom.Resource;
-import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaIntegratedAdaptorPomStep.class })
 public class IntegratedSeam3PomStep extends PomGenerationStep {
@@ -43,29 +36,8 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		seamPersistenceImpl.setScope("runtime");
 		seamPersistenceImpl.setType("jar");
 		dependencies.add(seamPersistenceImpl);
-		Dependency solder = POMFactory.eINSTANCE.createDependency();
-		solder.setGroupId("org.jboss.seam.solder");
-		solder.setArtifactId("seam-solder-api");
-		solder.setVersion("${seam.solder.version}");
-		solder.setScope("compile");
-		Exclusion excludeLoggin = POMFactory.eINSTANCE.createExclusion();
-		excludeLoggin.setGroupId("org.jboss.logging");
-		excludeLoggin.setArtifactId("jboss-logging");
-		solder.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
-		solder.getExclusions().getExclusion().add(excludeLoggin);
-		dependencies.add(solder);
-		Dependency solderImpl = POMFactory.eINSTANCE.createDependency();
-		solderImpl.setGroupId("org.jboss.seam.solder");
-		solderImpl.setArtifactId("seam-solder-impl");
-		solderImpl.setVersion("${seam.solder.version}");
-		solderImpl.setScope("runtime");
-		dependencies.add(solderImpl);
-		solderImpl = POMFactory.eINSTANCE.createDependency();
-		solderImpl.setGroupId("org.jboss.seam.config");
-		solderImpl.setArtifactId("seam-config-xml");
-		solderImpl.setVersion("3.0.0.Beta2");
-		solderImpl.setScope("test");
-		dependencies.add(solderImpl);
+		addSeamSolderApi(dependencies);
+		addSeamSolderImpl(dependencies);
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
 		nakedUmlUtil.setGroupId("org.nakeduml");
 		nakedUmlUtil.setArtifactId("nakeduml-runtime-adaptor");
@@ -76,8 +48,6 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 
-
-
 	@Override
 	public Properties getParentPomProperties() {
 		Properties p = super.getParentPomProperties();
@@ -85,7 +55,7 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		p.put("jboss.domain", "default");
 		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
 		p.put("seam.solder.version", "3.0.0.Beta1");
-		p.put("seam.servlet.version", "3.0.0.CR1");
+		p.put("seam.servlet.version", "3.0.0.Alpha3");
 		p.put("numl.version",PomGenerationPhase.NUML_VERSION );
 		return p;
 	}

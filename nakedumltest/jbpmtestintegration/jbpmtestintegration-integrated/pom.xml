@@ -18,6 +18,26 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/main/java</source><source>src/main/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/main/resources</directory></resource><resource><directory>src/main/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
             <id>add-test-resource</id>
             <phase>generate-resources</phase>
             <goals>
@@ -34,27 +54,7 @@
               <goal>add-test-source</goal>
             </goals>
             <configuration>
-              <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/main/resources</directory></resource><resource><directory>src/main/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/main/java</source><source>src/main/generated-java</source></sources>
+              <sources><source>src/test/generated-java</source><source>src/test/java</source></sources>
             </configuration>
           </execution>
         </executions>
@@ -148,30 +148,6 @@
   </profiles>
   <dependencies>
     <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock-legacy</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>jbpm-adaptor</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-test-adaptor</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.jboss.spec</groupId>
       <artifactId>jboss-javaee-6.0</artifactId>
       <version>1.0.0.Final</version>
@@ -192,6 +168,7 @@
     <dependency>
       <groupId>org.jboss.seam.persistence</groupId>
       <artifactId>seam-persistence-impl</artifactId>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.seam.solder</groupId>
@@ -220,6 +197,30 @@
     <dependency>
       <groupId>org.jboss.arquillian</groupId>
       <artifactId>arquillian-junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-legacy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>jbpm-adaptor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>nakeduml-test-adaptor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

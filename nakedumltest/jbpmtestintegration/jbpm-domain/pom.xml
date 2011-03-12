@@ -18,6 +18,16 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/main/generated-java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
             <id>add-test-resource</id>
             <phase>generate-resources</phase>
             <goals>
@@ -25,16 +35,6 @@
             </goals>
             <configuration>
               <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/main/java</source><source>src/main/generated-java</source></sources>
             </configuration>
           </execution>
           <execution>

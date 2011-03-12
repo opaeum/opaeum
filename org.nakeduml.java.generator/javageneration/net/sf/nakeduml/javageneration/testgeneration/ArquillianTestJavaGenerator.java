@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.testgeneration;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,10 +10,8 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
-import net.sf.nakeduml.javageneration.jbpm5.Jbpm5EnvironmentBuilder.ProcessCollector;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -25,7 +22,6 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IClassifier;
 
-import org.drools.drools._5._0.process.util.ProcessAdapterFactory;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -41,7 +37,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedParameter;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
-import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
 public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 	boolean isIntegrationPhase = false;
@@ -132,7 +127,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"" + hibernatePrefix + "-hibernate.cfg.xml\", \"classes/hibernate.cfg.xml\")");
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"data.generation.properties\", \"data.generation.properties\")");
 		for(INakedBehavior p:processes){
-			createTestArchive.getBody().addToStatements("war.addWebResource(\""+ p.getMappingInfo().getJavaPath()+"\", \""+p.getMappingInfo().getJavaPath()+"\")");
+			createTestArchive.getBody().addToStatements("war.addWebResource(\""+ p.getMappingInfo().getJavaPath()+".rf\", \""+p.getMappingInfo().getJavaPath()+".rf\")");
 		}
 		createTestArchive.getBody().addToStatements("war.addPackages(true, NakedUtilTestClasses.getTestPackages())");
 		createTestArchive.getBody().addToStatements("war.addPackages(true, getTestPackages())");
@@ -140,6 +135,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 	}
 	private OJAnnotatedOperation addCreateTestArchive(OJAnnotatedClass dummyTest){
 		OJAnnotatedOperation createTestArchive = new OJAnnotatedOperation("createTestArchive");
+		createTestArchive.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.arquillian.api.Deployment")));
 		dummyTest.addToOperations(createTestArchive);
 		createTestArchive.setStatic(true);
 		OJPathName archive = new OJPathName("org.jboss.shrinkwrap.api.Archive");

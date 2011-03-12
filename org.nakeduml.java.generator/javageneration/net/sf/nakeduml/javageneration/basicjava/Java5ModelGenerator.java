@@ -90,16 +90,6 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}
-			//TODO this won;t work put it somewhere else AFTER interface generation
-			if(c.getStereotype(StereotypeNames.HELPER)!=null && c instanceof INakedInterface){
-				OJAnnotatedClass impl = new OJAnnotatedClass(myClass.getName() + "Impl");
-				impl.addToImplementedInterfaces(myClass.getPathName());
-				myClass.getMyPackage().addToClasses(impl);
-				for(OJOperation oper:myClass.getOperations()){
-					impl.addToOperations(oper.getDeepCopy());
-				}
-				super.createTextPath(impl, JavaTextSource.OutputRootId.DOMAIN_SRC);
-			}
 			applyStereotypesAsAnnotations((c), myClass);
 		}
 	}

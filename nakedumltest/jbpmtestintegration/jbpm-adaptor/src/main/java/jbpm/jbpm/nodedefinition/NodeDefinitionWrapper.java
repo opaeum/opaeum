@@ -2,7 +2,7 @@ package jbpm.jbpm.nodedefinition;
 
 import jbpm.jbpm.rip.NodeDefinition;
 
-public class NodeConnectionSpecWrapper {
+public class NodeDefinitionWrapper {
 
 	public NodeDefinition getNodeDefinition() {
 		return nodeDefinition;
@@ -10,7 +10,7 @@ public class NodeConnectionSpecWrapper {
 
 	private NodeDefinition nodeDefinition;
 
-	public NodeConnectionSpecWrapper(NodeDefinition nodeDefinition) {
+	public NodeDefinitionWrapper(NodeDefinition nodeDefinition) {
 		super();
 		this.nodeDefinition = nodeDefinition;
 	}
@@ -26,10 +26,10 @@ public class NodeConnectionSpecWrapper {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof NodeConnectionSpecWrapper)) {
+		if (obj == null || !(obj instanceof NodeDefinitionWrapper)) {
 			return false;
 		}
-		NodeConnectionSpecWrapper other = (NodeConnectionSpecWrapper)obj;
+		NodeDefinitionWrapper other = (NodeDefinitionWrapper)obj;
 		return nodeDefinition.equals(other.getNodeDefinition());
 	}
 	

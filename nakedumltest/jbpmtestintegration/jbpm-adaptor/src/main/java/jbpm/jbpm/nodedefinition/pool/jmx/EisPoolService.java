@@ -1,16 +1,12 @@
-package jbpm.jbpm.nodedefinition.pool;
+package jbpm.jbpm.nodedefinition.pool.jmx;
 
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.inject.Inject;
+import jbpm.jbpm.nodedefinition.pool.EisPool;
 
-import org.jboss.ejb3.annotation.Service;
 
-@Service (objectName = "com.rorotika:service=EisPoolService")
-@TransactionManagement(TransactionManagementType.BEAN)
+//@Service (objectName = "com.rorotika:service=EisPoolService")
+//@TransactionManagement(TransactionManagementType.BEAN)
 public class EisPoolService implements IEisPoolService {
 
-	@Inject 
 	private EisPool eisPoolSingleton;
 	
 	@Override

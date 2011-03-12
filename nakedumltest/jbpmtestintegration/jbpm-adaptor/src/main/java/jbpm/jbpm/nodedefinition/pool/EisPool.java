@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import jbpm.jbpm.nodedefinition.NodeConnectionSpecWrapper;
-import jbpm.jbpm.nodedefinition.SessionManager.NodeDefinitionCount;
-import jbpm.jbpm.nodedefinition.SshTunnelKeyedConnectionFactory;
+import jbpm.jbpm.nodedefinition.NodeDefinitionWrapper;
+import jbpm.jbpm.nodedefinition.pool.SessionManager.NodeDefinitionCount;
 import jbpm.jbpm.rip.NodeDefinition;
 
 import org.apache.commons.pool.PoolUtils;
@@ -33,7 +31,7 @@ public class EisPool {
 	private SshTunnelKeyedConnectionFactory keyedFactory;
 
 	@Inject
-	public EisPool(List<NodeDefinition> nodeDefinitions) {
+	public EisPool(List<NodeDefinition> nodeDefinitions, SshTunnelKeyedConnectionFactory keyedFactory) {
 		super();
 		maxTotal = 10;
 		maxActive = 1;
@@ -46,10 +44,10 @@ public class EisPool {
 		config.maxIdle = this.maxIdle;
 		config.minIdle = this.minIdle;
 		config.timeBetweenEvictionRunsMillis = this.timeBetweenEvictionRunsMillis;
-		this.keyedFactory = new SshTunnelKeyedConnectionFactory();
+		this.keyedFactory = keyedFactory; 
 		pool = new GenericKeyedObjectPool(PoolUtils.synchronizedPoolableFactory(keyedFactory),config);
 		for (NodeDefinition nodeDefinition : nodeDefinitions) {
-			pool.preparePool(new NodeConnectionSpecWrapper(nodeDefinition), false);
+			pool.preparePool(new NodeDefinitionWrapper(nodeDefinition), false);
 		}
 	}
 	
@@ -63,7 +61,7 @@ public class EisPool {
 		}
 	}
 
-	@Produces @ApplicationScoped
+	@Produces
 	public GenericKeyedObjectPool getPool() {
 		return pool;
 	}
@@ -145,6 +143,9 @@ public class EisPool {
 	//For Mocking
 	public void setLogger(BasicLogger logger) {
 		this.logger = logger;
+	}
+	public void setKeyedFactory(SshTunnelKeyedConnectionFactory keyedFactory) {
+		this.keyedFactory = keyedFactory;
 	}
 
 }

@@ -29,36 +29,37 @@ import net.sf.nakeduml.pomgeneration.IntegratedSeam3PomStep;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.pomgeneration.PomGenerationStep;
 
-public class JbpmTest extends AbstractTestCodeGenerator{
-	protected JbpmTest(String outputRoot,String modelDirectory){
+public class JbpmTest extends AbstractTestCodeGenerator {
+	protected JbpmTest(String outputRoot, String modelDirectory) {
 		super(outputRoot, modelDirectory);
 	}
-	public static void main(String[] args) throws Exception{
+
+	public static void main(String[] args) throws Exception {
 		JbpmTest jbpmTest = null;
 		File f = new File("org.nakeduml.generators/testmodels/jbpm");
-		if(f.exists()){
+		if (f.exists()) {
 			jbpmTest = new JbpmTest("nakedumltest/jbpmtestintegration", "org.nakeduml.generators/testmodels/jbpm");
-		}else{
+		} else {
 			jbpmTest = new JbpmTest("../nakedumltest/jbpmtestintegration", "testmodels/jbpm");
 		}
 		jbpmTest.generateCodeForSingleModel("jbpm.uml");
 		jbpmTest.generateIntegrationCode();
 	}
-	
+
 	@StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
 	public static class AddRipDependencies extends PomGenerationStep {
 		@Override
 		protected OutputRoot getExampleTargetDir() {
 			return config.getOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
 		}
-		
+
 		@Override
 		public Dependency[] getDependencies() {
 			List<Dependency> dependencies = new ArrayList<Dependency>();
 			addRipDependencies(dependencies);
 			return dependencies.toArray(new Dependency[dependencies.size()]);
 		}
-		
+
 		protected void addRipDependencies(Collection<Dependency> dependencies) {
 			Dependency commonsPool = POMFactory.eINSTANCE.createDependency();
 			commonsPool.setGroupId("commons-pool");
@@ -71,21 +72,28 @@ public class JbpmTest extends AbstractTestCodeGenerator{
 			commonsNet.setArtifactId("commons-net");
 			commonsNet.setVersion("2.0");
 			dependencies.add(commonsNet);
-			
+
 			Dependency jcraft = POMFactory.eINSTANCE.createDependency();
 			jcraft.setGroupId("com.jcraft");
 			jcraft.setArtifactId("jsch");
 			jcraft.setVersion("0.1.42");
 			dependencies.add(jcraft);
-}
-		
+			
+			Dependency googleio = POMFactory.eINSTANCE.createDependency();
+			googleio.setGroupId("com.google.common");
+			googleio.setArtifactId("google-guava");
+			googleio.setVersion("0.99-r1");
+			dependencies.add(googleio);
+
+		}
+
 	}
-	
+
 	@Override
-	protected Set<Class<? extends TransformationStep>> getSteps(){
+	protected Set<Class<? extends TransformationStep>> getSteps() {
 		Set<Class<? extends TransformationStep>> steps = super.getSteps();
 		steps.add(AddRipDependencies.class);
 		return steps;
 	}
-	
+
 }
