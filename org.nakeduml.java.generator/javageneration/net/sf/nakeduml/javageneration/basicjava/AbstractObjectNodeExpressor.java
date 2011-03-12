@@ -24,7 +24,18 @@ public abstract class AbstractObjectNodeExpressor {
 		this.oclLibrary = oclLibrary;
 	}
 
-	abstract public String expressControlNode(OJBlock block, INakedControlNode controlNode);
+	public final String expressFeedingNodeForObjectFlowGuard(OJBlock block, INakedObjectFlow flow) {
+		//TODO does not take multiple transformations into acount
+		//TODO OBjectFlow needs to become a typedElement!!!!!!!!!!! calculating the effective type of the flow at that point
+		INakedObjectNode feedingNode = (INakedObjectNode) flow.getOriginatingObjectNode();
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode);
+		String call = map.umlName();// ParameterNode or top level output
+									// pin or expansion node
+		if (feedingNode instanceof INakedOutputPin) {
+			call = retrieveFromExecutionInstanceIfNecessary((INakedOutputPin) feedingNode, call);
+		}
+		return surroundWithSelectionAndTransformation(call, flow);
+	}
 
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin);
 
@@ -54,7 +65,9 @@ public abstract class AbstractObjectNodeExpressor {
 		}
 		if (edge.getSelection() == null && edge.getTransformation() == null) {
 			INakedObjectNode source = (INakedObjectNode) edge.getOriginatingObjectNode();
-			// TODO what if the target is a controlNode
+			//TODO what if the target is a controlNode
+			// TODO need to take the transformations and selections of intermediary object flows into account
+			// 
 			if (edge.getTarget() instanceof INakedObjectNode) {
 				INakedObjectNode target = (INakedObjectNode) edge.getTarget();
 				if (target.getNakedMultiplicity().isMany() && source.getNakedMultiplicity().isMany()
@@ -82,6 +95,7 @@ public abstract class AbstractObjectNodeExpressor {
 	}
 
 	protected String retrieveFromExecutionInstanceIfNecessary(INakedOutputPin feedingNode, String call) {
+		
 		if (feedingNode.getOwnerElement() instanceof INakedCallAction) {
 			INakedCallAction callAction = (INakedCallAction) feedingNode.getOwnerElement();
 			if (BehaviorUtil.hasMessageStructure(callAction)) {

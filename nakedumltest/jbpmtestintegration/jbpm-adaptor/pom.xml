@@ -18,23 +18,23 @@
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>add-test-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources><source>src/test/generated-java</source><source>src/test/java</source></sources>
-            </configuration>
-          </execution>
-          <execution>
             <id>add-test-resource</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>add-test-resource</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
+              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
             </configuration>
           </execution>
           <execution>
@@ -148,6 +148,21 @@
   </profiles>
   <dependencies>
     <dependency>
+<<<<<<< HEAD
+=======
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+    </dependency>
+    <dependency>
+>>>>>>> d78c0e5c07484158e53dcb430aeeaf7e40861360
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
     </dependency>
@@ -189,22 +204,7 @@
       <groupId>org.jboss.arquillian</groupId>
       <artifactId>arquillian-junit</artifactId>
     </dependency>
-    <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.common</groupId>
-      <artifactId>google-guava</artifactId>
-    </dependency>
+
   </dependencies>
   <dependencyManagement>
     <dependencies/>
