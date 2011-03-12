@@ -36,7 +36,7 @@ public class PinLinker extends AbstractModelElementLinker {
 			action.getTarget().setBaseType(action.getExpectedTargetType());
 		}
 	}
-
+	
 	@VisitBefore(matchSubclasses = true)
 	public void linkResult(INakedCreateObjectAction action) {
 		if (action.getClassifier() != null && action.getResult() != null) {
@@ -139,7 +139,13 @@ public class PinLinker extends AbstractModelElementLinker {
 			}
 		}
 	}
-
+	@VisitBefore(matchSubclasses=true)
+	public void visitEdge(INakedActivityEdge edge){
+		if(edge.getOwnerElement()!=edge.getEffectiveSource().getOwnerElement()){
+			edge.getOwnerElement().removeOwnedElement(edge);
+			edge.getEffectiveSource().getOwnerElement().addOwnedElement(edge);
+		}
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkCallAction(INakedCallAction action) {
 		if (action.getCalledElement() != null) {

@@ -80,6 +80,21 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			this.variables.add((INakedActivityVariable) element);
 		}
 	}
+	public void removeOwnedElement(INakedElement element){
+		super.removeOwnedElement(element);
+		if (element instanceof INakedActivityPartition) {
+			this.partitions.remove((INakedActivityPartition) element);
+		}
+		if (element instanceof INakedActivityNode) {
+			this.activityNodes.remove((INakedActivityNode) element);
+		}
+		if (element instanceof INakedActivityEdge) {
+			this.activityEdges.remove((INakedActivityEdge) element);
+		}
+		if (element instanceof INakedActivityVariable) {
+			this.variables.remove((INakedActivityVariable) element);
+		}
+	}
 
 	@Override
 	protected List<IAttribute> getAllAttributesForOcl(boolean classScope) {

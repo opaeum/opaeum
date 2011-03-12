@@ -1600,7 +1600,7 @@
     </diagrams>
     <subdiagrams xmi:id="_93RewEmyEeCFaJvOEQDIzw">
       <model href="jbpm.uml#_62w7IEmyEeCFaJvOEQDIzw"/>
-      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" zoom="0.75" viewport="0,0">
+      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" zoom="0.75" viewport="0,496">
         <property xmi:id="_95If8EmyEeCFaJvOEQDIzw" key="pageFormatName" value="A3"/>
         <property xmi:id="_95If8UmyEeCFaJvOEQDIzw" key="diagramWidth" value="1188"/>
         <property xmi:id="_95If8kmyEeCFaJvOEQDIzw" key="diagramHeight" value="1680"/>
@@ -1739,8 +1739,8 @@
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_Op-xhUm0EeCFaJvOEQDIzw" visible="false" id="interruptibleEdgeObject"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_Op-xhkm0EeCFaJvOEQDIzw" visible="false" id="interruptibleIconEdgeObject"/>
         </contained>
-        <contained xsi:type="di:GraphNode" xmi:id="_cQkuIEokEeCFaJvOEQDIzw" position="384,860" size="40,40">
-          <anchorage xmi:id="_ZT83UUwZEeCD2ITeubLIbQ" graphEdge="_ZT_6oEwZEeCD2ITeubLIbQ _tjVFQEwaEeCD2ITeubLIbQ"/>
+        <contained xsi:type="di:GraphNode" xmi:id="_cQkuIEokEeCFaJvOEQDIzw" position="184,878" size="40,40">
+          <anchorage xmi:id="_ZT83UUwZEeCD2ITeubLIbQ" graphEdge="_66ctYEyIEeCT1fhneIHFNA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_cQkuIUokEeCFaJvOEQDIzw" presentation="default">
             <element href="jbpm.uml#_cQ4QIEokEeCFaJvOEQDIzw"/>
           </semanticModel>
@@ -1805,7 +1805,7 @@
             </semanticModel>
           </contained>
         </contained>
-        <contained xsi:type="di:GraphEdge" xmi:id="_ZT_6oEwZEeCD2ITeubLIbQ" anchor="_ZT83UEwZEeCD2ITeubLIbQ _ZT83UUwZEeCD2ITeubLIbQ">
+        <contained xsi:type="di:GraphEdge" xmi:id="_ZT_6oEwZEeCD2ITeubLIbQ" anchor="_ZT83UEwZEeCD2ITeubLIbQ _52Z2cEyIEeCT1fhneIHFNA">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZT_6oUwZEeCD2ITeubLIbQ" presentation="default">
             <element href="jbpm.uml#_ZUVR0EwZEeCD2ITeubLIbQ"/>
           </semanticModel>
@@ -1834,7 +1834,7 @@
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_nvEnpkwaEeCD2ITeubLIbQ" visible="false" id="interruptibleEdgeObject"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_nvEnp0waEeCD2ITeubLIbQ" visible="false" id="interruptibleIconEdgeObject"/>
         </contained>
-        <contained xsi:type="di:GraphEdge" xmi:id="_tjVFQEwaEeCD2ITeubLIbQ" anchor="_nvCLYUwaEeCD2ITeubLIbQ _ZT83UUwZEeCD2ITeubLIbQ">
+        <contained xsi:type="di:GraphEdge" xmi:id="_tjVFQEwaEeCD2ITeubLIbQ" anchor="_nvCLYUwaEeCD2ITeubLIbQ _52Z2cEyIEeCT1fhneIHFNA">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tjVFQUwaEeCD2ITeubLIbQ" presentation="default">
             <element href="jbpm.uml#_tjv8AEwaEeCD2ITeubLIbQ"/>
           </semanticModel>
@@ -1881,13 +1881,30 @@
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oJkHdkxrEeCD2ITeubLIbQ" visible="false" id="interruptibleEdgeObject"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oJkHd0xrEeCD2ITeubLIbQ" visible="false" id="interruptibleIconEdgeObject"/>
         </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_5SkJkEyIEeCT1fhneIHFNA" position="167,797" size="29,49">
+          <anchorage xmi:id="_52Z2cEyIEeCT1fhneIHFNA" graphEdge="_tjVFQEwaEeCD2ITeubLIbQ _ZT_6oEwZEeCD2ITeubLIbQ _66ctYEyIEeCT1fhneIHFNA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_5SkJkUyIEeCT1fhneIHFNA" presentation="default">
+            <element href="jbpm.uml#_5Tq80EyIEeCT1fhneIHFNA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_66ctYEyIEeCT1fhneIHFNA" anchor="_52Z2cEyIEeCT1fhneIHFNA _ZT83UUwZEeCD2ITeubLIbQ">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_66ctYUyIEeCT1fhneIHFNA" presentation="default">
+            <element href="jbpm.uml#_67LtMEyIEeCT1fhneIHFNA"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_66ctYkyIEeCT1fhneIHFNA" id="stereotypeEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectUV" xmi:id="_66ctY0yIEeCT1fhneIHFNA" id="guardEdgeObject" uDistance="6" vDistance="6"/>
+          <contained xsi:type="di:EdgeObjectUV" xmi:id="_66ctZEyIEeCT1fhneIHFNA" visible="false" id="weightEdgeObject" uDistance="6" vDistance="-6"/>
+          <contained xsi:type="di:EdgeObjectUV" xmi:id="_66ctZUyIEeCT1fhneIHFNA" id="nameEdgeObject" uDistance="6" vDistance="6"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_66ctZkyIEeCT1fhneIHFNA" visible="false" id="interruptibleEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_66ctZ0yIEeCT1fhneIHFNA" visible="false" id="interruptibleIconEdgeObject"/>
+        </contained>
       </diagrams>
       <subdiagrams xmi:id="_GRZ1oEm3EeCFaJvOEQDIzw"/>
     </subdiagrams>
     <subdiagrams xmi:id="_fBefkEoQEeCFaJvOEQDIzw"/>
     <subdiagrams xmi:id="_PpE_8EoVEeCFaJvOEQDIzw">
       <model href="jbpm.uml#_ea5D4EoUEeCFaJvOEQDIzw"/>
-      <diagrams xmi:id="_zzKhAEpsEeClzIHhNO5_Xw" position="0,0" size="100,100" name="RipActivity" viewport="80,656">
+      <diagrams xmi:id="_zzKhAEpsEeClzIHhNO5_Xw" position="0,0" size="100,100" name="RipActivity" viewport="80,834">
         <property xmi:id="_z26_oEpsEeClzIHhNO5_Xw" key="pageFormatName" value="A3"/>
         <property xmi:id="_z3PIsEpsEeClzIHhNO5_Xw" key="diagramWidth" value="1188"/>
         <property xmi:id="_z32zwEpsEeClzIHhNO5_Xw" key="diagramHeight" value="1680"/>

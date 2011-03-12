@@ -24,17 +24,7 @@
               <goal>add-test-resource</goal>
             </goals>
             <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/main/resources</directory></resource><resource><directory>src/main/generated-resources</directory></resource></resources>
+              <resources><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource><resource><directory>src/test/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -44,7 +34,17 @@
               <goal>add-test-source</goal>
             </goals>
             <configuration>
-              <sources><source>src/test/java</source><source>src/test/generated-java</source></sources>
+              <sources><source>src/test/generated-java</source><source>src/test/java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/main/generated-resources</directory></resource><resource><directory>src/main/resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -148,6 +148,10 @@
   </profiles>
   <dependencies>
     <dependency>
+      <groupId>org.jboss.arquillian</groupId>
+      <artifactId>arquillian-junit</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock</artifactId>
     </dependency>
@@ -200,10 +204,6 @@
     <dependency>
       <groupId>com.google.common</groupId>
       <artifactId>google-guava</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.arquillian</groupId>
-      <artifactId>arquillian-junit</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>
