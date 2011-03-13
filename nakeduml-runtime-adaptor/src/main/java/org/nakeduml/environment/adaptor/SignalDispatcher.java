@@ -17,8 +17,8 @@ import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
-import org.jboss.seam.persistence.transaction.DefaultTransaction;
-import org.jboss.seam.persistence.transaction.SeamTransaction;
+import org.jboss.seam.transaction.DefaultTransaction;
+import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;

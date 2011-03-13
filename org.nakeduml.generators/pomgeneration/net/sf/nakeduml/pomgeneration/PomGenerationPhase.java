@@ -324,6 +324,12 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			}
 			Dependency oldDep = PomUtil.getExisitingDependencyInDepedencyManagement(parentPom, newDep);
 			if(oldDep == null){
+				if(parentPom.getProject().getDependencyManagement()==null){
+					parentPom.getProject().setDependencyManagement(POMFactory.eINSTANCE.createDependencyManagement());
+				}
+				if(parentPom.getProject().getDependencyManagement().getDependencies()==null){
+					parentPom.getProject().getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
+				}
 				parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
 			}else{
 				if(oldDep.getScope() == null){

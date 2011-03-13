@@ -17,7 +17,7 @@ import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
-import org.jboss.seam.persistence.transaction.TransactionScoped;
+import org.jboss.seam.transaction.TransactionScoped;
 import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;

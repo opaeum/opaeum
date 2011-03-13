@@ -24,8 +24,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public abstract class MavenProjectCodeGenerator{
 	protected TransformationProcess process = new TransformationProcess();
-	private File outputRoot;
-	private File modelDirectory;
+	protected File outputRoot;
+	protected File modelDirectory;
 	protected MavenProjectCodeGenerator(String outputRoot,String modelDirectory){
 		this.outputRoot = new File(outputRoot);
 		this.modelDirectory = new File(modelDirectory);
@@ -55,7 +55,7 @@ public abstract class MavenProjectCodeGenerator{
 		mapOutputRoots(cfg);
 		return cfg;
 	}
-	protected void transformDirectory() throws Exception,IOException,FileNotFoundException{
+	public void transformDirectory() throws Exception,IOException,FileNotFoundException{
 		System.out.println("Transforming model directory: " + modelDirectory);
 		long start = System.currentTimeMillis();
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(modelDirectory, outputRoot.getName(), "uml");
@@ -65,7 +65,7 @@ public abstract class MavenProjectCodeGenerator{
 		System.out.println("Transforming workspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 	protected abstract Set<Class<? extends TransformationStep>> getSteps();
-	private void mapOutputRoots(NakedUmlConfig cfg){
+	protected void mapOutputRoots(NakedUmlConfig cfg){
 		mapDomainProjects(cfg);
 		mapAdaptorProjects(cfg);
 		mapIntegratedAdaptorProject(cfg);
@@ -120,7 +120,7 @@ public abstract class MavenProjectCodeGenerator{
 		integratedJboss.dontCleanDirectoriesOrOverwriteFiles();
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, "-integrated", "src/main/generated-resources");
 	}
-	protected Set<Class<? extends TransformationStep>> toSet(Class<? extends TransformationStep>...classes){
+	protected static Set<Class<? extends TransformationStep>> toSet(Class<? extends TransformationStep>...classes){
 		return new HashSet<Class<? extends TransformationStep>>(Arrays.asList(classes));
 	}
 	public void generateIntegrationCode() throws Exception{

@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -22,6 +23,7 @@ import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJStatement;
 import org.nakeduml.java.metamodel.OJTryStatement;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.ExceptionHolder;
 
@@ -64,6 +66,14 @@ public class Caller extends SimpleNodeBuilder<INakedCallAction> {
 						fs.addToStatements(node.getMappingInfo().getJavaName()  + ".init(context)");
 					}
 					call = node.getMappingInfo().getJavaName().getAsIs();
+				}
+				if(node.isProcessCall() && (!node.isSynchronous() || node.getCalledElement() instanceof INakedOperation)){
+					NakedClassifierMap messageMap = new NakedClassifierMap(node.getMessageStructure());
+					OJAnnotatedField processField = new OJAnnotatedField(node.getName(),messageMap.javaTypePath());
+					processField.setInitExp(call);
+					block.addToLocals(processField);
+					block.addToStatements(processField.getName() + ".execute()");
+					call=processField.getName();
 				}
 				call = expressor.storeResults(resultMap, call, many);
 			}

@@ -28,8 +28,8 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
-import org.jboss.seam.persistence.SeamManaged;
-import org.jboss.seam.persistence.transaction.TransactionScoped;
+import org.jboss.seam.solder.core.SeamManaged;
+import org.jboss.seam.transaction.TransactionScoped;
 
 public class ManagedHibernateSessionProvider implements Serializable {
 

@@ -3,6 +3,9 @@
  */
 package net.sf.nakeduml.linkage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -21,124 +24,121 @@ import nl.klasse.octopus.model.IPrimitiveType;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
- * Identifies the SimpleTypes that may be required by an application, such as
- * EMailAddresses, CellPhoneNumbers and Dates Also identifies the primitive
- * types from the UMLPrimitiveTypesPackage
+ * Identifies the SimpleTypes that may be required by an application, such as EMailAddresses, CellPhoneNumbers and Dates Also identifies the
+ * primitive types from the UMLPrimitiveTypesPackage
  */
-@StepDependency(phase = LinkagePhase.class, after = {}, requires = {})
-public final class MappedTypeLinker extends AbstractModelElementLinker {
+@StepDependency(phase = LinkagePhase.class,after = {},requires = {})
+public final class MappedTypeLinker extends AbstractModelElementLinker{
+	static Map<String,AbstractStrategyFactory> strategyFactories = new HashMap<String,AbstractStrategyFactory>();
+	public static void registerStrategyFactory(AbstractStrategyFactory a){
+		strategyFactories.put(a.getClass().getName(), a);
+	}
 	@VisitBefore(matchSubclasses = true)
-	public void setBuiltInType(INakedSimpleType simpleType) {
+	public void setBuiltInType(INakedSimpleType simpleType){
 		String name = simpleType.getName();
 		// TODO get rid of this....
-		if (name.equalsIgnoreCase(config.getEMailAddressType())) {
+		if(name.equalsIgnoreCase(config.getEMailAddressType())){
 			getBuiltInTypes().setEmailAddressType(simpleType);
 			updateDefaultType(simpleType, "java.lang.String");
-		} else if (name.equalsIgnoreCase(config.getDateType())) {
+		}else if(name.equalsIgnoreCase(config.getDateType())){
 			getBuiltInTypes().setDateType(simpleType);
 			updateDefaultType(simpleType, "java.util.Date");
-		} else if (name.equalsIgnoreCase(config.getRealType())) {
+		}else if(name.equalsIgnoreCase(config.getRealType())){
 			updateDefaultType(simpleType, "java.lang.Double");
 			getBuiltInTypes().setRealType(simpleType);
-			((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-					.lookupStandardType(IOclLibrary.RealTypeName));
-		} else if (simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes")
-				|| simpleType.getNameSpace().getName().equalsIgnoreCase("uml")) {
+			((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
+		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes") || simpleType.getNameSpace().getName().equalsIgnoreCase("uml")){
 			INakedPrimitiveType primitiveType = (INakedPrimitiveType) simpleType;
 			boolean isStandardPrimitive = simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes");
-			if (primitiveType.getName().equals("String")) {
-				if (isStandardPrimitive) {
+			if(primitiveType.getName().equals("String")){
+				if(isStandardPrimitive){
 					getBuiltInTypes().setDefaultType(primitiveType);
 					getBuiltInTypes().setStringType(primitiveType);
 				}
 				updateDefaultType(primitiveType, "java.lang.String");
-				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-						.lookupStandardType(IOclLibrary.StringTypeName));
-			} else if (primitiveType.getName().equalsIgnoreCase("Boolean")) {
-				if (isStandardPrimitive) {
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("Boolean")){
+				if(isStandardPrimitive){
 					getBuiltInTypes().setBooleanType(primitiveType);
 				}
 				updateDefaultType(primitiveType, "java.lang.Boolean");
-				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-						.lookupStandardType(IOclLibrary.BooleanTypeName));
-			} else if (primitiveType.getName().equalsIgnoreCase("Integer")) {
-				if (isStandardPrimitive) {
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("Integer")){
+				if(isStandardPrimitive){
 					getBuiltInTypes().setIntegerType(primitiveType);
 				}
 				updateDefaultType(primitiveType, "java.lang.Integer");
-				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-						.lookupStandardType(IOclLibrary.IntegerTypeName));
-			} else if (primitiveType.getName().equalsIgnoreCase("UnlimitedNatural")) {
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("UnlimitedNatural")){
 				updateDefaultType(primitiveType, "java.lang.Integer");
-				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-						.lookupStandardType(IOclLibrary.IntegerTypeName));
-			} else {
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+			}else{
 				System.out.println("WARNING: No semantics declared for PrimitiveType:" + simpleType.getPathName());
 			}
-		} else if (simpleType.getNameSpace().getName().equalsIgnoreCase("ecore")) {
+		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("ecore")){
 			INakedPrimitiveType primitiveType = (INakedPrimitiveType) simpleType;
-			if (primitiveType.getName().equals("EDouble")) {
+			if(primitiveType.getName().equals("EDouble")){
 				getBuiltInTypes().setRealType(primitiveType);
 				updateDefaultType(primitiveType, "java.lang.Double");
-				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
-						.lookupStandardType(IOclLibrary.RealTypeName));
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
 			}
 		}
 		// Check for steretypes with strategyFactory properties
-		if (simpleType.hasStereotype(StereotypeNames.VALUE_TYPE)) {
+		if(simpleType.hasStereotype(StereotypeNames.VALUE_TYPE)){
 			INakedInstanceSpecification stereotype = simpleType.getStereotype(StereotypeNames.VALUE_TYPE);
-			if (stereotype.hasValueForFeature("mappedImplementationType")) {
+			if(stereotype.hasValueForFeature("mappedImplementationType")){
 				INakedValueSpecification firstValueFor = stereotype.getFirstValueFor("mappedImplementationType");
 				String javaType = firstValueFor.stringValue();
 				loadStrategies(simpleType, stereotype, javaType);
 			}
-			if (simpleType.getName().equals("DateTime")) {
+			if(simpleType.getName().equals("DateTime")){
 				getBuiltInTypes().setDateType(simpleType);
 			}
-		} else if (simpleType.hasStereotype(StereotypeNames.PRIMITIVE_TYPE)) {
+		}else if(simpleType.hasStereotype(StereotypeNames.PRIMITIVE_TYPE)){
 			loadStrategies(simpleType, simpleType.getStereotype(StereotypeNames.PRIMITIVE_TYPE), simpleType.getMappedImplementationType());
 		}
-		if (simpleType instanceof INakedPrimitiveType && ((INakedPrimitiveType) simpleType).getOclType() == null) {
+		if(simpleType instanceof INakedPrimitiveType && ((INakedPrimitiveType) simpleType).getOclType() == null){
 			System.out.println(simpleType.getPathName() + " has no oclType!!");
 		}
 	}
-
-	private void loadStrategies(INakedSimpleType simpleType, INakedInstanceSpecification stereotype, String javaType) {
+	private void loadStrategies(INakedSimpleType simpleType,INakedInstanceSpecification stereotype,String javaType){
 		getBuiltInTypes().getTypeMap().put(getPathNameInModel(simpleType).toString(), new MappedType(javaType));
-		if (stereotype.hasValueForFeature("strategyFactory")) {
+		if(stereotype.hasValueForFeature("strategyFactory")){
 			INakedValueSpecification strategyFactory = stereotype.getFirstValueFor("strategyFactory");
-			try {
-				Object newInstance = Thread.currentThread().getContextClassLoader().loadClass(strategyFactory.stringValue()).newInstance();
+			String factoryName = strategyFactory.stringValue();
+			try{
+				Object newInstance = Thread.currentThread().getContextClassLoader().loadClass(factoryName).newInstance();
 				simpleType.setStrategyFactory((AbstractStrategyFactory) newInstance);
-			} catch (ClassNotFoundException e) {
+			}catch(ClassNotFoundException e){
+				if(strategyFactories.containsKey(factoryName)){
+					simpleType.setStrategyFactory(strategyFactories.get(factoryName));
+				}else{
+					throw new RuntimeException(e);
+				}
+			}catch(InstantiationException e){
 				throw new RuntimeException(e);
-			} catch (InstantiationException e) {
-				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
+			}catch(IllegalAccessException e){
 				throw new RuntimeException(e);
 			}
 		}
 	}
-
 	@VisitAfter(matchSubclasses = true)
-	public void setCodeGenerationStrategy(INakedClassifier classifier) {
+	public void setCodeGenerationStrategy(INakedClassifier classifier){
 		boolean isMapped = getBuiltInTypes().getTypeMap().containsKey(getPathNameInModel(classifier).toString());
-		if (isMapped) {
+		if(isMapped){
 			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.none);
 			MappedType mappedType = getBuiltInTypes().getTypeMap().get(super.getPathNameInModel(classifier).toString());
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());
-		} else {
+		}else{
 			// classifier.setCodeGenerationStrategy(CodeGenerationStrategy.all);
 		}
 	}
-
-	private void updateDefaultType(INakedSimpleType javaType, String qualifiedJavaReal) {
+	private void updateDefaultType(INakedSimpleType javaType,String qualifiedJavaReal){
 		javaType.setMappedImplementationType(qualifiedJavaReal);
 		javaType.setCodeGenerationStrategy(CodeGenerationStrategy.none);
 	}
-
 	@Override
-	public void initialize(INakedModelWorkspace workspace, NakedUmlConfig config) {
+	public void initialize(INakedModelWorkspace workspace,NakedUmlConfig config){
 		super.initialize(workspace, config);
 	}
 }

@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Nakeduml Generators
 Bundle-SymbolicName: org.nakeduml.generators
 Bundle-Version: 1.0.0.5
-Bundle-Activator: org.nakeduml.generators.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.nakeduml.metamodels;bundle-version="1.0.0",
@@ -16,18 +15,39 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
  org.eclipse.uml2.uml;bundle-version="3.1.1",
  org.eclipse.uml2.uml.resources;bundle-version="3.1.1"
-Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/velocity-1.5.0.jar,
  .,
- lib/lang-2.1.0.jar
-Export-Package: net.sf.nakeduml.javageneration.hibernate,
+ lib/lang-2.1.0.jar,
+ lib/collections-3.2.0.jar
+Export-Package: net.sf.nakeduml.feature,
+ net.sf.nakeduml.javageneration.hibernate,
  net.sf.nakeduml.jbpm5,
  net.sf.nakeduml.obsolete.generator,
  net.sf.nakeduml.obsolete.uimetamodel,
  net.sf.nakeduml.ocl,
  net.sf.nakeduml.pomgeneration,
+ net.sf.nakeduml.tests,
  net.sf.nakeduml.uigeneration,
+ org.apache.commons.collections,
+ org.apache.commons.collections.bag,
+ org.apache.commons.collections.bidimap,
+ org.apache.commons.collections.buffer,
+ org.apache.commons.collections.collection,
+ org.apache.commons.collections.comparators,
+ org.apache.commons.collections.functors,
+ org.apache.commons.collections.iterators,
+ org.apache.commons.collections.keyvalue,
+ org.apache.commons.collections.list,
+ org.apache.commons.collections.map,
+ org.apache.commons.collections.set,
+ org.apache.commons.lang,
+ org.apache.commons.lang.builder,
+ org.apache.commons.lang.enums,
+ org.apache.commons.lang.exception,
+ org.apache.commons.lang.math,
+ org.apache.commons.lang.mutable,
+ org.apache.commons.lang.time,
  org.apache.velocity,
  org.apache.velocity.anakia,
  org.apache.velocity.app,

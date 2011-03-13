@@ -27,7 +27,7 @@ import javax.enterprise.inject.Produces;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.jboss.seam.persistence.SeamManaged;
+import org.jboss.seam.solder.core.SeamManaged;
 
 public class ManagedAuditHibernateSessionProvider implements Serializable {
 

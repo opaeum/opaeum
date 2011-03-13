@@ -297,6 +297,9 @@ public class PomUtil {
 	}
 
 	public static Dependency getExisitingDependencyInDepedencyManagement(DocumentRoot root, Dependency newDepMan) {
+		if(root.getProject().getDependencyManagement()==null || root.getProject().getDependencyManagement().getDependencies()==null){
+			return null;
+		}
 		for (Dependency oldDep : root.getProject().getDependencyManagement().getDependencies().getDependency()) {
 			if (oldDep.getGroupId().equals(newDepMan.getGroupId()) && oldDep.getArtifactId().equals(newDepMan.getArtifactId())) {
 				return oldDep;

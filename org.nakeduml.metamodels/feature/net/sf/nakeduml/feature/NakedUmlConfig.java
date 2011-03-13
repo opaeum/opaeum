@@ -26,7 +26,6 @@ public class NakedUmlConfig {
 	private static final String NAKEDUML_DATE_TIME_TYPE = "nakeduml.timestamp.type";
 	private static final String NAKEDUML_DATE_TYPE = "nakeduml.date.type";
 	private static final String NAKEDUML_HIBERNATE_DS_NAME = "nakeduml.hibernate.ds.name";
-	private static final String NAKEDUML_PROJECT_GEN_GROUPID = "nakeduml.project.gen.groupid";
 	private static final String NAKEDUML_ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
 	private static final String NAKEDUML_TEST_DATA_SIZE = "nakeduml.test.data.size";
 	private static final String MAVEN_GROUPID = "nakeduml.maven.groupid";
@@ -164,10 +163,6 @@ public class NakedUmlConfig {
 		return this.props.getProperty(MAVEN_GROUPID);
 	}
 
-	public void setNakedUmlProjectGenGroupId(String name) {
-		this.props.setProperty(NAKEDUML_PROJECT_GEN_GROUPID, name);
-	}
-
 	public String getIdGeneratorStrategy() {
 		return this.props.getProperty(NAKEDUML_ID_GENERATOR_STRATEGY, "AUTO");
 	}
@@ -216,5 +211,10 @@ public class NakedUmlConfig {
 
 	public String getScmTool(){
 		return this.props.getProperty(SCM_TOOL);
+	}
+
+	public void setMavenGroupId(String string){
+		this.props.setProperty(MAVEN_GROUPID, string);
+		
 	}
 }

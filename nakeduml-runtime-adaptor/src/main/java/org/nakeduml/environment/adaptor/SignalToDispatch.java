@@ -1,7 +1,6 @@
 package org.nakeduml.environment.adaptor;
 
 import java.beans.PropertyDescriptor;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;

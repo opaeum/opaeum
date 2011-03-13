@@ -16,8 +16,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.hibernate.Session;
-import org.jboss.seam.persistence.transaction.DefaultTransaction;
-import org.jboss.seam.persistence.transaction.SeamTransaction;
+import org.jboss.seam.transaction.DefaultTransaction;
+import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractUser;
 import org.nakeduml.runtime.domain.ActiveObject;

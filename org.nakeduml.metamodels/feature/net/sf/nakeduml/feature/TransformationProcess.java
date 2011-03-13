@@ -147,6 +147,9 @@ public class TransformationProcess {
 			InstantiationException {
 		if (!actualClasses.contains(stepClass)) {
 			actualClasses.add(stepClass);
+			try{
+				stepClass.newInstance();//force static inits
+			}catch(Exception e){}
 			for (Class<? extends TransformationStep> c : stepClass.getAnnotation(StepDependency.class).requires()) {
 				ensureRequiredDependenciesPresent(c);
 			}

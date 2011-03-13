@@ -86,6 +86,7 @@ public class StateMachineImplementor extends AbstractBehaviorVisitor {
 			if (behavior instanceof INakedActivity) {
 				SimpleActivityMethodImplementor impl = new SimpleActivityMethodImplementor();
 				impl.initialize(javaModel, config, textWorkspace, super.transformationContext);
+				impl.setWorkspace(workspace);
 				impl.implementActivityOn((INakedActivity) behavior, onEntry);
 			} else if (behavior instanceof INakedOpaqueBehavior) {
 				INakedOpaqueBehavior b=(INakedOpaqueBehavior) behavior;

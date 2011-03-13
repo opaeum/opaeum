@@ -37,8 +37,7 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 				block.addToStatements(signalName + "." + map.setter() + "(" + buildPinExpression(operation, block, pin) + ")");
 			}
 		}
-		OJAnnotatedField signal = new OJAnnotatedField();
-		signal.setName(signalName);
+		OJAnnotatedField signal = new OJAnnotatedField(signalName,cm.javaTypePath());
 		block.addToLocals(signal);
 		String source = "this";
 		if (node.getActivity().getOwnerElement() instanceof INakedTransition) {
