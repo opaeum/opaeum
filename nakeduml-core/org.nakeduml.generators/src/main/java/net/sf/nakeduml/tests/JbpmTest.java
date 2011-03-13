@@ -35,15 +35,15 @@ public class JbpmTest extends AbstractTestCodeGenerator {
 	}
 
 	public static void main(String[] args) throws Exception {
-		JbpmTest jbpmTest = null;
+//		JbpmTest jbpmTest = null;
 		File f = new File("org.nakeduml.generators/testmodels/jbpm");
 		if (f.exists()) {
-			jbpmTest = new JbpmTest("nakedumltest/jbpmtestintegration", "org.nakeduml.generators/testmodels/jbpm");
+//			jbpmTest = new JbpmTest("nakeduml-test/jbpmtestintegration", "org.nakeduml.generators/testmodels/jbpm");
 		} else {
-			jbpmTest = new JbpmTest("../nakedumltest/jbpmtestintegration", "testmodels/jbpm");
+//			jbpmTest = new JbpmTest("../nakedumltest/jbpmtestintegration", "testmodels/jbpm");
 		}
-		jbpmTest.generateCodeForSingleModel("jbpm.uml");
-		jbpmTest.generateIntegrationCode();
+//		jbpmTest.generateCodeForSingleModel("jbpm.uml");
+//		jbpmTest.generateIntegrationCode();
 	}
 
 	@StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
