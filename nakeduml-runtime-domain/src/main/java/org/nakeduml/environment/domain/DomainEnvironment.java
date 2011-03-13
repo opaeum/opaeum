@@ -60,6 +60,8 @@ public class DomainEnvironment extends Environment{
 		signalDispatcher.reset();
 		timeEventDispatcher.reset();
 		knowledgeSession=null;
+		//TODO this should not be necessary
+		abstractJbpmKnowledgeBase=null;
 		if (hibernateSession!=null) {
 		hibernateSession.clear();
 		}

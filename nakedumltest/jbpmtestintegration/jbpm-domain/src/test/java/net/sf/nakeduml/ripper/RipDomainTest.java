@@ -26,22 +26,11 @@ import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.domain.DomainEnvironment;
 
-public class RipperTest extends BaseTest{
+public class RipDomainTest extends BaseTest{
 	@Test
-	public void testRipProcess() {
-		Application app = RipperInitData.createTestData();
-		class AnyMatcher<S> extends BaseMatcher<S>{
+	public void testRipProcessSuccess() {
+		Application app = RipDomainInitData.createTestData();
 
-			@Override
-			public boolean matches(Object arg0){
-				return true;
-			}
-
-			@Override
-			public void describeTo(Description arg0){
-				
-			}
-		};
 		Mockery mockery = new Mockery();
 		final RipHelper ripHelper = mockery.mock(RipHelper.class);
 		mockery.checking(new Expectations() {{
@@ -67,5 +56,41 @@ public class RipperTest extends BaseTest{
 		//IMPORTANT STEP:
 		mockery.assertIsSatisfied();
 		Assert.assertTrue(ripProcess.isStepActive(RipProcessState.ACTIVITYFINALNODE1));
+		Assert.assertNotNull(ripProcess.getLastSuccesfulRip());
+		Assert.assertNull(ripProcess.getLastUnsuccessfulRip());
 	}
+	
+	@Test
+	public void testRipProcessFailure() {
+		Application app = RipDomainInitData.createTestData();
+
+		Mockery mockery = new Mockery();
+		final RipHelper ripHelper = mockery.mock(RipHelper.class);
+		mockery.checking(new Expectations() {{
+		    atLeast(1).of(ripHelper).rip(with(new IsAnything<NodeDefinition>()), with(new IsAnything<Set<MMLCommand>>()));
+		    will(returnValue(Boolean.FALSE));
+		}});
+		
+		DomainEnvironment domainEnvironment = (DomainEnvironment) Environment.getInstance();
+		domainEnvironment.mockComponent(RipHelper.class, ripHelper);
+		
+		RipProcess ripProcess = app.getNetwork().iterator().next().getNetworkSoftwareVersion().iterator().next().RipProcess();
+		ripProcess.execute();
+		Assert.assertFalse(ripProcess.isStepActive(RipProcessState.ACTIVITYFINALNODE1));
+		Assert.assertTrue(ripProcess.isStepActive(RipProcessState.NODEDEFINITIONEXPANSIONREGION));
+		for (RipActivity ripActivity : ripProcess.getRipActivity()) {
+			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.NODEDEFINITIONTORIPSIGNAL));
+		}
+		Environment.getInstance().getComponent(ISignalDispatcher.class).deliverAllPendingSignals();
+		for (RipActivity ripActivity : ripProcess.getRipActivity()) {
+			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.RIPPEDSUCCESSFULLY));
+		}
+		System.out.println(ripProcess.getInnermostNonParallelStep());
+		//IMPORTANT STEP:
+		mockery.assertIsSatisfied();
+		Assert.assertTrue(ripProcess.isStepActive(RipProcessState.ACTIVITYFINALNODE1));
+		Assert.assertNull(ripProcess.getLastSuccesfulRip());
+		Assert.assertNotNull(ripProcess.getLastUnsuccessfulRip());
+	}
+	
 }

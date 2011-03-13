@@ -36,5 +36,6 @@ public class ArtifactNames {
 	public static final String COMMONS_POOL = "commons-pool:commons-pool";
 	public static final String COMMONS_NET = "commons-net:commons-net";
 	public static final String JCRAFT_JSCH = "com.jcraft:jsch";
+	public static final String SEAM_SCHEDULING = "org.jboss.seam:scheduling";
 
 }

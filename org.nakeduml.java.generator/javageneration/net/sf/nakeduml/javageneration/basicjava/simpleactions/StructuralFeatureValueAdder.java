@@ -15,7 +15,6 @@ public class StructuralFeatureValueAdder extends SimpleNodeBuilder<INakedAddStru
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){
-		//TODO blind edit, use to be node.getValue but it is null.
 		String valuePinField = buildPinExpression(oper, block, node.getValue());
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(oper, block, actionMap);

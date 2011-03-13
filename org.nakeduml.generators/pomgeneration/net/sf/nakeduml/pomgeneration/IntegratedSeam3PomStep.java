@@ -57,6 +57,7 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		p.put("seam.solder.version", "3.0.0.Beta1");
 		p.put("seam.servlet.version", "3.0.0.Alpha3");
 		p.put("numl.version",PomGenerationPhase.NUML_VERSION );
+		p.put("seam.scheduling.version", "1.0.0-SNAPSHOT");
 		return p;
 	}
 

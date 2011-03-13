@@ -29,8 +29,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 public class ArquillianUtils {
 
-	private static ByteArrayAsset EMPTY_BEANS_XML = new ByteArrayAsset("<beans/>".getBytes());
-
 	public static WebArchive createTestArchive() {
 		return createWarArchive(true);
 	}
@@ -66,10 +64,6 @@ public class ArquillianUtils {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_IMPL));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
-//		archive.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
-//		archive.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
-//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS_API));
-//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_JMS));
 	}
 
 	public static void includeSeamServlet(WebArchive war) {
@@ -80,9 +74,7 @@ public class ArquillianUtils {
 	private static void includeJbpm(WebArchive war) {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_FLOW));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_FLOW_BUILDER));
-//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_BPMN2));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_PERSISTENCE_JPA));
-//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JBPM_BAM));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_PERSISTENCE_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.DROOLS_COMPILER));
