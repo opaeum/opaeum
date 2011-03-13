@@ -1,0 +1,12 @@
+#set($shouldGenerate=true)
+#set($jbossDir=$config.jbossHome)
+<project name="${model.name.toLowerCase()}Har" default="jar">
+  <target name="jar">
+    <delete file="${java.io.tmpdir}/${model.name.toLowerCase()}.har" />
+    <jar destfile="${java.io.tmpdir}/${model.name.toLowerCase()}.har">
+      <fileset dir="${basedir}/bin" includes="**/*.*" />
+      <fileset dir="${basedir}/lib" includes="**/*.jar" />
+    </jar>
+    <copy file="${java.io.tmpdir}/${model.name.toLowerCase()}.har" todir="${config.jbossHome}/server/default/deploy" overwrite="true" />
+  </target>
+</project>

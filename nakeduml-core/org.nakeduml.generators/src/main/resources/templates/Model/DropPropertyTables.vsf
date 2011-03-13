@@ -1,0 +1,10 @@
+#if($property.isMany() && !$property.isDerived())
+#if($property.baseType.classifierKind.isDataType() || ($property.isManyToMany() && !$property.isInverse()) || ($property.owner.classifierKind.isStructuredDataType() && $property.baseType.classifierKind.isEntity()))
+#if($property.association)
+#set($tableName="${property.association.mappingInfo.persistentName}#if($audit)_aud#end")
+#else
+#set($tableName="${parentTable}_${property.mappingInfo.persistentName.withoutId}")
+#end
+DROP TABLE ${tableName};
+#end
+#end
