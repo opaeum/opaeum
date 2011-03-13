@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<propertiesconfigurator:TabbedView xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:propertiesconfigurator="http://www.topcased.org/PropertiesViewConfiguration/1.0" projectName="org.nakeduml.uim.userinteractionproperties" id="org.nakeduml.uim.userinteractionproperties" name="User Interaction Properties" basePackage="org.nakeduml.uim.userinteractionproperties">
+  <categories name="Nakeduml">
+    <tabs label="Basic">
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Name">
+        <feature href="UIM.genmodel#//uim/UserInteractionElement/name"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Control Type">
+        <feature href="UIM.genmodel#//uim/UIMField/controlKind"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Label Width">
+        <feature href="UIM.genmodel#//uim/UIMField/labelWidth"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.4" label="Required Roles">
+        <feature href="UIM.genmodel#//uim/ModelSecurityConstraint/requiredRoles"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.5" label="Requires Group Ownership">
+        <feature href="UIM.genmodel#//uim/ModelSecurityConstraint/requiresGroupOwnership"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.12" label="Requires Ownership">
+        <feature href="UIM.genmodel#//uim/ModelSecurityConstraint/requiresOwnership"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Operation">
+        <feature href="UIM.genmodel#//uim/OperationAction/operation"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="To Form">
+        <feature href="UIM.genmodel#//uim/NavigationToOperation/toForm"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Action Kind">
+        <feature href="UIM.genmodel#//uim/BuiltInAction/kind"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Width">
+        <feature href="UIM.genmodel#//uim/UIMControl/width"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="To Form">
+        <feature href="UIM.genmodel#//uim/NavigationToEntity/toForm"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Transition">
+        <feature href="UIM.genmodel#//uim/TransitionAction/transition"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Inherit from Parent">
+        <feature href="UIM.genmodel#//uim/ChildSecurityConstraint/inheritFromParent"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Number of Columns">
+        <feature href="UIM.genmodel#//uim/UIMGridLayout/numberOfColumns"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Typed Element">
+        <feature href="UIM.genmodel#//uim/UIMBinding/element"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Property">
+        <feature href="UIM.genmodel#//uim/PropertyRef/property"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" afterSection="//@categories.0/@tabs.0/@sections.0" label="Width">
+        <feature href="UIM.genmodel#//uim/UIMDataColumn/width"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Master Component">
+        <feature href="UIM.genmodel#//uim/DetailPanel/masterComponent"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Active Tab Index">
+        <feature href="UIM.genmodel#//uim/UIMTabPanel/activeTabIndex"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Rows">
+        <feature href="UIM.genmodel#//uim/UIMTextArea/rows"/>
+      </sections>
+      <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Horizontal">
+        <feature href="UIM.genmodel#//uim/UIMBorderLayout/horizontal"/>
+      </sections>
+    </tabs>
+  </categories>
+  <genModel href="UIM.genmodel#/"/>
+</propertiesconfigurator:TabbedView>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.nakeduml.uim/src"
+    modelPluginID="org.nakeduml.uim" modelName="UIM" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.uml2.uml/model/UML.genmodel#//uml">
+  <foreignModel>UIM.ecore</foreignModel>
+  <genPackages prefix="UIM" basePackage="net.sf.nakeduml" resource="XMI" disposableProviderFactory="true"
+      contentTypeIdentifier="" ecorePackage="UIM.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="UIM.ecore#//ActionKind">
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/update"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/delete"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/back"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/executeOperation"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/postponeTask"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/completeTask"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/returnTask"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/create"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="UIM.ecore#//ControlKind">
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/datePopup"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/dropdown"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/text"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/textArea"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/singleSelectListBox"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/checkBox"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/numberScroller"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/singleSelectTreeView"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/multiSelectTreeView"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/multiSelectListBox"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/singleSelectPopupSearch"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/multiSelectPopupSearch"/>
+      <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ControlKind/toggleButton"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="UIM.ecore#//UIMForm">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMForm/panel"/>
+      <genOperations ecoreOperation="UIM.ecore#//UIMForm/getFolder"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UserInteractionModel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//UserInteractionModel/umlModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UserInteractionModel/securityOnVisibility"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UserInteractionModel/secuirytOnEditability"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//AbstractFormFolder">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//AbstractFormFolder/parent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//AbstractFormFolder/securityOnVisibility"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//AbstractFormFolder/securityOnEditability"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//AbstractFolder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//AbstractFolder/children"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMField">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMField/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMField/controlKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMField/labelWidth"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMField/binding"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMField/securityOnEditability"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//UIMNavigation"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMPanel"/>
+    <genClasses ecoreClass="UIM.ecore#//ClassForm">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//ClassForm/folder"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//StateForm">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//StateForm/state"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//StateForm/folder"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//ModelSecurityConstraint">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//ModelSecurityConstraint/requiredRoles"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//ModelSecurityConstraint/requiresGroupOwnership"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//ModelSecurityConstraint/requiresOwnership"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//OperationInvocationForm">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//OperationInvocationForm/operation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//OperationInvocationForm/folder"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//UIMComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMComponent/securityOnVisibility"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//UIMComponent/parent"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//UserInteractionElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UserInteractionElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//OperationAction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//OperationAction/operation"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//NavigationToOperation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//NavigationToOperation/toForm"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//BuiltInAction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//BuiltInAction/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMControl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMControl/width"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//UIMControl/field"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//NavigationToEntity">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//NavigationToEntity/toForm"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//NavigationToEntity/binding"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//TransitionAction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//TransitionAction/transition"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//OperationTaskForm">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//OperationTaskForm/operation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//OperationTaskForm/folder"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//ActionTaskForm">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//ActionTaskForm/action"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//ActionTaskForm/folder"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//UIMAction"/>
+    <genClasses ecoreClass="UIM.ecore#//ChildSecurityConstraint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//ChildSecurityConstraint/inheritFromParent"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMGridLayout">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMGridLayout/numberOfColumns"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMDataTable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMDataTable/binding"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//UIMBinding">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMBinding/next"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMBinding/element"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//PropertyRef">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//PropertyRef/binding"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//PropertyRef/previous"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//PropertyRef/next"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//PropertyRef/property"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMDataColumn">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMDataColumn/width"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//TableBinding">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//TableBinding/table"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//FieldBinding">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//FieldBinding/field"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//FormPanel">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//FormPanel/form"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//StateMachineFolder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//StateMachineFolder/stateForms"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//StateMachineFolder/stateMachine"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//EntityFolder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//EntityFolder/operationTaskForms"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//EntityFolder/entity"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//ActivityFolder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//ActivityFolder/actionTaskForms"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//ActivityFolder/activity"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="UIM.ecore#//OperationContainingFolder">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//OperationContainingFolder/operationInvocationForms"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//OperationContainingFolder/classForm"/>
+      <genOperations ecoreOperation="UIM.ecore#//OperationContainingFolder/getRepresentedClass"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//NavigationBinding">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//NavigationBinding/navigation"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//DetailPanel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//DetailPanel/masterComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//PackageFolder">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//PackageFolder/umlPackage"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMTabPanel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMTabPanel/activeTabIndex"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMTab"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMCheckBox"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMLookup">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMLookup/lookupSource"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//LookupBinding">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference UIM.ecore#//LookupBinding/lookup"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMText"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMTextArea">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMTextArea/rows"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMDropdown"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMDatePopup"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMSingleSelectListBox">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMSingleSelectListBox/rows"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMContainer/securityOnEditability"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference UIM.ecore#//UIMContainer/children"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMSingleSelectTreeView"/>
+    <genClasses ecoreClass="UIM.ecore#//MasterComponent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference UIM.ecore#//MasterComponent/detailPanels"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMLayout"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMToolbarLayout"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMBorderLayout">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute UIM.ecore#//UIMBorderLayout/horizontal"/>
+    </genClasses>
+    <genClasses ecoreClass="UIM.ecore#//UIMXYLayout"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMMultiSelectTreeView"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMMultiSelectListBox"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMMultiSelectPopupSearch"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMSingleSelectPopupSearch"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMToggleButton"/>
+    <genClasses ecoreClass="UIM.ecore#//UIMNumberScroller"/>
+  </genPackages>
+</genmodel:GenModel>

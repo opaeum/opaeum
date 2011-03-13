@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="org.nakeduml.uim.modeleditor.editor.UIMEditor"
+            icon="icons/UIM.gif"
+            default="true"
+            name="User Interaction Model Editor"
+            id="org.nakeduml.uim.modeleditor.editor.UIMEditor"
+            contributorClass="org.nakeduml.uim.modeleditor.actions.UIMEditorActionBarContributor"
+            extensions="uimdi">
+      </editor>
+   </extension>
+   
+   <extension point="org.eclipse.ui.newWizards">
+      <wizard
+            icon="icons/UIM.gif"
+            class="org.nakeduml.uim.modeleditor.wizards.NewUIMDiagrams"
+            category="org.topcased.facilities.newWizards/org.topcased.modeler.newdiagram"
+            name="UIM Diagram"
+            id="org.nakeduml.uim.modeleditor.wizards.NewUIMDiagrams">
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+   
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.topcased.modeler.perspective">
+         <newWizardShortcut id="org.nakeduml.uim.modeleditor.wizards.NewUIMDiagrams"/>
+      </perspectiveExtension>
+   </extension>
+   
+   <extension point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.topcased.modeler.preferences.ModelerPreferencePage"
+            class="org.nakeduml.uim.modeleditor.preferences.UIMPreferencePage"
+            id="org.nakeduml.uim.modeleditor.preferences.UIMPreferencePage"
+            name="UIM"/>
+   </extension>
+   
+	<extension point="org.eclipse.ui.propertyPages">
+		<page
+			id="org.nakeduml.uim.modeleditor.preferences.property.UIMPreferencePage"
+			class="org.nakeduml.uim.modeleditor.preferences.UIMPreferencePage"
+			category="org.topcased.modeler.preferences.property.ModelerPreferencePage"
+			name="UIM">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+	</extension>
+   
+   	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer class="org.nakeduml.uim.modeleditor.preferences.AllDiagramPreferenceInitializer"/>
+	</extension>
+	
+</plugin>

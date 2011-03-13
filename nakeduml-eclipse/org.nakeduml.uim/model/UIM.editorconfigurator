@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editorconfigurator:EditorConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:editorconfigurator="http://www.topcased.org/editorconfigurator/0.10" xmi:id="_1Q9DYKtoEd-KPcvNJvbi5Q" name="User Interaction Model Editor" projectName="org.nakeduml.uim.modeleditor">
+  <genModel href="UIM.genmodel#/"/>
+</editorconfigurator:EditorConfiguration>

@@ -1,0 +1,5 @@
+MainModel : http://www.eclipse.org/uml2/3.0.0/UML
+
+context Class
+inv NoMoreThan10Attributes:
+	 self.ownedAttribute->size()<5

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmi:id="_5kM1MLZ0Ed-RJ8wcAxIiqQ" projectName="org.nakeduml.uim.classform" name="Class Form Diagram" package="org.nakeduml.uim.classform" prefix="ClassForm" provider="Ampie Barnard">
+  <palette xmi:id="_9ZRM0LZ1Ed-RJ8wcAxIiqQ" name="Class Form Palette">
+    <paletteCategories xmi:id="_--I44LZ1Ed-RJ8wcAxIiqQ" name="Controls">
+      <items xmi:id="_ETGLYLZ2Ed-RJ8wcAxIiqQ" name="Field" part="_2dIhILZ1Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_GJ-NcLZ2Ed-RJ8wcAxIiqQ" name="Link to Entity" part="_3gliMLZ1Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_Jom3gLZ2Ed-RJ8wcAxIiqQ" name="Link to Operation" part="_4R31MLZ1Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_LL3aALZ2Ed-RJ8wcAxIiqQ" name="Operation Action" part="_7mg1wLZ1Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_Mw43ELZ2Ed-RJ8wcAxIiqQ" name="Built-in Action" part="_5Ds6wLZ1Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_s7uMQLfpEd-qbYqp0PzQ_Q" name="Transition Action" part="_mrmSALfpEd-qbYqp0PzQ_Q"/>
+    </paletteCategories>
+    <paletteCategories xmi:id="_Pmd9ELZ2Ed-RJ8wcAxIiqQ" name="Containers">
+      <items xmi:id="_dm5K4LZ2Ed-RJ8wcAxIiqQ" name="Form" part="_Ul2oMLZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_fYlK8LZ2Ed-RJ8wcAxIiqQ" name="Panel" part="_XJwIULZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_hX5-YLZ2Ed-RJ8wcAxIiqQ" name="Tabbed Panel" part="_YDpkwLZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_jfk1gLZ2Ed-RJ8wcAxIiqQ" name="Tab" part="_Y_Y0QLZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_k5mjgLZ2Ed-RJ8wcAxIiqQ" name="Data Table" part="_Z4dxULZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_nO_tkLZ2Ed-RJ8wcAxIiqQ" name="Data Colum" part="_a9024LZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_pBXDELZ2Ed-RJ8wcAxIiqQ" name="Master/Detail Panel" part="_cKzAULZ2Ed-RJ8wcAxIiqQ"/>
+    </paletteCategories>
+    <paletteCategories xmi:id="_SVknoLZ2Ed-RJ8wcAxIiqQ" name="Layouts">
+      <items xmi:id="_zmWEwLZ2Ed-RJ8wcAxIiqQ" name="XY Layout" part="_sPvqoLZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_1fR8ULZ2Ed-RJ8wcAxIiqQ" name="Grid Layout" part="_v2PQMLZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_3PvNULZ2Ed-RJ8wcAxIiqQ" name="Toolbar Layout" part="_w4iasLZ2Ed-RJ8wcAxIiqQ"/>
+      <items xmi:id="_5Hwe4LZ2Ed-RJ8wcAxIiqQ" name="Border Layout" part="_yJNYYLZ2Ed-RJ8wcAxIiqQ"/>
+    </paletteCategories>
+  </palette>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_2dIhILZ1Ed-RJ8wcAxIiqQ" object="_H0K64LZ1Ed-RJ8wcAxIiqQ" defaultWidth="200" defaultHeight="20" maximumWidth="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_3gliMLZ1Ed-RJ8wcAxIiqQ" object="_Km7WYLZ1Ed-RJ8wcAxIiqQ" defaultForegroundColor="0,0,255" defaultWidth="200" defaultHeight="20" maximumWidth="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_4R31MLZ1Ed-RJ8wcAxIiqQ" object="_MzFE4LZ1Ed-RJ8wcAxIiqQ" defaultForegroundColor="0,0,255" defaultWidth="200" defaultHeight="220" maximumWidth="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_5Ds6wLZ1Ed-RJ8wcAxIiqQ" object="_O_US8LZ1Ed-RJ8wcAxIiqQ" defaultBackgroundColor="127,127,127" defaultWidth="80" defaultHeight="25"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_7mg1wLZ1Ed-RJ8wcAxIiqQ" object="_R4yacLZ1Ed-RJ8wcAxIiqQ" defaultBackgroundColor="127,127,127" defaultWidth="80" defaultHeight="25" maximumWidth="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_mrmSALfpEd-qbYqp0PzQ_Q" object="_jv-OYLfpEd-qbYqp0PzQ_Q" defaultBackgroundColor="127,127,127" defaultWidth="80" defaultHeight="25"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_Ul2oMLZ2Ed-RJ8wcAxIiqQ" object="_V7rBELZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_XJwIULZ2Ed-RJ8wcAxIiqQ" object="_dExKsLZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_YDpkwLZ2Ed-RJ8wcAxIiqQ" object="_e0eNwLZ1Ed-RJ8wcAxIiqQ" childElements="_Y_Y0QLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_Y_Y0QLZ2Ed-RJ8wcAxIiqQ" object="_hfrPwLZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_Z4dxULZ2Ed-RJ8wcAxIiqQ" object="_kQE60LZ1Ed-RJ8wcAxIiqQ" childElements="_a9024LZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_a9024LZ2Ed-RJ8wcAxIiqQ" object="_mN0Z4LZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_cKzAULZ2Ed-RJ8wcAxIiqQ" object="_oQ1agLZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_sPvqoLZ2Ed-RJ8wcAxIiqQ" object="_qBv-gLZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_v2PQMLZ2Ed-RJ8wcAxIiqQ" object="_w93cELZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_w4iasLZ2Ed-RJ8wcAxIiqQ" object="_ysQ3kLZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_yJNYYLZ2Ed-RJ8wcAxIiqQ" object="_044gILZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" layout="ClassLayout" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_H0K64LZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMField"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_Km7WYLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/NavigationToEntity"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_MzFE4LZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/NavigationToOperation"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_O_US8LZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/BuiltInAction"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_R4yacLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/OperationAction"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_V7rBELZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/FormPanel"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_dExKsLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMPanel"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_e0eNwLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMTabPanel"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_hfrPwLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMTab"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_kQE60LZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMDataTable"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_mN0Z4LZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMDataColumn"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_oQ1agLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/DetailPanel"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_qBv-gLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMXYLayout"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_w93cELZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMGridLayout"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_ysQ3kLZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMToolbarLayout"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_044gILZ1Ed-RJ8wcAxIiqQ">
+    <genClass href="UIM.genmodel#//uim/UIMBorderLayout"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_jv-OYLfpEd-qbYqp0PzQ_Q">
+    <genClass href="UIM.genmodel#//uim/TransitionAction"/>
+  </objects>
+  <genModel href="UIM.genmodel#/"/>
+  <templateRootObject href="UIM.genmodel#//uim/UIMForm"/>
+  <editorConfigurator href="UIM.editorconfigurator#_1Q9DYKtoEd-KPcvNJvbi5Q"/>
+</diagramconfigurator:DiagramConfiguration>

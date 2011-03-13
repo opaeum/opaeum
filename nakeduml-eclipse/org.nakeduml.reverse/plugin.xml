@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+          point="org.eclipse.ui.popupMenus">
+       <objectContribution
+             adaptable="true"
+             id="org.nakeduml.reverse.menu.objectContribution"
+             objectClass="org.eclipse.jdt.core.ICompilationUnit">
+          <menu
+                id="org.nakeduml.reverse.menu.compilationunit"
+                label="NakedUML">
+             <groupMarker
+                   name="numlActionsGroup">
+             </groupMarker>
+          </menu>
+       </objectContribution>
+       <objectContribution
+             adaptable="true"
+             id="org.nakeduml.reverse.menu.objectContribution"
+             objectClass="org.eclipse.jdt.core.IClassFile">
+          <menu
+                id="org.nakeduml.reverse.menu.classfile"
+                label="NakedUML">
+             <groupMarker
+                   name="numlActionsGroup">
+             </groupMarker>
+          </menu>
+       </objectContribution>
+    </extension>
+    <extension
+          point="org.eclipse.ui.popupMenus">
+        <objectContribution
+             id="org.nakeduml.reverse.compilationunit"
+             objectClass="org.eclipse.jdt.core.ICompilationUnit">
+          <action
+                class="org.nakeduml.reverse.popup.actions.ReverseEngineerClassesAction"
+                enablesFor="*"
+                id="org.nakeduml.reverse.popup.actions.ReverseEngineerClassesAction"
+                label="Reverse Java Classes"
+                menubarPath="org.nakeduml.reverse.menu.compilationunit/numlActionsGroup">
+          </action>         
+       </objectContribution>
+        <objectContribution
+             id="org.nakeduml.reverse.classfile"
+             objectClass="org.eclipse.jdt.core.IClassFile">
+          <action
+                class="org.nakeduml.reverse.popup.actions.ReverseEngineerClassesAction"
+                enablesFor="*"
+                id="org.nakeduml.reverse.popup.actions.ReverseEngineerClassesAction"
+                label="Reverse Java Classes"
+                menubarPath="org.nakeduml.reverse.menu.classfile/numlActionsGroup">
+          </action>         
+       </objectContribution>
+    </extension>
+    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">   
+         <command
+               commandId="de.vogella.plugin.htmlconverter.convert"
+               label="Reverse Engineer"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.nakeduml.reverse.popup.actions.ReverseEngineerClassesAction"
+            id="de.vogella.plugin.htmlconverter.convert"
+            name="Reverse Engineer">
+      </command>
+   </extension>
+
+</plugin>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.nakeduml.uim.presentation.UIMModelWizardID"
+            name="%_UI_UIMModelWizard_label"
+            class="org.nakeduml.uim.presentation.UIMModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/UIMModelFile.gif">
+         <description>%_UI_UIMModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.nakeduml.uim.presentation.UIMEditorID"
+            name="%_UI_UIMEditor_label"
+            icon="icons/full/obj16/UIMModelFile.gif"
+            extensions="uim"
+            class="org.nakeduml.uim.presentation.UIMEditor"
+            contributorClass="org.nakeduml.uim.presentation.UIMActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
