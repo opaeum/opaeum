@@ -3,7 +3,9 @@ package net.sf.nakeduml.javageneration.testgeneration;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -12,11 +14,13 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -38,65 +42,80 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedParameter;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
-public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
+public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 	boolean isIntegrationPhase = false;
-	public ArquillianTestJavaGenerator(boolean isIntegrationPhase){
+
+	public ArquillianTestJavaGenerator(boolean isIntegrationPhase) {
 		super();
 		this.isIntegrationPhase = isIntegrationPhase;
 	}
-	public class PackageAndProcessCollector extends NakedElementOwnerVisitor{
-		private Set<INakedPackage> packages = new HashSet<INakedPackage>();
-		private Set<INakedBehavior> processes= new HashSet<INakedBehavior>();
+
+	public class PackageAndProcessCollector extends NakedElementOwnerVisitor {
+		private Map<INakedNameSpace, INakedClassifier> packages = new HashMap<INakedNameSpace, INakedClassifier>();
+		private Set<INakedBehavior> processes = new HashSet<INakedBehavior>();
 		private INakedEntity rootEntity;
-		public PackageAndProcessCollector(Collection<INakedRootObject> modelInScope){
-			for(INakedRootObject root:modelInScope){
+
+		public PackageAndProcessCollector(Collection<INakedRootObject> modelInScope) {
+			for (INakedRootObject root : modelInScope) {
 				visitRecursively(root);
 			}
 		}
+
 		@VisitBefore(matchSubclasses = true)
-		public void visitEntities(INakedEntity entity){
-			packages.add((INakedPackage) entity.getNameSpace());
-			if(entity.getIsAbstract() == false && entity.getEndToComposite() == null){
-				for(INakedProperty p:entity.getEffectiveAttributes()){
-					if(p.isComposite()){
+		public void visitEntities(INakedClassifier entity) {
+			if (OJUtil.hasOJClass(entity) && !(entity.getNameSpace() instanceof INakedProfile)) {
+				packages.put(entity.getNameSpace(), entity);
+			}
+		}
+
+		@VisitBefore(matchSubclasses = true)
+		public void visitEntities(INakedEntity entity) {
+			if (entity.getIsAbstract() == false && entity.getEndToComposite() == null) {
+				for (INakedProperty p : entity.getEffectiveAttributes()) {
+					if (p.isComposite()) {
 						this.rootEntity = entity;
 						break;
 					}
 				}
 			}
 		}
+
 		@VisitBefore(matchSubclasses = true)
-		public void visitBehavior(INakedBehavior b){
-			if(b.isProcess()){
+		public void visitBehavior(INakedBehavior b) {
+			if (b.isProcess()) {
 				this.processes.add(b);
 			}
 		}
-	
+
 	}
+
 	@VisitAfter(matchSubclasses = true)
-	public void visitModel(INakedModel model){
-		if(!isIntegrationPhase){
+	public void visitModel(INakedModel model) {
+		if (!isIntegrationPhase) {
 			PackageAndProcessCollector collector = new PackageAndProcessCollector(getModelInScope());
 			// Fetch root entity
 			OJPathName utilPkg = UtilityCreator.getUtilPathName();
-			createTestUtilClass(collector, utilPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC,model.getFileName());
+			createTestUtilClass(collector, utilPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC, model.getFileName());
 			createExampleTestClass(model.getFileName(), collector.rootEntity, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
 			createExampleStartup(collector, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
 		}
 	}
+
 	@VisitAfter(matchSubclasses = true)
-	public void visitWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationPhase){
+	public void visitWorkspace(INakedModelWorkspace workspace) {
+		if (isIntegrationPhase) {
 			PackageAndProcessCollector collector = new PackageAndProcessCollector(workspace.getRootObjects());
 			OJPathName utilPkg = new OJPathName(config.getMavenGroupId() + ".util");
 			createExampleStartup(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_SRC);
-			createTestUtilClass(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC,workspace.getDirectoryName());
+			createTestUtilClass(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC, workspace.getDirectoryName());
 			createExampleTestClass(workspace.getDirectoryName(), collector.rootEntity, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_TEST_SRC);
 		}
 	}
-	private void createExampleTestClass(String hibernatePrefix, INakedEntity root,OJPathName pkg,OutputRootId outputRootId){
+
+	private void createExampleTestClass(String hibernatePrefix, INakedEntity root, OJPathName pkg, OutputRootId outputRootId) {
 		OJAnnotatedClass dummyTest = new OJAnnotatedClass();
-		dummyTest.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.junit.runner.RunWith"),new OJPathName("org.jboss.arquillian.junit.Arquillian")));
+		dummyTest
+				.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.junit.runner.RunWith"), new OJPathName("org.jboss.arquillian.junit.Arquillian")));
 		dummyTest.setName("ExampleIntegrationTest");
 		OJAnnotatedPackage owner = findOrCreatePackage(pkg);
 		owner.addToClasses(dummyTest);
@@ -110,14 +129,16 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		test.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.junit.Test")));
 		test.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.SuppressWarnings"), "unchecked"));
 		test.getBody().addToStatements(
-				"List<" + root.getMappingInfo().getJavaName() + "> roots = session.createQuery(\"select h from " + root.getMappingInfo().getJavaName() + " h\").list()");
+				"List<" + root.getMappingInfo().getJavaName() + "> roots = session.createQuery(\"select h from " + root.getMappingInfo().getJavaName()
+						+ " h\").list()");
 		dummyTest.addToOperations(test);
 		dummyTest.addToImports(new OJPathName("java.util.List"));
 		dummyTest.addToImports(OJUtil.classifierPathname(root));
 		dummyTest.addToImports(new OJPathName("org.junit.Assert"));
 		test.getBody().addToStatements("Assert.assertFalse(roots.size()>0)");
 	}
-	private void addCreateTestArchive(String hibernatePrefix,OJAnnotatedClass dummyTest, Collection<INakedBehavior> processes){
+
+	private void addCreateTestArchive(String hibernatePrefix, OJAnnotatedClass dummyTest, Collection<INakedBehavior> processes) {
 		OJAnnotatedOperation createTestArchive = addCreateTestArchive(dummyTest);
 		dummyTest.addToImports(new OJPathName("org.jboss.shrinkwrap.api.spec.WebArchive"));
 		dummyTest.addToImports(new OJPathName("org.nakeduml.test.adaptor.ArquillianUtils"));
@@ -126,14 +147,16 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"META-INF/beans.xml\", \"beans.xml\")");
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"" + hibernatePrefix + "-hibernate.cfg.xml\", \"classes/hibernate.cfg.xml\")");
 		createTestArchive.getBody().addToStatements("war.addWebResource(\"data.generation.properties\", \"data.generation.properties\")");
-		for(INakedBehavior p:processes){
-			createTestArchive.getBody().addToStatements("war.addWebResource(\""+ p.getMappingInfo().getJavaPath()+".rf\", \""+p.getMappingInfo().getJavaPath()+".rf\")");
+		for (INakedBehavior p : processes) {
+			createTestArchive.getBody().addToStatements(
+					"war.addWebResource(\"" + p.getMappingInfo().getJavaPath() + ".rf\", \"" + p.getMappingInfo().getJavaPath() + ".rf\")");
 		}
 		createTestArchive.getBody().addToStatements("war.addPackages(true, NakedUtilTestClasses.getTestPackages())");
 		createTestArchive.getBody().addToStatements("war.addPackages(true, getTestPackages())");
 		createTestArchive.getBody().addToStatements("return war");
 	}
-	private OJAnnotatedOperation addCreateTestArchive(OJAnnotatedClass dummyTest){
+
+	private OJAnnotatedOperation addCreateTestArchive(OJAnnotatedClass dummyTest) {
 		OJAnnotatedOperation createTestArchive = new OJAnnotatedOperation("createTestArchive");
 		createTestArchive.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.arquillian.api.Deployment")));
 		dummyTest.addToOperations(createTestArchive);
@@ -148,18 +171,20 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 				illegalArgumentException)));
 		return createTestArchive;
 	}
-	private OJAnnotatedClass createTestUtilClass(PackageAndProcessCollector collector,OJPathName packageName,OutputRootId outputRootId, String hibernatePrefix){
+
+	private OJAnnotatedClass createTestUtilClass(PackageAndProcessCollector collector, OJPathName packageName, OutputRootId outputRootId, String hibernatePrefix) {
 		OJAnnotatedClass testUtil = new OJAnnotatedClass();
 		testUtil.setName("TestUtil");
 		OJAnnotatedPackage owner = findOrCreatePackage(packageName);
 		owner.addToClasses(testUtil);
-		addCreateTestArchive(hibernatePrefix, testUtil,collector.processes);
+		addCreateTestArchive(hibernatePrefix, testUtil, collector.processes);
 
 		super.createTextPath(testUtil, outputRootId);
-		addGetTestPackagesOper(testUtil, collector.packages);
+		addGetTestPackagesOper(testUtil, collector.packages.values());
 		return testUtil;
 	}
-	private void addGetTestPackagesOper(OJAnnotatedClass baseTest,Collection<INakedPackage> packages){
+
+	private void addGetTestPackagesOper(OJAnnotatedClass baseTest, Collection<INakedClassifier> collection) {
 		baseTest.addToImports(new OJPathName("java.lang.Package"));
 		OJPathName list = new OJPathName("java.util.List");
 		baseTest.addToImports(list);
@@ -179,28 +204,34 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		classes.setInitExp("new ArrayList<Package>()");
 		baseTest.addToImports(new OJPathName("java.util.ArrayList"));
 		getTestPackages.getBody().addToLocals(classes);
-		for(INakedPackage p:packages){
-			String entityName = "";
-			for(IClassifier c:p.getClassifiers()){
-				if(c instanceof INakedEntity){
-					entityName = c.getName();
-					baseTest.addToImports(OJUtil.classifierPathname((INakedEntity) c));
-					break;
-				}
-			}
+		for (INakedClassifier c : collection) {
+			String entityName = c.getName();
+			baseTest.addToImports(OJUtil.classifierPathname(c));
 			OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(" + entityName + ".class.getPackage())");
 			getTestPackages.getBody().addToStatements(addPackage);
 		}
-		baseTest.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));
-		OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(Stdlib.class.getPackage())");
-		getTestPackages.getBody().addToStatements(addPackage);
-		addPackage = new OJSimpleStatement("packages.add(TestUtil.class.getPackage())");
+		if (isIntegrationPhase) {
+			Collection<INakedRootObject> pro = workspace.getPrimaryRootObjects();
+			for (INakedRootObject r : pro) {
+				if (r instanceof INakedModel) {
+					OJPathName utilPath = calculateUtilPath(r);
+					OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(" + utilPath + ".Stdlib.class.getPackage())");
+					getTestPackages.getBody().addToStatements(addPackage);
+				}
+			}
+		} else {
+			baseTest.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));
+			OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(Stdlib.class.getPackage())");
+			getTestPackages.getBody().addToStatements(addPackage);
+		}
+		OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(TestUtil.class.getPackage())");
 		getTestPackages.getBody().addToStatements(addPackage);
 		getTestPackages.getBody().addToStatements("Package[] result = new Package[packages.size()]");
 		getTestPackages.getBody().addToStatements("packages.toArray(result)");
 		getTestPackages.getBody().addToStatements("return result");
 	}
-	private void createExampleStartup(PackageAndProcessCollector collector,OJPathName utilPkg,OutputRootId outputRootId){
+
+	private void createExampleStartup(PackageAndProcessCollector collector, OJPathName utilPkg, OutputRootId outputRootId) {
 		OJAnnotatedClass startUp = new OJAnnotatedClass();
 		startUp.setName("ExampleStartUp");
 		OJAnnotatedPackage owner = findOrCreatePackage(utilPkg);
@@ -211,7 +242,8 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		addClassFields(startUp, collector.rootEntity);
 		addStartOperation(startUp, collector.rootEntity);
 	}
-	private void addClassFields(OJAnnotatedClass startUp,INakedEntity root){
+
+	private void addClassFields(OJAnnotatedClass startUp, INakedEntity root) {
 		OJAnnotatedField session = new OJAnnotatedField("session", new OJPathName("org.hibernate.Session"));
 		session.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
 		OJPathName dependent = new OJPathName("org.nakeduml.seam3.persistence.DependentScopedSession");
@@ -222,17 +254,20 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		transaction.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
 		transaction.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.persistence.transaction.DefaultTransaction")));
 		startUp.addToFields(transaction);
-		OJAnnotatedField dataGeneratorProperty = new OJAnnotatedField("dataGeneratorProperty", new OJPathName("org.nakeduml.runtime.adaptor.DataGeneratorProperty"));
+		OJAnnotatedField dataGeneratorProperty = new OJAnnotatedField("dataGeneratorProperty", new OJPathName(
+				"org.nakeduml.runtime.adaptor.DataGeneratorProperty"));
 		dataGeneratorProperty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
 		startUp.addToFields(dataGeneratorProperty);
-		OJAnnotatedField rootGeneratorProperty = new OJAnnotatedField("rootDataGenerator", new OJPathName(root.getMappingInfo().getQualifiedJavaName() + "DataGenerator"));
+		OJAnnotatedField rootGeneratorProperty = new OJAnnotatedField("rootDataGenerator", new OJPathName(root.getMappingInfo().getQualifiedJavaName()
+				+ "DataGenerator"));
 		rootGeneratorProperty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
 		startUp.addToFields(rootGeneratorProperty);
 	}
-	private OJAnnotatedOperation addStartOperation(OJAnnotatedClass startUp,INakedEntity root){
+
+	private OJAnnotatedOperation addStartOperation(OJAnnotatedClass startUp, INakedEntity root) {
 		OJPathName rootPathname = OJUtil.classifierPathname(root);
 		OJAnnotatedOperation start = new OJAnnotatedOperation("start");
-		if(isIntegrationPhase){
+		if (isIntegrationPhase) {
 			OJAnnotatedParameter param = new OJAnnotatedParameter("webapp", new OJPathName("org.jboss.seam.servlet.WebApplication"));
 			OJPathName observes = new OJPathName("javax.enterprise.event.Observes");
 			startUp.addToImports(observes);

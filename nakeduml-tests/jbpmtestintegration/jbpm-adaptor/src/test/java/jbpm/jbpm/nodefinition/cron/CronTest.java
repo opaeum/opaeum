@@ -56,7 +56,7 @@ public class CronTest extends AbstractCDITest {
         }
         Assert.assertTrue( cronTestBean.isScheduledEventObserved() == true );
         Assert.assertTrue( cronTestBean.isNamedEventObserved() == true );
-        Assert.assertTrue( cronTestBean.isTypesafeEventObserved() == true );
+        Assert.assertTrue( cronTestBean.isTypesafeEventObserved() == false );
 
     }
     

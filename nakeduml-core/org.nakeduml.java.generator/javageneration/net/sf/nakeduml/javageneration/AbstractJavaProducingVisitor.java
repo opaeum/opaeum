@@ -51,9 +51,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.currentRootObject = pkg;
 			if(javaModel != null){
-				String qualifiedJavaName = pkg.getMappingInfo().getQualifiedJavaName();
-				
-				OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
+				OJPathName utilPath = calculateUtilPath(pkg);
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
 			}
 		}else if(o instanceof INakedModelWorkspace){
@@ -63,6 +61,12 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 			}
 		}
 		super.visitRecursively(o);
+	}
+	protected OJPathName calculateUtilPath(INakedRootObject pkg) {
+		String qualifiedJavaName = pkg.getMappingInfo().getQualifiedJavaName();
+		
+		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
+		return utilPath;
 	}
 	public TextFile createTextPath(OJClassifier c,Enum<?> id){
 		OutputRoot outputRoot = config.getOutputRoot(id);

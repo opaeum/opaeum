@@ -128,6 +128,15 @@ public class EnvironmentFactory {
 			if (origin != null) {
 				env.addElement(origin.getName(), new VariableDeclaration(origin.getName(), origin.getType()), false);
 			}
+		}else {
+			//TODO only for decision nodes
+			INakedActivityEdge controlFlow= (INakedActivityEdge) edge;
+			if(controlFlow.getEffectiveSource().getIncoming().size()>=1){
+				INakedActivityEdge prev = controlFlow.getEffectiveSource().getIncoming().iterator().next();
+				if(prev instanceof INakedObjectFlow){
+					addFlowParameters(env, prev);
+				}
+			}
 		}
 	}
 

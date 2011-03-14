@@ -15,11 +15,11 @@ import org.hibernate.annotations.common.util.ReflectHelper;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.nakeduml.jbpmtestintegration.util.jbpm.adaptor.JbpmKnowledgeBase;
 import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
 import org.nakeduml.test.adaptor.ArtifactNames;
 import org.nakeduml.test.adaptor.MavenArtifactResolver;
-import org.nakeduml.util.jbpm.adaptor.JbpmKnowledgeBase;
 
 public class JbpmWebTest {
 	private static final String HORNETQ_JMS_DEPLOYMENT_CONFIG = "hornetq-jms.xml";
