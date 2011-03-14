@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
+import nl.klasse.octopus.model.IClassifier;
 
 public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implements INakedBehavioredClassifier{
 	protected List<INakedBehavior> ownedBehaviors = new ArrayList<INakedBehavior>();
@@ -19,6 +20,12 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	@Override
 	public Set<INakedReception> getOwnedReception(){
 		return ownedReception;
+	}
+	@Override
+	public Collection<IClassifier> getClassifiers() {
+		Collection<IClassifier> classifiers = super.getClassifiers();
+		classifiers.addAll(getOwnedBehaviors());
+		return classifiers;
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){

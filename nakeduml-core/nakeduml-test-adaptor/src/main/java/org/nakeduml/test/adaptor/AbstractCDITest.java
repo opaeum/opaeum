@@ -1,7 +1,6 @@
 package org.nakeduml.test.adaptor;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,11 +34,11 @@ public abstract class AbstractCDITest {
 		MockBeanDeploymentArchive jar = new MockBeanDeploymentArchive();
 		MockDeployment deployment = new MockDeployment(jar);
 		jar.setBeansXmlFiles(getBeansXmlFiles());
-		lifecycle = new MockServletLifecycle(deployment, jar);
-		lifecycle.initialize();
 		final List<Class<?>> allBeansList = new ArrayList<Class<?>>(getDefaultWebBeans());
 		allBeansList.addAll(getAdditionalWebBeans());
 		jar.setBeanClasses(allBeansList);
+		lifecycle = new MockServletLifecycle(deployment, jar);
+		lifecycle.initialize();
 		lifecycle.beginApplication();
 		lifecycle.beginSession();
 		lifecycle.beginRequest();

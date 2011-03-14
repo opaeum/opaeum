@@ -27,18 +27,17 @@ public class EmfWorkspaceLoader{
 	public static EmfWorkspace loadDirectory(File dir,String workspaceName,String extension) throws Exception{
 		System.out.println("UML2ModelLoader.loadDirectory()");
 		long time = System.currentTimeMillis();
-		ResourceSet resourceSet = setupStandAloneAppForUML2();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, UMLResource.Factory.INSTANCE);
+		getResourceSetSingleton().getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, UMLResource.Factory.INSTANCE);
 		File[] files = dir.listFiles();
 		for(File file:files){
 			if(file.getName().endsWith(extension)){
-				load(resourceSet, URI.createFileURI(file.getAbsolutePath()));
+				load(getResourceSetSingleton(), URI.createFileURI(file.getAbsolutePath()));
 			}
 		}
-		EcoreUtil.resolveAll(resourceSet);
+		EcoreUtil.resolveAll(getResourceSetSingleton());
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
 		WorkspaceMappingInfoImpl mappingInfo = getMappingInfo(dir, workspaceName);
-		EmfWorkspace emfWorkspace = new EmfWorkspace(dir, resourceSet, mappingInfo, workspaceName);
+		EmfWorkspace emfWorkspace = new EmfWorkspace(dir, getResourceSetSingleton(), mappingInfo, workspaceName);
 		emfWorkspace.guessGeneratingModelsAndProfiles(dir);
 		return emfWorkspace;
 	}

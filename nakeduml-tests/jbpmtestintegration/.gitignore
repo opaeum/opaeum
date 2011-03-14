@@ -18,6 +18,12 @@ jbpm-domain/src/test/generated-java
 jbpm-domain/src/test/generated-resources
 jbpm-domain/target
 jbpm-domain/test-output
+jbpmtestintegration-generator/.classpath
+jbpmtestintegration-generator/.project
+jbpmtestintegration-generator/.settings
+jbpmtestintegration-generator/pom.xml
+jbpmtestintegration-generator/target
+jbpmtestintegration-generator/test-output
 jbpmtestintegration-integrated/.classpath
 jbpmtestintegration-integrated/.project
 jbpmtestintegration-integrated/.settings

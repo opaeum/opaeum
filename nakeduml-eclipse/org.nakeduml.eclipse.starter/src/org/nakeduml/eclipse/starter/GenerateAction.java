@@ -44,7 +44,9 @@ public class GenerateAction implements IObjectActionDelegate{
 	public void generateFor(Model model,NakedUmlConfigDialog dlg) throws Exception{
 		try{
 			File workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
-			File modelFile = new File(workspaceFile, model.eResource().getURI().toPlatformString(true));
+			//find out how to resolve the correct path
+			String uriPAth = model.eResource().getURI().toPlatformString(true);
+			File modelFile = new File(workspaceFile, uriPAth);
 			StarterCodeGenerator codeGen = new StarterCodeGenerator(dlg, modelFile.getParentFile().getAbsolutePath());
 			codeGen.transformDirectory();
 			codeGen.generateIntegrationCode();

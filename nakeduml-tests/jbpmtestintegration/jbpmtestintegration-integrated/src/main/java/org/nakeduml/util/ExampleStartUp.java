@@ -9,10 +9,10 @@ import jbpm.jbpm.Application;
 import jbpm.jbpm.ApplicationDataGenerator;
 
 import org.hibernate.Session;
-import org.jboss.seam.persistence.transaction.DefaultTransaction;
-import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
+import org.jboss.seam.transaction.DefaultTransaction;
+import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.runtime.adaptor.DataGeneratorProperty;
 import org.nakeduml.seam3.persistence.DependentScopedSession;
 
