@@ -37,6 +37,8 @@ public interface INakedCallAction extends INakedInvocationAction {
 	 * @return
 	 */
 	boolean isProcessCall();
+	boolean isTask();
+
 
 	INakedMessageStructure getMessageStructure();
 

@@ -15,4 +15,5 @@ public class NakedStartClassifierBehaviorActionImpl extends NakedInvocationActio
 	public Collection<INakedOutputPin> getOutput() {
 		return new HashSet<INakedOutputPin>();
 	}
+	
 }

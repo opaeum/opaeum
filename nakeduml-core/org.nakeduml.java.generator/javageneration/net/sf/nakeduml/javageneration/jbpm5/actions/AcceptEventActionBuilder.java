@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import nl.klasse.octopus.oclengine.IOclEngine;
@@ -16,7 +17,8 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation) {
-		if (node.getActionType().isAcceptTimeEventAction()) {
+		ActionType actionType = node.getActionType();
+		if (actionType.isAcceptTimeEventAction()) {
 			Jbpm5Util.implementTimeEvent(operation, (INakedTimeEvent) node.getTrigger().getEvent(), node, node.getAllEffectiveOutgoing());
 			OJOperation cancel = new OJAnnotatedOperation();
 			ActionMap map = new ActionMap(node);

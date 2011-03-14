@@ -95,7 +95,7 @@ public abstract class MavenProjectCodeGenerator{
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_GEN_RESOURCE, false, "-adaptor", "src/main/generated-resources");
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "-adaptor", "src/test/generated-java");
 		OutputRoot testSource = cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_TEST_SRC, false, "-adaptor", "src/test/java");
-		testSource.dontCleanDirectoriesOrOverwriteFiles();
+		testSource.dontCleanDirectories();
 		OutputRoot jbossResources = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE_JBOSSAS, false, "-adaptor", "src/test/jboss-resources");
 		jbossResources.dontCleanDirectoriesOrOverwriteFiles();
 		OutputRoot testResources = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE, false, "-adaptor", "src/test/resources");
@@ -112,7 +112,7 @@ public abstract class MavenProjectCodeGenerator{
 				"src/test/resources");
 		integratedTestResource.dontCleanDirectoriesOrOverwriteFiles();
 		OutputRoot src = cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_SRC, true, "-integrated", "src/main/java");
-		src.dontCleanDirectoriesOrOverwriteFiles();
+		src.dontCleanDirectories();
 		OutputRoot integratedResource = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_RESOURCE, true, "-integrated", "src/main/resources");
 		integratedResource.dontCleanDirectoriesOrOverwriteFiles();
 		OutputRoot integratedJboss = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_TEST_RESOURCE_JBOSSAS, true, "-integrated",

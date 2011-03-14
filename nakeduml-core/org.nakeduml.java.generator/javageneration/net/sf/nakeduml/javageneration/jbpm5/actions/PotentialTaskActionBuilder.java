@@ -36,7 +36,7 @@ import org.nakeduml.runtime.domain.UmlNodeInstance;
  * 
  * @param <A>
  */
-public abstract class PotentialTaskActionBuilder<A extends INakedInvocationAction> extends Jbpm5ActionBuilder<A> {
+public abstract class PotentialTaskActionBuilder<A extends INakedCallAction> extends Jbpm5ActionBuilder<A> {
 	protected NakedStructuralFeatureMap callMap;
 
 	protected PotentialTaskActionBuilder(IOclEngine oclEngine, A node) {

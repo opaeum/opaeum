@@ -12,9 +12,9 @@ import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -37,7 +37,7 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 	private static boolean isRestingNode(INakedActivityNode n) {
 		if (n instanceof INakedPin) {
 			return false;
-		} else if (BehaviorUtil.requiresExternalInput(n) || BehaviorUtil.isEffectiveFinalNode(n)) {
+		} else if (BehaviorUtil.requiresExternalInput(n.getActivity(), n) || BehaviorUtil.isEffectiveFinalNode(n)) {
 			return true;
 		} else if (n instanceof INakedParameterNode) {
 			return ((INakedParameterNode) n).getParameter().isResult();
@@ -45,8 +45,8 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 			INakedControlNode cNode = (INakedControlNode) n;
 			ControlNodeType cNodeType = cNode.getControlNodeType();
 			return cNodeType.isActivityFinalNode() || cNodeType.isFlowFinalNode() || cNodeType.isJoinNode();
-		} else {
-			return n instanceof INakedStructuredActivityNode;
+		}else{
+			return false;
 		}
 	}
 

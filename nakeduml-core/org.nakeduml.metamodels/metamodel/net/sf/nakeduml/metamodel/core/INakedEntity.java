@@ -2,7 +2,6 @@ package net.sf.nakeduml.metamodel.core;
 
 import java.util.List;
 
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import nl.klasse.octopus.model.IClass;
 
@@ -20,8 +19,4 @@ public interface INakedEntity extends IClass, INakedBehavioredClassifier, INaked
 
 
 
-	INakedBehavior getClassifierBehavior();
-
-
-	void setClassifierBehavior(INakedBehavior behavior);
 }

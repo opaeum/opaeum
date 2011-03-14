@@ -218,9 +218,9 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		session.addAnnotationIfNew(new OJAnnotationValue(dependent));
 		startUp.addToImports(dependent);
 		startUp.addToFields(session);
-		OJAnnotatedField transaction = new OJAnnotatedField("transaction", new OJPathName("org.jboss.seam.persistence.transaction.SeamTransaction"));
+		OJAnnotatedField transaction = new OJAnnotatedField("transaction", new OJPathName("org.jboss.seam.transaction.SeamTransaction"));
 		transaction.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
-		transaction.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.persistence.transaction.DefaultTransaction")));
+		transaction.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.jboss.seam.transaction.DefaultTransaction")));
 		startUp.addToFields(transaction);
 		OJAnnotatedField dataGeneratorProperty = new OJAnnotatedField("dataGeneratorProperty", new OJPathName("org.nakeduml.runtime.adaptor.DataGeneratorProperty"));
 		dataGeneratorProperty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));

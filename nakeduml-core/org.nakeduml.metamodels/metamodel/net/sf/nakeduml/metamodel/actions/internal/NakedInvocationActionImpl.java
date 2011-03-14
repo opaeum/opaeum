@@ -15,6 +15,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public abstract class NakedInvocationActionImpl extends NakedActionImpl implements INakedInvocationAction {
+	private static final long serialVersionUID = -2671425797278069465L;
 	private INakedInputPin target;
 	private List<INakedInputPin> arguments = new ArrayList<INakedInputPin>();
 
