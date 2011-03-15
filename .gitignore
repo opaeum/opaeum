@@ -59,3 +59,5 @@
 /nakedumltest/jbpmtestintegration/jbpm-domain/src/test/generated-resources/
 /nakedumltest/jbpmtestintegration/jbpm-domain/test-output/
 /nakedumltest/jbpmtestintegration/jbpmtestintegration-web/test-output/
+/nakeduml-tests/jbpmtestintegration/pom.xml
+/nakeduml-tests/jbpmtestintegration/jbpmtestintegration-integrated/pom.xml
