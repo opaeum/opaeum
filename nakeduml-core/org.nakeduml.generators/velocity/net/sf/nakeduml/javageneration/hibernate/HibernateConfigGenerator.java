@@ -10,6 +10,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -24,6 +25,7 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.nakedum.velocity.AbstractTextProducingVisitor;
 import org.nakeduml.environment.Environment;
+import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.java.metamodel.OJPathName;
 
 public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
@@ -108,6 +110,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 		vars.put("requiresAuditing", requiresAudit);
 		vars.put("config", this.config);
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
+		vars.put("requiresJbpm", transformationContext.isFeatureSelected(Jbpm5JavaStep.class));
 		MappingCollector collector = new MappingCollector();
 		// do all models
 		for (INakedElement element : models) {

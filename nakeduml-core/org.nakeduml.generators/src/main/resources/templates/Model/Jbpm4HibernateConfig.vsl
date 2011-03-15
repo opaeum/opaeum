@@ -20,13 +20,6 @@
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 		
 
-#set($requiresJbpm=false)      
-#set($classElements=$workspace.classElementsInDependencyOrder)      
-#foreach($c in $classElements)
-#if($c.isProcess())
-#set($requiresJbpm=true)      
-#end
-#end
 #foreach($c in $persistentClasses)
 		<mapping class="${c}" />
 #end 
