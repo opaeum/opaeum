@@ -1,7 +1,9 @@
-package jbpm.jbpm.nodedefinition;
+package jbpm.jbpm.nodedefinition.mock;
 
 import java.io.Serializable;
 import java.sql.Connection;
+
+import javax.enterprise.inject.Alternative;
 
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
@@ -17,8 +19,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.stat.SessionStatistics;
+import org.nakeduml.seam3.persistence.DependentScopedSession;
 
-//@Alternative
+@Alternative
+@DependentScopedSession
 public class MockSession implements Session {
 
 	@Override

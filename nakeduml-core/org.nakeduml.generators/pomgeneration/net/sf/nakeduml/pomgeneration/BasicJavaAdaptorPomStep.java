@@ -37,6 +37,7 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		numlAdaptor.setScope("compile");
 		numlAdaptor.setVersion("${numl.version}");
 		result.add(numlAdaptor);
+		excludeSlf4j(numlAdaptor);
 	}
 
 	@Override

@@ -6,6 +6,9 @@ import java.util.List;
 
 import jbpm.jbpm.Department;
 import jbpm.jbpm.nodedefinition.EISConnection;
+import jbpm.jbpm.nodedefinition.NodeDefinitionFactory;
+import jbpm.jbpm.nodedefinition.interaction.EISInteractionSpec;
+import jbpm.jbpm.nodedefinition.pool.EisPool;
 import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.util.Stdlib;
 import net.sf.nakeduml.jbpm.test.SimpleAsyncWebTest;
@@ -44,6 +47,9 @@ public class JbpmWebTest {
 		war.addPackages(true, NakedUtilTestClasses.getTestPackages());
 		List<Package> packages = getTestPackages();
 		packages.add(EISConnection.class.getPackage());
+		packages.add(NodeDefinitionFactory.class.getPackage());
+		packages.add(EisPool.class.getPackage());
+		packages.add(EISInteractionSpec.class.getPackage());
 		Package[] result = new Package[packages.size()];
 		packages.toArray(result);
 		war.addPackages(true, result);
@@ -60,7 +66,7 @@ public class JbpmWebTest {
 		packages.add(SimpleAsyncWebTest.class.getPackage());
 		packages.add(JbpmWebTest.class.getPackage());
 		packages.add(JbpmKnowledgeBase.class.getPackage());
-		packages.add(ReflectHelper.classForName("org.nakeduml.util.hibernate.adaptor.package-info").getPackage());
+		packages.add(ReflectHelper.classForName("org.nakeduml.jbpmtestintegration.util.hibernate.adaptor.package-info").getPackage());
 		return packages;
 	}
 

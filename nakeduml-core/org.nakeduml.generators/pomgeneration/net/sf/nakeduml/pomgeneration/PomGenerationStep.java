@@ -88,7 +88,17 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setVersion("${hibernate.version}");
 		dependency.setType("jar");
 		dependency.setScope("provided");
+		//Clashes with slf4j in weld-core-test and weld-se
+		excludeSlf4j(dependency);
 		dependencies.add(dependency);
+	}
+
+	protected void excludeSlf4j(Dependency dependency) {
+		Exclusion excludeSlf4j = POMFactory.eINSTANCE.createExclusion();
+		excludeSlf4j.setGroupId("org.slf4j");
+		excludeSlf4j.setArtifactId("slf4j-api");
+		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		dependency.getExclusions().getExclusion().add(excludeSlf4j);
 	}
 	protected void addArquillian(Collection<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
@@ -97,6 +107,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setVersion("${arquillian.version}");
 		dependency.setType("jar");
 		dependency.setScope("test");
+		
 		dependencies.add(dependency);
 	}
 //TODO move to WarPomStep when we have figured out how to do integreation tests from an ejb
@@ -115,6 +126,11 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setVersion("${seam.servlet.version}");
 		dependency.setScope("runtime");
 		dependencies.add(dependency);
+		Exclusion solder = POMFactory.eINSTANCE.createExclusion();
+		solder.setGroupId("org.jboss.seam.solder");
+		solder.setArtifactId("seam-solder");
+		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		dependency.getExclusions().getExclusion().add(solder);
 	}
 	
 	protected void addSeamSolderImpl(Collection<Dependency> dependencies) {

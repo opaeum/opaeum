@@ -10,8 +10,8 @@ import java.util.Set;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.nodedefinition.EISConnection;
-import jbpm.jbpm.nodedefinition.MockNodeDefinitionFactory;
 import jbpm.jbpm.nodedefinition.interaction.EISInteractionSpec;
+import jbpm.jbpm.nodedefinition.mock.MockNodeDefinitionFactory;
 import jbpm.jbpm.nodedefinition.pool.EisPool;
 import jbpm.jbpm.nodedefinition.pool.jmx.EisPoolService;
 import jbpm.jbpm.rip.MMLCommand;

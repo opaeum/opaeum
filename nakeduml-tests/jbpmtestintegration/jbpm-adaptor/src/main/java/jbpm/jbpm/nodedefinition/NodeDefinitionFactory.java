@@ -9,11 +9,14 @@ import javax.inject.Inject;
 
 import jbpm.jbpm.rip.NodeDefinition;
 
+import org.hibernate.Session;
+import org.nakeduml.seam3.persistence.DependentScopedSession;
+
 public class NodeDefinitionFactory implements INodeDefinitionFactory {
 
-//	@DependentScopedSession
+	@DependentScopedSession
 	@Inject
-	private MockSession session;
+	private Session session;
 	private List<NodeDefinition> nodeDefinitions;
 	
 	@SuppressWarnings("unchecked")

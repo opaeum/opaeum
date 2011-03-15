@@ -31,6 +31,7 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 		nakedUmlUtil.setScope("compile");
 		nakedUmlUtil.setType("jar");
 		result.add(nakedUmlUtil);
+		excludeSlf4j(nakedUmlUtil);
 	}
 	@Override
 	public Plugin[] getPlugins(){

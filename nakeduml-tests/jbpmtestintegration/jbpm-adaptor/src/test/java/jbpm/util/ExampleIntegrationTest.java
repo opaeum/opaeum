@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import jbpm.jbpm.Application;
 
 import org.hibernate.Session;
+import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.Assert;
@@ -20,6 +21,7 @@ public class ExampleIntegrationTest {
 	private Session session;
 
 
+	@Deployment
 	static public Archive<?> createTestArchive() throws IllegalArgumentException, IOException, ClassNotFoundException {
 		return TestUtil.createTestArchive();
 	}
