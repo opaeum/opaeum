@@ -20,3 +20,4 @@ Require-Bundle: org.eclipse.ui,
  org.nakeduml.ocl.metamodel;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.nakeduml.eclipse.starter

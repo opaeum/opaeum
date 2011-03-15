@@ -12,11 +12,36 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
+import net.sf.nakeduml.metamodel.statemachines.INakedState;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.model.IClassifier;
 
 public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implements INakedBehavioredClassifier{
 	protected List<INakedBehavior> ownedBehaviors = new ArrayList<INakedBehavior>();
 	private Set<INakedReception> ownedReception = new HashSet<INakedReception>();
+	private INakedBehavior classifierBehavior;
+	public INakedBehavior getClassifierBehavior() {
+		if (this.classifierBehavior == null && hasSupertype()) {
+			return ((NakedEntityImpl) getSupertype()).getClassifierBehavior();
+		} else {
+			return this.classifierBehavior;
+		}
+	}
+	public void setClassifierBehavior(INakedBehavior classifierBehavior) {
+		this.classifierBehavior = classifierBehavior;
+	}
+
+	@Override
+	public List getStates() {
+		// Fakes region states
+		List<INakedState> results = new ArrayList<INakedState>();
+		if (this.classifierBehavior instanceof INakedStateMachine) {
+			results.addAll(((INakedStateMachine) this.classifierBehavior).getAllStates());
+		}
+		// TODO implement something similar for activities with resting states
+		return results;
+	}
 	@Override
 	public Set<INakedReception> getOwnedReception(){
 		return ownedReception;

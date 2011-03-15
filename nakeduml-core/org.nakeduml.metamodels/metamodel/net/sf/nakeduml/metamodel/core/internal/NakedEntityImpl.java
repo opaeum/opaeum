@@ -16,7 +16,6 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 	private static final long serialVersionUID = -257231836042506513L;
 	public static final String META_CLASS = "entity";
 	private boolean representsUser;
-	private INakedBehavior classifierBehavior;
 	private List<INakedProperty> uniquenessConstraints;
 	private INakedProperty endToComposite;
 
@@ -89,20 +88,6 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 		super.addStereotype(stereotype);
 	}
 
-	public void setClassifierBehavior(INakedBehavior classifierBehavior) {
-		this.classifierBehavior = classifierBehavior;
-	}
-
-	@Override
-	public List getStates() {
-		// Fakes region states
-		List<INakedState> results = new ArrayList<INakedState>();
-		if (this.classifierBehavior instanceof INakedStateMachine) {
-			results.addAll(((INakedStateMachine) this.classifierBehavior).getAllStates());
-		}
-		// TODO implement something similar for activities with resting states
-		return results;
-	}
 
 
 	@Override
@@ -120,13 +105,6 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 		}
 	}
 
-	public INakedBehavior getClassifierBehavior() {
-		if (this.classifierBehavior == null && hasSupertype()) {
-			return ((NakedEntityImpl) getSupertype()).getClassifierBehavior();
-		} else {
-			return this.classifierBehavior;
-		}
-	}
 
 	public void setRepresentsUser(boolean representsUser) {
 		this.representsUser = representsUser;
