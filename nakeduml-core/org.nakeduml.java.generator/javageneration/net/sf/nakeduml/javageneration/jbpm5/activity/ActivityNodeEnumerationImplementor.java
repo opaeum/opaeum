@@ -39,7 +39,13 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 		if (n instanceof INakedPin) {
 			return false;
 		}else if(n instanceof INakedStructuredActivityNode){
-			return true;// to be on the safe side
+			INakedStructuredActivityNode s=(INakedStructuredActivityNode) n;
+			for(INakedActivityNode child:s.getActivityNodes()){
+				if(isRestingNode(child)){
+					return true;
+				}
+			}
+			return false;
 		} else if (BehaviorUtil.requiresExternalInput(n.getActivity(), n) || BehaviorUtil.isEffectiveFinalNode(n)) {
 			return true;
 		} else if (n instanceof INakedParameterNode) {
