@@ -26,7 +26,6 @@ jbpmtestintegration-generator/test-output
 jbpmtestintegration-integrated/.classpath
 jbpmtestintegration-integrated/.project
 jbpmtestintegration-integrated/.settings
-jbpmtestintegration-integrated/pom.xml
 jbpmtestintegration-integrated/src/main/generated-java
 jbpmtestintegration-integrated/src/main/generated-resources
 jbpmtestintegration-integrated/src/test/generated-java
