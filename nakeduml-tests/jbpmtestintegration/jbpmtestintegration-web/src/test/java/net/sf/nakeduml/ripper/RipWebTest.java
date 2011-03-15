@@ -26,6 +26,7 @@ public class RipWebTest extends JbpmWebTest {
 		NetworkSoftwareVersion networkSoftwareVersion = application.getNetwork().iterator().next().getNetworkSoftwareVersion().iterator().next();
 		ripTestController.testRipNetwork(networkSoftwareVersion);
 		int totalTimeWaited = 0;
+		Thread.sleep(SLEEP_TIME);
         while (!ripTestController.assertProcessCompleted(networkSoftwareVersion) && totalTimeWaited < MAX_TIME_TO_WAIT) {
             try {
                 log.info("Sleeping for a few seconds, waiting for process to complete. Waited for " + totalTimeWaited + "ms so far ...");

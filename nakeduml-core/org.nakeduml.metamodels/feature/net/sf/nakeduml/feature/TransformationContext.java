@@ -24,6 +24,15 @@ public class TransformationContext {
 		return this.selectedFeatures.contains(feature);
 	}
 
+	public boolean isAnyOfFeaturesSelected(Class<? extends TransformationStep> ... features) {
+		for (Class<? extends TransformationStep> feature : features) {
+			if (this.selectedFeatures.contains(feature)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void featureApplied(Class<? extends TransformationStep> feature) {
 		this.appliedFeatures.add(feature);
 	}
