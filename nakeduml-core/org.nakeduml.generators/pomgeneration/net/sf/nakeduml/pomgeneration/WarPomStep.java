@@ -8,14 +8,11 @@ import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 
-import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
-import org.apache.maven.pom.PluginExecution;
 import org.apache.maven.pom.Profile;
-import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
@@ -32,7 +29,6 @@ public class WarPomStep extends PomGenerationStep {
 		dependencies.add(integrated);
 		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
-		addSlf4j(dependencies);
 		addSeamServlet(dependencies);
 		addSeamServletImpl(dependencies);
 		addSolderApi(dependencies);
@@ -72,15 +68,6 @@ public class WarPomStep extends PomGenerationStep {
 		exclusion.setArtifactId("jboss-logging");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(exclusion);
-		dependencies.add(dependency);
-	}
-
-
-	private void addSlf4j(List<Dependency> dependencies) {
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.slf4j");
-		dependency.setArtifactId("slf4j-log4j12");
-		dependency.setVersion("1.6.1");
 		dependencies.add(dependency);
 	}
 

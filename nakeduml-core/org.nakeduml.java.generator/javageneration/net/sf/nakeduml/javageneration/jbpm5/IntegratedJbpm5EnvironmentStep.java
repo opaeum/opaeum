@@ -8,7 +8,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { ProcessIdentifier.class,TextFileGenerator.class}, after = {})
+@StepDependency(phase = JavaTransformationPhase.class, requires = {ProcessIdentifier.class,TextFileGenerator.class}, after = {})
 public class IntegratedJbpm5EnvironmentStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {

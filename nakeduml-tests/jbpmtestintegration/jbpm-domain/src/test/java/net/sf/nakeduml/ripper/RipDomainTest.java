@@ -29,6 +29,7 @@ import org.nakeduml.environment.domain.DomainEnvironment;
 public class RipDomainTest extends BaseTest{
 	@Test
 	public void testRipProcessSuccess() {
+		DomainEnvironment.getInstance().reset();
 		Application app = RipDomainInitData.createTestData();
 
 		Mockery mockery = new Mockery();
