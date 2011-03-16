@@ -15,10 +15,10 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 
 	private static final String COMMAND_RESPONSE = "command-response/";
 	private ERICSSON_STATE state = ERICSSON_STATE.PROMPT_USERNAME;
-	protected static Map<String, List<String>> responseMap = new HashMap<String, List<String>>();
+	protected Map<String, List<String>> responseMap;
 
 	private enum ERICSSON_STATE {
-		PROMPT_USERNAME, PROMPT_PASSWORD, AUTHENTICATE, HANDLE_DOMAIN, AWAIT_COMMANDS;
+		PROMPT_USERNAME, PROMPT_PASSWORD, AUTHENTICATE, HANDLE_DOMAIN1, HANDLE_DOMAIN2, AWAIT_COMMANDS;
 	}
 
 	public static Shell createShell() {
@@ -30,7 +30,7 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 		try {
 			List<String> commands = Resources.readLines(Thread.currentThread().getContextClassLoader().getResource(COMMAND_RESPONSE + "commands"),
 					Charset.defaultCharset());
-			responseMap.clear();
+			responseMap = new HashMap<String, List<String>>();
 			populateResponse(commands);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -46,8 +46,8 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 	}
 
 	protected void read() throws IOException {
-		
-		final StringBuilder received = new StringBuilder();
+
+		StringBuilder received = new StringBuilder();
 		int character = -1;
 		while ((character = this.m_IO.read()) != -1) {
 			received.append((char) character);
@@ -58,12 +58,13 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 			}
 			String stopped = this.findStops(received, "\n");
 			if (stopped != null) {
-				doResponseForStop(stopped);
+				doResponseForStop(received.toString().substring(0, received.length()-1), stopped);
+				received = new StringBuilder();
 			}
-		}		
-		
+		}
+
 	}
-	
+
 	@Override
 	protected void doStartConnection() throws IOException {
 		hasStartedConnection = true;
@@ -71,8 +72,7 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 		state = ERICSSON_STATE.PROMPT_PASSWORD;
 	}
 
-	@Override
-	protected void doResponseForStop(String stopped) throws IOException {
+	protected void doResponseForStop(String received, String stopped) throws IOException {
 		m_IO.write("\n");
 		switch (state) {
 		case PROMPT_PASSWORD:
@@ -81,17 +81,22 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 			break;
 		case AUTHENTICATE:
 			m_IO.write("Domain:");
-			state = ERICSSON_STATE.HANDLE_DOMAIN;
+			state = ERICSSON_STATE.HANDLE_DOMAIN1;
 			break;
-		case HANDLE_DOMAIN:
+		case HANDLE_DOMAIN1:
+			m_IO.write("<");
+			state = ERICSSON_STATE.HANDLE_DOMAIN2;
+			break;
+		case HANDLE_DOMAIN2:
 			m_IO.write("<");
 			state = ERICSSON_STATE.AWAIT_COMMANDS;
 			break;
 		case AWAIT_COMMANDS:
-			for (String responseLine : responseMap.get(stopped)) {
+			for (String responseLine : responseMap.get(received.toString())) {
 				m_IO.write(responseLine);
 				m_IO.write("\n");
 			}
+			break;
 		default:
 			throw new IllegalStateException();
 		}

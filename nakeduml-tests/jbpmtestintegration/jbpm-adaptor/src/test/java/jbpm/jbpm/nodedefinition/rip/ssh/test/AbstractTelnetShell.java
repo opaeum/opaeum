@@ -89,8 +89,6 @@ public abstract class AbstractTelnetShell implements Shell {
 
 	protected abstract void read() throws IOException;
 
-	protected abstract void doResponseForStop(String stopped) throws IOException;
-
 	protected String findStops(StringBuilder stringBuilder, String ... stops) {
 		for (String stop : stops) {
 			if (stringBuilder.toString().endsWith(stop)) {
