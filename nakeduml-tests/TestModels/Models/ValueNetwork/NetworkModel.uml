@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="NetworkModel">
+    <packagedElement xmi:type="uml:Package" xmi:id="_PgMTEE7eEeC6JunSpH8wsQ" name="Package1">
+      <packagedElement xmi:type="uml:Component" xmi:id="_QS6JcE7eEeC6JunSpH8wsQ" name="aa">
+        <ownedAttribute xmi:id="_-R17QE7eEeC6JunSpH8wsQ" name="Property1" type="_QnWvcE7eEeC6JunSpH8wsQ" aggregation="composite"/>
+        <ownedAttribute xmi:id="_JIXY4E7fEeC6JunSpH8wsQ" name="Property2" type="_FCWlwE7fEeC6JunSpH8wsQ" aggregation="composite"/>
+        <ownedConnector xmi:id="_LMZGIE7fEeC6JunSpH8wsQ" name="Connector1" kind="assembly">
+          <end xmi:id="_LMZGIU7fEeC6JunSpH8wsQ" role="_R3mPUE7eEeC6JunSpH8wsQ" partWithPort="_-R17QE7eEeC6JunSpH8wsQ">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LMZGIk7fEeC6JunSpH8wsQ" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_LMZGI07fEeC6JunSpH8wsQ" value="1"/>
+          </end>
+          <end xmi:id="_LMZGJE7fEeC6JunSpH8wsQ" role="_GQJ1oE7fEeC6JunSpH8wsQ" partWithPort="_JIXY4E7fEeC6JunSpH8wsQ">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LMZGJU7fEeC6JunSpH8wsQ" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_LMZGJk7fEeC6JunSpH8wsQ" value="1"/>
+          </end>
+        </ownedConnector>
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_QnWvcE7eEeC6JunSpH8wsQ" name="Component1">
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_R3mPUE7eEeC6JunSpH8wsQ" name="Port1" type="_r3SrgE7eEeC6JunSpH8wsQ" aggregation="composite"/>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Interface" xmi:id="_SOEOkE7eEeC6JunSpH8wsQ" name="Interface1"/>
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_r3SrgE7eEeC6JunSpH8wsQ" name="Class1" clientDependency="_2mbuwE7eEeC6JunSpH8wsQ"/>
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_FCWlwE7fEeC6JunSpH8wsQ" name="Component2">
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_GQJ1oE7fEeC6JunSpH8wsQ" name="Port1" type="_SOEOkE7eEeC6JunSpH8wsQ" aggregation="composite"/>
+        </nestedClassifier>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_2mbuwE7eEeC6JunSpH8wsQ" name="Usage1" supplier="_SOEOkE7eEeC6JunSpH8wsQ" client="_r3SrgE7eEeC6JunSpH8wsQ"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>
