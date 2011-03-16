@@ -63,7 +63,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 		super.visitRecursively(o);
 	}
 	protected OJPathName calculateUtilPath(INakedRootObject pkg) {
-		String qualifiedJavaName = pkg.getMappingInfo().getQualifiedJavaName();
+		String qualifiedJavaName = OJUtil.packagePathname(pkg).toJavaString();
 		
 		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 		return utilPath;

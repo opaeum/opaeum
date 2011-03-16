@@ -205,9 +205,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		baseTest.addToImports(new OJPathName("java.util.ArrayList"));
 		getTestPackages.getBody().addToLocals(classes);
 		for (INakedClassifier c : collection) {
-			String entityName = c.getName();
-			baseTest.addToImports(OJUtil.classifierPathname(c));
-			OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(" + entityName + ".class.getPackage())");
+			OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(" + OJUtil.classifierPathname(c) + ".class.getPackage())");
 			getTestPackages.getBody().addToStatements(addPackage);
 		}
 		if (isIntegrationPhase) {
