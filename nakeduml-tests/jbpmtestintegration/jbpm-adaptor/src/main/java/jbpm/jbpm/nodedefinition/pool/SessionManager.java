@@ -50,7 +50,7 @@ public class SessionManager {
 		});
 		Session session = null;
 		try {
-			session = sch.getSession(sshUsername, sshHost, 22);
+			session = sch.getSession(sshUsername, sshHost, 2222);
 			session.setTimeout(timeout);
 			session.setServerAliveCountMax(3);
 			session.setUserInfo(new UserInfo() {

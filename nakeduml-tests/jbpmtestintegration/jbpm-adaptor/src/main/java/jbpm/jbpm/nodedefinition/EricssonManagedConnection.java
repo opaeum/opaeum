@@ -34,10 +34,10 @@ public class EricssonManagedConnection implements EISConnection {
 		telnetClient.setConnectTimeout(this.nodeDefinition.getTimeout());
 		try {
 			if (nodeDefinition.getRequiresSshTunnel()) {
-				logger.info("creating telnet connection via ssh tunnel on localhost and port #0 " + this.nodeDefinition.getSshTunnelSpec().getLport());
+				logger.info("creating telnet connection via ssh tunnel on localhost and port {}", this.nodeDefinition.getSshTunnelSpec().getLport());
 				telnetClient.connect("localhost", this.nodeDefinition.getSshTunnelSpec().getLport());
 			} else {
-				logger.info("creating telnet connection on host " + this.nodeDefinition.getHost() + " and port " + this.nodeDefinition.getSshTunnelSpec().getLport());
+				logger.info("creating telnet connection on host {} and port {}", this.nodeDefinition.getHost(), this.nodeDefinition.getSshTunnelSpec().getLport());
 				telnetClient.connect(this.nodeDefinition.getHost(), this.nodeDefinition.getPort());
 			}
 			telnetClient.setSoTimeout(this.nodeDefinition.getSoTimeout());

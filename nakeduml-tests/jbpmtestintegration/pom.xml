@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-<!--ss-->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.nakeduml.jbpmtestintegration</groupId>
   <artifactId>jbpmtestintegration</artifactId>
@@ -50,6 +48,16 @@
       <name>JBoss Repository</name>
       <url>https://repository.jboss.org/nexus/content/groups/public</url>
     </repository>
+    <repository>
+        <id>java.net</id>
+        <url>http://download.java.net/maven/2/</url>
+        <releases>
+           <enabled>true</enabled>
+        </releases>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>        
+     </repository>
   </repositories>
   <dependencies/>
   <dependencyManagement>

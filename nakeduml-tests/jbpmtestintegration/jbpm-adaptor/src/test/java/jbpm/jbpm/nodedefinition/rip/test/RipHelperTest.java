@@ -96,14 +96,14 @@ public class RipHelperTest {
 	private static void createMMLCommand(Network network) {
 		MMLCommand mmlCommand = new MMLCommand(network);
 		mmlCommand.setSoftwareVersion(SoftwareVersion.R12);
-		mmlCommand.setCommand("RLCP");
-		mmlCommand.setSuffix(":CELL=ALL;");
+		mmlCommand.setCommand("LST THISANDTHAT1");
+		mmlCommand.setSuffix(":;");
 	}
 
 	private static SshTunnelSpec createSshTunnel(Network network) {
 		SshTunnelSpec sshTunnelSpec = new SshTunnelSpec(network);
 		sshTunnelSpec.setName("Botswana_machine1");
-		sshTunnelSpec.setHost("1.bw.mtn");
+		sshTunnelSpec.setHost("localhost");
 		sshTunnelSpec.setUsername("rorotika");
 		sshTunnelSpec.setPassword("ror0t1ka1");
 		sshTunnelSpec.setActive(true);
@@ -118,8 +118,8 @@ public class RipHelperTest {
 		nodeDefinition.setName("FTMSS01");
 		nodeDefinition.setActive(true);
 		nodeDefinition.setId(1000L);
-		nodeDefinition.setHost("10.32.41.6");
-		nodeDefinition.setPort(23);
+		nodeDefinition.setHost("localhost");
+		nodeDefinition.setPort(6666);
 		nodeDefinition.setSoTimeout(20000);
 		nodeDefinition.setTimeout(10000);
 		nodeDefinition.setUsername("rorotika");

@@ -20,8 +20,8 @@ public class ExampleStartUp {
 	@Inject
 	@DependentScopedSession
 	private Session session;
-	@Inject
 	@DefaultTransaction
+	@Inject
 	private SeamTransaction transaction;
 	@Inject
 	private DataGeneratorProperty dataGeneratorProperty;
