@@ -129,6 +129,9 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 
 	static String getId(EObject e) {
+		if(e.eResource()==null){
+			System.out.println(e);
+		}
 		return e.eResource().getURI().lastSegment() + "@" + e.eResource().getURIFragment(e);
 	}
 
