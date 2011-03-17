@@ -31,6 +31,7 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.ProcessShellFactory;
 import org.apache.sshd.server.shell.ProcessShellFactory.TtyOptions;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -90,7 +91,8 @@ public class TestSshServer {
 		daemon.start();
 	}
 	
-	public void stopSshServer() throws InterruptedException {
+	@AfterClass
+	public static void stopSshServer() throws InterruptedException {
 		daemon.stop();
 		sshd.stop();
 	}

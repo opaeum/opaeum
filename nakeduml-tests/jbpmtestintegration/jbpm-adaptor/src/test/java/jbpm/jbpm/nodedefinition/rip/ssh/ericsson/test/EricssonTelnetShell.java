@@ -46,7 +46,6 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 	}
 
 	protected void read() throws IOException {
-
 		StringBuilder received = new StringBuilder();
 		int character = -1;
 		while ((character = this.m_IO.read()) != -1) {
@@ -58,7 +57,12 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 			}
 			String stopped = this.findStops(received, "\n");
 			if (stopped != null) {
-				doResponseForStop(received.toString().substring(0, received.length()-1), stopped);
+				String receivedText = received.toString().substring(0, received.length() - 1);
+				if (receivedText.startsWith("EXIT")) {
+					m_IO.write("EXIT;<");
+					break;
+				}
+				doResponseForStop(receivedText, stopped);
 				received = new StringBuilder();
 			}
 		}
@@ -92,10 +96,11 @@ public class EricssonTelnetShell extends AbstractTelnetShell {
 			state = ERICSSON_STATE.AWAIT_COMMANDS;
 			break;
 		case AWAIT_COMMANDS:
-			for (String responseLine : responseMap.get(received.toString())) {
+			for (String responseLine : responseMap.get(received)) {
 				m_IO.write(responseLine);
 				m_IO.write("\n");
 			}
+			m_IO.write("<");
 			break;
 		default:
 			throw new IllegalStateException();

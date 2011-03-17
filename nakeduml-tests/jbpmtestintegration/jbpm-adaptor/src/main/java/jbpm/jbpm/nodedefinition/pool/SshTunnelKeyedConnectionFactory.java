@@ -69,11 +69,11 @@ public class SshTunnelKeyedConnectionFactory extends BaseKeyedPoolableObjectFact
 		NodeDefinitionWrapper wrapper = (NodeDefinitionWrapper) key;
 		NodeDefinition nodeConnectionSpec = wrapper.getNodeDefinition();
 		EISConnection ericssonManagedConnection = (EISConnection) obj;
+		ericssonManagedConnection.destroy();
 		if (nodeConnectionSpec.getRequiresSshTunnel()) {
 			// Decrement
 			sessionManager.destroy(nodeConnectionSpec);
 		}
-		ericssonManagedConnection.destroy();
 	}
 
 	@Override
