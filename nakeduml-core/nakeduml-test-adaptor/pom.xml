@@ -43,7 +43,6 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-core-test</artifactId>
@@ -77,6 +76,16 @@
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
 			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>3.6.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-runtime-adaptor</artifactId>
+			<version>${numl.version}</version>
 		</dependency>
 	</dependencies>
 </project>

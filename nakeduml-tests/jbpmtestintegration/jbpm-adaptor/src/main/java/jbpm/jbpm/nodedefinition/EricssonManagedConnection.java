@@ -28,7 +28,15 @@ public class EricssonManagedConnection implements EISConnection {
 		APG, IOG
 	}
 
+	public EricssonManagedConnection() {
+		super();
+	}
+
 	public EricssonManagedConnection(NodeDefinition nodeDefinitionX) {
+		initConnection(nodeDefinitionX);
+	}
+
+	public void initConnection(NodeDefinition nodeDefinitionX) {
 		this.nodeDefinition = nodeDefinitionX;
 		telnetClient = new TelnetClient();
 		telnetClient.setConnectTimeout(this.nodeDefinition.getTimeout());

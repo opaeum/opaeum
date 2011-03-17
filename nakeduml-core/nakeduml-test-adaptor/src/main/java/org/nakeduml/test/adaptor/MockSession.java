@@ -1,4 +1,4 @@
-package jbpm.jbpm.nodedefinition.mock;
+package org.nakeduml.test.adaptor;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -11,13 +11,18 @@ import org.hibernate.EntityMode;
 import org.hibernate.Filter;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
+import org.hibernate.LobHelper;
 import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.TypeHelper;
+import org.hibernate.UnknownProfileException;
+import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
 import org.nakeduml.seam3.persistence.DependentScopedSession;
 
@@ -413,6 +418,96 @@ public class MockSession implements Session {
 	public void reconnect(Connection connection) throws HibernateException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean isDefaultReadOnly() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setDefaultReadOnly(boolean readOnly) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object load(Class theClass, Serializable id, LockOptions lockOptions) throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object load(String entityName, Serializable id, LockOptions lockOptions) throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LockRequest buildLockRequest(LockOptions lockOptions) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void refresh(Object object, LockOptions lockOptions) throws HibernateException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object get(Class clazz, Serializable id, LockOptions lockOptions) throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object get(String entityName, Serializable id, LockOptions lockOptions) throws HibernateException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isReadOnly(Object entityOrProxy) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void doWork(Work work) throws HibernateException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isFetchProfileEnabled(String name) throws UnknownProfileException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void enableFetchProfile(String name) throws UnknownProfileException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disableFetchProfile(String name) throws UnknownProfileException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TypeHelper getTypeHelper() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LobHelper getLobHelper() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
