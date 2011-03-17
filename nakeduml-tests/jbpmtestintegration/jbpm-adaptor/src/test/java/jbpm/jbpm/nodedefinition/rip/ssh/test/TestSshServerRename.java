@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestSshServer {
+public class TestSshServerRename {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
