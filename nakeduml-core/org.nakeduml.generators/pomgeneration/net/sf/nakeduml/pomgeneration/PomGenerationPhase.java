@@ -89,6 +89,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			PomUtil.addAnyElementWithContent(cfg.getAny(), "projectNameTemplate", "[artifactId]");
 			addPluginManagementPluginIfNew(eclipse);
 			PomUtil.addRepositoryIfNew(parentPom, "repository.jboss.org", "https://repository.jboss.org/nexus/content/groups/public", "JBoss Repository");
+			PomUtil.addRepositoryIfNew(parentPom, "java.net", "http://download.java.net/maven/2/", "java net");
 		}
 	}
 	private void readIgnoreFile(NakedUmlConfig config){
