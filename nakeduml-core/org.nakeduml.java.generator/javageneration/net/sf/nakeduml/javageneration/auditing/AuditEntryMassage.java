@@ -28,6 +28,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -69,10 +70,13 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		protected Map<String,OJPathName> persistentClasses = new HashMap<String,OJPathName>();
 		@VisitBefore(matchSubclasses = true)
 		public void visitClass(INakedClassifier p){
-			if((isPersistent(p) || isPersistentInterface(p)) && !isInNakedUmlUtil(p)){
+			if((isPersistent(p) || isPersistentInterface(p) || isSignal(p)) && !isInNakedUmlUtil(p)){
 				OJPathName pn = new OJPathName(p.getMappingInfo().getQualifiedJavaName());
 				persistentClasses.put(pn.toJavaString(), pn);
 			}
+		}
+		private boolean isSignal(INakedClassifier p) {
+			return(p instanceof INakedSignal);
 		}
 		private boolean isPersistentInterface(INakedClassifier p){
 			return(p instanceof INakedInterface && p.getStereotype(StereotypeNames.HELPER) == null);
@@ -275,7 +279,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 	public void visitClasses(INakedClassifier c){
 		OJPathName path = OJUtil.classifierPathname(c);
 		OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if((isPersistent(c) || c instanceof INakedInterface) && OJUtil.hasOJClass(c)){
+		if((isPersistent(c) || c instanceof INakedInterface || c instanceof INakedSignal) && OJUtil.hasOJClass(c)){
 			if(auditClass != null){
 				if(auditClass.isAbstract()){
 					auditClass.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));

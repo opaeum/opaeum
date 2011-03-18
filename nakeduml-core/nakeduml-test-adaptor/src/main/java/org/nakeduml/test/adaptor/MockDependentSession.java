@@ -3,8 +3,6 @@ package org.nakeduml.test.adaptor;
 import java.io.Serializable;
 import java.sql.Connection;
 
-import javax.enterprise.inject.Alternative;
-
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.EntityMode;
@@ -24,9 +22,8 @@ import org.hibernate.TypeHelper;
 import org.hibernate.UnknownProfileException;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
-import org.nakeduml.seam3.persistence.DependentScopedSession;
 
-public class MockSession implements Session {
+public class MockDependentSession implements Session {
 
 	@Override
 	public EntityMode getEntityMode() {
