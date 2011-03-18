@@ -72,7 +72,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		protected Map<String,OJPathName> persistentClasses = new HashMap<String,OJPathName>();
 		@VisitBefore(matchSubclasses = true)
 		public void visitClass(INakedClassifier p){
-			if((isPersistent(p) || isPersistentInterface(p))  && !isInNakedUmlUtil(p)){
+			if((isPersistent(p) || isPersistentInterface(p)) && !isInNakedUmlUtil(p)){
 				OJPathName pn = new OJPathName(p.getMappingInfo().getQualifiedJavaName());
 				persistentClasses.put(pn.toJavaString(), pn);
 			}
@@ -349,17 +349,18 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 					joinColumns.addAnnotationValue(contextObjectVersion);
 					contextObject.putAnnotation(joinColumns);
 				}
-				OJOperation processSignal=OJUtil.findOperation(auditClass, "processSignal");
-				if(processSignal!=null){
+				OJOperation processSignal = OJUtil.findOperation(auditClass, "processSignal");
+				if(processSignal != null){
 					processSignal.setBody(new OJBlock());
 					processSignal.getBody().addToStatements("return true");
-					
 				}
 				List<OJOperation> opers = new ArrayList<OJOperation>(auditClass.getOperations());
 				for(OJOperation oper:opers){
 					if(oper.getName().startsWith("on")){
 						oper.setBody(new OJBlock());
-						oper.getBody().addToStatements("return true");
+						if(oper.getReturnType() != null && !oper.getReturnType().getLast().equals("void")){
+							oper.getBody().addToStatements("return true");
+						}
 					}
 				}
 				List<? extends INakedParameter> parms = b.getOwnedParameters();
