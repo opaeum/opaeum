@@ -26,8 +26,6 @@ import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
 import org.nakeduml.seam3.persistence.DependentScopedSession;
 
-@Alternative
-@DependentScopedSession
 public class MockSession implements Session {
 
 	@Override

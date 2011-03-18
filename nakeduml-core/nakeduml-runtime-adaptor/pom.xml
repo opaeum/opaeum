@@ -222,6 +222,10 @@
 				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-commons-annotations</artifactId>
 				</exclusion>
 				<exclusion>

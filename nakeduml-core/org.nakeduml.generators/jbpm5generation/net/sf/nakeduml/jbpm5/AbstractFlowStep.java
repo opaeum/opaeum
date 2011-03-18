@@ -13,6 +13,7 @@ import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -101,9 +102,8 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		
 		OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE);
 		SourceFolder or = getSourceFolder(outputRoot);
-		List<String> names = new ArrayList<String>();
-		addNames(behavior.getNameSpace(), names);
-		names.add(behavior.getName() + ".rf");
+		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getNames();
+		names.add(behavior.getMappingInfo().getJavaName() + ".rf");
 		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"), outputRoot.overwriteFiles());
 		return root;
 	}
@@ -164,12 +164,6 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		}
 	}
 
-	void addNames(INakedNameSpace ns, List<String> path) {
-		if (ns != null) {
-			addNames(ns.getNameSpace(), path);
-			path.add(ns.getName().toLowerCase());
-		}
-	}
 
 	protected JoinType addJoin(NodesType nodes, int i, String name, Integer nakedUmlId) {
 		JoinType join = addJoinType(nodes, i, name, nakedUmlId);
