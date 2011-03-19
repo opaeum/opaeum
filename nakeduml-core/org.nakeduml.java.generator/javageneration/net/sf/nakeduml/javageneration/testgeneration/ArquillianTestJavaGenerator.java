@@ -26,6 +26,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IClassifier;
 
+import org.nakeduml.environment.Environment;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -121,7 +122,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		owner.addToClasses(dummyTest);
 		super.createTextPath(dummyTest, outputRootId);
 		OJAnnotatedOperation createTestArchive = addCreateTestArchive(dummyTest);
-		createTestArchive.getBody().addToStatements("return TestUtil.createTestArchive()");
+		createTestArchive.getBody().addToStatements("return NakedUmlTestUtil.createTestArchive()");
 		OJAnnotatedField session = new OJAnnotatedField("session", new OJPathName("org.hibernate.Session"));
 		session.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.inject.Inject")));
 		dummyTest.addToFields(session);
@@ -153,6 +154,11 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		}
 		createTestArchive.getBody().addToStatements("war.addPackages(true, NakedUtilTestClasses.getTestPackages())");
 		createTestArchive.getBody().addToStatements("war.addPackages(true, getTestPackages())");
+		createTestArchive.getBody().addToStatements("war.addWebResource(Environment.PROPERTIES_FILE_NAME, Environment.PROPERTIES_FILE_NAME)");
+		if (isIntegrationPhase) {
+			createTestArchive.getBody().addToStatements("war.addManifestResource(\"hornetq-jms.xml\")");
+		}
+		dummyTest.addToImports("org.nakeduml.environment.Environment");
 		createTestArchive.getBody().addToStatements("return war");
 	}
 
@@ -174,11 +180,10 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 
 	private OJAnnotatedClass createTestUtilClass(PackageAndProcessCollector collector, OJPathName packageName, OutputRootId outputRootId, String hibernatePrefix) {
 		OJAnnotatedClass testUtil = new OJAnnotatedClass();
-		testUtil.setName("TestUtil");
+		testUtil.setName("NakedUmlTestUtil");
 		OJAnnotatedPackage owner = findOrCreatePackage(packageName);
 		owner.addToClasses(testUtil);
 		addCreateTestArchive(hibernatePrefix, testUtil, collector.processes);
-
 		super.createTextPath(testUtil, outputRootId);
 		addGetTestPackagesOper(testUtil, collector.packages.values());
 		return testUtil;
@@ -222,7 +227,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 			OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(Stdlib.class.getPackage())");
 			getTestPackages.getBody().addToStatements(addPackage);
 		}
-		OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(TestUtil.class.getPackage())");
+		OJSimpleStatement addPackage = new OJSimpleStatement("packages.add(NakedUmlTestUtil.class.getPackage())");
 		getTestPackages.getBody().addToStatements(addPackage);
 		getTestPackages.getBody().addToStatements("Package[] result = new Package[packages.size()]");
 		getTestPackages.getBody().addToStatements("packages.toArray(result)");

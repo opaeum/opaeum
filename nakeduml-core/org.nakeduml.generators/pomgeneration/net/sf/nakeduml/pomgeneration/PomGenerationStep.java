@@ -246,7 +246,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		Profile profile = POMFactory.eINSTANCE.createProfile();
 		profile.setId("jbossas-managed-6");
 		Activation activation = POMFactory.eINSTANCE.createActivation();
-		activation.setActiveByDefault(true);
+		activation.setActiveByDefault(false);
 		profile.setActivation(activation);
 		profile.setDependencies(POMFactory.eINSTANCE.createDependenciesType2());
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
@@ -300,11 +300,8 @@ public abstract class PomGenerationStep implements TransformationStep {
 		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "fail", "true");
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
-		plugin = POMFactory.eINSTANCE.createPlugin();
-		plugin.setGroupId("org.apache.maven.plugins");
-		plugin.setArtifactId("maven-surefire-plugin");
-		plugin.setVersion("2.7.1");
-		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
+		
+		plugin = addSurefire();
 		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "true");
 		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
 		pluginExecution = POMFactory.eINSTANCE.createPluginExecution();
@@ -313,9 +310,23 @@ public abstract class PomGenerationStep implements TransformationStep {
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
 		pluginExecution.getGoals().getGoal().add("test");
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "false");
+
+		AnyType excludes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "excludes");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
+		AnyType includes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "includes");
+		PomUtil.addAnyElementWithContent(includes.getAny(), "include", "**/*IntegrationTest.java");
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
 		return profile;
+	}
+
+	protected Plugin addSurefire() {
+		Plugin plugin;
+		plugin = POMFactory.eINSTANCE.createPlugin();
+		plugin.setGroupId("org.apache.maven.plugins");
+		plugin.setArtifactId("maven-surefire-plugin");
+		plugin.setVersion("2.7.1");
+		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
+		return plugin;
 	}
 }

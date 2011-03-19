@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(Arquillian.class)
-public class RipWebTest extends JbpmWebTest {
+public class RipWebIntegrationTest extends JbpmWebTest {
 
 	@Inject
 	private RipTestController ripTestController;
 	private static final int MAX_TIME_TO_WAIT = 40000;
 	private static final int SLEEP_TIME = 4000;
-	private Logger log = LoggerFactory.getLogger(RipWebTest.class);
+	private Logger log = LoggerFactory.getLogger(RipWebIntegrationTest.class);
 	@Test
 	public void testRipProcess() throws InterruptedException {
 		Application application = ripTestController.createTestData();

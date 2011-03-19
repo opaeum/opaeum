@@ -1,5 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -11,6 +13,8 @@ import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
+import org.apache.maven.pom.PluginExecution;
+import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
 public class BasicJavaAdaptorPomStep extends PomGenerationStep {
@@ -49,7 +53,14 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 
 	@Override
 	public Plugin[] getPlugins() {
-		return super.getPlugins();
+		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
+		Plugin sureFire = addSurefire();	
+		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");
+		//TODO remove next line
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*WorkspaceMmlGeneratorTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*IntegrationTest.java");
+		result.add(sureFire);
+		return (Plugin[]) result.toArray(new Plugin[result.size()]);
 	}
 
 	@Override

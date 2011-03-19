@@ -16,7 +16,7 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 @PhaseDependency(after = { JavaTransformationPhase.class }, before={FileGenerationPhase.class})
-public class AuditGenerationPhase implements TransformationPhase<AuditImplementationStep> {
+public class AuditGenerationPhase implements TransformationPhase<AbstractJavaTransformationStep> {
 	private NakedUmlConfig config;
 	@InputModel
 	private TextWorkspace textWorkspace;
@@ -32,7 +32,7 @@ public class AuditGenerationPhase implements TransformationPhase<AuditImplementa
 	}
 
 	@Override
-	public Object[] execute(List<AuditImplementationStep> features,TransformationContext context) {
+	public Object[] execute(List<AbstractJavaTransformationStep> features,TransformationContext context) {
 		for (AbstractJavaTransformationStep a : features) {
 			a.initialize(javaModel, config, textWorkspace);
 			a.generate(workspace, context);

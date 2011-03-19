@@ -11,8 +11,8 @@ import jbpm.jbpm.nodedefinition.interaction.EISInteractionSpec;
 import jbpm.jbpm.nodedefinition.pool.EisPool;
 import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.util.Stdlib;
-import net.sf.nakeduml.jbpm.test.SimpleAsyncWebTest;
-import net.sf.nakeduml.jbpm.test.SimpleSyncWebTest;
+import net.sf.nakeduml.jbpm.test.SimpleAsyncWebIntegrationTest;
+import net.sf.nakeduml.jbpm.test.SimpleSyncWebIntegrationTest;
 
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.jboss.arquillian.api.Deployment;
@@ -62,8 +62,8 @@ public class JbpmWebTest {
 		packages.add(NodeDefinition.class.getPackage());
 		packages.add(Department.class.getPackage());
 		packages.add(Stdlib.class.getPackage());
-		packages.add(SimpleSyncWebTest.class.getPackage());
-		packages.add(SimpleAsyncWebTest.class.getPackage());
+		packages.add(SimpleSyncWebIntegrationTest.class.getPackage());
+		packages.add(SimpleAsyncWebIntegrationTest.class.getPackage());
 		packages.add(JbpmWebTest.class.getPackage());
 		packages.add(JbpmKnowledgeBase.class.getPackage());
 		packages.add(ReflectHelper.classForName("org.nakeduml.jbpmtestintegration.util.hibernate.adaptor.package-info").getPackage());

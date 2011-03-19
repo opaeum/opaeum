@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class SimpleSyncWebTest extends JbpmWebTest {
+public class SimpleSyncWebIntegrationTest extends JbpmWebTest {
 	@Inject
 	private SimpleSyncController processController;
 	

@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.nakeduml</groupId>
+	<artifactId>numl</artifactId>
+	<packaging>pom</packaging>
+	<name>numl</name>
+	<version>1.0.0.5-SNAPSHOT</version>
+	<description>Uml model compiler for the JBoss JEE and jBPM environment</description>
+	<url>http://github.com/nakeduml</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git@github.com:nakeduml/nakeduml.git</connection>
+		<developerConnection>scm:git:git@github.com:nakeduml/nakeduml.git</developerConnection>
+		<url>scm:git:git@github.com:nakeduml/nakeduml.git</url>
+	</scm>
+	<repositories>
+		<repository>
+			<id>repository.jboss.org</id>
+			<name>JBoss Repository</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>repository.central.org</id>
+			<name>Central Repository</name>
+			<url>https://repository.sonatype.org/content/repositories/central/</url>
+		</repository>
+	</repositories>
+	<modules>
+		<module>nakeduml-core</module>
+	</modules>
+	<properties>
+		<java.version>1.6</java.version>
+		<numl.version>1.0.0.5-SNAPSHOT</numl.version>
+	</properties>
+</project>
