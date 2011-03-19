@@ -58,7 +58,9 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.ActiveObject;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.RevisionEntity;
@@ -70,13 +72,10 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		protected Map<String,OJPathName> persistentClasses = new HashMap<String,OJPathName>();
 		@VisitBefore(matchSubclasses = true)
 		public void visitClass(INakedClassifier p){
-			if((isPersistent(p) || isPersistentInterface(p) || isSignal(p)) && !isInNakedUmlUtil(p)){
+			if((isPersistent(p) || isPersistentInterface(p)) && !isInNakedUmlUtil(p)){
 				OJPathName pn = new OJPathName(p.getMappingInfo().getQualifiedJavaName());
 				persistentClasses.put(pn.toJavaString(), pn);
 			}
-		}
-		private boolean isSignal(INakedClassifier p) {
-			return(p instanceof INakedSignal);
 		}
 		private boolean isPersistentInterface(INakedClassifier p){
 			return(p instanceof INakedInterface && p.getStereotype(StereotypeNames.HELPER) == null);
@@ -349,6 +348,20 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 					contextObjectVersion.putAttribute("name", "context_object_version");
 					joinColumns.addAnnotationValue(contextObjectVersion);
 					contextObject.putAnnotation(joinColumns);
+				}
+				OJOperation processSignal = OJUtil.findOperation(auditClass, "processSignal");
+				if(processSignal != null){
+					processSignal.setBody(new OJBlock());
+					processSignal.getBody().addToStatements("return true");
+				}
+				List<OJOperation> opers = new ArrayList<OJOperation>(auditClass.getOperations());
+				for(OJOperation oper:opers){
+					if(oper.getName().startsWith("on")){
+						oper.setBody(new OJBlock());
+						if(oper.getReturnType() != null && !oper.getReturnType().getLast().equals("void")){
+							oper.getBody().addToStatements("return true");
+						}
+					}
 				}
 				List<? extends INakedParameter> parms = b.getOwnedParameters();
 				for(INakedParameter parm:parms){

@@ -12,7 +12,7 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-@StepDependency(phase = AuditGenerationPhase.class, requires = {})
+@StepDependency(phase = AuditGenerationPhase.class, requires = {AuditMetadefAnnotationStep.class})
 public class AuditImplementationStep extends AbstractJavaTransformationStep {
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {

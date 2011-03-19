@@ -8,6 +8,7 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -32,7 +33,7 @@ public class AuditGenerationPhase implements TransformationPhase<AuditImplementa
 
 	@Override
 	public Object[] execute(List<AuditImplementationStep> features,TransformationContext context) {
-		for (AuditImplementationStep a : features) {
+		for (AbstractJavaTransformationStep a : features) {
 			a.initialize(javaModel, config, textWorkspace);
 			a.generate(workspace, context);
 		}
