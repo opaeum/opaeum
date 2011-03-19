@@ -132,7 +132,7 @@ public class Jbpm5PomStep extends PomGenerationStep {
 	@Override
 	public Properties getParentPomProperties() {
 		Properties p = super.getParentPomProperties();
-		p.put("drools.version", "5.2.0-alpha1");
+		p.put("drools.version", "5.2.0.M1");
 		p.put("jbpm.version", "5.0-SNAPSHOT");
 		return p;
 	}

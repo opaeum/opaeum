@@ -18,6 +18,7 @@ public class NakedUmlConfig {
 	private static final String JDBC_DIALECT = "nakeduml.jdbc.dialect";
 	private static final String NAKEDUML_LIST_COLUMNS = "nakeduml.list.columns";
 	private static final String NAKEDUML_NEED_SCHEMA = "nakeduml.needSchema";
+	private static final String NAKEDUML_SUPPORT_SCHEMA = "nakeduml.supportSchema";
 	private static final String NAKEDUML_DEFAULT_SCHEMA = "nakeduml.default.schema";
 	private static final String NAKEDUML_DATA_GENERATION = "nakeduml.data.generation";
 	private static final String JDBC_DRIVER_CLASS = "nakeduml.jdbc.driver.class";
@@ -145,6 +146,10 @@ public class NakedUmlConfig {
 
 	public boolean needsSchema() {
 		return Boolean.valueOf(this.props.getProperty(NAKEDUML_NEED_SCHEMA));
+	}
+
+	public boolean supportSchema() {
+		return Boolean.valueOf(this.props.getProperty(NAKEDUML_SUPPORT_SCHEMA));
 	}
 
 	public String getDefaultSchema() {

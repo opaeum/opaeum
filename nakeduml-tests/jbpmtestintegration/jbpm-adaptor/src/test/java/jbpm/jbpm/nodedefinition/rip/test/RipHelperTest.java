@@ -1,5 +1,6 @@
 package jbpm.jbpm.nodedefinition.rip.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,11 +18,24 @@ import jbpm.jbpm.rip.NodeType;
 import jbpm.jbpm.rip.SoftwareVersion;
 import jbpm.jbpm.rip.SshTunnelSpec;
 import junit.framework.Assert;
+import net.wimpi.telnetd.BootException;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RipHelperTest {
 
+	@BeforeClass
+	public static void startSshServer() throws IOException, BootException {
+		SshTelnetUtil.startSshServer();
+	}
+
+	@AfterClass
+	public static void stopSshServer() throws InterruptedException {
+		SshTelnetUtil.stopSshServer();
+	}
+	
 	@Test
 	public void testRipPass() {
 		Application application = createTestData();

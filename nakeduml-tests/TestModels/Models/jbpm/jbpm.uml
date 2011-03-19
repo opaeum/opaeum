@@ -581,9 +581,7 @@
           <ownedBehavior xmi:type="uml:Activity" xmi:id="_62w7IEmyEeCFaJvOEQDIzw" name="RipProcess">
             <ownedAttribute xmi:id="_wjpPgE4mEeCbgdOPghXOPA" name="ripSuccess">
               <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-              <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_Af9iQE4nEeCbgdOPghXOPA" name="LiteralBoolean1" value="true">
-                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-              </defaultValue>
+              <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_55uqQFH5EeCAVpKivGs_CA" name="LiteralBoolean1" value="true"/>
             </ownedAttribute>
             <ownedBehavior xmi:type="uml:Activity" xmi:id="_ea5D4EoUEeCFaJvOEQDIzw" name="RipActivity">
               <ownedAttribute xmi:id="_bsqx4Eu7EeCD2ITeubLIbQ" name="helper" type="_IQZGAEskEeCRDqUdR1yzmg"/>

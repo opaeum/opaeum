@@ -120,11 +120,11 @@ public class RipHelperImpl implements RipHelper {
 		sb.append("/");
 		sb.append(connectionSpec.getNetworkSoftwareVersion().getNetwork().getName());
 		sb.append("/");
-		sb.append(connectionSpec.getNetworkSoftwareVersion().getSoftwareVersion().getVendorTech().getVendor().getName());
+		sb.append(connectionSpec.getNetworkSoftwareVersion().getSoftwareVersion().getVendorTech().getVendor().name());
 		sb.append("_");
-		sb.append(connectionSpec.getNetworkSoftwareVersion().getSoftwareVersion().getVendorTech().getTechnology().getName());
+		sb.append(connectionSpec.getNetworkSoftwareVersion().getSoftwareVersion().getVendorTech().getTechnology().name());
 		sb.append("/");
-		sb.append(connectionSpec.getNetworkSoftwareVersion().getSoftwareVersion().getName());
+		sb.append(connectionSpec.getNetworkSoftwareVersion().getSoftwareVersion().name());
 		sb.append("/rip");
 		return sb.toString();
 	}

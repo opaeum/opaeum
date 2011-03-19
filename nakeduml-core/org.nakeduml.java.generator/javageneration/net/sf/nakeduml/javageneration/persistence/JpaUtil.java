@@ -22,7 +22,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.name.NameConverter;
 
-
 public class JpaUtil {
 
 	public static final String BACKTICK = "";
@@ -30,28 +29,41 @@ public class JpaUtil {
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner, String tableName, NakedUmlConfig config) {
 		return buildTableAnnotation(owner, tableName, config, null);
 	}
-	public static INakedPackage getNearestSchema(INakedNameSpace ns){
-		while(!(isSchema(ns) || ns==null)){
-			ns=ns.getNameSpace();
+
+	public static INakedPackage getNearestSchema(INakedNameSpace ns) {
+		while (!(isSchema(ns) || ns == null)) {
+			ns = ns.getNameSpace();
 		}
-		if(isSchema(ns)){
+		if (isSchema(ns)) {
 			return (INakedPackage) ns;
 		}
 		return null;
 	}
+
 	private static boolean isSchema(INakedNameSpace ns) {
-		return (ns instanceof INakedPackage && ((INakedPackage)ns).isSchema());
+		return (ns instanceof INakedPackage && ((INakedPackage) ns).isSchema());
 	}
+
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner, String tableName, NakedUmlConfig config, INakedNameSpace ns) {
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
-		table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + tableName + BACKTICK));
 		if (config.needsSchema()) {
-			INakedPackage schema=getNearestSchema(ns);
-			if (schema!=null) {
-				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema.getMappingInfo().getPersistentName()+ BACKTICK));
+			INakedPackage schema = getNearestSchema(ns);
+			if (config.supportSchema()) {
+				table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + tableName + BACKTICK));
+				if (schema != null) {
+					table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema.getMappingInfo().getPersistentName() + BACKTICK));
+				} else {
+					table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
+				}
 			} else {
-				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
+				if (schema != null) {
+					table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + schema.getMappingInfo().getPersistentName() + "_" + tableName + BACKTICK));
+				} else {
+					table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + config.getDefaultSchema() + "_" + tableName + BACKTICK));
+				}
 			}
+		} else {
+			table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + config.getDefaultSchema() + "_" + tableName + BACKTICK));
 		}
 		owner.addAnnotationIfNew(table);
 		return table;
@@ -133,7 +145,7 @@ public class JpaUtil {
 
 	public static void addJoinTable(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedField field) {
 		// ManyToMany or non-navigable XToMany
-		INakedProperty f=map.getProperty();
+		INakedProperty f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
 		String keyToParentTable = calculateKeyToOwnerTable(f);
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
@@ -145,13 +157,13 @@ public class JpaUtil {
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", keyToParentTable));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
 
-		if(map.isOneToMany() && !(map.getProperty().getBaseType() instanceof INakedInterface)){
-			//NB!!! unique==true messes the manyToAny mapping up
+		if (map.isOneToMany() && !(map.getProperty().getBaseType() instanceof INakedInterface)) {
+			// NB!!! unique==true messes the manyToAny mapping up
 			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("unique", Boolean.TRUE));
 			otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
 			joinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
 		}
-		
+
 		field.addAnnotationIfNew(joinTable);
 	}
 
@@ -169,8 +181,9 @@ public class JpaUtil {
 
 	static String calculateTableName(INakedClassifier umlOwner, INakedProperty f) {
 		String tableName = null;
-		if (f instanceof INakedProperty && (f).getAssociation() != null &&!(f.getOwner() instanceof INakedInterface)) {
-			//For interfaces, create an association table per realization of the association.
+		if (f instanceof INakedProperty && (f).getAssociation() != null && !(f.getOwner() instanceof INakedInterface)) {
+			// For interfaces, create an association table per realization of
+			// the association.
 			INakedProperty p = f;
 			tableName = ((INakedAssociation) p.getAssociation()).getMappingInfo().getPersistentName().toString();
 		} else {
@@ -188,33 +201,33 @@ public class JpaUtil {
 				String queryName = "Query" + entity.getMappingInfo().getJavaName() + "With";
 				for (INakedProperty q : p.getOtherEnd().getQualifiers()) {
 					NakedStructuralFeatureMap qualifiedMap = new NakedStructuralFeatureMap(q);
-					queryString += " and a."+ qualifiedMap.umlName() + " = :" + qualifiedMap.umlName();
+					queryString += " and a." + qualifiedMap.umlName() + " = :" + qualifiedMap.umlName();
 					queryName += NameConverter.capitalize(qualifiedMap.umlName());
 				}
-				queryName += "For"+NameConverter.capitalize(map.umlName());
+				queryName += "For" + NameConverter.capitalize(map.umlName());
 				addNamedQueries(ojClass, queryName, queryString);
 			}
 		}
 	}
-	
+
 	public static void addNamedQueries(OJAnnotatedElement pack, String name, String query) {
 		OJAnnotationValue namedQueries = pack.findAnnotation(new OJPathName("javax.persistence.NamedQueries"));
-		if (namedQueries==null) {
+		if (namedQueries == null) {
 			namedQueries = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQueries"));
 			pack.addAnnotationIfNew(namedQueries);
 		}
 		OJAnnotationAttributeValue namedQueryAttr = namedQueries.findAttribute("value");
-		if (namedQueryAttr==null) {
+		if (namedQueryAttr == null) {
 			namedQueryAttr = new OJAnnotationAttributeValue("value");
 			namedQueries.putAttribute(namedQueryAttr);
-		}				
+		}
 		OJAnnotationValue namedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		namedQuery.putAttribute("name", name);
 		namedQuery.putAttribute("query", query);
 		namedQueryAttr.addAnnotationValue(namedQuery);
 		namedQueries.putAttribute(namedQueryAttr);
 	}
-	
+
 	public static OJAnnotationValue buildFilterAnnotation(String name) {
 		OJAnnotationValue filter = new OJAnnotationValue(new OJPathName(Filter.class.getName()));
 		filter.putAttribute("name", "noDeletedObjects");

@@ -104,7 +104,20 @@ public class JbpmtestintegrationGenerator extends MavenProjectCodeGenerator {
 			googleio.setArtifactId("google-guava");
 			googleio.setVersion("0.99-r1");
 			dependencies.add(googleio);
+			
+			Dependency sshd = POMFactory.eINSTANCE.createDependency();
+            sshd.setGroupId("org.apache.sshd");
+            sshd.setArtifactId("sshd-core");
+            sshd.setVersion("0.5.0");
+            sshd.setScope("test");
+            dependencies.add(sshd);
 
+            Dependency telnetd = POMFactory.eINSTANCE.createDependency();
+            telnetd.setGroupId("net.wimpi");
+            telnetd.setArtifactId("telnetd-x");
+            telnetd.setVersion("2.1.1");
+            telnetd.setScope("test");
+            dependencies.add(telnetd);
 		}
 
 	}

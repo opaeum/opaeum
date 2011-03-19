@@ -1,5 +1,6 @@
 package jbpm.jbpm.nodedefinition.rip.test;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.nodedefinition.EISConnection;
+import jbpm.jbpm.nodedefinition.NodeDefinitionFactory;
 import jbpm.jbpm.nodedefinition.interaction.EISInteractionSpec;
 import jbpm.jbpm.nodedefinition.mock.MockNodeDefinitionFactory;
 import jbpm.jbpm.nodedefinition.pool.EisPool;
@@ -19,40 +21,49 @@ import jbpm.jbpm.rip.Network;
 import jbpm.jbpm.rip.NetworkSoftwareVersion;
 import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.jbpm.rip.RipHelper;
+import net.wimpi.telnetd.BootException;
 
 import org.jboss.seam.scheduling.util.WebBeansManagerUtils;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nakeduml.test.adaptor.AbstractCDITest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.nakeduml.test.adaptor.MockDependentSession;
 
 public class RipHelperWithCDITest extends AbstractCDITest {
 
-	private Logger log = LoggerFactory.getLogger(RipHelperWithCDITest.class);
+	@BeforeClass
+	public static void startSshServer() throws IOException, BootException {
+		SshTelnetUtil.startSshServer();
+	}
 
+	@AfterClass
+	public static void stopSshServer() throws InterruptedException {
+		SshTelnetUtil.stopSshServer();
+	}
+	
 	@Override
 	protected List<Class<? extends Object>> getAdditionalWebBeans() {
-		List<Class<? extends Object>> list = new ArrayList<Class<? extends Object>>(1);
+		Set<Class<? extends Object>> list = new HashSet<Class<? extends Object>>(1);
+		list.addAll(getClasses(MockNodeDefinitionFactory.class.getPackage().getName()));
+		list.addAll(getClasses(MockDependentSession.class.getPackage().getName()));
 		list.add(RipHelperWithCDITest.class);
 		list.addAll(getClasses(EISConnection.class.getPackage().getName()));
 		list.addAll(getClasses(EISInteractionSpec.class.getPackage().getName()));
 		list.addAll(getClasses(EisPool.class.getPackage().getName()));
 		list.addAll(getClasses(EisPoolService.class.getPackage().getName()));
-		list.addAll(getClasses(MockNodeDefinitionFactory.class.getPackage().getName()));
-		return list;
+		list.remove(NodeDefinitionFactory.class);
+		return new ArrayList<Class<? extends Object>>(list);		
 	}
 
 	protected Collection<URL> getBeansXmlFiles() {
-		URL u = Thread.currentThread().getContextClassLoader().getResource("META-INF/beans.xml");
+		URL u = Thread.currentThread().getContextClassLoader().getResource("test-beans.xml");
 		return Arrays.asList(u);
 	}
 
 	@Test
 	public void testRipping() {
-		log.info("Testing shedule observer receiving events");
-		RipHelperWithCDITest ripHelperTestBean = WebBeansManagerUtils.getInstanceByType(manager, RipHelperWithCDITest.class);
-		Assert.assertNotNull(ripHelperTestBean);
 		RipHelper ripHelper = WebBeansManagerUtils.getInstanceByType(manager, RipHelper.class);
 		Assert.assertNotNull(ripHelper);
 		

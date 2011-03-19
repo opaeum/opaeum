@@ -34,13 +34,10 @@
 	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
 
 #if($isAdaptorEnvironment)
-		<event type="flush-entity">
-			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
-		</event>
-		<event type="create">
-			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
-		</event>
 #if($requiresAuditing)
+#foreach($c in $persistentClasses)
+		<mapping class="${c}_Audit" />
+#end 
 		<event type="post-insert">
 			<listener class="org.nakeduml.audit.AuditListener" />
 		</event>
@@ -51,6 +48,12 @@
 			<listener class="org.nakeduml.audit.AuditListener" />
 		</event>
 #end
+		<event type="flush-entity">
+			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
+		</event>
+		<event type="create">
+			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
+		</event>
 #end		
 	</session-factory>
 </hibernate-configuration>

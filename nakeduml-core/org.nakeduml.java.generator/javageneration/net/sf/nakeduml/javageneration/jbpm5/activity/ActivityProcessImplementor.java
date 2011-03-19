@@ -39,6 +39,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
@@ -116,12 +117,20 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 				super.addGetNodeInstancesRecursively(activityClass);
 			}
 			if(activity.isProcess()){
-				OJAnnotatedOperation init = new OJAnnotatedOperation("init");
-				activityClass.addToOperations(init);
-				init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
-				init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
+				addInit(activityClass);
 			}
 		}
+	}
+	private void addInit(OJAnnotatedClass activityClass) {
+		OJAnnotatedOperation init = new OJAnnotatedOperation("init");
+		activityClass.addToOperations(init);
+		init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+		copyDefaultConstructor(activityClass, init);
+		init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
+	}
+	private void copyDefaultConstructor(OJAnnotatedClass activityClass, OJAnnotatedOperation init) {
+		init.setBody(activityClass.getDefaultConstructor().getBody());
+		activityClass.getDefaultConstructor().setBody(new OJBlock());
 	}
 	private void doExecute(INakedActivity activity,OJAnnotatedClass activityClass){
 		OJOperation execute = implementExecute(activityClass, activity);

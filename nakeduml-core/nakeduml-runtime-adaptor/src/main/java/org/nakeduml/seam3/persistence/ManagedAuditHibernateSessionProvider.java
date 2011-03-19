@@ -27,7 +27,7 @@ import javax.enterprise.inject.Produces;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.jboss.seam.solder.core.SeamManaged;
+import org.jboss.seam.solder.core.ExtensionManaged;
 
 public class ManagedAuditHibernateSessionProvider implements Serializable {
 
@@ -46,7 +46,7 @@ public class ManagedAuditHibernateSessionProvider implements Serializable {
 
 	@Audit
 	@Produces
-	@SeamManaged
+	@ExtensionManaged
 	public SessionFactory createSessionFactory() {
 		return this.sessionFactory;
 	}
