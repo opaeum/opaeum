@@ -10,6 +10,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import net.sf.nakeduml.javageneration.auditing.IntegratedAuditMetaDefStep;
 import net.sf.nakeduml.javageneration.jbpm5.IntegratedJbpm5EnvironmentStep;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -106,7 +107,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 
 	private HashMap<String, Object> buildVars(Collection<? extends INakedElement> models, boolean isAdaptorEnvironment) {
 		HashMap<String, Object> vars = new HashMap<String, Object>();
-		boolean requiresAudit = transformationContext.isFeatureSelected(AuditImplementationStep.class);
+		boolean requiresAudit = transformationContext.isAnyOfFeaturesSelected(AuditImplementationStep.class,IntegratedAuditMetaDefStep.class);
 		vars.put("requiresAuditing", requiresAudit);
 		vars.put("config", this.config);
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
