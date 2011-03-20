@@ -53,6 +53,9 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 
 	@Override
 	public Plugin[] getPlugins() {
+//		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
+//		result.add(excludeIntegrationTests());
+		
 		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
 		Plugin sureFire = addSurefire();	
 		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");

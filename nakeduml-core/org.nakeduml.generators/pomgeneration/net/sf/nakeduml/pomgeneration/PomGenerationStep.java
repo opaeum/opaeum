@@ -1,6 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -47,6 +48,13 @@ public abstract class PomGenerationStep implements TransformationStep {
 
 	public Plugin[] getPlugins() {
 		return new Plugin[0];
+	}
+
+	protected Plugin excludeIntegrationTests() {
+		Plugin sureFire = addSurefire();	
+		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*IntegrationTest.java");
+		return sureFire;
 	}
 
 	public boolean useWorkspaceName() {

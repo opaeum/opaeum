@@ -155,9 +155,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		createTestArchive.getBody().addToStatements("war.addPackages(true, NakedUtilTestClasses.getTestPackages())");
 		createTestArchive.getBody().addToStatements("war.addPackages(true, getTestPackages())");
 		createTestArchive.getBody().addToStatements("war.addWebResource(Environment.PROPERTIES_FILE_NAME, Environment.PROPERTIES_FILE_NAME)");
-		if (isIntegrationPhase) {
-			createTestArchive.getBody().addToStatements("war.addManifestResource(\"hornetq-jms.xml\")");
-		}
+		createTestArchive.getBody().addToStatements("war.addManifestResource(\"hornetq-jms.xml\")");
 		dummyTest.addToImports("org.nakeduml.environment.Environment");
 		createTestArchive.getBody().addToStatements("return war");
 	}

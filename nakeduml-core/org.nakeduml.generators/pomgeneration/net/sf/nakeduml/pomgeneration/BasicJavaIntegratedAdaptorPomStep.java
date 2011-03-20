@@ -1,5 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import net.sf.nakeduml.feature.OutputRoot;
@@ -9,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
+import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = {},before = {},after = {},phase = PomGenerationPhase.class)
 public class BasicJavaIntegratedAdaptorPomStep extends PomGenerationStep{
@@ -25,7 +28,9 @@ public class BasicJavaIntegratedAdaptorPomStep extends PomGenerationStep{
 	}
 	@Override
 	public Plugin[] getPlugins(){
-		return super.getPlugins();
+		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
+		result.add(excludeIntegrationTests());
+		return (Plugin[]) result.toArray(new Plugin[result.size()]);
 	}
 	@Override
 	protected OutputRoot getExampleTargetDir(){
