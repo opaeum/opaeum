@@ -15,8 +15,7 @@ import org.apache.maven.pom.Profile;
 public class AdaptorArquillianPomStep extends PomGenerationStep{
 	@Override
 	public Dependency[] getDependencies(){
-		//TODO compilation error testing jenkins
-		Collection<Plugin> result = new HashSet<Dependency>();
+		Collection<Dependency> result = new HashSet<Dependency>();
 		addArquillian(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
