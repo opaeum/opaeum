@@ -671,15 +671,15 @@
                 <guard xmi:type="uml:LiteralBoolean" xmi:id="_TggoMUtMEeCRDqUdR1yzmg" value="true"/>
                 <weight xmi:type="uml:LiteralInteger" xmi:id="_TggoMktMEeCRDqUdR1yzmg" value="1"/>
               </edge>
-              <edge xmi:type="uml:ObjectFlow" xmi:id="_RIXN8ExxEeCD2ITeubLIbQ" name="ObjectFlow2" source="_NBNLUExxEeCD2ITeubLIbQ" target="_QZz4wEwXEeCD2ITeubLIbQ">
-                <guard xmi:type="uml:LiteralBoolean" xmi:id="_RIXN8UxxEeCD2ITeubLIbQ" value="true"/>
-                <weight xmi:type="uml:LiteralInteger" xmi:id="_RIXN8kxxEeCD2ITeubLIbQ" value="1"/>
-              </edge>
               <edge xmi:type="uml:ObjectFlow" xmi:id="_5MAhkE4oEeCbgdOPghXOPA" name="ObjectFlow3" source="_QZz4wEwXEeCD2ITeubLIbQ" target="_xb8ekE4oEeCbgdOPghXOPA">
                 <guard xmi:type="uml:OpaqueExpression" xmi:id="_9Jg48E4oEeCbgdOPghXOPA">
                   <body>nodeDefinitionRipSuccess=false</body>
                 </guard>
                 <weight xmi:type="uml:LiteralInteger" xmi:id="_5MAhkk4oEeCbgdOPghXOPA" value="1"/>
+              </edge>
+              <edge xmi:type="uml:ObjectFlow" xmi:id="_Z3HGoFLbEeCTOJBT-PdQfw" name="ObjectFlow2" source="_WOVpIFLbEeCTOJBT-PdQfw" target="_QZz4wEwXEeCD2ITeubLIbQ">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_Z3HGoVLbEeCTOJBT-PdQfw" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_Z3HGolLbEeCTOJBT-PdQfw" value="1"/>
               </edge>
               <node xmi:type="uml:ExpansionNode" xmi:id="_kjM9AEmzEeCFaJvOEQDIzw" name="inputExpansionNodeDefinition" outgoing="_TggoMEtMEeCRDqUdR1yzmg" incoming="_OqSTgEm0EeCFaJvOEQDIzw" type="_DfTDkEl5EeCQ2fq_6NmJ6A" regionAsInput="_iUV4wEmzEeCFaJvOEQDIzw">
                 <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kjM9AUmzEeCFaJvOEQDIzw" value="*"/>
@@ -688,12 +688,12 @@
                 <argument xmi:id="_msK7kEoqEeCFaJvOEQDIzw" name="nodeDefinitionToRip" incoming="_TggoMEtMEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
                   <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_msK7kUoqEeCFaJvOEQDIzw" value="*"/>
                 </argument>
-                <result xmi:id="_NBNLUExxEeCD2ITeubLIbQ" name="nodeDefinitionRipSuccess" outgoing="_RIXN8ExxEeCD2ITeubLIbQ">
+                <result xmi:id="_WOVpIFLbEeCTOJBT-PdQfw" name="nodeDefinitionRipSuccess" outgoing="_Z3HGoFLbEeCTOJBT-PdQfw">
                   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
                 </result>
               </node>
               <node xmi:type="uml:FlowFinalNode" xmi:id="_kWuTIEwXEeCD2ITeubLIbQ" name="FlowFinalNode1" incoming="_k3_NIEwXEeCD2ITeubLIbQ"/>
-              <node xmi:type="uml:DecisionNode" xmi:id="_QZz4wEwXEeCD2ITeubLIbQ" name="isSuccessNodeDefinition" outgoing="_k3_NIEwXEeCD2ITeubLIbQ _5MAhkE4oEeCbgdOPghXOPA" incoming="_RIXN8ExxEeCD2ITeubLIbQ"/>
+              <node xmi:type="uml:DecisionNode" xmi:id="_QZz4wEwXEeCD2ITeubLIbQ" name="isSuccessNodeDefinition" outgoing="_k3_NIEwXEeCD2ITeubLIbQ _5MAhkE4oEeCbgdOPghXOPA" incoming="_Z3HGoFLbEeCTOJBT-PdQfw"/>
               <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_VjEIoE4nEeCbgdOPghXOPA" name="setRipFailure" structuralFeature="_wjpPgE4mEeCbgdOPghXOPA">
                 <value xmi:id="_xb8ekE4oEeCbgdOPghXOPA" name="value" incoming="_5MAhkE4oEeCbgdOPghXOPA">
                   <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>

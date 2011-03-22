@@ -59,6 +59,17 @@ public class RipTestController {
 		return true;
 	}	
 
+	public boolean assertProcessCompletedWithSuccess(NetworkSoftwareVersion networkSoftwareVersion) {
+		session.clear();
+		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
+		for (RipProcess ripProcess : networkSoftwareVersionToRip.getRipProcess()) {
+			if (ripProcess.getLastUnsuccessfulRip()!=null && ripProcess.getLastSuccesfulRip()==null) {
+				return false;
+			}
+		}
+		return true;
+	}	
+
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean isStepActive(RipProcess ripProcess, RipProcessState ripProcessState) {
 		return ripProcess.isStepActive(ripProcessState);

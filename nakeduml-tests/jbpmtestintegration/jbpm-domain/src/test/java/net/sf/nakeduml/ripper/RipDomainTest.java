@@ -1,32 +1,33 @@
 package net.sf.nakeduml.ripper;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.rip.MMLCommand;
-import jbpm.jbpm.rip.NetworkSoftwareVersion;
 import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.jbpm.rip.RipHelper;
 import jbpm.jbpm.rip.networksoftwareversion.RipProcess;
 import jbpm.jbpm.rip.networksoftwareversion.RipProcessState;
 import jbpm.jbpm.rip.networksoftwareversion.ripprocess.RipActivity;
 import jbpm.jbpm.rip.networksoftwareversion.ripprocess.RipActivityState;
-import net.sf.nakeduml.jbpm.test.BaseTest;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.domain.DomainEnvironment;
 
-public class RipDomainTest extends BaseTest{
+public class RipDomainTest {
+	
+	@Before
+	public void beforeTest() {
+		Environment.getInstance().reset();
+	}
+	
 	@Test
 	public void testRipProcessSuccess() {
 		DomainEnvironment.getInstance().reset();

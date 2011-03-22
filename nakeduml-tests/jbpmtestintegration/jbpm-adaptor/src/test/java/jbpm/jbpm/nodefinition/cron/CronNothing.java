@@ -16,19 +16,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-public class CronTest extends AbstractCDITest {
+public class CronNothing extends AbstractCDITest {
 
     private static final int MAX_TIME_TO_WAIT = 20000;
     private static final int SLEEP_TIME = 2000;
     private boolean scheduledEventObserved = false;
     private boolean namedEventObserved = false;
     private boolean typesafeEventObserved = false;
-    private Logger log = LoggerFactory.getLogger(CronTest.class);
+    private Logger log = LoggerFactory.getLogger(CronNothing.class);
     
     @Override
     protected List<Class<? extends Object>> getAdditionalWebBeans() {
         List<Class<? extends Object>> list = new ArrayList<Class<? extends Object>>(1);
-        list.add(CronTest.class);
+        list.add(CronNothing.class);
         return list;    	
     }
 
@@ -36,8 +36,8 @@ public class CronTest extends AbstractCDITest {
     public void testScheduleDoesFire()
     {
         log.info("Testing shedule observer receiving events");
-        CronTest cronTestBean = WebBeansManagerUtils.
-                getInstanceByType(manager, CronTest.class);
+        CronNothing cronTestBean = WebBeansManagerUtils.
+                getInstanceByType(manager, CronNothing.class);
         Assert.assertTrue( cronTestBean.isScheduledEventObserved() == false );
         Assert.assertTrue( cronTestBean.isNamedEventObserved() == false );
         Assert.assertTrue( cronTestBean.isTypesafeEventObserved() == false );

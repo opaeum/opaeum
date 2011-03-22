@@ -39,6 +39,7 @@ public class RipWebIntegrationTest extends JbpmWebTest {
             }
         }
 		Assert.assertTrue(ripTestController.assertProcessCompleted(networkSoftwareVersion));
+		//TODO this must be assertProcessCompletedWithSuccess, this is for testing jenkins
 		Assert.assertTrue(ripTestController.assertProcessCompletedWithFailure(networkSoftwareVersion));
 	}
 	

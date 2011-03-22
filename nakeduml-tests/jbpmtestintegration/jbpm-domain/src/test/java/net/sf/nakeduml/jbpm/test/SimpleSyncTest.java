@@ -7,10 +7,17 @@ import jbpm.jbpm.application.SimpleSync1;
 import jbpm.jbpm.application.SimpleSync1State;
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.nakeduml.environment.Environment;
 
-public class SimpleSyncTest extends BaseTest {
+public class SimpleSyncTest {
 
+	@Before
+	public void beforeTest() {
+		Environment.getInstance().reset();
+	}
+	
 	@Test
 	public void test() {
 		Application application = new Application();

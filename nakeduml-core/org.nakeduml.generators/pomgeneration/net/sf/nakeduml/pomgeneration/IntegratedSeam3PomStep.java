@@ -18,11 +18,6 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
-		Dependency slf4j = POMFactory.eINSTANCE.createDependency();
-		slf4j.setGroupId("org.slf4j");
-		slf4j.setArtifactId("slf4j-log4j12");
-		slf4j.setVersion("1.5.10");
-		dependencies.add(slf4j);
 		Dependency seamPersistenceApi = POMFactory.eINSTANCE.createDependency();
 		seamPersistenceApi.setGroupId("org.jboss.seam.persistence");
 		seamPersistenceApi.setArtifactId("seam-persistence-api");
