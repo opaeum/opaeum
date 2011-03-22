@@ -13,7 +13,6 @@ import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
-import org.apache.maven.pom.PluginExecution;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = { PersistenceStep.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
@@ -28,10 +27,18 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		addCdi(result);
 		addJbossJeeSpec(result);
 		addHibernate(result);
-		//Required for testing with cdi
-//		addWeldCoreTest(result);
 		addSeamScheduling(result);
+		addSlf4jLog4j(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
+	}
+	
+	private void addSlf4jLog4j(Collection<Dependency> result) {
+		Dependency slf4j = POMFactory.eINSTANCE.createDependency();
+		slf4j.setGroupId("org.slf4j");
+		slf4j.setArtifactId("slf4j-log4j12");
+		slf4j.setScope("compile");
+		slf4j.setVersion("1.5.10");
+		result.add(slf4j);
 	}
 
 	private void addNumlAdaptor(Collection<Dependency> result) {

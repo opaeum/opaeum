@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 
-public class SimpleAsyncTest extends BaseTest {
-
+public class SimpleAsyncTest {
+	
 	@Test
 	public void testSignal() throws InterruptedException {
 		Application application = new Application();

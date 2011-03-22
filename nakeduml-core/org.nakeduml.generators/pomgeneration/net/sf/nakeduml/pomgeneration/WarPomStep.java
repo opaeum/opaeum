@@ -1,6 +1,8 @@
 package net.sf.nakeduml.pomgeneration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -17,6 +19,14 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
 public class WarPomStep extends PomGenerationStep {
+
+	
+	@Override
+	public Plugin[] getPlugins() {
+		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
+		result.add(excludeIntegrationTests());
+		return (Plugin[]) result.toArray(new Plugin[result.size()]);
+	}
 
 	@Override
 	public Dependency[] getDependencies() {

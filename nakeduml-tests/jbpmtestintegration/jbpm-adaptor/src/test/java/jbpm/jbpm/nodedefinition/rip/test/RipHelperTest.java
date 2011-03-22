@@ -1,6 +1,5 @@
 package jbpm.jbpm.nodedefinition.rip.test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,8 +7,6 @@ import java.util.Set;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.nodedefinition.RipHelperImpl;
-import jbpm.jbpm.nodedefinition.pool.EisPool;
-import jbpm.jbpm.nodedefinition.pool.SshTunnelKeyedConnectionFactory;
 import jbpm.jbpm.rip.MMLCommand;
 import jbpm.jbpm.rip.Network;
 import jbpm.jbpm.rip.NetworkSoftwareVersion;
@@ -18,24 +15,11 @@ import jbpm.jbpm.rip.NodeType;
 import jbpm.jbpm.rip.SoftwareVersion;
 import jbpm.jbpm.rip.SshTunnelSpec;
 import junit.framework.Assert;
-import net.wimpi.telnetd.BootException;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class RipHelperTest {
 
-	@BeforeClass
-	public static void startSshServer() throws IOException, BootException {
-		SshTelnetUtil.startSshServer();
-	}
-
-	@AfterClass
-	public static void stopSshServer() throws InterruptedException {
-		SshTelnetUtil.stopSshServer();
-	}
-	
 	@Test
 	public void testRipPass() {
 		Application application = createTestData();
@@ -75,10 +59,7 @@ public class RipHelperTest {
 		for (Network network : application.getNetwork()) {
 			mmlCommands.addAll(network.getMMLCommand());
 		}
-		SshTunnelKeyedConnectionFactory sshTunnelKeyedConnectionFactory = new SshTunnelKeyedConnectionFactory();
-		EisPool eisPool = new EisPool(nodeDefinitions, sshTunnelKeyedConnectionFactory);
 		RipHelperImpl ripHelperImpl = new RipHelperImpl();
-		ripHelperImpl.setPool(eisPool.getPool());
 		for (NodeDefinition nodeDefinition : nodeDefinitions) {
 			ripHelperImpl.rip(nodeDefinition, mmlCommands);
 		}

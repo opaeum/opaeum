@@ -6,6 +6,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -29,7 +30,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.name.NameConverter;
-
 
 public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 	@VisitAfter(matchSubclasses = true)
@@ -65,7 +65,9 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 			result.setInitExp("new " + owner.getName() + "()");
 			body.addToLocals(result);
 			body.addToStatements("copyShallowState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
-			body.addToStatements(new OJSimpleStatement("result.setId(this.getId())"));
+			if (super.transformationContext.isFeatureSelected(PersistenceStep.class)) {
+				body.addToStatements(new OJSimpleStatement("result.setId(this.getId())"));
+			}
 			body.addToStatements("return result");
 		}
 	}
@@ -163,9 +165,10 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 							} else {
 								localCopyMethodName = "copyState";
 							}
-							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.umlName()) + "(from." + map.getter() + "()))");
+							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.umlName()) + "(from."
+									+ map.getter() + "()))");
 							String operName = localCopyMethodName + NameConverter.capitalize(map.umlName());
-							
+
 							List<OJPathName> params = new ArrayList<OJPathName>();
 							params.add(map.javaTypePath());
 							OJOperation oper = owner.findOperation(operName, params);
@@ -175,19 +178,19 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 								copyMany.setReturnType(map.javaTypePath());
 								owner.addToOperations(copyMany);
 								copyMany.addParam("from", map.javaTypePath());
-								
+
 								OJField result = new OJField();
 								result.setName("result");
 								result.setType(map.javaTypePath());
 								result.setInitExp("new HashSet<" + map.javaBaseType() + ">()");
 								copyMany.getBody().addToLocals(result);
-								
-								OJForStatement forS = new OJForStatement("","","entity","from");
+
+								OJForStatement forS = new OJForStatement("", "", "entity", "from");
 								forS.setElemType(map.javaBaseTypePath());
 								forS.setBody(forBlock);
 								forBlock.addToStatements(new OJSimpleStatement("result.add(entity." + copyMethodName + "())"));
 								copyMany.getBody().addToStatements(forS);
-								
+
 								copyMany.getBody().addToStatements("return result");
 							}
 						}

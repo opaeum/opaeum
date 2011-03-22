@@ -23,7 +23,7 @@ public class ExampleIntegrationTest {
 
 	@Deployment
 	static public Archive<?> createTestArchive() throws IllegalArgumentException, IOException, ClassNotFoundException {
-		return TestUtil.createTestArchive();
+		return NakedUmlTestUtil.createTestArchive();
 	}
 	
 	@SuppressWarnings("unchecked")

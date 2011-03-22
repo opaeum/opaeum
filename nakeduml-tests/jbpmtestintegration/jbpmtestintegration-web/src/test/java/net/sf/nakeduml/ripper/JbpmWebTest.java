@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jbpm.jbpm.Department;
-import jbpm.jbpm.nodedefinition.EISConnection;
 import jbpm.jbpm.nodedefinition.NodeDefinitionFactory;
-import jbpm.jbpm.nodedefinition.interaction.EISInteractionSpec;
-import jbpm.jbpm.nodedefinition.pool.EisPool;
+import jbpm.jbpm.nodedefinition.RipHelperImpl;
 import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.util.Stdlib;
 import net.sf.nakeduml.jbpm.test.SimpleAsyncWebIntegrationTest;
@@ -38,7 +36,7 @@ public class JbpmWebTest {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JCRAFT_JSCH));
 		war.addWebResource("WEB-INF/beans.xml", "beans.xml");
 		war.addWebResource("jbpmtestintegration-hibernate.cfg.xml", "classes/hibernate.cfg.xml");
-		war.addWebResource("data.generation.properties", "data.generation.properties");
+//		war.addWebResource("data.generation.properties", "data.generation.properties");
 		war.addWebResource("nakeduml.env.properties", "nakeduml.env.properties");
 		war.addWebResource("jbpm/jbpm/application/SimpleSync1.rf", "jbpm/jbpm/application/SimpleSync1.rf");
 		war.addWebResource("jbpm/jbpm/dispatch/SimpleAsyncShipping.rf", "jbpm/jbpm/dispatch/SimpleAsyncShipping.rf");
@@ -46,10 +44,8 @@ public class JbpmWebTest {
 		war.addWebResource("jbpm/jbpm/rip/networksoftwareversion/ripprocess/RipActivity.rf", "jbpm/jbpm/rip/networksoftwareversion/ripprocess/RipActivity.rf");
 		war.addPackages(true, NakedUtilTestClasses.getTestPackages());
 		List<Package> packages = getTestPackages();
-		packages.add(EISConnection.class.getPackage());
 		packages.add(NodeDefinitionFactory.class.getPackage());
-		packages.add(EisPool.class.getPackage());
-		packages.add(EISInteractionSpec.class.getPackage());
+		packages.add(RipHelperImpl.class.getPackage());
 		Package[] result = new Package[packages.size()];
 		packages.toArray(result);
 		war.addPackages(true, result);

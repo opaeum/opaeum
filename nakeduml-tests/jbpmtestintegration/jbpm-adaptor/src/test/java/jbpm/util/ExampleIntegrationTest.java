@@ -23,11 +23,11 @@ public class ExampleIntegrationTest {
 
 	@Deployment
 	static public Archive<?> createTestArchive() throws IllegalArgumentException, IOException, ClassNotFoundException {
-		return TestUtil.createTestArchive();
+		return NakedUmlTestUtil.createTestArchive();
 	}
 	
-	@Test
 	@SuppressWarnings("unchecked")
+	@Test
 	public void test() {
 		List<Application> roots = session.createQuery("select h from Application h").list();
 		Assert.assertFalse(roots.size()>0);

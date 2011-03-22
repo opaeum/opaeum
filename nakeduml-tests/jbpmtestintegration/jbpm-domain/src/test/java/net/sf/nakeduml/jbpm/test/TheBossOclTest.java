@@ -5,7 +5,7 @@ import jbpm.jbpm.TheBoss;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TheBossOclTest extends BaseTest {
+public class TheBossOclTest  {
 	@Test
 	public void test() {
 		TheBoss boss = new TheBoss();
