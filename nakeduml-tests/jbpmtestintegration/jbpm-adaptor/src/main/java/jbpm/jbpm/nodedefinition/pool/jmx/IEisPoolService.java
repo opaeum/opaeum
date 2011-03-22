@@ -1,8 +1,7 @@
 package jbpm.jbpm.nodedefinition.pool.jmx;
 
-import org.jboss.ejb3.annotation.Management;
 
-@Management
+//@Management
 public interface IEisPoolService {
 
 	Integer getMaxTotal();

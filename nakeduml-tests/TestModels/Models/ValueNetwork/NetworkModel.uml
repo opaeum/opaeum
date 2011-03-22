@@ -15,16 +15,56 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_LMZGJk7fEeC6JunSpH8wsQ" value="1"/>
           </end>
         </ownedConnector>
+        <ownedConnector xmi:id="_3aw8cFPFEeC7_PlB7YqcvA" name="Connector2" kind="delegation">
+          <end xmi:id="_3aw8cVPFEeC7_PlB7YqcvA" role="_1HAKEFPFEeC7_PlB7YqcvA" partWithPort="_-R17QE7eEeC6JunSpH8wsQ">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3aw8clPFEeC7_PlB7YqcvA" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3aw8c1PFEeC7_PlB7YqcvA" value="1"/>
+          </end>
+          <end xmi:id="_3aw8dFPFEeC7_PlB7YqcvA" role="_2n3f4FPFEeC7_PlB7YqcvA" partWithPort="_JIXY4E7fEeC6JunSpH8wsQ">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3aw8dVPFEeC7_PlB7YqcvA" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3aw8dlPFEeC7_PlB7YqcvA" value="1"/>
+          </end>
+        </ownedConnector>
+        <ownedBehavior xmi:type="uml:Interaction" xmi:id="_UNmfYFOqEeC7_PlB7YqcvA" name="Interaction1">
+          <ownedAttribute xmi:id="_gS19cFOrEeC7_PlB7YqcvA" name="Property1" type="_QnWvcE7eEeC6JunSpH8wsQ"/>
+          <ownedConnector xmi:id="_gS3yoFOrEeC7_PlB7YqcvA" name="Connector1">
+            <end xmi:id="_gS4ZsFOrEeC7_PlB7YqcvA" role="_gS19cFOrEeC7_PlB7YqcvA"/>
+            <end xmi:id="_oWvicFOrEeC7_PlB7YqcvA" role="_R3mPUE7eEeC6JunSpH8wsQ"/>
+          </ownedConnector>
+          <lifeline xmi:id="_XvPaIFOqEeC7_PlB7YqcvA" name="Lifeline1" coveredBy="_arz48FOqEeC7_PlB7YqcvA _3PSggFOqEeC7_PlB7YqcvA _b7618FOqEeC7_PlB7YqcvA _Z7MUUFOqEeC7_PlB7YqcvA"/>
+          <lifeline xmi:id="_YPhcsFOqEeC7_PlB7YqcvA" name="Lifeline2" represents="_R3mPUE7eEeC6JunSpH8wsQ" coveredBy="_ar0gAFOqEeC7_PlB7YqcvA _3PTHkFOqEeC7_PlB7YqcvA _beLKA1OqEeC7_PlB7YqcvA _arqvAFOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_3PSggFOqEeC7_PlB7YqcvA" name="MessageOccurrenceSpecification5" covered="_XvPaIFOqEeC7_PlB7YqcvA" event="_3PTuoFOqEeC7_PlB7YqcvA" message="_3PUVsFOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_3PTHkFOqEeC7_PlB7YqcvA" name="MessageOccurrenceSpecification6" covered="_YPhcsFOqEeC7_PlB7YqcvA" event="_3PTuoFOqEeC7_PlB7YqcvA" message="_3PUVsFOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_beLKA1OqEeC7_PlB7YqcvA" name="MessageOccurrenceSpecification3" covered="_YPhcsFOqEeC7_PlB7YqcvA" event="_beLxEFOqEeC7_PlB7YqcvA" message="_beLxEVOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_b7618FOqEeC7_PlB7YqcvA" name="MessageOccurrenceSpecification4" covered="_XvPaIFOqEeC7_PlB7YqcvA" event="_beLxEFOqEeC7_PlB7YqcvA" message="_beLxEVOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_arz48FOqEeC7_PlB7YqcvA" name="MessageOccurrenceSpecification1" covered="_XvPaIFOqEeC7_PlB7YqcvA" event="_ar1HEFOqEeC7_PlB7YqcvA" message="_ar2VMFOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ar0gAFOqEeC7_PlB7YqcvA" name="MessageOccurrenceSpecification2" covered="_YPhcsFOqEeC7_PlB7YqcvA" event="_ar1HEFOqEeC7_PlB7YqcvA" message="_ar2VMFOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Z7MUUFOqEeC7_PlB7YqcvA" name="BehaviorExecutionSpecification1" covered="_XvPaIFOqEeC7_PlB7YqcvA" start="_arz48FOqEeC7_PlB7YqcvA" finish="_b7618FOqEeC7_PlB7YqcvA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_arqvAFOqEeC7_PlB7YqcvA" name="BehaviorExecutionSpecification2" covered="_YPhcsFOqEeC7_PlB7YqcvA" start="_ar0gAFOqEeC7_PlB7YqcvA" finish="_beLKA1OqEeC7_PlB7YqcvA"/>
+          <message xmi:id="_ar2VMFOqEeC7_PlB7YqcvA" name="Operation1" receiveEvent="_ar0gAFOqEeC7_PlB7YqcvA" sendEvent="_arz48FOqEeC7_PlB7YqcvA"/>
+          <message xmi:id="_beLxEVOqEeC7_PlB7YqcvA" name="Message2" messageSort="reply" receiveEvent="_b7618FOqEeC7_PlB7YqcvA" sendEvent="_beLKA1OqEeC7_PlB7YqcvA"/>
+          <message xmi:id="_3PUVsFOqEeC7_PlB7YqcvA" name="Message3" messageSort="asynchSignal" receiveEvent="_3PTHkFOqEeC7_PlB7YqcvA" sendEvent="_3PSggFOqEeC7_PlB7YqcvA"/>
+        </ownedBehavior>
         <nestedClassifier xmi:type="uml:Component" xmi:id="_QnWvcE7eEeC6JunSpH8wsQ" name="Component1">
           <ownedAttribute xmi:type="uml:Port" xmi:id="_R3mPUE7eEeC6JunSpH8wsQ" name="Port1" type="_r3SrgE7eEeC6JunSpH8wsQ" aggregation="composite"/>
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_1HAKEFPFEeC7_PlB7YqcvA" name="Port2" type="_1G-78FPFEeC7_PlB7YqcvA" aggregation="composite"/>
+          <ownedOperation xmi:id="_kHyOsFOrEeC7_PlB7YqcvA" name="Operation1"/>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_SOEOkE7eEeC6JunSpH8wsQ" name="Interface1"/>
-        <nestedClassifier xmi:type="uml:Class" xmi:id="_r3SrgE7eEeC6JunSpH8wsQ" name="Class1" clientDependency="_2mbuwE7eEeC6JunSpH8wsQ"/>
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_r3SrgE7eEeC6JunSpH8wsQ" name="Class1" clientDependency="_2mbuwE7eEeC6JunSpH8wsQ">
+          <ownedOperation xmi:id="_id9xMFOrEeC7_PlB7YqcvA" name="Operation1"/>
+        </nestedClassifier>
         <nestedClassifier xmi:type="uml:Component" xmi:id="_FCWlwE7fEeC6JunSpH8wsQ" name="Component2">
           <ownedAttribute xmi:type="uml:Port" xmi:id="_GQJ1oE7fEeC6JunSpH8wsQ" name="Port1" type="_SOEOkE7eEeC6JunSpH8wsQ" aggregation="composite"/>
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_2n3f4FPFEeC7_PlB7YqcvA" name="Port2" type="_2n240FPFEeC7_PlB7YqcvA" aggregation="composite"/>
         </nestedClassifier>
       </packagedElement>
       <packagedElement xmi:type="uml:Usage" xmi:id="_2mbuwE7eEeC6JunSpH8wsQ" name="Usage1" supplier="_SOEOkE7eEeC6JunSpH8wsQ" client="_r3SrgE7eEeC6JunSpH8wsQ"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_ar1HEFOqEeC7_PlB7YqcvA" name="CallEvent1" operation="_id9xMFOrEeC7_PlB7YqcvA"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_beLxEFOqEeC7_PlB7YqcvA" name="CallEvent2"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_3PTuoFOqEeC7_PlB7YqcvA" name="SignalEvent1"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_1G-78FPFEeC7_PlB7YqcvA" name="Port2"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_2n240FPFEeC7_PlB7YqcvA" name="Port3"/>
     </packagedElement>
   </packagedElement>
 </uml:Model>

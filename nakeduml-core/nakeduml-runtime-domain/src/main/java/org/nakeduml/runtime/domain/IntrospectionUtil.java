@@ -46,7 +46,7 @@ public class IntrospectionUtil {
 		return getOriginalClass(c);
 	}
 	public static <T> Class<? extends T> getOriginalClass(Class<? extends T> c) {
-		while (c.getName().indexOf("$$") > -1) {
+		while (c.getName().indexOf("$$") > -1 || c.isSynthetic()) {
 			c = (Class<? extends T>) c.getSuperclass();
 		}
 		return c;

@@ -22,9 +22,9 @@ public class DomainEnvironment extends Environment{
 	private Session hibernateSession;
 	private SessionFactory sessionFactory;
 	private AbstractJbpmKnowledgeBase abstractJbpmKnowledgeBase;
-	private Map<Class<?>,Object> components = new HashMap<Class<?>,Object>();
+	private Map<String,Object> components = new HashMap<String,Object>();
 	public <T>void mockComponent(Class<T> clazz,T component){
-		this.components.put(clazz, component);
+		this.components.put(clazz.getName(), component);
 	}
 	public static DomainEnvironment getInstance(){
 		if(!(instance.get() instanceof DomainEnvironment)){
@@ -43,7 +43,7 @@ public class DomainEnvironment extends Environment{
 		}else if(clazz == Session.class){
 			return (T) getHibernateSession();
 		}
-		return (T) components.get(clazz);
+		return (T) components.get(clazz.getName());
 	}
 	private Session getHibernateSession(){
 		if(this.hibernateSession == null){
