@@ -36,7 +36,7 @@ public class JbpmWebTest {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JCRAFT_JSCH));
 		war.addWebResource("WEB-INF/beans.xml", "beans.xml");
 		war.addWebResource("jbpmtestintegration-hibernate.cfg.xml", "classes/hibernate.cfg.xml");
-//		war.addWebResource("data.generation.properties", "data.generation.properties");
+		war.addWebResource("data.generation.properties", "data.generation.properties");
 		war.addWebResource("nakeduml.env.properties", "nakeduml.env.properties");
 		war.addWebResource("jbpm/jbpm/application/SimpleSync1.rf", "jbpm/jbpm/application/SimpleSync1.rf");
 		war.addWebResource("jbpm/jbpm/dispatch/SimpleAsyncShipping.rf", "jbpm/jbpm/dispatch/SimpleAsyncShipping.rf");
