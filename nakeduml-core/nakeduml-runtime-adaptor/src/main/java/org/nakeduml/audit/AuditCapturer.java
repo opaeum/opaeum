@@ -23,8 +23,8 @@ import org.nakeduml.seam3.persistence.DependentScopedSession;
 @TransactionAttribute
 public class AuditCapturer {
 
-	@DependentScopedSession
 	@Inject
+	@DependentScopedSession
 	private Session session;
 	public void persistAudit(AbstractWorkUnit workUnit) {
 		session.setFlushMode(FlushMode.COMMIT);

@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.drools.KnowledgeBase;
@@ -25,6 +27,7 @@ import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContextManager;
 
 @TransactionScoped
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class JbpmKnowledgeSession {
 	private StatefulKnowledgeSession knowledgeSession;
 	@Inject
@@ -33,13 +36,13 @@ public class JbpmKnowledgeSession {
 	protected AbstractJbpmKnowledgeBase getJbpmKnowledgeBase(){
 		return (AbstractJbpmKnowledgeBase) Environment.instantiateImplementation(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
-
 	public StatefulKnowledgeSession getKnowledgeSession() {
 		if (this.knowledgeSession == null) {
 			this.knowledgeSession = createKnowledgeSession();
 		}
 		return this.knowledgeSession;
 	}
+	
 
 	protected StatefulKnowledgeSession createKnowledgeSession() {
 		KnowledgeBase kbase = getJbpmKnowledgeBase().getKnowledgeBase();
@@ -58,8 +61,9 @@ public class JbpmKnowledgeSession {
 	 				public Object read(ObjectInputStream is) throws IOException, ClassNotFoundException {
 	 					String canonicalName = is.readUTF();
 	 					Object id = is.readObject();
-						HibernateProcessPersistenceContextManager db = (HibernateProcessPersistenceContextManager) environment.get(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER);
-						return ((HibernateProcessPersistenceContext)db.getProcessPersistenceContext()).getSession().get(Class.forName(canonicalName), (Serializable) id);
+						Class<?> clazz = Class.forName(canonicalName);
+						Object obj = session.get(clazz, (Serializable) id);
+						return obj;
 	 				}
 				}, new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT) });
 		return kbase.newStatefulKnowledgeSession(config, environment);

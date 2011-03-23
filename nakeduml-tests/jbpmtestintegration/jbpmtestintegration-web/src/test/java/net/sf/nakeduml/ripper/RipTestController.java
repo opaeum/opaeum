@@ -19,12 +19,12 @@ import jbpm.jbpm.rip.networksoftwareversion.ripprocess.RipActivityState;
 
 import org.hibernate.Session;
 
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RipTestController {
 
 	@Inject
 	Session session;
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void testRipNetwork(NetworkSoftwareVersion networkSoftwareVersion) {
 		NetworkSoftwareVersion networkSoftwareVersionToRip = (NetworkSoftwareVersion) session.get(NetworkSoftwareVersion.class, networkSoftwareVersion.getId());
 		RipProcess ripProcess = networkSoftwareVersionToRip.RipProcess();
@@ -70,17 +70,14 @@ public class RipTestController {
 		return true;
 	}	
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean isStepActive(RipProcess ripProcess, RipProcessState ripProcessState) {
 		return ripProcess.isStepActive(ripProcessState);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean isStepActive(RipActivity ripActivity, RipActivityState ripActivityState) {
 		return ripActivity.isStepActive(ripActivityState);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Application createTestData() {
 		Application application = createApplication();
 		Network network = createNetwork(application);
