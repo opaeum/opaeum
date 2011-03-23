@@ -15,7 +15,7 @@
 
 	<properties>
 		<seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-		<seam.solder.version>3.0.0.CR3</seam.solder.version>
+		<seam.solder.version>3.0.0.CR4</seam.solder.version>
 		<slf4j.log4j>1.6.1</slf4j.log4j>
 		<jbpm.version>5.0.0</jbpm.version>
 		<drools.version>5.2.0.M1</drools.version>

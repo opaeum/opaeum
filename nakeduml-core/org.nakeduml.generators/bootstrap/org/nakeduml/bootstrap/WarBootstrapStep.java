@@ -7,9 +7,9 @@ import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.pomgeneration.WarPomStep;
 
-@StepDependency(phase = DefaultConfigGenerationPhase.class, requires = { WarPomStep.class,
-		TextFileGenerator.class }, before = { TextFileGenerator.class })
-public class WarBootstrapStep extends AbstractProjectGenerationStep{
+@StepDependency(phase = BootstrapGenerationPhase.class, requires = { WarPomStep.class,
+		TextFileGenerator.class }, before = { })
+public class WarBootstrapStep extends AbstractBootstrapStep{
 
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace) {

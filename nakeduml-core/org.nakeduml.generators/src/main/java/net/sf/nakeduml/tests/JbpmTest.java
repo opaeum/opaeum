@@ -46,7 +46,7 @@ public class JbpmTest extends AbstractTestCodeGenerator {
 //		jbpmTest.generateIntegrationCode();
 	}
 
-	@StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
+	@StepDependency(phase = PomGenerationPhase.class, requires = { })
 	public static class AddRipDependencies extends PomGenerationStep {
 		@Override
 		protected OutputRoot getExampleTargetDir() {

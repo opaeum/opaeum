@@ -34,6 +34,7 @@ public class JbpmWebTest {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.COMMONS_NET));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.COMMONS_POOL));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.JCRAFT_JSCH));
+		war.addLibraries(MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder-api"));
 		war.addWebResource("WEB-INF/beans.xml", "beans.xml");
 		war.addWebResource("jbpmtestintegration-hibernate.cfg.xml", "classes/hibernate.cfg.xml");
 		war.addWebResource("data.generation.properties", "data.generation.properties");

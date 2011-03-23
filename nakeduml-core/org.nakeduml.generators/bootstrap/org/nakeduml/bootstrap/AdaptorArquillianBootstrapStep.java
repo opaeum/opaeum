@@ -9,8 +9,8 @@ import net.sf.nakeduml.pomgeneration.AdaptorArquillianPomStep;
 import net.sf.nakeduml.pomgeneration.BasicJavaAdaptorPomStep;
 import net.sf.nakeduml.pomgeneration.WarPomStep;
 
-@StepDependency(phase = DefaultConfigGenerationPhase.class, requires = { AdaptorArquillianPomStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
-public class AdaptorArquillianBootstrapStep extends AbstractProjectGenerationStep {
+@StepDependency(phase = BootstrapGenerationPhase.class, requires = { AdaptorArquillianPomStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
+public class AdaptorArquillianBootstrapStep extends AbstractBootstrapStep {
 	@VisitBefore
 	public void visitModel(INakedModel model) {
 		createConfig("beans.xml", CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, "META-INF");

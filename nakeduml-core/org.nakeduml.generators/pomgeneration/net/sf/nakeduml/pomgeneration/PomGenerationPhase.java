@@ -46,9 +46,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.nakeduml.bootstrap.DefaultConfigGenerationPhase;
+import org.nakeduml.bootstrap.BootstrapGenerationPhase;
 
-@PhaseDependency(after = {JavaTransformationPhase.class,FlowGenerationPhase.class,DefaultConfigGenerationPhase.class},before = {FileGenerationPhase.class})
+@PhaseDependency(after = {JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class},before = {FileGenerationPhase.class})
 public class PomGenerationPhase implements TransformationPhase<PomGenerationStep>{
 	@InputModel
 	private INakedModelWorkspace workspace;

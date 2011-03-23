@@ -96,9 +96,8 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/jboss/interceptor/jboss-interceptor/1.0.0-CR11/jboss-interceptor-1.0.0-CR11.jar" sourcepath="M2_REPO/org/jboss/interceptor/jboss-interceptor/1.0.0-CR11/jboss-interceptor-1.0.0-CR11-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/interceptor/jboss-interceptor-api/1.1/jboss-interceptor-api-1.1.jar" sourcepath="M2_REPO/org/jboss/interceptor/jboss-interceptor-api/1.1/jboss-interceptor-api-1.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/logging/jboss-logging/3.0.0.Beta4/jboss-logging-3.0.0.Beta4.jar" sourcepath="M2_REPO/org/jboss/logging/jboss-logging/3.0.0.Beta4/jboss-logging-3.0.0.Beta4-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/test-harness/jboss-test-harness/1.1.0-SNAPSHOT/jboss-test-harness-1.1.0-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/test-harness/jboss-test-harness-api/1.1.0-SNAPSHOT/jboss-test-harness-api-1.1.0-SNAPSHOT.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/test-harness/jboss-test-harness/1.1.0-SNAPSHOT/jboss-test-harness-1.1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/test-harness/jboss-test-harness/1.1.0-SNAPSHOT/jboss-test-harness-1.1.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/test-harness/jboss-test-harness-api/1.1.0-SNAPSHOT/jboss-test-harness-api-1.1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/test-harness/jboss-test-harness-api/1.1.0-SNAPSHOT/jboss-test-harness-api-1.1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-flow/5.0.0/jbpm-flow-5.0.0.jar" sourcepath="M2_REPO/org/jbpm/jbpm-flow/5.0.0/jbpm-flow-5.0.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-flow-builder/5.0.0/jbpm-flow-builder-5.0.0.jar" sourcepath="M2_REPO/org/jbpm/jbpm-flow-builder/5.0.0/jbpm-flow-builder-5.0.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-persistence-jpa/5.0.0/jbpm-persistence-jpa-5.0.0.jar" sourcepath="M2_REPO/org/jbpm/jbpm-persistence-jpa/5.0.0/jbpm-persistence-jpa-5.0.0-sources.jar"/>
@@ -116,17 +115,16 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/w3c/css/sac/1.3/sac-1.3.jar" sourcepath="M2_REPO/org/w3c/css/sac/1.3/sac-1.3-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder/3.0.0.CR2/seam-solder-3.0.0.CR2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.Beta1/seam-solder-api-3.0.0.Beta1.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.Beta1/seam-solder-api-3.0.0.Beta1-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.CR3/seam-solder-api-3.0.0.CR3.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.CR3/seam-solder-api-3.0.0.CR3-sources.jar">
     <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-api/3.0.0.Beta1/seam-solder-api-3.0.0.Beta1-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-api/3.0.0.CR3/seam-solder-api-3.0.0.CR3-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.Beta1/seam-solder-impl-3.0.0.Beta1.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.Beta1/seam-solder-impl-3.0.0.Beta1-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR3/seam-solder-impl-3.0.0.CR3.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR3/seam-solder-impl-3.0.0.CR3-sources.jar">
     <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-impl/3.0.0.Beta1/seam-solder-impl-3.0.0.Beta1-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR3/seam-solder-impl-3.0.0.CR3-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1/serializer-2.7.1.jar"/>
@@ -135,7 +133,6 @@
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-ext/1.5.10/slf4j-ext-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-ext/1.5.10/slf4j-ext-1.5.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.5.10/slf4j-simple-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-simple/1.5.10/slf4j-simple-1.5.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2/stringtemplate-3.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/testng/testng/5.10/testng-5.10-jdk15.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/weld/weld-api/1.0-SP1/weld-api-1.0-SP1.jar" sourcepath="M2_REPO/org/jboss/weld/weld-api/1.0-SP1/weld-api-1.0-SP1-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/weld/weld-api/1.0-SP1/weld-api-1.0-SP1-javadoc.jar!/" name="javadoc_location"/>
