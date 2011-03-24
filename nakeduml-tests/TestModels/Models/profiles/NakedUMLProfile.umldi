@@ -77,5 +77,29 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_rMtjwsbyEd-qWtMD5IZMIA" id="requiredFieldEdgeObject"/>
     </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_Z3hIgFYLEeCAaNaNbRIbww" position="520,229" size="120,-1">
+      <anchorage xmi:id="_dBGIkVYLEeCAaNaNbRIbww" graphEdge="_dBIk0FYLEeCAaNaNbRIbww"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Z3hvkFYLEeCAaNaNbRIbww" presentation="default">
+        <element href="NakedUMLProfile.uml#_Z3rgkFYLEeCAaNaNbRIbww"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_bjKyAFYLEeCAaNaNbRIbww" position="380,365" size="120,-1">
+      <anchorage xmi:id="_dBGIkFYLEeCAaNaNbRIbww" graphEdge="_dBIk0FYLEeCAaNaNbRIbww"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_bjKyAVYLEeCAaNaNbRIbww" presentation="default">
+        <element href="NakedUMLProfile.uml#_bjT78FYLEeCAaNaNbRIbww"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_bjKyAlYLEeCAaNaNbRIbww">
+        <property xmi:id="_bjKyA1YLEeCAaNaNbRIbww" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_bjKyBFYLEeCAaNaNbRIbww" presentation="default">
+          <element href="NakedUMLProfile.uml#_bjT78FYLEeCAaNaNbRIbww"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_dBIk0FYLEeCAaNaNbRIbww" anchor="_dBGIkFYLEeCAaNaNbRIbww _dBGIkVYLEeCAaNaNbRIbww">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_dBIk0VYLEeCAaNaNbRIbww" presentation="default">
+        <element href="NakedUMLProfile.uml#_dBNdUFYLEeCAaNaNbRIbww"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_dBIk0lYLEeCAaNaNbRIbww" id="requiredFieldEdgeObject"/>
+    </contained>
   </diagrams>
 </diagrams:Diagrams>

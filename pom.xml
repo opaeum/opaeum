@@ -39,6 +39,7 @@
 	</repositories>
 	<modules>
 		<module>nakeduml-core</module>
+                <module>nakeduml-tests/jbpmtestintegration/jbpmtestintegration-generator</module>
 	</modules>
 	<properties>
 		<java.version>1.6</java.version>

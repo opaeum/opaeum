@@ -1,4 +1,4 @@
-package net.sf.nakeduml.ripper;
+package org.nakeduml.ripper;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;

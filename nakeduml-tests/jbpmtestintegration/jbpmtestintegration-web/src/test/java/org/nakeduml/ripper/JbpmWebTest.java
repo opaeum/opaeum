@@ -1,21 +1,25 @@
-package net.sf.nakeduml.ripper;
+package org.nakeduml.ripper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import jbpm.jbpm.Department;
+import jbpm.jbpm.application.SimpleSync1;
+import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.jbpm.nodedefinition.NodeDefinitionFactory;
 import jbpm.jbpm.nodedefinition.RipHelperImpl;
 import jbpm.jbpm.rip.NodeDefinition;
+import jbpm.jbpm.rip.networksoftwareversion.RipProcess;
+import jbpm.jbpm.rip.networksoftwareversion.ripprocess.RipActivity;
 import jbpm.util.Stdlib;
-import net.sf.nakeduml.jbpm.test.SimpleAsyncWebIntegrationTest;
-import net.sf.nakeduml.jbpm.test.SimpleSyncWebIntegrationTest;
 
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.nakeduml.jbpm.test.SimpleAsyncWebIntegrationTest;
+import org.nakeduml.jbpm.test.SimpleSyncWebIntegrationTest;
 import org.nakeduml.jbpmtestintegration.util.jbpm.adaptor.JbpmKnowledgeBase;
 import org.nakeduml.test.NakedUtilTestClasses;
 import org.nakeduml.test.adaptor.ArquillianUtils;
@@ -38,7 +42,7 @@ public class JbpmWebTest {
 		war.addWebResource("WEB-INF/beans.xml", "beans.xml");
 		war.addWebResource("jbpmtestintegration-hibernate.cfg.xml", "classes/hibernate.cfg.xml");
 		war.addWebResource("data.generation.properties", "data.generation.properties");
-		war.addWebResource("nakeduml.env.properties", "nakeduml.env.properties");
+		war.addWebResource("integrated-nakeduml.env.properties", "nakeduml.env.properties");
 		war.addWebResource("jbpm/jbpm/application/SimpleSync1.rf", "jbpm/jbpm/application/SimpleSync1.rf");
 		war.addWebResource("jbpm/jbpm/dispatch/SimpleAsyncShipping.rf", "jbpm/jbpm/dispatch/SimpleAsyncShipping.rf");
 		war.addWebResource("jbpm/jbpm/rip/networksoftwareversion/RipProcess.rf", "jbpm/jbpm/rip/networksoftwareversion/RipProcess.rf");
@@ -49,7 +53,7 @@ public class JbpmWebTest {
 		packages.add(RipHelperImpl.class.getPackage());
 		Package[] result = new Package[packages.size()];
 		packages.toArray(result);
-		war.addPackages(true, result);
+		war.addPackages(false, result);
 		war.addManifestResource(HORNETQ_JMS_DEPLOYMENT_CONFIG);
 		return war;
 	}
@@ -62,6 +66,10 @@ public class JbpmWebTest {
 		packages.add(SimpleSyncWebIntegrationTest.class.getPackage());
 		packages.add(SimpleAsyncWebIntegrationTest.class.getPackage());
 		packages.add(JbpmWebTest.class.getPackage());
+		packages.add(SimpleSync1.class.getPackage());
+		packages.add(SimpleAsyncShipping.class.getPackage());
+		packages.add(RipProcess.class.getPackage());
+		packages.add(RipActivity.class.getPackage());
 		packages.add(JbpmKnowledgeBase.class.getPackage());
 		packages.add(ReflectHelper.classForName("org.nakeduml.jbpmtestintegration.util.hibernate.adaptor.package-info").getPackage());
 		return packages;

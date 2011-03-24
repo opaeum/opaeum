@@ -1,4 +1,4 @@
-package net.sf.nakeduml.jbpm.test;
+package org.nakeduml.jbpm.test;
 
 import jbpm.jbpm.TheBoss;
 

@@ -1,4 +1,4 @@
-package net.sf.nakeduml.ripper;
+package net.sf.nakeduml.domain.ripper;
 
 import java.util.Set;
 

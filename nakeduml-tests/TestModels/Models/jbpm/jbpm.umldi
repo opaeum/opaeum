@@ -1018,7 +1018,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_oTZwcElsEeCQ2fq_6NmJ6A">
     <model href="jbpm.uml#_jZpzQElsEeCQ2fq_6NmJ6A"/>
-    <diagrams xmi:id="_oTaXgElsEeCQ2fq_6NmJ6A" position="0,0" size="100,100" name="rip" zoom="0.5" viewport="-21,82">
+    <diagrams xmi:id="_oTaXgElsEeCQ2fq_6NmJ6A" position="0,0" size="100,100" name="rip" zoom="0.75" viewport="-5,111">
       <property xmi:id="_oTvusElsEeCQ2fq_6NmJ6A" key="pageFormatName" value="A3"/>
       <property xmi:id="_oTvusUlsEeCQ2fq_6NmJ6A" key="diagramWidth" value="1188"/>
       <property xmi:id="_oTvusklsEeCQ2fq_6NmJ6A" key="diagramHeight" value="1680"/>
@@ -1601,7 +1601,7 @@
     </diagrams>
     <subdiagrams xmi:id="_93RewEmyEeCFaJvOEQDIzw">
       <model href="jbpm.uml#_62w7IEmyEeCFaJvOEQDIzw"/>
-      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" zoom="0.75" viewport="0,0">
+      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" zoom="0.75" viewport="0,510">
         <property xmi:id="_95If8EmyEeCFaJvOEQDIzw" key="pageFormatName" value="A3"/>
         <property xmi:id="_95If8UmyEeCFaJvOEQDIzw" key="diagramWidth" value="1188"/>
         <property xmi:id="_95If8kmyEeCFaJvOEQDIzw" key="diagramHeight" value="1680"/>
