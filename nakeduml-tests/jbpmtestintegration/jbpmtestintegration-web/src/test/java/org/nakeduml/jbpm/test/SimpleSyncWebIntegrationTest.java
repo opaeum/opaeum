@@ -1,13 +1,13 @@
-package net.sf.nakeduml.jbpm.test;
+package org.nakeduml.jbpm.test;
 
 import javax.inject.Inject;
 
-import net.sf.nakeduml.ripper.JbpmWebTest;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nakeduml.ripper.JbpmWebTest;
 
 @RunWith(Arquillian.class)
 public class SimpleSyncWebIntegrationTest extends JbpmWebTest {

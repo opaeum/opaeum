@@ -50,8 +50,12 @@ public class JbpmtestintegrationGenerator extends MavenProjectCodeGenerator {
 	static public void main(String[] args) throws Exception {
 		File workspaceFile = null;
 		if (args.length > 0) {
-			workspaceFile = new File(args[0]);
+			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+			System.out.println(args[0]);
+			workspaceFile = new File(args[0]).getAbsoluteFile().getParentFile().getParentFile();
+			System.out.println(workspaceFile.getAbsolutePath());
 		} else {
+			System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
 			workspaceFile = new File(".").getAbsoluteFile().getParentFile().getParentFile().getParentFile();
 		}
 		JbpmtestintegrationGenerator instance = new JbpmtestintegrationGenerator(workspaceFile.getAbsolutePath() + "/jbpmtestintegration",

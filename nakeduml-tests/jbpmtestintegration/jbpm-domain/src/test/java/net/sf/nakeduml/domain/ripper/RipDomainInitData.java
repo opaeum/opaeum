@@ -1,4 +1,4 @@
-package net.sf.nakeduml.ripper;
+package net.sf.nakeduml.domain.ripper;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.rip.MMLCommand;

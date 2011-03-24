@@ -39,6 +39,7 @@
 	</repositories>
 	<modules>
 		<module>nakeduml-core</module>
+		<module>nakeduml-tests</module>
 	</modules>
 	<properties>
 		<java.version>1.6</java.version>

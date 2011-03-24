@@ -4,14 +4,14 @@
 		<groupId>org.nakeduml</groupId>
 		<artifactId>numl</artifactId>
 		<version>1.0.0.5-SNAPSHOT</version>
-                <relativePath>../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>numl-core</artifactId>
 	<packaging>pom</packaging>
 	<name>numl-core</name>
-	<version>1.0.0.5-SNAPSHOT</version>
+	<version>${numl.version}</version>
 
 	<modules>
 		<module>org.nakeduml.ocl.metamodel</module>
@@ -24,7 +24,7 @@
 		<module>nakeduml-test-adaptor</module>
 		<module>org.nakeduml.generators</module>
 	</modules>
-
+        
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
