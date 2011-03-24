@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_XkGiwB07Ed-QQ4mYkrb7Gg" name="NakedUMLProfile">
   <eAnnotations xmi:id="_oJVUwMPxEd-SNsUNWzjz5A" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_dVnnEFYLEeCAaNaNbRIbww" name="NakedUMLProfile" nsURI="http:///schemas/NakedUMLProfile/_dVlx4FYLEeCAaNaNbRIbww/7" nsPrefix="NakedUMLProfile">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_dVnnEVYLEeCAaNaNbRIbww" name="ValueType">
+        <eAnnotations xmi:id="_dVnnElYLEeCAaNaNbRIbww" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_dVnnE1YLEeCAaNaNbRIbww" name="base_DataType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_dVnnFVYLEeCAaNaNbRIbww" name="mappedImplementationType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_dVnnF1YLEeCAaNaNbRIbww" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_dVnnGVYLEeCAaNaNbRIbww" name="PrimitiveType">
+        <eAnnotations xmi:id="_dVnnGlYLEeCAaNaNbRIbww" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pcOdkMbyEd-qWtMD5IZMIA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_dVnnG1YLEeCAaNaNbRIbww" name="base_PrimitiveType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//PrimitiveType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_dVnnHVYLEeCAaNaNbRIbww" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_dVnnH1YLEeCAaNaNbRIbww" name="Helper">
+        <eAnnotations xmi:id="_dVnnIFYLEeCAaNaNbRIbww" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_bjT78FYLEeCAaNaNbRIbww"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_dVnnIVYLEeCAaNaNbRIbww" name="base_Classifier" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
     <contents xmi:type="ecore:EPackage" xmi:id="_yjUTAMb0Ed-qWtMD5IZMIA" name="NakedUMLProfile" nsURI="http:///schemas/NakedUMLProfile/_yjTr8Mb0Ed-qWtMD5IZMIA/6" nsPrefix="NakedUMLProfile">
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_yjUTAcb0Ed-qWtMD5IZMIA" name="ValueType">
         <eAnnotations xmi:id="_yjUTAsb0Ed-qWtMD5IZMIA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
@@ -139,6 +168,9 @@
   <elementImport xmi:id="_DMl8MMPxEd-SNsUNWzjz5A">
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#DataType"/>
   </elementImport>
+  <elementImport xmi:id="_Z3rgkFYLEeCAaNaNbRIbww">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
+  </elementImport>
   <packageImport xmi:id="_b3qnYCWuEd62NaW46C6lHg">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
@@ -169,5 +201,13 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_rMycQMbyEd-qWtMD5IZMIA" name="PrimitiveType_PrimitiveType" memberEnd="_rMycQcbyEd-qWtMD5IZMIA _rMycQsbyEd-qWtMD5IZMIA">
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_rMycQcbyEd-qWtMD5IZMIA" name="extension_PrimitiveType" type="_pcOdkMbyEd-qWtMD5IZMIA" aggregation="composite" association="_rMycQMbyEd-qWtMD5IZMIA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_bjT78FYLEeCAaNaNbRIbww" name="Helper">
+    <ownedAttribute xmi:id="_dBOEYFYLEeCAaNaNbRIbww" name="base_Classifier" association="_dBNdUFYLEeCAaNaNbRIbww">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_dBNdUFYLEeCAaNaNbRIbww" name="Classifier_Helper" memberEnd="_dBNdUVYLEeCAaNaNbRIbww _dBOEYFYLEeCAaNaNbRIbww">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_dBNdUVYLEeCAaNaNbRIbww" name="extension_Helper" type="_bjT78FYLEeCAaNaNbRIbww" aggregation="composite" association="_dBNdUFYLEeCAaNaNbRIbww"/>
   </packagedElement>
 </uml:Profile>

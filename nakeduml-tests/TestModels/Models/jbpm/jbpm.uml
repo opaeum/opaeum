@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedProfile="http:///schemas/NakedProfile/_zd3V8DtDEeC5OLJvkS0EWA/35" xmlns:cmProfile="http:///schemas/cmProfile/_zf4JwEmJEeCy29yMbAgWLw/66" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedProfile/_zd3V8DtDEeC5OLJvkS0EWA/35 file:/usr/share/cm-data/cm-model/NakedProfile.uml#_zd3V8TtDEeC5OLJvkS0EWA http:///schemas/cmProfile/_zf4JwEmJEeCy29yMbAgWLw/66 file:/usr/share/cm-data/cm-model/cmProfile.uml#_zf70IEmJEeCy29yMbAgWLw">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_dVlx4FYLEeCAaNaNbRIbww/7" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_dVlx4FYLEeCAaNaNbRIbww/7 ../profiles/NakedUMLProfile.uml#_dVnnEFYLEeCAaNaNbRIbww">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="jbpm">
     <elementImport xmi:id="_I1S5gDpzEeCKr_45Ih7B5Q">
       <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
@@ -573,10 +573,10 @@
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_x--3Ykv9EeCD2ITeubLIbQ"/>
           </ownedAttribute>
           <ownedAttribute xmi:id="_ZpdX0EwaEeCD2ITeubLIbQ" name="lastSuccesfulRip">
-            <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="../libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedAttribute>
           <ownedAttribute xmi:id="_cXymUEwaEeCD2ITeubLIbQ" name="lastUnsuccessfulRip">
-            <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="../libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedAttribute>
           <ownedBehavior xmi:type="uml:Activity" xmi:id="_62w7IEmyEeCFaJvOEQDIzw" name="RipProcess">
             <ownedAttribute xmi:id="_wjpPgE4mEeCbgdOPghXOPA" name="ripSuccess">
@@ -712,7 +712,7 @@
             <node xmi:type="uml:ActivityFinalNode" xmi:id="_cQ4QIEokEeCFaJvOEQDIzw" name="ActivityFinalNode1" incoming="_67LtMEyIEeCT1fhneIHFNA"/>
             <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_PH6hIEwZEeCD2ITeubLIbQ" name="SetNetworkSoftwareVersionRipLastSuccess" outgoing="_ZUVR0EwZEeCD2ITeubLIbQ" incoming="_NlOdcE4pEeCbgdOPghXOPA" structuralFeature="_ZpdX0EwaEeCD2ITeubLIbQ">
               <value xmi:type="uml:ValuePin" xmi:id="_deY-MExrEeCD2ITeubLIbQ" name="currentDate">
-                <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+                <type xmi:type="uml:DataType" href="../libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
                 <value xmi:type="uml:OpaqueExpression" xmi:id="_kFwTwExrEeCD2ITeubLIbQ" name="OpaqueExpression1">
                   <body>now</body>
                 </value>
@@ -722,7 +722,7 @@
             <node xmi:type="uml:MergeNode" xmi:id="_5Tq80EyIEeCT1fhneIHFNA" name="MergeNode1" outgoing="_67LtMEyIEeCT1fhneIHFNA" incoming="_ZUVR0EwZEeCD2ITeubLIbQ _66atAEzcEeCONMVXUpwSgg"/>
             <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_mgIaIEzcEeCONMVXUpwSgg" name="SetNetworkSoftwareVersionRipLastFailure" outgoing="_66atAEzcEeCONMVXUpwSgg" incoming="_-VeOYE4rEeCbgdOPghXOPA" structuralFeature="_cXymUEwaEeCD2ITeubLIbQ">
               <value xmi:type="uml:ValuePin" xmi:id="_rTmwMEzcEeCONMVXUpwSgg" name="currentDate">
-                <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+                <type xmi:type="uml:DataType" href="../libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
                 <value xmi:type="uml:OpaqueExpression" xmi:id="_8seggEzcEeCONMVXUpwSgg" name="OpaqueExpression1">
                   <body>now</body>
                 </value>
@@ -819,10 +819,10 @@
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           </ownedAttribute>
           <ownedAttribute xmi:id="_lpHnsEptEeClzIHhNO5_Xw" name="lastSuccesfulRip">
-            <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="../libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedAttribute>
           <ownedAttribute xmi:id="_rOLywEptEeClzIHhNO5_Xw" name="lastUnsuccesfulRip">
-            <type xmi:type="uml:DataType" href="file:/usr/share/cm-data/cm-model/libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="../libraries/NakedUMLSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedAttribute>
           <ownedAttribute xmi:id="_scO7cEqHEeClzIHhNO5_Xw" name="requiresSshTunnel" isDerived="true">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
@@ -944,14 +944,12 @@
         </packagedElement>
       </packagedElement>
     </packagedElement>
-    <profileApplication xmi:id="_TO3SwEmEEeCQ2fq_6NmJ6A">
-      <eAnnotations xmi:id="_TO3SwUmEEeCQ2fq_6NmJ6A" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="file:/usr/share/cm-data/cm-model/NakedProfile.uml#_zd3V8TtDEeC5OLJvkS0EWA"/>
+    <profileApplication xmi:id="_-l3VMFYKEeCAaNaNbRIbww">
+      <eAnnotations xmi:id="_-mC7YFYKEeCAaNaNbRIbww" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="../profiles/NakedUMLProfile.uml#_dVnnEFYLEeCAaNaNbRIbww"/>
       </eAnnotations>
-      <appliedProfile href="file:/usr/share/cm-data/cm-model/NakedProfile.uml#_PV4b0DvpEd67MNL3QdklWA"/>
+      <appliedProfile href="../profiles/NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <NakedProfile:Helper xmi:id="_UVDewEmEEeCQ2fq_6NmJ6A"/>
-  <cmProfile:XMLTransient xmi:id="_KdI6QEmLEeCQ2fq_6NmJ6A" base_Property="_CrjNQEmLEeCQ2fq_6NmJ6A"/>
-  <NakedProfile:Helper xmi:id="_LLmS4EskEeCRDqUdR1yzmg" base_Classifier="_IQZGAEskEeCRDqUdR1yzmg" name="RipHelper"/>
+  <NakedUMLProfile:Helper xmi:id="_i-_qYFYLEeCAaNaNbRIbww" base_Classifier="_IQZGAEskEeCRDqUdR1yzmg"/>
 </xmi:XMI>
