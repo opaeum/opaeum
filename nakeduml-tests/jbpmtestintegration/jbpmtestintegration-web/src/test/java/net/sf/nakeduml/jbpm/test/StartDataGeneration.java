@@ -2,7 +2,6 @@ package net.sf.nakeduml.jbpm.test;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
@@ -15,11 +14,11 @@ import org.jboss.seam.servlet.event.Started;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.runtime.adaptor.DataGeneratorProperty;
-import org.nakeduml.seam3.persistence.ApplicationScopedSession;
+import org.nakeduml.seam3.persistence.DependentScopedSession;
 
 public class StartDataGeneration {
 
-	@ApplicationScopedSession
+	@DependentScopedSession
 	@Inject
 	Session session;
 	@Inject

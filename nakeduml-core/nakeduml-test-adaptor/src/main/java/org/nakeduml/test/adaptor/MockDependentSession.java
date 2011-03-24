@@ -24,8 +24,10 @@ import org.hibernate.TypeHelper;
 import org.hibernate.UnknownProfileException;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
+import org.nakeduml.seam3.persistence.DependentScopedSession;
 
 @Alternative
+@DependentScopedSession
 public class MockDependentSession implements Session {
 
 	@Override

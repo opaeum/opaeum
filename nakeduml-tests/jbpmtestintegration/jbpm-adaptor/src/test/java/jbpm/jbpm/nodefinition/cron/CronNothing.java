@@ -11,12 +11,13 @@ import org.jboss.seam.scheduling.events.Event;
 import org.jboss.seam.scheduling.util.WebBeansManagerUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nakeduml.test.adaptor.AbstractCDITest;
+import org.nakeduml.environment.Environment;
+import org.nakeduml.test.adaptor.AbstractCdiTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-public class CronNothing extends AbstractCDITest {
+public class CronNothing extends AbstractCdiTest {
 
     private static final int MAX_TIME_TO_WAIT = 20000;
     private static final int SLEEP_TIME = 2000;
@@ -36,8 +37,7 @@ public class CronNothing extends AbstractCDITest {
     public void testScheduleDoesFire()
     {
         log.info("Testing shedule observer receiving events");
-        CronNothing cronTestBean = WebBeansManagerUtils.
-                getInstanceByType(manager, CronNothing.class);
+        CronNothing cronTestBean = Environment.getInstance().getComponent(CronNothing.class);
         Assert.assertTrue( cronTestBean.isScheduledEventObserved() == false );
         Assert.assertTrue( cronTestBean.isNamedEventObserved() == false );
         Assert.assertTrue( cronTestBean.isTypesafeEventObserved() == false );
