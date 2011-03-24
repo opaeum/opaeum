@@ -115,7 +115,7 @@ public class EmfWorkspace implements Element{
 			} else if (pkg==null) {
 				System.out.println("pkg==null");
 			} else if (pkg.getName()==null) {
-				System.out.println("pkg.getName()==null");
+				System.out.println("pkg.getName()==null " + fileString);
 			} else {
 				System.out.println("isRootObject(pkg) nullpointers");
 			}
