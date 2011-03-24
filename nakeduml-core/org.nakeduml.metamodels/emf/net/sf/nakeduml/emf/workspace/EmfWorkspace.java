@@ -113,7 +113,7 @@ public class EmfWorkspace implements Element{
 			if (fileString==null) {
 				System.out.println("fileString==null");
 			} else if (pkg==null) {
-				System.out.println("pkg==null");
+				System.out.println("pkg==null" + fileString);
 			} else if (pkg.getName()==null) {
 				System.out.println("pkg.getName()==null " + fileString);
 			} else {
