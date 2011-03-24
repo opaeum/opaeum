@@ -110,15 +110,6 @@ public class EmfWorkspace implements Element{
 		for(Resource r:resourceSet.getResources()){
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if (fileString==null) {
-				System.out.println("fileString==null");
-			} else if (pkg==null) {
-				System.out.println("pkg==null" + fileString);
-			} else if (pkg.getName()==null) {
-				System.out.println("pkg.getName()==null " + fileString);
-			} else {
-				System.out.println("isRootObject(pkg) nullpointers");
-			}
 			if(!fileString.contains("UML_METAMODELS")  && ! pkg.getName().equalsIgnoreCase("ecore") && isRootObject(pkg)){
 				result.add(pkg);
 			}
