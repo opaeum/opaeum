@@ -12,14 +12,33 @@ public class MockLogger extends Logger{
 	}
 	@Override
 	protected void doLog(Level level,String loggerClassName,Object message,Object[] parameters,Throwable thrown){
-		System.out.printf(level+": " +loggerClassName +": ");
-		System.out.printf(message.toString(), parameters);
+		String string = message.toString();
+		logImpl(level, loggerClassName, parameters, thrown, string);
+	}
+	private void logImpl(Level level,String loggerClassName,Object[] parameters,Throwable thrown,String string){
+		if(level==Level.ERROR){
+		System.out.printf(level + ": " + loggerClassName + ": ");
+		if(parameters != null && string != null){
+			for(int i = 0;i < parameters.length;i++){
+				Object object = parameters[i];
+				if(object != null){
+					string = string.replace("#" + i, object.toString());
+				}else{
+					string = string.replace("#" + i, "null");
+				}
+			}
+		}
+		System.out.print(string);
 		System.out.println();
+		if(thrown != null){
+			thrown.printStackTrace();
+		}else if(Level.ERROR==level){
+			Thread.dumpStack();
+		}
+		}
 	}
 	@Override
 	protected void doLogf(Level level,String loggerClassName,String format,Object[] parameters,Throwable thrown){
-		System.out.printf(level+": " +loggerClassName +": ");
-		System.out.printf(format.toString(), parameters);
-		System.out.println();
+		logImpl(level, loggerClassName, parameters, thrown, format);
 	}
 }

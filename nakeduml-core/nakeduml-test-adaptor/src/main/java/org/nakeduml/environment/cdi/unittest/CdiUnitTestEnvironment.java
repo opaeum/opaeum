@@ -80,10 +80,12 @@ public class CdiUnitTestEnvironment extends Environment{
 			T proxy = (T) proxyFactory.create(new Class<?>[]{}, new Object[]{}, new MethodHandler(){
 				@Override
 				public Object invoke(Object self,Method thisMethod,Method proceed,Object[] args) throws Throwable{
-					beforeRequest(component);
-					Object result = thisMethod.invoke(component, args);
-					afterRequest(component);
-					return result;
+					try{
+						beforeRequest(component);
+						return thisMethod.invoke(component, args);
+					}finally{
+						afterRequest(component);
+					}
 				}
 			});
 			afterRequest(object);
@@ -154,7 +156,10 @@ public class CdiUnitTestEnvironment extends Environment{
 		lifecycle.beginApplication();
 	}
 	public void afterRequest(Object component){
-		componentStack.pop();
+		Object pop = componentStack.pop();
+		if(pop != component){
+			throw new IllegalStateException("Expcected " + pop.getClass() + " but was given " + component.getClass());
+		}
 		if(componentStack.isEmpty()){
 			lifecycle.endRequest();
 			lifecycle.endSession();
