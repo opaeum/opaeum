@@ -43,6 +43,7 @@ import org.nakeduml.runtime.domain.AbstractEntity;
 
 @RequestScoped
 public class MockRequestSession implements Session{
+	
 	private final class SexyList<T> extends ArrayList<T>{
 		private SexyList(Collection c){
 			super(c);
@@ -73,6 +74,10 @@ public class MockRequestSession implements Session{
 	static Collection<MockQuery> mockQueries = new ArrayList<MockQuery>();
 	public static void addMockedQuery(MockQuery w){
 		mockQueries.add(w);
+	}
+	public static void reset(){
+		dirtyEntities.clear();
+		extents.clear();
 	}
 	public Collection<AbstractEntity> getExtent(String entityName){
 		Map<Long,AbstractEntity> map = extents.get(entityName);

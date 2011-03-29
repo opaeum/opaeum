@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Stack;
@@ -144,11 +145,15 @@ public class CdiUnitTestEnvironment extends Environment{
 	protected String getHibernateConfigName(){
 		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
 	}
-	public void initializeDeployment(Collection<URL> beansXmlFiles,final List<Class<?>> allBeansList,List<Class<? extends Object>> additionalWebBeans){
+	public void initializeDeployment(Collection<String> beansXmlFiles,final List<Class<?>> allBeansList){
 		jar = new MockBeanDeploymentArchive();
 		deployment = new MockDeployment(jar);
-		jar.setBeansXmlFiles(beansXmlFiles);
-		allBeansList.addAll(additionalWebBeans);
+		Collection<URL> result = new HashSet<URL>();
+		for(String string:beansXmlFiles){
+			result.add(Thread.currentThread().getContextClassLoader().getResource(string));
+		}
+
+		jar.setBeansXmlFiles(result);
 		jar.setBeanClasses(allBeansList);
 		lifecycle = new MockServletLifecycle(deployment, jar);
 		lifecycle.initialize();
