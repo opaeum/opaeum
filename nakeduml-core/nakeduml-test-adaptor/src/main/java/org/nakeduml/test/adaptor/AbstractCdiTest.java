@@ -12,6 +12,7 @@ import java.util.List;
 import org.jboss.weld.mock.MockServletLifecycle;
 import org.junit.Before;
 import org.nakeduml.environment.cdi.unittest.CdiUnitTestEnvironment;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 @Deprecated
 
 public abstract class AbstractCdiTest{
@@ -26,6 +27,9 @@ public abstract class AbstractCdiTest{
 	}
 	protected Collection<String> getBeansXmlResources(){
 		return Collections.EMPTY_LIST;
+	}
+	protected List<Class<?>> getClasses(String packageName){
+		return IntrospectionUtil.getClasses(packageName);
 	}
 	/**
 	 * Override in your tests to register specific beans with the manager.
