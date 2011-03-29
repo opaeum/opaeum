@@ -86,9 +86,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 				JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
 			}
 		}
-		if (complexType.getSubClasses().size() > 0) {
-			annotateInheritanceType(ojClass);
-		}
+		//All classes gets default strategy
+//		if (complexType.getSubClasses().size() > 0) {
+		annotateInheritanceType(ojClass);
+//		}
 		if (complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly()
 				|| complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()) {
 			OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
