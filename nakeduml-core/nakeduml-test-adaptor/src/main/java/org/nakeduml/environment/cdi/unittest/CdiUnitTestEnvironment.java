@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +37,9 @@ import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
+import org.nakeduml.test.adaptor.MockLogger;
+import org.nakeduml.test.adaptor.MockRequestSession;
+import org.nakeduml.test.adaptor.MockSeamTransaction;
 
 public class CdiUnitTestEnvironment extends Environment{
 	private MockTimeEventDispatcher timeEventDispatcher = new MockTimeEventDispatcher();
@@ -106,14 +110,23 @@ public class CdiUnitTestEnvironment extends Environment{
 	}
 	private Session getHibernateSession(){
 		if(this.hibernateSession == null){
-			if(this.sessionFactory == null){
+			getHibernateSessionFactory();
+			this.hibernateSession = getHibernateSessionFactory().openSession();
+		}
+		return this.hibernateSession;
+	}
+	public SessionFactory getHibernateSessionFactory(){
+		if(this.sessionFactory == null){
+			try{
 				Configuration hibernateConfiguration = new Configuration();
 				hibernateConfiguration.configure(getHibernateConfigName());
 				sessionFactory = hibernateConfiguration.buildSessionFactory();
+			}catch(Throwable e){
+				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
-			this.hibernateSession = sessionFactory.openSession();
 		}
-		return this.hibernateSession;
+		return sessionFactory;
 	}
 	public void reset(){
 		signalDispatcher.reset();
@@ -177,5 +190,8 @@ public class CdiUnitTestEnvironment extends Environment{
 			lifecycle.beginSession();
 		}
 		componentStack.push(component);
+	}
+	public static List<Class<?>> getMockClasses(){
+		return Arrays.asList(MockLogger.class, MockRequestSession.class, MockSeamTransaction.class);
 	}
 }
