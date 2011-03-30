@@ -235,6 +235,10 @@
 					<artifactId>hibernate-commons-annotations</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-annotations</artifactId>
+				</exclusion>
+				<exclusion>
 					<groupId>javax.persistence</groupId>
 					<artifactId>persistence-api</artifactId>
 				</exclusion>
