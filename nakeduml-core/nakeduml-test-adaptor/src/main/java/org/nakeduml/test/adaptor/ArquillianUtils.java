@@ -48,11 +48,17 @@ public class ArquillianUtils {
 		WebArchive war = ShrinkWrap.createDomain().getArchiveFactory().create(WebArchive.class, "test.war");
 		includeSeam(war);
 		includeJbpm(war);
+		includeNakedUml(war);
 		
 		if (includeEmptyBeansXml) {
 			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
 		}
 		return war;
+	}
+
+	private static void includeNakedUml(WebArchive war) {
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.NAKED_UML_ADAPTOR_RUNTIME));
+		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.NAKED_UML_DOMAIN_RUNTIME));
 	}
 
 	private static void includeJCommander(WebArchive war) {

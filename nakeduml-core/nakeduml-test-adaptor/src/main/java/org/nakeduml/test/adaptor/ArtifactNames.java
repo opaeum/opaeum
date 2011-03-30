@@ -2,6 +2,9 @@ package org.nakeduml.test.adaptor;
 
 public class ArtifactNames {
 	public static final String NAKED_UML_UTIL = "org.nakeduml:util";
+	public static final String NAKED_UML_ADAPTOR_RUNTIME = "org.nakeduml:nakeduml-runtime-adaptor";
+	public static final String NAKED_UML_DOMAIN_RUNTIME = "org.nakeduml:nakeduml-runtime-domain";
+	
 	public static final String JBPM_FLOW = "org.jbpm:jbpm-flow";
 	public static final String JBPM_FLOW_BUILDER = "org.jbpm:jbpm-flow-builder";
 	public static final String JBPM_BPMN2 = "org.jbpm:jbpm-bpmn2";

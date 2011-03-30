@@ -15,14 +15,18 @@ import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.profiles.INakedProfile;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.usecases.INakedActor;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -227,7 +231,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		getTestProcessClasses.getBody().addToStatements("Class[] result = new Class[classes.size()]");
 		getTestProcessClasses.getBody().addToStatements("classes.toArray(result)");
 		getTestProcessClasses.getBody().addToStatements("return result");
-		
+
 	}
 
 	private void addGetTestClassesOper(OJAnnotatedClass baseTest, Collection<INakedClassifier> collection) {
@@ -254,9 +258,14 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
 			getTestClasses.getBody().addToStatements(addClass);
 			if (!(c instanceof INakedEnumeration) && !(c instanceof INakedActor)) {
+				if (!(c instanceof INakedSignal) && !(c instanceof INakedInterface) && !c.getIsAbstract() && !(c instanceof INakedStateMachine) && !(c instanceof INakedDataType)) {
+					OJSimpleStatement addClassDataGenerator = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "DataGenerator.class)");
+					getTestClasses.getBody().addToStatements(addClassDataGenerator);
+				}
 				OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
 				getTestClasses.getBody().addToStatements(addAuditClass);
 			}
+
 		}
 		if (isIntegrationPhase) {
 			Collection<INakedRootObject> pro = workspace.getPrimaryRootObjects();
