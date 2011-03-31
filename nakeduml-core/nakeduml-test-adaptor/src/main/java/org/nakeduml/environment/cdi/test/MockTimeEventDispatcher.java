@@ -1,4 +1,4 @@
-package org.nakeduml.environment.cdi.unittest;
+package org.nakeduml.environment.cdi.test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;

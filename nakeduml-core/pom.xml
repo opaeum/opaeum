@@ -19,10 +19,10 @@
 		<module>org.nakeduml.ocl.java.generator</module>
 		<module>org.nakeduml.metamodels</module>
 		<module>org.nakeduml.java.generator</module>
+		<module>org.nakeduml.generators</module>
 		<module>nakeduml-runtime-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>
-		<module>org.nakeduml.generators</module>
 	</modules>
         
 	<dependencyManagement>

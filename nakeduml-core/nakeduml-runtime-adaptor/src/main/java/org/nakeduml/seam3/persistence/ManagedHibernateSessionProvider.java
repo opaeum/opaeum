@@ -23,7 +23,6 @@ package org.nakeduml.seam3.persistence;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -31,7 +30,6 @@ import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
 import org.jboss.seam.solder.core.ExtensionManaged;
-import org.jboss.seam.transaction.TransactionScoped;
 
 public class ManagedHibernateSessionProvider implements Serializable {
 

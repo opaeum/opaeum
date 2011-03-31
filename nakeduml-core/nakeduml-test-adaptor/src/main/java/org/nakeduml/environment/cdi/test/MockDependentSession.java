@@ -1,4 +1,4 @@
-package org.nakeduml.test.adaptor;
+package org.nakeduml.environment.cdi.test;
 
 import java.io.Serializable;
 import java.sql.Connection;

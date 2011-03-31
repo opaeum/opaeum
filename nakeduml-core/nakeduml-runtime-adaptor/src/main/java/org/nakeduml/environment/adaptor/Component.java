@@ -19,6 +19,9 @@ public class Component extends BeanManagerAware {
 	public <T> T getInstance(Class<T> type) {
 		BeanManager beanManager = getBeanManager();
         Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(type, DefaultLiteral.INSTANCE));
+        if(bean==null){
+        	throw new IllegalStateException(type + " is not deployed to CDI");
+        }
         CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
         return (T)beanManager.getReference(bean, type, ctx);
 	}

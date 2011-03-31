@@ -1,4 +1,4 @@
-package org.nakeduml.test.adaptor;
+package org.nakeduml.environment.cdi.test;
 
 import java.io.File;
 import java.net.URL;
@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.jboss.weld.mock.MockServletLifecycle;
 import org.junit.Before;
-import org.nakeduml.environment.cdi.unittest.CdiUnitTestEnvironment;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 @Deprecated
 
@@ -20,7 +19,7 @@ public abstract class AbstractCdiTest{
 	@Before
 	public void beforeClass() throws Throwable{
 		try{
-			CdiUnitTestEnvironment.getInstance().initializeDeployment(getBeansXmlResources(), getAdditionalWebBeans());
+			CdiTestEnvironment.getInstance().initializeDeployment(getBeansXmlResources(), getAdditionalWebBeans());
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}

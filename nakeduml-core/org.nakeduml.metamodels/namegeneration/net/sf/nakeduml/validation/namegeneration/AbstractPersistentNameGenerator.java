@@ -2,6 +2,7 @@ package net.sf.nakeduml.validation.namegeneration;
 import org.nakeduml.name.NameConverter;
 
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -49,12 +50,16 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 			generatedName = NameConverter.toUnderscoreStyle(ass.getName());
 		} else if (nme instanceof INakedTypedElement) {
 			INakedTypedElement tew = (INakedTypedElement) nme;
+			String name = tew.getName();
+			if(tew instanceof INakedOutputPin){
+				name="On" + tew.getOwnerElement().getName();//TO ensure uniqueness of name
+			}
 			if (tew.getNakedBaseType() instanceof INakedComplexStructure) {
 				// foreign key
 				// TODO re-evaluate the _id thing
-				generatedName = NameConverter.toUnderscoreStyle(tew.getName()) + "_id";
+				generatedName = NameConverter.toUnderscoreStyle(name) + "_id";
 			} else {
-				generatedName = NameConverter.toUnderscoreStyle(tew.getName());
+				generatedName = NameConverter.toUnderscoreStyle(name);
 			}
 		} else if (nme instanceof INakedEnumerationLiteral) {
 			INakedEnumerationLiteral nakedLiteral = ((INakedEnumerationLiteral) nme);
