@@ -1,4 +1,4 @@
-package org.nakeduml.test.adaptor;
+package org.nakeduml.environment.cdi.test;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -27,7 +27,7 @@ import org.hibernate.type.Type;
 public abstract class MockQuery implements Query{
 	private List<Object> parametersByIndex=new ArrayList<Object>();
 	protected Map<String,Object> parameterMap=new HashMap<String,Object>(); 
-	protected MockRequestSession session;
+	protected CdiTestHibernateSession session;
 	protected String queryString;
 	public abstract boolean useFor(String query);
 	@Override
@@ -46,7 +46,7 @@ public abstract class MockQuery implements Query{
 	public void setQueryString(String s){
 		this.queryString=s;
 	}
-	public void setSession(MockRequestSession session){
+	public void setSession(CdiTestHibernateSession session){
 		this.session=session;
 	}
 	@Override

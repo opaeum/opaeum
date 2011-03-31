@@ -92,4 +92,9 @@ public class DomainEnvironment extends Environment{
 	protected String getHibernateConfigName(){
 		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
 	}
+	@Override
+	public <T>Class<T> getImplementationClass(T o){
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

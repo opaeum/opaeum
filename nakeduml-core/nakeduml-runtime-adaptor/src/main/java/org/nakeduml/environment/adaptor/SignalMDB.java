@@ -41,10 +41,10 @@ public class SignalMDB implements MessageListener {
 			SignalToDispatch signalToDispatch = (SignalToDispatch) obj.getObject();
 			ActiveObject target = signalToDispatch.getTarget();
 			if (target instanceof AbstractEntity) {
-				processInTransaction(signalToDispatch, target);
+				processInTransaction(signalToDispatch);
 			} else {
 				signalToDispatch.prepareForDelivery(session);
-				target.processSignal(signalToDispatch.getSignal());
+				signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 			}
 			if (target instanceof AbstractUser) {
 				// TODO for all entities with an e-mail address, send the signal
@@ -55,11 +55,11 @@ public class SignalMDB implements MessageListener {
 		}
 	}
 
-	private void processInTransaction(SignalToDispatch signalToDispatch, ActiveObject target) {
+	private void processInTransaction(SignalToDispatch signalToDispatch) {
 		try {
 			transaction.begin();
 			signalToDispatch.prepareForDelivery(session);
-			target.processSignal(signalToDispatch.getSignal());
+			signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 			session.flush();
 			transaction.commit();
 		} catch (RuntimeException e) {

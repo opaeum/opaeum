@@ -98,7 +98,13 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setScope("provided");
 		//Clashes with slf4j in weld-core-test and weld-se
 		excludeSlf4j(dependency);
-		dependencies.add(dependency);
+		Dependency validation= POMFactory.eINSTANCE.createDependency();
+		validation.setGroupId("org.hibernate");
+		validation.setArtifactId("hibernate-validator");
+		validation.setVersion("4.0.0.GA");
+		validation.setType("jar");
+		validation.setScope("provided");
+		dependencies.add(validation);
 	}
 
 	protected void excludeSlf4j(Dependency dependency) {

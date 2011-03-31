@@ -9,131 +9,145 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.nakeduml.environment.Environment;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
-public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch {
+public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 	private static final long serialVersionUID = -2996390224218437999L;
-
-	public SignalToDispatch(Object source, ActiveObject target, AbstractSignal signal) {
+	public SignalToDispatch(Object source,ActiveObject target,AbstractSignal signal){
 		super(source, target, signal);
 	}
-
-	public void prepareForDispatch() {
-		try {
-			this.source = duplicateWithId(this.source);
-			this.target = (ActiveObject) duplicateWithId(this.target);
+	public void prepareForDispatch(){
+		try{
+			this.source = duplicate(this.source);
+			this.target = (ActiveObject) duplicate(this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
-			for (PropertyDescriptor pd : properties) {
-				if (pd.getWriteMethod() != null && pd.getReadMethod() != null) {
+			for(PropertyDescriptor pd:properties){
+				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
-					if (value instanceof ActiveObject) {
-						pd.getWriteMethod().invoke(signal, duplicateWithId((ActiveObject) value));
-					} else if (value instanceof Set<?>) {
-						copyCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
-					} else if (value instanceof List<?>) {
-						copyCollectionForDispatch(pd, new ArrayList<Object>(), (List<?>) value);
+					//TODO make recursive for dataobjects
+					if(value instanceof ActiveObject || value instanceof AbstractEntity){
+						Object duplicate = duplicate(value);
+						pd.getWriteMethod().invoke(signal, duplicate);
+						if(!pd.getWriteMethod().getParameterTypes()[0].isInstance(duplicate)){
+							System.out.println();
+						}
+					}else if(value instanceof Set<?>){
+						duplicateCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
+					}else if(value instanceof List<?>){
+						duplicateCollectionForDispatch(pd, new ArrayList<Object>(), (List<?>) value);
 					}
 				}
 			}
-		} catch (IllegalAccessException e) {
+		}catch(IllegalAccessException e){
 			throw new RuntimeException(e);
-		} catch (InvocationTargetException e) {
+		}catch(InvocationTargetException e){
 			throw new RuntimeException(e.getTargetException());
-		} catch (InstantiationException e) {
+		}catch(InstantiationException e){
 			throw new RuntimeException(e);
 		}
 	}
-
-	public void prepareForDelivery(Session session) {
-		try {
+	private Object duplicate(Object object) throws InstantiationException, IllegalAccessException{
+		if(object instanceof AbstractEntity){
+			return duplicateWithId((AbstractEntity) object);
+		}else if(object instanceof ActiveObject){
+			return duplicateImplementation((ActiveObject) object);
+		}else{
+			return object;
+		}
+	}
+	public void prepareForDelivery(Session session){
+		try{
 			this.source = resolve(session, this.source);
 			this.target = (ActiveObject) resolve(session, this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
-			for (PropertyDescriptor pd : properties) {
-				if (pd.getWriteMethod() != null && pd.getReadMethod() != null) {
+			for(PropertyDescriptor pd:properties){
+				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
-					if (value instanceof ActiveObject) {
-						pd.getWriteMethod().invoke(signal, resolve(session, (ActiveObject) value));
-					} else if (value instanceof Set<?>) {
+					if(value instanceof ActiveObject || value instanceof AbstractEntity){
+						pd.getWriteMethod().invoke(signal, resolve(session, value));
+					}else if(value instanceof Set<?>){
 						resolveCollectionOnDelivery(session, pd, new HashSet<Object>(), (Set<?>) value);
-					} else if (value instanceof List<?>) {
+					}else if(value instanceof List<?>){
 						resolveCollectionOnDelivery(session, pd, new ArrayList<Object>(), (List<?>) value);
 					}
 				}
 			}
-		} catch (IllegalAccessException e) {
+		}catch(IllegalAccessException e){
 			throw new RuntimeException(e);
-		} catch (InvocationTargetException e) {
+		}catch(InvocationTargetException e){
 			throw new RuntimeException(e.getTargetException());
-		} catch (InstantiationException e) {
+		}catch(InstantiationException e){
 			throw new RuntimeException(e);
 		}
 	}
-
-	private void resolveCollectionOnDelivery(Session em, PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
-			throws InstantiationException, IllegalAccessException, InvocationTargetException {
-		for (Object o : oldValue) {
-			if (o instanceof ActiveObject || o instanceof AbstractEntity) {
+	private void resolveCollectionOnDelivery(Session em,PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
+			IllegalAccessException,InvocationTargetException{
+		for(Object o:oldValue){
+			if(o instanceof ActiveObject || o instanceof AbstractEntity){
 				newValue.add(resolve(em, o));
-			} else {
+			}else{
 				newValue.add(o);
 			}
 		}
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
-
-	private Object resolve(Session em, Object ae) {
-		if (ae instanceof AbstractEntity) {
-			return em.get(ae.getClass(), ((AbstractEntity) ae).getId());
-		} else {
-			// TODO do dude
-			// Class<?> originalClass = IntrospectionUtil.getOriginalClass(ae);
-			// if (originalClass.isAnnotationPresent(Name.class)) {
-			// if (Contexts.isEventContextActive() ||
-			// Contexts.isApplicationContextActive()) {
-			// return
-			// Component.getInstance(originalClass.getAnnotation(Name.class).value());
-			// } else {
-			// return ae;
-			// }
-			// } else {
-			throw new IllegalStateException("Only jpa entities and seam components can receive signals");
-			// }
+	private Object resolve(Session em,Object ae){
+		if(ae instanceof AbstractEntity){
+			AbstractEntity enttity = (AbstractEntity) ae;
+			Object result = em.get(ae.getClass(), enttity.getId());
+			if(result == null){
+				throw new IllegalStateException(ae.getClass().getSimpleName() + ":" + enttity.getId() + " could not be found!");
+			}
+			return result;
+		}else if(ae instanceof ActiveObject){
+			Class<?> originalClass = IntrospectionUtil.getOriginalClass(ae);
+			if(originalClass == Object.class){
+				// Would have an interface
+				return Environment.getInstance().getComponent(ae.getClass().getInterfaces()[0]);
+			}else{
+				return Environment.getInstance().getComponent(originalClass);
+			}
+		}else{
+			return ae;
 		}
 	}
-
-	private void copyCollectionForDispatch(PropertyDescriptor pd, Collection<Object> newValue, Collection<?> oldValue)
-			throws InstantiationException, IllegalAccessException, InvocationTargetException {
-		for (Object o : oldValue) {
-			if (o instanceof ActiveObject) {
-				newValue.add(duplicateWithId((ActiveObject) o));
-			} else {
+	private void duplicateCollectionForDispatch(PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
+			IllegalAccessException,InvocationTargetException{
+		for(Object o:oldValue){
+			if(o instanceof AbstractEntity || o instanceof ActiveObject){
+				newValue.add(duplicate((AbstractEntity) o));
+			}else{
 				newValue.add(o);
 			}
 		}
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
-
-	private Object duplicateWithId(Object inputSource) throws InstantiationException, IllegalAccessException {
-		Object source = IntrospectionUtil.getOriginalClass(inputSource).newInstance();
-		if (source instanceof AbstractEntity) {
-			((AbstractEntity) source).setId(((AbstractEntity) inputSource).getId());
+	private Object duplicateWithId(AbstractEntity inputSource) throws InstantiationException,IllegalAccessException{
+		Class<AbstractEntity> implementationClass = IntrospectionUtil.getOriginalClass(inputSource);
+		AbstractEntity copy = implementationClass.newInstance();
+		if(inputSource.getId() == null){
+			throw new IllegalStateException("entity " + ((AbstractEntity) inputSource).getClass().getName() + " does not have an id");
 		}
+		copy.setId(inputSource.getId());
 		return source;
 	}
-
-	public AbstractSignal getSignal() {
+	private Object duplicateImplementation(ActiveObject inputSource) throws InstantiationException,IllegalAccessException{
+		Environment instance = Environment.getInstance();
+		Class<ActiveObject> implementationClass = instance.getImplementationClass(inputSource);
+		ActiveObject copy = implementationClass.newInstance();
+		return copy;
+	}
+	public AbstractSignal getSignal(){
 		return signal;
 	}
-
-	public Object getSource() {
+	public Object getSource(){
 		return source;
 	}
-
-	public ActiveObject getTarget() {
+	public ActiveObject getTarget(){
 		return target;
 	}
 }

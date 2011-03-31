@@ -84,6 +84,9 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			selfAndDependencies.add(model);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, true);
+			generateConfigAndEnvironment(selfAndDependencies, "standalone-" +hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, false);
+			HashMap<String, Object> vars = buildVars(selfAndDependencies, true);
+			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "standalone-"+hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, vars);
 		}
 	}
 

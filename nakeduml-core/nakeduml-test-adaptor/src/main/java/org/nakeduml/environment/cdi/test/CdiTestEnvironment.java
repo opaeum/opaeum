@@ -1,18 +1,18 @@
-package org.nakeduml.environment.cdi.unittest;
+package org.nakeduml.environment.cdi.test;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.ProxyFactory;
@@ -28,8 +28,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.jboss.seam.solder.literal.DefaultLiteral;
-import org.jboss.weld.Container;
-import org.jboss.weld.bootstrap.spi.BeanDeploymentArchive;
+import org.jboss.seam.transaction.literal.DefaultTransactionLiteral;
 import org.jboss.weld.manager.BeanManagerImpl;
 import org.jboss.weld.mock.MockBeanDeploymentArchive;
 import org.jboss.weld.mock.MockDeployment;
@@ -39,13 +38,12 @@ import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
-import org.nakeduml.test.adaptor.MockLogger;
-import org.nakeduml.test.adaptor.MockRequestSession;
-import org.nakeduml.test.adaptor.MockSeamTransaction;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.test.adaptor.CditTestLogger;
 
-public class CdiUnitTestEnvironment extends Environment{
+public class CdiTestEnvironment extends Environment{
 	private MockTimeEventDispatcher timeEventDispatcher = new MockTimeEventDispatcher();
-	private MockSignalDispatcher signalDispatcher = new MockSignalDispatcher();
+	private CdiTestSignalDispatcher signalDispatcher = new CdiTestSignalDispatcher();
 	private StatefulKnowledgeSession knowledgeSession;
 	private Session hibernateSession;
 	private SessionFactory sessionFactory;
@@ -54,11 +52,11 @@ public class CdiUnitTestEnvironment extends Environment{
 	private MockDeployment deployment;
 	private MockBeanDeploymentArchive jar;
 	private Stack<Object> componentStack = new Stack<Object>();
-	public static CdiUnitTestEnvironment getInstance(){
-		if(!(instance.get() instanceof CdiUnitTestEnvironment)){
-			instance.set(new CdiUnitTestEnvironment());
+	public static CdiTestEnvironment getInstance(){
+		if(!(instance.get() instanceof CdiTestEnvironment)){
+			instance.set(new CdiTestEnvironment());
 		}
-		return (CdiUnitTestEnvironment) instance.get();
+		return (CdiTestEnvironment) instance.get();
 	}
 	@Override
 	public <T>T getComponent(Class<T> clazz){
@@ -69,39 +67,19 @@ public class CdiUnitTestEnvironment extends Environment{
 	public <T>T getComponent(Class<T> clazz, Annotation qualifiers){
 		try{
 			if(clazz == ITimeEventDispatcher.class){
-				return (T) timeEventDispatcher;
+				return clazz.cast(timeEventDispatcher);
 			}else if(clazz == ISignalDispatcher.class){
-				return (T) signalDispatcher;
+				return clazz.cast(signalDispatcher);
 			}else if(clazz == StatefulKnowledgeSession.class){
-				return (T) getKnowledgeSession();
-			}else if(clazz == Session.class){
-				return (T) getHibernateSession();
-			}
-			Object object = new Object();
-			beforeRequest(object);
-			BeanManagerImpl beanManager = getBeanManager();
-			Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(clazz, qualifiers));
-			CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
-			final T component = (T) beanManager.getReference(bean, clazz, ctx);
-			ProxyFactory proxyFactory = new ProxyFactory();
-			if(clazz.isInterface()){
-				proxyFactory.setInterfaces(new Class<?>[]{clazz});
-			}else{
-				proxyFactory.setSuperclass(clazz);
-			}
-			T proxy = (T) proxyFactory.create(new Class<?>[]{}, new Object[]{}, new MethodHandler(){
-				@Override
-				public Object invoke(Object self,Method thisMethod,Method proceed,Object[] args) throws Throwable{
-					try{
-						beforeRequest(component);
-						return thisMethod.invoke(component, args);
-					}finally{
-						afterRequest(component);
-					}
+				if(resolveBean(Session.class, DefaultLiteral.INSTANCE) != null){
+					// Hibernate Session present - prepare JBPM appropriately
+					return clazz.cast(resolveBean(CdiTestJbpmKnowledgeSession.class, DefaultLiteral.INSTANCE).getKnowledgeSession());
+				}else{
+					// No Hibernate session, provide singleton knowledge session
+					return clazz.cast(getKnowledgeSession());
 				}
-			});
-			afterRequest(object);
-			return proxy;
+			}
+			return resolveAndWrapBean(clazz, qualifiers);
 		}catch(NoSuchMethodException e){
 			throw new RuntimeException(e);
 		}catch(InstantiationException e){
@@ -111,23 +89,59 @@ public class CdiUnitTestEnvironment extends Environment{
 		}catch(InvocationTargetException e){
 			throw new RuntimeException(e);
 		}
-	}	
+	}
+	private <T>T resolveAndWrapBean(Class<T> clazz,Annotation q) throws NoSuchMethodException,InstantiationException,IllegalAccessException,InvocationTargetException{
+		final T component = resolveBean(clazz, q);
+		if(component != null){
+			ProxyFactory proxyFactory = new ProxyFactory();
+			if(clazz.isInterface()){
+				proxyFactory.setInterfaces(new Class<?>[]{clazz});
+			}else{
+				proxyFactory.setSuperclass(clazz);
+			}
+			T proxy = clazz.cast(proxyFactory.create(new Class<?>[]{}, new Object[]{}, new MethodHandler(){
+				@Override
+				public Object invoke(Object self,Method thisMethod,Method proceed,Object[] args) throws Throwable{
+					if(!thisMethod.getName().equals("finalize")){
+						try{
+							beforeRequest(component);
+							return thisMethod.invoke(component, args);
+						}finally{
+							afterRequest(component);
+						}
+					}else{
+						return thisMethod.invoke(component, args);
+					}
+				}
+			}));
+			return proxy;
+		}else{
+			return null;
+		}
+	}
+	private <T>T resolveBean(Class<T> clazz,Annotation q){
+		BeanManagerImpl beanManager = getBeanManager();
+		Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(clazz, q));
+		CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
+		final T component;
+		if(bean != null){
+			component = (T) beanManager.getReference(bean, clazz, ctx);
+		}else{
+			component = null;
+		}
+		return component;
+	}
 	public BeanManagerImpl getBeanManager(){
 		return BeanManagerLocator.INSTANCE.locate();
-	}
-	private Session getHibernateSession(){
-		if(this.hibernateSession == null){
-			getHibernateSessionFactory();
-			this.hibernateSession = getHibernateSessionFactory().openSession();
-		}
-		return this.hibernateSession;
 	}
 	public SessionFactory getHibernateSessionFactory(){
 		if(this.sessionFactory == null){
 			try{
+				long start = System.currentTimeMillis();
 				Configuration hibernateConfiguration = new Configuration();
 				hibernateConfiguration.configure(getHibernateConfigName());
 				sessionFactory = hibernateConfiguration.buildSessionFactory();
+				System.out.println("Building session factory took " + (System.currentTimeMillis() - start) + "ms");
 			}catch(Throwable e){
 				e.printStackTrace();
 				throw new RuntimeException(e);
@@ -147,6 +161,8 @@ public class CdiUnitTestEnvironment extends Environment{
 	}
 	private StatefulKnowledgeSession getKnowledgeSession(){
 		if(this.knowledgeSession == null){
+			// TODO attach jbpm to whichever Hibernate session being used.
+			// TODO remember to mock the jbpm event query when using the mock hibernate session
 			if(this.abstractJbpmKnowledgeBase == null){
 				this.abstractJbpmKnowledgeBase = createJbpmKnowledgeBase();
 			}
@@ -163,7 +179,7 @@ public class CdiUnitTestEnvironment extends Environment{
 		return (AbstractJbpmKnowledgeBase) instantiateImplementation(JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
 	protected String getHibernateConfigName(){
-		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
+		return "standalone-" + loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
 	}
 	public void initializeDeployment(Collection<String> beansXmlFiles,final List<Class<?>> allBeansList){
 		jar = new MockBeanDeploymentArchive();
@@ -172,11 +188,9 @@ public class CdiUnitTestEnvironment extends Environment{
 		for(String string:beansXmlFiles){
 			result.add(Thread.currentThread().getContextClassLoader().getResource(string));
 		}
-
 		jar.setBeansXmlFiles(result);
 		jar.setBeanClasses(allBeansList);
 		lifecycle = new MockServletLifecycle(deployment, jar);
-		lifecycle.initialize();
 		lifecycle.initialize();
 		lifecycle.beginApplication();
 	}
@@ -186,6 +200,13 @@ public class CdiUnitTestEnvironment extends Environment{
 			throw new IllegalStateException("Expcected " + pop.getClass() + " but was given " + component.getClass());
 		}
 		if(componentStack.isEmpty()){
+			try{
+				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).commit();
+			}catch(RuntimeException e){
+				throw e;
+			}catch(Exception e){
+				throw new RuntimeException(e);
+			}
 			lifecycle.endRequest();
 			lifecycle.endSession();
 			getComponent(ISignalDispatcher.class).deliverAllPendingSignals();
@@ -193,12 +214,39 @@ public class CdiUnitTestEnvironment extends Environment{
 	}
 	public void beforeRequest(Object component){
 		if(this.componentStack.isEmpty()){
-			lifecycle.beginRequest();
 			lifecycle.beginSession();
+			lifecycle.beginRequest();
+			try{
+				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).begin();
+			}catch(RuntimeException e){
+				throw e;
+			}catch(Exception e){
+				throw new RuntimeException(e);
+			}
 		}
 		componentStack.push(component);
 	}
 	public static List<Class<?>> getMockClasses(){
-		return Arrays.asList(MockLogger.class, MockRequestSession.class, MockSeamTransaction.class);
+		return Arrays.asList(CditTestLogger.class, CdiTestHibernateSession.class, CdiTestSeamTransaction.class);
+	}
+	@Override
+	public <T>Class<T> getImplementationClass(T o){
+		if(!o.getClass().isSynthetic() && !o.getClass().getName().contains("$$")){
+			return (Class<T>) o.getClass();
+		}else{
+			Class<T> c = (Class<T>) IntrospectionUtil.getOriginalClass(o);
+			if(c == Object.class){
+				// injected by interface
+				BeanManagerImpl beanManager = getBeanManager();
+				Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(o.getClass().getInterfaces()[0], DefaultLiteral.INSTANCE));
+				Set<Type> types = bean.getTypes();
+				for(Type type:types){
+					if(type instanceof Class && !((Class<?>) type).isInterface() && type != Object.class){
+						return (Class<T>) type;
+					}
+				}
+			}
+			return c;
+		}
 	}
 }

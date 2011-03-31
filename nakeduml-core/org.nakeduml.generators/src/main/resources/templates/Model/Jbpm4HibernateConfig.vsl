@@ -7,17 +7,20 @@
 
 <hibernate-configuration>
 	<session-factory name="${workspace.directoryName}-hibernate-config">
-	    <property name="connection.datasource">${config.hibernateDSName}</property>   
 		<property name="hibernate.dialect">${config.jdbcDialect}</property>
-<!--		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>-->
-<!--		<property name="hibernate.connection.url">${config.DBConnectionUrl}</property>-->
-		<property name="hibernate.connection.username">${config.DBUsername}</property>
-		<property name="hibernate.connection.password">${config.DBPassword}</property>
+#if($isAdaptorEnvironment)
+	    <property name="connection.datasource">${config.hibernateDSName}</property>   
+		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+#else		
+		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>
+		<property name="hibernate.connection.url">jdbc:hsqldb:mem:${workspace.name}</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password"></property>
+#end		
 		<property name="hibernate.format_sql">false</property>
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
-		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
-		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 		
 
 #foreach($c in $persistentClasses)
@@ -32,6 +35,12 @@
 #end
 
 	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
+		<event type="flush-entity">
+			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
+		</event>
+		<event type="create">
+			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
+		</event>
 
 #if($isAdaptorEnvironment)
 #if($requiresAuditing)
@@ -48,12 +57,6 @@
 			<listener class="org.nakeduml.audit.AuditListener" />
 		</event>
 #end
-		<event type="flush-entity">
-			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
-		</event>
-		<event type="create">
-			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
-		</event>
 #end		
 	</session-factory>
 </hibernate-configuration>

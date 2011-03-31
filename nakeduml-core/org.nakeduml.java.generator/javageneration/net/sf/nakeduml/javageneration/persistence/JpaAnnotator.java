@@ -171,7 +171,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	@VisitBefore(matchSubclasses = true, match = { INakedOutputPin.class })
 	public void visitObjectNode(INakedOutputPin node) {
 		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
-			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node,true));
 		}
 	}
 

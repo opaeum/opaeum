@@ -19,6 +19,7 @@ public abstract class Environment {
 		}
 		return instance.get();
 	}
+	public abstract <T> Class<T> getImplementationClass(T o);
 
 	public static Object instantiateImplementation(String environmentImplementation) {
 		Object newInstance;

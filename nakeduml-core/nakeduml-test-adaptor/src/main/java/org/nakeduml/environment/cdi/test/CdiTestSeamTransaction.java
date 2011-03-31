@@ -1,6 +1,7 @@
-package org.nakeduml.test.adaptor;
+package org.nakeduml.environment.cdi.test;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -12,9 +13,12 @@ import javax.transaction.SystemException;
 
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
+import org.nakeduml.environment.Environment;
+import org.nakeduml.environment.adaptor.JbpmKnowledgeSession;
+
 @DefaultTransaction
 @RequestScoped
-public class MockSeamTransaction implements SeamTransaction{
+public class CdiTestSeamTransaction implements SeamTransaction{
 	int status = -1;
 	@Override
 	public void begin() throws NotSupportedException,SystemException{
@@ -23,9 +27,17 @@ public class MockSeamTransaction implements SeamTransaction{
 	@Override
 	public void commit() throws RollbackException,HeuristicMixedException,HeuristicRollbackException,SecurityException,IllegalStateException,SystemException{
 		status = Status.STATUS_COMMITTED;
+		resetJbpmKnowledgeSession();
+	}
+	private void resetJbpmKnowledgeSession(){
+		JbpmKnowledgeSession component = CdiTestEnvironment.getInstance().getComponent(JbpmKnowledgeSession.class);
+		if(component != null){
+			component.clear();
+		}
 	}
 	@Override
 	public void rollback() throws IllegalStateException,SecurityException,SystemException{
+		resetJbpmKnowledgeSession();
 		status = Status.STATUS_ROLLEDBACK;
 	}
 	@Override
@@ -57,7 +69,7 @@ public class MockSeamTransaction implements SeamTransaction{
 	}
 	@Override
 	public boolean isNoTransaction() throws SystemException{
-		return status==-1;
+		return status == -1;
 	}
 	@Override
 	public boolean isRolledBack() throws SystemException{

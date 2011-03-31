@@ -41,4 +41,9 @@ public class CdiEnvironment extends Environment {
 	public void reset() {
 		//Yikes, good luck
 	}
+
+	@Override
+	public <T>Class<T> getImplementationClass(T o){
+		return Component.INSTANCE.getImplementationClass(o);
+	}
 }
