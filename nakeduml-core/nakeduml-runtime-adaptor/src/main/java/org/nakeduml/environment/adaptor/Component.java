@@ -1,5 +1,7 @@
 package org.nakeduml.environment.adaptor;
 
+import java.lang.annotation.Annotation;
+
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
@@ -22,5 +24,13 @@ public class Component extends BeanManagerAware {
         CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
         return (T)beanManager.getReference(bean, type, ctx);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getInstance(Class<T> type, Annotation ... qualifiers) {
+		BeanManager beanManager = getBeanManager();
+        Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(type, qualifiers));
+        CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
+        return (T)beanManager.getReference(bean, type, ctx);
+	}	
 	
 }

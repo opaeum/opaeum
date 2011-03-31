@@ -39,11 +39,11 @@ public class SignalMDB implements MessageListener {
 		ObjectMessage obj = (ObjectMessage) message;
 		try {
 			SignalToDispatch signalToDispatch = (SignalToDispatch) obj.getObject();
-			signalToDispatch.prepareForDelivery(session);
 			ActiveObject target = signalToDispatch.getTarget();
 			if (target instanceof AbstractEntity) {
 				processInTransaction(signalToDispatch, target);
 			} else {
+				signalToDispatch.prepareForDelivery(session);
 				target.processSignal(signalToDispatch.getSignal());
 			}
 			if (target instanceof AbstractUser) {
@@ -58,10 +58,12 @@ public class SignalMDB implements MessageListener {
 	private void processInTransaction(SignalToDispatch signalToDispatch, ActiveObject target) {
 		try {
 			transaction.begin();
+			signalToDispatch.prepareForDelivery(session);
 			target.processSignal(signalToDispatch.getSignal());
 			session.flush();
 			transaction.commit();
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			throw e;
 		} catch (NotSupportedException e) {
 			throw new RuntimeException(e);

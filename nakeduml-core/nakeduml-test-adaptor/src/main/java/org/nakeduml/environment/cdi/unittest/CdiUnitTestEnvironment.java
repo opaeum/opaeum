@@ -1,5 +1,6 @@
 package org.nakeduml.environment.cdi.unittest;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,6 +19,7 @@ import javassist.util.proxy.ProxyFactory;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.util.AnnotationLiteral;
 
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentImpl;
@@ -60,6 +62,11 @@ public class CdiUnitTestEnvironment extends Environment{
 	}
 	@Override
 	public <T>T getComponent(Class<T> clazz){
+		return this.getComponent(clazz, DefaultLiteral.INSTANCE);
+	}
+	
+	@Override
+	public <T>T getComponent(Class<T> clazz, Annotation qualifiers){
 		try{
 			if(clazz == ITimeEventDispatcher.class){
 				return (T) timeEventDispatcher;
@@ -73,7 +80,7 @@ public class CdiUnitTestEnvironment extends Environment{
 			Object object = new Object();
 			beforeRequest(object);
 			BeanManagerImpl beanManager = getBeanManager();
-			Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(clazz, DefaultLiteral.INSTANCE));
+			Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(clazz, qualifiers));
 			CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
 			final T component = (T) beanManager.getReference(bean, clazz, ctx);
 			ProxyFactory proxyFactory = new ProxyFactory();
@@ -104,7 +111,7 @@ public class CdiUnitTestEnvironment extends Environment{
 		}catch(InvocationTargetException e){
 			throw new RuntimeException(e);
 		}
-	}
+	}	
 	public BeanManagerImpl getBeanManager(){
 		return BeanManagerLocator.INSTANCE.locate();
 	}

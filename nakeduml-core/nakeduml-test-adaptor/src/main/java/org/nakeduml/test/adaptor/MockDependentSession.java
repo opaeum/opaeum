@@ -2,6 +2,8 @@ package org.nakeduml.test.adaptor;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.enterprise.inject.Alternative;
 
@@ -30,6 +32,11 @@ import org.nakeduml.seam3.persistence.DependentScopedSession;
 @DependentScopedSession
 public class MockDependentSession implements Session {
 
+	static Collection<MockQuery> mockQueries = new ArrayList<MockQuery>();
+	public static void addMockedQuery(MockQuery w){
+		mockQueries.add(w);
+	}
+	
 	@Override
 	public EntityMode getEntityMode() {
 		// TODO Auto-generated method stub
