@@ -27,6 +27,6 @@ public class CdiEnvironment extends Environment {
 
 	@Override
 	public <T>Class<T> getImplementationClass(T o){
-		return null;
+		return Component.INSTANCE.getImplementationClass(o);
 	}
 }

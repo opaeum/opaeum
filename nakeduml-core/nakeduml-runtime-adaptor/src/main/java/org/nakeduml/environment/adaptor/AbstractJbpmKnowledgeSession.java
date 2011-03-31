@@ -2,6 +2,7 @@ package org.nakeduml.environment.adaptor;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -22,6 +23,7 @@ import org.hibernate.annotations.FlushModeType;
 import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 public class AbstractJbpmKnowledgeSession{
 	private static AbstractJbpmKnowledgeBase knowledgeBase;
@@ -62,6 +64,13 @@ public class AbstractJbpmKnowledgeSession{
 				Object obj = session.get(clazz, (Serializable) id);
 				return obj;
 			}
+			public void write(ObjectOutputStream os, Object object) throws IOException {
+			        
+			        
+		            os.writeUTF(IntrospectionUtil.getOriginalClass(object).getCanonicalName());
+		            os.writeObject(getClassIdValue(object));
+		       
+		    }
 		},new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT)});
 		return kbase.newStatefulKnowledgeSession(config, environment);
 	}

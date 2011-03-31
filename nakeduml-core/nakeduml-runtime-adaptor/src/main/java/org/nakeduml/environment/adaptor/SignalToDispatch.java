@@ -22,18 +22,23 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 	}
 	public void prepareForDispatch(){
 		try{
-			this.source = source == duplicateWithId(this.source);
-			this.target = (ActiveObject) duplicateWithId(this.target);
+			this.source = duplicate(this.source);
+			this.target = (ActiveObject) duplicate(this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
 			for(PropertyDescriptor pd:properties){
 				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
-					if(value instanceof ActiveObject){
-						pd.getWriteMethod().invoke(signal, duplicateWithId((ActiveObject) value));
+					//TODO make recursive for dataobjects
+					if(value instanceof ActiveObject || value instanceof AbstractEntity){
+						Object duplicate = duplicate(value);
+						pd.getWriteMethod().invoke(signal, duplicate);
+						if(!pd.getWriteMethod().getParameterTypes()[0].isInstance(duplicate)){
+							System.out.println();
+						}
 					}else if(value instanceof Set<?>){
-						copyCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
+						duplicateCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
 					}else if(value instanceof List<?>){
-						copyCollectionForDispatch(pd, new ArrayList<Object>(), (List<?>) value);
+						duplicateCollectionForDispatch(pd, new ArrayList<Object>(), (List<?>) value);
 					}
 				}
 			}
@@ -45,6 +50,15 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 			throw new RuntimeException(e);
 		}
 	}
+	private Object duplicate(Object object) throws InstantiationException, IllegalAccessException{
+		if(object instanceof AbstractEntity){
+			return duplicateWithId((AbstractEntity) object);
+		}else if(object instanceof ActiveObject){
+			return duplicateImplementation((ActiveObject) object);
+		}else{
+			return object;
+		}
+	}
 	public void prepareForDelivery(Session session){
 		try{
 			this.source = resolve(session, this.source);
@@ -53,8 +67,8 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 			for(PropertyDescriptor pd:properties){
 				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
-					if(value instanceof ActiveObject){
-						pd.getWriteMethod().invoke(signal, resolve(session, (ActiveObject) value));
+					if(value instanceof ActiveObject || value instanceof AbstractEntity){
+						pd.getWriteMethod().invoke(signal, resolve(session, value));
 					}else if(value instanceof Set<?>){
 						resolveCollectionOnDelivery(session, pd, new HashSet<Object>(), (Set<?>) value);
 					}else if(value instanceof List<?>){
@@ -85,7 +99,7 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 		if(ae instanceof AbstractEntity){
 			AbstractEntity enttity = (AbstractEntity) ae;
 			Object result = em.get(ae.getClass(), enttity.getId());
-			if(result==null){
+			if(result == null){
 				throw new IllegalStateException(ae.getClass().getSimpleName() + ":" + enttity.getId() + " could not be found!");
 			}
 			return result;
@@ -101,32 +115,31 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 			return ae;
 		}
 	}
-	private void copyCollectionForDispatch(PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
+	private void duplicateCollectionForDispatch(PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
 			IllegalAccessException,InvocationTargetException{
 		for(Object o:oldValue){
-			if(o instanceof ActiveObject){
-				newValue.add(duplicateWithId((ActiveObject) o));
+			if(o instanceof AbstractEntity || o instanceof ActiveObject){
+				newValue.add(duplicate((AbstractEntity) o));
 			}else{
 				newValue.add(o);
 			}
 		}
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
-	private Object duplicateWithId(Object inputSource) throws InstantiationException,IllegalAccessException{
-		if(inputSource instanceof ActiveObject){
-			ActiveObject source =Environment.getInstance().getImplementationClass((ActiveObject)inputSource).newInstance();
-			if(source instanceof AbstractEntity){
-				AbstractEntity entity = (AbstractEntity) inputSource;
-				if(entity.getId()==null){
-					throw new IllegalStateException("entity " + entity.getClass().getName() + " does not have an id");
-				}
-				((AbstractEntity) source).setId(entity.getId());
-				
-			}
-			return source;
-		}else{
-			return inputSource;
+	private Object duplicateWithId(AbstractEntity inputSource) throws InstantiationException,IllegalAccessException{
+		Class<AbstractEntity> implementationClass = IntrospectionUtil.getOriginalClass(inputSource);
+		AbstractEntity copy = implementationClass.newInstance();
+		if(inputSource.getId() == null){
+			throw new IllegalStateException("entity " + ((AbstractEntity) inputSource).getClass().getName() + " does not have an id");
 		}
+		copy.setId(inputSource.getId());
+		return source;
+	}
+	private Object duplicateImplementation(ActiveObject inputSource) throws InstantiationException,IllegalAccessException{
+		Environment instance = Environment.getInstance();
+		Class<ActiveObject> implementationClass = instance.getImplementationClass(inputSource);
+		ActiveObject copy = implementationClass.newInstance();
+		return copy;
 	}
 	public AbstractSignal getSignal(){
 		return signal;

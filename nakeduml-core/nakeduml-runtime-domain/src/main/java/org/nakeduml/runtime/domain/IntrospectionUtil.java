@@ -58,9 +58,9 @@ public class IntrospectionUtil{
 			throw new RuntimeException(e);
 		}
 	}
-	public static Class<?> getOriginalClass(Object target){
-		Class<?> c = target.getClass();
-		return getOriginalClass(c);
+	public static <T>  Class<T> getOriginalClass(T target){
+		Class<T> c = (Class<T>) target.getClass();
+		return (Class<T>) getOriginalClass(c);
 	}
 	public static <T>Class<? extends T> getOriginalClass(Class<? extends T> c){
 		while(c.getName().indexOf("$$") > -1 || c.isSynthetic()){
