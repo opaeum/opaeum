@@ -167,9 +167,15 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		createTestArchive.getBody().addToStatements("war.addClasses(getTestProcessClasses())");
 		createTestArchive.getBody().addToStatements("war.addWebResource(Environment.PROPERTIES_FILE_NAME, Environment.PROPERTIES_FILE_NAME)");
 		createTestArchive.getBody().addToStatements("war.addManifestResource(\"hornetq-jms.xml\")");
-		
-		createTestArchive.getBody().addToStatements("war.addPackage(IntrospectionUtil.classForName(\"" + HibernateUtil.getHibernatePackage(!this.isIntegrationPhase).toJavaString() +  ".package-info\").getPackage());");
-		
+
+		if (!isIntegrationPhase) {
+			createTestArchive.getBody().addToStatements(
+					"war.addPackage(IntrospectionUtil.classForName(\"" + HibernateUtil.getHibernatePackage(true).toJavaString()
+							+ ".package-info\").getPackage());");
+		} else {
+			createTestArchive.getBody().addToStatements(
+					"war.addPackage(IntrospectionUtil.classForName(\"com.rorotika.cm.util.hibernate.adaptor.package-info\").getPackage());");
+		}
 		dummyTest.addToImports("org.nakeduml.runtime.domain.IntrospectionUtil");
 		dummyTest.addToImports("org.nakeduml.environment.Environment");
 		createTestArchive.getBody().addToStatements("return war");
@@ -261,7 +267,8 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
 			getTestClasses.getBody().addToStatements(addClass);
 			if (!(c instanceof INakedEnumeration) && !(c instanceof INakedActor)) {
-				if (!(c instanceof INakedSignal) && !(c instanceof INakedInterface) && !c.getIsAbstract() && !(c instanceof INakedStateMachine) && !(c instanceof INakedDataType)) {
+				if (!(c instanceof INakedSignal) && !(c instanceof INakedInterface) && !c.getIsAbstract() && !(c instanceof INakedStateMachine)
+						&& !(c instanceof INakedDataType)) {
 					OJSimpleStatement addClassDataGenerator = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "DataGenerator.class)");
 					getTestClasses.getBody().addToStatements(addClassDataGenerator);
 				}
@@ -283,6 +290,18 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 			baseTest.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));
 			OJSimpleStatement addPackage = new OJSimpleStatement("classes.add(Stdlib.class)");
 			getTestClasses.getBody().addToStatements(addPackage);
+
+			Collection<INakedRootObject> modelInScope = getModelInScope();
+			for (INakedRootObject iNakedRootObject : modelInScope) {
+				if (iNakedRootObject instanceof INakedModel) {
+					OJPathName utilPath = calculateUtilPath(iNakedRootObject);
+					//TODO find out how this aught to be done
+					if (utilPath.getFirst().equals("com")) {
+						baseTest.addToImports(utilPath.append("Stdlib"));
+						getTestClasses.getBody().addToStatements("classes.add(" + utilPath.toJavaString() + ".class)");
+					}
+				}
+			}
 		}
 		OJSimpleStatement addPackage = new OJSimpleStatement("classes.add(NakedUmlTestUtil.class)");
 		getTestClasses.getBody().addToStatements(addPackage);

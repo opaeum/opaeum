@@ -19,8 +19,11 @@
 		<property name="hibernate.connection.password"></property>
 #end		
 		<property name="hibernate.format_sql">false</property>
-		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+#if($requiresAuditing)
+	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
+#end		
 		
 
 #foreach($c in $persistentClasses)
@@ -34,13 +37,6 @@
 		<mapping class="org.drools.persistence.info.WorkItemInfo" />
 #end
 
-	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
-		<event type="flush-entity">
-			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
-		</event>
-		<event type="create">
-			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
-		</event>
 
 #if($isAdaptorEnvironment)
 #if($requiresAuditing)
@@ -57,6 +53,13 @@
 			<listener class="org.nakeduml.audit.AuditListener" />
 		</event>
 #end
-#end		
+#end	
+		<event type="flush-entity">
+			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
+		</event>
+		<event type="create">
+			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
+		</event>
+	
 	</session-factory>
 </hibernate-configuration>
