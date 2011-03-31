@@ -31,10 +31,7 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 					//TODO make recursive for dataobjects
 					if(value instanceof ActiveObject || value instanceof AbstractEntity){
 						Object duplicate = duplicate(value);
-						pd.getWriteMethod().invoke(signal, duplicate);
-						if(!pd.getWriteMethod().getParameterTypes()[0].isInstance(duplicate)){
-							System.out.println();
-						}
+							pd.getWriteMethod().invoke(signal, duplicate);
 					}else if(value instanceof Set<?>){
 						duplicateCollectionForDispatch(pd, new HashSet<Object>(), (Set<?>) value);
 					}else if(value instanceof List<?>){
@@ -133,7 +130,7 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 			throw new IllegalStateException("entity " + ((AbstractEntity) inputSource).getClass().getName() + " does not have an id");
 		}
 		copy.setId(inputSource.getId());
-		return source;
+		return copy;
 	}
 	private Object duplicateImplementation(ActiveObject inputSource) throws InstantiationException,IllegalAccessException{
 		Environment instance = Environment.getInstance();
