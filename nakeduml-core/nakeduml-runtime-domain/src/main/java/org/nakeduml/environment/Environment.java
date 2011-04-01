@@ -1,6 +1,7 @@
 package org.nakeduml.environment;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Properties;
 
@@ -18,6 +19,7 @@ public abstract class Environment {
 		}
 		return instance.get();
 	}
+	public abstract <T> Class<T> getImplementationClass(T o);
 
 	public static Object instantiateImplementation(String environmentImplementation) {
 		Object newInstance;
@@ -50,5 +52,6 @@ public abstract class Environment {
 	}
 
 	public abstract <T> T getComponent(Class<T> clazz);
+	public abstract <T> T getComponent(Class<T> clazz, Annotation qualifiers);
 	public abstract void reset();
 }

@@ -16,19 +16,19 @@ import org.nakeduml.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 
 public class NakedUtilTestClasses {
 
-	public static Package[] getTestPackages() throws ClassNotFoundException, IOException {
-		List<Package> packages = new ArrayList<Package>();
-		packages.add(Environment.class.getPackage());
-		packages.add(AbstractEntity.class.getPackage());
-		packages.add(ManagedHibernateSessionFactoryProvider.class.getPackage());
-		packages.add(AuditSyncManager.class.getPackage());
-		packages.add(UmlProcessMarshaller.class.getPackage());
-		packages.add(PrePersistListener.class.getPackage());
-		packages.add(HibernateProcessPersistenceContext.class.getPackage());
-		packages.add(IntrospectionUtil.class.getPackage());
-		packages.add(DataGeneratorProperty.class.getPackage());
-		Package[] result = new Package[packages.size()];
-		packages.toArray(result);
+	public static Class<?>[] getTestClasses() throws ClassNotFoundException, IOException {
+		List<Class<?>> classes = new ArrayList<Class<?>>();
+		classes.add(Environment.class);
+		classes.add(AbstractEntity.class);
+		classes.add(ManagedHibernateSessionFactoryProvider.class);
+		classes.add(AuditSyncManager.class);
+		classes.add(UmlProcessMarshaller.class);
+		classes.add(PrePersistListener.class);
+		classes.add(HibernateProcessPersistenceContext.class);
+		classes.add(IntrospectionUtil.class);
+		classes.add(DataGeneratorProperty.class);
+		Class<?>[] result = new Class<?>[classes.size()];
+		classes.toArray(result);
 		return result;
 	}
 	

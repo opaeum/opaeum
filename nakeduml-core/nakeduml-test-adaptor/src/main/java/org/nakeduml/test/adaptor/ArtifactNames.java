@@ -2,6 +2,9 @@ package org.nakeduml.test.adaptor;
 
 public class ArtifactNames {
 	public static final String NAKED_UML_UTIL = "org.nakeduml:util";
+	public static final String NAKED_UML_ADAPTOR_RUNTIME = "org.nakeduml:nakeduml-runtime-adaptor";
+	public static final String NAKED_UML_DOMAIN_RUNTIME = "org.nakeduml:nakeduml-runtime-domain";
+	
 	public static final String JBPM_FLOW = "org.jbpm:jbpm-flow";
 	public static final String JBPM_FLOW_BUILDER = "org.jbpm:jbpm-flow-builder";
 	public static final String JBPM_BPMN2 = "org.jbpm:jbpm-bpmn2";
@@ -24,6 +27,11 @@ public class ArtifactNames {
 	public static final String SEAM_JMS_API = "org.jboss.seam.jms:seam-jms-api";
 	public static final String SEAM_JMS = "org.jboss.seam.jms:seam-jms";
 
+	public static final String SEAM_SCHEDULING = "org.jboss.seam:scheduling";
+
+	public static final String WELD_CORE_TEST = "org.jboss.weld:weld-core-test";
+	public static final String WELD_SE = "org.jboss.weld:weld-se";
+
 	public static final String HIBERNATE_SEARCH = "org.hibernate:hibernate-search";
 	public static final String LUCENE_CORE = "org.apache.lucene:lucene-core";
 	public static final String LUCENE_ANALYZERS = "org.apache.lucene:lucene-analyzers";
@@ -37,6 +45,5 @@ public class ArtifactNames {
 	public static final String COMMONS_NET = "commons-net:commons-net";
 	public static final String COMMONS_CONFIGURATION = "commons-configuration:commons-configuration";
 	public static final String JCRAFT_JSCH = "com.jcraft:jsch";
-	public static final String SEAM_SCHEDULING = "org.jboss.seam:scheduling";
 
 }

@@ -1,4 +1,4 @@
-package org.nakeduml.test.adaptor;
+package org.nakeduml.environment.cdi.test;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -39,43 +39,47 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
+import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.nakeduml.runtime.domain.AbstractEntity;
 
 @RequestScoped
-public class MockRequestSession implements Session{
+public class CdiTestHibernateSession implements Session{
 	private final class SexyList<T> extends ArrayList<T>{
-		private SexyList(Collection c){
+		private SexyList(Collection<T> c){
 			super(c);
 		}
 		@Override
 		public boolean add(T o){
-			if(o instanceof AbstractEntity && ((AbstractEntity) o).getId() ==null){
-				persist(o);
+			if(isIdNull(o)){
+				CdiTestEnvironment.getInstance().getComponent(CdiTestHibernateSession.class) .persist(o);
 			}
 			return super.add(o);
 		}
 	}
 	private final class SexySet<T> extends HashSet<T>{
-		private SexySet(Collection c){
+		private SexySet(Collection<T> c){
 			super(c);
 		}
 		@Override
 		public boolean add(T o){
-			if(o instanceof AbstractEntity && ((AbstractEntity) o).getId()==null){
-				persist(o);
+			if(isIdNull(o)){
+				CdiTestEnvironment.getInstance().getComponent(CdiTestHibernateSession.class) .persist(o);
 			}
 			return super.add(o);
 		}
 	}
 	static long currentId = 0;
-	static Map<String,Map<Long,AbstractEntity>> extents = new HashMap<String,Map<Long,AbstractEntity>>();
-	static Set<AbstractEntity> dirtyEntities = new HashSet<AbstractEntity>();
+	static Map<String,Map<Number,Object>> extents = new HashMap<String,Map<Number,Object>>();
+	Map<Number,Object> dirtyEntities = new HashMap<Number,Object>();
 	static Collection<MockQuery> mockQueries = new ArrayList<MockQuery>();
 	public static void addMockedQuery(MockQuery w){
 		mockQueries.add(w);
 	}
-	public Collection<AbstractEntity> getExtent(String entityName){
-		Map<Long,AbstractEntity> map = extents.get(entityName);
+	public static void reset(){
+		extents.clear();
+	}
+	public Collection<Object> getExtent(String entityName){
+		Map<Number,Object> map = extents.get(entityName);
 		if(map == null){
 			return Collections.emptyList();
 		}else{
@@ -84,18 +88,19 @@ public class MockRequestSession implements Session{
 	}
 	@Override
 	public void persist(Object object) throws HibernateException{
-		dirtyEntities.add((AbstractEntity) object);
-		putEntityAndDescendants((AbstractEntity) object);
+		long id = currentId++;
+		setId(object, id);
+		dirtyEntities.put(id, object);
 	}
-	private void putEntityAndDescendants(AbstractEntity object){
+	private void putEntityAndDescendants(Object object){
 		attachEntity(object);
 		Class<?> class1 = object.getClass();
-		while(AbstractEntity.class.isAssignableFrom(class1)){
-			persistDeclaredFields(object, (Class<? extends AbstractEntity>) class1);
+		while(isSupportedEntity(class1)){
+			persistDeclaredFields(object, class1);
 			class1 = class1.getSuperclass();
 		}
 	}
-	private void persistDeclaredFields(AbstractEntity object,Class<? extends AbstractEntity> class1){
+	private void persistDeclaredFields(Object object,Class<?> class1){
 		Field[] fields = class1.getDeclaredFields();
 		for(Field field:fields){
 			if(isPersistCascaded(field)){
@@ -125,16 +130,23 @@ public class MockRequestSession implements Session{
 		}
 		return shouldPersistField;
 	}
-	private void attachEntity(AbstractEntity e){
-		if(e.getId() == null){
-			e.setId(currentId++);
-		}
-		Map<Long,AbstractEntity> map = extents.get(getEntityName(e));
+	private void attachEntity(Object e){
+		Map<Number,Object> map = extents.get(getEntityName(e));
 		if(map == null){
-			map = new HashMap<Long,AbstractEntity>();
+			map = new HashMap<Number,Object>();
 			extents.put(getEntityName(e), map);
 		}
-		map.put(e.getId(), e);
+		if(isIdNull(e)){
+			setId(e, currentId++);
+		}
+		map.put(getId(e), e);
+	}
+	private void setId(Object e,long id){
+		if(e instanceof AbstractEntity){
+			((AbstractEntity) e).setId(id);
+		}else if(e instanceof ProcessInstanceInfo){
+			((ProcessInstanceInfo) e).setId(id);
+		}
 	}
 	private boolean shouldPersist(javax.persistence.CascadeType[] cascade){
 		for(javax.persistence.CascadeType cascadeType:cascade){
@@ -158,25 +170,39 @@ public class MockRequestSession implements Session{
 		try{
 			field.setAccessible(true);
 			Object child = field.get(object);
-			if(child instanceof AbstractEntity){
-				putEntityAndDescendants((AbstractEntity) child);
+			if(child != null && isSupportedEntity(child.getClass())){
+				putEntityAndDescendants(child);
 			}
-			if(child instanceof List){
-				field.set(object, new SexyList((Collection) child));
-			}else if(child instanceof Set){
-				field.set(object, new SexySet((Collection) child));
+			if(!(child instanceof SexyList || child instanceof SexySet)){
+				if(child instanceof List){
+					field.set(object, new SexyList((Collection<?>) child));
+				}else if(child instanceof Set){
+					field.set(object, new SexySet((Collection<?>) child));
+				}
+				if(child instanceof Collection){
+					Collection<?> children = (Collection<?>) child;
+					for(Object currentChild:children){
+						if(isSupportedEntity(currentChild.getClass())){
+							putEntityAndDescendants(currentChild);
+						}
+					}
+				}
 			}
 			return child;
 		}catch(IllegalAccessException e1){
 			throw new RuntimeException(e1);
 		}
 	}
-	private String getEntityName(AbstractEntity e){
-		Class<? extends AbstractEntity> class1 = e.getClass();
-		return getEntityName(class1);
+	private boolean isSupportedEntity(Class<?> child){
+		return AbstractEntity.class.isAssignableFrom(child) || ProcessInstanceInfo.class.isAssignableFrom(child);
 	}
 	public String getEntityName(Class<?> class1){
-		return class1.getAnnotation(Entity.class).name();
+		Entity entity = class1.getAnnotation(Entity.class);
+		if(entity == null || class1.getAnnotation(Entity.class).name().isEmpty()){
+			return class1.getSimpleName();
+		}else{
+			return class1.getAnnotation(Entity.class).name();
+		}
 	}
 	@Override
 	public Query createQuery(String queryString) throws HibernateException{
@@ -200,33 +226,45 @@ public class MockRequestSession implements Session{
 	@Override
 	public void flush() throws HibernateException{
 		long start = System.currentTimeMillis();
-		for(AbstractEntity abstractEntity:new HashSet<AbstractEntity>( dirtyEntities)){
-			Class<?> class1 = abstractEntity.getClass();
-			while(AbstractEntity.class.isAssignableFrom(class1)){
-				updateOneToOnes(abstractEntity, (Class<? extends AbstractEntity>) class1);
-				class1 = class1.getSuperclass();
-			}
+		for(Object obj:new HashSet<Object>(dirtyEntities.values())){
+			putEntityAndDescendants(obj);
+			// Class<?> class1 = obj.getClass();
+			// while(isSupportedEntity(class1)){
+			// updateOneToOnes(obj, class1);
+			// class1 = class1.getSuperclass();
+			// }
 		}
 		dirtyEntities.clear();
-		System.out.println("MockRequestSession.flush() took " + (System.currentTimeMillis() - start) + "ms");
 	}
-	private void updateOneToOnes(AbstractEntity abstractEntity,Class<? extends AbstractEntity> class1){
-		try{
-			for(Field field:class1.getDeclaredFields()){
-				if(AbstractEntity.class.isAssignableFrom(field.getType())){
-					if(isPersistCascaded(field)){
-						field.setAccessible(true);
-						AbstractEntity child = (AbstractEntity) field.get(abstractEntity);
-						if(child != null && child.getId() == null){
-							persist(child);
-						}
-					}
-				}
-			}
-		}catch(IllegalAccessException e){
-			throw new RuntimeException(e);
+	private boolean isIdNull(Object abstractEntity){
+		return getId(abstractEntity) == null;
+	}
+	private Number getId(Object abstractEntity){
+		Number id = null;
+		if(abstractEntity instanceof AbstractEntity){
+			id = ((AbstractEntity) abstractEntity).getId();
+		}else if(abstractEntity instanceof ProcessInstanceInfo){
+			id = ((ProcessInstanceInfo) abstractEntity).getId();
 		}
+		return id;
 	}
+	// private void updateOneToOnes(Object object,Class<?> class1){
+	// try{
+	// for(Field field:class1.getDeclaredFields()){
+	// if(isSupportedEntity(field.getType())){
+	// if(isPersistCascaded(field)){
+	// field.setAccessible(true);
+	// Object child = field.get(object);
+	// if(isIdNull(child)){
+	// persist(child);
+	// }
+	// }
+	// }
+	// }
+	// }catch(IllegalAccessException e){
+	// throw new RuntimeException(e);
+	// }
+	// }
 	@Override
 	public void setFlushMode(FlushMode flushMode){
 	}
@@ -321,7 +359,7 @@ public class MockRequestSession implements Session{
 	@Override
 	public Serializable save(Object object) throws HibernateException{
 		persist(object);
-		return ((AbstractEntity) object).getId();
+		return getId(object);
 	}
 	@Override
 	public Serializable save(String entityName,Object object) throws HibernateException{
@@ -358,7 +396,7 @@ public class MockRequestSession implements Session{
 	}
 	@Override
 	public void delete(Object object) throws HibernateException{
-		// TODO Auto-generated method stub
+		extents.get(getEntityName(object)).remove(getId(object));
 	}
 	@Override
 	public void delete(String entityName,Object object) throws HibernateException{
@@ -443,11 +481,14 @@ public class MockRequestSession implements Session{
 	}
 	@Override
 	public Object get(String entityName,Serializable id) throws HibernateException{
-		Map<Long,AbstractEntity> map = extents.get(entityName);
+		if(dirtyEntities.containsKey(id)){
+			return dirtyEntities.get(id);
+		}
+		Map<Number,Object> map = extents.get(entityName);
 		if(map != null){
-			AbstractEntity abstractEntity = map.get(id);
+			Object abstractEntity = map.get(id);
 			if(abstractEntity != null){
-				dirtyEntities.add(abstractEntity);
+				dirtyEntities.put(getId(abstractEntity), abstractEntity);
 			}
 			return abstractEntity;
 		}else{
@@ -460,7 +501,7 @@ public class MockRequestSession implements Session{
 	}
 	@Override
 	public String getEntityName(Object object) throws HibernateException{
-		return getEntityName((AbstractEntity) object);
+		return getEntityName(object.getClass());
 	}
 	@Override
 	public Filter enableFilter(String filterName){
@@ -547,7 +588,7 @@ public class MockRequestSession implements Session{
 	public LobHelper getLobHelper(){
 		return null;
 	}
-	public Collection<AbstractEntity> getExtent(Class<?> class1){
-		return getExtent(getEntityName(class1));
+	public <T>Collection<T> getExtent(Class<T> class1){
+		return (Collection<T>) getExtent(getEntityName(class1));
 	}
 }

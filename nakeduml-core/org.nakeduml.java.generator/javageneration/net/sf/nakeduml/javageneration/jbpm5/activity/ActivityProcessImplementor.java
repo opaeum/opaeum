@@ -127,6 +127,7 @@ public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
 		init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
 		copyDefaultConstructor(activityClass, init);
 		init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
+		init.getBody().addToStatements("((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true)");
 	}
 	private void copyDefaultConstructor(OJAnnotatedClass activityClass, OJAnnotatedOperation init) {
 		init.setBody(activityClass.getDefaultConstructor().getBody());

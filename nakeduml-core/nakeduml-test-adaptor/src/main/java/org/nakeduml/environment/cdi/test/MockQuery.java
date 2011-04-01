@@ -1,4 +1,4 @@
-package org.nakeduml.test.adaptor;
+package org.nakeduml.environment.cdi.test;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,16 +26,27 @@ import org.hibernate.type.Type;
 
 public abstract class MockQuery implements Query{
 	private List<Object> parametersByIndex=new ArrayList<Object>();
-	private Map<String,Object> parameterMap=new HashMap<String,Object>(); 
-	protected MockRequestSession session;
+	protected Map<String,Object> parameterMap=new HashMap<String,Object>(); 
+	protected CdiTestHibernateSession session;
 	protected String queryString;
 	public abstract boolean useFor(String query);
 	@Override
 	public abstract List<Object> list() throws HibernateException;
+	protected String getPrimaryEntityName(){
+		String[] words = queryString.split(" ");
+		String entityName = "";
+		for(int i = 0;i < words.length;i++){
+			if(words[i].equals("from")){
+				entityName = words[i + 1];
+			}
+		}
+		return entityName;
+	}
+
 	public void setQueryString(String s){
 		this.queryString=s;
 	}
-	public void setSession(MockRequestSession session){
+	public void setSession(CdiTestHibernateSession session){
 		this.session=session;
 	}
 	@Override

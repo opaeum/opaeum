@@ -1,5 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -34,7 +36,10 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	}
 	@Override
 	public Plugin[] getPlugins(){
-		return super.getPlugins();
+		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
+		Plugin sureFire = addSurefire();	
+		result.add(sureFire);
+		return (Plugin[]) result.toArray(new Plugin[result.size()]);
 	}
 	@Override
 	protected OutputRoot getExampleTargetDir(){

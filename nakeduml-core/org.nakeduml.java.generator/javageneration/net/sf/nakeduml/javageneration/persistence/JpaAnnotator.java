@@ -86,9 +86,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 				JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
 			}
 		}
-		if (complexType.getSubClasses().size() > 0) {
-			annotateInheritanceType(ojClass);
-		}
+		//All classes gets default strategy
+//		if (complexType.getSubClasses().size() > 0) {
+		annotateInheritanceType(ojClass);
+//		}
 		if (complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly()
 				|| complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()) {
 			OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
@@ -170,7 +171,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 	@VisitBefore(matchSubclasses = true, match = { INakedOutputPin.class })
 	public void visitObjectNode(INakedOutputPin node) {
 		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
-			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node,true));
 		}
 	}
 

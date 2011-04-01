@@ -1,5 +1,6 @@
 package org.nakeduml.environment.domain;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -45,6 +46,10 @@ public class DomainEnvironment extends Environment{
 		}
 		return (T) components.get(clazz.getName());
 	}
+	@Override
+	public <T>T getComponent(Class<T> clazz, Annotation qualifiers){
+		throw new IllegalArgumentException("Qualifiers is not yet supported in the domain environment");
+	}	
 	private Session getHibernateSession(){
 		if(this.hibernateSession == null){
 			if(this.sessionFactory == null){
@@ -86,5 +91,10 @@ public class DomainEnvironment extends Environment{
 	}
 	protected String getHibernateConfigName(){
 		return loadProperties().getProperty(HIBERNATE_CONFIG_NAME);
+	}
+	@Override
+	public <T>Class<T> getImplementationClass(T o){
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

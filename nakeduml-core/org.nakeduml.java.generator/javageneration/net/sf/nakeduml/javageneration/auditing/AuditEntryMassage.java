@@ -297,6 +297,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 					addOriginalNamedQueryWithStartEndDate(auditClass, c);
 					// implementAudited(c, auditClass);
 					removeDeletedOnFilter(auditClass);
+//					makeDeletedOnInsertableFalse(auditClass);
 					// remove uniqueConstraints
 					OJAnnotationValue table = auditClass.findAnnotation(new OJPathName("javax.persistence.Table"));
 					table.removeAttribute("uniqueConstraints");
@@ -328,6 +329,12 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 			}
 		}
 		massageBehaviorLogic(c, auditClass);
+	}
+	private void makeDeletedOnInsertableFalse(OJAnnotatedClass auditClass) {
+		OJAnnotatedField deletedOn = (OJAnnotatedField) auditClass.findField("deletedOn");
+		OJAnnotationValue column = deletedOn.findAnnotation(new OJPathName("javax.persistence.Column"));
+		column.putAttribute("insertable", false);
+		column.putAttribute("updatable", false);
 	}
 	private void massageBehaviorLogic(INakedClassifier c,OJAnnotatedClass auditClass){
 		if(c instanceof INakedBehavior){

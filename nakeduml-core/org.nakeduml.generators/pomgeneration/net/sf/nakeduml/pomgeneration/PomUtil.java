@@ -256,7 +256,6 @@ public class PomUtil {
 				for (FeatureMap.Entry fe : resource.getAny()) {
 					if (fe.getEStructuralFeature().getName().equals("directory")) {
 						AnyType directory = (AnyType) fe.getValue();
-						// TODO test this assumption
 						if (directory.getMixed().get(0).getValue().equals(sf.getRelativePath())) {
 							hasPathEntry = true;
 							break outer;

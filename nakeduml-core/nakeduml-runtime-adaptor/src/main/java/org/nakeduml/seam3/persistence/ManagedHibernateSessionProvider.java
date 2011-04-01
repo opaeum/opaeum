@@ -23,7 +23,6 @@ package org.nakeduml.seam3.persistence;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -43,7 +42,7 @@ public class ManagedHibernateSessionProvider implements Serializable {
 	@RequestScoped
 	@Produces
 	@ExtensionManaged
-	public SessionFactory createSessionFactory() {
+	public SessionFactory createSessionFactory1() {
 		return managedHibernateSessionFactoryProvider.getSessionFactory();
 	}
 	@DependentScopedSession
@@ -53,4 +52,12 @@ public class ManagedHibernateSessionProvider implements Serializable {
 	public SessionFactory createSessionFactory2() {
 		return managedHibernateSessionFactoryProvider.getSessionFactory();
 	}
+	@TransactionScopedSession
+	@Produces
+	@ExtensionManaged
+	@TransactionScoped
+	public SessionFactory createSessionFactory3() {
+		return managedHibernateSessionFactoryProvider.getSessionFactory();
+	}
+	
 }
