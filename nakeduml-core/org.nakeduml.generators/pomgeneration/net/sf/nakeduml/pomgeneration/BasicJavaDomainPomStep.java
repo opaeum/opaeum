@@ -12,7 +12,6 @@ import net.sf.nakeduml.javageneration.JavaTextSource;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
-import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = {},before = {},after = {},phase = PomGenerationPhase.class)
 public class BasicJavaDomainPomStep extends PomGenerationStep{
@@ -40,9 +39,6 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	public Plugin[] getPlugins(){
 		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
 		Plugin sureFire = addSurefire();	
-		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");
-		//TODO remove 
-		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*LoadProcessTest.java");
 		result.add(sureFire);
 		return (Plugin[]) result.toArray(new Plugin[result.size()]);
 	}

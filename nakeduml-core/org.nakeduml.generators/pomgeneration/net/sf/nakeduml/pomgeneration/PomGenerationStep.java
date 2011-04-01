@@ -354,12 +354,9 @@ public abstract class PomGenerationStep implements TransformationStep {
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 
 		AnyType excludes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "excludes");
-		//TODO make none
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
-		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
 		AnyType includes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "includes");
 		PomUtil.addAnyElementWithContent(includes.getAny(), "include", "**/*IntegrationTest.java");
-
 		
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
