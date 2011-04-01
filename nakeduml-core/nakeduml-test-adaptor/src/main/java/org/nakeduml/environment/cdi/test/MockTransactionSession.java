@@ -30,7 +30,7 @@ import org.nakeduml.seam3.persistence.DependentScopedSession;
 
 @Alternative
 @DependentScopedSession
-public class MockDependentSession implements Session {
+public class MockTransactionSession implements Session {
 
 	static Collection<MockQuery> mockQueries = new ArrayList<MockQuery>();
 	public static void addMockedQuery(MockQuery w){

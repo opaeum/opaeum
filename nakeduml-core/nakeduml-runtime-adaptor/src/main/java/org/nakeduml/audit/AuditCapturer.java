@@ -18,13 +18,13 @@ import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.RevisionEntity;
-import org.nakeduml.seam3.persistence.DependentScopedSession;
+import org.nakeduml.seam3.persistence.TransactionScopedSession;
 
 @TransactionAttribute
 public class AuditCapturer {
 
 	@Inject
-	@DependentScopedSession
+	@TransactionScopedSession
 	private Session session;
 	public void persistAudit(AbstractWorkUnit workUnit) {
 		session.setFlushMode(FlushMode.COMMIT);

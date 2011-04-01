@@ -1,5 +1,6 @@
 package org.nakeduml.environment.adaptor;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Set;
 
@@ -45,4 +46,12 @@ public class Component extends BeanManagerAware{
 			return c;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getInstance(Class<T> type, Annotation ... qualifiers) {
+		BeanManager beanManager = getBeanManager();
+        Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(type, qualifiers));
+        CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
+        return (T)beanManager.getReference(bean, type, ctx);
+	}	
 }

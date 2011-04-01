@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
 import org.jboss.seam.solder.core.ExtensionManaged;
+import org.jboss.seam.transaction.TransactionScoped;
 
 public class ManagedHibernateSessionProvider implements Serializable {
 
@@ -41,7 +42,7 @@ public class ManagedHibernateSessionProvider implements Serializable {
 	@RequestScoped
 	@Produces
 	@ExtensionManaged
-	public SessionFactory createSessionFactory() {
+	public SessionFactory createSessionFactory1() {
 		return managedHibernateSessionFactoryProvider.getSessionFactory();
 	}
 	@DependentScopedSession
@@ -51,4 +52,12 @@ public class ManagedHibernateSessionProvider implements Serializable {
 	public SessionFactory createSessionFactory2() {
 		return managedHibernateSessionFactoryProvider.getSessionFactory();
 	}
+	@TransactionScopedSession
+	@Produces
+	@ExtensionManaged
+	@TransactionScoped
+	public SessionFactory createSessionFactory3() {
+		return managedHibernateSessionFactoryProvider.getSessionFactory();
+	}
+	
 }

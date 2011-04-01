@@ -1,6 +1,7 @@
 package org.nakeduml.environment.cdi.test;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -18,6 +19,7 @@ import javassist.util.proxy.ProxyFactory;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.util.AnnotationLiteral;
 
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentImpl;
@@ -58,6 +60,11 @@ public class CdiTestEnvironment extends Environment{
 	}
 	@Override
 	public <T>T getComponent(Class<T> clazz){
+		return this.getComponent(clazz, DefaultLiteral.INSTANCE);
+	}
+	
+	@Override
+	public <T>T getComponent(Class<T> clazz, Annotation qualifiers){
 		try{
 			if(clazz == ITimeEventDispatcher.class){
 				return clazz.cast(timeEventDispatcher);
@@ -72,7 +79,7 @@ public class CdiTestEnvironment extends Environment{
 					return clazz.cast(getKnowledgeSession());
 				}
 			}
-			return resolveAndWrapBean(clazz, DefaultLiteral.INSTANCE);
+			return resolveAndWrapBean(clazz, qualifiers);
 		}catch(NoSuchMethodException e){
 			throw new RuntimeException(e);
 		}catch(InstantiationException e){
