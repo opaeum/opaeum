@@ -13,16 +13,17 @@ import javax.jms.XAConnection;
 import javax.jms.XAConnectionFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
+import org.jboss.seam.transaction.TransactionScoped;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
 
+@TransactionScoped
 public class SignalDispatcher implements ISignalDispatcher{
 	@Inject
 	@DefaultTransaction
@@ -83,7 +84,7 @@ public class SignalDispatcher implements ISignalDispatcher{
 				Queue queue = (Queue) initialContext.lookup("queue/SignalQueue");
 				XAConnectionFactory cf = (XAConnectionFactory) initialContext.lookup("/ConnectionFactory");
 				XAConnection connection = cf.createXAConnection();
-				Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+				Session session = connection.createSession(false, Session.SESSION_TRANSACTED);
 				MessageProducer producer = session.createProducer(queue);
 				for(SignalToDispatch s:signalsToDispatch){
 					s.prepareForDispatch();

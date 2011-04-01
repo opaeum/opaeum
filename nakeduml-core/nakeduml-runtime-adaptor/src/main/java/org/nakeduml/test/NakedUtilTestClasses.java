@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.nakeduml.audit.AuditSyncManager;
 import org.nakeduml.environment.Environment;
-import org.nakeduml.hibernate.adaptor.PrePersistListener;
+import org.nakeduml.hibernate.domain.PrePersistListener;
 import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
 import org.nakeduml.runtime.adaptor.DataGeneratorProperty;

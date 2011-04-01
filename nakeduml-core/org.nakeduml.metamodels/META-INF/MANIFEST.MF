@@ -7,14 +7,13 @@ Bundle-Activator:
 Require-Bundle: org.eclipse.uml2.uml,
  org.nakeduml.java.metamodel,
  org.eclipse.uml2.uml.resources;bundle-version="3.1.1",
- org.nakeduml.ocl.metamodel;bundle-version="1.0.0.5"
+ org.nakeduml.ocl.metamodel;bundle-version="1.0.0.5",
+ org.junit4;bundle-version="4.8.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: 
  .,
- lib/testng-5.14.9.jar,
  lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar
-Export-Package: com.beust.testng,
- net.sf.nakeduml,
+Export-Package: net.sf.nakeduml,
  net.sf.nakeduml.detachment,
  net.sf.nakeduml.domainmetamodel,
  net.sf.nakeduml.emf.extraction,
@@ -74,24 +73,4 @@ Export-Package: com.beust.testng,
  org.nakeduml.name,
  org.nakeduml.runtime.domain,
  org.nakeduml.workinghours,
- org.testng,
- org.testng.annotations,
- org.testng.collections,
- org.testng.internal,
- org.testng.internal.annotations,
- org.testng.internal.invokers,
- org.testng.internal.remote,
- org.testng.internal.thread,
- org.testng.internal.thread.graph,
- org.testng.internal.version,
- org.testng.junit,
- org.testng.log,
- org.testng.log4testng,
- org.testng.remote,
- org.testng.remote.adapter,
- org.testng.remote.strprotocol,
- org.testng.reporters,
- org.testng.reporters.util,
- org.testng.util,
- org.testng.xml,
- util
+  util

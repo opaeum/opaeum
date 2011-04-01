@@ -7,13 +7,14 @@
 
 <hibernate-configuration>
 	<session-factory name="${workspace.directoryName}-hibernate-config">
-		<property name="hibernate.dialect">${config.jdbcDialect}</property>
 #if($isAdaptorEnvironment)
-	    <property name="connection.datasource">${config.hibernateDSName}</property>   
+		<property name="hibernate.dialect">${config.jdbcDialect}</property>
+	    <property name="connection.datasource">${config.dataSourceName}</property>   
 		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 #else		
-		<property name="hibernate.connection.driver_class">${config.jdbcDriverClassName}</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+		<property name="hibernate.connection.driver_class">org.hsqldb.JdbcDriver</property>
 		<property name="hibernate.connection.url">jdbc:hsqldb:mem:${workspace.name}</property>
 		<property name="hibernate.connection.username">sa</property>
 		<property name="hibernate.connection.password"></property>
@@ -36,10 +37,10 @@
 
 	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
 		<event type="flush-entity">
-			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
+			<listener class="org.nakeduml.hibernate.domain.PreUpdateListener" />
 		</event>
 		<event type="create">
-			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
+			<listener class="org.nakeduml.hibernate.domain.PrePersistListener" />
 		</event>
 
 #if($isAdaptorEnvironment)

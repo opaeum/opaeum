@@ -95,7 +95,7 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 	private Object resolve(Session em,Object ae){
 		if(ae instanceof AbstractEntity){
 			AbstractEntity enttity = (AbstractEntity) ae;
-			Object result = em.get(ae.getClass(), enttity.getId());
+			Object result = em.get(IntrospectionUtil.getOriginalClass(ae), enttity.getId());
 			if(result == null){
 				throw new IllegalStateException(ae.getClass().getSimpleName() + ":" + enttity.getId() + " could not be found!");
 			}

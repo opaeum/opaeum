@@ -19,6 +19,7 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 		addNakedumlDomain(result);
 		// add provided dependencies from above
 		addHibernate(result);
+		addHsqlDbForTest(result);
 
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}

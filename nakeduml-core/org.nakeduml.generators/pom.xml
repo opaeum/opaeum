@@ -124,10 +124,5 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-				
-		</dependency>
 	</dependencies>
 </project>

@@ -1,7 +1,5 @@
 package org.nakeduml.runtime.adaptor;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 
 public class Formatter{
 	public static int parseInteger(String string){
@@ -12,13 +10,6 @@ public class Formatter{
 	}
 	public static String parseFile(String string){
 		return string;
-	}
-	public static InternetAddress[] parseEmailAddress(String string){
-		try{
-			return InternetAddress.parse(string);
-		}catch(AddressException e){
-			throw new RuntimeException(e);
-		}
 	}
 	public static String parseCode(String string){
 		return string;

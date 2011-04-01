@@ -1,4 +1,4 @@
-package org.nakeduml.hibernate.adaptor;
+package org.nakeduml.hibernate.domain;
 
 import org.hibernate.EntityMode;
 import org.hibernate.SessionFactory;

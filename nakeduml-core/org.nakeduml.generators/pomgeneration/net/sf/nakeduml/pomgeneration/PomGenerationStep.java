@@ -1,9 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -89,15 +87,29 @@ public abstract class PomGenerationStep implements TransformationStep {
 	public Properties getProperties() {
 		return new Properties();
 	}
-	protected void addHibernate(Collection<Dependency> dependencies){
+	protected void addHsqlDbForTest(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.hibernate");
-		dependency.setArtifactId("hibernate-core");
-		dependency.setVersion("${hibernate.version}");
+		dependency.setGroupId("org.hsqldb");
+		dependency.setArtifactId("hsqldb");
+		dependency.setVersion("1.8.0.10");
 		dependency.setType("jar");
-		dependency.setScope("provided");
+		dependency.setScope("test");
+		dependencies.add(dependency);
+	}
+	protected void addHibernate(Collection<Dependency> dependencies){
+		Dependency hibernate = POMFactory.eINSTANCE.createDependency();
+		hibernate.setGroupId("org.hibernate");
+		hibernate.setArtifactId("hibernate-core");
+		hibernate.setVersion("${hibernate.version}");
+		hibernate.setType("jar");
+		hibernate.setScope("provided");
 		//Clashes with slf4j in weld-core-test and weld-se
-		excludeSlf4j(dependency);
+		excludeSlf4j(hibernate);
+		//Clashes with antlr in Drools
+		excludeAntlr(hibernate);
+		//To Keep Eclipse classpath clean
+		excludeJta(hibernate);
+		dependencies.add(hibernate);
 		Dependency validation= POMFactory.eINSTANCE.createDependency();
 		validation.setGroupId("org.hibernate");
 		validation.setArtifactId("hibernate-validator");
@@ -107,12 +119,28 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependencies.add(validation);
 	}
 
+	private void excludeJta(Dependency dependency){
+		Exclusion jta = POMFactory.eINSTANCE.createExclusion();
+		jta.setGroupId("javax.transaction");
+		jta.setArtifactId("jta");
+		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		dependency.getExclusions().getExclusion().add(jta);
+		
+	}
+
 	protected void excludeSlf4j(Dependency dependency) {
 		Exclusion excludeSlf4j = POMFactory.eINSTANCE.createExclusion();
 		excludeSlf4j.setGroupId("org.slf4j");
 		excludeSlf4j.setArtifactId("slf4j-api");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(excludeSlf4j);
+	}
+	protected void excludeAntlr(Dependency dependency) {
+		Exclusion antlr = POMFactory.eINSTANCE.createExclusion();
+		antlr.setGroupId("antlr");
+		antlr.setArtifactId("anltr");
+		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		dependency.getExclusions().getExclusion().add(antlr);
 	}
 	protected void addArquillian(Collection<Dependency> dependencies) {
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();

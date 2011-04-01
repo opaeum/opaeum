@@ -29,6 +29,7 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		addHibernate(result);
 		addSeamScheduling(result);
 		addSlf4jLog4j(result);
+		addHsqlDbForTest(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 	
