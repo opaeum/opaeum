@@ -112,7 +112,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	@VisitAfter(matchSubclasses = true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
 			PackageAndProcessCollector collector = new PackageAndProcessCollector(workspace.getRootObjects());
@@ -168,14 +168,10 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		createTestArchive.getBody().addToStatements("war.addWebResource(Environment.PROPERTIES_FILE_NAME, Environment.PROPERTIES_FILE_NAME)");
 		createTestArchive.getBody().addToStatements("war.addManifestResource(\"hornetq-jms.xml\")");
 
-		if (!isIntegrationPhase) {
-			createTestArchive.getBody().addToStatements(
-					"war.addPackage(IntrospectionUtil.classForName(\"" + HibernateUtil.getHibernatePackage(true).toJavaString()
-							+ ".package-info\").getPackage());");
-		} else {
-			createTestArchive.getBody().addToStatements(
-					"war.addPackage(IntrospectionUtil.classForName(\"com.rorotika.cm.util.hibernate.adaptor.package-info\").getPackage());");
-		}
+		createTestArchive.getBody()
+				.addToStatements(
+						"war.addPackage(IntrospectionUtil.classForName(\"" + HibernateUtil.getHibernatePackage(true).toJavaString()
+								+ ".package-info\").getPackage());");
 		dummyTest.addToImports("org.nakeduml.runtime.domain.IntrospectionUtil");
 		dummyTest.addToImports("org.nakeduml.environment.Environment");
 		createTestArchive.getBody().addToStatements("return war");
@@ -293,13 +289,10 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 
 			Collection<INakedRootObject> modelInScope = getModelInScope();
 			for (INakedRootObject iNakedRootObject : modelInScope) {
-				if (iNakedRootObject instanceof INakedModel) {
+				if (iNakedRootObject instanceof INakedModel && workspace.isPrimaryModel(iNakedRootObject)) {
 					OJPathName utilPath = calculateUtilPath(iNakedRootObject);
-					//TODO find out how this aught to be done
-					if (utilPath.getFirst().equals("com")) {
-						baseTest.addToImports(utilPath.append("Stdlib"));
-						getTestClasses.getBody().addToStatements("classes.add(" + utilPath.toJavaString() + ".class)");
-					}
+					baseTest.addToImports(utilPath.append("Stdlib"));
+					getTestClasses.getBody().addToStatements("classes.add(" + utilPath.toJavaString() + ".class)");
 				}
 			}
 		}
