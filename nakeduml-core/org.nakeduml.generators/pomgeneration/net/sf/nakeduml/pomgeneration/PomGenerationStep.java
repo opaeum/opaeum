@@ -1,9 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -326,12 +324,9 @@ public abstract class PomGenerationStep implements TransformationStep {
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
 
 		AnyType excludes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "excludes");
-		//TODO make none
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
-		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
 		AnyType includes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "includes");
 		PomUtil.addAnyElementWithContent(includes.getAny(), "include", "**/*IntegrationTest.java");
-
 		
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
