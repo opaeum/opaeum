@@ -116,7 +116,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 	protected static OJConstructor findConstructor(OJAnnotatedClass c,OJPathName parameter1){
 		return c.findConstructor(parameter1);
 	}
-	protected static boolean isPersistent(INakedClassifier c){
+	public static boolean isPersistent(INakedClassifier c){
 		// what about interfaces implemented by persistent classifiers??????
 		// They can be persisted in Hibernate but not JPA
 		// Interfaces are so different from normal persisten classifiers that

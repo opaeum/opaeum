@@ -33,6 +33,7 @@ public class NakedUmlConfig {
 	private static final String MAVEN_GROUP_VERSION = "nakeduml.maven.group.version";
 	private static final String GENERATE_MAVEN_POMS = "nakeduml.generate.poms";
 	private static final String SCM_TOOL = "nakeduml.scm.tool";
+	private static final String ATTRIBUTE_IMPLEMENTATION_STRATEGY = "attribute.implementation.strategy";
 	private Properties props = new SortedProperties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
 	private File outputRoot;
@@ -93,6 +94,9 @@ public class NakedUmlConfig {
 		}
 		if (!this.props.containsKey(SCM_TOOL)) {
 			this.props.setProperty(SCM_TOOL, "git");
+		}
+		if (!this.props.containsKey(ATTRIBUTE_IMPLEMENTATION_STRATEGY)) {
+			this.props.setProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY, "HIBERNATE");
 		}
 	}
 
@@ -216,6 +220,10 @@ public class NakedUmlConfig {
 
 	public String getScmTool(){
 		return this.props.getProperty(SCM_TOOL);
+	}
+
+	public String getAttributeImplementationStrategy(){
+		return this.props.getProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY);
 	}
 
 	public void setMavenGroupId(String string){

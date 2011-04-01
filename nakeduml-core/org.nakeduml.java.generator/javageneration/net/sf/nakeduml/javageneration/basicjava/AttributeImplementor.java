@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
@@ -28,6 +30,7 @@ import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -38,10 +41,21 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class AttributeImplementor extends StereotypeAnnotator{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
+	private AttributeImplementorStrategy attributeImplementorStrategy; 
+	@Override
+	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
+		super.initialize(javaModel, config, textWorkspace, context);
+		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
+			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
+		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
+			attributeImplementorStrategy = new Neo4jAttributeImplementorStrategy();
+		}
+	}
 	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})
 	public void visitFeature(INakedClassifier entity){
 		for(INakedProperty p:entity.getEffectiveAttributes()){
@@ -137,7 +151,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				buildSetter(owner, map);
 				buildField(owner, map).setTransient(true);
-				OJOperation getter = buildGetter(owner, map, false);
+				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
 				OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
 						+ ")org.nakeduml.environment.Environment.getInstance().getComponent(" + map.javaTypePath() + ".class)");
@@ -146,7 +160,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(p.isDerived() || p.isReadOnly()){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
-				OJOperation getter = buildGetter(owner, map, true);
+				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, true);
 				applyStereotypesAsAnnotations((p), getter);
 			}else{
 				implementAttributeFully(umlOwner, map);
@@ -169,7 +183,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			buildInternalRemover(owner, map);
 		}
 		buildSetter(owner, map);
-		buildGetter(owner, map, false);
+		attributeImplementorStrategy.buildGetter(owner, map, false);
 		applyStereotypesAsAnnotations((p), field);
 		INakedClassifier baseType = p.getNakedBaseType();
 		if(baseType instanceof INakedSimpleType){
@@ -310,20 +324,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		owner.addToOperations(adder);
 		return adder;
 	}
-	protected OJOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean returnDefault){
-		OJOperation getter = new OJAnnotatedOperation();
-		getter.setName(map.getter());
-		getter.setReturnType(map.javaTypePath());
-		owner.addToOperations(getter);
-		if(owner instanceof OJAnnotatedInterface){
-		}else if(returnDefault){
-			getter.getBody().addToStatements("return " + map.javaDefaultValue());
-		}else{
-			getter.getBody().addToStatements("return " + map.umlName());
-		}
-		getter.setStatic(map.isStatic());
-		return getter;
-	}
+	
 	protected OJOperation buildSetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation setter = new OJAnnotatedOperation();
 		setter.setName(map.setter());
@@ -336,44 +337,19 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
 				if(map.isManyToOne()){
-					buildManyToOneSetter(map, otherMap, owner, setter);
+					attributeImplementorStrategy.buildManyToOneSetter(map, otherMap, owner, setter);
 				}else if(map.isOneToMany()){
 					buildOneToManySetter(map, otherMap, owner, setter);
 				}else if(map.isManyToMany()){
 					buildManyToManySetter(map, otherMap, owner, setter);
 				}else if(map.isOneToOne()){
-					buildOneToOneSetter(map, otherMap, owner, setter);
+					attributeImplementorStrategy.buildOneToOneSetter(map, otherMap, owner, setter);
 				}
 			}else{
-				setter.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
+				attributeImplementorStrategy.addSimpleSetterBody(setter, map);
 			}
 		}
 		return setter;
-	}
-	public void buildOneToOneSetter(NakedStructuralFeatureMap map,NakedStructuralFeatureMap otherMap,OJAnnotatedClass owner,OJOperation setter){
-		OJAnnotatedField oldValue = new OJAnnotatedField();
-		oldValue.setName("oldValue");
-		oldValue.setType(map.javaTypePath());
-		oldValue.setInitExp("this." + map.umlName());
-		setter.getBody().addToLocals(oldValue);
-		// If oldValue==null then set the new Value unconditionally
-		OJIfStatement ifNull = new OJIfStatement();
-		ifNull.setName(IF_OLD_VALUE_NULL);
-		ifNull.setCondition("oldValue==null");// && );
-		ifNull.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
-		setter.getBody().addToStatements(ifNull);
-		OJIfStatement ifNotSame = new OJIfStatement();
-		ifNotSame.setCondition("!oldValue.equals(" + map.umlName() + ")");
-		ifNull.addToElsePart(ifNotSame);
-		ifNotSame.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
-		// remove "this" from existing reference
-		ifNotSame.getThenPart().addToStatements("oldValue." + otherMap.internalRemover() + "(this)");
-		// add "this" to new reference\
-		OJIfStatement ifParamNotNull = new OJIfStatement();
-		ifParamNotNull.setCondition(map.umlName() + "!=null");
-		ifParamNotNull.getThenPart().addToStatements(map.umlName() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
-		ifNotSame.getThenPart().addToStatements(ifParamNotNull);
-		ifNull.getThenPart().addToStatements(ifParamNotNull);
 	}
 	public void buildManyToManySetter(NakedStructuralFeatureMap map,NakedStructuralFeatureMap otherMap,OJAnnotatedClass owner,OJOperation setter){
 		// remove from existing references and at
@@ -413,21 +389,5 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		forEachNew.setBody(new OJBlock());
 		forEachNew.getBody().addToStatements("o." + otherMap.setter() + "((" + owner.getName() + ")this)");
 		setter.getBody().addToStatements(forEachNew);
-	}
-	public void buildManyToOneSetter(NakedStructuralFeatureMap map,NakedStructuralFeatureMap otherMap,OJAnnotatedClass owner,OJOperation setter){
-		// remove "this" from existing reference
-		OJIfStatement ifNotNull = new OJIfStatement();
-		ifNotNull.setCondition("this." + map.umlName() + "!=null");
-		ifNotNull.getThenPart().addToStatements("this." + map.umlName() + "." + otherMap.getter() + "().remove((" + owner.getName() + ")this)");
-		setter.getBody().addToStatements(ifNotNull);
-		// add "this" to new reference
-		OJIfStatement ifParamNotNull = new OJIfStatement();
-		ifParamNotNull.setName(IF_PARAM_NOT_NULL);
-		ifParamNotNull.setCondition(map.umlName() + "!=null");
-		ifParamNotNull.getThenPart().addToStatements(map.umlName() + "." + otherMap.getter() + "().add((" + owner.getName() + ")this)");
-		ifParamNotNull.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
-		ifParamNotNull.setElsePart(new OJBlock());
-		ifParamNotNull.getElsePart().addToStatements("this." + map.umlName() + "=null");
-		setter.getBody().addToStatements(ifParamNotNull);
 	}
 }

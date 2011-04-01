@@ -47,6 +47,7 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		SuperTypeGenerator superTypeAdder = new SuperTypeGenerator();
 		superTypeAdder.initialize(javaModel, config, textWorkspace, context);
 		superTypeAdder.startVisiting(workspace);
+		
 		AttributeImplementor ai = new AttributeImplementor();
 		ai.initialize(javaModel, config, textWorkspace, context);
 		ai.startVisiting(workspace);
@@ -55,7 +56,6 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		operationAnnotator.initialize(javaModel, config, textWorkspace, context);
 		operationAnnotator.startVisiting(workspace);
 
-
 		ToXmlStringBuilder txsb = new ToXmlStringBuilder();
 		txsb.initialize(javaModel, config, textWorkspace, context);
 		txsb.startVisiting(workspace);
@@ -63,7 +63,6 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		ToStringBuilder tsb = new ToStringBuilder();
 		tsb.initialize(javaModel, config, textWorkspace, context);
 		tsb.startVisiting(workspace);
-
 		
 		EnumerationLiteralImplementor eli = new EnumerationLiteralImplementor();
 		eli.initialize(javaModel, config, textWorkspace, context);

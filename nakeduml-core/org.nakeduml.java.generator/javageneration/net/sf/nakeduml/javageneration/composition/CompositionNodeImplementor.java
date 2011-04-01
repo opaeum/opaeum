@@ -2,15 +2,20 @@ package net.sf.nakeduml.javageneration.composition;
 
 import java.util.List;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.HibernateAttributeImplementorStrategy;
+import net.sf.nakeduml.javageneration.basicjava.Neo4jAttributeImplementorStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -28,6 +33,7 @@ import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.CompositionNode;
 
@@ -42,7 +48,18 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 	private static final OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 
+	private CompositionNodeStrategy compositionNodeStrategy;
 
+
+	@Override
+	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
+		super.initialize(javaModel, config, textWorkspace, context);
+		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
+			compositionNodeStrategy = new HibernateCompositionNodeStrategy();
+		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
+			compositionNodeStrategy = new Neo4jCompositionNodeStrategy();
+		}
+	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c) {
@@ -58,13 +75,13 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
 					addGetOwningObject(entity, ojClass);
 					addRemoveFromOwner(entity, ojClass);
-					addMarkDeleted(entity, ojClass);
-					addAddToOwningObject(entity, ojClass);
+					compositionNodeStrategy.addMarkDeleted(entity, ojClass);
+					compositionNodeStrategy.addAddToOwningObject(entity, ojClass);
 					if(entity.getName().contains("siemens")){
 						System.out.println();
 					}
 					addInit(entity, ojClass);
-					addConstructorForTests(ojClass, entity);
+					compositionNodeStrategy.addConstructorForTests(ojClass, entity);
 					addInternalSetOwner(entity, ojClass);
 				}
 			}
@@ -103,111 +120,11 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	protected void addConstructorForTests(OJAnnotatedClass ojClass, INakedEntity entity) {
-		if (entity.hasComposite()) {
-			INakedEntity owningType = (INakedEntity) entity.getEndToComposite().getNakedBaseType();
-			OJPathName paramPath = OJUtil.classifierPathname(owningType);
-			OJConstructor testConstructor = findConstructor(ojClass, paramPath);
-			if (testConstructor == null) {
-				testConstructor = new OJConstructor();
-				ojClass.addToConstructors(testConstructor);
-				testConstructor.addParam("owningObject", new OJPathName(owningType.getMappingInfo().getQualifiedJavaName()));
-				testConstructor.getBody().addToStatements("init(owningObject)");
-			} else {
-			}
-			testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
-			testConstructor.getBody().addToStatements("addToOwningObject()");
-		}
-	}
-
 	protected void addRemoveFromOwner(INakedEntity sc, OJClass ojClass) {
 		OJAnnotatedOperation remove = new OJAnnotatedOperation();
 		remove.setName("removeFromOwningObject");
 		remove.getBody().addToStatements("this.markDeleted()");
 		ojClass.addToOperations(remove);
-	}
-
-	public void addMarkDeleted(INakedEntity sc, OJClass ojClass) {
-		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation();
-		markDeleted.setName("markDeleted");
-		ojClass.addToOperations(markDeleted);
-		if (sc.hasSupertype()) {
-			markDeleted.getBody().addToStatements("super.markDeleted()");
-		} else if (isPersistent(sc)) {
-			if (ojClass.findField("deletedOn") != null) {
-				ojClass.addToImports("java.util.Date");
-				markDeleted.getBody().addToStatements("setDeletedOn(new Date(System.currentTimeMillis()))");
-			} else {
-				// is deletion relevant?
-			}
-		}
-		for (INakedProperty np : sc.getEffectiveAttributes()) {
-			if (np.getOtherEnd() != null) {
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
-				if (map.isManyToMany()) {
-					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
-				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable()) {
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.getter()
-							+ "().remove((" + ojClass.getName() + ")this)");
-					markDeleted.getBody().addToStatements(ifNotNull);
-				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
-					// TODO this may have unwanted results such as removing the
-					// owner from "this" too
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.setter()
-							+ "(null)");
-					markDeleted.getBody().addToStatements(ifNotNull);
-				}
-			}
-		}
-		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
-	}
-
-	public static void invokeOperationRecursively(INakedEntity ew, OJOperation markDeleted, String operationName) {
-		List<? extends INakedProperty> awss = ew.getOwnedAttributes();
-		for (int i = 0; i < awss.size(); i++) {
-			IModelElement a = (IModelElement) awss.get(i);
-			if (a instanceof INakedProperty) {
-				INakedProperty np = (INakedProperty) a;
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-				if (np.isComposite() && np.getNakedBaseType() instanceof INakedEntity && !np.isDerived()) {
-					INakedEntity type = (INakedEntity) np.getNakedBaseType();
-					if (map.isMany()) {
-						markDeleted.getOwner().addToImports("java.util.ArrayList");
-						OJForStatement forEach = new OJForStatement();
-						forEach.setCollection("new ArrayList<" + map.javaBaseDefaultType() + ">(" + map.getter() + "())");
-						forEach.setElemType(OJUtil.classifierPathname(type));
-						forEach.setElemName("child");
-						forEach.setBody(new OJBlock());
-						forEach.getBody().addToStatements("child." + operationName);
-						markDeleted.getBody().addToStatements(forEach);
-					} else if (map.isOne()) {
-						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + operationName);
-						markDeleted.getBody().addToStatements(ifNotNull);
-					}
-				}
-			}
-		}
-	}
-
-	protected void addAddToOwningObject(INakedEntity entity, OJClass ojClass) {
-		OJOperation addToOwningObject = new OJAnnotatedOperation();
-		addToOwningObject
-				.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
-		addToOwningObject.setName("addToOwningObject");
-		if (entity.hasComposite()) {
-			INakedProperty endToComposite = entity.getEndToComposite();
-			StructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
-			StructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
-			if (otherFeatureMap.isCollection()) {
-				addToOwningObject.getBody().addToStatements(
-						featureMap.getter() + "()." + otherFeatureMap.getter() + "().add((" + ojClass.getName() + ")this)");
-			} else {
-				addToOwningObject.getBody().addToStatements(
-						featureMap.getter() + "()." + otherFeatureMap.setter() + "((" + ojClass.getName() + ")this)");
-			}
-		}
-		ojClass.addToOperations(addToOwningObject);
 	}
 
 	/**
