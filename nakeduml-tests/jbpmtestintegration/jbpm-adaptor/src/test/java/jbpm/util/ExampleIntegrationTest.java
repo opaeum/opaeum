@@ -26,8 +26,8 @@ public class ExampleIntegrationTest {
 		return NakedUmlTestUtil.createTestArchive();
 	}
 	
-	@Test
 	@SuppressWarnings("unchecked")
+	@Test
 	public void test() {
 		List<Application> roots = session.createQuery("select h from Application h").list();
 		Assert.assertFalse(roots.size()>0);

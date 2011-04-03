@@ -11,7 +11,7 @@
 	<artifactId>numl-core</artifactId>
 	<packaging>pom</packaging>
 	<name>numl-core</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 
 	<modules>
 		<module>org.nakeduml.ocl.metamodel</module>
