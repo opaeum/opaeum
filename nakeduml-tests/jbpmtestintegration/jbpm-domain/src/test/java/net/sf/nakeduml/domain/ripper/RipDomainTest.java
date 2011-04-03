@@ -48,7 +48,7 @@ public class RipDomainTest {
 		Assert.assertFalse(ripProcess.isStepActive(RipProcessState.ACTIVITYFINALNODE1));
 		Assert.assertTrue(ripProcess.isStepActive(RipProcessState.NODEDEFINITIONEXPANSIONREGION));
 		for (RipActivity ripActivity : ripProcess.getRipActivity()) {
-			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.NODEDEFINITIONTORIPSIGNAL));
+			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.NODEDEFINITIONACCEPTEVENT));
 		}
 		Environment.getInstance().getComponent(ISignalDispatcher.class).deliverAllPendingSignals();
 		for (RipActivity ripActivity : ripProcess.getRipActivity()) {
@@ -81,7 +81,7 @@ public class RipDomainTest {
 		Assert.assertFalse(ripProcess.isStepActive(RipProcessState.ACTIVITYFINALNODE1));
 		Assert.assertTrue(ripProcess.isStepActive(RipProcessState.NODEDEFINITIONEXPANSIONREGION));
 		for (RipActivity ripActivity : ripProcess.getRipActivity()) {
-			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.NODEDEFINITIONTORIPSIGNAL));
+			Assert.assertTrue(ripActivity.isStepActive(RipActivityState.NODEDEFINITIONACCEPTEVENT));
 		}
 		Environment.getInstance().getComponent(ISignalDispatcher.class).deliverAllPendingSignals();
 		for (RipActivity ripActivity : ripProcess.getRipActivity()) {

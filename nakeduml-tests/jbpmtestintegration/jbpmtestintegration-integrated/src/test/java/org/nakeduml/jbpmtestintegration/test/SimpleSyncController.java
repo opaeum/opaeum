@@ -1,4 +1,4 @@
-package org.nakeduml.jbpm.test;
+package org.nakeduml.jbpmtestintegration.test;
 
 import java.util.List;
 
