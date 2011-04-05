@@ -589,12 +589,12 @@
               <ownedParameter xmi:id="_keJVUEwNEeCD2ITeubLIbQ" name="rippedSuccessfully" direction="out">
                 <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
               </ownedParameter>
-              <node xmi:type="uml:SendSignalAction" xmi:id="_iRT_AEoYEeCFaJvOEQDIzw" name="nodeDefinitionToRipSignal" signal="_yYgsEEoYEeCFaJvOEQDIzw">
+              <node xmi:type="uml:SendSignalAction" xmi:id="_iRT_AEoYEeCFaJvOEQDIzw" name="nodeDefinitionToRipSignal" outgoing="_YPmdUF3_EeCRXuWK7oIWVw" signal="_yYgsEEoYEeCFaJvOEQDIzw">
                 <argument xmi:id="_C-JRgEotEeCFaJvOEQDIzw" name="nodeDefinition" incoming="_tURBgEtJEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
                   <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_C-JRgUotEeCFaJvOEQDIzw" value="*"/>
                 </argument>
               </node>
-              <node xmi:type="uml:AcceptEventAction" xmi:id="_Yd0PMEoZEeCFaJvOEQDIzw" name="nodeDefinitionAcceptEvent">
+              <node xmi:type="uml:AcceptEventAction" xmi:id="_Yd0PMEoZEeCFaJvOEQDIzw" name="nodeDefinitionAcceptEvent" incoming="_YPmdUF3_EeCRXuWK7oIWVw">
                 <result xmi:id="_HaaaEEtBEeCRDqUdR1yzmg" name="nodeDefinition" outgoing="_QM6YMEtGEeCRDqUdR1yzmg" type="_DfTDkEl5EeCQ2fq_6NmJ6A">
                   <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HaaaEUtBEeCRDqUdR1yzmg" value="*"/>
                 </result>
@@ -661,6 +661,10 @@
               <edge xmi:type="uml:ObjectFlow" xmi:id="_9XgbkEwNEeCD2ITeubLIbQ" name="ObjectFlow6" source="_0UdGsEwNEeCD2ITeubLIbQ" target="_ke0DsEwNEeCD2ITeubLIbQ">
                 <guard xmi:type="uml:LiteralBoolean" xmi:id="_9XgbkUwNEeCD2ITeubLIbQ" value="true"/>
                 <weight xmi:type="uml:LiteralInteger" xmi:id="_9XgbkkwNEeCD2ITeubLIbQ" value="1"/>
+              </edge>
+              <edge xmi:type="uml:ControlFlow" xmi:id="_YPmdUF3_EeCRXuWK7oIWVw" name="ControlFlow1" source="_iRT_AEoYEeCFaJvOEQDIzw" target="_Yd0PMEoZEeCFaJvOEQDIzw">
+                <guard xmi:type="uml:LiteralBoolean" xmi:id="_YPmdUV3_EeCRXuWK7oIWVw" value="true"/>
+                <weight xmi:type="uml:LiteralInteger" xmi:id="_YPmdUl3_EeCRXuWK7oIWVw" value="1"/>
               </edge>
             </ownedBehavior>
             <variable xmi:id="_kWElIEwSEeCD2ITeubLIbQ" name="nodeDefinitionRipSuccessVariable">

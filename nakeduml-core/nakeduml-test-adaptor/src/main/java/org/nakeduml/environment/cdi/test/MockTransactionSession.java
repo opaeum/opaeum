@@ -26,10 +26,10 @@ import org.hibernate.TypeHelper;
 import org.hibernate.UnknownProfileException;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
-import org.nakeduml.seam3.persistence.DependentScopedSession;
+import org.nakeduml.seam3.persistence.TransactionScopedSession;
 
 @Alternative
-@DependentScopedSession
+@TransactionScopedSession
 public class MockTransactionSession implements Session {
 
 	static Collection<MockQuery> mockQueries = new ArrayList<MockQuery>();

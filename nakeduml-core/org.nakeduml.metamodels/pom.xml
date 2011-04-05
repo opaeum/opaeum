@@ -4,6 +4,7 @@
 		<artifactId>numl-core</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.5-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>

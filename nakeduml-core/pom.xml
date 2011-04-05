@@ -11,15 +11,15 @@
 	<artifactId>numl-core</artifactId>
 	<packaging>pom</packaging>
 	<name>numl-core</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 
 	<modules>
-		<!--module>org.nakeduml.ocl.metamodel</module>
+		<module>org.nakeduml.ocl.metamodel</module>
 		<module>org.nakeduml.java.metamodel</module>
 		<module>org.nakeduml.ocl.java.generator</module>
 		<module>org.nakeduml.metamodels</module>
 		<module>org.nakeduml.java.generator</module>
-		<module>org.nakeduml.generators</module-->
+		<module>org.nakeduml.generators</module>
 		<module>nakeduml-runtime-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>

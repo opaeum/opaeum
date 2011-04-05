@@ -64,14 +64,15 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
 
 		Plugin sureFire = addSurefire();	
+//		PomUtil.addAnyElementWithContent(sureFire.getConfiguration().getAny(), "forkMode", "always");
 		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");
 		
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*WorkspaceMmlGeneratorTest.java");
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*HuaweiLSTNECommandParserTest.java");
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessCdiTest.java");
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessInMemoryTest.java");
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessHibernateTest.java");
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*WorkspaceMmlGeneratorTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*HuaweiLSTNECommandParserTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessCdiTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessInMemoryTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessHibernateTest.java");
+		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
 		
 		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*IntegrationTest.java");
 		result.add(sureFire);
