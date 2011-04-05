@@ -9,6 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.nakeduml.hibernate.domain.PostgresDialect;
 
 @Startup
 @ApplicationScoped
@@ -22,6 +23,8 @@ public class ManagedHibernateSessionFactoryProvider {
 		Configuration config = new Configuration();
 		config.configure();
 		try {
+			//TODO test if the dialect is indeed postgress
+			config.getTypeResolver().registerTypeOverride(PostgresDialect.PostgresqlMateralizedBlobType.INSTANCE);
 			this.sessionFactory = config.buildSessionFactory();
 		} catch (Exception e) {
 			e.printStackTrace();

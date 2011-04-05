@@ -6,7 +6,7 @@
           "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory name="${workspace.directoryName}-hibernate-config">
+	<session-factory>
 #if($isAdaptorEnvironment)
 		<property name="hibernate.dialect">${config.jdbcDialect}</property>
 	    <property name="connection.datasource">${config.dataSourceName}</property>   
@@ -14,7 +14,7 @@
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
 #else		
 		<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
-		<property name="hibernate.connection.driver_class">org.hsqldb.JdbcDriver</property>
+		<property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
 		<property name="hibernate.connection.url">jdbc:hsqldb:mem:${workspace.name}</property>
 		<property name="hibernate.connection.username">sa</property>
 		<property name="hibernate.connection.password"></property>
@@ -22,9 +22,6 @@
 		<property name="hibernate.format_sql">false</property>
 		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
-#if($requiresAuditing)
-	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
-#end		
 		
 
 #foreach($c in $persistentClasses)
@@ -41,6 +38,7 @@
 
 #if($isAdaptorEnvironment)
 #if($requiresAuditing)
+	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
 #foreach($c in $persistentClasses)
 		<mapping class="${c}_Audit" />
 #end 
@@ -56,10 +54,10 @@
 #end
 #end	
 		<event type="flush-entity">
-			<listener class="org.nakeduml.hibernate.adaptor.PreUpdateListener" />
+			<listener class="org.nakeduml.hibernate.domain.PreUpdateListener" />
 		</event>
 		<event type="create">
-			<listener class="org.nakeduml.hibernate.adaptor.PrePersistListener" />
+			<listener class="org.nakeduml.hibernate.domain.PrePersistListener" />
 		</event>
 	
 	</session-factory>

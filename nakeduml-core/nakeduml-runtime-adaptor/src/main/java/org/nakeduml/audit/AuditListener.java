@@ -43,8 +43,7 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 			AuditSync verSync = verCfg.getSyncManager().get(event.getSession());
 			Auditable auditable = (Auditable)event.getEntity();
 			Audited auditCopy = auditable.makeAuditCopy();
-			Audited audited = (Audited)auditCopy;
-			audited.setRevisionType(RevisionType.ADD);
+			auditCopy.setRevisionType(RevisionType.ADD);
 			verSync.addAudited(auditCopy);
 		}		
 	}

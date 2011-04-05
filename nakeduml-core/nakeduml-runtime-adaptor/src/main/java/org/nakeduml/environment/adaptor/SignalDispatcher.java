@@ -1,18 +1,23 @@
 package org.nakeduml.environment.adaptor;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.jms.XAConnection;
-import javax.jms.XAConnectionFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
@@ -44,11 +49,13 @@ public class SignalDispatcher implements ISignalDispatcher{
 		}
 	}
 	public void sendSignal(Object source,ActiveObject target,AbstractSignal signal){
-		signalsToDispatch.add(new SignalToDispatch(source, target, signal));
+		SignalToDispatch e = new SignalToDispatch(source, target, signal);
+		e.retrieveIds();// To avoid lazy init exception on send
+		signalsToDispatch.add(e);
 	}
 	public void sendSignal(Object source,Collection<? extends ActiveObject> targets,AbstractSignal signal){
 		for(ActiveObject target:targets){
-			signalsToDispatch.add(new SignalToDispatch(source, target, signal));
+			sendSignal(source, target, signal);
 		}
 	}
 	public void reset(){
@@ -68,36 +75,60 @@ public class SignalDispatcher implements ISignalDispatcher{
 		return result;
 	}
 	class MySync implements Synchronization{
-
 		@Override
 		public void afterCompletion(int arg0){
+			if(arg0 == Status.STATUS_COMMITTED){
+				isRegistered = false;
+				Connection connection = null;
+				Session session = null;
+				MessageProducer producer = null;
+				try{
+					// Has to happen outside a transaction - somehow in JBoss and HornetQ the message does not get sent inside the
+					// transaction
+					// TODO currently happening outside of a transaction, move to inside a
+					// transaction but AFTER flush // TODO make configurable
+					// NB!! Seam component management did not work in the
+					// afterCompletion context - the session was null
+					InitialContext initialContext = new InitialContext();
+					Queue signalQueue = (Queue) initialContext.lookup("queue/SignalQueue");
+					ConnectionFactory factory = (ConnectionFactory) initialContext.lookup("/ConnectionFactory");
+					connection = factory.createConnection();
+					session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+					producer = session.createProducer(signalQueue);
+					for(SignalToDispatch s:signalsToDispatch){
+						s.prepareForDispatch();
+						try{
+							ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
+							os.writeObject(s);
+						}catch(IOException e){
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						producer.send(session.createObjectMessage(s));
+					}
+				}catch(JMSException e){
+					throw new RuntimeException(e);
+				}catch(NamingException e){
+					throw new RuntimeException(e);
+				}finally{
+					try{
+						producer.close();
+					}catch(Exception ignore){
+					}
+					try{
+						session.close();
+					}catch(Exception ignore){
+					}
+					try{
+						connection.close();
+					}catch(Exception ignore){
+					}
+					reset();
+				}
+			}
 		}
 		@Override
 		public void beforeCompletion(){
-			isRegistered = false;
-			try{
-				// TODO currently happening outside of a transaction, move to inside a
-				// transaction but AFTER flush				// TODO make configurable
-				// NB!! Seam component management did not work in the
-				// afterCompletion context - the session was null
-				InitialContext initialContext = new InitialContext();
-				Queue queue = (Queue) initialContext.lookup("queue/SignalQueue");
-				XAConnectionFactory cf = (XAConnectionFactory) initialContext.lookup("/ConnectionFactory");
-				XAConnection connection = cf.createXAConnection();
-				Session session = connection.createSession(false, Session.SESSION_TRANSACTED);
-				MessageProducer producer = session.createProducer(queue);
-				for(SignalToDispatch s:signalsToDispatch){
-					s.prepareForDispatch();
-					producer.send(session.createObjectMessage(s));
-				}
-				session.close();
-				connection.close();
-				reset();
-			}catch(JMSException e){
-				throw new RuntimeException(e);
-			}catch(NamingException e){
-				throw new RuntimeException(e);
-			}
 		}
 	}
 	@Override

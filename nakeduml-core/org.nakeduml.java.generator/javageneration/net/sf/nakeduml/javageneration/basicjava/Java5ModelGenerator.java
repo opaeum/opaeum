@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import java.io.Serializable;
 import java.util.List;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -49,12 +50,19 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 			OJAnnotatedClass myClass;
 			if (c instanceof INakedEnumeration) {
 				myClass = new OJEnum();
+				//In case it needs to be sent by jms or serialized as session state
+				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
 			} else if (c instanceof INakedInterface) {
 				myClass = new OJAnnotatedInterface();
+				//In case it needs to be sent by jms or serialized as session state
+				((OJAnnotatedInterface)myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
+
 			} else {
 				myClass = new OJAnnotatedClass();
 				// Create default constructor for inits
 				myClass.getDefaultConstructor();
+				//In case it needs to be sent by jms or serialized as session state
+				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
 			}
 			// TODO find another place
 			if (c instanceof INakedSignal) {
@@ -91,6 +99,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 				}
 			}
 			applyStereotypesAsAnnotations((c), myClass);
+			
 		}
 	}
 

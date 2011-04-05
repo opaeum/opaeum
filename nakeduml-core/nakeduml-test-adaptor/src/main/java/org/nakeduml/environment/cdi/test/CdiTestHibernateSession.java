@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -46,7 +47,10 @@ import org.nakeduml.runtime.domain.AbstractEntity;
 public class CdiTestHibernateSession implements Session{
 	private final class SexyList<T> extends ArrayList<T>{
 		private SexyList(Collection<T> c){
-			super(c);
+			super();
+			for(T t:c){
+				add(t);
+			}
 		}
 		@Override
 		public boolean add(T o){
@@ -58,7 +62,9 @@ public class CdiTestHibernateSession implements Session{
 	}
 	private final class SexySet<T> extends HashSet<T>{
 		private SexySet(Collection<T> c){
-			super(c);
+			for(T t:c){
+				add(t);
+			}
 		}
 		@Override
 		public boolean add(T o){
@@ -117,6 +123,10 @@ public class CdiTestHibernateSession implements Session{
 			}
 		}else if(field.isAnnotationPresent(OneToMany.class)){
 			if(shouldPersist(field.getAnnotation(OneToMany.class).cascade())){
+				shouldPersistField = true;
+			}
+		}else if(field.isAnnotationPresent(ManyToOne.class)){
+			if(shouldPersist(field.getAnnotation(ManyToOne.class).cascade())){
 				shouldPersistField = true;
 			}
 		}else if(field.isAnnotationPresent(ManyToMany.class)){

@@ -3,7 +3,7 @@ package org.nakeduml.test.adaptor;
 import org.jboss.logging.Logger;
 
 public class CditTestLogger extends Logger{
-	public static boolean DUMP_STACK_ON_ERROR=false;
+	public static boolean DUMP_STACK_ON_ERROR = false;
 	protected CditTestLogger(){
 		super("test");
 	}
@@ -17,26 +17,24 @@ public class CditTestLogger extends Logger{
 		logImpl(level, loggerClassName, parameters, thrown, string);
 	}
 	private void logImpl(Level level,String loggerClassName,Object[] parameters,Throwable thrown,String string){
-		if(level == Level.ERROR){
-			System.out.printf(level + ": " + loggerClassName + ": ");
-			if(parameters != null && string != null){
-				for(int i = 0;i < parameters.length;i++){
-					Object object = parameters[i];
-					if(object != null){
-						string = string.replace("#" + i, object.toString());
-					}else{
-						string = string.replace("#" + i, "null");
-					}
+		System.out.printf(level + ": " + loggerClassName + ": ");
+		if(parameters != null && string != null){
+			for(int i = 0;i < parameters.length;i++){
+				Object object = parameters[i];
+				if(object != null){
+					string = string.replace("{" + i + "}", object.toString());
+				}else{
+					string = string.replace("{" + i + "}", "null");
 				}
 			}
-			System.out.print(string);
-			System.out.println();
-			if(DUMP_STACK_ON_ERROR){
-				if(thrown != null){
-					thrown.printStackTrace();
-				}else if(Level.ERROR == level){
-					Thread.dumpStack();
-				}
+		}
+		System.out.print(string);
+		System.out.println();
+		if(DUMP_STACK_ON_ERROR){
+			if(thrown != null){
+				thrown.printStackTrace();
+			}else if(Level.ERROR == level){
+				Thread.dumpStack();
 			}
 		}
 	}

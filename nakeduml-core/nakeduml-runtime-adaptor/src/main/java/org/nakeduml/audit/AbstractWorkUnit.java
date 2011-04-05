@@ -7,7 +7,7 @@ import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.RevisionEntity;
 
 public class AbstractWorkUnit implements Serializable {
-
+	int retryCount;
 	private static final long serialVersionUID = 1706148228216480337L;
 	private RevisionEntity revisionEntity;
 	private LinkedList<Audited> auditedEntities;
@@ -16,7 +16,12 @@ public class AbstractWorkUnit implements Serializable {
 	public AbstractWorkUnit() {
 		super();
 	}
-
+	public void incrementRetryCount(){
+		retryCount++;
+	}
+	public int getRetryCount(){
+		return retryCount;
+	}
 	public RevisionEntity getRevisionEntity() {
 		return revisionEntity;
 	}
