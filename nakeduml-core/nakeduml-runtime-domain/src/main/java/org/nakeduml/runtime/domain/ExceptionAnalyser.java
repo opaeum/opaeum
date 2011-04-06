@@ -29,9 +29,9 @@ public class ExceptionAnalyser{
 		}
 		return rootCause;
 	}
-	public void throwRootCause() {
-		if(getRootCause()instanceof RuntimeException){
-			throw (RuntimeException)getRootCause();
+	public void throwRootCause(){
+		if(getRootCause() instanceof RuntimeException){
+			throw (RuntimeException) getRootCause();
 		}else{
 			throw new RuntimeException(getRootCause());
 		}
@@ -48,14 +48,15 @@ public class ExceptionAnalyser{
 	}
 	private boolean occursIn(String string,Exception se){
 		boolean r = false;
+		Set<Exception> causes = new HashSet<Exception>();
 		do{
 			if(getStackTrace(se).contains(string)){
 				r = true;
 				break;
 			}else{
-				se =getCause(se);
+				se = getCause(se);
 			}
-		}while(se != null);
+		}while(!(se == null || causes.contains(se)));
 		return r;
 	}
 	public <T extends Exception>T findFirstCause(Class<T> class1){

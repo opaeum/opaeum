@@ -52,7 +52,7 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 			INakedTypedElement tew = (INakedTypedElement) nme;
 			String name = tew.getName();
 			if(tew instanceof INakedOutputPin){
-				name="On" + tew.getOwnerElement().getName();//TO ensure uniqueness of name
+				name=name+"On" + NameConverter.capitalize(tew.getOwnerElement().getName());//TO ensure uniqueness of name
 			}
 			if (tew.getNakedBaseType() instanceof INakedComplexStructure) {
 				// foreign key

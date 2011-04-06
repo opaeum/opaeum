@@ -1,14 +1,9 @@
 package org.nakeduml.environment.adaptor;
 
-import java.beans.MethodDescriptor;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.WeakHashMap;
 
 import javax.ejb.ActivationConfigProperty;
@@ -27,10 +22,8 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractUser;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
-import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 @MessageDriven(name = "SignalMDB",activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType",propertyValue = "javax.jms.Queue"),
@@ -38,7 +31,7 @@ import org.nakeduml.runtime.domain.IntrospectionUtil;
 		@ActivationConfigProperty(propertyName = "acknowledgeMode",propertyValue = "Client-acknowledge")
 })
 @TransactionManagement(TransactionManagementType.BEAN)
-@Pool(maxSize = 20,value = PoolDefaults.POOL_IMPLEMENTATION_STRICTMAX,timeout = 3000000)
+@Pool(maxSize = 5,value = PoolDefaults.POOL_IMPLEMENTATION_STRICTMAX,timeout = 3000000)
 public class SignalMdb implements MessageListener{
 	public static class ObjectToLock implements Serializable{
 		private static final long serialVersionUID = 1111970936285421429L;
