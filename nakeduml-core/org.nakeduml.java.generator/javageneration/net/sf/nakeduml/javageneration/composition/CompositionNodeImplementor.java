@@ -147,7 +147,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
 				if (map.isManyToMany()) {
 					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
-				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable()) {
+				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
 					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.getter()
 							+ "().remove((" + ojClass.getName() + ")this)");
 					markDeleted.getBody().addToStatements(ifNotNull);
