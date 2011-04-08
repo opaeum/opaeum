@@ -42,7 +42,9 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 public class AttributeImplementor extends StereotypeAnnotator{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
-	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})
+	@VisitAfter(matchSubclasses = true,match = {
+			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class
+	})
 	public void visitFeature(INakedClassifier entity){
 		for(INakedProperty p:entity.getEffectiveAttributes()){
 			if(p.getOwner() instanceof INakedInterface && OJUtil.hasOJClass(entity)){
@@ -200,10 +202,8 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		adder.setName(map.internalAdder());
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
-		String remove;
-		remove = "this." + map.umlName() + "=" + map.umlName();
-		OJIfStatement ifEquals = new OJIfStatement(map.getter() + "()==null || !" + map.getter() + "().equals(" + map.umlName() + ")", remove);
-		adder.getBody().addToStatements(ifEquals);
+		adder.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
+		
 		owner.addToOperations(adder);
 	}
 	private void buildInternalRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){

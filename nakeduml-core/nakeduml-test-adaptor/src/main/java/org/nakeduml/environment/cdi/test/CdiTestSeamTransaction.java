@@ -1,5 +1,7 @@
 package org.nakeduml.environment.cdi.test;
 
+import java.util.Stack;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -11,22 +13,35 @@ import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
-import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.adaptor.JbpmKnowledgeSession;
 
 @DefaultTransaction
 @RequestScoped
 public class CdiTestSeamTransaction implements SeamTransaction{
+	@Inject
+	Session hibernateSession;
 	int status = -1;
+	Transaction tx;
+	Stack<Object> txStack = new Stack<Object>();
 	@Override
 	public void begin() throws NotSupportedException,SystemException{
+		if(txStack.isEmpty()){
+			tx = hibernateSession.beginTransaction();
+		}
+		txStack.push(new Object());
 		status = Status.STATUS_ACTIVE;
 	}
 	@Override
 	public void commit() throws RollbackException,HeuristicMixedException,HeuristicRollbackException,SecurityException,IllegalStateException,SystemException{
 		status = Status.STATUS_COMMITTED;
+		txStack.pop();
+		if(txStack.isEmpty()){
+			tx.commit();
+		}
 		resetJbpmKnowledgeSession();
 	}
 	private void resetJbpmKnowledgeSession(){
@@ -38,6 +53,10 @@ public class CdiTestSeamTransaction implements SeamTransaction{
 	@Override
 	public void rollback() throws IllegalStateException,SecurityException,SystemException{
 		resetJbpmKnowledgeSession();
+		txStack.pop();
+		if(txStack.isEmpty()){
+			tx.rollback();
+		}
 		status = Status.STATUS_ROLLEDBACK;
 	}
 	@Override

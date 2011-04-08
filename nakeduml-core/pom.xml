@@ -28,9 +28,9 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.testng</groupId>
-				<artifactId>testng</artifactId>
-				<version>5.14.9</version>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
 				<type>jar</type>
 				<scope>test</scope>
 			</dependency>
@@ -89,4 +89,10 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<properties>
+		<jbpm.version>5.0.0</jbpm.version>
+		<junit.version>4.8.2</junit.version>
+		<drools.version>5.2.0.M1</drools.version>
+		<arquillian.version>1.0.0.Alpha4</arquillian.version>
+	</properties>
 </project>

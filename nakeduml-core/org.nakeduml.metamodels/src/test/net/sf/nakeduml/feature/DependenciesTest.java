@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
-@Test(groups = "quick")
+
 public class DependenciesTest {
 	public static class SomeStep implements TransformationStep{}
 	public static class AbstractPhase implements TransformationPhase<SomeStep> {
@@ -46,7 +46,7 @@ public class DependenciesTest {
 	@PhaseDependency(before = Phase5.class, after = Phase3.class)
 	public static class Phase6 extends AbstractPhase {
 	}
-
+@Test()
 	@SuppressWarnings("unchecked")
 	public void testPhases() throws Exception {
 		Phases p = new Phases();
@@ -64,7 +64,7 @@ public class DependenciesTest {
 		}
 		return result;
 	}
-
+@Test
 	@SuppressWarnings("unchecked")
 	public void testCircularity() throws Exception {
 		try {
