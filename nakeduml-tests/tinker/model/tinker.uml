@@ -21,6 +21,10 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BvfpIWRwEeCWwpEEhhedIw" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BvfpImRwEeCWwpEEhhedIw"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_EJVxMGR3EeCWwpEEhhedIw" name="abstractX1" type="_9OEBIGR2EeCWwpEEhhedIw" aggregation="composite" association="_EJe7IGR3EeCWwpEEhhedIw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EJVxMWR3EeCWwpEEhhedIw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EJVxMmR3EeCWwpEEhhedIw"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_5k4YIGRvEeCWwpEEhhedIw" name="Universe">
       <ownedAttribute xmi:id="__jx_gGRvEeCWwpEEhhedIw" name="name">
@@ -32,6 +36,46 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Bv6f4mRwEeCWwpEEhhedIw" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Bv6f42RwEeCWwpEEhhedIw" value="1"/>
       </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_3YTusGR2EeCWwpEEhhedIw" name="polymorphism">
+      <packagedElement xmi:type="uml:Class" xmi:id="_9OEBIGR2EeCWwpEEhhedIw" name="AbstractX1" isAbstract="true">
+        <ownedAttribute xmi:id="__nNp0GR2EeCWwpEEhhedIw" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_cI9zEGR3EeCWwpEEhhedIw" name="abstractY1" type="_O-hyEGR3EeCWwpEEhhedIw" aggregation="composite" association="_cJIyMGR3EeCWwpEEhhedIw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cI9zEWR3EeCWwpEEhhedIw" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cI9zEmR3EeCWwpEEhhedIw"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_EJe7IGR3EeCWwpEEhhedIw" name="A_&lt;god>_&lt;abstractX1>" memberEnd="_EJe7IWR3EeCWwpEEhhedIw _EJVxMGR3EeCWwpEEhhedIw" navigableOwnedEnd="_EJe7IWR3EeCWwpEEhhedIw">
+        <ownedEnd xmi:id="_EJe7IWR3EeCWwpEEhhedIw" name="god" type="_z3Yp0GRvEeCWwpEEhhedIw" association="_EJe7IGR3EeCWwpEEhhedIw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EJe7ImR3EeCWwpEEhhedIw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EJe7I2R3EeCWwpEEhhedIw" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_HFuCwGR3EeCWwpEEhhedIw" name="ConcreteX1">
+        <generalization xmi:id="_KZEC0GR3EeCWwpEEhhedIw" general="_9OEBIGR2EeCWwpEEhhedIw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_IYZLkGR3EeCWwpEEhhedIw" name="ConcreteX2">
+        <generalization xmi:id="_KlkNwGR3EeCWwpEEhhedIw" general="_9OEBIGR2EeCWwpEEhhedIw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_O-hyEGR3EeCWwpEEhhedIw" name="AbstractY1" isAbstract="true">
+        <ownedAttribute xmi:id="_Q83uEGR3EeCWwpEEhhedIw" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_YY2-gGR3EeCWwpEEhhedIw" name="ConcreteY1">
+        <generalization xmi:id="_bMjOIGR3EeCWwpEEhhedIw" general="_O-hyEGR3EeCWwpEEhhedIw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_ZgSgoGR3EeCWwpEEhhedIw" name="ConcreteY2">
+        <generalization xmi:id="_baQ6AGR3EeCWwpEEhhedIw" general="_O-hyEGR3EeCWwpEEhhedIw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_cJIyMGR3EeCWwpEEhhedIw" name="A_&lt;abstractX1>_&lt;abstractY1>" memberEnd="_cJIyMWR3EeCWwpEEhhedIw _cI9zEGR3EeCWwpEEhhedIw" navigableOwnedEnd="_cJIyMWR3EeCWwpEEhhedIw">
+        <ownedEnd xmi:id="_cJIyMWR3EeCWwpEEhhedIw" name="abstractX1" type="_9OEBIGR2EeCWwpEEhhedIw" association="_cJIyMGR3EeCWwpEEhhedIw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cJIyMmR3EeCWwpEEhhedIw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cJIyM2R3EeCWwpEEhhedIw" value="1"/>
+        </ownedEnd>
+      </packagedElement>
     </packagedElement>
   </packagedElement>
 </uml:Model>

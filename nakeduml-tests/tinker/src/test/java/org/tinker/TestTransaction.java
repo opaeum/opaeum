@@ -1,8 +1,8 @@
-package tinker.test;
+package org.tinker;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
+import org.drools.command.assertion.AssertEquals;
 import org.junit.Test;
 import org.tinker.God;
 
@@ -26,6 +26,7 @@ public class TestTransaction extends BaseTest {
 		God retrievedGod = new God(v);
 		assertNotNull(retrievedGod);
 		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(1, countVertices());
 	}
 	
 	@Test
@@ -39,6 +40,7 @@ public class TestTransaction extends BaseTest {
 		Vertex v = db.getVertex(id);
 		assertNull(v);
 		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(0, countVertices());
 	}
 	
 }
