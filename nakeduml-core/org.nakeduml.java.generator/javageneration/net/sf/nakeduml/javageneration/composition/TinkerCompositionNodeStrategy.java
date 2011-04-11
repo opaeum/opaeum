@@ -1,8 +1,8 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import net.sf.nakeduml.javageneration.basicjava.Neo4jUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
@@ -10,9 +10,8 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
+public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy {
 
-public class Neo4jCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy {
-	
 	@Override
 	public void addConstructorForTests(OJAnnotatedClass ojClass, INakedEntity entity) {
 		if (entity.hasComposite()) {
@@ -28,7 +27,7 @@ public class Neo4jCompositionNodeStrategy extends AbstractCompositionNodeStrateg
 			}
 		}
 	}
-	
+
 	@Override
 	public void addMarkDeleted(INakedEntity sc, OJClass ojClass) {
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation();
@@ -36,24 +35,13 @@ public class Neo4jCompositionNodeStrategy extends AbstractCompositionNodeStrateg
 		ojClass.addToOperations(markDeleted);
 		if (sc.hasSupertype()) {
 			markDeleted.getBody().addToStatements("super.markDeleted()");
-		}		
-//		markChildrenForDeletion(sc, ojClass, markDeleted);
+		}
 		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
-		removeFromNeo(sc, ojClass, markDeleted);
+		removeVertex(sc, ojClass, markDeleted);
 	}
 
-	private void removeFromNeo(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
-		Neo4jUtil.addNeoToImports(ojClass);
-		if (sc.getEndToComposite()==null) {
-			markDeleted.getBody().addToStatements(Neo4jUtil.constructSingleRelationshipToReferenceNode(sc));
-			markDeleted.getBody().addToStatements("rel.delete()");
-			markDeleted.getBody().addToStatements("this.underlyingNode.delete()");
-		} else if (!sc.getEndToComposite().isDerived()) {
-			markDeleted.getBody().addToStatements(Neo4jUtil.constructSingleRelationshipToCompositeParent(sc.getEndToComposite(), true));
-			markDeleted.getBody().addToStatements("rel.delete()");
-			markDeleted.getBody().addToStatements("this.underlyingNode.delete()");
-		}
-		
+	private void removeVertex(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
+		markDeleted.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".DbThreadVar.getDB().removeVertex(this.vertex)");
 	}
 
 	@Override

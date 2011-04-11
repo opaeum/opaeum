@@ -1,14 +1,10 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import java.util.List;
-
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.HibernateAttributeImplementorStrategy;
-import net.sf.nakeduml.javageneration.basicjava.Neo4jAttributeImplementorStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -17,15 +13,11 @@ import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-import nl.klasse.octopus.model.IModelElement;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJClassifier;
-import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJField;
-import org.nakeduml.java.metamodel.OJForStatement;
-import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
@@ -36,6 +28,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.CompositionNode;
+import org.nakeduml.runtime.domain.TinkerpopCompositionNode;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java
@@ -45,7 +38,7 @@ import org.nakeduml.runtime.domain.CompositionNode;
  * 
  */
 public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
-	private static final OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+	private static OJPathName COMPOSITION_NODE = null;
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 
 	private CompositionNodeStrategy compositionNodeStrategy;
@@ -56,8 +49,10 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 		super.initialize(javaModel, config, textWorkspace, context);
 		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
 			compositionNodeStrategy = new HibernateCompositionNodeStrategy();
+			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
-			compositionNodeStrategy = new Neo4jCompositionNodeStrategy();
+			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
+			COMPOSITION_NODE = new OJPathName(TinkerpopCompositionNode.class.getName());
 		}
 	}
 

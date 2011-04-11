@@ -22,11 +22,9 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
-import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
-import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;

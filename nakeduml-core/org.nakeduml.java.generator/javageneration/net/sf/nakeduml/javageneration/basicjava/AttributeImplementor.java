@@ -53,7 +53,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
 			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
 		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
-			attributeImplementorStrategy = new Neo4jAttributeImplementorStrategy();
+			attributeImplementorStrategy = new TinkerAttributeImplementorStrategy();
 		}
 	}
 	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})
@@ -149,9 +149,9 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
-				buildSetter(owner, map);
+				buildSetter(umlOwner, owner, map);
 				buildField(owner, map).setTransient(true);
-				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, false);
+				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, false, getModelInScope());
 				getter.setBody(new OJBlock());
 				OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
 						+ ")org.nakeduml.environment.Environment.getInstance().getComponent(" + map.javaTypePath() + ".class)");
@@ -160,7 +160,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(p.isDerived() || p.isReadOnly()){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
-				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, true);
+				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, true, getModelInScope());
 				applyStereotypesAsAnnotations((p), getter);
 			}else{
 				implementAttributeFully(umlOwner, map);
@@ -182,8 +182,8 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			buildInternalAdder(owner, map);
 			buildInternalRemover(owner, map);
 		}
-		buildSetter(owner, map);
-		attributeImplementorStrategy.buildGetter(owner, map, false);
+		buildSetter(umlOwner, owner, map);
+		attributeImplementorStrategy.buildGetter(owner, map, false, getModelInScope());
 		applyStereotypesAsAnnotations((p), field);
 		INakedClassifier baseType = p.getNakedBaseType();
 		if(baseType instanceof INakedSimpleType){
@@ -325,7 +325,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		return adder;
 	}
 	
-	protected OJOperation buildSetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildSetter(INakedClassifier umlOwner, OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation setter = new OJAnnotatedOperation();
 		setter.setName(map.setter());
 		setter.addParam(map.umlName(), map.javaTypePath());
@@ -337,13 +337,13 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
 				if(map.isManyToOne()){
-					attributeImplementorStrategy.buildManyToOneSetter(map, otherMap, owner, setter);
+					attributeImplementorStrategy.buildManyToOneSetter(umlOwner, map, otherMap, owner, setter, getModelInScope());
 				}else if(map.isOneToMany()){
-					buildOneToManySetter(map, otherMap, owner, setter);
+					attributeImplementorStrategy.buildOneToManySetter(map, otherMap, owner, setter);
 				}else if(map.isManyToMany()){
 					buildManyToManySetter(map, otherMap, owner, setter);
 				}else if(map.isOneToOne()){
-					attributeImplementorStrategy.buildOneToOneSetter(map, otherMap, owner, setter);
+					attributeImplementorStrategy.buildOneToOneSetter(umlOwner, map, otherMap, owner, setter, getModelInScope());
 				}
 			}else{
 				attributeImplementorStrategy.addSimpleSetterBody(setter, map);
@@ -371,23 +371,5 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		setter.getBody().addToStatements(forEachParam);
 		setter.getBody().addToStatements("this." + map.umlName() + ".clear()");
 		setter.getBody().addToStatements("this." + map.umlName() + ".addAll(" + map.umlName() + ")");
-	}
-	public void buildOneToManySetter(NakedStructuralFeatureMap map,NakedStructuralFeatureMap otherMap,OJAnnotatedClass owner,OJOperation setter){
-		// Delegate to the setter of the non-inverse end which will do all
-		// the work
-		OJForStatement forEachOld = new OJForStatement();
-		forEachOld.setCollection("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">(this." + map.umlName() + ")");
-		forEachOld.setElemName("o");
-		forEachOld.setElemType(map.javaBaseTypePath());
-		forEachOld.setBody(new OJBlock());
-		forEachOld.getBody().addToStatements("o." + otherMap.setter() + "(null)");
-		setter.getBody().addToStatements(forEachOld);
-		OJForStatement forEachNew = new OJForStatement();
-		forEachNew.setCollection(map.umlName());
-		forEachNew.setElemName("o");
-		forEachNew.setElemType(map.javaBaseTypePath());
-		forEachNew.setBody(new OJBlock());
-		forEachNew.getBody().addToStatements("o." + otherMap.setter() + "((" + owner.getName() + ")this)");
-		setter.getBody().addToStatements(forEachNew);
 	}
 }

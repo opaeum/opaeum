@@ -1,8 +1,13 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import java.util.Collection;
+
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
@@ -75,6 +80,43 @@ public class HibernateAttributeImplementorStrategy implements AttributeImplement
 		ifParamNotNull.getThenPart().addToStatements(map.umlName() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
 		ifNotSame.getThenPart().addToStatements(ifParamNotNull);
 		ifNull.getThenPart().addToStatements(ifParamNotNull);
+	}
+
+	@Override
+	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault, Collection<INakedRootObject> modelInScope) {
+		return buildGetter(owner, map, returnDefault);
+	}
+
+	@Override
+	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter,
+			Collection<INakedRootObject> modelInScope) {
+		buildManyToOneSetter(map, otherMap, owner, setter);
+	}
+
+	@Override
+	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter,
+			Collection<INakedRootObject> modelInScope) {
+		buildOneToOneSetter(map, otherMap, owner, setter);
+	}
+
+	@Override
+	public void buildOneToManySetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+		// Delegate to the setter of the non-inverse end which will do all
+		// the work
+		OJForStatement forEachOld = new OJForStatement();
+		forEachOld.setCollection("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">(this." + map.umlName() + ")");
+		forEachOld.setElemName("o");
+		forEachOld.setElemType(map.javaBaseTypePath());
+		forEachOld.setBody(new OJBlock());
+		forEachOld.getBody().addToStatements("o." + otherMap.setter() + "(null)");
+		setter.getBody().addToStatements(forEachOld);
+		OJForStatement forEachNew = new OJForStatement();
+		forEachNew.setCollection(map.umlName());
+		forEachNew.setElemName("o");
+		forEachNew.setElemType(map.javaBaseTypePath());
+		forEachNew.setBody(new OJBlock());
+		forEachNew.getBody().addToStatements("o." + otherMap.setter() + "((" + owner.getName() + ")this)");
+		setter.getBody().addToStatements(forEachNew);
 	}
 
 }

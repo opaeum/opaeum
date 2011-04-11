@@ -43,8 +43,8 @@ public class Neo4jDerivedUnionImplStrategy implements DerivedUnionImplStrategy {
 			if (derivedUnionMap.isOne()) {
 				// TODO this could be problematic if multiple subsetting
 				// properties are not null
-				sgetter.getBody().addToStatements("Node node = " + expression);
-				OJIfStatement ifNotNull = new OJIfStatement("node!=null", returnParameterName + " = new " + subsettingMap.javaBaseDefaultType() + "(node)");
+				sgetter.getBody().addToStatements("Relationship rel = " + expression);
+				OJIfStatement ifNotNull = new OJIfStatement("rel!=null", returnParameterName + " = new " + subsettingMap.javaBaseDefaultType() + "(rel.getStartNode())");
 				sgetter.getBody().addToStatements(ifNotNull);
 			} else {
 				OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + ".add(" + expression + ")");
@@ -102,7 +102,7 @@ public class Neo4jDerivedUnionImplStrategy implements DerivedUnionImplStrategy {
 				throw new IllegalStateException("DerivedUnion Subsetting with DerivedUnion Subsetted properties must have different names");
 			} else {
 				// expression = "this." + mapOfSubsettingProperty.umlName();
-				expression = "underlyingNode.getSingleRelationship(new RelationshipType() {public String name() {return \"" + Neo4jUtil.constructCompositeRelationshipName(mapOfSubsettingProperty.getProperty().getOtherEnd()) + "\";}}, Direction.INCOMING).getStartNode()";
+				expression = "underlyingNode.getSingleRelationship(new RelationshipType() {public String name() {return \"" + TinkerUtil.constructCompositeRelationshipName(mapOfSubsettingProperty.getProperty().getOwner(), mapOfSubsettingProperty.getProperty().getOtherEnd().getOwner(),mapOfSubsettingProperty.getProperty()) + "\";}}, Direction.INCOMING)";
 
 			}
 		}
