@@ -19,7 +19,6 @@ import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
-import org.hibernate.annotations.FlushModeType;
 import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;

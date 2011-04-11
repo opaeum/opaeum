@@ -12,23 +12,19 @@ import java.util.Properties;
 
 
 public class NakedUmlConfig {
-	private static final String JDBC_CONNECTION_URL = "nakeduml.jdbc.connection.url";
-	private static final String DB_USERNAME = "nakeduml.jdbc.connection.username";
-	private static final String DB_PASSWORD = "nakeduml.jdbc.connection.password";
 	private static final String JDBC_DIALECT = "nakeduml.jdbc.dialect";
-	private static final String NAKEDUML_LIST_COLUMNS = "nakeduml.list.columns";
-	private static final String NAKEDUML_NEED_SCHEMA = "nakeduml.needSchema";
-	private static final String NAKEDUML_SUPPORT_SCHEMA = "nakeduml.supportSchema";
-	private static final String NAKEDUML_DEFAULT_SCHEMA = "nakeduml.default.schema";
-	private static final String NAKEDUML_DATA_GENERATION = "nakeduml.data.generation";
-	private static final String JDBC_DRIVER_CLASS = "nakeduml.jdbc.driver.class";
-	private static final String NAKEDUML_REAL_TYPE = "nakeduml.real.type";
-	private static final String NAKEDUML_EMAIL_ADDRESS_TYPE = "nakeduml.email.address.type";
-	private static final String NAKEDUML_DATE_TIME_TYPE = "nakeduml.timestamp.type";
-	private static final String NAKEDUML_DATE_TYPE = "nakeduml.date.type";
-	private static final String NAKEDUML_HIBERNATE_DS_NAME = "nakeduml.hibernate.ds.name";
-	private static final String NAKEDUML_ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
-	private static final String NAKEDUML_TEST_DATA_SIZE = "nakeduml.test.data.size";
+	private static final String DATA_SOURCE_NAME = "nakeduml.hibernate.ds.name";
+	private static final String LIST_COLUMNS = "nakeduml.list.columns";
+	private static final String NEED_SCHEMA = "nakeduml.needSchema";
+	private static final String SUPPORT_SCHEMA = "nakeduml.supportSchema";
+	private static final String DEFAULT_SCHEMA = "nakeduml.default.schema";
+	private static final String DATA_GENERATION = "nakeduml.data.generation";
+	private static final String REAL_TYPE = "nakeduml.real.type";
+	private static final String EMAIL_ADDRESS_TYPE = "nakeduml.email.address.type";
+	private static final String DATE_TIME_TYPE = "nakeduml.timestamp.type";
+	private static final String DATE_TYPE = "nakeduml.date.type";
+	private static final String ID_GENERATOR_STRATEGY = "nakeduml.id.generator.strategy";
+	private static final String TEST_DATA_SIZE = "nakeduml.test.data.size";
 	private static final String MAVEN_GROUPID = "nakeduml.maven.groupid";
 	private static final String MAVEN_GROUP_VERSION = "nakeduml.maven.group.version";
 	private static final String GENERATE_MAVEN_POMS = "nakeduml.generate.poms";
@@ -59,29 +55,20 @@ public class NakedUmlConfig {
 		if (!this.props.containsKey(JDBC_DIALECT)) {
 			this.props.setProperty(JDBC_DIALECT, "org.hibernate.dialect.HSQLDialect");
 		}
-		if (!this.props.containsKey(JDBC_DRIVER_CLASS)) {
-			this.props.setProperty(JDBC_DRIVER_CLASS, "org.hsqldb.jdbcDriver");
+		if(!this.props.containsKey(DATA_SOURCE_NAME)){
+			this.props.setProperty(DATA_SOURCE_NAME, "java:/"+projectName + "DataSource");
 		}
-		if (!this.props.containsKey(DB_PASSWORD)) {
-			this.props.setProperty(DB_PASSWORD, "");
+		if (!this.props.containsKey(DATE_TIME_TYPE)) {
+			this.props.setProperty(DATE_TIME_TYPE, "Date");
 		}
-		if (!this.props.containsKey(DB_USERNAME)) {
-			this.props.setProperty(DB_USERNAME, "sa");
+		if (!this.props.containsKey(DATE_TYPE)) {
+			this.props.setProperty(DATE_TYPE, "Date");
 		}
-		if (!this.props.containsKey(JDBC_CONNECTION_URL)) {
-			this.props.setProperty(JDBC_CONNECTION_URL, "jdbc:hsqldb:hsql:///" + projectName);
+		if (!this.props.containsKey(REAL_TYPE)) {
+			this.props.setProperty(REAL_TYPE, "Real");
 		}
-		if (!this.props.containsKey(NAKEDUML_DATE_TIME_TYPE)) {
-			this.props.setProperty(NAKEDUML_DATE_TIME_TYPE, "Date");
-		}
-		if (!this.props.containsKey(NAKEDUML_DATE_TYPE)) {
-			this.props.setProperty(NAKEDUML_DATE_TYPE, "Date");
-		}
-		if (!this.props.containsKey(NAKEDUML_REAL_TYPE)) {
-			this.props.setProperty(NAKEDUML_REAL_TYPE, "Real");
-		}
-		if (!this.props.containsKey(NAKEDUML_EMAIL_ADDRESS_TYPE)) {
-			this.props.setProperty(NAKEDUML_EMAIL_ADDRESS_TYPE, "EMailAddress");
+		if (!this.props.containsKey(EMAIL_ADDRESS_TYPE)) {
+			this.props.setProperty(EMAIL_ADDRESS_TYPE, "EMailAddress");
 		}
 		if (!this.props.containsKey(GENERATE_MAVEN_POMS)) {
 			this.props.setProperty(GENERATE_MAVEN_POMS, "true");
@@ -104,36 +91,21 @@ public class NakedUmlConfig {
 		return this.props.getProperty(JDBC_DIALECT);
 	}
 
-	public String getJdbcDriverClassName() {
-		return this.props.getProperty(JDBC_DRIVER_CLASS);
-	}
-
-	public String getDBPassword() {
-		return this.props.getProperty(DB_PASSWORD);
-	}
 
 	public boolean generateMavenPoms() {
 		return "true".equals(this.props.getProperty(GENERATE_MAVEN_POMS,"true"));
 	}
 
-	public String getDBUsername() {
-		return this.props.getProperty(DB_USERNAME);
-	}
-
-	public String getDBConnectionUrl() {
-		return this.props.getProperty(JDBC_CONNECTION_URL);
-	}
-
 	public String getDateType() {
-		return this.props.getProperty(NAKEDUML_DATE_TYPE);
+		return this.props.getProperty(DATE_TYPE);
 	}
 
 	public String getRealType() {
-		return this.props.getProperty(NAKEDUML_REAL_TYPE);
+		return this.props.getProperty(REAL_TYPE);
 	}
 
 	public String getEMailAddressType() {
-		return this.props.getProperty(NAKEDUML_EMAIL_ADDRESS_TYPE);
+		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
 	}
 
 	public void setOutputRoot(File destination) {
@@ -145,27 +117,27 @@ public class NakedUmlConfig {
 	}
 
 	public int getNumberOfColumns() {
-		return new Integer(this.props.getProperty(NAKEDUML_LIST_COLUMNS));
+		return new Integer(this.props.getProperty(LIST_COLUMNS));
 	}
 
 	public boolean needsSchema() {
-		return Boolean.valueOf(this.props.getProperty(NAKEDUML_NEED_SCHEMA));
+		return Boolean.valueOf(this.props.getProperty(NEED_SCHEMA));
 	}
 
 	public boolean supportSchema() {
-		return Boolean.valueOf(this.props.getProperty(NAKEDUML_SUPPORT_SCHEMA));
+		return Boolean.valueOf(this.props.getProperty(SUPPORT_SCHEMA));
 	}
 
 	public String getDefaultSchema() {
-		return this.props.getProperty(NAKEDUML_DEFAULT_SCHEMA);
+		return this.props.getProperty(DEFAULT_SCHEMA);
 	}
 
 	public Boolean getDataGeneration() {
-		return Boolean.valueOf(this.props.getProperty(NAKEDUML_DATA_GENERATION, "true"));
+		return Boolean.valueOf(this.props.getProperty(DATA_GENERATION, "true"));
 	}
 
-	public String getHibernateDSName() {
-		return this.props.getProperty(NAKEDUML_HIBERNATE_DS_NAME, "java:/DefaultDS");
+	public String getDataSourceName() {
+		return this.props.getProperty(DATA_SOURCE_NAME);
 	}
 
 	public String getMavenGroupId() {
@@ -173,15 +145,15 @@ public class NakedUmlConfig {
 	}
 
 	public String getIdGeneratorStrategy() {
-		return this.props.getProperty(NAKEDUML_ID_GENERATOR_STRATEGY, "AUTO");
+		return this.props.getProperty(ID_GENERATOR_STRATEGY, "AUTO");
 	}
 
 	public void setIdGeneratorStrategy(String name) {
-		this.props.setProperty(NAKEDUML_ID_GENERATOR_STRATEGY, name);
+		this.props.setProperty(ID_GENERATOR_STRATEGY, name);
 	}
 
 	public String getTestDataSize() {
-		return this.props.getProperty(NAKEDUML_TEST_DATA_SIZE, "3");
+		return this.props.getProperty(TEST_DATA_SIZE, "3");
 	}
 
 	public void store() {

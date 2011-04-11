@@ -6,6 +6,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
@@ -24,7 +25,7 @@ import org.nakeduml.runtime.domain.Audited;
 
 public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisitor {
 	@VisitBefore(matchSubclasses = true)
-	public void visitClasses(INakedEntity entity) {
+	public void visitClasses(INakedClassifier entity) {
 		if (isPersistent(entity) && OJUtil.hasOJClass(entity)) {
 			OJPathName path = OJUtil.classifierPathname(entity);
 			OJAnnotatedClass ojClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
@@ -37,7 +38,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		}
 	}
 
-	private void addMakeAuditCopyIdOnly(INakedEntity entity, OJAnnotatedClass ojClass) {
+	private void addMakeAuditCopyIdOnly(INakedClassifier entity, OJAnnotatedClass ojClass) {
 		ojClass.addToImports(new OJPathName(AuditId.class.getName()));
 		OJAnnotatedOperation makeAuditCopyIdOnly = new OJAnnotatedOperation();
 		makeAuditCopyIdOnly.setName("makeAuditCopyIdOnly");
@@ -63,7 +64,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		ojClass.addToOperations(makeAuditCopyIdOnly);
 	}
 
-	private void addMakeAuditCopyMethod(INakedEntity entity, OJAnnotatedClass ojClass) {
+	private void addMakeAuditCopyMethod(INakedClassifier entity, OJAnnotatedClass ojClass) {
 		OJOperation operation = new OJAnnotatedOperation();
 		operation.setName("makeAuditCopy");
 		OJPathName pathName = ojClass.getPathName();
@@ -101,11 +102,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		}
 	}
 
-	private void addEntityListenerAnnotation(OJAnnotatedClass c) {
-		OJAnnotationValue entityListener = new OJAnnotationValue(new OJPathName("javax.persistence.EntityListeners"));
-		entityListener.addClassValue(new OJPathName("util.NakedUmlEJB3AuditListener"));
-		c.addAnnotationIfNew(entityListener);
-	}
+
 
 	private void addMakeAuditCopyWithoutParentMethod(OJAnnotatedClass c) {
 		OJOperation operation = new OJAnnotatedOperation();

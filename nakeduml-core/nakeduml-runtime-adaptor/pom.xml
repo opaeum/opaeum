@@ -4,6 +4,7 @@
 		<artifactId>numl-core</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.5-SNAPSHOT</version>
+		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
@@ -15,7 +16,7 @@
 
 	<properties>
 		<seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-		<seam.solder.version>3.0.0.CR4</seam.solder.version>
+		<seam.solder.version>3.0.0.Final</seam.solder.version>
 		<slf4j.log4j>1.6.1</slf4j.log4j>
 		<jbpm.version>5.0.0</jbpm.version>
 		<drools.version>5.2.0.M1</drools.version>
@@ -24,14 +25,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ejb-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<ejbVersion>3.0</ejbVersion>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -125,6 +118,14 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<version>1.0.0.Final</version>
 			<scope>provided</scope>
+			<exclusions>
+			<!-- For clean eclipse classpath -->
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+			</exclusions>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec.javax.jms</groupId>
@@ -138,13 +139,33 @@
 			<version>1.1.1</version>
 			<type>jar</type>
 			<scope>provided</scope>
+			<exclusions>
+			<!-- For clean eclipse classpath -->
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+				<exclusion>
+				  <groupId>org.jboss.logging</groupId>
+				  <artifactId>jboss-logging-spi</artifactId>
+				</exclusion>
+			</exclusions>
+			
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.1</version>
 			<scope>provided</scope>
-		</dependency>
+			
+			<exclusions>
+			For clean eclipse classpath
+				<exclusion>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency-->
 		<dependency>
 			<groupId>org.jboss.seam.persistence</groupId>
 			<artifactId>seam-persistence-api</artifactId>
@@ -174,95 +195,24 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jbpm</groupId>
-			<artifactId>jbpm-persistence-jpa</artifactId>
-			<version>${jbpm.version}</version>
-			<type>jar</type>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<scope>provided</scope>
 			<exclusions>
-				<exclusion>
-					<artifactId>hibernate-annotations</artifactId>
-					<groupId>org.hibernate</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hibernate-entitymanager</artifactId>
-					<groupId>org.hibernate</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hibernate-core</artifactId>
-					<groupId>org.hibernate</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hibernate-commons-annotations</artifactId>
-					<groupId>org.hibernate</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>persistence-api</artifactId>
-					<groupId>javax.persistence</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jta</artifactId>
-					<groupId>javax.transaction</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>javassist</artifactId>
-					<groupId>javassist</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>dom4j</artifactId>
-					<groupId>dom4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-persistence-jpa</artifactId>
-			<version>${drools.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-entitymanager</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-commons-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.persistence</groupId>
-					<artifactId>persistence-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.transaction</groupId>
-					<artifactId>jta</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javassist</groupId>
-					<artifactId>javassist</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>dom4j</groupId>
-					<artifactId>dom4j</artifactId>
-				</exclusion>
+				<!-- Exclusions intended primarily to ensure clean Eclipse classpaths -->
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>javax.transaction</groupId>
+					<artifactId>jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>antlr</groupId>
+					<artifactId>antlr</artifactId>
+				</exclusion>				
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

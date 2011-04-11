@@ -23,117 +23,116 @@ import org.hibernate.Transaction;
 import org.hibernate.event.EventSource;
 import org.jboss.seam.persistence.util.InstanceResolver;
 import org.jboss.seam.solder.beanManager.BeanManagerLocator;
+import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.ExceptionAnalyser;
+import org.nakeduml.runtime.domain.RevisionType;
 
-public class AuditSync implements Synchronization {
-
+public class AuditSync implements Synchronization{
 	private final AuditSyncManager manager;
 	private final Transaction transaction;
 	private final LinkedList<Audited> auditedEntities;
-	private final Map<Pair<String, Integer>, Audited> usedIds;
+	private final Map<Pair<String,Integer>,Audited> usedIds;
 	private AbstractWorkUnit abstractWorkUnit;
-	private boolean isAsync = false;
+	private boolean isAsync;
 	Instance<AuditSequencer> auditSequencerInstance;
 	Instance<AuditCapturer> auditCapturerInstance;
-
-	public AuditSync(AuditSyncManager manager, EventSource session, boolean isAsync) {
+	public AuditSync(AuditSyncManager manager,EventSource session,boolean isAsync){
 		this.manager = manager;
 		transaction = session.getTransaction();
 		auditedEntities = new LinkedList<Audited>();
-		usedIds = new HashMap<Pair<String, Integer>, Audited>();
+		usedIds = new HashMap<Pair<String,Integer>,Audited>();
 		abstractWorkUnit = new AbstractWorkUnit();
 		this.isAsync = isAsync;
 		this.auditSequencerInstance = lookupAuditSequencerInstance();
 		this.auditCapturerInstance = lookupAuditCapturer();
 	}
-
-	public void addAudited(Audited audited) {
-		Pair<String, Integer> usedIdsKey = Pair.make(audited.getClass().getSimpleName(), audited.getId().hashCode());
-		Audited allReadyAudited = usedIds.get(usedIdsKey);
-		if (allReadyAudited != null) {
-			int i = auditedEntities.indexOf(allReadyAudited);
-			auditedEntities.remove(allReadyAudited);
-			auditedEntities.add(i, audited);
-		} else {
-			auditedEntities.offer(audited);
+	public void addAudited(Audited audited){
+		try{
+			Pair<String,Integer> usedIdsKey = Pair.make(audited.getClass().getSimpleName(), audited.getId().hashCode());
+			Audited alreadyAudited = usedIds.get(usedIdsKey);
+			int objectVersion = audited.getOriginal().getObjectVersion();
+			if(alreadyAudited != null){
+				int i = auditedEntities.indexOf(alreadyAudited);
+				auditedEntities.remove(alreadyAudited);
+				audited.setRevisionType(alreadyAudited.getRevisionType());
+				auditedEntities.add(i, audited);
+			}else{
+				if(objectVersion > 0 && audited.getRevisionType()==RevisionType.MOD){
+					Audited previousVersion = audited.getClass().newInstance();
+					previousVersion.setId(new AuditId(audited.getOriginal().getId(), objectVersion - 1));
+					audited.setPreviousVersion(previousVersion);
+				}
+				auditedEntities.offer(audited);
+			}
+			usedIds.put(usedIdsKey, audited);
+		}catch(RuntimeException re){
+			throw re;
+		}catch(InstantiationException e){
+			throw new RuntimeException(e);
+		}catch(IllegalAccessException e){
+			throw new RuntimeException(e);
 		}
-		usedIds.put(usedIdsKey, audited);
 	}
-
 	@Override
-	public void beforeCompletion() {
-		if (!isAsync) {
+	public void beforeCompletion(){
+		if(!isAsync){
 			AuditCapturer auditCapturer = auditCapturerInstance.get();
 			abstractWorkUnit.setAuditedEntities(auditedEntities);
 			auditCapturer.persistAudit(abstractWorkUnit);
 			manager.remove(transaction);
 		}
 	}
-
 	@Override
-	public void afterCompletion(int status) {
-		if (isAsync && Status.STATUS_COMMITTED == status) {
-			try {
+	public void afterCompletion(int status){
+		if(isAsync && Status.STATUS_COMMITTED == status){
+			try{
 				abstractWorkUnit.setAuditedEntities(auditedEntities);
 				abstractWorkUnit.setSequence(auditSequencerInstance.get().getAndIncrement());
 				sendAuditMessage();
-			} catch (NamingException e) {
-				throw new RuntimeException(e);
-			} catch (JMSException e) {
-				throw new RuntimeException(e);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
+			}catch(Exception e){
+				new ExceptionAnalyser(e).throwRootCause();
 			}
 		}
 		manager.remove(transaction);
-
 	}
-
-	private void sendAuditMessage() throws JMSException, NamingException {
+	private void sendAuditMessage() throws JMSException,NamingException{
 		Connection connection = null;
 		InitialContext initialContext = null;
-		try {
+		try{
 			// Step 1. Create an initial context to perform the JNDI lookup.
 			// initialContext = getContext();
 			initialContext = new InitialContext();
-
 			// Step 2. Perfom a lookup on the queue
 			Queue queue = (Queue) initialContext.lookup("/queue/AuditQueue");
-
 			// Step 3. Perform a lookup on the Connection Factory
 			XAConnectionFactory cf = (XAConnectionFactory) initialContext.lookup("/ConnectionFactory");
-
 			// Step 4.Create a JMS Connection
 			connection = cf.createXAConnection();
-
 			// Step 5. Create a JMS Session
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
 			// Step 6. Create a JMS Message Producer
 			MessageProducer producer = session.createProducer(queue);
 			producer.setDeliveryMode(NON_PERSISTENT);
 			producer.send(session.createObjectMessage(abstractWorkUnit));
-
-		} finally {
+		}finally{
 			// Step 12. Be sure to close our JMS resources!
-			if (initialContext != null) {
+			if(initialContext != null){
 				initialContext.close();
 			}
-			if (connection != null) {
+			if(connection != null){
 				connection.close();
 			}
 		}
 	}
-
-	private Instance<AuditSequencer> lookupAuditSequencerInstance() {
+	private Instance<AuditSequencer> lookupAuditSequencerInstance(){
 		BeanManagerLocator locator = new BeanManagerLocator();
 		BeanManager beanManager = locator.getBeanManager();
 		return InstanceResolver.getInstance(AuditSequencer.class, beanManager);
 	}
-	
-	private Instance<AuditCapturer> lookupAuditCapturer() {
+	private Instance<AuditCapturer> lookupAuditCapturer(){
 		BeanManagerLocator locator = new BeanManagerLocator();
 		BeanManager beanManager = locator.getBeanManager();
 		return InstanceResolver.getInstance(AuditCapturer.class, beanManager);
-	}	
+	}
 }

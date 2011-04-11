@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 
-public class AbstractSignal implements Serializable {
+public abstract class AbstractSignal implements Serializable {
 	public void send(Object from, Object to){}
 	public void send(AbstractEntity from, ActiveObject to){
 		Environment.getInstance().getComponent(ISignalDispatcher.class).sendSignal(from, to, this);
@@ -14,4 +14,5 @@ public class AbstractSignal implements Serializable {
 	public void send(AbstractEntity from, Collection<? extends ActiveObject> to){
 		Environment.getInstance().getComponent(ISignalDispatcher.class).sendSignal(from, to, this);
 	}
+	public abstract String getUid();
 }

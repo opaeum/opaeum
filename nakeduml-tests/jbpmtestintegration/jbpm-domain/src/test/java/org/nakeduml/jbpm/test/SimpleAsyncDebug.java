@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 
-public class SimpleAsyncTest {
+public class SimpleAsyncDebug {
 	
-	@Test
+//	@Test
 	public void testSignal() throws InterruptedException {
 		Application application = new Application();
 		application.setName("cmApplication");

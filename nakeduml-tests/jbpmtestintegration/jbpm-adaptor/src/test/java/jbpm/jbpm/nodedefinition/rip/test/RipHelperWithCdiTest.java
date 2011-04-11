@@ -18,23 +18,30 @@ import jbpm.jbpm.rip.NetworkSoftwareVersion;
 import jbpm.jbpm.rip.NodeDefinition;
 import jbpm.jbpm.rip.RipHelper;
 
-import org.jboss.seam.scheduling.util.WebBeansManagerUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.nakeduml.environment.Environment;
-import org.nakeduml.test.adaptor.AbstractCdiTest;
-import org.nakeduml.test.adaptor.MockDependentSession;
+import org.nakeduml.environment.cdi.test.CdiTestEnvironment;
+import org.nakeduml.environment.cdi.test.CdiTestSeamTransaction;
+import org.nakeduml.environment.cdi.test.MockTransactionSession;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 
-public class RipHelperWithCdiTest extends AbstractCdiTest {
+public class RipHelperWithCdiTest {
 	
-	@Override
+	@Before
+	public void beforeClass() throws Throwable {
+		CdiTestEnvironment.getInstance().initializeDeployment(Arrays.asList("test-beans.xml"), getAdditionalWebBeans());
+	}
+	
 	protected List<Class<? extends Object>> getAdditionalWebBeans() {
 		Set<Class<? extends Object>> list = new HashSet<Class<? extends Object>>(1);
-		list.addAll(getClasses(MockNodeDefinitionFactory.class.getPackage().getName()));
-		list.addAll(getClasses(MockDependentSession.class.getPackage().getName()));
+		list.addAll(IntrospectionUtil.getClasses(MockNodeDefinitionFactory.class.getPackage().getName()));
+		list.addAll(IntrospectionUtil.getClasses(MockTransactionSession.class.getPackage().getName()));
 		list.add(RipHelperWithCdiTest.class);
 		list.add(RipHelperImpl.class);
 		list.remove(NodeDefinitionFactory.class);
+		list.add(CdiTestSeamTransaction.class);
 		return new ArrayList<Class<? extends Object>>(list);		
 	}
 
@@ -45,6 +52,7 @@ public class RipHelperWithCdiTest extends AbstractCdiTest {
 
 	@Test
 	public void testRipping() {
+		CdiTestEnvironment.getInstance().beforeRequest(this);
 		RipHelper ripHelper = Environment.getInstance().getComponent(RipHelper.class);
 		Assert.assertNotNull(ripHelper);
 		
@@ -68,6 +76,7 @@ public class RipHelperWithCdiTest extends AbstractCdiTest {
 				}
 			}
 		}
+		CdiTestEnvironment.getInstance().beforeRequest(this);
 	}
 
 }

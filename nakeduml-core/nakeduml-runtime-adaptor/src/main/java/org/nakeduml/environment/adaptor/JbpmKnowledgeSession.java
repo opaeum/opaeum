@@ -5,8 +5,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
 import org.jboss.seam.transaction.TransactionScoped;
-import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
-import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContextManager;
 
 @TransactionScoped
 @TransactionAttribute(TransactionAttributeType.MANDATORY)

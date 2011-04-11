@@ -1,7 +1,9 @@
 <projectDescription>
   <name>nakeduml-runtime-adaptor</name>
   <comment>Uml model compiler for the JBoss JEE and jBPM environment. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects/>
+  <projects>
+    <project>nakeduml-runtime-domain</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

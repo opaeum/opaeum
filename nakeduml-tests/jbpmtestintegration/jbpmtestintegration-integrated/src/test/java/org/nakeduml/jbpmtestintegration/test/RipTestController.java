@@ -1,4 +1,4 @@
-package org.nakeduml.ripper;
+package org.nakeduml.jbpmtestintegration.test;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;

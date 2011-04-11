@@ -88,7 +88,21 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitProperty(INakedProperty p){
 		INakedClassifier owner = p.getOwner();
-		visitProperty(owner, p);
+		visitProperty(owner, new NakedStructuralFeatureMap(p));
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitParameters(INakedBehavior a){
+		if(a.isProcess()){
+			for(INakedParameter p:a.getOwnedParameters()){
+				visitProperty(a, new NakedStructuralFeatureMap(new TypedElementPropertyBridge(a, p)));
+			}
+		}
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitOutputPin(INakedOutputPin op){
+		if(BehaviorUtil.mustBeStoredOnActivity(op) && op.getActivity().isProcess()){
+			visitProperty(op.getActivity(),OJUtil.buildStructuralFeatureMap(op.getActivity(), op, true));
+		}
 	}
 	@VisitBefore
 	public void visitModel(INakedModel model){
@@ -100,10 +114,9 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		}
 		this.classPathNames = cc.persistentClasses;
 	}
-	private void visitProperty(INakedClassifier owner,INakedProperty p){
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-		if(isPersistent(owner) && !p.isDerived() && !(owner instanceof INakedInterface || p.getNakedBaseType() instanceof INakedInterface)
-				&& (isPersistent(p.getNakedBaseType()))){
+	private void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
+		INakedProperty p=map.getProperty();
+		if(isPersistent(owner) && !p.isDerived() && !(owner instanceof INakedInterface || p.getNakedBaseType() instanceof INakedInterface)){
 			OJPathName path = OJUtil.classifierPathname(owner);
 			path.replaceTail(path.getLast() + "_Audit");
 			OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
@@ -148,7 +161,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 					joinTable.putAttribute(inverseJoinColumns);
 					field.addAnnotationIfNew(joinTable);
 				}
-			}else if(map.isOne() && !p.isInverse()){
+			}else if(map.isOne() && !p.isInverse() && isPersistent(p.getNakedBaseType())){
 				field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
 				addJoinColumns(p, field);
 			}else if(map.isOneToOne()){
@@ -270,7 +283,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 	public void visitFeature(INakedEntity entity){
 		for(INakedProperty p:entity.getEffectiveAttributes()){
 			if(p.getOwner() instanceof INakedInterface){
-				visitProperty(entity, p);
+				visitProperty(entity, new NakedStructuralFeatureMap(p));
 			}
 		}
 	}
@@ -297,7 +310,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 					addOriginalNamedQueryWithStartEndDate(auditClass, c);
 					// implementAudited(c, auditClass);
 					removeDeletedOnFilter(auditClass);
-//					makeDeletedOnInsertableFalse(auditClass);
+					// makeDeletedOnInsertableFalse(auditClass);
 					// remove uniqueConstraints
 					OJAnnotationValue table = auditClass.findAnnotation(new OJPathName("javax.persistence.Table"));
 					table.removeAttribute("uniqueConstraints");
@@ -330,7 +343,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		}
 		massageBehaviorLogic(c, auditClass);
 	}
-	private void makeDeletedOnInsertableFalse(OJAnnotatedClass auditClass) {
+	private void makeDeletedOnInsertableFalse(OJAnnotatedClass auditClass){
 		OJAnnotatedField deletedOn = (OJAnnotatedField) auditClass.findField("deletedOn");
 		OJAnnotationValue column = deletedOn.findAnnotation(new OJPathName("javax.persistence.Column"));
 		column.putAttribute("insertable", false);
@@ -372,7 +385,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 				}
 				List<? extends INakedParameter> parms = b.getOwnedParameters();
 				for(INakedParameter parm:parms){
-					visitProperty(b, new TypedElementPropertyBridge(b, parm));
+					visitProperty(b, new NakedStructuralFeatureMap(new TypedElementPropertyBridge(b, parm)));
 				}
 				if(b instanceof INakedActivity){
 					INakedActivity activity = (INakedActivity) b;

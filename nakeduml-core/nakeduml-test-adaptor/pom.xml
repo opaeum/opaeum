@@ -6,6 +6,7 @@
 		<artifactId>numl-core</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.5-SNAPSHOT</version>
+		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
@@ -15,6 +16,18 @@
 	<version>${numl.version}</version>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -90,8 +103,8 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>compile</scope>
 			<version>4.8.2</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -99,10 +112,19 @@
 			<version>3.6.0.Final</version>
 			<scope>provided</scope>
 			<exclusions>
+				<!-- Exclusions intended primarily to ensure clean Eclipse classpaths -->
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-api</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>javax.transaction</groupId>
+					<artifactId>jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>antlr</groupId>
+					<artifactId>antlr</artifactId>
+				</exclusion>				
 			</exclusions>
 		</dependency>
 		<dependency>

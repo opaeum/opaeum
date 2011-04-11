@@ -214,10 +214,8 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		adder.setName(map.internalAdder());
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
-		String remove;
-		remove = "this." + map.umlName() + "=" + map.umlName();
-		OJIfStatement ifEquals = new OJIfStatement(map.getter() + "()==null || !" + map.getter() + "().equals(" + map.umlName() + ")", remove);
-		adder.getBody().addToStatements(ifEquals);
+		adder.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
+		
 		owner.addToOperations(adder);
 	}
 	private void buildInternalRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){

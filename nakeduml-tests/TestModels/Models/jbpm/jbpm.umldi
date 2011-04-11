@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_BLX6wTpzEeCKr_45Ih7B5Q" activeDiagram="_93SF0EmyEeCFaJvOEQDIzw">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_BLX6wTpzEeCKr_45Ih7B5Q" activeDiagram="_zzKhAEpsEeClzIHhNO5_Xw">
   <model href="jbpm.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_BLblIDpzEeCKr_45Ih7B5Q" position="0,0" size="100,100" name="jbpm" viewport="0,46">
     <property xmi:id="_BSxjQDpzEeCKr_45Ih7B5Q" key="pageFormatName" value="A4"/>
@@ -1601,7 +1601,7 @@
     </diagrams>
     <subdiagrams xmi:id="_93RewEmyEeCFaJvOEQDIzw">
       <model href="jbpm.uml#_62w7IEmyEeCFaJvOEQDIzw"/>
-      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" zoom="0.75" viewport="0,510">
+      <diagrams xmi:id="_93SF0EmyEeCFaJvOEQDIzw" position="0,0" size="100,100" name="RipProcess" zoom="0.75" viewport="0,0">
         <property xmi:id="_95If8EmyEeCFaJvOEQDIzw" key="pageFormatName" value="A3"/>
         <property xmi:id="_95If8UmyEeCFaJvOEQDIzw" key="diagramWidth" value="1188"/>
         <property xmi:id="_95If8kmyEeCFaJvOEQDIzw" key="diagramHeight" value="1680"/>
@@ -1904,7 +1904,7 @@
     <subdiagrams xmi:id="_fBefkEoQEeCFaJvOEQDIzw"/>
     <subdiagrams xmi:id="_PpE_8EoVEeCFaJvOEQDIzw">
       <model href="jbpm.uml#_ea5D4EoUEeCFaJvOEQDIzw"/>
-      <diagrams xmi:id="_zzKhAEpsEeClzIHhNO5_Xw" position="0,0" size="100,100" name="RipActivity" viewport="80,502">
+      <diagrams xmi:id="_zzKhAEpsEeClzIHhNO5_Xw" position="0,0" size="100,100" name="RipActivity" viewport="80,0">
         <property xmi:id="_z26_oEpsEeClzIHhNO5_Xw" key="pageFormatName" value="A3"/>
         <property xmi:id="_z3PIsEpsEeClzIHhNO5_Xw" key="diagramWidth" value="1188"/>
         <property xmi:id="_z32zwEpsEeClzIHhNO5_Xw" key="diagramHeight" value="1680"/>
@@ -1918,6 +1918,7 @@
           <element href="jbpm.uml#_ea5D4EoUEeCFaJvOEQDIzw"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_2ep24EpsEeClzIHhNO5_Xw" position="130,105" size="346,122">
+          <anchorage xmi:id="_YO-LMF3_EeCRXuWK7oIWVw" graphEdge="_YPDDsF3_EeCRXuWK7oIWVw"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2ep24UpsEeClzIHhNO5_Xw" presentation="default">
             <element href="jbpm.uml#_iRT_AEoYEeCFaJvOEQDIzw"/>
           </semanticModel>
@@ -1931,6 +1932,7 @@
           </contained>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_4HJesEpsEeClzIHhNO5_Xw" position="560,64" size="439,106">
+          <anchorage xmi:id="_YO-yQF3_EeCRXuWK7oIWVw" graphEdge="_YPDDsF3_EeCRXuWK7oIWVw"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4HJesUpsEeClzIHhNO5_Xw" presentation="default">
             <element href="jbpm.uml#_Yd0PMEoZEeCFaJvOEQDIzw"/>
           </semanticModel>
@@ -2078,6 +2080,17 @@
           <contained xsi:type="di:EdgeObjectUV" xmi:id="_9XIoJEwNEeCD2ITeubLIbQ" id="nameEdgeObject" uDistance="6" vDistance="6"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_9XIoJUwNEeCD2ITeubLIbQ" visible="false" id="interruptibleEdgeObject"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_9XIoJkwNEeCD2ITeubLIbQ" visible="false" id="interruptibleIconEdgeObject"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_YPDDsF3_EeCRXuWK7oIWVw" anchor="_YO-LMF3_EeCRXuWK7oIWVw _YO-yQF3_EeCRXuWK7oIWVw">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YPDDsV3_EeCRXuWK7oIWVw" presentation="default">
+            <element href="jbpm.uml#_YPmdUF3_EeCRXuWK7oIWVw"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_YPDDsl3_EeCRXuWK7oIWVw" id="stereotypeEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectUV" xmi:id="_YPDDs13_EeCRXuWK7oIWVw" id="guardEdgeObject" uDistance="6" vDistance="6"/>
+          <contained xsi:type="di:EdgeObjectUV" xmi:id="_YPDDtF3_EeCRXuWK7oIWVw" visible="false" id="weightEdgeObject" uDistance="6" vDistance="-6"/>
+          <contained xsi:type="di:EdgeObjectUV" xmi:id="_YPDDtV3_EeCRXuWK7oIWVw" id="nameEdgeObject" uDistance="6" vDistance="6"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_YPDDtl3_EeCRXuWK7oIWVw" visible="false" id="interruptibleEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_YPDDt13_EeCRXuWK7oIWVw" visible="false" id="interruptibleIconEdgeObject"/>
         </contained>
       </diagrams>
     </subdiagrams>

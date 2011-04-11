@@ -48,15 +48,20 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 			signal.prepareForDispatch();
 			Session session = CdiTestEnvironment.getInstance().getComponent(Session.class);
 			signal.prepareForDelivery(session);
-			signal.getTarget().processSignal(signal.getSignal());
+			CdiTestEnvironment.getInstance().afterRequest(target);
 			if(target instanceof AbstractEntity){
+				CdiTestEnvironment.getInstance().beforeRequest(target);
+				signal.getTarget().processSignal(signal.getSignal());
 				if(session!=null){
 					session.flush();
 				}else{
 					throw new IllegalStateException("Session null");
 				}
+				CdiTestEnvironment.getInstance().afterRequest(target);
+			}else{
+				signal.getTarget().processSignal(signal.getSignal());
+				deliverAllPendingSignals();
 			}
-			CdiTestEnvironment.getInstance().afterRequest(target);
 		}
 	}
 	@Override
