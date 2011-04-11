@@ -28,7 +28,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.CompositionNode;
-import org.nakeduml.runtime.domain.TinkerpopCompositionNode;
+import org.nakeduml.runtime.domain.TinkerCompositionNode;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java
@@ -52,7 +52,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
 			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
-			COMPOSITION_NODE = new OJPathName(TinkerpopCompositionNode.class.getName());
+			COMPOSITION_NODE = new OJPathName(TinkerCompositionNode.class.getName());
 		}
 	}
 
