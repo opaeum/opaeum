@@ -67,5 +67,10 @@
 			<artifactId>blueprints-orient-graph</artifactId>
 			<version>0.7-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>		
 	</dependencies>
 </project>

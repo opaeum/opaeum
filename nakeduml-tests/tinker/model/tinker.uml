@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="tinker">
-  <elementImport xmi:id="_8MvhUGRmEeCWwpEEhhedIw">
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="org">
+  <elementImport xmi:id="_3e48AGRvEeCWwpEEhhedIw">
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
   </elementImport>
-  <elementImport xmi:id="_8MxWgGRmEeCWwpEEhhedIw">
+  <elementImport xmi:id="_3e48AWRvEeCWwpEEhhedIw">
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
   </elementImport>
-  <elementImport xmi:id="_8MxWgWRmEeCWwpEEhhedIw">
+  <elementImport xmi:id="_3e5jEGRvEeCWwpEEhhedIw">
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
   </elementImport>
-  <elementImport xmi:id="_8MxWgmRmEeCWwpEEhhedIw">
+  <elementImport xmi:id="_3e5jEWRvEeCWwpEEhhedIw">
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
   </elementImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="tinker">
-    <packagedElement xmi:type="uml:Class" xmi:id="_5pceIGRmEeCWwpEEhhedIw" name="God">
-      <ownedAttribute xmi:id="_8tFOQGRmEeCWwpEEhhedIw" name="name">
+    <packagedElement xmi:type="uml:Class" xmi:id="_z3Yp0GRvEeCWwpEEhhedIw" name="God">
+      <ownedAttribute xmi:id="_1L3JcGRvEeCWwpEEhhedIw" name="name">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_BvfpIGRwEeCWwpEEhhedIw" name="universe" type="_5k4YIGRvEeCWwpEEhhedIw" aggregation="composite" association="_Bv6f4GRwEeCWwpEEhhedIw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BvfpIWRwEeCWwpEEhhedIw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BvfpImRwEeCWwpEEhhedIw"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_5k4YIGRvEeCWwpEEhhedIw" name="Universe">
+      <ownedAttribute xmi:id="__jx_gGRvEeCWwpEEhhedIw" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_Bv6f4GRwEeCWwpEEhhedIw" name="A_&lt;god>_&lt;universe>" memberEnd="_Bv6f4WRwEeCWwpEEhhedIw _BvfpIGRwEeCWwpEEhhedIw" navigableOwnedEnd="_Bv6f4WRwEeCWwpEEhhedIw">
+      <ownedEnd xmi:id="_Bv6f4WRwEeCWwpEEhhedIw" name="god" type="_z3Yp0GRvEeCWwpEEhhedIw" association="_Bv6f4GRwEeCWwpEEhhedIw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Bv6f4mRwEeCWwpEEhhedIw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Bv6f42RwEeCWwpEEhhedIw" value="1"/>
+      </ownedEnd>
     </packagedElement>
   </packagedElement>
 </uml:Model>

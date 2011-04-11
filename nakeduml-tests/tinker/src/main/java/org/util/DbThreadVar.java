@@ -1,4 +1,4 @@
-package tinker.util;
+package org.util;
 
 import com.tinkerpop.blueprints.pgm.Graph;
 
