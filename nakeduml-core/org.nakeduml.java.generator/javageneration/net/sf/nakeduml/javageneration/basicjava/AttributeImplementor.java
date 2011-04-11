@@ -47,12 +47,14 @@ public class AttributeImplementor extends StereotypeAnnotator{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	private AttributeImplementorStrategy attributeImplementorStrategy; 
+	public final static String ATRTIBUTE_STRATEGY_TINKER = "TINKER";
+	public final static String ATRTIBUTE_STRATEGY_HIBERNATE = "HIBERNATE";
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
+		if (config.getAttributeImplementationStrategy().equals(ATRTIBUTE_STRATEGY_HIBERNATE)) {
 			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
-		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
+		} else if (config.getAttributeImplementationStrategy().equals(ATRTIBUTE_STRATEGY_TINKER)) {
 			attributeImplementorStrategy = new TinkerAttributeImplementorStrategy();
 		}
 	}

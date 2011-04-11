@@ -31,9 +31,9 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
+		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)) {
 			derivedUnionImplStrategy = new HibernateDerivedUnionImplStrategy();
-		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
+		} else if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
 			derivedUnionImplStrategy = new Neo4jDerivedUnionImplStrategy();
 		}
 	}

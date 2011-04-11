@@ -5,6 +5,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -47,10 +48,10 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (config.getAttributeImplementationStrategy().equals("HIBERNATE")) {
+		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)) {
 			compositionNodeStrategy = new HibernateCompositionNodeStrategy();
 			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
-		} else if (config.getAttributeImplementationStrategy().equals("NEO4J")) {
+		} else if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
 			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
 			COMPOSITION_NODE = new OJPathName(TinkerCompositionNode.class.getName());
 		}
