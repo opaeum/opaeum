@@ -14,7 +14,6 @@ public class BaseTest {
 	
 	@Before
 	public void before() {
-		System.out.println("before");
 		db = new OrientGraph("memory:test");
 		db.clear();
 		DbThreadVar.setDB(db);
@@ -22,7 +21,6 @@ public class BaseTest {
 
 	@After
 	public void after() {
-		System.out.println("after");
 		db.shutdown();
 		DbThreadVar.setDB(null);
 	}

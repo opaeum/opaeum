@@ -30,6 +30,10 @@
       <ownedAttribute xmi:id="__jx_gGRvEeCWwpEEhhedIw" name="name">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_IIl9UGUtEeCYCc2JDFo2sA" name="spaceTime" type="_FRtPwGUtEeCYCc2JDFo2sA" aggregation="composite" association="_IIsrCmUtEeCYCc2JDFo2sA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_IIl9UWUtEeCYCc2JDFo2sA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_IIl9UmUtEeCYCc2JDFo2sA"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_Bv6f4GRwEeCWwpEEhhedIw" name="A_&lt;god>_&lt;universe>" memberEnd="_Bv6f4WRwEeCWwpEEhhedIw _BvfpIGRwEeCWwpEEhhedIw" navigableOwnedEnd="_Bv6f4WRwEeCWwpEEhhedIw">
       <ownedEnd xmi:id="_Bv6f4WRwEeCWwpEEhhedIw" name="god" type="_z3Yp0GRvEeCWwpEEhhedIw" association="_Bv6f4GRwEeCWwpEEhhedIw">
@@ -76,6 +80,17 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cJIyM2R3EeCWwpEEhhedIw" value="1"/>
         </ownedEnd>
       </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_FRtPwGUtEeCYCc2JDFo2sA" name="SpaceTime">
+      <ownedAttribute xmi:id="_LEkmQGUtEeCYCc2JDFo2sA" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_IIsrCmUtEeCYCc2JDFo2sA" name="A_&lt;universe>_&lt;spaceTime>" memberEnd="_IItSEGUtEeCYCc2JDFo2sA _IIl9UGUtEeCYCc2JDFo2sA" navigableOwnedEnd="_IItSEGUtEeCYCc2JDFo2sA">
+      <ownedEnd xmi:id="_IItSEGUtEeCYCc2JDFo2sA" name="universe" type="_5k4YIGRvEeCWwpEEhhedIw" association="_IIsrCmUtEeCYCc2JDFo2sA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_IItSEWUtEeCYCc2JDFo2sA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_IItSEmUtEeCYCc2JDFo2sA" value="1"/>
+      </ownedEnd>
     </packagedElement>
   </packagedElement>
 </uml:Model>

@@ -32,7 +32,7 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			if (c.getGeneralizations().isEmpty()) {
 				addVertexFieldWithSetter(ojClass);
-				addVertexInDefaultConstructor(ojClass);
+				addVertexInDefaultConstructor(c, ojClass);
 			}
 			addContructorWithVertex(ojClass, c);
 			if (c.getEndToComposite() == null) {
@@ -43,7 +43,7 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	private void addVertexInDefaultConstructor(OJAnnotatedClass ojClass) {
+	private void addVertexInDefaultConstructor(INakedEntity entity, OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.getDefaultConstructor();
 		constructor.getBody().addToStatements("this.vertex = " + UtilityCreator.getUtilPathName().toJavaString() + ".DbThreadVar.getDB().addVertex(null);");
 	}
@@ -54,7 +54,9 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 		initVertex.setName("initVertex");
 		initVertex.addParam("owningObject", compositeEndMap.javaBaseTypePath());
 		initVertex.setVisibility(OJVisibilityKind.PRIVATE);
-
+		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
+		constructor.getBody().getStatements().add(0,new OJSimpleStatement("this()"));
+		constructor.getBody().addToStatements(new OJSimpleStatement("initVertex(owningObject)"));
 		Collection<INakedClassifier> otherEndClasses = GeneralizationUtil.getAllSubClassifiers(c.getEndToComposite().getOtherEnd().getOwner(),
 				getModelInScope());
 		if (!c.getEndToComposite().getOtherEnd().getOwner().getIsAbstract()) {
@@ -62,17 +64,25 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 		}
 		for (INakedClassifier compositeEndClass : otherEndClasses) {
 			OJIfStatement ifStatement = new OJIfStatement("owningObject.getClass()==" + compositeEndClass.getMappingInfo().getJavaName().toString() + ".class");
-			String relationshipName = TinkerUtil.constructCompositeRelationshipName(compositeEndClass, c, c.getEndToComposite());
 			OJBlock ojBlock = new OJBlock();
+			String relationshipName = TinkerUtil.constructCompositeRelationshipName(compositeEndClass, c, c.getEndToComposite());
+			
+			if (compositeEndMap.isOneToOne()) {
+				ojBlock.addToStatements("Iterable<Edge> iter = owningObject.getVertex().getOutEdges" + "(\"" + relationshipName + "\")");
+				OJIfStatement ifAllReadyHasOne = new OJIfStatement("iter.iterator().hasNext()");
+				ifAllReadyHasOne.addToThenPart(UtilityCreator.getUtilPathName().toJavaString()	+ ".DbThreadVar.getDB().removeVertex(this.vertex)");		
+				ifAllReadyHasOne.addToThenPart("throw new IllegalStateException(\""
+						+ c.getEndToComposite().getOtherEnd().getOwner().getMappingInfo().getQualifiedJavaName()
+						+ " already has an association with " + c.getMappingInfo().getQualifiedJavaName() + ", the relationship is one to one!\")");
+				ojBlock.addToStatements(ifAllReadyHasOne);
+			}			
+			
 			ojBlock.addToStatements(UtilityCreator.getUtilPathName().toJavaString()
 					+ ".DbThreadVar.getDB().addEdge(null, owningObject.getVertex(), this.vertex, \"" + relationshipName + "\")");
 			ifStatement.setThenPart(ojBlock);
 			initVertex.getBody().addToStatements(ifStatement);
 		}
 		ojClass.addToOperations(initVertex);
-		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
-		constructor.getBody().getStatements().add(0, new OJSimpleStatement("initVertex(owningObject)"));
-		constructor.getBody().getStatements().add(0, new OJSimpleStatement("this()"));
 	}
 
 	private void addContructorWithVertex(OJAnnotatedClass ojClass, INakedEntity c) {
