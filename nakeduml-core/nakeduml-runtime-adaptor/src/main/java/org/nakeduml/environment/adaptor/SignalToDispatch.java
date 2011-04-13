@@ -12,9 +12,7 @@ import java.util.UUID;
 
 import org.hibernate.Session;
 import org.nakeduml.environment.Environment;
-import org.nakeduml.environment.adaptor.SignalMdb.ObjectToLock;
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
@@ -23,7 +21,6 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 	private static final long serialVersionUID = -2996390224218437999L;
 	private String uid;
 	private int retryCount;
-	private ObjectToLock processToLock;
 	public SignalToDispatch(){
 		super(null, null, null);
 	}
@@ -36,16 +33,9 @@ public class SignalToDispatch extends org.nakeduml.environment.SignalToDispatch{
 	public void incrementRetryCount(){
 		retryCount++;
 	}
-	public ObjectToLock getObjectToLock(){
-		return processToLock;
-	}
 	public void retrieveIds(){
 		try{
 			MethodDescriptor method = IntrospectionUtil.getMethod("getContextObject", IntrospectionUtil.getOriginalClass(target));
-			if(target instanceof AbstractProcess && method != null){
-				AbstractEntity e = (AbstractEntity) method.getMethod().invoke(target);
-				processToLock = new ObjectToLock((Class<? extends AbstractEntity>) method.getMethod().getReturnType(), e.getId());
-			}
 			retrieveId(source);
 			retrieveId(target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());

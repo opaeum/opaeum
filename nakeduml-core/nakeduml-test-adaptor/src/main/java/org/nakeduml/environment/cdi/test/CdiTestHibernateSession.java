@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.transaction.Synchronization;
 
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
@@ -436,7 +437,43 @@ public class CdiTestHibernateSession implements Session{
 	@Override
 	public Transaction beginTransaction() throws HibernateException{
 		// TODO Auto-generated method stub
-		return null;
+		return new Transaction(){
+			private boolean active;
+			@Override
+			public boolean wasRolledBack() throws HibernateException{
+				// TODO Auto-generated method stub
+				return false;
+			}
+			@Override
+			public boolean wasCommitted() throws HibernateException{
+				// TODO Auto-generated method stub
+				return false;
+			}
+			@Override
+			public void setTimeout(int seconds){
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void rollback() throws HibernateException{
+				this.active=false;
+			}
+			@Override
+			public void registerSynchronization(Synchronization synchronization) throws HibernateException{
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public boolean isActive() throws HibernateException{
+				return this.active;
+			}
+			@Override
+			public void commit() throws HibernateException{
+				this.active=false;
+			}
+			@Override
+			public void begin() throws HibernateException{
+				this.active=true;
+			}
+		};
 	}
 	@Override
 	public Transaction getTransaction(){

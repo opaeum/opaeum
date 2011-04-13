@@ -13,16 +13,16 @@ import org.nakeduml.runtime.domain.ActiveObject;
 
 public class CdiTestSignalDispatcher implements ISignalDispatcher{
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
-	public synchronized void sendSignal(Object source,ActiveObject target,AbstractSignal signal){
+	public void sendSignal(Object source,ActiveObject target,AbstractSignal signal){
 		SignalToDispatch e = new SignalToDispatch(source, target, signal);
 		signalsToDispatch.add(e);
 	}
-	public synchronized void sendSignal(Object source,Collection<? extends ActiveObject> targets,AbstractSignal signal){
+	public void sendSignal(Object source,Collection<? extends ActiveObject> targets,AbstractSignal signal){
 		for(ActiveObject target:targets){
 			signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 		}
 	}
-	public synchronized void reset(){
+	public void reset(){
 		this.signalsToDispatch.clear();
 	}
 	public SignalToDispatch getFirstSignalOfType(Class<? extends AbstractSignal> type){
@@ -39,29 +39,22 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 		return result;
 	}
 	@Override
-	public synchronized void deliverAllPendingSignals(){
+	public void deliverAllPendingSignals(){
 		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
 		signalsToDispatch.clear();
 		for(SignalToDispatch signal:signals){
 			ActiveObject target = signal.getTarget();
 			CdiTestEnvironment.getInstance().beforeRequest(target);
-			signal.prepareForDispatch();
 			Session session = CdiTestEnvironment.getInstance().getComponent(Session.class);
 			signal.prepareForDelivery(session);
-			CdiTestEnvironment.getInstance().afterRequest(target);
 			if(target instanceof AbstractEntity){
-				CdiTestEnvironment.getInstance().beforeRequest(target);
 				signal.getTarget().processSignal(signal.getSignal());
-				if(session!=null){
-					session.flush();
-				}else{
-					throw new IllegalStateException("Session null");
-				}
-				CdiTestEnvironment.getInstance().afterRequest(target);
+				session.flush();
 			}else{
+				// TODO seperate TXManagement from request scoping
 				signal.getTarget().processSignal(signal.getSignal());
-				deliverAllPendingSignals();
 			}
+			CdiTestEnvironment.getInstance().afterRequest(target);
 		}
 	}
 	@Override
@@ -69,6 +62,12 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 	public synchronized void deliverPendingSignalsOfType(Class<? extends AbstractSignal> type){
 		for(SignalToDispatch signal:getSignalsOfType(type)){
 			signal.getTarget().processSignal(signal.getSignal());
+		}
+	}
+	public void prepareSignalsForDispatch(){
+		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
+		for(SignalToDispatch signal:signals){
+			signal.prepareForDispatch();
 		}
 	}
 }
