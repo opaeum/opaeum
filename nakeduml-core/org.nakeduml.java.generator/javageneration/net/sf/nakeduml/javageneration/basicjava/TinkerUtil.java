@@ -11,7 +11,14 @@ public class TinkerUtil {
 		relationshipName += otherOwner.getMappingInfo().getQualifiedUmlName();
 		return relationshipName;
 	}
-	
+
+	public static String constructRuntimeCompositeRelationshipName(INakedProperty composite) {
+		String relationshipName = "owningObject.getClass().getName()+\"__";
+		relationshipName += composite.getAssociation().getName();
+		relationshipName += "__\"+this.getClass().getName()";
+		return relationshipName;
+	}
+
 	public static String tinkerpoperizeUmlName(String umlName) {
 		return umlName.replace("::", "__");
 	}
