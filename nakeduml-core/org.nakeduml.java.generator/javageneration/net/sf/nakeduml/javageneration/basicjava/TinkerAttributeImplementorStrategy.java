@@ -4,9 +4,7 @@ import java.util.Collection;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -18,6 +16,7 @@ import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
@@ -72,113 +71,41 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	}
 
 	private void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter, Collection<INakedRootObject> modelInScope, boolean oneToOne) {
-
-		// Iterable<Edge> iter =
-		// AbstractX1.associationVertex.getOutEdges("A__abstractX1___abstractY1_");
-		// for (Edge edge : iter) {
-		// Iterable<Edge> iter1 =
-		// this.vertex.getInEdges(edge.getProperty("otherClass") +
-		// "__abstractX1___abstractY1_org__" + this.getClass().getName());
-		// if (iter1.iterator().hasNext()) {
-		// Class<?> c;
-		// try {
-		// c = Class.forName((String) edge.getProperty("otherClass"));
-		// return (AbstractX1)
-		// c.getConstructor(Vertex.class).newInstance(iter1.iterator().next().getOutVertex());
-		// } catch (Exception e) {
-		// throw new RuntimeException(e);
-		// }
-		// }
-		// }
-
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateNonCompositeDirection(map, oneToOne, isComposite);
-
-		INakedClassifier thisClassifier = map.getProperty().getOwner();
-		INakedClassifier thisSuperClassifier = thisClassifier.getSupertype();
-		String thisClassName = thisSuperClassifier == null ? thisClassifier.getMappingInfo().getJavaName().getAsIs() : thisSuperClassifier.getMappingInfo()
-				.getJavaName().getAsIs();
-
+		isComposite = calculateDirection(map, oneToOne, isComposite);
 		INakedClassifier otherClassifier = map.getProperty().getOtherEnd().getOwner();
 		INakedClassifier otherSuperClassifier = otherClassifier.getSupertype();
 		String otherClassName = otherSuperClassifier == null ? otherClassifier.getMappingInfo().getJavaName().getAsIs() : otherSuperClassifier.getMappingInfo()
 				.getJavaName().getAsIs();
 		String otherAssociationName = map.getProperty().getAssociation().getName();
-
-		getter.getBody().addToStatements("Iterable<Edge> iter = " + thisClassName + ".associationVertex.getInEdges(\"" + otherAssociationName + "\")");
-		OJPathName edgePathName = new OJPathName("com.tinkerpop.blueprints.pgm.Edge");
-		OJForStatement forStatement = new OJForStatement("edge", edgePathName, "iter");
-		getter.getBody().addToStatements(forStatement);
-
 		if (isComposite) {
-			forStatement.getBody().addToStatements(
-					"Iterable<Edge> iter1 = this.vertex.getOutEdges(this.getClass().getName()+\"__" + otherAssociationName
-							+ "__\" + edge.getProperty(\"otherClass\"))");
+			getter.getBody().addToStatements("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
 		} else {
-			forStatement.getBody().addToStatements(
-					"Iterable<Edge> iter1 = this.vertex.getInEdges(edge.getProperty(\"otherClass\")" + "+\"__" + otherAssociationName
-							+ "__\" + this.getClass().getName())");
+			getter.getBody().addToStatements("Iterable<Edge> iter1 = this.vertex.getInEdges(\"" + otherAssociationName + "\")");
 		}
 		OJIfStatement ifStatement = new OJIfStatement("iter1.iterator().hasNext()");
 		OJTryStatement ojTryStatement = new OJTryStatement();
-		ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"otherClass\"))");
+		ojTryStatement.getTryPart().addToStatements("Edge edge = iter1.iterator().next()");
 		if (isComposite) {
-			ojTryStatement.getTryPart().addToStatements(
-					"return (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(iter1.iterator().next().getInVertex())");
+			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
+			ojTryStatement.getTryPart().addToStatements("return (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 		} else {
-			ojTryStatement.getTryPart().addToStatements(
-					"return (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(iter1.iterator().next().getOutVertex())");
+			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
+			ojTryStatement.getTryPart().addToStatements("return (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 
 		}
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 		ifStatement.addToThenPart(ojTryStatement);
-		forStatement.getBody().addToStatements(ifStatement);
-
-		// Collection<INakedEntity> subClasses =
-		// GeneralizationUtil.getConcreteEntityImplementationsOf(manyClassifier,
-		// modelInScope);
-		// if (!manyClassifier.getIsAbstract()) {
-		// subClasses.add((INakedEntity)manyClassifier);
-		// }
-		// INakedClassifier otherManyClassifier = map.getProperty().getOwner();
-		// Collection<INakedEntity> otherSubClasses =
-		// GeneralizationUtil.getConcreteEntityImplementationsOf(otherManyClassifier,
-		// modelInScope);
-		// if (!otherManyClassifier.getIsAbstract()) {
-		// otherSubClasses.add((INakedEntity)otherManyClassifier);
-		// }
-		// int count = 1;
-		// for (INakedClassifier subClassClassifier : subClasses) {
-		// for (INakedClassifier otherSubClassClassifier : otherSubClasses) {
-		// String relationshipName;
-		// if (isComposite) {
-		// relationshipName =
-		// TinkerUtil.constructCompositeRelationshipName(otherSubClassClassifier,
-		// subClassClassifier, map.getProperty());
-		// } else {
-		// relationshipName =
-		// TinkerUtil.constructCompositeRelationshipName(subClassClassifier,
-		// otherSubClassClassifier, map.getProperty());
-		// }
-		// getter.getBody().addToStatements(
-		// "Iterable<Edge> iter" + count + " = this.vertex." + (isComposite ?
-		// "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
-		// getter.getBody().addToStatements(
-		// new OJIfStatement("iter" + count + ".iterator().hasNext()",
-		// "return new "
-		// + subClassClassifier.getMappingInfo().getJavaName().toString() +
-		// "(iter" + count + ".iterator().next()."
-		// + (isComposite ? "getInVertex" : "getOutVertex") + "())"));
-		// count++;
-		// }
-		// }
+		getter.getBody().addToStatements(ifStatement);
 		getter.getBody().addToStatements("return null");
 	}
 
-	private boolean calculateNonCompositeDirection(NakedStructuralFeatureMap map, boolean oneToOne, boolean isComposite) {
+	private boolean calculateDirection(NakedStructuralFeatureMap map, boolean oneToOne, boolean isComposite) {
 		if (oneToOne && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
 			isComposite = map.getProperty().getMultiplicity().getLower() == 1 && map.getProperty().getMultiplicity().getUpper() == 1;
+		} else if (!oneToOne && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
+			isComposite = map.getProperty().getMultiplicity().getUpper() > 1;
 		}
 		return isComposite;
 	}
@@ -191,29 +118,31 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		result.setInitExp(map.javaDefaultValue());
 		getter.getBody().addToLocals(result);
 		INakedClassifier manyClassifier = map.getProperty().getOtherEnd().getOwner();
-		Collection<INakedEntity> subClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(manyClassifier, modelInScope);
-		if (!manyClassifier.getIsAbstract()) {
-			subClasses.add((INakedEntity) manyClassifier);
+
+		boolean isComposite = map.getProperty().isComposite();
+		isComposite = calculateDirection(map, false, isComposite);
+		if (isComposite) {
+			getter.getBody().addToStatements("Iterable<Edge> iter = this.vertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+		} else {
+			getter.getBody().addToStatements("Iterable<Edge> iter = this.vertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
 		}
-		INakedClassifier otherManyClassifier = map.getProperty().getOwner();
-		Collection<INakedEntity> otherSubClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(otherManyClassifier, modelInScope);
-		if (!otherManyClassifier.getIsAbstract()) {
-			otherSubClasses.add((INakedEntity) otherManyClassifier);
+		OJForStatement forStatement = new OJForStatement("edge", edgePathName, "iter");
+		OJTryStatement ojTryStatement = new OJTryStatement();
+		forStatement.getBody().addToStatements(ojTryStatement);
+		if (isComposite) {
+			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
+			ojTryStatement.getTryPart().addToStatements(
+					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex()))");
+		} else {
+			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
+			ojTryStatement.getTryPart().addToStatements(
+					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex()))");
 		}
-		int count = 1;
-		for (INakedClassifier subClassClassifier : subClasses) {
-			for (INakedClassifier otherSubClassClassifier : otherSubClasses) {
-				getter.getBody().addToStatements(
-						"Iterable<Edge> iter" + count + " = this.vertex.getOutEdges(\""
-								+ TinkerUtil.constructCompositeRelationshipName(otherSubClassClassifier, subClassClassifier, map.getProperty()) + "\")");
-				OJForStatement forStatement = new OJForStatement("edge", edgePathName, "iter" + count);
-				forStatement.getBody().addToStatements(
-						"result.add(new " + subClassClassifier.getMappingInfo().getJavaName().toString() + "(edge.getInVertex()))");
-				getter.getBody().addToStatements(forStatement);
-				getter.getOwner().addToImports(OJUtil.classifierPathname(subClassClassifier));
-				count++;
-			}
-		}
+		
+		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
+		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
+		
+		getter.getBody().addToStatements(forStatement);
 		getter.getBody().addToStatements("return result");
 	}
 
@@ -232,38 +161,22 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	private void createPolymorphicToOneRelationship(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap,
 			OJOperation setter, Collection<INakedRootObject> modelInScope, boolean oneToOne) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateNonCompositeDirection(map, oneToOne, isComposite);
+		isComposite = calculateDirection(map, oneToOne, isComposite);
 
 		OJIfStatement ifParamNotNull = new OJIfStatement();
 		ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
 		ifParamNotNull.setCondition(map.umlName() + "!=null");
-		Collection<INakedEntity> subClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(umlOwner, modelInScope);
-		if (!umlOwner.getIsAbstract()) {
-			subClasses.add((INakedEntity) umlOwner);
-		}
-		INakedClassifier otherOneClassifier = map.getProperty().getOtherEnd().getOwner();
-		Collection<INakedEntity> otherSubClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(otherOneClassifier, modelInScope);
-		if (!otherOneClassifier.getIsAbstract()) {
-			otherSubClasses.add((INakedEntity) otherOneClassifier);
-		}
-		for (INakedClassifier subClassClassifier : subClasses) {
-			for (INakedClassifier otherSubClassClassifier : otherSubClasses) {
-				String relationshipName;
-				if (isComposite) {
-					relationshipName = TinkerUtil.constructCompositeRelationshipName(subClassClassifier, otherSubClassClassifier, map.getProperty());
-				} else {
-					relationshipName = TinkerUtil.constructCompositeRelationshipName(otherSubClassClassifier, subClassClassifier, map.getProperty());
-				}
-				ifParamNotNull.getThenPart().addToStatements(
-						new OJIfStatement("(this.getClass() == " + subClassClassifier.getMappingInfo().getJavaName().toString() + ".class) && ("
-								+ map.umlName() + ".getClass() == " + otherSubClassClassifier.getMappingInfo().getJavaName().toString() + ".class)",
-								UtilityCreator.getUtilPathName().toJavaString()
-										+ ".DbThreadVar.getDB().addEdge(null, "
-										+ (!isComposite ? "((" + otherSubClassClassifier.getMappingInfo().getJavaName().toString() + ")" + map.umlName()
-												+ ").getVertex(), this.vertex," : "this.vertex, (("
-												+ otherSubClassClassifier.getMappingInfo().getJavaName().toString() + ")" + map.umlName() + ").getVertex(),")
-										+ "\"" + relationshipName + "\")"));
-			}
+		String relationshipName = map.getProperty().getAssociation().getName();
+		ifParamNotNull.getThenPart().addToStatements(
+				new OJSimpleStatement("Edge edge = " + UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().addEdge(null, "
+						+ (!isComposite ? map.umlName() + ".getVertex(), this.vertex," : "this.vertex, " + map.umlName() + ".getVertex(),") + "\""
+						+ relationshipName + "\")"));
+		if (isComposite) {
+			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
+			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", this.getClass().getName())");
+		} else {
+			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName())");
+			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", this.getClass().getName())");
 		}
 		setter.getBody().addToStatements(ifParamNotNull);
 	}
@@ -271,36 +184,14 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	private void removePolymorphicToOneRelationship(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter, Collection<INakedRootObject> modelInScope, boolean oneToOne) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateNonCompositeDirection(map, oneToOne, isComposite);
-		INakedClassifier oneClassifier = map.getProperty().getOwner();
-		Collection<INakedEntity> subClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(oneClassifier, modelInScope);
-		if (!oneClassifier.getIsAbstract()) {
-			subClasses.add((INakedEntity) oneClassifier);
-		}
-		INakedClassifier otherOneClassifier = map.getProperty().getOtherEnd().getOwner();
-		Collection<INakedEntity> otherSubClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(otherOneClassifier, modelInScope);
-		if (!otherOneClassifier.getIsAbstract()) {
-			otherSubClasses.add((INakedEntity) otherOneClassifier);
-		}
-		int count = 1;
-		for (INakedClassifier subClassClassifier : subClasses) {
-			for (INakedClassifier otherSubClassClassifier : otherSubClasses) {
-				String relationshipName;
-				if (isComposite) {
-					relationshipName = TinkerUtil.constructCompositeRelationshipName(subClassClassifier, otherSubClassClassifier, map.getProperty());
-				} else {
-					relationshipName = TinkerUtil.constructCompositeRelationshipName(otherSubClassClassifier, subClassClassifier, map.getProperty());
-				}
-				setter.getBody().addToStatements(
-						"Iterable<Edge> iter" + count + " = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
-				OJIfStatement ifNotNull = new OJIfStatement();
-				ifNotNull.setCondition("iter" + count + ".iterator().hasNext()");
-				ifNotNull.getThenPart().addToStatements(
-						UtilityCreator.getUtilPathName().toJavaString() + ".DbThreadVar.getDB().removeEdge(iter" + count + ".iterator().next())");
-				setter.getBody().addToStatements(ifNotNull);
-				count++;
-			}
-		}
+		isComposite = calculateDirection(map, oneToOne, isComposite);
+		String relationshipName = map.getProperty().getAssociation().getName();
+		setter.getBody()
+				.addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
+		OJIfStatement ifNotNull = new OJIfStatement();
+		ifNotNull.setCondition("iter.iterator().hasNext()");
+		ifNotNull.getThenPart().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(iter.iterator().next())");
+		setter.getBody().addToStatements(ifNotNull);
 	}
 
 	@Override

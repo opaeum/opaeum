@@ -41,7 +41,7 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 	}
 
 	private void removeVertex(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
-		markDeleted.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".DbThreadVar.getDB().removeVertex(this.vertex)");
+		markDeleted.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeVertex(this.vertex)");
 	}
 
 	@Override

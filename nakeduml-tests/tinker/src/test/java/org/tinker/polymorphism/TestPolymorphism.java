@@ -163,6 +163,46 @@ public class TestPolymorphism extends BaseTest {
 		concreteX2.addAllToAbstractY1(y);
 		assertEquals(7, countVertices());
 		assertEquals(6, countEdges());
-	}	
+	}
+	
+	@Test
+	public void testMarkDeleted() {
+		God god = new God();
+		god.setName("THEGOD");
+		ConcreteX1 concreteX11 = new ConcreteX1(god);
+		concreteX11.setName("concrete11");
+		ConcreteX1 concreteX12 = new ConcreteX1(god);
+		concreteX12.setName("concrete12");
+		ConcreteX2 concreteX21 = new ConcreteX2(god);
+		concreteX21.setName("concrete21");
+		ConcreteX2 concreteX22 = new ConcreteX2(god);
+		concreteX22.setName("concrete22");
+		
+		ConcreteY1 concreteY11 = new ConcreteY1(concreteX11);
+		concreteY11.setName("concreteY11");
+		ConcreteY1 concreteY12 = new ConcreteY1(concreteX11);
+		concreteY12.setName("concreteY12");
+		ConcreteY2 concreteY21 = new ConcreteY2(concreteX21);
+		concreteY21.setName("concreteY21");
+		ConcreteY2 concreteY22 = new ConcreteY2(concreteX22);
+		concreteY22.setName("concreteY22");
+		
+		assertEquals(9, countVertices());
+		assertEquals(8, countEdges());
+		concreteX11.markDeleted();
+		assertEquals(6, countVertices());
+		assertEquals(5, countEdges());
+		assertEquals(3, god.getAbstractX1().size());
+		concreteY21.markDeleted();
+		assertEquals(5, countVertices());
+		assertEquals(4, countEdges());
+		assertEquals(3, god.getAbstractX1().size());
+		assertEquals(0, concreteX21.getAbstractY1().size());
+		assertEquals(1, concreteX22.getAbstractY1().size());
+		
+		concreteX22.markDeleted();
+		assertEquals(3, countVertices());
+		assertEquals(2, countEdges());
+	}
 	
 }

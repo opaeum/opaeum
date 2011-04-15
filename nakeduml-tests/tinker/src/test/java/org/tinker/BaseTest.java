@@ -1,7 +1,7 @@
 package org.tinker;
 import org.junit.After;
 import org.junit.Before;
-import org.util.DbThreadVar;
+import org.util.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -16,13 +16,13 @@ public class BaseTest {
 	public void before() {
 		db = new OrientGraph("memory:test");
 		db.clear();
-		DbThreadVar.setDB(db);
+		GraphDb.setDB(db);
 	}
 
 	@After
 	public void after() {
 		db.shutdown();
-		DbThreadVar.setDB(null);
+		GraphDb.setDB(null);
 	}
 	
 	protected int countVertices() {
