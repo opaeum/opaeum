@@ -18,6 +18,7 @@ import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.runtime.domain.TinkerNode;
 
 public class TinkerTransformation extends AbstractJavaProducingVisitor {
 
@@ -30,12 +31,17 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 				initialiseVertexInDefaultConstructor(c, ojClass);
 			}
 			addContructorWithVertex(ojClass, c);
+			implementTinkerNode(ojClass);
 			if (c.getEndToComposite() == null) {
 				// TODO attach to root somehow
 			} else if (!c.getIsAbstract()) {
 				initializeVertex(ojClass, c);
 			}
 		}
+	}
+
+	private void implementTinkerNode(OJAnnotatedClass ojClass) {
+		ojClass.addToImplementedInterfaces(new OJPathName(TinkerNode.class.getName()));
 	}
 
 	private void initialiseVertexInDefaultConstructor(INakedEntity entity, OJAnnotatedClass ojClass) {

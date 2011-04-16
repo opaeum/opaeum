@@ -1,10 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import java.util.Collection;
-
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -82,20 +79,14 @@ public class HibernateAttributeImplementorStrategy implements AttributeImplement
 		ifNull.getThenPart().addToStatements(ifParamNotNull);
 	}
 
-	@Override
-	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault, Collection<INakedRootObject> modelInScope) {
-		return buildGetter(owner, map, returnDefault);
-	}
 
 	@Override
-	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter,
-			Collection<INakedRootObject> modelInScope) {
+	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		buildManyToOneSetter(map, otherMap, owner, setter);
 	}
 
 	@Override
-	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter,
-			Collection<INakedRootObject> modelInScope) {
+	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		buildOneToOneSetter(map, otherMap, owner, setter);
 	}
 
@@ -117,6 +108,41 @@ public class HibernateAttributeImplementorStrategy implements AttributeImplement
 		forEachNew.setBody(new OJBlock());
 		forEachNew.getBody().addToStatements("o." + otherMap.setter() + "((" + owner.getName() + ")this)");
 		setter.getBody().addToStatements(forEachNew);
+	}
+
+	@Override
+	public void buildManyToManySetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+		// remove from existing references and at
+		OJForStatement forEach = new OJForStatement();
+		forEach.setCollection("this." + map.umlName());
+		forEach.setElemName("o");
+		forEach.setElemType(map.javaBaseTypePath());
+		OJBlock body = new OJBlock();
+		forEach.setBody(body);
+		body.addToStatements("o." + otherMap.getter() + "().remove((" + owner.getName() + ")this)");
+		setter.getBody().addToStatements(forEach);
+		OJForStatement forEachParam = new OJForStatement();
+		forEachParam.setCollection(map.umlName());
+		forEachParam.setElemName("o");
+		forEachParam.setElemType(map.javaBaseTypePath());
+		OJBlock forEachParamBody = new OJBlock();
+		forEachParam.setBody(forEachParamBody);
+		forEachParamBody.addToStatements("o." + otherMap.getter() + "().add((" + owner.getName() + ")this)");
+		setter.getBody().addToStatements(forEachParam);
+		setter.getBody().addToStatements("this." + map.umlName() + ".clear()");
+		setter.getBody().addToStatements("this." + map.umlName() + ".addAll(" + map.umlName() + ")");
+	}
+
+	@Override
+	public void buildManyAdder(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
+		adder.getBody().addToStatements(map.umlName() + "." + otherMap.getter() + "().add(this)");
+		adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
+	}
+
+	@Override
+	public void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
+		adder.getBody().addToStatements(map.umlName() + "." + otherMap.getter() + "().remove(this)");
+		adder.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
 	}
 
 }

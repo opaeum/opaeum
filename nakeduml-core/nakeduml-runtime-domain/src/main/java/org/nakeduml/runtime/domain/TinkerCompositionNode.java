@@ -1,6 +1,7 @@
 package org.nakeduml.runtime.domain;
 
 
+
 public interface TinkerCompositionNode  {
 	TinkerCompositionNode getOwningObject();
 	void init(TinkerCompositionNode owner);

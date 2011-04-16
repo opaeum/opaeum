@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.model.IModelElement;
@@ -53,8 +54,8 @@ public class AbstractCompositionNodeStrategy {
 			if (a instanceof INakedProperty) {
 				INakedProperty np = (INakedProperty) a;
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-				if (np.isComposite() && np.getNakedBaseType() instanceof INakedEntity && !np.isDerived()) {
-					INakedEntity type = (INakedEntity) np.getNakedBaseType();
+				if (np.isComposite() && np.getNakedBaseType() instanceof INakedClassifier && !np.isDerived()) {
+					INakedClassifier type = (INakedClassifier) np.getNakedBaseType();
 					if (map.isMany()) {
 						markDeleted.getOwner().addToImports("java.util.ArrayList");
 						OJForStatement forEach = new OJForStatement();
