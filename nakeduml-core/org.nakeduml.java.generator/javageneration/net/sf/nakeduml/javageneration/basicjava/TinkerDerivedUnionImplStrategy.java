@@ -11,7 +11,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class Neo4jDerivedUnionImplStrategy implements DerivedUnionImplStrategy {
+public class TinkerDerivedUnionImplStrategy implements DerivedUnionImplStrategy {
 
 	@Override
 	public void addSubsetToUnion(NakedStructuralFeatureMap subsettingMap, OJClass c, INakedProperty derivedUnion) {

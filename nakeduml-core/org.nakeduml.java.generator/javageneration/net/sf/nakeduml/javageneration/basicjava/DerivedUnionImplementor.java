@@ -34,7 +34,8 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)) {
 			derivedUnionImplStrategy = new HibernateDerivedUnionImplStrategy();
 		} else if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
-			derivedUnionImplStrategy = new Neo4jDerivedUnionImplStrategy();
+			derivedUnionImplStrategy = new HibernateDerivedUnionImplStrategy();
+//			derivedUnionImplStrategy = new TinkerDerivedUnionImplStrategy();
 		}
 	}
 

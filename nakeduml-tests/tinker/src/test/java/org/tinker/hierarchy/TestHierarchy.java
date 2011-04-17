@@ -1,4 +1,4 @@
-package hierarchy;
+package org.tinker.hierarchy;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
