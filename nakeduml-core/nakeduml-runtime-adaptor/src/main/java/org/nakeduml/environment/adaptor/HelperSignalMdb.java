@@ -15,7 +15,7 @@ import org.jboss.ejb3.annotation.defaults.PoolDefaults;
 		@ActivationConfigProperty(propertyName = "acknowledgeMode",propertyValue = "Client-acknowledge")
 })
 @TransactionManagement(TransactionManagementType.BEAN)
-@Pool(maxSize = 8,value = PoolDefaults.POOL_IMPLEMENTATION_STRICTMAX,timeout = 1000 * 60 * 60 * 24)
+@Pool(maxSize = 10,value = PoolDefaults.POOL_IMPLEMENTATION_STRICTMAX,timeout = 1000 * 60 * 60 * 24)
 public class HelperSignalMdb extends AbstractSignalMdb implements MessageListener{
 	@Override
 	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{

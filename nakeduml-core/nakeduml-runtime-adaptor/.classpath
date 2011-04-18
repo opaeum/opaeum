@@ -60,18 +60,10 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="src" path="/nakeduml-runtime-domain"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.CR4/seam-solder-api-3.0.0.CR4.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.CR4/seam-solder-api-3.0.0.CR4-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-api/3.0.0.CR4/seam-solder-api-3.0.0.CR4-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR4/seam-solder-impl-3.0.0.CR4.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR4/seam-solder-impl-3.0.0.CR4-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR4/seam-solder-impl-3.0.0.CR4-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.1-SNAPSHOT/seam-persistence-api-3.0.1-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.1-SNAPSHOT/seam-persistence-api-3.0.1-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.1-SNAPSHOT/seam-persistence-impl-3.0.1-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.1-SNAPSHOT/seam-persistence-impl-3.0.1-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.Final/seam-solder-api-3.0.0.Final.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.Final/seam-solder-impl-3.0.0.Final.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.5.10/slf4j-simple-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-simple/1.5.10/slf4j-simple-1.5.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2/stringtemplate-3.2.jar"/>
