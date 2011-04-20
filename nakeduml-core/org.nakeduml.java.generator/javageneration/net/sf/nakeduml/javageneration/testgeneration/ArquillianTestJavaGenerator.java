@@ -13,6 +13,8 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import net.sf.nakeduml.javageneration.auditing.AuditMetadefAnnotationStep;
+import net.sf.nakeduml.javageneration.auditing.IntegratedAuditMetaDefStep;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
@@ -228,9 +230,11 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		for (INakedBehavior c : processes) {
 			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
 			getTestProcessClasses.getBody().addToStatements(addClass);
-			if (super.transformationContext.isFeatureSelected(AuditImplementationStep.class)) {
+			if (super.transformationContext.isAnyOfFeaturesSelected(IntegratedAuditMetaDefStep.class, AuditImplementationStep.class)) {
 				OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
 				getTestProcessClasses.getBody().addToStatements(addAuditClass);
+			} else {
+				System.out.println();
 			}
 			OJSimpleStatement addClassState = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "State.class)");
 			getTestProcessClasses.getBody().addToStatements(addClassState);
@@ -270,9 +274,11 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 					OJSimpleStatement addClassDataGenerator = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "DataGenerator.class)");
 					getTestClasses.getBody().addToStatements(addClassDataGenerator);
 				}
-				if (super.transformationContext.isFeatureSelected(AuditImplementationStep.class)) {
+				if (super.transformationContext.isAnyOfFeaturesSelected(IntegratedAuditMetaDefStep.class, AuditImplementationStep.class)) {
 					OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
 					getTestClasses.getBody().addToStatements(addAuditClass);
+				} else {
+					System.out.println();
 				}
 			}
 
