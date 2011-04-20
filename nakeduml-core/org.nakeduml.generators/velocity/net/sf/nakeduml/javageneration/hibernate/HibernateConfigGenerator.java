@@ -70,9 +70,13 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace) {
 		if (isIntegrationPhase) {
+			Collection<INakedRootObject> rootObjects = (Collection<INakedRootObject>) workspace.getOwnedElements();
 			String hibernateConfigName = workspace.getDirectoryName() + "-hibernate.cfg.xml";
-			generateConfigAndEnvironment((Collection<INakedRootObject>) workspace.getOwnedElements(), hibernateConfigName,
+			generateConfigAndEnvironment(rootObjects, hibernateConfigName,
 					OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
+			HashMap<String, Object> vars = buildVars(rootObjects, false);
+			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
+			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "standalone-"+hibernateConfigName, OutputRootId.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, vars);
 		}
 	}
 
@@ -84,8 +88,8 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 			selfAndDependencies.add(model);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, true);
-			generateConfigAndEnvironment(selfAndDependencies, "standalone-" +hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, false);
-			HashMap<String, Object> vars = buildVars(selfAndDependencies, true);
+			HashMap<String, Object> vars = buildVars(selfAndDependencies, false);
+			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
 			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "standalone-"+hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, vars);
 		}
 	}

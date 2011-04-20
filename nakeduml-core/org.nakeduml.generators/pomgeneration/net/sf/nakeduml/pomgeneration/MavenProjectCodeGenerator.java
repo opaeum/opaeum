@@ -119,6 +119,7 @@ public abstract class MavenProjectCodeGenerator{
 				"src/test/jboss-resources");
 		integratedJboss.dontCleanDirectoriesOrOverwriteFiles();
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, "-integrated", "src/main/generated-resources");
+		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, true, "-integrated", "src/test/generated-resources");
 	}
 	protected static Set<Class<? extends TransformationStep>> toSet(Class<? extends TransformationStep>...classes){
 		return new HashSet<Class<? extends TransformationStep>>(Arrays.asList(classes));

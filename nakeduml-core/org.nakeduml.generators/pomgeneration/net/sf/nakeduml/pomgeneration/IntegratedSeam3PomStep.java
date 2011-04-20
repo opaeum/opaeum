@@ -18,21 +18,7 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
-//		Dependency seamPersistenceApi = POMFactory.eINSTANCE.createDependency();
-//		seamPersistenceApi.setGroupId("org.jboss.seam.persistence");
-//		seamPersistenceApi.setArtifactId("seam-persistence-api");
-//		seamPersistenceApi.setVersion("${seam.persistence.version}");
-//		seamPersistenceApi.setScope("compile");
-//		dependencies.add(seamPersistenceApi);
-//		Dependency seamPersistenceImpl = POMFactory.eINSTANCE.createDependency();
-//		seamPersistenceImpl.setGroupId("org.jboss.seam.persistence");
-//		seamPersistenceImpl.setArtifactId("seam-persistence-impl");
-//		seamPersistenceImpl.setVersion("${seam.persistence.version}");
-//		seamPersistenceImpl.setScope("runtime");
-//		seamPersistenceImpl.setType("jar");
-//		dependencies.add(seamPersistenceImpl);
-		addSeamSolderApi(dependencies);
-		addSeamSolderImpl(dependencies);
+		addSeamConfig(dependencies);
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
 		nakedUmlUtil.setGroupId("org.nakeduml");
 		nakedUmlUtil.setArtifactId("nakeduml-runtime-adaptor");
@@ -48,11 +34,7 @@ public class IntegratedSeam3PomStep extends PomGenerationStep {
 		Properties p = super.getParentPomProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
-		p.put("seam.persistence.version", "3.0.0-SNAPSHOT");
-		p.put("seam.solder.version", "3.0.0.CR4");
-		p.put("seam.servlet.version", "3.0.0-SNAPSHOT");
 		p.put("numl.version",PomGenerationPhase.NUML_VERSION );
-		p.put("seam.scheduling.version", "1.0.0-SNAPSHOT");
 		return p;
 	}
 
