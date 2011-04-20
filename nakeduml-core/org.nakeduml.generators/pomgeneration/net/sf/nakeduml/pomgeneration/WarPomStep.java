@@ -11,25 +11,23 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 
 import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
-@StepDependency(phase = PomGenerationPhase.class, requires = { IntegratedSeam3PomStep.class })
-public class WarPomStep extends PomGenerationStep {
-
-	
+@StepDependency(phase = PomGenerationPhase.class,requires = {
+	IntegratedSeam3PomStep.class
+})
+public class WarPomStep extends PomGenerationStep{
 	@Override
-	public Plugin[] getPlugins() {
+	public Plugin[] getPlugins(){
 		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
 		result.add(excludeIntegrationTests());
 		return (Plugin[]) result.toArray(new Plugin[result.size()]);
 	}
-
 	@Override
-	public Dependency[] getDependencies() {
+	public Dependency[] getDependencies(){
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		Dependency integrated = POMFactory.eINSTANCE.createDependency();
 		integrated.setGroupId(config.getMavenGroupId());
@@ -41,72 +39,34 @@ public class WarPomStep extends PomGenerationStep {
 		addCdi(dependencies);
 		addSeamServlet(dependencies);
 		addSeamServletImpl(dependencies);
-		addSolderApi(dependencies);
-		addSolderImpl(dependencies);
 		addSeamConfig(dependencies);
 		addArquillian(dependencies);
 		addNumlTestAdaptor(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
-
-	private void addSeamConfig(List<Dependency> dependencies) {
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.seam.config");
-		dependency.setArtifactId("seam-config-xml");
-		dependency.setVersion("3.0.0.Beta2");
-		dependency.setScope("test");
-		dependencies.add(dependency);
-	}
-
-	private void addSolderImpl(List<Dependency> dependencies) {
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.seam.solder");
-		dependency.setArtifactId("seam-solder-impl");
-		dependency.setVersion("${seam.solder.version}");
-		dependency.setScope("runtime");
-		dependencies.add(dependency);
-	}
-
-	private void addSolderApi(List<Dependency> dependencies) {
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.seam.solder");
-		dependency.setArtifactId("seam-solder-api");
-		dependency.setVersion("${seam.solder.version}");
-		dependency.setScope("compile");
-		Exclusion exclusion = POMFactory.eINSTANCE.createExclusion();
-		exclusion.setGroupId("org.jboss.logging");
-		exclusion.setArtifactId("jboss-logging");
-		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
-		dependency.getExclusions().getExclusion().add(exclusion);
-		dependencies.add(dependency);
-	}
-
 	@Override
-	public Properties getParentPomProperties() {
+	public Properties getParentPomProperties(){
 		Properties p = super.getParentPomProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
+		p.put("seam.servlet.version", "3.0.0.Final");
 		p.put("arquillian.version", ARQUILLIAN_VERSION);
 		return p;
 	}
-
 	@Override
-	public boolean hasFinalName() {
+	public boolean hasFinalName(){
 		return true;
 	}
-
 	@Override
-	public String getPackaging() {
+	public String getPackaging(){
 		return "war";
 	}
-
 	@Override
-	public OutputRoot getExampleTargetDir() {
+	public OutputRoot getExampleTargetDir(){
 		return config.getOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE);
 	}
-
 	@Override
-	public Profile[] getProfiles() {
+	public Profile[] getProfiles(){
 		Profile[] profiles = new Profile[2];
 		profiles[0] = createArquillianProfile();
 		Profile profile = POMFactory.eINSTANCE.createProfile();

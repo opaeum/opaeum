@@ -6,7 +6,9 @@ import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.model.IImportedElement;
@@ -21,76 +23,60 @@ import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
-public abstract class PomGenerationStep implements TransformationStep {
+public abstract class PomGenerationStep implements TransformationStep{
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected NakedUmlConfig config;
 	protected INakedModelWorkspace workspace;
 	protected INakedRootObject model;
-
 	protected abstract OutputRoot getExampleTargetDir();
-
-	public void initialize(NakedUmlConfig config, INakedModelWorkspace workspace) {
+	public void initialize(NakedUmlConfig config,INakedModelWorkspace workspace){
 		this.config = config;
 		this.workspace = workspace;
 	}
-
-	public String getVersionVariable() {
+	public String getVersionVariable(){
 		return "${" + workspace.getDirectoryName() + ".version}";
 	}
-
-	public String getPackaging() {
+	public String getPackaging(){
 		return "jar";
 	}
-
-	public Dependency[] getDependencies() {
+	public Dependency[] getDependencies(){
 		return new Dependency[0];
 	}
-
-	public Plugin[] getPlugins() {
+	public Plugin[] getPlugins(){
 		return new Plugin[0];
 	}
-
-	protected Plugin excludeIntegrationTests() {
+	protected Plugin excludeIntegrationTests(){
 		Plugin sureFire = addSurefire();
 		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");
-
 		// TODO make none
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
+		// PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
 		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
-
 		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*IntegrationTest.java");
 		return sureFire;
 	}
-
-	public boolean useWorkspaceName() {
+	public boolean useWorkspaceName(){
 		return this.getExampleTargetDir().useWorkspaceName();
 	}
-
-	public final String getProjectName() {
-		if (useWorkspaceName()) {
+	public final String getProjectName(){
+		if(useWorkspaceName()){
 			return this.workspace.getDirectoryName() + getExampleTargetDir().getProjectSuffix();
-		} else {
+		}else{
 			return this.model.getFileName() + getExampleTargetDir().getProjectSuffix();
 		}
 	}
-
-	public boolean hasFinalName() {
+	public boolean hasFinalName(){
 		return false;
 	}
-
-	public Properties getParentPomProperties() {
+	public Properties getParentPomProperties(){
 		return new Properties();
 	}
-
-	public Profile[] getProfiles() {
+	public Profile[] getProfiles(){
 		return new Profile[0];
 	}
-
-	public void setModel(INakedRootObject model) {
+	public void setModel(INakedRootObject model){
 		this.model = model;
 	}
-
-	public Properties getProperties() {
+	public Properties getProperties(){
 		return new Properties();
 	}
 	protected void addHsqlDbForTest(Collection<Dependency> dependencies){
@@ -109,14 +95,14 @@ public abstract class PomGenerationStep implements TransformationStep {
 		hibernate.setVersion("${hibernate.version}");
 		hibernate.setType("jar");
 		hibernate.setScope("provided");
-		//Clashes with slf4j in weld-core-test and weld-se
+		// Clashes with slf4j in weld-core-test and weld-se
 		excludeSlf4j(hibernate);
-		//Clashes with antlr in Drools
+		// Clashes with antlr in Drools
 		excludeAntlr(hibernate);
-		//To Keep Eclipse classpath clean
+		// To Keep Eclipse classpath clean
 		excludeJta(hibernate);
 		dependencies.add(hibernate);
-		Dependency validation= POMFactory.eINSTANCE.createDependency();
+		Dependency validation = POMFactory.eINSTANCE.createDependency();
 		validation.setGroupId("org.hibernate");
 		validation.setArtifactId("hibernate-validator");
 		validation.setVersion("4.0.0.GA");
@@ -124,44 +110,39 @@ public abstract class PomGenerationStep implements TransformationStep {
 		validation.setScope("provided");
 		dependencies.add(validation);
 	}
-
 	private void excludeJta(Dependency dependency){
 		Exclusion jta = POMFactory.eINSTANCE.createExclusion();
 		jta.setGroupId("javax.transaction");
 		jta.setArtifactId("jta");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(jta);
-		
 	}
-
-	protected void excludeSlf4j(Dependency dependency) {
+	protected void excludeSlf4j(Dependency dependency){
 		Exclusion excludeSlf4j = POMFactory.eINSTANCE.createExclusion();
 		excludeSlf4j.setGroupId("org.slf4j");
 		excludeSlf4j.setArtifactId("slf4j-api");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(excludeSlf4j);
 	}
-	protected void excludeAntlr(Dependency dependency) {
+	protected void excludeAntlr(Dependency dependency){
 		Exclusion antlr = POMFactory.eINSTANCE.createExclusion();
 		antlr.setGroupId("antlr");
 		antlr.setArtifactId("anltr");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(antlr);
 	}
-	protected void addArquillian(Collection<Dependency> dependencies) {
+	protected void addArquillian(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.arquillian");
 		dependency.setArtifactId("arquillian-junit");
 		dependency.setVersion("${arquillian.version}");
 		dependency.setType("jar");
 		dependency.setScope("test");
-
 		dependencies.add(dependency);
 	}
-
 	// TODO move to WarPomStep when we have figured out how to do integreation
 	// tests from an ejb
-	protected void addSeamServlet(Collection<Dependency> dependencies) {
+	protected void addSeamServlet(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.seam.servlet");
 		dependency.setArtifactId("seam-servlet-api");
@@ -169,8 +150,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setScope("compile");
 		dependencies.add(dependency);
 	}
-
-	protected void addSeamServletImpl(Collection<Dependency> dependencies) {
+	protected void addSeamServletImpl(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.seam.servlet");
 		dependency.setArtifactId("seam-servlet-impl");
@@ -183,37 +163,15 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		dependency.getExclusions().getExclusion().add(solder);
 	}
-
-	protected void addSeamSolderImpl(Collection<Dependency> dependencies) {
-		Dependency solderImpl = POMFactory.eINSTANCE.createDependency();
-		solderImpl.setGroupId("org.jboss.seam.solder");
-		solderImpl.setArtifactId("seam-solder-impl");
-		solderImpl.setVersion("${seam.solder.version}");
-		solderImpl.setScope("runtime");
-		dependencies.add(solderImpl);
-		solderImpl = POMFactory.eINSTANCE.createDependency();
-		solderImpl.setGroupId("org.jboss.seam.config");
-		solderImpl.setArtifactId("seam-config-xml");
-		solderImpl.setVersion("3.0.0.Beta2");
-		solderImpl.setScope("test");
-		dependencies.add(solderImpl);
+	protected void addSeamConfig(Collection<Dependency> dependencies){
+		Dependency seamConfig = POMFactory.eINSTANCE.createDependency();
+		seamConfig.setGroupId("org.jboss.seam.config");
+		seamConfig.setArtifactId("seam-config-xml");
+		seamConfig.setVersion("3.0.0.Beta2");
+		seamConfig.setScope("test");
+		dependencies.add(seamConfig);
 	}
-
-	protected void addSeamSolderApi(Collection<Dependency> dependencies) {
-		Dependency solder = POMFactory.eINSTANCE.createDependency();
-		solder.setGroupId("org.jboss.seam.solder");
-		solder.setArtifactId("seam-solder-api");
-		solder.setVersion("${seam.solder.version}");
-		solder.setScope("compile");
-		Exclusion excludeLoggin = POMFactory.eINSTANCE.createExclusion();
-		excludeLoggin.setGroupId("org.jboss.logging");
-		excludeLoggin.setArtifactId("jboss-logging");
-		solder.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
-		solder.getExclusions().getExclusion().add(excludeLoggin);
-		dependencies.add(solder);
-	}
-
-	protected void addCdi(Collection<Dependency> dependencies) {
+	protected void addCdi(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("javax.enterprise");
 		dependency.setArtifactId("cdi-api");
@@ -222,8 +180,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setType("jar");
 		dependencies.add(dependency);
 	}
-
-	protected void addJbossJeeSpec(Collection<Dependency> dependencies) {
+	protected void addJbossJeeSpec(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
 		dependency.setGroupId("org.jboss.spec");
 		dependency.setArtifactId("jboss-javaee-6.0");
@@ -232,8 +189,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		dependency.setType("pom");
 		dependencies.add(dependency);
 	}
-
-	protected void addNumlTestAdaptor(Collection<Dependency> result) {
+	protected void addNumlTestAdaptor(Collection<Dependency> result){
 		Dependency numlAdaptor = POMFactory.eINSTANCE.createDependency();
 		numlAdaptor.setGroupId("org.nakeduml");
 		numlAdaptor.setArtifactId("nakeduml-test-adaptor");
@@ -241,8 +197,7 @@ public abstract class PomGenerationStep implements TransformationStep {
 		numlAdaptor.setVersion("${numl.version}");
 		result.add(numlAdaptor);
 	}
-
-	protected Collection<Dependency> getTestDepedencies() {
+	protected Collection<Dependency> getTestDepedencies(){
 		Collection<Dependency> result = new ArrayList<Dependency>();
 		Dependency jMock = POMFactory.eINSTANCE.createDependency();
 		jMock.setGroupId("org.jmock");
@@ -267,20 +222,18 @@ public abstract class PomGenerationStep implements TransformationStep {
 		result.add(testNg);
 		return result;
 	}
-
-	protected Collection<Dependency> getBasicDependencies(String projectSuffix) {
+	protected Collection<Dependency> getBasicDependencies(String projectSuffix){
 		Collection<Dependency> result = getTestDepedencies();
 		Collection<IImportedElement> imports = this.model.getImports();
-		for (IImportedElement imp : imports) {
-			if (imp.getElement() instanceof INakedRootObject) {
+		for(IImportedElement imp:imports){
+			if(imp.getElement() instanceof INakedRootObject){
 				addDependencyToRootObject(projectSuffix, (INakedRootObject) imp.getElement(), result);
 			}
 		}
 		return result;
 	}
-
-	protected void addDependencyToRootObject(String projectSuffix, INakedRootObject rootObject, Collection<Dependency> result) {
-		if (workspace.isPrimaryModel(rootObject)) {
+	protected void addDependencyToRootObject(String projectSuffix,INakedRootObject rootObject,Collection<Dependency> result){
+		if(workspace.isPrimaryModel(rootObject)){
 			Dependency d = POMFactory.eINSTANCE.createDependency();
 			d.setGroupId(config.getMavenGroupId());
 			d.setArtifactId(rootObject.getFileName() + projectSuffix);
@@ -288,13 +241,12 @@ public abstract class PomGenerationStep implements TransformationStep {
 			d.setScope("compile");
 			d.setType("jar");
 			result.add(d);
-		} else {
+		}else{
 			// TODO Model level stereotype, or numlconfig.properties get group
 			// id and version artifactid=filename
 		}
 	}
-
-	public Profile createArquillianProfile() {
+	public Profile createArquillianProfile(){
 		Profile profile = POMFactory.eINSTANCE.createProfile();
 		profile.setId("jbossas-managed-6");
 		Activation activation = POMFactory.eINSTANCE.createActivation();
@@ -352,7 +304,6 @@ public abstract class PomGenerationStep implements TransformationStep {
 		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "fail", "true");
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
-
 		plugin = addSurefire();
 		PomUtil.addAnyElementWithContent(pluginExecution.getConfiguration().getAny(), "skip", "true");
 		plugin.setExecutions(POMFactory.eINSTANCE.createExecutionsType());
@@ -362,19 +313,15 @@ public abstract class PomGenerationStep implements TransformationStep {
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
 		pluginExecution.getGoals().getGoal().add("test");
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-
 		AnyType excludes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "excludes");
-//		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
-		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
+		// PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
 		AnyType includes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "includes");
 		PomUtil.addAnyElementWithContent(includes.getAny(), "include", "**/*IntegrationTest.java");
-
 		plugin.getExecutions().getExecution().add(pluginExecution);
 		profile.getBuild().getPlugins().getPlugin().add(plugin);
 		return profile;
 	}
-
-	protected Plugin addSurefire() {
+	protected Plugin addSurefire(){
 		Plugin plugin;
 		plugin = POMFactory.eINSTANCE.createPlugin();
 		plugin.setGroupId("org.apache.maven.plugins");
