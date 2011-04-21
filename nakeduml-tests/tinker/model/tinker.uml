@@ -463,6 +463,17 @@
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </ownedParameter>
         </ownedOperation>
+        <ownedOperation xmi:id="_AzwT0Gm5EeCr3ONyu8Puug" name="hasChild" bodyCondition="_EHYAsGm5EeCr3ONyu8Puug">
+          <ownedRule xmi:id="_EHYAsGm5EeCr3ONyu8Puug" name="Constraint1">
+            <specification xmi:type="uml:OpaqueExpression" xmi:id="_FjA4QGm5EeCr3ONyu8Puug" name="OpaqueExpression1">
+              <body>getChildren()->forAll(c|child.oclAsType(Hierarchy)=c))</body>
+            </specification>
+          </ownedRule>
+          <ownedParameter xmi:id="_CjS-0Gm5EeCr3ONyu8Puug" name="return" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_G2RP4Gm5EeCr3ONyu8Puug" name="child" type="_VkfqEGhUEeC_85FOnhMg7Q"/>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_XjiJoGhUEeC_85FOnhMg7Q" name="RealRootFolder">
         <generalization xmi:id="__7-QMGhYEeC_85FOnhMg7Q" general="_8kQGcGhYEeC_85FOnhMg7Q"/>

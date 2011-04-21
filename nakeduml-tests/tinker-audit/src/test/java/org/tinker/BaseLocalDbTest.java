@@ -1,19 +1,25 @@
 package org.tinker;
 import org.junit.After;
 import org.junit.Before;
+import org.util.DbListener;
 import org.util.GraphDb;
+import org.util.NakedORecordHook;
 
+import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
 
 
-public class BaseTest {
+public class BaseLocalDbTest {
 
 	protected OrientGraph db;
 	
 	@Before
 	public void before() {
-		db = new OrientGraph("memory:test");
+		db = new OrientGraph("local:/tmp/orientdbtest2");
+		db.setTransactionMode(Mode.MANUAL);
 		db.clear();
+//		db.getRawGraph().registerListener(new DbListener());
+		db.getRawGraph().registerHook(new NakedORecordHook());
 		GraphDb.setDB(db);
 	}
 
