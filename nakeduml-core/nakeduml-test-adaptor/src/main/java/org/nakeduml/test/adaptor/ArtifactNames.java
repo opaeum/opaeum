@@ -44,6 +44,7 @@ public class ArtifactNames {
 	public static final String COMMONS_POOL = "commons-pool:commons-pool";
 	public static final String COMMONS_NET = "commons-net:commons-net";
 	public static final String COMMONS_CONFIGURATION = "commons-configuration:commons-configuration";
+	public static final String COMMONS_LANG = "commons-lang:commons-lang";
 	public static final String JCRAFT_JSCH = "com.jcraft:jsch";
 
 }

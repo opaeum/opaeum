@@ -26,7 +26,6 @@ import org.jboss.seam.solder.beanManager.BeanManagerLocator;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
-import org.nakeduml.runtime.domain.RevisionType;
 
 public class AuditSync implements Synchronization{
 	private final AuditSyncManager manager;
@@ -58,19 +57,17 @@ public class AuditSync implements Synchronization{
 				audited.setRevisionType(alreadyAudited.getRevisionType());
 				auditedEntities.add(i, audited);
 			}else{
-				if(objectVersion > 0 && audited.getRevisionType()==RevisionType.MOD){
-					Audited previousVersion = audited.getClass().newInstance();
-					previousVersion.setId(new AuditId(audited.getOriginal().getId(), objectVersion - 1));
-					audited.setPreviousVersion(previousVersion);
-				}
+//				if(objectVersion > 0 && audited.getRevisionType()==RevisionType.MOD){
+//					Audited previousVersion = audited.getClass().newInstance();
+//					previousVersion.setId(new AuditId(audited.getOriginal().getId(), objectVersion - 1));
+//					audited.setPreviousVersion(previousVersion);
+//				}
 				auditedEntities.offer(audited);
 			}
 			usedIds.put(usedIdsKey, audited);
 		}catch(RuntimeException re){
 			throw re;
-		}catch(InstantiationException e){
-			throw new RuntimeException(e);
-		}catch(IllegalAccessException e){
+		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
 	}

@@ -19,14 +19,7 @@ public class CditTestLogger extends Logger{
 	private void logImpl(Level level,String loggerClassName,Object[] parameters,Throwable thrown,String string){
 		System.out.printf(level + ": " + loggerClassName + ": ");
 		if(parameters != null && string != null){
-			for(int i = 0;i < parameters.length;i++){
-				Object object = parameters[i];
-				if(object != null){
-					string = string.replace("{" + i + "}", object.toString());
-				}else{
-					string = string.replace("{" + i + "}", "null");
-				}
-			}
+			string = String.format(string, parameters);
 		}
 		System.out.print(string);
 		System.out.println();

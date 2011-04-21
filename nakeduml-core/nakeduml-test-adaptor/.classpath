@@ -108,18 +108,10 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/w3c/css/sac/1.3/sac-1.3.jar" sourcepath="M2_REPO/org/w3c/css/sac/1.3/sac-1.3-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.0-SNAPSHOT/seam-persistence-api-3.0.0-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.0-SNAPSHOT/seam-persistence-impl-3.0.0-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.CR4/seam-solder-api-3.0.0.CR4.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.CR4/seam-solder-api-3.0.0.CR4-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-api/3.0.0.CR4/seam-solder-api-3.0.0.CR4-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR4/seam-solder-impl-3.0.0.CR4.jar" sourcepath="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR4/seam-solder-impl-3.0.0.CR4-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/seam/solder/seam-solder-impl/3.0.0.CR4/seam-solder-impl-3.0.0.CR4-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.1-SNAPSHOT/seam-persistence-api-3.0.1-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-api/3.0.1-SNAPSHOT/seam-persistence-api-3.0.1-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.1-SNAPSHOT/seam-persistence-impl-3.0.1-SNAPSHOT.jar" sourcepath="M2_REPO/org/jboss/seam/persistence/seam-persistence-impl/3.0.1-SNAPSHOT/seam-persistence-impl-3.0.1-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.Final/seam-solder-api-3.0.0.Final.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.Final/seam-solder-impl-3.0.0.Final.jar"/>
   <classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1/serializer-2.7.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11.jar" sourcepath="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-sources.jar"/>

@@ -25,6 +25,7 @@ import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
 import org.jboss.seam.transaction.TransactionScoped;
 import org.nakeduml.environment.ISignalDispatcher;
+import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;
 
@@ -81,7 +82,6 @@ public class SignalDispatcher implements ISignalDispatcher{
 				isRegistered = false;
 				Connection connection = null;
 				Session session = null;
-				MessageProducer producer = null;
 				try{
 					// Has to happen outside a transaction - somehow in JBoss and HornetQ the message does not get sent inside the
 					// transaction
@@ -90,11 +90,11 @@ public class SignalDispatcher implements ISignalDispatcher{
 					// NB!! Seam component management did not work in the
 					// afterCompletion context - the session was null
 					InitialContext initialContext = new InitialContext();
-					Queue signalQueue = (Queue) initialContext.lookup("queue/SignalQueue");
 					ConnectionFactory factory = (ConnectionFactory) initialContext.lookup("/ConnectionFactory");
 					connection = factory.createConnection();
 					session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
-					producer = session.createProducer(signalQueue);
+					MessageProducer entityProducer = session.createProducer((Queue) initialContext.lookup("queue/EntitySignalQueue"));
+					MessageProducer helperProducer = session.createProducer((Queue) initialContext.lookup("queue/HelperSignalQueue"));
 					for(SignalToDispatch s:signalsToDispatch){
 						s.prepareForDispatch();
 						try{
@@ -104,17 +104,19 @@ public class SignalDispatcher implements ISignalDispatcher{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						producer.send(session.createObjectMessage(s));
+						if(s.getTarget() instanceof AbstractEntity){
+							entityProducer.send(session.createObjectMessage(s));
+						}else{
+							helperProducer.send(session.createObjectMessage(s));
+						}
 					}
+					helperProducer.close();
+					entityProducer.close();
 				}catch(JMSException e){
 					throw new RuntimeException(e);
 				}catch(NamingException e){
 					throw new RuntimeException(e);
 				}finally{
-					try{
-						producer.close();
-					}catch(Exception ignore){
-					}
 					try{
 						session.close();
 					}catch(Exception ignore){

@@ -29,17 +29,16 @@ public class CdiTestSeamTransaction implements SeamTransaction{
 	Stack<Object> txStack = new Stack<Object>();
 	@Override
 	public void begin() throws NotSupportedException,SystemException{
-		if(txStack.isEmpty()){
+//		if(txStack.isEmpty()){
 			tx = hibernateSession.beginTransaction();
-		}
-		txStack.push(new Object());
+//		}
+//		txStack.push(new Object());
 		status = Status.STATUS_ACTIVE;
 	}
 	@Override
 	public void commit() throws RollbackException,HeuristicMixedException,HeuristicRollbackException,SecurityException,IllegalStateException,SystemException{
 		status = Status.STATUS_COMMITTED;
-		txStack.pop();
-		if(txStack.isEmpty()){
+		if(tx.isActive()){	
 			tx.commit();
 		}
 		resetJbpmKnowledgeSession();
@@ -53,8 +52,7 @@ public class CdiTestSeamTransaction implements SeamTransaction{
 	@Override
 	public void rollback() throws IllegalStateException,SecurityException,SystemException{
 		resetJbpmKnowledgeSession();
-		txStack.pop();
-		if(txStack.isEmpty()){
+		if(tx.isActive()){
 			tx.rollback();
 		}
 		status = Status.STATUS_ROLLEDBACK;

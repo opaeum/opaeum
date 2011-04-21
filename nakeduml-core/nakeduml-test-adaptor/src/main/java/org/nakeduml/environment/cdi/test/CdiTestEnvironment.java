@@ -24,6 +24,7 @@ import javax.enterprise.util.AnnotationLiteral;
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentImpl;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -38,6 +39,7 @@ import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
+import org.nakeduml.hibernate.domain.PostgresDialect;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.test.adaptor.CditTestLogger;
 
@@ -140,6 +142,8 @@ public class CdiTestEnvironment extends Environment{
 				long start = System.currentTimeMillis();
 				Configuration hibernateConfiguration = new Configuration();
 				hibernateConfiguration.configure(getHibernateConfigName());
+				hibernateConfiguration.getTypeResolver().registerTypeOverride(PostgresDialect.PostgresqlMateralizedBlobType.INSTANCE);
+
 				sessionFactory = hibernateConfiguration.buildSessionFactory();
 				System.out.println("Building session factory took " + (System.currentTimeMillis() - start) + "ms");
 			}catch(Throwable e){
@@ -202,6 +206,8 @@ public class CdiTestEnvironment extends Environment{
 		if(componentStack.isEmpty()){
 			try{
 				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).commit();
+				signalDispatcher.prepareSignalsForDispatch();
+				resolveBean(Session.class,DefaultLiteral.INSTANCE).close();
 			}catch(RuntimeException e){
 				throw e;
 			}catch(Exception e){
@@ -209,7 +215,8 @@ public class CdiTestEnvironment extends Environment{
 			}
 			lifecycle.endRequest();
 			lifecycle.endSession();
-			getComponent(ISignalDispatcher.class).deliverAllPendingSignals();
+			signalDispatcher.deliverAllPendingSignals();
+			
 		}
 	}
 	public void beforeRequest(Object component){
@@ -217,6 +224,7 @@ public class CdiTestEnvironment extends Environment{
 			lifecycle.beginSession();
 			lifecycle.beginRequest();
 			try{
+				resolveBean(Session.class,DefaultLiteral.INSTANCE).setFlushMode(FlushMode.MANUAL);
 				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).begin();
 			}catch(RuntimeException e){
 				throw e;

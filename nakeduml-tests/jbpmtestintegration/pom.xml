@@ -307,7 +307,7 @@
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
     <seam.scheduling.version>1.0.0-SNAPSHOT</seam.scheduling.version>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-    <seam.servlet.version>3.0.0-SNAPSHOT</seam.servlet.version>
+    <seam.servlet.version>3.0.0.Final</seam.servlet.version>
     <seam.solder.version>3.0.0.CR4</seam.solder.version>
   </properties>
 </project>

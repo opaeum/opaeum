@@ -43,8 +43,10 @@ public class AuditCapturer{
 				Auditable original = audited.getOriginal();
 				AbstractEntity fetchedOriginal = (AbstractEntity) session.load(IntrospectionUtil.getOriginalClass(original.getClass()), original.getId());
 				audited.setOriginal(fetchedOriginal);
-				if(audited.getPreviousVersion()!=null){
-					AuditId id = audited.getPreviousVersion().getId();
+//				if(audited.getPreviousVersion()!=null){
+				if(original.getObjectVersion()>0){
+//					AuditId id = audited.getPreviousVersion().getId();
+					AuditId id = new AuditId(original.getId(), original.getObjectVersion()-1);
 					Audited fetchedPreviousVersion = (Audited) session.load(IntrospectionUtil.getOriginalClass(audited.getClass()), id);
 					audited.setPreviousVersion(fetchedPreviousVersion);
 				}

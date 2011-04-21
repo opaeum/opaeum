@@ -122,8 +122,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 			OJAnnotatedClass auditClass = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
 			if(auditClass == null){
 				System.out.println("Audit class not found:" + path);
-				return;
-			}
+			}else{
 			OJAnnotatedField field = (OJAnnotatedField) auditClass.findField(map.umlName());
 			if(map.isOneToMany()){
 				field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
@@ -163,6 +162,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 				}
 			}else if(map.isOne() && !p.isInverse() && isPersistent(p.getNakedBaseType())){
 				field.removeAnnotation(new OJPathName("javax.persistence.JoinColumn"));
+				field.removeAnnotation(new OJPathName("org.hibernate.annotations.Index"));
 				addJoinColumns(p, field);
 			}else if(map.isOneToOne()){
 				field.removeAnnotation(new OJPathName("javax.persistence.OneToOne"));
@@ -171,7 +171,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 				field.addAnnotationIfNew(manyToOne);
 				addJoinColumns(p, field);
 			}
-		}
+		}}
 	}
 	private void addJoinColumns(INakedProperty p,OJAnnotatedField field){
 		OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));

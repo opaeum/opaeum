@@ -10,11 +10,11 @@ import java.util.Set;
 
 public class ExceptionAnalyser{
 	private Exception exception;
-	private Exception rootCause;
+	private Throwable rootCause;
 	public ExceptionAnalyser(Exception exception){
 		this.exception = exception;
 	}
-	public String getStackTrace(Exception e){
+	public String getStackTrace(Throwable e){
 		CharArrayWriter w = new CharArrayWriter();
 		e.printStackTrace(new PrintWriter(w));
 		String stackTrace = new String(w.toCharArray());
@@ -23,7 +23,7 @@ public class ExceptionAnalyser{
 	public boolean isStaleStateException(){
 		return occursIn("org.hibernate.StaleObjectStateException", exception);
 	}
-	public Exception getRootCause(){
+	public Throwable getRootCause(){
 		if(this.rootCause == null){
 			this.rootCause = findCause(exception);
 		}
@@ -32,12 +32,14 @@ public class ExceptionAnalyser{
 	public void throwRootCause(){
 		if(getRootCause() instanceof RuntimeException){
 			throw (RuntimeException) getRootCause();
+		}else if(getRootCause() instanceof Error){
+			throw (Error) getRootCause();
 		}else{
 			throw new RuntimeException(getRootCause());
 		}
 	}
 	public boolean isDeadlockException(){
-		Exception se = findFirstCause(SQLException.class);
+		Throwable se = findFirstCause(SQLException.class);
 		if(se != null){
 			return occursIn("org.postgresql.util.PSQLException: ERROR: deadlock detected", se);
 		}
@@ -46,9 +48,9 @@ public class ExceptionAnalyser{
 	public boolean stringOccurs(String string){
 		return occursIn(string, exception);
 	}
-	private boolean occursIn(String string,Exception se){
+	private boolean occursIn(String string,Throwable se){
 		boolean r = false;
-		Set<Exception> causes = new HashSet<Exception>();
+		Set<Throwable> causes = new HashSet<Throwable>();
 		do{
 			if(getStackTrace(se).contains(string)){
 				r = true;
@@ -59,38 +61,38 @@ public class ExceptionAnalyser{
 		}while(!(se == null || causes.contains(se)));
 		return r;
 	}
-	public <T extends Exception>T findFirstCause(Class<T> class1){
+	public <T extends Throwable>T findFirstCause(Class<T> class1){
 		int i = 20;
-		Exception cause = exception;
+		Throwable cause = exception;
 		while(!(class1.isInstance(cause) || i-- == 0 || cause == null)){
 			cause = getCause(cause);
 		}
 		return class1.cast(cause);
 	}
-	private Exception findCause(Exception e){
-		Set<Exception> causes = new HashSet<Exception>();
+	private Throwable findCause(Throwable e){
+		Set<Throwable> causes = new HashSet<Throwable>();
 		int i = 30;
-		Exception cause = e;
+		Throwable cause = e;
 		while(!(i-- == 0 || getCause(cause) == null || causes.contains(cause))){
 			cause = getCause(cause);
 		}
 		return cause;
 	}
-	private Exception getCause(Exception source){
-		Exception cause = null;
+	private Throwable getCause(Throwable source){
+		Throwable cause = null;
 		if(source instanceof InvocationTargetException){
 			InvocationTargetException e = (InvocationTargetException) source;
-			cause = (Exception) e.getTargetException();
+			cause = e.getTargetException();
 		}else if(source instanceof UndeclaredThrowableException){
 			UndeclaredThrowableException e = (UndeclaredThrowableException) source;
-			cause = (Exception) e.getUndeclaredThrowable();
+			cause = e.getUndeclaredThrowable();
 		}else if(source instanceof SQLException){
 			SQLException e = (SQLException) source;
-			cause = (Exception) e.getNextException();
+			cause = e.getNextException();
 		}
 		if(cause == null){
 			// Fallback case
-			return (Exception) source.getCause();
+			return source.getCause();
 		}else{
 			return cause;
 		}
