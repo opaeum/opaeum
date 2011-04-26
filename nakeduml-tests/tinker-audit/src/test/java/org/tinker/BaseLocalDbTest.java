@@ -3,8 +3,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.util.DbListener;
 import org.util.GraphDb;
-import org.util.NakedORecordHook;
 
+import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
 
@@ -15,12 +15,15 @@ public class BaseLocalDbTest {
 	
 	@Before
 	public void before() {
-		db = new OrientGraph("local:/tmp/orientdbtest2");
+		db = new OrientGraph("local:/tmp/orientdbtest1111111");
 		db.setTransactionMode(Mode.MANUAL);
 		db.clear();
-//		db.getRawGraph().registerListener(new DbListener());
-		db.getRawGraph().registerHook(new NakedORecordHook());
+		db.getRawGraph().registerListener(new DbListener());
 		GraphDb.setDB(db);
+		db.startTransaction();
+		db.getRawGraph().setRoot("root",db.getRawGraph().newInstance());
+		GraphDb.getRoot().setProperty("transactionCount", 1);
+		db.stopTransaction(Conclusion.SUCCESS);		
 	}
 
 	@After

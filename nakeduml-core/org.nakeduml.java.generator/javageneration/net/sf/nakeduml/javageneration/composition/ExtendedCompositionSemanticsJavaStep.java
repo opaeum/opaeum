@@ -34,9 +34,5 @@ public class ExtendedCompositionSemanticsJavaStep extends AbstractJavaTransforma
 //		ccpg.initialize(javaModel, config, textWorkspace, context);
 //		ccpg.setModelInstanceMap(sctdg.modelInstanceMap);
 //		ccpg.startVisiting(workspace);
-		
-		TinkerTransformation tinkerTransformation = new TinkerTransformation();
-		tinkerTransformation.initialize(javaModel, config, textWorkspace, context);
-		tinkerTransformation.startVisiting(workspace);		
 	}
 }

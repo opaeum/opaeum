@@ -109,8 +109,6 @@ public class TestCompositionOneToOne extends BaseTest {
 		assertEquals(5, countVertices());
 		assertEquals(4, countEdges());
 		universe1.markDeleted();
-		assertNull(universe1.getSpaceTime());
-		assertNull(spaceTime1.getUniverse());
 		assertEquals(1, countVertices());
 		assertEquals(0, countEdges());
 	}	

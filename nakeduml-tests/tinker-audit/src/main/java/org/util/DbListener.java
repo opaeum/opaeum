@@ -26,7 +26,7 @@ public class DbListener implements ODatabaseListener {
 	@Override
 	public void onBeforeTxBegin(ODatabase iDatabase) {
 		System.out.println("onBeforeTxBegin");
-		TransactionThreadVar.clear();
+//		TransactionThreadVar.clear();
 	}
 
 	@Override
@@ -38,24 +38,22 @@ public class DbListener implements ODatabaseListener {
 	@Override
 	public void onAfterTxRollback(ODatabase iDatabase) {
 		System.out.println("onAfterTxRollback");
-		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onBeforeTxCommit(ODatabase iDatabase) {
 		System.out.println("onBeforeTxCommit");
+		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onAfterTxCommit(ODatabase iDatabase) {
 		System.out.println("onAfterTxCommit");
-		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onClose(ODatabase iDatabase) {
 		System.out.println("onClose");
-		TransactionThreadVar.clear();
 	}
 
 }

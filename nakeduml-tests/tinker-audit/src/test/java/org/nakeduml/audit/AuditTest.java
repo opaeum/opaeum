@@ -3,9 +3,9 @@ package org.nakeduml.audit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.audittest.God;
-import org.audittest.GodAudit;
-import org.audittest.Universe;
+import org.audittest.test1.God;
+import org.audittest.test1.GodAudit;
+import org.audittest.test1.Universe;
 import org.junit.Test;
 import org.tinker.BaseMemoryDbTest;
 
@@ -89,6 +89,7 @@ public class AuditTest extends BaseMemoryDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
 		assertEquals(25, countEdges());
+		god.getUniverse();
 	}
 	
 }

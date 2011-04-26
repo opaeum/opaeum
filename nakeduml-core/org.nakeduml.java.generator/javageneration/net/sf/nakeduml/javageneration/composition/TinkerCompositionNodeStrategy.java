@@ -21,9 +21,8 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 			if (testConstructor == null) {
 				testConstructor = new OJConstructor();
 				ojClass.addToConstructors(testConstructor);
-				testConstructor.addParam("owningObject", new OJPathName(owningType.getMappingInfo().getQualifiedJavaName()));
+				testConstructor.addParam("owningObject", paramPath);
 				testConstructor.getBody().addToStatements("init(owningObject)");
-			} else {
 			}
 		}
 	}
@@ -37,7 +36,9 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 			markDeleted.getBody().addToStatements("super.markDeleted()");
 		}
 		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
-		removeVertex(sc, ojClass, markDeleted);
+		if (!sc.hasSupertype()) {
+			removeVertex(sc, ojClass, markDeleted);
+		}
 	}
 
 	private void removeVertex(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {

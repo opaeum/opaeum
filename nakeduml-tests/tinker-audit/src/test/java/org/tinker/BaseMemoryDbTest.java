@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.util.DbListener;
 import org.util.GraphDb;
 
-import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
@@ -22,7 +21,7 @@ public class BaseMemoryDbTest {
 		db.getRawGraph().registerListener(new DbListener());
 		GraphDb.setDB(db);
 		db.startTransaction();
-		db.getRawGraph().setRoot("root",new ODocument());
+		db.getRawGraph().setRoot("root",db.getRawGraph().newInstance());
 		GraphDb.getRoot().setProperty("transactionCount", 1);
 		db.stopTransaction(Conclusion.SUCCESS);
 	}

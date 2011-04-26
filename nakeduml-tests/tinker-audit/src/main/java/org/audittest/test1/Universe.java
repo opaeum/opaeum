@@ -1,4 +1,4 @@
-package org.audittest;
+package org.audittest.test1;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -142,7 +142,7 @@ public class Universe implements Serializable, TinkerNode, TinkerCompositionNode
 
 	public void setName(String name) {
 		this.vertex.setProperty("org__auditTest__Universe__name", name);
-		if (TransactionThreadVar.getNewVertex(this.getClass().getName() + getUid())) {
+		if (TransactionThreadVar.hasNoAuditEntry(this.getClass().getName() + getUid())) {
 			createAuditVertex(getGod());
 		}
 		this.auditVertex.setProperty("org__auditTest__Universe__name", name);
@@ -222,12 +222,11 @@ public class Universe implements Serializable, TinkerNode, TinkerCompositionNode
 	}
 
 	private void createAuditVertex(God owningObject) {
-		if (TransactionThreadVar.getNewVertex(getClass().getName() + getUid())) {
+		if (TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())) {
 			this.auditVertex = org.util.GraphDb.getDB().addVertex(null);
 			TransactionThreadVar.setNewVertexFalse(getClass().getName() + getUid());
 
-			Edge auditEdge = org.util.GraphDb.getDB().addEdge(null, this.vertex, this.auditVertex,
-					"A__universe___audit" + org.util.GraphDb.getTransactionCount());
+			Edge auditEdge = org.util.GraphDb.getDB().addEdge(null, this.vertex, this.auditVertex, "A__universe___audit" + org.util.GraphDb.getTransactionCount());
 			auditEdge.setProperty("outClass", this.getClass().getName());
 			auditEdge.setProperty("inClass", this.getClass().getName() + "Audit");
 

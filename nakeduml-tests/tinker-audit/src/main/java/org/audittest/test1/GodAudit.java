@@ -1,4 +1,4 @@
-package org.audittest;
+package org.audittest.test1;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;

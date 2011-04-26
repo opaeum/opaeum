@@ -12,6 +12,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.composition.TinkerExtendedCompositionSemanticsJavaStep;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -22,8 +23,10 @@ public class Generate {
 	protected TransformationProcess process = new TransformationProcess();
 
 	public static void main(String[] args) throws Exception {
-		Generate g = new Generate(new File("/home/pieter/workspace-neoaspect/nakeduml/nakeduml-tests/tinker"), new File(
-				"model/tinker.uml"));
+		File model = new File("../TestModels/Models/tinker/tinker.uml");
+		File outputRoot = new File("../tinker/");
+		System.out.println(outputRoot.getAbsolutePath());
+		Generate g = new Generate(outputRoot, model);
 		g.generate();
 	}
 
@@ -46,9 +49,9 @@ public class Generate {
 
 	@SuppressWarnings("unchecked")
 	private Set<Class<? extends TransformationStep>> getSteps() {
-		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class, 
+		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class,
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
-				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class);
+				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class, TinkerExtendedCompositionSemanticsJavaStep.class);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {

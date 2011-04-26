@@ -8,9 +8,9 @@ import org.tinker.Universe;
 
 public class TestLazySet extends BaseTest {
 	
-	int universecount = 1000;
+	int universecount = 10;
 	
-	@Test
+//	@Test
 	public void testNonLazy1() {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();

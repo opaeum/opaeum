@@ -49,8 +49,6 @@ public class TestOneToMany extends BaseTest {
 		assertEquals(1, countVertices());
 		assertEquals(0, countEdges());
 		god.markDeleted();
-		assertNull(universe1.getGod());
-		assertNull(universe2.getGod());
 	}
 	
 	@Test
@@ -62,9 +60,6 @@ public class TestOneToMany extends BaseTest {
 		Universe universe2 = new Universe(god);
 		universe2.setName("universe2");
 		god.markDeleted();
-		assertEquals(0, god.getUniverse().size());
-		assertNull(universe1.getGod());
-		assertNull(universe2.getGod());
 	}
 	
 	@Test

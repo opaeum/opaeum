@@ -96,6 +96,5 @@ public class TestNonCompositeOneToMany extends BaseTest {
 		universe1.markDeleted();
 		assertEquals(4, countVertices());
 		assertEquals(3, countEdges());
-		assertEquals(0, universe1.getDemon().size());
 	}		
 }

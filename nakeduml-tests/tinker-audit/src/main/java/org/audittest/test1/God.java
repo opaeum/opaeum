@@ -1,4 +1,4 @@
-package org.audittest;
+package org.audittest.test1;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,10 +11,17 @@ import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
 import org.util.TransactionThreadVar;
 
+import com.orientechnologies.orient.core.db.graph.ODatabaseGraphTx;
+import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
+import com.orientechnologies.orient.core.db.graph.OGraphVertex;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
+import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex;
 
 public class God implements Serializable, TinkerNode, TinkerCompositionNode {
+
 	private String name;
 	private Set<Universe> universe = new HashSet<Universe>();
 	private String uid;
@@ -172,7 +179,7 @@ public class God implements Serializable, TinkerNode, TinkerCompositionNode {
 
 	public void setName(String name) {
 		this.vertex.setProperty("org__auditTest__God__name", name);
-		if (TransactionThreadVar.getNewVertex(this.getClass().getName() + getUid())) {
+		if (TransactionThreadVar.hasNoAuditEntry(this.getClass().getName() + getUid())) {
 			createAuditVertex();
 		}
 		this.auditVertex.setProperty("org__auditTest__God__name", name);
@@ -220,7 +227,7 @@ public class God implements Serializable, TinkerNode, TinkerCompositionNode {
 	}
 
 	public Vertex createAuditVertex() {
-		if (TransactionThreadVar.getNewVertex(getClass().getName() + getUid())) {
+		if (TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())) {
 			this.auditVertex = org.util.GraphDb.getDB().addVertex(null);
 			TransactionThreadVar.setNewVertexFalse(getClass().getName() + getUid());
 

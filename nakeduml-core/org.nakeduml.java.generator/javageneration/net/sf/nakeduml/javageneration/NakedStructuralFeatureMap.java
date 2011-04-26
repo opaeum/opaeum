@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration;
 
+import net.sf.nakeduml.javageneration.basicjava.TinkerAuditCreator;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
@@ -25,6 +26,31 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaTypePath();
 		}
 	}
+	public OJPathName javaAuditTypePath(){
+		if(isMany()){
+			OJPathName copy = super.javaTypePath().getCopy();
+			copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
+			return copy;
+		}else if(isJavaPrimitive()|| javaBaseType().equals("String")){
+			return featureTypeMap.javaObjectTypePath();
+		}else{
+			return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+		}
+	}
+
+	public String javaAuditBaseType(){
+		if(isJavaPrimitive()|| javaBaseType().equals("String")){
+			return super.javaBaseType();
+		}else{
+			if (isMany()) {
+				return super.javaBaseType().substring(0,super.javaBaseType().length()-3)+TinkerAuditCreator.AUDIT+">()";
+			} else {
+				return super.javaBaseType()+TinkerAuditCreator.AUDIT;
+			}
+		}
+	}
+
+	
 	@Override
 	public OJPathName javaDefaultTypePath(){
 		if(isMany()){

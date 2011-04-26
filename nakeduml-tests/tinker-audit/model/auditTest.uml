@@ -17,7 +17,7 @@
       <ownedAttribute xmi:id="__0DsQGt3EeCeEYXzpuVhrw" name="name">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_DMavMGt4EeCeEYXzpuVhrw" name="universe" type="_8TIjMGt3EeCeEYXzpuVhrw" aggregation="composite" association="_DMyioGt4EeCeEYXzpuVhrw">
+      <ownedAttribute xmi:id="_DMavMGt4EeCeEYXzpuVhrw" name="finger" type="_8TIjMGt3EeCeEYXzpuVhrw" aggregation="composite" association="_DMyioGt4EeCeEYXzpuVhrw">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_DMavMWt4EeCeEYXzpuVhrw" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DMavMmt4EeCeEYXzpuVhrw"/>
       </ownedAttribute>
@@ -26,11 +26,32 @@
       <ownedAttribute xmi:id="_Bf6xIGt4EeCeEYXzpuVhrw" name="name">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_8aXMQGzaEeC6dtMbVLw30A" name="nail" type="_tTf60GzaEeC6dtMbVLw30A" aggregation="composite" association="_8agWMGzaEeC6dtMbVLw30A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8aXzUGzaEeC6dtMbVLw30A" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8aXzUWzaEeC6dtMbVLw30A"/>
+      </ownedAttribute>
     </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_DMyioGt4EeCeEYXzpuVhrw" name="A_&lt;god>_&lt;universe>" memberEnd="_DMyioWt4EeCeEYXzpuVhrw _DMavMGt4EeCeEYXzpuVhrw" navigableOwnedEnd="_DMyioWt4EeCeEYXzpuVhrw">
-      <ownedEnd xmi:id="_DMyioWt4EeCeEYXzpuVhrw" name="god" type="_7gBEMGt3EeCeEYXzpuVhrw" association="_DMyioGt4EeCeEYXzpuVhrw">
+    <packagedElement xmi:type="uml:Association" xmi:id="_DMyioGt4EeCeEYXzpuVhrw" name="A_&lt;hand>_&lt;finger>" memberEnd="_DMyioWt4EeCeEYXzpuVhrw _DMavMGt4EeCeEYXzpuVhrw" navigableOwnedEnd="_DMyioWt4EeCeEYXzpuVhrw">
+      <ownedEnd xmi:id="_DMyioWt4EeCeEYXzpuVhrw" name="hand" type="_7gBEMGt3EeCeEYXzpuVhrw" association="_DMyioGt4EeCeEYXzpuVhrw">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_DMyiomt4EeCeEYXzpuVhrw" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DMyio2t4EeCeEYXzpuVhrw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_tTf60GzaEeC6dtMbVLw30A" name="Nail" isAbstract="true">
+      <ownedAttribute xmi:id="_4UJk0GzaEeC6dtMbVLw30A" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_zClkkGzaEeC6dtMbVLw30A" name="FatNail">
+      <generalization xmi:id="_7YWVoGzaEeC6dtMbVLw30A" general="_tTf60GzaEeC6dtMbVLw30A"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_0cO4EGzaEeC6dtMbVLw30A" name="SlimNail">
+      <generalization xmi:id="_7ptLYGzaEeC6dtMbVLw30A" general="_tTf60GzaEeC6dtMbVLw30A"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_8agWMGzaEeC6dtMbVLw30A" name="A_&lt;finger>_&lt;nail>" memberEnd="_8agWMWzaEeC6dtMbVLw30A _8aXMQGzaEeC6dtMbVLw30A" navigableOwnedEnd="_8agWMWzaEeC6dtMbVLw30A">
+      <ownedEnd xmi:id="_8agWMWzaEeC6dtMbVLw30A" name="finger" type="_8TIjMGt3EeCeEYXzpuVhrw" association="_8agWMGzaEeC6dtMbVLw30A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8agWMmzaEeC6dtMbVLw30A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8agWM2zaEeC6dtMbVLw30A" value="1"/>
       </ownedEnd>
     </packagedElement>
   </packagedElement>

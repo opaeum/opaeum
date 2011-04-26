@@ -1,26 +1,35 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedEntity;
+
+import org.nakeduml.java.metamodel.OJPathName;
+
+import com.orientechnologies.orient.core.id.ORecordId;
+import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex;
+
 
 public class TinkerUtil {
 
-	public static String constructCompositeRelationshipName(INakedClassifier compositeOwner, INakedClassifier otherOwner, INakedProperty composite) {
-		String relationshipName = compositeOwner.getMappingInfo().getQualifiedUmlName();
-		relationshipName += composite.getAssociation().getName();
-		relationshipName += otherOwner.getMappingInfo().getQualifiedUmlName();
-		return relationshipName;
-	}
-
-	public static String constructRuntimeCompositeRelationshipName(INakedProperty composite) {
-		String relationshipName = "owningObject.getClass().getName()+\"__";
-		relationshipName += composite.getAssociation().getName();
-		relationshipName += "__\"+this.getClass().getName()";
-		return relationshipName;
-	}
-
-	public static String tinkerpoperizeUmlName(String umlName) {
+	public static String tinkeriseUmlName(String umlName) {
 		return umlName.replace("::", "__");
 	}
 
+	public static OJPathName edgePathName = new OJPathName("com.tinkerpop.blueprints.pgm.Edge");
+	public static OJPathName vertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.Vertex");
+	public static OJPathName orientVertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex");
+	public static OJPathName tinkerFormatter = new OJPathName("org.util.TinkerFormatter");
+	
+	public static String constructSelfToAuditEdgeLabel(INakedEntity entity) {
+		return "audit";
+	}
+	
+	public static long getId(Vertex vertex) {
+		return ((ORecordId)vertex.getId()).getClusterPosition();
+	}
+	
+	public static int getVersion(Vertex vertex) {
+		return ((OrientVertex)vertex).getRawElement().getVersion();
+	}
+	
 }

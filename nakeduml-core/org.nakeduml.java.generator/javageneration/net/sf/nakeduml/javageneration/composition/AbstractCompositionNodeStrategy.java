@@ -47,7 +47,7 @@ public class AbstractCompositionNodeStrategy {
 		}
 	}
 	
-	protected static void invokeOperationRecursively(INakedEntity ew, OJOperation markDeleted, String operationName) {
+	public static void invokeOperationRecursively(INakedEntity ew, OJOperation markDeleted, String operationName) {
 		List<? extends INakedProperty> awss = ew.getOwnedAttributes();
 		for (int i = 0; i < awss.size(); i++) {
 			IModelElement a = (IModelElement) awss.get(i);

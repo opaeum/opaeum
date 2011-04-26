@@ -1,4 +1,4 @@
-package org.audittest;
+package org.audittest.test1;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -10,58 +10,58 @@ import java.util.UUID;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
 
-public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
-	protected Hand god;
+public class UniverseAudit implements Serializable, TinkerNode, TinkerCompositionNode {
+	protected GodAudit god;
 	private String name;
 	private String uid;
 	protected Vertex vertex;
 
-	/** Constructor for Finger
+	/** Constructor for Universe
 	 * 
 	 * @param vertex 
 	 */
-	public Finger(Vertex vertex) {
+	public UniverseAudit(Vertex vertex) {
 		this.vertex=vertex;
 	}
 	
 	/** Default constructor for 
 	 */
-	public Finger() {
+	public UniverseAudit() {
 		this.vertex = org.util.GraphDb.getDB().addVertex(null);;
 	}
 	
-	/** Constructor for Finger
+	/** Constructor for Universe
 	 * 
 	 * @param owningObject 
 	 */
-	public Finger(Hand owningObject) {
+	public UniverseAudit(God owningObject) {
 		this();
 		init(owningObject);
 		initVertex(owningObject);
 	}
 
-	public void copyShallowState(Finger from, Finger to) {
+	public void copyShallowState(UniverseAudit from, UniverseAudit to) {
 		to.setName(from.getName());
 	}
 	
-	public void copyState(Finger from, Finger to) {
+	public void copyState(UniverseAudit from, UniverseAudit to) {
 		to.setName(from.getName());
 	}
 	
 	public boolean equals(Object other) {
-		if ( other instanceof Finger ) {
-			return other==this || ((Finger)other).getUid().equals(this.getUid());
+		if ( other instanceof UniverseAudit ) {
+			return other==this || ((UniverseAudit)other).getUid().equals(this.getUid());
 		}
 		return false;
 	}
 	
-	public Hand getGod() {
+	public GodAudit getGod() {
 		Iterable<Edge> iter1 = this.vertex.getInEdges("A__god___universe_");
 		if ( iter1.iterator().hasNext() ) {
 			try {
 				Edge edge = iter1.iterator().next();
 				Class<?> c = Class.forName((String) edge.getProperty("outClass"));
-				return (Hand) c.getConstructor(Vertex.class).newInstance(edge.getOutVertex());
+				return (GodAudit) c.getConstructor(Vertex.class).newInstance(edge.getOutVertex());
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -70,7 +70,7 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 	}
 	
 	public String getName() {
-		return (String) this.vertex.getProperty("org__auditTest__Finger__name");
+		return (String) this.vertex.getProperty("org__auditTest__Universe__name");
 	}
 	
 	public TinkerCompositionNode getOwningObject() {
@@ -93,19 +93,18 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 	}
 	
 	public void init(TinkerCompositionNode owner) {
-		internalSetOwner((Hand)owner);
 		createComponents();
 	}
 	
-	public Finger makeCopy() {
-		Finger result = new Finger();
-		copyState((Finger)this,result);
+	public UniverseAudit makeCopy() {
+		UniverseAudit result = new UniverseAudit();
+		copyState((UniverseAudit)this,result);
 		return result;
 	}
 	
-	public Finger makeShallowCopy() {
-		Finger result = new Finger();
-		copyShallowState((Finger)this,result);
+	public UniverseAudit makeShallowCopy() {
+		UniverseAudit result = new UniverseAudit();
+		copyShallowState((UniverseAudit)this,result);
 		return result;
 	}
 	
@@ -117,7 +116,7 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 		this.markDeleted();
 	}
 	
-	public void setGod(Hand god) {
+	public void setGod(GodAudit god) {
 		Iterable<Edge> iter = this.vertex.getInEdges("A__god___universe_");
 		if ( iter.iterator().hasNext() ) {
 			org.util.GraphDb.getDB().removeEdge(iter.iterator().next());
@@ -130,7 +129,7 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 	}
 	
 	public void setName(String name) {
-		this.vertex.setProperty("org__auditTest__Finger__name", name);
+		this.vertex.setProperty("org__auditTest__Universe__name", name);
 	}
 	
 	public void setUid(String newUid) {
@@ -140,6 +139,9 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(super.toString());
+		sb.append("name=");
+		sb.append(getName());
+		sb.append(";");
 		if ( getGod()==null ) {
 			sb.append("god=null;");
 		} else {
@@ -147,14 +149,19 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 			sb.append(getGod().getName());
 			sb.append("];");
 		}
-		sb.append("name=");
-		sb.append(getName());
-		sb.append(";");
 		return sb.toString();
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
+		if ( getName()==null ) {
+			sb.append("<name/>");
+		} else {
+			sb.append("<name>");
+			sb.append(getName());
+			sb.append("</name>");
+			sb.append("\n");
+		}
 		if ( getGod()==null ) {
 			sb.append("<god/>");
 		} else {
@@ -166,39 +173,14 @@ public class Finger implements Serializable, TinkerNode, TinkerCompositionNode {
 			sb.append("</god>");
 			sb.append("\n");
 		}
-		if ( getName()==null ) {
-			sb.append("<name/>");
-		} else {
-			sb.append("<name>");
-			sb.append(getName());
-			sb.append("</name>");
-			sb.append("\n");
-		}
 		return sb.toString();
 	}
 	
-	public void z_internalAddToGod(Hand god) {
-		this.god=god;
-	}
-	
-	public void z_internalRemoveFromGod(Hand god) {
-		if ( getGod()!=null && getGod().equals(god) ) {
-			this.god=null;
-		}
-	}
-	
-	/** Used to set the owner internally in extended composition semantics
-	 * 
-	 * @param newOwner 
-	 */
-	protected void internalSetOwner(Hand newOwner) {
-		this.god=newOwner;
-	}
 	
 	public void createComponents() {
 	}
 	
-	private void initVertex(Hand owningObject) {
+	private void initVertex(God owningObject) {
 		Edge edge = org.util.GraphDb.getDB().addEdge(null, owningObject.getVertex(), this.vertex, "A__god___universe_");
 		edge.setProperty("outClass", owningObject.getClass().getName());
 		edge.setProperty("inClass", this.getClass().getName());

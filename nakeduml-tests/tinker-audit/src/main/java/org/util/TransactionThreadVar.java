@@ -28,7 +28,7 @@ public class TransactionThreadVar {
 
 	};
 
-	public static Boolean getNewVertex(String clazzAndId) {
+	public static Boolean hasNoAuditEntry(String clazzAndId) {
 		Map<String, Boolean> newVertexMap = transactionVar.get();
 		Boolean newVertex = newVertexMap.get(clazzAndId);
 		return newVertex==null?true:newVertex;

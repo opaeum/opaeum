@@ -90,6 +90,5 @@ public class TestNonCompositeOneToOne extends BaseTest{
 		assertEquals(3, countVertices());
 		assertEquals(2, countEdges());
 		assertNull(universe2.getAngel());
-		assertNull(angel2.getUniverse());
 	}	
 }
