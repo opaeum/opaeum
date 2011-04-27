@@ -1,8 +1,5 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -22,8 +19,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.TinkerNode;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-
 public class TinkerAttributeImplementorStrategy implements AttributeImplementorStrategy {
 
 	public static final String POLYMORPHIC_GETTER_FOR_TO_ONE_IF = "buildPolymorphicGetterForToOneIf";
@@ -31,7 +26,6 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_FOR = "buildPolymorphicGetterForToManyFor";
 	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_TRY = "buildPolymorphicGetterForToManyTry";
 	private static OJPathName TINKER_NODE = new OJPathName(TinkerNode.class.getName());
-	private boolean isAudit = false;
 
 	public TinkerAttributeImplementorStrategy() {
 		super();
@@ -39,7 +33,6 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 	public TinkerAttributeImplementorStrategy(boolean isAudit) {
 		super();
-		this.isAudit = isAudit;
 	}
 
 	@Override
@@ -53,7 +46,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault) {
 		OJOperation getter = new OJAnnotatedOperation();
 		getter.setName(map.getter());
-		getter.setReturnType(isAudit ? map.javaAuditTypePath() : map.javaTypePath());
+		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
 		if (owner instanceof OJAnnotatedInterface) {
 		} else if (returnDefault) {
@@ -74,7 +67,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 				}
 			} else {
 				getter.getBody().addToStatements(
-						"return (" + (isAudit ? map.javaAuditBaseType() : map.javaBaseType()) + ") this.vertex.getProperty(\""
+						"return (" + map.javaBaseType() + ") this.vertex.getProperty(\""
 								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
 			}
 
@@ -104,12 +97,12 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		if (isComposite) {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"return (" + (isAudit ? otherClassName + TinkerAuditCreator.AUDIT : otherClassName)
+					"return (" + otherClassName
 							+ ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 		} else {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"return (" + (isAudit ? otherClassName + TinkerAuditCreator.AUDIT : otherClassName)
+					"return (" + otherClassName
 							+ ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 
 		}
@@ -133,10 +126,9 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter) {
 		OJField result = new OJField();
-		result.setType(isAudit ? map.javaAuditTypePath() : map.javaTypePath());
+		result.setType(map.javaTypePath());
 		result.setName("result");
-		result.setInitExp(isAudit ? map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 3) + TinkerAuditCreator.AUDIT + ">()" : map
-				.javaDefaultValue());
+		result.setInitExp(map.javaDefaultValue());
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		getter.getOwner().addToImports(defaultValue);
 
@@ -158,12 +150,12 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		if (isComposite) {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"result.add((" + (isAudit?manyClassifier.getMappingInfo().getJavaName().getAsIs()+TinkerAuditCreator.AUDIT:manyClassifier.getMappingInfo().getJavaName().getAsIs())
+					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
 							+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex()))");
 		} else {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"result.add((" + (isAudit?manyClassifier.getMappingInfo().getJavaName().getAsIs()+TinkerAuditCreator.AUDIT:manyClassifier.getMappingInfo().getJavaName().getAsIs())
+					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
 							+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex()))");
 		}
 

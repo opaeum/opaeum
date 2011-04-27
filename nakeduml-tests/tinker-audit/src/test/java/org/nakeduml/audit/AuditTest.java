@@ -7,11 +7,11 @@ import org.audittest.test1.God;
 import org.audittest.test1.GodAudit;
 import org.audittest.test1.Universe;
 import org.junit.Test;
-import org.tinker.BaseMemoryDbTest;
+import org.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
-public class AuditTest extends BaseMemoryDbTest {
+public class AuditTest extends BaseLocalDbTest {
 
 	@Test
 	public void testAuditGod() {

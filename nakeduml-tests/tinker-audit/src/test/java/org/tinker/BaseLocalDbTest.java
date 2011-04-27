@@ -15,7 +15,7 @@ public class BaseLocalDbTest {
 	
 	@Before
 	public void before() {
-		db = new OrientGraph("local:/tmp/orientdbtest1111111");
+		db = new OrientGraph("local:/tmp/orientdbtest1");
 		db.setTransactionMode(Mode.MANUAL);
 		db.clear();
 		db.getRawGraph().registerListener(new DbListener());

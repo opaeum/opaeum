@@ -10,7 +10,11 @@ public abstract class BaseTinkerAuditable implements Serializable{
 
 	private static final long serialVersionUID = 3751023772087546585L;
 	protected Vertex vertex;
+	protected Vertex auditVertex;
 	
+	public Vertex getAuditVertex() {
+		return auditVertex;
+	}
 	public BaseTinkerAuditable() {
 		super();
 	}

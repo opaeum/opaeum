@@ -31,24 +31,36 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			OJPathName copy = super.javaTypePath().getCopy();
 			copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
 			return copy;
-		}else if(isJavaPrimitive()|| javaBaseType().equals("String")){
+			//TODO this string jol must be wrong
+		}else if(isJavaPrimitive() || javaBaseType().equals("String")){
 			return featureTypeMap.javaObjectTypePath();
 		}else{
 			return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
 		}
 	}
 
-	public String javaAuditBaseType(){
-		if(isJavaPrimitive()|| javaBaseType().equals("String")){
-			return super.javaBaseType();
+//	public String javaAuditBaseType(){
+//		if(isJavaPrimitive() || javaBaseType().equals("String")){
+//			return super.javaBaseType();
+//		}else{
+//			if (isMany()) {
+//				return super.javaBaseType().substring(0,super.javaBaseType().length()-3)+TinkerAuditCreator.AUDIT+">()";
+//			} else {
+//				return super.javaBaseType()+TinkerAuditCreator.AUDIT;
+//			}
+//		}
+//	}
+	
+	//TODO this string jol must be wrong
+	public OJPathName javaAuditBaseTypePath(){
+		if (javaBaseType().equals("String")) {
+			return new OJPathName("String");
+		} else if(baseTypeMap.isJavaPrimitive()){
+			return baseTypeMap.javaObjectTypePath();
 		}else{
-			if (isMany()) {
-				return super.javaBaseType().substring(0,super.javaBaseType().length()-3)+TinkerAuditCreator.AUDIT+">()";
-			} else {
-				return super.javaBaseType()+TinkerAuditCreator.AUDIT;
-			}
+			return new OJPathName(baseTypeMap.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
 		}
-	}
+	}	
 
 	
 	@Override

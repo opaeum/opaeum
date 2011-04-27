@@ -1,6 +1,9 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
@@ -17,6 +20,8 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -32,6 +37,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
+import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.TinkerNode;
 
 public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
@@ -51,13 +58,14 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			originalClass.addToImports(new OJPathName("com.tinkerpop.blueprints.pgm.Edge"));
 			if (c.getGeneralizations().isEmpty()) {
 				addVertexFieldWithSetter(ojAuditClass);
-				addAuditVertexField(originalClass);
+//				addAuditVertexField(originalClass);
 				implementCreateAuditVertex(originalClass, c);
 				addGetMostRecentAuditVertex(originalClass);
 				addCreateAuditVertexWithAuditEdge(originalClass);
 				addCreateAuditVertexWithoutParent(originalClass);
 				addGetPreviousAuditVertex(originalClass);
 				addCreateEdgeToPreviousAudit(originalClass);
+				addGetOriginal(ojAuditClass,c);
 				if (c.getEndToComposite() != null) {
 					initialiseAuditVertexConstructorWithOwningObject(c, originalClass);
 				} else {
@@ -65,15 +73,107 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 				}
 				implementGetAudits(originalClass, c);
 			}
+//			addShallowCopy(c, originalClass);
 			if (!c.getIsAbstract()) {
 				implementGetPreviousAuditEntry(ojAuditClass);
+			} else {
+				implementAbstractGetPreviousAuditEntry(ojAuditClass);
 			}
 			addContructorWithVertex(ojAuditClass, c);
 			implementTinkerNode(ojAuditClass);
 		}
 	}
+	
+	private void addShallowCopy(INakedClassifier classifier,OJAnnotatedClass c){
+		c.addToImports(new OJPathName(AuditId.class.getName()));
+		OJOperation oper = new OJAnnotatedOperation();
+		oper.setVisibility(OJVisibilityKindGEN.PUBLIC);
+		oper.setName("copyShallowState");
+		oper.addParam("from", c.getPathName());
+		oper.addParam("to", OJUtil.classifierAuditPathname(classifier));
+		c.addToOperations(oper);
+		if(!classifier.getGeneralizations().isEmpty()){
+			OJSimpleStatement superCopy = new OJSimpleStatement("super.copyShallowState(from,to)");
+			oper.getBody().addToStatements(superCopy);
+		}
+		OJOperation originalCopyShallowState = c.findOperation("copyShallowState", Arrays.asList(c.getPathName(),c.getPathName()));
+		OJBlock auditCopyShallowBlock = new OJBlock();
+		originalCopyShallowState.getBody().copyDeepInfoInto(auditCopyShallowBlock);
+		oper.getBody().addToStatements(auditCopyShallowBlock.getStatements());
+	}
+	
+	private void addCopyToAuditStatements(OJAnnotatedClass c,INakedClassifier classifier,OJBlock body,boolean deep){
+		// TODO use MappedTypes
+		Set<String> javaTypes = new HashSet<String>();
+		javaTypes.add("String");
+		javaTypes.add("Integer");
+		javaTypes.add("Integer");
+		javaTypes.add("int");
+		javaTypes.add("Boolean");
+		javaTypes.add("boolean");
+		javaTypes.add("Date");
+		List<OJOperation> operations = c.getOperations();
+		for(OJOperation oper:operations){
+			boolean foundMap = false;
+			NakedStructuralFeatureMap map = null;
+			for(INakedProperty attr:classifier.getEffectiveAttributes()){
+				map = new NakedStructuralFeatureMap(attr);
+				if(map.getter().equals(oper.getName())){
+					foundMap = true;
+					break;
+				}
+			}
+			String javaType = oper.getReturnType().getLast();
+			if(foundMap && javaTypes.contains(javaType)){
+				OJOperation setter = findMethodIgnorecase(c, map.setter());
+				OJOperation getter = findMethodIgnorecase(c, map.getter());
+				body.addToStatements("to." + setter.getName() + "(from." + getter.getName() + "())");
+			}
+		}
+	}
+	private OJOperation findMethodIgnorecase(OJClass c,String name){
+		List<OJOperation> operations = c.getOperations();
+		for(OJOperation ojOperation:operations){
+			if(ojOperation.getName().equalsIgnoreCase(name)){
+				return ojOperation;
+			}
+		}
+		return null;
+	}	
+	private void addGetOriginal(OJAnnotatedClass ojAuditClass, INakedEntity c) {
+		OJOperation getOriginal = new OJOperation();
+		getOriginal.setName("getOriginal");
+		getOriginal.setReturnType(OJUtil.classifierPathname(c));
+		getOriginal.getBody().addToStatements("Iterable<Edge> iter = this.vertex.getInEdges()");
+		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
+		OJIfStatement ifStatement = new OJIfStatement("edge.getLabel().startsWith(\"audit\")");
+		forStatement.getBody().addToStatements(ifStatement);
+		getOriginal.getBody().addToStatements(forStatement);
+		OJTryStatement ojTryStatement = new OJTryStatement();
+		OJBlock tryBlock = new OJBlock();
+		tryBlock.addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
+		tryBlock.addToStatements("return ("+OJUtil.classifierPathname(c).getLast()+")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
+		OJBlock catchBlock = new OJBlock();
+		catchBlock.addToStatements("throw new RuntimeException(e)");
+		ojTryStatement.setCatchPart(catchBlock);
+		ojTryStatement.setTryPart(tryBlock);
+		ifStatement.addToThenPart(ojTryStatement);
+		getOriginal.getBody().addToStatements("return null");
+		ojAuditClass.addToOperations(getOriginal);
+	}
+
+	private void implementAbstractGetPreviousAuditEntry(OJAnnotatedClass ojAuditClass) {
+		ojAuditClass.addToImports(TinkerUtil.edgePathName);
+		OJOperation getPreviousAuditEntry = new OJOperation();
+		getPreviousAuditEntry.setName("getPreviousAuditEntry");
+		getPreviousAuditEntry.setReturnType(ojAuditClass.getPathName());
+		getPreviousAuditEntry.setAbstract(true);
+		ojAuditClass.addToOperations(getPreviousAuditEntry);
+	}
 
 	private void implementGetPreviousAuditEntry(OJAnnotatedClass ojAuditClass) {
+		ojAuditClass.addToImports(TinkerUtil.edgePathName);
 		OJOperation getPreviousAuditEntry = new OJOperation();
 		getPreviousAuditEntry.setName("getPreviousAuditEntry");
 		getPreviousAuditEntry.setReturnType(ojAuditClass.getPathName());
@@ -93,6 +193,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
 	private void addCreateEdgeToPreviousAudit(OJAnnotatedClass originalClass) {
 		OJOperation createEdgeToPreviousAudit = new OJOperation();
+		createEdgeToPreviousAudit.setVisibility(OJVisibilityKind.PRIVATE);
 		createEdgeToPreviousAudit.setName("createEdgeToPreviousAudit");
 		OJField previousAuditVertex = new OJField();
 		previousAuditVertex.setName("previousAuditVertex");
@@ -110,6 +211,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
 	private void addGetPreviousAuditVertex(OJAnnotatedClass originalClass) {
 		OJAnnotatedOperation getPreviousAuditVertex = new OJAnnotatedOperation("getPreviousAuditVertex");
+		getPreviousAuditVertex.setVisibility(OJVisibilityKind.PRIVATE);
 		getPreviousAuditVertex.setReturnType(TinkerUtil.vertexPathName);
 		originalClass.addToImports(new OJPathName("java.util.TreeMap"));
 		getPreviousAuditVertex.getBody().addToStatements(new OJSimpleStatement("TreeMap<Integer, Edge> auditTransactions = new TreeMap<Integer, Edge>()"));
@@ -147,6 +249,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		constructor.getBody().addToStatements("createAuditVertex()");
 	}
 
+	//TODO this needs to move as now it is public api
 	private void addCreateAuditVertexWithoutParent(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation createAuditVertexWithoutParent = new OJAnnotatedOperation("createAuditVertexWithoutParent");
 		createAuditVertexWithoutParent.setReturnType(TinkerUtil.vertexPathName);
@@ -164,6 +267,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		createAuditVertexWithAuditEdge.setVisibility(OJVisibilityKind.PRIVATE);
 		createAuditVertexWithAuditEdge.getBody().addToStatements("this.auditVertex = org.util.GraphDb.getDB().addVertex(null)");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("TransactionThreadVar.setNewVertexFalse(getClass().getName() + getUid())");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("copyShallowState(this, this)");
 		createAuditVertexWithAuditEdge
 				.getBody()
 				.addToStatements(
@@ -175,6 +279,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
 	private void addGetMostRecentAuditVertex(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getMostRecentAuditVertex = new OJAnnotatedOperation("getMostRecentAuditVertex");
+		getMostRecentAuditVertex.setVisibility(OJVisibilityKind.PRIVATE);
 		getMostRecentAuditVertex.setReturnType(TinkerUtil.vertexPathName);
 		ojClass.addToImports(new OJPathName("java.util.TreeMap"));
 		getMostRecentAuditVertex.getBody().addToStatements(new OJSimpleStatement("TreeMap<Integer, Edge> auditTransactions = new TreeMap<Integer, Edge>()"));
@@ -267,7 +372,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
 	private void implementCreateAuditVertex(OJAnnotatedClass ojClass, INakedEntity entity) {
 		OJAnnotatedOperation createAuditVertex = new OJAnnotatedOperation("createAuditVertex");
-		createAuditVertex.setVisibility(OJVisibilityKind.PRIVATE);
+		createAuditVertex.setVisibility(OJVisibilityKind.PUBLIC);
 		createAuditVertex.getBody().addToStatements("createAuditVertexWithAuditEdge()");
 		if (entity.getEndToComposite() != null) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(entity.getEndToComposite());

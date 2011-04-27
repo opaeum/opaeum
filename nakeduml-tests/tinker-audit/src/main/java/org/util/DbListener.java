@@ -7,53 +7,43 @@ public class DbListener implements ODatabaseListener {
 
 	@Override
 	public void onCreate(ODatabase iDatabase) {
-		System.out.println("onCreate");
 		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onDelete(ODatabase iDatabase) {
-		System.out.println("onDelete");
 		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onOpen(ODatabase iDatabase) {
-		System.out.println("onOpen");
 		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onBeforeTxBegin(ODatabase iDatabase) {
-		System.out.println("onBeforeTxBegin");
-//		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onBeforeTxRollback(ODatabase iDatabase) {
-		System.out.println("onBeforeTxRollback");
 		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onAfterTxRollback(ODatabase iDatabase) {
-		System.out.println("onAfterTxRollback");
 	}
 
 	@Override
 	public void onBeforeTxCommit(ODatabase iDatabase) {
-		System.out.println("onBeforeTxCommit");
 		TransactionThreadVar.clear();
 	}
 
 	@Override
 	public void onAfterTxCommit(ODatabase iDatabase) {
-		System.out.println("onAfterTxCommit");
 	}
 
 	@Override
 	public void onClose(ODatabase iDatabase) {
-		System.out.println("onClose");
 	}
 
 }
