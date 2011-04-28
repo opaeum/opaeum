@@ -39,13 +39,11 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
-	private AttributeImplementorStrategy attributeImplementorStrategy;
 	public final static String ATRTIBUTE_STRATEGY_TINKER = "TINKER";
 
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
-		attributeImplementorStrategy = new TinkerAttributeImplementorStrategy(true);
 	}
 
 	@VisitAfter(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class, INakedAssociationClass.class })
@@ -79,14 +77,6 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		INakedProperty p = map.getProperty();
 		if (!OJUtil.isBuiltIn(p)) {
 			if (p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
-				OJAnnotatedClass owner = findAuditJavaClass(umlOwner);
-				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, false);
-				getter.setBody(new OJBlock());
-				OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
-						+ ")org.nakeduml.environment.Environment.getInstance().getComponent(" + map.javaTypePath() + ".class)");
-				getter.getBody().addToStatements(ifNull);
-				getter.getBody().addToStatements("return " + map.umlName());
-				owner.addToImports(map.javaBaseTypePath());
 			} else if (p.isDerived() || p.isReadOnly()) {
 				OJAnnotatedClass owner = findAuditJavaClass(umlOwner);
 				buildGetter(owner, map, true);
@@ -99,7 +89,35 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 	private void implementAttributeFully(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
 		OJAnnotatedClass owner = findAuditJavaClass(umlOwner);
 		buildGetter(owner, map, false);
+//		buildSetter(umlOwner, owner, map);
 	}
+	
+//	protected OJOperation buildSetter(INakedClassifier umlOwner, OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+//		OJOperation setter = new OJAnnotatedOperation();
+//		setter.setName(map.setter());
+//		setter.addParam(map.umlName(), map.javaTypePath());
+//		setter.setStatic(map.isStatic());
+//		owner.addToOperations(setter);
+//		if(owner instanceof OJAnnotatedInterface){
+//		}else{
+//			INakedProperty prop = map.getProperty();
+//			if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())){
+//				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+//				if(map.isManyToOne()){
+//					attributeImplementorStrategy.buildManyToOneSetter(umlOwner, map, otherMap, owner, setter);
+//				}else if(map.isOneToMany()){
+//					attributeImplementorStrategy.buildOneToManySetter(map, otherMap, owner, setter);
+//				}else if(map.isManyToMany()){
+//					attributeImplementorStrategy.buildManyToManySetter(map, otherMap, owner, setter);
+//				}else if(map.isOneToOne()){
+//					attributeImplementorStrategy.buildOneToOneSetter(umlOwner, map, otherMap, owner, setter);
+//				}
+//			}else{
+//				attributeImplementorStrategy.addSimpleSetterBody(setter, map);
+//			}
+//		}
+//		return setter;
+//	}	
 
 	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault) {
 		OJOperation getter = new OJAnnotatedOperation();
