@@ -34,6 +34,24 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 	}
 	
 	@Test
+	public void testOrientCountEdgesBug() {
+		db.startTransaction();
+		Hand hand = new Hand();
+		hand.setName("hand1");
+		Glove glove = new Glove(hand);
+		glove.setName("glove1");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(4, countVertices());
+		assertEquals(4, countEdges());
+		db.startTransaction();
+		glove.setName("glove11");
+		hand.setName("hand11");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(6, countVertices());
+		assertEquals(9, countEdges());
+	}
+	
+	@Test
 	public void testHandGlove2Transactions() {
 		db.startTransaction();
 		Hand hand = new Hand();
@@ -44,8 +62,8 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		assertEquals(4, countVertices());
 		assertEquals(4, countEdges());
 		db.startTransaction();
-		hand.setName("hand11");
 		glove.setName("glove11");
+		hand.setName("hand11");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
 		assertEquals(9, countEdges());
@@ -56,6 +74,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		HandAudit handAudit2 = handAudits.get(1);
 		assertEquals(handAudit2.getPreviousAuditEntry().getName(), handAudit1.getName());
 		assertEquals("glove1", handAudit1.getGlove().getName());
+		assertNotNull(handAudit2.getGlove());
 		assertEquals("glove11", handAudit2.getGlove().getName());
 		
 		List<GloveAudit> gloveAudits = glove.getAudits();

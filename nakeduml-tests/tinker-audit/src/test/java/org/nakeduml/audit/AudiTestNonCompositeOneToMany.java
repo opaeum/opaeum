@@ -14,6 +14,7 @@ public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
 
 		@Test
 		public void testFingerAndRings() {
+			db.startTransaction();
 			Hand hand = new Hand();
 			hand.setName("hand1");
 			Finger finger1 = new Finger(hand);
@@ -24,6 +25,7 @@ public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
 			ring1.setName("ring1");
 			Ring ring2 = new Ring(hand);
 			ring2.setName("ring2");
+			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(10, countVertices());
 			assertEquals(13, countEdges());
 		}

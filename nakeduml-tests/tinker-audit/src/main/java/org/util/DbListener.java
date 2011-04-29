@@ -8,16 +8,19 @@ public class DbListener implements ODatabaseListener {
 	@Override
 	public void onCreate(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
+		TransactionAuditThreadVar.clear();
 	}
 
 	@Override
 	public void onDelete(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
+		TransactionAuditThreadVar.clear();
 	}
 
 	@Override
 	public void onOpen(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
+		TransactionAuditThreadVar.clear();
 	}
 
 	@Override
@@ -27,6 +30,7 @@ public class DbListener implements ODatabaseListener {
 	@Override
 	public void onBeforeTxRollback(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
+		TransactionAuditThreadVar.clear();
 	}
 
 	@Override
@@ -36,6 +40,7 @@ public class DbListener implements ODatabaseListener {
 	@Override
 	public void onBeforeTxCommit(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
+		TransactionAuditThreadVar.clear();
 	}
 
 	@Override

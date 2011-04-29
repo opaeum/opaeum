@@ -113,7 +113,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		getter.getBody().addToStatements("return null");
 	}
 
-	private boolean calculateDirection(NakedStructuralFeatureMap map, boolean isComposite) {
+	public static boolean calculateDirection(NakedStructuralFeatureMap map, boolean isComposite) {
 		if (map.isOneToOne() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
 			isComposite = map.getProperty().getMultiplicity().getLower() == 1 && map.getProperty().getMultiplicity().getUpper() == 1;
 		} else if (map.isOneToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
