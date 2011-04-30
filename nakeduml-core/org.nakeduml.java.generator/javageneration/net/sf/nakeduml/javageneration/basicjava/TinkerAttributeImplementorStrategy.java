@@ -172,9 +172,22 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	}
 
 	@Override
+	public void buildOneToOneSetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+		// Used by hibernate strategy
+	}
+
+	@Override
 	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
 		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
+		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
+	}
+	
+	@Override
+	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
+			OJOperation setter) {
+		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
+		removeInverseToPolymorphicRelationship(map, otherMap, owner, setter);
 		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
 	}
 
@@ -191,8 +204,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 				new OJSimpleStatement("Edge edge = "
 						+ UtilityCreator.getUtilPathName().toJavaString()
 						+ ".GraphDb.getDB().addEdge(null, "
-						+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
-								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
+						+ (!isComposite ? "(" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, ("
+								+ map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", this.getClass().getName())");
@@ -216,24 +229,11 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		setter.getBody().addToStatements(ifNotNull);
 	}
 
-	@Override
-	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
-			OJOperation setter) {
-		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
-		removeInverseToPolymorphicRelationship(map, otherMap, owner, setter);
-		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
-	}
-
 	private void removeInverseToPolymorphicRelationship(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
 		setter.getBody().addToStatements(
 				new OJIfStatement(map.umlName() + "!=null && " + map.umlName() + "." + otherMap.getter() + "()!=null", map.umlName() + "." + otherMap.getter()
 						+ "()." + map.setter() + "(null)"));
-	}
-
-	@Override
-	public void buildOneToOneSetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		// Used by hibernate strategy
 	}
 
 	@Override
@@ -286,8 +286,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 				new OJSimpleStatement("Edge edge = "
 						+ UtilityCreator.getUtilPathName().toJavaString()
 						+ ".GraphDb.getDB().addEdge(null, "
-						+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
-								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
+						+ (!isComposite ? "(" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, ("
+								+ map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
 			adder.getBody().addToStatements("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
 			adder.getBody().addToStatements("edge.setProperty(\"outClass\", this.getClass().getName())");
@@ -310,9 +310,9 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
 		OJIfStatement ifStatement;
 		if (isComposite) {
-			ifStatement = new OJIfStatement("edge.getInVertex().getId().equals(((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex().getId())");
+			ifStatement = new OJIfStatement("edge.getInVertex().getId().equals((" + map.umlName() + ").getVertex().getId())");
 		} else {
-			ifStatement = new OJIfStatement("edge.getOutVertex().getId().equals(((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex().getId())");
+			ifStatement = new OJIfStatement("edge.getOutVertex().getId().equals(("+ map.umlName() + ").getVertex().getId())");
 		}
 		forStatement.getBody().addToStatements(ifStatement);
 		ifStatement.addToThenPart("edgesToRemove.add(edge)");

@@ -36,9 +36,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.runtime.domain.TinkerNode;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
-
 public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
 	private static final String PREVIOUS_AUDIT_EDGE = "previous";
@@ -82,6 +79,18 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			}
 			addContructorWithVertex(ojAuditClass, c);
 			implementTinkerNode(ojAuditClass);
+		}
+	}
+
+	@VisitAfter(matchSubclasses = true)
+	public void visitFeature(INakedProperty p) {
+		if (OJUtil.hasOJClass(p.getOwner())) {
+			if (p.getAssociation() instanceof INakedAssociationClass) {
+				// visitProperty(p.getOwner(),
+				// OJUtil.buildAssociationClassMap(p,getOclEngine().getOclLibrary()));
+			} else {
+				visitProperty(p.getOwner(), OJUtil.buildStructuralFeatureMap(p));
+			}
 		}
 	}
 
@@ -201,18 +210,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		originalClass.addToOperations(getPreviousAuditVertex);
 	}
 
-	@VisitAfter(matchSubclasses = true)
-	public void visitFeature(INakedProperty p) {
-		if (OJUtil.hasOJClass(p.getOwner())) {
-			if (p.getAssociation() instanceof INakedAssociationClass) {
-				// visitProperty(p.getOwner(),
-				// OJUtil.buildAssociationClassMap(p,getOclEngine().getOclLibrary()));
-			} else {
-				visitProperty(p.getOwner(), OJUtil.buildStructuralFeatureMap(p));
-			}
-		}
-	}
-
 	private void initialiseAuditVertexInDefaultConstructor(OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.getDefaultConstructor();
 		constructor.getBody().addToStatements("createAuditVertex(false)");
@@ -281,6 +278,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			INakedProperty prop = map.getProperty();
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
 				if (map.isManyToOne()) {
+					addAuditToToOneSetter(umlOwner, originalClass, map);
 				} else if (map.isOneToMany()) {
 				} else if (map.isManyToMany()) {
 				} else if (map.isOneToOne()) {
@@ -295,6 +293,52 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 								"this.auditVertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
 										+ "\", name)");
 			}
+		}
+	}
+
+	private void addAuditToToOneSetter(INakedClassifier umlOwner, OJAnnotatedClass originalClass, NakedStructuralFeatureMap map) {
+		OJAnnotatedOperation setter = (OJAnnotatedOperation) originalClass.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
+		OJIfStatement ifStatement1 = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
+		ifStatement1.addToThenPart("createAuditVertex(false)");
+		setter.getBody().getStatements().add(0, ifStatement1);
+
+		OJIfStatement ifStatement2 = new OJIfStatement(map.getter() + "() != null && TransactionThreadVar.hasNoAuditEntry(" + map.getter()
+				+ "().getClass().getName() + " + map.getter() + "().getUid())");
+		ifStatement2.addToThenPart(map.getter() + "().createAuditVertex(false)");
+		setter.getBody().getStatements().add(1, ifStatement2);
+
+		OJIfStatement ifStatement3 = new OJIfStatement(map.umlName() + " != null && TransactionThreadVar.hasNoAuditEntry(" + map.umlName()
+				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
+		ifStatement3.addToThenPart(map.umlName() + ".createAuditVertex(false)");
+		setter.getBody().getStatements().add(2, ifStatement3);
+
+		boolean isComposite = map.getProperty().isComposite();
+		isComposite = TinkerAttributeImplementorStrategy.calculateDirection(map, isComposite);
+
+		if (isComposite) {
+			setter.getBody()
+					.addToStatements("Iterable<Edge> auditIter = this.auditVertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+			OJIfStatement ifStatement = new OJIfStatement("auditIter.iterator().hasNext()", "org.util.GraphDb.getDB().removeEdge(auditIter.iterator().next())");
+			setter.getBody().addToStatements(ifStatement);
+			OJIfStatement ifStatement4 = new OJIfStatement(map.umlName() + " != null");
+			ifStatement4.addToThenPart("Edge auditEdge = org.util.GraphDb.getDB().addEdge(null, this.auditVertex," + map.umlName() + ".getAuditVertex(), \""
+					+ map.getProperty().getAssociation().getName() + "\")");
+			ifStatement4.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement4
+					.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			setter.getBody().addToStatements(ifStatement4);
+		} else {
+			setter.getBody()
+					.addToStatements("Iterable<Edge> auditIter = this.auditVertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+			OJIfStatement ifStatement = new OJIfStatement("auditIter.iterator().hasNext()", "org.util.GraphDb.getDB().removeEdge(auditIter.iterator().next())");
+			setter.getBody().addToStatements(ifStatement);
+			OJIfStatement ifStatement4 = new OJIfStatement(map.umlName() + " != null");
+			ifStatement4.addToThenPart("Edge auditEdge = org.util.GraphDb.getDB().addEdge(null, " + map.umlName() + ".getAuditVertex(), this.auditVertex,\""
+					+ map.getProperty().getAssociation().getName() + "\")");
+			ifStatement4
+					.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement4.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			setter.getBody().addToStatements(ifStatement4);
 		}
 	}
 
@@ -352,7 +396,9 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		}
 		List<? extends INakedProperty> properties = entity.getEffectiveAttributes();
 		for (INakedProperty p : properties) {
-			if (p != entity.getEndToComposite() && (p.getOtherEnd() != null && p.getOtherEnd().isNavigable() && !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly()) && p.getOtherEnd().isComposite() && p.getOtherEnd().getType() != entity)) {
+			if (p != entity.getEndToComposite()
+					&& (p.getOtherEnd() != null && p.getOtherEnd().isNavigable() && !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly())
+							&& !p.getOtherEnd().isComposite() && p.getOtherEnd().getType() != entity)) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 				if (map.isOneToOne() || (map.isManyToOne() && map.getProperty().getSubsettedProperties().isEmpty())) {
 					boolean isComposite = map.getProperty().isComposite();
@@ -380,24 +426,35 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		oper.getBody().addToStatements("Iterable<Edge> iter = this.auditVertex.getOutEdges(\"previous\")");
 		OJIfStatement ifStatement = new OJIfStatement("iter.iterator().hasNext()");
 		ifStatement.addToThenPart("Vertex previous = iter.iterator().next().getInVertex()");
-		OJForStatement forStatement = new OJForStatement("transactionHeldAuditVertex", TinkerUtil.vertexPathName, "auditVertices");
-		forStatement.getBody().addToStatements("List<Edge> edgesToRemove = new ArrayList<Edge>()");
-		forStatement.getBody().addToStatements("List<Edge> edgesToAdd = new ArrayList<Edge>()");
-		OJForStatement forStatement2 = new OJForStatement("edge", TinkerUtil.edgePathName, "transactionHeldAuditVertex.getInEdges()");
-		forStatement.getBody().addToStatements(forStatement2);
-		OJIfStatement ifStatement2 = new OJIfStatement("edge.getOutVertex().equals(previous)");
-		ifStatement2.addToThenPart("edgesToRemove.add(edge)");
-		ifStatement2.addToThenPart("edgesToAdd.add(edge)");
-		forStatement2.getBody().addToStatements(ifStatement2);
+
+		OJForStatement forStatement1 = new OJForStatement("transactionHeldAuditVertex", TinkerUtil.vertexPathName, "auditVertices");
+		forStatement1.getBody().addToStatements("List<Edge> edgesToRemove = new ArrayList<Edge>()");
+		forStatement1.getBody().addToStatements("List<Edge> edgesToAdd = new ArrayList<Edge>()");
+
+		OJForStatement forStatement21 = new OJForStatement("edge", TinkerUtil.edgePathName, "transactionHeldAuditVertex.getInEdges()");
+		forStatement1.getBody().addToStatements(forStatement21);
+		OJIfStatement ifStatement21 = new OJIfStatement("edge.getOutVertex().equals(previous)");
+		ifStatement21.addToThenPart("edgesToRemove.add(edge)");
+		ifStatement21.addToThenPart("edgesToAdd.add(edge)");
+		forStatement21.getBody().addToStatements(ifStatement21);
+
+		OJForStatement forStatement22 = new OJForStatement("edge", TinkerUtil.edgePathName, "transactionHeldAuditVertex.getOutEdges()");
+		forStatement1.getBody().addToStatements(forStatement22);
+		OJIfStatement ifStatement22 = new OJIfStatement("edge.getInVertex().equals(previous)");
+		ifStatement22.addToThenPart("edgesToRemove.add(edge)");
+		ifStatement22.addToThenPart("edgesToAdd.add(edge)");
+		forStatement22.getBody().addToStatements(ifStatement22);
+
 		OJForStatement forStatement3 = new OJForStatement("edge", TinkerUtil.edgePathName, "edgesToRemove");
 		forStatement3.getBody().addToStatements("org.util.GraphDb.getDB().removeEdge(edge)");
-		forStatement.getBody().addToStatements(forStatement3);
+		forStatement1.getBody().addToStatements(forStatement3);
 		OJForStatement forStatement4 = new OJForStatement("edge", TinkerUtil.edgePathName, "edgesToAdd");
-		forStatement4.getBody().addToStatements("Edge newAuditEdge = org.util.GraphDb.getDB().addEdge(null, this.auditVertex, transactionHeldAuditVertex, edge.getLabel())");
+		forStatement4.getBody().addToStatements(
+				"Edge newAuditEdge = org.util.GraphDb.getDB().addEdge(null, this.auditVertex, transactionHeldAuditVertex, edge.getLabel())");
 		forStatement4.getBody().addToStatements("newAuditEdge.setProperty(\"outClass\", edge.getProperty(\"outClass\"))");
 		forStatement4.getBody().addToStatements("newAuditEdge.setProperty(\"inClass\", edge.getProperty(\"inClass\"))");
-		forStatement.getBody().addToStatements(forStatement4);
-		ifStatement.addToThenPart(forStatement);
+		forStatement1.getBody().addToStatements(forStatement4);
+		ifStatement.addToThenPart(forStatement1);
 		oper.getBody().addToStatements(ifStatement);
 		ojClass.addToOperations(oper);
 	}
