@@ -8,5 +8,5 @@ package org.nakeduml.uim.classform;
  * 
  * @generated
  */
-public interface ClassFormEdgeObjectConstants {
+public interface ClassFormEdgeObjectConstants{
 }

@@ -6,13 +6,10 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.nakeduml.uim.figures.controls.UIMTextFigure;
-import org.nakeduml.uim.util.ControlUtil;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.ILabelFigure;
-import org.topcased.draw2d.figures.Label;
 
 public class UIMFieldFigure extends Figure implements ILabelFigure,
 		IBindingFigure {

@@ -5,7 +5,7 @@
     modelPluginID="org.nakeduml.uim" modelName="UIM" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.uml2.uml/model/UML.genmodel#//uml">
   <foreignModel>UIM.ecore</foreignModel>
-  <genPackages prefix="UIM" basePackage="net.sf.nakeduml" resource="XMI" disposableProviderFactory="true"
+  <genPackages prefix="UIM" basePackage="org.nakeduml" resource="XMI" disposableProviderFactory="true"
       contentTypeIdentifier="" ecorePackage="UIM.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="UIM.ecore#//ActionKind">
       <genEnumLiterals ecoreEnumLiteral="UIM.ecore#//ActionKind/update"/>

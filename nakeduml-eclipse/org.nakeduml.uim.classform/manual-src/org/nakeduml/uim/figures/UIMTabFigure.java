@@ -16,8 +16,6 @@ import org.topcased.draw2d.figures.ILabelFigure;
 public class UIMTabFigure extends Figure implements IContainerFigure, ILabelFigure {
 	private ILabel label;
 	private IFigure contentPane;
-
-
 	public UIMTabFigure() {
 		createContents();
 	}
@@ -25,7 +23,6 @@ public class UIMTabFigure extends Figure implements IContainerFigure, ILabelFigu
 	protected void createContents() {
 		LayoutManager layout = createLayout();
 		setLayoutManager(layout);
-
 		label = createLabel();
 		label.getInsets().bottom=15;
 		label.getInsets().top=15;

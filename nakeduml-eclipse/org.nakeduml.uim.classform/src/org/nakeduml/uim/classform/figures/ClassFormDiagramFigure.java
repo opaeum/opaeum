@@ -10,6 +10,5 @@ import org.topcased.modeler.figures.DiagramFigure;
  *
  * @generated
  */
-public class ClassFormDiagramFigure extends DiagramFigure {
-
+public class ClassFormDiagramFigure extends DiagramFigure{
 }

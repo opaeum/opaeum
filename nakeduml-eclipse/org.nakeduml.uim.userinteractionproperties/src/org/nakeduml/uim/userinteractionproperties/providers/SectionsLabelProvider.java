@@ -3,7 +3,6 @@ package org.nakeduml.uim.userinteractionproperties.providers;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.nakeduml.uim.provider.UIMItemProviderAdapterFactory;
@@ -17,12 +16,11 @@ import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
  *
  * @generated
  */
-public class SectionsLabelProvider extends AbstractSectionLabelProvider {
+public class SectionsLabelProvider extends AbstractSectionLabelProvider{
 	/**
 	 * @generated
 	 */
 	private ILabelProvider labelProvider;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -30,16 +28,13 @@ public class SectionsLabelProvider extends AbstractSectionLabelProvider {
 	 * @see org.topcased.tabbedproperties.providers.AbstractSectionLabelProvider#getAdapterFactoryLabelProvider()
 	 * @generated
 	 */
-	protected ILabelProvider getAdapterFactoryLabelProvider() {
-		if (labelProvider == null) {
+	protected ILabelProvider getAdapterFactoryLabelProvider(){
+		if(labelProvider == null){
 			List f = new ArrayList();
 			f.add(new UIMItemProviderAdapterFactory());
-			f.addAll(AbstractTabbedPropertySheetPage
-					.getPrincipalAdapterFactories());
-			labelProvider = new TabbedPropertiesLabelProvider(
-					new ComposedAdapterFactory(f));
+			f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
+			labelProvider = new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 		}
 		return labelProvider;
 	}
-
 }

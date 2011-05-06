@@ -3,7 +3,6 @@
  ******************************************************************************/
 package org.nakeduml.uim.classform.preferences;
 
-
 import org.nakeduml.uim.modeleditor.UIMPlugin;
 import org.topcased.modeler.preferences.AbstractNodePreferencePage;
 
@@ -14,37 +13,33 @@ import org.topcased.modeler.preferences.AbstractNodePreferencePage;
  *
  * @generated
  */
-public class UIMGridLayoutPreferencePage extends AbstractNodePreferencePage {
+public class UIMGridLayoutPreferencePage extends AbstractNodePreferencePage{
 	/**
 	 * @see org.topcased.modeler.preferences.AbstractNodePreferencePage#getNodeBackgroundColor()
 	 * @generated
 	 */
-	protected String getNodeBackgroundColor() {
+	protected String getNodeBackgroundColor(){
 		return ClassFormDiagramPreferenceConstants.UIMGRIDLAYOUT_DEFAULT_BACKGROUND_COLOR;
 	}
-
 	/**
 	 * @see org.topcased.modeler.preferences.AbstractNodePreferencePage#getNodeFont()
 	 * @generated
 	 */
-	protected String getNodeFont() {
+	protected String getNodeFont(){
 		return ClassFormDiagramPreferenceConstants.UIMGRIDLAYOUT_DEFAULT_FONT;
 	}
-
 	/**
 	 * @see org.topcased.modeler.preferences.AbstractNodePreferencePage#getNodeForegroundColor()
 	 * @generated
 	 */
-	protected String getNodeForegroundColor() {
+	protected String getNodeForegroundColor(){
 		return ClassFormDiagramPreferenceConstants.UIMGRIDLAYOUT_DEFAULT_FOREGROUND_COLOR;
 	}
-
 	/**
 	 * @see org.topcased.facilities.preferences.AbstractTopcasedPreferencePage#getBundleId()
 	 * @generated
 	 */
-	protected String getBundleId() {
+	protected String getBundleId(){
 		return UIMPlugin.getId();
 	}
-
 }

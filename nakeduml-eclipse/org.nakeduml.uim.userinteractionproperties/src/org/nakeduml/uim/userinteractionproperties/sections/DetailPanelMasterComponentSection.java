@@ -3,7 +3,6 @@ package org.nakeduml.uim.userinteractionproperties.sections;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -23,8 +22,7 @@ import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
  *
  * @generated
  */
-public class DetailPanelMasterComponentSection extends
-		AbstractChooserPropertySection {
+public class DetailPanelMasterComponentSection extends AbstractChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -32,10 +30,9 @@ public class DetailPanelMasterComponentSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "MasterComponent:";
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -43,10 +40,9 @@ public class DetailPanelMasterComponentSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getDetailPanel_MasterComponent();
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -54,10 +50,9 @@ public class DetailPanelMasterComponentSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
-	protected Object getFeatureValue() {
+	protected Object getFeatureValue(){
 		return ((DetailPanel) getEObject()).getMasterComponent();
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -65,11 +60,9 @@ public class DetailPanelMasterComponentSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
 	 * @generated
 	 */
-	protected Object[] getComboFeatureValues() {
-		return getChoices(getEObject(), UIMPackage.eINSTANCE
-				.getDetailPanel_MasterComponent().getEType());
+	protected Object[] getComboFeatureValues(){
+		return getChoices(getEObject(), UIMPackage.eINSTANCE.getDetailPanel_MasterComponent().getEType());
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -77,13 +70,10 @@ public class DetailPanelMasterComponentSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
-	protected ILabelProvider getLabelProvider() {
+	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
 		f.add(new UIMItemProviderAdapterFactory());
-		f
-				.addAll(AbstractTabbedPropertySheetPage
-						.getPrincipalAdapterFactories());
+		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}
-
 }

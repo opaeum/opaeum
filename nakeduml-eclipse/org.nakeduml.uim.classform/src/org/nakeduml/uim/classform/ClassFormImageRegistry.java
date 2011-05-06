@@ -15,23 +15,20 @@ import org.topcased.modeler.ImageRegistry;
  *
  * @generated
  */
-public final class ClassFormImageRegistry {
-
+public final class ClassFormImageRegistry{
 	/**
 	 * The bundle id of the images
 	 * @generated
 	 */
 	public static final String BUNDLE = "org.nakeduml.uim.classform.images";
-
 	/**
 	 * The constructor
 	 *
 	 * @generated
 	 */
-	private ClassFormImageRegistry() {
+	private ClassFormImageRegistry(){
 		// do nothing
 	}
-
 	/**
 	 * Clients should not dispose the Image returned.
 	 *
@@ -39,12 +36,9 @@ public final class ClassFormImageRegistry {
 	 * @return the Image associated with the given key
 	 * @generated
 	 */
-	public static Image getImage(String key) {
-		return ImageRegistry.getInstance()
-				.get(ClassFormPlugin.getDefault().getBundle(),
-						getImageLocation(key));
+	public static Image getImage(String key){
+		return ImageRegistry.getInstance().get(ClassFormPlugin.getDefault().getBundle(), getImageLocation(key));
 	}
-
 	/**
 	 * Return the image location
 	 *
@@ -52,10 +46,9 @@ public final class ClassFormImageRegistry {
 	 * @return the Image location associated with the given key
 	 * @generated
 	 */
-	private static String getImageLocation(String key) {
+	private static String getImageLocation(String key){
 		return ResourceBundle.getBundle(BUNDLE).getString(key);
 	}
-
 	/**
 	 * Build an image descriptor for the given key
 	 *
@@ -63,14 +56,11 @@ public final class ClassFormImageRegistry {
 	 * @return the ImageDescriptor associated with the given key
 	 * @generated
 	 */
-	public static ImageDescriptor getImageDescriptor(String key) {
-		try {
-			return ImageRegistry.getInstance().getDescriptor(
-					ClassFormPlugin.getDefault().getBundle(),
-					getImageLocation(key));
-		} catch (MissingResourceException mre) {
+	public static ImageDescriptor getImageDescriptor(String key){
+		try{
+			return ImageRegistry.getInstance().getDescriptor(ClassFormPlugin.getDefault().getBundle(), getImageLocation(key));
+		}catch(MissingResourceException mre){
 			return null;
 		}
 	}
-
 }

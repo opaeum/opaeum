@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -28,78 +27,67 @@ import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
  *
  * @generated
  */
-public class NavigationToEntityToFormSection extends
-		AbstractChooserPropertySection {
+public class NavigationToEntityToFormSection extends AbstractChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "ToForm:";
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getNavigationToEntity_ToForm();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
-	protected Object getFeatureValue() {
+	protected Object getFeatureValue(){
 		return ((NavigationToEntity) getEObject()).getToForm();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
-	protected Object[] getComboFeatureValues() {
+	protected Object[] getComboFeatureValues(){
 		NavigationToEntity nte = (NavigationToEntity) getEObject();
 		Classifier toClass = UimUtil.getType(nte.getBinding());
-		if (toClass == null) {
+		if(toClass == null){
 			toClass = UimUtil.getNearestClass(nte);
 		}
 		List<ClassForm> choices = new ArrayList<ClassForm>();
-		ITypeCacheAdapter tca = TypeCacheAdapter
-				.getExistingTypeCacheAdapter(getEObject());
-		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca
-				.getReachableObjectsOfType(getEObject(), UIMPackage.eINSTANCE
-						.getNavigationToEntity_ToForm().getEType());
-		for (ClassForm classForm : source) {
-			if (classForm.getFolder().getRepresentedClass() == toClass) {
+		ITypeCacheAdapter tca = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
+		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), UIMPackage.eINSTANCE
+				.getNavigationToEntity_ToForm().getEType());
+		for(ClassForm classForm:source){
+			if(classForm.getFolder().getRepresentedClass() == toClass){
 				choices.add(classForm);
 			}
 		}
-
 		return choices.toArray();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
-	protected ILabelProvider getLabelProvider() {
+	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
 		f.add(new UIMItemProviderAdapterFactory());
-		f
-				.addAll(AbstractTabbedPropertySheetPage
-						.getPrincipalAdapterFactories());
+		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}
-
 }

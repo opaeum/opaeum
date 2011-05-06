@@ -8,14 +8,13 @@ import org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy;
 /**
  * @generated
  */
-public class ClassFormDiagramLayoutEditPolicy extends ModelerLayoutEditPolicy {
+public class ClassFormDiagramLayoutEditPolicy extends ModelerLayoutEditPolicy{
 	/**
 	 * Default contructor.
 	 *
 	 * @generated
 	 */
-	public ClassFormDiagramLayoutEditPolicy() {
+	public ClassFormDiagramLayoutEditPolicy(){
 		super();
 	}
-
 }

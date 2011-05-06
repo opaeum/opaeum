@@ -10,5 +10,5 @@ package org.nakeduml.uim.classform;
  * 
  * @generated
  */
-public interface ClassFormSimpleObjectConstants {
+public interface ClassFormSimpleObjectConstants{
 }

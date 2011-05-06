@@ -5,7 +5,6 @@ import org.eclipse.draw2d.Button;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
-import org.eclipse.draw2d.ToggleButton;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.nakeduml.uim.figures.IControlFigure;
 import org.topcased.draw2d.figures.ILabel;

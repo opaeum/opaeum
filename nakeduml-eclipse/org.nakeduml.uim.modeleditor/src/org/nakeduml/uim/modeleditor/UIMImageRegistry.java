@@ -15,22 +15,20 @@ import org.topcased.modeler.ImageRegistry;
  *
  * @generated
  */
-public final class UIMImageRegistry {
+public final class UIMImageRegistry{
 	/**
 	 * The bundle id of the image
 	 * @generated
 	 */
 	public static final String BUNDLE = "org.nakeduml.uim.modeleditor.images";
-
 	/**
 	 * The constructor
 	 *
 	 * @generated
 	 */
-	private UIMImageRegistry() {
+	private UIMImageRegistry(){
 		// do nothing
 	}
-
 	/**
 	 * Clients should not dispose the Image returned.
 	 *
@@ -38,10 +36,9 @@ public final class UIMImageRegistry {
 	 * @return the Image associated with the given key
 	 * @generated
 	 */
-	public static Image getImage(String key) {
+	public static Image getImage(String key){
 		return ImageRegistry.getInstance().get(UIMPlugin.getDefault().getBundle(), getImageLocation(key));
 	}
-
 	/**
 	 * Return the image location
 	 *
@@ -50,10 +47,9 @@ public final class UIMImageRegistry {
 	 * @throws MissingResourceException if the image doesn't exist
 	 * @generated
 	 */
-	private static String getImageLocation(String key) throws MissingResourceException {
+	private static String getImageLocation(String key) throws MissingResourceException{
 		return ResourceBundle.getBundle(BUNDLE).getString(key);
 	}
-
 	/**
 	 * Build an image descriptor for the given key
 	 *
@@ -61,10 +57,10 @@ public final class UIMImageRegistry {
 	 * @return the ImageDescriptor associated with the given key
 	 * @generated
 	 */
-	public static ImageDescriptor getImageDescriptor(String key) {
-		try {
+	public static ImageDescriptor getImageDescriptor(String key){
+		try{
 			return ImageRegistry.getInstance().getDescriptor(UIMPlugin.getDefault().getBundle(), getImageLocation(key));
-		} catch (MissingResourceException mre) {
+		}catch(MissingResourceException mre){
 			return null;
 		}
 	}
