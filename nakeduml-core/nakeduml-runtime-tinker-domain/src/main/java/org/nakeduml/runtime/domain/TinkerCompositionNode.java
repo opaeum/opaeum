@@ -2,7 +2,7 @@ package org.nakeduml.runtime.domain;
 
 
 
-public interface TinkerCompositionNode  {
+public interface TinkerCompositionNode extends TinkerNode {
 	TinkerCompositionNode getOwningObject();
 	void init(TinkerCompositionNode owner);
 	/**

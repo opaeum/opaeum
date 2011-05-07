@@ -52,7 +52,7 @@ public class GenerateSoftDelete {
 	private Set<Class<? extends TransformationStep>> getSteps() {
 		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class,
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
-				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class, TinkerExtendedCompositionSemanticsJavaStep.class,
+				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class, 
 				TinkerSoftDeleteImplementationStep.class);
 	}
 

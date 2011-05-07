@@ -48,7 +48,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		hand.setName("hand11");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(9, countEdges());
+		assertEquals(8, countEdges());
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		hand.setName("hand11");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(9, countEdges());
+		assertEquals(8, countEdges());
 		
 		List<HandAudit> handAudits = hand.getAudits();
 		assertEquals(2, handAudits.size());
@@ -74,8 +74,6 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		HandAudit handAudit2 = handAudits.get(1);
 		assertEquals(handAudit2.getPreviousAuditEntry().getName(), handAudit1.getName());
 		assertEquals("glove1", handAudit1.getGlove().getName());
-		assertNotNull(handAudit2.getGlove());
-		assertEquals("glove11", handAudit2.getGlove().getName());
 		
 		List<GloveAudit> gloveAudits = glove.getAudits();
 		assertEquals(2, gloveAudits.size());
@@ -83,9 +81,42 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		GloveAudit gloveAudit2 = gloveAudits.get(1);
 		assertEquals(gloveAudit2.getPreviousAuditEntry().getName(), gloveAudit1.getName());
 		assertEquals("hand1", gloveAudit1.getHand().getName());
-		assertEquals("hand11", gloveAudit2.getHand().getName());
 		assertEquals("glove1", gloveAudit2.getPreviousAuditEntry().getName());
 		assertEquals("hand1", gloveAudit2.getPreviousAuditEntry().getHand().getName());
 		assertEquals("hand1", gloveAudit2.getPreviousAuditEntry().getHand().getOriginal().getName());
 	}
+	
+	@Test
+	public void testHandGloveSetter() {
+		db.startTransaction();
+		Hand hand1 = new Hand();
+		hand1.setName("hand1");
+		Glove glove1 = new Glove(hand1);
+		glove1.setName("glove1");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(4, countVertices());
+		assertEquals(4, countEdges());
+		assertTrue(hand1.getAudits().iterator().hasNext());
+		GloveAudit gloveAudit = hand1.getAudits().iterator().next().getGlove();
+		assertNotNull(gloveAudit.getHand());
+		assertEquals("hand1",gloveAudit.getHand().getName());
+		db.startTransaction();
+		Hand hand2 = new Hand();
+		hand2.setName("hand2");
+		Glove glove2 = new Glove(hand2);
+		glove2.setName("glove2");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(8, countVertices());
+		assertEquals(8, countEdges());
+		db.startTransaction();
+		hand1.setGlove(glove2);
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(12, countVertices());
+		assertEquals(16, countEdges());
+		db.startTransaction();
+		hand2.setGlove(glove1);
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(14, countVertices());
+		assertEquals(22, countEdges());
+	}	
 }

@@ -15,7 +15,6 @@ import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -29,6 +28,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.name.NameConverter;
 
 public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 
@@ -89,36 +89,8 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 	private void implementAttributeFully(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
 		OJAnnotatedClass owner = findAuditJavaClass(umlOwner);
 		buildGetter(owner, map, false);
-//		buildSetter(umlOwner, owner, map);
 	}
 	
-//	protected OJOperation buildSetter(INakedClassifier umlOwner, OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-//		OJOperation setter = new OJAnnotatedOperation();
-//		setter.setName(map.setter());
-//		setter.addParam(map.umlName(), map.javaTypePath());
-//		setter.setStatic(map.isStatic());
-//		owner.addToOperations(setter);
-//		if(owner instanceof OJAnnotatedInterface){
-//		}else{
-//			INakedProperty prop = map.getProperty();
-//			if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())){
-//				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
-//				if(map.isManyToOne()){
-//					attributeImplementorStrategy.buildManyToOneSetter(umlOwner, map, otherMap, owner, setter);
-//				}else if(map.isOneToMany()){
-//					attributeImplementorStrategy.buildOneToManySetter(map, otherMap, owner, setter);
-//				}else if(map.isManyToMany()){
-//					attributeImplementorStrategy.buildManyToManySetter(map, otherMap, owner, setter);
-//				}else if(map.isOneToOne()){
-//					attributeImplementorStrategy.buildOneToOneSetter(umlOwner, map, otherMap, owner, setter);
-//				}
-//			}else{
-//				attributeImplementorStrategy.addSimpleSetterBody(setter, map);
-//			}
-//		}
-//		return setter;
-//	}	
-
 	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault) {
 		OJOperation getter = new OJAnnotatedOperation();
 		getter.setName(map.getter());
@@ -164,13 +136,13 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(map.getProperty().getOtherEnd());
 		OJOperation getAllAuditsForOne = new OJOperation();
 		getAllAuditsForOne.setVisibility(OJVisibilityKind.PRIVATE);
-		getAllAuditsForOne.setName("getAuditFor" + map.javaBaseTypePath().getLast());
-		getAllAuditsForOne.addParam("previous", otherMap.javaAuditBaseTypePath().getLast());
+		getAllAuditsForOne.setName("getAuditFor" + NameConverter.capitalize(map.umlName()));
+		getAllAuditsForOne.addParam("previous", owner.getPathName());
 		getAllAuditsForOne.setReturnType(map.javaAuditBaseTypePath());
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
-		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " result = previous.get" + map.javaAuditBaseTypePath().getLast() + "()");
+		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " result = previous." + map.getter() + TinkerAuditCreator.AUDIT + "()");
 		OJIfStatement ifStatement2 = new OJIfStatement("result != null", "return result");
-		ifStatement2.addToElsePart("getAuditFor" + map.javaBaseTypePath().getLast() + "(previous.getPreviousAuditEntry())");
+		ifStatement2.addToElsePart("getAuditFor" + NameConverter.capitalize(map.umlName()) + "(previous.getPreviousAuditEntry())");
 		ifStatement.addToThenPart(ifStatement2);
 		getAllAuditsForOne.getBody().addToStatements(ifStatement);
 		getAllAuditsForOne.getBody().addToStatements("return null");
@@ -184,7 +156,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		OJOperation getAuditsForThisOne = new OJOperation();
 		getAuditsForThisOne.setVisibility(OJVisibilityKind.PRIVATE);
 		owner.addToOperations(getAuditsForThisOne);
-		getAuditsForThisOne.setName("get" + map.javaAuditBaseTypePath().getLast());
+		getAuditsForThisOne.setName(map.getter() + TinkerAuditCreator.AUDIT);
 		getAuditsForThisOne.setReturnType(map.javaAuditBaseTypePath());
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		owner.addToImports(defaultValue);
@@ -233,7 +205,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		OJOperation getAllAuditsForMany = new OJOperation();
 		getAllAuditsForMany.setVisibility(OJVisibilityKind.PRIVATE);
 		getAllAuditsForMany.setName("getAllAuditsFor" + map.javaBaseTypePath().getLast());
-		getAllAuditsForMany.addParam("previous", otherMap.javaAuditBaseTypePath().getLast());
+		getAllAuditsForMany.addParam("previous", owner.getPathName());
 		getAllAuditsForMany.addParam("audits", map.javaAuditTypePath());
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
 		ifStatement.addToThenPart("audits.addAll(previous.getAuditsFor" + map.javaAuditBaseTypePath().getLast() + "())");
@@ -298,7 +270,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 	}
 
 	private void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
-		getter.getBody().addToStatements("return getAuditFor" + map.javaBaseTypePath().getLast() + "(this)");
+		getter.getBody().addToStatements("return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(this)");
 	}
 
 	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter) {
@@ -314,9 +286,9 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		getter.getBody().addToStatements(
 				"Map<Long, " + map.javaAuditBaseTypePath().getLast() + "> map = new HashMap<Long," + map.javaAuditBaseTypePath().getLast() + ">()");
 		OJForStatement forStatement = new OJForStatement("tmpAudit", map.javaAuditBaseTypePath(), "allAudits");
-		forStatement.getBody().addToStatements(map.javaAuditBaseTypePath().getLast() + " tmp = map.get(TinkerUtil.getId(tmpAudit.getVertex()))");
-		OJIfStatement ifStatement = new OJIfStatement("tmp==null || TinkerUtil.getVersion(tmpAudit.getVertex())>TinkerUtil.getVersion(tmp.getVertex())");
-		ifStatement.addToThenPart("map.put(TinkerUtil.getId(tmpAudit.getVertex()), tmpAudit)");
+		forStatement.getBody().addToStatements(map.javaAuditBaseTypePath().getLast() + " tmp = map.get(TinkerUtil.getId(((TinkerNode)tmpAudit).getVertex()))");
+		OJIfStatement ifStatement = new OJIfStatement("tmp==null || TinkerUtil.getVersion(((TinkerNode)tmpAudit).getVertex())>TinkerUtil.getVersion(((TinkerNode)tmp).getVertex())");
+		ifStatement.addToThenPart("map.put(TinkerUtil.getId(((TinkerNode)tmpAudit).getVertex()), tmpAudit)");
 		forStatement.getBody().addToStatements(ifStatement);
 		getter.getBody().addToStatements(forStatement);
 		getter.getBody().addToStatements("return new HashSet<" + map.javaAuditBaseTypePath().getLast() + ">(map.values())");

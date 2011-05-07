@@ -39,18 +39,6 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		}
 	}
 
-//	public String javaAuditBaseType(){
-//		if(isJavaPrimitive() || javaBaseType().equals("String")){
-//			return super.javaBaseType();
-//		}else{
-//			if (isMany()) {
-//				return super.javaBaseType().substring(0,super.javaBaseType().length()-3)+TinkerAuditCreator.AUDIT+">()";
-//			} else {
-//				return super.javaBaseType()+TinkerAuditCreator.AUDIT;
-//			}
-//		}
-//	}
-	
 	//TODO this string jol must be wrong
 	public OJPathName javaAuditBaseTypePath(){
 		if (javaBaseType().equals("String")) {
@@ -74,6 +62,25 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaDefaultTypePath();
 		}
 	}
+	
+	public String javaAuditDefaultValue() {
+		OJPathName baseType = javaBaseTypePath();
+		String javaDefaultValue = featureTypeMap.javaDefaultValue();
+		return javaDefaultValue.replace(baseType.getLast(), baseType.getLast()+TinkerAuditCreator.AUDIT);
+	}
+
+	public OJPathName javaAuditDefaultTypePath(){
+		if(isMany()){
+			OJPathName baseType = super.javaBaseDefaultTypePath();
+			OJPathName auditBaseType = new OJPathName(baseType.toJavaString()+TinkerAuditCreator.AUDIT);
+			OJPathName copy = super.javaDefaultTypePath().getCopy();
+			copy.addToElementTypes(auditBaseType);
+			return copy;
+		}else{
+			return new OJPathName(super.javaDefaultTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+		}
+	}
+	
 	@Override
 	public OJPathName javaBaseTypePath(){
 		if(baseTypeMap.isJavaPrimitive()){

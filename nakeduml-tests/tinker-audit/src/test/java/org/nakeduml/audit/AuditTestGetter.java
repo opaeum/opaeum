@@ -83,7 +83,7 @@ public class AuditTestGetter extends BaseLocalDbTest {
 		finger4.setName("finger41");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(20, countEdges());
+		assertEquals(19, countEdges());
 	}
 	
 }

@@ -11,7 +11,7 @@ import org.tinker.God;
 
 public class TestPolymorphicNonCompositeManyToMany extends BaseTest {
 
-	@Test
+//	@Test
 	public void testSettingAndGetting() {
 		God god = new God();
 		god.setName("THEGOD");
@@ -68,5 +68,21 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseTest {
 		abstractA11.addAllToAbstractB(abstractBs);
 		assertEquals(14, countEdges());
 		
+	}
+	
+	@Test
+	public void testAddingSameObjectTwice() {
+		God god = new God();
+		god.setName("THEGOD");
+		AbstractA1 abstractA1 = new ConcreteA1(god);
+		AbstractB abstractB1 = new ConcreteB1(god); 
+		assertEquals(3, countVertices());
+		assertEquals(2, countEdges());
+		abstractA1.addToAbstractB(abstractB1);
+		assertEquals(3, countVertices());
+		assertEquals(3, countEdges());
+		abstractA1.addToAbstractB(abstractB1);
+		assertEquals(3, countVertices());
+		assertEquals(3, countEdges());
 	}
 }

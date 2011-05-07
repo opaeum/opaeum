@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.nakeduml.runtime.domain.TinkerAuditableNode;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class BaseTinkerAuditable implements Serializable{
+public abstract class BaseTinkerAuditable implements TinkerAuditableNode, Serializable{
 
 	private static final long serialVersionUID = 3751023772087546585L;
 	protected Vertex vertex;
@@ -37,6 +39,11 @@ public abstract class BaseTinkerAuditable implements Serializable{
 	}
 	public void setDeletedOn(Date deletedOn) {
 		this.vertex.setProperty("deletedOn", TinkerFormatter.format(deletedOn));
+		if ( TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid()) ) {
+			createAuditVertex(false);
+		}
+		getAuditVertex().setProperty("deletedOn", TinkerFormatter.format(deletedOn));
+
 	}
 
 	public Date getUpdatedOn() {
@@ -50,7 +57,7 @@ public abstract class BaseTinkerAuditable implements Serializable{
 	public void defaultCreate() {
 		setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		setUpdatedOn(new Timestamp(System.currentTimeMillis()));
-		setDeletedOn(new Timestamp(1000L*60*60*24*365*1000));
+		this.vertex.setProperty("deletedOn", TinkerFormatter.format(new Timestamp(1000L*60*60*24*365*1000)));
 	}
 
 	public void defaultUpdate() {

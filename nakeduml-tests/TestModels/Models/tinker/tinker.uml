@@ -628,5 +628,11 @@
         </ownedEnd>
       </packagedElement>
     </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_V1_qYHQ0EeC70o8ZsExzBA" name="WarpSpaceTime">
+      <generalization xmi:id="_vuaZ4HQ0EeCCyY-LecZGLg" general="_FRtPwGUtEeCYCc2JDFo2sA"/>
+      <ownedAttribute xmi:id="_XpjSsHQ0EeC70o8ZsExzBA" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
   </packagedElement>
 </uml:Model>

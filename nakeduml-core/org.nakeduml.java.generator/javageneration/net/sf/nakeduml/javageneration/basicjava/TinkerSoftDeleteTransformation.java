@@ -32,7 +32,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor {
 
-	private static final String BASE_AUDIT_TINKER = "org.util.BaseTinkerAuditable";
+	private static final String BASE_AUDIT_TINKER = "org.util.BaseTinkerSoftDelete";
 	private boolean isAudit = false;
 
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
@@ -44,7 +44,7 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			if (!c.hasSupertype()) {
-				extendsBaseTinker(ojClass);
+				extendsBaseTinkerSoftDelete(ojClass);
 			}
 			transformMarkDeletedToSoft(c, ojClass);
 		}
@@ -172,7 +172,7 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 		ojClass.addToImports(TinkerUtil.edgePathName);
 	}
 
-	private void extendsBaseTinker(OJAnnotatedClass ojClass) {
+	private void extendsBaseTinkerSoftDelete(OJAnnotatedClass ojClass) {
 		ojClass.setSuperclass(new OJPathName(BASE_AUDIT_TINKER));
 	}
 

@@ -19,16 +19,31 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJSimpleStatement;
+import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
-	
+
+	private boolean isAudit = false;
+	private boolean isTinker = false;
+
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
+		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
+			isTinker = true;
+		}
+	}
+
+	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context, boolean isAudit) {
+		super.initialize(javaModel, config, textWorkspace, context);
+		this.isAudit = isAudit;
+		isTinker = true;
 	}
 
 	@VisitBefore(matchSubclasses = true)
@@ -36,10 +51,10 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		visitProperty(p.getOwner(), p);
 	}
 
-	@VisitBefore(matchSubclasses = true,match={INakedEntity.class, INakedStructuredDataType.class})
-	public void classifier(INakedClassifier c) {		
+	@VisitBefore(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class })
+	public void classifier(INakedClassifier c) {
 		for (INakedProperty p : c.getEffectiveAttributes()) {
-			if(p.getOwner() instanceof INakedInterface){
+			if (p.getOwner() instanceof INakedInterface) {
 				visitProperty(c, p);
 				if (p.isDerivedUnion()) {
 					ensureDerivedUnionImplementation((INakedEntity) c, p);
@@ -51,7 +66,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 	private void visitProperty(INakedClassifier owner, INakedProperty p) {
 		if (p.isNavigable() && !(owner instanceof INakedInterface)) {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-			OJClass c = findJavaClass(owner);
+			OJClass c = !isAudit ? findJavaClass(owner) : findAuditJavaClass(owner);
 			if (p.isDerivedUnion()) {
 				implementDefaultValueForDerivedUnion(map, c);
 			}
@@ -61,13 +76,15 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		}
 	}
 
-/**
- * Ensures that a derived union is implemented for properties inherited from interfaces
- * @param entity
- * @param p
- */
+	/**
+	 * Ensures that a derived union is implemented for properties inherited from
+	 * interfaces
+	 * 
+	 * @param entity
+	 * @param p
+	 */
 	private void ensureDerivedUnionImplementation(INakedEntity entity, INakedProperty p) {
-		
+
 		OJClass ojClass = findJavaClass(entity);
 		List<? extends INakedProperty> attrs = entity.getEffectiveAttributes();
 		boolean implemented = false;
@@ -86,8 +103,8 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 			OJOperation getter = OJUtil.findOperation(ojClass, map.getter());
 			getter.getBody().getStatements().clear();
-			ojClass.addToImports(map.javaDefaultTypePath());
-			getter.getBody().addToStatements("return " + map.javaDefaultValue());
+			ojClass.addToImports(!isAudit ? map.javaDefaultTypePath() : map.javaAuditDefaultTypePath());
+			getter.getBody().addToStatements("return " + (!isAudit ? map.javaDefaultValue() : map.javaAuditDefaultValue()));
 		}
 
 	}
@@ -101,26 +118,26 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		if (getter.getBody() == null || (getter.getBody().getStatements().size() == 1)) {
 			if (subsettedMap.isOne()) {
 				getter.setBody(new OJBlock());
-				c.addToImports(subsettedMap.javaDefaultTypePath());
+				c.addToImports(!isAudit ? subsettedMap.javaDefaultTypePath() : subsettedMap.javaAuditDefaultTypePath());
 				getter.getBody().addToStatements("return " + subsettedMap.javaDefaultValue());
 			} else {
-				OJPathName type = subsettedMap.javaTypePath();
+				OJPathName type = !isAudit ? subsettedMap.javaTypePath() : subsettedMap.javaAuditTypePath();
 				OJAnnotatedField sinit = new OJAnnotatedField();
 				String returnParameterName = subsettedMap.umlName() + "Subsetting";
 				sinit.setName(returnParameterName);
 				sinit.setType(type);
 				getter.setBody(new OJBlock());
 				getter.getBody().addToLocals(sinit);
-				sinit.setInitExp(subsettedMap.javaDefaultValue());
-				c.addToImports(subsettedMap.javaDefaultTypePath());
-				getter.getBody().addToStatements("return " + subsettedMap.javaDefaultValue());
+				sinit.setInitExp(!isAudit ? subsettedMap.javaDefaultValue() : subsettedMap.javaAuditDefaultValue());
+				c.addToImports(!isAudit ? subsettedMap.javaDefaultTypePath() : subsettedMap.javaAuditDefaultTypePath());
+				getter.getBody().addToStatements("return " + (!isAudit ? subsettedMap.javaDefaultValue() : subsettedMap.javaAuditDefaultValue()));
 			}
 		}
 	}
 
 	private void addSubsetToUnion(NakedStructuralFeatureMap subsettingMap, OJClass c, INakedProperty derivedUnion) {
 		NakedStructuralFeatureMap derivedUnionMap = new NakedStructuralFeatureMap(derivedUnion);
-		OJPathName type = derivedUnionMap.javaTypePath();
+		OJPathName type = !isAudit ? derivedUnionMap.javaTypePath() : derivedUnionMap.javaAuditTypePath();
 		OJOperation sgetter = OJUtil.findOperation(c, derivedUnionMap.getter());
 		String returnParameterName = derivedUnionMap.umlName() + "Subsetting";
 		if (sgetter == null) {
@@ -137,18 +154,37 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		returnParameter.setType(type);
 		if (returnParameter.getInitExp() == null) {
 			// retain the possible derivation rule initialization
-			returnParameter.setInitExp(derivedUnionMap.javaDefaultValue());
+			returnParameter.setInitExp(!isAudit ? derivedUnionMap.javaDefaultValue() : derivedUnionMap.javaAuditDefaultValue());
 		}
 		c.addToImports(type);
-		c.addToImports(derivedUnionMap.javaDefaultTypePath());
+		c.addToImports(!isAudit ? derivedUnionMap.javaDefaultTypePath() : derivedUnionMap.javaAuditDefaultTypePath());
 		String expression = buildExpression(subsettingMap, derivedUnion);
 
 		if (subsettingMap.isOne()) {
 			if (derivedUnionMap.isOne()) {
 				// TODO this could be problematic if multiple subsetting
 				// properties are not null
-				OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
-				sgetter.getBody().addToStatements(ifNotNull);
+
+				// TODO logic of one subsetting not understood
+				if (!isTinker) {
+					OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
+					sgetter.getBody().addToStatements(ifNotNull);
+				} else {
+					TinkerAttributeImplementorStrategy strategy = new TinkerAttributeImplementorStrategy();
+					strategy.buildPolymorphicGetterForToOne(subsettingMap, sgetter);
+					OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatement(
+							TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
+					OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
+							TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+					OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
+					String tinkerToOneExpression = ojSimpleStatement.getExpression();
+					tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
+					if (isAudit) {
+						tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(), derivedUnionMap.javaBaseTypePath().getLast() + TinkerAuditCreator.AUDIT);
+					}
+					ojSimpleStatement.setExpression(tinkerToOneExpression);
+					sgetter.getBody().getStatements().remove(sgetter.getBody().getStatements().size() - 1);
+				}
 			} else {
 				OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + ".add(" + expression + ")");
 				sgetter.getBody().addToStatements(ifNotNull);
@@ -192,7 +228,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 				// TODO leverage the derivation here
 				throw new IllegalStateException("DerivedUnion Subsetting with DerivedUnion Subsetted properties must have different names");
 			} else {
-				expression = "this." + mapOfSubsettingProperty.umlName();
+				expression = "this." + mapOfSubsettingProperty.getter() + "()";
 			}
 		}
 		return expression;

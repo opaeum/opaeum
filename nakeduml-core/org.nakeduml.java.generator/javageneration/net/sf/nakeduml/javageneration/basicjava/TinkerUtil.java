@@ -20,6 +20,8 @@ public class TinkerUtil {
 	public static OJPathName orientVertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex");
 	public static OJPathName tinkerFormatter = new OJPathName("org.util.TinkerFormatter");
 	public static OJPathName transactionAuditThreadVar = new OJPathName("org.util.TransactionAuditThreadVar");
+	public static OJPathName transactionThreadEntityVar = new OJPathName("org.util.TransactionThreadEntityVar");
+	public static OJPathName graphDbPathName = new OJPathName("org.util.GraphDb");
 	
 	public static String constructSelfToAuditEdgeLabel(INakedEntity entity) {
 		return "audit";

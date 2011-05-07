@@ -15,7 +15,7 @@ import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class AuditTestGeneration extends BaseLocalDbTest {
 
-//	@Test
+	@Test
 	public void testAuditGod() {
 		db.startTransaction();
 		Hand hand = new Hand();
@@ -28,7 +28,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		assertEquals(1, countEdges());
 	}
 	
-//	@Test
+	@Test
 	public void testAuditCompositeGodAndUniversesInOneTransaction() {
 		db.startTransaction();
 		Hand hand = new Hand();
@@ -44,7 +44,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		assertEquals(10, countEdges());
 	}
 	
-//	@Test
+	@Test
 	public void testAuditCompositeGodAndUniversesInTwoTransaction() {
 		db.startTransaction();
 		Hand god = new Hand();
@@ -62,7 +62,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		assertEquals(12, countEdges());
 	}
 	
-//	@Test
+	@Test
 	public void testAuditCompositeGodAndUniversesInThreeTransaction() {
 		db.startTransaction();
 		Hand hand = new Hand();
@@ -90,13 +90,13 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		finger4.setName("finger41");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(20, countEdges());
+		assertEquals(19, countEdges());
 		
 		assertEquals("finger4", finger4.getAudits().get(1).getPreviousAuditEntry().getName());
 		assertEquals("THEHAND", finger4.getAudits().get(1).getPreviousAuditEntry().getHand().getName());
 	}
 	
-//	@Test
+	@Test
 	public void testAuditCompositeHandFingerAndNail() {
 		db.startTransaction();
 		Hand hand = new Hand();

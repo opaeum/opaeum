@@ -24,6 +24,7 @@ import org.nakeduml.runtime.domain.TinkerNode;
 
 public class TinkerTransformation extends AbstractJavaProducingVisitor {
 
+	public static final String INIT_VERTEX = "initVertex";
 	private static final String BASE_TINKER = "org.util.BaseTinker";
 
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
@@ -39,14 +40,29 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 				persistUid(ojClass);
 				initialiseVertexInDefaultConstructor(ojClass);
 				extendsBaseTinker(ojClass);
+				addInitNullToDefaultConstructor(ojClass);
 			}
 			if (c.getEndToComposite() != null) {
 				initializeVertex(ojClass, c);
 			}
+			implementIsRoot(ojClass, c.getEndToComposite()==null);
 			addSuperToDefaultConstructor(ojClass);
 			addContructorWithVertex(ojClass, c);
 			implementTinkerNode(ojClass);
 		}
+	}
+
+	private void implementIsRoot(OJAnnotatedClass ojClass, boolean b) {
+		OJOperation isRoot = new OJOperation();
+		isRoot.setName("isTinkerRoot");
+		isRoot.setReturnType(new OJPathName("boolean"));
+		isRoot.getBody().addToStatements("return " + b);
+		ojClass.addToOperations(isRoot);
+	}
+
+	private void addInitNullToDefaultConstructor(OJAnnotatedClass ojClass) {
+		OJConstructor constructor = ojClass.getDefaultConstructor();
+		constructor.getBody().addToStatements("init(null)");
 	}
 
 	private void addSuperToDefaultConstructor(OJAnnotatedClass ojClass) {
@@ -85,17 +101,30 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 	private void initialiseVertexInDefaultConstructor(OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.getDefaultConstructor();
 		constructor.getBody().addToStatements("this.vertex = " + UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().addVertex(null)");
+		constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
+		constructor.getBody().addToStatements("defaultCreate()");
+		ojClass.addToImports(TinkerUtil.transactionThreadEntityVar);
 	}
 
 	private void initializeVertex(OJAnnotatedClass ojClass, INakedEntity c) {
 		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
 		OJAnnotatedOperation initVertex = new OJAnnotatedOperation();
-		initVertex.setName("initVertex");
+		initVertex.setName(INIT_VERTEX);
 		initVertex.addParam("owningObject", compositeEndMap.javaBaseTypePath());
 		initVertex.setVisibility(OJVisibilityKind.PRIVATE);
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
-		constructor.getBody().getStatements().add(0, new OJSimpleStatement("this()"));
-		constructor.getBody().addToStatements(new OJSimpleStatement("initVertex(owningObject)"));
+		if (c.getGeneralizations().isEmpty()) {
+			constructor.getBody().getStatements().add(0, new OJSimpleStatement("this.vertex = org.util.GraphDb.getDB().addVertex(null)"));
+			constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
+			constructor.getBody().addToStatements("defaultCreate()");
+			ojClass.addToImports(TinkerUtil.transactionThreadEntityVar);
+
+		} else {
+			constructor.getBody().getStatements().add(0, new OJSimpleStatement("super()"));
+		}
+		OJSimpleStatement initVertexStatement = new OJSimpleStatement("initVertex(owningObject)");
+		initVertexStatement.setName(INIT_VERTEX);
+		constructor.getBody().getStatements().add(1, initVertexStatement);
 
 		if (compositeEndMap.isOneToOne()) {
 			initVertex.getBody().addToStatements(
@@ -108,6 +137,7 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 			initVertex.getBody().addToStatements(ifAllReadyHasOne);
 		}
 
+		ojClass.addToImports(TinkerUtil.graphDbPathName);
 		// Add association meta information, i.e. classname of other end
 		String associationName = c.getEndToComposite().getAssociation().getName();
 		initVertex.getBody().addToStatements(

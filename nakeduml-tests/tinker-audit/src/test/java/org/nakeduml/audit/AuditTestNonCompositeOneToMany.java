@@ -10,7 +10,7 @@ import org.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
-public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
+public class AuditTestNonCompositeOneToMany extends BaseLocalDbTest {
 
 		@Test
 		public void testFingerAndRings() {
@@ -69,7 +69,7 @@ public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
 			finger2.addToRing(ring1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(11, countVertices());
-			assertEquals(22, countEdges());
+			assertEquals(19, countEdges());
 		}
 		
 		@Test
@@ -96,7 +96,7 @@ public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(0,finger1.getRing().size());
 			assertEquals(13, countVertices());
-			assertEquals(27, countEdges());
+			assertEquals(24, countEdges());
 		}
 		
 		@Test
@@ -124,11 +124,12 @@ public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(1,finger1.getRing().size());
 			assertEquals(1,finger2.getRing().size());
-			assertEquals(31, countEdges());
+			assertEquals(14, countVertices());
+			assertEquals(27, countEdges());
 		}
 		
 		@Test
-		public void testSetFIngerToNullOnRing() {
+		public void testSetFingerToNullOnRing() {
 			db.startTransaction();
 			Hand hand = new Hand();
 			hand.setName("hand1");
@@ -152,7 +153,7 @@ public class AudiTestNonCompositeOneToMany extends BaseLocalDbTest {
 			assertEquals(0,finger1.getRing().size());
 			assertEquals(1,finger2.getRing().size());
 			assertEquals(12, countVertices());
-			assertEquals(22, countEdges());
+			assertEquals(20, countEdges());
 		}			
 		
 }

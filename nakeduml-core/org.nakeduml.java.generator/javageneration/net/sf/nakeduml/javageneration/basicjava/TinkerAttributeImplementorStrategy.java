@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -25,13 +26,15 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public static final String POLYMORPHIC_GETTER_FOR_TO_ONE_TRY = "buildPolymorphicGetterForToOneTry";
 	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_FOR = "buildPolymorphicGetterForToManyFor";
 	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_TRY = "buildPolymorphicGetterForToManyTry";
-	private static OJPathName TINKER_NODE = new OJPathName(TinkerNode.class.getName());
+	public static final String TINKER_MANY_TO_MANY_SETTER_COLLECT_EDGES = "tinkerManyToManySetterCollectEdges";
+	public static final String TINKER_MANY_TO_MANY_SETTER_REMOVE_EDGES = "tinkerManyToManySetterRemoveEdges";
+	public static final String TINKER_MANY_TO_MANY_SETTER_FOR_ADDING = "tinkerManyToManySetterForAdding";
+	public static final String TINKER_MANY_REMOVER_ITER = "tinkerManyRemoveIter";
+	public static final String TINKER_MANY_REMOVER = "tinkerManyRemover";
+	public static final String MANY_TO_MANY_ADDER_IF_CONTAINS = "manyToManyAdderIfContains";
+	public static OJPathName TINKER_NODE = new OJPathName(TinkerNode.class.getName());
 
 	public TinkerAttributeImplementorStrategy() {
-		super();
-	}
-
-	public TinkerAttributeImplementorStrategy(boolean isAudit) {
 		super();
 	}
 
@@ -40,6 +43,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		setter.getBody().addToStatements(
 				"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", " + map.umlName()
 						+ ")");
+		addEntityToTransactionThreadEntityVar(setter);
 	}
 
 	@Override
@@ -76,7 +80,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		return getter;
 	}
 
-	private void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
+	public void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
 		INakedClassifier otherClassifier = map.getProperty().getOtherEnd().getOwner();
@@ -179,6 +183,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	@Override
 	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
+		addEntityToTransactionThreadEntityVar(setter);
 		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
 		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
 	}
@@ -186,6 +191,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	@Override
 	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
+		addEntityToTransactionThreadEntityVar(setter);
 		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
 		removeInverseToPolymorphicRelationship(map, otherMap, owner, setter);
 		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
@@ -204,8 +210,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 				new OJSimpleStatement("Edge edge = "
 						+ UtilityCreator.getUtilPathName().toJavaString()
 						+ ".GraphDb.getDB().addEdge(null, "
-						+ (!isComposite ? "(" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, ("
-								+ map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
+						+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
+								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", this.getClass().getName())");
@@ -256,6 +262,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 	@Override
 	public void buildManyToManySetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
+		addEntityToTransactionThreadEntityVar(setter);
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
 		owner.addToImports(new OJPathName("java.util.List"));
@@ -265,14 +272,17 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		setter.getBody()
 				.addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
+		forStatement.setName(TINKER_MANY_TO_MANY_SETTER_COLLECT_EDGES);
 		forStatement.getBody().addToStatements("edgesToRemove.add(edge)");
 		setter.getBody().addToStatements(forStatement);
 
 		OJForStatement removeFor = new OJForStatement("edge", TinkerUtil.edgePathName, "edgesToRemove");
+		removeFor.setName(TINKER_MANY_TO_MANY_SETTER_REMOVE_EDGES);
 		removeFor.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(edge)");
 		setter.getBody().addToStatements(removeFor);
 
 		OJForStatement forAdding = new OJForStatement("o", map.javaBaseTypePath(), map.umlName());
+		forAdding.setName(TINKER_MANY_TO_MANY_SETTER_FOR_ADDING);
 		forAdding.getBody().addToStatements(map.adder() + "(o)");
 		setter.getBody().addToStatements(forAdding);
 	}
@@ -281,19 +291,22 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public void buildManyAdder(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
+		OJIfStatement ifStatement = new OJIfStatement("!" + map.getter() + "().contains(" + map.umlName() + ")");
+		ifStatement.setName(MANY_TO_MANY_ADDER_IF_CONTAINS);
 		String relationshipName = map.getProperty().getAssociation().getName();
-		adder.getBody().addToStatements(
+		adder.getBody().addToStatements(ifStatement);
+		ifStatement.addToThenPart(
 				new OJSimpleStatement("Edge edge = "
 						+ UtilityCreator.getUtilPathName().toJavaString()
 						+ ".GraphDb.getDB().addEdge(null, "
-						+ (!isComposite ? "(" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, ("
-								+ map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
+						+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
+								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
-			adder.getBody().addToStatements("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
-			adder.getBody().addToStatements("edge.setProperty(\"outClass\", this.getClass().getName())");
+			ifStatement.addToThenPart("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
+			ifStatement.addToThenPart("edge.setProperty(\"outClass\", this.getClass().getName())");
 		} else {
-			adder.getBody().addToStatements("edge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName())");
-			adder.getBody().addToStatements("edge.setProperty(\"inClass\", this.getClass().getName())");
+			ifStatement.addToThenPart("edge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName())");
+			ifStatement.addToThenPart("edge.setProperty(\"inClass\", this.getClass().getName())");
 		}
 	}
 
@@ -301,25 +314,30 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation remover) {
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
-//		owner.addToImports(new OJPathName("java.util.List"));
-//		owner.addToImports(new OJPathName("java.util.ArrayList"));
 		remover.getBody().addToStatements("List<Edge> edgesToRemove = new ArrayList<Edge>()");
 		String relationshipName = map.getProperty().getAssociation().getName();
 		remover.getBody().addToStatements(
 				"Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
+		forStatement.setName(TINKER_MANY_REMOVER_ITER);
 		OJIfStatement ifStatement;
 		if (isComposite) {
-			ifStatement = new OJIfStatement("edge.getInVertex().getId().equals((" + map.umlName() + ").getVertex().getId())");
+			ifStatement = new OJIfStatement("edge.getInVertex().getId().equals(((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex().getId())");
 		} else {
-			ifStatement = new OJIfStatement("edge.getOutVertex().getId().equals(("+ map.umlName() + ").getVertex().getId())");
+			ifStatement = new OJIfStatement("edge.getOutVertex().getId().equals(((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex().getId())");
 		}
 		forStatement.getBody().addToStatements(ifStatement);
 		ifStatement.addToThenPart("edgesToRemove.add(edge)");
 		remover.getBody().addToStatements(forStatement);
 
 		OJForStatement removeFor = new OJForStatement("edge", TinkerUtil.edgePathName, "edgesToRemove");
+		removeFor.setName(TINKER_MANY_REMOVER);
 		removeFor.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(edge)");
 		remover.getBody().addToStatements(removeFor);
+	}
+	
+	private void addEntityToTransactionThreadEntityVar(OJOperation setter) {
+		setter.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
+		setter.getOwner().addToImports(TinkerUtil.transactionThreadEntityVar);
 	}
 }
