@@ -25,7 +25,7 @@ public class BaseTest {
 			db = new Neo4jGraph("memory:test");
 			break;
 		case ORIENT:
-			db = new OrientGraph("memory:test");
+			db = new OrientGraph("memory:/tmp/tinkertest");
 			break;
 		case TINKER:
 			db = new TinkerGraph();

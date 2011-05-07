@@ -73,17 +73,18 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		HandAudit handAudit1 = handAudits.get(0);
 		HandAudit handAudit2 = handAudits.get(1);
 		assertEquals(handAudit2.getPreviousAuditEntry().getName(), handAudit1.getName());
-		assertEquals("glove1", handAudit1.getGlove().getName());
+		assertEquals("glove11", handAudit2.getGlove().getName());
+		assertEquals("glove11", handAudit1.getGlove().getName());
 		
 		List<GloveAudit> gloveAudits = glove.getAudits();
 		assertEquals(2, gloveAudits.size());
 		GloveAudit gloveAudit1 = gloveAudits.get(0);
 		GloveAudit gloveAudit2 = gloveAudits.get(1);
 		assertEquals(gloveAudit2.getPreviousAuditEntry().getName(), gloveAudit1.getName());
-		assertEquals("hand1", gloveAudit1.getHand().getName());
+		assertEquals("hand11", gloveAudit1.getHand().getName());
 		assertEquals("glove1", gloveAudit2.getPreviousAuditEntry().getName());
-		assertEquals("hand1", gloveAudit2.getPreviousAuditEntry().getHand().getName());
-		assertEquals("hand1", gloveAudit2.getPreviousAuditEntry().getHand().getOriginal().getName());
+		assertEquals("hand11", gloveAudit2.getPreviousAuditEntry().getHand().getName());
+		assertEquals("hand11", gloveAudit2.getPreviousAuditEntry().getHand().getOriginal().getName());
 	}
 	
 	@Test

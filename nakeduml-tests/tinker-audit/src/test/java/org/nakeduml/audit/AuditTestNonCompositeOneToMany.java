@@ -153,7 +153,7 @@ public class AuditTestNonCompositeOneToMany extends BaseLocalDbTest {
 			assertEquals(0,finger1.getRing().size());
 			assertEquals(1,finger2.getRing().size());
 			assertEquals(12, countVertices());
-			assertEquals(20, countEdges());
+			assertEquals(21, countEdges());
 		}			
 		
 }

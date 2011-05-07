@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import java.util.Date;
+
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -29,6 +31,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.name.NameConverter;
+import org.util.TinkerFormatter;
+
+import com.tinkerpop.blueprints.pgm.Edge;
+import com.tinkerpop.blueprints.pgm.Vertex;
 
 public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 
@@ -138,11 +144,12 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		getAllAuditsForOne.setVisibility(OJVisibilityKind.PRIVATE);
 		getAllAuditsForOne.setName("getAuditFor" + NameConverter.capitalize(map.umlName()));
 		getAllAuditsForOne.addParam("previous", owner.getPathName());
+		getAllAuditsForOne.addParam("transactionNo", new OJPathName("int"));
 		getAllAuditsForOne.setReturnType(map.javaAuditBaseTypePath());
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
-		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " result = previous." + map.getter() + TinkerAuditCreator.AUDIT + "()");
+		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " result = previous.getAuditFor" + NameConverter.capitalize(map.umlName()) + "(transactionNo)");
 		OJIfStatement ifStatement2 = new OJIfStatement("result != null", "return result");
-		ifStatement2.addToElsePart("getAuditFor" + NameConverter.capitalize(map.umlName()) + "(previous.getPreviousAuditEntry())");
+		ifStatement2.addToElsePart("return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(previous.getPreviousAuditEntry(), transactionNo)");
 		ifStatement.addToThenPart(ifStatement2);
 		getAllAuditsForOne.getBody().addToStatements(ifStatement);
 		getAllAuditsForOne.getBody().addToStatements("return null");
@@ -156,20 +163,21 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		OJOperation getAuditsForThisOne = new OJOperation();
 		getAuditsForThisOne.setVisibility(OJVisibilityKind.PRIVATE);
 		owner.addToOperations(getAuditsForThisOne);
-		getAuditsForThisOne.setName(map.getter() + TinkerAuditCreator.AUDIT);
+		getAuditsForThisOne.setName("getAuditFor" + NameConverter.capitalize(map.umlName()));
+		getAuditsForThisOne.addParam("transactionNo", new OJPathName("int"));
 		getAuditsForThisOne.setReturnType(map.javaAuditBaseTypePath());
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		owner.addToImports(defaultValue);
-		INakedClassifier manyClassifier = map.getProperty().getOtherEnd().getOwner();
 
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
+		String associationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			getAuditsForThisOne.getBody().addToStatements(
-					"Iterable<Edge> iter = this.vertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+					"Iterable<Edge> iter = this.vertex.getOutEdges(\"" + associationName + "\")");
 		} else {
 			getAuditsForThisOne.getBody().addToStatements(
-					"Iterable<Edge> iter = this.vertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+					"Iterable<Edge> iter = this.vertex.getInEdges(\"" + associationName + "\")");
 		}
 		OJIfStatement ifStatement = new OJIfStatement("iter.iterator().hasNext()", "Edge edge = iter.iterator().next()");
 
@@ -183,15 +191,36 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		if (isComposite) {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"return (" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + TinkerAuditCreator.AUDIT
-							+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+					map.javaAuditBaseTypePath().getLast() + " instance = (" +map.javaAuditBaseTypePath().getLast()+")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 		} else {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"return (" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + TinkerAuditCreator.AUDIT
-							+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
+					map.javaAuditBaseTypePath().getLast() + " instance = (" +map.javaAuditBaseTypePath().getLast()+")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 		}
-
+		ojTryStatement.getTryPart().addToStatements(map.javaAuditBaseTypePath().getLast() + " previous = instance");
+		ojTryStatement.getTryPart().addToStatements("List<? extends "+map.javaAuditBaseTypePath().getLast()+"> nextAudits = instance.getNextAuditEntries()");
+		OJForStatement forStatement = new OJForStatement("nextAudit", map.javaAuditBaseTypePath(), "nextAudits");
+		ojTryStatement.getTryPart().addToStatements(forStatement);
+		OJIfStatement ifStatement2;
+		if (!isComposite) {
+			ifStatement2 = new OJIfStatement("nextAudit.getVertex().getOutEdges(\""+associationName+"\").iterator().hasNext()");
+			ifStatement2.addToThenPart("Edge nextEdge = nextAudit.getVertex().getOutEdges(\""+associationName+"\").iterator().next()");
+			ifStatement2.addToThenPart("Vertex oneVertex = nextEdge.getInVertex()");
+		} else {
+			ifStatement2 = new OJIfStatement("nextAudit.getVertex().getInEdges(\""+associationName+"\").iterator().hasNext()");
+			ifStatement2.addToThenPart("Edge nextEdge = nextAudit.getVertex().getInEdges(\""+associationName+"\").iterator().next()");
+			ifStatement2.addToThenPart("Vertex oneVertex = nextEdge.getOutVertex()");
+		}
+		
+		OJIfStatement ifStatement3 = new OJIfStatement("(Integer)oneVertex.getProperty(\"transactionNo\")<=transactionNo || TinkerFormatter.parse((String)nextEdge.getProperty(\"deletedOn\")).before(new Date())");
+		ifStatement3.addToThenPart("previous = null");
+		ifStatement2.addToThenPart(ifStatement3);
+		
+		ifStatement2.addToThenPart("break");
+		forStatement.getBody().addToStatements(ifStatement2);
+		forStatement.getBody().addToStatements("previous = nextAudit");
+		ojTryStatement.getTryPart().addToStatements("return previous");
+		
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 
@@ -201,15 +230,15 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 	}
 
 	private void buildGetAllAuditsForMany(NakedStructuralFeatureMap map, OJAnnotatedClass owner) {
-		NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(map.getProperty().getOtherEnd());
 		OJOperation getAllAuditsForMany = new OJOperation();
 		getAllAuditsForMany.setVisibility(OJVisibilityKind.PRIVATE);
 		getAllAuditsForMany.setName("getAllAuditsFor" + map.javaBaseTypePath().getLast());
 		getAllAuditsForMany.addParam("previous", owner.getPathName());
 		getAllAuditsForMany.addParam("audits", map.javaAuditTypePath());
+		getAllAuditsForMany.addParam("transactionNo", new OJPathName("int"));
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
-		ifStatement.addToThenPart("audits.addAll(previous.getAuditsFor" + map.javaAuditBaseTypePath().getLast() + "())");
-		ifStatement.addToThenPart("getAllAuditsFor" + map.javaBaseTypePath().getLast() + "(previous.getPreviousAuditEntry(), audits)");
+		ifStatement.addToThenPart("audits.addAll(previous.getAuditsFor" + NameConverter.capitalize(map.umlName()) + "(audits, transactionNo))");
+		ifStatement.addToThenPart("getAllAuditsFor" + map.javaBaseTypePath().getLast() + "(previous.getPreviousAuditEntry(), audits, transactionNo)");
 		getAllAuditsForMany.getBody().addToStatements(ifStatement);
 		owner.addToOperations(getAllAuditsForMany);
 	}
@@ -218,8 +247,13 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		owner.addToImports(TinkerUtil.tinkerFormatter);
 		owner.addToImports(new OJPathName("java.util.Date"));
 		OJOperation getAuditsForThisMany = new OJOperation();
+		getAuditsForThisMany.setVisibility(OJVisibilityKind.PRIVATE);
 		owner.addToOperations(getAuditsForThisMany);
-		getAuditsForThisMany.setName("getAuditsFor" + map.javaAuditBaseTypePath().getLast());
+		getAuditsForThisMany.setName("getAuditsFor" + NameConverter.capitalize(map.umlName()));
+		OJPathName param = new OJPathName("java.util.Set");
+		param.addToElementTypes(map.javaAuditBaseTypePath());
+		getAuditsForThisMany.addParam("audits", param);
+		getAuditsForThisMany.addParam("transactionNo", new OJPathName("int"));
 		getAuditsForThisMany.setReturnType(map.javaAuditTypePath());
 		OJField result = new OJField();
 		result.setType(map.javaAuditTypePath());
@@ -230,15 +264,16 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 
 		getAuditsForThisMany.getBody().addToLocals(result);
 		INakedClassifier manyClassifier = map.getProperty().getOtherEnd().getOwner();
-
+		
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
+		String asociationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			getAuditsForThisMany.getBody().addToStatements(
-					"Iterable<Edge> iter = this.vertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+					"Iterable<Edge> iter = this.vertex.getOutEdges(\"" + asociationName + "\")");
 		} else {
 			getAuditsForThisMany.getBody().addToStatements(
-					"Iterable<Edge> iter = this.vertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+					"Iterable<Edge> iter = this.vertex.getInEdges(\"" + asociationName + "\")");
 		}
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
 		forStatement.setName(POLYMORPHIC_GETTER_FOR_TO_MANY_FOR);
@@ -253,14 +288,41 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		if (isComposite) {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + TinkerAuditCreator.AUDIT
-							+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex()))");
+					map.javaAuditBaseTypePath().getLast() +  " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + TinkerAuditCreator.AUDIT
+							+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 		} else {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
 			ojTryStatement.getTryPart().addToStatements(
-					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + TinkerAuditCreator.AUDIT
-							+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex()))");
+					map.javaAuditBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs() + TinkerAuditCreator.AUDIT
+							+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 		}
+		
+		OJIfStatement ifStatement = new OJIfStatement("!audits.contains(instance)");
+		ojTryStatement.getTryPart().addToStatements(ifStatement);
+		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " previous = instance");
+		ifStatement.addToThenPart("List<? extends " + map.javaAuditBaseTypePath().getLast()+ "> nextAudits = instance.getNextAuditEntries()");
+		OJForStatement ojForStatement = new OJForStatement("nextAudit", map.javaAuditBaseTypePath(), "nextAudits");
+		
+		OJIfStatement ifStatement2;
+		if (!isComposite) { 
+			ifStatement2 = new OJIfStatement("nextAudit.getVertex().getOutEdges(\""+asociationName+"\").iterator().hasNext()");
+			ifStatement2.addToThenPart("Edge nextEdge = nextAudit.getVertex().getOutEdges(\""+asociationName+"\").iterator().next()");
+			ifStatement2.addToThenPart("Vertex oneVertex = nextEdge.getInVertex()");
+		} else {
+			ifStatement2 = new OJIfStatement("nextAudit.getVertex().getInEdges(\""+asociationName+"\").iterator().hasNext()");
+			ifStatement2.addToThenPart("Edge nextEdge = nextAudit.getVertex().getInEdges(\""+asociationName+"\").iterator().next()");
+			ifStatement2.addToThenPart("Vertex oneVertex = nextEdge.getOutVertex()");
+		}
+		
+		OJIfStatement ifStatement3 = new OJIfStatement("(Integer)oneVertex.getProperty(\"transactionNo\")<=transactionNo || TinkerFormatter.parse((String)nextEdge.getProperty(\"deletedOn\")).before(new Date())");
+		ifStatement3.addToThenPart("previous = null");
+		ifStatement2.addToThenPart(ifStatement3);
+		ifStatement2.addToThenPart("break");
+		ojForStatement.getBody().addToStatements(ifStatement2);
+		ifStatement.addToThenPart(ojForStatement);
+		ojForStatement.getBody().addToStatements("previous = nextAudit");
+		OJIfStatement ifStatement4 = new OJIfStatement("previous != null", "result.add(previous)");
+		ifStatement.addToThenPart(ifStatement4);
 
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
@@ -270,7 +332,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 	}
 
 	private void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
-		getter.getBody().addToStatements("return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(this)");
+		getter.getBody().addToStatements("return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(this, getTransactionNo())");
 	}
 
 	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter) {
@@ -282,16 +344,8 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		audits.setType(map.javaAuditTypePath());
 		audits.setInitExp(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 3) + TinkerAuditCreator.AUDIT + ">()");
 		getter.getBody().addToLocals(audits);
-		getter.getBody().addToStatements("getAllAuditsFor" + map.javaBaseTypePath().getLast() + "(this, allAudits)");
-		getter.getBody().addToStatements(
-				"Map<Long, " + map.javaAuditBaseTypePath().getLast() + "> map = new HashMap<Long," + map.javaAuditBaseTypePath().getLast() + ">()");
-		OJForStatement forStatement = new OJForStatement("tmpAudit", map.javaAuditBaseTypePath(), "allAudits");
-		forStatement.getBody().addToStatements(map.javaAuditBaseTypePath().getLast() + " tmp = map.get(TinkerUtil.getId(((TinkerNode)tmpAudit).getVertex()))");
-		OJIfStatement ifStatement = new OJIfStatement("tmp==null || TinkerUtil.getVersion(((TinkerNode)tmpAudit).getVertex())>TinkerUtil.getVersion(((TinkerNode)tmp).getVertex())");
-		ifStatement.addToThenPart("map.put(TinkerUtil.getId(((TinkerNode)tmpAudit).getVertex()), tmpAudit)");
-		forStatement.getBody().addToStatements(ifStatement);
-		getter.getBody().addToStatements(forStatement);
-		getter.getBody().addToStatements("return new HashSet<" + map.javaAuditBaseTypePath().getLast() + ">(map.values())");
+		getter.getBody().addToStatements("getAllAuditsFor" + map.javaBaseTypePath().getLast() + "(this, allAudits, getTransactionNo())");
+		getter.getBody().addToStatements("return allAudits");
 	}
 
 	private boolean calculateDirection(NakedStructuralFeatureMap map, boolean isComposite) {

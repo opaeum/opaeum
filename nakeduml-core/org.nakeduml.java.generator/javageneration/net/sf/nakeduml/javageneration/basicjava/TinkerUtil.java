@@ -22,6 +22,7 @@ public class TinkerUtil {
 	public static OJPathName transactionAuditThreadVar = new OJPathName("org.util.TransactionAuditThreadVar");
 	public static OJPathName transactionThreadEntityVar = new OJPathName("org.util.TransactionThreadEntityVar");
 	public static OJPathName graphDbPathName = new OJPathName("org.util.GraphDb");
+	public static OJPathName tinkerAuditNodePathName = new OJPathName("org.nakeduml.runtime.domain.TinkerAuditNode");
 	
 	public static String constructSelfToAuditEdgeLabel(INakedEntity entity) {
 		return "audit";

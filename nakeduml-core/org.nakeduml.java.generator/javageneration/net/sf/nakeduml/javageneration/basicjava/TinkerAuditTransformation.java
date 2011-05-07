@@ -39,6 +39,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.runtime.domain.TinkerAuditNode;
 import org.nakeduml.runtime.domain.TinkerAuditableNode;
 import org.nakeduml.runtime.domain.TinkerNode;
+import org.util.TinkerFormatter;
 
 public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
@@ -79,7 +80,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 				}
 				implementGetAudits(originalClass, c);
 				implementGetTransactionNo(ojAuditClass);
-//				addAuditToDeletedOnSetter(originalClass);
 				addGetUid(ojAuditClass);
 			} else {
 				if (c.getEndToComposite() != null) {
@@ -92,8 +92,10 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			}
 			if (!c.getIsAbstract()) {
 				implementGetPreviousAuditEntry(ojAuditClass);
+				implementGetNextAuditEntries(ojAuditClass);
 			} else {
 				implementAbstractGetPreviousAuditEntry(ojAuditClass);
+				implementAbstractGetNextAuditEntries(ojAuditClass);
 			}
 			if (!c.hasSupertype()) {
 				extendsBaseTinkerAuditable(originalClass);
@@ -104,24 +106,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			implementTinkerAuditNode(ojAuditClass);
 			implementIsTinkerRoot(ojAuditClass, c.getEndToComposite()==null);
 		}
-	}
-
-	private void extendsBaseTinkerAuditable(OJAnnotatedClass originalClass) {
-		originalClass.setSuperclass(new OJPathName(BASE_AUDIT_TINKER));
-	}
-
-	private void addGetUid(OJAnnotatedClass ojAuditClass) {
-		OJOperation getUid = new OJOperation();
-		getUid.setName("getUid");
-		getUid.setReturnType(new OJPathName("String"));
-		getUid.getBody().addToStatements("String uid = (String) this.vertex.getProperty(\"uid\")");
-		OJIfStatement ifStatement = new OJIfStatement("uid==null || uid.trim().length()==0");
-		ifStatement.addToThenPart("uid=UUID.randomUUID().toString()");
-		ifStatement.addToThenPart("this.vertex.setProperty(\"uid\", uid)");
-		getUid.getBody().addToStatements(ifStatement);
-		getUid.getBody().addToStatements("return uid");
-		ojAuditClass.addToOperations(getUid);
-		ojAuditClass.addToImports(new OJPathName("java.util.UUID"));
 	}
 
 	@VisitAfter(matchSubclasses = true)
@@ -158,6 +142,64 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			}
 		}
 	}
+	
+	private void implementAbstractGetNextAuditEntries(OJAnnotatedClass ojAuditClass) {
+		ojAuditClass.addToImports(TinkerUtil.edgePathName);
+		OJOperation getNextAuditEntries = new OJOperation();
+		getNextAuditEntries.setName("getNextAuditEntries");
+		OJPathName result = new OJPathName("java.util.List");
+		OJPathName elementType = new OJPathName(ojAuditClass.getPathName().toJavaString());
+		elementType.replaceTail("? extends " + ojAuditClass.getPathName().getLast());
+		result.addToElementTypes(elementType);
+		getNextAuditEntries.setReturnType(result);
+		getNextAuditEntries.setAbstract(true);
+		ojAuditClass.addToOperations(getNextAuditEntries);
+	}	
+	
+	private void implementGetNextAuditEntries(OJAnnotatedClass ojAuditClass) {
+		ojAuditClass.addToImports(TinkerUtil.edgePathName);
+		OJOperation getNextAuditEntries = new OJOperation();
+		getNextAuditEntries.setName("getNextAuditEntries");
+		OJPathName result = new OJPathName("java.util.List");
+		result.addToElementTypes(ojAuditClass.getPathName());
+		getNextAuditEntries.setReturnType(result);
+		getNextAuditEntries.getBody().addToStatements("List<"+ojAuditClass.getPathName().getLast()+"> result = new ArrayList<"+ojAuditClass.getPathName().getLast()+">()");
+		getNextAuditEntries.getBody().addToStatements("getNextAuditEntriesInternal(result)");
+		getNextAuditEntries.getBody().addToStatements("return result");
+		ojAuditClass.addToOperations(getNextAuditEntries);
+		ojAuditClass.addToImports(new OJPathName("java.util.ArrayList"));
+		ojAuditClass.addToImports(new OJPathName("java.util.Iterator"));
+		
+		OJOperation getNextAuditEntriesInternal = new OJOperation();
+		getNextAuditEntriesInternal.setName("getNextAuditEntriesInternal");
+		getNextAuditEntriesInternal.addParam("nextAudits", result);
+		getNextAuditEntriesInternal.getBody().addToStatements("Iterator<Edge> iter = this.vertex.getInEdges(\"previous\").iterator()");
+		
+		OJIfStatement ifStatement = new OJIfStatement("iter.hasNext()");
+		ifStatement.addToThenPart(ojAuditClass.getPathName().getLast() + " nextAudit = new "+ojAuditClass.getPathName().getLast()+"(iter.next().getOutVertex())");
+		ifStatement.addToThenPart("nextAudits.add(nextAudit)");
+		ifStatement.addToThenPart("nextAudit.getNextAuditEntriesInternal(nextAudits)");
+		getNextAuditEntriesInternal.getBody().addToStatements(ifStatement);
+		ojAuditClass.addToOperations(getNextAuditEntriesInternal);
+	}
+
+	private void extendsBaseTinkerAuditable(OJAnnotatedClass originalClass) {
+		originalClass.setSuperclass(new OJPathName(BASE_AUDIT_TINKER));
+	}
+
+	private void addGetUid(OJAnnotatedClass ojAuditClass) {
+		OJOperation getUid = new OJOperation();
+		getUid.setName("getUid");
+		getUid.setReturnType(new OJPathName("String"));
+		getUid.getBody().addToStatements("String uid = (String) this.vertex.getProperty(\"uid\")");
+		OJIfStatement ifStatement = new OJIfStatement("uid==null || uid.trim().length()==0");
+		ifStatement.addToThenPart("uid=UUID.randomUUID().toString()");
+		ifStatement.addToThenPart("this.vertex.setProperty(\"uid\", uid)");
+		getUid.getBody().addToStatements(ifStatement);
+		getUid.getBody().addToStatements("return uid");
+		ojAuditClass.addToOperations(getUid);
+		ojAuditClass.addToImports(new OJPathName("java.util.UUID"));
+	}	
 	
 	private void implementIsTinkerRoot(OJAnnotatedClass ojClass, boolean b) {
 		OJOperation isRoot = new OJOperation();
@@ -569,16 +611,18 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		OJIfStatement ifStatement1 = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
 		ifStatement1.addToThenPart("createAuditVertex(false)");
 		setter.getBody().getStatements().add(0, ifStatement1);
+		setter.getBody().getStatements().add(1, new OJSimpleStatement("Vertex edgeRemovedFromAuditVertex = null"));
 
 		OJIfStatement ifStatement2 = new OJIfStatement(map.getter() + "() != null && TransactionThreadVar.hasNoAuditEntry(" + map.getter()
 				+ "().getClass().getName() + " + map.getter() + "().getUid())");
 		ifStatement2.addToThenPart(map.getter() + "().createAuditVertex(false)");
-		setter.getBody().getStatements().add(1, ifStatement2);
+		ifStatement2.addToThenPart("edgeRemovedFromAuditVertex = "+map.getter()+"().getAuditVertex()");
+		setter.getBody().getStatements().add(2, ifStatement2);
 
 		OJIfStatement ifStatement3 = new OJIfStatement(map.umlName() + " != null && TransactionThreadVar.hasNoAuditEntry(" + map.umlName()
 				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
 		ifStatement3.addToThenPart(map.umlName() + ".createAuditVertex(false)");
-		setter.getBody().getStatements().add(2, ifStatement3);
+		setter.getBody().getStatements().add(3, ifStatement3);
 
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = TinkerAttributeImplementorStrategy.calculateDirection(map, isComposite);
@@ -593,6 +637,16 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 					+ map.getProperty().getAssociation().getName() + "\")");
 			ifStatement4.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifStatement4.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			
+			OJIfStatement ifStatement5 = new OJIfStatement("edgeRemovedFromAuditVertex != null");
+			ifStatement5.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, getAuditVertex(), edgeRemovedFromAuditVertex, \""
+					+ map.getProperty().getAssociation().getName() + "\")");
+			ifStatement5.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement5.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.javaBaseTypePath().getLast() + ".class.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement5.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+			
+			ifStatement4.addToElsePart(ifStatement5);
+			
 			setter.getBody().addToStatements(ifStatement4);
 		} else {
 			setter.getBody()
@@ -605,6 +659,17 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			ifStatement4
 					.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifStatement4.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+
+			OJIfStatement ifStatement5 = new OJIfStatement("edgeRemovedFromAuditVertex != null");
+			ifStatement5.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, edgeRemovedFromAuditVertex, getAuditVertex(),\""
+					+ map.getProperty().getAssociation().getName() + "\")");
+			ifStatement5
+					.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.javaBaseTypePath().getLast() + ".class.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement5.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement5.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+			
+			ifStatement4.addToElsePart(ifStatement5);
+
 			setter.getBody().addToStatements(ifStatement4);
 		}
 	}
@@ -633,6 +698,12 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		ifStatement.addToThenPart(ojTryStatement);
 		forStatement.getBody().addToStatements(ifStatement);
 		getAudits.getBody().addToStatements(forStatement);
+		
+		getAudits.getBody().addToStatements("Collections.sort(result,new Comparator<TinkerAuditNode>() {@Override public int compare(TinkerAuditNode o1, TinkerAuditNode o2) { return (o1.getTransactionNo()<o2.getTransactionNo() ? -1 : (o1.getTransactionNo()==o2.getTransactionNo() ? 0 : 1)); }})");
+		originalClass.addToImports(new OJPathName("java.util.Collections"));
+		originalClass.addToImports(new OJPathName("java.util.Comparator"));
+		originalClass.addToImports(TinkerUtil.tinkerAuditNodePathName);
+		
 		getAudits.getBody().addToStatements("return result");
 		originalClass.addToOperations(getAudits);
 	}
