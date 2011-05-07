@@ -51,8 +51,8 @@ public class TestDerivedUnion extends BaseLocalDbTest {
 		db.startTransaction();
 		monkeyHand.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(8, countVertices());
-		assertEquals(10, countEdges());
+		assertEquals(9, countVertices());
+		assertEquals(12, countEdges());
 	}
 	
 	@Test

@@ -45,6 +45,10 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lKUEkXTaEeCOMf4fwm4mqQ" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lKUEknTaEeCOMf4fwm4mqQ"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_ahFUMHiMEeCh4b4BK75SNw" name="otherOne" type="_YxtoUHiMEeCh4b4BK75SNw" aggregation="composite" association="_ahI-kHiMEeCh4b4BK75SNw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ahFUMXiMEeCh4b4BK75SNw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ahFUMniMEeCh4b4BK75SNw"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_8TIjMGt3EeCeEYXzpuVhrw" name="Finger">
       <ownedAttribute xmi:id="_Bf6xIGt4EeCeEYXzpuVhrw" name="name">
@@ -237,6 +241,27 @@
       <ownedEnd xmi:id="_lmj7sXTaEeCOMf4fwm4mqQ" name="class2" type="_bYvc0HTaEeCOMf4fwm4mqQ" association="_lmj7sHTaEeCOMf4fwm4mqQ">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lmj7snTaEeCOMf4fwm4mqQ" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lmj7s3TaEeCOMf4fwm4mqQ" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_YxtoUHiMEeCh4b4BK75SNw" name="OtherOne">
+      <ownedAttribute xmi:id="_dE9mMHiMEeCh4b4BK75SNw" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_ahI-kHiMEeCh4b4BK75SNw" name="A_&lt;hand>_&lt;otherOne>" memberEnd="_ahI-kXiMEeCh4b4BK75SNw _ahFUMHiMEeCh4b4BK75SNw" navigableOwnedEnd="_ahI-kXiMEeCh4b4BK75SNw">
+      <ownedEnd xmi:id="_ahI-kXiMEeCh4b4BK75SNw" name="hand" type="_7gBEMGt3EeCeEYXzpuVhrw" association="_ahI-kHiMEeCh4b4BK75SNw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ahI-kniMEeCh4b4BK75SNw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ahI-k3iMEeCh4b4BK75SNw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_rssEkHiMEeCh4b4BK75SNw" name="A_&lt;one>_&lt;otherOne>" memberEnd="_rssEkXiMEeCh4b4BK75SNw _rssElHiMEeCh4b4BK75SNw" navigableOwnedEnd="_rssEkXiMEeCh4b4BK75SNw _rssElHiMEeCh4b4BK75SNw">
+      <ownedEnd xmi:id="_rssEkXiMEeCh4b4BK75SNw" name="one" type="_Z6XaUHTaEeCOMf4fwm4mqQ" association="_rssEkHiMEeCh4b4BK75SNw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rssEkniMEeCh4b4BK75SNw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rssEk3iMEeCh4b4BK75SNw" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_rssElHiMEeCh4b4BK75SNw" name="otherOne" type="_YxtoUHiMEeCh4b4BK75SNw" association="_rssEkHiMEeCh4b4BK75SNw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_rssElXiMEeCh4b4BK75SNw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_rssElniMEeCh4b4BK75SNw"/>
       </ownedEnd>
     </packagedElement>
   </packagedElement>

@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Arrays;
-import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
@@ -61,7 +60,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 				addVertexFieldWithSetter(ojAuditClass);
 				addCreateEdgeToOne(originalClass);
 				addCreateAuditVertex(originalClass, c);
-				addAttachToOnesAlreadyCaptured(originalClass);
 				if (c.getEndToComposite()!=null) {
 					addCreateEdgeToCompositeOwner(originalClass, c);
 				} else {
@@ -167,20 +165,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		isRoot.setReturnType(new OJPathName("boolean"));
 		isRoot.getBody().addToStatements("return " + b);
 		ojClass.addToOperations(isRoot);
-	}
-
-	private void addAuditToDeletedOnSetter(OJAnnotatedClass originalClass) {
-		OJOperation deletedOn = new OJOperation();
-		deletedOn.setName("setDeletedOn");
-		deletedOn.addParam("deletedOn", new OJPathName("java.util.Date"));
-		deletedOn.getBody().addToStatements("super.setDeletedOn(deletedOn)");
-		OJIfStatement ifStatement = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
-		ifStatement.addToThenPart("createAuditVertex(false)");
-		deletedOn.getBody().addToStatements(ifStatement);
-		deletedOn.getBody()
-				.addToStatements(
-						"getAuditVertex().setProperty(\"deletedOn\", TinkerFormatter.format(deletedOn))");
-		originalClass.addToOperations(deletedOn);
 	}
 
 	private void implementAbstractAddEdgeToCompositeOwner(OJAnnotatedClass ojAuditClass) {
@@ -322,12 +306,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		getPreviousAuditEntry.getBody().addToStatements(forStatement);
 		getPreviousAuditEntry.getBody().addToStatements("return null");
 		ojAuditClass.addToOperations(getPreviousAuditEntry);
-	}
-
-	private void initialiseAuditVertexConstructorWithOwningObject(INakedEntity c, OJAnnotatedClass originalClass) {
-		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
-		OJConstructor constructor = originalClass.findConstructor(compositeEndMap.javaBaseTypePath());
-		constructor.getBody().addToStatements("createAuditVertex(true)");
 	}
 
 	private void addCreateEdgeToPreviousAudit(OJAnnotatedClass originalClass) {
@@ -672,79 +650,9 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			createAuditVertex.getBody().addToStatements("addEdgeToCompositeOwner(createParentVertex)");
 		}
 		createAuditVertex.getBody().addToStatements("createEdgeToPreviousAudit()");
-		createAuditVertex.getBody().addToStatements("addAttachToOnesAlreadyCaptured()");
-		List<? extends INakedProperty> properties = entity.getEffectiveAttributes();
-		for (INakedProperty p : properties) {
-			if (p != entity.getEndToComposite()
-					&& (p.getOtherEnd() != null && p.getOtherEnd().isNavigable() && !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly())
-							&& !p.getOtherEnd().isComposite() && p.getOtherEnd().getType() != entity)) {
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-				if (map.isOneToOne() || (map.isManyToOne() && map.getProperty().getSubsettedProperties().isEmpty())) {
-					boolean isComposite = map.getProperty().isComposite();
-					isComposite = TinkerAttributeImplementorStrategy.calculateDirection(map, isComposite);
-					OJIfStatement ifStatement = new OJIfStatement(map.getter() + "() != null && " + map.getter() + "().getMostRecentAuditVertex() != null");
-					ifStatement.addToThenPart("createEdgeToOne(" + map.getter() + "().getMostRecentAuditVertex(), " + isComposite + ", " + map.getter()
-							+ "().getClass(),\"" + map.getProperty().getAssociation().getName() + "\")");
-					createAuditVertex.getBody().addToStatements(ifStatement);
-				}
-			}
-		}
 		createAuditVertex.getBody().addToStatements("TransactionAuditThreadVar.addVertex(getAuditVertex())");
 		ojClass.addToImports(TinkerUtil.transactionAuditThreadVar);
 		ojClass.addToOperations(createAuditVertex);
-	}
-
-	private void addAttachToOnesAlreadyCaptured(OJAnnotatedClass ojClass) {
-		ojClass.addToImports(new OJPathName("java.util.Set"));
-		ojClass.addToImports(TinkerUtil.graphDbPathName);
-		OJOperation oper = new OJOperation();
-		oper.setName("addAttachToOnesAlreadyCaptured");
-		oper.setVisibility(OJVisibilityKind.PRIVATE);
-		oper.getBody().addToStatements("Set<Vertex> auditVertices = TransactionAuditThreadVar.get()");
-		oper.getBody().addToStatements("Iterable<Edge> iter = getAuditVertex().getOutEdges(\"previous\")");
-		OJIfStatement ifStatement = new OJIfStatement("iter.iterator().hasNext()");
-		ifStatement.addToThenPart("Vertex previous = iter.iterator().next().getInVertex()");
-
-		OJForStatement forStatement1 = new OJForStatement("transactionHeldAuditVertex", TinkerUtil.vertexPathName, "auditVertices");
-		forStatement1.getBody().addToStatements("List<Edge> inEdgesToAndAndRemove = new ArrayList<Edge>()");
-		forStatement1.getBody().addToStatements("List<Edge> outEdgesToAndAndRemove = new ArrayList<Edge>()");
-
-		OJForStatement forStatement21 = new OJForStatement("edge", TinkerUtil.edgePathName, "transactionHeldAuditVertex.getInEdges()");
-		forStatement1.getBody().addToStatements(forStatement21);
-		OJIfStatement ifStatement21 = new OJIfStatement("edge.getOutVertex().equals(previous)");
-		ifStatement21.addToThenPart("inEdgesToAndAndRemove.add(edge)");
-		forStatement21.getBody().addToStatements(ifStatement21);
-
-		OJForStatement forStatement22 = new OJForStatement("edge", TinkerUtil.edgePathName, "transactionHeldAuditVertex.getOutEdges()");
-		forStatement1.getBody().addToStatements(forStatement22);
-		OJIfStatement ifStatement22 = new OJIfStatement("edge.getInVertex().equals(previous)");
-		ifStatement22.addToThenPart("outEdgesToAndAndRemove.add(edge)");
-		forStatement22.getBody().addToStatements(ifStatement22);
-
-		OJForStatement forStatement3 = new OJForStatement("edge", TinkerUtil.edgePathName, "inEdgesToAndAndRemove");
-		forStatement3.getBody().addToStatements("GraphDb.getDB().removeEdge(edge)");
-		forStatement1.getBody().addToStatements(forStatement3);
-		OJForStatement forStatement31 = new OJForStatement("edge", TinkerUtil.edgePathName, "outEdgesToAndAndRemove");
-		forStatement31.getBody().addToStatements("GraphDb.getDB().removeEdge(edge)");
-		forStatement1.getBody().addToStatements(forStatement31);
-		
-		OJForStatement forStatement4 = new OJForStatement("edge", TinkerUtil.edgePathName, "inEdgesToAndAndRemove");
-		forStatement4.getBody().addToStatements(
-				"Edge newAuditEdge = GraphDb.getDB().addEdge(null, getAuditVertex(), transactionHeldAuditVertex, edge.getLabel())");
-		forStatement4.getBody().addToStatements("newAuditEdge.setProperty(\"outClass\", edge.getProperty(\"outClass\"))");
-		forStatement4.getBody().addToStatements("newAuditEdge.setProperty(\"inClass\", edge.getProperty(\"inClass\"))");
-		forStatement1.getBody().addToStatements(forStatement4);
-
-		OJForStatement forStatement41 = new OJForStatement("edge", TinkerUtil.edgePathName, "outEdgesToAndAndRemove");
-		forStatement41.getBody().addToStatements(
-				"Edge newAuditEdge = GraphDb.getDB().addEdge(null, transactionHeldAuditVertex, getAuditVertex(), edge.getLabel())");
-		forStatement41.getBody().addToStatements("newAuditEdge.setProperty(\"outClass\", edge.getProperty(\"outClass\"))");
-		forStatement41.getBody().addToStatements("newAuditEdge.setProperty(\"inClass\", edge.getProperty(\"inClass\"))");
-		forStatement1.getBody().addToStatements(forStatement41);
-
-		ifStatement.addToThenPart(forStatement1);
-		oper.getBody().addToStatements(ifStatement);
-		ojClass.addToOperations(oper);
 	}
 
 	private void addContructorWithVertex(OJAnnotatedClass ojClass, INakedEntity c) {
