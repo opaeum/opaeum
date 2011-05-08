@@ -8,5 +8,5 @@ package org.nakeduml.uim.folderdiagram;
  * 
  * @generated
  */
-public interface UIMFEdgeObjectConstants {
+public interface UIMFEdgeObjectConstants{
 }

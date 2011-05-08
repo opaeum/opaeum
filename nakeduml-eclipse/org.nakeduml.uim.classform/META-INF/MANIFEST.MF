@@ -29,3 +29,5 @@ Eclipse-LazyStart: true
 Export-Package: org.nakeduml.uim.editparts,
  org.nakeduml.uim.figures,
  org.nakeduml.uim.layouts
+Bundle-ClassPath: lib/jide-oss-3.0.2.jar,
+ .

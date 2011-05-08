@@ -29,6 +29,7 @@ import org.nakeduml.uim.figures.controls.UIMPopupFigure;
 import org.nakeduml.uim.figures.controls.UIMTextAreaFigure;
 import org.nakeduml.uim.figures.controls.UIMTextFigure;
 import org.nakeduml.uim.figures.controls.UIMToggleButtonFigure;
+import org.nakeduml.uim.figures.controls.UIMTreeFigure;
 import org.topcased.modeler.di.model.GraphNode;
 
 public class AbstractUIMFieldEditPart extends BoundEditPart {
@@ -107,8 +108,12 @@ public class AbstractUIMFieldEditPart extends BoundEditPart {
 		} else if (control instanceof UIMNumberScroller) {
 			figure.setControl(new UIMNumberScrollerFigure());
 		} else if (control instanceof UIMMultiSelectListBox
-				|| control instanceof UIMMultiSelectTreeView) {
+				) {
 			figure.setControl(new UIMMultiSelectFigure());
+			figure.setMinimumSize(new Dimension(figure.getMinimumSize().width,
+					80));
+		} else if ( control instanceof UIMMultiSelectTreeView) {
+			figure.setControl(new UIMTreeFigure());
 			figure.setMinimumSize(new Dimension(figure.getMinimumSize().width,
 					80));
 		}

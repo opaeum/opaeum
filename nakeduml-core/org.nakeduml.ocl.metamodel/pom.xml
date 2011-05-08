@@ -12,7 +12,7 @@
 	<artifactId>nakeduml-ocl-metamodel</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML OCL Metamodel</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>Metamodel and linkage logic for OCL</description>
 	<url>http://github.com/nakeduml</url>
 	<build>

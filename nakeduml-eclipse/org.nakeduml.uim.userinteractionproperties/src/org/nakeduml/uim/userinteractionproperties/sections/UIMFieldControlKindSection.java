@@ -7,6 +7,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.uim.ControlKind;
+import org.nakeduml.uim.FieldBinding;
 import org.nakeduml.uim.UIMControl;
 import org.nakeduml.uim.UIMField;
 import org.nakeduml.uim.UIMPackage;
@@ -50,8 +51,14 @@ public class UIMFieldControlKindSection extends AbstractEnumerationPropertySecti
 	 * @generated
 	 */
 	protected String[] getEnumerationFeatureValues(){
-		TypedElement typedElement = UimUtil.getResultingType(((UIMField) getEObject()).getBinding());
-		ControlKind[] cks = ControlUtil.getAllowedControlKinds(typedElement);
+		FieldBinding binding = ((UIMField) getEObject()).getBinding();
+		ControlKind[] cks = ControlKind.values();
+		if(binding != null){
+			TypedElement typedElement = UimUtil.getResultingType(binding);
+			if(typedElement.getType() != null){
+				cks = ControlUtil.getAllowedControlKinds(typedElement);
+			}
+		}
 		String[] result = new String[cks.length];
 		for(int i = 0;i < result.length;i++){
 			result[i] = cks[i].getName();

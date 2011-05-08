@@ -10,6 +10,5 @@ import org.topcased.modeler.figures.DiagramFigure;
  *
  * @generated
  */
-public class UIMFDiagramFigure extends DiagramFigure {
-
+public class UIMFDiagramFigure extends DiagramFigure{
 }
