@@ -2,6 +2,10 @@ package org.tinker.tinkerbug;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -11,18 +15,18 @@ public class TestTinkerEdgeDeletion {
 	
 	private Graph db;
 	
-//	@Before
+	@Before
 	public void before() {
-		db = new Neo4jGraph("memory:test");
+		db = new Neo4jGraph("/tmp/neo4jtest");
 		db.clear();
 	}
 
-//	@After
+	@After
 	public void after() {
 		db.shutdown();
 	}
 	
-//	@Test
+	@Test
 	public void testTinkerBug() {
 		Vertex one1 = db.addVertex(null);
 		Vertex one2 = db.addVertex(null);
