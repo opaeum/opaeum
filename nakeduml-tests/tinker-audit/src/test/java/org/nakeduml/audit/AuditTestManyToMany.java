@@ -118,7 +118,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA1.removeFromManyB(manyB1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(12, countVertices());
-			assertEquals(24, countEdges());
+			assertEquals(25, countEdges());
 		}
 		
 		@Test
@@ -130,8 +130,6 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA1.setName("manyA1");
 			ManyA manyA2 = new ManyA(hand);
 			manyA2.setName("manyA2");
-			Set<ManyA> manyAs = new HashSet<ManyA>();
-			manyAs.add(manyA1);
 			ManyB manyB1 = new ManyB(hand);
 			manyB1.setName("manyB1");
 			ManyB manyB2 = new ManyB(hand);
@@ -142,11 +140,13 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			assertEquals(10, countVertices());
 			assertEquals(17, countEdges());
 			db.startTransaction();
+			Set<ManyA> manyAs = new HashSet<ManyA>();
+			manyAs.add(manyA1);
 			manyB1.setManyA(manyAs);
 			manyB2.setManyA(manyAs);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(14, countVertices());
-			assertEquals(27, countEdges());
+			assertEquals(29, countEdges());
 		}
 		
 		@Test
@@ -172,5 +172,70 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			assertEquals(8, countVertices());
 			assertEquals(13, countEdges());
 		}
+		
+		@Test
+		public void testSimpleManyToManyRemoval() {
+			db.startTransaction();
+			Hand hand = new Hand();
+			hand.setName("hand");
+			ManyA manyA = new ManyA(hand);
+			manyA.setName("manyA");
+			ManyB manyB = new ManyB(hand);
+			manyB.setName("manyB");
+			manyA.addToManyB(manyB);
+			db.stopTransaction(Conclusion.SUCCESS);
+			assertEquals(6, countVertices());
+			assertEquals(9, countEdges());
+			db.startTransaction();
+			manyA.removeFromManyB(manyB);
+			db.stopTransaction(Conclusion.SUCCESS);
+			assertEquals(8, countVertices());
+			assertEquals(13, countEdges());
+		}
+		
+		@Test
+		public void testSimpleManyToManyRemovalViaSet() {
+			db.startTransaction();
+			Hand hand = new Hand();
+			hand.setName("hand");
+			ManyA manyA = new ManyA(hand);
+			manyA.setName("manyA");
+			ManyB manyB = new ManyB(hand);
+			manyB.setName("manyB");
+			manyA.addToManyB(manyB);
+			db.stopTransaction(Conclusion.SUCCESS);
+			assertEquals(6, countVertices());
+			assertEquals(9, countEdges());
+			db.startTransaction();
+			ManyB manyB2 = new ManyB(hand);
+			manyB2.setName("manyB2");
+			Set<ManyB> manyBs = new  HashSet<ManyB>();
+			manyBs.add(manyB2);
+			manyA.setManyB(manyBs);
+			db.stopTransaction(Conclusion.SUCCESS);
+			assertEquals(11, countVertices());
+			assertEquals(20, countEdges());
+		}	
+		
+		@Test
+		public void testSimpleManyToManySetNull() {
+			db.startTransaction();
+			Hand hand = new Hand();
+			hand.setName("hand");
+			ManyA manyA = new ManyA(hand);
+			manyA.setName("manyA");
+			ManyB manyB = new ManyB(hand);
+			manyB.setName("manyB");
+			manyA.addToManyB(manyB);
+			db.stopTransaction(Conclusion.SUCCESS);
+			assertEquals(6, countVertices());
+			assertEquals(9, countEdges());
+			db.startTransaction();
+			manyA.setManyB(null);
+			db.stopTransaction(Conclusion.SUCCESS);
+			assertEquals(8, countVertices());
+			assertEquals(13, countEdges());
+		}		
+		
 		
 }

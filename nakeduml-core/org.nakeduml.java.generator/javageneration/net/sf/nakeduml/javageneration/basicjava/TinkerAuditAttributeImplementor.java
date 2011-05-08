@@ -170,7 +170,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		owner.addToImports(defaultValue);
 
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		String associationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			getAuditsForThisOne.getBody().addToStatements(
@@ -266,7 +266,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		INakedClassifier manyClassifier = map.getProperty().getOtherEnd().getOwner();
 		
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		String asociationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			getAuditsForThisMany.getBody().addToStatements(
@@ -346,17 +346,6 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		getter.getBody().addToLocals(audits);
 		getter.getBody().addToStatements("getAllAuditsFor" + map.javaBaseTypePath().getLast() + "(this, allAudits, getTransactionNo())");
 		getter.getBody().addToStatements("return allAudits");
-	}
-
-	private boolean calculateDirection(NakedStructuralFeatureMap map, boolean isComposite) {
-		if (map.isOneToOne() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
-			isComposite = map.getProperty().getMultiplicity().getLower() == 1 && map.getProperty().getMultiplicity().getUpper() == 1;
-		} else if (map.isOneToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
-			isComposite = map.getProperty().getMultiplicity().getUpper() > 1;
-		} else if (map.isManyToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
-			isComposite = 0 > map.getProperty().getName().compareTo(map.getProperty().getOtherEnd().getName());
-		}
-		return isComposite;
 	}
 
 }

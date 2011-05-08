@@ -469,18 +469,18 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 	}
 
 	private OJOperation buildRemover(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
-		OJOperation adder = owner.findOperation(map.remover(), Arrays.asList(map.javaBaseTypePath()));
+		OJOperation remover = owner.findOperation(map.remover(), Arrays.asList(map.javaBaseTypePath()));
 		INakedProperty p = map.getProperty();
 		if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable() && !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly())) {
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 			if (otherMap.isMany()) {
-				buildManyRemover(map, otherMap, adder);
+				buildManyRemover(map, otherMap, remover);
 			} else {
 			}
 		} else {
 		}
-		owner.addToOperations(adder);
-		return adder;
+		owner.addToOperations(remover);
+		return remover;
 	}
 
 	private void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
@@ -492,6 +492,21 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
 		ifStatement2.addToThenPart(map.umlName() + ".createAuditVertex(false)");
 		forStatement.getBody().addToStatements(ifStatement2);
+		
+		boolean isComposite = map.getProperty().isComposite();
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		forStatement.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveIn = new "+map.javaBaseTypePath().getLast()+"(edge.getInVertex())");
+		forStatement.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveOut = new "+map.javaBaseTypePath().getLast()+"(edge.getOutVertex())");
+		forStatement.getBody().addToStatements("Edge auditEdge = GraphDb.getDB().addEdge(null, manyToRemoveOut.getAuditVertex(), manyToRemoveIn.getAuditVertex(),\""+map.getProperty().getAssociation().getName()+"\")");
+		if (isComposite) {
+			forStatement.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
+			forStatement.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
+		} else {
+			forStatement.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
+			forStatement.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
+		}
+		forStatement.getBody().addToStatements("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+
 	}
 
 	private OJOperation buildAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
@@ -606,7 +621,24 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		OJIfStatement ifStatement = new OJIfStatement("!edgesToRemove.isEmpty() && TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())",
 				"createAuditVertex(false)");
 		setter.getBody().getStatements().add(setter.getBody().getStatements().indexOf(collectEdges) + 1, ifStatement);
+		
+		OJForStatement removeEdges = (OJForStatement) setter.getBody().findStatement(TinkerAttributeImplementorStrategy.TINKER_MANY_TO_MANY_SETTER_REMOVE_EDGES);
 
+		removeEdges.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveIn = new "+map.javaBaseTypePath().getLast()+"(edge.getInVertex())");
+		removeEdges.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveOut = new "+map.javaBaseTypePath().getLast()+"(edge.getOutVertex())");
+		removeEdges.getBody().addToStatements("Edge auditEdge = GraphDb.getDB().addEdge(null, manyToRemoveOut.getAuditVertex(), manyToRemoveIn.getAuditVertex(),\""+map.getProperty().getAssociation().getName()+"\")");
+		NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(map.getProperty().getOtherEnd());
+		if (isComposite) {
+			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
+			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
+		} else {
+			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
+			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
+		}
+		removeEdges.getBody().addToStatements("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+		
+		
+		
 	}
 
 	private void addAuditToToOneSetter(INakedClassifier umlOwner, OJAnnotatedClass originalClass, NakedStructuralFeatureMap map) {

@@ -281,10 +281,12 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		removeFor.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(edge)");
 		setter.getBody().addToStatements(removeFor);
 
+		OJIfStatement ifNotNull = new OJIfStatement(map.umlName() + " != null");
 		OJForStatement forAdding = new OJForStatement("o", map.javaBaseTypePath(), map.umlName());
 		forAdding.setName(TINKER_MANY_TO_MANY_SETTER_FOR_ADDING);
 		forAdding.getBody().addToStatements(map.adder() + "(o)");
-		setter.getBody().addToStatements(forAdding);
+		ifNotNull.addToThenPart(forAdding);
+		setter.getBody().addToStatements(ifNotNull);
 	}
 
 	@Override

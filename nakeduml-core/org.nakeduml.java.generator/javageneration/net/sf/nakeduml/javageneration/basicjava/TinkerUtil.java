@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 
 import org.nakeduml.java.metamodel.OJPathName;
@@ -35,6 +36,17 @@ public class TinkerUtil {
 	
 	public static int getVersion(Vertex vertex) {
 		return ((OrientVertex)vertex).getRawElement().getVersion();
+	}
+	
+	public static boolean calculateDirection(NakedStructuralFeatureMap map, boolean isComposite) {
+		if (map.isOneToOne() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
+			isComposite = map.getProperty().getMultiplicity().getLower() == 1 && map.getProperty().getMultiplicity().getUpper() == 1;
+		} else if (map.isOneToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
+			isComposite = map.getProperty().getMultiplicity().getUpper() > 1;
+		} else if (map.isManyToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
+			isComposite = 0 > map.getProperty().getName().compareTo(map.getProperty().getOtherEnd().getName());
+		}
+		return isComposite;
 	}
 	
 }
