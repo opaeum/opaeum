@@ -113,11 +113,11 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		hand1.setGlove(glove2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(16, countEdges());
+		assertEquals(18, countEdges());
 		db.startTransaction();
 		hand2.setGlove(glove1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(22, countEdges());
+		assertEquals(24, countEdges());
 	}	
 }

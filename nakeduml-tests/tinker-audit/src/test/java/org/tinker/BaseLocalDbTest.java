@@ -6,6 +6,7 @@ import org.util.DbListener;
 import org.util.GraphDb;
 import org.util.Neo4jTransactionEventHandler;
 
+import com.orientechnologies.orient.core.config.OGlobalConfiguration;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph;
@@ -38,6 +39,7 @@ public class BaseLocalDbTest {
 		case ORIENT:
 			db = new OrientGraph("local:/tmp/orientdbtest1");
 			db.clear();
+			OGlobalConfiguration.TX_USE_LOG.setValue(false);
 			db.setTransactionMode(Mode.MANUAL);
 			((OrientGraph)db).getRawGraph().registerListener(new DbListener());
 			GraphDb.setDB(db);

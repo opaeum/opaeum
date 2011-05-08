@@ -66,7 +66,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		universe1.setSpaceTime(spaceTime2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(26, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime2", universe1.getSpaceTime().getName());
 		assertNull(spaceTime1.getUniverse());
@@ -75,7 +75,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		spaceTime1.setUniverse(universe1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(32, countEdges());
+		assertEquals(34, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime1", universe1.getSpaceTime().getName());
 		assertNull(spaceTime2.getUniverse());
@@ -86,7 +86,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		universe1.setSpaceTime(null);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(23, countVertices());
-		assertEquals(35, countEdges());
+		assertEquals(38, countEdges());
 		assertNull(universe1.getSpaceTime());
 		assertNull(spaceTime2.getUniverse());
 		
@@ -97,7 +97,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		universe2.setSpaceTime(spaceTime2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(29, countVertices());
-		assertEquals(51, countEdges());
+		assertEquals(53, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertNotNull(universe2.getSpaceTime());
 		assertEquals("spaceTime1",universe1.getSpaceTime().getName());
@@ -110,7 +110,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		universe2.setSpaceTime(spaceTime1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(33, countVertices());
-		assertEquals(61, countEdges());
+		assertEquals(65, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertNotNull(universe2.getSpaceTime());
 		assertEquals("spaceTime2",universe1.getSpaceTime().getName());

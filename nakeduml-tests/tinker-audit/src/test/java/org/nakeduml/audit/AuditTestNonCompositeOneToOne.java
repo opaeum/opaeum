@@ -111,7 +111,7 @@ public class AuditTestNonCompositeOneToOne extends BaseLocalDbTest {
 		one1.setOtherOne(otherOne2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(32, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
@@ -126,7 +126,7 @@ public class AuditTestNonCompositeOneToOne extends BaseLocalDbTest {
 		hand1.removeFromOtherOne(otherOne1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(19, countVertices());
-		assertEquals(35, countEdges());
+		assertEquals(36, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();

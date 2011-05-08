@@ -97,7 +97,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		assertEquals(0, concreteX1.getAbstractY1().size());
 		assertEquals(4, concreteX2.getAbstractY1().size());
 		assertEquals(21, countVertices());
-		assertEquals(37, countEdges());
+		assertEquals(41, countEdges());
 		
 		db.startTransaction();
 		God otherGod = new God();
@@ -105,7 +105,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteX2.setGod(otherGod);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(25, countVertices());
-		assertEquals(43, countEdges());
+		assertEquals(48, countEdges());
 		assertEquals("THEGOD", concreteX1.getGod().getName());
 		assertEquals("OTHERGOD", concreteX2.getGod().getName());
 		assertEquals("OTHERGOD", concreteY11.getAbstractX1().getGod().getName());
@@ -119,12 +119,12 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		assertEquals(4, concreteX1.getAbstractY1().size());
 		assertEquals(0, concreteX2.getAbstractY1().size());
 		assertEquals(31, countVertices());
-		assertEquals(59, countEdges());
+		assertEquals(68, countEdges());
 		db.startTransaction();
 		concreteX1.setGod(otherGod);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(34, countVertices());
-		assertEquals(66, countEdges());
+		assertEquals(76, countEdges());
 		assertEquals("OTHERGOD", concreteX1.getGod().getName());
 		assertEquals("OTHERGOD", concreteX2.getGod().getName());
 		assertEquals("OTHERGOD", concreteY11.getAbstractX1().getGod().getName());
@@ -149,7 +149,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteX2.setAbstractY1(y1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(43, countVertices());
-		assertEquals(80, countEdges());
+		assertEquals(90, countEdges());
 		assertEquals(4, concreteX1.getAbstractY1().size());
 		assertEquals(4, concreteX2.getAbstractY1().size());
 		
@@ -159,7 +159,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		assertEquals(4, concreteX1.getAbstractY1().size());
 		assertEquals(0, concreteX2.getAbstractY1().size());
 		assertEquals(53, countVertices());
-		assertEquals(100, countEdges());
+		assertEquals(118, countEdges());
 	}
 	
 	@Test

@@ -129,7 +129,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		finger2.setHand(hand1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(18, countEdges());		
+		assertEquals(20, countEdges());		
 	}
 	
 	@Test
@@ -150,7 +150,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		finger1.setHand(hand2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(15, countEdges());
+		assertEquals(16, countEdges());
 		assertEquals(2, hand2.getFinger().size());
 		assertEquals(0, hand1.getFinger().size());
 	}

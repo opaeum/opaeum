@@ -54,7 +54,7 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 		human.setSpirit(spook);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(36, countEdges());
+		assertEquals(38, countEdges());
 		assertEquals("spook", human.getSpirit().getName()); 
 	}
 	
@@ -90,12 +90,12 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 		human.setSpirit(spook);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(36, countEdges());
+		assertEquals(38, countEdges());
 		assertEquals("spook", human.getSpirit().getName()); 
 		db.startTransaction();
 		human.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(38, countEdges());
+		assertEquals(40, countEdges());
 	}	
 }

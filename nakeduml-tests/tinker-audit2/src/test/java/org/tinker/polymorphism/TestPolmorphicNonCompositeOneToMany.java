@@ -53,7 +53,7 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteX2.addAllToAbstractA1(concreteA1s);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(35, countEdges());
+		assertEquals(37, countEdges());
 		assertEquals(0, concreteX1.getAbstractA1().size());
 		assertEquals(2, concreteX2.getAbstractA1().size());
 		

@@ -2,6 +2,7 @@ package org.util;
 
 import org.neo4j.graphdb.Node;
 
+import com.orientechnologies.orient.core.db.graph.OGraphDatabase;
 import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
@@ -66,5 +67,14 @@ public class GraphDb {
 			throw new IllegalArgumentException("graph of  type " + getDB().getClass().getName() + " not yet supported!");
 		}
 	}
+	
+	public static OrientGraph getOrientGraph() {
+		return (OrientGraph)getDB();
+	}
+	
+	public static OGraphDatabase getRawGraph() {
+		return getOrientGraph().getRawGraph();
+	}
+	
 
 }

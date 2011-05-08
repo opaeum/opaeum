@@ -179,11 +179,11 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 			getAuditsForThisOne.getBody().addToStatements(
 					"Iterable<Edge> iter = this.vertex.getInEdges(\"" + associationName + "\")");
 		}
-		OJIfStatement ifStatement = new OJIfStatement("iter.iterator().hasNext()", "Edge edge = iter.iterator().next()");
-
+//		OJIfStatement ifStatement = new OJIfStatement("iter.iterator().hasNext()", "Edge edge = iter.iterator().next()");
+		OJForStatement forEdges = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
 		OJIfStatement ifNotDeleted = new OJIfStatement(
 				"edge.getProperty(\"deletedOn\")==null || TinkerFormatter.parse((String) edge.getProperty(\"deletedOn\")).after(new Date())");
-		ifStatement.addToThenPart(ifNotDeleted);
+		forEdges.getBody().addToStatements(ifNotDeleted);
 
 		OJTryStatement ojTryStatement = new OJTryStatement();
 		ojTryStatement.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
@@ -198,8 +198,8 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 					map.javaAuditBaseTypePath().getLast() + " instance = (" +map.javaAuditBaseTypePath().getLast()+")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 		}
 		ojTryStatement.getTryPart().addToStatements(map.javaAuditBaseTypePath().getLast() + " previous = instance");
-		ojTryStatement.getTryPart().addToStatements("List<? extends "+map.javaAuditBaseTypePath().getLast()+"> nextAudits = instance.getNextAuditEntries()");
-		OJForStatement forStatement = new OJForStatement("nextAudit", map.javaAuditBaseTypePath(), "nextAudits");
+		ojTryStatement.getTryPart().addToStatements("List<? extends TinkerAuditNode> nextAudits = instance.getNextAuditEntries()");
+		OJForStatement forStatement = new OJForStatement("nextAudit", TinkerUtil.tinkerAuditNodePathName, "nextAudits");
 		ojTryStatement.getTryPart().addToStatements(forStatement);
 		OJIfStatement ifStatement2;
 		if (!isComposite) {
@@ -218,13 +218,13 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		
 		ifStatement2.addToThenPart("break");
 		forStatement.getBody().addToStatements(ifStatement2);
-		forStatement.getBody().addToStatements("previous = nextAudit");
+		forStatement.getBody().addToStatements("previous = ("+map.javaAuditBaseTypePath().getLast()+")nextAudit");
 		ojTryStatement.getTryPart().addToStatements("return previous");
 		
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 
-		getAuditsForThisOne.getBody().addToStatements(ifStatement);
+		getAuditsForThisOne.getBody().addToStatements(forEdges);
 		getAuditsForThisOne.getBody().addToStatements("return null");
 
 	}
@@ -300,8 +300,8 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		OJIfStatement ifStatement = new OJIfStatement("!audits.contains(instance)");
 		ojTryStatement.getTryPart().addToStatements(ifStatement);
 		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " previous = instance");
-		ifStatement.addToThenPart("List<? extends " + map.javaAuditBaseTypePath().getLast()+ "> nextAudits = instance.getNextAuditEntries()");
-		OJForStatement ojForStatement = new OJForStatement("nextAudit", map.javaAuditBaseTypePath(), "nextAudits");
+		ifStatement.addToThenPart("List<? extends TinkerAuditNode> nextAudits = instance.getNextAuditEntries()");
+		OJForStatement ojForStatement = new OJForStatement("nextAudit", TinkerUtil.tinkerAuditNodePathName, "nextAudits");
 		
 		OJIfStatement ifStatement2;
 		if (!isComposite) { 
@@ -320,7 +320,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		ifStatement2.addToThenPart("break");
 		ojForStatement.getBody().addToStatements(ifStatement2);
 		ifStatement.addToThenPart(ojForStatement);
-		ojForStatement.getBody().addToStatements("previous = nextAudit");
+		ojForStatement.getBody().addToStatements("previous = ("+map.javaAuditBaseTypePath().getLast()+")nextAudit");
 		OJIfStatement ifStatement4 = new OJIfStatement("previous != null", "result.add(previous)");
 		ifStatement.addToThenPart(ifStatement4);
 

@@ -48,14 +48,14 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		universe1.setAngel(angel2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(33, countEdges());
+		assertEquals(35, countEdges());
 		assertNull(universe2.getAngel());
 		assertNull(angel1.getUniverse());
 		db.startTransaction();
 		angel1.setUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(39, countEdges());
+		assertEquals(41, countEdges());
 		assertNotNull(angel2.getUniverse());
 		assertNotNull(angel1.getUniverse());
 		assertEquals("universe1", angel2.getUniverse().getName());

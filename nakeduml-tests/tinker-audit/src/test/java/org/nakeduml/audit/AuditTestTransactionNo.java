@@ -1,14 +1,11 @@
 package org.nakeduml.audit;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.audittest.FatNail;
 import org.audittest.Finger;
@@ -170,7 +167,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger2.setHand(hand1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(18, countEdges());		
+		assertEquals(20, countEdges());		
 		Iterator<HandAudit> hand1Iter = hand1.getAudits().iterator();
 		assertEquals(2, hand1Iter.next().getTransactionNo());		
 		assertEquals(3, hand1Iter.next().getTransactionNo());		
@@ -209,7 +206,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger1.setHand(hand2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(15, countEdges());
+		assertEquals(16, countEdges());
 		assertEquals(2, hand2.getFinger().size());
 		assertEquals(0, hand1.getFinger().size());
 		
@@ -317,7 +314,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		one1.setOtherOne(otherOne2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(32, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
@@ -339,7 +336,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		hand1.removeFromOtherOne(otherOne1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(19, countVertices());
-		assertEquals(35, countEdges());
+		assertEquals(36, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();

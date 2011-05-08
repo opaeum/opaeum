@@ -52,7 +52,7 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 		spaceTime.setSpace(null);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(16, countEdges());
+		assertEquals(17, countEdges());
 		assertNull(spaceTime.getSpace());
 	}
 	

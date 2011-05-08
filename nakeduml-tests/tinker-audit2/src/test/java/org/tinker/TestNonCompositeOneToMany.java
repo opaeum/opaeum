@@ -70,21 +70,21 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		universe2.addAllToDemon(demons);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(33, countEdges());
+		assertEquals(35, countEdges());
 		assertEquals(0, universe1.getDemon().size());
 		assertEquals(2, universe2.getDemon().size());
 		db.startTransaction();
 		universe2.removeFromDemon(demon1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(19, countVertices());
-		assertEquals(36, countEdges());
+		assertEquals(39, countEdges());
 		assertEquals(0, universe1.getDemon().size());
 		assertEquals(1, universe2.getDemon().size());
 		db.startTransaction();
 		demon2.setUniverse(null);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(39, countEdges());
+		assertEquals(43, countEdges());
 		assertEquals(0, universe1.getDemon().size());
 		assertEquals(0, universe2.getDemon().size());
 	}
