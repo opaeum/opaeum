@@ -649,7 +649,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			OJForStatement forX = new OJForStatement();
 			forX.setElemType(new OJPathName("java.util.Integer"));
 			forX.setElemName("i");
-			forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getUid()+\"."
+			forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getName()+\"."
 					+ entity.getMappingInfo().getJavaName().getDecapped().toString() + ".size\",\"0\")");
 			OJBlock forXBLock = new OJBlock();
 			forX.setBody(forXBLock);
@@ -712,7 +712,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		OJForStatement forX = new OJForStatement();
 		forX.setElemType(integerPath);
 		forX.setElemName("i");
-		forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getUid()+\"."
+		forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getName()+\"."
 				+ entity.getMappingInfo().getJavaName().getDecapped().toString() + ".size\",\"0\")");
 		OJBlock forXBLock = new OJBlock();
 		block.addToStatements(forX);
@@ -849,7 +849,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		// TODO endToComposite needs to work for interfaces
 		if(entity.getEndToComposite() != null){
 			NakedStructuralFeatureMap other = new NakedStructuralFeatureMap(entity.getEndToComposite());
-			result = entity.getMappingInfo().getJavaName().getDecapped() + "." + other.getter() + "().getUid() + " + "\"" + "." + result + "\"";
+			result = entity.getMappingInfo().getJavaName().getDecapped() + "." + other.getter() + "().getName() + " + "\"" + "." + result + "\"";
 		}else{
 			result = "\"" + result + "\"";
 		}

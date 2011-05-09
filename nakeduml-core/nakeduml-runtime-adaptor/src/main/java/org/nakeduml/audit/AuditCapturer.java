@@ -60,13 +60,16 @@ public class AuditCapturer{
 							// Use load because it must return a value
 							Audited fetchedOne = (Audited) session.load(IntrospectionUtil.getOriginalClass(one.getClass()), one.getId());
 							String oneName = pd.getWriteMethod().getParameterTypes()[0].getSimpleName();
+							Method setter;
 							try{
-								Method setter = audited.getClass().getMethod("z_internalAddTo" + oneName.substring(0, oneName.length() - 6),
+								setter = audited.getClass().getMethod("z_internalAddTo" + oneName.substring(0, oneName.length() - 6),
 										pd.getWriteMethod().getParameterTypes()[0]);
-								setter.invoke(audited, fetchedOne);
 							}catch(NoSuchMethodException e){
-								e.printStackTrace();
+								setter = audited.getClass().getMethod(pd.getWriteMethod().getName() + "WithoutCheck",
+										pd.getWriteMethod().getParameterTypes()[0]);
+//								e.printStackTrace();
 							}
+							setter.invoke(audited, fetchedOne);
 							// TODO check if wanted
 							// setOtherSideOfOneToOne(audited, fetchedOne, oneName);
 						}
