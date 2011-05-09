@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="manual-src"/>
+	<classpathentry exported="true" kind="lib" path="lib/jide-oss-3.0.2.jar" sourcepath="lib/jide-oss-src-3.0.2.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

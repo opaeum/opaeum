@@ -3,7 +3,6 @@
  ******************************************************************************/
 package org.nakeduml.uim.folderdiagram.preferences;
 
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
@@ -17,30 +16,27 @@ import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
  *
  * @generated
  */
-public class UIMFDiagramPreferencePage extends AbstractTopcasedPreferencePage {
-
+public class UIMFDiagramPreferencePage extends AbstractTopcasedPreferencePage{
 	/**
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 * @generated
 	 */
-	public void init(IWorkbench workbench) {
+	public void init(IWorkbench workbench){
 		// Do nothing
 	}
-
 	/**
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 * @generated
 	 */
-	protected Control createContents(Composite parent) {
+	protected Control createContents(Composite parent){
 		return null;
 	}
-
 	/**
 	 * @see org.topcased.facilities.preferences.AbstractTopcasedPreferencePage#getBundleId()
 	 *
 	 * @generated
 	 */
-	protected String getBundleId() {
+	protected String getBundleId(){
 		return UIMFPlugin.getId();
 	}
 }

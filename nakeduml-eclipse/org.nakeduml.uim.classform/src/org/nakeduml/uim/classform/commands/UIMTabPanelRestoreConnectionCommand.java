@@ -1,5 +1,5 @@
 /*******************************************************************************
- * No CopyrightText Defined in the configurator file.
+ * 
  ******************************************************************************/
 package org.nakeduml.uim.classform.commands;
 
@@ -11,23 +11,19 @@ import org.topcased.modeler.commands.AbstractRestoreConnectionCommand;
  *
  * @generated
  */
-public class UIMTabPanelRestoreConnectionCommand extends
-		AbstractRestoreConnectionCommand {
+public class UIMTabPanelRestoreConnectionCommand extends AbstractRestoreConnectionCommand{
 	/**
 	 * @param part the EditPart that is restored
 	 * @generated
 	 */
-	public UIMTabPanelRestoreConnectionCommand(EditPart part) {
+	public UIMTabPanelRestoreConnectionCommand(EditPart part){
 		super(part);
 	}
-
 	/**
 	 * @see org.topcased.modeler.commands.AbstractRestoreConnectionCommand#initializeCommands()
 	 * @generated
 	 */
-	protected void initializeCommands() {
-
+	protected void initializeCommands(){
 		// Do nothing
 	}
-
 }

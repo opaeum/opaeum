@@ -20,7 +20,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMField"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMField"/>
         </bridge>
     </node>
     <node
@@ -39,7 +39,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//NavigationToEntity"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//NavigationToEntity"/>
         </bridge>
     </node>
     <node
@@ -58,7 +58,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//NavigationToOperation"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//NavigationToOperation"/>
         </bridge>
     </node>
     <node
@@ -77,7 +77,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//BuiltInAction"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//BuiltInAction"/>
         </bridge>
     </node>
     <node
@@ -96,7 +96,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//OperationAction"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//OperationAction"/>
         </bridge>
     </node>
     <node
@@ -115,7 +115,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//TransitionAction"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//TransitionAction"/>
         </bridge>
     </node>
     <node
@@ -134,7 +134,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//FormPanel"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//FormPanel"/>
         </bridge>
     </node>
     <node
@@ -153,7 +153,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMPanel"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMPanel"/>
         </bridge>
     </node>
     <node
@@ -172,7 +172,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMTabPanel"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMTabPanel"/>
         </bridge>
     </node>
     <node
@@ -191,7 +191,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMTab"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMTab"/>
         </bridge>
     </node>
     <node
@@ -210,7 +210,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMDataTable"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMDataTable"/>
         </bridge>
     </node>
     <node
@@ -229,7 +229,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMDataColumn"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMDataColumn"/>
         </bridge>
     </node>
     <node
@@ -248,7 +248,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//DetailPanel"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//DetailPanel"/>
         </bridge>
     </node>
     <node
@@ -267,7 +267,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMXYLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMXYLayout"/>
         </bridge>
     </node>
     <node
@@ -286,7 +286,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMGridLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMGridLayout"/>
         </bridge>
     </node>
     <node
@@ -305,7 +305,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMToolbarLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMToolbarLayout"/>
         </bridge>
     </node>
     <node
@@ -324,7 +324,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.sf.net/uimetamodel/1.0#//UIMBorderLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMBorderLayout"/>
         </bridge>
     </node>
 </graphconf:DiagramGraphConf>

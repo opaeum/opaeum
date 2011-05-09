@@ -42,7 +42,7 @@ public interface UIMPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://nakeduml.sf.net/uimetamodel/1.0";
+	String eNS_URI = "http://nakeduml.org/uimetamodel/1.0";
 
 	/**
 	 * The package namespace name.

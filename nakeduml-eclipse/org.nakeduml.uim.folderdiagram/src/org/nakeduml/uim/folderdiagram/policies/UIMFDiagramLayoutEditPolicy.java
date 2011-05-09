@@ -8,14 +8,13 @@ import org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy;
 /**
  * @generated
  */
-public class UIMFDiagramLayoutEditPolicy extends ModelerLayoutEditPolicy {
+public class UIMFDiagramLayoutEditPolicy extends ModelerLayoutEditPolicy{
 	/**
 	 * Default contructor.
 	 *
 	 * @generated
 	 */
-	public UIMFDiagramLayoutEditPolicy() {
+	public UIMFDiagramLayoutEditPolicy(){
 		super();
 	}
-
 }

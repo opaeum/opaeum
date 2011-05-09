@@ -11,7 +11,7 @@
 	<artifactId>nakeduml-generators</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Generators</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>Various Generators for NakedUML</description>
 	<url>http://github.com/nakeduml</url>
 	<build>

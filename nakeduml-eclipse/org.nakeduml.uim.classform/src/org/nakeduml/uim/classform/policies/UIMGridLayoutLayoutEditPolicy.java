@@ -1,8 +1,7 @@
 /*******************************************************************************
- * No CopyrightText Defined in the configurator file.
+ * 
  ******************************************************************************/
 package org.nakeduml.uim.classform.policies;
-
 
 import org.eclipse.emf.ecore.EObject;
 import org.nakeduml.uim.BuiltInAction;
@@ -19,53 +18,50 @@ import org.nakeduml.uim.UIMTabPanel;
 /**
  * @generated
  */
-public class UIMGridLayoutLayoutEditPolicy extends
-		org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy {
+public class UIMGridLayoutLayoutEditPolicy extends org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy{
 	/**
 	 * Default contructor.
 	 *
 	 * @generated
 	 */
-	public UIMGridLayoutLayoutEditPolicy() {
+	public UIMGridLayoutLayoutEditPolicy(){
 		super();
 	}
-
 	/**
 	 * @see org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy#isValid(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
-	protected boolean isValid(EObject child, EObject parent) {
-		if (child instanceof UIMField) {
+	protected boolean isValid(EObject child,EObject parent){
+		if(child instanceof UIMField){
 			return true;
 		}
-		if (child instanceof NavigationToEntity) {
+		if(child instanceof NavigationToEntity){
 			return true;
 		}
-		if (child instanceof NavigationToOperation) {
+		if(child instanceof NavigationToOperation){
 			return true;
 		}
-		if (child instanceof BuiltInAction) {
+		if(child instanceof BuiltInAction){
 			return true;
 		}
-		if (child instanceof OperationAction) {
+		if(child instanceof OperationAction){
 			return true;
 		}
-		if (child instanceof UIMPanel) {
+		if(child instanceof UIMPanel){
 			return true;
 		}
-		if (child instanceof UIMTabPanel) {
+		if(child instanceof UIMTabPanel){
 			return true;
 		}
-		if (child instanceof UIMDataTable) {
+		if(child instanceof UIMDataTable){
 			return true;
 		}
-		if (child instanceof DetailPanel) {
+		if(child instanceof DetailPanel){
 			return true;
 		}
-		if (child instanceof TransitionAction) {
+		if(child instanceof TransitionAction){
 			return true;
 		}
 		return false;
 	}
-
 }

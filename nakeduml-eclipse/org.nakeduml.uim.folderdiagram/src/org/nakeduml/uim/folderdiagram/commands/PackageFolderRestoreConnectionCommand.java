@@ -11,23 +11,19 @@ import org.topcased.modeler.commands.AbstractRestoreConnectionCommand;
  *
  * @generated
  */
-public class PackageFolderRestoreConnectionCommand extends
-		AbstractRestoreConnectionCommand {
+public class PackageFolderRestoreConnectionCommand extends AbstractRestoreConnectionCommand{
 	/**
 	 * @param part the EditPart that is restored
 	 * @generated
 	 */
-	public PackageFolderRestoreConnectionCommand(EditPart part) {
+	public PackageFolderRestoreConnectionCommand(EditPart part){
 		super(part);
 	}
-
 	/**
 	 * @see org.topcased.modeler.commands.AbstractRestoreConnectionCommand#initializeCommands()
 	 * @generated
 	 */
-	protected void initializeCommands() {
-
+	protected void initializeCommands(){
 		// Do nothing
 	}
-
 }

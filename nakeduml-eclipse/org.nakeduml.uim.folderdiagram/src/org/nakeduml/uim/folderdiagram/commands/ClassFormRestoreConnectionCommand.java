@@ -11,23 +11,19 @@ import org.topcased.modeler.commands.AbstractRestoreConnectionCommand;
  *
  * @generated
  */
-public class ClassFormRestoreConnectionCommand extends
-		AbstractRestoreConnectionCommand {
+public class ClassFormRestoreConnectionCommand extends AbstractRestoreConnectionCommand{
 	/**
 	 * @param part the EditPart that is restored
 	 * @generated
 	 */
-	public ClassFormRestoreConnectionCommand(EditPart part) {
+	public ClassFormRestoreConnectionCommand(EditPart part){
 		super(part);
 	}
-
 	/**
 	 * @see org.topcased.modeler.commands.AbstractRestoreConnectionCommand#initializeCommands()
 	 * @generated
 	 */
-	protected void initializeCommands() {
-
+	protected void initializeCommands(){
 		// Do nothing
 	}
-
 }

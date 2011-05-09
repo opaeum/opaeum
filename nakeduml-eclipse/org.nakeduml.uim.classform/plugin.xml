@@ -7,7 +7,7 @@
             di="templates/org.nakeduml.uim.classform/%name%.uimdi"
             model="templates/org.nakeduml.uim.classform/%name%.uim"
             name="Class Form"
-            id="org.nakeduml.uim.classform.templates.net.sf.nakeduml.uim.classform"
+            id="org.nakeduml.uim.classform.templates.org.nakeduml.uim.classform"
             editorId="org.nakeduml.uim.modeleditor.editor.UIMEditor"/>
    </extension>
    

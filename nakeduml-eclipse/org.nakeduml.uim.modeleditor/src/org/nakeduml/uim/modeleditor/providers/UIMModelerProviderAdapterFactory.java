@@ -6,7 +6,6 @@ package org.nakeduml.uim.modeleditor.providers;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -24,7 +23,7 @@ import org.topcased.modeler.providers.ILabelFeatureProvider;
  * 
  * @generated
  */
-public class UIMModelerProviderAdapterFactory extends UIMAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
+public class UIMModelerProviderAdapterFactory extends UIMAdapterFactory implements ComposeableAdapterFactory,IChangeNotifier,IDisposable{
 	/**
 	 * This keeps track of the root adapter factory that delegates to this adapter factory.
 	 * 
@@ -409,46 +408,41 @@ public class UIMModelerProviderAdapterFactory extends UIMAdapterFactory implemen
 	 * @generated
 	 */
 	private UIMNumberScrollerModelerProvider uimnumberscrollerModelerProvider;
-
 	/**
 	 * This constructs an instance.
 	 * 
 	 * @generated
 	 */
-	public UIMModelerProviderAdapterFactory() {
+	public UIMModelerProviderAdapterFactory(){
 		supportedTypes.add(ILabelFeatureProvider.class);
 	}
-
 	/**
 	 * This returns the root adapter factory that contains this factory.
 	 *
 	 * @return the root AdapterFactory
 	 * @generated
 	 */
-	public ComposeableAdapterFactory getRootAdapterFactory() {
+	public ComposeableAdapterFactory getRootAdapterFactory(){
 		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
 	}
-
 	/**
 	 * This sets the composed adapter factory that contains this factory.
 	 *
 	 * @param parentAdapterFactory the new parent adapter factory
 	 * @generated
 	 */
-	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
+	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory){
 		this.parentAdapterFactory = parentAdapterFactory;
 	}
-
 	/**
 	 * @param type the type to test
 	 * @return true if supported
 	 * 
 	 * @generated
 	 */
-	public boolean isFactoryForType(Object type) {
+	public boolean isFactoryForType(Object type){
 		return supportedTypes.contains(type) || super.isFactoryForType(type);
 	}
-
 	/**
 	 * This implementation substitutes the factory itself as the key for the adapter.
 	 *
@@ -457,36 +451,33 @@ public class UIMModelerProviderAdapterFactory extends UIMAdapterFactory implemen
 	 * @return the Adapter the created adatper
 	 * @generated
 	 */
-	public Adapter adapt(Notifier notifier, Object type) {
+	public Adapter adapt(Notifier notifier,Object type){
 		return super.adapt(notifier, this);
 	}
-
 	/**
 	 * @param object the object to adapt
 	 * @param type the type to adapt
 	 * @return the adapted Object
 	 * @generated
 	 */
-	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
+	public Object adapt(Object object,Object type){
+		if(isFactoryForType(type)){
 			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class) || (((Class) type).isInstance(adapter))) {
+			if(!(type instanceof Class) || (((Class) type).isInstance(adapter))){
 				return adapter;
 			}
 		}
 		return null;
 	}
-
 	/**
 	 * This adds a listener.
 	 *
 	 * @param notifyChangedListener the listener to add
 	 * @generated
 	 */
-	public void addListener(INotifyChangedListener notifyChangedListener) {
+	public void addListener(INotifyChangedListener notifyChangedListener){
 		changeNotifier.addListener(notifyChangedListener);
 	}
-
 	/**
 	 * This removes a listener.
 	 *
@@ -494,1003 +485,940 @@ public class UIMModelerProviderAdapterFactory extends UIMAdapterFactory implemen
 	 * 
 	 * @generated
 	 */
-	public void removeListener(INotifyChangedListener notifyChangedListener) {
+	public void removeListener(INotifyChangedListener notifyChangedListener){
 		changeNotifier.removeListener(notifyChangedListener);
 	}
-
 	/**
 	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
 	 *
 	 * @param notification the notification to fire
 	 * @generated
 	 */
-	public void fireNotifyChanged(Notification notification) {
+	public void fireNotifyChanged(Notification notification){
 		changeNotifier.fireNotifyChanged(notification);
-		if (parentAdapterFactory != null) {
+		if(parentAdapterFactory != null){
 			parentAdapterFactory.fireNotifyChanged(notification);
 		}
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMFormAdapter() {
-		if (uimformModelerProvider == null) {
+	public Adapter createUIMFormAdapter(){
+		if(uimformModelerProvider == null){
 			uimformModelerProvider = new UIMFormModelerProvider(this);
 		}
 		return uimformModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UserInteractionModel}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUserInteractionModelAdapter() {
-		if (userinteractionmodelModelerProvider == null) {
+	public Adapter createUserInteractionModelAdapter(){
+		if(userinteractionmodelModelerProvider == null){
 			userinteractionmodelModelerProvider = new UserInteractionModelModelerProvider(this);
 		}
 		return userinteractionmodelModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.AbstractFormFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createAbstractFormFolderAdapter() {
-		if (abstractformfolderModelerProvider == null) {
+	public Adapter createAbstractFormFolderAdapter(){
+		if(abstractformfolderModelerProvider == null){
 			abstractformfolderModelerProvider = new AbstractFormFolderModelerProvider(this);
 		}
 		return abstractformfolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.AbstractFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createAbstractFolderAdapter() {
-		if (abstractfolderModelerProvider == null) {
+	public Adapter createAbstractFolderAdapter(){
+		if(abstractfolderModelerProvider == null){
 			abstractfolderModelerProvider = new AbstractFolderModelerProvider(this);
 		}
 		return abstractfolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMField}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMFieldAdapter() {
-		if (uimfieldModelerProvider == null) {
+	public Adapter createUIMFieldAdapter(){
+		if(uimfieldModelerProvider == null){
 			uimfieldModelerProvider = new UIMFieldModelerProvider(this);
 		}
 		return uimfieldModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMNavigation}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMNavigationAdapter() {
-		if (uimnavigationModelerProvider == null) {
+	public Adapter createUIMNavigationAdapter(){
+		if(uimnavigationModelerProvider == null){
 			uimnavigationModelerProvider = new UIMNavigationModelerProvider(this);
 		}
 		return uimnavigationModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMPanelAdapter() {
-		if (uimpanelModelerProvider == null) {
+	public Adapter createUIMPanelAdapter(){
+		if(uimpanelModelerProvider == null){
 			uimpanelModelerProvider = new UIMPanelModelerProvider(this);
 		}
 		return uimpanelModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.ClassForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createClassFormAdapter() {
-		if (classformModelerProvider == null) {
+	public Adapter createClassFormAdapter(){
+		if(classformModelerProvider == null){
 			classformModelerProvider = new ClassFormModelerProvider(this);
 		}
 		return classformModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.StateForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createStateFormAdapter() {
-		if (stateformModelerProvider == null) {
+	public Adapter createStateFormAdapter(){
+		if(stateformModelerProvider == null){
 			stateformModelerProvider = new StateFormModelerProvider(this);
 		}
 		return stateformModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.ModelSecurityConstraint}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createModelSecurityConstraintAdapter() {
-		if (modelsecurityconstraintModelerProvider == null) {
+	public Adapter createModelSecurityConstraintAdapter(){
+		if(modelsecurityconstraintModelerProvider == null){
 			modelsecurityconstraintModelerProvider = new ModelSecurityConstraintModelerProvider(this);
 		}
 		return modelsecurityconstraintModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.OperationInvocationForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createOperationInvocationFormAdapter() {
-		if (operationinvocationformModelerProvider == null) {
+	public Adapter createOperationInvocationFormAdapter(){
+		if(operationinvocationformModelerProvider == null){
 			operationinvocationformModelerProvider = new OperationInvocationFormModelerProvider(this);
 		}
 		return operationinvocationformModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMComponent}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMComponentAdapter() {
-		if (uimcomponentModelerProvider == null) {
+	public Adapter createUIMComponentAdapter(){
+		if(uimcomponentModelerProvider == null){
 			uimcomponentModelerProvider = new UIMComponentModelerProvider(this);
 		}
 		return uimcomponentModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UserInteractionElement}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUserInteractionElementAdapter() {
-		if (userinteractionelementModelerProvider == null) {
+	public Adapter createUserInteractionElementAdapter(){
+		if(userinteractionelementModelerProvider == null){
 			userinteractionelementModelerProvider = new UserInteractionElementModelerProvider(this);
 		}
 		return userinteractionelementModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.OperationAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createOperationActionAdapter() {
-		if (operationactionModelerProvider == null) {
+	public Adapter createOperationActionAdapter(){
+		if(operationactionModelerProvider == null){
 			operationactionModelerProvider = new OperationActionModelerProvider(this);
 		}
 		return operationactionModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.NavigationToOperation}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createNavigationToOperationAdapter() {
-		if (navigationtooperationModelerProvider == null) {
+	public Adapter createNavigationToOperationAdapter(){
+		if(navigationtooperationModelerProvider == null){
 			navigationtooperationModelerProvider = new NavigationToOperationModelerProvider(this);
 		}
 		return navigationtooperationModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.BuiltInAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createBuiltInActionAdapter() {
-		if (builtinactionModelerProvider == null) {
+	public Adapter createBuiltInActionAdapter(){
+		if(builtinactionModelerProvider == null){
 			builtinactionModelerProvider = new BuiltInActionModelerProvider(this);
 		}
 		return builtinactionModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMControl}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMControlAdapter() {
-		if (uimcontrolModelerProvider == null) {
+	public Adapter createUIMControlAdapter(){
+		if(uimcontrolModelerProvider == null){
 			uimcontrolModelerProvider = new UIMControlModelerProvider(this);
 		}
 		return uimcontrolModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.NavigationToEntity}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createNavigationToEntityAdapter() {
-		if (navigationtoentityModelerProvider == null) {
+	public Adapter createNavigationToEntityAdapter(){
+		if(navigationtoentityModelerProvider == null){
 			navigationtoentityModelerProvider = new NavigationToEntityModelerProvider(this);
 		}
 		return navigationtoentityModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.TransitionAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createTransitionActionAdapter() {
-		if (transitionactionModelerProvider == null) {
+	public Adapter createTransitionActionAdapter(){
+		if(transitionactionModelerProvider == null){
 			transitionactionModelerProvider = new TransitionActionModelerProvider(this);
 		}
 		return transitionactionModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.OperationTaskForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createOperationTaskFormAdapter() {
-		if (operationtaskformModelerProvider == null) {
+	public Adapter createOperationTaskFormAdapter(){
+		if(operationtaskformModelerProvider == null){
 			operationtaskformModelerProvider = new OperationTaskFormModelerProvider(this);
 		}
 		return operationtaskformModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.ActionTaskForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createActionTaskFormAdapter() {
-		if (actiontaskformModelerProvider == null) {
+	public Adapter createActionTaskFormAdapter(){
+		if(actiontaskformModelerProvider == null){
 			actiontaskformModelerProvider = new ActionTaskFormModelerProvider(this);
 		}
 		return actiontaskformModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMActionAdapter() {
-		if (uimactionModelerProvider == null) {
+	public Adapter createUIMActionAdapter(){
+		if(uimactionModelerProvider == null){
 			uimactionModelerProvider = new UIMActionModelerProvider(this);
 		}
 		return uimactionModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.ChildSecurityConstraint}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createChildSecurityConstraintAdapter() {
-		if (childsecurityconstraintModelerProvider == null) {
+	public Adapter createChildSecurityConstraintAdapter(){
+		if(childsecurityconstraintModelerProvider == null){
 			childsecurityconstraintModelerProvider = new ChildSecurityConstraintModelerProvider(this);
 		}
 		return childsecurityconstraintModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMGridLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMGridLayoutAdapter() {
-		if (uimgridlayoutModelerProvider == null) {
+	public Adapter createUIMGridLayoutAdapter(){
+		if(uimgridlayoutModelerProvider == null){
 			uimgridlayoutModelerProvider = new UIMGridLayoutModelerProvider(this);
 		}
 		return uimgridlayoutModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMDataTable}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMDataTableAdapter() {
-		if (uimdatatableModelerProvider == null) {
+	public Adapter createUIMDataTableAdapter(){
+		if(uimdatatableModelerProvider == null){
 			uimdatatableModelerProvider = new UIMDataTableModelerProvider(this);
 		}
 		return uimdatatableModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMBindingAdapter() {
-		if (uimbindingModelerProvider == null) {
+	public Adapter createUIMBindingAdapter(){
+		if(uimbindingModelerProvider == null){
 			uimbindingModelerProvider = new UIMBindingModelerProvider(this);
 		}
 		return uimbindingModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.PropertyRef}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createPropertyRefAdapter() {
-		if (propertyrefModelerProvider == null) {
+	public Adapter createPropertyRefAdapter(){
+		if(propertyrefModelerProvider == null){
 			propertyrefModelerProvider = new PropertyRefModelerProvider(this);
 		}
 		return propertyrefModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMDataColumn}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMDataColumnAdapter() {
-		if (uimdatacolumnModelerProvider == null) {
+	public Adapter createUIMDataColumnAdapter(){
+		if(uimdatacolumnModelerProvider == null){
 			uimdatacolumnModelerProvider = new UIMDataColumnModelerProvider(this);
 		}
 		return uimdatacolumnModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.TableBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createTableBindingAdapter() {
-		if (tablebindingModelerProvider == null) {
+	public Adapter createTableBindingAdapter(){
+		if(tablebindingModelerProvider == null){
 			tablebindingModelerProvider = new TableBindingModelerProvider(this);
 		}
 		return tablebindingModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.FieldBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createFieldBindingAdapter() {
-		if (fieldbindingModelerProvider == null) {
+	public Adapter createFieldBindingAdapter(){
+		if(fieldbindingModelerProvider == null){
 			fieldbindingModelerProvider = new FieldBindingModelerProvider(this);
 		}
 		return fieldbindingModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.FormPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createFormPanelAdapter() {
-		if (formpanelModelerProvider == null) {
+	public Adapter createFormPanelAdapter(){
+		if(formpanelModelerProvider == null){
 			formpanelModelerProvider = new FormPanelModelerProvider(this);
 		}
 		return formpanelModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.StateMachineFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createStateMachineFolderAdapter() {
-		if (statemachinefolderModelerProvider == null) {
+	public Adapter createStateMachineFolderAdapter(){
+		if(statemachinefolderModelerProvider == null){
 			statemachinefolderModelerProvider = new StateMachineFolderModelerProvider(this);
 		}
 		return statemachinefolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.EntityFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createEntityFolderAdapter() {
-		if (entityfolderModelerProvider == null) {
+	public Adapter createEntityFolderAdapter(){
+		if(entityfolderModelerProvider == null){
 			entityfolderModelerProvider = new EntityFolderModelerProvider(this);
 		}
 		return entityfolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.ActivityFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createActivityFolderAdapter() {
-		if (activityfolderModelerProvider == null) {
+	public Adapter createActivityFolderAdapter(){
+		if(activityfolderModelerProvider == null){
 			activityfolderModelerProvider = new ActivityFolderModelerProvider(this);
 		}
 		return activityfolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.OperationContainingFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createOperationContainingFolderAdapter() {
-		if (operationcontainingfolderModelerProvider == null) {
+	public Adapter createOperationContainingFolderAdapter(){
+		if(operationcontainingfolderModelerProvider == null){
 			operationcontainingfolderModelerProvider = new OperationContainingFolderModelerProvider(this);
 		}
 		return operationcontainingfolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.NavigationBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createNavigationBindingAdapter() {
-		if (navigationbindingModelerProvider == null) {
+	public Adapter createNavigationBindingAdapter(){
+		if(navigationbindingModelerProvider == null){
 			navigationbindingModelerProvider = new NavigationBindingModelerProvider(this);
 		}
 		return navigationbindingModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.DetailPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createDetailPanelAdapter() {
-		if (detailpanelModelerProvider == null) {
+	public Adapter createDetailPanelAdapter(){
+		if(detailpanelModelerProvider == null){
 			detailpanelModelerProvider = new DetailPanelModelerProvider(this);
 		}
 		return detailpanelModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.PackageFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createPackageFolderAdapter() {
-		if (packagefolderModelerProvider == null) {
+	public Adapter createPackageFolderAdapter(){
+		if(packagefolderModelerProvider == null){
 			packagefolderModelerProvider = new PackageFolderModelerProvider(this);
 		}
 		return packagefolderModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMTabPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMTabPanelAdapter() {
-		if (uimtabpanelModelerProvider == null) {
+	public Adapter createUIMTabPanelAdapter(){
+		if(uimtabpanelModelerProvider == null){
 			uimtabpanelModelerProvider = new UIMTabPanelModelerProvider(this);
 		}
 		return uimtabpanelModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMTab}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMTabAdapter() {
-		if (uimtabModelerProvider == null) {
+	public Adapter createUIMTabAdapter(){
+		if(uimtabModelerProvider == null){
 			uimtabModelerProvider = new UIMTabModelerProvider(this);
 		}
 		return uimtabModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMCheckBox}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMCheckBoxAdapter() {
-		if (uimcheckboxModelerProvider == null) {
+	public Adapter createUIMCheckBoxAdapter(){
+		if(uimcheckboxModelerProvider == null){
 			uimcheckboxModelerProvider = new UIMCheckBoxModelerProvider(this);
 		}
 		return uimcheckboxModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMLookup}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMLookupAdapter() {
-		if (uimlookupModelerProvider == null) {
+	public Adapter createUIMLookupAdapter(){
+		if(uimlookupModelerProvider == null){
 			uimlookupModelerProvider = new UIMLookupModelerProvider(this);
 		}
 		return uimlookupModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.LookupBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createLookupBindingAdapter() {
-		if (lookupbindingModelerProvider == null) {
+	public Adapter createLookupBindingAdapter(){
+		if(lookupbindingModelerProvider == null){
 			lookupbindingModelerProvider = new LookupBindingModelerProvider(this);
 		}
 		return lookupbindingModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMText}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMTextAdapter() {
-		if (uimtextModelerProvider == null) {
+	public Adapter createUIMTextAdapter(){
+		if(uimtextModelerProvider == null){
 			uimtextModelerProvider = new UIMTextModelerProvider(this);
 		}
 		return uimtextModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMTextArea}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMTextAreaAdapter() {
-		if (uimtextareaModelerProvider == null) {
+	public Adapter createUIMTextAreaAdapter(){
+		if(uimtextareaModelerProvider == null){
 			uimtextareaModelerProvider = new UIMTextAreaModelerProvider(this);
 		}
 		return uimtextareaModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMDropdown}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMDropdownAdapter() {
-		if (uimdropdownModelerProvider == null) {
+	public Adapter createUIMDropdownAdapter(){
+		if(uimdropdownModelerProvider == null){
 			uimdropdownModelerProvider = new UIMDropdownModelerProvider(this);
 		}
 		return uimdropdownModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMDatePopup}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMDatePopupAdapter() {
-		if (uimdatepopupModelerProvider == null) {
+	public Adapter createUIMDatePopupAdapter(){
+		if(uimdatepopupModelerProvider == null){
 			uimdatepopupModelerProvider = new UIMDatePopupModelerProvider(this);
 		}
 		return uimdatepopupModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMSingleSelectListBox}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMSingleSelectListBoxAdapter() {
-		if (uimsingleselectlistboxModelerProvider == null) {
+	public Adapter createUIMSingleSelectListBoxAdapter(){
+		if(uimsingleselectlistboxModelerProvider == null){
 			uimsingleselectlistboxModelerProvider = new UIMSingleSelectListBoxModelerProvider(this);
 		}
 		return uimsingleselectlistboxModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMContainer}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMContainerAdapter() {
-		if (uimcontainerModelerProvider == null) {
+	public Adapter createUIMContainerAdapter(){
+		if(uimcontainerModelerProvider == null){
 			uimcontainerModelerProvider = new UIMContainerModelerProvider(this);
 		}
 		return uimcontainerModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMSingleSelectTreeView}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMSingleSelectTreeViewAdapter() {
-		if (uimsingleselecttreeviewModelerProvider == null) {
+	public Adapter createUIMSingleSelectTreeViewAdapter(){
+		if(uimsingleselecttreeviewModelerProvider == null){
 			uimsingleselecttreeviewModelerProvider = new UIMSingleSelectTreeViewModelerProvider(this);
 		}
 		return uimsingleselecttreeviewModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.MasterComponent}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createMasterComponentAdapter() {
-		if (mastercomponentModelerProvider == null) {
+	public Adapter createMasterComponentAdapter(){
+		if(mastercomponentModelerProvider == null){
 			mastercomponentModelerProvider = new MasterComponentModelerProvider(this);
 		}
 		return mastercomponentModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMLayoutAdapter() {
-		if (uimlayoutModelerProvider == null) {
+	public Adapter createUIMLayoutAdapter(){
+		if(uimlayoutModelerProvider == null){
 			uimlayoutModelerProvider = new UIMLayoutModelerProvider(this);
 		}
 		return uimlayoutModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMToolbarLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMToolbarLayoutAdapter() {
-		if (uimtoolbarlayoutModelerProvider == null) {
+	public Adapter createUIMToolbarLayoutAdapter(){
+		if(uimtoolbarlayoutModelerProvider == null){
 			uimtoolbarlayoutModelerProvider = new UIMToolbarLayoutModelerProvider(this);
 		}
 		return uimtoolbarlayoutModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMBorderLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMBorderLayoutAdapter() {
-		if (uimborderlayoutModelerProvider == null) {
+	public Adapter createUIMBorderLayoutAdapter(){
+		if(uimborderlayoutModelerProvider == null){
 			uimborderlayoutModelerProvider = new UIMBorderLayoutModelerProvider(this);
 		}
 		return uimborderlayoutModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMXYLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMXYLayoutAdapter() {
-		if (uimxylayoutModelerProvider == null) {
+	public Adapter createUIMXYLayoutAdapter(){
+		if(uimxylayoutModelerProvider == null){
 			uimxylayoutModelerProvider = new UIMXYLayoutModelerProvider(this);
 		}
 		return uimxylayoutModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMMultiSelectTreeView}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMMultiSelectTreeViewAdapter() {
-		if (uimmultiselecttreeviewModelerProvider == null) {
+	public Adapter createUIMMultiSelectTreeViewAdapter(){
+		if(uimmultiselecttreeviewModelerProvider == null){
 			uimmultiselecttreeviewModelerProvider = new UIMMultiSelectTreeViewModelerProvider(this);
 		}
 		return uimmultiselecttreeviewModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMMultiSelectListBox}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMMultiSelectListBoxAdapter() {
-		if (uimmultiselectlistboxModelerProvider == null) {
+	public Adapter createUIMMultiSelectListBoxAdapter(){
+		if(uimmultiselectlistboxModelerProvider == null){
 			uimmultiselectlistboxModelerProvider = new UIMMultiSelectListBoxModelerProvider(this);
 		}
 		return uimmultiselectlistboxModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMMultiSelectPopupSearch}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMMultiSelectPopupSearchAdapter() {
-		if (uimmultiselectpopupsearchModelerProvider == null) {
+	public Adapter createUIMMultiSelectPopupSearchAdapter(){
+		if(uimmultiselectpopupsearchModelerProvider == null){
 			uimmultiselectpopupsearchModelerProvider = new UIMMultiSelectPopupSearchModelerProvider(this);
 		}
 		return uimmultiselectpopupsearchModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMSingleSelectPopupSearch}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMSingleSelectPopupSearchAdapter() {
-		if (uimsingleselectpopupsearchModelerProvider == null) {
+	public Adapter createUIMSingleSelectPopupSearchAdapter(){
+		if(uimsingleselectpopupsearchModelerProvider == null){
 			uimsingleselectpopupsearchModelerProvider = new UIMSingleSelectPopupSearchModelerProvider(this);
 		}
 		return uimsingleselectpopupsearchModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMToggleButton}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMToggleButtonAdapter() {
-		if (uimtogglebuttonModelerProvider == null) {
+	public Adapter createUIMToggleButtonAdapter(){
+		if(uimtogglebuttonModelerProvider == null){
 			uimtogglebuttonModelerProvider = new UIMToggleButtonModelerProvider(this);
 		}
 		return uimtogglebuttonModelerProvider;
 	}
-
 	/**
 	 * This creates an adapter for a {@link org.nakeduml.uim.UIMNumberScroller}.
 	 *
 	 * @return the Adapter
 	 * @generated
 	 */
-	public Adapter createUIMNumberScrollerAdapter() {
-		if (uimnumberscrollerModelerProvider == null) {
+	public Adapter createUIMNumberScrollerAdapter(){
+		if(uimnumberscrollerModelerProvider == null){
 			uimnumberscrollerModelerProvider = new UIMNumberScrollerModelerProvider(this);
 		}
 		return uimnumberscrollerModelerProvider;
 	}
-
 	/**
 	 * This disposes all of the item providers created by this factory.
 	 * 
 	 * @generated
 	 */
-	public void dispose() {
-		if (uimformModelerProvider != null) {
+	public void dispose(){
+		if(uimformModelerProvider != null){
 			uimformModelerProvider.dispose();
 		}
-		if (userinteractionmodelModelerProvider != null) {
+		if(userinteractionmodelModelerProvider != null){
 			userinteractionmodelModelerProvider.dispose();
 		}
-		if (abstractformfolderModelerProvider != null) {
+		if(abstractformfolderModelerProvider != null){
 			abstractformfolderModelerProvider.dispose();
 		}
-		if (abstractfolderModelerProvider != null) {
+		if(abstractfolderModelerProvider != null){
 			abstractfolderModelerProvider.dispose();
 		}
-		if (uimfieldModelerProvider != null) {
+		if(uimfieldModelerProvider != null){
 			uimfieldModelerProvider.dispose();
 		}
-		if (uimnavigationModelerProvider != null) {
+		if(uimnavigationModelerProvider != null){
 			uimnavigationModelerProvider.dispose();
 		}
-		if (uimpanelModelerProvider != null) {
+		if(uimpanelModelerProvider != null){
 			uimpanelModelerProvider.dispose();
 		}
-		if (classformModelerProvider != null) {
+		if(classformModelerProvider != null){
 			classformModelerProvider.dispose();
 		}
-		if (stateformModelerProvider != null) {
+		if(stateformModelerProvider != null){
 			stateformModelerProvider.dispose();
 		}
-		if (modelsecurityconstraintModelerProvider != null) {
+		if(modelsecurityconstraintModelerProvider != null){
 			modelsecurityconstraintModelerProvider.dispose();
 		}
-		if (operationinvocationformModelerProvider != null) {
+		if(operationinvocationformModelerProvider != null){
 			operationinvocationformModelerProvider.dispose();
 		}
-		if (uimcomponentModelerProvider != null) {
+		if(uimcomponentModelerProvider != null){
 			uimcomponentModelerProvider.dispose();
 		}
-		if (userinteractionelementModelerProvider != null) {
+		if(userinteractionelementModelerProvider != null){
 			userinteractionelementModelerProvider.dispose();
 		}
-		if (operationactionModelerProvider != null) {
+		if(operationactionModelerProvider != null){
 			operationactionModelerProvider.dispose();
 		}
-		if (navigationtooperationModelerProvider != null) {
+		if(navigationtooperationModelerProvider != null){
 			navigationtooperationModelerProvider.dispose();
 		}
-		if (builtinactionModelerProvider != null) {
+		if(builtinactionModelerProvider != null){
 			builtinactionModelerProvider.dispose();
 		}
-		if (uimcontrolModelerProvider != null) {
+		if(uimcontrolModelerProvider != null){
 			uimcontrolModelerProvider.dispose();
 		}
-		if (navigationtoentityModelerProvider != null) {
+		if(navigationtoentityModelerProvider != null){
 			navigationtoentityModelerProvider.dispose();
 		}
-		if (transitionactionModelerProvider != null) {
+		if(transitionactionModelerProvider != null){
 			transitionactionModelerProvider.dispose();
 		}
-		if (operationtaskformModelerProvider != null) {
+		if(operationtaskformModelerProvider != null){
 			operationtaskformModelerProvider.dispose();
 		}
-		if (actiontaskformModelerProvider != null) {
+		if(actiontaskformModelerProvider != null){
 			actiontaskformModelerProvider.dispose();
 		}
-		if (uimactionModelerProvider != null) {
+		if(uimactionModelerProvider != null){
 			uimactionModelerProvider.dispose();
 		}
-		if (childsecurityconstraintModelerProvider != null) {
+		if(childsecurityconstraintModelerProvider != null){
 			childsecurityconstraintModelerProvider.dispose();
 		}
-		if (uimgridlayoutModelerProvider != null) {
+		if(uimgridlayoutModelerProvider != null){
 			uimgridlayoutModelerProvider.dispose();
 		}
-		if (uimdatatableModelerProvider != null) {
+		if(uimdatatableModelerProvider != null){
 			uimdatatableModelerProvider.dispose();
 		}
-		if (uimbindingModelerProvider != null) {
+		if(uimbindingModelerProvider != null){
 			uimbindingModelerProvider.dispose();
 		}
-		if (propertyrefModelerProvider != null) {
+		if(propertyrefModelerProvider != null){
 			propertyrefModelerProvider.dispose();
 		}
-		if (uimdatacolumnModelerProvider != null) {
+		if(uimdatacolumnModelerProvider != null){
 			uimdatacolumnModelerProvider.dispose();
 		}
-		if (tablebindingModelerProvider != null) {
+		if(tablebindingModelerProvider != null){
 			tablebindingModelerProvider.dispose();
 		}
-		if (fieldbindingModelerProvider != null) {
+		if(fieldbindingModelerProvider != null){
 			fieldbindingModelerProvider.dispose();
 		}
-		if (formpanelModelerProvider != null) {
+		if(formpanelModelerProvider != null){
 			formpanelModelerProvider.dispose();
 		}
-		if (statemachinefolderModelerProvider != null) {
+		if(statemachinefolderModelerProvider != null){
 			statemachinefolderModelerProvider.dispose();
 		}
-		if (entityfolderModelerProvider != null) {
+		if(entityfolderModelerProvider != null){
 			entityfolderModelerProvider.dispose();
 		}
-		if (activityfolderModelerProvider != null) {
+		if(activityfolderModelerProvider != null){
 			activityfolderModelerProvider.dispose();
 		}
-		if (operationcontainingfolderModelerProvider != null) {
+		if(operationcontainingfolderModelerProvider != null){
 			operationcontainingfolderModelerProvider.dispose();
 		}
-		if (navigationbindingModelerProvider != null) {
+		if(navigationbindingModelerProvider != null){
 			navigationbindingModelerProvider.dispose();
 		}
-		if (detailpanelModelerProvider != null) {
+		if(detailpanelModelerProvider != null){
 			detailpanelModelerProvider.dispose();
 		}
-		if (packagefolderModelerProvider != null) {
+		if(packagefolderModelerProvider != null){
 			packagefolderModelerProvider.dispose();
 		}
-		if (uimtabpanelModelerProvider != null) {
+		if(uimtabpanelModelerProvider != null){
 			uimtabpanelModelerProvider.dispose();
 		}
-		if (uimtabModelerProvider != null) {
+		if(uimtabModelerProvider != null){
 			uimtabModelerProvider.dispose();
 		}
-		if (uimcheckboxModelerProvider != null) {
+		if(uimcheckboxModelerProvider != null){
 			uimcheckboxModelerProvider.dispose();
 		}
-		if (uimlookupModelerProvider != null) {
+		if(uimlookupModelerProvider != null){
 			uimlookupModelerProvider.dispose();
 		}
-		if (lookupbindingModelerProvider != null) {
+		if(lookupbindingModelerProvider != null){
 			lookupbindingModelerProvider.dispose();
 		}
-		if (uimtextModelerProvider != null) {
+		if(uimtextModelerProvider != null){
 			uimtextModelerProvider.dispose();
 		}
-		if (uimtextareaModelerProvider != null) {
+		if(uimtextareaModelerProvider != null){
 			uimtextareaModelerProvider.dispose();
 		}
-		if (uimdropdownModelerProvider != null) {
+		if(uimdropdownModelerProvider != null){
 			uimdropdownModelerProvider.dispose();
 		}
-		if (uimdatepopupModelerProvider != null) {
+		if(uimdatepopupModelerProvider != null){
 			uimdatepopupModelerProvider.dispose();
 		}
-		if (uimsingleselectlistboxModelerProvider != null) {
+		if(uimsingleselectlistboxModelerProvider != null){
 			uimsingleselectlistboxModelerProvider.dispose();
 		}
-		if (uimcontainerModelerProvider != null) {
+		if(uimcontainerModelerProvider != null){
 			uimcontainerModelerProvider.dispose();
 		}
-		if (uimsingleselecttreeviewModelerProvider != null) {
+		if(uimsingleselecttreeviewModelerProvider != null){
 			uimsingleselecttreeviewModelerProvider.dispose();
 		}
-		if (mastercomponentModelerProvider != null) {
+		if(mastercomponentModelerProvider != null){
 			mastercomponentModelerProvider.dispose();
 		}
-		if (uimlayoutModelerProvider != null) {
+		if(uimlayoutModelerProvider != null){
 			uimlayoutModelerProvider.dispose();
 		}
-		if (uimtoolbarlayoutModelerProvider != null) {
+		if(uimtoolbarlayoutModelerProvider != null){
 			uimtoolbarlayoutModelerProvider.dispose();
 		}
-		if (uimborderlayoutModelerProvider != null) {
+		if(uimborderlayoutModelerProvider != null){
 			uimborderlayoutModelerProvider.dispose();
 		}
-		if (uimxylayoutModelerProvider != null) {
+		if(uimxylayoutModelerProvider != null){
 			uimxylayoutModelerProvider.dispose();
 		}
-		if (uimmultiselecttreeviewModelerProvider != null) {
+		if(uimmultiselecttreeviewModelerProvider != null){
 			uimmultiselecttreeviewModelerProvider.dispose();
 		}
-		if (uimmultiselectlistboxModelerProvider != null) {
+		if(uimmultiselectlistboxModelerProvider != null){
 			uimmultiselectlistboxModelerProvider.dispose();
 		}
-		if (uimmultiselectpopupsearchModelerProvider != null) {
+		if(uimmultiselectpopupsearchModelerProvider != null){
 			uimmultiselectpopupsearchModelerProvider.dispose();
 		}
-		if (uimsingleselectpopupsearchModelerProvider != null) {
+		if(uimsingleselectpopupsearchModelerProvider != null){
 			uimsingleselectpopupsearchModelerProvider.dispose();
 		}
-		if (uimtogglebuttonModelerProvider != null) {
+		if(uimtogglebuttonModelerProvider != null){
 			uimtogglebuttonModelerProvider.dispose();
 		}
-		if (uimnumberscrollerModelerProvider != null) {
+		if(uimnumberscrollerModelerProvider != null){
 			uimnumberscrollerModelerProvider.dispose();
 		}
 	}

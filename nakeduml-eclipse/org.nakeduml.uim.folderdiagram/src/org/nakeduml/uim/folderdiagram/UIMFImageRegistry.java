@@ -15,23 +15,20 @@ import org.topcased.modeler.ImageRegistry;
  *
  * @generated
  */
-public final class UIMFImageRegistry {
-
+public final class UIMFImageRegistry{
 	/**
 	 * The bundle id of the images
 	 * @generated
 	 */
 	public static final String BUNDLE = "org.nakeduml.uim.folderdiagram.images";
-
 	/**
 	 * The constructor
 	 *
 	 * @generated
 	 */
-	private UIMFImageRegistry() {
+	private UIMFImageRegistry(){
 		// do nothing
 	}
-
 	/**
 	 * Clients should not dispose the Image returned.
 	 *
@@ -39,11 +36,9 @@ public final class UIMFImageRegistry {
 	 * @return the Image associated with the given key
 	 * @generated
 	 */
-	public static Image getImage(String key) {
-		return ImageRegistry.getInstance().get(
-				UIMFPlugin.getDefault().getBundle(), getImageLocation(key));
+	public static Image getImage(String key){
+		return ImageRegistry.getInstance().get(UIMFPlugin.getDefault().getBundle(), getImageLocation(key));
 	}
-
 	/**
 	 * Return the image location
 	 *
@@ -51,10 +46,9 @@ public final class UIMFImageRegistry {
 	 * @return the Image location associated with the given key
 	 * @generated
 	 */
-	private static String getImageLocation(String key) {
+	private static String getImageLocation(String key){
 		return ResourceBundle.getBundle(BUNDLE).getString(key);
 	}
-
 	/**
 	 * Build an image descriptor for the given key
 	 *
@@ -62,13 +56,11 @@ public final class UIMFImageRegistry {
 	 * @return the ImageDescriptor associated with the given key
 	 * @generated
 	 */
-	public static ImageDescriptor getImageDescriptor(String key) {
-		try {
-			return ImageRegistry.getInstance().getDescriptor(
-					UIMFPlugin.getDefault().getBundle(), getImageLocation(key));
-		} catch (MissingResourceException mre) {
+	public static ImageDescriptor getImageDescriptor(String key){
+		try{
+			return ImageRegistry.getInstance().getDescriptor(UIMFPlugin.getDefault().getBundle(), getImageLocation(key));
+		}catch(MissingResourceException mre){
 			return null;
 		}
 	}
-
 }

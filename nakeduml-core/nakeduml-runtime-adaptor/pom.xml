@@ -11,7 +11,7 @@
 	<artifactId>nakeduml-runtime-adaptor</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUml Runtime for Adaptor Projects</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<url>http://github.com/nakeduml</url>
 
 	<properties>
@@ -219,7 +219,7 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.5.10</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

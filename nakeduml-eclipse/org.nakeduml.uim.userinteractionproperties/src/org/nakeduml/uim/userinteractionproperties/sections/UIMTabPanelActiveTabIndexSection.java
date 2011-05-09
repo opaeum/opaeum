@@ -1,6 +1,5 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.nakeduml.uim.UIMPackage;
 import org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection;
@@ -13,8 +12,7 @@ import org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection;
  *
  * @generated
  */
-public class UIMTabPanelActiveTabIndexSection extends
-		AbstractIntegerPropertySection {
+public class UIMTabPanelActiveTabIndexSection extends AbstractIntegerPropertySection{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -22,10 +20,9 @@ public class UIMTabPanelActiveTabIndexSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "ActiveTabIndex:";
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -33,10 +30,9 @@ public class UIMTabPanelActiveTabIndexSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getUIMTabPanel_ActiveTabIndex();
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -44,12 +40,11 @@ public class UIMTabPanelActiveTabIndexSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection#getFeatureInteger()
 	 * @generated
 	 */
-	protected Integer getFeatureInteger() {
+	protected Integer getFeatureInteger(){
 		Object Int = getEObject().eGet(getFeature());
-		if (Int == null) {
+		if(Int == null){
 			return new Integer(0);
 		}
-
 		return (Integer) Int;
 	}
 }

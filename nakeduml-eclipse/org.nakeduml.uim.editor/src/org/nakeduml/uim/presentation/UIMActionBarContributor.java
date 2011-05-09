@@ -182,7 +182,7 @@ public class UIMActionBarContributor
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 
-		IMenuManager submenuManager = new MenuManager(UIMEditorPlugin.INSTANCE.getString("_UI_UIMEditor_menu"), "net.sf.nakeduml.uimMenuID");
+		IMenuManager submenuManager = new MenuManager(UIMEditorPlugin.INSTANCE.getString("_UI_UIMEditor_menu"), "org.nakeduml.uimMenuID");
 		menuManager.insertAfter("additions", submenuManager);
 		submenuManager.add(new Separator("settings"));
 		submenuManager.add(new Separator("actions"));

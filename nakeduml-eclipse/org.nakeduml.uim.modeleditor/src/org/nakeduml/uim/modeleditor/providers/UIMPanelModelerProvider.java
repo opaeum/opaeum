@@ -3,7 +3,6 @@
  ******************************************************************************/
 package org.nakeduml.uim.modeleditor.providers;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
 import org.nakeduml.uim.UIMPackage;
@@ -14,22 +13,21 @@ import org.topcased.modeler.providers.ILabelFeatureProvider;
  *
  * @generated
  */
-public class UIMPanelModelerProvider extends UIMContainerModelerProvider implements ILabelFeatureProvider {
+public class UIMPanelModelerProvider extends UIMContainerModelerProvider implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *
 	 * @param adapterFactory the adapter factory
 	 * @generated
 	 */
-	public UIMPanelModelerProvider(AdapterFactory adapterFactory) {
+	public UIMPanelModelerProvider(AdapterFactory adapterFactory){
 		super(adapterFactory);
 	}
-
 	/**
 	 * @see org.topcased.modeler.providers.ILabelFeatureProvider#getLabelFeature(java.lang.Object)
 	 * @generated
 	 */
-	public EAttribute getLabelFeature(Object object) {
+	public EAttribute getLabelFeature(Object object){
 		return UIMPackage.eINSTANCE.getUserInteractionElement_Name();
 	}
 }

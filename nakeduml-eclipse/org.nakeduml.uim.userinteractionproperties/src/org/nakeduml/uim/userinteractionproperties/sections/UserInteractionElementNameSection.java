@@ -1,6 +1,5 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.nakeduml.uim.UIMPackage;
 import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
@@ -13,8 +12,7 @@ import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
  *
  * @generated
  */
-public class UserInteractionElementNameSection extends
-		AbstractStringPropertySection {
+public class UserInteractionElementNameSection extends AbstractStringPropertySection{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -22,10 +20,9 @@ public class UserInteractionElementNameSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "Name:";
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -33,8 +30,7 @@ public class UserInteractionElementNameSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getUserInteractionElement_Name();
 	}
-
 }

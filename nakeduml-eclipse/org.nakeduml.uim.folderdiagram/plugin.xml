@@ -7,7 +7,7 @@
             di="templates/org.nakeduml.uim.folderdiagram/%name%.uimdi"
             model="templates/org.nakeduml.uim.folderdiagram/%name%.uim"
             name="User Interaction Folder Diagram"
-            id="org.nakeduml.uim.folderdiagram.templates.net.sf.nakeduml.uim.folderdiagram"
+            id="org.nakeduml.uim.folderdiagram.templates.org.nakeduml.uim.folderdiagram"
             editorId="org.nakeduml.uim.modeleditor.editor.UIMEditor"/>
    </extension>
    

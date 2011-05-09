@@ -1,8 +1,7 @@
 /*******************************************************************************
- * No CopyrightText Defined in the configurator file.
+ * 
  ******************************************************************************/
 package org.nakeduml.uim.classform.edit;
-
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -27,91 +26,69 @@ import org.topcased.modeler.utils.Utils;
  *
  * @generated NOT
  */
-public class TransitionActionEditPart extends EMFGraphNodeEditPart {
+public class TransitionActionEditPart extends EMFGraphNodeEditPart{
 	/**
 	 * Constructor
 	 *
 	 * @param obj the graph node
 	 * @generated
 	 */
-	public TransitionActionEditPart(GraphNode obj) {
+	public TransitionActionEditPart(GraphNode obj){
 		super(obj);
 	}
-
 	/**
 	 * Creates edit policies and associates these with roles
 	 *
 	 * @generated
 	 */
-	protected void createEditPolicies() {
+	protected void createEditPolicies(){
 		super.createEditPolicies();
-
-		installEditPolicy(ModelerEditPolicyConstants.RESTORE_EDITPOLICY,
-				new RestoreEditPolicy() {
-					protected Command getRestoreConnectionsCommand(
-							RestoreConnectionsRequest request) {
-						return new TransitionActionRestoreConnectionCommand(
-								getHost());
-					}
-				});
-
-		installEditPolicy(ModelerEditPolicyConstants.RESIZABLE_EDITPOLICY,
-				new ResizableEditPolicy());
-
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new LabelDirectEditPolicy());
+		installEditPolicy(ModelerEditPolicyConstants.RESTORE_EDITPOLICY, new RestoreEditPolicy(){
+			protected Command getRestoreConnectionsCommand(RestoreConnectionsRequest request){
+				return new TransitionActionRestoreConnectionCommand(getHost());
+			}
+		});
+		installEditPolicy(ModelerEditPolicyConstants.RESIZABLE_EDITPOLICY, new ResizableEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 	}
-
 	/**
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 * @generated
 	 */
-	protected IFigure createFigure() {
-
+	protected IFigure createFigure(){
 		return new ActionFigure();
 	}
-
 	/**
 	 * @see org.topcased.modeler.edit.GraphNodeEditPart#getPreferenceDefaultBackgroundColor()
 	 * @generated
 	 */
-	protected Color getPreferenceDefaultBackgroundColor() {
-		String backgroundColor = getPreferenceStore()
-				.getString(
-						ClassFormDiagramPreferenceConstants.TRANSITIONACTION_DEFAULT_BACKGROUND_COLOR);
-		if (backgroundColor.length() != 0) {
+	protected Color getPreferenceDefaultBackgroundColor(){
+		String backgroundColor = getPreferenceStore().getString(ClassFormDiagramPreferenceConstants.TRANSITIONACTION_DEFAULT_BACKGROUND_COLOR);
+		if(backgroundColor.length() != 0){
 			return Utils.getColor(backgroundColor);
 		}
 		return null;
 	}
-
 	/**
 	 * @see org.topcased.modeler.edit.GraphNodeEditPart#getPreferenceDefaultForegroundColor()
 	 * @generated
 	 */
-	protected Color getPreferenceDefaultForegroundColor() {
-		String foregroundColor = getPreferenceStore()
-				.getString(
-						ClassFormDiagramPreferenceConstants.TRANSITIONACTION_DEFAULT_FOREGROUND_COLOR);
-		if (foregroundColor.length() != 0) {
+	protected Color getPreferenceDefaultForegroundColor(){
+		String foregroundColor = getPreferenceStore().getString(ClassFormDiagramPreferenceConstants.TRANSITIONACTION_DEFAULT_FOREGROUND_COLOR);
+		if(foregroundColor.length() != 0){
 			return Utils.getColor(foregroundColor);
 		}
 		return null;
 	}
-
 	/**
 	 * @see org.topcased.modeler.edit.GraphNodeEditPart#getPreferenceDefaultFont()
 	 * @generated
 	 */
-	protected Font getPreferenceDefaultFont() {
-		String preferenceFont = getPreferenceStore()
-				.getString(
-						ClassFormDiagramPreferenceConstants.TRANSITIONACTION_DEFAULT_FONT);
-		if (preferenceFont.length() != 0) {
+	protected Font getPreferenceDefaultFont(){
+		String preferenceFont = getPreferenceStore().getString(ClassFormDiagramPreferenceConstants.TRANSITIONACTION_DEFAULT_FONT);
+		if(preferenceFont.length() != 0){
 			return Utils.getFont(new FontData(preferenceFont));
 		}
 		return null;
-
 	}
-
 }

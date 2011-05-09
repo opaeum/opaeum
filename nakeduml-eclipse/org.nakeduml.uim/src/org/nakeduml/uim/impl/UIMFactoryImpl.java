@@ -30,7 +30,7 @@ public class UIMFactoryImpl extends EFactoryImpl implements UIMFactory {
 	 */
 	public static UIMFactory init() {
 		try {
-			UIMFactory theUIMFactory = (UIMFactory)EPackage.Registry.INSTANCE.getEFactory("http://nakeduml.sf.net/uimetamodel/1.0"); 
+			UIMFactory theUIMFactory = (UIMFactory)EPackage.Registry.INSTANCE.getEFactory("http://nakeduml.org/uimetamodel/1.0"); 
 			if (theUIMFactory != null) {
 				return theUIMFactory;
 			}

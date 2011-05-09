@@ -1,8 +1,7 @@
 /*******************************************************************************
- * No CopyrightText Defined in the configurator file.
+ * 
  ******************************************************************************/
 package org.nakeduml.uim.classform.preferences;
-
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -17,31 +16,27 @@ import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
  *
  * @generated
  */
-public class ClassFormDiagramPreferencePage extends
-		AbstractTopcasedPreferencePage {
-
+public class ClassFormDiagramPreferencePage extends AbstractTopcasedPreferencePage{
 	/**
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 * @generated
 	 */
-	public void init(IWorkbench workbench) {
+	public void init(IWorkbench workbench){
 		// Do nothing
 	}
-
 	/**
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 * @generated
 	 */
-	protected Control createContents(Composite parent) {
+	protected Control createContents(Composite parent){
 		return null;
 	}
-
 	/**
 	 * @see org.topcased.facilities.preferences.AbstractTopcasedPreferencePage#getBundleId()
 	 *
 	 * @generated
 	 */
-	protected String getBundleId() {
+	protected String getBundleId(){
 		return ClassFormPlugin.getId();
 	}
 }

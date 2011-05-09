@@ -11,7 +11,7 @@
 	<artifactId>nakeduml-java-generator</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML UML to Java Transformation Logic</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>NakedUML UML to Java Transformation Logic</description>
 	<url>http://github.com/nakeduml</url>
 	<build>

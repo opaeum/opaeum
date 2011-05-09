@@ -10,6 +10,6 @@ import org.topcased.modeler.actions.ModelerActionBarContributor;
  *
  * @generated
  */
-public class UIMEditorActionBarContributor extends ModelerActionBarContributor {
+public class UIMEditorActionBarContributor extends ModelerActionBarContributor{
 	// TODO defined customized actions
 }
