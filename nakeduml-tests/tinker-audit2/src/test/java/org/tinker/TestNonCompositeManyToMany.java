@@ -86,34 +86,34 @@ public class TestNonCompositeManyToMany extends BaseLocalDbTest {
 		demon2.removeFromDreamWorld(dreamWorld1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(15, countVertices());
-		assertEquals(26, countEdges());
+		assertEquals(27, countEdges());
 		db.startTransaction();
 		demon2.removeFromDreamWorld(dreamWorld2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(29, countEdges());
+		assertEquals(31, countEdges());
 		db.startTransaction();
 		demon1.addAllToDreamWorld(dreamWorlds);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(39, countEdges());
+		assertEquals(41, countEdges());
 		db.startTransaction();
 		demon1.removeAllFromDreamWorld(dreamWorlds);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(23, countVertices());
-		assertEquals(43, countEdges());
+		assertEquals(47, countEdges());
 		db.startTransaction();
 		demon1.setDreamWorld(dreamWorlds);
 		demon2.setDreamWorld(dreamWorlds);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(27, countVertices());
-		assertEquals(59, countEdges());
+		assertEquals(63, countEdges());
 		db.startTransaction();
 		DreamWorld dreamWorld3 = new DreamWorld(god);
 		DreamWorld dreamWorld4 = new DreamWorld(god);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(32, countVertices());
-		assertEquals(67, countEdges());
+		assertEquals(71, countEdges());
 		db.startTransaction();
 		Set<DreamWorld> dreamWorlds2 = new HashSet<DreamWorld>();
 		dreamWorlds2.add(dreamWorld3);
@@ -121,6 +121,6 @@ public class TestNonCompositeManyToMany extends BaseLocalDbTest {
 		demon1.setDreamWorld(dreamWorlds2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(37, countVertices());
-		assertEquals(79, countEdges());
+		assertEquals(85, countEdges());
 	}	
 }

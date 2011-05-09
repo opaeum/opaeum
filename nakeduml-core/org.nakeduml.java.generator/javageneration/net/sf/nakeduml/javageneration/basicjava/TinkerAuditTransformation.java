@@ -475,6 +475,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 			if (otherMap.isMany()) {
 				buildManyRemover(map, otherMap, remover);
+				owner.addToImports(new OJPathName("java.lang.reflect.Constructor"));
 			} else {
 			}
 		} else {
@@ -492,21 +493,47 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
 		ifStatement2.addToThenPart(map.umlName() + ".createAuditVertex(false)");
 		forStatement.getBody().addToStatements(ifStatement2);
-		
+
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = TinkerUtil.calculateDirection(map, isComposite);
-		forStatement.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveIn = new "+map.javaBaseTypePath().getLast()+"(edge.getInVertex())");
-		forStatement.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveOut = new "+map.javaBaseTypePath().getLast()+"(edge.getOutVertex())");
-		forStatement.getBody().addToStatements("Edge auditEdge = GraphDb.getDB().addEdge(null, manyToRemoveOut.getAuditVertex(), manyToRemoveIn.getAuditVertex(),\""+map.getProperty().getAssociation().getName()+"\")");
-		if (isComposite) {
-			forStatement.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
-			forStatement.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
-		} else {
-			forStatement.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
-			forStatement.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
-		}
-		forStatement.getBody().addToStatements("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
 
+		OJTryStatement tryException = buildRemovedAuditEdge(map, otherMap, isComposite);
+		forStatement.getBody().addToStatements(tryException);
+		
+	}
+
+	private OJTryStatement buildRemovedAuditEdge(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, boolean isComposite) {
+		OJTryStatement tryException = new OJTryStatement();
+		
+		if (!isComposite) {
+			tryException.getTryPart().addToStatements("Class<" + otherMap.javaBaseTypePath().getLast() + "> inClazz = (Class<" + otherMap.javaBaseTypePath().getLast()+ ">) Class.forName((String)edge.getProperty(\"inClass\"))");
+			tryException.getTryPart().addToStatements("Constructor<" + otherMap.javaBaseTypePath().getLast() + "> inConstructor = inClazz.getConstructor(Vertex.class)");
+			tryException.getTryPart().addToStatements(otherMap.javaBaseTypePath().getLast() + " manyToRemoveIn = inConstructor.newInstance(edge.getInVertex())");
+			tryException.getTryPart().addToStatements("Class<" + map.javaBaseTypePath().getLast() + "> outClazz = (Class<" + map.javaBaseTypePath().getLast()	+ ">) Class.forName((String)edge.getProperty(\"outClass\"))");
+			tryException.getTryPart().addToStatements("Constructor<" + map.javaBaseTypePath().getLast() + "> outConstructor = outClazz.getConstructor(Vertex.class)");
+			tryException.getTryPart().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveOut = outConstructor.newInstance(edge.getOutVertex())");
+			tryException.getTryPart().addToStatements("Edge auditEdge = GraphDb.getDB().addEdge(null, manyToRemoveOut.getAuditVertex(), manyToRemoveIn.getAuditVertex(),\""	+ map.getProperty().getAssociation().getName() + "\")");
+			
+			tryException.getTryPart().addToStatements("auditEdge.setProperty(\"inClass\", " + otherMap.javaAuditBaseTypePath().getLast() + ".class.getName())");
+			tryException.getTryPart().addToStatements("auditEdge.setProperty(\"outClass\", " + map.javaAuditBaseTypePath().getLast() + ".class.getName())");
+		} else {
+			tryException.getTryPart().addToStatements("Class<" + map.javaBaseTypePath().getLast() + "> inClazz = (Class<" + map.javaBaseTypePath().getLast()+ ">) Class.forName((String)edge.getProperty(\"inClass\"))");
+			tryException.getTryPart().addToStatements("Constructor<" + map.javaBaseTypePath().getLast() + "> inConstructor = inClazz.getConstructor(Vertex.class)");
+			tryException.getTryPart().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveIn = inConstructor.newInstance(edge.getInVertex())");
+			tryException.getTryPart().addToStatements("Class<" + otherMap.javaBaseTypePath().getLast() + "> outClazz = (Class<" + otherMap.javaBaseTypePath().getLast()	+ ">) Class.forName((String)edge.getProperty(\"outClass\"))");
+			tryException.getTryPart().addToStatements("Constructor<" + otherMap.javaBaseTypePath().getLast() + "> outConstructor = outClazz.getConstructor(Vertex.class)");
+			tryException.getTryPart().addToStatements(otherMap.javaBaseTypePath().getLast() + " manyToRemoveOut = outConstructor.newInstance(edge.getOutVertex())");
+			tryException.getTryPart().addToStatements("Edge auditEdge = GraphDb.getDB().addEdge(null, manyToRemoveOut.getAuditVertex(), manyToRemoveIn.getAuditVertex(),\""	+ map.getProperty().getAssociation().getName() + "\")");
+
+			
+			tryException.getTryPart().addToStatements("auditEdge.setProperty(\"inClass\", " + map.javaAuditBaseTypePath().getLast() + ".class.getName())");
+			tryException.getTryPart().addToStatements("auditEdge.setProperty(\"outClass\", " + otherMap.javaAuditBaseTypePath().getLast() + ".class.getName())");
+		}
+		tryException.getTryPart().addToStatements("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+		OJParameter catchParam = new OJParameter("e", new OJPathName("java.lang.Exception"));
+		tryException.setCatchParam(catchParam);
+		tryException.getCatchPart().addToStatements("throw new RuntimeException(e)");
+		return tryException;
 	}
 
 	private OJOperation buildAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
@@ -621,24 +648,14 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		OJIfStatement ifStatement = new OJIfStatement("!edgesToRemove.isEmpty() && TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())",
 				"createAuditVertex(false)");
 		setter.getBody().getStatements().add(setter.getBody().getStatements().indexOf(collectEdges) + 1, ifStatement);
-		
-		OJForStatement removeEdges = (OJForStatement) setter.getBody().findStatement(TinkerAttributeImplementorStrategy.TINKER_MANY_TO_MANY_SETTER_REMOVE_EDGES);
 
-		removeEdges.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveIn = new "+map.javaBaseTypePath().getLast()+"(edge.getInVertex())");
-		removeEdges.getBody().addToStatements(map.javaBaseTypePath().getLast() + " manyToRemoveOut = new "+map.javaBaseTypePath().getLast()+"(edge.getOutVertex())");
-		removeEdges.getBody().addToStatements("Edge auditEdge = GraphDb.getDB().addEdge(null, manyToRemoveOut.getAuditVertex(), manyToRemoveIn.getAuditVertex(),\""+map.getProperty().getAssociation().getName()+"\")");
+		OJForStatement removeEdges = (OJForStatement) setter.getBody()
+				.findStatement(TinkerAttributeImplementorStrategy.TINKER_MANY_TO_MANY_SETTER_REMOVE_EDGES);
+
 		NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(map.getProperty().getOtherEnd());
-		if (isComposite) {
-			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
-			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
-		} else {
-			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"inClass\", "+map.javaAuditBaseTypePath().getLast()+".class.getName())");
-			removeEdges.getBody().addToStatements("auditEdge.setProperty(\"outClass\", "+otherMap.javaAuditBaseTypePath().getLast()+".class.getName())");
-		}
-		removeEdges.getBody().addToStatements("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
-		
-		
-		
+		OJTryStatement tryException = buildRemovedAuditEdge(map, otherMap, isComposite);
+		removeEdges.getBody().addToStatements(tryException);
+
 	}
 
 	private void addAuditToToOneSetter(INakedClassifier umlOwner, OJAnnotatedClass originalClass, NakedStructuralFeatureMap map) {
@@ -656,7 +673,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		OJIfStatement ifStatement = new OJIfStatement(map.getter() + "() != null");
 		ifStatement.addToThenPart("edgeRemovedFromAuditVertex = " + map.getter() + "().getAuditVertex()");
 		setter.getBody().getStatements().add(3, ifStatement);
-		
+
 		OJIfStatement ifStatement3 = new OJIfStatement(map.umlName() + " != null && TransactionThreadVar.hasNoAuditEntry(" + map.umlName()
 				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
 		ifStatement3.addToThenPart(map.umlName() + ".createAuditVertex(false)");
@@ -669,23 +686,30 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		String associationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			OJIfStatement ifVarNull = new OJIfStatement(map.umlName() + " != null");
-			
-			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(getAuditVertex(), " + map.umlName() + ".getAuditVertex(),\""+associationName+"\").isEmpty()");
+
+			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(getAuditVertex(), " + map.umlName() + ".getAuditVertex(),\""
+					+ associationName + "\").isEmpty()");
 			ifVarNull.addToThenPart(existEdge);
-			
-//			ifVarNull.addToThenPart("Iterable<Edge> iter1 = " + map.umlName() + ".getAuditVertex().getOutEdges(\"" + associationName + "\")");
-//			OJIfStatement ifHasNext1 = new OJIfStatement("iter1.iterator().hasNext()");
-//			ifHasNext1.addToThenPart("Edge next = iter1.iterator().next()");
-//			OJIfStatement ifEdgeNotDeleted1 = new OJIfStatement("next.getProperty(\"deletedOn\")==null", "org.util.GraphDb.getDB().removeEdge(next)");
-//			ifHasNext1.addToThenPart(ifEdgeNotDeleted1);
-//			ifVarNull.addToThenPart(ifHasNext1);
+
+			// ifVarNull.addToThenPart("Iterable<Edge> iter1 = " + map.umlName()
+			// + ".getAuditVertex().getOutEdges(\"" + associationName + "\")");
+			// OJIfStatement ifHasNext1 = new
+			// OJIfStatement("iter1.iterator().hasNext()");
+			// ifHasNext1.addToThenPart("Edge next = iter1.iterator().next()");
+			// OJIfStatement ifEdgeNotDeleted1 = new
+			// OJIfStatement("next.getProperty(\"deletedOn\")==null",
+			// "org.util.GraphDb.getDB().removeEdge(next)");
+			// ifHasNext1.addToThenPart(ifEdgeNotDeleted1);
+			// ifVarNull.addToThenPart(ifHasNext1);
 			existEdge.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, getAuditVertex()," + map.umlName() + ".getAuditVertex(), \""
 					+ associationName + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			setter.getBody().addToStatements(ifVarNull);
-			
-			OJIfStatement ifEdgeToRemoveNull = new OJIfStatement("edgeRemovedFromAuditVertex != null && TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\""+associationName+"\").isEmpty()");
+
+			OJIfStatement ifEdgeToRemoveNull = new OJIfStatement(
+					"edgeRemovedFromAuditVertex != null && TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\"" + associationName
+							+ "\").isEmpty()");
 			ifEdgeToRemoveNull.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, getAuditVertex(), edgeRemovedFromAuditVertex, \""
 					+ associationName + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
@@ -695,24 +719,30 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 			setter.getBody().addToStatements(ifEdgeToRemoveNull);
 		} else {
 			OJIfStatement ifVarNull = new OJIfStatement(map.umlName() + " != null");
-			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(" + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""+associationName+"\").isEmpty()");
+			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(" + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
+					+ associationName + "\").isEmpty()");
 			ifVarNull.addToThenPart(existEdge);
-			
-//			ifVarNull.addToThenPart("Iterable<Edge> iter1 = " + map.umlName() + ".getAuditVertex().getOutEdges(\"" + associationName + "\")");
-//			OJIfStatement ifHasNext = new OJIfStatement("iter1.iterator().hasNext()");
-//			ifHasNext.addToThenPart("Edge next = iter1.iterator().next()");
-//			ifVarNull.addToThenPart(ifHasNext);
-//			OJIfStatement ifEdgeDeleted = new OJIfStatement("next.getProperty(\"deletedOn\")==null",
-//					"org.util.GraphDb.getDB().removeEdge(next)");
-//			ifHasNext.addToThenPart(ifEdgeDeleted);
-			
+
+			// ifVarNull.addToThenPart("Iterable<Edge> iter1 = " + map.umlName()
+			// + ".getAuditVertex().getOutEdges(\"" + associationName + "\")");
+			// OJIfStatement ifHasNext = new
+			// OJIfStatement("iter1.iterator().hasNext()");
+			// ifHasNext.addToThenPart("Edge next = iter1.iterator().next()");
+			// ifVarNull.addToThenPart(ifHasNext);
+			// OJIfStatement ifEdgeDeleted = new
+			// OJIfStatement("next.getProperty(\"deletedOn\")==null",
+			// "org.util.GraphDb.getDB().removeEdge(next)");
+			// ifHasNext.addToThenPart(ifEdgeDeleted);
+
 			existEdge.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, " + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
 					+ associationName + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			setter.getBody().addToStatements(ifVarNull);
-			
-			OJIfStatement ifEdgeToRemoveNull = new OJIfStatement("edgeRemovedFromAuditVertex != null  && TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\""+associationName+"\").isEmpty()");
+
+			OJIfStatement ifEdgeToRemoveNull = new OJIfStatement(
+					"edgeRemovedFromAuditVertex != null  && TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\"" + associationName
+							+ "\").isEmpty()");
 			ifEdgeToRemoveNull.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, edgeRemovedFromAuditVertex, getAuditVertex(),\"" + associationName
 					+ "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.javaBaseTypePath().getLast() + ".class.getName() + \""

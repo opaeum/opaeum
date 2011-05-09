@@ -63,7 +63,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyA11.clearManyB();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(34, countVertices());
-		assertEquals(69, countEdges());
+		assertEquals(73, countEdges());
 		int countManyB1 = 0;
 		int countManyB2 = 0;
 		for (ManyB manyB : manyA1.getManyB()) {
