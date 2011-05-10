@@ -40,7 +40,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="control" lowerBound="1"
         eType="#//UIMControl" containment="true" eOpposite="#//UIMControl/field"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlKind" eType="#//ControlKind"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelWidth" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Integer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelWidth" eType="ecore:EDataType platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Integer"
+        defaultValueLiteral="200"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="binding" lowerBound="1"
         eType="#//FieldBinding" containment="true" eOpposite="#//FieldBinding/field"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="securityOnEditability"

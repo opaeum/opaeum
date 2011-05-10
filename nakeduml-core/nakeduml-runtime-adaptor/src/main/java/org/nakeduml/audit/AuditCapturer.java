@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Auditable;
@@ -59,9 +60,9 @@ public class AuditCapturer{
 						if(one != null){
 							// Use load because it must return a value
 							Audited fetchedOne = (Audited) session.load(IntrospectionUtil.getOriginalClass(one.getClass()), one.getId());
-							String oneName = pd.getWriteMethod().getParameterTypes()[0].getSimpleName();
+							String oneName =NameConverter.capitalize(pd.getName());
 							try{
-								Method setter = audited.getClass().getMethod("z_internalAddTo" + oneName.substring(0, oneName.length() - 6),
+								Method setter = audited.getClass().getMethod("z_internalAddTo" +oneName,
 										pd.getWriteMethod().getParameterTypes()[0]);
 								setter.invoke(audited, fetchedOne);
 							}catch(NoSuchMethodException e){

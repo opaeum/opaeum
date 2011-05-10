@@ -1,43 +1,28 @@
 package org.nakeduml.uim.figures.controls;
 
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.border.BevelBorder;
 
-import org.eclipse.draw2d.ArrowButton;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.GridData;
-import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.RectangularDropShadowLineBorder;
+import org.eclipse.swt.graphics.FontData;
 import org.nakeduml.uim.figures.IControlFigure;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.Label;
 
 public class UIMDropdownFigure extends Figure implements IControlFigure {
-	private Label textField;
-	private ArrowButton arrowButton;
+	private Label textField=new Label();
 	private JComboBox combo = new JComboBox();
 	public UIMDropdownFigure() {
 		super();
-//		final GridLayout gl = new GridLayout(2, false);
-//		gl.marginHeight=0;
-//		gl.marginWidth=0;
-//		gl.horizontalSpacing=0;
-//		gl.verticalSpacing=0;
-//		setLayoutManager(gl);
-		textField = new Label();
-//		add(textField, new GridData(GridData.CENTER, GridData.CENTER,
-//				true, false));
-//		
-//		arrowButton = new ArrowButton(ArrowButton.SOUTH);
-//		arrowButton.setPreferredSize(new Dimension(20,20));
-//		add(arrowButton, new GridData(GridData.END, GridData.END, true,true));
-//		setBorder(new RectangularDropShadowLineBorder(1));
-//		minSize=new Dimension(10,10);
+		minSize=new Dimension(10,10);
 	}
 
 	@Override
@@ -47,13 +32,13 @@ public class UIMDropdownFigure extends Figure implements IControlFigure {
 
 	@Override
 	public void paint(Graphics graphics){
-		combo.setBounds(new Rectangle(getBounds().x+2,getBounds().y+2,getBounds().width-4,getBounds().height-4));
-		GraphicsBridge g2 = new GraphicsBridge(graphics);
+		GraphicsBridge create=GraphicsBridge.buildBridge(graphics, this, combo);
 		combo.setModel(new DefaultComboBoxModel(new String[]{textField.getText(),"sdgh"}));
+		combo.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(155, 155, 155), new Color(200,200,200)));
 		combo.setSelectedIndex(0);
 		combo.doLayout();
-		combo.paint(g2.create(getBounds().x+2,getBounds().y+2,getBounds().width-4,getBounds().height-4));
-		graphics.popState();
+		combo.paint(create);
+		create.dispose();
 	}
 	
 

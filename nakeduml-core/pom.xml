@@ -20,6 +20,7 @@
 		<module>org.nakeduml.metamodels</module>
 		<module>org.nakeduml.java.generator</module>
 		<module>org.nakeduml.generators</module>
+		<module>org.nakeduml.uim</module>
 		<module>nakeduml-runtime-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>

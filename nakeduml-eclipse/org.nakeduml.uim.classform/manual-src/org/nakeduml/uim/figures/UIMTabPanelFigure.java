@@ -124,7 +124,7 @@ public class UIMTabPanelFigure extends Figure implements IContainerFigure{
 		Rectangle b = getBounds();
 		tabbedPane.setBounds(new java.awt.Rectangle(b.x + 1, b.y + 1, b.width - 2, b.height - 2));
 		FontData fontData = getFont().getFontData()[0];
-		tabbedPane.setFont(new Font(fontData.getName(), fontData.getStyle(), fontData.getHeight()));
+		tabbedPane.setFont(new Font(fontData.getName(), fontData.getStyle(), fontData.getHeight()+2));
 		tabbedPane.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(200, 200, 200), new Color(100, 100, 100)));
 		if(selectedIndex < tabbedPane.getComponentCount()){
 			tabbedPane.setSelectedIndex(selectedIndex);
