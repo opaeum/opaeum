@@ -8,20 +8,17 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
-	<artifactId>numl-core</artifactId>
+	<artifactId>numl-runtime</artifactId>
 	<packaging>pom</packaging>
-	<name>numl-core</name>
+	<name>numl-runtime</name>
 	<version>1.0.0.5-SNAPSHOT</version>
 
 	<modules>
-		<module>org.nakeduml.ocl.metamodel</module>
-		<module>org.nakeduml.java.metamodel</module>
-		<module>org.nakeduml.ocl.java.generator</module>
-		<module>org.nakeduml.metamodels</module>
-		<module>org.nakeduml.java.generator</module>
-		<module>org.nakeduml.generators</module>
-		<module>org.nakeduml.uim</module>
+		<module>nakeduml-runtime-domain</module>
+		<module>nakeduml-runtime-adaptor</module>
+		<module>nakeduml-test-adaptor</module>
 	</modules>
+        
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

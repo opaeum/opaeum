@@ -12,9 +12,9 @@
 	<packaging>jar</packaging>
 	<name>NakedUML User Interaction Metamodel</name>
 	<version>1.0.0.5-SNAPSHOT</version>
-	<description>User Interaction Metamodel
-</description>
+	<description>User Interaction Metamodel</description>
 	<url>http://github.com/nakeduml</url>
+
 	<build>
 		<plugins>
 			<plugin>

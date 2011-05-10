@@ -17,10 +17,6 @@
 	<properties>
 		<seam.persistence.version>3.0.1-SNAPSHOT</seam.persistence.version>
 		<seam.solder.version>3.0.0.Final</seam.solder.version>
-		<slf4j.log4j>1.6.1</slf4j.log4j>
-		<jbpm.version>5.0.0</jbpm.version>
-		<drools.version>5.2.0.M1</drools.version>
-		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
 
 	<build>
@@ -213,13 +209,6 @@
 					<artifactId>antlr</artifactId>
 				</exclusion>				
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.5.10</version>
-			<type>jar</type>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

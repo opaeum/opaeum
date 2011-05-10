@@ -163,4 +163,11 @@
 				<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<properties>
+		<java.version>1.6</java.version>
+		<jbpm.version>5.0.0</jbpm.version>
+		<junit.version>4.8.2</junit.version>
+		<drools.version>5.2.0.M1</drools.version>
+	</properties>
+
 </project>

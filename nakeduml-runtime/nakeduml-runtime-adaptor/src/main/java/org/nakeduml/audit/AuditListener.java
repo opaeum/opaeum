@@ -11,16 +11,15 @@ import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
+import org.jboss.logging.Logger;
 import org.nakeduml.runtime.domain.Auditable;
 import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.RevisionType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AuditListener extends AbstractFlushingEventListener implements PostInsertEventListener, PostUpdateEventListener, FlushEventListener, Initializable{
 
 	private static final long serialVersionUID = -233067098331332700L;
-	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
+	private static final Logger log = Logger.getLogger(AuditListener.class);
 	private AuditConfiguration verCfg;
 
 	@Override
