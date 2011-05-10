@@ -27,7 +27,7 @@ public class ArtifactNames {
 	public static final String SEAM_JMS_API = "org.jboss.seam.jms:seam-jms-api";
 	public static final String SEAM_JMS = "org.jboss.seam.jms:seam-jms";
 
-	public static final String SEAM_SCHEDULING = "org.jboss.seam:scheduling";
+	public static final String SEAM_SCHEDULING = "org.jboss.seam.cron:seam-cron";
 
 	public static final String WELD_CORE_TEST = "org.jboss.weld:weld-core-test";
 	public static final String WELD_SE = "org.jboss.weld:weld-se";

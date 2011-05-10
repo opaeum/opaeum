@@ -60,4 +60,11 @@ public class ManagedHibernateSessionProvider implements Serializable {
 		return managedHibernateSessionFactoryProvider.getSessionFactory();
 	}
 	
+	@Audit
+	@Produces
+	@ExtensionManaged
+	public SessionFactory createSessionFactory() {
+		return managedHibernateSessionFactoryProvider.getSessionFactory();
+	}	
+	
 }

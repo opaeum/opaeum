@@ -68,6 +68,7 @@ public class AuditCapturer{
 							}catch(NoSuchMethodException e){
 								e.printStackTrace();
 							}
+							setter.invoke(audited, fetchedOne);
 							// TODO check if wanted
 							// setOtherSideOfOneToOne(audited, fetchedOne, oneName);
 						}
