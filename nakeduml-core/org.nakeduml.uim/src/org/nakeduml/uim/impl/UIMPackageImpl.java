@@ -78,6 +78,7 @@ import org.nakeduml.uim.UIMTextArea;
 import org.nakeduml.uim.UIMToggleButton;
 import org.nakeduml.uim.UIMToolbarLayout;
 import org.nakeduml.uim.UIMXYLayout;
+import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.UserInteractionElement;
 import org.nakeduml.uim.UserInteractionModel;
 
@@ -514,6 +515,13 @@ public class UIMPackageImpl extends EPackageImpl implements UIMPackage {
 	 * @generated
 	 */
 	private EClass uimNumberScrollerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass umlReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1768,6 +1776,24 @@ public class UIMPackageImpl extends EPackageImpl implements UIMPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getUmlReference() {
+		return umlReferenceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUmlReference_UmlElementUid() {
+		return (EAttribute)umlReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getActionKind() {
 		return actionKindEEnum;
 	}
@@ -2000,6 +2026,9 @@ public class UIMPackageImpl extends EPackageImpl implements UIMPackage {
 
 		uimNumberScrollerEClass = createEClass(UIM_NUMBER_SCROLLER);
 
+		umlReferenceEClass = createEClass(UML_REFERENCE);
+		createEAttribute(umlReferenceEClass, UML_REFERENCE__UML_ELEMENT_UID);
+
 		// Create enums
 		actionKindEEnum = createEEnum(ACTION_KIND);
 		controlKindEEnum = createEEnum(CONTROL_KIND);
@@ -2039,38 +2068,54 @@ public class UIMPackageImpl extends EPackageImpl implements UIMPackage {
 		// Add supertypes to classes
 		uimFormEClass.getESuperTypes().add(this.getUserInteractionElement());
 		userInteractionModelEClass.getESuperTypes().add(this.getAbstractFolder());
+		userInteractionModelEClass.getESuperTypes().add(this.getUmlReference());
 		abstractFormFolderEClass.getESuperTypes().add(this.getAbstractFolder());
 		abstractFolderEClass.getESuperTypes().add(this.getUserInteractionElement());
 		uimFieldEClass.getESuperTypes().add(this.getUIMComponent());
 		uimNavigationEClass.getESuperTypes().add(this.getUIMComponent());
 		uimPanelEClass.getESuperTypes().add(this.getUIMContainer());
 		classFormEClass.getESuperTypes().add(this.getUIMForm());
+		classFormEClass.getESuperTypes().add(this.getUmlReference());
 		stateFormEClass.getESuperTypes().add(this.getUIMForm());
+		stateFormEClass.getESuperTypes().add(this.getUmlReference());
 		operationInvocationFormEClass.getESuperTypes().add(this.getUIMForm());
+		operationInvocationFormEClass.getESuperTypes().add(this.getUmlReference());
 		uimComponentEClass.getESuperTypes().add(this.getUserInteractionElement());
 		operationActionEClass.getESuperTypes().add(this.getUIMAction());
+		operationActionEClass.getESuperTypes().add(this.getUmlReference());
 		navigationToOperationEClass.getESuperTypes().add(this.getUIMNavigation());
+		navigationToOperationEClass.getESuperTypes().add(this.getUmlReference());
 		builtInActionEClass.getESuperTypes().add(this.getUIMAction());
 		navigationToEntityEClass.getESuperTypes().add(this.getUIMNavigation());
+		navigationToEntityEClass.getESuperTypes().add(this.getUmlReference());
 		transitionActionEClass.getESuperTypes().add(this.getUIMAction());
+		transitionActionEClass.getESuperTypes().add(this.getUmlReference());
 		operationTaskFormEClass.getESuperTypes().add(this.getUIMForm());
+		operationTaskFormEClass.getESuperTypes().add(this.getUmlReference());
 		actionTaskFormEClass.getESuperTypes().add(this.getUIMForm());
+		actionTaskFormEClass.getESuperTypes().add(this.getUmlReference());
 		uimActionEClass.getESuperTypes().add(this.getUIMComponent());
 		childSecurityConstraintEClass.getESuperTypes().add(this.getModelSecurityConstraint());
 		uimGridLayoutEClass.getESuperTypes().add(this.getUIMLayout());
 		uimDataTableEClass.getESuperTypes().add(this.getMasterComponent());
 		uimDataTableEClass.getESuperTypes().add(this.getUIMContainer());
+		uimBindingEClass.getESuperTypes().add(this.getUmlReference());
+		propertyRefEClass.getESuperTypes().add(this.getUmlReference());
 		uimDataColumnEClass.getESuperTypes().add(this.getUIMPanel());
 		tableBindingEClass.getESuperTypes().add(this.getUIMBinding());
 		fieldBindingEClass.getESuperTypes().add(this.getUIMBinding());
 		formPanelEClass.getESuperTypes().add(this.getUIMContainer());
 		stateMachineFolderEClass.getESuperTypes().add(this.getOperationContainingFolder());
+		stateMachineFolderEClass.getESuperTypes().add(this.getUmlReference());
 		entityFolderEClass.getESuperTypes().add(this.getOperationContainingFolder());
+		entityFolderEClass.getESuperTypes().add(this.getUmlReference());
 		activityFolderEClass.getESuperTypes().add(this.getAbstractFormFolder());
+		activityFolderEClass.getESuperTypes().add(this.getUmlReference());
 		operationContainingFolderEClass.getESuperTypes().add(this.getAbstractFormFolder());
 		navigationBindingEClass.getESuperTypes().add(this.getUIMBinding());
 		detailPanelEClass.getESuperTypes().add(this.getUIMPanel());
 		packageFolderEClass.getESuperTypes().add(this.getAbstractFormFolder());
+		packageFolderEClass.getESuperTypes().add(this.getUmlReference());
 		uimTabPanelEClass.getESuperTypes().add(this.getUIMContainer());
 		uimTabEClass.getESuperTypes().add(this.getUIMPanel());
 		uimCheckBoxEClass.getESuperTypes().add(this.getUIMControl());
@@ -2117,7 +2162,7 @@ public class UIMPackageImpl extends EPackageImpl implements UIMPackage {
 		initEClass(uimFieldEClass, UIMField.class, "UIMField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUIMField_Control(), this.getUIMControl(), this.getUIMControl_Field(), "control", null, 1, 1, UIMField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUIMField_ControlKind(), this.getControlKind(), "controlKind", null, 0, 1, UIMField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUIMField_LabelWidth(), theUMLPackage.getInteger(), "labelWidth", null, 0, 1, UIMField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUIMField_LabelWidth(), theUMLPackage.getInteger(), "labelWidth", "200", 0, 1, UIMField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUIMField_Binding(), this.getFieldBinding(), this.getFieldBinding_Field(), "binding", null, 1, 1, UIMField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUIMField_SecurityOnEditability(), this.getChildSecurityConstraint(), null, "securityOnEditability", null, 0, 1, UIMField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2290,6 +2335,9 @@ public class UIMPackageImpl extends EPackageImpl implements UIMPackage {
 		initEClass(uimToggleButtonEClass, UIMToggleButton.class, "UIMToggleButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(uimNumberScrollerEClass, UIMNumberScroller.class, "UIMNumberScroller", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(umlReferenceEClass, UmlReference.class, "UmlReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUmlReference_UmlElementUid(), theEcorePackage.getEString(), "umlElementUid", null, 0, 1, UmlReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(actionKindEEnum, ActionKind.class, "ActionKind");

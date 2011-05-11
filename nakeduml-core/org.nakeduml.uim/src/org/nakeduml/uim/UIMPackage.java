@@ -191,13 +191,22 @@ public interface UIMPackage extends EPackage {
 	int USER_INTERACTION_MODEL__CHILDREN = ABSTRACT_FOLDER__CHILDREN;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERACTION_MODEL__UML_ELEMENT_UID = ABSTRACT_FOLDER_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Uml Model</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERACTION_MODEL__UML_MODEL = ABSTRACT_FOLDER_FEATURE_COUNT + 0;
+	int USER_INTERACTION_MODEL__UML_MODEL = ABSTRACT_FOLDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Security On Visibility</b></em>' containment reference.
@@ -206,7 +215,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY = ABSTRACT_FOLDER_FEATURE_COUNT + 1;
+	int USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY = ABSTRACT_FOLDER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Secuiryt On Editability</b></em>' containment reference.
@@ -215,7 +224,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY = ABSTRACT_FOLDER_FEATURE_COUNT + 2;
+	int USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY = ABSTRACT_FOLDER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>User Interaction Model</em>' class.
@@ -224,7 +233,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USER_INTERACTION_MODEL_FEATURE_COUNT = ABSTRACT_FOLDER_FEATURE_COUNT + 3;
+	int USER_INTERACTION_MODEL_FEATURE_COUNT = ABSTRACT_FOLDER_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.AbstractFormFolderImpl <em>Abstract Form Folder</em>}' class.
@@ -630,13 +639,22 @@ public interface UIMPackage extends EPackage {
 	int CLASS_FORM__PANEL = UIM_FORM__PANEL;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_FORM__UML_ELEMENT_UID = UIM_FORM_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Folder</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 0;
+	int CLASS_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Class Form</em>' class.
@@ -645,7 +663,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASS_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 1;
+	int CLASS_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.StateFormImpl <em>State Form</em>}' class.
@@ -676,13 +694,22 @@ public interface UIMPackage extends EPackage {
 	int STATE_FORM__PANEL = UIM_FORM__PANEL;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_FORM__UML_ELEMENT_UID = UIM_FORM_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>State</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FORM__STATE = UIM_FORM_FEATURE_COUNT + 0;
+	int STATE_FORM__STATE = UIM_FORM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Folder</b></em>' container reference.
@@ -691,7 +718,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 1;
+	int STATE_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>State Form</em>' class.
@@ -700,7 +727,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 2;
+	int STATE_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.ModelSecurityConstraintImpl <em>Model Security Constraint</em>}' class.
@@ -777,13 +804,22 @@ public interface UIMPackage extends EPackage {
 	int OPERATION_INVOCATION_FORM__PANEL = UIM_FORM__PANEL;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_INVOCATION_FORM__UML_ELEMENT_UID = UIM_FORM_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Operation</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_FORM__OPERATION = UIM_FORM_FEATURE_COUNT + 0;
+	int OPERATION_INVOCATION_FORM__OPERATION = UIM_FORM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Folder</b></em>' container reference.
@@ -792,7 +828,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 1;
+	int OPERATION_INVOCATION_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Operation Invocation Form</em>' class.
@@ -801,7 +837,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 2;
+	int OPERATION_INVOCATION_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.UIMActionImpl <em>Action</em>}' class.
@@ -887,13 +923,22 @@ public interface UIMPackage extends EPackage {
 	int OPERATION_ACTION__PARENT = UIM_ACTION__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION__UML_ELEMENT_UID = UIM_ACTION_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Operation</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_ACTION__OPERATION = UIM_ACTION_FEATURE_COUNT + 0;
+	int OPERATION_ACTION__OPERATION = UIM_ACTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Operation Action</em>' class.
@@ -902,7 +947,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
+	int OPERATION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.NavigationToOperationImpl <em>Navigation To Operation</em>}' class.
@@ -942,13 +987,22 @@ public interface UIMPackage extends EPackage {
 	int NAVIGATION_TO_OPERATION__PARENT = UIM_NAVIGATION__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_TO_OPERATION__UML_ELEMENT_UID = UIM_NAVIGATION_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>To Form</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAVIGATION_TO_OPERATION__TO_FORM = UIM_NAVIGATION_FEATURE_COUNT + 0;
+	int NAVIGATION_TO_OPERATION__TO_FORM = UIM_NAVIGATION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Navigation To Operation</em>' class.
@@ -957,7 +1011,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAVIGATION_TO_OPERATION_FEATURE_COUNT = UIM_NAVIGATION_FEATURE_COUNT + 1;
+	int NAVIGATION_TO_OPERATION_FEATURE_COUNT = UIM_NAVIGATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.BuiltInActionImpl <em>Built In Action</em>}' class.
@@ -1089,13 +1143,22 @@ public interface UIMPackage extends EPackage {
 	int NAVIGATION_TO_ENTITY__PARENT = UIM_NAVIGATION__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_TO_ENTITY__UML_ELEMENT_UID = UIM_NAVIGATION_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>To Form</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAVIGATION_TO_ENTITY__TO_FORM = UIM_NAVIGATION_FEATURE_COUNT + 0;
+	int NAVIGATION_TO_ENTITY__TO_FORM = UIM_NAVIGATION_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
@@ -1104,7 +1167,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAVIGATION_TO_ENTITY__BINDING = UIM_NAVIGATION_FEATURE_COUNT + 1;
+	int NAVIGATION_TO_ENTITY__BINDING = UIM_NAVIGATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Navigation To Entity</em>' class.
@@ -1113,7 +1176,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NAVIGATION_TO_ENTITY_FEATURE_COUNT = UIM_NAVIGATION_FEATURE_COUNT + 2;
+	int NAVIGATION_TO_ENTITY_FEATURE_COUNT = UIM_NAVIGATION_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.TransitionActionImpl <em>Transition Action</em>}' class.
@@ -1153,13 +1216,22 @@ public interface UIMPackage extends EPackage {
 	int TRANSITION_ACTION__PARENT = UIM_ACTION__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION_ACTION__UML_ELEMENT_UID = UIM_ACTION_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Transition</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_ACTION__TRANSITION = UIM_ACTION_FEATURE_COUNT + 0;
+	int TRANSITION_ACTION__TRANSITION = UIM_ACTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Transition Action</em>' class.
@@ -1168,7 +1240,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
+	int TRANSITION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.OperationTaskFormImpl <em>Operation Task Form</em>}' class.
@@ -1199,13 +1271,22 @@ public interface UIMPackage extends EPackage {
 	int OPERATION_TASK_FORM__PANEL = UIM_FORM__PANEL;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_TASK_FORM__UML_ELEMENT_UID = UIM_FORM_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Operation</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_FORM__OPERATION = UIM_FORM_FEATURE_COUNT + 0;
+	int OPERATION_TASK_FORM__OPERATION = UIM_FORM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Folder</b></em>' container reference.
@@ -1214,7 +1295,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 1;
+	int OPERATION_TASK_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Operation Task Form</em>' class.
@@ -1223,7 +1304,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 2;
+	int OPERATION_TASK_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.ActionTaskFormImpl <em>Action Task Form</em>}' class.
@@ -1254,13 +1335,22 @@ public interface UIMPackage extends EPackage {
 	int ACTION_TASK_FORM__PANEL = UIM_FORM__PANEL;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TASK_FORM__UML_ELEMENT_UID = UIM_FORM_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Action</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_TASK_FORM__ACTION = UIM_FORM_FEATURE_COUNT + 0;
+	int ACTION_TASK_FORM__ACTION = UIM_FORM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Folder</b></em>' container reference.
@@ -1269,7 +1359,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_TASK_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 1;
+	int ACTION_TASK_FORM__FOLDER = UIM_FORM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Action Task Form</em>' class.
@@ -1278,7 +1368,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_TASK_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 2;
+	int ACTION_TASK_FORM_FEATURE_COUNT = UIM_FORM_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.ChildSecurityConstraintImpl <em>Child Security Constraint</em>}' class.
@@ -1583,6 +1673,34 @@ public interface UIMPackage extends EPackage {
 	int UIM_DATA_TABLE_FEATURE_COUNT = MASTER_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
+	 * The meta object id for the '{@link org.nakeduml.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.nakeduml.uim.impl.UmlReferenceImpl
+	 * @see org.nakeduml.uim.impl.UIMPackageImpl#getUmlReference()
+	 * @generated
+	 */
+	int UML_REFERENCE = 61;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UML_REFERENCE__UML_ELEMENT_UID = 0;
+
+	/**
+	 * The number of structural features of the '<em>Uml Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UML_REFERENCE_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.UIMBindingImpl <em>Binding</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1593,13 +1711,22 @@ public interface UIMPackage extends EPackage {
 	int UIM_BINDING = 25;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_BINDING__UML_ELEMENT_UID = UML_REFERENCE__UML_ELEMENT_UID;
+
+	/**
 	 * The feature id for the '<em><b>Next</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_BINDING__NEXT = 0;
+	int UIM_BINDING__NEXT = UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1608,7 +1735,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_BINDING__ELEMENT = 1;
+	int UIM_BINDING__ELEMENT = UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Binding</em>' class.
@@ -1617,7 +1744,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_BINDING_FEATURE_COUNT = 2;
+	int UIM_BINDING_FEATURE_COUNT = UML_REFERENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.PropertyRefImpl <em>Property Ref</em>}' class.
@@ -1630,13 +1757,22 @@ public interface UIMPackage extends EPackage {
 	int PROPERTY_REF = 26;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_REF__UML_ELEMENT_UID = UML_REFERENCE__UML_ELEMENT_UID;
+
+	/**
 	 * The feature id for the '<em><b>Binding</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_REF__BINDING = 0;
+	int PROPERTY_REF__BINDING = UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Previous</b></em>' container reference.
@@ -1645,7 +1781,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_REF__PREVIOUS = 1;
+	int PROPERTY_REF__PREVIOUS = UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -1654,7 +1790,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_REF__NEXT = 2;
+	int PROPERTY_REF__NEXT = UML_REFERENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Property</b></em>' reference.
@@ -1663,7 +1799,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_REF__PROPERTY = 3;
+	int PROPERTY_REF__PROPERTY = UML_REFERENCE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Property Ref</em>' class.
@@ -1672,7 +1808,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_REF_FEATURE_COUNT = 4;
+	int PROPERTY_REF_FEATURE_COUNT = UML_REFERENCE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.UIMDataColumnImpl <em>Data Column</em>}' class.
@@ -1758,6 +1894,15 @@ public interface UIMPackage extends EPackage {
 	int TABLE_BINDING = 28;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE_BINDING__UML_ELEMENT_UID = UIM_BINDING__UML_ELEMENT_UID;
+
+	/**
 	 * The feature id for the '<em><b>Next</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1802,6 +1947,15 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 */
 	int FIELD_BINDING = 29;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD_BINDING__UML_ELEMENT_UID = UIM_BINDING__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -2068,13 +2222,22 @@ public interface UIMPackage extends EPackage {
 	int STATE_MACHINE_FOLDER__CLASS_FORM = OPERATION_CONTAINING_FOLDER__CLASS_FORM;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE_MACHINE_FOLDER__UML_ELEMENT_UID = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>State Forms</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE_FOLDER__STATE_FORMS = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 0;
+	int STATE_MACHINE_FOLDER__STATE_FORMS = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>State Machine</b></em>' reference.
@@ -2083,7 +2246,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE_FOLDER__STATE_MACHINE = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 1;
+	int STATE_MACHINE_FOLDER__STATE_MACHINE = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>State Machine Folder</em>' class.
@@ -2092,7 +2255,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_MACHINE_FOLDER_FEATURE_COUNT = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 2;
+	int STATE_MACHINE_FOLDER_FEATURE_COUNT = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.EntityFolderImpl <em>Entity Folder</em>}' class.
@@ -2168,13 +2331,22 @@ public interface UIMPackage extends EPackage {
 	int ENTITY_FOLDER__CLASS_FORM = OPERATION_CONTAINING_FOLDER__CLASS_FORM;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY_FOLDER__UML_ELEMENT_UID = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Operation Task Forms</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_FOLDER__OPERATION_TASK_FORMS = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 0;
+	int ENTITY_FOLDER__OPERATION_TASK_FORMS = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Entity</b></em>' reference.
@@ -2183,7 +2355,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_FOLDER__ENTITY = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 1;
+	int ENTITY_FOLDER__ENTITY = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Entity Folder</em>' class.
@@ -2192,7 +2364,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_FOLDER_FEATURE_COUNT = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 2;
+	int ENTITY_FOLDER_FEATURE_COUNT = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.ActivityFolderImpl <em>Activity Folder</em>}' class.
@@ -2250,13 +2422,22 @@ public interface UIMPackage extends EPackage {
 	int ACTIVITY_FOLDER__SECURITY_ON_EDITABILITY = ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVITY_FOLDER__UML_ELEMENT_UID = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Action Task Forms</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTIVITY_FOLDER__ACTION_TASK_FORMS = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
+	int ACTIVITY_FOLDER__ACTION_TASK_FORMS = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Activity</b></em>' reference.
@@ -2265,7 +2446,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTIVITY_FOLDER__ACTIVITY = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 1;
+	int ACTIVITY_FOLDER__ACTIVITY = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Activity Folder</em>' class.
@@ -2274,7 +2455,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTIVITY_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 2;
+	int ACTIVITY_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.NavigationBindingImpl <em>Navigation Binding</em>}' class.
@@ -2285,6 +2466,15 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 */
 	int NAVIGATION_BINDING = 35;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_BINDING__UML_ELEMENT_UID = UIM_BINDING__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -2451,13 +2641,22 @@ public interface UIMPackage extends EPackage {
 	int PACKAGE_FOLDER__SECURITY_ON_EDITABILITY = ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY;
 
 	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PACKAGE_FOLDER__UML_ELEMENT_UID = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Uml Package</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGE_FOLDER__UML_PACKAGE = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
+	int PACKAGE_FOLDER__UML_PACKAGE = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Package Folder</em>' class.
@@ -2466,7 +2665,7 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGE_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 1;
+	int PACKAGE_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.impl.UIMTabPanelImpl <em>Tab Panel</em>}' class.
@@ -2697,6 +2896,15 @@ public interface UIMPackage extends EPackage {
 	 * @generated
 	 */
 	int LOOKUP_BINDING = 42;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOKUP_BINDING__UML_ELEMENT_UID = UIM_BINDING__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Next</b></em>' containment reference.
@@ -3477,7 +3685,7 @@ public interface UIMPackage extends EPackage {
 	 * @see org.nakeduml.uim.impl.UIMPackageImpl#getActionKind()
 	 * @generated
 	 */
-	int ACTION_KIND = 61;
+	int ACTION_KIND = 62;
 
 	/**
 	 * The meta object id for the '{@link org.nakeduml.uim.ControlKind <em>Control Kind</em>}' enum.
@@ -3487,7 +3695,7 @@ public interface UIMPackage extends EPackage {
 	 * @see org.nakeduml.uim.impl.UIMPackageImpl#getControlKind()
 	 * @generated
 	 */
-	int CONTROL_KIND = 62;
+	int CONTROL_KIND = 63;
 
 
 	/**
@@ -4860,6 +5068,27 @@ public interface UIMPackage extends EPackage {
 	EClass getUIMNumberScroller();
 
 	/**
+	 * Returns the meta object for class '{@link org.nakeduml.uim.UmlReference <em>Uml Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uml Reference</em>'.
+	 * @see org.nakeduml.uim.UmlReference
+	 * @generated
+	 */
+	EClass getUmlReference();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.nakeduml.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uml Element Uid</em>'.
+	 * @see org.nakeduml.uim.UmlReference#getUmlElementUid()
+	 * @see #getUmlReference()
+	 * @generated
+	 */
+	EAttribute getUmlReference_UmlElementUid();
+
+	/**
 	 * Returns the meta object for enum '{@link org.nakeduml.uim.ActionKind <em>Action Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6062,6 +6291,24 @@ public interface UIMPackage extends EPackage {
 		 * @generated
 		 */
 		EClass UIM_NUMBER_SCROLLER = eINSTANCE.getUIMNumberScroller();
+
+		/**
+		 * The meta object literal for the '{@link org.nakeduml.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.nakeduml.uim.impl.UmlReferenceImpl
+		 * @see org.nakeduml.uim.impl.UIMPackageImpl#getUmlReference()
+		 * @generated
+		 */
+		EClass UML_REFERENCE = eINSTANCE.getUmlReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Uml Element Uid</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UML_REFERENCE__UML_ELEMENT_UID = eINSTANCE.getUmlReference_UmlElementUid();
 
 		/**
 		 * The meta object literal for the '{@link org.nakeduml.uim.ActionKind <em>Action Kind</em>}' enum.

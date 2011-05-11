@@ -1249,6 +1249,29 @@ public class UIMItemProviderAdapterFactory extends UIMAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.nakeduml.uim.UmlReference} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UmlReferenceItemProvider umlReferenceItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.nakeduml.uim.UmlReference}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUmlReferenceAdapter() {
+		if (umlReferenceItemProvider == null) {
+			umlReferenceItemProvider = new UmlReferenceItemProvider(this);
+		}
+
+		return umlReferenceItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1398,6 +1421,7 @@ public class UIMItemProviderAdapterFactory extends UIMAdapterFactory implements 
 		if (uimSingleSelectPopupSearchItemProvider != null) uimSingleSelectPopupSearchItemProvider.dispose();
 		if (uimToggleButtonItemProvider != null) uimToggleButtonItemProvider.dispose();
 		if (uimNumberScrollerItemProvider != null) uimNumberScrollerItemProvider.dispose();
+		if (umlReferenceItemProvider != null) umlReferenceItemProvider.dispose();
 	}
 
 }

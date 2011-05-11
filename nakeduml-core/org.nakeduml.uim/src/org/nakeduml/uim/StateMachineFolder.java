@@ -27,7 +27,7 @@ import org.eclipse.uml2.uml.StateMachine;
  * @model
  * @generated
  */
-public interface StateMachineFolder extends OperationContainingFolder {
+public interface StateMachineFolder extends OperationContainingFolder, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>State Forms</b></em>' containment reference list.
 	 * The list contents are of type {@link org.nakeduml.uim.StateForm}.

@@ -39,8 +39,7 @@ public abstract class MavenProjectCodeGenerator{
 		process.removeModel(OJPackage.class);
 		long start = System.currentTimeMillis();
 		File modelFile = new File(modelDirectory, modelFileName);
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(URI.createFileURI(modelFile.getAbsolutePath()), outputRoot.getName());
-		workspace.setDirectoryName(this.outputRoot.getName());
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(modelFile, outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
 		cfg.store();
 		process.execute(cfg, workspace, getSteps());
@@ -59,7 +58,6 @@ public abstract class MavenProjectCodeGenerator{
 		System.out.println("Transforming model directory: " + modelDirectory);
 		long start = System.currentTimeMillis();
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(modelDirectory, outputRoot.getName(), "uml");
-		workspace.setDirectoryName(this.outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
 		process.execute(cfg, workspace, getSteps());
 		System.out.println("Transforming workspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
@@ -127,7 +125,6 @@ public abstract class MavenProjectCodeGenerator{
 	}
 	public void generateIntegrationCode() throws Exception{
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(modelDirectory, outputRoot.getName(), "uml");
-		workspace.setDirectoryName(this.outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
 		OutputRoot iags = cfg.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 		 iags.overwriteFiles();

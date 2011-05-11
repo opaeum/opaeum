@@ -20,15 +20,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class PropertyRefTest extends TestCase {
-
-	/**
-	 * The fixture for this Property Ref test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PropertyRef fixture = null;
+public class PropertyRefTest extends UmlReferenceTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -50,23 +42,14 @@ public class PropertyRefTest extends TestCase {
 	}
 
 	/**
-	 * Sets the fixture for this Property Ref test case.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void setFixture(PropertyRef fixture) {
-		this.fixture = fixture;
-	}
-
-	/**
 	 * Returns the fixture for this Property Ref test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	protected PropertyRef getFixture() {
-		return fixture;
+		return (PropertyRef)fixture;
 	}
 
 	/**

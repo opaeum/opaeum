@@ -29,7 +29,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface EntityFolder extends OperationContainingFolder {
+public interface EntityFolder extends OperationContainingFolder, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Operation Task Forms</b></em>' containment reference list.
 	 * The list contents are of type {@link org.nakeduml.uim.OperationTaskForm}.

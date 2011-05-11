@@ -485,6 +485,15 @@ public interface UIMFactory extends EFactory {
 	UIMNumberScroller createUIMNumberScroller();
 
 	/**
+	 * Returns a new object of class '<em>Uml Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uml Reference</em>'.
+	 * @generated
+	 */
+	UmlReference createUmlReference();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

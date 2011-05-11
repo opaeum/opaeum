@@ -98,6 +98,7 @@ public class UIMSwitch<T> {
 				UserInteractionModel userInteractionModel = (UserInteractionModel)theEObject;
 				T result = caseUserInteractionModel(userInteractionModel);
 				if (result == null) result = caseAbstractFolder(userInteractionModel);
+				if (result == null) result = caseUmlReference(userInteractionModel);
 				if (result == null) result = caseUserInteractionElement(userInteractionModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -146,6 +147,7 @@ public class UIMSwitch<T> {
 				ClassForm classForm = (ClassForm)theEObject;
 				T result = caseClassForm(classForm);
 				if (result == null) result = caseUIMForm(classForm);
+				if (result == null) result = caseUmlReference(classForm);
 				if (result == null) result = caseUserInteractionElement(classForm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -154,6 +156,7 @@ public class UIMSwitch<T> {
 				StateForm stateForm = (StateForm)theEObject;
 				T result = caseStateForm(stateForm);
 				if (result == null) result = caseUIMForm(stateForm);
+				if (result == null) result = caseUmlReference(stateForm);
 				if (result == null) result = caseUserInteractionElement(stateForm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -168,6 +171,7 @@ public class UIMSwitch<T> {
 				OperationInvocationForm operationInvocationForm = (OperationInvocationForm)theEObject;
 				T result = caseOperationInvocationForm(operationInvocationForm);
 				if (result == null) result = caseUIMForm(operationInvocationForm);
+				if (result == null) result = caseUmlReference(operationInvocationForm);
 				if (result == null) result = caseUserInteractionElement(operationInvocationForm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -189,6 +193,7 @@ public class UIMSwitch<T> {
 				OperationAction operationAction = (OperationAction)theEObject;
 				T result = caseOperationAction(operationAction);
 				if (result == null) result = caseUIMAction(operationAction);
+				if (result == null) result = caseUmlReference(operationAction);
 				if (result == null) result = caseUIMComponent(operationAction);
 				if (result == null) result = caseUserInteractionElement(operationAction);
 				if (result == null) result = defaultCase(theEObject);
@@ -198,6 +203,7 @@ public class UIMSwitch<T> {
 				NavigationToOperation navigationToOperation = (NavigationToOperation)theEObject;
 				T result = caseNavigationToOperation(navigationToOperation);
 				if (result == null) result = caseUIMNavigation(navigationToOperation);
+				if (result == null) result = caseUmlReference(navigationToOperation);
 				if (result == null) result = caseUIMComponent(navigationToOperation);
 				if (result == null) result = caseUserInteractionElement(navigationToOperation);
 				if (result == null) result = defaultCase(theEObject);
@@ -222,6 +228,7 @@ public class UIMSwitch<T> {
 				NavigationToEntity navigationToEntity = (NavigationToEntity)theEObject;
 				T result = caseNavigationToEntity(navigationToEntity);
 				if (result == null) result = caseUIMNavigation(navigationToEntity);
+				if (result == null) result = caseUmlReference(navigationToEntity);
 				if (result == null) result = caseUIMComponent(navigationToEntity);
 				if (result == null) result = caseUserInteractionElement(navigationToEntity);
 				if (result == null) result = defaultCase(theEObject);
@@ -231,6 +238,7 @@ public class UIMSwitch<T> {
 				TransitionAction transitionAction = (TransitionAction)theEObject;
 				T result = caseTransitionAction(transitionAction);
 				if (result == null) result = caseUIMAction(transitionAction);
+				if (result == null) result = caseUmlReference(transitionAction);
 				if (result == null) result = caseUIMComponent(transitionAction);
 				if (result == null) result = caseUserInteractionElement(transitionAction);
 				if (result == null) result = defaultCase(theEObject);
@@ -240,6 +248,7 @@ public class UIMSwitch<T> {
 				OperationTaskForm operationTaskForm = (OperationTaskForm)theEObject;
 				T result = caseOperationTaskForm(operationTaskForm);
 				if (result == null) result = caseUIMForm(operationTaskForm);
+				if (result == null) result = caseUmlReference(operationTaskForm);
 				if (result == null) result = caseUserInteractionElement(operationTaskForm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -248,6 +257,7 @@ public class UIMSwitch<T> {
 				ActionTaskForm actionTaskForm = (ActionTaskForm)theEObject;
 				T result = caseActionTaskForm(actionTaskForm);
 				if (result == null) result = caseUIMForm(actionTaskForm);
+				if (result == null) result = caseUmlReference(actionTaskForm);
 				if (result == null) result = caseUserInteractionElement(actionTaskForm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -290,12 +300,14 @@ public class UIMSwitch<T> {
 			case UIMPackage.UIM_BINDING: {
 				UIMBinding uimBinding = (UIMBinding)theEObject;
 				T result = caseUIMBinding(uimBinding);
+				if (result == null) result = caseUmlReference(uimBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UIMPackage.PROPERTY_REF: {
 				PropertyRef propertyRef = (PropertyRef)theEObject;
 				T result = casePropertyRef(propertyRef);
+				if (result == null) result = caseUmlReference(propertyRef);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -313,6 +325,7 @@ public class UIMSwitch<T> {
 				TableBinding tableBinding = (TableBinding)theEObject;
 				T result = caseTableBinding(tableBinding);
 				if (result == null) result = caseUIMBinding(tableBinding);
+				if (result == null) result = caseUmlReference(tableBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -320,6 +333,7 @@ public class UIMSwitch<T> {
 				FieldBinding fieldBinding = (FieldBinding)theEObject;
 				T result = caseFieldBinding(fieldBinding);
 				if (result == null) result = caseUIMBinding(fieldBinding);
+				if (result == null) result = caseUmlReference(fieldBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -336,6 +350,7 @@ public class UIMSwitch<T> {
 				StateMachineFolder stateMachineFolder = (StateMachineFolder)theEObject;
 				T result = caseStateMachineFolder(stateMachineFolder);
 				if (result == null) result = caseOperationContainingFolder(stateMachineFolder);
+				if (result == null) result = caseUmlReference(stateMachineFolder);
 				if (result == null) result = caseAbstractFormFolder(stateMachineFolder);
 				if (result == null) result = caseAbstractFolder(stateMachineFolder);
 				if (result == null) result = caseUserInteractionElement(stateMachineFolder);
@@ -346,6 +361,7 @@ public class UIMSwitch<T> {
 				EntityFolder entityFolder = (EntityFolder)theEObject;
 				T result = caseEntityFolder(entityFolder);
 				if (result == null) result = caseOperationContainingFolder(entityFolder);
+				if (result == null) result = caseUmlReference(entityFolder);
 				if (result == null) result = caseAbstractFormFolder(entityFolder);
 				if (result == null) result = caseAbstractFolder(entityFolder);
 				if (result == null) result = caseUserInteractionElement(entityFolder);
@@ -356,6 +372,7 @@ public class UIMSwitch<T> {
 				ActivityFolder activityFolder = (ActivityFolder)theEObject;
 				T result = caseActivityFolder(activityFolder);
 				if (result == null) result = caseAbstractFormFolder(activityFolder);
+				if (result == null) result = caseUmlReference(activityFolder);
 				if (result == null) result = caseAbstractFolder(activityFolder);
 				if (result == null) result = caseUserInteractionElement(activityFolder);
 				if (result == null) result = defaultCase(theEObject);
@@ -374,6 +391,7 @@ public class UIMSwitch<T> {
 				NavigationBinding navigationBinding = (NavigationBinding)theEObject;
 				T result = caseNavigationBinding(navigationBinding);
 				if (result == null) result = caseUIMBinding(navigationBinding);
+				if (result == null) result = caseUmlReference(navigationBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -391,6 +409,7 @@ public class UIMSwitch<T> {
 				PackageFolder packageFolder = (PackageFolder)theEObject;
 				T result = casePackageFolder(packageFolder);
 				if (result == null) result = caseAbstractFormFolder(packageFolder);
+				if (result == null) result = caseUmlReference(packageFolder);
 				if (result == null) result = caseAbstractFolder(packageFolder);
 				if (result == null) result = caseUserInteractionElement(packageFolder);
 				if (result == null) result = defaultCase(theEObject);
@@ -433,6 +452,7 @@ public class UIMSwitch<T> {
 				LookupBinding lookupBinding = (LookupBinding)theEObject;
 				T result = caseLookupBinding(lookupBinding);
 				if (result == null) result = caseUIMBinding(lookupBinding);
+				if (result == null) result = caseUmlReference(lookupBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -578,6 +598,12 @@ public class UIMSwitch<T> {
 				UIMNumberScroller uimNumberScroller = (UIMNumberScroller)theEObject;
 				T result = caseUIMNumberScroller(uimNumberScroller);
 				if (result == null) result = caseUIMControl(uimNumberScroller);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UIMPackage.UML_REFERENCE: {
+				UmlReference umlReference = (UmlReference)theEObject;
+				T result = caseUmlReference(umlReference);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1497,6 +1523,21 @@ public class UIMSwitch<T> {
 	 * @generated
 	 */
 	public T caseUIMNumberScroller(UIMNumberScroller object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uml Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUmlReference(UmlReference object) {
 		return null;
 	}
 

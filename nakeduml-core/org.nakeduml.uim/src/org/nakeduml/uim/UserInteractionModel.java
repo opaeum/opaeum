@@ -26,7 +26,7 @@ import org.eclipse.uml2.uml.Model;
  * @model
  * @generated
  */
-public interface UserInteractionModel extends AbstractFolder {
+public interface UserInteractionModel extends AbstractFolder, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Uml Model</b></em>' reference.
 	 * <!-- begin-user-doc -->

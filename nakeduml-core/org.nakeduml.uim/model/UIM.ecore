@@ -8,7 +8,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="panel" eType="#//FormPanel"
         containment="true" eOpposite="#//FormPanel/form"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UserInteractionModel" eSuperTypes="#//AbstractFolder">
+  <eClassifiers xsi:type="ecore:EClass" name="UserInteractionModel" eSuperTypes="#//AbstractFolder #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="umlModel" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Model"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="securityOnVisibility" eType="#//ModelSecurityConstraint"
         containment="true"/>
@@ -53,7 +53,7 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UIMPanel" eSuperTypes="#//UIMContainer"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassForm" eSuperTypes="#//UIMForm">
+  <eClassifiers xsi:type="ecore:EClass" name="ClassForm" eSuperTypes="#//UIMForm #//UmlReference">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="kind" value="mixed"/>
     </eAnnotations>
@@ -63,7 +63,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="folder" lowerBound="1"
         eType="#//OperationContainingFolder" eOpposite="#//OperationContainingFolder/classForm"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StateForm" eSuperTypes="#//UIMForm">
+  <eClassifiers xsi:type="ecore:EClass" name="StateForm" eSuperTypes="#//UIMForm #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="state" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//State"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="folder" lowerBound="1"
         eType="#//StateMachineFolder" eOpposite="#//StateMachineFolder/stateForms"/>
@@ -75,7 +75,7 @@
         eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresOwnership" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperationInvocationForm" eSuperTypes="#//UIMForm">
+  <eClassifiers xsi:type="ecore:EClass" name="OperationInvocationForm" eSuperTypes="#//UIMForm #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Operation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="folder" lowerBound="1"
         eType="#//OperationContainingFolder" eOpposite="#//OperationContainingFolder/operationInvocationForms"/>
@@ -89,13 +89,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="UserInteractionElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperationAction" eSuperTypes="#//UIMAction">
+  <eClassifiers xsi:type="ecore:EClass" name="OperationAction" eSuperTypes="#//UIMAction #//UmlReference">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An operation action is typically represented as a button and executes a parameterless operation. Most often used to transition in statemachines. It is made available as a single-click button action which allows the user to execute the operation without navigating to an input form, as would be the case with a OperationNavigation"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Operation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NavigationToOperation" eSuperTypes="#//UIMNavigation">
+  <eClassifiers xsi:type="ecore:EClass" name="NavigationToOperation" eSuperTypes="#//UIMNavigation #//UmlReference">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="An operationNavigation is typically rendered as a menu item of some sort, and takes the user to an operationUserInteraction"/>
     </eAnnotations>
@@ -146,23 +146,23 @@
     </eLiterals>
     <eLiterals name="toggleButton" value="12"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NavigationToEntity" eSuperTypes="#//UIMNavigation">
+  <eClassifiers xsi:type="ecore:EClass" name="NavigationToEntity" eSuperTypes="#//UIMNavigation #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="toForm" eType="#//ClassForm"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="binding" eType="#//NavigationBinding"
         containment="true" eOpposite="#//NavigationBinding/navigation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TransitionAction" eSuperTypes="#//UIMAction">
+  <eClassifiers xsi:type="ecore:EClass" name="TransitionAction" eSuperTypes="#//UIMAction #//UmlReference">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A slightly less form approach is to allow the user to select which transition to take on submitting the form, in stead of letting the execution of an event cause the transition"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transition" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Transition"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperationTaskForm" eSuperTypes="#//UIMForm">
+  <eClassifiers xsi:type="ecore:EClass" name="OperationTaskForm" eSuperTypes="#//UIMForm #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Operation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="folder" lowerBound="1"
         eType="#//EntityFolder" eOpposite="#//EntityFolder/operationTaskForms"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ActionTaskForm" eSuperTypes="#//UIMForm">
+  <eClassifiers xsi:type="ecore:EClass" name="ActionTaskForm" eSuperTypes="#//UIMForm #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//OpaqueAction"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="folder" eType="#//ActivityFolder"
         eOpposite="#//ActivityFolder/actionTaskForms"/>
@@ -183,12 +183,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="binding" eType="#//TableBinding"
         containment="true" eOpposite="#//TableBinding/table"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UIMBinding" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="UIMBinding" abstract="true" eSuperTypes="#//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//PropertyRef"
         containment="true" eOpposite="#//PropertyRef/binding"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="element" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//TypedElement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyRef">
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyRef" eSuperTypes="#//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="binding" eType="#//UIMBinding"
         eOpposite="#//UIMBinding/next"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="previous" eType="#//PropertyRef"
@@ -212,12 +212,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="form" eType="#//UIMForm"
         eOpposite="#//UIMForm/panel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StateMachineFolder" eSuperTypes="#//OperationContainingFolder">
+  <eClassifiers xsi:type="ecore:EClass" name="StateMachineFolder" eSuperTypes="#//OperationContainingFolder #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateForms" upperBound="-1"
         eType="#//StateForm" containment="true" eOpposite="#//StateForm/folder"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachine" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//StateMachine"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EntityFolder" eSuperTypes="#//OperationContainingFolder">
+  <eClassifiers xsi:type="ecore:EClass" name="EntityFolder" eSuperTypes="#//OperationContainingFolder #//UmlReference">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Could be any type of entity - OrgUnit, Role, Entity, etc."/>
     </eAnnotations>
@@ -225,7 +225,7 @@
         eType="#//OperationTaskForm" containment="true" eOpposite="#//OperationTaskForm/folder"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ActivityFolder" eSuperTypes="#//AbstractFormFolder">
+  <eClassifiers xsi:type="ecore:EClass" name="ActivityFolder" eSuperTypes="#//AbstractFormFolder #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="actionTaskForms" upperBound="-1"
         eType="#//ActionTaskForm" containment="true" eOpposite="#//ActionTaskForm/folder"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="activity" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Activity"/>
@@ -246,7 +246,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="masterComponent" eType="#//MasterComponent"
         eOpposite="#//MasterComponent/detailPanels"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PackageFolder" eSuperTypes="#//AbstractFormFolder">
+  <eClassifiers xsi:type="ecore:EClass" name="PackageFolder" eSuperTypes="#//AbstractFormFolder #//UmlReference">
     <eStructuralFeatures xsi:type="ecore:EReference" name="umlPackage" eType="ecore:EClass platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Package"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UIMTabPanel" eSuperTypes="#//UIMContainer">
@@ -294,4 +294,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="UIMSingleSelectPopupSearch" eSuperTypes="#//UIMLookup"/>
   <eClassifiers xsi:type="ecore:EClass" name="UIMToggleButton" eSuperTypes="#//UIMControl"/>
   <eClassifiers xsi:type="ecore:EClass" name="UIMNumberScroller" eSuperTypes="#//UIMControl"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UmlReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="umlElementUid" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

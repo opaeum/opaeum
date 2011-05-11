@@ -1,5 +1,8 @@
 package org.nakeduml.uml2uim;
 
+import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.visit.VisitBefore;
+
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
@@ -13,12 +16,9 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
-import org.nakeduml.uim.PropertyRef;
 import org.nakeduml.uim.UIMBinding;
 import org.nakeduml.uim.UIMForm;
-
-import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitBefore;
+import org.nakeduml.uim.UmlReference;
 
 @StepDependency(phase = UserInteractionSynchronizationPhase.class)
 public class UmlUimLinker extends AbstractUimSynchronizer{
@@ -28,14 +28,10 @@ public class UmlUimLinker extends AbstractUimSynchronizer{
 		TreeIterator<EObject> eAllContents = form.eAllContents();
 		while(eAllContents.hasNext()){
 			EObject eObject = (EObject) eAllContents.next();
-			if(eObject instanceof UIMBinding){
-//				links.putLinkForForm(form, (UIMBinding)eObject);
-			}else
-			if(eObject instanceof PropertyRef){
-//				links.putLinkForForm(form, (UIMBinding)eObject);
+			if(eObject instanceof UmlReference){
+				links.putLinkForForm(form, (UIMBinding)eObject);
 			}
 		}
-
 	}
 	@VisitBefore
 	public void visitModel(Model model){

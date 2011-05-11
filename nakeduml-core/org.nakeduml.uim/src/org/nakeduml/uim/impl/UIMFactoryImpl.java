@@ -110,6 +110,7 @@ public class UIMFactoryImpl extends EFactoryImpl implements UIMFactory {
 			case UIMPackage.UIM_SINGLE_SELECT_POPUP_SEARCH: return createUIMSingleSelectPopupSearch();
 			case UIMPackage.UIM_TOGGLE_BUTTON: return createUIMToggleButton();
 			case UIMPackage.UIM_NUMBER_SCROLLER: return createUIMNumberScroller();
+			case UIMPackage.UML_REFERENCE: return createUmlReference();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -657,6 +658,16 @@ public class UIMFactoryImpl extends EFactoryImpl implements UIMFactory {
 	public UIMNumberScroller createUIMNumberScroller() {
 		UIMNumberScrollerImpl uimNumberScroller = new UIMNumberScrollerImpl();
 		return uimNumberScroller;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UmlReference createUmlReference() {
+		UmlReferenceImpl umlReference = new UmlReferenceImpl();
+		return umlReference;
 	}
 
 	/**

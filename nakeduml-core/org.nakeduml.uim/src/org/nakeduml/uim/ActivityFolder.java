@@ -27,7 +27,7 @@ import org.eclipse.uml2.uml.Activity;
  * @model
  * @generated
  */
-public interface ActivityFolder extends AbstractFormFolder {
+public interface ActivityFolder extends AbstractFormFolder, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Action Task Forms</b></em>' containment reference list.
 	 * The list contents are of type {@link org.nakeduml.uim.ActionTaskForm}.

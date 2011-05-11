@@ -37,12 +37,14 @@ public class EmfWorkspaceLoader{
 		EcoreUtil.resolveAll(getResourceSetSingleton());
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
 		WorkspaceMappingInfoImpl mappingInfo = getMappingInfo(dir, workspaceName);
-		EmfWorkspace emfWorkspace = new EmfWorkspace(dir, getResourceSetSingleton(), mappingInfo, workspaceName);
-		emfWorkspace.guessGeneratingModelsAndProfiles(dir);
+		URI dirUri = URI.createFileURI(dir.getAbsolutePath());
+		EmfWorkspace emfWorkspace = new EmfWorkspace(dirUri, getResourceSetSingleton(), mappingInfo, workspaceName);
+		emfWorkspace.guessGeneratingModelsAndProfiles(dirUri);
 		return emfWorkspace;
 	}
-	public static EmfWorkspace loadSingleModelWorkspace(URI model_uri,String workspaceName) throws Exception{
-		Model model = loadModel(model_uri);
+	public static EmfWorkspace loadSingleModelWorkspace(File modelFile,String workspaceName) throws Exception{
+		URI model_uri=URI.createFileURI(modelFile.getAbsolutePath());
+		Model model = loadModel( model_uri);
 		File dir = new File(model_uri.toFileString()).getParentFile();
 		EmfWorkspace result = new EmfWorkspace(model, getMappingInfo(dir, workspaceName), workspaceName);
 		return result;

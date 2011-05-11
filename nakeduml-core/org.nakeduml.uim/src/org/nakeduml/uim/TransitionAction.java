@@ -28,7 +28,7 @@ import org.eclipse.uml2.uml.Transition;
  * @model
  * @generated
  */
-public interface TransitionAction extends UIMAction {
+public interface TransitionAction extends UIMAction, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Transition</b></em>' reference.
 	 * <!-- begin-user-doc -->

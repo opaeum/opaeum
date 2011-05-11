@@ -27,7 +27,7 @@ import org.eclipse.uml2.uml.TypedElement;
  * @model abstract="true"
  * @generated
  */
-public interface UIMBinding extends EObject {
+public interface UIMBinding extends UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Next</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.PropertyRef#getBinding <em>Binding</em>}'.

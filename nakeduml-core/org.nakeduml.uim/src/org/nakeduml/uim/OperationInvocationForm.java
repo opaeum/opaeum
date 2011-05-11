@@ -25,7 +25,7 @@ import org.eclipse.uml2.uml.Operation;
  * @model
  * @generated
  */
-public interface OperationInvocationForm extends UIMForm {
+public interface OperationInvocationForm extends UIMForm, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Operation</b></em>' reference.
 	 * <!-- begin-user-doc -->

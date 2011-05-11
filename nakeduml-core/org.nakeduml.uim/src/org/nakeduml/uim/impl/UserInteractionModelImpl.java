@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.uml2.uml.Model;
 import org.nakeduml.uim.ModelSecurityConstraint;
 import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.UserInteractionModel;
 
 /**
@@ -24,6 +25,7 @@ import org.nakeduml.uim.UserInteractionModel;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getUmlModel <em>Uml Model</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getSecurityOnVisibility <em>Security On Visibility</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getSecuirytOnEditability <em>Secuiryt On Editability</em>}</li>
@@ -33,6 +35,26 @@ import org.nakeduml.uim.UserInteractionModel;
  * @generated
  */
 public class UserInteractionModelImpl extends AbstractFolderImpl implements UserInteractionModel {
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getUmlModel() <em>Uml Model</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -79,6 +101,27 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	protected EClass eStaticClass() {
 		return UIMPackage.Literals.USER_INTERACTION_MODEL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -229,6 +272,8 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+				return getUmlElementUid();
 			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
 				if (resolve) return getUmlModel();
 				return basicGetUmlModel();
@@ -248,6 +293,9 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
+				return;
 			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
 				setUmlModel((Model)newValue);
 				return;
@@ -269,6 +317,9 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+				return;
 			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
 				setUmlModel((Model)null);
 				return;
@@ -290,6 +341,8 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
 				return umlModel != null;
 			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
@@ -298,6 +351,54 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 				return secuirytOnEditability != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID: return UIMPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID: return UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (umlElementUid: ");
+		result.append(umlElementUid);
+		result.append(')');
+		return result.toString();
 	}
 
 } //UserInteractionModelImpl

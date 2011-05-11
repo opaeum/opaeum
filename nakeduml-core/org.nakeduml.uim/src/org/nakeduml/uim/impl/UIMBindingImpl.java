@@ -35,7 +35,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public abstract class UIMBindingImpl extends EObjectImpl implements UIMBinding {
+public abstract class UIMBindingImpl extends UmlReferenceImpl implements UIMBinding {
 	/**
 	 * The cached value of the '{@link #getNext() <em>Next</em>}' containment reference.
 	 * <!-- begin-user-doc -->

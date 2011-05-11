@@ -29,7 +29,7 @@ import org.eclipse.uml2.uml.Property;
  * @model
  * @generated
  */
-public interface PropertyRef extends EObject {
+public interface PropertyRef extends UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UIMBinding#getNext <em>Next</em>}'.

@@ -3,6 +3,7 @@ package org.nakeduml.uml2uim;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.nakeduml.uim.UserInteractionModel;
 import org.topcased.modeler.diagrams.model.Diagrams;
@@ -23,7 +24,6 @@ public class UserInteractionSynchronizationPhase implements TransformationPhase<
 
 	@Override
 	public Object[] execute(List<AbstractUimSynchronizer> features,TransformationContext context){
-		EList<Resource> resources = workspace.getResourceSet().getResources();
 		for(Resource r:resources){
 		}
 		Diagrams diagrams=null;

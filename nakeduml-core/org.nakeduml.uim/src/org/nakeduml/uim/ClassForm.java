@@ -32,7 +32,7 @@ package org.nakeduml.uim;
  * @model extendedMetaData="kind='mixed'"
  * @generated
  */
-public interface ClassForm extends UIMForm {
+public interface ClassForm extends UIMForm, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Folder</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.OperationContainingFolder#getClassForm <em>Class Form</em>}'.

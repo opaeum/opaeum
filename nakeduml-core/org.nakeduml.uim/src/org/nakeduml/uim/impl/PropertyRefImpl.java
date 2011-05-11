@@ -35,7 +35,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public class PropertyRefImpl extends EObjectImpl implements PropertyRef {
+public class PropertyRefImpl extends UmlReferenceImpl implements PropertyRef {
 	/**
 	 * The cached value of the '{@link #getNext() <em>Next</em>}' containment reference.
 	 * <!-- begin-user-doc -->

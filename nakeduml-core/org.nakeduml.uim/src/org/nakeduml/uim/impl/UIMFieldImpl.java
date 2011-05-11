@@ -75,7 +75,7 @@ public class UIMFieldImpl extends UIMComponentImpl implements UIMField {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int LABEL_WIDTH_EDEFAULT = 0;
+	protected static final int LABEL_WIDTH_EDEFAULT = 200;
 
 	/**
 	 * The cached value of the '{@link #getLabelWidth() <em>Label Width</em>}' attribute.

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.nakeduml.uim.NavigationToOperation;
 import org.nakeduml.uim.OperationInvocationForm;
 import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,6 +23,7 @@ import org.nakeduml.uim.UIMPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.nakeduml.uim.impl.NavigationToOperationImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.NavigationToOperationImpl#getToForm <em>To Form</em>}</li>
  * </ul>
  * </p>
@@ -29,6 +31,24 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class NavigationToOperationImpl extends UIMNavigationImpl implements NavigationToOperation {
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
 	/**
 	 * The cached value of the '{@link #getToForm() <em>To Form</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -56,6 +76,27 @@ public class NavigationToOperationImpl extends UIMNavigationImpl implements Navi
 	@Override
 	protected EClass eStaticClass() {
 		return UIMPackage.Literals.NAVIGATION_TO_OPERATION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -104,6 +145,8 @@ public class NavigationToOperationImpl extends UIMNavigationImpl implements Navi
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID:
+				return getUmlElementUid();
 			case UIMPackage.NAVIGATION_TO_OPERATION__TO_FORM:
 				if (resolve) return getToForm();
 				return basicGetToForm();
@@ -119,6 +162,9 @@ public class NavigationToOperationImpl extends UIMNavigationImpl implements Navi
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
+				return;
 			case UIMPackage.NAVIGATION_TO_OPERATION__TO_FORM:
 				setToForm((OperationInvocationForm)newValue);
 				return;
@@ -134,6 +180,9 @@ public class NavigationToOperationImpl extends UIMNavigationImpl implements Navi
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+				return;
 			case UIMPackage.NAVIGATION_TO_OPERATION__TO_FORM:
 				setToForm((OperationInvocationForm)null);
 				return;
@@ -149,10 +198,60 @@ public class NavigationToOperationImpl extends UIMNavigationImpl implements Navi
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case UIMPackage.NAVIGATION_TO_OPERATION__TO_FORM:
 				return toForm != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID: return UIMPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID: return UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (umlElementUid: ");
+		result.append(umlElementUid);
+		result.append(')');
+		return result.toString();
 	}
 
 } //NavigationToOperationImpl

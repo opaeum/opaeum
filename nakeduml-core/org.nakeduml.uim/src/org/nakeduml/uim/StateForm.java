@@ -25,7 +25,7 @@ import org.eclipse.uml2.uml.State;
  * @model
  * @generated
  */
-public interface StateForm extends UIMForm {
+public interface StateForm extends UIMForm, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>State</b></em>' reference.
 	 * <!-- begin-user-doc -->

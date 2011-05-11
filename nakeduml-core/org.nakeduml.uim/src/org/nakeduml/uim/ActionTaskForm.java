@@ -25,7 +25,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
  * @model
  * @generated
  */
-public interface ActionTaskForm extends UIMForm {
+public interface ActionTaskForm extends UIMForm, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Action</b></em>' reference.
 	 * <!-- begin-user-doc -->

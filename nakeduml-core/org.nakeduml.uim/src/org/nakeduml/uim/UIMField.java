@@ -91,6 +91,7 @@ public interface UIMField extends UIMComponent {
 
 	/**
 	 * Returns the value of the '<em><b>Label Width</b></em>' attribute.
+	 * The default value is <code>"200"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Label Width</em>' attribute isn't clear,
@@ -100,7 +101,7 @@ public interface UIMField extends UIMComponent {
 	 * @return the value of the '<em>Label Width</em>' attribute.
 	 * @see #setLabelWidth(int)
 	 * @see org.nakeduml.uim.UIMPackage#getUIMField_LabelWidth()
-	 * @model dataType="org.eclipse.uml2.uml.Integer"
+	 * @model default="200" dataType="org.eclipse.uml2.uml.Integer"
 	 * @generated
 	 */
 	int getLabelWidth();

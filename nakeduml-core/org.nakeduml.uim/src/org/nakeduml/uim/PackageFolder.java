@@ -23,7 +23,7 @@ package org.nakeduml.uim;
  * @model
  * @generated
  */
-public interface PackageFolder extends AbstractFormFolder {
+public interface PackageFolder extends AbstractFormFolder, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Uml Package</b></em>' reference.
 	 * <!-- begin-user-doc -->

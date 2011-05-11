@@ -314,6 +314,10 @@ public class UIMAdapterFactory extends AdapterFactoryImpl {
 				return createUIMNumberScrollerAdapter();
 			}
 			@Override
+			public Adapter caseUmlReference(UmlReference object) {
+				return createUmlReferenceAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -1184,6 +1188,20 @@ public class UIMAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUIMNumberScrollerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.nakeduml.uim.UmlReference <em>Uml Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.nakeduml.uim.UmlReference
+	 * @generated
+	 */
+	public Adapter createUmlReferenceAdapter() {
 		return null;
 	}
 

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.nakeduml.uim.EntityFolder;
 import org.nakeduml.uim.OperationTaskForm;
 import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +29,7 @@ import org.nakeduml.uim.UIMPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.nakeduml.uim.impl.EntityFolderImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.EntityFolderImpl#getOperationTaskForms <em>Operation Task Forms</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.EntityFolderImpl#getEntity <em>Entity</em>}</li>
  * </ul>
@@ -36,6 +38,26 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class EntityFolderImpl extends OperationContainingFolderImpl implements EntityFolder {
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getOperationTaskForms() <em>Operation Task Forms</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -73,6 +95,27 @@ public class EntityFolderImpl extends OperationContainingFolderImpl implements E
 	@Override
 	protected EClass eStaticClass() {
 		return UIMPackage.Literals.ENTITY_FOLDER;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -162,6 +205,8 @@ public class EntityFolderImpl extends OperationContainingFolderImpl implements E
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID:
+				return getUmlElementUid();
 			case UIMPackage.ENTITY_FOLDER__OPERATION_TASK_FORMS:
 				return getOperationTaskForms();
 			case UIMPackage.ENTITY_FOLDER__ENTITY:
@@ -180,6 +225,9 @@ public class EntityFolderImpl extends OperationContainingFolderImpl implements E
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
+				return;
 			case UIMPackage.ENTITY_FOLDER__OPERATION_TASK_FORMS:
 				getOperationTaskForms().clear();
 				getOperationTaskForms().addAll((Collection<? extends OperationTaskForm>)newValue);
@@ -199,6 +247,9 @@ public class EntityFolderImpl extends OperationContainingFolderImpl implements E
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+				return;
 			case UIMPackage.ENTITY_FOLDER__OPERATION_TASK_FORMS:
 				getOperationTaskForms().clear();
 				return;
@@ -217,12 +268,62 @@ public class EntityFolderImpl extends OperationContainingFolderImpl implements E
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case UIMPackage.ENTITY_FOLDER__OPERATION_TASK_FORMS:
 				return operationTaskForms != null && !operationTaskForms.isEmpty();
 			case UIMPackage.ENTITY_FOLDER__ENTITY:
 				return entity != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID: return UIMPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID: return UIMPackage.ENTITY_FOLDER__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (umlElementUid: ");
+		result.append(umlElementUid);
+		result.append(')');
+		return result.toString();
 	}
 
 	/**

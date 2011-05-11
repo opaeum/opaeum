@@ -1,6 +1,5 @@
 package net.sf.nakeduml.emf.workspace;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -43,36 +42,24 @@ public class EmfWorkspace implements Element{
 	private WorkspaceMappingInfoImpl mappingInfo;
 	private ResourceSet resourceSet;
 	private String name;
-	private String directoryName;
 	private URI directoryUri;
 	public String getDirectoryName(){
-		return directoryName;
+		return directoryUri.lastSegment();
 	}
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
-		this(getContainingDir(model), model.eResource().getResourceSet(), mappingInfo, name);
+		this(model.eResource().getURI().trimSegments(2), model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
 		this.directoryUri=model.eResource().getURI().trimSegments(2);
 	}
-	private static File getContainingDir(Package model){
-		URI uri = model.eResource().getURI();
-		if(uri.isFile()){
-			return new File(uri.trimSegments(2).toFileString());
-		}else if(uri.isPlatform()){
-			return new File(uri.trimSegments(2).toPlatformString(true));
-		}else{
-			throw new RuntimeException("Unknown URI type:" + uri);
-		}
-	}
-	public EmfWorkspace(File modelDir,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String name){
+	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String name){
 		this.resourceSet = rs;
 		this.mappingInfo = mappingInfo;
-		directoryName = modelDir.getName();
 		for(Element pkg:getOwnedElements()){
-			if(isPrimaryModelOrProfile((Package) pkg, modelDir)){
+			if(isPrimaryModelOrProfile((Package) pkg, uri)){
 				primaryModels.add((Package) pkg);
 			}
 		}
-		this.directoryUri=URI.createFileURI(modelDir.getAbsolutePath());
+		this.directoryUri=uri;
 		this.name = name;
 	}
 	public Collection<Package> getRootObjects(){
@@ -92,21 +79,14 @@ public class EmfWorkspace implements Element{
 	public Set<Package> getGeneratingModelsOrProfiles(){
 		return this.generatingModels;
 	}
-	private boolean isPrimaryModelOrProfile(Package p,File entryModelDir){
+	private boolean isPrimaryModelOrProfile(Package p,URI entryModelDir){
 		if(p instanceof Model){
 			URI uri = p.eResource().getURI();
-			if(uri.isFile()){
-				File packageFile = new File(uri.toFileString());
-				return packageFile.getParentFile().equals(entryModelDir);
-			}
-			if(uri.isPlatform()){
-				File packageFile = new File(uri.toPlatformString(true));
-				return packageFile.getParentFile().equals(entryModelDir);
-			}
+			return uri.trimSegments(2).equals(uri);
 		}
 		return false;
 	}
-	public void guessGeneratingModelsAndProfiles(File dir){
+	public void guessGeneratingModelsAndProfiles(URI dir){
 		generatingModels.clear();
 		for(Element e:getOwnedElements()){
 			if(isPrimaryModelOrProfile((Package) e, dir)){
@@ -317,9 +297,6 @@ public class EmfWorkspace implements Element{
 	public String getName(){
 		return this.name;
 	}
-	public void setDirectoryName(String name2){
-		this.directoryName = name2;
-	}
 	public ResourceSet getResourceSet(){
 		return resourceSet;
 	}
@@ -332,5 +309,8 @@ public class EmfWorkspace implements Element{
 			}
 		}
 		return result;
+	}
+	public URI getDirectoryUri(){
+		return this.directoryUri;
 	}
 }

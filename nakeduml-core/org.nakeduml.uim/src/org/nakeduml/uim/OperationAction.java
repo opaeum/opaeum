@@ -28,7 +28,7 @@ import org.eclipse.uml2.uml.Operation;
  * @model
  * @generated
  */
-public interface OperationAction extends UIMAction {
+public interface OperationAction extends UIMAction, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Operation</b></em>' reference.
 	 * <!-- begin-user-doc -->

@@ -24,7 +24,7 @@ package org.nakeduml.uim;
  * @model
  * @generated
  */
-public interface NavigationToEntity extends UIMNavigation {
+public interface NavigationToEntity extends UIMNavigation, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>To Form</b></em>' reference.
 	 * <!-- begin-user-doc -->

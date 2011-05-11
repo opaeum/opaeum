@@ -21,6 +21,7 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.nakeduml.uim.StateForm;
 import org.nakeduml.uim.StateMachineFolder;
 import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,6 +30,7 @@ import org.nakeduml.uim.UIMPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.nakeduml.uim.impl.StateMachineFolderImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.StateMachineFolderImpl#getStateForms <em>State Forms</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.StateMachineFolderImpl#getStateMachine <em>State Machine</em>}</li>
  * </ul>
@@ -37,6 +39,26 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class StateMachineFolderImpl extends OperationContainingFolderImpl implements StateMachineFolder {
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getStateForms() <em>State Forms</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -74,6 +96,27 @@ public class StateMachineFolderImpl extends OperationContainingFolderImpl implem
 	@Override
 	protected EClass eStaticClass() {
 		return UIMPackage.Literals.STATE_MACHINE_FOLDER;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -163,6 +206,8 @@ public class StateMachineFolderImpl extends OperationContainingFolderImpl implem
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID:
+				return getUmlElementUid();
 			case UIMPackage.STATE_MACHINE_FOLDER__STATE_FORMS:
 				return getStateForms();
 			case UIMPackage.STATE_MACHINE_FOLDER__STATE_MACHINE:
@@ -181,6 +226,9 @@ public class StateMachineFolderImpl extends OperationContainingFolderImpl implem
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
+				return;
 			case UIMPackage.STATE_MACHINE_FOLDER__STATE_FORMS:
 				getStateForms().clear();
 				getStateForms().addAll((Collection<? extends StateForm>)newValue);
@@ -200,6 +248,9 @@ public class StateMachineFolderImpl extends OperationContainingFolderImpl implem
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+				return;
 			case UIMPackage.STATE_MACHINE_FOLDER__STATE_FORMS:
 				getStateForms().clear();
 				return;
@@ -218,12 +269,62 @@ public class StateMachineFolderImpl extends OperationContainingFolderImpl implem
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 			case UIMPackage.STATE_MACHINE_FOLDER__STATE_FORMS:
 				return stateForms != null && !stateForms.isEmpty();
 			case UIMPackage.STATE_MACHINE_FOLDER__STATE_MACHINE:
 				return stateMachine != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID: return UIMPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID: return UIMPackage.STATE_MACHINE_FOLDER__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (umlElementUid: ");
+		result.append(umlElementUid);
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
