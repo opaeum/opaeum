@@ -6,11 +6,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.tinker.BaseLocalDbTest;
 
+import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 	
-	@Test
+	@Test(expected=OTransactionException.class)
 	public void test() {
 		db.startTransaction();
 		Hand hand1 = new Hand();
@@ -21,10 +22,9 @@ public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 		finger2.setName("finger2");
 		finger2.setHand(null);
 		db.stopTransaction(Conclusion.SUCCESS);
-		fail();
 	}
 	
-	@Test
+	@Test(expected=OTransactionException.class)
 	public void test2() {
 		db.startTransaction();
 		Hand hand1 = new Hand();
@@ -39,9 +39,6 @@ public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 		db.startTransaction();
 		finger2.setHand(null);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(8, countVertices());
-		assertEquals(10, countEdges());
-		fail();
 	}	
 
 }

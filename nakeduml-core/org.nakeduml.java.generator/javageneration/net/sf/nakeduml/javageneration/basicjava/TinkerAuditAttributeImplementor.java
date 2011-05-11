@@ -314,7 +314,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 			ifStatement2.addToThenPart("Vertex oneVertex = nextEdge.getOutVertex()");
 		}
 		
-		OJIfStatement ifStatement3 = new OJIfStatement("(Integer)oneVertex.getProperty(\"transactionNo\")<=transactionNo || TinkerFormatter.parse((String)nextEdge.getProperty(\"deletedOn\")).before(new Date())");
+		OJIfStatement ifStatement3 = new OJIfStatement("(Integer)oneVertex.getProperty(\"transactionNo\") <= transactionNo || (nextEdge.getProperty(\"deletedOn\") != null && TinkerFormatter.parse((String)nextEdge.getProperty(\"deletedOn\")).before(new Date()))");
 		ifStatement3.addToThenPart("previous = null");
 		ifStatement2.addToThenPart(ifStatement3);
 		ifStatement2.addToThenPart("break");

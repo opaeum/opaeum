@@ -218,7 +218,6 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 	private void implementAbstractAddEdgeToCompositeOwner(OJAnnotatedClass ojAuditClass) {
 		OJOperation createEdgeToCompositeOwner = new OJOperation();
 		createEdgeToCompositeOwner.setName("addEdgeToCompositeOwner");
-		createEdgeToCompositeOwner.addParam("createParentVertex", new OJPathName("boolean"));
 		createEdgeToCompositeOwner.setAbstract(true);
 		ojAuditClass.addToOperations(createEdgeToCompositeOwner);
 	}
@@ -226,20 +225,14 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 	private void addCreateEdgeToCompositeOwner(OJAnnotatedClass originalClass, INakedEntity c) {
 		OJOperation addEdgeToCompositeOwner = new OJOperation();
 		addEdgeToCompositeOwner.setName("addEdgeToCompositeOwner");
-		addEdgeToCompositeOwner.addParam("createParentVertex", new OJPathName("boolean"));
-
 		OJField owningAuditVertex = new OJField();
 		owningAuditVertex.setName("owningAuditVertex");
 		owningAuditVertex.setType(TinkerUtil.vertexPathName);
 		addEdgeToCompositeOwner.getBody().addToLocals(owningAuditVertex);
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(c.getEndToComposite());
-		OJIfStatement ifParentNotNull = new OJIfStatement(map.getter() + "() != null");
-		OJIfStatement ifStatement = new OJIfStatement("createParentVertex");
-		ifStatement.addToThenPart("owningAuditVertex = " + map.getter() + "().createAuditVertexWithoutParent()");
-		ifParentNotNull.addToThenPart(ifStatement);
-		addEdgeToCompositeOwner.getBody().addToStatements(ifParentNotNull);
+		addEdgeToCompositeOwner.getBody().addToStatements("owningAuditVertex = " + map.getter() + "().createAuditVertexWithoutParent()");
 		String associationName = c.getEndToComposite().getAssociation().getName();
-		ifStatement.addToThenPart("createEdgeToOne(owningAuditVertex, false, " + map.getter() + "().getClass(),\"" + associationName + "\")");
+		addEdgeToCompositeOwner.getBody().addToStatements("createEdgeToOne(owningAuditVertex, false, " + map.getter() + "().getClass(),\"" + associationName + "\")");
 		originalClass.addToOperations(addEdgeToCompositeOwner);
 
 	}
@@ -248,7 +241,10 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		OJOperation getAuditVertex = new OJOperation();
 		getAuditVertex.setName("getAuditVertex");
 		getAuditVertex.setReturnType(TinkerUtil.vertexPathName);
-		getAuditVertex.getBody().addToStatements("return getMostRecentAuditVertex()");
+		getAuditVertex.getBody().addToStatements("Vertex auditVertex = TransactionThreadVar.getAuditEntry(getClass().getName() + getUid())");
+		OJIfStatement hasAuditVertex = new OJIfStatement("auditVertex==null", "return getMostRecentAuditVertex()");
+		hasAuditVertex.addToElsePart("return auditVertex");
+		getAuditVertex.getBody().addToStatements(hasAuditVertex);
 		originalClass.addToOperations(getAuditVertex);
 	}
 
@@ -380,13 +376,10 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		getPreviousAuditVertex.setReturnType(TinkerUtil.vertexPathName);
 		originalClass.addToImports(new OJPathName("java.util.TreeMap"));
 		getPreviousAuditVertex.getBody().addToStatements(new OJSimpleStatement("TreeMap<Integer, Edge> auditTransactions = new TreeMap<Integer, Edge>()"));
-		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "this.vertex.getOutEdges()");
+		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "this.vertex.getOutEdges(\"audit\")");
+		forStatement.getBody().addToStatements("Integer transaction = (Integer)edge.getProperty(\"transactionNo\")");
+		forStatement.getBody().addToStatements("auditTransactions.put(transaction, edge)");
 		getPreviousAuditVertex.getBody().addToStatements(forStatement);
-		forStatement.getBody().addToStatements("String label = edge.getLabel()");
-		OJIfStatement ifStatement = new OJIfStatement("label.startsWith(\"audit\")");
-		ifStatement.addToThenPart("Integer transaction = Integer.valueOf(label.substring(label.length() - 1, label.length()))");
-		ifStatement.addToThenPart("auditTransactions.put(transaction, edge)");
-		forStatement.getBody().addToStatements(ifStatement);
 
 		getPreviousAuditVertex.getBody().addToStatements("NavigableSet<Integer> descendingKeySet = auditTransactions.navigableKeySet()");
 		originalClass.addToImports(new OJPathName("java.util.NavigableSet"));
@@ -414,10 +407,11 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		createAuditVertexWithAuditEdge.setVisibility(OJVisibilityKind.PRIVATE);
 		ojClass.addToImports(TinkerUtil.graphDbPathName);
 		createAuditVertexWithAuditEdge.getBody().addToStatements("this.auditVertex = GraphDb.getDB().addVertex(null)");
-		createAuditVertexWithAuditEdge.getBody().addToStatements("TransactionThreadVar.setNewVertexFalse(getClass().getName() + getUid())");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("TransactionThreadVar.putAuditVertexFalse(getClass().getName() + getUid(), this.auditVertex)");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("this.auditVertex.setProperty(\"transactionNo\", GraphDb.getTransactionCount())");
 		createAuditVertexWithAuditEdge.getBody().addToStatements(
-				"Edge auditEdgeToOriginal = GraphDb.getDB().addEdge(null, this.vertex, this.auditVertex, \"audit\" + GraphDb.getTransactionCount())");
+				"Edge auditEdgeToOriginal = GraphDb.getDB().addEdge(null, this.vertex, this.auditVertex, \"audit\")");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"transactionNo\", GraphDb.getTransactionCount())");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"outClass\", this.getClass().getName())");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"inClass\", this.getClass().getName() + \"Audit\")");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("copyShallowState(this, this)");
@@ -426,17 +420,14 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 
 	private void addGetMostRecentAuditVertex(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getMostRecentAuditVertex = new OJAnnotatedOperation("getMostRecentAuditVertex");
-		getMostRecentAuditVertex.setVisibility(OJVisibilityKind.PUBLIC);
+		getMostRecentAuditVertex.setVisibility(OJVisibilityKind.PRIVATE);
 		getMostRecentAuditVertex.setReturnType(TinkerUtil.vertexPathName);
 		ojClass.addToImports(new OJPathName("java.util.TreeMap"));
 		getMostRecentAuditVertex.getBody().addToStatements(new OJSimpleStatement("TreeMap<Integer, Edge> auditTransactions = new TreeMap<Integer, Edge>()"));
-		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "this.vertex.getOutEdges()");
+		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "this.vertex.getOutEdges(\"audit\")");
 		getMostRecentAuditVertex.getBody().addToStatements(forStatement);
-		forStatement.getBody().addToStatements("String label = edge.getLabel()");
-		OJIfStatement ifStatement = new OJIfStatement("label.startsWith(\"audit\")");
-		ifStatement.addToThenPart("Integer transaction = Integer.valueOf(label.substring(\"audit\".length()))");
-		ifStatement.addToThenPart("auditTransactions.put(transaction, edge)");
-		forStatement.getBody().addToStatements(ifStatement);
+		forStatement.getBody().addToStatements("Integer transaction = (Integer)edge.getProperty(\"transactionNo\")");
+		forStatement.getBody().addToStatements("auditTransactions.put(transaction, edge)");
 		getMostRecentAuditVertex.getBody().addToStatements("return auditTransactions.lastEntry().getValue().getInVertex()");
 		ojClass.addToOperations(getMostRecentAuditVertex);
 	}
@@ -765,8 +756,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		result.setInitExp("new ArrayList<" + auditPath.getLast() + ">()");
 		getAudits.getBody().addToLocals(result);
 
-		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "this.vertex.getOutEdges()");
-		OJIfStatement ifStatement = new OJIfStatement("edge.getLabel().startsWith(\"" + TinkerUtil.constructSelfToAuditEdgeLabel(c) + "\")");
+		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "this.vertex.getOutEdges(\"audit\")");
 
 		OJTryStatement ojTryStatement = new OJTryStatement();
 		ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
@@ -774,8 +764,7 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 
-		ifStatement.addToThenPart(ojTryStatement);
-		forStatement.getBody().addToStatements(ifStatement);
+		forStatement.getBody().addToStatements(ojTryStatement);
 		getAudits.getBody().addToStatements(forStatement);
 
 		getAudits
@@ -800,7 +789,8 @@ public class TinkerAuditTransformation extends AbstractJavaProducingVisitor {
 		createAuditVertex.addParam("createParentVertex", new OJPathName("boolean"));
 		createAuditVertex.getBody().addToStatements("createAuditVertexWithAuditEdge()");
 		if (entity.getEndToComposite() != null || entity.getIsAbstract()) {
-			createAuditVertex.getBody().addToStatements("addEdgeToCompositeOwner(createParentVertex)");
+			OJIfStatement ifCreateParentVertex = new OJIfStatement("createParentVertex", "addEdgeToCompositeOwner()");
+			createAuditVertex.getBody().addToStatements(ifCreateParentVertex);
 		}
 		createAuditVertex.getBody().addToStatements("createEdgeToPreviousAudit()");
 		createAuditVertex.getBody().addToStatements("TransactionAuditThreadVar.addVertex(getAuditVertex())");

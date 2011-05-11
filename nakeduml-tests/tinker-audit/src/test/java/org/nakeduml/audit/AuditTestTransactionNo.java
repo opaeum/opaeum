@@ -334,9 +334,10 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(8, otherOne2Audits.get(1).getTransactionNo());
 		db.startTransaction();
 		hand1.removeFromOtherOne(otherOne1);
+		otherOne1.setHand(new Hand());
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(19, countVertices());
-		assertEquals(36, countEdges());
+		assertEquals(21, countVertices());
+		assertEquals(39, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();

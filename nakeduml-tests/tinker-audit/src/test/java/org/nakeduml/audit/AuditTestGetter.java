@@ -1,10 +1,13 @@
 package org.nakeduml.audit;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.audittest.Finger;
+import org.audittest.FingerAudit;
 import org.audittest.Hand;
 import org.audittest.HandAudit;
 import org.junit.Test;
@@ -84,6 +87,112 @@ public class AuditTestGetter extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
 		assertEquals(19, countEdges());
+	}
+	
+	@Test
+	public void testHandFingerMoving() {
+		db.startTransaction();
+		Hand hand1 = new Hand();
+		hand1.setName("hand1");
+		Finger finger1 = new Finger(hand1);
+		finger1.setName("finger1");
+		Finger finger2 = new Finger(hand1);
+		finger2.setName("finger2");
+		Finger finger3 = new Finger(hand1);
+		finger3.setName("finger3");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(8, countVertices());
+		assertEquals(10, countEdges());
+		db.startTransaction();
+		finger1.setName("finger1Again1");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(9, countVertices());
+		assertEquals(12, countEdges());
+		db.startTransaction();
+		finger1.setName("finger1Again2");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(10, countVertices());
+		assertEquals(14, countEdges());
+		db.startTransaction();
+		Hand hand2 = new Hand();
+		hand2.setName("hand2");
+		Finger finger21 = new Finger(hand2);
+		finger21.setName("finger21");
+		Finger finger22 = new Finger(hand2);
+		finger22.setName("finger22");
+		Finger finger23 = new Finger(hand2);
+		finger23.setName("finger23");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(18, countVertices());
+		assertEquals(24, countEdges());
+		db.startTransaction();
+		finger21.setName("finger21Again1");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(19, countVertices());
+		assertEquals(26, countEdges());
+		db.startTransaction();
+		finger21.setName("finger21Again2");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(20, countVertices());
+		assertEquals(28, countEdges());
+		db.startTransaction();
+		finger21.setHand(hand1);
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(23, countVertices());
+		assertEquals(36, countEdges());
+		
+		List<HandAudit> hand1Audits = hand1.getAudits();
+		assertEquals(2, hand1Audits.size());
+		List<HandAudit> hand2Audits = hand2.getAudits();
+		assertEquals(2, hand2Audits.size());
+		
+		HandAudit hand1Audit = hand1Audits.get(0);
+		Set<FingerAudit> finger1Audits = hand1Audit.getFinger();
+		assertEquals(3, finger1Audits.size());
+		boolean foundFinger1Again2 = false;
+		for (FingerAudit fingerAudit : finger1Audits) {
+			if (fingerAudit.getName().equals("finger1Again2")) {
+				foundFinger1Again2 = true;
+				break;
+			}
+		}
+		assertTrue(foundFinger1Again2);
+		hand1Audit = hand1Audits.get(1);
+		finger1Audits = hand1Audit.getFinger();
+		assertEquals(4, finger1Audits.size());
+		Set<FingerAudit> finger2Audits = hand2Audits.get(0).getFinger();
+		assertEquals(3, finger2Audits.size());
+		finger2Audits = hand2Audits.get(1).getFinger();
+		assertEquals(2, finger2Audits.size());
+
+		db.startTransaction();
+		finger22.setName("finger22Again");
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals(24, countVertices());
+		assertEquals(38, countEdges());
+		
+		hand2Audits = hand2.getAudits();
+		assertEquals(2, hand2Audits.size());
+		boolean finger21Name = false;
+		boolean finger22Name = false;
+		boolean finger23Name = false;
+		finger2Audits = hand2Audits.get(0).getFinger();
+		for (FingerAudit fingerHand2Audit : finger2Audits) {
+			if (fingerHand2Audit.getName().equals("finger21Again2")) {
+				finger21Name = true;
+			} else if (fingerHand2Audit.getName().equals("finger22Again")) {
+				finger22Name = true;
+			} else if (fingerHand2Audit.getName().equals("finger23")) {
+				finger23Name = true;
+			} else {
+				fail();
+			}
+		}
+		assertTrue(finger21Name);
+		assertTrue(finger22Name);
+		assertTrue(finger23Name);
+
+		
 	}
 	
 }
