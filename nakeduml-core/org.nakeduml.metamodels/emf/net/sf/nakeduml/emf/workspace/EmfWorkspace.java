@@ -80,7 +80,8 @@ public class EmfWorkspace implements Element{
 	private boolean isPrimaryModelOrProfile(Package p,URI entryModelDir){
 		if(p instanceof Model){
 			URI uri = p.eResource().getURI();
-			return uri.trimSegments(2).equals(uri);
+			boolean equals = uri.trimSegments(2).equals(entryModelDir);
+			return equals;
 		}
 		return false;
 	}

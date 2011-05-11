@@ -54,6 +54,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			sf = UIMFactory.eINSTANCE.createStateForm();
 			resource.getContents().add(sf);
 			sf.setState(s);
+			sf.setUmlElementUid(links.getId(s));
 			initForm(s, sf);
 		}else{
 			sf = (StateForm) resource.getContents().get(0);
@@ -63,15 +64,15 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		sf.setName(s.getName());
 		if(regenerate || sf.getPanel() == null){
 			removeOldDiagrams(sf);
-			FormCreator fc = new FormCreator(getDiagrams(s));
+			FormCreator fc = new FormCreator(getDiagrams(sf));
 			EList<Property> allAttributes = UimUtil.getRepresentedClass(sf).getAllAttributes();
 			fc.prepareFormPanel(sf, NameConverter.separateWords(s.getName()), allAttributes);
 			fc.addButtonBar(ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
 		}
 	}
-	private Diagrams getDiagrams(State s){
-		Resource r = getFormFileFor(s, "uimdi");
-		if(r.getContents().size()==1){
+	private Diagrams getDiagrams(UmlReference form){
+		Resource r = getFormFileFor(form.getUmlElementUid(), "uimdi");
+		if(r.getContents().size() == 1){
 			return (Diagrams) r.getContents().get(0);
 		}else{
 			Diagrams d = DiagramsFactory.eINSTANCE.createDiagrams();
@@ -185,8 +186,11 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		setActiveDiagram(this.diagrams);
 	}
 	protected Resource getFormFileFor(Namespace form,String extenstion){
+		return getFormFileFor(links.getId(form), extenstion);
+	}
+	private Resource getFormFileFor(String id,String extenstion){
 		URI formUri = emfWorkspace.getDirectoryUri().appendSegment("forms");
-		String formId = links.getId(form);
+		String formId = id;
 		formUri = formUri.appendSegment(formId);
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
