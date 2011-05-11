@@ -114,6 +114,10 @@
             <artifactId>slf4j-api</artifactId>
             <groupId>org.slf4j</groupId>
           </exclusion>
+          <exclusion>
+            <artifactId>jta</artifactId>
+            <groupId>javax.transaction</groupId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -252,8 +256,14 @@
       <dependency>
         <groupId>org.jboss.seam.config</groupId>
         <artifactId>seam-config-xml</artifactId>
-        <version>3.0.0.Beta2</version>
+        <version>3.0.0.Final</version>
         <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>seam-solder</artifactId>
+            <groupId>org.jboss.seam.solder</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.nakeduml.jbpmtestintegration</groupId>
