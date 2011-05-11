@@ -2,11 +2,13 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -26,8 +28,8 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	}
 
 
-	protected List<INakedEntity> getConcreteImplementations(INakedClassifier entity) {
-		return new ArrayList<INakedEntity>(GeneralizationUtil.getConcreteEntityImplementationsOf(entity,getModelInScope()));
+	protected List<INakedBehavioredClassifier> getConcreteImplementations(INakedInterface entity) {
+		return new ArrayList<INakedBehavioredClassifier>(GeneralizationUtil.getConcreteEntityImplementationsOf(entity,getModelInScope()));
 	}
 
 
@@ -35,7 +37,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	protected OJPathName getTestDataPath(INakedClassifier child) {
 		OJPathName testPath;
 		if (child instanceof INakedInterface) {
-			Collection<INakedEntity> implementors =getConcreteImplementations(child);
+			Collection<INakedBehavioredClassifier> implementors =getConcreteImplementations((INakedInterface) child);
 			INakedClassifier next = implementors.iterator().next();
 			NakedClassifierMap map = new NakedClassifierMap(next);
 			testPath = map.javaTypePath().getCopy();
@@ -63,7 +65,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
 			OJAnnotatedClass javaType = findJavaClass(f.getNakedBaseType());
 			test.addToImports(javaType.getPathName());
-		} else if (getConcreteImplementations(f.getNakedBaseType()).size()>0) {
+		} else if (getConcreteImplementations((INakedInterface) f.getNakedBaseType()).size()>0) {
 			return lookup(test, f);
 		}
 		return value;
@@ -127,7 +129,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			return "no TestValueStrategy found ";
 		} else if (f.getNakedBaseType() instanceof IEnumerationType) {
 			return f.getNakedBaseType().getName() + ".values()[0]";
-		} else if (getConcreteImplementations(f.getNakedBaseType()).size()>0) {
+		} else if (f.getNakedBaseType() instanceof INakedInterface && getConcreteImplementations((INakedInterface) f.getNakedBaseType()).size()>0) {
 			return lookup(f);
 		} else {
 			return "\"" + f.getOwner().getName() + "::" + f.getName() + new Double(value).intValue() + "\"";
@@ -147,5 +149,10 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		OJPathName featureTest = getTestDataPath(f.getNakedBaseType());
 		test.addToImports(featureTest);
 		return lookup(f);
+	}
+
+
+	public Collection<INakedClassifier> getConcreteSubclassifiersOf(INakedClassifier nakedBaseType){
+		return (Collection)GeneralizationUtil.getAllSubClassifiers(nakedBaseType, getModelInScope());
 	}
 }

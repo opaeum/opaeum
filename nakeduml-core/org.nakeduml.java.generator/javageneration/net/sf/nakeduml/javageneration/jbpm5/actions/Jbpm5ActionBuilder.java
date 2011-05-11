@@ -22,6 +22,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -37,58 +38,50 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
-public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder {
+public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder{
 	protected A node;
 	protected Jbpm5ObjectNodeExpressor expressor;
-
-	public ActivityNodeMap getMap() {
+	public ActivityNodeMap getMap(){
 		return map;
 	}
-
 	protected ActivityNodeMap map;
-
-	protected Jbpm5ActionBuilder(final IOclEngine oclEngine, A node) {
+	protected Jbpm5ActionBuilder(final IOclEngine oclEngine,A node){
 		super(oclEngine, new Jbpm5ObjectNodeExpressor(oclEngine));
 		this.node = node;
-		if (node instanceof INakedAction) {
+		if(node instanceof INakedAction){
 			this.map = new ActionMap((INakedAction) node);
-		} else {
+		}else{
 			this.map = new ActivityNodeMap(node);
 		}
 		this.expressor = (Jbpm5ObjectNodeExpressor) super.expressor;
 	}
-
-	public void setupVariables(OJAnnotatedOperation oper) {
+	public void setupVariables(OJAnnotatedOperation oper){
 		ActivityUtil.setupVariables(oper, node);
 	}
-
-	public void implementFinalStep(OJBlock block) {
-		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName()
-				+ "State." + Jbpm5Util.stepLiteralName(node));
+	public void implementFinalStep(OJBlock block){
+		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName() + "State."
+				+ Jbpm5Util.stepLiteralName(node));
 	}
-
 	public abstract void implementActionOn(OJAnnotatedOperation oper);
-
-	public void implementPreConditions(OJOperation oper) {
-		if (node instanceof PreAndPostConstrained) {
+	public void implementPreConditions(OJOperation oper){
+		if(node instanceof PreAndPostConstrained){
 			implementConditions(oper, oper.getBody(), (PreAndPostConstrained) node, true);
 		}
 	}
-
-	public void implementConditions(OJOperation oper, OJBlock block, PreAndPostConstrained constrained, boolean pre) {
+	public void implementConditions(OJOperation oper,OJBlock block,PreAndPostConstrained constrained,boolean pre){
 		Collection<IOclContext> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
-		if (conditions.size() > 0) {
-			if (node instanceof INakedAction) {
+		if(conditions.size() > 0){
+			if(node instanceof INakedAction){
 				// preConditions and PostConditions work on parameters - emulate
 				// pins as parameters
-				for (INakedPin pin : ((INakedAction) node).getInput()) {
+				for(INakedPin pin:((INakedAction) node).getInput()){
 					buildPinField(oper, block, pin, false);
 				}
-				if (!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isTask()) {
+				if(!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isTask()){
 					// Most commonly used for Tasks where there would be a
 					// message structure T
 					// TODO support other output pins
-					for (INakedPin pin : ((INakedAction) node).getOutput()) {
+					for(INakedPin pin:((INakedAction) node).getOutput()){
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
 						oper.getOwner().addToImports(map.javaTypePath());
 						OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
@@ -101,110 +94,44 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre));
 		}
 	}
-
-	public void implementPostConditions(OJOperation oper) {
-		if (node instanceof PreAndPostConstrained) {
+	public void implementPostConditions(OJOperation oper){
+		if(node instanceof PreAndPostConstrained){
 			implementConditions(oper, oper.getBody(), (PreAndPostConstrained) node, false);
 		}
 	}
-
-	public void maybeContinueFlow(OJOperation operationContext, OJBlock block, INakedActivityEdge edge) {
-		if (edge.getSource() instanceof INakedOutputPin) {
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), (INakedOutputPin) edge.getSource());
-			if (edge.getWeight() != null) {
-				if (map.isCollection()) {
-					OJIfStatement ifStatement = new OJIfStatement();
-					IClassifier integerType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName);
-					if (edge.getWeight() != null) {
-					}
-					String weight = ValueSpecificationUtil.expressValue(operationContext, edge.getWeight(), edge.getSource().getActivity(),
-							integerType);
-					ifStatement.setCondition(map.getter() + "().size()>=" + weight);
-					block.addToStatements(ifStatement);
-					block = ifStatement.getThenPart();
-				} else {
-					// would not make sense - ignore
-				}
-			}
-		}
-		flowTo(block, edge.getEffectiveTarget());
-	}
-
-	public boolean isTask() {
+	public boolean isTask(){
 		return false;
 	}
-
-	public void implementSupportingTaskMethods(OJClass activityClass) {
+	public void implementSupportingTaskMethods(OJClass activityClass){
 	}
-
-	protected void flowTo(OJBlock block, INakedActivityNode target) {
-		if (target.isImplicitJoin()) {
-			
+	public void flowTo(OJBlock block,INakedActivityNode target){
+		if(target.isImplicitJoin()){
 			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialJoinName(target) + "\")");
-		} else {
+		}else{
 			block.addToStatements("waitingNode.takeTransition(\"" + target.getMappingInfo().getPersistentName() + "\")");
 		}
 	}
-
-	public void implementConditionalFlows(OJOperation operationContext, OJBlock parentBlock, boolean getToken) {
-		if (getToken) {
-			getTokenFromExecutionContext(operationContext.getOwner(), parentBlock);
-		}
-		// TODO this is fine for decisision nodes. Everywhere else it should
-		// actually offer the token to ALL
-		// transitions to allow for possible forks
-		OJIfStatement ifGuard = null;
-		for (INakedActivityEdge flow : node.getConditionalOutgoing()) {
-			OJIfStatement newIf = new OJIfStatement();
-			newIf.setCondition(ValueSpecificationUtil.expressValue(operationContext, flow.getGuard(), node.getActivity(), oclEngine
-					.getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName)));
-			maybeContinueFlow(operationContext, newIf.getThenPart(), flow);
-			OJBlock block = null;
-			if (ifGuard == null) {
-				block = parentBlock;
-			} else {
-				block = new OJBlock();
-				ifGuard.setElsePart(block);
-			}
-			block.addToStatements(newIf);
-			ifGuard = newIf;
-		}
-		OJBlock block;
-		if (ifGuard == null) {
-			block = parentBlock;
-		} else {
-			ifGuard.setElsePart(new OJBlock());
-			block = ifGuard.getElsePart();
-		}
-		if (node.isImplicitFork() && node.getActivity().isProcess()) {
-			// ignore guards and weight here, just go straight to the artificial
-			// fork
-			// TODO implement a fork that evaluates conditions before leaving
+	public void implementConditionalFlows(OJOperation operationContext,OJBlock block){
+		// TODO implement cases where there are conditions and forks
+		if(node.isImplicitFork()){
 			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
-		} else {
-			for (INakedActivityEdge e : node.getDefaultOutgoing()) {
-				maybeContinueFlow(operationContext, block, e);
-			}
+		}else if(node.isImplicitDecision()){
+			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
+		}else if(node.getAllEffectiveOutgoing().size() > 0){
+			GuardedFlow flow = node.getAllEffectiveOutgoing().iterator().next();
+			flowTo(block, ((INakedActivityEdge) flow).getEffectiveTarget());
 		}
 	}
-
-	private void getTokenFromExecutionContext(OJClassifier ojClass, OJBlock parentBlock) {
-		parentBlock.addToStatements("UmlNodeInstance waitingNode=(UmlNodeInstance)context.getNodeInstance()");
-		ojClass.addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
-	}
-
-	public boolean waitsForEvent() {
+	public boolean waitsForEvent(){
 		return false;
 	}
-
-	protected final String buildPinField(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
+	protected final String buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin){
 		return buildPinField(operationContext, block, pin, true);
 	}
-
-	protected final String buildPinField(OJOperation operationContext, OJBlock block, INakedObjectNode pin, boolean ensureUniqueness) {
-		if (pin == null) {
+	protected final String buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin,boolean ensureUniqueness){
+		if(pin == null){
 			return "!!NoPin!!";
-		} else {
+		}else{
 			String pinName = " " + pin.getMappingInfo().getJavaName().toString();
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, ensureUniqueness);
 			operationContext.getOwner().addToImports(map.javaTypePath());
@@ -214,14 +141,12 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			return pinName;
 		}
 	}
-
-	public boolean hasNodeMethod() {
+	public boolean hasNodeMethod(){
 		// TODO refine this
 		return node instanceof INakedAction || node instanceof INakedObjectNode || node instanceof INakedExpansionRegion
 				|| (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isFinalNode());
 	}
-
-	public boolean isEffectiveFinalNode() {
+	public boolean isEffectiveFinalNode(){
 		return BehaviorUtil.isEffectiveFinalNode(node);
 	}
 }

@@ -94,7 +94,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		OJIfStatement ifNull = new OJIfStatement();
 		ifNull.setCondition("instance==null");
 		if (c.getIsAbstract()) {
-			Collection<? extends INakedClassifier> subClasses = getConcreteImplementations(c);
+			Collection<? extends INakedClassifier> subClasses = getConcreteSubclassifiersOf(c);
 			if (subClasses.size() > 0) {
 				INakedClassifier child = subClasses.iterator().next();
 				OJPathName testPath = getTestDataPath(child);
@@ -127,9 +127,10 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		createNew.setName("createNew");
 		createNew.setReturnType(ojClass.getPathName());
 		test.addToOperations(createNew);
-		Collection<? extends INakedClassifier> subClasses = GeneralizationUtil.getConcreteEntityImplementationsOf(c,getModelInScope());
+		Collection<? extends INakedClassifier> subClasses = GeneralizationUtil.getAllSubClassifiers(c,getModelInScope());
 		if (c.getIsAbstract()) {
 			if (subClasses.size() > 0) {
+				//TODO invalid
 				INakedClassifier child = subClasses.iterator().next();
 				OJPathName testPath = getTestDataPath(child);
 				createNew.getBody().addToStatements("return " + testPath.getLast() + ".createNew()");

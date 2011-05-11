@@ -41,6 +41,7 @@ import org.drools.drools._5._0.process.ActionNodeType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionsType;
 import org.drools.drools._5._0.process.DocumentRoot;
+import org.drools.drools._5._0.process.EndType;
 import org.drools.drools._5._0.process.ForEachType;
 import org.drools.drools._5._0.process.MappingType;
 import org.drools.drools._5._0.process.NodesType;
@@ -108,17 +109,21 @@ public class ActivityFlowStep extends AbstractFlowStep {
 		return i;
 	}
 
-	private final int addFinalNode(NodesType nodes, ConnectionsType connections, int i, INakedActivityNode state) {
+	private final int addFinalNode(NodesType nodes, ConnectionsType connections, int i, INakedControlNode state) {
 		String name = state.getMappingInfo().getPersistentName().getAsIs();
 		Integer nakedUmlId = state.getMappingInfo().getNakedUmlId();
+		EndType addFinalNode =null;
 		if ((state.getOwnerElement() instanceof INakedStructuredActivityNode)) {
-			addFinalNode(nodes, i, name, nakedUmlId);
+			addFinalNode = addFinalNode(nodes, i, name, nakedUmlId);
 		} else {
 			addActionNode(nodes, i, state);
 			i++;
 			int finalNodeId = nakedUmlId + ARTIFICIAL_FINAL_NODE_ID;
-			addFinalNode(nodes, i, state.getMappingInfo().getPersistentName() + "_end", finalNodeId);
+			addFinalNode = addFinalNode(nodes, i, state.getMappingInfo().getPersistentName() + "_end", finalNodeId);
 			this.createConnection(connections, nakedUmlId, finalNodeId);
+		}
+		if(state.getControlNodeType().isActivityFinalNode()){
+			addFinalNode.setTerminate("true");
 		}
 		return i;
 	}
@@ -285,9 +290,9 @@ public class ActivityFlowStep extends AbstractFlowStep {
 			if (node instanceof INakedControlNode) {
 				INakedControlNode controlNode = (INakedControlNode) node;
 				if (controlNode.getControlNodeType().isFlowFinalNode()) {
-					i = addFinalNode(nodesType, connections, i, node);
+					i = addFinalNode(nodesType, connections, i, controlNode);
 				} else if (controlNode.getControlNodeType().isActivityFinalNode()) {
-					i = addFinalNode(nodesType, connections, i, node);
+					i = addFinalNode(nodesType, connections, i, controlNode);
 				} else if (controlNode.getControlNodeType().isForkNode()) {
 					addFork(nodesType, i, node.getMappingInfo().getPersistentName().toString(), node.getMappingInfo().getNakedUmlId());
 				} else if (controlNode.getControlNodeType().isJoinNode()) {
@@ -350,7 +355,7 @@ public class ActivityFlowStep extends AbstractFlowStep {
 	}
 
 	public boolean requiresArtificialDecision(INakedActivityNode node) {
-		return node.isImplicitDecision() && ! (node instanceof INakedAcceptEventAction) && !(node instanceof INakedCallAction && ((INakedCallAction)node).isTask());
+		return node.isImplicitDecision();
 	}
 
 	private StateType addWaitState(NodesType nodes, int i, INakedCallAction task) {
@@ -416,7 +421,7 @@ public class ActivityFlowStep extends AbstractFlowStep {
 	private int insertArtificialChoice(NodesType nodesType, HashMap<SplitType, INakedActivityNode> choiceNodes,
 			ConnectionsType connections, int i, INakedActivityNode node) {
 		int forkId = node.getMappingInfo().getNakedUmlId() + ARTIFICIAL_CHOICE_ID;
-		SplitType split = addChoice(nodesType, i, node.getMappingInfo().getPersistentName().getAsIs() + "_choice", forkId);
+		SplitType split = addChoice(nodesType, i, Jbpm5Util.getArtificialChoiceName(node), forkId);
 		createConnection(connections, node.getMappingInfo().getNakedUmlId(), forkId);
 		choiceNodes.put(split, node);
 		i++;

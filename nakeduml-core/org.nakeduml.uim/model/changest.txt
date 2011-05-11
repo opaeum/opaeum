@@ -5,3 +5,8 @@ Generate a uid, name the form to the uid and attach the uid to the uml element
 populate a map containing all the uml elements in al the resources of the uml model's resourceset
 refresh this map everytime the uimeditor is activated to ensure all new elements 
 store this map in another map
+remove fields pointing to obsolete properties
+remove operation navigations and action buttons to obsolete operations
+remove obsolete forms 
+use grid layouts rather than xy layout
+set field label size on layout 

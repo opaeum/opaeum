@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -26,51 +27,24 @@ import org.nakeduml.uim.UserInteractionModel;
 import org.topcased.modeler.di.model.EMFSemanticModelBridge;
 import org.topcased.modeler.diagrams.model.Diagrams;
 
-public class AbstractUimSynchronizer extends EmfElementVisitor {
+public class AbstractUimSynchronizer extends EmfElementVisitor implements TransformationStep{
+	UmlUimLinks links;
+	EmfWorkspace emfWorkspace;
 	UserInteractionModel model;
-	Map<Element, UserInteractionElement> map = new HashMap<Element, UserInteractionElement>();
 	Map<UserInteractionElement, Diagrams> diagramMap = new HashMap<UserInteractionElement, Diagrams>();
 	Diagrams diagrams;
 	protected boolean regenerate;
-
+	public AbstractUimSynchronizer(){
+		
+	}
 	public AbstractUimSynchronizer(UserInteractionModel model, Diagrams diagrams, boolean regenerate) {
+		init(model, diagrams, regenerate);
+	}
+
+	public void init(UserInteractionModel model,Diagrams diagrams,boolean regenerate){
 		this.model = model;
 		this.regenerate = regenerate;
 		this.diagrams = diagrams;
-		map.put(model.getUmlModel(), model);
-		TreeIterator<EObject> contents = model.eAllContents();
-		while (contents.hasNext()) {
-			EObject child = contents.next();
-			if (child instanceof UserInteractionModel) {
-				UserInteractionModel uim = (UserInteractionModel) child;
-				map.put(uim.getUmlModel(), uim);
-			} else if (child instanceof PackageFolder) {
-				PackageFolder uim = (PackageFolder) child;
-				map.put(uim.getUmlPackage(), uim);
-			} else if (child instanceof EntityFolder) {
-				EntityFolder uim = (EntityFolder) child;
-				map.put(uim.getEntity(), uim);
-			} else if (child instanceof ActivityFolder) {
-				ActivityFolder uim = (ActivityFolder) child;
-				map.put(uim.getActivity(), uim);
-			} else if (child instanceof StateMachineFolder) {
-				StateMachineFolder uim = (StateMachineFolder) child;
-				map.put(uim.getStateMachine(), uim);
-			} else if (child instanceof StateForm) {
-				StateForm uim = (StateForm) child;
-				map.put(uim.getState(), uim);
-			} else if (child instanceof OperationInvocationForm) {
-				OperationInvocationForm uim = (OperationInvocationForm) child;
-				map.put(uim.getOperation(), uim);
-			} else if (child instanceof OperationTaskForm) {
-				OperationTaskForm uim = (OperationTaskForm) child;
-				map.put(uim.getOperation(), uim);
-			} else if (child instanceof ActionTaskForm) {
-				ActionTaskForm uim = (ActionTaskForm) child;
-				map.put(uim.getAction(), uim);
-			}
-
-		}
 		TreeIterator<EObject> dgmIter = diagrams.eAllContents();
 		List<Diagrams> unwantedDiagrams = new ArrayList<Diagrams>();
 		while (dgmIter.hasNext()) {

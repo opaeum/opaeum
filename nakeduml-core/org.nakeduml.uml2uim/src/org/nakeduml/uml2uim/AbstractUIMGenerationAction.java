@@ -1,5 +1,6 @@
 package org.nakeduml.uml2uim;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,7 +56,13 @@ public abstract class AbstractUIMGenerationAction {
 	}
 
 	protected abstract void runActionRecursively(NamedElement eObject);
-
+	public static void main(String[] args){
+		URI uri = URI.createFileURI(new File("test.file").getAbsolutePath());
+		uri=uri.trimSegments(3);
+		System.out.println(uri);
+		uri=uri.trimFileExtension();
+		System.out.println(uri);
+	}
 	protected UserInteractionModel getUimModel(Model umlModel)
 			throws IOException {
 		URI uri = umlModel.eResource().getURI();

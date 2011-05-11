@@ -9,10 +9,8 @@ import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
-import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
@@ -23,8 +21,6 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -42,9 +38,8 @@ import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public abstract class AbstractEventHandlerInserter extends AbstractJavaProducingVisitor {
-	protected abstract void implementEventConsumption(FromNode node, OJIfStatement ifNotNull);
+	protected abstract void implementEventConsumption(OJOperation operationContext, FromNode node, OJIfStatement ifTokenFound);
 
-	protected abstract void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow);
 
 	/**
 	 * Inserts a call to the eventListener as the last line of code in the body
@@ -229,7 +224,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	/**
 	 * Implements a method that is to be called when significant events occur.
 	 * By convention it starts with the word "on" and returns a boolean
-	 * indicating whether the event was executed or not
+	 * indicating whether the event was consumed or not
 	 */
 	private void implementEventListener(OJClass activityClass, WaitForEventElements eventActions) {
 		INakedElement event = eventActions.getEvent();
@@ -261,7 +256,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		nodes.setType(umlNodeInstance);
 		listener.getBody().addToLocals(nodes);
 		for (FromNode node : eventActions.getWaitingNodes()) {
-			addLeavingLogic(listener, node, listener.getBody());
+			consumeEventIfNodeIsWaiting(listener, node, listener.getBody());
 		}
 		listener.setReturnType(new OJPathName("boolean"));
 		listener.getBody().addToStatements("return consumed");
@@ -273,27 +268,6 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			implementEventListener(ojBehavior, eventActions);
 		}
 		insertEventHandlerCalls(ojBehavior, behavior);
-	}
-
-	public OJIfStatement implementConditionalFlows(OJOperation operationContext, FromNode node, OJIfStatement ifTokenFound) {
-		OJIfStatement ifGuard = null;
-		IClassifier booleanType = workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
-		for (GuardedFlow flow : node.getConditionalTransitions()) {
-			OJIfStatement newIf = new OJIfStatement();
-			newIf.setCondition(ValueSpecificationUtil.expressValue(operationContext, flow.getGuard(), flow.getContext(), booleanType));
-			newIf.getThenPart().addToStatements("consumed=true");
-			maybeContinueFlow(operationContext, newIf.getThenPart(), flow);
-			OJBlock block = null;
-			if (ifGuard == null) {
-				block = ifTokenFound.getThenPart();
-			} else {
-				block = new OJBlock();
-				ifGuard.setElsePart(block);
-			}
-			block.addToStatements(newIf);
-			ifGuard = newIf;
-		}
-		return ifGuard;
 	}
 
 	private void addFindWaitingNode(OJClass activityClass) {
@@ -315,7 +289,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		findWaitingNodeByNodeId.getBody().addToStatements("return null");
 	}
 
-	private void addLeavingLogic(OJOperation operationContext, FromNode node, OJBlock body) {
+	private void consumeEventIfNodeIsWaiting(OJOperation operationContext, FromNode node, OJBlock body) {
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		body.addToStatements(ifTokenFound);
 		String literalExpression = operationContext.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
@@ -326,20 +300,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId("
 					+ node.getWaitingElement().getMappingInfo().getNakedUmlId() + "l))" + "!=null");
 		}
-		implementEventConsumption(node, ifTokenFound);
-		OJIfStatement ifGuard = implementConditionalFlows(operationContext, node, ifTokenFound);
-		GuardedFlow flow = node.getDefaultTransition();
-		if (flow != null) {
-			// default flow/transition
-			OJBlock block = null;
-			if (ifGuard == null) {
-				block = ifTokenFound.getThenPart();
-			} else {
-				block = new OJBlock();
-				ifGuard.setElsePart(block);
-			}
-			block.addToStatements("consumed=true");
-			maybeContinueFlow(operationContext, block, flow);
-		}
+		implementEventConsumption(operationContext, node, ifTokenFound);
 	}
+
+	
 }

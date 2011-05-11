@@ -42,6 +42,7 @@ public class FormCreator {
 	private GraphNode tabPanelNode;
 
 	public FormCreator(Diagrams diagrams) {
+		
 		this.diagrams = diagrams;
 	}
 
