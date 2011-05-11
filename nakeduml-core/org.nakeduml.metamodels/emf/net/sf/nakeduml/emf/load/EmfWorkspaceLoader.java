@@ -44,7 +44,7 @@ public class EmfWorkspaceLoader{
 	public static EmfWorkspace loadSingleModelWorkspace(URI model_uri,String workspaceName) throws Exception{
 		Model model = loadModel(model_uri);
 		File dir = new File(model_uri.toFileString()).getParentFile();
-		EmfWorkspace result = new EmfWorkspace(dir, model, getMappingInfo(dir, workspaceName), workspaceName);
+		EmfWorkspace result = new EmfWorkspace(model, getMappingInfo(dir, workspaceName), workspaceName);
 		return result;
 	}
 	public static Model loadModel(URI model_uri) throws Exception{
