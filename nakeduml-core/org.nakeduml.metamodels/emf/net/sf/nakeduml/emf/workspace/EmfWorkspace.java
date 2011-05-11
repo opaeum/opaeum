@@ -44,12 +44,24 @@ public class EmfWorkspace implements Element{
 	private ResourceSet resourceSet;
 	private String name;
 	private String directoryName;
+	private URI directoryUri;
 	public String getDirectoryName(){
 		return directoryName;
 	}
-	public EmfWorkspace(File modelDir,Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
-		this(modelDir, model.eResource().getResourceSet(), mappingInfo, name);
+	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
+		this(getContainingDir(model), model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
+		this.directoryUri=model.eResource().getURI().trimSegments(2);
+	}
+	private static File getContainingDir(Package model){
+		URI uri = model.eResource().getURI();
+		if(uri.isFile()){
+			return new File(uri.trimSegments(2).toFileString());
+		}else if(uri.isPlatform()){
+			return new File(uri.trimSegments(2).toPlatformString(true));
+		}else{
+			throw new RuntimeException("Unknown URI type:" + uri);
+		}
 	}
 	public EmfWorkspace(File modelDir,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String name){
 		this.resourceSet = rs;
@@ -60,6 +72,7 @@ public class EmfWorkspace implements Element{
 				primaryModels.add((Package) pkg);
 			}
 		}
+		this.directoryUri=URI.createFileURI(modelDir.getAbsolutePath());
 		this.name = name;
 	}
 	public Collection<Package> getRootObjects(){
@@ -110,7 +123,7 @@ public class EmfWorkspace implements Element{
 		for(Resource r:resourceSet.getResources()){
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if(!fileString.contains("UML_METAMODELS")  && ! pkg.getName().equalsIgnoreCase("ecore") && isRootObject(pkg)){
+			if(!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore") && isRootObject(pkg)){
 				result.add(pkg);
 			}
 		}

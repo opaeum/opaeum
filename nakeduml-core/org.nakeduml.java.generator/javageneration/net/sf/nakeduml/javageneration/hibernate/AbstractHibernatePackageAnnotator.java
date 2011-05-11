@@ -9,6 +9,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -95,7 +96,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		return interfaces;
 	}
 
-	private void doInterface(INakedInterface i, Collection<INakedEntity> impls, boolean isAdaptor, OutputRootId outputRoot) {
+	private void doInterface(INakedInterface i, Collection<INakedBehavioredClassifier> impls, boolean isAdaptor, OutputRootId outputRoot) {
 		OJAnnotationValue metaDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AnyMetaDef"));
 		OJAnnotatedPackage p = (OJAnnotatedPackage) this.findOrCreatePackage(HibernateUtil.getHibernatePackage(isAdaptor));
 		createTextPathIfRequired(p, outputRoot);
@@ -106,9 +107,9 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		metaDef.putAttribute("idType", getIdType());
 		OJAnnotationAttributeValue metaValues = new OJAnnotationAttributeValue("metaValues");
 		metaDef.putAttribute(metaValues);
-		for (INakedEntity iNakedEntity : impls) {
+		for (INakedBehavioredClassifier bc : impls) {
 			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
-			NakedClassifierMap map = new NakedClassifierMap(iNakedEntity);
+			NakedClassifierMap map = new NakedClassifierMap(bc);
 			OJPathName javaTypePath = map.javaTypePath();
 			metaValue.putAttribute("value", javaTypePath.toString());
 			metaValue.putAttribute("targetEntity", getTargetEntity(javaTypePath));

@@ -57,7 +57,7 @@ public class CallActionBuilder extends PotentialTaskActionBuilder<INakedCallActi
 			tryStatement.getCatchPart().addToStatements(statement);
 			if (e.getOutgoing().size() > 0) {
 				INakedActivityEdge outgoing = e.getOutgoing().iterator().next();
-				maybeContinueFlow(operation, statement.getThenPart(), outgoing);
+				flowTo(statement.getThenPart(), outgoing.getEffectiveTarget());
 			}
 			tryStatement.getCatchPart().addToStatements(statement);
 		}

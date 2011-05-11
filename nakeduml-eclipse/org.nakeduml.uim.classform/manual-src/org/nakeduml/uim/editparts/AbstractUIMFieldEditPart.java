@@ -20,6 +20,8 @@ import org.nakeduml.uim.UIMSingleSelectTreeView;
 import org.nakeduml.uim.UIMText;
 import org.nakeduml.uim.UIMTextArea;
 import org.nakeduml.uim.UIMToggleButton;
+import org.nakeduml.uim.figures.UIMDataColumnFigure;
+import org.nakeduml.uim.figures.UIMDatePopupFigure;
 import org.nakeduml.uim.figures.UIMFieldFigure;
 import org.nakeduml.uim.figures.controls.UIMCheckBoxFigure;
 import org.nakeduml.uim.figures.controls.UIMDropdownFigure;
@@ -89,12 +91,13 @@ public class AbstractUIMFieldEditPart extends BoundEditPart {
 		UIMFieldFigure figure = (UIMFieldFigure) getFigure();
 		if (control instanceof UIMText) {
 			figure.setControl(new UIMTextFigure());
-		} else if (control instanceof UIMDatePopup
-				|| control instanceof UIMSingleSelectPopupSearch
+		} else if (control instanceof UIMDatePopup){
+			figure.setControl(new UIMDatePopupFigure());
+			
+		}else if( control instanceof UIMSingleSelectPopupSearch
 				|| control instanceof UIMMultiSelectPopupSearch) {
 			figure.setControl(new UIMPopupFigure());
 		} else if (control instanceof UIMSingleSelectListBox
-				|| control instanceof UIMSingleSelectTreeView
 				|| control instanceof UIMTextArea) {
 			figure.setControl(new UIMTextAreaFigure());
 			figure.setMinimumSize(new Dimension(figure.getMinimumSize().width,
@@ -113,6 +116,10 @@ public class AbstractUIMFieldEditPart extends BoundEditPart {
 			figure.setMinimumSize(new Dimension(figure.getMinimumSize().width,
 					80));
 		} else if ( control instanceof UIMMultiSelectTreeView) {
+			figure.setControl(new UIMTreeFigure());
+			figure.setMinimumSize(new Dimension(figure.getMinimumSize().width,
+					80));
+		} else if ( control instanceof UIMSingleSelectTreeView) {
 			figure.setControl(new UIMTreeFigure());
 			figure.setMinimumSize(new Dimension(figure.getMinimumSize().width,
 					80));

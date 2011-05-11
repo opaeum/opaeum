@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
+
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
@@ -24,20 +26,32 @@ public class FromNode {
 	public void addTransition(String name, GuardedFlow guard) {
 		transitions.add(guard);
 	}
-
 	public Set<GuardedFlow> getConditionalTransitions() {
 		Set<GuardedFlow> results = new HashSet<GuardedFlow>();
 		for (GuardedFlow f : transitions) {
-			if (f.getGuard() != null) {
+			if (hasGuard(f)) {
 				results.add(f);
 			}
 		}
 		return results;
 	}
 
+	private boolean hasGuard(GuardedFlow t){
+		if (t.getGuard() == null) {
+			return false;
+		} else {
+			if (t.getGuard().getValue() .equals(Boolean.TRUE)) {
+				//DEfault value in Topcased
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+
 	public GuardedFlow getDefaultTransition() {
 		for (GuardedFlow f : transitions) {
-			if (f.getGuard() == null) {
+			if (!hasGuard(f)) {
 				return f;
 			}
 		}

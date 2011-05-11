@@ -42,7 +42,7 @@ public class UIMTreeFigure extends Figure implements IControlFigure{
 	public void paint(Graphics g){
 		GraphicsBridge g2 = new GraphicsBridge(g);
 		FontData fontData = getFont().getFontData()[0];
-		tree.setFont(new Font(fontData.getName(),fontData.getStyle(), fontData.getHeight()));
+		tree.setFont(new Font(fontData.getName(),fontData.getStyle(), fontData.getHeight()+2));
 		tree.setBorder(new BevelBorder(BevelBorder.RAISED,new Color(200,200,200),new Color(100,100,100)));
 		Rectangle b = getBounds();
 		tree.setBounds(new java.awt.Rectangle(b.x+5, b.y+5, b.width-10, b.height-10));

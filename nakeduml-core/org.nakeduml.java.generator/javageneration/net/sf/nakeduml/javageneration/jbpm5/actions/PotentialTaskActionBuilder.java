@@ -86,7 +86,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedCallAction> ext
 			ifFound.getThenPart().addToStatements(forEachTask);
 			forEachTask.getBody().addToStatements(new OJIfStatement("!task.getComplete()", "return"));
 		}
-		implementConditionalFlows(complete, ifFound.getThenPart(), false);
+		implementConditionalFlows(complete, ifFound.getThenPart());
 	}
 
 	@Override

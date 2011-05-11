@@ -13,6 +13,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -52,7 +53,7 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 				boolean isEndToComposite = f.getOtherEnd() != null && f.getOtherEnd().isComposite();
 				if (f.getInitialValue() == null && !isEndToComposite) {
 					if ((map.isManyToMany() || map.isOne()) && !(f.isDerived() || f.isReadOnly() || f.isInverse())) {
-						if (super.getConcreteImplementations(map.getProperty().getNakedBaseType()).size()>0) {
+						if (super.getConcreteSubclassifiersOf(map.getProperty().getNakedBaseType()).size()>0) {
 							if (!map.isManyToMany()) {
 								// Get all the entity instances in the tree
 								List<DataPopulatorPropertyEntry> needsOneEntities = new ArrayList<DataPopulatorPropertyEntry>();
@@ -120,9 +121,9 @@ public class ConfigurableCompositionPropertiesGenerator extends AbstractTestData
 				NakedStructuralFeatureMap compositeMap = new NakedStructuralFeatureMap(f);
 				if (f.isComposite() && compositeMap.isOne()) {
 					
-					INakedEntity toOne = null;
+					INakedBehavioredClassifier toOne = null;
 					if (f.getBaseType() instanceof INakedInterface || f.getBaseType().getIsAbstract()) {
-						List<INakedEntity> result = getConcreteImplementations(f.getNakedBaseType());
+						List<INakedBehavioredClassifier> result = getConcreteImplementations((INakedInterface) f.getNakedBaseType());
 						if(result.isEmpty()){
 							return;
 						}

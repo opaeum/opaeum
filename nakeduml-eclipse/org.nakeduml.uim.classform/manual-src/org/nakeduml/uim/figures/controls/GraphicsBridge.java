@@ -1,66 +1,34 @@
 package org.nakeduml.uim.figures.controls;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Paint;
-import java.awt.PaintContext;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
 import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.AttributedCharacterIterator;
-import java.util.HashMap;
-import java.util.Hashtable;
 
 import javax.swing.JComponent;
 
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.Panel;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.gmf.runtime.common.ui.services.action.global.GetGlobalActionHandlerOperation;
-import org.eclipse.gmf.runtime.draw2d.ui.internal.graphics.MapModeGraphics;
-import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.internal.image.JPEGDecoder;
 import org.eclipse.ui.internal.Workbench;
-
-import sun.awt.X11GraphicsConfig;
-import sun.awt.X11GraphicsEnvironment;
-import sun.awt.image.ByteArrayImageSource;
-import sun.awt.image.GifImageDecoder;
-import sun.awt.image.ToolkitImage;
-import sun.awt.image.codec.JPEGImageEncoderImpl;
-import sun.awt.resources.awt;
-import sun.swing.BakedArrayList;
 
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGHuffmanTable;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import com.sun.image.codec.jpeg.JPEGQTable;
-import com.sun.imageio.plugins.gif.GIFImageWriter;
-import com.sun.imageio.plugins.gif.GIFImageWriterSpi;
 
 public class GraphicsBridge extends java.awt.Graphics{
 	private final Graphics g;
@@ -79,6 +47,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 		getClipBounds().x = x;
 		getClipBounds().y = y;
 	}
+
 	@Override
 	public void setXORMode(Color c){
 		System.out.println("GraphicsBridge.setXORMode()");
@@ -224,7 +193,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 		System.out.println("GraphicsBridge.drawString()");
 		FontData fontData = g.getFont().getFontData()[0];
 		int potentialY = y - Math.round(fontData.height);
-		fontData.setHeight(fontData.getHeight() - 2);
+		fontData.setHeight(fontData.getHeight() - 3);
 		g.setFont(new org.eclipse.swt.graphics.Font(Workbench.getInstance().getDisplay(), fontData));
 		g.drawString(str, new Point(x, Math.abs(potentialY)));
 	}
@@ -415,6 +384,25 @@ public class GraphicsBridge extends java.awt.Graphics{
 		if(!isPopped){
 			g.popState();
 			isPopped=true;
+		}
+	}
+	public static GraphicsBridge buildBridge(Graphics graphics,Figure f,JComponent c){
+		GraphicsBridge g2 = new GraphicsBridge(graphics);
+		c.setForeground(new Color(f.getForegroundColor().getRed(),f.getForegroundColor().getGreen(),f.getForegroundColor().getBlue()));
+		c.setBackground(new Color(f.getBackgroundColor().getRed(),f.getBackgroundColor().getGreen(),f.getBackgroundColor().getBlue()));
+		c.setBounds(new Rectangle(f.getBounds().x+2,f.getBounds().y+2,f.getBounds().width-4,f.getBounds().height-4));
+		java.awt.Graphics create = g2.create(f.getBounds().x+2,f.getBounds().y+2,f.getBounds().width-4,f.getBounds().height-4);
+		FontData fontData = f.getFont().getFontData()[0];
+		c.setFont(new Font(fontData.getName(),fontData.getStyle(), fontData.getHeight()+3));
+		return (GraphicsBridge) create;		
+	}
+	public static void doLayout(Component c){
+		c.doLayout();
+		if( c instanceof Container){
+			Component[] components = ((Container) c).getComponents();
+			for(Component component:components){
+				doLayout(component);
+			}
 		}
 	}
 }
