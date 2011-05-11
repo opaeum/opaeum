@@ -43,9 +43,7 @@ public class EmfWorkspace implements Element{
 	private ResourceSet resourceSet;
 	private String name;
 	private URI directoryUri;
-	public String getDirectoryName(){
-		return directoryUri.lastSegment();
-	}
+	private String directoryName;
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
 		this(model.eResource().getURI().trimSegments(2), model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
@@ -312,5 +310,11 @@ public class EmfWorkspace implements Element{
 	}
 	public URI getDirectoryUri(){
 		return this.directoryUri;
+	}
+	public void setDirectoryName(String directoryName){
+		this.directoryName = directoryName;
+	}
+	public String getDirectoryName(){
+		return directoryName;
 	}
 }
