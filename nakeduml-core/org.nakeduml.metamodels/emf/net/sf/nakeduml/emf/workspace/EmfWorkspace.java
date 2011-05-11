@@ -45,7 +45,7 @@ public class EmfWorkspace implements Element{
 	private URI directoryUri;
 	private String directoryName;
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
-		this(model.eResource().getURI().trimSegments(2), model.eResource().getResourceSet(), mappingInfo, name);
+		this(model.eResource().getURI().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
 		this.directoryUri=model.eResource().getURI().trimSegments(2);
 	}
@@ -80,7 +80,7 @@ public class EmfWorkspace implements Element{
 	private boolean isPrimaryModelOrProfile(Package p,URI entryModelDir){
 		if(p instanceof Model){
 			URI uri = p.eResource().getURI();
-			boolean equals = uri.trimSegments(2).equals(entryModelDir);
+			boolean equals = uri.trimSegments(1).equals(entryModelDir);
 			return equals;
 		}
 		return false;
