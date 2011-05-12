@@ -10,24 +10,29 @@ import org.hibernate.Session;
 import org.jboss.logging.Logger;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
+import org.nakeduml.environment.Environment;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 public abstract class AbstractSignalMdb {
 	@Inject
 	@DefaultTransaction
-	protected SeamTransaction transaction;
+	private SeamTransaction transaction;
 	@Inject
 	Logger logger;
 	@Inject
-	protected Session hibernateSession;
+	private Session hibernateSession;
 	@Inject
+	private
 	MessageRetryer retryer;
 	protected abstract void deliverMessage(SignalToDispatch std) throws Exception;
 	public void onMessage(Message message){
+		
+		
 		long start=System.currentTimeMillis();
 		ObjectMessage obj = (ObjectMessage) message;
 		try{
+			message.acknowledge();
 			this.processInTryBlock((SignalToDispatch) obj.getObject());
 		}catch(Exception e){
 			logger.errorv("Unhandled exception in SignalMDB: {0}", e.toString());
@@ -39,7 +44,7 @@ public abstract class AbstractSignalMdb {
 				logger.error(e2.getMessage(), e2);
 			}
 			try{
-				hibernateSession.close();
+				getHibernateSession().close();
 			}catch(Exception e2){
 				logger.error(e2.getMessage(), e2);
 			}
@@ -51,8 +56,8 @@ public abstract class AbstractSignalMdb {
 			deliverMessage(std);
 		}catch(Exception e){
 			try{
-				hibernateSession.clear();
-				transaction.rollback();
+				getHibernateSession().clear();
+				getTransaction().rollback();
 			}catch(Exception e2){
 			}
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
@@ -60,9 +65,9 @@ public abstract class AbstractSignalMdb {
 				if(std.getRetryCount() < 20){
 					logger.debugv("Retrying {0} because of {1}", std.getSignal().getClass().getSimpleName(), ea.getRootCause().toString());
 					if(std.getTarget() instanceof AbstractEntity){
-						retryer.retryMessage("queue/EntitySignalQueue", std);
+						getRetryer().retryMessage("queue/EntitySignalQueue", std);
 					}else{
-						retryer.retryMessage("queue/HelperSignalQueue", std);
+						getRetryer().retryMessage("queue/HelperSignalQueue", std);
 					}
 				}else{
 					Throwable rootCause = ea.getRootCause();
@@ -78,5 +83,26 @@ public abstract class AbstractSignalMdb {
 				ea.throwRootCause();
 			}
 		}
+	}
+	protected void setTransaction(SeamTransaction transaction) {
+		this.transaction = transaction;
+	}
+	protected SeamTransaction getTransaction() {
+		return transaction;
+	}
+	protected void setHibernateSession(Session hibernateSession) {
+		this.hibernateSession = hibernateSession;
+	}
+	protected Session getHibernateSession() {
+		return hibernateSession;
+	}
+	protected void setRetryer(MessageRetryer retryer) {
+		this.retryer = retryer;
+	}
+	protected MessageRetryer getRetryer() {
+		if(retryer==null){
+			retryer=Environment.getInstance().getComponent(MessageRetryer.class);
+		}
+		return retryer;
 	}
 }

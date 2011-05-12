@@ -14,15 +14,13 @@ import org.jboss.ejb3.annotation.defaults.PoolDefaults;
 		@ActivationConfigProperty(propertyName = "destination",propertyValue = "queue/HelperSignalQueue"),
 		@ActivationConfigProperty(propertyName = "acknowledgeMode",propertyValue = "Client-acknowledge")
 })
-@TransactionManagement(TransactionManagementType.BEAN)
+@TransactionManagement(value = TransactionManagementType.BEAN)
 @Pool(maxSize = 10,value = PoolDefaults.POOL_IMPLEMENTATION_STRICTMAX,timeout = 1000 * 60 * 60 * 24)
 public class HelperSignalMdb extends AbstractSignalMdb implements MessageListener{
 	@Override
 	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{
-		hibernateSession.clear();
-		transaction.begin();
-		signalToDispatch.prepareForDelivery(hibernateSession);
-		transaction.commit();
+		getHibernateSession().clear();
+		signalToDispatch.prepareForDelivery(getHibernateSession());
 		signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 	}
 }

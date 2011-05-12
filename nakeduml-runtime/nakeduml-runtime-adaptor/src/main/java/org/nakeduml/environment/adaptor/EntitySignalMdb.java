@@ -21,12 +21,12 @@ import org.nakeduml.runtime.domain.ActiveObject;
 public class EntitySignalMdb extends AbstractSignalMdb implements MessageListener{
 	@Override
 	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{
-		hibernateSession.clear();
-		transaction.begin();
-		signalToDispatch.prepareForDelivery(hibernateSession);
+		getHibernateSession().clear();
+		getTransaction().begin();
+		signalToDispatch.prepareForDelivery(getHibernateSession());
 		AbstractEntity target = (AbstractEntity) signalToDispatch.getTarget();
 		((ActiveObject)target).processSignal(signalToDispatch.getSignal());
-		hibernateSession.flush();
-		transaction.commit();
+		getHibernateSession().flush();
+		getTransaction().commit();
 	}
 }
