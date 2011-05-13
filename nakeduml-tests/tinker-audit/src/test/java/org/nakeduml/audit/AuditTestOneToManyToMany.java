@@ -35,7 +35,7 @@ public class AuditTestOneToManyToMany extends BaseLocalDbTest {
 		three2.setName("three2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(18, countEdges());
+		assertEquals(17, countEdges());
 	}
 	
 }

@@ -48,7 +48,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		hand.setName("hand11");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(8, countEdges());
+		assertEquals(6, countEdges());
 	}
 	
 	@Test
@@ -66,7 +66,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		hand.setName("hand11");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(8, countEdges());
+		assertEquals(6, countEdges());
 		
 		List<HandAudit> handAudits = hand.getAudits();
 		assertEquals(2, handAudits.size());
@@ -74,17 +74,18 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		HandAudit handAudit2 = handAudits.get(1);
 		assertEquals(handAudit2.getPreviousAuditEntry().getName(), handAudit1.getName());
 		assertEquals("glove11", handAudit2.getGlove().getName());
-		assertEquals("glove11", handAudit1.getGlove().getName());
+		assertEquals("glove1", handAudit1.getGlove().getName());
 		
 		List<GloveAudit> gloveAudits = glove.getAudits();
 		assertEquals(2, gloveAudits.size());
 		GloveAudit gloveAudit1 = gloveAudits.get(0);
 		GloveAudit gloveAudit2 = gloveAudits.get(1);
 		assertEquals(gloveAudit2.getPreviousAuditEntry().getName(), gloveAudit1.getName());
-		assertEquals("hand11", gloveAudit1.getHand().getName());
+		assertEquals("hand1", gloveAudit1.getHand().getName());
 		assertEquals("glove1", gloveAudit2.getPreviousAuditEntry().getName());
-		assertEquals("hand11", gloveAudit2.getPreviousAuditEntry().getHand().getName());
+		assertEquals("hand1", gloveAudit2.getPreviousAuditEntry().getHand().getName());
 		assertEquals("hand11", gloveAudit2.getPreviousAuditEntry().getHand().getOriginal().getName());
+		assertEquals("glove11", handAudit2.getGlove().getName());
 	}
 	
 	@Test
@@ -114,11 +115,11 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		glove1.setHand(new Hand());
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(17, countEdges());
 		db.startTransaction();
 		hand2.setGlove(glove1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(29, countEdges());
+		assertEquals(22, countEdges());
 	}	
 }

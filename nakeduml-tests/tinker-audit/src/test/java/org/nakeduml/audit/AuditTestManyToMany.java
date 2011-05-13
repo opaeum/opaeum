@@ -91,7 +91,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA1.addToManyB(manyB1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(8, countVertices());
-			assertEquals(13, countEdges());
+			assertEquals(11, countEdges());
 		}
 		
 		@Test
@@ -118,7 +118,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA1.removeFromManyB(manyB1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(12, countVertices());
-			assertEquals(25, countEdges());
+			assertEquals(23, countEdges());
 		}
 		
 		@Test
@@ -146,7 +146,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyB2.setManyA(manyAs);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(14, countVertices());
-			assertEquals(29, countEdges());
+			assertEquals(25, countEdges());
 		}
 		
 		@Test
@@ -165,12 +165,12 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA1.addToManyB(manyB1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(8, countVertices());
-			assertEquals(13, countEdges());
+			assertEquals(11, countEdges());
 			db.startTransaction();
 			manyA1.addToManyB(manyB1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(8, countVertices());
-			assertEquals(13, countEdges());
+			assertEquals(11, countEdges());
 		}
 		
 		@Test
@@ -190,7 +190,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA.removeFromManyB(manyB);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(8, countVertices());
-			assertEquals(13, countEdges());
+			assertEquals(11, countEdges());
 		}
 		
 		@Test
@@ -214,7 +214,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA.setManyB(manyBs);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(11, countVertices());
-			assertEquals(20, countEdges());
+			assertEquals(17, countEdges());
 		}	
 		
 		@Test
@@ -234,7 +234,7 @@ public class AuditTestManyToMany extends BaseLocalDbTest {
 			manyA.setManyB(null);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(8, countVertices());
-			assertEquals(13, countEdges());
+			assertEquals(11, countEdges());
 		}		
 		
 		

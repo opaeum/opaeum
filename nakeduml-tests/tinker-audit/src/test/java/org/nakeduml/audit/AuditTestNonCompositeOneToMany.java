@@ -69,7 +69,7 @@ public class AuditTestNonCompositeOneToMany extends BaseLocalDbTest {
 			finger2.addToRing(ring1);
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(11, countVertices());
-			assertEquals(20, countEdges());
+			assertEquals(17, countEdges());
 		}
 		
 		@Test
@@ -96,7 +96,7 @@ public class AuditTestNonCompositeOneToMany extends BaseLocalDbTest {
 			db.stopTransaction(Conclusion.SUCCESS);
 			assertEquals(0,finger1.getRing().size());
 			assertEquals(13, countVertices());
-			assertEquals(25, countEdges());
+			assertEquals(22, countEdges());
 		}
 		
 		@Test
@@ -125,7 +125,7 @@ public class AuditTestNonCompositeOneToMany extends BaseLocalDbTest {
 			assertEquals(1,finger1.getRing().size());
 			assertEquals(1,finger2.getRing().size());
 			assertEquals(14, countVertices());
-			assertEquals(29, countEdges());
+			assertEquals(25, countEdges());
 		}
 		
 		@Test
@@ -153,7 +153,7 @@ public class AuditTestNonCompositeOneToMany extends BaseLocalDbTest {
 			assertEquals(0,finger1.getRing().size());
 			assertEquals(1,finger2.getRing().size());
 			assertEquals(12, countVertices());
-			assertEquals(21, countEdges());
+			assertEquals(19, countEdges());
 		}			
 		
 }

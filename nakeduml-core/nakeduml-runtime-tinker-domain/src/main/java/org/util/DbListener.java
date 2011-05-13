@@ -51,15 +51,15 @@ public class DbListener implements ODatabaseListener {
 	public void onBeforeTxCommit(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
 		TransactionAuditThreadVar.clear();
-//		List<TinkerCompositionNode> entities = TransactionThreadEntityVar.get();;
-//		for (TinkerCompositionNode entity : entities) {
-//			BaseTinkerAuditable baseAuditable = (BaseTinkerAuditable)entity;
-//			TinkerNode tinkerNode = (TinkerNode)entity;
-//			if (!tinkerNode.isTinkerRoot() && baseAuditable.getDeletedOn().after(new Date()) && entity.getOwningObject()==null) {
-//				TransactionThreadEntityVar.clear();
-//				throw new IllegalStateException(String.format("Entity %s must have a composite owner of type %s", tinkerNode.getVertex().getId(), "ahem"));
-//			}
-//		}
+		List<TinkerCompositionNode> entities = TransactionThreadEntityVar.get();;
+		for (TinkerCompositionNode entity : entities) {
+			BaseTinkerAuditable baseAuditable = (BaseTinkerAuditable)entity;
+			TinkerNode tinkerNode = (TinkerNode)entity;
+			if (!tinkerNode.isTinkerRoot() && baseAuditable.getDeletedOn().after(new Date()) && entity.getOwningObject()==null) {
+				TransactionThreadEntityVar.clear();
+				throw new IllegalStateException(String.format("Entity %s must have a composite owner of type %s", tinkerNode.getVertex().getId(), "ahem"));
+			}
+		}
 		TransactionThreadEntityVar.clear();
 	}
 

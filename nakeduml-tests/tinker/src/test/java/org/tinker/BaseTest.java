@@ -6,17 +6,14 @@ import org.util.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Graph;
-import com.tinkerpop.blueprints.pgm.TransactionalGraph;
 import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.impls.dex.DexGraph;
 import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
-import com.tinkerpop.blueprints.pgm.impls.sail.impls.MemoryStoreSailGraph;
 import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraph;
 
 public class BaseTest {
 
-	protected TransactionalGraph db;
+	protected Graph db;
 	private GraphEnum graphType = GraphEnum.TINKER;
 
 	@Before
@@ -28,9 +25,9 @@ public class BaseTest {
 		case ORIENT:
 			db = new OrientGraph("memory:test");
 			break;
-//		case TINKER:
-//			db = new TinkerGraph();
-//			break;
+		case TINKER:
+			db = new TinkerGraph();
+			break;
 //		case SAIL:
 //			db = new MemoryStoreSailGraph();
 //			break;

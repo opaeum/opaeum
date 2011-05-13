@@ -74,7 +74,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger3.setName("universe3");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(11, countEdges());
 		Iterator<HandAudit> iterator2 = hand.getAudits().iterator();
 		assertEquals(2, iterator2.next().getTransactionNo());
 		assertEquals(3, iterator2.next().getTransactionNo());
@@ -99,7 +99,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger3.setName("finger3");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(11, countEdges());
 		Iterator<HandAudit> iterator1 = hand.getAudits().iterator();
 		assertEquals(2, iterator1.next().getTransactionNo());
 		assertEquals(3, iterator1.next().getTransactionNo());
@@ -109,7 +109,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger4.setName("finger4");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(15, countEdges());
 		Iterator<HandAudit> iterator2 = hand.getAudits().iterator();
 		assertEquals(2, iterator2.next().getTransactionNo());
 		assertEquals(3, iterator2.next().getTransactionNo());
@@ -118,7 +118,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger4.setName("finger41");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(16, countEdges());
 		assertEquals("finger4", finger4.getAudits().get(1).getPreviousAuditEntry().getName());
 		assertEquals("THEHAND", finger4.getAudits().get(1).getPreviousAuditEntry().getHand().getName());
 		Iterator<HandAudit> iterator3 = hand.getAudits().iterator();
@@ -167,7 +167,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger2.setHand(hand1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(20, countEdges());		
+		assertEquals(16, countEdges());		
 		Iterator<HandAudit> hand1Iter = hand1.getAudits().iterator();
 		assertEquals(2, hand1Iter.next().getTransactionNo());		
 		assertEquals(3, hand1Iter.next().getTransactionNo());		
@@ -206,7 +206,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		finger1.setHand(hand2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(16, countEdges());
+		assertEquals(13, countEdges());
 		assertEquals(2, hand2.getFinger().size());
 		assertEquals(0, hand1.getFinger().size());
 		
@@ -239,7 +239,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		one1.setName("one1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(5, countVertices());
-		assertEquals(6, countEdges());
+		assertEquals(5, countEdges());
 		handAudits = hand1.getAudits();
 		List<OneAudit> oneAudits = one1.getAudits();
 		assertEquals(2, handAudits.get(0).getTransactionNo());
@@ -250,7 +250,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		otherOne1.setName("otherOne1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(11, countEdges());
+		assertEquals(9, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		List<OtherOneAudit> otherOneAudits = otherOne1.getAudits();
@@ -263,7 +263,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		one1.setOtherOne(otherOne1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(13, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
@@ -278,7 +278,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		one1.setName("one1Again");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(14, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
@@ -295,7 +295,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		otherOne2.setName("otherOne2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(24, countEdges());
+		assertEquals(18, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
@@ -314,7 +314,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		one1.setOtherOne(otherOne2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(32, countEdges());
+		assertEquals(23, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
@@ -337,7 +337,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		otherOne1.setHand(new Hand());
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(39, countEdges());
+		assertEquals(28, countEdges());
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();

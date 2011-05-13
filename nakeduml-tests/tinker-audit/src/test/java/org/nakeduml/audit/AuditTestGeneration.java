@@ -47,19 +47,19 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 	@Test
 	public void testAuditCompositeGodAndUniversesInTwoTransaction() {
 		db.startTransaction();
-		Hand god = new Hand();
-		god.setName("THEGOD");
+		Hand hand = new Hand();
+		hand.setName("THEGOD");
 		db.stopTransaction(Conclusion.SUCCESS);
 		db.startTransaction();
-		Finger universe1 = new Finger(god);
-		universe1.setName("universe1");
-		Finger universe2 = new Finger(god);
-		universe2.setName("universe2");
-		Finger universe3 = new Finger(god);
-		universe3.setName("universe3");
+		Finger finger1 = new Finger(hand);
+		finger1.setName("universe1");
+		Finger finger2 = new Finger(hand);
+		finger2.setName("universe2");
+		Finger finger3 = new Finger(hand);
+		finger3.setName("universe3");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(11, countEdges());
 	}
 	
 	@Test
@@ -79,18 +79,18 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		finger3.setName("finger3");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(11, countEdges());
 		db.startTransaction();
 		Finger finger4 = new Finger(hand);
 		finger4.setName("finger4");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(15, countEdges());
 		db.startTransaction();
 		finger4.setName("finger41");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(16, countEdges());
 		
 		assertEquals("finger4", finger4.getAudits().get(1).getPreviousAuditEntry().getName());
 		assertEquals("THEHAND", finger4.getAudits().get(1).getPreviousAuditEntry().getHand().getName());
@@ -129,7 +129,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		finger2.setHand(hand1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(20, countEdges());		
+		assertEquals(16, countEdges());		
 	}
 	
 	@Test
@@ -150,7 +150,7 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		finger1.setHand(hand2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(16, countEdges());
+		assertEquals(13, countEdges());
 		assertEquals(2, hand2.getFinger().size());
 		assertEquals(0, hand1.getFinger().size());
 	}
