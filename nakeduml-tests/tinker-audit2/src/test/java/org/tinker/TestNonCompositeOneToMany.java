@@ -31,13 +31,13 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		universe1.addToDemon(demon1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(17, countEdges());
 		assertEquals(1, universe1.getDemon().size());
 		db.startTransaction();
 		universe1.addToDemon(demon2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(2, universe1.getDemon().size());
 	}
 	
@@ -112,12 +112,12 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		universe1.addAllToDemon(demons);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(23, countEdges());
+		assertEquals(20, countEdges());
 		assertEquals(2, universe1.getDemon().size());
 		db.startTransaction();
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(21, countEdges());
 	}		
 }

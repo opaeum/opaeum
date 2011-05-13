@@ -28,7 +28,7 @@ public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 		alien.setName("alien");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(11, countEdges());
 		int countBeing = 0;
 		int countCreature = 0;
 		int countHuman = 0;
@@ -71,6 +71,6 @@ public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 		god.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(18, countEdges());
+		assertEquals(14, countEdges());
 	}	
 }

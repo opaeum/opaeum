@@ -37,13 +37,13 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteX1.addToAbstractA1(concreteA1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(17, countEdges());
 		assertEquals(1, concreteX1.getAbstractA1().size());
 		db.startTransaction();
 		concreteX1.addToAbstractA1(concreteA2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(2, concreteX1.getAbstractA1().size());
 
 		db.startTransaction();
@@ -53,7 +53,7 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteX2.addAllToAbstractA1(concreteA1s);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(37, countEdges());
+		assertEquals(29, countEdges());
 		assertEquals(0, concreteX1.getAbstractA1().size());
 		assertEquals(2, concreteX2.getAbstractA1().size());
 		
@@ -95,14 +95,14 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteX1.addAllToAbstractA1(abstractA1s);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(23, countEdges());
+		assertEquals(20, countEdges());
 		assertEquals(2,god.getAbstractX1().size());
 		
 		db.startTransaction();
 		concreteX1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(1,god.getAbstractX1().size());
 	}
 }

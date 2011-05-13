@@ -37,7 +37,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteY22.setName("concreteY22");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(15, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(20, countEdges());
 		assertEquals(2, god.getAbstractX1().size());
 		assertEquals("THEGOD", concreteX1.getGod().getName());
 		assertEquals("THEGOD", concreteX2.getGod().getName());
@@ -83,7 +83,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteY22.setName("concreteY22");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(15, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(20, countEdges());
 		
 		db.startTransaction();
 		Set<AbstractY1> y = new HashSet<AbstractY1>();
@@ -97,7 +97,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		assertEquals(0, concreteX1.getAbstractY1().size());
 		assertEquals(4, concreteX2.getAbstractY1().size());
 		assertEquals(21, countVertices());
-		assertEquals(41, countEdges());
+		assertEquals(34, countEdges());
 		
 		db.startTransaction();
 		God otherGod = new God();
@@ -105,7 +105,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteX2.setGod(otherGod);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(25, countVertices());
-		assertEquals(48, countEdges());
+		assertEquals(39, countEdges());
 		assertEquals("THEGOD", concreteX1.getGod().getName());
 		assertEquals("OTHERGOD", concreteX2.getGod().getName());
 		assertEquals("OTHERGOD", concreteY11.getAbstractX1().getGod().getName());
@@ -119,12 +119,12 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		assertEquals(4, concreteX1.getAbstractY1().size());
 		assertEquals(0, concreteX2.getAbstractY1().size());
 		assertEquals(31, countVertices());
-		assertEquals(68, countEdges());
+		assertEquals(53, countEdges());
 		db.startTransaction();
 		concreteX1.setGod(otherGod);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(34, countVertices());
-		assertEquals(76, countEdges());
+		assertEquals(58, countEdges());
 		assertEquals("OTHERGOD", concreteX1.getGod().getName());
 		assertEquals("OTHERGOD", concreteX2.getGod().getName());
 		assertEquals("OTHERGOD", concreteY11.getAbstractX1().getGod().getName());
@@ -149,17 +149,18 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteX2.setAbstractY1(y1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(43, countVertices());
-		assertEquals(90, countEdges());
+		assertEquals(71, countEdges());
 		assertEquals(4, concreteX1.getAbstractY1().size());
 		assertEquals(4, concreteX2.getAbstractY1().size());
 		
 		db.startTransaction();
 		concreteX1.setAbstractY1(y1);
+		concreteX2.setAbstractY1(y);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(4, concreteX1.getAbstractY1().size());
-		assertEquals(0, concreteX2.getAbstractY1().size());
+		assertEquals(4, concreteX2.getAbstractY1().size());
 		assertEquals(53, countVertices());
-		assertEquals(118, countEdges());
+		assertEquals(97, countEdges());
 	}
 	
 	@Test
@@ -183,10 +184,6 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteY12.setName("concreteY12");
 		ConcreteY2 concreteY22 = new ConcreteY2();
 		concreteY22.setName("concreteY22");
-		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(14, countVertices());
-		assertEquals(11, countEdges());
-		db.startTransaction();
 		Set<AbstractY1> y = new HashSet<AbstractY1>();
 		y.add(concreteY11);
 		y.add(concreteY12);
@@ -194,8 +191,8 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		y.add(concreteY22);
 		concreteX2.addAllToAbstractY1(y);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(19, countVertices());
-		assertEquals(29, countEdges());
+		assertEquals(15, countVertices());
+		assertEquals(20, countEdges());
 	}
 	
 	@Test
@@ -228,13 +225,13 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteX11.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(28, countEdges());
 		assertEquals(3, god.getAbstractX1().size());
 		db.startTransaction();
 		concreteY21.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(22, countVertices());
-		assertEquals(33, countEdges());
+		assertEquals(29, countEdges());
 		assertEquals(3, god.getAbstractX1().size());
 		assertEquals(0, concreteX21.getAbstractY1().size());
 		assertEquals(1, concreteX22.getAbstractY1().size());
@@ -243,7 +240,7 @@ public class TestPolymorphism extends BaseLocalDbTest {
 		concreteX22.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(24, countVertices());
-		assertEquals(37, countEdges());
+		assertEquals(31, countEdges());
 	}
 	
 }

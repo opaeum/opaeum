@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class TestCompositeComponent extends BaseLocalDbTest {
@@ -34,7 +35,7 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 		assertEquals("THEGOD", spaceTime.getTime().getSpaceTime().getUniverse().getGod().getName());
 	}
 	
-	@Test
+	@Test(expected=OTransactionException.class)
 	public void testSetToNull() {
 		db.startTransaction();
 		God god = new God();
@@ -49,9 +50,6 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 		db.startTransaction();
 		spaceTime.setSpace(null);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
-		assertNull(spaceTime.getSpace());
 	}
 	
 }

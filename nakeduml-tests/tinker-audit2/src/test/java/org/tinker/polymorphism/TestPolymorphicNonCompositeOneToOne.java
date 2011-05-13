@@ -30,14 +30,14 @@ public class TestPolymorphicNonCompositeOneToOne extends BaseLocalDbTest {
 		concreteX1.setAbstractZ1(concreteZ1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(17, countEdges());
 		assertEquals("concreteZ1", concreteX1.getAbstractZ1().getName());
 
 		db.stopTransaction(Conclusion.SUCCESS);
 		concreteZ2.setAbstractX1(concreteX2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals("concreteX2", concreteZ2.getAbstractX1().getName());
 	}
 }

@@ -3,7 +3,6 @@ package org.tinker;
 import java.util.Set;
 
 import org.apache.commons.lang.time.StopWatch;
-import org.junit.Test;
 import org.tinker.derivedunion.Hand;
 import org.tinker.derivedunion.MamalHand;
 
@@ -12,7 +11,7 @@ import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class TestLargeSet extends BaseLocalDbTest {
 
-	@Test
+//	@Test
 	public void test() {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
@@ -54,7 +53,7 @@ public class TestLargeSet extends BaseLocalDbTest {
 	}
 	
 	
-	@Test
+//	@Test
 	public void test2() {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();

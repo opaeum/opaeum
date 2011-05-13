@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class TestCompositionOneToOne extends BaseLocalDbTest {
@@ -48,7 +49,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		assertEquals(29, countEdges());
 	}
 	
-	@Test
+	@Test(expected=OTransactionException.class)
 	public void testOneToOneSet() {
 		db.startTransaction();
 		God god = new God();
@@ -61,63 +62,33 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		assertEquals(10, countVertices());
 		assertEquals(13, countEdges());
 		db.startTransaction();
+		
 		SpaceTime spaceTime2 = new SpaceTime();
 		spaceTime2.setName("spaceTime2");
 		universe1.setSpaceTime(spaceTime2);
+		Universe universe2 = new Universe(god);
+		spaceTime1.setUniverse(universe2);
+		
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(18, countVertices());
-		assertEquals(26, countEdges());
+		assertEquals(21, countVertices());
+		assertEquals(30, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime2", universe1.getSpaceTime().getName());
-		assertNull(spaceTime1.getUniverse());
 		assertEquals("THEGOD", spaceTime2.getUniverse().getGod().getName());
 		db.startTransaction();
 		spaceTime1.setUniverse(universe1);
+		spaceTime2.setUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(21, countVertices());
-		assertEquals(34, countEdges());
+		assertEquals(25, countVertices());
+		assertEquals(38, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime1", universe1.getSpaceTime().getName());
-		assertNull(spaceTime2.getUniverse());
 		assertNotNull(spaceTime1.getUniverse());
 		assertEquals("THEGOD", spaceTime1.getUniverse().getGod().getName());
 		
 		db.startTransaction();
 		universe1.setSpaceTime(null);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(23, countVertices());
-		assertEquals(38, countEdges());
-		assertNull(universe1.getSpaceTime());
-		assertNull(spaceTime2.getUniverse());
-		
-		db.startTransaction();
-		Universe universe2 = new Universe(god);
-		universe2.setName("universe2");
-		universe1.setSpaceTime(spaceTime1);
-		universe2.setSpaceTime(spaceTime2);
-		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(29, countVertices());
-		assertEquals(53, countEdges());
-		assertNotNull(universe1.getSpaceTime());
-		assertNotNull(universe2.getSpaceTime());
-		assertEquals("spaceTime1",universe1.getSpaceTime().getName());
-		assertEquals("spaceTime2",universe2.getSpaceTime().getName());
-		assertNotNull(spaceTime1.getUniverse().getGod());
-		assertNotNull(spaceTime2.getUniverse().getGod());
-		
-		db.startTransaction();
-		universe1.setSpaceTime(spaceTime2);
-		universe2.setSpaceTime(spaceTime1);
-		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(33, countVertices());
-		assertEquals(65, countEdges());
-		assertNotNull(universe1.getSpaceTime());
-		assertNotNull(universe2.getSpaceTime());
-		assertEquals("spaceTime2",universe1.getSpaceTime().getName());
-		assertEquals("spaceTime1",universe2.getSpaceTime().getName());
-		assertNotNull(spaceTime1.getUniverse().getGod());
-		assertNotNull(spaceTime2.getUniverse().getGod());
-		
 	}
 	
 	@Test
@@ -136,7 +107,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(17, countEdges());
 		assertEquals(0, god.getUniverse().size());
 	}	
 	

@@ -44,17 +44,17 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 		creature.setSpirit(spook);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(22, countEdges());
+		assertEquals(20, countEdges());
 		db.startTransaction();
 		soul.setBeing(human);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(16, countVertices());
-		assertEquals(28, countEdges());
+		assertEquals(24, countEdges());
 		db.startTransaction();
 		human.setSpirit(spook);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(38, countEdges());
+		assertEquals(30, countEdges());
 		assertEquals("spook", human.getSpirit().getName()); 
 	}
 	
@@ -80,22 +80,22 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 		creature.setSpirit(spook);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(22, countEdges());
+		assertEquals(20, countEdges());
 		db.startTransaction();
 		soul.setBeing(human);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(16, countVertices());
-		assertEquals(28, countEdges());
+		assertEquals(24, countEdges());
 		db.startTransaction();
 		human.setSpirit(spook);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(38, countEdges());
+		assertEquals(30, countEdges());
 		assertEquals("spook", human.getSpirit().getName()); 
 		db.startTransaction();
 		human.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(40, countEdges());
+		assertEquals(31, countEdges());
 	}	
 }
