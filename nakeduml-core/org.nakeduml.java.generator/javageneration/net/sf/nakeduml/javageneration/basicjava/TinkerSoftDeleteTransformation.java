@@ -28,6 +28,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor {
@@ -136,16 +137,40 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 	}
 
 	private void transformMarkDeletedToSoft(INakedEntity c, OJAnnotatedClass ojClass) {
-		OJOperation markDeleted = ojClass.findOperation("markDeleted", Collections.EMPTY_LIST);
+		OJAnnotatedOperation markDeleted = (OJAnnotatedOperation) ojClass.findOperation("markDeleted", Collections.EMPTY_LIST);
 		markDeleted.getBody().removeAllFromStatements();
 		if (c.hasSupertype()) {
 			markDeleted.getBody().addToStatements("super.markDeleted()");
 		}
+		markChildrenForDeletion(c, ojClass, markDeleted);
 		AbstractCompositionNodeStrategy.invokeOperationRecursively(c, markDeleted, "markDeleted()");
 		if (!c.hasSupertype()) {
 			removeVertex(c, ojClass, markDeleted);
 		}
 	}
+	
+	private void markChildrenForDeletion(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
+		for (INakedProperty np : sc.getEffectiveAttributes()) {
+			if (np.getOtherEnd() != null) {
+				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
+				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
+				if (map.isManyToMany()) {
+					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable()) {
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", (map.getProperty().isOrdered()?"((TinkerList)":"((TinkerSet)") + map.getter() + "()." + otherMap.getter()
+							+ "()).tinkerRemove((" + ojClass.getName() + ")this)");
+					markDeleted.getBody().addToStatements(ifNotNull);
+				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
+					// TODO this may have unwanted results such as removing the
+					// owner from "this" too
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.setter()
+							+ "(null)");
+					markDeleted.getBody().addToStatements(ifNotNull);
+				}
+			}
+		}
+	}
+	
 
 	private void removeVertex(INakedEntity sc, OJClass ojClass, OJOperation markDeleted) {
 		OJPathName datePath = new OJPathName("java.util.Date");

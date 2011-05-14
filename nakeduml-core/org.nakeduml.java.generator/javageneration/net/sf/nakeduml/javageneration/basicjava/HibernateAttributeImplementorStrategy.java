@@ -50,6 +50,7 @@ public class HibernateAttributeImplementorStrategy implements AttributeImplement
 		ifParamNotNull.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
 		ifParamNotNull.setElsePart(new OJBlock());
 		ifParamNotNull.getElsePart().addToStatements("this." + map.umlName() + "=null");
+		setter.getBody().addToStatements(ifParamNotNull);
 	}
 
 	@Override

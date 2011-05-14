@@ -6,7 +6,6 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.java.metamodel.OJBlock;
-import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;

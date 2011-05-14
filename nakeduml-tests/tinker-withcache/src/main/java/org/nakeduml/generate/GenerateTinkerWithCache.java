@@ -13,24 +13,25 @@ import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.auditing.TinkerAuditImplementationStep;
+import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
 
 import org.eclipse.emf.common.util.URI;
 
-public class GenerateAudit2 {
+public class GenerateTinkerWithCache {
 
-	protected File outputRoot;
+	protected File outputRoot;  
 	protected File modelFile;
 	protected TransformationProcess process = new TransformationProcess();
 
 	public static void main(String[] args) throws Exception {
 		File model = new File("../TestModels/Models/tinker/tinker.uml");
-		File outputRoot = new File("../tinker-audit2/");
+		File outputRoot = new File("../tinker-withcache/");
 		System.out.println(outputRoot.getAbsolutePath());
-		GenerateAudit2 g = new GenerateAudit2(outputRoot, model);
+		GenerateTinkerWithCache g = new GenerateTinkerWithCache(outputRoot, model);
 		g.generate();
 	}
 
-	public GenerateAudit2(File outputRoot, File modelFile) {
+	public GenerateTinkerWithCache(File outputRoot, File modelFile) {
 		super();
 		this.outputRoot = outputRoot;
 		this.modelFile = modelFile;
@@ -52,7 +53,8 @@ public class GenerateAudit2 {
 		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class, 
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
 				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class,
-				TinkerAuditImplementationStep.class);
+				TinkerAuditImplementationStep.class,
+				TinkerImplementAttributeCacheStep.class);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {
