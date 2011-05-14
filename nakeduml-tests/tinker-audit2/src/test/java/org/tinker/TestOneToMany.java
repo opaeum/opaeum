@@ -1,14 +1,13 @@
 package org.tinker;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.tinker.God;
-import org.tinker.Universe;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -31,7 +30,7 @@ public class TestOneToMany extends BaseLocalDbTest {
 		universe2.setName("universe2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(7, countVertices());
-		assertEquals(9, countEdges());
+		assertEquals(8, countEdges());
 		assertEquals("THEGOD", universe2.getGod().getName());
 		assertEquals(2, god.getUniverse().size());
 	}
@@ -49,13 +48,13 @@ public class TestOneToMany extends BaseLocalDbTest {
 		universe1.setName("universe1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(5, countVertices());
-		assertEquals(6, countEdges());
+		assertEquals(5, countEdges());
 		db.startTransaction();
 		Universe universe2 = new Universe(god);
 		universe2.setName("universe2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(11, countEdges());
+		assertEquals(9, countEdges());
 		assertEquals("THEGOD", universe1.getGod().getName());
 		assertEquals("THEGOD", universe2.getGod().getName());
 		assertEquals(2, god.getUniverse().size());
@@ -63,19 +62,19 @@ public class TestOneToMany extends BaseLocalDbTest {
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(10, countEdges());
 		assertEquals(1, god.getUniverse().size());
 		db.startTransaction();
 		universe2.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(15, countEdges());
+		assertEquals(11, countEdges());
 		assertEquals(0, god.getUniverse().size());
 		db.startTransaction();
 		god.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(12, countEdges());
 	}
 	
 	@Test
@@ -159,14 +158,14 @@ public class TestOneToMany extends BaseLocalDbTest {
 		otherUniverse1.setGod(god);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(15, countVertices());
-		assertEquals(22, countEdges());
+		assertEquals(19, countEdges());
 		assertEquals(3,god.getUniverse().size());
 		assertEquals("THEGOD",otherUniverse1.getGod().getName());
 		db.startTransaction();
 		otherUniverse2.setGod(god);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(30, countEdges());
+		assertEquals(24, countEdges());
 		assertEquals(4,god.getUniverse().size());
 		assertEquals("THEGOD",otherUniverse2.getGod().getName());
 		assertEquals(0, otherGod.getUniverse().size());
@@ -211,13 +210,14 @@ public class TestOneToMany extends BaseLocalDbTest {
 		assertEquals("THEOTHERGOD",otherUniverse2.getGod().getName());
 		db.startTransaction();
 		god.setUniverse(otherAll);
+		otherGod.setUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(30, countEdges());			
-		assertEquals(0, otherGod.getUniverse().size());
+		assertEquals(28, countEdges());			
+		assertEquals(2, otherGod.getUniverse().size());
 		assertEquals(2, god.getUniverse().size());
-		assertNull(universe1.getGod());
-		assertNull(universe2.getGod());
+		assertNotNull(universe1.getGod());
+		assertNotNull(universe2.getGod());
 	}
 	
 	@Test
@@ -241,12 +241,14 @@ public class TestOneToMany extends BaseLocalDbTest {
 		assertEquals("THEGOD",universe2.getGod().getName());
 		db.startTransaction();
 		god.removeAllFromUniverse(all);
+		God otherGod = new God();
+		otherGod.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(9, countVertices());
-		assertEquals(13, countEdges());		
+		assertEquals(11, countVertices());
+		assertEquals(15, countEdges());		
 		assertEquals(0, god.getUniverse().size());
-		assertNull(universe1.getGod());
-		assertNull(universe2.getGod());
+		assertNotNull(universe1.getGod());
+		assertNotNull(universe2.getGod());
 	}	
 	
 	@Test
@@ -270,11 +272,13 @@ public class TestOneToMany extends BaseLocalDbTest {
 		assertEquals("THEGOD",universe2.getGod().getName());
 		db.startTransaction();
 		god.clearUniverse();
+		God otherGod = new God();
+		otherGod.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(9, countVertices());
-		assertEquals(13, countEdges());		
+		assertEquals(11, countVertices());
+		assertEquals(15, countEdges());		
 		assertEquals(0, god.getUniverse().size());
-		assertNull(universe1.getGod());
-		assertNull(universe2.getGod());
+		assertNotNull(universe1.getGod());
+		assertNotNull(universe2.getGod());
 	}	
 }

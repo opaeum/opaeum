@@ -32,22 +32,22 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 		abstractA1.addToAbstractB(abstractB1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(16, countVertices());
-		assertEquals(25, countEdges());
+		assertEquals(23, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB11);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(27, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(37, countEdges());
+		assertEquals(31, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB21);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(22, countVertices());
-		assertEquals(43, countEdges());
+		assertEquals(35, countEdges());
 		
 		int concreteB1Count = 0;
 		int concreteB2Count = 0;
@@ -84,7 +84,7 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 		abstractA11.addAllToAbstractB(abstractBs);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(27, countVertices());
-		assertEquals(61, countEdges());
+		assertEquals(48, countEdges());
 		
 	}
 	
@@ -102,11 +102,11 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 		abstractA1.addToAbstractB(abstractB1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(11, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(11, countEdges());
 	}
 }

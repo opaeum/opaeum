@@ -52,7 +52,7 @@ public class TestDerivedUnion extends BaseLocalDbTest {
 		monkeyHand.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(11, countEdges());
 	}
 	
 	@Test
@@ -71,7 +71,7 @@ public class TestDerivedUnion extends BaseLocalDbTest {
 		class1.addToClass3(class3);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(20, countEdges());
+		assertEquals(17, countEdges());
 		assertEquals(2, class1.getInterface2().size());
 		assertEquals(1, class2.getInterface1().size());
 		assertEquals(1, class3.getInterface1().size());
