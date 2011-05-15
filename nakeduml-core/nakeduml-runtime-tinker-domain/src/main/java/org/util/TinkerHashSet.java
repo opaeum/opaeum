@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.nakeduml.runtime.domain.TinkerNode;
 
-public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
+public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, TinkerCollection<E> {
 
 	Map<Class<? extends TinkerNode>, MethodHolder> methodMap = new HashMap<Class<? extends TinkerNode>, MethodHolder>();
 	private class MethodHolder {
@@ -30,6 +30,11 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
 		}
 	}
 	
+	public TinkerHashSet(Class<? extends TinkerNode> collectionType, TinkerNode owner, Method adder, Method remover) {
+		super();
+		methodMap.put(collectionType, new MethodHolder(owner, adder, remover));
+	}
+
 	public boolean tinkerAddAll(Collection<? extends E> c) {
         boolean modified = false;
         Iterator<? extends E> e = c.iterator();
@@ -38,13 +43,8 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
                 modified = true;
         }
         return modified;
-	}
-
-	public TinkerHashSet(Class<? extends TinkerNode> collectionType, TinkerNode owner, Method adder, Method remover) {
-		super();
-		methodMap.put(collectionType, new MethodHolder(owner, adder, remover));
-	}
-
+	} 
+	
 	@Override
 	public boolean tinkerAdd(E e) {
 		return super.add(e);
@@ -62,7 +62,7 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
 	}
 
 	@Override
-	public boolean tinkerRemove(TinkerNode e) {
+	public boolean tinkerRemove(Object e) {
 		return super.remove(e);
 	}
 

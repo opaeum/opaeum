@@ -2,41 +2,73 @@ package org.util;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.nakeduml.runtime.domain.TinkerNode;
 
-public class TinkerArrayList<E> extends ArrayList<E> implements TinkerList<E> {
+public class TinkerArrayList<E> extends ArrayList<E> implements TinkerList<E>, TinkerCollection<E> {
 
-	private TinkerNode owner;
-	private Method adder;
-	private Method remover;
-
-	public TinkerArrayList(TinkerNode owner, Method adder, Method remover) {
-		super();
-		this.owner = owner;
-		this.adder = adder;
-		this.remover = remover;
+	Map<Class<? extends TinkerNode>, MethodHolder> methodMap = new HashMap<Class<? extends TinkerNode>, MethodHolder>();
+	private class MethodHolder {
+		private TinkerNode owner;
+		private Method adder;
+		private Method remover;
+		MethodHolder(TinkerNode owner, Method adder, Method remover) {
+			this.owner = owner;
+			this.adder = adder;
+			this.remover = remover;
+		}
 	}
 
+	public TinkerArrayList(TinkerArrayList ... tinkerList) {
+		for (TinkerArrayList tinkerArrayList : tinkerList) {
+			methodMap.putAll(tinkerArrayList.methodMap);
+			tinkerAddAll(tinkerArrayList);
+		}
+	}
+	
+	public boolean tinkerAddAll(Collection<? extends E> c) {
+		boolean result = true;
+		for (E e : c) {
+			if (super.add(e)) {
+				result = false;
+			}
+		}
+		return result;
+	}
+
+	public TinkerArrayList(Class<? extends TinkerNode> collectionType, TinkerNode owner, Method adder, Method remover) {
+		super();
+		methodMap.put(collectionType, new MethodHolder(owner, adder, remover));
+	}
+	
 	@Override
 	public boolean tinkerAdd(E e) {
-		return super.add(e);
+		return super.add(e); 
 	}
 	
 	@Override
 	public boolean add(E e) {
+		try {
+			MethodHolder methodHolder = methodMap.get(e.getClass());
+			methodHolder.adder.invoke(methodHolder.owner, e);
+		} catch (Exception e1) {
+			throw new RuntimeException(e1);
+		}
 		return super.add(e);
 	}
 
 	public void tinkerAdd(int index, E e) {
-		throw new IllegalArgumentException("Method not supprted");
-//		super.add(index, e);
+		super.add(index, e);
 	}
 
 	@Override
 	public void add(int index, E e) {
 		try {
-			adder.invoke(owner, e);
+			MethodHolder methodHolder = methodMap.get(e.getClass());
+			methodHolder.adder.invoke(methodHolder.owner, e);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
 		}
@@ -57,7 +89,8 @@ public class TinkerArrayList<E> extends ArrayList<E> implements TinkerList<E> {
 	@Override
 	public boolean remove(Object o) {
 		try {
-			remover.invoke(owner, o);
+			MethodHolder methodHolder = methodMap.get(o.getClass());
+			methodHolder.remover.invoke(methodHolder.owner, o);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
 		}
