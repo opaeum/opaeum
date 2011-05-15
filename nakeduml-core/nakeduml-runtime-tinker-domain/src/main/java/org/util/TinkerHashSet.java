@@ -1,22 +1,48 @@
 package org.util;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.nakeduml.runtime.domain.TinkerNode;
 
 public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
 
-	private TinkerNode owner;
-	private Method adder;
-	private Method remover;
+	Map<Class<? extends TinkerNode>, MethodHolder> methodMap = new HashMap<Class<? extends TinkerNode>, MethodHolder>();
+	private class MethodHolder {
+		private TinkerNode owner;
+		private Method adder;
+		private Method remover;
+		MethodHolder(TinkerNode owner, Method adder, Method remover) {
+			this.owner = owner;
+			this.adder = adder;
+			this.remover = remover;
+		}
+	}
 
-	public TinkerHashSet(TinkerNode owner, Method adder, Method remover) {
+	public TinkerHashSet(TinkerHashSet ... tinkerSet) {
+		for (TinkerHashSet tinkerHashSet : tinkerSet) {
+			methodMap.putAll(tinkerHashSet.methodMap);
+			tinkerAddAll(tinkerHashSet);
+		}
+	}
+	
+	public boolean tinkerAddAll(Collection<? extends E> c) {
+        boolean modified = false;
+        Iterator<? extends E> e = c.iterator();
+        while (e.hasNext()) {
+            if (tinkerAdd(e.next()))
+                modified = true;
+        }
+        return modified;
+	}
+
+	public TinkerHashSet(Class<? extends TinkerNode> collectionType, TinkerNode owner, Method adder, Method remover) {
 		super();
-		this.owner = owner;
-		this.adder = adder;
-		this.remover = remover;
+		methodMap.put(collectionType, new MethodHolder(owner, adder, remover));
 	}
 
 	@Override
@@ -27,7 +53,8 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
 	@Override
 	public boolean add(E e) {
 		try {
-			adder.invoke(owner, e);
+			MethodHolder methodHolder = methodMap.get(e.getClass());
+			methodHolder.adder.invoke(methodHolder.owner, e);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
 		}
@@ -42,7 +69,8 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E> {
 	@Override
 	public boolean remove(Object o) {
 		try {
-			remover.invoke(owner, o);
+			MethodHolder methodHolder = methodMap.get(o.getClass());
+			methodHolder.remover.invoke(methodHolder.owner, o);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
 		}

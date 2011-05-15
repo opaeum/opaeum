@@ -29,37 +29,9 @@ import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.util.TinkerSet;
 
 public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisitor {
-
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedEntity c) {
-		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
-			OJAnnotatedClass originalClass = findJavaClass(c);
-			OJAnnotatedClass ojAuditClass = findAuditJavaClass(c);
-			if (c.getGeneralizations().isEmpty()) {
-				if (c.getEndToComposite() != null) {
-				} else {
-					if (c.getIsAbstract()) {
-					}
-				}
-				if (c.getEndToComposite() != null) {
-				}
-
-			} else {
-				if (c.getEndToComposite() != null) {
-				}
-				// This select hierarchy type pattern
-				if (c.getEndToComposite() != null && ((ICompositionParticipant) c.getSupertype()).getEndToComposite() == null) {
-				}
-			}
-			if (!c.getIsAbstract()) {
-			} else {
-			}
-			if (!c.hasSupertype()) {
-			}
-		}
-	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitFeature(INakedProperty p) {
@@ -107,7 +79,7 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 			initializeCollection(umlOwner, owner, map);
 			buildAdder(owner, map);
 			// buildAddAll(owner, map);
-			// buildRemover(owner, map);
+			buildRemover(owner, map);
 			// buildRemoveAll(owner, map);
 			// buildClear(owner, map);
 		} else if (map.isOne() && isPersistent(p.getNakedBaseType()) || p.getBaseType() instanceof INakedInterface) {
@@ -126,6 +98,27 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		}
 	}
 	
+	private OJOperation buildRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+		OJOperation adder = owner.findOperation(map.remover(), Arrays.asList(map.javaBaseTypePath()));
+		INakedProperty p = map.getProperty();
+		if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable() && !(p.getOtherEnd().isDerived() || p.getOtherEnd().isReadOnly())){
+			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
+			if(otherMap.isMany()){
+				buildManyRemover(map, otherMap, adder);
+			}else{
+//				adder.getBody().addToStatements(map.umlName() + "." + otherMap.internalRemover() + "(null)");
+			}
+		}else{
+//			adder.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
+		}
+		owner.addToOperations(adder);
+		return adder;
+	}
+	
+	private void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
+		adder.getBody().addToStatements((map.getProperty().isOrdered()?"((TinkerList<":"((TinkerSet<") + map.javaBaseTypePath().getLast() + ">)" + map.getter() + "()).tinkerRemove("+map.umlName()+")");
+	}
+
 	private OJOperation buildAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = owner.findOperation(map.adder(), Arrays.asList(map.javaBaseTypePath()));
 		INakedProperty p = map.getProperty();

@@ -56,7 +56,8 @@ public class TinkerUtil {
 	}
 
 	public static String constructTinkerCollectionInit(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
-		return map.umlName() + " = new "+ (map.getProperty().isOrdered()?"TinkerArrayList":"TinkerHashSet") + "<"+map.javaBaseTypePath().getLast()+">(this, " + owner.getName() + ".class.getMethod(\"addTo" + NameConverter.capitalize(map.umlName())	+ "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}), " + owner.getName() + ".class.getMethod(\"removeFrom" + NameConverter.capitalize(map.umlName())	+ "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}))";
+		return map.umlName() + " = new "+ (map.getProperty().isOrdered()?"TinkerArrayList":"TinkerHashSet") + 
+		"<"+map.javaBaseTypePath().getLast()+">("+map.javaBaseTypePath().getLast() +".class, this, " + owner.getName() + ".class.getMethod(\"addTo" + NameConverter.capitalize(map.umlName())	+ "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}), " + owner.getName() + ".class.getMethod(\"removeFrom" + NameConverter.capitalize(map.umlName())	+ "\", new Class[]{" + map.javaBaseTypePath().getLast() + ".class}))";
 	}
 
 }

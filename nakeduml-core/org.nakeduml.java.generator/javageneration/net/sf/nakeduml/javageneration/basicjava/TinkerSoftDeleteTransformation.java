@@ -8,6 +8,7 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
 import net.sf.nakeduml.javageneration.composition.AbstractCompositionNodeStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
@@ -142,7 +143,9 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 		if (c.hasSupertype()) {
 			markDeleted.getBody().addToStatements("super.markDeleted()");
 		}
-		markChildrenForDeletion(c, ojClass, markDeleted);
+		if (transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)) {
+			markChildrenForDeletion(c, ojClass, markDeleted);
+		}
 		AbstractCompositionNodeStrategy.invokeOperationRecursively(c, markDeleted, "markDeleted()");
 		if (!c.hasSupertype()) {
 			removeVertex(c, ojClass, markDeleted);
@@ -154,16 +157,17 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 			if (np.getOtherEnd() != null) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
-				if (map.isManyToMany()) {
-					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
-				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable()) {
+				if (map.isManyToMany() && !np.isDerivedUnion() && !np.isDerivedUnion()) {
+//					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable() && !np.isDerivedUnion()) {
 					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", (map.getProperty().isOrdered()?"((TinkerList)":"((TinkerSet)") + map.getter() + "()." + otherMap.getter()
 							+ "()).tinkerRemove((" + ojClass.getName() + ")this)");
 					markDeleted.getBody().addToStatements(ifNotNull);
+					ojClass.addToImports(map.getProperty().isOrdered()?TinkerUtil.tinkerList:TinkerUtil.tinkerSet);
 				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
 					// TODO this may have unwanted results such as removing the
 					// owner from "this" too
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.setter()
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalAdder()
 							+ "(null)");
 					markDeleted.getBody().addToStatements(ifNotNull);
 				}
