@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getUserInteractionElement()
+ * @see org.nakeduml.uim.UimPackage#getUserInteractionElement()
  * @model abstract="true"
  * @generated
  */
@@ -35,7 +35,7 @@ public interface UserInteractionElement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see org.nakeduml.uim.UIMPackage#getUserInteractionElement_Name()
+	 * @see org.nakeduml.uim.UimPackage#getUserInteractionElement_Name()
 	 * @model
 	 * @generated
 	 */

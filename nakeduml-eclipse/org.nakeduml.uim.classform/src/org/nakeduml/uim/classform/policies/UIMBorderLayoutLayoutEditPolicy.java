@@ -9,7 +9,7 @@ package org.nakeduml.uim.classform.policies;
 public class UIMBorderLayoutLayoutEditPolicy extends org.topcased.modeler.edit.policies.ClassLayoutEditPolicy{
 	/**
 	 * Default contructor.
-	 *
+	 * 
 	 * @generated
 	 */
 	public UIMBorderLayoutLayoutEditPolicy(){

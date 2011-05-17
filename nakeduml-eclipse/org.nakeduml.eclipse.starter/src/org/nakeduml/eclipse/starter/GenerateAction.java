@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.util.Iterator;
 
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -43,14 +46,16 @@ public class GenerateAction implements IObjectActionDelegate{
 	}
 	public void generateFor(Model model,NakedUmlConfigDialog dlg) throws Exception{
 		try{
-			File workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			File workspaceFile = root.getLocation().toFile();
 			//find out how to resolve the correct path
 			String uriPAth = model.eResource().getURI().toPlatformString(true);
-			File modelFile = new File(workspaceFile, uriPAth);
+			IFile modelIFile=root.getFile(new Path(uriPAth));
+			File modelFile = modelIFile.getLocation().toFile();
 			StarterCodeGenerator codeGen = new StarterCodeGenerator(dlg, modelFile.getParentFile().getAbsolutePath());
 			codeGen.transformDirectory();
 			codeGen.generateIntegrationCode();
-			ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IProject.DEPTH_INFINITE, null);
+			root.refreshLocal(IProject.DEPTH_INFINITE, null);
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}catch(IOException e){

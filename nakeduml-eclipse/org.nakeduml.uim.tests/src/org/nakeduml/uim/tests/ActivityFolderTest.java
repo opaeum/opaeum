@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.ActivityFolder;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.ActivityFolder;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class ActivityFolderTest extends AbstractFormFolderTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createActivityFolder());
+		setFixture(UimFactory.eINSTANCE.createActivityFolder());
 	}
 
 	/**

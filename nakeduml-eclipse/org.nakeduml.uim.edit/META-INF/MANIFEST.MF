@@ -4,7 +4,7 @@ Bundle-Name: org.nakeduml.uim.classform
 Bundle-SymbolicName: org.nakeduml.uim.edit;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .
-Bundle-Activator: org.nakeduml.uim.provider.UIMEditPlugin$Implementation
+Bundle-Activator: org.nakeduml.uim.provider.UimEditPlugin$Implementation
 Bundle-Vendor: nakeduml.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

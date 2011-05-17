@@ -10,12 +10,9 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -24,8 +21,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.AbstractFormFolder;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.AbstractFormFolder} object.
@@ -78,8 +75,8 @@ public class AbstractFormFolderItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY);
-			childrenFeatures.add(UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY);
+			childrenFeatures.add(UimPackage.Literals.SECURE_OBJECT__VISIBILITY);
+			childrenFeatures.add(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY);
 		}
 		return childrenFeatures;
 	}
@@ -123,8 +120,8 @@ public class AbstractFormFolderItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AbstractFormFolder.class)) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY:
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY:
+			case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY:
+			case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -144,13 +141,13 @@ public class AbstractFormFolderItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY,
-				 UIMFactory.eINSTANCE.createChildSecurityConstraint()));
+				(UimPackage.Literals.SECURE_OBJECT__VISIBILITY,
+				 UimFactory.eINSTANCE.createSecurityConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY,
-				 UIMFactory.eINSTANCE.createChildSecurityConstraint()));
+				(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY,
+				 UimFactory.eINSTANCE.createSecurityConstraint()));
 	}
 
 	/**
@@ -165,8 +162,8 @@ public class AbstractFormFolderItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY ||
-			childFeature == UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY;
+			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString

@@ -16,8 +16,9 @@ import org.topcased.modeler.edit.DiagramEditPart;
 public class ClassFormDiagramEditPart extends DiagramEditPart{
 	/**
 	 * The Constructor
-	 *
-	 * @param model the root model element
+	 * 
+	 * @param model
+	 *            the root model element
 	 * @generated
 	 */
 	public ClassFormDiagramEditPart(Diagram model){

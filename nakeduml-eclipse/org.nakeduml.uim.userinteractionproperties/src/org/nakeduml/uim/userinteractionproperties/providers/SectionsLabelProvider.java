@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.provider.UIMItemProviderAdapterFactory;
+import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.AbstractSectionLabelProvider;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -31,7 +31,7 @@ public class SectionsLabelProvider extends AbstractSectionLabelProvider{
 	protected ILabelProvider getAdapterFactoryLabelProvider(){
 		if(labelProvider == null){
 			List f = new ArrayList();
-			f.add(new UIMItemProviderAdapterFactory());
+			f.add(new UimItemProviderAdapterFactory());
 			f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 			labelProvider = new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 		}

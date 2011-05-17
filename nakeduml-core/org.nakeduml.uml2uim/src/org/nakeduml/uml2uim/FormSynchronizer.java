@@ -1,23 +1,28 @@
 package org.nakeduml.uml2uim;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.uim.ActionKind;
@@ -25,17 +30,21 @@ import org.nakeduml.uim.ActionTaskForm;
 import org.nakeduml.uim.ActivityFolder;
 import org.nakeduml.uim.ClassForm;
 import org.nakeduml.uim.EntityFolder;
-import org.nakeduml.uim.OperationContainingFolder;
+import org.nakeduml.uim.FormPanel;
 import org.nakeduml.uim.OperationInvocationForm;
 import org.nakeduml.uim.OperationTaskForm;
 import org.nakeduml.uim.StateForm;
 import org.nakeduml.uim.StateMachineFolder;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMForm;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimForm;
 import org.nakeduml.uim.UmlReference;
-import org.nakeduml.uim.UserInteractionModel;
+import org.nakeduml.uim.modeleditor.SafeUmlUimLinks;
 import org.nakeduml.uim.util.StateMachineUtil;
 import org.nakeduml.uim.util.UimUtil;
+import org.nakeduml.uim.util.UmlUimLinks;
+import org.topcased.modeler.di.model.Diagram;
+import org.topcased.modeler.di.model.DiagramInterchangeFactory;
+import org.topcased.modeler.di.model.EMFSemanticModelBridge;
 import org.topcased.modeler.diagrams.model.Diagrams;
 import org.topcased.modeler.diagrams.model.DiagramsFactory;
 
@@ -43,153 +52,160 @@ import org.topcased.modeler.diagrams.model.DiagramsFactory;
 public class FormSynchronizer extends AbstractUimSynchronizer{
 	public FormSynchronizer(){
 	}
-	public FormSynchronizer(ResourceSet resourceSet,boolean regenerate){
-		super(resourceSet, regenerate);
-	}
-	@VisitBefore(matchSubclasses = false)
-	public void beforeState(State s){
-		Resource resource = getFormFileFor(s, "uim");
-		StateForm sf = null;
-		if(resource.getContents().isEmpty()){
-			sf = UIMFactory.eINSTANCE.createStateForm();
-			resource.getContents().add(sf);
-			sf.setState(s);
-			sf.setUmlElementUid(links.getId(s));
-			initForm(s, sf);
-		}else{
-			sf = (StateForm) resource.getContents().get(0);
-		}
-		StateMachineFolder parentFolder = (StateMachineFolder) links.getUimElementsForUiModel(StateMachineUtil.getStateMachine(s));
-		sf.setFolder(parentFolder);
-		sf.setName(s.getName());
-		if(regenerate || sf.getPanel() == null){
-			removeOldDiagrams(sf);
-			FormCreator fc = new FormCreator(getDiagrams(sf));
-			EList<Property> allAttributes = UimUtil.getRepresentedClass(sf).getAllAttributes();
-			fc.prepareFormPanel(sf, NameConverter.separateWords(s.getName()), allAttributes);
-			fc.addButtonBar(ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
-		}
-	}
-	private Diagrams getDiagrams(UmlReference form){
-		Resource r = getFormFileFor(form.getUmlElementUid(), "uimdi");
-		if(r.getContents().size() == 1){
-			return (Diagrams) r.getContents().get(0);
-		}else{
-			Diagrams d = DiagramsFactory.eINSTANCE.createDiagrams();
-			r.getContents().add(d);
-			return d;
-		}
-	}
-	private void removeOldDiagrams(UIMForm sf){
-		if(diagramMap.containsKey(sf)){
-			Diagrams oldDiagrams = super.diagramMap.get(sf);
-			oldDiagrams.eResource().getContents().remove(oldDiagrams);
-			diagramMap.remove(sf);
-			oldDiagrams.setParent(null);
-		}
-	}
-	private void initForm(Namespace s,UIMForm sf){
-		links.putLinkForModel(s);
-		links.putLinkForModel(sf);
-		sf.setName(s.getName());
+	public FormSynchronizer(EmfWorkspace workspace, ResourceSet resourceSet,boolean regenerate){
+		super(workspace,resourceSet, regenerate);
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		ActionTaskForm atf = (ActionTaskForm) map.get(a);
-		if(atf == null){
-			atf = UIMFactory.eINSTANCE.createActionTaskForm();
-			atf.setAction(a);
-			initForm(a, atf);
-		}
-		ActivityFolder parentFolder = (ActivityFolder) map.get(a.getActivity());
-		if(parentFolder != atf.getFolder()){
-			parentFolder.getActionTaskForms().add(atf);
-		}
-		if(regenerate || atf.getPanel() == null){
-			removeOldDiagrams(atf);
-			// TODO make input entities editable through inputs
-			FormCreator fc = new FormCreator(diagrams);
+		String resourceUri = UmlUimLinks.getInstance(a).getId(a);
+		UimForm form = getFormFor(resourceUri, "uim");
+		ActionTaskForm atf = null;
+		if(regenerate || form.getPanel() == null){
+			atf = UimFactory.eINSTANCE.createActionTaskForm();
+			Diagram diagrams = recreateDiagrams(resourceUri, atf);
+			initForm(form, a, atf);
+			// TODO make input entities editable through inputs tab per entity
+			FormCreator fc = new FormCreator(atf, diagrams);
 			ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 			pins.addAll(a.getOutputs());
-			fc.prepareFormPanel(atf, "Task: " + NameConverter.separateWords(a.getName()), pins);
+			fc.prepareFormPanel("Task: " + NameConverter.separateWords(a.getName()), pins);
 			fc.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.POSTPONE_TASK, ActionKind.RETURN_TASK);
+		}else{
+			atf = (ActionTaskForm) form.getPanel();
 		}
+		putFormElements(atf);
+		atf.setFolder((ActivityFolder) UmlUimLinks.getInstance(a).getFolderFor(a.getActivity()));
+	}
+	private Diagram recreateDiagrams(String resourceUri,FormPanel form){
+		Resource diagramsResource = getResource(resourceUri, "uimdi");
+		diagramsResource.getContents().clear();
+		Diagrams diagrams = DiagramsFactory.eINSTANCE.createDiagrams();
+		diagrams.setModel(form);
+		diagramsResource.getContents().add(diagrams);
+		Diagram diag = DiagramInterchangeFactory.eINSTANCE.createDiagram();
+		EMFSemanticModelBridge bridge = DiagramInterchangeFactory.eINSTANCE.createEMFSemanticModelBridge();
+		bridge.setPresentation("org.nakeduml.uim.classform");
+		bridge.setElement(form);
+		diag.setSemanticModel(bridge);
+		diag.setName(form.getName());
+		diag.setPosition(new Point());
+		diag.setSize(new Dimension(1000, 1000));
+		diag.setViewport(new Point());
+		diagrams.getDiagrams().add(diag);
+//		Diagrams subDiagrams = DiagramsFactory.eINSTANCE.createDiagrams();
+//		diagrams.getSubdiagrams().add(subDiagrams);
+//		subDiagrams.getDiagrams().add(diag);
+		return diag;
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeClass(Class c){
-		EntityFolder eFolder = (EntityFolder) this.map.get(c);
-		if(regenerate){
-			for(ClassForm cf:eFolder.getClassForm()){
-				removeOldDiagrams(cf);
-			}
-			eFolder.getClassForm().clear();
+		EntityFolder folder = (EntityFolder) UmlUimLinks.getInstance(c).getFolderFor(c.getNamespace());
+		createClassForm(c, folder, ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
+		createClassForm(c, folder, ActionKind.CREATE, ActionKind.BACK);
+	}
+	private void createClassForm(Class c,EntityFolder folder,ActionKind...actionKinds){
+		String suffix = actionKinds[0] == ActionKind.UPDATE ? "Editor" : "Creator";
+		String resourceUri = UmlUimLinks.getInstance(c).getId(c) + suffix;
+		UimForm form = getFormFor(resourceUri, "uim");
+		ClassForm panel;
+		if(regenerate || form.getPanel() == null){
+			panel = UimFactory.eINSTANCE.createClassForm();
+			Diagram diagrams = recreateDiagrams(resourceUri,panel);
+			initForm(form, c, panel);
+			panel.setName(c.getName() + suffix);
+			FormCreator fc = new FormCreator(panel, diagrams);
+			Collection<Property> allAttributes = SafeUmlUimLinks.getInstance(c).getOwnedAttributes(c);
+			fc.prepareFormPanel((actionKinds[0] == ActionKind.UPDATE ? "Edit " : "Create") + NameConverter.separateWords(c.getName()), allAttributes);
+			fc.addButtonBar(actionKinds);
+		}else{
+			panel= (ClassForm) form.getPanel();
 		}
-		if(eFolder.getClassForm().isEmpty()){
-			ClassForm editForm = UIMFactory.eINSTANCE.createClassForm();
-			eFolder.getClassForm().add(editForm);
-			editForm.setName(c.getName() + "Editor");
-			FormCreator fc = new FormCreator(diagrams);
-			EList<Property> allAttributes = c.getAllAttributes();
-			fc.prepareFormPanel(editForm, "Edit " + NameConverter.separateWords(c.getName()), allAttributes);
-			fc.addButtonBar(ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
-			ClassForm createForm = UIMFactory.eINSTANCE.createClassForm();
-			eFolder.getClassForm().add(createForm);
-			createForm.setName(c.getName() + "Creator");
-			fc.prepareFormPanel(createForm, "Create " + NameConverter.separateWords(c.getName()), allAttributes);
-			fc.addButtonBar(ActionKind.CREATE, ActionKind.BACK);
-		}
+		putFormElements(panel);
+		panel.setFolder(folder);
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeOperation(Operation o){
-		// TODO support task forms in UML model
-		boolean isTaskForm = false;
-		if(isTaskForm){
-			OperationTaskForm otf = (OperationTaskForm) map.get(o);
-			if(otf == null){
-				otf = UIMFactory.eINSTANCE.createOperationTaskForm();
-				otf.setOperation(o);
-				initForm(o, otf);
-			}
-			EntityFolder parentFolder = (EntityFolder) map.get(o.getOwner());
-			if(parentFolder != otf.getFolder()){
-				parentFolder.getOperationTaskForms().add(otf);
-			}
-			if(regenerate || otf.getPanel() == null){
-				removeOldDiagrams(otf);
-				// TODO generate inputs for properties of input entities
-				FormCreator fc = new FormCreator(diagrams);
-				fc.prepareFormPanel(otf, "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+		EntityFolder ef = (EntityFolder) UmlUimLinks.getInstance(o).getFolderFor(o.getClass_());
+		if(UimUtil.isTask(o)){
+			String resourceUri = UmlUimLinks.getInstance(o).getId(o) + "Task";
+			UimForm form = getFormFor(resourceUri, "uim");
+			OperationTaskForm otf;
+			if(regenerate || form.getPanel() == null){
+				otf = UimFactory.eINSTANCE.createOperationTaskForm();
+				Diagram diagrams = recreateDiagrams(resourceUri,otf);
+				initForm(form, o, otf);
+				// TODO make input entities editable through inputs tab per entity
+				FormCreator fc = new FormCreator(otf, diagrams);
+				fc.prepareFormPanel("Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 				fc.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.POSTPONE_TASK, ActionKind.RETURN_TASK);
+				otf.setFolder(ef);
+			}else{
+				otf = (OperationTaskForm) form.getPanel();
+				otf.setFolder(ef);
 			}
-		}else{
-			// TODO generate table Panels for multi output parameters and detail panels for single output parameters
-			OperationInvocationForm oif = (OperationInvocationForm) map.get(o);
-			if(oif == null){
-				oif = UIMFactory.eINSTANCE.createOperationInvocationForm();
-				oif.setOperation(o);
-				initForm(o, oif);
-			}
-			OperationContainingFolder parentFolder = (OperationContainingFolder) map.get(o.getOwner());
-			if(parentFolder != oif.getFolder()){
-				parentFolder.getOperationInvocationForms().add(oif);
-			}
-			if(regenerate || oif.getPanel() == null){
-				removeOldDiagrams(oif);
-				FormCreator fc = new FormCreator(diagrams);
-				fc.prepareFormPanel(oif, "Invoke: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
-				fc.addButtonBar(ActionKind.EXECUTE_OPERATION, ActionKind.BACK);
-			}
+			putFormElements(otf);
 		}
+		// TODO generate table Panels for multi output parameters and detail panels for single output parameters
+		String resourceUri = UmlUimLinks.getInstance(o).getId(o) + "Invoker";
+		UimForm form = getFormFor(resourceUri, "uim");
+		OperationInvocationForm oif;
+		if(regenerate || form.getPanel() == null){
+			oif = UimFactory.eINSTANCE.createOperationInvocationForm();
+			Diagram diagrams = recreateDiagrams(resourceUri,oif);
+			initForm(form, o, oif);
+			// TODO make input entities editable through inputs tab per entity
+			FormCreator fc = new FormCreator(oif, diagrams);
+			fc.prepareFormPanel("Invoke: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+			fc.addButtonBar(ActionKind.EXECUTE_OPERATION, ActionKind.BACK);
+			oif.setFolder(ef);
+		}else{
+			oif = (OperationInvocationForm) form.getPanel();
+			oif.setFolder(ef);
+		}
+		putFormElements(oif);
 	}
-	@VisitAfter
-	public void afterModel(Model model){
-		setActiveDiagram(this.diagrams);
+	@VisitBefore(matchSubclasses = false)
+	public void beforeState(State s){
+		String resourceUri = UmlUimLinks.getId(s);
+		StateMachine sm = StateMachineUtil.getStateMachine(s);
+		StateMachineFolder smf = (StateMachineFolder) UmlUimLinks.getInstance(s).getFolderFor(sm);
+		UimForm form = getFormFor(resourceUri, "uim");
+		StateForm sf;
+		if(regenerate || form.getPanel() == null){
+			sf = UimFactory.eINSTANCE.createStateForm();
+			Diagram diagrams = recreateDiagrams(resourceUri, sf);
+			initForm(form, s, sf);
+			// TODO make input entities editable through inputs tab per entity
+			FormCreator fc = new FormCreator(sf, diagrams);
+			EList<Property> allAttributes;
+			if(sm.getContext() != null && sm.getContext().getClassifierBehavior() == sm){
+				allAttributes = sm.getContext().getAllAttributes();
+			}else{
+				allAttributes = sm.getAllAttributes();
+			}
+			fc.prepareFormPanel(NameConverter.separateWords(s.getName()), allAttributes);
+			fc.addButtonBar(ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
+			sf.setFolder(smf);
+		}else{
+			sf = (StateForm) form.getPanel();
+			sf.setFolder(smf);
+		}
+		putFormElements(sf);
 	}
-	protected Resource getFormFileFor(Namespace form,String extenstion){
-		return getFormFileFor(links.getId(form), extenstion);
+	private void initForm(UimForm form,NamedElement a,FormPanel sf){
+		form.setPanel(sf);
+		sf.setUmlElementUid(UmlUimLinks.getId(a));
+		sf.setName(a.getName());
 	}
-	private Resource getFormFileFor(String id,String extenstion){
-		URI formUri = emfWorkspace.getDirectoryUri().appendSegment("forms");
+	private UimForm getFormFor(String id,String extenstion){
+		Resource resource = getResource(id, extenstion);
+		if(resource.getContents().isEmpty()){
+			resource.getContents().add(UimFactory.eINSTANCE.createUimForm());
+		}
+		return (UimForm) resource.getContents().get(0);
+	}
+	private Resource getResource(String id,String extenstion){
+		URI formUri = workspace.getDirectoryUri().appendSegment("forms");
 		String formId = id;
 		formUri = formUri.appendSegment(formId);
 		formUri = formUri.appendFileExtension(extenstion);
@@ -205,6 +221,17 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		diagrams.setActiveDiagram(diagrams.getDiagrams().isEmpty() ? null : diagrams.getDiagrams().get(0));
 		for(Diagrams child:diagrams.getSubdiagrams()){
 			setActiveDiagram(child);
+		}
+	}
+	private void putFormElements(FormPanel form){
+		UmlUimLinks.getInstance(form).link(form);
+		// Optimization
+		TreeIterator<EObject> eAllContents = form.eAllContents();
+		while(eAllContents.hasNext()){
+			EObject eObject = (EObject) eAllContents.next();
+			if(eObject instanceof UmlReference){
+				UmlUimLinks.getInstance(form).link((UmlReference) eObject);
+			}
 		}
 	}
 }

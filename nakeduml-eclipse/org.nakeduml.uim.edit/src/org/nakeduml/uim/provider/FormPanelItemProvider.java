@@ -10,18 +10,21 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.FormPanel} object.
@@ -30,7 +33,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class FormPanelItemProvider
-	extends UIMContainerItemProvider
+	extends UmlReferenceItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -58,8 +61,63 @@ public class FormPanelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(UimPackage.Literals.SECURE_OBJECT__VISIBILITY);
+			childrenFeatures.add(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY);
+			childrenFeatures.add(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT);
+		}
+		return childrenFeatures;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildFeature(object, child);
 	}
 
 	/**
@@ -97,6 +155,17 @@ public class FormPanelItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(FormPanel.class)) {
+			case UimPackage.FORM_PANEL__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case UimPackage.FORM_PANEL__VISIBILITY:
+			case UimPackage.FORM_PANEL__EDITABILITY:
+			case UimPackage.FORM_PANEL__LAYOUT:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 
@@ -110,6 +179,46 @@ public class FormPanelItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.SECURE_OBJECT__VISIBILITY,
+				 UimFactory.eINSTANCE.createSecurityConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY,
+				 UimFactory.eINSTANCE.createSecurityConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 UimFactory.eINSTANCE.createUimLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 UimFactory.eINSTANCE.createUimGridLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 UimFactory.eINSTANCE.createUimToolbarLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 UimFactory.eINSTANCE.createUimBorderLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 UimFactory.eINSTANCE.createUimXYLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 UimFactory.eINSTANCE.createUimFullLayout()));
 	}
 
 	/**
@@ -124,8 +233,8 @@ public class FormPanelItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UIMPackage.Literals.UIM_COMPONENT__SECURITY_ON_VISIBILITY ||
-			childFeature == UIMPackage.Literals.UIM_CONTAINER__SECURITY_ON_EDITABILITY;
+			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString

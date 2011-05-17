@@ -20,11 +20,11 @@ import org.eclipse.emf.common.util.EList;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getAbstractFolder()
+ * @see org.nakeduml.uim.UimPackage#getAbstractFolder()
  * @model abstract="true"
  * @generated
  */
-public interface AbstractFolder extends UserInteractionElement {
+public interface AbstractFolder extends UserInteractionElement, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
 	 * The list contents are of type {@link org.nakeduml.uim.AbstractFormFolder}.
@@ -36,7 +36,7 @@ public interface AbstractFolder extends UserInteractionElement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
-	 * @see org.nakeduml.uim.UIMPackage#getAbstractFolder_Children()
+	 * @see org.nakeduml.uim.UimPackage#getAbstractFolder_Children()
 	 * @see org.nakeduml.uim.AbstractFormFolder#getParent
 	 * @model opposite="parent" containment="true"
 	 *        extendedMetaData="wildcards='' name=''"

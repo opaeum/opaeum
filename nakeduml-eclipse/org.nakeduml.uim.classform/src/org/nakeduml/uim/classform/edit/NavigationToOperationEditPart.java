@@ -22,14 +22,15 @@ import org.topcased.modeler.utils.Utils;
 
 /**
  * The NavigationToOperation object controller
- *
+ * 
  * @generated NOT
  */
 public class NavigationToOperationEditPart extends AbstractNavigationToOperationEditPart{
 	/**
 	 * Constructor
-	 *
-	 * @param obj the graph node
+	 * 
+	 * @param obj
+	 *            the graph node
 	 * @generated
 	 */
 	public NavigationToOperationEditPart(GraphNode obj){
@@ -37,7 +38,7 @@ public class NavigationToOperationEditPart extends AbstractNavigationToOperation
 	}
 	/**
 	 * Creates edit policies and associates these with roles
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void createEditPolicies(){

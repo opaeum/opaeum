@@ -23,14 +23,15 @@ import org.topcased.modeler.utils.Utils;
 
 /**
  * The TransitionAction object controller
- *
+ * 
  * @generated NOT
  */
 public class TransitionActionEditPart extends EMFGraphNodeEditPart{
 	/**
 	 * Constructor
-	 *
-	 * @param obj the graph node
+	 * 
+	 * @param obj
+	 *            the graph node
 	 * @generated
 	 */
 	public TransitionActionEditPart(GraphNode obj){
@@ -38,7 +39,7 @@ public class TransitionActionEditPart extends EMFGraphNodeEditPart{
 	}
 	/**
 	 * Creates edit policies and associates these with roles
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void createEditPolicies(){

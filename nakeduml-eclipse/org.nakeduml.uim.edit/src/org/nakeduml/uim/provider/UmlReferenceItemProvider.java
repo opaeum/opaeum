@@ -12,9 +12,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -25,8 +23,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UmlReference;
 
 /**
@@ -82,7 +79,7 @@ public class UmlReferenceItemProvider
 				 getResourceLocator(),
 				 getString("_UI_UmlReference_umlElementUid_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UIMPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
 				 true,
 				 false,
 				 false,
@@ -128,7 +125,7 @@ public class UmlReferenceItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UmlReference.class)) {
-			case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID:
+			case UimPackage.UML_REFERENCE__UML_ELEMENT_UID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -155,7 +152,7 @@ public class UmlReferenceItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return UIMEditPlugin.INSTANCE;
+		return UimEditPlugin.INSTANCE;
 	}
 
 }

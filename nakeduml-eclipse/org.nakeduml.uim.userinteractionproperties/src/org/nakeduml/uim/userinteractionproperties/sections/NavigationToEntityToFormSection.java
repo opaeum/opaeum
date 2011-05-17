@@ -10,9 +10,10 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Classifier;
 import org.nakeduml.uim.ClassForm;
 import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.UIMPackage;
-import org.nakeduml.uim.provider.UIMItemProviderAdapterFactory;
+import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.nakeduml.uim.util.UimUtil;
+import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -44,7 +45,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UIMPackage.eINSTANCE.getNavigationToEntity_ToForm();
+		return UimPackage.eINSTANCE.getNavigationToEntity_ToForm();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -69,10 +70,10 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 		}
 		List<ClassForm> choices = new ArrayList<ClassForm>();
 		ITypeCacheAdapter tca = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), UIMPackage.eINSTANCE
+		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), UimPackage.eINSTANCE
 				.getNavigationToEntity_ToForm().getEType());
 		for(ClassForm classForm:source){
-			if(classForm.getFolder().getRepresentedClass() == toClass){
+			if(UmlUimLinks.getInstance(nte).getRepresentedClass(classForm.getFolder()) == toClass){
 				choices.add(classForm);
 			}
 		}
@@ -86,7 +87,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	 */
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
-		f.add(new UIMItemProviderAdapterFactory());
+		f.add(new UimItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}

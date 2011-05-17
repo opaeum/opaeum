@@ -11,7 +11,7 @@
                 enablesFor="*"
                 id="org.nakeduml.eclipse.starter.GenerateAction"
                 label="Generate NakedUML projects"
-                menubarPath="net.sf.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
     </extension>

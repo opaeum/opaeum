@@ -1,7 +1,7 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
 
 /**
@@ -31,6 +31,6 @@ public class UserInteractionElementNameSection extends AbstractStringPropertySec
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UIMPackage.eINSTANCE.getUserInteractionElement_Name();
+		return UimPackage.eINSTANCE.getUserInteractionElement_Name();
 	}
 }

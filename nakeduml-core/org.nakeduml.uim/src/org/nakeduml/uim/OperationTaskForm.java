@@ -16,65 +16,36 @@ import org.eclipse.uml2.uml.Operation;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.nakeduml.uim.OperationTaskForm#getOperation <em>Operation</em>}</li>
  *   <li>{@link org.nakeduml.uim.OperationTaskForm#getFolder <em>Folder</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getOperationTaskForm()
+ * @see org.nakeduml.uim.UimPackage#getOperationTaskForm()
  * @model
  * @generated
  */
-public interface OperationTaskForm extends UIMForm, UmlReference {
+public interface OperationTaskForm extends FormPanel {
 	/**
-	 * Returns the value of the '<em><b>Operation</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operation</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operation</em>' reference.
-	 * @see #setOperation(Operation)
-	 * @see org.nakeduml.uim.UIMPackage#getOperationTaskForm_Operation()
-	 * @model
-	 * @generated
-	 */
-	Operation getOperation();
-
-	/**
-	 * Sets the value of the '{@link org.nakeduml.uim.OperationTaskForm#getOperation <em>Operation</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Operation</em>' reference.
-	 * @see #getOperation()
-	 * @generated
-	 */
-	void setOperation(Operation value);
-
-	/**
-	 * Returns the value of the '<em><b>Folder</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.EntityFolder#getOperationTaskForms <em>Operation Task Forms</em>}'.
+	 * Returns the value of the '<em><b>Folder</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Folder</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Folder</em>' container reference.
+	 * @return the value of the '<em>Folder</em>' reference.
 	 * @see #setFolder(EntityFolder)
-	 * @see org.nakeduml.uim.UIMPackage#getOperationTaskForm_Folder()
-	 * @see org.nakeduml.uim.EntityFolder#getOperationTaskForms
-	 * @model opposite="operationTaskForms" required="true" transient="false"
+	 * @see org.nakeduml.uim.UimPackage#getOperationTaskForm_Folder()
+	 * @model required="true"
 	 * @generated
 	 */
 	EntityFolder getFolder();
 
 	/**
-	 * Sets the value of the '{@link org.nakeduml.uim.OperationTaskForm#getFolder <em>Folder</em>}' container reference.
+	 * Sets the value of the '{@link org.nakeduml.uim.OperationTaskForm#getFolder <em>Folder</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Folder</em>' container reference.
+	 * @param value the new value of the '<em>Folder</em>' reference.
 	 * @see #getFolder()
 	 * @generated
 	 */

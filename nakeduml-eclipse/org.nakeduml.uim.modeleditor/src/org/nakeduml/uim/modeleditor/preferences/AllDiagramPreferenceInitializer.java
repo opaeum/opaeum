@@ -4,8 +4,8 @@
 package org.nakeduml.uim.modeleditor.preferences;
 
 import org.eclipse.core.runtime.Preferences;
-import org.nakeduml.uim.modeleditor.UIMPlugin;
-import org.nakeduml.uim.modeleditor.editor.UIMEditor;
+import org.nakeduml.uim.modeleditor.UimPlugin;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.topcased.modeler.preferences.AbstractTopcasedPreferenceInitializer;
 
 /**
@@ -19,13 +19,13 @@ public class AllDiagramPreferenceInitializer extends AbstractTopcasedPreferenceI
 	 */
 	@Override
 	protected Preferences getPreferences(){
-		return UIMPlugin.getDefault().getPluginPreferences();
+		return UimPlugin.getDefault().getPluginPreferences();
 	}
 	/**
 	 * @see org.topcased.modeler.preferences.AbstractTopcasedPreferenceInitializer#getEditorId()
 	 * @generated
 	 */
 	protected String getEditorId(){
-		return UIMEditor.EDITOR_ID;
+		return UimEditor.EDITOR_ID;
 	}
 }

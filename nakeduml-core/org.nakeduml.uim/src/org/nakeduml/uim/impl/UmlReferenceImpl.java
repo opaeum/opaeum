@@ -7,13 +7,10 @@
 package org.nakeduml.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UmlReference;
 
 /**
@@ -66,7 +63,7 @@ public class UmlReferenceImpl extends EObjectImpl implements UmlReference {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.UML_REFERENCE;
+		return UimPackage.Literals.UML_REFERENCE;
 	}
 
 	/**
@@ -87,7 +84,7 @@ public class UmlReferenceImpl extends EObjectImpl implements UmlReference {
 		String oldUmlElementUid = umlElementUid;
 		umlElementUid = newUmlElementUid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.UML_REFERENCE__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UML_REFERENCE__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -98,7 +95,7 @@ public class UmlReferenceImpl extends EObjectImpl implements UmlReference {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID:
+			case UimPackage.UML_REFERENCE__UML_ELEMENT_UID:
 				return getUmlElementUid();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -112,7 +109,7 @@ public class UmlReferenceImpl extends EObjectImpl implements UmlReference {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID:
+			case UimPackage.UML_REFERENCE__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
 				return;
 		}
@@ -127,7 +124,7 @@ public class UmlReferenceImpl extends EObjectImpl implements UmlReference {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID:
+			case UimPackage.UML_REFERENCE__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
 		}
@@ -142,7 +139,7 @@ public class UmlReferenceImpl extends EObjectImpl implements UmlReference {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID:
+			case UimPackage.UML_REFERENCE__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
 		}
 		return super.eIsSet(featureID);

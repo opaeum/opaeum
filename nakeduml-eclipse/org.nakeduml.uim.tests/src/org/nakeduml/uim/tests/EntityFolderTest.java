@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.EntityFolder;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.EntityFolder;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class EntityFolderTest extends OperationContainingFolderTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createEntityFolder());
+		setFixture(UimFactory.eINSTANCE.createEntityFolder());
 	}
 
 	/**

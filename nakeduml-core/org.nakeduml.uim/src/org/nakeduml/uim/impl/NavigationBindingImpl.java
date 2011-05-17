@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.nakeduml.uim.NavigationBinding;
 import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +30,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public class NavigationBindingImpl extends UIMBindingImpl implements NavigationBinding {
+public class NavigationBindingImpl extends UimBindingImpl implements NavigationBinding {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -47,7 +47,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.NAVIGATION_BINDING;
+		return UimPackage.Literals.NAVIGATION_BINDING;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	 * @generated
 	 */
 	public NavigationToEntity getNavigation() {
-		if (eContainerFeatureID() != UIMPackage.NAVIGATION_BINDING__NAVIGATION) return null;
+		if (eContainerFeatureID() != UimPackage.NAVIGATION_BINDING__NAVIGATION) return null;
 		return (NavigationToEntity)eContainer();
 	}
 
@@ -66,7 +66,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	 * @generated
 	 */
 	public NotificationChain basicSetNavigation(NavigationToEntity newNavigation, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newNavigation, UIMPackage.NAVIGATION_BINDING__NAVIGATION, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newNavigation, UimPackage.NAVIGATION_BINDING__NAVIGATION, msgs);
 		return msgs;
 	}
 
@@ -76,19 +76,19 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	 * @generated
 	 */
 	public void setNavigation(NavigationToEntity newNavigation) {
-		if (newNavigation != eInternalContainer() || (eContainerFeatureID() != UIMPackage.NAVIGATION_BINDING__NAVIGATION && newNavigation != null)) {
+		if (newNavigation != eInternalContainer() || (eContainerFeatureID() != UimPackage.NAVIGATION_BINDING__NAVIGATION && newNavigation != null)) {
 			if (EcoreUtil.isAncestor(this, newNavigation))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newNavigation != null)
-				msgs = ((InternalEObject)newNavigation).eInverseAdd(this, UIMPackage.NAVIGATION_TO_ENTITY__BINDING, NavigationToEntity.class, msgs);
+				msgs = ((InternalEObject)newNavigation).eInverseAdd(this, UimPackage.NAVIGATION_TO_ENTITY__BINDING, NavigationToEntity.class, msgs);
 			msgs = basicSetNavigation(newNavigation, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.NAVIGATION_BINDING__NAVIGATION, newNavigation, newNavigation));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.NAVIGATION_BINDING__NAVIGATION, newNavigation, newNavigation));
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetNavigation((NavigationToEntity)otherEnd, msgs);
@@ -115,7 +115,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
 				return basicSetNavigation(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -129,8 +129,8 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
-				return eInternalContainer().eInverseRemove(this, UIMPackage.NAVIGATION_TO_ENTITY__BINDING, NavigationToEntity.class, msgs);
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
+				return eInternalContainer().eInverseRemove(this, UimPackage.NAVIGATION_TO_ENTITY__BINDING, NavigationToEntity.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -143,7 +143,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
 				return getNavigation();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -157,7 +157,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
 				setNavigation((NavigationToEntity)newValue);
 				return;
 		}
@@ -172,7 +172,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
 				setNavigation((NavigationToEntity)null);
 				return;
 		}
@@ -187,7 +187,7 @@ public class NavigationBindingImpl extends UIMBindingImpl implements NavigationB
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_BINDING__NAVIGATION:
+			case UimPackage.NAVIGATION_BINDING__NAVIGATION:
 				return getNavigation() != null;
 		}
 		return super.eIsSet(featureID);

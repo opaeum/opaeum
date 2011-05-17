@@ -8,7 +8,7 @@
             model="templates/org.nakeduml.uim.classform/%name%.uim"
             name="Class Form"
             id="org.nakeduml.uim.classform.templates.org.nakeduml.uim.classform"
-            editorId="org.nakeduml.uim.modeleditor.editor.UIMEditor"/>
+            editorId="org.nakeduml.uim.modeleditor.editor.UimEditor"/>
    </extension>
    
    <extension point="org.topcased.modeler.diagrams">
@@ -39,7 +39,7 @@
        point="org.topcased.modeler.topcasedPreferenceInitializer">
     <preferenceInitializer
           class="org.nakeduml.uim.classform.preferences.ClassFormDiagramTopcasedPreferenceInitializer"
-          editorId="org.nakeduml.uim.modeleditor.editor.UIMEditor"
+          editorId="org.nakeduml.uim.modeleditor.editor.UimEditor"
           id="org.nakeduml.uim.classform.preferences.ClassFormTopcasedPreferenceInitializer">
     </preferenceInitializer>
  </extension>
@@ -47,7 +47,7 @@
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
 			id="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			category="org.nakeduml.uim.modeleditor.preferences.UIMPreferencePage"
+			category="org.nakeduml.uim.modeleditor.preferences.UimPreferencePage"
 			class="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
 			name="ClassFormDiagram"/>
 		<page
@@ -135,7 +135,7 @@
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
 			id="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			category="org.nakeduml.uim.modeleditor.preferences.property.UIMPreferencePage"
+			category="org.nakeduml.uim.modeleditor.preferences.property.UimPreferencePage"
 			class="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
 			name="ClassFormDiagram">       
 			<enabledWhen>

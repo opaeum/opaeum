@@ -10,10 +10,10 @@ import org.nakeduml.uim.classform.ClassFormPlugin;
 import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
 
 /**
- * This class represents a preference page that is contributed to the Preferences dialog. This page is used to modify
- * preferences only. They are stored in the preference store that belongs to the main plug-in class. That way,
- * preferences can be accessed directly via the preference store.
- *
+ * This class represents a preference page that is contributed to the Preferences dialog. This page is used to modify preferences only. They
+ * are stored in the preference store that belongs to the main plug-in class. That way, preferences can be accessed directly via the
+ * preference store.
+ * 
  * @generated
  */
 public class ClassFormDiagramPreferencePage extends AbstractTopcasedPreferencePage{
@@ -33,7 +33,7 @@ public class ClassFormDiagramPreferencePage extends AbstractTopcasedPreferencePa
 	}
 	/**
 	 * @see org.topcased.facilities.preferences.AbstractTopcasedPreferencePage#getBundleId()
-	 *
+	 * 
 	 * @generated
 	 */
 	protected String getBundleId(){

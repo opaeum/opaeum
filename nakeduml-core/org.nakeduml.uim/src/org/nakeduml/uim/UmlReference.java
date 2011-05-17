@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getUmlReference()
+ * @see org.nakeduml.uim.UimPackage#getUmlReference()
  * @model
  * @generated
  */
@@ -35,7 +35,7 @@ public interface UmlReference extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Uml Element Uid</em>' attribute.
 	 * @see #setUmlElementUid(String)
-	 * @see org.nakeduml.uim.UIMPackage#getUmlReference_UmlElementUid()
+	 * @see org.nakeduml.uim.UimPackage#getUmlReference_UmlElementUid()
 	 * @model
 	 * @generated
 	 */

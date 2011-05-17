@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.UIMField;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimField;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +30,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
+public class FieldBindingImpl extends UimBindingImpl implements FieldBinding {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -47,7 +47,7 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.FIELD_BINDING;
+		return UimPackage.Literals.FIELD_BINDING;
 	}
 
 	/**
@@ -55,9 +55,9 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UIMField getField() {
-		if (eContainerFeatureID() != UIMPackage.FIELD_BINDING__FIELD) return null;
-		return (UIMField)eContainer();
+	public UimField getField() {
+		if (eContainerFeatureID() != UimPackage.FIELD_BINDING__FIELD) return null;
+		return (UimField)eContainer();
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetField(UIMField newField, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newField, UIMPackage.FIELD_BINDING__FIELD, msgs);
+	public NotificationChain basicSetField(UimField newField, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newField, UimPackage.FIELD_BINDING__FIELD, msgs);
 		return msgs;
 	}
 
@@ -75,20 +75,20 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setField(UIMField newField) {
-		if (newField != eInternalContainer() || (eContainerFeatureID() != UIMPackage.FIELD_BINDING__FIELD && newField != null)) {
+	public void setField(UimField newField) {
+		if (newField != eInternalContainer() || (eContainerFeatureID() != UimPackage.FIELD_BINDING__FIELD && newField != null)) {
 			if (EcoreUtil.isAncestor(this, newField))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newField != null)
-				msgs = ((InternalEObject)newField).eInverseAdd(this, UIMPackage.UIM_FIELD__BINDING, UIMField.class, msgs);
+				msgs = ((InternalEObject)newField).eInverseAdd(this, UimPackage.UIM_FIELD__BINDING, UimField.class, msgs);
 			msgs = basicSetField(newField, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.FIELD_BINDING__FIELD, newField, newField));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.FIELD_BINDING__FIELD, newField, newField));
 	}
 
 	/**
@@ -99,10 +99,10 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.FIELD_BINDING__FIELD:
+			case UimPackage.FIELD_BINDING__FIELD:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetField((UIMField)otherEnd, msgs);
+				return basicSetField((UimField)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -115,7 +115,7 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.FIELD_BINDING__FIELD:
+			case UimPackage.FIELD_BINDING__FIELD:
 				return basicSetField(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -129,8 +129,8 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case UIMPackage.FIELD_BINDING__FIELD:
-				return eInternalContainer().eInverseRemove(this, UIMPackage.UIM_FIELD__BINDING, UIMField.class, msgs);
+			case UimPackage.FIELD_BINDING__FIELD:
+				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_FIELD__BINDING, UimField.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -143,7 +143,7 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.FIELD_BINDING__FIELD:
+			case UimPackage.FIELD_BINDING__FIELD:
 				return getField();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -157,8 +157,8 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.FIELD_BINDING__FIELD:
-				setField((UIMField)newValue);
+			case UimPackage.FIELD_BINDING__FIELD:
+				setField((UimField)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -172,8 +172,8 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.FIELD_BINDING__FIELD:
-				setField((UIMField)null);
+			case UimPackage.FIELD_BINDING__FIELD:
+				setField((UimField)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -187,7 +187,7 @@ public class FieldBindingImpl extends UIMBindingImpl implements FieldBinding {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.FIELD_BINDING__FIELD:
+			case UimPackage.FIELD_BINDING__FIELD:
 				return getField() != null;
 		}
 		return super.eIsSet(featureID);

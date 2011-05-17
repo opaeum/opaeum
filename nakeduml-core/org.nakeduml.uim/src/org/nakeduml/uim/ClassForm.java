@@ -28,34 +28,32 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getClassForm()
+ * @see org.nakeduml.uim.UimPackage#getClassForm()
  * @model extendedMetaData="kind='mixed'"
  * @generated
  */
-public interface ClassForm extends UIMForm, UmlReference {
+public interface ClassForm extends FormPanel {
 	/**
-	 * Returns the value of the '<em><b>Folder</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.OperationContainingFolder#getClassForm <em>Class Form</em>}'.
+	 * Returns the value of the '<em><b>Folder</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Folder</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Folder</em>' container reference.
+	 * @return the value of the '<em>Folder</em>' reference.
 	 * @see #setFolder(OperationContainingFolder)
-	 * @see org.nakeduml.uim.UIMPackage#getClassForm_Folder()
-	 * @see org.nakeduml.uim.OperationContainingFolder#getClassForm
-	 * @model opposite="classForm" required="true" transient="false"
+	 * @see org.nakeduml.uim.UimPackage#getClassForm_Folder()
+	 * @model required="true"
 	 * @generated
 	 */
 	OperationContainingFolder getFolder();
 
 	/**
-	 * Sets the value of the '{@link org.nakeduml.uim.ClassForm#getFolder <em>Folder</em>}' container reference.
+	 * Sets the value of the '{@link org.nakeduml.uim.ClassForm#getFolder <em>Folder</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Folder</em>' container reference.
+	 * @param value the new value of the '<em>Folder</em>' reference.
 	 * @see #getFolder()
 	 * @generated
 	 */

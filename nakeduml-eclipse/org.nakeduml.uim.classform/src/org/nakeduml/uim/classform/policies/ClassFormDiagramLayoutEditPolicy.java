@@ -11,7 +11,7 @@ import org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy;
 public class ClassFormDiagramLayoutEditPolicy extends ModelerLayoutEditPolicy{
 	/**
 	 * Default contructor.
-	 *
+	 * 
 	 * @generated
 	 */
 	public ClassFormDiagramLayoutEditPolicy(){

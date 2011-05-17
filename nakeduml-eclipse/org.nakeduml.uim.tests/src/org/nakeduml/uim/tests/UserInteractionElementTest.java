@@ -6,10 +6,9 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.UserInteractionElement;
-
 import junit.framework.TestCase;
 
+import org.nakeduml.uim.UserInteractionElement;
 
 /**
  * <!-- begin-user-doc -->

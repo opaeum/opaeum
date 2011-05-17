@@ -14,9 +14,9 @@ import org.topcased.modeler.preferences.ITopcasedPreferenceInitializer;
  * @generated
  */
 public class ClassFormDiagramTopcasedPreferenceInitializer implements ITopcasedPreferenceInitializer{
-	/** 
+	/**
 	 * @see org.topcased.modeler.preferences.ITopcasedPreferenceInitializer#getDefaultPreference()
-	 *	@generated
+	 * @generated
 	 */
 	public HashMap<String,String> getDefaultPreference(){
 		HashMap<String,String> defaultClassFormPreference = new HashMap<String,String>();
@@ -122,6 +122,12 @@ public class ClassFormDiagramTopcasedPreferenceInitializer implements ITopcasedP
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMBORDERLAYOUT_DEFAULT_FOREGROUND_COLOR, "0,0,0");
 		// Initialize the default value of the UIMBORDERLAYOUT_DEFAULT_FONT property
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMBORDERLAYOUT_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the UIMFULLLAYOUT_DEFAULT_BACKGROUND_COLOR property 
+		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMFULLLAYOUT_DEFAULT_BACKGROUND_COLOR, "255,255,255");
+		// Initialize the default value of the UIMFULLLAYOUT_DEFAULT_FOREGROUND_COLOR property
+		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMFULLLAYOUT_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the UIMFULLLAYOUT_DEFAULT_FONT property
+		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMFULLLAYOUT_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
 		return defaultClassFormPreference;
 	}
 }

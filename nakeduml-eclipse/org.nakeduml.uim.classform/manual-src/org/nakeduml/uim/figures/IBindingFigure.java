@@ -5,5 +5,4 @@ import org.topcased.draw2d.figures.ILabel;
 
 public interface IBindingFigure extends IFigure{
 	ILabel getBindingLabel();
-
 }

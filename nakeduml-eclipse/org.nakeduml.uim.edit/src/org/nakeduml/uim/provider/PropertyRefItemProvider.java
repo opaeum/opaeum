@@ -10,26 +10,19 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.PropertyRef} object.
@@ -66,31 +59,8 @@ public class PropertyRefItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addPropertyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Property feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addPropertyPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_PropertyRef_property_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_PropertyRef_property_feature", "_UI_PropertyRef_type"),
-				 UIMPackage.Literals.PROPERTY_REF__PROPERTY,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -105,7 +75,7 @@ public class PropertyRefItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UIMPackage.Literals.PROPERTY_REF__NEXT);
+			childrenFeatures.add(UimPackage.Literals.PROPERTY_REF__NEXT);
 		}
 		return childrenFeatures;
 	}
@@ -160,7 +130,7 @@ public class PropertyRefItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(PropertyRef.class)) {
-			case UIMPackage.PROPERTY_REF__NEXT:
+			case UimPackage.PROPERTY_REF__NEXT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -180,8 +150,8 @@ public class PropertyRefItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.PROPERTY_REF__NEXT,
-				 UIMFactory.eINSTANCE.createPropertyRef()));
+				(UimPackage.Literals.PROPERTY_REF__NEXT,
+				 UimFactory.eINSTANCE.createPropertyRef()));
 	}
 
 }

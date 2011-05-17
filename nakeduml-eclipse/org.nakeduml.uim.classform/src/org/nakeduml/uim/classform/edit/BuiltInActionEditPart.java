@@ -22,14 +22,15 @@ import org.topcased.modeler.utils.Utils;
 
 /**
  * The BuiltInAction object controller
- *
+ * 
  * @generated NOT
  */
 public class BuiltInActionEditPart extends AbstractBuiltInActionEditPart{
 	/**
 	 * Constructor
-	 *
-	 * @param obj the graph node
+	 * 
+	 * @param obj
+	 *            the graph node
 	 * @generated
 	 */
 	public BuiltInActionEditPart(GraphNode obj){
@@ -37,7 +38,7 @@ public class BuiltInActionEditPart extends AbstractBuiltInActionEditPart{
 	}
 	/**
 	 * Creates edit policies and associates these with roles
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void createEditPolicies(){

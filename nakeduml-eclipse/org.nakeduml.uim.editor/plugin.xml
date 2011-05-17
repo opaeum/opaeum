@@ -15,24 +15,24 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.nakeduml.uim.presentation.UIMModelWizardID"
-            name="%_UI_UIMModelWizard_label"
-            class="org.nakeduml.uim.presentation.UIMModelWizard"
+            id="org.nakeduml.uim.presentation.UimModelWizardID"
+            name="%_UI_UimModelWizard_label"
+            class="org.nakeduml.uim.presentation.UimModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
-            icon="icons/full/obj16/UIMModelFile.gif">
-         <description>%_UI_UIMModelWizard_description</description>
+            icon="icons/full/obj16/UimModelFile.gif">
+         <description>%_UI_UimModelWizard_description</description>
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.nakeduml.uim.presentation.UIMEditorID"
-            name="%_UI_UIMEditor_label"
-            icon="icons/full/obj16/UIMModelFile.gif"
+            id="org.nakeduml.uim.presentation.UimEditorID"
+            name="%_UI_UimEditor_label"
+            icon="icons/full/obj16/UimModelFile.gif"
             extensions="uim"
-            class="org.nakeduml.uim.presentation.UIMEditor"
-            contributorClass="org.nakeduml.uim.presentation.UIMActionBarContributor">
+            class="org.nakeduml.uim.presentation.UimEditor"
+            contributorClass="org.nakeduml.uim.presentation.UimActionBarContributor">
       </editor>
    </extension>
 

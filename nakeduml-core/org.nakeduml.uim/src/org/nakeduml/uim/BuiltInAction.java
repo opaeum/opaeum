@@ -19,11 +19,11 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getBuiltInAction()
+ * @see org.nakeduml.uim.UimPackage#getBuiltInAction()
  * @model
  * @generated
  */
-public interface BuiltInAction extends UIMAction {
+public interface BuiltInAction extends UimAction {
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.nakeduml.uim.ActionKind}.
@@ -36,7 +36,7 @@ public interface BuiltInAction extends UIMAction {
 	 * @return the value of the '<em>Kind</em>' attribute.
 	 * @see org.nakeduml.uim.ActionKind
 	 * @see #setKind(ActionKind)
-	 * @see org.nakeduml.uim.UIMPackage#getBuiltInAction_Kind()
+	 * @see org.nakeduml.uim.UimPackage#getBuiltInAction_Kind()
 	 * @model
 	 * @generated
 	 */

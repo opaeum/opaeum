@@ -18,16 +18,17 @@ import org.nakeduml.uim.classform.edit.NavigationToEntityEditPart;
 import org.nakeduml.uim.classform.edit.NavigationToOperationEditPart;
 import org.nakeduml.uim.classform.edit.OperationActionEditPart;
 import org.nakeduml.uim.classform.edit.TransitionActionEditPart;
-import org.nakeduml.uim.classform.edit.UIMBorderLayoutEditPart;
-import org.nakeduml.uim.classform.edit.UIMDataColumnEditPart;
-import org.nakeduml.uim.classform.edit.UIMDataTableEditPart;
-import org.nakeduml.uim.classform.edit.UIMFieldEditPart;
-import org.nakeduml.uim.classform.edit.UIMGridLayoutEditPart;
-import org.nakeduml.uim.classform.edit.UIMPanelEditPart;
-import org.nakeduml.uim.classform.edit.UIMTabEditPart;
-import org.nakeduml.uim.classform.edit.UIMTabPanelEditPart;
-import org.nakeduml.uim.classform.edit.UIMToolbarLayoutEditPart;
-import org.nakeduml.uim.classform.edit.UIMXYLayoutEditPart;
+import org.nakeduml.uim.classform.edit.UimBorderLayoutEditPart;
+import org.nakeduml.uim.classform.edit.UimDataColumnEditPart;
+import org.nakeduml.uim.classform.edit.UimDataTableEditPart;
+import org.nakeduml.uim.classform.edit.UimFieldEditPart;
+import org.nakeduml.uim.classform.edit.UimFullLayoutEditPart;
+import org.nakeduml.uim.classform.edit.UimGridLayoutEditPart;
+import org.nakeduml.uim.classform.edit.UimPanelEditPart;
+import org.nakeduml.uim.classform.edit.UimTabEditPart;
+import org.nakeduml.uim.classform.edit.UimTabPanelEditPart;
+import org.nakeduml.uim.classform.edit.UimToolbarLayoutEditPart;
+import org.nakeduml.uim.classform.edit.UimXYLayoutEditPart;
 import org.topcased.modeler.editor.IConfiguration;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.IPaletteManager;
@@ -36,7 +37,7 @@ import org.topcased.modeler.graphconf.exceptions.MissingGraphConfFileException;
 
 /**
  * A diagram configuration : manages Palette, EditPartFactory for this diagram.
- *
+ * 
  * @generated
  */
 public class ClassFormConfiguration implements IConfiguration{
@@ -54,12 +55,13 @@ public class ClassFormConfiguration implements IConfiguration{
 	private ClassFormCreationUtils creationUtils;
 	/**
 	 * The DiagramGraphConf that contains graphical informations on the configuration
+	 * 
 	 * @generated
 	 */
 	private DiagramGraphConf diagramGraphConf;
 	/**
 	 * Constructor. Initialize Adapter factories.
-	 *
+	 * 
 	 * @generated
 	 */
 	public ClassFormConfiguration(){
@@ -67,11 +69,11 @@ public class ClassFormConfiguration implements IConfiguration{
 	}
 	/**
 	 * Registers the Adapter Factories for all the EditParts
-	 *
+	 * 
 	 * @generated
 	 */
 	private void registerAdapters(){
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMFieldEditPart.class, org.nakeduml.uim.UIMField.class), UIMFieldEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimFieldEditPart.class, org.nakeduml.uim.UimField.class), UimFieldEditPart.class);
 		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(NavigationToEntityEditPart.class, org.nakeduml.uim.NavigationToEntity.class),
 				NavigationToEntityEditPart.class);
 		Platform.getAdapterManager().registerAdapters(
@@ -84,24 +86,26 @@ public class ClassFormConfiguration implements IConfiguration{
 				TransitionActionEditPart.class);
 		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(FormPanelEditPart.class, org.nakeduml.uim.FormPanel.class),
 				FormPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMPanelEditPart.class, org.nakeduml.uim.UIMPanel.class), UIMPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMTabPanelEditPart.class, org.nakeduml.uim.UIMTabPanel.class),
-				UIMTabPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMTabEditPart.class, org.nakeduml.uim.UIMTab.class), UIMTabEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMDataTableEditPart.class, org.nakeduml.uim.UIMDataTable.class),
-				UIMDataTableEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMDataColumnEditPart.class, org.nakeduml.uim.UIMDataColumn.class),
-				UIMDataColumnEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimPanelEditPart.class, org.nakeduml.uim.UimPanel.class), UimPanelEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimTabPanelEditPart.class, org.nakeduml.uim.UimTabPanel.class),
+				UimTabPanelEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimTabEditPart.class, org.nakeduml.uim.UimTab.class), UimTabEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimDataTableEditPart.class, org.nakeduml.uim.UimDataTable.class),
+				UimDataTableEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimDataColumnEditPart.class, org.nakeduml.uim.UimDataColumn.class),
+				UimDataColumnEditPart.class);
 		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(DetailPanelEditPart.class, org.nakeduml.uim.DetailPanel.class),
 				DetailPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMXYLayoutEditPart.class, org.nakeduml.uim.UIMXYLayout.class),
-				UIMXYLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMGridLayoutEditPart.class, org.nakeduml.uim.UIMGridLayout.class),
-				UIMGridLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMToolbarLayoutEditPart.class, org.nakeduml.uim.UIMToolbarLayout.class),
-				UIMToolbarLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMBorderLayoutEditPart.class, org.nakeduml.uim.UIMBorderLayout.class),
-				UIMBorderLayoutEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimXYLayoutEditPart.class, org.nakeduml.uim.UimXYLayout.class),
+				UimXYLayoutEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimGridLayoutEditPart.class, org.nakeduml.uim.UimGridLayout.class),
+				UimGridLayoutEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimToolbarLayoutEditPart.class, org.nakeduml.uim.UimToolbarLayout.class),
+				UimToolbarLayoutEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimBorderLayoutEditPart.class, org.nakeduml.uim.UimBorderLayout.class),
+				UimBorderLayoutEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimFullLayoutEditPart.class, org.nakeduml.uim.UimFullLayout.class),
+				UimFullLayoutEditPart.class);
 	}
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getId()

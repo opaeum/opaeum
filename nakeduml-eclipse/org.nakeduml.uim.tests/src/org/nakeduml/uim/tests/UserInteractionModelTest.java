@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UserInteractionModel;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UserInteractionModel;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +17,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class UserInteractionModelTest extends AbstractFolderTest {
+public class UserInteractionModelTest extends UmlReferenceTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class UserInteractionModelTest extends AbstractFolderTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createUserInteractionModel());
+		setFixture(UimFactory.eINSTANCE.createUserInteractionModel());
 	}
 
 	/**

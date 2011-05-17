@@ -23,11 +23,11 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getNavigationToOperation()
+ * @see org.nakeduml.uim.UimPackage#getNavigationToOperation()
  * @model
  * @generated
  */
-public interface NavigationToOperation extends UIMNavigation, UmlReference {
+public interface NavigationToOperation extends UimNavigation, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>To Form</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -38,7 +38,7 @@ public interface NavigationToOperation extends UIMNavigation, UmlReference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>To Form</em>' reference.
 	 * @see #setToForm(OperationInvocationForm)
-	 * @see org.nakeduml.uim.UIMPackage#getNavigationToOperation_ToForm()
+	 * @see org.nakeduml.uim.UimPackage#getNavigationToOperation_ToForm()
 	 * @model
 	 * @generated
 	 */

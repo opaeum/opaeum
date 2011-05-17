@@ -47,7 +47,6 @@ public class GraphicsBridge extends java.awt.Graphics{
 		getClipBounds().x = x;
 		getClipBounds().y = y;
 	}
-
 	@Override
 	public void setXORMode(Color c){
 		System.out.println("GraphicsBridge.setXORMode()");
@@ -298,14 +297,13 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void dispose(){
-		
 		popState();
 	}
 	@Override
 	public java.awt.Graphics create(){
 		System.out.println("GraphicsBridge.create()");
-//		MapModeGraphics mapModeGraphics = (MapModeGraphics) g;
-//		GraphicsBridge result = new GraphicsBridge(new MapModeGraphics(mapModeGraphics, mapModeGraphics.getMapMode()));
+		// MapModeGraphics mapModeGraphics = (MapModeGraphics) g;
+		// GraphicsBridge result = new GraphicsBridge(new MapModeGraphics(mapModeGraphics, mapModeGraphics.getMapMode()));
 		GraphicsBridge result = new GraphicsBridge(g);
 		result.pushState();
 		return result;
@@ -383,22 +381,22 @@ public class GraphicsBridge extends java.awt.Graphics{
 	public void popState(){
 		if(!isPopped){
 			g.popState();
-			isPopped=true;
+			isPopped = true;
 		}
 	}
 	public static GraphicsBridge buildBridge(Graphics graphics,Figure f,JComponent c){
 		GraphicsBridge g2 = new GraphicsBridge(graphics);
-		c.setForeground(new Color(f.getForegroundColor().getRed(),f.getForegroundColor().getGreen(),f.getForegroundColor().getBlue()));
-		c.setBackground(new Color(f.getBackgroundColor().getRed(),f.getBackgroundColor().getGreen(),f.getBackgroundColor().getBlue()));
-		c.setBounds(new Rectangle(f.getBounds().x+2,f.getBounds().y+2,f.getBounds().width-4,f.getBounds().height-4));
-		java.awt.Graphics create = g2.create(f.getBounds().x+2,f.getBounds().y+2,f.getBounds().width-4,f.getBounds().height-4);
+		c.setForeground(new Color(f.getForegroundColor().getRed(), f.getForegroundColor().getGreen(), f.getForegroundColor().getBlue()));
+		c.setBackground(new Color(f.getBackgroundColor().getRed(), f.getBackgroundColor().getGreen(), f.getBackgroundColor().getBlue()));
+		c.setBounds(new Rectangle(f.getBounds().x + 2, f.getBounds().y + 2, f.getBounds().width - 4, f.getBounds().height - 4));
+		java.awt.Graphics create = g2.create(f.getBounds().x + 2, f.getBounds().y + 2, f.getBounds().width - 4, f.getBounds().height - 4);
 		FontData fontData = f.getFont().getFontData()[0];
-		c.setFont(new Font(fontData.getName(),fontData.getStyle(), fontData.getHeight()+3));
-		return (GraphicsBridge) create;		
+		c.setFont(new Font(fontData.getName(), fontData.getStyle(), fontData.getHeight() + 3));
+		return (GraphicsBridge) create;
 	}
 	public static void doLayout(Component c){
 		c.doLayout();
-		if( c instanceof Container){
+		if(c instanceof Container){
 			Component[] components = ((Container) c).getComponents();
 			for(Component component:components){
 				doLayout(component);

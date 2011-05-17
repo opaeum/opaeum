@@ -8,16 +8,18 @@ package org.nakeduml.uim.impl;
 
 import java.util.Collection;
 
-
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.nakeduml.uim.AbstractFolder;
 import org.nakeduml.uim.AbstractFormFolder;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,6 +28,7 @@ import org.nakeduml.uim.UIMPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.nakeduml.uim.impl.AbstractFolderImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.AbstractFolderImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
@@ -33,6 +36,24 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public abstract class AbstractFolderImpl extends UserInteractionElementImpl implements AbstractFolder {
+	/**
+	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUmlElementUid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -59,7 +80,28 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.ABSTRACT_FOLDER;
+		return UimPackage.Literals.ABSTRACT_FOLDER;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getUmlElementUid() {
+		return umlElementUid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUmlElementUid(String newUmlElementUid) {
+		String oldUmlElementUid = umlElementUid;
+		umlElementUid = newUmlElementUid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -69,7 +111,7 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	 */
 	public EList<AbstractFormFolder> getChildren() {
 		if (children == null) {
-			children = new EObjectContainmentWithInverseEList<AbstractFormFolder>(AbstractFormFolder.class, this, UIMPackage.ABSTRACT_FOLDER__CHILDREN, UIMPackage.ABSTRACT_FORM_FOLDER__PARENT);
+			children = new EObjectContainmentWithInverseEList<AbstractFormFolder>(AbstractFormFolder.class, this, UimPackage.ABSTRACT_FOLDER__CHILDREN, UimPackage.ABSTRACT_FORM_FOLDER__PARENT);
 		}
 		return children;
 	}
@@ -83,7 +125,7 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildren()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -97,7 +139,7 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -111,7 +153,9 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID:
+				return getUmlElementUid();
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -126,7 +170,10 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID:
+				setUmlElementUid((String)newValue);
+				return;
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				getChildren().clear();
 				getChildren().addAll((Collection<? extends AbstractFormFolder>)newValue);
 				return;
@@ -142,7 +189,10 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID:
+				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+				return;
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				getChildren().clear();
 				return;
 		}
@@ -157,10 +207,60 @@ public abstract class AbstractFolderImpl extends UserInteractionElementImpl impl
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID:
+				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UmlReference.class) {
+			switch (baseFeatureID) {
+				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (umlElementUid: ");
+		result.append(umlElementUid);
+		result.append(')');
+		return result.toString();
 	}
 
 } //AbstractFolderImpl

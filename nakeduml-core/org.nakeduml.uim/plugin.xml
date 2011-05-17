@@ -13,14 +13,14 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://nakeduml.sf.net/uimetamodel/1.0"
-            class="org.nakeduml.uim.UIMPackage"
-            genModel="model/UIM.genmodel"/>
+            class="org.nakeduml.uim.UimPackage"
+            genModel="model/Uim.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <parser
             type="uim"
-            class="org.nakeduml.uim.util.UIMResourceFactoryImpl"/>
+            class="org.nakeduml.uim.util.UimResourceFactoryImpl"/>
    </extension>
 
 </plugin>

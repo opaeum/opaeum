@@ -10,12 +10,9 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -25,8 +22,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionModel;
 
 /**
@@ -36,7 +33,7 @@ import org.nakeduml.uim.UserInteractionModel;
  * @generated
  */
 public class UserInteractionModelItemProvider
-	extends AbstractFolderItemProvider
+	extends UmlReferenceItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -64,52 +61,29 @@ public class UserInteractionModelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addUmlElementUidPropertyDescriptor(object);
-			addUmlModelPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addUmlElementUidPropertyDescriptor(Object object) {
+	protected void addNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_UmlReference_umlElementUid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UIMPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Uml Model feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addUmlModelPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UserInteractionModel_umlModel_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionModel_umlModel_feature", "_UI_UserInteractionModel_type"),
-				 UIMPackage.Literals.USER_INTERACTION_MODEL__UML_MODEL,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}
@@ -126,8 +100,9 @@ public class UserInteractionModelItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UIMPackage.Literals.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY);
-			childrenFeatures.add(UIMPackage.Literals.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY);
+			childrenFeatures.add(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN);
+			childrenFeatures.add(UimPackage.Literals.SECURE_OBJECT__VISIBILITY);
+			childrenFeatures.add(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY);
 		}
 		return childrenFeatures;
 	}
@@ -182,11 +157,12 @@ public class UserInteractionModelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UserInteractionModel.class)) {
-			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
+			case UimPackage.USER_INTERACTION_MODEL__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
-			case UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY:
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+			case UimPackage.USER_INTERACTION_MODEL__VISIBILITY:
+			case UimPackage.USER_INTERACTION_MODEL__EDITABILITY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -206,23 +182,38 @@ public class UserInteractionModelItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY,
-				 UIMFactory.eINSTANCE.createModelSecurityConstraint()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createUserInteractionModel()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY,
-				 UIMFactory.eINSTANCE.createChildSecurityConstraint()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createStateMachineFolder()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY,
-				 UIMFactory.eINSTANCE.createModelSecurityConstraint()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createEntityFolder()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY,
-				 UIMFactory.eINSTANCE.createChildSecurityConstraint()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createActivityFolder()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createPackageFolder()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.SECURE_OBJECT__VISIBILITY,
+				 UimFactory.eINSTANCE.createSecurityConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY,
+				 UimFactory.eINSTANCE.createSecurityConstraint()));
 	}
 
 	/**
@@ -237,8 +228,8 @@ public class UserInteractionModelItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UIMPackage.Literals.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY ||
-			childFeature == UIMPackage.Literals.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY;
+			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString
