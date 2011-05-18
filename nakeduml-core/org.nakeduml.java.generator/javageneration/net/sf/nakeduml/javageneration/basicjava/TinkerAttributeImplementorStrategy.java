@@ -31,6 +31,10 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public static final String TINKER_MANY_REMOVER_ITER = "tinkerManyRemoveIter";
 	public static final String TINKER_MANY_REMOVER = "tinkerManyRemover";
 	public static final String MANY_TO_MANY_ADDER_IF_CONTAINS = "manyToManyAdderIfContains";
+	public static final String POLYMORPHIC_GETTER_FOR_TO_ONE_ITER = "polymorphicGetterForOneIter";
+	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_ITER = "polymorphicGetterForToManyIter";
+	public static final String POLYMORPHIC_GETTER_FOR_MANY_CLASS_FORNAME = "polymorphicGetterForManyClassForName";
+	public static final String POLYMORPHIC_GETTER_FORMANY_CONSTRUCTION = "polymorphicGetterForManyConstruction";
 	public static OJPathName TINKER_NODE = new OJPathName(TinkerNode.class.getName());
 
 	public TinkerAttributeImplementorStrategy() {
@@ -88,9 +92,13 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 				.getJavaName().getAsIs();
 		String otherAssociationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
-			getter.getBody().addToStatements("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
+			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
+			iter.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_ITER);
+			getter.getBody().addToStatements(iter);
 		} else {
-			getter.getBody().addToStatements("Iterable<Edge> iter1 = this.vertex.getInEdges(\"" + otherAssociationName + "\")");
+			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getInEdges(\"" + otherAssociationName + "\")");
+			iter.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_ITER);
+			getter.getBody().addToStatements(iter);
 		}
 		OJIfStatement ifStatement = new OJIfStatement("iter1.iterator().hasNext()");
 		ifStatement.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
@@ -99,14 +107,10 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		ojTryStatement.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
 		if (isComposite) {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
-			ojTryStatement.getTryPart().addToStatements(
-					"return (" + otherClassName
-							+ ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+			ojTryStatement.getTryPart().addToStatements("return (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 		} else {
 			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
-			ojTryStatement.getTryPart().addToStatements(
-					"return (" + otherClassName
-							+ ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
+			ojTryStatement.getTryPart().addToStatements("return (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 
 		}
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
@@ -140,26 +144,35 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
+		OJSimpleStatement simpleStatement = new OJSimpleStatement();
+		simpleStatement.setName(POLYMORPHIC_GETTER_FOR_TO_MANY_ITER);
 		if (isComposite) {
-			getter.getBody().addToStatements("Iterable<Edge> iter = this.vertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+			simpleStatement.setExpression("Iterable<Edge> iter = this.vertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
 		} else {
-			getter.getBody().addToStatements("Iterable<Edge> iter = this.vertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+			simpleStatement.setExpression("Iterable<Edge> iter = this.vertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
 		}
+		getter.getBody().addToStatements(simpleStatement);
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
 		forStatement.setName(POLYMORPHIC_GETTER_FOR_TO_MANY_FOR);
 		OJTryStatement ojTryStatement = new OJTryStatement();
 		ojTryStatement.setName(POLYMORPHIC_GETTER_FOR_TO_MANY_TRY);
 		forStatement.getBody().addToStatements(ojTryStatement);
 		if (isComposite) {
-			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
-			ojTryStatement.getTryPart().addToStatements(
-					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
-							+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex()))");
+			OJSimpleStatement classForNameSimpleStatement = new OJSimpleStatement("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
+			classForNameSimpleStatement.setName(POLYMORPHIC_GETTER_FOR_MANY_CLASS_FORNAME);
+			ojTryStatement.getTryPart().addToStatements(classForNameSimpleStatement);
+			OJSimpleStatement construction = new OJSimpleStatement("result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
+					+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex()))");
+			construction.setName(POLYMORPHIC_GETTER_FORMANY_CONSTRUCTION);
+			ojTryStatement.getTryPart().addToStatements(construction);
 		} else {
-			ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
-			ojTryStatement.getTryPart().addToStatements(
-					"result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
-							+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex()))");
+			OJSimpleStatement classForNameSimpleStatement = new OJSimpleStatement("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
+			classForNameSimpleStatement.setName(POLYMORPHIC_GETTER_FOR_MANY_CLASS_FORNAME);
+			ojTryStatement.getTryPart().addToStatements(classForNameSimpleStatement);
+			OJSimpleStatement construction = new OJSimpleStatement("result.add((" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
+					+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex()))");
+			construction.setName(POLYMORPHIC_GETTER_FORMANY_CONSTRUCTION);
+			ojTryStatement.getTryPart().addToStatements(construction);
 		}
 
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
@@ -186,7 +199,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
 		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
 	}
-	
+
 	@Override
 	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
@@ -296,12 +309,11 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		ifStatement.setName(MANY_TO_MANY_ADDER_IF_CONTAINS);
 		String relationshipName = map.getProperty().getAssociation().getName();
 		adder.getBody().addToStatements(ifStatement);
-		ifStatement.addToThenPart(
-				new OJSimpleStatement("Edge edge = "
-						+ UtilityCreator.getUtilPathName().toJavaString()
-						+ ".GraphDb.getDB().addEdge(null, "
-						+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
-								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
+		ifStatement.addToThenPart(new OJSimpleStatement("Edge edge = "
+				+ UtilityCreator.getUtilPathName().toJavaString()
+				+ ".GraphDb.getDB().addEdge(null, "
+				+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
+						+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
 			ifStatement.addToThenPart("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
 			ifStatement.addToThenPart("edge.setProperty(\"outClass\", this.getClass().getName())");
@@ -336,7 +348,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		removeFor.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(edge)");
 		remover.getBody().addToStatements(removeFor);
 	}
-	
+
 	private void addEntityToTransactionThreadEntityVar(OJOperation setter) {
 		setter.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 		setter.getOwner().addToImports(TinkerUtil.transactionThreadEntityVar);

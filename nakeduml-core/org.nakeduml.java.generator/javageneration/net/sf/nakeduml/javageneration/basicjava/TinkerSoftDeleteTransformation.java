@@ -35,7 +35,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor {
 
 	private static final String BASE_AUDIT_TINKER = "org.util.BaseTinkerSoftDelete";
-	private boolean isAudit = false;
+	public static final String IF_EDGE_NOT_DELETED = "if_edge_not_deleted";
+	public static final String FOR_MANY_IF_NOT_DELETED = "forManyIfNotDeleted";
 
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
@@ -120,18 +121,20 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 		OJTryStatement ojTryStatement = (OJTryStatement) ojForStatement.getBody().findStatement(
 				TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_MANY_TRY);
 		OJIfStatement ifNotDeleted = new OJIfStatement(
-				"edge.getProperty(\"deletedOn\")==null || TinkerFormatter.parse((String) edge.getProperty(\"deletedOn\")).after(new Date())");
+				"edge.getProperty(\"deletedOn\")==null");
+		ifNotDeleted.setName(FOR_MANY_IF_NOT_DELETED);
 		ifNotDeleted.addToThenPart(ojTryStatement);
 		ojForStatement.getBody().getStatements().remove(ojTryStatement);
 		ojForStatement.getBody().addToStatements(ifNotDeleted);
 	}
 
 	private void addDeletedOnFilterToPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
-		OJIfStatement ojIfStatement = (OJIfStatement) getter.getBody().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
-		OJTryStatement ojTryStatement = (OJTryStatement) ojIfStatement.getThenPart().findStatement(
+		OJIfStatement ojIfStatement = (OJIfStatement) getter.getBody().findStatementRecursive(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
+		OJTryStatement ojTryStatement = (OJTryStatement) ojIfStatement.getThenPart().findStatementRecursive(
 				TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
 		OJIfStatement ifNotDeleted = new OJIfStatement(
-				"edge.getProperty(\"deletedOn\")==null || TinkerFormatter.parse((String) edge.getProperty(\"deletedOn\")).after(new Date())");
+				"edge.getProperty(\"deletedOn\")==null");
+		ifNotDeleted.setName(IF_EDGE_NOT_DELETED);
 		ifNotDeleted.addToThenPart(ojTryStatement);
 		ojIfStatement.getThenPart().getStatements().remove(ojTryStatement);
 		ojIfStatement.getThenPart().addToStatements(ifNotDeleted);
@@ -158,15 +161,12 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
 				if (map.isManyToMany() && !np.isDerivedUnion() && !np.isDerivedUnion()) {
-//					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable() && !np.isDerivedUnion()) {
 					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", (map.getProperty().isOrdered()?"((TinkerList)":"((TinkerSet)") + map.getter() + "()." + otherMap.getter()
 							+ "()).tinkerRemove((" + ojClass.getName() + ")this)");
 					markDeleted.getBody().addToStatements(ifNotNull);
 					ojClass.addToImports(map.getProperty().isOrdered()?TinkerUtil.tinkerList:TinkerUtil.tinkerSet);
 				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
-					// TODO this may have unwanted results such as removing the
-					// owner from "this" too
 					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalAdder()
 							+ "(null)");
 					markDeleted.getBody().addToStatements(ifNotNull);

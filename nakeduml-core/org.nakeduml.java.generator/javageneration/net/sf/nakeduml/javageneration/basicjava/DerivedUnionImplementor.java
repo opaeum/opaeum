@@ -20,7 +20,6 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
-import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.OJTryStatement;
@@ -173,7 +172,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 				} else {
 					TinkerAttributeImplementorStrategy strategy = new TinkerAttributeImplementorStrategy();
 					strategy.buildPolymorphicGetterForToOne(subsettingMap, sgetter);
-					OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatement(
+					OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatementRecursive(
 							TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
 					OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
 							TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);

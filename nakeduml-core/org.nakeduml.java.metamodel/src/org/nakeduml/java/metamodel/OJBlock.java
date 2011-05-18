@@ -84,7 +84,24 @@ public class OJBlock extends OJBlockGEN {
 			}
 		}
 		return null;
-		
+	}
+	
+	public OJStatement findStatementRecursive(String name) {
+		for(OJStatement statement:getStatements()) {
+			if (statement.getName().equals(name)) {
+				return statement;
+			}
+			if (statement instanceof OJIfStatement) {
+				OJIfStatement ifs = (OJIfStatement)statement;
+				OJStatement s = ifs.getThenPart().findStatementRecursive(name);
+				if (s == null) {
+					return ifs.getElsePart().findStatementRecursive(name);
+				} else {
+					return s;
+				}
+			}
+		}
+		return null;
 	}	
 	
 }

@@ -25,7 +25,7 @@ public class BaseLocalDbTest {
 	public void before() {
 		switch (graphType) {
 		case NEO4J:
-			db = new Neo4jGraph("local:/tmp/neo4jtestxxx");
+			db = new Neo4jGraph("local:/tmp/tinker-audit");
 			db.clear();
 			db.setTransactionMode(Mode.MANUAL);
 			((Neo4jGraph)db).getRawGraph().registerTransactionEventHandler(new Neo4jTransactionEventHandler<Object>());

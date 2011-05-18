@@ -79,8 +79,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		if (!OJUtil.isBuiltIn(p)) {
 			if (p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
 			} else if (p.isDerived() || p.isReadOnly()) {
-				OJAnnotatedClass owner = findAuditJavaClass(umlOwner);
-				buildGetter(owner, map, true);
+				implementAttributeFully(umlOwner, map);
 			} else {
 				implementAttributeFully(umlOwner, map);
 			}
@@ -349,7 +348,6 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter) {
 		getter.getOwner().addToImports(new OJPathName("java.util.Map"));
 		getter.getOwner().addToImports(new OJPathName("java.util.HashMap"));
-		getter.getOwner().addToImports(new OJPathName("net.sf.nakeduml.javageneration.basicjava.TinkerUtil"));
 		OJField audits = new OJField();
 		OJPathName var = new OJPathName("java.util.Map");
 		var.addToElementTypes(new OJPathName("String"));
