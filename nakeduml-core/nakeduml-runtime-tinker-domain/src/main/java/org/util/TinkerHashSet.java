@@ -54,6 +54,13 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, Tinker
 	public boolean add(E e) {
 		try {
 			MethodHolder methodHolder = methodMap.get(e.getClass());
+			if (methodHolder==null) {
+				for (Class<? extends TinkerNode> key : methodMap.keySet()) {
+					if (key.isAssignableFrom(e.getClass())) {
+						methodHolder = methodMap.get(key);
+					}
+				}
+			}
 			methodHolder.adder.invoke(methodHolder.owner, e);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
@@ -70,6 +77,13 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, Tinker
 	public boolean remove(Object o) {
 		try {
 			MethodHolder methodHolder = methodMap.get(o.getClass());
+			if (methodHolder==null) {
+				for (Class<? extends TinkerNode> key : methodMap.keySet()) {
+					if (key.isAssignableFrom(o.getClass())) {
+						methodHolder = methodMap.get(key);
+					}
+				}
+			}			
 			methodHolder.remover.invoke(methodHolder.owner, o);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
