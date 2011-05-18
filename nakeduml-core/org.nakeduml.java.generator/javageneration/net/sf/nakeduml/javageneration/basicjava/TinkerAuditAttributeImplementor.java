@@ -104,7 +104,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 			owner.addToImports(TinkerUtil.edgePathName);
 			owner.addToImports(TinkerUtil.vertexPathName);
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-				if (map.isManyToOne() && map.getProperty().getSubsettedProperties().isEmpty()) {
+				if (map.isManyToOne() /*&& map.getProperty().getSubsettedProperties().isEmpty()*/) {
 					buildGetAuditForOne(map, owner);
 					buildGetAuditForThisOne(map, owner);
 					buildPolymorphicGetterForToOne(map, getter);

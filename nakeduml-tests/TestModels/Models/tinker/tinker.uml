@@ -563,7 +563,7 @@
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_zV7bcGi1EeCUPeO2_IHvvQ" name="A_&lt;god>_&lt;monkeyHand>" memberEnd="_zV7bcWi1EeCUPeO2_IHvvQ _zVk2IGi1EeCUPeO2_IHvvQ" navigableOwnedEnd="_zV7bcWi1EeCUPeO2_IHvvQ">
-        <ownedEnd xmi:id="_zV7bcWi1EeCUPeO2_IHvvQ" name="god" type="_z3Yp0GRvEeCWwpEEhhedIw" subsettedProperty="_mgahkWi1EeCUPeO2_IHvvQ" association="_zV7bcGi1EeCUPeO2_IHvvQ">
+        <ownedEnd xmi:id="_zV7bcWi1EeCUPeO2_IHvvQ" name="monkeyGod" type="_z3Yp0GRvEeCWwpEEhhedIw" subsettedProperty="_mgahkWi1EeCUPeO2_IHvvQ" association="_zV7bcGi1EeCUPeO2_IHvvQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zV7bcmi1EeCUPeO2_IHvvQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zV7bc2i1EeCUPeO2_IHvvQ" value="1"/>
         </ownedEnd>
@@ -625,6 +625,22 @@
         <ownedEnd xmi:id="_-ICuoWi_EeCUPeO2_IHvvQ" name="god" type="_z3Yp0GRvEeCWwpEEhhedIw" association="_-ICuoGi_EeCUPeO2_IHvvQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-ICuomi_EeCUPeO2_IHvvQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-ICuo2i_EeCUPeO2_IHvvQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_aHv58IFaEeChvNjcLBbG1A" name="DonkeyHand">
+        <generalization xmi:id="_guAcQIFaEeChvNjcLBbG1A" general="_Flib8Gi1EeCUPeO2_IHvvQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_dGsXUIFaEeChvNjcLBbG1A" name="Jehowa">
+        <generalization xmi:id="_fRI1oIFaEeChvNjcLBbG1A" general="_z3Yp0GRvEeCWwpEEhhedIw"/>
+        <ownedAttribute xmi:id="_iAJZkIFaEeChvNjcLBbG1A" name="donkeyHand" type="_aHv58IFaEeChvNjcLBbG1A" aggregation="composite" subsettedProperty="_mgLRAGi1EeCUPeO2_IHvvQ" association="_iArlEIFaEeChvNjcLBbG1A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_iAJZkYFaEeChvNjcLBbG1A" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_iAJZkoFaEeChvNjcLBbG1A"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_iArlEIFaEeChvNjcLBbG1A" name="A_&lt;jehowa>_&lt;donkeyHand>" memberEnd="_iArlEYFaEeChvNjcLBbG1A _iAJZkIFaEeChvNjcLBbG1A" navigableOwnedEnd="_iArlEYFaEeChvNjcLBbG1A">
+        <ownedEnd xmi:id="_iArlEYFaEeChvNjcLBbG1A" name="jehowa" type="_dGsXUIFaEeChvNjcLBbG1A" subsettedProperty="_mgahkWi1EeCUPeO2_IHvvQ" association="_iArlEIFaEeChvNjcLBbG1A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_iArlEoFaEeChvNjcLBbG1A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_iArlE4FaEeChvNjcLBbG1A" value="1"/>
         </ownedEnd>
       </packagedElement>
     </packagedElement>

@@ -65,7 +65,6 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 	private void implementAttributeFully(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
-
 		if (map.isMany()) {
 			initializeCollection(umlOwner, owner, map);
 			buildAdder(owner, map);
@@ -226,7 +225,7 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		} else {
 			INakedProperty prop = map.getProperty();
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-				if (map.isManyToOne() && map.getProperty().getSubsettedProperties().isEmpty()) {
+				if (map.isManyToOne() /*&& map.getProperty().getSubsettedProperties().isEmpty()*/) {
 					implementCacheGetterForOne(map, getter);
 				} else if (map.isOneToMany()) {
 					implementCacheGetterForMany(map, getter);
@@ -252,7 +251,11 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		OJIfStatement ifEdge = (OJIfStatement) ifIter.getThenPart().findStatement(TinkerSoftDeleteTransformation.IF_EDGE_NOT_DELETED);
 		OJTryStatement tryConstructor = (OJTryStatement) ifEdge.getThenPart().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
 		OJSimpleStatement construction = (OJSimpleStatement) tryConstructor.getTryPart().getStatements().get(1);
-		construction.setExpression(construction.getExpression().replace("return", "this."+map.umlName()+" = "));
+//		if (map.getProperty().getSubsettedProperties().isEmpty()) {
+			construction.setExpression(construction.getExpression().replace("return", "this."+map.umlName()+" = "));
+//		} else {
+//			tryConstructor.getTryPart().addToStatements("this." + map.umlName() + " = " + map.umlName() + "Subsetting");
+//		}
 		getter.getBody().addToStatements(ifOneNull);
 		getter.getBody().addToStatements("return this."+map.umlName());
 	}

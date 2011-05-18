@@ -101,7 +101,7 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 			owner.addToImports(new OJPathName("java.util.Date"));
 			INakedProperty prop = map.getProperty();
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-				if (map.isManyToOne() && map.getProperty().getSubsettedProperties().isEmpty()) {
+				if (map.isManyToOne() /*&& map.getProperty().getSubsettedProperties().isEmpty()*/) {
 					addDeletedOnFilterToPolymorphicGetterForToOne(map, getter);
 				} else if (map.isOneToMany()) {
 					addDeletedOnFilterTobuildPolymorphicGetterForMany(map, getter);

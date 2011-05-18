@@ -63,7 +63,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 			owner.addToImports(TinkerUtil.edgePathName);
 			owner.addToImports(TinkerUtil.vertexPathName);
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-				if (map.isManyToOne() && map.getProperty().getSubsettedProperties().isEmpty()) {
+				if (map.isManyToOne() /*&& map.getProperty().getSubsettedProperties().isEmpty()*/) {
 					buildPolymorphicGetterForToOne(map, getter);
 				} else if (map.isOneToMany()) {
 					buildPolymorphicGetterForMany(map, getter);
@@ -87,7 +87,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
 		INakedClassifier otherClassifier = map.getProperty().getOtherEnd().getOwner();
-		INakedClassifier otherSuperClassifier = otherClassifier.getSupertype();
+//		INakedClassifier otherSuperClassifier = otherClassifier.getSupertype();
+		INakedClassifier otherSuperClassifier = null;
 		String otherClassName = otherSuperClassifier == null ? otherClassifier.getMappingInfo().getJavaName().getAsIs() : otherSuperClassifier.getMappingInfo()
 				.getJavaName().getAsIs();
 		String otherAssociationName = map.getProperty().getAssociation().getName();

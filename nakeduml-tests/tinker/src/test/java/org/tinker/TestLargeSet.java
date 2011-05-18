@@ -30,7 +30,7 @@ public class TestLargeSet {
 		db.shutdown();
 	}	
 	
-	@Test
+//	@Test
 	public void test() {
 		StopWatch stopWatch = new StopWatch();
 		((OrientGraph)db).getRawGraph().declareIntent( new OIntentMassiveInsert() );

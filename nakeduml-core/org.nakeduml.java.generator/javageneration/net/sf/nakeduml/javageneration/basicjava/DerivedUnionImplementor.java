@@ -7,7 +7,6 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -164,26 +163,28 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 			if (derivedUnionMap.isOne()) {
 				// TODO this could be problematic if multiple subsetting
 				// properties are not null
-
 				// TODO logic of one subsetting not understood
 				if (!isTinker) {
 					OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
 					sgetter.getBody().addToStatements(ifNotNull);
 				} else {
-					TinkerAttributeImplementorStrategy strategy = new TinkerAttributeImplementorStrategy();
-					strategy.buildPolymorphicGetterForToOne(subsettingMap, sgetter);
 					OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatementRecursive(
 							TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
-					OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
-							TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
-					OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
-					String tinkerToOneExpression = ojSimpleStatement.getExpression();
-					tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
-					if (isAudit) {
-						tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(), derivedUnionMap.javaBaseTypePath().getLast() + TinkerAuditCreator.AUDIT);
+					if (ifStatement==null) {
+						OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
+						sgetter.getBody().addToStatements(ifNotNull);
+					} else {
+						OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
+								TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+						OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
+						String tinkerToOneExpression = ojSimpleStatement.getExpression();
+						tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
+						if (isAudit) {
+							tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(), derivedUnionMap.javaBaseTypePath().getLast() + TinkerAuditCreator.AUDIT);
+						}
+						ojSimpleStatement.setExpression(tinkerToOneExpression);
+						ojTryStatement.getTryPart().addToStatements("this." + derivedUnionMap.umlName() + " = " + returnParameterName);
 					}
-					ojSimpleStatement.setExpression(tinkerToOneExpression);
-					sgetter.getBody().getStatements().remove(sgetter.getBody().getStatements().size() - 1);
 				}
 			} else {
 				OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + ".add(" + expression + ")");
