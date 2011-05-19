@@ -6,7 +6,6 @@ package org.nakeduml.uim.modeleditor.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.Platform;
@@ -26,54 +25,50 @@ import org.topcased.modeler.editor.Modeler;
  *
  * @generated
  */
-public class UIMEditor extends Modeler {
+public class UIMEditor extends Modeler{
 	public static final String EDITOR_ID = "org.nakeduml.uim.modeleditor.editor.UIMEditor";
-
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapterFactories()
 	 * @generated
 	 */
-	protected List getAdapterFactories() {
+	protected List getAdapterFactories(){
 		List factories = new ArrayList();
 		factories.add(new org.nakeduml.uim.provider.UIMItemProviderAdapterFactory());
 		factories.add(new org.nakeduml.uim.modeleditor.providers.UIMModelerProviderAdapterFactory());
 		factories.addAll(super.getAdapterFactories());
 		return factories;
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getId()
 	 * @generated
 	 */
-	public String getId() {
+	public String getId(){
 		return EDITOR_ID;
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapter(java.lang.Class)
 	 * @generated
 	 */
-	public Object getAdapter(Class type) {
-		if (type == IDocPage.class) {
+	public Object getAdapter(Class type){
+		if(type == IDocPage.class){
 			GEFtoEMFCommandStackWrapper stack = new GEFtoEMFCommandStackWrapper(getCommandStack());
 			return new EAnnotationDocPage(stack);
 		}
 		return super.getAdapter(type);
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getPreferenceStore()
 	 *
 	 * @generated
 	 */
-	public IPreferenceStore getPreferenceStore() {
+	public IPreferenceStore getPreferenceStore(){
 		IProject project = (((IFileEditorInput) getEditorInput()).getFile()).getProject();
 		Preferences root = Platform.getPreferencesService().getRootNode();
-		try {
-			if (root.node(ProjectScope.SCOPE).node(project.getName()).nodeExists(UIMPlugin.getId())) {
+		try{
+			if(root.node(ProjectScope.SCOPE).node(project.getName()).nodeExists(UIMPlugin.getId())){
 				return new ScopedPreferenceStore(new ProjectScope(project), UIMPlugin.getId());
 			}
-		} catch (BackingStoreException e) {
+		}catch(BackingStoreException e){
 			e.printStackTrace();
 		}
 		return UIMPlugin.getDefault().getPreferenceStore();

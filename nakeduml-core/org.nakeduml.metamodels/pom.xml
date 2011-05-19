@@ -11,7 +11,7 @@
 	<artifactId>nakeduml-metamodels</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Metamodels</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>A uml code generator and execution engine</description>
 	<url>http://github.com/nakeduml</url>
 	<build>

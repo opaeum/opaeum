@@ -38,7 +38,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class UIMBindingItemProvider
-	extends ItemProviderAdapter
+	extends UmlReferenceItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -131,7 +131,10 @@ public class UIMBindingItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_UIMBinding_type");
+		String label = ((UIMBinding)object).getUmlElementUid();
+		return label == null || label.length() == 0 ?
+			getString("_UI_UIMBinding_type") :
+			getString("_UI_UIMBinding_type") + " " + label;
 	}
 
 	/**
@@ -168,17 +171,6 @@ public class UIMBindingItemProvider
 			(createChildParameter
 				(UIMPackage.Literals.UIM_BINDING__NEXT,
 				 UIMFactory.eINSTANCE.createPropertyRef()));
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return UIMEditPlugin.INSTANCE;
 	}
 
 }

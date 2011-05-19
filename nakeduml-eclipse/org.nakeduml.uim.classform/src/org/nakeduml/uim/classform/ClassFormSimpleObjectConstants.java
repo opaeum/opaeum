@@ -1,5 +1,5 @@
 /*******************************************************************************
- * No CopyrightText Defined in the configurator file.
+ * 
  ******************************************************************************/
 package org.nakeduml.uim.classform;
 
@@ -10,5 +10,5 @@ package org.nakeduml.uim.classform;
  * 
  * @generated
  */
-public interface ClassFormSimpleObjectConstants {
+public interface ClassFormSimpleObjectConstants{
 }

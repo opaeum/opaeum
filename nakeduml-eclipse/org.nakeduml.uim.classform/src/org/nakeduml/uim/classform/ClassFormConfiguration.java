@@ -1,10 +1,9 @@
 /*******************************************************************************
- * No CopyrightText Defined in the configurator file.
+ * 
  ******************************************************************************/
 package org.nakeduml.uim.classform;
 
 import java.net.URL;
-
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -40,194 +39,133 @@ import org.topcased.modeler.graphconf.exceptions.MissingGraphConfFileException;
  *
  * @generated
  */
-public class ClassFormConfiguration implements IConfiguration {
+public class ClassFormConfiguration implements IConfiguration{
 	/**
 	 * @generated
 	 */
 	private ClassFormPaletteManager paletteManager;
-
 	/**
 	 * @generated
 	 */
 	private ClassFormEditPartFactory editPartFactory;
-
 	/**
 	 * @generated
 	 */
 	private ClassFormCreationUtils creationUtils;
-
 	/**
 	 * The DiagramGraphConf that contains graphical informations on the configuration
 	 * @generated
 	 */
 	private DiagramGraphConf diagramGraphConf;
-
 	/**
 	 * Constructor. Initialize Adapter factories.
 	 *
 	 * @generated
 	 */
-	public ClassFormConfiguration() {
+	public ClassFormConfiguration(){
 		registerAdapters();
 	}
-
 	/**
 	 * Registers the Adapter Factories for all the EditParts
 	 *
 	 * @generated
 	 */
-	private void registerAdapters() {
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMFieldEditPart.class,
-						org.nakeduml.uim.UIMField.class),
-				UIMFieldEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(
-						NavigationToEntityEditPart.class,
-						org.nakeduml.uim.NavigationToEntity.class),
+	private void registerAdapters(){
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMFieldEditPart.class, org.nakeduml.uim.UIMField.class), UIMFieldEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(NavigationToEntityEditPart.class, org.nakeduml.uim.NavigationToEntity.class),
 				NavigationToEntityEditPart.class);
 		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(
-						NavigationToOperationEditPart.class,
-						org.nakeduml.uim.NavigationToOperation.class),
-				NavigationToOperationEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(BuiltInActionEditPart.class,
-						org.nakeduml.uim.BuiltInAction.class),
+				new EditPart2ModelAdapterFactory(NavigationToOperationEditPart.class, org.nakeduml.uim.NavigationToOperation.class), NavigationToOperationEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(BuiltInActionEditPart.class, org.nakeduml.uim.BuiltInAction.class),
 				BuiltInActionEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(OperationActionEditPart.class,
-						org.nakeduml.uim.OperationAction.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(OperationActionEditPart.class, org.nakeduml.uim.OperationAction.class),
 				OperationActionEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(
-						TransitionActionEditPart.class,
-						org.nakeduml.uim.TransitionAction.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(TransitionActionEditPart.class, org.nakeduml.uim.TransitionAction.class),
 				TransitionActionEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(FormPanelEditPart.class,
-						org.nakeduml.uim.FormPanel.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(FormPanelEditPart.class, org.nakeduml.uim.FormPanel.class),
 				FormPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMPanelEditPart.class,
-						org.nakeduml.uim.UIMPanel.class),
-				UIMPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMTabPanelEditPart.class,
-						org.nakeduml.uim.UIMTabPanel.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMPanelEditPart.class, org.nakeduml.uim.UIMPanel.class), UIMPanelEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMTabPanelEditPart.class, org.nakeduml.uim.UIMTabPanel.class),
 				UIMTabPanelEditPart.class);
-		Platform.getAdapterManager()
-				.registerAdapters(
-						new EditPart2ModelAdapterFactory(UIMTabEditPart.class,
-								org.nakeduml.uim.UIMTab.class),
-						UIMTabEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMDataTableEditPart.class,
-						org.nakeduml.uim.UIMDataTable.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMTabEditPart.class, org.nakeduml.uim.UIMTab.class), UIMTabEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMDataTableEditPart.class, org.nakeduml.uim.UIMDataTable.class),
 				UIMDataTableEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMDataColumnEditPart.class,
-						org.nakeduml.uim.UIMDataColumn.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMDataColumnEditPart.class, org.nakeduml.uim.UIMDataColumn.class),
 				UIMDataColumnEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(DetailPanelEditPart.class,
-						org.nakeduml.uim.DetailPanel.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(DetailPanelEditPart.class, org.nakeduml.uim.DetailPanel.class),
 				DetailPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMXYLayoutEditPart.class,
-						org.nakeduml.uim.UIMXYLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMXYLayoutEditPart.class, org.nakeduml.uim.UIMXYLayout.class),
 				UIMXYLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMGridLayoutEditPart.class,
-						org.nakeduml.uim.UIMGridLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMGridLayoutEditPart.class, org.nakeduml.uim.UIMGridLayout.class),
 				UIMGridLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(
-						UIMToolbarLayoutEditPart.class,
-						org.nakeduml.uim.UIMToolbarLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMToolbarLayoutEditPart.class, org.nakeduml.uim.UIMToolbarLayout.class),
 				UIMToolbarLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(UIMBorderLayoutEditPart.class,
-						org.nakeduml.uim.UIMBorderLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UIMBorderLayoutEditPart.class, org.nakeduml.uim.UIMBorderLayout.class),
 				UIMBorderLayoutEditPart.class);
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getId()
 	 * @generated
 	 */
-	public String getId() {
+	public String getId(){
 		return new String("org.nakeduml.uim.classform");
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getName()
 	 * @generated
 	 */
-	public String getName() {
+	public String getName(){
 		return new String("Class Form Diagram");
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getEditPartFactory()
 	 * @generated
 	 */
-	public EditPartFactory getEditPartFactory() {
-		if (editPartFactory == null) {
+	public EditPartFactory getEditPartFactory(){
+		if(editPartFactory == null){
 			editPartFactory = new ClassFormEditPartFactory();
 		}
-
 		return editPartFactory;
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getPaletteManager()
 	 * @generated
 	 */
-	public IPaletteManager getPaletteManager() {
-		if (paletteManager == null) {
+	public IPaletteManager getPaletteManager(){
+		if(paletteManager == null){
 			paletteManager = new ClassFormPaletteManager(getCreationUtils());
 		}
-
 		return paletteManager;
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getCreationUtils()
 	 * @generated
 	 */
-	public ICreationUtils getCreationUtils() {
-		if (creationUtils == null) {
+	public ICreationUtils getCreationUtils(){
+		if(creationUtils == null){
 			creationUtils = new ClassFormCreationUtils(getDiagramGraphConf());
 		}
-
 		return creationUtils;
 	}
-
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getDiagramGraphConf()
 	 * @generated
 	 */
-	public DiagramGraphConf getDiagramGraphConf() {
-		if (diagramGraphConf == null) {
-			URL url = ClassFormPlugin.getDefault().getBundle().getResource(
-					"net/sf/nakeduml/uim/classform/diagram.graphconf");
-			if (url != null) {
+	public DiagramGraphConf getDiagramGraphConf(){
+		if(diagramGraphConf == null){
+			URL url = ClassFormPlugin.getDefault().getBundle().getResource("org/nakeduml/uim/classform/diagram.graphconf");
+			if(url != null){
 				URI fileURI = URI.createURI(url.toString());
 				ResourceSet resourceSet = new ResourceSetImpl();
 				Resource resource = resourceSet.getResource(fileURI, true);
-				if (resource != null
-						&& resource.getContents().get(0) instanceof DiagramGraphConf) {
-					diagramGraphConf = (DiagramGraphConf) resource
-							.getContents().get(0);
+				if(resource != null && resource.getContents().get(0) instanceof DiagramGraphConf){
+					diagramGraphConf = (DiagramGraphConf) resource.getContents().get(0);
 				}
-			} else {
+			}else{
 				new MissingGraphConfFileException(
 						"The *.diagramgraphconf file can not be retrieved. Check if the path is correct in the Configuration class of your diagram.");
 			}
 		}
-
 		return diagramGraphConf;
 	}
-
 }

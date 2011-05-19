@@ -13,12 +13,16 @@ public class StackLayout extends XYLayout {
 		Rectangle r = figure.getClientArea();
 		List children = figure.getChildren();
 		IFigure child;
+		IFigure selectedChild=null;
 		for (int i = 0; i < children.size(); i++) {
 			child = (IFigure) children.get(i);
 			if (i == activeChild) {
+				child.setVisible(true);
 				child.setBounds(r);
+				selectedChild=child;
 			} else {
-				child.setBounds(new Rectangle(0, 0, 0, 0));
+				child.setVisible(false);
+				child.setBounds(new Rectangle(r.x, r.y, 0, 0));
 			}
 		}
 	}

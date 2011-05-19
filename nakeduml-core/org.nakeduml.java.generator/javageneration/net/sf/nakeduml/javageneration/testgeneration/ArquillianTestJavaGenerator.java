@@ -372,7 +372,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor {
 		rootField.setType(rootPathname);
 		String rootName = root.getMappingInfo().getJavaName().toString();
 		rootField.setInitExp("(" + rootName + ")session.createQuery(\"from " + rootName
-				+ " a where a.name = :name\").setText(\"name\", dataGeneratorProperty.getProperty(\"" + rootName.toLowerCase() + ".name_0\")).uniqueResult()");
+				+ " a where a.name = :name\").setText(\"name\", dataGeneratorProperty.getProperty(\"" + root.getMappingInfo().getJavaName().getDecapped().getAsIs() + ".name_0\")).uniqueResult()");
 		OJIfStatement ifStatement = new OJIfStatement();
 		ifStatement.setCondition(rootField.getName() + " == null");
 		OJBlock ifBlock = new OJBlock();

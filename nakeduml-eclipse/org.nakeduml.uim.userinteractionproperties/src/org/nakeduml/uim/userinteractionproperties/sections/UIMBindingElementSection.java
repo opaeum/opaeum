@@ -3,7 +3,6 @@ package org.nakeduml.uim.userinteractionproperties.sections;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -32,94 +31,86 @@ import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
  *
  * @generated NOT
  */
-public class UIMBindingElementSection extends AbstractChooserPropertySection {
+public class UIMBindingElementSection extends AbstractChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "Element:";
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getUIMBinding_Element();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
-	protected Object getFeatureValue() {
+	protected Object getFeatureValue(){
 		return ((UIMBinding) getEObject()).getElement();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
-	protected Object[] getComboFeatureValues() {
+	protected Object[] getComboFeatureValues(){
 		List<TypedElement> attrs = new ArrayList<TypedElement>();
 		UIMBinding uIMBinding = (UIMBinding) getEObject();
 		UIMComponent component = UimUtil.getComponent(uIMBinding);
 		UIMForm uf = UimUtil.getNearestForm(component);
 		Classifier representedClass = UimUtil.getNearestClass(component);
 		UIMDataTable nearestTable = UimUtil.getNearestTable(component);
-		if (representedClass != null) {
+		if(representedClass != null){
 			attrs.addAll(representedClass.getAllAttributes());
 		}
-		if (nearestTable == null) {
-			if (uf instanceof OperationInvocationForm) {
+		if(nearestTable == null){
+			if(uf instanceof OperationInvocationForm){
 				OperationInvocationForm oif = (OperationInvocationForm) uf;
-				if (oif.getOperation() != null) {
+				if(oif.getOperation() != null){
 					attrs.addAll(oif.getOperation().getOwnedParameters());
 				}
-			} else if (uf instanceof OperationTaskForm) {
+			}else if(uf instanceof OperationTaskForm){
 				OperationTaskForm oif = (OperationTaskForm) uf;
-				if (oif.getOperation() != null) {
+				if(oif.getOperation() != null){
 					attrs.addAll(oif.getOperation().getOwnedParameters());
 				}
-			} else if (uf instanceof ActionTaskForm) {
+			}else if(uf instanceof ActionTaskForm){
 				ActionTaskForm oif = (ActionTaskForm) uf;
-				if (oif.getAction() != null) {
+				if(oif.getAction() != null){
 					attrs.addAll(oif.getAction().getInputs());
 					attrs.addAll(oif.getAction().getOutputs());
 				}
-			} else if (uf instanceof StateForm) {
+			}else if(uf instanceof StateForm){
 				StateForm sf = (StateForm) uf;
-				if (sf.getFolder().getStateMachine() != null) {
-					attrs.addAll(sf.getFolder().getStateMachine()
-							.getOwnedParameters());
+				if(sf.getFolder().getStateMachine() != null){
+					attrs.addAll(sf.getFolder().getStateMachine().getOwnedParameters());
 				}
 			}
 		}
 		return attrs.toArray();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
-	protected ILabelProvider getLabelProvider() {
+	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
 		f.add(new UIMItemProviderAdapterFactory());
-		f
-				.addAll(AbstractTabbedPropertySheetPage
-						.getPrincipalAdapterFactories());
+		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}
-
 }

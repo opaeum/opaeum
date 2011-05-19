@@ -13,22 +13,21 @@ import org.topcased.modeler.providers.ILabelFeatureProvider;
  *
  * @generated
  */
-public class UIMBindingModelerProvider extends ItemProviderAdapter implements ILabelFeatureProvider {
+public class UIMBindingModelerProvider extends ItemProviderAdapter implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *
 	 * @param adapterFactory the adapter factory
 	 * @generated
 	 */
-	public UIMBindingModelerProvider(AdapterFactory adapterFactory) {
+	public UIMBindingModelerProvider(AdapterFactory adapterFactory){
 		super(adapterFactory);
 	}
-
 	/**
 	 * @see org.topcased.modeler.providers.ILabelFeatureProvider#getLabelFeature(java.lang.Object)
 	 * @generated
 	 */
-	public EAttribute getLabelFeature(Object object) {
+	public EAttribute getLabelFeature(Object object){
 		return null;
 	}
 }

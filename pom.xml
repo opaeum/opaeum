@@ -13,6 +13,9 @@
 	<version>1.0.0.5-SNAPSHOT</version>
 	<description>Uml model compiler for the JBoss JEE and jBPM environment</description>
 	<url>http://github.com/nakeduml</url>
+        <properties>
+		<numl.version>1.0.0.5-SNAPSHOT</numl.version>
+	</properties>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -39,10 +42,7 @@
 	</repositories>
 	<modules>
 		<module>nakeduml-core</module>
-                <module>nakeduml-tests/jbpmtestintegration/jbpmtestintegration-generator</module>
+		<module>nakeduml-runtime</module>
+                <!--module>nakeduml-tests/jbpmtestintegration/jbpmtestintegration-generator</module-->
 	</modules>
-	<properties>
-		<java.version>1.6</java.version>
-		<numl.version>1.0.0.5-SNAPSHOT</numl.version>
-	</properties>
 </project>

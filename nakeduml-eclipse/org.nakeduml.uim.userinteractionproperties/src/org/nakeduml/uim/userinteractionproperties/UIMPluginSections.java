@@ -17,19 +17,17 @@ import org.osgi.framework.BundleContext;
  *
  * @generated
  */
-public class UIMPluginSections extends AbstractUIPlugin {
+public class UIMPluginSections extends AbstractUIPlugin{
 	/**
 	 * The plug-in ID
 	 * @generated
 	 */
 	public static final String PLUGIN_ID = "org.nakeduml.uim.userinteractionproperties";
-
 	/**
 	 * The shared instance
 	 * @generated
 	 */
 	private static UIMPluginSections plugin;
-
 	/**
 	 * The constructor.
 	 * <!-- begin-user-doc -->
@@ -37,11 +35,10 @@ public class UIMPluginSections extends AbstractUIPlugin {
 
 	 * @generated
 	 */
-	public UIMPluginSections() {
+	public UIMPluginSections(){
 		super();
 		plugin = this;
 	}
-
 	/**
 	 * This method is called upon plug-in activation
 
@@ -52,10 +49,9 @@ public class UIMPluginSections extends AbstractUIPlugin {
 	 * @throws Exception
 	 * @generated
 	 */
-	public void start(BundleContext context) throws Exception {
+	public void start(BundleContext context) throws Exception{
 		super.start(context);
 	}
-
 	/**
 	 * This method is called when the plug-in is stopped
 
@@ -66,11 +62,10 @@ public class UIMPluginSections extends AbstractUIPlugin {
 	 * @throws Exception
 	 * @generated
 	 */
-	public void stop(BundleContext context) throws Exception {
+	public void stop(BundleContext context) throws Exception{
 		super.stop(context);
 		plugin = null;
 	}
-
 	/**
 	 * Returns the shared instance.
 
@@ -80,10 +75,9 @@ public class UIMPluginSections extends AbstractUIPlugin {
 	 * @return the singleton
 	 * @generated
 	 */
-	public static UIMPluginSections getDefault() {
+	public static UIMPluginSections getDefault(){
 		return plugin;
 	}
-
 	/**
 	 * @return the Plugin Id
 
@@ -92,10 +86,9 @@ public class UIMPluginSections extends AbstractUIPlugin {
 
 	 * @generated
 	 */
-	public static String getId() {
+	public static String getId(){
 		return getDefault().getBundle().getSymbolicName();
 	}
-
 	/**
 	 * Log a message with given level into the Eclipse log file
 
@@ -106,12 +99,11 @@ public class UIMPluginSections extends AbstractUIPlugin {
 	 * @param level the message priority
 	 * @generated
 	 */
-	public static void log(String message, int level) {
+	public static void log(String message,int level){
 		IStatus status = null;
 		status = new Status(level, getId(), IStatus.OK, message, null);
 		log(status);
 	}
-
 	/**
 	 * Log an exception into the Eclipse log file
 
@@ -121,19 +113,16 @@ public class UIMPluginSections extends AbstractUIPlugin {
 	 * @param e the exception to log
 	 * @generated
 	 */
-	public static void log(Throwable e) {
-		if (e instanceof InvocationTargetException)
+	public static void log(Throwable e){
+		if(e instanceof InvocationTargetException)
 			e = ((InvocationTargetException) e).getTargetException();
-
 		IStatus status = null;
-		if (e instanceof CoreException)
+		if(e instanceof CoreException)
 			status = ((CoreException) e).getStatus();
 		else
 			status = new Status(IStatus.ERROR, getId(), IStatus.OK, "Error", e);
-
 		log(status);
 	}
-
 	/**
 	 * Log an IStatus
 
@@ -143,7 +132,7 @@ public class UIMPluginSections extends AbstractUIPlugin {
 	 * @param status
 	 * @generated
 	 */
-	public static void log(IStatus status) {
+	public static void log(IStatus status){
 		ResourcesPlugin.getPlugin().getLog().log(status);
 	}
 }

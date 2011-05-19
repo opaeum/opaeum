@@ -39,7 +39,7 @@ public class NakedValidator implements org.topcased.validation.core.IValidator {
 			cfg.loadDefaults("test");
 			TransformationProcess process = new TransformationProcess();
 			File dir=new File(model.eResource().getURI().toFileString()).getParentFile();
-			process.execute(cfg, new EmfWorkspace(dir, model, new WorkspaceMappingInfoImpl(new File(dir, dir.getName() + ".mappinginfo")),dir.getName()), new HashSet<Class<? extends TransformationStep>>(
+			process.execute(cfg, new EmfWorkspace(model, new WorkspaceMappingInfoImpl(new File(dir, dir.getName() + ".mappinginfo")),dir.getName()), new HashSet<Class<? extends TransformationStep>>(
 					
 					Arrays.asList(StereotypeApplicationExtractor.class, NakedParsedOclStringResolver.class,ProcessIdentifier.class)));
 			INakedModelWorkspace workspace = process.findModel(INakedModelWorkspace.class);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="testmodel">
+    <packagedElement xmi:type="uml:Package" xmi:id="_3XEhcHuUEeCUCr8kEQ6-9A" name="package1_1">
+      <packagedElement xmi:type="uml:Class" xmi:id="_6kVusHuUEeCUCr8kEQ6-9A" name="Class1_1_1"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_7fRF4HuUEeCUCr8kEQ6-9A" name="Class1_1_2"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_5FPTcHuUEeCUCr8kEQ6-9A" name="package1_2"/>
+  </packagedElement>
+</uml:Model>

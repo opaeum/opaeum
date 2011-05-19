@@ -1,8 +1,16 @@
 package org.nakeduml.uim.figures.controls;
 
 
+import java.awt.Color;
+import java.awt.Rectangle;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JSpinner;
+import javax.swing.border.BevelBorder;
+
 import org.eclipse.draw2d.ArrowButton;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -15,6 +23,7 @@ public class UIMNumberScrollerFigure extends Figure implements IControlFigure {
 	private Label textField;
 	private ArrowButton upAarrowButton;
 	private ArrowButton downAarrowButton;
+	private JSpinner spinner = new JSpinner();
 
 	public UIMNumberScrollerFigure() {
 		super();
@@ -45,6 +54,17 @@ public class UIMNumberScrollerFigure extends Figure implements IControlFigure {
 		scroller.add(downAarrowButton);
 		add(scroller, new GridData(GridData.END, GridData.END, true, true));
 		setBorder(new RectangularDropShadowLineBorder(1));
+	}
+
+	@Override
+	public void paint(Graphics graphics){
+		spinner.setBounds(new Rectangle(getBounds().x+2,getBounds().y+2,getBounds().width-4,getBounds().height-4));
+		GraphicsBridge g2 = new GraphicsBridge(graphics);
+		spinner.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(155, 155, 155), new Color(200,200,200)));
+
+		spinner.doLayout();
+		spinner.paint(g2.create(getBounds().x+2,getBounds().y+2,getBounds().width-4,getBounds().height-4));
+		graphics.popState();
 	}
 
 	@Override

@@ -20,12 +20,8 @@
 		<module>org.nakeduml.metamodels</module>
 		<module>org.nakeduml.java.generator</module>
 		<module>org.nakeduml.generators</module>
-		<module>nakeduml-runtime-domain</module>
-		<module>nakeduml-runtime-adaptor</module>
-		<module>nakeduml-test-adaptor</module>
-		<module>nakeduml-runtime-tinker-domain</module>
+		<module>org.nakeduml.uim</module>
 	</modules>
-        
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -90,10 +86,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<properties>
-		<jbpm.version>5.0.0</jbpm.version>
-		<junit.version>4.8.2</junit.version>
-		<drools.version>5.2.0.M1</drools.version>
-		<arquillian.version>1.0.0.Alpha4</arquillian.version>
-	</properties>
 </project>

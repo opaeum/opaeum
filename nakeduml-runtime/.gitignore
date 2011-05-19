@@ -1,0 +1,7 @@
+/nakeduml-runtime-domain/target
+/nakeduml-runtime-adaptor/target
+/nakeduml-test-adaptor/target
+/nakeduml-runtime-adaptor/.settings/
+/nakeduml-runtime-domain/.settings/
+/nakeduml-test-adaptor/.settings/
+

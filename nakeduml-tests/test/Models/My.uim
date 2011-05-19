@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:UserInteractionModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uim="http://nakeduml.org/uimetamodel/1.0" name="poipoi">
+  <children xsi:type="uim:PackageFolder" name="poipoi">
+    <children xsi:type="uim:EntityFolder">
+      <classForm name="ClassForm1">
+        <panel>
+          <children xsi:type="uim:UIMXYLayout" name="UIMXYLayout1">
+            <children xsi:type="uim:UIMField" name="UIMField1"/>
+          </children>
+        </panel>
+      </classForm>
+    </children>
+  </children>
+</uim:UserInteractionModel>

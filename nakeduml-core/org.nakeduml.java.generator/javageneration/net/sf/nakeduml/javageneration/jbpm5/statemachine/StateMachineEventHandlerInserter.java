@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
@@ -93,12 +95,40 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 	}
 
 	@Override
-	protected void implementEventConsumption(FromNode node, OJIfStatement ifNotNull) {
-		// TODO might want to cache the event parameters somewhere, or not
+	protected void implementEventConsumption(OJOperation operationContext, FromNode node, OJIfStatement ifTokenFound) {
+		OJIfStatement ifGuard = null;
+		IClassifier booleanType = workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
+		for (GuardedFlow t : node.getConditionalTransitions()) {
+			OJIfStatement newIf = new OJIfStatement();
+			newIf.setCondition(ValueSpecificationUtil.expressValue(operationContext, t.getGuard(), t.getContext(), booleanType));
+			newIf.getThenPart().addToStatements("consumed=true");
+			maybeContinueFlow(operationContext, newIf.getThenPart(), t);
+			OJBlock block1 = null;
+			if (ifGuard == null) {
+				block1 = ifTokenFound.getThenPart();
+			} else {
+				block1 = new OJBlock();
+				ifGuard.setElsePart(block1);
+			}
+			block1.addToStatements(newIf);
+			ifGuard = newIf;
+		}
+		OJBlock block = null;
+		if (ifGuard == null) {
+			block = ifTokenFound.getThenPart();
+		} else {
+			block = new OJBlock();
+			ifGuard.setElsePart(block);
+		}
+		GuardedFlow flow = node.getDefaultTransition();
+		if (flow != null) {
+			// default flow/transition
+			block.addToStatements("consumed=true");
+			maybeContinueFlow(operationContext, block, flow);
+		}
 	}
 
-	@Override
-	protected void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) {
+	private void maybeContinueFlow(OJOperation operationContext, OJBlock block, GuardedFlow flow) {
 		operationContext.getOwner().addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
 		operationContext.getOwner().addToImports(ReflectionUtil.getUtilInterface(TransitionListener.class));
 		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner().getPathName(), "listener", ReflectionUtil.getUtilInterface(TransitionListener.class));

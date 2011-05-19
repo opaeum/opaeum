@@ -16,6 +16,7 @@ import nl.klasse.octopus.model.IImportedElement;
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
+import org.apache.maven.pom.ExclusionsType;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.PluginExecution;
@@ -50,7 +51,6 @@ public abstract class PomGenerationStep implements TransformationStep{
 		AnyType excludes = PomUtil.addEmptyAnyElement(sureFire.getConfiguration().getAny(), "excludes");
 		// TODO make none
 		// PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
-		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*EricssonGsmLoadProcessIntegrationTest.java");
 		PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "**/*IntegrationTest.java");
 		return sureFire;
 	}
@@ -157,19 +157,25 @@ public abstract class PomGenerationStep implements TransformationStep{
 		dependency.setVersion("${seam.servlet.version}");
 		dependency.setScope("runtime");
 		dependencies.add(dependency);
-		Exclusion solder = POMFactory.eINSTANCE.createExclusion();
-		solder.setGroupId("org.jboss.seam.solder");
-		solder.setArtifactId("seam-solder");
 		dependency.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
-		dependency.getExclusions().getExclusion().add(solder);
+		exludeSeamSolder(dependency.getExclusions());
 	}
 	protected void addSeamConfig(Collection<Dependency> dependencies){
 		Dependency seamConfig = POMFactory.eINSTANCE.createDependency();
 		seamConfig.setGroupId("org.jboss.seam.config");
 		seamConfig.setArtifactId("seam-config-xml");
-		seamConfig.setVersion("3.0.0.Beta2");
+		seamConfig.setVersion("3.0.0.Final");
 		seamConfig.setScope("test");
+		seamConfig.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
+		ExclusionsType exclusions = seamConfig.getExclusions();
+		exludeSeamSolder(exclusions);		
 		dependencies.add(seamConfig);
+	}
+	private void exludeSeamSolder(ExclusionsType exclusions){
+		Exclusion excludeSolder = POMFactory.eINSTANCE.createExclusion();
+		excludeSolder.setArtifactId("seam-solder");
+		excludeSolder.setGroupId("org.jboss.seam.solder");
+		exclusions.getExclusion().add(excludeSolder);
 	}
 	protected void addCdi(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();

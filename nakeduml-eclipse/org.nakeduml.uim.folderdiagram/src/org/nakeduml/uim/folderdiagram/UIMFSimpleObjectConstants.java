@@ -10,5 +10,5 @@ package org.nakeduml.uim.folderdiagram;
  * 
  * @generated
  */
-public interface UIMFSimpleObjectConstants {
+public interface UIMFSimpleObjectConstants{
 }

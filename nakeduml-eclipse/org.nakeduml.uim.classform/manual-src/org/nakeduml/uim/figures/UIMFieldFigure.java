@@ -1,23 +1,36 @@
 package org.nakeduml.uim.figures;
 
 
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTree;
+import javax.swing.border.BevelBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
-import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.graphics.FontData;
+import org.nakeduml.uim.figures.controls.GraphicsBridge;
 import org.nakeduml.uim.figures.controls.UIMTextFigure;
-import org.nakeduml.uim.util.ControlUtil;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.ILabelFigure;
-import org.topcased.draw2d.figures.Label;
 
 public class UIMFieldFigure extends Figure implements ILabelFigure,
 		IBindingFigure {
 	// TODO implement labelHeight and a vertical layout
 	private EditableLabel label;
+	private JButton btn = new JButton();
 
 	private IControlFigure control;
 	private int labelWidth;
@@ -129,6 +142,24 @@ public class UIMFieldFigure extends Figure implements ILabelFigure,
 
 		});
 
+	}
+	@Override
+	public void paint(final Graphics g){
+		 super.paint(g);
+//		GraphicsBridge g2 = new GraphicsBridge(g);
+//		JTabbedPane tabbedPane = new JTabbedPane();
+//		tabbedPane.addTab("Tab1", new JPanel());
+//		Rectangle b = getBounds();
+//		tabbedPane.setBounds(new java.awt.Rectangle(b.x+5, b.y+5, b.width-10, b.height-10));
+//		tabbedPane.doLayout();
+//		FontData fontData = getFont().getFontData()[0];
+//		tabbedPane.setFont(new Font(fontData.getName(),fontData.getStyle(), fontData.getHeight()));
+//		tabbedPane.setBorder(new BevelBorder(BevelBorder.RAISED,new Color(200,200,200),new Color(100,100,100)));
+//		tabbedPane.paint(g2.create(b.x+5, b.y+5, b.width-10, b.height-10));
+//		super.paint(g);
+	}
+
+	private void paintTree(final Graphics g){
 	}
 
 }

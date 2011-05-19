@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jcalendar-1.3.3.jar" sourcepath="lib/jcalendar-src.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/looks-2.0.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="manual-src"/>
+	<classpathentry exported="true" kind="lib" path="lib/jide-oss-3.0.2.jar" sourcepath="lib/jide-oss-src-3.0.2.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

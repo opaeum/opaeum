@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -30,90 +29,79 @@ import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
  *
  * @generated
  */
-public class OperationActionOperationSection extends
-		AbstractChooserPropertySection {
+public class OperationActionOperationSection extends AbstractChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "Operation:";
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getOperationAction_Operation();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
-	protected Object getFeatureValue() {
+	protected Object getFeatureValue(){
 		return ((OperationAction) getEObject()).getOperation();
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
-	protected Object[] getComboFeatureValues() {
+	protected Object[] getComboFeatureValues(){
 		Collection<Operation> results = new ArrayList<Operation>();
-		if (getEObject() instanceof OperationAction) {
+		if(getEObject() instanceof OperationAction){
 			OperationAction oa = (OperationAction) getEObject();
 			UIMDataTable nearestTable = UimUtil.getNearestTable(oa);
 			UIMForm ui = UimUtil.getNearestForm(oa);
-			if (nearestTable == null && ui instanceof StateForm) {
+			if(nearestTable == null && ui instanceof StateForm){
 				// get valid methods for state only
 				StateForm sui = (StateForm) ui;
 				State state = sui.getState();
-				if (state != null) {
+				if(state != null){
 					results.addAll(StateMachineUtil.getTriggerOperations(state));
-					results.addAll(StateMachineUtil.getNonTriggerOperations(StateMachineUtil
-							.getStateMachine(state)));
+					results.addAll(StateMachineUtil.getNonTriggerOperations(StateMachineUtil.getStateMachine(state)));
 				}
-
-			} else {
+			}else{
 				results.addAll(UimUtil.getNearestClass(oa).getAllOperations());
 			}
 		}
 		return getParameterlessOperations(results);
 	}
-
-	private Object[] getParameterlessOperations(Collection<Operation> opers) {
+	private Object[] getParameterlessOperations(Collection<Operation> opers){
 		List<Operation> results = new ArrayList<Operation>();
-		for (Operation operation : opers) {
-			if (operation.getOwnedParameters().isEmpty()) {
+		for(Operation operation:opers){
+			if(operation.getOwnedParameters().isEmpty()){
 				results.add(operation);
 			}
 		}
 		return (Operation[]) results.toArray(new Operation[results.size()]);
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
 	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
-	protected ILabelProvider getLabelProvider() {
+	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
 		f.add(new UIMItemProviderAdapterFactory());
-		f
-				.addAll(AbstractTabbedPropertySheetPage
-						.getPrincipalAdapterFactories());
+		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}
-
 }

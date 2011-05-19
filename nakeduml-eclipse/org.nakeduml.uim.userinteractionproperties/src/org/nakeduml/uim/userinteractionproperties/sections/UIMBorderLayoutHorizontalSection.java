@@ -1,6 +1,5 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.nakeduml.uim.UIMPackage;
 import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
@@ -13,8 +12,7 @@ import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
  *
  * @generated
  */
-public class UIMBorderLayoutHorizontalSection extends
-		AbstractBooleanPropertySection {
+public class UIMBorderLayoutHorizontalSection extends AbstractBooleanPropertySection{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -22,10 +20,9 @@ public class UIMBorderLayoutHorizontalSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
 	 * @generated
 	 */
-	protected String getLabelText() {
+	protected String getLabelText(){
 		return "Horizontal";
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -33,8 +30,7 @@ public class UIMBorderLayoutHorizontalSection extends
 	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
 	 * @generated
 	 */
-	protected EStructuralFeature getFeature() {
+	protected EStructuralFeature getFeature(){
 		return UIMPackage.eINSTANCE.getUIMBorderLayout_Horizontal();
 	}
-
 }

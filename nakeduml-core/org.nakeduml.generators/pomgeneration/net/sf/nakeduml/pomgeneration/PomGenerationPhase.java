@@ -33,12 +33,14 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.apache.maven.pom.ConfigurationType2;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.DocumentRoot;
+import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.Model;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.POMPackage;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.util.POMResourceFactoryImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -311,8 +313,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		dependencies = step.getDependencies();
 		for(Dependency newDep:dependencies){
 			Dependency childDependency = null;
+			childDependency = PomUtil.getNewDependency(root, newDep);
 			if(childDependency == null){
-				childDependency = PomUtil.getNewDepedency(root, newDep);
 				childDependency = POMFactory.eINSTANCE.createDependency();
 				childDependency.setArtifactId(newDep.getArtifactId());
 				childDependency.setGroupId(newDep.getGroupId());
@@ -322,24 +324,36 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				}
 				childDependency.setClassifier(newDep.getClassifier());
 				root.getProject().getDependencies().getDependency().add(childDependency);
+
 			}
-			Dependency oldDep = PomUtil.getExisitingDependencyInDepedencyManagement(parentPom, newDep);
-			if(oldDep == null){
-				if(parentPom.getProject().getDependencyManagement()==null){
-					parentPom.getProject().setDependencyManagement(POMFactory.eINSTANCE.createDependencyManagement());
-				}
-				if(parentPom.getProject().getDependencyManagement().getDependencies()==null){
-					parentPom.getProject().getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
-				}
-				parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
+			Dependency oldParentDependency = PomUtil.getExisitingDependencyInDepedencyManagement(parentPom, newDep);
+			if(oldParentDependency == null){
+				addNewDependencyToParentPom(newDep);
 			}else{
-				if(oldDep.getScope() == null){
-					childDependency.setScope(newDep.getScope());
-				}else if(!oldDep.getScope().equals(newDep.getScope())){
-					childDependency.setScope(newDep.getScope());
-				}
-				oldDep.setVersion(newDep.getVersion());
+				mergeNewDependency(newDep, childDependency, oldParentDependency);
 			}
 		}
+	}
+	private void mergeNewDependency(Dependency newDep,Dependency childDependency,Dependency oldParentDependency){
+		if(oldParentDependency.getScope() == null){
+			childDependency.setScope(newDep.getScope());
+		}else if(!oldParentDependency.getScope().equals(newDep.getScope())){
+			//Override scope in the child pom
+			childDependency.setScope(newDep.getScope());
+		}
+		oldParentDependency.setVersion(newDep.getVersion());
+		if(newDep.getExclusions()!=null){
+			PomUtil.addNewExclusionsOnly(oldParentDependency,newDep.getExclusions().getExclusion());
+		}
+
+	}
+	private void addNewDependencyToParentPom(Dependency newDep){
+		if(parentPom.getProject().getDependencyManagement()==null){
+			parentPom.getProject().setDependencyManagement(POMFactory.eINSTANCE.createDependencyManagement());
+		}
+		if(parentPom.getProject().getDependencyManagement().getDependencies()==null){
+			parentPom.getProject().getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
+		}
+		parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
 	}
 }

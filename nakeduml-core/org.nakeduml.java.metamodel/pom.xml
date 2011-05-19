@@ -10,7 +10,7 @@
 	<artifactId>nakeduml-java-metamodel</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Java Metamodel</name>
-	<version>${numl.version}</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<description>A Metamodel for the Java language</description>
 	<url>http://github.com/nakeduml</url>
 	<build>

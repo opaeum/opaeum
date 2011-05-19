@@ -39,7 +39,7 @@ public abstract class MavenProjectCodeGenerator{
 		process.removeModel(OJPackage.class);
 		long start = System.currentTimeMillis();
 		File modelFile = new File(modelDirectory, modelFileName);
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(URI.createFileURI(modelFile.getAbsolutePath()), outputRoot.getName());
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(modelFile, outputRoot.getName());
 		workspace.setDirectoryName(this.outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
 		cfg.store();
@@ -101,7 +101,8 @@ public abstract class MavenProjectCodeGenerator{
 		OutputRoot testResources = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE, false, "-adaptor", "src/test/resources");
 		testResources.dontCleanDirectoriesOrOverwriteFiles();
 		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, false, "-adaptor", "src/test/generated-resources");
-		cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, false, "-adaptor", "src/main/resources");
+		OutputRoot mainResources = cfg.mapOutputRoot(CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, false, "-adaptor", "src/main/resources");
+		mainResources.dontCleanDirectoriesOrOverwriteFiles();
 	}
 	private void mapIntegratedAdaptorProject(NakedUmlConfig cfg){
 		cfg.mapOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, true, "-integrated", "src/main/generated-java");

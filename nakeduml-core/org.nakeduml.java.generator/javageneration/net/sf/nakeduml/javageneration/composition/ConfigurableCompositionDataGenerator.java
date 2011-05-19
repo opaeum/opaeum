@@ -16,6 +16,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
@@ -63,7 +64,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		List<IClassifier> generalizations = entity.getGeneralizations();
 		for (IClassifier generalization : generalizations) {
 			INakedEntity gen = (INakedEntity) generalization;
-			Collection<INakedEntity> subs = getConcreteImplementations(gen);
+			Collection<INakedClassifier> subs = getConcreteSubclassifiersOf(gen);
 			for (IClassifier sub : subs) {
 				if (!sub.equals(entity)) {
 					result.add((INakedEntity) sub);
@@ -316,11 +317,12 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			}
 		} else if (isCompositeParentAbstract(entity)) {
 			theList.remove(currentPath);
-			List<INakedEntity> concreteImpls = getConcreteImplementations((INakedEntity) entity.getEndToComposite().getBaseType());
-			for (INakedEntity concreteImpl : concreteImpls) {
+			Collection<INakedClassifier> concreteImpls = GeneralizationUtil.getAllConcreteSubClassifiers(entity.getEndToComposite().getNakedBaseType(),getModelInScope());
+			for (INakedClassifier concreteImpl : concreteImpls) {
 				StringBuilder alternativePath = new StringBuilder(currentPath.toString());
 				theList.add(alternativePath);
-				createHierarchicalEntries(concreteImpl, theList, alternativePath);
+				//Will be an entity
+				createHierarchicalEntries((INakedEntity) concreteImpl, theList, alternativePath);
 			}
 		} else {
 			if (entity.getEndToComposite() != null) {
@@ -550,7 +552,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 					// TODO sourcePopulation needs to handle redefinition and
 					// looks like WorkspaceElement.name has duplicates
 					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-					Collection<INakedEntity> classifiers = getConcreteImplementations(inf);
+					Collection<INakedBehavioredClassifier> classifiers = getConcreteImplementations(inf);
 					for(INakedClassifier iNakedClassifier:classifiers){
 						OJIfStatement ifInstanceOf = new OJIfStatement(c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "()!=null && "
 								+ c.getMappingInfo().getJavaName().getDecapped().toString() + "." + map.getter() + "() instanceof "
@@ -649,7 +651,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			OJForStatement forX = new OJForStatement();
 			forX.setElemType(new OJPathName("java.util.Integer"));
 			forX.setElemName("i");
-			forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getUid()+\"."
+			forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getName()+\"."
 					+ entity.getMappingInfo().getJavaName().getDecapped().toString() + ".size\",\"0\")");
 			OJBlock forXBLock = new OJBlock();
 			forX.setBody(forXBLock);
@@ -712,7 +714,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		OJForStatement forX = new OJForStatement();
 		forX.setElemType(integerPath);
 		forX.setElemName("i");
-		forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getUid()+\"."
+		forX.setCollection("dataGeneratorProperty.getIterationListForSizeProperty(" + parent.getMappingInfo().getJavaName().toString() + ".getName()+\"."
 				+ entity.getMappingInfo().getJavaName().getDecapped().toString() + ".size\",\"0\")");
 		OJBlock forXBLock = new OJBlock();
 		block.addToStatements(forX);
@@ -774,7 +776,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			if(p.isComposite() && !isHierarchical(c, p)){
 				if(p.getNakedBaseType() instanceof INakedInterface && map.isOne()){
 					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-					Collection<INakedEntity> classifiers = getConcreteImplementations(inf);
+					Collection<INakedBehavioredClassifier> classifiers = getConcreteImplementations(inf);
 					for(INakedClassifier iNakedClassifier:classifiers){
 						String result = c.getMappingInfo().getJavaName().getDecapped().toString() + ".getUid() + \"."
 								+ p.getMappingInfo().getJavaName().getDecapped().toString() + "\"";
@@ -789,7 +791,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 					}
 				}else if(p.getNakedBaseType() instanceof INakedInterface && map.isMany()){
 					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-					Collection<INakedEntity> classifiers = getConcreteImplementations(inf);
+					Collection<INakedBehavioredClassifier> classifiers = getConcreteImplementations(inf);
 					for(INakedClassifier iNakedClassifier:classifiers){
 						OJPathName baseTypePath = getTestDataPath(iNakedClassifier);
 						OJSimpleStatement ojSimpleStatement = new OJSimpleStatement();
@@ -817,7 +819,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 				// like WorkspaceElement.name has duplicates
 				if(f.getNakedBaseType() instanceof INakedInterface){
 					INakedInterface inf = (INakedInterface) p.getNakedBaseType();
-					Collection<INakedEntity> classifiers = getConcreteImplementations(inf);
+					Collection<INakedBehavioredClassifier> classifiers = getConcreteImplementations(inf);
 					for(INakedClassifier iNakedClassifier:classifiers){
 						if(!iNakedClassifier.getIsAbstract()){
 							addChildField(testDataClass, iNakedClassifier);
@@ -849,7 +851,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		// TODO endToComposite needs to work for interfaces
 		if(entity.getEndToComposite() != null){
 			NakedStructuralFeatureMap other = new NakedStructuralFeatureMap(entity.getEndToComposite());
-			result = entity.getMappingInfo().getJavaName().getDecapped() + "." + other.getter() + "().getUid() + " + "\"" + "." + result + "\"";
+			result = entity.getMappingInfo().getJavaName().getDecapped() + "." + other.getter() + "().getName() + " + "\"" + "." + result + "\"";
 		}else{
 			result = "\"" + result + "\"";
 		}

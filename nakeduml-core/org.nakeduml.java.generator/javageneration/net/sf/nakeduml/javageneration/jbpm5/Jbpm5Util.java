@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -18,93 +19,84 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.runtime.domain.ExceptionHolder;
 import org.nakeduml.runtime.domain.TimeUnit;
 
-public class Jbpm5Util {
-	public static String stepLiteralName(INakedElement s) {
+public class Jbpm5Util{
+	public static String stepLiteralName(INakedElement s){
 		return (s).getMappingInfo().getJavaName().getAsIs().toUpperCase();
 	}
-
-	public static OJPathName asyncInterfaceOf(INakedClassifier target) {
+	public static OJPathName asyncInterfaceOf(INakedClassifier target){
 		OJPathName result = OJUtil.classifierPathname(target);
 		String name = "IAsync" + result.getLast();
 		result = result.getHead();
 		result.addToNames(name);
 		return result;
 	}
-
-
-	public static OJPathName getNodeInstance() {
+	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
 	}
-
-	public static String generateProcessName(IParameterOwner parameterOwner) {
-		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_"
-				+ parameterOwner.getMappingInfo().getPersistentName();
+	public static String generateProcessName(IParameterOwner parameterOwner){
+		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_" + parameterOwner.getMappingInfo().getPersistentName();
 	}
-
-	public static String getArtificialJoinName(INakedElement target) {
+	public static String getArtificialJoinName(INakedElement target){
 		return "join_for_" + target.getMappingInfo().getPersistentName();
 	}
-
-	public static String getGuardMethod(GuardedFlow t) {
+	public static String getGuardMethod(GuardedFlow t){
 		return "is" + t.getSource().getMappingInfo().getJavaName().getCapped() + t.getMappingInfo().getJavaName().getCapped();
 	}
-
-	public static void implementTimeEvent(OJOperation operation, INakedTimeEvent event, INakedElement source,
-			Collection<? extends GuardedFlow> outgoing) {
+	public static void implementTimeEvent(OJOperation operation,INakedTimeEvent event,INakedElement source,Collection<? extends GuardedFlow> outgoing){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		for (GuardedFlow out : outgoing) {
+		for(GuardedFlow out:outgoing){
 			INakedValueSpecification when = event.getWhen();
 			operation.getOwner().addToImports(ITimeEventDispatcher.class.getName());
-			if (when != null) {
+			if(when != null){
 				String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), when.getType());
 				String callBackMethodName = getTimerCallbackMethodName(event);
-				if (event.isRelative()) {
+				if(event.isRelative()){
 					owner.addToImports(TimeUnit.class.getName());
 					TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
 					operation.getBody().addToStatements(
-							"org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr
-									+ ",TimeUnit." + timeUnit.name() + ")");
-				} else {
+							"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName()
+									+ ".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit." + timeUnit.name() + ")");
+				}else{
 					operation.getBody().addToStatements(
-							"org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ")");
+							"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName()
+									+ ".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ")");
 				}
-			} else {
-				operation.getBody().addToStatements("org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).createTimer(NO WHEN EXPRESSION SPECIFIED)");
+			}else{
+				operation.getBody().addToStatements(
+						"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName()
+								+ ".class).createTimer(NO WHEN EXPRESSION SPECIFIED)");
 			}
 		}
 	}
-
-	public static String getTimerCallbackMethodName(INakedTimeEvent event) {
+	public static String getTimerCallbackMethodName(INakedTimeEvent event){
 		return "on_" + event.getMappingInfo().getPersistentName();
 	}
-
-	public static void cancelTimer(OJOperation cancel, INakedTimeEvent event) {
+	public static void cancelTimer(OJOperation cancel,INakedTimeEvent event){
 		cancel.getOwner().addToImports(ITimeEventDispatcher.class.getName());
 		String callBackMethodName = getTimerCallbackMethodName(event);
-		cancel.getBody().addToStatements("org.nakeduml.environment.Environment.getInstance().getComponent("+ITimeEventDispatcher.class.getSimpleName()+".class).cancelTimer(this,\"" + callBackMethodName + "\")");
+		cancel.getBody().addToStatements(
+				"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName() + ".class).cancelTimer(this,\""
+						+ callBackMethodName + "\")");
 	}
-
-	public static String getArtificialForkName(INakedElement owner) {
+	public static String getArtificialForkName(INakedElement owner){
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();
 	}
-
-	public static OJPathName getExceptionHolder() {
+	public static OJPathName getExceptionHolder(){
 		return new OJPathName(ExceptionHolder.class.getName());
 	}
-
-	public static String endNodeFieldNameFor(INakedElement flow) {
+	public static String endNodeFieldNameFor(INakedElement flow){
 		return "endNodeIn" + flow.getMappingInfo().getJavaName();
 	}
-
-	public static OJPathName getWorkflowProcesInstance() {
+	public static OJPathName getWorkflowProcesInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
 	}
-
-	public static OJPathName getWorkflowProcessImpl() {
+	public static OJPathName getWorkflowProcessImpl(){
 		return new OJPathName("org.jbpm.workflow.core.impl.WorkflowProcessImpl");
 	}
-
-	public static OJPathName getNode() {
+	public static OJPathName getNode(){
 		return new OJPathName("org.jbpm.workflow.core.impl.NodeImpl");
+	}
+	public static String getArtificialChoiceName(INakedActivityNode node){
+		return node.getMappingInfo().getPersistentName().getAsIs() + "_choice";
 	}
 }

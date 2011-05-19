@@ -3,7 +3,6 @@ package org.nakeduml.uim.userinteractionproperties.sections;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;

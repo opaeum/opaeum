@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -13,15 +14,21 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.IClassifier;
 
 public class GeneralizationUtil{
-	public static Collection<INakedEntity> getConcreteEntityImplementationsOf(INakedClassifier baseType,Collection<INakedRootObject> models){
+	public static Collection<INakedBehavioredClassifier> getConcreteEntityImplementationsOf(INakedInterface baseType,Collection<INakedRootObject> models){
 		Set<INakedClassifier> results = new HashSet<INakedClassifier>();
 		addConcreteSubclasses(results, baseType, models, true);
 		results.remove(baseType);
-		return (Collection) results;// TODO may be datatypes!
+		return (Collection) results;
 	}
 	public static Collection<INakedClassifier> getAllSubClassifiers(INakedClassifier baseType,Collection<INakedRootObject> models){
 		Set<INakedClassifier> results = new HashSet<INakedClassifier>();
 		addConcreteSubclasses(results, baseType, models, false);
+		results.remove(baseType);
+		return results;
+	}
+	public static Collection<INakedClassifier> getAllConcreteSubClassifiers(INakedClassifier baseType,Collection<INakedRootObject> models){
+		Set<INakedClassifier> results = new HashSet<INakedClassifier>();
+		addConcreteSubclasses(results, baseType, models, true);
 		results.remove(baseType);
 		return results;
 	}

@@ -12,6 +12,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -167,7 +168,7 @@ public abstract class AbstractUserInteractionTransformationStep extends NakedEle
 				List<INakedValueSpecification> values = slot.getValues();
 				for(INakedValueSpecification v:values){
 					INakedInterface ni = (INakedInterface) v.getValue();
-					Collection<INakedEntity> roles = GeneralizationUtil.getConcreteEntityImplementationsOf(ni, getModelInScope());
+					Collection<INakedBehavioredClassifier> roles = GeneralizationUtil.getConcreteEntityImplementationsOf(ni, getModelInScope());
 					for (INakedClassifier role : roles) {
 						result.addToRequiredRoles(getDomainNameOf(role));
 					}

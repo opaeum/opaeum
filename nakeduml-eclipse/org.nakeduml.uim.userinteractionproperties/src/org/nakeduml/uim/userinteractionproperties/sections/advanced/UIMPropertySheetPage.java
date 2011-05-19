@@ -3,7 +3,6 @@ package org.nakeduml.uim.userinteractionproperties.sections.advanced;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.nakeduml.uim.provider.UIMItemProviderAdapterFactory;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.properties.ModelerPropertySheetPage;
@@ -16,7 +15,7 @@ import org.topcased.modeler.editor.properties.ModelerPropertySheetPage;
  *
  * @generated NOT
  */
-public class UIMPropertySheetPage extends ModelerPropertySheetPage {
+public class UIMPropertySheetPage extends ModelerPropertySheetPage{
 	/**
 	 * Create a new tabbed property sheet page.
 	 *
@@ -26,10 +25,9 @@ public class UIMPropertySheetPage extends ModelerPropertySheetPage {
 	 * @param editor The editor contributor of the property sheet page.
 	 * @generated
 	 */
-	public UIMPropertySheetPage(Modeler editor) {
+	public UIMPropertySheetPage(Modeler editor){
 		super(editor);
 	}
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -37,11 +35,10 @@ public class UIMPropertySheetPage extends ModelerPropertySheetPage {
 	 * @see org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage#getAdapterFactories()
 	 * @generated NOT
 	 */
-	public List getAdapterFactories() {
+	public List getAdapterFactories(){
 		List factories = new ArrayList();
 		factories.add(new UIMItemProviderAdapterFactory());
 		factories.addAll(super.getAdapterFactories());
-
 		return factories;
 	}
 }

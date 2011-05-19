@@ -13,16 +13,16 @@ public class ParameterNodeBuilder extends Jbpm5ActionBuilder<INakedParameterNode
 	private ParameterNodeImplementor delegate;
 	public ParameterNodeBuilder(IOclEngine oclEngine,INakedParameterNode node){
 		super(oclEngine, node);
-		this.delegate=new ParameterNodeImplementor(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
+		this.delegate = new ParameterNodeImplementor(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){
 		delegate.implementActionOn(operation, operation.getBody());
 	}
 	@Override
-	public void implementConditionalFlows(OJOperation operationContext,OJBlock parentBlock, boolean getToken){
+	public void implementConditionalFlows(OJOperation operationContext,OJBlock block){
 		if(node.getParameter().getDirection().equals(ParameterDirectionKind.IN)){
-			super.implementConditionalFlows(operationContext, parentBlock,getToken);
+			super.implementConditionalFlows(operationContext, block);
 		}
 	}
 }
