@@ -516,17 +516,6 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(getAuditVertex(), " + map.umlName() + ".getAuditVertex(),\""
 					+ associationName + "\").isEmpty()");
 			ifVarNull.addToThenPart(existEdge);
-
-			// ifVarNull.addToThenPart("Iterable<Edge> iter1 = " + map.umlName()
-			// + ".getAuditVertex().getOutEdges(\"" + associationName + "\")");
-			// OJIfStatement ifHasNext1 = new
-			// OJIfStatement("iter1.iterator().hasNext()");
-			// ifHasNext1.addToThenPart("Edge next = iter1.iterator().next()");
-			// OJIfStatement ifEdgeNotDeleted1 = new
-			// OJIfStatement("next.getProperty(\"deletedOn\")==null",
-			// "org.util.GraphDb.getDB().removeEdge(next)");
-			// ifHasNext1.addToThenPart(ifEdgeNotDeleted1);
-			// ifVarNull.addToThenPart(ifHasNext1);
 			existEdge.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, getAuditVertex()," + map.umlName() + ".getAuditVertex(), \""
 					+ associationName + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
@@ -548,17 +537,6 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(" + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
 					+ associationName + "\").isEmpty()");
 			ifVarNull.addToThenPart(existEdge);
-
-			// ifVarNull.addToThenPart("Iterable<Edge> iter1 = " + map.umlName()
-			// + ".getAuditVertex().getOutEdges(\"" + associationName + "\")");
-			// OJIfStatement ifHasNext = new
-			// OJIfStatement("iter1.iterator().hasNext()");
-			// ifHasNext.addToThenPart("Edge next = iter1.iterator().next()");
-			// ifVarNull.addToThenPart(ifHasNext);
-			// OJIfStatement ifEdgeDeleted = new
-			// OJIfStatement("next.getProperty(\"deletedOn\")==null",
-			// "org.util.GraphDb.getDB().removeEdge(next)");
-			// ifHasNext.addToThenPart(ifEdgeDeleted);
 
 			existEdge.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, " + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
 					+ associationName + "\")");

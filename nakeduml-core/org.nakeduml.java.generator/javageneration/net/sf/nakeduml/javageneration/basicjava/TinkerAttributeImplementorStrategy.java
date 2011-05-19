@@ -44,7 +44,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	@Override
 	public void addSimpleSetterBody(OJOperation setter, NakedStructuralFeatureMap map) {
 		setter.getBody().addToStatements(
-				"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", " + map.umlName()
+				"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getPersistentName().getAsIs()) + "\", " + map.umlName()
 						+ ")");
 		addEntityToTransactionThreadEntityVar(setter);
 	}
@@ -63,7 +63,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 			owner.addToImports(TinkerUtil.edgePathName);
 			owner.addToImports(TinkerUtil.vertexPathName);
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-				if (map.isManyToOne() /*&& map.getProperty().getSubsettedProperties().isEmpty()*/) {
+				if (map.isManyToOne()) {
 					buildPolymorphicGetterForToOne(map, getter);
 				} else if (map.isOneToMany()) {
 					buildPolymorphicGetterForMany(map, getter);
@@ -75,7 +75,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 			} else {
 				getter.getBody().addToStatements(
 						"return (" + map.javaBaseType() + ") this.vertex.getProperty(\""
-								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getPersistentName().getAsIs()) + "\")");
 			}
 
 		}
@@ -87,10 +87,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = calculateDirection(map, isComposite);
 		INakedClassifier otherClassifier = map.getProperty().getOtherEnd().getOwner();
-//		INakedClassifier otherSuperClassifier = otherClassifier.getSupertype();
-		INakedClassifier otherSuperClassifier = null;
-		String otherClassName = otherSuperClassifier == null ? otherClassifier.getMappingInfo().getJavaName().getAsIs() : otherSuperClassifier.getMappingInfo()
-				.getJavaName().getAsIs();
+		String otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
 		String otherAssociationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
