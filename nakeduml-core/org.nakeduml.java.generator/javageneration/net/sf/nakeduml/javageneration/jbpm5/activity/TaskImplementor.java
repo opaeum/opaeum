@@ -1,6 +1,5 @@
 package net.sf.nakeduml.javageneration.jbpm5.activity;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -8,15 +7,17 @@ import javax.persistence.ManyToOne;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AttributeImplentationStrategy;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution.UtilCreator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
@@ -24,11 +25,15 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
@@ -38,6 +43,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
 public class TaskImplementor extends AbstractBehaviorVisitor {
+
 	@VisitBefore
 	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
 		// TODO find better place for this
@@ -63,7 +69,7 @@ public class TaskImplementor extends AbstractBehaviorVisitor {
 			OJUtil.addProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
 			ojClass.addToImports(Jbpm5Util.getNodeInstance());
 			addGetName(oa, ojClass);
-			implementRelationshipWithProcess(ojClass, true);
+//			implementRelationshipWithProcess(ojClass, true);
 			OJAnnotatedOperation completeMethod = addCompleteMethod(oa, ojClass);
 			completeMethod.getBody().addToStatements(
 					"getContextObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
@@ -76,12 +82,19 @@ public class TaskImplementor extends AbstractBehaviorVisitor {
 
 	@VisitAfter
 	public void visitOperation(INakedOperation o) {
+		/* Remember, a task can be subclassed/implemented by a process
+		 * Irrespective of whether it is a task or process
+		 * 1. Add returnInfo operation (setOperationXYZReturnInfo()) setting the ProcessInstance and nodInstance to return to
+		 * 2. Set reference to the requestor - currentUser or requestorOf calling process
+		 * 2. Create Request or Task object
+		 * 4. Check the type of the Context - if role then set fulfiller, if port on orgunit then set orgunit
+		 */
 		if (BehaviorUtil.isUserResponsibility(o)) {
-			super.implementRelationshipFromContextToMessage(o, findJavaClass(o.getOwner()), true);
+			super.implementRelationshipFromContextToProcess(o, findJavaClass(o.getOwner()), true);
 			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
 			implementExecute(o, ojOperationClass);
-			implementRelationshipWithProcess(ojOperationClass, true);
+//			implementRelationshipWithProcess(ojOperationClass, true);
 			OJAnnotatedClass ojContext = findJavaClass(o.getOwner());
 			NakedOperationMap map = new NakedOperationMap(o);
 			OJOperation ojOper = ojContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
@@ -194,9 +207,4 @@ public class TaskImplementor extends AbstractBehaviorVisitor {
 		}
 	}
 
-	@Override
-	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
-		// TODO This means the inheritance hierarchy needs work
-		return null;
-	}
 }

@@ -88,10 +88,8 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		}
 		return i > 1;
 	}
-	// Method would usually carry the state. only emulate class if there is no
-	// method
 	public boolean shouldEmulateClass(){
-		return (hasMultipleConcurrentResults() || isUserResponsibility()) && getMethods().isEmpty();
+		return (hasMultipleConcurrentResults() || isUserResponsibility());
 	}
 	public List<INakedParameter> getOwnedParameters(){
 		List<INakedParameter> results = new ArrayList<INakedParameter>(getArgumentParameters());

@@ -22,6 +22,8 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.util.UMLUtil;
+import org.nakeduml.eclipse.BehaviorUtil;
+import org.nakeduml.eclipse.StateMachineUtil;
 import org.nakeduml.uim.ActionTaskForm;
 import org.nakeduml.uim.ClassForm;
 import org.nakeduml.uim.FieldBinding;
@@ -198,7 +200,7 @@ public class UimUtil{
 	}
 	public static Collection<Activity> getAllOwnedActivities(Class representedClass){
 		ArrayList<Behavior> behaviors = new ArrayList<Behavior>(representedClass.getOwnedBehaviors());
-		addBehaviorsRecursively(behaviors, representedClass.getGenerals());
+		BehaviorUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
 		Collection<Activity> results = new ArrayList<Activity>();
 		for(Behavior b:behaviors){
 			if(b instanceof Activity){
@@ -206,14 +208,6 @@ public class UimUtil{
 			}
 		}
 		return results;
-	}
-	static void addBehaviorsRecursively(ArrayList<Behavior> behaviors,EList<Classifier> generals){
-		for(Classifier c:generals){
-			if(c instanceof Class){
-				behaviors.addAll(((Class) c).getOwnedBehaviors());
-				addBehaviorsRecursively(behaviors, c.getGenerals());
-			}
-		}
 	}
 	public static Collection<? extends TypedElement> getOwnedTypedElements(FormPanel nearestForm){
 		Element e = SafeUmlUimLinks.getInstance(nearestForm).getUmlElement(nearestForm);

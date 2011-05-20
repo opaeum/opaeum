@@ -2,11 +2,11 @@ package org.nakeduml.runtime.domain;
 
 
 public class CurrentUser {
-	private static ThreadLocal<AbstractUser> instance = new ThreadLocal<AbstractUser>();
-	public static void associateUserWithThread(AbstractUser user) {
+	private static ThreadLocal<NakedUmlUser> instance = new ThreadLocal<NakedUmlUser>();
+	public static void associateUserWithThread(NakedUmlUser user) {
 		instance.set(user);
 	}
-	public static AbstractUser getCurrentUser() {
+	public static NakedUmlUser getCurrentUser() {
 		return instance.get();
 	}
 }

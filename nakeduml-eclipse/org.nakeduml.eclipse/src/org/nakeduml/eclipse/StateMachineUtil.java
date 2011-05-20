@@ -1,4 +1,4 @@
-package org.nakeduml.uim.util;
+package org.nakeduml.eclipse;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +24,7 @@ public class StateMachineUtil {
 			Class representedClass) {
 		ArrayList<Behavior> behaviors = new ArrayList<Behavior>(
 				representedClass.getOwnedBehaviors());
-		UimUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
+		BehaviorUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
 		Collection<StateMachine> results = new ArrayList<StateMachine>();
 		for (Behavior b : behaviors) {
 			if (b instanceof StateMachine) {

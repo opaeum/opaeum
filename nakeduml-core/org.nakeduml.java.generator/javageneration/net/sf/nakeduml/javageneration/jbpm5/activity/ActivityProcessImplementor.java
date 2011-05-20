@@ -6,7 +6,7 @@ import java.util.Collection;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
-import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallActionBuilder;
@@ -53,7 +53,7 @@ import org.nakeduml.runtime.domain.ActiveObject;
  * 
  * 
  */
-public class ActivityProcessImplementor extends AbstractBehaviorVisitor{
+public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void activityEdge(INakedActivityEdge edge){
 		if(edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())){
