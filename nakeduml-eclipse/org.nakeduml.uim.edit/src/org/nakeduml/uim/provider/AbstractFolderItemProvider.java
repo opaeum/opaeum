@@ -10,22 +10,21 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.AbstractFolder;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.AbstractFolder} object.
@@ -62,8 +61,31 @@ public class AbstractFolderItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -78,7 +100,7 @@ public class AbstractFolderItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UIMPackage.Literals.ABSTRACT_FOLDER__CHILDREN);
+			childrenFeatures.add(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN);
 		}
 		return childrenFeatures;
 	}
@@ -122,7 +144,10 @@ public class AbstractFolderItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AbstractFolder.class)) {
-			case UIMPackage.ABSTRACT_FOLDER__CHILDREN:
+			case UimPackage.ABSTRACT_FOLDER__UML_ELEMENT_UID:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case UimPackage.ABSTRACT_FOLDER__CHILDREN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -142,23 +167,28 @@ public class AbstractFolderItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
-				 UIMFactory.eINSTANCE.createStateMachineFolder()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createUserInteractionModel()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
-				 UIMFactory.eINSTANCE.createEntityFolder()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createStateMachineFolder()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
-				 UIMFactory.eINSTANCE.createActivityFolder()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createEntityFolder()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
-				 UIMFactory.eINSTANCE.createPackageFolder()));
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createActivityFolder()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.ABSTRACT_FOLDER__CHILDREN,
+				 UimFactory.eINSTANCE.createPackageFolder()));
 	}
 
 }

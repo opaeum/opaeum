@@ -3,8 +3,8 @@ package org.nakeduml.runtime.domain;
 
 
 public interface SecureObject extends CompositionNode {
-	boolean isGroupOwnershipValid(AbstractUser user);
-	boolean canBeOwnedByUser(AbstractUser user);
-	boolean isOwnedByUser(AbstractUser user);
-	boolean isUserOwnershipValid(AbstractUser user);
+	boolean isGroupOwnershipValid(NakedUmlUser user);
+	boolean canBeOwnedByUser(NakedUmlUser user);
+	boolean isOwnedByUser(NakedUmlUser user);
+	boolean isUserOwnershipValid(NakedUmlUser user);
 }

@@ -8,12 +8,13 @@ import org.topcased.modeler.commands.AbstractRestoreConnectionCommand;
 
 /**
  * DetailPanel restore connection command
- *
+ * 
  * @generated
  */
 public class DetailPanelRestoreConnectionCommand extends AbstractRestoreConnectionCommand{
 	/**
-	 * @param part the EditPart that is restored
+	 * @param part
+	 *            the EditPart that is restored
 	 * @generated
 	 */
 	public DetailPanelRestoreConnectionCommand(EditPart part){

@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.nakeduml.uim.ClassForm;
 import org.nakeduml.uim.NavigationBinding;
 import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UmlReference;
 
 /**
@@ -33,7 +33,7 @@ import org.nakeduml.uim.UmlReference;
  *
  * @generated
  */
-public class NavigationToEntityImpl extends UIMNavigationImpl implements NavigationToEntity {
+public class NavigationToEntityImpl extends UimNavigationImpl implements NavigationToEntity {
 	/**
 	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -90,7 +90,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.NAVIGATION_TO_ENTITY;
+		return UimPackage.Literals.NAVIGATION_TO_ENTITY;
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 		String oldUmlElementUid = umlElementUid;
 		umlElementUid = newUmlElementUid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 			toForm = (ClassForm)eResolveProxy(oldToForm);
 			if (toForm != oldToForm) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UIMPackage.NAVIGATION_TO_ENTITY__TO_FORM, oldToForm, toForm));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UimPackage.NAVIGATION_TO_ENTITY__TO_FORM, oldToForm, toForm));
 			}
 		}
 		return toForm;
@@ -149,7 +149,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 		ClassForm oldToForm = toForm;
 		toForm = newToForm;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.NAVIGATION_TO_ENTITY__TO_FORM, oldToForm, toForm));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.NAVIGATION_TO_ENTITY__TO_FORM, oldToForm, toForm));
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 		NavigationBinding oldBinding = binding;
 		binding = newBinding;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UIMPackage.NAVIGATION_TO_ENTITY__BINDING, oldBinding, newBinding);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.NAVIGATION_TO_ENTITY__BINDING, oldBinding, newBinding);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -185,14 +185,14 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 		if (newBinding != binding) {
 			NotificationChain msgs = null;
 			if (binding != null)
-				msgs = ((InternalEObject)binding).eInverseRemove(this, UIMPackage.NAVIGATION_BINDING__NAVIGATION, NavigationBinding.class, msgs);
+				msgs = ((InternalEObject)binding).eInverseRemove(this, UimPackage.NAVIGATION_BINDING__NAVIGATION, NavigationBinding.class, msgs);
 			if (newBinding != null)
-				msgs = ((InternalEObject)newBinding).eInverseAdd(this, UIMPackage.NAVIGATION_BINDING__NAVIGATION, NavigationBinding.class, msgs);
+				msgs = ((InternalEObject)newBinding).eInverseAdd(this, UimPackage.NAVIGATION_BINDING__NAVIGATION, NavigationBinding.class, msgs);
 			msgs = basicSetBinding(newBinding, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.NAVIGATION_TO_ENTITY__BINDING, newBinding, newBinding));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.NAVIGATION_TO_ENTITY__BINDING, newBinding, newBinding));
 	}
 
 	/**
@@ -203,9 +203,9 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				if (binding != null)
-					msgs = ((InternalEObject)binding).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UIMPackage.NAVIGATION_TO_ENTITY__BINDING, null, msgs);
+					msgs = ((InternalEObject)binding).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.NAVIGATION_TO_ENTITY__BINDING, null, msgs);
 				return basicSetBinding((NavigationBinding)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -219,7 +219,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				return basicSetBinding(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -233,12 +233,12 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
+			case UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
 				return getUmlElementUid();
-			case UIMPackage.NAVIGATION_TO_ENTITY__TO_FORM:
+			case UimPackage.NAVIGATION_TO_ENTITY__TO_FORM:
 				if (resolve) return getToForm();
 				return basicGetToForm();
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				return getBinding();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -252,13 +252,13 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
+			case UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
 				return;
-			case UIMPackage.NAVIGATION_TO_ENTITY__TO_FORM:
+			case UimPackage.NAVIGATION_TO_ENTITY__TO_FORM:
 				setToForm((ClassForm)newValue);
 				return;
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				setBinding((NavigationBinding)newValue);
 				return;
 		}
@@ -273,13 +273,13 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
+			case UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
-			case UIMPackage.NAVIGATION_TO_ENTITY__TO_FORM:
+			case UimPackage.NAVIGATION_TO_ENTITY__TO_FORM:
 				setToForm((ClassForm)null);
 				return;
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				setBinding((NavigationBinding)null);
 				return;
 		}
@@ -294,11 +294,11 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
+			case UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
-			case UIMPackage.NAVIGATION_TO_ENTITY__TO_FORM:
+			case UimPackage.NAVIGATION_TO_ENTITY__TO_FORM:
 				return toForm != null;
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				return binding != null;
 		}
 		return super.eIsSet(featureID);
@@ -313,7 +313,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == UmlReference.class) {
 			switch (derivedFeatureID) {
-				case UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID: return UIMPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				case UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID: return UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
 				default: return -1;
 			}
 		}
@@ -329,7 +329,7 @@ public class NavigationToEntityImpl extends UIMNavigationImpl implements Navigat
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == UmlReference.class) {
 			switch (baseFeatureID) {
-				case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID: return UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID;
+				case UimPackage.UML_REFERENCE__UML_ELEMENT_UID: return UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID;
 				default: return -1;
 			}
 		}

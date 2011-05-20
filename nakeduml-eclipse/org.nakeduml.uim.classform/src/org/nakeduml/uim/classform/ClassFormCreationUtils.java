@@ -11,7 +11,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.nakeduml.uim.util.UIMSwitch;
+import org.nakeduml.uim.util.UimSwitch;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.topcased.modeler.di.model.GraphElement;
@@ -37,7 +37,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicUIMSwitch extends UIMSwitch{
+	private class GraphicUimSwitch extends UimSwitch{
 		/**
 		 * The presentation of the graphical element
 		 *
@@ -50,21 +50,21 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		 * @param presentation the presentation of the graphical element
 		 * @generated
 		 */
-		public GraphicUIMSwitch(String presentation){
+		public GraphicUimSwitch(String presentation){
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMField(org.nakeduml.uim.UIMField)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimField(org.nakeduml.uim.UimField)
 		 * @generated
 		 */
-		public Object caseUIMField(org.nakeduml.uim.UIMField object){
+		public Object caseUimField(org.nakeduml.uim.UimField object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMField(object, presentation);
+				return createGraphElementUimField(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseNavigationToEntity(org.nakeduml.uim.NavigationToEntity)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseNavigationToEntity(org.nakeduml.uim.NavigationToEntity)
 		 * @generated
 		 */
 		public Object caseNavigationToEntity(org.nakeduml.uim.NavigationToEntity object){
@@ -74,7 +74,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseNavigationToOperation(org.nakeduml.uim.NavigationToOperation)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseNavigationToOperation(org.nakeduml.uim.NavigationToOperation)
 		 * @generated
 		 */
 		public Object caseNavigationToOperation(org.nakeduml.uim.NavigationToOperation object){
@@ -84,7 +84,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseOperationAction(org.nakeduml.uim.OperationAction)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseOperationAction(org.nakeduml.uim.OperationAction)
 		 * @generated
 		 */
 		public Object caseOperationAction(org.nakeduml.uim.OperationAction object){
@@ -94,7 +94,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseBuiltInAction(org.nakeduml.uim.BuiltInAction)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseBuiltInAction(org.nakeduml.uim.BuiltInAction)
 		 * @generated
 		 */
 		public Object caseBuiltInAction(org.nakeduml.uim.BuiltInAction object){
@@ -104,7 +104,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseTransitionAction(org.nakeduml.uim.TransitionAction)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseTransitionAction(org.nakeduml.uim.TransitionAction)
 		 * @generated
 		 */
 		public Object caseTransitionAction(org.nakeduml.uim.TransitionAction object){
@@ -114,7 +114,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseFormPanel(org.nakeduml.uim.FormPanel)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseFormPanel(org.nakeduml.uim.FormPanel)
 		 * @generated
 		 */
 		public Object caseFormPanel(org.nakeduml.uim.FormPanel object){
@@ -124,57 +124,57 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMPanel(org.nakeduml.uim.UIMPanel)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimPanel(org.nakeduml.uim.UimPanel)
 		 * @generated
 		 */
-		public Object caseUIMPanel(org.nakeduml.uim.UIMPanel object){
+		public Object caseUimPanel(org.nakeduml.uim.UimPanel object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMPanel(object, presentation);
+				return createGraphElementUimPanel(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMTabPanel(org.nakeduml.uim.UIMTabPanel)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimTabPanel(org.nakeduml.uim.UimTabPanel)
 		 * @generated
 		 */
-		public Object caseUIMTabPanel(org.nakeduml.uim.UIMTabPanel object){
+		public Object caseUimTabPanel(org.nakeduml.uim.UimTabPanel object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMTabPanel(object, presentation);
+				return createGraphElementUimTabPanel(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMTab(org.nakeduml.uim.UIMTab)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimTab(org.nakeduml.uim.UimTab)
 		 * @generated
 		 */
-		public Object caseUIMTab(org.nakeduml.uim.UIMTab object){
+		public Object caseUimTab(org.nakeduml.uim.UimTab object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMTab(object, presentation);
+				return createGraphElementUimTab(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMDataTable(org.nakeduml.uim.UIMDataTable)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimDataTable(org.nakeduml.uim.UimDataTable)
 		 * @generated
 		 */
-		public Object caseUIMDataTable(org.nakeduml.uim.UIMDataTable object){
+		public Object caseUimDataTable(org.nakeduml.uim.UimDataTable object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMDataTable(object, presentation);
+				return createGraphElementUimDataTable(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMDataColumn(org.nakeduml.uim.UIMDataColumn)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimDataColumn(org.nakeduml.uim.UimDataColumn)
 		 * @generated
 		 */
-		public Object caseUIMDataColumn(org.nakeduml.uim.UIMDataColumn object){
+		public Object caseUimDataColumn(org.nakeduml.uim.UimDataColumn object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMDataColumn(object, presentation);
+				return createGraphElementUimDataColumn(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseDetailPanel(org.nakeduml.uim.DetailPanel)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseDetailPanel(org.nakeduml.uim.DetailPanel)
 		 * @generated
 		 */
 		public Object caseDetailPanel(org.nakeduml.uim.DetailPanel object){
@@ -184,47 +184,57 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMXYLayout(org.nakeduml.uim.UIMXYLayout)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimXYLayout(org.nakeduml.uim.UimXYLayout)
 		 * @generated
 		 */
-		public Object caseUIMXYLayout(org.nakeduml.uim.UIMXYLayout object){
+		public Object caseUimXYLayout(org.nakeduml.uim.UimXYLayout object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMXYLayout(object, presentation);
+				return createGraphElementUimXYLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMGridLayout(org.nakeduml.uim.UIMGridLayout)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimGridLayout(org.nakeduml.uim.UimGridLayout)
 		 * @generated
 		 */
-		public Object caseUIMGridLayout(org.nakeduml.uim.UIMGridLayout object){
+		public Object caseUimGridLayout(org.nakeduml.uim.UimGridLayout object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMGridLayout(object, presentation);
+				return createGraphElementUimGridLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMToolbarLayout(org.nakeduml.uim.UIMToolbarLayout)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimToolbarLayout(org.nakeduml.uim.UimToolbarLayout)
 		 * @generated
 		 */
-		public Object caseUIMToolbarLayout(org.nakeduml.uim.UIMToolbarLayout object){
+		public Object caseUimToolbarLayout(org.nakeduml.uim.UimToolbarLayout object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMToolbarLayout(object, presentation);
+				return createGraphElementUimToolbarLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#caseUIMBorderLayout(org.nakeduml.uim.UIMBorderLayout)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimBorderLayout(org.nakeduml.uim.UimBorderLayout)
 		 * @generated
 		 */
-		public Object caseUIMBorderLayout(org.nakeduml.uim.UIMBorderLayout object){
+		public Object caseUimBorderLayout(org.nakeduml.uim.UimBorderLayout object){
 			if("default".equals(presentation)){
-				return createGraphElementUIMBorderLayout(object, presentation);
+				return createGraphElementUimBorderLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.nakeduml.uim.util.UIMSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.nakeduml.uim.util.UimSwitch#caseUimFullLayout(org.nakeduml.uim.UimFullLayout)
+		 * @generated
+		 */
+		public Object caseUimFullLayout(org.nakeduml.uim.UimFullLayout object){
+			if("default".equals(presentation)){
+				return createGraphElementUimFullLayout(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.nakeduml.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -238,7 +248,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	public GraphElement createGraphElement(EObject obj,String presentation){
 		Object graphElt = null;
 		if("http://nakeduml.org/uimetamodel/1.0".equals(obj.eClass().getEPackage().getNsURI())){
-			graphElt = new GraphicUIMSwitch(presentation).doSwitch(obj);
+			graphElt = new GraphicUimSwitch(presentation).doSwitch(obj);
 		}
 		return (GraphElement) graphElt;
 	}
@@ -248,7 +258,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMField(org.nakeduml.uim.UIMField element,String presentation){
+	protected GraphElement createGraphElementUimField(org.nakeduml.uim.UimField element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -311,7 +321,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMPanel(org.nakeduml.uim.UIMPanel element,String presentation){
+	protected GraphElement createGraphElementUimPanel(org.nakeduml.uim.UimPanel element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -320,7 +330,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMTabPanel(org.nakeduml.uim.UIMTabPanel element,String presentation){
+	protected GraphElement createGraphElementUimTabPanel(org.nakeduml.uim.UimTabPanel element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -329,7 +339,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMTab(org.nakeduml.uim.UIMTab element,String presentation){
+	protected GraphElement createGraphElementUimTab(org.nakeduml.uim.UimTab element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -338,7 +348,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMDataTable(org.nakeduml.uim.UIMDataTable element,String presentation){
+	protected GraphElement createGraphElementUimDataTable(org.nakeduml.uim.UimDataTable element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -347,7 +357,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMDataColumn(org.nakeduml.uim.UIMDataColumn element,String presentation){
+	protected GraphElement createGraphElementUimDataColumn(org.nakeduml.uim.UimDataColumn element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -365,7 +375,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMXYLayout(org.nakeduml.uim.UIMXYLayout element,String presentation){
+	protected GraphElement createGraphElementUimXYLayout(org.nakeduml.uim.UimXYLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -374,7 +384,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMGridLayout(org.nakeduml.uim.UIMGridLayout element,String presentation){
+	protected GraphElement createGraphElementUimGridLayout(org.nakeduml.uim.UimGridLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -383,19 +393,28 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMToolbarLayout(org.nakeduml.uim.UIMToolbarLayout element,String presentation){
+	protected GraphElement createGraphElementUimToolbarLayout(org.nakeduml.uim.UimToolbarLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
 	 * @param element the model element
 	 * @param presentation the presentation of the graphical element
 	 * @return the complete GraphElement
-	 * @generated NOT
+	 * @generated
 	 */
-	protected GraphElement createGraphElementUIMBorderLayout(org.nakeduml.uim.UIMBorderLayout element,String presentation){
+	protected GraphElement createGraphElementUimBorderLayout(org.nakeduml.uim.UimBorderLayout element,String presentation){
 		// TODO this snippet of code should be customized if it is not well generated
 		GraphNode nodeParent = createGraphNode(element, presentation);
 		return nodeParent;
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementUimFullLayout(org.nakeduml.uim.UimFullLayout element,String presentation){
+		return createGraphNode(element, presentation);
 	}
 	/**
 	 * Create the ModelObject with its initial children

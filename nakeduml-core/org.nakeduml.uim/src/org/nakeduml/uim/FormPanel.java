@@ -19,14 +19,14 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getFormPanel()
+ * @see org.nakeduml.uim.UimPackage#getFormPanel()
  * @model
  * @generated
  */
-public interface FormPanel extends UIMContainer {
+public interface FormPanel extends UmlReference, LayoutContainer {
 	/**
 	 * Returns the value of the '<em><b>Form</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UIMForm#getPanel <em>Panel</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimForm#getPanel <em>Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Form</em>' container reference isn't clear,
@@ -34,13 +34,13 @@ public interface FormPanel extends UIMContainer {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Form</em>' container reference.
-	 * @see #setForm(UIMForm)
-	 * @see org.nakeduml.uim.UIMPackage#getFormPanel_Form()
-	 * @see org.nakeduml.uim.UIMForm#getPanel
+	 * @see #setForm(UimForm)
+	 * @see org.nakeduml.uim.UimPackage#getFormPanel_Form()
+	 * @see org.nakeduml.uim.UimForm#getPanel
 	 * @model opposite="panel" transient="false"
 	 * @generated
 	 */
-	UIMForm getForm();
+	UimForm getForm();
 
 	/**
 	 * Sets the value of the '{@link org.nakeduml.uim.FormPanel#getForm <em>Form</em>}' container reference.
@@ -50,6 +50,6 @@ public interface FormPanel extends UIMContainer {
 	 * @see #getForm()
 	 * @generated
 	 */
-	void setForm(UIMForm value);
+	void setForm(UimForm value);
 
 } // FormPanel

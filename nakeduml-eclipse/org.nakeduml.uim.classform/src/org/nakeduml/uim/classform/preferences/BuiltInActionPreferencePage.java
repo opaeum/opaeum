@@ -3,14 +3,14 @@
  ******************************************************************************/
 package org.nakeduml.uim.classform.preferences;
 
-import org.nakeduml.uim.modeleditor.UIMPlugin;
+import org.nakeduml.uim.modeleditor.UimPlugin;
 import org.topcased.modeler.preferences.AbstractNodePreferencePage;
 
 /**
  * This class represents a preference page that is contributed to the Preferences or Property dialog. This page is used to modify
- * preferences only. They are stored in the preference store that belongs to the main plug-in class. That way,
- * preferences can be accessed directly via the preference store.
- *
+ * preferences only. They are stored in the preference store that belongs to the main plug-in class. That way, preferences can be accessed
+ * directly via the preference store.
+ * 
  * @generated
  */
 public class BuiltInActionPreferencePage extends AbstractNodePreferencePage{
@@ -40,6 +40,6 @@ public class BuiltInActionPreferencePage extends AbstractNodePreferencePage{
 	 * @generated
 	 */
 	protected String getBundleId(){
-		return UIMPlugin.getId();
+		return UimPlugin.getId();
 	}
 }

@@ -15,8 +15,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.nakeduml.uim.AbstractFolder;
 import org.nakeduml.uim.AbstractFormFolder;
-import org.nakeduml.uim.ChildSecurityConstraint;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.EditableSecureObject;
+import org.nakeduml.uim.SecureObject;
+import org.nakeduml.uim.SecurityConstraint;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,9 +27,9 @@ import org.nakeduml.uim.UIMPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.nakeduml.uim.impl.AbstractFormFolderImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.AbstractFormFolderImpl#getEditability <em>Editability</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.AbstractFormFolderImpl#getParent <em>Parent</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.AbstractFormFolderImpl#getSecurityOnVisibility <em>Security On Visibility</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.AbstractFormFolderImpl#getSecurityOnEditability <em>Security On Editability</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,23 +37,23 @@ import org.nakeduml.uim.UIMPackage;
  */
 public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implements AbstractFormFolder {
 	/**
-	 * The cached value of the '{@link #getSecurityOnVisibility() <em>Security On Visibility</em>}' containment reference.
+	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSecurityOnVisibility()
+	 * @see #getVisibility()
 	 * @generated
 	 * @ordered
 	 */
-	protected ChildSecurityConstraint securityOnVisibility;
+	protected SecurityConstraint visibility;
 	/**
-	 * The cached value of the '{@link #getSecurityOnEditability() <em>Security On Editability</em>}' containment reference.
+	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSecurityOnEditability()
+	 * @see #getEditability()
 	 * @generated
 	 * @ordered
 	 */
-	protected ChildSecurityConstraint securityOnEditability;
+	protected SecurityConstraint editability;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -68,7 +70,93 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.ABSTRACT_FORM_FOLDER;
+		return UimPackage.Literals.ABSTRACT_FORM_FOLDER;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SecurityConstraint getVisibility() {
+		return visibility;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetVisibility(SecurityConstraint newVisibility, NotificationChain msgs) {
+		SecurityConstraint oldVisibility = visibility;
+		visibility = newVisibility;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY, oldVisibility, newVisibility);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVisibility(SecurityConstraint newVisibility) {
+		if (newVisibility != visibility) {
+			NotificationChain msgs = null;
+			if (visibility != null)
+				msgs = ((InternalEObject)visibility).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY, null, msgs);
+			if (newVisibility != null)
+				msgs = ((InternalEObject)newVisibility).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY, null, msgs);
+			msgs = basicSetVisibility(newVisibility, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY, newVisibility, newVisibility));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SecurityConstraint getEditability() {
+		return editability;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEditability(SecurityConstraint newEditability, NotificationChain msgs) {
+		SecurityConstraint oldEditability = editability;
+		editability = newEditability;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY, oldEditability, newEditability);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEditability(SecurityConstraint newEditability) {
+		if (newEditability != editability) {
+			NotificationChain msgs = null;
+			if (editability != null)
+				msgs = ((InternalEObject)editability).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY, null, msgs);
+			if (newEditability != null)
+				msgs = ((InternalEObject)newEditability).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY, null, msgs);
+			msgs = basicSetEditability(newEditability, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY, newEditability, newEditability));
 	}
 
 	/**
@@ -77,7 +165,7 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	 * @generated
 	 */
 	public AbstractFolder getParent() {
-		if (eContainerFeatureID() != UIMPackage.ABSTRACT_FORM_FOLDER__PARENT) return null;
+		if (eContainerFeatureID() != UimPackage.ABSTRACT_FORM_FOLDER__PARENT) return null;
 		return (AbstractFolder)eContainer();
 	}
 
@@ -87,7 +175,7 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	 * @generated
 	 */
 	public NotificationChain basicSetParent(AbstractFolder newParent, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newParent, UIMPackage.ABSTRACT_FORM_FOLDER__PARENT, msgs);
+		msgs = eBasicSetContainer((InternalEObject)newParent, UimPackage.ABSTRACT_FORM_FOLDER__PARENT, msgs);
 		return msgs;
 	}
 
@@ -97,105 +185,19 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	 * @generated
 	 */
 	public void setParent(AbstractFolder newParent) {
-		if (newParent != eInternalContainer() || (eContainerFeatureID() != UIMPackage.ABSTRACT_FORM_FOLDER__PARENT && newParent != null)) {
+		if (newParent != eInternalContainer() || (eContainerFeatureID() != UimPackage.ABSTRACT_FORM_FOLDER__PARENT && newParent != null)) {
 			if (EcoreUtil.isAncestor(this, newParent))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, UIMPackage.ABSTRACT_FOLDER__CHILDREN, AbstractFolder.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, UimPackage.ABSTRACT_FOLDER__CHILDREN, AbstractFolder.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.ABSTRACT_FORM_FOLDER__PARENT, newParent, newParent));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ChildSecurityConstraint getSecurityOnVisibility() {
-		return securityOnVisibility;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSecurityOnVisibility(ChildSecurityConstraint newSecurityOnVisibility, NotificationChain msgs) {
-		ChildSecurityConstraint oldSecurityOnVisibility = securityOnVisibility;
-		securityOnVisibility = newSecurityOnVisibility;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY, oldSecurityOnVisibility, newSecurityOnVisibility);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSecurityOnVisibility(ChildSecurityConstraint newSecurityOnVisibility) {
-		if (newSecurityOnVisibility != securityOnVisibility) {
-			NotificationChain msgs = null;
-			if (securityOnVisibility != null)
-				msgs = ((InternalEObject)securityOnVisibility).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY, null, msgs);
-			if (newSecurityOnVisibility != null)
-				msgs = ((InternalEObject)newSecurityOnVisibility).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY, null, msgs);
-			msgs = basicSetSecurityOnVisibility(newSecurityOnVisibility, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY, newSecurityOnVisibility, newSecurityOnVisibility));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ChildSecurityConstraint getSecurityOnEditability() {
-		return securityOnEditability;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSecurityOnEditability(ChildSecurityConstraint newSecurityOnEditability, NotificationChain msgs) {
-		ChildSecurityConstraint oldSecurityOnEditability = securityOnEditability;
-		securityOnEditability = newSecurityOnEditability;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY, oldSecurityOnEditability, newSecurityOnEditability);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSecurityOnEditability(ChildSecurityConstraint newSecurityOnEditability) {
-		if (newSecurityOnEditability != securityOnEditability) {
-			NotificationChain msgs = null;
-			if (securityOnEditability != null)
-				msgs = ((InternalEObject)securityOnEditability).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY, null, msgs);
-			if (newSecurityOnEditability != null)
-				msgs = ((InternalEObject)newSecurityOnEditability).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY, null, msgs);
-			msgs = basicSetSecurityOnEditability(newSecurityOnEditability, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY, newSecurityOnEditability, newSecurityOnEditability));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.ABSTRACT_FORM_FOLDER__PARENT, newParent, newParent));
 	}
 
 	/**
@@ -207,7 +209,7 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetParent((AbstractFolder)otherEnd, msgs);
@@ -223,12 +225,12 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
+			case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY:
+				return basicSetVisibility(null, msgs);
+			case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY:
+				return basicSetEditability(null, msgs);
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
 				return basicSetParent(null, msgs);
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY:
-				return basicSetSecurityOnVisibility(null, msgs);
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY:
-				return basicSetSecurityOnEditability(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -241,8 +243,8 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
-				return eInternalContainer().eInverseRemove(this, UIMPackage.ABSTRACT_FOLDER__CHILDREN, AbstractFolder.class, msgs);
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
+				return eInternalContainer().eInverseRemove(this, UimPackage.ABSTRACT_FOLDER__CHILDREN, AbstractFolder.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -255,12 +257,12 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
+			case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY:
+				return getVisibility();
+			case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY:
+				return getEditability();
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
 				return getParent();
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY:
-				return getSecurityOnVisibility();
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY:
-				return getSecurityOnEditability();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -274,14 +276,14 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
+			case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY:
+				setVisibility((SecurityConstraint)newValue);
+				return;
+			case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY:
+				setEditability((SecurityConstraint)newValue);
+				return;
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
 				setParent((AbstractFolder)newValue);
-				return;
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY:
-				setSecurityOnVisibility((ChildSecurityConstraint)newValue);
-				return;
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY:
-				setSecurityOnEditability((ChildSecurityConstraint)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -295,14 +297,14 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
+			case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY:
+				setVisibility((SecurityConstraint)null);
+				return;
+			case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY:
+				setEditability((SecurityConstraint)null);
+				return;
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
 				setParent((AbstractFolder)null);
-				return;
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY:
-				setSecurityOnVisibility((ChildSecurityConstraint)null);
-				return;
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY:
-				setSecurityOnEditability((ChildSecurityConstraint)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -316,14 +318,58 @@ public abstract class AbstractFormFolderImpl extends AbstractFolderImpl implemen
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.ABSTRACT_FORM_FOLDER__PARENT:
+			case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY:
+				return visibility != null;
+			case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY:
+				return editability != null;
+			case UimPackage.ABSTRACT_FORM_FOLDER__PARENT:
 				return getParent() != null;
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY:
-				return securityOnVisibility != null;
-			case UIMPackage.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY:
-				return securityOnEditability != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == SecureObject.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY: return UimPackage.SECURE_OBJECT__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == EditableSecureObject.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY: return UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == SecureObject.class) {
+			switch (baseFeatureID) {
+				case UimPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.ABSTRACT_FORM_FOLDER__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == EditableSecureObject.class) {
+			switch (baseFeatureID) {
+				case UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.ABSTRACT_FORM_FOLDER__EDITABILITY;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //AbstractFormFolderImpl

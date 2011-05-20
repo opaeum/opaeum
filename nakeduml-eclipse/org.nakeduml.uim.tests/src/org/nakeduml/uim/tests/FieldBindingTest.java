@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.FieldBinding;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +17,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class FieldBindingTest extends UIMBindingTest {
+public class FieldBindingTest extends UimBindingTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class FieldBindingTest extends UIMBindingTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createFieldBinding());
+		setFixture(UimFactory.eINSTANCE.createFieldBinding());
 	}
 
 	/**

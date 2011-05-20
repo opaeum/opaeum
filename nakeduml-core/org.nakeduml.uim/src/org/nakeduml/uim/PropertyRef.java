@@ -21,18 +21,17 @@ import org.eclipse.uml2.uml.Property;
  *   <li>{@link org.nakeduml.uim.PropertyRef#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.nakeduml.uim.PropertyRef#getPrevious <em>Previous</em>}</li>
  *   <li>{@link org.nakeduml.uim.PropertyRef#getNext <em>Next</em>}</li>
- *   <li>{@link org.nakeduml.uim.PropertyRef#getProperty <em>Property</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getPropertyRef()
+ * @see org.nakeduml.uim.UimPackage#getPropertyRef()
  * @model
  * @generated
  */
 public interface PropertyRef extends UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UIMBinding#getNext <em>Next</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimBinding#getNext <em>Next</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>UIMBinding</em>' container reference isn't clear,
@@ -40,13 +39,13 @@ public interface PropertyRef extends UmlReference {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Binding</em>' container reference.
-	 * @see #setBinding(UIMBinding)
-	 * @see org.nakeduml.uim.UIMPackage#getPropertyRef_Binding()
-	 * @see org.nakeduml.uim.UIMBinding#getNext
+	 * @see #setBinding(UimBinding)
+	 * @see org.nakeduml.uim.UimPackage#getPropertyRef_Binding()
+	 * @see org.nakeduml.uim.UimBinding#getNext
 	 * @model opposite="next" transient="false"
 	 * @generated
 	 */
-	UIMBinding getBinding();
+	UimBinding getBinding();
 
 	/**
 	 * Sets the value of the '{@link org.nakeduml.uim.PropertyRef#getBinding <em>Binding</em>}' container reference.
@@ -56,7 +55,7 @@ public interface PropertyRef extends UmlReference {
 	 * @see #getBinding()
 	 * @generated
 	 */
-	void setBinding(UIMBinding value);
+	void setBinding(UimBinding value);
 
 	/**
 	 * Returns the value of the '<em><b>Previous</b></em>' container reference.
@@ -69,7 +68,7 @@ public interface PropertyRef extends UmlReference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Previous</em>' container reference.
 	 * @see #setPrevious(PropertyRef)
-	 * @see org.nakeduml.uim.UIMPackage#getPropertyRef_Previous()
+	 * @see org.nakeduml.uim.UimPackage#getPropertyRef_Previous()
 	 * @see org.nakeduml.uim.PropertyRef#getNext
 	 * @model opposite="next" transient="false"
 	 * @generated
@@ -97,7 +96,7 @@ public interface PropertyRef extends UmlReference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Next</em>' containment reference.
 	 * @see #setNext(PropertyRef)
-	 * @see org.nakeduml.uim.UIMPackage#getPropertyRef_Next()
+	 * @see org.nakeduml.uim.UimPackage#getPropertyRef_Next()
 	 * @see org.nakeduml.uim.PropertyRef#getPrevious
 	 * @model opposite="previous" containment="true"
 	 * @generated
@@ -113,31 +112,5 @@ public interface PropertyRef extends UmlReference {
 	 * @generated
 	 */
 	void setNext(PropertyRef value);
-
-	/**
-	 * Returns the value of the '<em><b>Property</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Property</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Property</em>' reference.
-	 * @see #setProperty(Property)
-	 * @see org.nakeduml.uim.UIMPackage#getPropertyRef_Property()
-	 * @model
-	 * @generated
-	 */
-	Property getProperty();
-
-	/**
-	 * Sets the value of the '{@link org.nakeduml.uim.PropertyRef#getProperty <em>Property</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Property</em>' reference.
-	 * @see #getProperty()
-	 * @generated
-	 */
-	void setProperty(Property value);
 
 } // PropertyRef

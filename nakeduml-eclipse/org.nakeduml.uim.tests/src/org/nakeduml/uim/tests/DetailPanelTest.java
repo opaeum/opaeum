@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.DetailPanel;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.DetailPanel;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +17,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class DetailPanelTest extends UIMPanelTest {
+public class DetailPanelTest extends UimPanelTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class DetailPanelTest extends UIMPanelTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createDetailPanel());
+		setFixture(UimFactory.eINSTANCE.createDetailPanel());
 	}
 
 	/**

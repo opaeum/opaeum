@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.TransitionAction;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.TransitionAction;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +17,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class TransitionActionTest extends UIMActionTest {
+public class TransitionActionTest extends UimActionTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class TransitionActionTest extends UIMActionTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createTransitionAction());
+		setFixture(UimFactory.eINSTANCE.createTransitionAction());
 	}
 
 	/**

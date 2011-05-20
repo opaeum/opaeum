@@ -11,8 +11,8 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.UIMPackage;
-import org.nakeduml.uim.provider.UIMItemProviderAdapterFactory;
+import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
+import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -42,7 +42,7 @@ public class PropertyRefPropertySection extends AbstractChooserPropertySection{
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UIMPackage.eINSTANCE.getPropertyRef_Property();
+		return null;
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -51,7 +51,7 @@ public class PropertyRefPropertySection extends AbstractChooserPropertySection{
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
-		return ((PropertyRef) getEObject()).getProperty();
+		return UmlUimLinks.getInstance(getEObject()).getProperty((PropertyRef) getEObject());
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -61,13 +61,13 @@ public class PropertyRefPropertySection extends AbstractChooserPropertySection{
 	 */
 	protected Object[] getComboFeatureValues(){
 		PropertyRef pr = (PropertyRef) getEObject();
-		if(pr.getBinding() != null && pr.getBinding().getElement() != null){
-			TypedElement typedElement = pr.getBinding().getElement();
+		if(pr.getBinding() != null && UmlUimLinks.getInstance(getEObject()).getTypedElement(pr.getBinding()) != null){
+			TypedElement typedElement = UmlUimLinks.getInstance(getEObject()).getTypedElement(pr.getBinding());
 			Classifier classifier = (Classifier) typedElement.getType();
 			EList<Property> attrs = classifier.getAllAttributes();
 			return (Property[]) attrs.toArray(new Property[attrs.size()]);
-		}else if(pr.getPrevious() != null && pr.getPrevious().getProperty() != null){
-			TypedElement typedElement = pr.getPrevious().getProperty();
+		}else if(pr.getPrevious() != null && UmlUimLinks.getInstance(getEObject()).getProperty(pr.getPrevious()) != null){
+			TypedElement typedElement = UmlUimLinks.getInstance(getEObject()).getProperty(pr.getPrevious());
 			Classifier classifier = (Classifier) typedElement.getType();
 			EList<Property> attrs = classifier.getAllAttributes();
 			return (Property[]) attrs.toArray(new Property[attrs.size()]);
@@ -82,7 +82,7 @@ public class PropertyRefPropertySection extends AbstractChooserPropertySection{
 	 */
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
-		f.add(new UIMItemProviderAdapterFactory());
+		f.add(new UimItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}

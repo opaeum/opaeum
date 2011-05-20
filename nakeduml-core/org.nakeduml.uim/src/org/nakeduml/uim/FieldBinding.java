@@ -19,14 +19,14 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getFieldBinding()
+ * @see org.nakeduml.uim.UimPackage#getFieldBinding()
  * @model
  * @generated
  */
-public interface FieldBinding extends UIMBinding {
+public interface FieldBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Field</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UIMField#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimField#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Field</em>' container reference isn't clear,
@@ -34,13 +34,13 @@ public interface FieldBinding extends UIMBinding {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Field</em>' container reference.
-	 * @see #setField(UIMField)
-	 * @see org.nakeduml.uim.UIMPackage#getFieldBinding_Field()
-	 * @see org.nakeduml.uim.UIMField#getBinding
+	 * @see #setField(UimField)
+	 * @see org.nakeduml.uim.UimPackage#getFieldBinding_Field()
+	 * @see org.nakeduml.uim.UimField#getBinding
 	 * @model opposite="binding" transient="false"
 	 * @generated
 	 */
-	UIMField getField();
+	UimField getField();
 
 	/**
 	 * Sets the value of the '{@link org.nakeduml.uim.FieldBinding#getField <em>Field</em>}' container reference.
@@ -50,6 +50,6 @@ public interface FieldBinding extends UIMBinding {
 	 * @see #getField()
 	 * @generated
 	 */
-	void setField(UIMField value);
+	void setField(UimField value);
 
 } // FieldBinding

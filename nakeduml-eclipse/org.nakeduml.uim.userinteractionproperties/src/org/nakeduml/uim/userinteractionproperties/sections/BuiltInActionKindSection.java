@@ -5,11 +5,11 @@ import org.nakeduml.uim.ActionKind;
 import org.nakeduml.uim.ActionTaskForm;
 import org.nakeduml.uim.BuiltInAction;
 import org.nakeduml.uim.ClassForm;
+import org.nakeduml.uim.FormPanel;
 import org.nakeduml.uim.OperationInvocationForm;
 import org.nakeduml.uim.OperationTaskForm;
 import org.nakeduml.uim.StateForm;
-import org.nakeduml.uim.UIMForm;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 
@@ -39,7 +39,7 @@ public class BuiltInActionKindSection extends AbstractEnumerationPropertySection
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UIMPackage.eINSTANCE.getBuiltInAction_Kind();
+		return UimPackage.eINSTANCE.getBuiltInAction_Kind();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -49,7 +49,7 @@ public class BuiltInActionKindSection extends AbstractEnumerationPropertySection
 	 */
 	protected String[] getEnumerationFeatureValues(){
 		BuiltInAction action = (BuiltInAction) getEObject();
-		UIMForm uf = UimUtil.getNearestForm(action);
+		FormPanel uf = UimUtil.getNearestForm(action);
 		if(uf instanceof OperationInvocationForm){
 			return new String[]{
 					ActionKind.BACK.getName(),ActionKind.EXECUTE_OPERATION.getName()

@@ -8,18 +8,15 @@ import org.eclipse.draw2d.LineBorder;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.Label;
 
-public class NavigationToEntityFigure extends Figure implements IBindingFigure {
+public class NavigationToEntityFigure extends Figure implements IBindingFigure{
 	private ILabel bindingFigure;
 	private ILabel arrow;
 	private ILabel end;
 	private ILabel toFormFigure;
-
-	public NavigationToEntityFigure() {
+	public NavigationToEntityFigure(){
 		createContents();
-
 	}
-
-	protected void createContents() {
+	protected void createContents(){
 		GridLayout gridLayout = new GridLayout(4, false);
 		gridLayout.verticalSpacing = 0;
 		gridLayout.horizontalSpacing = 0;
@@ -33,21 +30,17 @@ public class NavigationToEntityFigure extends Figure implements IBindingFigure {
 		add(end = new Label("]"), new GridData());
 		setBorder(new LineBorder(1));
 	}
-
-	public ILabel getArrow() {
+	public ILabel getArrow(){
 		return arrow;
 	}
-
-	public ILabel getEnd() {
+	public ILabel getEnd(){
 		return end;
 	}
-
-	public ILabel getToFormFigure() {
+	public ILabel getToFormFigure(){
 		return toFormFigure;
 	}
-
 	@Override
-	public ILabel getBindingLabel() {
+	public ILabel getBindingLabel(){
 		return bindingFigure;
 	}
 }

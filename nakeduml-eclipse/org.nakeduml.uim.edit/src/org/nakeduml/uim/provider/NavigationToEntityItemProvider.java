@@ -10,12 +10,9 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,8 +23,8 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.NavigationToEntity} object.
@@ -36,7 +33,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class NavigationToEntityItemProvider
-	extends UIMNavigationItemProvider
+	extends UimNavigationItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -83,7 +80,7 @@ public class NavigationToEntityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_UmlReference_umlElementUid_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UIMPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
 				 true,
 				 false,
 				 false,
@@ -105,7 +102,7 @@ public class NavigationToEntityItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NavigationToEntity_toForm_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NavigationToEntity_toForm_feature", "_UI_NavigationToEntity_type"),
-				 UIMPackage.Literals.NAVIGATION_TO_ENTITY__TO_FORM,
+				 UimPackage.Literals.NAVIGATION_TO_ENTITY__TO_FORM,
 				 true,
 				 false,
 				 true,
@@ -126,7 +123,7 @@ public class NavigationToEntityItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UIMPackage.Literals.NAVIGATION_TO_ENTITY__BINDING);
+			childrenFeatures.add(UimPackage.Literals.NAVIGATION_TO_ENTITY__BINDING);
 		}
 		return childrenFeatures;
 	}
@@ -181,10 +178,10 @@ public class NavigationToEntityItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(NavigationToEntity.class)) {
-			case UIMPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
+			case UimPackage.NAVIGATION_TO_ENTITY__UML_ELEMENT_UID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case UIMPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -204,8 +201,8 @@ public class NavigationToEntityItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UIMPackage.Literals.NAVIGATION_TO_ENTITY__BINDING,
-				 UIMFactory.eINSTANCE.createNavigationBinding()));
+				(UimPackage.Literals.NAVIGATION_TO_ENTITY__BINDING,
+				 UimFactory.eINSTANCE.createNavigationBinding()));
 	}
 
 }

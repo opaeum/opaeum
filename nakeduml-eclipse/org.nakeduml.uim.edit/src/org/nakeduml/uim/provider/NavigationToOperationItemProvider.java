@@ -10,10 +10,8 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -24,7 +22,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.NavigationToOperation;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.NavigationToOperation} object.
@@ -33,7 +31,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class NavigationToOperationItemProvider
-	extends UIMNavigationItemProvider
+	extends UimNavigationItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -80,7 +78,7 @@ public class NavigationToOperationItemProvider
 				 getResourceLocator(),
 				 getString("_UI_UmlReference_umlElementUid_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UIMPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
 				 true,
 				 false,
 				 false,
@@ -102,7 +100,7 @@ public class NavigationToOperationItemProvider
 				 getResourceLocator(),
 				 getString("_UI_NavigationToOperation_toForm_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_NavigationToOperation_toForm_feature", "_UI_NavigationToOperation_type"),
-				 UIMPackage.Literals.NAVIGATION_TO_OPERATION__TO_FORM,
+				 UimPackage.Literals.NAVIGATION_TO_OPERATION__TO_FORM,
 				 true,
 				 false,
 				 true,
@@ -148,7 +146,7 @@ public class NavigationToOperationItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(NavigationToOperation.class)) {
-			case UIMPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID:
+			case UimPackage.NAVIGATION_TO_OPERATION__UML_ELEMENT_UID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.PackageFolder;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.PackageFolder;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class PackageFolderTest extends AbstractFormFolderTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createPackageFolder());
+		setFixture(UimFactory.eINSTANCE.createPackageFolder());
 	}
 
 	/**

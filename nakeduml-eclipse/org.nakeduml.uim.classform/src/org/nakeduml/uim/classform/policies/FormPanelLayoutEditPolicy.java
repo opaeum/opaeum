@@ -4,10 +4,11 @@
 package org.nakeduml.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.nakeduml.uim.UIMBorderLayout;
-import org.nakeduml.uim.UIMGridLayout;
-import org.nakeduml.uim.UIMToolbarLayout;
-import org.nakeduml.uim.UIMXYLayout;
+import org.nakeduml.uim.UimBorderLayout;
+import org.nakeduml.uim.UimFullLayout;
+import org.nakeduml.uim.UimGridLayout;
+import org.nakeduml.uim.UimToolbarLayout;
+import org.nakeduml.uim.UimXYLayout;
 
 /**
  * @generated
@@ -15,7 +16,7 @@ import org.nakeduml.uim.UIMXYLayout;
 public class FormPanelLayoutEditPolicy extends org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy{
 	/**
 	 * Default contructor.
-	 *
+	 * 
 	 * @generated
 	 */
 	public FormPanelLayoutEditPolicy(){
@@ -26,16 +27,19 @@ public class FormPanelLayoutEditPolicy extends org.topcased.modeler.edit.policie
 	 * @generated
 	 */
 	protected boolean isValid(EObject child,EObject parent){
-		if(child instanceof UIMXYLayout){
+		if(child instanceof UimXYLayout){
 			return true;
 		}
-		if(child instanceof UIMGridLayout){
+		if(child instanceof UimGridLayout){
 			return true;
 		}
-		if(child instanceof UIMToolbarLayout){
+		if(child instanceof UimToolbarLayout){
 			return true;
 		}
-		if(child instanceof UIMBorderLayout){
+		if(child instanceof UimBorderLayout){
+			return true;
+		}
+		if(child instanceof UimFullLayout){
 			return true;
 		}
 		return false;

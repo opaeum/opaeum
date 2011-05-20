@@ -14,8 +14,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.nakeduml.uim.LookupBinding;
-import org.nakeduml.uim.UIMLookup;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimLookup;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +30,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
+public class LookupBindingImpl extends UimBindingImpl implements LookupBinding {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -47,7 +47,7 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.LOOKUP_BINDING;
+		return UimPackage.Literals.LOOKUP_BINDING;
 	}
 
 	/**
@@ -55,9 +55,9 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UIMLookup getLookup() {
-		if (eContainerFeatureID() != UIMPackage.LOOKUP_BINDING__LOOKUP) return null;
-		return (UIMLookup)eContainer();
+	public UimLookup getLookup() {
+		if (eContainerFeatureID() != UimPackage.LOOKUP_BINDING__LOOKUP) return null;
+		return (UimLookup)eContainer();
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLookup(UIMLookup newLookup, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newLookup, UIMPackage.LOOKUP_BINDING__LOOKUP, msgs);
+	public NotificationChain basicSetLookup(UimLookup newLookup, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newLookup, UimPackage.LOOKUP_BINDING__LOOKUP, msgs);
 		return msgs;
 	}
 
@@ -75,20 +75,20 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLookup(UIMLookup newLookup) {
-		if (newLookup != eInternalContainer() || (eContainerFeatureID() != UIMPackage.LOOKUP_BINDING__LOOKUP && newLookup != null)) {
+	public void setLookup(UimLookup newLookup) {
+		if (newLookup != eInternalContainer() || (eContainerFeatureID() != UimPackage.LOOKUP_BINDING__LOOKUP && newLookup != null)) {
 			if (EcoreUtil.isAncestor(this, newLookup))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newLookup != null)
-				msgs = ((InternalEObject)newLookup).eInverseAdd(this, UIMPackage.UIM_LOOKUP__LOOKUP_SOURCE, UIMLookup.class, msgs);
+				msgs = ((InternalEObject)newLookup).eInverseAdd(this, UimPackage.UIM_LOOKUP__LOOKUP_SOURCE, UimLookup.class, msgs);
 			msgs = basicSetLookup(newLookup, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.LOOKUP_BINDING__LOOKUP, newLookup, newLookup));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.LOOKUP_BINDING__LOOKUP, newLookup, newLookup));
 	}
 
 	/**
@@ -99,10 +99,10 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetLookup((UIMLookup)otherEnd, msgs);
+				return basicSetLookup((UimLookup)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -115,7 +115,7 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
 				return basicSetLookup(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -129,8 +129,8 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
-				return eInternalContainer().eInverseRemove(this, UIMPackage.UIM_LOOKUP__LOOKUP_SOURCE, UIMLookup.class, msgs);
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
+				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_LOOKUP__LOOKUP_SOURCE, UimLookup.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -143,7 +143,7 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
 				return getLookup();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -157,8 +157,8 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
-				setLookup((UIMLookup)newValue);
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
+				setLookup((UimLookup)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -172,8 +172,8 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
-				setLookup((UIMLookup)null);
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
+				setLookup((UimLookup)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -187,7 +187,7 @@ public class LookupBindingImpl extends UIMBindingImpl implements LookupBinding {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.LOOKUP_BINDING__LOOKUP:
+			case UimPackage.LOOKUP_BINDING__LOOKUP:
 				return getLookup() != null;
 		}
 		return super.eIsSet(featureID);

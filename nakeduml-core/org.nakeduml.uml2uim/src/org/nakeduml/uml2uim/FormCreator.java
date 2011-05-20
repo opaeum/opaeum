@@ -1,10 +1,12 @@
 package org.nakeduml.uml2uim;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -15,278 +17,334 @@ import org.nakeduml.uim.BuiltInAction;
 import org.nakeduml.uim.ControlKind;
 import org.nakeduml.uim.FieldBinding;
 import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.UIMContainer;
-import org.nakeduml.uim.UIMDataColumn;
-import org.nakeduml.uim.UIMDataTable;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMField;
-import org.nakeduml.uim.UIMForm;
-import org.nakeduml.uim.UIMTab;
-import org.nakeduml.uim.UIMTabPanel;
-import org.nakeduml.uim.UIMXYLayout;
+import org.nakeduml.uim.LayoutContainer;
+import org.nakeduml.uim.OutlayableComponent;
+import org.nakeduml.uim.PropertyRef;
+import org.nakeduml.uim.TableBinding;
+import org.nakeduml.uim.UimAction;
+import org.nakeduml.uim.UimComponent;
+import org.nakeduml.uim.UimDataColumn;
+import org.nakeduml.uim.UimDataTable;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimField;
+import org.nakeduml.uim.UimFullLayout;
+import org.nakeduml.uim.UimGridLayout;
+import org.nakeduml.uim.UimLayout;
+import org.nakeduml.uim.UimPanel;
+import org.nakeduml.uim.UimTab;
+import org.nakeduml.uim.UimTabPanel;
 import org.nakeduml.uim.UserInteractionElement;
+import org.nakeduml.uim.layouts.FullLayoutManager;
+import org.nakeduml.uim.layouts.GridLayout;
+import org.nakeduml.uim.layouts.IUimLayoutManager;
+import org.nakeduml.uim.modeleditor.SafeUmlUimLinks;
 import org.nakeduml.uim.util.ControlUtil;
 import org.nakeduml.uim.util.UimUtil;
+import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramInterchangeFactory;
 import org.topcased.modeler.di.model.EMFSemanticModelBridge;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.modeler.diagrams.model.Diagrams;
-import org.topcased.modeler.diagrams.model.DiagramsFactory;
 
-public class FormCreator {
-	UIMXYLayout mainTabLayout;
-	GraphNode mainTabLayoutNode;
-	private Diagrams diagrams;
-	private UIMTabPanel tabPanel;
-	private GraphNode tabPanelNode;
-
-	public FormCreator(Diagrams diagrams) {
-		
-		this.diagrams = diagrams;
+public class FormCreator{
+	private UimGridLayout mainTabLayout;
+	private UimTabPanel tabPanel;
+	private FormPanel formPanel;
+	private Diagram diag;
+	public FormCreator(FormPanel cf,Diagram diag){
+		this.formPanel = cf;
+		this.diag = diag;
 	}
-
-	protected GraphNode createGraphNode(UserInteractionElement model,
-			String presentation) {
+	protected GraphNode createGraphNode(GraphNode parent,UserInteractionElement model,String presentation){
 		GraphNode node = DiagramInterchangeFactory.eINSTANCE.createGraphNode();
-		EMFSemanticModelBridge bridge = DiagramInterchangeFactory.eINSTANCE
-				.createEMFSemanticModelBridge();
+		EMFSemanticModelBridge bridge = DiagramInterchangeFactory.eINSTANCE.createEMFSemanticModelBridge();
 		bridge.setElement(model);
 		bridge.setPresentation(presentation);
 		node.setSemanticModel(bridge);
+		parent.getContained().add(node);
 		return node;
 	}
-
-	public void prepareFormPanel(UIMForm cf, String title,
-			Collection<? extends TypedElement> typedElements) {
-		Diagram diag = DiagramInterchangeFactory.eINSTANCE.createDiagram();
-		EMFSemanticModelBridge bridge = DiagramInterchangeFactory.eINSTANCE
-				.createEMFSemanticModelBridge();
-		bridge.setPresentation("org.nakeduml.uim.classform");
-		bridge.setElement(cf);
-		diag.setSemanticModel(bridge);
-		diag.setName(cf.getName());
-		diag.setPosition(new Point());
-		diag.setSize(new Dimension(1000, 1000));
-		diag.setViewport(new Point());
-		Diagrams subDiagrams = DiagramsFactory.eINSTANCE.createDiagrams();
-		diagrams.getSubdiagrams().add(subDiagrams);
-		subDiagrams.getDiagrams().add(diag);
-
-		// Create FormPanel
-		FormPanel formPanel = UIMFactory.eINSTANCE.createFormPanel();
-		cf.setPanel(formPanel);
-		formPanel.setName(title);
-		GraphNode formPanelNode = createGraphNode(formPanel, "default");
-		diag.getContained().add(formPanelNode);
-
-		// Create Form XYLayout
-		UIMXYLayout formLayout = UIMFactory.eINSTANCE.createUIMXYLayout();
-		formPanel.getChildren().add(formLayout);
-		GraphNode formLayoutNode = createGraphNode(formLayout, "default");
-
-		formPanelNode.getContained().add(formLayoutNode);
-
-		tabPanel = UIMFactory.eINSTANCE.createUIMTabPanel();
+	public void prepareFormPanel(String title,Collection<? extends TypedElement> typedElements){
+		UimFullLayout formLayout = UimFactory.eINSTANCE.createUimFullLayout();
+		formPanel.setLayout(formLayout);
+		tabPanel = UimFactory.eINSTANCE.createUimTabPanel();
 		formLayout.getChildren().add(tabPanel);
-		tabPanelNode = createGraphNode(tabPanel, "default");
-		tabPanelNode.setPosition(new Point(0, 0));
-		formLayoutNode.getContained().add(tabPanelNode);
-
-		// Create details Tab
-		UIMTab tab = UIMFactory.eINSTANCE.createUIMTab();
+		UimTab tab = UimFactory.eINSTANCE.createUimTab();
 		tab.setName("Edit Details");
 		tabPanel.getChildren().add(tab);
-		GraphNode tabNode = createGraphNode(tab, "default");
-		tabPanelNode.getContained().add(tabNode);
-		tabNode.setPosition(new Point(0, 0));
-
-		// Create details tab XYLayout
-		mainTabLayout = UIMFactory.eINSTANCE.createUIMXYLayout();
-
-		tab.getChildren().add(mainTabLayout);
-		mainTabLayoutNode = createGraphNode(mainTabLayout, "default");
-		mainTabLayoutNode.setPosition(new Point(0, 0));
-		tabNode.getContained().add(mainTabLayoutNode);
-		int totalHeight = calculateHeight(typedElements);
-		mainTabLayoutNode.setSize(new Dimension(400, totalHeight + 45));
-		tabNode.setSize(new Dimension(400, totalHeight + 50));
-		tabPanelNode.setSize(new Dimension(400, totalHeight + 60));
-		formPanelNode.setSize(new Dimension(400, totalHeight + 75));
+		mainTabLayout = UimFactory.eINSTANCE.createUimGridLayout();
+		mainTabLayout.setNumberOfColumns(1);
+		tab.setLayout(mainTabLayout);
 		addUserFields(typedElements);
 	}
-
-	private void addUserFields(Collection<? extends TypedElement> typedElements) {
-		int currentY = 5;
-		for (TypedElement property : typedElements) {
-			if (requiresTableTab(property)) {
+	private void addUserFields(Collection<? extends TypedElement> typedElements){
+		for(TypedElement property:typedElements){
+			if(property instanceof Property && ((Property) property).getOtherEnd() != null && ((Property) property).getOtherEnd().isComposite()){
+			}else if(requiresTableTab(property)){
 				addTableTabForField(property);
-			} else if (requiresDetailsTab(property)) {
+			}else if(requiresDetailsTab(property)){
 				addDetailsTabForField(property);
-			} else {
-				currentY += (3 + addUserField(mainTabLayout, mainTabLayoutNode,
-						property, currentY, 390));
+			}else{
+				addUserField(mainTabLayout, 390, property);
 			}
-
 		}
 	}
-
-	private void addDetailsTabForField(TypedElement e) {
+	private void addDetailsTabForField(TypedElement e){
 		Classifier c = (Classifier) e.getType();
 		// // Create tab and add to panel
-		UIMTab tab = UIMFactory.eINSTANCE.createUIMTab();
+		UimTab tab = UimFactory.eINSTANCE.createUimTab();
+		this.tabPanel.getChildren().add(tab);
 		tab.setName(NameConverter.separateWords(e.getName()));
-		GraphNode tabNode = createGraphNode(tab, "default");
-		//
-		// // Create tab XYLayout
-		UIMXYLayout tabLayout = UIMFactory.eINSTANCE.createUIMXYLayout();
-
-		tab.getChildren().add(tabLayout);
-		GraphNode tabLayoutNode = createGraphNode(tabLayout, "default");
-		tabLayoutNode.setSize(mainTabLayoutNode.getSize().getCopy());
-		tabLayoutNode.setPosition(new Point(0, 0));
-		tabNode.getContained().add(tabLayoutNode);
-		int currentY = 5;
-		for (TypedElement property : c.getAllAttributes()) {
-			if (requiresTableTab(property)) {
+		UimGridLayout tabLayout = UimFactory.eINSTANCE.createUimGridLayout();
+		tabLayout.setNumberOfColumns(1);
+		tab.setLayout(tabLayout);
+		for(Property property:SafeUmlUimLinks.getInstance(e).getOwnedAttributes(c)){
+			if(requiresTableTab(property)){
 				// No further details
-			} else {
-				currentY += (3 + addUserField(tabLayout, tabLayoutNode,
-						property, currentY, 390));
+			}else if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
+				addUserField(tabLayout, 390, e, property);
 			}
-
-		}
-		if (currentY > 5) {
-			//Only add if there are contents on the tab - NB!!! Bug in topcased if empty  tabs are displayed
-			tabPanel.getChildren().add(tab);
-			tabPanelNode.getContained().add(tabNode);
 		}
 	}
-
-	private void addTableTabForField(TypedElement e) {
+	private void addTableTabForField(TypedElement e){
 		// Create tab and add to panel
-		UIMTab tab = UIMFactory.eINSTANCE.createUIMTab();
+		UimTab tab = UimFactory.eINSTANCE.createUimTab();
 		tab.setName(NameConverter.separateWords(e.getName()));
 		tabPanel.getChildren().add(tab);
-		GraphNode tabNode = createGraphNode(tab, "default");
-		tabPanelNode.getContained().add(tabNode);
-
 		// Create tab XYLayout
-		UIMXYLayout tabLayout = UIMFactory.eINSTANCE.createUIMXYLayout();
-
-		tab.getChildren().add(tabLayout);
-		GraphNode tabLayoutNode = createGraphNode(tabLayout, "default");
-		tabLayoutNode.setSize(mainTabLayoutNode.getSize().getCopy());
-
-		tabNode.getContained().add(tabLayoutNode);
-
+		UimFullLayout tabLayout = UimFactory.eINSTANCE.createUimFullLayout();
+		tab.setLayout(tabLayout);
 		// cfeate Data TAble
-		UIMDataTable table = UIMFactory.eINSTANCE.createUIMDataTable();
-		GraphNode tableNode = createGraphNode(table, "default");
-		tableNode.setSize(new Dimension(mainTabLayoutNode.getSize().width,
-				mainTabLayoutNode.getSize().height - 15));
+		UimDataTable table = UimFactory.eINSTANCE.createUimDataTable();
+		TableBinding binding = UimFactory.eINSTANCE.createTableBinding();
+		table.setBinding(binding);
+		binding.setUmlElementUid(UmlUimLinks.getId(e));
 		tabLayout.getChildren().add(table);
-		tabLayoutNode.getContained().add(tableNode);
-		EList<Property> attrs = ((Classifier) e.getType()).getAllAttributes();
-		int x = 0;
-		for (Property attr : attrs) {
-			UIMDataColumn column = UIMFactory.eINSTANCE.createUIMDataColumn();
-			GraphNode columnNode = createGraphNode(column, "default");
-			column.setName(NameConverter.separateWords(attr.getName()));
-			table.getChildren().add(column);
-			tableNode.getContained().add(columnNode);
-			final int COLUMN_WIDTH = 90;
-			columnNode.setSize(new Dimension(COLUMN_WIDTH,
-					tableNode.getSize().height - 15));
-			columnNode.setPosition(new Point(x, 0));
-			// CReate column xy layout
-			UIMXYLayout columnLayout = UIMFactory.eINSTANCE.createUIMXYLayout();
-			GraphNode columnLayoutNode = createGraphNode(columnLayout,
-					"default");
-			column.getChildren().add(columnLayout);
-			columnLayoutNode.setSize(new Dimension(COLUMN_WIDTH, columnNode
-					.getSize().height - 15));
-			columnNode.getContained().add(columnLayoutNode);
-			addUserField(columnLayout, columnLayoutNode, attr, 0,
-					COLUMN_WIDTH - 15);
-			x += COLUMN_WIDTH + 3;
+		Collection<Property> attrs = SafeUmlUimLinks.getInstance(e).getOwnedAttributes((Classifier) e.getType());
+		for(Property property:attrs){
+			if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
+				UimDataColumn column = UimFactory.eINSTANCE.createUimDataColumn();
+				column.setName(NameConverter.separateWords(property.getName()));
+				table.getChildren().add(column);
+				// CReate column xy layout
+				UimGridLayout columnLayout = UimFactory.eINSTANCE.createUimGridLayout();
+				columnLayout.setNumberOfColumns(1);
+				column.setLayout(columnLayout);
+				addUserField(columnLayout, 0, property);
+			}
 		}
 		// create fields
 	}
-
-	private int calculateHeight(Collection<? extends TypedElement> typedElements) {
-		int height = 5;
-		// TODO calculate the height of other tabs too
-		for (TypedElement property : typedElements) {
-			if (requiresTableTab(property)) {
-			} else {
-				height += (3 + (ControlUtil.isMultiRow(ControlUtil
-						.getPreferredControlKind(property)) ? 200 : 25));
-			}
-
-		}
-		for (TypedElement property : typedElements) {
-			if (requiresDetailsTab(property)) {
-				int detailsHeight = calculateHeight(((Classifier) property
-						.getType()).getAllAttributes());
-				if (detailsHeight > height) {
-					height = detailsHeight;
-				}
-			}
-
-		}
-		return height;
+	private boolean requiresTableTab(TypedElement property){
+		return property.getType() instanceof org.eclipse.uml2.uml.Class && UimUtil.isMany(property) && !ControlUtil.requiresManySelection(formPanel, property);
 	}
-
-	private boolean requiresTableTab(TypedElement property) {
-		return property.getType() instanceof org.eclipse.uml2.uml.Class
-				&& UimUtil.isMany(property)
-				&& !ControlUtil.requiresManySelection(property);
+	private boolean requiresDetailsTab(TypedElement property){
+		return property.getType() instanceof org.eclipse.uml2.uml.Class && !UimUtil.isMany(property)
+				&& (!ControlUtil.requiresUserInput(formPanel, property) || UimUtil.isComposite(property));
 	}
-
-	private boolean requiresDetailsTab(TypedElement property) {
-		return property.getType() instanceof org.eclipse.uml2.uml.Class
-				&& !UimUtil.isMany(property)
-				&& !ControlUtil.requiresUserInput(property);
-	}
-
-	private int addUserField(UIMContainer layout, GraphNode layoutNode,
-			TypedElement property, int y, int width) {
-		UIMField uf = UIMFactory.eINSTANCE.createUIMField();
-		uf.setLabelWidth(width < 100 ? 0 : width / 2);
+	private int addUserField(UimLayout layout,int labelWidth,TypedElement...properties){
+		TypedElement property = properties[properties.length - 1];
+		UimField uf = UimFactory.eINSTANCE.createUimField();
+		uf.setLabelWidth(labelWidth < 100 ? 0 : labelWidth / 2);
 		uf.setName(NameConverter.separateWords(property.getName()));
-		ControlKind controlKind = ControlUtil.getPreferredControlKind(property);
+		ControlKind controlKind = ControlUtil.getPreferredControlKind(formPanel, property);
 		uf.setControlKind(controlKind);
 		uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
-		FieldBinding binding = UIMFactory.eINSTANCE.createFieldBinding();
+		FieldBinding binding = UimFactory.eINSTANCE.createFieldBinding();
 		uf.setBinding(binding);
-		binding.setElement(property);
+		binding.setUmlElementUid(UmlUimLinks.getId(properties[0]));
+		if(properties.length > 1){
+			PropertyRef prev = UimFactory.eINSTANCE.createPropertyRef();
+			prev.setUmlElementUid(UmlUimLinks.getId(properties[1]));
+			binding.setNext(prev);
+			for(int i = 2;i < properties.length;i++){
+				PropertyRef next = UimFactory.eINSTANCE.createPropertyRef();
+				next.setUmlElementUid(UmlUimLinks.getId(properties[i]));
+				prev.setNext(next);
+				prev = next;
+			}
+		}
 		// TODO lookupBinding
 		layout.getChildren().add(uf);
-		GraphNode userFieldNode = createGraphNode(uf, "default");
 		int height = ControlUtil.isMultiRow(controlKind) ? 200 : 25;
-		userFieldNode.setSize(new Dimension(width, height));
-		userFieldNode.setPosition(new Point(3, y));
-		layoutNode.getContained().add(userFieldNode);
 		return height;
 	}
-
-	public void addButtonBar(ActionKind... updateCurrentEntity) {
-		int x = 5;
-		for (ActionKind actionKind : updateCurrentEntity) {
-
-			BuiltInAction bia = UIMFactory.eINSTANCE.createBuiltInAction();
+	public void addButtonBar(ActionKind...updateCurrentEntity){
+		UimPanel panel = UimFactory.eINSTANCE.createUimPanel();
+		this.mainTabLayout.getChildren().add(panel);
+		UimGridLayout gl = UimFactory.eINSTANCE.createUimGridLayout();
+		panel.setLayout(gl);
+		gl.setNumberOfColumns(updateCurrentEntity.length);
+		for(ActionKind actionKind:updateCurrentEntity){
+			BuiltInAction bia = UimFactory.eINSTANCE.createBuiltInAction();
 			bia.setKind(actionKind);
-			bia.setName(NameConverter.separateWords(NameConverter
-					.capitalize(actionKind.getName())));
-			mainTabLayout.getChildren().add(bia);
-			GraphNode builtInActionNode = createGraphNode(bia, "default");
-			builtInActionNode.setSize(new Dimension(120, 20));
-			builtInActionNode.setPosition(new Point(x, mainTabLayoutNode
-					.getSize().height - 40));
-			mainTabLayoutNode.getContained().add(builtInActionNode);
-			x += 130;
+			bia.setName(NameConverter.separateWords(NameConverter.capitalize(actionKind.getName())));
+			gl.getChildren().add(bia);
+		}
+		createDiagram();
+	}
+	private void createDiagram(){
+		GraphNode gn = this.diag;
+		UimFullLayout l = (UimFullLayout) formPanel.getLayout();
+		UimComponent tabPanel = l.getChildren().get(0);
+		gn.setSize(new Dimension(calculateWidth(tabPanel), calculateHeight(tabPanel)));
+		populate(gn, l);
+	}
+	public void populate(GraphNode parentNode,UimComponent c){
+		// populates all components that are not contained by a layout manager
+		GraphNode currentNode = createGraphNode(parentNode, c, "default");
+		if(c instanceof UimTab){
+			UimLayout layout = ((UimTab) c).getLayout();
+			currentNode.setPosition(new Point(1, 31));
+			currentNode.setSize(new Dimension(parentNode.getSize().width - 2, parentNode.getSize().height - 32));
+			if(layout != null){
+				populate(currentNode, layout);
+			}
+		}else if(c instanceof UimDataColumn){
+			UimLayout layout = ((UimDataColumn) c).getLayout();
+			currentNode.setPosition(new Point(1, 31));
+			currentNode.setSize(new Dimension(calculateWidth(c), parentNode.getSize().height - 32));
+			if(layout != null){
+				populate(currentNode, layout);
+			}
+		}else if(c instanceof UimLayout){
+			currentNode.setPosition(new Point(0, 0));
+			currentNode.setSize(new Dimension(parentNode.getSize().width, parentNode.getSize().height));
+			if(c instanceof UimGridLayout){
+				UimGridLayout gridLayout = (UimGridLayout) c;
+				doLayout(currentNode, gridLayout, new GridLayout(gridLayout.getNumberOfColumns()));
+			}else if(c instanceof UimFullLayout){
+				doLayout(currentNode, ((UimFullLayout) c), new FullLayoutManager());
+			}
 		}
 	}
-
+	private void doLayout(GraphNode parentNode,UimLayout gridLayout,IUimLayoutManager layout){
+		List<Rectangle> rs = new ArrayList<Rectangle>();
+		int j = 0;
+		for(UimComponent child:gridLayout.getChildren()){
+			Rectangle r = new Rectangle(++j, j, 0, 0);
+			r.height = calculateHeight(child);
+			r.width = calculateWidth(child);
+			rs.add(r);
+		}
+		layout.layout(rs, parentNode.getSize());
+		for(int i = 0;i < rs.size();i++){
+			UimComponent child = gridLayout.getChildren().get(i);
+			GraphNode gn = createGraphNode(parentNode, child, "default");
+			Rectangle rect = rs.get(i);
+			gn.setPosition(new Point(rect.x, rect.y));
+			gn.setSize(rect.getSize());
+			if(child instanceof LayoutContainer){
+				populate(gn, ((LayoutContainer) child).getLayout());
+			}else if(child instanceof UimLayout){
+				populateChildren(gn, ((UimLayout) child).getChildren());
+			}else if(child instanceof UimTabPanel){
+				populateChildren(gn, ((UimTabPanel) child).getChildren());
+			}else if(child instanceof UimDataTable){
+				populateChildren(gn, ((UimDataTable) child).getChildren());
+			}
+		}
+	}
+	public void populateChildren(GraphNode gn,EList<? extends UimComponent> children){
+		for(UimComponent c:children){
+			populate(gn, c);
+		}
+	}
+	private int calculateHeight(UimComponent c){
+		int height = 0;
+		if(c instanceof UimGridLayout){
+			UimGridLayout l = (UimGridLayout) c;
+			EList<OutlayableComponent> children = l.getChildren();
+			int rowHeight = 0;
+			for(int i = 0;i < children.size();i++){
+				if(i % l.getNumberOfColumns() == 0 || i == children.size() - 1){
+					height += rowHeight;
+					height += 2;
+					rowHeight = 0;
+				}
+				rowHeight = Math.max(rowHeight, calculateHeight(children.get(i)));
+			}
+		}
+		if(c instanceof UimDataTable){
+			height = 400;
+		}
+		if(c instanceof LayoutContainer){
+			height = calculateLayoutHeight(height, ((LayoutContainer) c).getLayout());
+		}
+		if(c instanceof FormPanel){
+			height = calculateLayoutHeight(height, ((FormPanel) c).getLayout());
+		}
+		if(c instanceof UimTabPanel){
+			EList<UimTab> children = ((UimTabPanel) c).getChildren();
+			for(UimTab tab:children){
+				int calculatedHeight = calculateHeight(tab);
+				height = Math.max(calculatedHeight, height);
+			}
+			height = height + 30;
+		}
+		if(c instanceof UimField){
+			height = ControlUtil.getPreferredHeight(((UimField) c).getControlKind());
+		}
+		if(c instanceof UimTab){
+			height = calculateLayoutHeight(height, ((UimTab) c).getLayout());
+		}
+		if(c instanceof UimAction){
+			height = 35;
+		}
+		return height;
+	}
+	private int calculateLayoutHeight(int height,UimLayout layout){
+		if(layout instanceof UimGridLayout){
+			height = calculateHeight(layout);
+		}
+		return height;
+	}
+	private int calculateWidth(UimComponent c){
+		int width = 0;
+		if(c instanceof UimGridLayout){
+			UimGridLayout l = (UimGridLayout) c;
+			EList<OutlayableComponent> children = l.getChildren();
+			int rowWidth = 0;
+			for(int i = 0;i < children.size();i++){
+				if(i % l.getNumberOfColumns() == 0 || i == children.size() - 1){
+					width = Math.max(rowWidth + 2, width);
+					rowWidth = 0;
+				}
+				rowWidth += calculateWidth(children.get(i));
+			}
+			width = Math.max(rowWidth + 2, width);
+		}
+		if(c instanceof UimDataTable){
+			EList<UimDataColumn> columns = ((UimDataTable) c).getChildren();
+			for(UimComponent uimComponent:columns){
+				width += calculateWidth(uimComponent);
+				width += 2;
+			}
+		}
+		if(c instanceof LayoutContainer){
+			// TAb, Detail and Column,FormPanel
+			width = calculateLayoutWidth(width, ((LayoutContainer) c).getLayout());
+		}
+		if(c instanceof UimTabPanel){
+			EList<UimTab> children = (EList) ((UimTabPanel) c).getChildren();
+			for(UimTab tab:children){
+				int calculatedWidth = calculateWidth(tab);
+				width = Math.max(calculatedWidth + 2, width);
+			}
+		}
+		if(c instanceof UimField){
+			UimField field = (UimField) c;
+			width = ControlUtil.getPreferredWidth(field.getControlKind()) + field.getLabelWidth() + 2;
+		}
+		if(c instanceof UimAction){
+			width = 80;
+		}
+		return width;
+	}
+	private int calculateLayoutWidth(int width,UimLayout layout){
+		if(layout instanceof UimGridLayout){
+			width = calculateWidth(layout);
+		}
+		return width;
+	}
 }

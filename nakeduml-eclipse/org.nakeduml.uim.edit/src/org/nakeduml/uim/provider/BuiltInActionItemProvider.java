@@ -10,10 +10,8 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -24,7 +22,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.BuiltInAction;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.BuiltInAction} object.
@@ -33,7 +31,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class BuiltInActionItemProvider
-	extends UIMActionItemProvider
+	extends UimActionItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -79,7 +77,7 @@ public class BuiltInActionItemProvider
 				 getResourceLocator(),
 				 getString("_UI_BuiltInAction_kind_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_BuiltInAction_kind_feature", "_UI_BuiltInAction_type"),
-				 UIMPackage.Literals.BUILT_IN_ACTION__KIND,
+				 UimPackage.Literals.BUILT_IN_ACTION__KIND,
 				 true,
 				 false,
 				 false,
@@ -125,7 +123,7 @@ public class BuiltInActionItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(BuiltInAction.class)) {
-			case UIMPackage.BUILT_IN_ACTION__KIND:
+			case UimPackage.BUILT_IN_ACTION__KIND:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

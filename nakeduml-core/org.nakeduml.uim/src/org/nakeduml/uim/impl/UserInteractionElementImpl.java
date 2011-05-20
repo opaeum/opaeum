@@ -11,7 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionElement;
 
 /**
@@ -64,7 +64,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.USER_INTERACTION_ELEMENT;
+		return UimPackage.Literals.USER_INTERACTION_ELEMENT;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_ELEMENT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_ELEMENT__NAME, oldName, name));
 	}
 
 	/**
@@ -96,7 +96,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_ELEMENT__NAME:
+			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -110,7 +110,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_ELEMENT__NAME:
+			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				setName((String)newValue);
 				return;
 		}
@@ -125,7 +125,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_ELEMENT__NAME:
+			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 		}
@@ -140,7 +140,7 @@ public abstract class UserInteractionElementImpl extends EObjectImpl implements 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_ELEMENT__NAME:
+			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);

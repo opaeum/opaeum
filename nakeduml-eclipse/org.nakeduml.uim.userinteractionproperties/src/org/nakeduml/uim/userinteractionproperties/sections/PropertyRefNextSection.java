@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.UIMPackage;
-import org.nakeduml.uim.provider.UIMItemProviderAdapterFactory;
+import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -42,7 +42,7 @@ public class PropertyRefNextSection extends AbstractChooserPropertySection {
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature() {
-		return UIMPackage.eINSTANCE.getPropertyRef_Next();
+		return UimPackage.eINSTANCE.getPropertyRef_Next();
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class PropertyRefNextSection extends AbstractChooserPropertySection {
 	 * @generated
 	 */
 	protected Object[] getComboFeatureValues() {
-		return getChoices(getEObject(), UIMPackage.eINSTANCE
+		return getChoices(getEObject(), UimPackage.eINSTANCE
 				.getPropertyRef_Next().getEType());
 	}
 
@@ -77,7 +77,7 @@ public class PropertyRefNextSection extends AbstractChooserPropertySection {
 	 */
 	protected ILabelProvider getLabelProvider() {
 		List f = new ArrayList();
-		f.add(new UIMItemProviderAdapterFactory());
+		f.add(new UimItemProviderAdapterFactory());
 		f
 				.addAll(AbstractTabbedPropertySheetPage
 						.getPrincipalAdapterFactories());

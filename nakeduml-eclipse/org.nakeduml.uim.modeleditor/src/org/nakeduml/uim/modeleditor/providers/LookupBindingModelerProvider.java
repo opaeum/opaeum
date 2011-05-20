@@ -5,6 +5,7 @@ package org.nakeduml.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
+import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -12,7 +13,7 @@ import org.topcased.modeler.providers.ILabelFeatureProvider;
  *
  * @generated
  */
-public class LookupBindingModelerProvider extends UIMBindingModelerProvider implements ILabelFeatureProvider{
+public class LookupBindingModelerProvider extends UimBindingModelerProvider implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *
@@ -27,6 +28,6 @@ public class LookupBindingModelerProvider extends UIMBindingModelerProvider impl
 	 * @generated
 	 */
 	public EAttribute getLabelFeature(Object object){
-		return null;
+		return UimPackage.eINSTANCE.getUmlReference_UmlElementUid();
 	}
 }

@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.NavigationToOperation;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.NavigationToOperation;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +17,7 @@ import junit.textui.TestRunner;
  * <!-- end-user-doc -->
  * @generated
  */
-public class NavigationToOperationTest extends UIMNavigationTest {
+public class NavigationToOperationTest extends UimNavigationTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class NavigationToOperationTest extends UIMNavigationTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createNavigationToOperation());
+		setFixture(UimFactory.eINSTANCE.createNavigationToOperation());
 	}
 
 	/**

@@ -19,14 +19,14 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getLookupBinding()
+ * @see org.nakeduml.uim.UimPackage#getLookupBinding()
  * @model
  * @generated
  */
-public interface LookupBinding extends UIMBinding {
+public interface LookupBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Lookup</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UIMLookup#getLookupSource <em>Lookup Source</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimLookup#getLookupSource <em>Lookup Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Lookup</em>' container reference isn't clear,
@@ -34,13 +34,13 @@ public interface LookupBinding extends UIMBinding {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Lookup</em>' container reference.
-	 * @see #setLookup(UIMLookup)
-	 * @see org.nakeduml.uim.UIMPackage#getLookupBinding_Lookup()
-	 * @see org.nakeduml.uim.UIMLookup#getLookupSource
+	 * @see #setLookup(UimLookup)
+	 * @see org.nakeduml.uim.UimPackage#getLookupBinding_Lookup()
+	 * @see org.nakeduml.uim.UimLookup#getLookupSource
 	 * @model opposite="lookupSource" transient="false"
 	 * @generated
 	 */
-	UIMLookup getLookup();
+	UimLookup getLookup();
 
 	/**
 	 * Sets the value of the '{@link org.nakeduml.uim.LookupBinding#getLookup <em>Lookup</em>}' container reference.
@@ -50,6 +50,6 @@ public interface LookupBinding extends UIMBinding {
 	 * @see #getLookup()
 	 * @generated
 	 */
-	void setLookup(UIMLookup value);
+	void setLookup(UimLookup value);
 
 } // LookupBinding

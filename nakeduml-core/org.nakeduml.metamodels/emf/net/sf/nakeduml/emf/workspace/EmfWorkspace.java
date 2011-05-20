@@ -45,9 +45,10 @@ public class EmfWorkspace implements Element{
 	private URI directoryUri;
 	private String directoryName;
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
-		this(model.eResource().getURI().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, name);
+		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, name);
 		addGeneratingModelOrProfile(model);
-		this.directoryUri=model.eResource().getURI().trimSegments(2);
+		this.directoryUri=model.eResource().getURI().trimFileExtension().trimSegments(1);
+		System.out.println();
 	}
 	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String name){
 		this.resourceSet = rs;
@@ -102,7 +103,7 @@ public class EmfWorkspace implements Element{
 		for(Resource r:resourceSet.getResources()){
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if(!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore") && isRootObject(pkg)){
+			if(pkg!=null&& !fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore") && isRootObject(pkg)){
 				result.add(pkg);
 			}
 		}
@@ -317,5 +318,15 @@ public class EmfWorkspace implements Element{
 	}
 	public String getDirectoryName(){
 		return directoryName;
+	}
+	public Collection<Model> getOwnedModels(){
+		EList<Element> ownedElements = getOwnedElements();
+		Collection<Model> result = new HashSet<Model>();
+		for(Element element:ownedElements){
+			if(element instanceof Model){
+				result.add((Model) element);
+			}
+		}
+		return result;
 	}
 }

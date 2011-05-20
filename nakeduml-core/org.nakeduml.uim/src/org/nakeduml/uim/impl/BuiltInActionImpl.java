@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.nakeduml.uim.ActionKind;
 import org.nakeduml.uim.BuiltInAction;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +27,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
+public class BuiltInActionImpl extends UimActionImpl implements BuiltInAction {
 	/**
 	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.BUILT_IN_ACTION;
+		return UimPackage.Literals.BUILT_IN_ACTION;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
 		ActionKind oldKind = kind;
 		kind = newKind == null ? KIND_EDEFAULT : newKind;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.BUILT_IN_ACTION__KIND, oldKind, kind));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.BUILT_IN_ACTION__KIND, oldKind, kind));
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.BUILT_IN_ACTION__KIND:
+			case UimPackage.BUILT_IN_ACTION__KIND:
 				return getKind();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -110,7 +110,7 @@ public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.BUILT_IN_ACTION__KIND:
+			case UimPackage.BUILT_IN_ACTION__KIND:
 				setKind((ActionKind)newValue);
 				return;
 		}
@@ -125,7 +125,7 @@ public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.BUILT_IN_ACTION__KIND:
+			case UimPackage.BUILT_IN_ACTION__KIND:
 				setKind(KIND_EDEFAULT);
 				return;
 		}
@@ -140,7 +140,7 @@ public class BuiltInActionImpl extends UIMActionImpl implements BuiltInAction {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.BUILT_IN_ACTION__KIND:
+			case UimPackage.BUILT_IN_ACTION__KIND:
 				return kind != KIND_EDEFAULT;
 		}
 		return super.eIsSet(featureID);

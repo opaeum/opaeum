@@ -19,11 +19,11 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getNavigationBinding()
+ * @see org.nakeduml.uim.UimPackage#getNavigationBinding()
  * @model
  * @generated
  */
-public interface NavigationBinding extends UIMBinding {
+public interface NavigationBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Navigation</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.NavigationToEntity#getBinding <em>Binding</em>}'.
@@ -35,7 +35,7 @@ public interface NavigationBinding extends UIMBinding {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Navigation</em>' container reference.
 	 * @see #setNavigation(NavigationToEntity)
-	 * @see org.nakeduml.uim.UIMPackage#getNavigationBinding_Navigation()
+	 * @see org.nakeduml.uim.UimPackage#getNavigationBinding_Navigation()
 	 * @see org.nakeduml.uim.NavigationToEntity#getBinding
 	 * @model opposite="binding" required="true" transient="false"
 	 * @generated

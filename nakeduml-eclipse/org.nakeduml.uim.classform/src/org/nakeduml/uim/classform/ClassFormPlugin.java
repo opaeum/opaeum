@@ -18,6 +18,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
+ * 
  * @generated
  */
 public class ClassFormPlugin extends AbstractUIPlugin{
@@ -25,6 +26,7 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	private static ClassFormPlugin plugin;
 	/**
 	 * The constructor.
+	 * 
 	 * @generated
 	 */
 	public ClassFormPlugin(){
@@ -33,6 +35,7 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	}
 	/**
 	 * This method is called upon plug-in activation
+	 * 
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 * @generated
 	 */
@@ -41,6 +44,7 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	}
 	/**
 	 * This method is called when the plug-in is stopped
+	 * 
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 * @generated
 	 */
@@ -50,6 +54,7 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	}
 	/**
 	 * Returns the shared instance.
+	 * 
 	 * @return the singleton
 	 * @generated
 	 */
@@ -107,9 +112,11 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	}
 	/**
 	 * Log a message with given level into the Eclipse log file
-	 *
-	 * @param message the message to log
-	 * @param level the message priority
+	 * 
+	 * @param message
+	 *            the message to log
+	 * @param level
+	 *            the message priority
 	 * @generated
 	 */
 	public static void log(String message,int level){
@@ -119,8 +126,9 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	}
 	/**
 	 * Log an exception into the Eclipse log file
-	 *
-	 * @param e the exception to log
+	 * 
+	 * @param e
+	 *            the exception to log
 	 * @generated
 	 */
 	public static void log(Throwable e){
@@ -137,8 +145,9 @@ public class ClassFormPlugin extends AbstractUIPlugin{
 	}
 	/**
 	 * Log an IStatus
-	 *
-	 * @param status the status to log
+	 * 
+	 * @param status
+	 *            the status to log
 	 * @generated
 	 */
 	public static void log(IStatus status){

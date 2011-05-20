@@ -10,22 +10,16 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.OperationContainingFolder;
-import org.nakeduml.uim.UIMFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.OperationContainingFolder} object.
@@ -67,37 +61,6 @@ public class OperationContainingFolderItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(UIMPackage.Literals.OPERATION_CONTAINING_FOLDER__OPERATION_INVOCATION_FORMS);
-			childrenFeatures.add(UIMPackage.Literals.OPERATION_CONTAINING_FOLDER__CLASS_FORM);
-		}
-		return childrenFeatures;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -121,13 +84,6 @@ public class OperationContainingFolderItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(OperationContainingFolder.class)) {
-			case UIMPackage.OPERATION_CONTAINING_FOLDER__OPERATION_INVOCATION_FORMS:
-			case UIMPackage.OPERATION_CONTAINING_FOLDER__CLASS_FORM:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 
@@ -141,16 +97,6 @@ public class OperationContainingFolderItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UIMPackage.Literals.OPERATION_CONTAINING_FOLDER__OPERATION_INVOCATION_FORMS,
-				 UIMFactory.eINSTANCE.createOperationInvocationForm()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UIMPackage.Literals.OPERATION_CONTAINING_FOLDER__CLASS_FORM,
-				 UIMFactory.eINSTANCE.createClassForm()));
 	}
 
 	/**
@@ -165,8 +111,8 @@ public class OperationContainingFolderItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_VISIBILITY ||
-			childFeature == UIMPackage.Literals.ABSTRACT_FORM_FOLDER__SECURITY_ON_EDITABILITY;
+			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString

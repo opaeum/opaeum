@@ -6,19 +6,24 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.FormPanel;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
  * A test case for the model object '<em><b>Form Panel</b></em>'.
  * <!-- end-user-doc -->
+ * <p>
+ * The following operations are tested:
+ * <ul>
+ *   <li>{@link org.nakeduml.uim.UimComponent#getParent() <em>Get Parent</em>}</li>
+ * </ul>
+ * </p>
  * @generated
  */
-public class FormPanelTest extends UIMContainerTest {
+public class FormPanelTest extends UmlReferenceTest {
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -58,7 +63,7 @@ public class FormPanelTest extends UIMContainerTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createFormPanel());
+		setFixture(UimFactory.eINSTANCE.createFormPanel());
 	}
 
 	/**
@@ -70,6 +75,19 @@ public class FormPanelTest extends UIMContainerTest {
 	@Override
 	protected void tearDown() throws Exception {
 		setFixture(null);
+	}
+
+	/**
+	 * Tests the '{@link org.nakeduml.uim.UimComponent#getParent() <em>Get Parent</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.nakeduml.uim.UimComponent#getParent()
+	 * @generated
+	 */
+	public void testGetParent() {
+		// TODO: implement this operation test method
+		// Ensure that you remove @generated or mark it @generated NOT
+		fail();
 	}
 
 } //FormPanelTest

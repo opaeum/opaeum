@@ -11,7 +11,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
        <objectContribution
@@ -22,7 +22,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -33,7 +33,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -44,7 +44,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -55,7 +55,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -66,7 +66,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -77,7 +77,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -88,7 +88,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -100,7 +100,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -111,7 +111,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
        <objectContribution
@@ -122,7 +122,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -133,7 +133,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -144,7 +144,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -155,7 +155,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -166,7 +166,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -177,7 +177,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -188,7 +188,7 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
@@ -200,7 +200,51 @@
                 enablesFor="*"
                 id="org.nakeduml.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.nakeduml.uml2uim.graphic.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
+          </action>
+       </objectContribution>
+       <objectContribution
+             id="org.nakeduml.uml2uim.actions.outline.Class.Edit"
+             objectClass="org.eclipse.uml2.uml.Class">
+          <action
+                class="org.nakeduml.uml2uim.OpenFormAction"
+                enablesFor="*"
+                id="org.nakeduml.uml2uim.actions.outline.Class.Edit"
+                label="Open Edit Form"
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
+          </action>
+       </objectContribution>
+       <objectContribution
+             id="org.nakeduml.uml2uim.actions.outline.Class.Create"
+             objectClass="org.eclipse.uml2.uml.Class">
+          <action
+                class="org.nakeduml.uml2uim.OpenFormAction"
+                enablesFor="*"
+                id="org.nakeduml.uml2uim.actions.outline.Class.Create"
+                label="Open Create Form"
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
+          </action>
+       </objectContribution>
+       <objectContribution
+             id="org.nakeduml.uml2uim.actions.outline.Class.Edit"
+             objectClass="org.topcased.modeler.uml.classdiagram.edit.ClassifierEditPart">
+          <action
+                class="org.nakeduml.uml2uim.OpenFormAction"
+                enablesFor="*"
+                id="org.nakeduml.uml2uim.actions.graphic.Class.Edit"
+                label="Open Edit Form"
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
+          </action>
+       </objectContribution>
+       <objectContribution
+             id="org.nakeduml.uml2uim.actions.outline.Class.Create"
+             objectClass="org.topcased.modeler.uml.classdiagram.edit.ClassifierEditPart">
+          <action
+                class="org.nakeduml.uml2uim.OpenFormAction"
+                enablesFor="*"
+                id="org.nakeduml.uml2uim.actions.graphic.Class.Create"
+                label="Open Create Form"
+                menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
     </extension>

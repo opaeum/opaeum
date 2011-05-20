@@ -20,11 +20,11 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getNavigationToEntity()
+ * @see org.nakeduml.uim.UimPackage#getNavigationToEntity()
  * @model
  * @generated
  */
-public interface NavigationToEntity extends UIMNavigation, UmlReference {
+public interface NavigationToEntity extends UimNavigation, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>To Form</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ public interface NavigationToEntity extends UIMNavigation, UmlReference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>To Form</em>' reference.
 	 * @see #setToForm(ClassForm)
-	 * @see org.nakeduml.uim.UIMPackage#getNavigationToEntity_ToForm()
+	 * @see org.nakeduml.uim.UimPackage#getNavigationToEntity_ToForm()
 	 * @model
 	 * @generated
 	 */
@@ -62,7 +62,7 @@ public interface NavigationToEntity extends UIMNavigation, UmlReference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Binding</em>' containment reference.
 	 * @see #setBinding(NavigationBinding)
-	 * @see org.nakeduml.uim.UIMPackage#getNavigationToEntity_Binding()
+	 * @see org.nakeduml.uim.UimPackage#getNavigationToEntity_Binding()
 	 * @see org.nakeduml.uim.NavigationBinding#getNavigation
 	 * @model opposite="navigation" containment="true"
 	 * @generated
