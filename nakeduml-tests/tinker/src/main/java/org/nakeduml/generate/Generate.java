@@ -38,7 +38,7 @@ public class Generate {
 
 	private void generate() throws Exception {
 		long start = System.currentTimeMillis();
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(URI.createFileURI(modelFile.getAbsolutePath()), outputRoot.getName());
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(modelFile, outputRoot.getName());
 		workspace.setDirectoryName(outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
 		cfg.store();
