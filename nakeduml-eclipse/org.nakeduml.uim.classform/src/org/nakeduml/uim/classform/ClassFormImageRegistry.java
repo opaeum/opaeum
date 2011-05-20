@@ -12,18 +12,19 @@ import org.topcased.modeler.ImageRegistry;
 
 /**
  * Handle image
- *
+ * 
  * @generated
  */
 public final class ClassFormImageRegistry{
 	/**
 	 * The bundle id of the images
+	 * 
 	 * @generated
 	 */
 	public static final String BUNDLE = "org.nakeduml.uim.classform.images";
 	/**
 	 * The constructor
-	 *
+	 * 
 	 * @generated
 	 */
 	private ClassFormImageRegistry(){
@@ -31,8 +32,9 @@ public final class ClassFormImageRegistry{
 	}
 	/**
 	 * Clients should not dispose the Image returned.
-	 *
-	 * @param key  the key (one of the constants defined in this class)
+	 * 
+	 * @param key
+	 *            the key (one of the constants defined in this class)
 	 * @return the Image associated with the given key
 	 * @generated
 	 */
@@ -41,8 +43,9 @@ public final class ClassFormImageRegistry{
 	}
 	/**
 	 * Return the image location
-	 *
-	 * @param key  the key
+	 * 
+	 * @param key
+	 *            the key
 	 * @return the Image location associated with the given key
 	 * @generated
 	 */
@@ -51,8 +54,9 @@ public final class ClassFormImageRegistry{
 	}
 	/**
 	 * Build an image descriptor for the given key
-	 *
-	 * @param key  the key
+	 * 
+	 * @param key
+	 *            the key
 	 * @return the ImageDescriptor associated with the given key
 	 * @generated
 	 */

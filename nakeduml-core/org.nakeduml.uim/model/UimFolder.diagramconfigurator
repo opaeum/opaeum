@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmi:id="_ZHBSUatqEd-9va9cTh2Mew" projectName="org.nakeduml.uim.folderdiagram" name="User Interaction Folder Diagram" package="org.nakeduml.uim.folderdiagram" prefix="UimF">
+  <palette xmi:id="_8W-HAKtsEd-_dcmWflXdmg" name="Palette">
+    <paletteCategories xmi:id="_9bEoUKtsEd-_dcmWflXdmg" name="Folder">
+      <items xmi:id="_94bSsKtsEd-_dcmWflXdmg" name="Package Folder" part="_RqeR8K2_Ed-JXYJRSx086A"/>
+      <items xmi:id="_ogNdIK3LEd-JXYJRSx086A" name="Entity Folder" part="_3j-zwK3KEd-JXYJRSx086A"/>
+      <items xmi:id="_s0xpoK3LEd-JXYJRSx086A" name="State Machine Folder" part="__f0B4K3KEd-JXYJRSx086A"/>
+      <items xmi:id="_ud-cEK3LEd-JXYJRSx086A" name="Process Folder" part="_BGoOsK3LEd-JXYJRSx086A"/>
+    </paletteCategories>
+    <paletteCategories xmi:id="_pJoNkK3LEd-JXYJRSx086A" name="Forms">
+      <items xmi:id="_g1ekEKtwEd-_dcmWflXdmg" name="Entity Form" part="_zGWgMK0tEd-pa5FYBtUNow"/>
+      <items xmi:id="_IBaZQKuLEd-_dcmWflXdmg" name="Form for State" part="_0VB50K0tEd-pa5FYBtUNow"/>
+      <items xmi:id="_KVX_8KuLEd-_dcmWflXdmg" name="Operation Invocation Form" part="_WEQVoK2_Ed-JXYJRSx086A"/>
+      <items xmi:id="_5sBdsKuuEd-CvPr0gkpoqQ" name="Embedded Task" part="_TfAKoK2_Ed-JXYJRSx086A"/>
+      <items xmi:id="_75vScKuuEd-CvPr0gkpoqQ" name="Stand-alone Task" part="_SqjO4K2_Ed-JXYJRSx086A"/>
+    </paletteCategories>
+  </palette>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_RqeR8K2_Ed-JXYJRSx086A" object="_lagjYK2-Ed-JXYJRSx086A" childElements="_RqeR8K2_Ed-JXYJRSx086A _3j-zwK3KEd-JXYJRSx086A" container="true" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_3j-zwK3KEd-JXYJRSx086A" object="_u3uOQK3KEd-JXYJRSx086A" childElements="_zGWgMK0tEd-pa5FYBtUNow _SqjO4K2_Ed-JXYJRSx086A _WEQVoK2_Ed-JXYJRSx086A __f0B4K3KEd-JXYJRSx086A _BGoOsK3LEd-JXYJRSx086A" container="true" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="__f0B4K3KEd-JXYJRSx086A" object="_wo-JcK3KEd-JXYJRSx086A" childElements="_0VB50K0tEd-pa5FYBtUNow _WEQVoK2_Ed-JXYJRSx086A _zGWgMK0tEd-pa5FYBtUNow" container="true" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_BGoOsK3LEd-JXYJRSx086A" object="_zSizwK3KEd-JXYJRSx086A" childElements="__f0B4K3KEd-JXYJRSx086A _TfAKoK2_Ed-JXYJRSx086A _WEQVoK2_Ed-JXYJRSx086A _zGWgMK0tEd-pa5FYBtUNow" container="true" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_zGWgMK0tEd-pa5FYBtUNow" object="_vcWogK3OEd-JXYJRSx086A"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_0VB50K0tEd-pa5FYBtUNow" object="_trc9wK0tEd-pa5FYBtUNow"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_SqjO4K2_Ed-JXYJRSx086A" object="_niHJEK2-Ed-JXYJRSx086A"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_TfAKoK2_Ed-JXYJRSx086A" object="_pag1IK2-Ed-JXYJRSx086A"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_WEQVoK2_Ed-JXYJRSx086A" object="_rLUEYK2-Ed-JXYJRSx086A"/>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_lagjYK2-Ed-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/PackageFolder"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_u3uOQK3KEd-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/EntityFolder"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_wo-JcK3KEd-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/StateMachineFolder"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_zSizwK3KEd-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/ActivityFolder"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_trc9wK0tEd-pa5FYBtUNow">
+    <genClass href="Uim.genmodel#//uim/StateForm"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_niHJEK2-Ed-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/OperationTaskForm"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_pag1IK2-Ed-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/ActionTaskForm"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_rLUEYK2-Ed-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/OperationInvocationForm"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_vcWogK3OEd-JXYJRSx086A">
+    <genClass href="Uim.genmodel#//uim/ClassForm"/>
+  </objects>
+  <genModel href="Uim.genmodel#/"/>
+  <templateRootObject href="Uim.genmodel#//uim/UserInteractionModel"/>
+  <editorConfigurator href="Uim.editorconfigurator#_1Q9DYKtoEd-KPcvNJvbi5Q"/>
+</diagramconfigurator:DiagramConfiguration>

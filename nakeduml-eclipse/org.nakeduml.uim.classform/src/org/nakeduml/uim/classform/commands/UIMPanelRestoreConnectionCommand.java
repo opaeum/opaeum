@@ -8,12 +8,13 @@ import org.topcased.modeler.commands.AbstractRestoreConnectionCommand;
 
 /**
  * UIMPanel restore connection command
- *
+ * 
  * @generated
  */
 public class UIMPanelRestoreConnectionCommand extends AbstractRestoreConnectionCommand{
 	/**
-	 * @param part the EditPart that is restored
+	 * @param part
+	 *            the EditPart that is restored
 	 * @generated
 	 */
 	public UIMPanelRestoreConnectionCommand(EditPart part){

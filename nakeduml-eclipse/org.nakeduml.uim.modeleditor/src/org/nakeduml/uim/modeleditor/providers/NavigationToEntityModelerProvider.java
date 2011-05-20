@@ -5,7 +5,7 @@ package org.nakeduml.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -13,7 +13,7 @@ import org.topcased.modeler.providers.ILabelFeatureProvider;
  *
  * @generated
  */
-public class NavigationToEntityModelerProvider extends UIMNavigationModelerProvider implements ILabelFeatureProvider{
+public class NavigationToEntityModelerProvider extends UimNavigationModelerProvider implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *
@@ -28,6 +28,6 @@ public class NavigationToEntityModelerProvider extends UIMNavigationModelerProvi
 	 * @generated
 	 */
 	public EAttribute getLabelFeature(Object object){
-		return UIMPackage.eINSTANCE.getUserInteractionElement_Name();
+		return UimPackage.eINSTANCE.getUserInteractionElement_Name();
 	}
 }

@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.nakeduml.uim.DetailPanel;
 import org.nakeduml.uim.MasterComponent;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +29,7 @@ import org.nakeduml.uim.UIMPackage;
  *
  * @generated
  */
-public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
+public class DetailPanelImpl extends UimPanelImpl implements DetailPanel {
 	/**
 	 * The cached value of the '{@link #getMasterComponent() <em>Master Component</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -55,7 +55,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.DETAIL_PANEL;
+		return UimPackage.Literals.DETAIL_PANEL;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 			masterComponent = (MasterComponent)eResolveProxy(oldMasterComponent);
 			if (masterComponent != oldMasterComponent) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UIMPackage.DETAIL_PANEL__MASTER_COMPONENT, oldMasterComponent, masterComponent));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UimPackage.DETAIL_PANEL__MASTER_COMPONENT, oldMasterComponent, masterComponent));
 			}
 		}
 		return masterComponent;
@@ -93,7 +93,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 		MasterComponent oldMasterComponent = masterComponent;
 		masterComponent = newMasterComponent;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UIMPackage.DETAIL_PANEL__MASTER_COMPONENT, oldMasterComponent, newMasterComponent);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.DETAIL_PANEL__MASTER_COMPONENT, oldMasterComponent, newMasterComponent);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -108,14 +108,14 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 		if (newMasterComponent != masterComponent) {
 			NotificationChain msgs = null;
 			if (masterComponent != null)
-				msgs = ((InternalEObject)masterComponent).eInverseRemove(this, UIMPackage.MASTER_COMPONENT__DETAIL_PANELS, MasterComponent.class, msgs);
+				msgs = ((InternalEObject)masterComponent).eInverseRemove(this, UimPackage.MASTER_COMPONENT__DETAIL_PANELS, MasterComponent.class, msgs);
 			if (newMasterComponent != null)
-				msgs = ((InternalEObject)newMasterComponent).eInverseAdd(this, UIMPackage.MASTER_COMPONENT__DETAIL_PANELS, MasterComponent.class, msgs);
+				msgs = ((InternalEObject)newMasterComponent).eInverseAdd(this, UimPackage.MASTER_COMPONENT__DETAIL_PANELS, MasterComponent.class, msgs);
 			msgs = basicSetMasterComponent(newMasterComponent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.DETAIL_PANEL__MASTER_COMPONENT, newMasterComponent, newMasterComponent));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.DETAIL_PANEL__MASTER_COMPONENT, newMasterComponent, newMasterComponent));
 	}
 
 	/**
@@ -126,9 +126,9 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.DETAIL_PANEL__MASTER_COMPONENT:
+			case UimPackage.DETAIL_PANEL__MASTER_COMPONENT:
 				if (masterComponent != null)
-					msgs = ((InternalEObject)masterComponent).eInverseRemove(this, UIMPackage.MASTER_COMPONENT__DETAIL_PANELS, MasterComponent.class, msgs);
+					msgs = ((InternalEObject)masterComponent).eInverseRemove(this, UimPackage.MASTER_COMPONENT__DETAIL_PANELS, MasterComponent.class, msgs);
 				return basicSetMasterComponent((MasterComponent)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -142,7 +142,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.DETAIL_PANEL__MASTER_COMPONENT:
+			case UimPackage.DETAIL_PANEL__MASTER_COMPONENT:
 				return basicSetMasterComponent(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -156,7 +156,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.DETAIL_PANEL__MASTER_COMPONENT:
+			case UimPackage.DETAIL_PANEL__MASTER_COMPONENT:
 				if (resolve) return getMasterComponent();
 				return basicGetMasterComponent();
 		}
@@ -171,7 +171,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.DETAIL_PANEL__MASTER_COMPONENT:
+			case UimPackage.DETAIL_PANEL__MASTER_COMPONENT:
 				setMasterComponent((MasterComponent)newValue);
 				return;
 		}
@@ -186,7 +186,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.DETAIL_PANEL__MASTER_COMPONENT:
+			case UimPackage.DETAIL_PANEL__MASTER_COMPONENT:
 				setMasterComponent((MasterComponent)null);
 				return;
 		}
@@ -201,7 +201,7 @@ public class DetailPanelImpl extends UIMPanelImpl implements DetailPanel {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.DETAIL_PANEL__MASTER_COMPONENT:
+			case UimPackage.DETAIL_PANEL__MASTER_COMPONENT:
 				return masterComponent != null;
 		}
 		return super.eIsSet(featureID);

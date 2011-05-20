@@ -20,7 +20,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMField"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimField"/>
         </bridge>
     </node>
     <node
@@ -153,7 +153,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMPanel"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimPanel"/>
         </bridge>
     </node>
     <node
@@ -172,7 +172,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMTabPanel"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimTabPanel"/>
         </bridge>
     </node>
     <node
@@ -191,7 +191,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMTab"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimTab"/>
         </bridge>
     </node>
     <node
@@ -210,7 +210,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMDataTable"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimDataTable"/>
         </bridge>
     </node>
     <node
@@ -229,7 +229,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMDataColumn"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimDataColumn"/>
         </bridge>
     </node>
     <node
@@ -267,7 +267,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMXYLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimXYLayout"/>
         </bridge>
     </node>
     <node
@@ -286,7 +286,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMGridLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimGridLayout"/>
         </bridge>
     </node>
     <node
@@ -305,7 +305,7 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMToolbarLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimToolbarLayout"/>
         </bridge>
     </node>
     <node
@@ -324,7 +324,26 @@
         isWidthResizable="true"
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
-            <type href="http://nakeduml.org/uimetamodel/1.0#//UIMBorderLayout"/>
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimBorderLayout"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="1200"
+        maximumWidth="1200"
+        defaultBackgroundColor="255,255,255"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://nakeduml.org/uimetamodel/1.0#//UimFullLayout"/>
         </bridge>
     </node>
 </graphconf:DiagramGraphConf>

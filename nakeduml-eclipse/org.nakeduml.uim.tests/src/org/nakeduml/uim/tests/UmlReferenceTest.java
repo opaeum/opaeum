@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
 
-import org.nakeduml.uim.UIMFactory;
+import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UmlReference;
 
 /**
@@ -76,7 +76,7 @@ public class UmlReferenceTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createUmlReference());
+		setFixture(UimFactory.eINSTANCE.createUmlReference());
 	}
 
 	/**

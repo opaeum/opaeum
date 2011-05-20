@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.nakeduml.uim.modeleditor
 Bundle-SymbolicName: org.nakeduml.uim.modeleditor;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: org.nakeduml.uim.modeleditor.UIMPlugin
+Bundle-Activator: org.nakeduml.uim.modeleditor.UimPlugin
 Bundle-Vendor: nakeduml.org
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
@@ -21,7 +21,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
  org.topcased.modeler,
  org.eclipse.ui.views.properties.tabbed,
- org.topcased.tabbedproperties,
- org.nakeduml.uim.userinteractionproperties;bundle-version="1.0.0"
+ org.topcased.modeler.uml;bundle-version="3.0.10",
+ org.nakeduml.eclipse;bundle-version="1.0.0"
 Eclipse-LazyStart: true
-Export-Package: org.nakeduml.uim.modeleditor
+Export-Package: org.nakeduml.uim.modeleditor,
+ org.nakeduml.uim.modeleditor.actions,
+ org.nakeduml.uim.modeleditor.editor,
+ org.nakeduml.uim.modeleditor.preferences,
+ org.nakeduml.uim.modeleditor.providers,
+ org.nakeduml.uim.modeleditor.wizards,
+ org.nakeduml.uim.util

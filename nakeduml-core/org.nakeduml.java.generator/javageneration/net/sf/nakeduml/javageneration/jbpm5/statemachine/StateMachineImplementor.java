@@ -12,6 +12,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
@@ -34,7 +35,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractProcessStep;
 
-public class StateMachineImplementor extends AbstractBehaviorVisitor {
+public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 	private OJAnnotatedClass javaStateMachine;
 
 	@VisitAfter(matchSubclasses = true)

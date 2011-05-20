@@ -30,43 +30,15 @@
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimfieldcontrolkindsection.controltype"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
 				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMFieldControlKindSection">
-				<input type="org.nakeduml.uim.UIMField"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimFieldControlKindSection">
+				<input type="org.nakeduml.uim.UimField"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimfieldlabelwidthsection.labelwidth"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
 				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMFieldLabelWidthSection">
-				<input type="org.nakeduml.uim.UIMField"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.modelsecurityconstraintrequiredrolessection.requiredroles"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				afterSection="org.nakeduml.uim.userinteractionproperties.basic.modelsecurityconstraintrequiresgroupownershipsection.requiresgroupownership"
-				class="org.nakeduml.uim.userinteractionproperties.sections.ModelSecurityConstraintRequiredRolesSection">
-				<input type="org.nakeduml.uim.ModelSecurityConstraint"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.modelsecurityconstraintrequiresgroupownershipsection.requiresgroupownership"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				afterSection="org.nakeduml.uim.userinteractionproperties.basic.modelsecurityconstraintrequiresownershipsection.requiresownership"
-				class="org.nakeduml.uim.userinteractionproperties.sections.ModelSecurityConstraintRequiresGroupOwnershipSection">
-				<input type="org.nakeduml.uim.ModelSecurityConstraint"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.modelsecurityconstraintrequiresownershipsection.requiresownership"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				afterSection="org.nakeduml.uim.userinteractionproperties.basic.childsecurityconstraintinheritfromparentsection.inheritfromparent"
-				class="org.nakeduml.uim.userinteractionproperties.sections.ModelSecurityConstraintRequiresOwnershipSection">
-				<input type="org.nakeduml.uim.ModelSecurityConstraint"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.operationactionoperationsection.operation"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
-				class="org.nakeduml.uim.userinteractionproperties.sections.OperationActionOperationSection">
-				<input type="org.nakeduml.uim.OperationAction"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimFieldLabelWidthSection">
+				<input type="org.nakeduml.uim.UimField"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.navigationtooperationtoformsection.toform"
@@ -85,8 +57,9 @@
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimcontrolwidthsection.width"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMControlWidthSection">
-				<input type="org.nakeduml.uim.UIMControl"/>
+				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimControlWidthSection">
+				<input type="org.nakeduml.uim.UimControl"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.navigationtoentitytoformsection.toform"
@@ -96,43 +69,18 @@
 				<input type="org.nakeduml.uim.NavigationToEntity"/>
 			</propertySection>
 			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.transitionactiontransitionsection.transition"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.TransitionActionTransitionSection">
-				<input type="org.nakeduml.uim.TransitionAction"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.childsecurityconstraintinheritfromparentsection.inheritfromparent"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.ChildSecurityConstraintInheritFromParentSection">
-				<input type="org.nakeduml.uim.ChildSecurityConstraint"/>
-			</propertySection>
-			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimgridlayoutnumberofcolumnssection.numberofcolumns"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
 				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMGridLayoutNumberOfColumnsSection">
-				<input type="org.nakeduml.uim.UIMGridLayout"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.bindingelementsection.typedelement"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMBindingElementSection">
-				<input type="org.nakeduml.uim.UIMBinding"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.propertyrefpropertysection.property"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
-				class="org.nakeduml.uim.userinteractionproperties.sections.PropertyRefPropertySection">
-				<input type="org.nakeduml.uim.PropertyRef"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimGridLayoutNumberOfColumnsSection">
+				<input type="org.nakeduml.uim.UimGridLayout"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimdatacolumnwidthsection.width"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
 				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMDataColumnWidthSection">
-				<input type="org.nakeduml.uim.UIMDataColumn"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimDataColumnWidthSection">
+				<input type="org.nakeduml.uim.UimDataColumn"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.detailpanelmastercomponentsection.mastercomponent"
@@ -143,26 +91,60 @@
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimtabpanelactivetabindexsection.activetabindex"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMTabPanelActiveTabIndexSection">
-				<input type="org.nakeduml.uim.UIMTabPanel"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimTabPanelActiveTabIndexSection">
+				<input type="org.nakeduml.uim.UimTabPanel"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimtextarearowssection.rows"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMTextAreaRowsSection">
-				<input type="org.nakeduml.uim.UIMTextArea"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.uim.userinteractionproperties.basic.uimlistboxrowssection.rows"
-				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMListBoxRowsSection">
-				<input type="org.nakeduml.uim.UIMListBox"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimTextAreaRowsSection">
+				<input type="org.nakeduml.uim.UimTextArea"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.uim.userinteractionproperties.basic.uimborderlayouthorizontalsection.horizontal"
 				tab="org.nakeduml.uim.userinteractionproperties.basic"
-				class="org.nakeduml.uim.userinteractionproperties.sections.UIMBorderLayoutHorizontalSection">
-				<input type="org.nakeduml.uim.UIMBorderLayout"/>
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimBorderLayoutHorizontalSection">
+				<input type="org.nakeduml.uim.UimBorderLayout"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.uim.userinteractionproperties.basic.workspacesecurityconstraintrequiresgroupownershipsection.requiresgroupsownership"
+				tab="org.nakeduml.uim.userinteractionproperties.basic"
+				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.nakeduml.uim.userinteractionproperties.sections.WorkspaceSecurityConstraintRequiresGroupOwnershipSection">
+				<input type="org.nakeduml.uim.WorkspaceSecurityConstraint"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.uim.userinteractionproperties.basic.workspacesecurityconstraintrequiresownershipsection.requiresownership"
+				tab="org.nakeduml.uim.userinteractionproperties.basic"
+				class="org.nakeduml.uim.userinteractionproperties.sections.WorkspaceSecurityConstraintRequiresOwnershipSection">
+				<input type="org.nakeduml.uim.WorkspaceSecurityConstraint"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.uim.userinteractionproperties.basic.securityconstraintinheritfromparentsection.inheritfromparent"
+				tab="org.nakeduml.uim.userinteractionproperties.basic"
+				class="org.nakeduml.uim.userinteractionproperties.sections.SecurityConstraintInheritFromParentSection">
+				<input type="org.nakeduml.uim.SecurityConstraint"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.uim.userinteractionproperties.basic.uimfieldbindingsection.binding"
+				tab="org.nakeduml.uim.userinteractionproperties.basic"
+				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimFieldBindingSection">
+				<input type="org.nakeduml.uim.UimField"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.uim.userinteractionproperties.basic.uimdatatablebindingsection.binding"
+				tab="org.nakeduml.uim.userinteractionproperties.basic"
+				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.nakeduml.uim.userinteractionproperties.sections.UimDataTableBindingSection">
+				<input type="org.nakeduml.uim.UimDataTable"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.uim.userinteractionproperties.basic.navigationtoentitybindingsection.binding"
+				tab="org.nakeduml.uim.userinteractionproperties.basic"
+				afterSection="org.nakeduml.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.nakeduml.uim.userinteractionproperties.sections.NavigationToEntityBindingSection">
+				<input type="org.nakeduml.uim.NavigationToEntity"/>
 			</propertySection> 
 		</propertySections>
 	</extension>

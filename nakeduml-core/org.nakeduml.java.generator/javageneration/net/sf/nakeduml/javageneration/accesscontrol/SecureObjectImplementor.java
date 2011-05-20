@@ -17,9 +17,9 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.AbstractUser;
 import org.nakeduml.runtime.domain.AbstractUserRole;
 import org.nakeduml.runtime.domain.CompositionNode;
+import org.nakeduml.runtime.domain.NakedUmlUser;
 import org.nakeduml.runtime.domain.SecureObject;
 
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
@@ -35,7 +35,6 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedClass ojClass = findJavaClass(entity);
 		ojClass.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(SecureObject.class));
 		
-		ojClass.addToImports(ReflectionUtil.getUtilInterface(AbstractUser.class));
 		ojClass.addToImports(ReflectionUtil.getUtilInterface(AbstractUserRole.class));
 		
 		addIsOwnedByUser(ojClass, entity);
@@ -47,7 +46,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addIsUserOwnershipValid(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation isUserOwnershipValid = new OJAnnotatedOperation();
 		isUserOwnershipValid.setName("isUserOwnershipValid");
-		isUserOwnershipValid.addParam("user", ReflectionUtil.getUtilInterface(AbstractUser.class));
+		isUserOwnershipValid.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
 		isUserOwnershipValid.setBody(new OJBlock());
 		ojClass.addToOperations(isUserOwnershipValid);
 		OJIfStatement ifCan = new OJIfStatement("canBeOwnedByUser(user)", "return isOwnedByUser(user)");
@@ -62,7 +61,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			OJPathName secureObject = ReflectionUtil.getUtilInterface(SecureObject.class);
 			canBeOwnedByUser = new OJAnnotatedOperation();
 			canBeOwnedByUser.setName("canBeOwnedByUser");
-			canBeOwnedByUser.addParam("user", ReflectionUtil.getUtilInterface(AbstractUser.class));
+			canBeOwnedByUser.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
 			canBeOwnedByUser.setBody(new OJBlock());
 			canBeOwnedByUser.setReturnType(new OJPathName("boolean"));
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
@@ -85,7 +84,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			OJPathName secureObject = ReflectionUtil.getUtilInterface(SecureObject.class);
 			isOwnedByUser = new OJAnnotatedOperation();
 			isOwnedByUser.setName("isOwnedByUser");
-			isOwnedByUser.addParam("user", ReflectionUtil.getUtilInterface(AbstractUser.class));
+			isOwnedByUser.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
 			isOwnedByUser.setBody(new OJBlock());
 			isOwnedByUser.setReturnType(new OJPathName("boolean"));
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
@@ -108,7 +107,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			OJPathName secureObject = ReflectionUtil.getUtilInterface(SecureObject.class);
 			isGroupOwnershipValid = new OJAnnotatedOperation();
 			isGroupOwnershipValid.setName("isGroupOwnershipValid");
-			isGroupOwnershipValid.addParam("user", ReflectionUtil.getUtilInterface(AbstractUser.class));
+			isGroupOwnershipValid.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
 			forRoles.setBody(new OJBlock());
 			forRoles.setElemType(ReflectionUtil.getUtilInterface(AbstractUserRole.class));

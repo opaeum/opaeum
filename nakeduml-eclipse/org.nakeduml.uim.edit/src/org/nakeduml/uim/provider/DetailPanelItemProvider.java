@@ -10,10 +10,8 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -22,7 +20,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.nakeduml.uim.DetailPanel;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.DetailPanel} object.
@@ -31,7 +29,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class DetailPanelItemProvider
-	extends UIMPanelItemProvider
+	extends UimPanelItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -77,7 +75,7 @@ public class DetailPanelItemProvider
 				 getResourceLocator(),
 				 getString("_UI_DetailPanel_masterComponent_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_DetailPanel_masterComponent_feature", "_UI_DetailPanel_type"),
-				 UIMPackage.Literals.DETAIL_PANEL__MASTER_COMPONENT,
+				 UimPackage.Literals.DETAIL_PANEL__MASTER_COMPONENT,
 				 true,
 				 false,
 				 true,
@@ -148,8 +146,8 @@ public class DetailPanelItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UIMPackage.Literals.UIM_COMPONENT__SECURITY_ON_VISIBILITY ||
-			childFeature == UIMPackage.Literals.UIM_CONTAINER__SECURITY_ON_EDITABILITY;
+			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString

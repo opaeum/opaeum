@@ -40,9 +40,6 @@ public class Jbpm5JavaStep extends AbstractJavaTransformationStep {
 		StateEnumerationImplementor statimpl = new StateEnumerationImplementor();
 		statimpl.initialize(javaModel, config, textWorkspace, context);
 		statimpl.startVisiting(workspace);
-		BehaviorEnvironmentBuilder beb = new BehaviorEnvironmentBuilder();
-		beb.initialize(javaModel, config, textWorkspace, context);
-		beb.startVisiting(workspace);
 		// Lastly we insert the events - add to end of methods.
 		ActivityEventHandlerInserter aehi = new ActivityEventHandlerInserter();
 		aehi.initialize(javaModel, config, textWorkspace, context);

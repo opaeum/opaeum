@@ -17,7 +17,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * A representation of the literals of the enumeration '<em><b>Action Kind</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see org.nakeduml.uim.UIMPackage#getActionKind()
+ * @see org.nakeduml.uim.UimPackage#getActionKind()
  * @model
  * @generated
  */
@@ -100,7 +100,15 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CREATE(7, "create", "create");
+	CREATE(7, "create", "create"), /**
+	 * The '<em><b>Forward Task</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #FORWARD_TASK_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	FORWARD_TASK(8, "forwardTask", "forwardTask");
 
 	/**
 	 * The '<em><b>Update</b></em>' literal value.
@@ -223,6 +231,21 @@ public enum ActionKind implements Enumerator {
 	public static final int CREATE_VALUE = 7;
 
 	/**
+	 * The '<em><b>Forward Task</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Forward Task</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #FORWARD_TASK
+	 * @model name="forwardTask"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int FORWARD_TASK_VALUE = 8;
+
+	/**
 	 * An array of all the '<em><b>Action Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -238,6 +261,7 @@ public enum ActionKind implements Enumerator {
 			COMPLETE_TASK,
 			RETURN_TASK,
 			CREATE,
+			FORWARD_TASK,
 		};
 
 	/**
@@ -296,6 +320,7 @@ public enum ActionKind implements Enumerator {
 			case COMPLETE_TASK_VALUE: return COMPLETE_TASK;
 			case RETURN_TASK_VALUE: return RETURN_TASK;
 			case CREATE_VALUE: return CREATE;
+			case FORWARD_TASK_VALUE: return FORWARD_TASK;
 		}
 		return null;
 	}

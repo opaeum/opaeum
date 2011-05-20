@@ -63,6 +63,7 @@ public class Caller extends SimpleNodeBuilder<INakedCallAction> {
 					NakedClassifierMap messageMap = new NakedClassifierMap(node.getMessageStructure());
 					fs.addToStatements( messageMap.javaType() + " " + node.getMappingInfo().getJavaName() + " = " + call );
 					if (node.getActivity().isProcess()) {
+						//TODO irrespective of whether it is a task or  a process, set the returnInfo (processId + nodeInstanceId
 						fs.addToStatements(node.getMappingInfo().getJavaName()  + ".init(context)");
 					}
 					call = node.getMappingInfo().getJavaName().getAsIs();

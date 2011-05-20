@@ -332,6 +332,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		super.addStereotype(stereotype);
 		if (stereotype.hasValueForFeature(TagNames.MAPPED_IMPLEMENTATION_TYPE)) {
 			this.mappedImplementationType = stereotype.getFirstValueFor(TagNames.MAPPED_IMPLEMENTATION_TYPE).stringValue();
+			this.codeGenerationStrategy=CodeGenerationStrategy.none;
 		}
 		if (stereotype.hasValueForFeature(TagNames.CODE_GENERATION_STRATEGY)) {
 			String s = stereotype.getFirstValueFor(TagNames.CODE_GENERATION_STRATEGY).stringValue();

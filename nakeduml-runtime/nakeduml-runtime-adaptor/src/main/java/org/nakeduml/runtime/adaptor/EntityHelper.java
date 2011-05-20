@@ -1,7 +1,6 @@
 package org.nakeduml.runtime.adaptor;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractUser;
 
 public abstract class EntityHelper {
 
@@ -102,9 +101,9 @@ public abstract class EntityHelper {
 //	public AbstractUser getUser() {
 //		return this.user;
 //	}
-
-	public void setUser(AbstractUser currentUser){
-		// TODO Auto-generated method stub
-		
-	}
+//
+//	public void setUser(AbstractUser currentUser){
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

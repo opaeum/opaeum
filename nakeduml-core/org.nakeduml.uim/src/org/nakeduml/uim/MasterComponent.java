@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getMasterComponent()
+ * @see org.nakeduml.uim.UimPackage#getMasterComponent()
  * @model interface="true" abstract="true"
  * @generated
  */
@@ -38,7 +38,7 @@ public interface MasterComponent extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Detail Panels</em>' reference list.
-	 * @see org.nakeduml.uim.UIMPackage#getMasterComponent_DetailPanels()
+	 * @see org.nakeduml.uim.UimPackage#getMasterComponent_DetailPanels()
 	 * @see org.nakeduml.uim.DetailPanel#getMasterComponent
 	 * @model opposite="masterComponent"
 	 * @generated

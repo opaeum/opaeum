@@ -7,15 +7,24 @@
 package org.nakeduml.uim.impl;
 
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.uml2.uml.Model;
-import org.nakeduml.uim.ModelSecurityConstraint;
-import org.nakeduml.uim.UIMPackage;
-import org.nakeduml.uim.UmlReference;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.nakeduml.uim.AbstractFolder;
+import org.nakeduml.uim.AbstractFormFolder;
+import org.nakeduml.uim.EditableSecureObject;
+import org.nakeduml.uim.SecureObject;
+import org.nakeduml.uim.SecurityConstraint;
+import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UserInteractionElement;
 import org.nakeduml.uim.UserInteractionModel;
 
 /**
@@ -25,64 +34,66 @@ import org.nakeduml.uim.UserInteractionModel;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getUmlModel <em>Uml Model</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getSecurityOnVisibility <em>Security On Visibility</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getSecuirytOnEditability <em>Secuiryt On Editability</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UserInteractionModelImpl#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UserInteractionModelImpl extends AbstractFolderImpl implements UserInteractionModel {
+public class UserInteractionModelImpl extends UmlReferenceImpl implements UserInteractionModel {
 	/**
-	 * The default value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String UML_ELEMENT_UID_EDEFAULT = null;
+	protected static final String NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getUmlElementUid() <em>Uml Element Uid</em>}' attribute.
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlElementUid()
+	 * @see #getName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getUmlModel() <em>Uml Model</em>}' reference.
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlModel()
+	 * @see #getChildren()
 	 * @generated
 	 * @ordered
 	 */
-	protected Model umlModel;
+	protected EList<AbstractFormFolder> children;
 
 	/**
-	 * The cached value of the '{@link #getSecurityOnVisibility() <em>Security On Visibility</em>}' containment reference.
+	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSecurityOnVisibility()
+	 * @see #getVisibility()
 	 * @generated
 	 * @ordered
 	 */
-	protected ModelSecurityConstraint securityOnVisibility;
+	protected SecurityConstraint visibility;
+
 	/**
-	 * The cached value of the '{@link #getSecuirytOnEditability() <em>Secuiryt On Editability</em>}' containment reference.
+	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSecuirytOnEditability()
+	 * @see #getEditability()
 	 * @generated
 	 * @ordered
 	 */
-	protected ModelSecurityConstraint secuirytOnEditability;
+	protected SecurityConstraint editability;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,7 +111,7 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return UIMPackage.Literals.USER_INTERACTION_MODEL;
+		return UimPackage.Literals.USER_INTERACTION_MODEL;
 	}
 
 	/**
@@ -108,8 +119,8 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getUmlElementUid() {
-		return umlElementUid;
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -117,11 +128,11 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUmlElementUid(String newUmlElementUid) {
-		String oldUmlElementUid = umlElementUid;
-		umlElementUid = newUmlElementUid;
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID, oldUmlElementUid, umlElementUid));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_MODEL__NAME, oldName, name));
 	}
 
 	/**
@@ -129,16 +140,11 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model getUmlModel() {
-		if (umlModel != null && umlModel.eIsProxy()) {
-			InternalEObject oldUmlModel = (InternalEObject)umlModel;
-			umlModel = (Model)eResolveProxy(oldUmlModel);
-			if (umlModel != oldUmlModel) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UIMPackage.USER_INTERACTION_MODEL__UML_MODEL, oldUmlModel, umlModel));
-			}
+	public EList<AbstractFormFolder> getChildren() {
+		if (children == null) {
+			children = new EObjectContainmentWithInverseEList<AbstractFormFolder>(AbstractFormFolder.class, this, UimPackage.USER_INTERACTION_MODEL__CHILDREN, UimPackage.ABSTRACT_FORM_FOLDER__PARENT);
 		}
-		return umlModel;
+		return children;
 	}
 
 	/**
@@ -146,8 +152,8 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Model basicGetUmlModel() {
-		return umlModel;
+	public SecurityConstraint getVisibility() {
+		return visibility;
 	}
 
 	/**
@@ -155,32 +161,11 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUmlModel(Model newUmlModel) {
-		Model oldUmlModel = umlModel;
-		umlModel = newUmlModel;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__UML_MODEL, oldUmlModel, umlModel));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ModelSecurityConstraint getSecurityOnVisibility() {
-		return securityOnVisibility;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSecurityOnVisibility(ModelSecurityConstraint newSecurityOnVisibility, NotificationChain msgs) {
-		ModelSecurityConstraint oldSecurityOnVisibility = securityOnVisibility;
-		securityOnVisibility = newSecurityOnVisibility;
+	public NotificationChain basicSetVisibility(SecurityConstraint newVisibility, NotificationChain msgs) {
+		SecurityConstraint oldVisibility = visibility;
+		visibility = newVisibility;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY, oldSecurityOnVisibility, newSecurityOnVisibility);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_MODEL__VISIBILITY, oldVisibility, newVisibility);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -191,18 +176,18 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSecurityOnVisibility(ModelSecurityConstraint newSecurityOnVisibility) {
-		if (newSecurityOnVisibility != securityOnVisibility) {
+	public void setVisibility(SecurityConstraint newVisibility) {
+		if (newVisibility != visibility) {
 			NotificationChain msgs = null;
-			if (securityOnVisibility != null)
-				msgs = ((InternalEObject)securityOnVisibility).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY, null, msgs);
-			if (newSecurityOnVisibility != null)
-				msgs = ((InternalEObject)newSecurityOnVisibility).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY, null, msgs);
-			msgs = basicSetSecurityOnVisibility(newSecurityOnVisibility, msgs);
+			if (visibility != null)
+				msgs = ((InternalEObject)visibility).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.USER_INTERACTION_MODEL__VISIBILITY, null, msgs);
+			if (newVisibility != null)
+				msgs = ((InternalEObject)newVisibility).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UimPackage.USER_INTERACTION_MODEL__VISIBILITY, null, msgs);
+			msgs = basicSetVisibility(newVisibility, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY, newSecurityOnVisibility, newSecurityOnVisibility));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_MODEL__VISIBILITY, newVisibility, newVisibility));
 	}
 
 	/**
@@ -210,8 +195,8 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelSecurityConstraint getSecuirytOnEditability() {
-		return secuirytOnEditability;
+	public SecurityConstraint getEditability() {
+		return editability;
 	}
 
 	/**
@@ -219,11 +204,11 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSecuirytOnEditability(ModelSecurityConstraint newSecuirytOnEditability, NotificationChain msgs) {
-		ModelSecurityConstraint oldSecuirytOnEditability = secuirytOnEditability;
-		secuirytOnEditability = newSecuirytOnEditability;
+	public NotificationChain basicSetEditability(SecurityConstraint newEditability, NotificationChain msgs) {
+		SecurityConstraint oldEditability = editability;
+		editability = newEditability;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY, oldSecuirytOnEditability, newSecuirytOnEditability);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_MODEL__EDITABILITY, oldEditability, newEditability);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -234,18 +219,78 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSecuirytOnEditability(ModelSecurityConstraint newSecuirytOnEditability) {
-		if (newSecuirytOnEditability != secuirytOnEditability) {
+	public void setEditability(SecurityConstraint newEditability) {
+		if (newEditability != editability) {
 			NotificationChain msgs = null;
-			if (secuirytOnEditability != null)
-				msgs = ((InternalEObject)secuirytOnEditability).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY, null, msgs);
-			if (newSecuirytOnEditability != null)
-				msgs = ((InternalEObject)newSecuirytOnEditability).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY, null, msgs);
-			msgs = basicSetSecuirytOnEditability(newSecuirytOnEditability, msgs);
+			if (editability != null)
+				msgs = ((InternalEObject)editability).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.USER_INTERACTION_MODEL__EDITABILITY, null, msgs);
+			if (newEditability != null)
+				msgs = ((InternalEObject)newEditability).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UimPackage.USER_INTERACTION_MODEL__EDITABILITY, null, msgs);
+			msgs = basicSetEditability(newEditability, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY, newSecuirytOnEditability, newSecuirytOnEditability));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_MODEL__EDITABILITY, newEditability, newEditability));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AbstractFolder getParent() {
+		if (eContainerFeatureID() != UimPackage.USER_INTERACTION_MODEL__PARENT) return null;
+		return (AbstractFolder)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetParent(AbstractFolder newParent, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newParent, UimPackage.USER_INTERACTION_MODEL__PARENT, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParent(AbstractFolder newParent) {
+		if (newParent != eInternalContainer() || (eContainerFeatureID() != UimPackage.USER_INTERACTION_MODEL__PARENT && newParent != null)) {
+			if (EcoreUtil.isAncestor(this, newParent))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newParent != null)
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, UimPackage.ABSTRACT_FOLDER__CHILDREN, AbstractFolder.class, msgs);
+			msgs = basicSetParent(newParent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.USER_INTERACTION_MODEL__PARENT, newParent, newParent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildren()).basicAdd(otherEnd, msgs);
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetParent((AbstractFolder)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -256,10 +301,14 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
-				return basicSetSecurityOnVisibility(null, msgs);
-			case UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY:
-				return basicSetSecuirytOnEditability(null, msgs);
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
+			case UimPackage.USER_INTERACTION_MODEL__VISIBILITY:
+				return basicSetVisibility(null, msgs);
+			case UimPackage.USER_INTERACTION_MODEL__EDITABILITY:
+				return basicSetEditability(null, msgs);
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				return basicSetParent(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -270,17 +319,32 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				return eInternalContainer().eInverseRemove(this, UimPackage.ABSTRACT_FOLDER__CHILDREN, AbstractFolder.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				return getUmlElementUid();
-			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
-				if (resolve) return getUmlModel();
-				return basicGetUmlModel();
-			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
-				return getSecurityOnVisibility();
-			case UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY:
-				return getSecuirytOnEditability();
+			case UimPackage.USER_INTERACTION_MODEL__NAME:
+				return getName();
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+				return getChildren();
+			case UimPackage.USER_INTERACTION_MODEL__VISIBILITY:
+				return getVisibility();
+			case UimPackage.USER_INTERACTION_MODEL__EDITABILITY:
+				return getEditability();
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				return getParent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -290,20 +354,25 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				setUmlElementUid((String)newValue);
+			case UimPackage.USER_INTERACTION_MODEL__NAME:
+				setName((String)newValue);
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
-				setUmlModel((Model)newValue);
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection<? extends AbstractFormFolder>)newValue);
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
-				setSecurityOnVisibility((ModelSecurityConstraint)newValue);
+			case UimPackage.USER_INTERACTION_MODEL__VISIBILITY:
+				setVisibility((SecurityConstraint)newValue);
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY:
-				setSecuirytOnEditability((ModelSecurityConstraint)newValue);
+			case UimPackage.USER_INTERACTION_MODEL__EDITABILITY:
+				setEditability((SecurityConstraint)newValue);
+				return;
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				setParent((AbstractFolder)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -317,17 +386,20 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
+			case UimPackage.USER_INTERACTION_MODEL__NAME:
+				setName(NAME_EDEFAULT);
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
-				setUmlModel((Model)null);
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+				getChildren().clear();
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
-				setSecurityOnVisibility((ModelSecurityConstraint)null);
+			case UimPackage.USER_INTERACTION_MODEL__VISIBILITY:
+				setVisibility((SecurityConstraint)null);
 				return;
-			case UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY:
-				setSecuirytOnEditability((ModelSecurityConstraint)null);
+			case UimPackage.USER_INTERACTION_MODEL__EDITABILITY:
+				setEditability((SecurityConstraint)null);
+				return;
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				setParent((AbstractFolder)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -341,14 +413,16 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID:
-				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
-			case UIMPackage.USER_INTERACTION_MODEL__UML_MODEL:
-				return umlModel != null;
-			case UIMPackage.USER_INTERACTION_MODEL__SECURITY_ON_VISIBILITY:
-				return securityOnVisibility != null;
-			case UIMPackage.USER_INTERACTION_MODEL__SECUIRYT_ON_EDITABILITY:
-				return secuirytOnEditability != null;
+			case UimPackage.USER_INTERACTION_MODEL__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case UimPackage.USER_INTERACTION_MODEL__CHILDREN:
+				return children != null && !children.isEmpty();
+			case UimPackage.USER_INTERACTION_MODEL__VISIBILITY:
+				return visibility != null;
+			case UimPackage.USER_INTERACTION_MODEL__EDITABILITY:
+				return editability != null;
+			case UimPackage.USER_INTERACTION_MODEL__PARENT:
+				return getParent() != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -360,9 +434,33 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
+		if (baseClass == UserInteractionElement.class) {
 			switch (derivedFeatureID) {
-				case UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID: return UIMPackage.UML_REFERENCE__UML_ELEMENT_UID;
+				case UimPackage.USER_INTERACTION_MODEL__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == AbstractFolder.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.USER_INTERACTION_MODEL__CHILDREN: return UimPackage.ABSTRACT_FOLDER__CHILDREN;
+				default: return -1;
+			}
+		}
+		if (baseClass == SecureObject.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.USER_INTERACTION_MODEL__VISIBILITY: return UimPackage.SECURE_OBJECT__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == EditableSecureObject.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.USER_INTERACTION_MODEL__EDITABILITY: return UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == AbstractFormFolder.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.USER_INTERACTION_MODEL__PARENT: return UimPackage.ABSTRACT_FORM_FOLDER__PARENT;
 				default: return -1;
 			}
 		}
@@ -376,9 +474,33 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == UmlReference.class) {
+		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
-				case UIMPackage.UML_REFERENCE__UML_ELEMENT_UID: return UIMPackage.USER_INTERACTION_MODEL__UML_ELEMENT_UID;
+				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return UimPackage.USER_INTERACTION_MODEL__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == AbstractFolder.class) {
+			switch (baseFeatureID) {
+				case UimPackage.ABSTRACT_FOLDER__CHILDREN: return UimPackage.USER_INTERACTION_MODEL__CHILDREN;
+				default: return -1;
+			}
+		}
+		if (baseClass == SecureObject.class) {
+			switch (baseFeatureID) {
+				case UimPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.USER_INTERACTION_MODEL__VISIBILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == EditableSecureObject.class) {
+			switch (baseFeatureID) {
+				case UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.USER_INTERACTION_MODEL__EDITABILITY;
+				default: return -1;
+			}
+		}
+		if (baseClass == AbstractFormFolder.class) {
+			switch (baseFeatureID) {
+				case UimPackage.ABSTRACT_FORM_FOLDER__PARENT: return UimPackage.USER_INTERACTION_MODEL__PARENT;
 				default: return -1;
 			}
 		}
@@ -395,8 +517,8 @@ public class UserInteractionModelImpl extends AbstractFolderImpl implements User
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (umlElementUid: ");
-		result.append(umlElementUid);
+		result.append(" (name: ");
+		result.append(name);
 		result.append(')');
 		return result.toString();
 	}

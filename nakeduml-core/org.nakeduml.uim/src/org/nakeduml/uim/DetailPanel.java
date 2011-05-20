@@ -19,11 +19,11 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getDetailPanel()
+ * @see org.nakeduml.uim.UimPackage#getDetailPanel()
  * @model
  * @generated
  */
-public interface DetailPanel extends UIMPanel {
+public interface DetailPanel extends UimPanel {
 	/**
 	 * Returns the value of the '<em><b>Master Component</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.MasterComponent#getDetailPanels <em>Detail Panels</em>}'.
@@ -35,7 +35,7 @@ public interface DetailPanel extends UIMPanel {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Master Component</em>' reference.
 	 * @see #setMasterComponent(MasterComponent)
-	 * @see org.nakeduml.uim.UIMPackage#getDetailPanel_MasterComponent()
+	 * @see org.nakeduml.uim.UimPackage#getDetailPanel_MasterComponent()
 	 * @see org.nakeduml.uim.MasterComponent#getDetailPanels
 	 * @model opposite="detailPanels"
 	 * @generated

@@ -6,13 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.UIMFactory;
-
-import junit.framework.TestCase;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.PropertyRef;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -60,7 +57,7 @@ public class PropertyRefTest extends UmlReferenceTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createPropertyRef());
+		setFixture(UimFactory.eINSTANCE.createPropertyRef());
 	}
 
 	/**

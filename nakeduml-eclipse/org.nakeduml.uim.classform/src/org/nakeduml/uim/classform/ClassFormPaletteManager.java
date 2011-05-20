@@ -9,7 +9,7 @@ import java.util.List;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.requests.CreationFactory;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.palette.ModelerCreationToolEntry;
@@ -17,7 +17,7 @@ import org.topcased.modeler.editor.palette.ModelerPaletteManager;
 
 /**
  * Generated Palette Manager
- *
+ * 
  * @generated
  */
 public class ClassFormPaletteManager extends ModelerPaletteManager{
@@ -40,8 +40,9 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 	private ICreationUtils creationUtils;
 	/**
 	 * The Constructor
-	 *
-	 * @param utils the creation utils for the tools of the palette 
+	 * 
+	 * @param utils
+	 *            the creation utils for the tools of the palette
 	 * @generated
 	 */
 	public ClassFormPaletteManager(ICreationUtils utils){
@@ -50,7 +51,7 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 	}
 	/**
 	 * Creates the main categories of the palette
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void createCategories(){
@@ -60,7 +61,7 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 	}
 	/**
 	 * Updates the main categories of the palette
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void updateCategories(){
@@ -74,29 +75,29 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 	}
 	/**
 	 * Creates the Palette container containing all the Palette entries for each figure.
-	 *
+	 * 
 	 * @generated
 	 */
 	private void createControlsDrawer(){
 		controlsDrawer = new PaletteDrawer("Controls", null);
 		List<PaletteEntry> entries = new ArrayList<PaletteEntry>();
 		CreationFactory factory;
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMField(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimField(), "default");
 		entries.add(new ModelerCreationToolEntry("Field", "Field", factory, ClassFormImageRegistry.getImageDescriptor("UIMFIELD"), ClassFormImageRegistry
 				.getImageDescriptor("UIMFIELD_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getNavigationToEntity(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getNavigationToEntity(), "default");
 		entries.add(new ModelerCreationToolEntry("Link to Entity", "Link to Entity", factory, ClassFormImageRegistry.getImageDescriptor("NAVIGATIONTOENTITY"),
 				ClassFormImageRegistry.getImageDescriptor("NAVIGATIONTOENTITY_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getNavigationToOperation(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getNavigationToOperation(), "default");
 		entries.add(new ModelerCreationToolEntry("Link to Operation", "Link to Operation", factory, ClassFormImageRegistry.getImageDescriptor("NAVIGATIONTOOPERATION"),
 				ClassFormImageRegistry.getImageDescriptor("NAVIGATIONTOOPERATION_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getOperationAction(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getOperationAction(), "default");
 		entries.add(new ModelerCreationToolEntry("Operation Action", "Operation Action", factory, ClassFormImageRegistry.getImageDescriptor("OPERATIONACTION"),
 				ClassFormImageRegistry.getImageDescriptor("OPERATIONACTION_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getBuiltInAction(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getBuiltInAction(), "default");
 		entries.add(new ModelerCreationToolEntry("Built-in Action", "Built-in Action", factory, ClassFormImageRegistry.getImageDescriptor("BUILTINACTION"),
 				ClassFormImageRegistry.getImageDescriptor("BUILTINACTION_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getTransitionAction(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getTransitionAction(), "default");
 		entries.add(new ModelerCreationToolEntry("Transition Action", "Transition Action", factory, ClassFormImageRegistry.getImageDescriptor("TRANSITIONACTION"),
 				ClassFormImageRegistry.getImageDescriptor("TRANSITIONACTION_LARGE")));
 		controlsDrawer.addAll(entries);
@@ -104,32 +105,32 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 	}
 	/**
 	 * Creates the Palette container containing all the Palette entries for each figure.
-	 *
+	 * 
 	 * @generated
 	 */
 	private void createContainersDrawer(){
 		containersDrawer = new PaletteDrawer("Containers", null);
 		List<PaletteEntry> entries = new ArrayList<PaletteEntry>();
 		CreationFactory factory;
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getFormPanel(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getFormPanel(), "default");
 		entries.add(new ModelerCreationToolEntry("Form", "Form", factory, ClassFormImageRegistry.getImageDescriptor("FORMPANEL"), ClassFormImageRegistry
 				.getImageDescriptor("FORMPANEL_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMPanel(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimPanel(), "default");
 		entries.add(new ModelerCreationToolEntry("Panel", "Panel", factory, ClassFormImageRegistry.getImageDescriptor("UIMPANEL"), ClassFormImageRegistry
 				.getImageDescriptor("UIMPANEL_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMTabPanel(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimTabPanel(), "default");
 		entries.add(new ModelerCreationToolEntry("Tabbed Panel", "Tabbed Panel", factory, ClassFormImageRegistry.getImageDescriptor("UIMTABPANEL"),
 				ClassFormImageRegistry.getImageDescriptor("UIMTABPANEL_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMTab(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimTab(), "default");
 		entries.add(new ModelerCreationToolEntry("Tab", "Tab", factory, ClassFormImageRegistry.getImageDescriptor("UIMTAB"), ClassFormImageRegistry
 				.getImageDescriptor("UIMTAB_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMDataTable(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimDataTable(), "default");
 		entries.add(new ModelerCreationToolEntry("Data Table", "Data Table", factory, ClassFormImageRegistry.getImageDescriptor("UIMDATATABLE"), ClassFormImageRegistry
 				.getImageDescriptor("UIMDATATABLE_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMDataColumn(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimDataColumn(), "default");
 		entries.add(new ModelerCreationToolEntry("Data Colum", "Data Colum", factory, ClassFormImageRegistry.getImageDescriptor("UIMDATACOLUMN"), ClassFormImageRegistry
 				.getImageDescriptor("UIMDATACOLUMN_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getDetailPanel(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getDetailPanel(), "default");
 		entries.add(new ModelerCreationToolEntry("Master/Detail Panel", "Master/Detail Panel", factory, ClassFormImageRegistry.getImageDescriptor("DETAILPANEL"),
 				ClassFormImageRegistry.getImageDescriptor("DETAILPANEL_LARGE")));
 		containersDrawer.addAll(entries);
@@ -137,25 +138,28 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 	}
 	/**
 	 * Creates the Palette container containing all the Palette entries for each figure.
-	 *
+	 * 
 	 * @generated
 	 */
 	private void createLayoutsDrawer(){
 		layoutsDrawer = new PaletteDrawer("Layouts", null);
 		List<PaletteEntry> entries = new ArrayList<PaletteEntry>();
 		CreationFactory factory;
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMXYLayout(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimXYLayout(), "default");
 		entries.add(new ModelerCreationToolEntry("XY Layout", "XY Layout", factory, ClassFormImageRegistry.getImageDescriptor("UIMXYLAYOUT"), ClassFormImageRegistry
 				.getImageDescriptor("UIMXYLAYOUT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMGridLayout(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimGridLayout(), "default");
 		entries.add(new ModelerCreationToolEntry("Grid Layout", "Grid Layout", factory, ClassFormImageRegistry.getImageDescriptor("UIMGRIDLAYOUT"),
 				ClassFormImageRegistry.getImageDescriptor("UIMGRIDLAYOUT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMToolbarLayout(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimToolbarLayout(), "default");
 		entries.add(new ModelerCreationToolEntry("Toolbar Layout", "Toolbar Layout", factory, ClassFormImageRegistry.getImageDescriptor("UIMTOOLBARLAYOUT"),
 				ClassFormImageRegistry.getImageDescriptor("UIMTOOLBARLAYOUT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UIMPackage.eINSTANCE.getUIMBorderLayout(), "default");
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimBorderLayout(), "default");
 		entries.add(new ModelerCreationToolEntry("Border Layout", "Border Layout", factory, ClassFormImageRegistry.getImageDescriptor("UIMBORDERLAYOUT"),
 				ClassFormImageRegistry.getImageDescriptor("UIMBORDERLAYOUT_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, UimPackage.eINSTANCE.getUimFullLayout(), "default");
+		entries.add(new ModelerCreationToolEntry("Full Layout", "Full Layout", factory, ClassFormImageRegistry.getImageDescriptor("UIMFULLLAYOUT"),
+				ClassFormImageRegistry.getImageDescriptor("UIMFULLLAYOUT_LARGE")));
 		layoutsDrawer.addAll(entries);
 		getRoot().add(layoutsDrawer);
 	}

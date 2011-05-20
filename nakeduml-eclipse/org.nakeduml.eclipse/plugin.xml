@@ -8,7 +8,7 @@
              id="net.sf.nakeduml.uml2uim.actions.graphic.menu"
              objectClass="org.topcased.modeler.uml.alldiagram.edit.ElementEditPart">
           <menu
-                id="net.sf.nakeduml.uml2uim.graphic.menu"
+                id="org.nakeduml.graphic.menu"
                 label="NakedUML">
              <groupMarker
                    name="numlActionsGroup">
@@ -20,7 +20,7 @@
              id="net.sf.nakeduml.uml2uim.actions.outline.menu"
              objectClass="org.eclipse.uml2.uml.NamedElement">
           <menu
-                id="net.sf.nakeduml.uml2uim.outline.menu"
+                id="org.nakeduml.outline.menu"
                 label="NakedUML">
              <groupMarker
                    name="numlActionsGroup">
@@ -38,7 +38,7 @@
                 enablesFor="*"
                 id="org.nakeduml.eclipse.ImportSimpleTypesAction"
                 label="Import NakedUML Simple Types"
-                menubarPath="net.sf.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
     </extension>
@@ -52,7 +52,7 @@
                 enablesFor="*"
                 id="org.nakeduml.eclipse.ApplySimpleTypesProfileAction"
                 label="Apply NakedUML Simple Types Profile"
-                menubarPath="net.sf.nakeduml.uml2uim.outline.menu/numlActionsGroup">
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
     </extension>

@@ -19,14 +19,14 @@ package org.nakeduml.uim;
  * </ul>
  * </p>
  *
- * @see org.nakeduml.uim.UIMPackage#getTableBinding()
+ * @see org.nakeduml.uim.UimPackage#getTableBinding()
  * @model
  * @generated
  */
-public interface TableBinding extends UIMBinding {
+public interface TableBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Table</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UIMDataTable#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimDataTable#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Table</em>' container reference isn't clear,
@@ -34,13 +34,13 @@ public interface TableBinding extends UIMBinding {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Table</em>' container reference.
-	 * @see #setTable(UIMDataTable)
-	 * @see org.nakeduml.uim.UIMPackage#getTableBinding_Table()
-	 * @see org.nakeduml.uim.UIMDataTable#getBinding
+	 * @see #setTable(UimDataTable)
+	 * @see org.nakeduml.uim.UimPackage#getTableBinding_Table()
+	 * @see org.nakeduml.uim.UimDataTable#getBinding
 	 * @model opposite="binding" required="true" transient="false"
 	 * @generated
 	 */
-	UIMDataTable getTable();
+	UimDataTable getTable();
 
 	/**
 	 * Sets the value of the '{@link org.nakeduml.uim.TableBinding#getTable <em>Table</em>}' container reference.
@@ -50,6 +50,6 @@ public interface TableBinding extends UIMBinding {
 	 * @see #getTable()
 	 * @generated
 	 */
-	void setTable(UIMDataTable value);
+	void setTable(UimDataTable value);
 
 } // TableBinding

@@ -24,14 +24,15 @@ import org.topcased.modeler.utils.Utils;
 
 /**
  * The DetailPanel object controller
- *
+ * 
  * @generated
  */
 public class DetailPanelEditPart extends EMFGraphNodeEditPart{
 	/**
 	 * Constructor
-	 *
-	 * @param obj the graph node
+	 * 
+	 * @param obj
+	 *            the graph node
 	 * @generated
 	 */
 	public DetailPanelEditPart(GraphNode obj){
@@ -39,7 +40,7 @@ public class DetailPanelEditPart extends EMFGraphNodeEditPart{
 	}
 	/**
 	 * Creates edit policies and associates these with roles
-	 *
+	 * 
 	 * @generated
 	 */
 	protected void createEditPolicies(){

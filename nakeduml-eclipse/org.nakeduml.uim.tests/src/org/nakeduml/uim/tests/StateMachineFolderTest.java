@@ -6,11 +6,10 @@
  */
 package org.nakeduml.uim.tests;
 
-import org.nakeduml.uim.StateMachineFolder;
-import org.nakeduml.uim.UIMFactory;
-
 import junit.textui.TestRunner;
 
+import org.nakeduml.uim.StateMachineFolder;
+import org.nakeduml.uim.UimFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,7 +57,7 @@ public class StateMachineFolderTest extends OperationContainingFolderTest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(UIMFactory.eINSTANCE.createStateMachineFolder());
+		setFixture(UimFactory.eINSTANCE.createStateMachineFolder());
 	}
 
 	/**

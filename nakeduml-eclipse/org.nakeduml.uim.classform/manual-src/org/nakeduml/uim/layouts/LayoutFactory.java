@@ -2,7 +2,7 @@ package org.nakeduml.uim.layouts;
 
 import org.eclipse.draw2d.GridLayout;
 
-public class LayoutFactory {
+public class LayoutFactory{
 	public static GridLayout createGridLayout(){
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.verticalSpacing = 0;
@@ -11,5 +11,4 @@ public class LayoutFactory {
 		gridLayout.marginHeight = 1;
 		return gridLayout;
 	}
-
 }

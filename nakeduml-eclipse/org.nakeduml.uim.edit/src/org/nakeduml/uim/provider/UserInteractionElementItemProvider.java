@@ -10,12 +10,9 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,7 +23,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionElement;
 
 /**
@@ -82,7 +79,7 @@ public class UserInteractionElementItemProvider
 				 getResourceLocator(),
 				 getString("_UI_UserInteractionElement_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
-				 UIMPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
 				 true,
 				 false,
 				 false,
@@ -117,7 +114,7 @@ public class UserInteractionElementItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UserInteractionElement.class)) {
-			case UIMPackage.USER_INTERACTION_ELEMENT__NAME:
+			case UimPackage.USER_INTERACTION_ELEMENT__NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
@@ -144,7 +141,7 @@ public class UserInteractionElementItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return UIMEditPlugin.INSTANCE;
+		return UimEditPlugin.INSTANCE;
 	}
 
 }

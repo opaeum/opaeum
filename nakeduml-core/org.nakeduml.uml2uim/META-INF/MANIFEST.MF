@@ -12,7 +12,9 @@ Require-Bundle: org.eclipse.ui,
  org.nakeduml.uim,
  org.topcased.modeler.di,
  org.nakeduml.eclipse;bundle-version="1.0.0",
- org.nakeduml.metamodels;bundle-version="1.0.0"
+ org.nakeduml.metamodels;bundle-version="1.0.0",
+ org.nakeduml.uim.modeleditor;bundle-version="1.0.0",
+ org.nakeduml.uim.classform;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

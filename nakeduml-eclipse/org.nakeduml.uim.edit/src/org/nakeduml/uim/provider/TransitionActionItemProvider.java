@@ -10,10 +10,8 @@ package org.nakeduml.uim.provider;
 import java.util.Collection;
 import java.util.List;
 
-
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -24,7 +22,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.nakeduml.uim.TransitionAction;
-import org.nakeduml.uim.UIMPackage;
+import org.nakeduml.uim.UimPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.TransitionAction} object.
@@ -33,7 +31,7 @@ import org.nakeduml.uim.UIMPackage;
  * @generated
  */
 public class TransitionActionItemProvider
-	extends UIMActionItemProvider
+	extends UimActionItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -62,7 +60,6 @@ public class TransitionActionItemProvider
 			super.getPropertyDescriptors(object);
 
 			addUmlElementUidPropertyDescriptor(object);
-			addTransitionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,33 +77,11 @@ public class TransitionActionItemProvider
 				 getResourceLocator(),
 				 getString("_UI_UmlReference_umlElementUid_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
-				 UIMPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Transition feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addTransitionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_TransitionAction_transition_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TransitionAction_transition_feature", "_UI_TransitionAction_type"),
-				 UIMPackage.Literals.TRANSITION_ACTION__TRANSITION,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}
@@ -148,7 +123,7 @@ public class TransitionActionItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(TransitionAction.class)) {
-			case UIMPackage.TRANSITION_ACTION__UML_ELEMENT_UID:
+			case UimPackage.TRANSITION_ACTION__UML_ELEMENT_UID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
