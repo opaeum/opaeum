@@ -4,8 +4,8 @@ import java.util.List;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -25,7 +25,7 @@ public class AbstractCompositionNodeStrategy {
 		return c.findConstructor(parameter1);
 	}
 	
-	protected void markChildrenForDeletion(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
+	protected void markChildrenForDeletion(INakedBehavioredClassifier sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
 		for (INakedProperty np : sc.getEffectiveAttributes()) {
 			if (np.getOtherEnd() != null) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
@@ -47,7 +47,7 @@ public class AbstractCompositionNodeStrategy {
 		}
 	}
 	
-	public static void invokeOperationRecursively(INakedEntity ew, OJOperation markDeleted, String operationName) {
+	public static void invokeOperationRecursively(INakedBehavioredClassifier ew, OJOperation markDeleted, String operationName) {
 		List<? extends INakedProperty> awss = ew.getOwnedAttributes();
 		for (int i = 0; i < awss.size(); i++) {
 			IModelElement a = (IModelElement) awss.get(i);

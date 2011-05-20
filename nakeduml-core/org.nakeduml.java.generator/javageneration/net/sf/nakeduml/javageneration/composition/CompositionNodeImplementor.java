@@ -1,6 +1,5 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import java.util.List;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -10,7 +9,6 @@ import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -71,7 +69,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 				if(c instanceof INakedStructuredDataType){
 					// TODO implement this as "correct" as possible
 				}else{
-					INakedEntity entity = c;
+					INakedEntity entity = (INakedEntity)c;
 					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
 					addGetOwningObject(entity, ojClass);
 					addRemoveFromOwner(entity, ojClass);
