@@ -26,7 +26,7 @@ public class FactoryMethodCreator extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void attribute(INakedProperty aw){
 		OJAnnotatedClass myOwner = findJavaClass(aw.getOwner());
-		if(!aw.isDerived() && isPersistent(aw.getNakedBaseType()) && aw.isComposite()){
+		if(!aw.isDerived() && isPersistent(aw.getNakedBaseType()) && aw.isComposite() && !aw.getNakedBaseType().getIsAbstract()){
 			createFactoryMethod(aw, myOwner);
 		}
 	}

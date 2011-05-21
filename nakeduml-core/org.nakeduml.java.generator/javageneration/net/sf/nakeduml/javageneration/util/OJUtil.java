@@ -6,6 +6,8 @@ import java.util.Set;
 
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.TinkerAuditAttributeImplementor;
+import net.sf.nakeduml.javageneration.basicjava.TinkerAuditCreator;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -200,6 +202,17 @@ public class OJUtil {
 			return path;
 		}
 	}
+	
+	public static OJPathName classifierAuditPathname(INakedClassifier classifier) {
+		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
+			return new OJPathName(classifier.getMappedImplementationType()+TinkerAuditCreator.AUDIT);
+		} else {
+			OJPathName path = packagePathname(classifier.getNameSpace());
+			path.addToNames(classifier.getName());
+			return path;
+		}
+	}
+	
 
 	public static final OJOperation addMethod(OJClass theClass, String name, String type, String expression) {
 		OJOperation get = OJUtil.findOperation(theClass, name);

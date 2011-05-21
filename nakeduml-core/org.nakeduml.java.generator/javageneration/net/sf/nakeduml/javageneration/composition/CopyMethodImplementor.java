@@ -153,7 +153,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 										+ "()." + copyMethodName + "())");
 								body.addToStatements(ifNotNull);
 							}
-						} else if (map.isOne() && !np.isInverse()) {
+						} else if (map.isOne() && np.isInverse()) {
 							OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from." + map.getter()
 									+ "()." + copyMethodName + "())");
 							body.addToStatements(ifNotNull);

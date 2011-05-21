@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration;
 
+import net.sf.nakeduml.javageneration.basicjava.TinkerAuditCreator;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
@@ -25,6 +26,31 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaTypePath();
 		}
 	}
+	public OJPathName javaAuditTypePath(){
+		if(isMany()){
+			OJPathName copy = super.javaTypePath().getCopy();
+			copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
+			return copy;
+			//TODO this string jol must be wrong
+		}else if(isJavaPrimitive() || javaBaseType().equals("String")){
+			return featureTypeMap.javaObjectTypePath();
+		}else{
+			return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+		}
+	}
+
+	//TODO this string jol must be wrong
+	public OJPathName javaAuditBaseTypePath(){
+		if (javaBaseType().equals("String")) {
+			return new OJPathName("String");
+		} else if(baseTypeMap.isJavaPrimitive()){
+			return baseTypeMap.javaObjectTypePath();
+		}else{
+			return new OJPathName(baseTypeMap.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+		}
+	}	
+
+	
 	@Override
 	public OJPathName javaDefaultTypePath(){
 		if(isMany()){
@@ -36,6 +62,25 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaDefaultTypePath();
 		}
 	}
+	
+	public String javaAuditDefaultValue() {
+		OJPathName baseType = javaBaseTypePath();
+		String javaDefaultValue = featureTypeMap.javaDefaultValue();
+		return javaDefaultValue.replace(baseType.getLast(), baseType.getLast()+TinkerAuditCreator.AUDIT);
+	}
+
+	public OJPathName javaAuditDefaultTypePath(){
+		if(isMany()){
+			OJPathName baseType = super.javaBaseDefaultTypePath();
+			OJPathName auditBaseType = new OJPathName(baseType.toJavaString()+TinkerAuditCreator.AUDIT);
+			OJPathName copy = super.javaDefaultTypePath().getCopy();
+			copy.addToElementTypes(auditBaseType);
+			return copy;
+		}else{
+			return new OJPathName(super.javaDefaultTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+		}
+	}
+	
 	@Override
 	public OJPathName javaBaseTypePath(){
 		if(baseTypeMap.isJavaPrimitive()){

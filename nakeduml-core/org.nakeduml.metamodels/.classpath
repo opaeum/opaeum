@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar"/>
+	<classpathentry kind="src" output="target/classes" path="namegeneration"/>
+	<classpathentry kind="src" output="target/classes" path="artefact"/>
+	<classpathentry kind="src" output="target/classes" path="validation"/>
+	<classpathentry kind="src" output="target/classes" path="textmetamodel"/>
+	<classpathentry kind="src" output="target/classes" path="linkage"/>
+	<classpathentry kind="src" output="target/classes" path="visitor"/>
+	<classpathentry kind="src" output="target/classes" path="feature"/>
+	<classpathentry kind="src" output="target/classes" path="metamodel"/>
+	<classpathentry kind="src" output="target/classes" path="emf"/>
+	<classpathentry kind="src" output="target/classes" path="detachment"/>
+	<classpathentry kind="src" output="target/classes" path="jbpm5metamodel"/>
+	<classpathentry kind="src" output="target/classes" path="uimetamodel"/>
+	<classpathentry kind="src" output="target/classes" path="pommetamodel"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry including="**/*.java" kind="src" path="namegeneration"/>
-	<classpathentry including="**/*.java" kind="src" path="artefact"/>
-	<classpathentry including="**/*.java" kind="src" path="validation"/>
-	<classpathentry including="**/*.java" kind="src" path="textmetamodel"/>
-	<classpathentry including="**/*.java" kind="src" path="linkage"/>
-	<classpathentry including="**/*.java" kind="src" path="visitor"/>
-	<classpathentry including="**/*.java" kind="src" path="feature"/>
-	<classpathentry including="**/*.java" kind="src" path="metamodel"/>
-	<classpathentry including="**/*.java" kind="src" path="emf"/>
-	<classpathentry including="**/*.java" kind="src" path="detachment"/>
-	<classpathentry kind="src" path="pommetamodel"/>
-	<classpathentry kind="src" path="uimetamodel"/>
-	<classpathentry kind="src" path="jbpm5metamodel"/>
-	<classpathentry kind="src" path="src/test"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

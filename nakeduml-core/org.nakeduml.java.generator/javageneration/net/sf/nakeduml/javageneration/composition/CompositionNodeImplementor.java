@@ -1,29 +1,26 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import java.util.List;
-
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-import nl.klasse.octopus.model.IModelElement;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJClassifier;
-import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJField;
-import org.nakeduml.java.metamodel.OJForStatement;
-import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
@@ -31,8 +28,10 @@ import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.CompositionNode;
+import org.nakeduml.runtime.domain.TinkerCompositionNode;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java model with ideas on how compositions should ideally be
@@ -41,9 +40,25 @@ import org.nakeduml.runtime.domain.CompositionNode;
  * @author ampie
  * 
  */
-public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
-	private static final OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
+	private static OJPathName COMPOSITION_NODE = null;
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
+
+	private CompositionNodeStrategy compositionNodeStrategy;
+
+
+	@Override
+	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
+		super.initialize(javaModel, config, textWorkspace, context);
+		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)) {
+			compositionNodeStrategy = new HibernateCompositionNodeStrategy();
+			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+		} else if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
+			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
+			COMPOSITION_NODE = new OJPathName(TinkerCompositionNode.class.getName());
+		}
+	}
+
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedBehavioredClassifier c){
 		if(isPersistent(c)){
@@ -54,14 +69,15 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 				if(c instanceof INakedStructuredDataType){
 					// TODO implement this as "correct" as possible
 				}else{
+					INakedEntity entity = (INakedEntity)c;
 					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
-					addGetOwningObject(c, ojClass);
-					addRemoveFromOwner(c, ojClass);
-					addMarkDeleted(c, ojClass);
-					addAddToOwningObject(c, ojClass);
-					addInit(c, ojClass);
-					addConstructorForTests(ojClass, c);
-					addInternalSetOwner(c, ojClass);
+					addGetOwningObject(entity, ojClass);
+					addRemoveFromOwner(entity, ojClass);
+					compositionNodeStrategy.addMarkDeleted(entity, ojClass);
+					compositionNodeStrategy.addAddToOwningObject(entity, ojClass);
+					addInit(entity, ojClass);
+					compositionNodeStrategy.addConstructorForTests(ojClass, entity);
+					addInternalSetOwner(entity, ojClass);
 				}
 			}
 		}
@@ -100,111 +116,13 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 			// TODO
 		}
 	}
-	protected void addConstructorForTests(OJAnnotatedClass ojClass,INakedBehavioredClassifier c){
-		if(c instanceof INakedEntity){
-			INakedEntity entity = (INakedEntity) c;
-			if(entity.hasComposite()){
-				INakedEntity owningType = (INakedEntity) entity.getEndToComposite().getNakedBaseType();
-				OJPathName paramPath = OJUtil.classifierPathname(owningType);
-				OJConstructor testConstructor = findConstructor(ojClass, paramPath);
-				if(testConstructor == null){
-					testConstructor = new OJConstructor();
-					ojClass.addToConstructors(testConstructor);
-					testConstructor.addParam("owningObject", new OJPathName(owningType.getMappingInfo().getQualifiedJavaName()));
-					testConstructor.getBody().addToStatements("init(owningObject)");
-				}else{
-				}
-				testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
-				testConstructor.getBody().addToStatements("addToOwningObject()");
-			}
-		}else{
-		}
-	}
 	protected void addRemoveFromOwner(INakedBehavioredClassifier sc,OJClass ojClass){
 		OJAnnotatedOperation remove = new OJAnnotatedOperation();
 		remove.setName("removeFromOwningObject");
 		remove.getBody().addToStatements("this.markDeleted()");
 		ojClass.addToOperations(remove);
 	}
-	public void addMarkDeleted(INakedBehavioredClassifier sc,OJClass ojClass){
-		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation();
-		markDeleted.setName("markDeleted");
-		ojClass.addToOperations(markDeleted);
-		if(sc.hasSupertype()){
-			markDeleted.getBody().addToStatements("super.markDeleted()");
-		}else if(isPersistent(sc)){
-			if(ojClass.findField("deletedOn") != null){
-				ojClass.addToImports("java.util.Date");
-				markDeleted.getBody().addToStatements("setDeletedOn(new Date(System.currentTimeMillis()))");
-			}else{
-				// is deletion relevant?
-			}
-		}
-		for(INakedProperty np:sc.getEffectiveAttributes()){
-			if(np.getOtherEnd() != null){
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
-				if(map.isManyToMany()){
-					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
-				}else if(map.isManyToOne() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()){
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.getter() + "().remove((" + ojClass.getName()
-							+ ")this)");
-					markDeleted.getBody().addToStatements(ifNotNull);
-				}else if(map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()){
-					// TODO this may have unwanted results such as removing the
-					// owner from "this" too
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.setter() + "(null)");
-					markDeleted.getBody().addToStatements(ifNotNull);
-				}
-			}
-		}
-		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
-	}
-	public static void invokeOperationRecursively(INakedBehavioredClassifier ew,OJOperation markDeleted,String operationName){
-		List<? extends INakedProperty> awss = ew.getOwnedAttributes();
-		for(int i = 0;i < awss.size();i++){
-			IModelElement a = (IModelElement) awss.get(i);
-			if(a instanceof INakedProperty){
-				INakedProperty np = (INakedProperty) a;
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-				if(np.isComposite() && np.getNakedBaseType() instanceof INakedEntity && !np.isDerived()){
-					INakedEntity type = (INakedEntity) np.getNakedBaseType();
-					if(map.isMany()){
-						markDeleted.getOwner().addToImports("java.util.ArrayList");
-						OJForStatement forEach = new OJForStatement();
-						forEach.setCollection("new ArrayList<" + map.javaBaseDefaultType() + ">(" + map.getter() + "())");
-						forEach.setElemType(OJUtil.classifierPathname(type));
-						forEach.setElemName("child");
-						forEach.setBody(new OJBlock());
-						forEach.getBody().addToStatements("child." + operationName);
-						markDeleted.getBody().addToStatements(forEach);
-					}else if(map.isOne()){
-						OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + operationName);
-						markDeleted.getBody().addToStatements(ifNotNull);
-					}
-				}
-			}
-		}
-	}
-	protected void addAddToOwningObject(INakedBehavioredClassifier c,OJClass ojClass){
-		OJOperation addToOwningObject = new OJAnnotatedOperation();
-		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
-		addToOwningObject.setName("addToOwningObject");
-		if(c instanceof INakedEntity){
-			INakedEntity entity = (INakedEntity) c;
-			if(entity.hasComposite()){
-				INakedProperty endToComposite = entity.getEndToComposite();
-				StructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
-				StructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
-				if(otherFeatureMap.isCollection()){
-					addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.getter() + "().add((" + ojClass.getName() + ")this)");
-				}else{
-					addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.setter() + "((" + ojClass.getName() + ")this)");
-				}
-			}
-		}
-		ojClass.addToOperations(addToOwningObject);
-	}
+
 	/**
 	 * Removes initialization logic from the default constructor and adds it to the init method which takes the
 	 */

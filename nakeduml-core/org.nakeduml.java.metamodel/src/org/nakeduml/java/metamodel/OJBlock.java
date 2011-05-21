@@ -75,6 +75,33 @@ public class OJBlock extends OJBlockGEN {
 		for (OJField ojField : getLocals()) {
 			ojField.renameAll(renamePathNames, newName);
 		}
+	}
+
+	public OJStatement findStatement(String name) {
+		for(OJStatement statement:getStatements()) {
+			if (statement.getName().equals(name)) {
+				return statement;
+			}
+		}
+		return null;
+	}
+	
+	public OJStatement findStatementRecursive(String name) {
+		for(OJStatement statement:getStatements()) {
+			if (statement.getName().equals(name)) {
+				return statement;
+			}
+			if (statement instanceof OJIfStatement) {
+				OJIfStatement ifs = (OJIfStatement)statement;
+				OJStatement s = ifs.getThenPart().findStatementRecursive(name);
+				if (s == null) {
+					return ifs.getElsePart().findStatementRecursive(name);
+				} else {
+					return s;
+				}
+			}
+		}
+		return null;
 	}	
 	
 }
