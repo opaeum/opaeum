@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
@@ -14,6 +15,7 @@ import org.nakeduml.runtime.domain.MetaIdentifiable;
 
 //JDK5@CompositionFromOwningObject(attribute="holiday")
 abstract public class HolidayGEN implements AbstractEntity,MetaIdentifiable{
+	private Set<Object> outgoingEvents;
 	private String f_name = "";
 	private Date f_date = null;
 	private WorkingHoursConfiguration f_workingHoursConfiguration = null;

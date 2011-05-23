@@ -5,7 +5,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep;
-import net.sf.nakeduml.javageneration.basicjava.TinkerTransformation;
+import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerTransformation;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.linkage.SourcePopulationResolver;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;

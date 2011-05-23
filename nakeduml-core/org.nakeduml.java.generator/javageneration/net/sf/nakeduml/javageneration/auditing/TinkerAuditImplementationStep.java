@@ -3,12 +3,12 @@ package net.sf.nakeduml.javageneration.auditing;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditAttributeImplementor;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditAuditClassTransformation;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditOrignalClassTransformation;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditSuperTypeGenerator;
 import net.sf.nakeduml.javageneration.basicjava.DerivedUnionImplementor;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditAttributeImplementor;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditCreator;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditOrignalClassTransformation;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditSuperTypeGenerator;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditAuditClassTransformation;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = TinkerAuditGenerationPhase.class, requires={TinkerSoftDeleteImplementationStep.class}, after={TinkerSoftDeleteImplementationStep.class})

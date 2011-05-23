@@ -142,4 +142,8 @@ public interface IMappingInfo {
 	public void setStore(boolean store);
 
 	public boolean shouldStore();
+
+	public String getQualifiedPersistentName();
+
+	public void setQualifiedPersistentName(String string);
 }

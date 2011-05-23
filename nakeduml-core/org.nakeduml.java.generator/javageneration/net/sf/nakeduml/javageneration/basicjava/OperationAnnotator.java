@@ -19,9 +19,11 @@ import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 
 import org.nakeduml.java.metamodel.OJParameter;
+import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 public class OperationAnnotator extends StereotypeAnnotator {
 	@VisitBefore(matchSubclasses = true)
@@ -97,6 +99,7 @@ public class OperationAnnotator extends StereotypeAnnotator {
 			oper.setVisibility(operationMap.javaVisibility());
 			owner.addToOperations(oper);
 			applyStereotypesAsAnnotations((o), oper);
+			oper.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), o.getMappingInfo().getQualifiedPersistentName()));
 		}
 		return oper;
 	}

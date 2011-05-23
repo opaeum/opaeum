@@ -1,10 +1,6 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.eclipse.emf.common.command.CompoundCommand;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -12,7 +8,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.uim.ControlKind;
 import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.UimBinding;
 import org.nakeduml.uim.UimControl;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;

@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 import java.util.Collection;
 import java.util.Collections;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -23,7 +24,7 @@ public class NakedTimeEventImpl extends NakedElementImpl implements INakedTimeEv
 	}
 	@Override
 	public String getMetaClass() {
-		return "TimeTrigger";
+		return "TimeEvent";
 	}
 	public NameWrapper getTimeUnitName() {
 		return new SingularNameWrapper(getTimeUnit().getName(), null);
@@ -68,7 +69,8 @@ public class NakedTimeEventImpl extends NakedElementImpl implements INakedTimeEv
 	@Override
 	public void addOwnedElement(INakedElement element) {
 	}
-	public INakedClassifier getContext() {
-		return (INakedClassifier) getOwnerElement();
+	public INakedBehavior getOwningBehavior() {
+		//The extractor will make sure the event is duplicated for each context
+		return (INakedBehavior) getOwnerElement();
 	}
 }

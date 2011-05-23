@@ -6,7 +6,6 @@ import javax.enterprise.inject.Default;
 import org.jboss.seam.persistence.hibernate.SeamManagedHibernateSessionCreated;
 
 public class SessionCreatedListener {
-
 	public void createdDefaultDependent(@Observes @Default @DependentScopedSession SeamManagedHibernateSessionCreated session) {
 		session.getSession().enableFilter("noDeletedObjects");
 	}

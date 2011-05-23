@@ -7,6 +7,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
+import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerAttributeImplementorStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -54,7 +55,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
 		if (config.getAttributeImplementationStrategy().equals(ATRTIBUTE_STRATEGY_HIBERNATE)) {
-			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
+			attributeImplementorStrategy = new DefaultAttributeImplementorStrategy();
 		} else if (config.getAttributeImplementationStrategy().equals(ATRTIBUTE_STRATEGY_TINKER)) {
 			attributeImplementorStrategy = new TinkerAttributeImplementorStrategy();
 		}

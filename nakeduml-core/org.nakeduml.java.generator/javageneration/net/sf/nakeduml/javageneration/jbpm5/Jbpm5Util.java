@@ -1,21 +1,31 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 
+import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.environment.ITimeEventDispatcher;
+import org.nakeduml.event.ChangeEvent;
+import org.nakeduml.event.TimeEvent;
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
+import org.nakeduml.runtime.domain.AbstractEventSource;
 import org.nakeduml.runtime.domain.ExceptionHolder;
 import org.nakeduml.runtime.domain.TimeUnit;
 
@@ -42,41 +52,67 @@ public class Jbpm5Util{
 	public static String getGuardMethod(GuardedFlow t){
 		return "is" + t.getSource().getMappingInfo().getJavaName().getCapped() + t.getMappingInfo().getJavaName().getCapped();
 	}
-	public static void implementTimeEvent(OJOperation operation,INakedTimeEvent event,INakedElement source,Collection<? extends GuardedFlow> outgoing){
+	public static void implementTimeEventRequest(OJOperation operation,INakedTimeEvent event){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		for(GuardedFlow out:outgoing){
-			INakedValueSpecification when = event.getWhen();
-			operation.getOwner().addToImports(ITimeEventDispatcher.class.getName());
-			if(when != null){
-				String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getContext(), when.getType());
-				String callBackMethodName = getTimerCallbackMethodName(event);
-				if(event.isRelative()){
-					owner.addToImports(TimeUnit.class.getName());
-					TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
-					operation.getBody().addToStatements(
-							"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName()
-									+ ".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit." + timeUnit.name() + ")");
-				}else{
-					operation.getBody().addToStatements(
-							"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName()
-									+ ".class).scheduleEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ")");
-				}
-			}else{
+		INakedValueSpecification when = event.getWhen();
+		operation.getOwner().addToImports(TimeEvent.class.getName());
+		if(when != null){
+			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getOwningBehavior(), when.getType());
+			String callBackMethodName = getEventMethodPersistentName(event);
+			if(event.isRelative()){
+				owner.addToImports(TimeUnit.class.getName());
+				TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
 				operation.getBody().addToStatements(
-						"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName()
-								+ ".class).createTimer(NO WHEN EXPRESSION SPECIFIED)");
+						"getOutgoingEvents().add(new TimeEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit." + timeUnit.name() + "))");
+			}else{
+				operation.getBody().addToStatements("getOutgoingEvents().add(new TimeEvent(this,\"" + callBackMethodName + "\"," + whenExpr + "))");
 			}
+		}else{
+			operation.getBody().addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
+		}
+		addOutgoingEventManagement(owner);
+	}
+	public static void implementChangeEventRequest(OJOperation operation,INakedChangeEvent event){
+		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
+		INakedValueSpecification when = event.getChangeExpression();
+		operation.getOwner().addToImports(ChangeEvent.class.getName());
+		addOutgoingEventManagement(owner);
+		if(when != null){
+			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getOwningBehavior(), when.getType());
+			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation("evaluate" + event.getMappingInfo().getJavaName().getCapped(), new OJPathName("boolean"));
+			evaluationMethod
+					.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), "evaluate_" + event.getMappingInfo().getPersistentName()));
+			evaluationMethod.getBody().addToStatements("return " + whenExpr);
+			owner.addToOperations(evaluationMethod);
+			operation.getBody().addToStatements(
+					"getOutgoingEvents().add(new ChangeEvent(this,\"" + getEventMethodPersistentName(event) + "\",\"" + "evaluate_"
+							+ event.getMappingInfo().getPersistentName() + "\"))");
+		}else{
+			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
 		}
 	}
-	public static String getTimerCallbackMethodName(INakedTimeEvent event){
+	public static void addOutgoingEventManagement(OJClass ojClass){
+		OJPathName pn = new OJPathName(AbstractEventSource.class.getName());
+		if(!ojClass.getImplementedInterfaces().contains(pn)){
+			ojClass.addToImplementedInterfaces(pn);
+			OJPathName eventSetPath = new OJPathName(Set.class.getName());
+			eventSetPath.addToElementTypes(new OJPathName("Object"));
+			OJAnnotatedField field = OJUtil.addProperty(ojClass, "outgoingEvents", eventSetPath, true);
+			field.setInitExp("new HashSet<Object>()");
+			ojClass.addToImports(HashSet.class.getName());
+			field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+		}
+	}
+	public static String getEventMethodPersistentName(INakedElement event){
 		return "on_" + event.getMappingInfo().getPersistentName();
 	}
 	public static void cancelTimer(OJOperation cancel,INakedTimeEvent event){
 		cancel.getOwner().addToImports(ITimeEventDispatcher.class.getName());
-		String callBackMethodName = getTimerCallbackMethodName(event);
-		cancel.getBody().addToStatements(
-				"org.nakeduml.environment.Environment.getInstance().getComponent(" + ITimeEventDispatcher.class.getSimpleName() + ".class).cancelTimer(this,\""
-						+ callBackMethodName + "\")");
+		cancel.getBody().addToStatements("getOutgoingEvents().add(new TimeEvent(this,\"" + getEventMethodPersistentName(event) + "\",true))");
+	}
+	public static void cancelChangeEvent(OJOperation cancel,INakedChangeEvent event){
+		cancel.getOwner().addToImports(ITimeEventDispatcher.class.getName());
+		cancel.getBody().addToStatements("getOutgoingEvents().add(new ChangeEvent(this,\"" + getEventMethodPersistentName(event) + "\",true))");
 	}
 	public static String getArtificialForkName(INakedElement owner){
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();

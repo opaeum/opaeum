@@ -6,6 +6,7 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
+import net.sf.nakeduml.javageneration.composition.tinker.TinkerCompositionNodeStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
@@ -31,7 +32,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.CompositionNode;
-import org.nakeduml.runtime.domain.TinkerCompositionNode;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java model with ideas on how compositions should ideally be
@@ -51,11 +51,11 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
 		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)) {
-			compositionNodeStrategy = new HibernateCompositionNodeStrategy();
+			compositionNodeStrategy = new DefaultCompositionNodeStrategy();
 			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 		} else if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
 			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
-			COMPOSITION_NODE = new OJPathName(TinkerCompositionNode.class.getName());
+			COMPOSITION_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerCompositionNode");
 		}
 	}
 
@@ -68,7 +68,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 				OJAnnotatedClass ojClass = (OJAnnotatedClass) ojClassifier;
 				if(c instanceof INakedStructuredDataType){
 					// TODO implement this as "correct" as possible
-				}else{
+				}else if(c instanceof INakedEntity){
 					INakedEntity entity = (INakedEntity)c;
 					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
 					addGetOwningObject(entity, ojClass);
@@ -78,6 +78,9 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 					addInit(entity, ojClass);
 					compositionNodeStrategy.addConstructorForTests(ojClass, entity);
 					addInternalSetOwner(entity, ojClass);
+					//TODO mark owned behaviour, etc as deleted.
+				}else if(c instanceof INakedBehavior){
+					//TODO
 				}
 			}
 		}
@@ -112,8 +115,8 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 					fieldToOwner.setVisibility(OJVisibilityKind.PROTECTED);
 				}
 			}
-		}else{
-			// TODO
+		}else if(c instanceof INakedBehavior){
+			// TODO 
 		}
 	}
 	protected void addRemoveFromOwner(INakedBehavioredClassifier sc,OJClass ojClass){

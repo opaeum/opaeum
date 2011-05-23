@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" output="target/classes" path="namegeneration"/>
 	<classpathentry kind="src" output="target/classes" path="artefact"/>
 	<classpathentry kind="src" output="target/classes" path="validation"/>
@@ -13,7 +15,7 @@
 	<classpathentry kind="src" output="target/classes" path="jbpm5metamodel"/>
 	<classpathentry kind="src" output="target/classes" path="uimetamodel"/>
 	<classpathentry kind="src" output="target/classes" path="pommetamodel"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="src" path="templates/"/>
+	<classpathentry exported="true" kind="lib" path="lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

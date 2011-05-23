@@ -10,14 +10,21 @@ public abstract class Environment {
 	public static final String JBPM_KNOWLEDGE_BASE_IMPLEMENTATION = "nakeduml.jbpm.knowledgebase.implementation";
 	public static final String ENVIRONMENT_IMPLEMENTATION = "nakeduml.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "nakeduml.env.properties";
+	public static final String PERSISTENT_NAME_CLASS_MAP = "nakeduml.persistentname.classmap.implementation";
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
-
+	protected static PersistentNameClassMap persistentNameClassMap;
 
 	public static Environment getInstance() {
 		if (instance.get() == null) {
 			instance.set((Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION));
 		}
 		return instance.get();
+	}
+	public static PersistentNameClassMap getPersistentNameClassMap() {
+		if (persistentNameClassMap == null) {
+			persistentNameClassMap= (PersistentNameClassMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
+		}
+		return persistentNameClassMap;
 	}
 	public abstract <T> Class<T> getImplementationClass(T o);
 
