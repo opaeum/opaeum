@@ -1,5 +1,6 @@
 package org.tinker.embedded;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,5 +38,24 @@ public class TinkerEmbeddedBug extends BaseLocalDbTest {
 		numbers2Retrieved = (Set<Integer>) vertex2.getProperty("numberList");  
 		assertEquals(4, numbers1Retrieved.size());
 		assertEquals(3, numbers2Retrieved.size());
+	}
+	
+	public enum TEST implements Serializable {
+		ONE, TWO;
+	}
+	
+	@Test
+	public void testSetOfEnumsOrientBug() {
+		db.startTransaction();
+		Vertex vertex1 = db.addVertex(null);
+		vertex1.setProperty("one", TEST.ONE);
+		db.stopTransaction(Conclusion.SUCCESS);
+		assertEquals("ONE", vertex1.getProperty("one"));
+		db.startTransaction();
+		Set<TEST> testEnums = new HashSet<TEST>();
+		testEnums.add(TEST.ONE);
+		testEnums.add(TEST.TWO);
+		vertex1.setProperty("testEnums", testEnums);
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 }

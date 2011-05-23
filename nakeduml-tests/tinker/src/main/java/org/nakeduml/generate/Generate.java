@@ -12,9 +12,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
-import net.sf.nakeduml.javageneration.composition.TinkerExtendedCompositionSemanticsJavaStep;
-
-import org.eclipse.emf.common.util.URI;
+import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 
 public class Generate {
 
