@@ -79,7 +79,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		//
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) ac.getEnd1());
 		if(map.isManyToMany()){
-			new AssocClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac.getEnd2()
+			new AssociationClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac.getEnd2()
 					.getNakedBaseType()));
 		}
 	}

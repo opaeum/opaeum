@@ -21,7 +21,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.utilities.JavaPathNames;
 
-public class AssocClassCreator {
+public class AssociationClassCreator {
 	private NakedStructuralFeatureMap end1 = null;
 	private NakedStructuralFeatureMap end2 = null;
 	private NavToAssocClassMap mapToEnd1 = null;
@@ -40,7 +40,7 @@ public class AssocClassCreator {
 	private String PARAMS_END1_END2 = "this, par";
 	private String PARAMS_END2_END1 = "par, this";
 
-	public AssocClassCreator() {
+	public AssociationClassCreator() {
 		super();
 	}
 
