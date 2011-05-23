@@ -7,7 +7,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
-import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerAttributeImplementorStrategy;
+import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -55,7 +55,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
 			attributeImplementorStrategy = new DefaultAttributeImplementorStrategy();
 		} else {
-			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
+			attributeImplementorStrategy = new DefaultAttributeImplementorStrategy();
 		}
 	}
 	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})

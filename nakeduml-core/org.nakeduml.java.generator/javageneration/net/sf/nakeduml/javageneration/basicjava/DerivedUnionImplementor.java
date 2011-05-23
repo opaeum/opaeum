@@ -7,12 +7,9 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-<<<<<<< HEAD
-import net.sf.nakeduml.javageneration.composition.TinkerExtendedCompositionSemanticsJavaStep;
-=======
 import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
 import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerAttributeImplementorStrategy;
->>>>>>> a88eab183b261701b67b3ddd7a794189d1298620
+import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;

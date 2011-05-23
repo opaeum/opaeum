@@ -49,19 +49,6 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		}
 	}
 
-	public OJPathName javaAuditTypePath(){
-		if(isMany()){
-			OJPathName copy = super.javaTypePath().getCopy();
-			copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
-			return copy;
-			//TODO this string jol must be wrong
-		}else if(isJavaPrimitive() || javaBaseType().equals("String")){
-			return featureTypeMap.javaObjectTypePath();
-		}else{
-			return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
-		}
-	}
-
 	//TODO this string jol must be wrong
 	public OJPathName javaAuditBaseTypePath(){
 		if (javaBaseType().equals("String")) {

@@ -1,6 +1,8 @@
 package net.sf.nakeduml.javageneration.composition.tinker;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.composition.AbstractCompositionNodeStrategy;
+import net.sf.nakeduml.javageneration.composition.CompositionNodeStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
