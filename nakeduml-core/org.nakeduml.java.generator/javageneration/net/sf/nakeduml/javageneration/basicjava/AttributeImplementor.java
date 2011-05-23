@@ -7,7 +7,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
-import net.sf.nakeduml.javageneration.composition.TinkerExtendedCompositionSemanticsJavaStep;
+import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerAttributeImplementorStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -53,7 +53,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
 		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
-			attributeImplementorStrategy = new TinkerAttributeImplementorStrategy();
+			attributeImplementorStrategy = new DefaultAttributeImplementorStrategy();
 		} else {
 			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
 		}
@@ -77,7 +77,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		//
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) ac.getEnd1());
 		if(map.isManyToMany()){
-			new AssocClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac.getEnd2()
+			new AssociationClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac.getEnd2()
 					.getNakedBaseType()));
 		}
 	}

@@ -79,7 +79,10 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		HashcodeBuilder hcb = new HashcodeBuilder();
 		hcb.initialize(javaModel, config, textWorkspace, context);
 		hcb.startVisiting(workspace);
-
+		
+		PersistentNameMapGenerator pnmg=new PersistentNameMapGenerator(false);
+		pnmg.initialize(javaModel, config, textWorkspace, context);
+		pnmg.startVisiting(workspace);
 
 	}
 }

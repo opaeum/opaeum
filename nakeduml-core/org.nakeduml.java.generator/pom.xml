@@ -81,13 +81,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-runtime-tinker-domain</artifactId>
-			<version>${numl.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.nakeduml</groupId>
 			<artifactId>nakeduml-metamodels</artifactId>
 			<version>${numl.version}</version>
 			<type>jar</type>

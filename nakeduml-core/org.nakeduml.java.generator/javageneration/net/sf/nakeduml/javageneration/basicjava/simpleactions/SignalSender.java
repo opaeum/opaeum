@@ -5,6 +5,7 @@ import java.util.Iterator;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
@@ -14,6 +15,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
@@ -24,6 +26,7 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
+		Jbpm5Util.addOutgoingEventManagement((OJClass) operation.getOwner());
 		Iterator<INakedInputPin> args = node.getArguments().iterator();
 		String signalName = "_signal" + node.getMappingInfo().getJavaName();
 		ClassifierMap cm = new NakedClassifierMap(node.getSignal());

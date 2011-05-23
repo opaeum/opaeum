@@ -6,8 +6,8 @@ import java.util.Set;
 
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditAttributeImplementor;
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditCreator;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditAttributeImplementor;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;

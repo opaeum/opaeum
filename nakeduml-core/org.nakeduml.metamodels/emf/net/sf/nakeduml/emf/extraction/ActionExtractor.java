@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.actions.internal.NakedCallOperationActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCreateObjectActionimpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedOpaqueActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedRaiseExceptionActionImpl;
+import net.sf.nakeduml.metamodel.actions.internal.NakedReplyActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedSendObjectActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedSendSignalActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
@@ -33,6 +34,7 @@ import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.RaiseExceptionAction;
+import org.eclipse.uml2.uml.ReplyAction;
 import org.eclipse.uml2.uml.SendObjectAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StartClassifierBehaviorAction;
@@ -45,6 +47,11 @@ public class ActionExtractor extends AbstractActionExtractor {
 		initAction(emfAction, nakedAction);
 		nakedAction.setClassifier((INakedClassifier) getNakedPeer(emfAction.getClassifier()));
 		nakedAction.setResult((INakedOutputPin) initializePin(emfAction.getActivity(), emfAction.getResult()));
+	}
+	@VisitBefore
+	public void visitReplyAction(ReplyAction emfAction, NakedReplyActionImpl nakedAction) {
+		initAction(emfAction, nakedAction);
+		nakedAction.setReturnInfo((INakedInputPin) initializePin(getActivity(emfAction), emfAction.getReturnInformation()));
 	}
 
 	@VisitBefore

@@ -14,8 +14,8 @@ import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
@@ -28,8 +28,6 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
-import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.CoreValidationRule;
 import net.sf.nakeduml.validation.namegeneration.UmlNameRegenerator;
@@ -145,10 +143,22 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(w != null && w.getValue() instanceof ParsedOclString){
 			// Remember that time events' when expression MUST have a type
 			// specified
-			Environment env = environmentFactory.createClassifierEnvironment(ev.getContext());
+			Environment env = environmentFactory.prepareBehaviorEnvironment(ev, ev.getOwningBehavior());
 			ParsedOclString value = (ParsedOclString) w.getValue();
-			value.setContext(ev.getContext(), ev.getContext());
-			w.setValue(replaceSingleParsedOclString(value, ev.getContext(), w.getType(), env));
+			value.setContext(ev.getOwningBehavior(), ev.getOwningBehavior());
+			w.setValue(replaceSingleParsedOclString(value, ev.getOwningBehavior(), w.getType(), env));
+		}
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitChangeEvent(NakedChangeEventImpl ev){
+		INakedValueSpecification w = ev.getChangeExpression();
+		if(w != null && w.getValue() instanceof ParsedOclString){
+			// Remember that time events' when expression MUST have a type
+			// specified
+			Environment env = environmentFactory.prepareBehaviorEnvironment(ev,ev.getOwningBehavior());
+			ParsedOclString value = (ParsedOclString) w.getValue();
+			value.setContext(ev.getOwningBehavior(), ev.getOwningBehavior());
+			w.setValue(replaceSingleParsedOclString(value, ev.getOwningBehavior(), w.getType(), env));
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

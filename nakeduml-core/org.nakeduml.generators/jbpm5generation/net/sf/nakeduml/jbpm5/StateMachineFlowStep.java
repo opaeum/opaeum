@@ -189,8 +189,8 @@ public class StateMachineFlowStep extends AbstractFlowStep {
 		}
 		nodes.getState().add(flowState);
 		if (state.getTimeTriggerTransitions().size() > 0) {
-			createAction(map.getFireTimersMethod(), onEntry.getAction());
-			createAction(map.getCancelTimersMethod(), onExit.getAction());
+			createAction(map.getRequestEventsMethod(), onEntry.getAction());
+			createAction(map.getCancelEventsMethod(), onExit.getAction());
 		}
 		if (onEntry.getAction().size() > 0) {
 			flowState.getOnEntry().add(onEntry);

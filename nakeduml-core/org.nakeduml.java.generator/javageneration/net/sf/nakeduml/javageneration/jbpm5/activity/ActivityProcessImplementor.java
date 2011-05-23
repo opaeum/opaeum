@@ -6,6 +6,7 @@ import java.util.Collection;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
@@ -47,16 +48,17 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.ActiveObject;
 
 /**
  * 
  * 
  */
-public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
+public class ActivityProcessImplementor extends AbstractJavaProcessVisitor {
 	@VisitBefore(matchSubclasses = true)
-	public void activityEdge(INakedActivityEdge edge){
-		if(edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())){
+	public void activityEdge(INakedActivityEdge edge) {
+		if (edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())) {
 			INakedActivityNode node = edge.getEffectiveSource();
 			OJAnnotatedClass c = findJavaClass(edge.getActivity());
 			OJAnnotatedOperation oper = new OJAnnotatedOperation();
@@ -64,12 +66,14 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			oper.setReturnType(new OJPathName("boolean"));
 			ActivityUtil.setupVariables(oper, node);
 			INakedActivityNode source = edge.getEffectiveSource();
-			if(edge instanceof INakedObjectFlow){
+			if (edge instanceof INakedObjectFlow) {
 				addObjectFlowVariable(edge, oper, (INakedObjectFlow) edge);
-			}else if((source instanceof INakedControlNode && ((INakedControlNode) source).getControlNodeType() == ControlNodeType.DECISION_NODE)){
-				// NB!! we are doing it here for both controlflows and objectflows which is not entirely to uml spec but what the heck,
+			} else if ((source instanceof INakedControlNode && ((INakedControlNode) source).getControlNodeType() == ControlNodeType.DECISION_NODE)) {
+				// NB!! we are doing it here for both controlflows and
+				// objectflows which is not entirely to uml spec but what the
+				// heck,
 				// looks like a good idea
-				if(source.getIncoming().size() == 1 && source.getIncoming().iterator().next() instanceof INakedObjectFlow){
+				if (source.getIncoming().size() == 1 && source.getIncoming().iterator().next() instanceof INakedObjectFlow) {
 					INakedObjectFlow objectFlow = (INakedObjectFlow) source.getIncoming().iterator().next();
 					addObjectFlowVariable(edge, oper, objectFlow);
 				}
@@ -80,29 +84,37 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
 		}
 	}
-	private void addObjectFlowVariable(INakedActivityEdge edge,OJAnnotatedOperation oper,INakedObjectFlow objectFlow){
+
+	private void addObjectFlowVariable(INakedActivityEdge edge, OJAnnotatedOperation oper, INakedObjectFlow objectFlow) {
 		INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
-		//TODO the originatingObjectNode may not have the correct type after transformations and selections
+		// TODO the originatingObjectNode may not have the correct type after
+		// transformations and selections
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), origin, false);
 		OJAnnotatedField sourceField = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);
 		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getOclEngine());
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
+
 	@VisitBefore(matchSubclasses = true)
-	public void visitSendSignalAction(INakedSendSignalAction a){
-		if(a.getTargetElement() != null){
+	public void visitSendSignalAction(INakedSendSignalAction a) {
+		if (a.getTargetElement() != null) {
 			OJAnnotatedClass ojClass = findJavaClass(a.getTargetElement().getNakedBaseType());
-			if(ojClass instanceof OJAnnotatedInterface){
+			if (ojClass instanceof OJAnnotatedInterface) {
 				((OJAnnotatedInterface) ojClass).addToSuperInterfaces(new OJPathName(ActiveObject.class.getName()));
-			}else if(ojClass != null){
+			} else if (ojClass != null) {
 				ojClass.addToImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
+				OJBlock body = AbstractEventHandlerInserter.ensureProcessSignalPresent(ojClass).getBody();
+				if (body.getStatements().size() == 0) {
+					body.addToStatements("return false");
+				}
 			}
 		}
 	}
+
 	@VisitBefore(matchSubclasses = true)
-	public void implementActivity(INakedActivity activity){
-		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+	public void implementActivity(INakedActivity activity) {
+		if (activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
 			OJAnnotatedClass activityClass = findJavaClass(activity);
 			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
 			stateClass.addToNames(activity.getMappingInfo().getJavaName() + "State");
@@ -110,17 +122,18 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			implementRelationshipsWithContextAndProcess(activity, activityClass, activity.isPersistent());
 			doExecute(activity, activityClass);
 			implementSpecificationOrStartClassifierBehaviour(activity);
-			if(activity.getActivityKind() == ActivityKind.PROCESS){
+			if (activity.getActivityKind() == ActivityKind.PROCESS) {
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
-			}else{
+			} else {
 				doIsStepActive(activityClass, activity);
 				super.addGetNodeInstancesRecursively(activityClass);
 			}
-			if(activity.isProcess()){
+			if (activity.isProcess()) {
 				addInit(activityClass);
 			}
 		}
 	}
+
 	private void addInit(OJAnnotatedClass activityClass) {
 		OJAnnotatedOperation init = new OJAnnotatedOperation("init");
 		activityClass.addToOperations(init);
@@ -129,64 +142,72 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
 		init.getBody().addToStatements("((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true)");
 	}
+
 	private void copyDefaultConstructor(OJAnnotatedClass activityClass, OJAnnotatedOperation init) {
 		init.setBody(activityClass.getDefaultConstructor().getBody());
 		activityClass.getDefaultConstructor().setBody(new OJBlock());
 	}
-	private void doExecute(INakedActivity activity,OJAnnotatedClass activityClass){
+
+	private void doExecute(INakedActivity activity, OJAnnotatedClass activityClass) {
 		OJOperation execute = implementExecute(activityClass, activity);
-		if(activity.isProcess()){
+		if (activity.isProcess()) {
 			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		}
 	}
-	private void implementNodeMethods(OJClass activityClass,INakedActivity activity){
+
+	private void implementNodeMethods(OJClass activityClass, INakedActivity activity) {
 		activityClass.addToImports(ActivityUtil.PROCESS_CONTEXT);
-		for(INakedActivityNode node:activity.getActivityNodesRecursively()){
-			if(node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode || node instanceof INakedExpansionRegion
-					|| node instanceof INakedExpansionNode){
+		for (INakedActivityNode node : activity.getActivityNodesRecursively()) {
+			if (node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode
+					|| node instanceof INakedExpansionRegion || node instanceof INakedExpansionNode) {
 				this.implementNodeMethod(activityClass, node);
 			}
 		}
 	}
-	private void implementNodeMethod(OJClass activityClass,INakedActivityNode node){
+
+	private void implementNodeMethod(OJClass activityClass, INakedActivityNode node) {
 		Jbpm5ActionBuilder<?> implementor = null;
-		if(node instanceof INakedExpansionRegion){
+		if (node instanceof INakedExpansionRegion) {
 			implementor = new ExpansionRegionBuilder(getOclEngine(), (INakedExpansionRegion) node);
-		}else if(node instanceof INakedOpaqueAction){
+		} else if (node instanceof INakedOpaqueAction) {
 			implementor = new OpaqueActionBuilder(getOclEngine(), (INakedOpaqueAction) node);
-		}else if(node instanceof INakedCallAction){
+		} else if (node instanceof INakedCallAction) {
 			implementor = new CallActionBuilder(getOclEngine(), (INakedCallAction) node);
-		}else if(node instanceof INakedAcceptEventAction){
+		} else if (node instanceof INakedAcceptEventAction) {
 			implementor = new AcceptEventActionBuilder(getOclEngine(), (INakedAcceptEventAction) node);
-		}else if(node instanceof INakedParameterNode){
+		} else if (node instanceof INakedParameterNode) {
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
 			implementor = new ParameterNodeBuilder(getOclEngine(), parameterNode);
-		}else{
-			implementor = new SimpleActionBridge(getOclEngine(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getOclEngine(), new Jbpm5ObjectNodeExpressor(
-					getOclEngine())));
+		} else {
+			implementor = new SimpleActionBridge(getOclEngine(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getOclEngine(),
+					new Jbpm5ObjectNodeExpressor(getOclEngine())));
 		}
-		if(implementor.hasNodeMethod()){
+		if (implementor.hasNodeMethod()) {
 			OJAnnotatedOperation operation = new OJAnnotatedOperation();
+			operation.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), node.getMappingInfo()
+					.getQualifiedPersistentName()));
+
 			operation.setName(implementor.getMap().doActionMethod());
 			activityClass.addToOperations(operation);
 			operation.addParam("context", ActivityUtil.PROCESS_CONTEXT);
-			if(implementor.isEffectiveFinalNode()){
+			if (implementor.isEffectiveFinalNode()) {
 				implementor.implementFinalStep(operation.getBody());
 			}
 			implementor.setupVariables(operation);
 			implementor.implementPreConditions(operation);
 			implementor.implementActionOn(operation);
-			if(implementor.isTask()){
+			if (implementor.isTask()) {
 				implementor.implementSupportingTaskMethods(activityClass);
-			}else if(!(implementor.waitsForEvent() || node instanceof INakedControlNode)){
+			} else if (!(implementor.waitsForEvent() || node instanceof INakedControlNode)) {
 				implementor.implementPostConditions(operation);
 				// implementor.implementConditionalFlows(operation,
 				// operation.getBody(), true);
 			}
 		}
 	}
+
 	@Override
-	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior){
+	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior) {
 		return Arrays.asList(umlBehavior);
 	}
 }
