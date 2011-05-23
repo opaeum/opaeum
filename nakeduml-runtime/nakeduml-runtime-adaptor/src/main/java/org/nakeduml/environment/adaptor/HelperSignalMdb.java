@@ -20,8 +20,8 @@ import org.nakeduml.environment.SignalToDispatch;
 public class HelperSignalMdb extends AbstractSignalMdb<SignalToDispatch> implements MessageListener{
 	@Override
 	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{
-		getHibernateSession().clear();
-		signalToDispatch.prepareForDelivery(getHibernateSession());
+		hibernateSession.clear();
+		signalToDispatch.prepareForDelivery(hibernateSession);
 		signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 	}
 
