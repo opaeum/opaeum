@@ -7,6 +7,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.composition.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -34,7 +35,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
+		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
 			isTinker = true;
 		}
 	}
@@ -114,7 +115,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor {
 		OJOperation getter = OJUtil.findOperation(c, subsettedMap.getter());
 		// TODO check this logic - only execute if another propert has not yet
 		// built this getter
-		if (getter.getBody() == null || (getter.getBody().getStatements().size() == 1)) {
+		if (getter.getBody() == null || (getter.getBody().getStatements().size() == 1) || (getter.getBody().getStatements().size() == 0)) {
 			if (subsettedMap.isOne()) {
 				getter.setBody(new OJBlock());
 				c.addToImports(!isAudit ? subsettedMap.javaDefaultTypePath() : subsettedMap.javaAuditDefaultTypePath());

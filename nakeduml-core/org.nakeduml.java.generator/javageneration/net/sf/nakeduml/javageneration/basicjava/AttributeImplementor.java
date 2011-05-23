@@ -7,6 +7,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
+import net.sf.nakeduml.javageneration.composition.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -48,15 +49,13 @@ public class AttributeImplementor extends StereotypeAnnotator{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	private AttributeImplementorStrategy attributeImplementorStrategy; 
-	public final static String ATRTIBUTE_STRATEGY_TINKER = "TINKER";
-	public final static String ATRTIBUTE_STRATEGY_HIBERNATE = "HIBERNATE";
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (config.getAttributeImplementationStrategy().equals(ATRTIBUTE_STRATEGY_HIBERNATE)) {
-			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
-		} else if (config.getAttributeImplementationStrategy().equals(ATRTIBUTE_STRATEGY_TINKER)) {
+		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
 			attributeImplementorStrategy = new TinkerAttributeImplementorStrategy();
+		} else {
+			attributeImplementorStrategy = new HibernateAttributeImplementorStrategy();
 		}
 	}
 	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})
@@ -153,7 +152,9 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				buildSetter(umlOwner, owner, map);
-				buildField(owner, map).setTransient(true);
+				if (!transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class) || transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)) {
+					buildField(owner, map).setTransient(true);
+				}
 				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
 				OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
@@ -173,24 +174,33 @@ public class AttributeImplementor extends StereotypeAnnotator{
 	private void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
-		OJAnnotatedField field = buildField(owner, map);
+		OJAnnotatedField field = null;
+		if (!transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class) || transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class) || ((umlOwner instanceof INakedEntity) && ((INakedEntity)umlOwner).getEndToComposite() == map.getProperty())) {
+			field = buildField(owner, map);
+		}
 		if(map.isMany()){
-			buildInitExpression(owner, map, field);
+			if (field!=null) {
+				buildInitExpression(owner, map, field);
+			}
 			buildAdder(owner, map);
 			buildAddAll(owner, map);
 			buildRemover(owner, map);
 			buildRemoveAll(owner, map);
 			buildClear(owner, map);
 		}else if(map.isOne() && isPersistent(p.getNakedBaseType()) || p.getBaseType() instanceof INakedInterface){
-			buildInternalAdder(owner, map);
-			buildInternalRemover(owner, map);
+			if (!transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class) || transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)) {
+				buildInternalAdder(owner, map);
+				buildInternalRemover(owner, map);
+			}
 		}
 		buildSetter(umlOwner, owner, map);
 		attributeImplementorStrategy.buildGetter(owner, map, false);
-		applyStereotypesAsAnnotations((p), field);
-		INakedClassifier baseType = p.getNakedBaseType();
-		if(baseType instanceof INakedSimpleType){
-			applySimnpleTypesAnnotations(field, baseType);
+		if (field!=null) {
+			applyStereotypesAsAnnotations((p), field);
+			INakedClassifier baseType = p.getNakedBaseType();
+			if(baseType instanceof INakedSimpleType){
+				applySimnpleTypesAnnotations(field, baseType);
+			}
 		}
 	}
 	private OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
@@ -255,7 +265,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 				// }
 			}
 		}else{
-			adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
+			attributeImplementorStrategy.addSimpleAdder(map, adder);
 		}
 		owner.addToOperations(adder);
 		return adder;
@@ -274,7 +284,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 				adder.getBody().addToStatements(map.umlName() + "." + otherMap.setter() + "(null)");
 			}
 		}else{
-			adder.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
+			attributeImplementorStrategy.buildSimpleRemover(map, adder);
 		}
 		owner.addToOperations(adder);
 		return adder;
@@ -345,7 +355,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 					attributeImplementorStrategy.buildOneToOneSetter(umlOwner, map, otherMap, owner, setter);
 				}
 			}else{
-				attributeImplementorStrategy.addSimpleSetterBody(setter, map);
+				attributeImplementorStrategy.addSimpleSetterBody(umlOwner, map, owner, setter);
 			}
 		}
 		return setter;

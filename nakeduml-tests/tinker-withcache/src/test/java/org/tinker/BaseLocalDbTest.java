@@ -35,7 +35,7 @@ public class BaseLocalDbTest {
 //			db.stopTransaction(Conclusion.SUCCESS);
 			break;
 		case ORIENT:
-			db = new OrientGraph("local:/tmp/tinker-auditwithcache");
+			db = new OrientGraph("local:/tmp/tinker-orient-auditwithcache");
 			db.clear();
 			db.setTransactionMode(Mode.MANUAL);
 			((OrientGraph)db).getRawGraph().registerListener(new DbListener());

@@ -24,7 +24,7 @@ public class BaseLocalDbTest {
 	public void before() {
 		switch (graphType) {
 		case NEO4J:
-			db = new Neo4jGraph("local:/tmp/tinker-audit2");
+			db = new Neo4jGraph("local:/tmp/tinker-neo4j-audit2");
 			db.clear();
 			db.setTransactionMode(Mode.MANUAL);
 			((Neo4jGraph)db).getRawGraph().registerTransactionEventHandler(new Neo4jTransactionEventHandler<Object>());
@@ -36,7 +36,7 @@ public class BaseLocalDbTest {
 			db.stopTransaction(Conclusion.SUCCESS);
 			break;
 		case ORIENT:
-			db = new OrientGraph("local:/tmp/orientdbtest1");
+			db = new OrientGraph("local:/tmp/tinker-orient-audit2");
 			db.clear();
 			db.setTransactionMode(Mode.MANUAL);
 			((OrientGraph)db).getRawGraph().registerListener(new DbListener());
