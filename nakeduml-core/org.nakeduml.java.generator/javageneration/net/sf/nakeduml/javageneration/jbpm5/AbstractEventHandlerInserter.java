@@ -130,9 +130,7 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 	 * @param behavior
 	 */
 	private void insertEventHandlerCalls(OJAnnotatedClass behaviorClass,INakedTriggerContainer behavior){
-		OJAnnotatedOperation processSignal = new OJAnnotatedOperation("processSignal", new OJPathName("boolean"));
-		processSignal.addParam("signal", new OJPathName(AbstractSignal.class.getName()));
-		behaviorClass.addToOperations(processSignal);
+		OJAnnotatedOperation processSignal = ensureProcessSignalPresent(behaviorClass);
 		for(INakedElement element:behavior.getAllMessageTriggers()){
 			if(element instanceof INakedSignal){
 				INakedSignal signal = (INakedSignal) element;
@@ -159,6 +157,16 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 			}
 		}
 		processSignal.getBody().addToStatements("return false");
+	}
+	public static OJAnnotatedOperation ensureProcessSignalPresent(OJAnnotatedClass behaviorClass) {
+		OJAnnotatedOperation processSignal = (OJAnnotatedOperation) OJUtil.findOperation(behaviorClass, "processSignal");
+		if(processSignal==null){
+			processSignal=new OJAnnotatedOperation("processSignal", new OJPathName("boolean"));
+			processSignal.addParam("signal", new OJPathName(AbstractSignal.class.getName()));
+			behaviorClass.addToOperations(processSignal);
+		}
+		processSignal.setBody(new OJBlock());
+		return processSignal;
 	}
 	private void insertSignalCallInProcessSignal(OJAnnotatedOperation processSignal,INakedSignal signal){
 		NakedClassifierMap map = new NakedClassifierMap(signal);
