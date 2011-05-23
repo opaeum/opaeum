@@ -11,11 +11,11 @@ public class NakedStateMap extends StateMap {
 		super(s);
 		this.state=s;
 	}
-	public String getFireTimersMethod() {
-		return "fireTimersFor" + state.getMappingInfo().getJavaName();
+	public String getRequestEventsMethod() {
+		return "requestEventsFor" + state.getMappingInfo().getJavaName();
 	}
-	public String getCancelTimersMethod() {
-		return "cancelTimersFor" + state.getMappingInfo().getJavaName();
+	public String getCancelEventsMethod() {
+		return "cancelEventsFor" + state.getMappingInfo().getJavaName();
 	}
 	public String getOnEntryMethod() {
 		return "onEntryOf"+state.getMappingInfo().getJavaName();

@@ -96,18 +96,19 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 
 	private void generateConfigAndEnvironment(Collection<INakedRootObject> models, String hibernateConfigName, OutputRootId outputRootId,
 			boolean isAdaptorEnvironment) {
-		SortedProperties domainSortedProperties = new SortedProperties();
+		SortedProperties properties = new SortedProperties();
 		if (isAdaptorEnvironment) {
-			domainSortedProperties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
+			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
 					+ ".jbpm.adaptor.JbpmKnowledgeBase");
 		} else {
-			domainSortedProperties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
+			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
 					+ ".jbpm.domain.JbpmKnowledgeBase");
 		}
-		domainSortedProperties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? CDI_ENVIRONMENT
+		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, UtilityCreator.getUtilPathName() + ".PersistentNameClassMapImpl");
+		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? CDI_ENVIRONMENT
 				: DOMAIN_ENVIRONMENT);
-		domainSortedProperties.setProperty(Environment.HIBERNATE_CONFIG_NAME, hibernateConfigName);
-		findOrCreateTextFile(domainSortedProperties, outputRootId, Environment.PROPERTIES_FILE_NAME);
+		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, hibernateConfigName);
+		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
 		HashMap<String, Object> vars = buildVars(models, isAdaptorEnvironment);
 		processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", hibernateConfigName, outputRootId, vars);
 	}

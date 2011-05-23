@@ -21,8 +21,8 @@ public class ActionMap extends ActivityNodeMap {
 		return super.doActionMethod();
 	}
 
-	public String getCancelTimersMethod() {
-		return "cancelTimersFor" + action.getMappingInfo().getJavaName();
+	public String getCancelEventsMethod() {
+		return "cancelEventsFor" + action.getMappingInfo().getJavaName();
 	}
 	public boolean targetIsImplicitObject() {
 		if (getActionWithTarget().getInPartition() != null) {

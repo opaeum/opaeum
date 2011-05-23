@@ -1,6 +1,6 @@
 package net.sf.nakeduml.javageneration;
 
-import net.sf.nakeduml.javageneration.basicjava.TinkerAuditCreator;
+import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;

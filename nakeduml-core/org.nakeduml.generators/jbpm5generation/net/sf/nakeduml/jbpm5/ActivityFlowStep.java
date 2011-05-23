@@ -448,7 +448,7 @@ public class ActivityFlowStep extends AbstractFlowStep {
 			createAction(map.doActionMethod(), onEntry.getAction(), true);
 			OnExitType onExit = ProcessFactory.eINSTANCE.createOnExitType();
 			state.getOnExit().add(onExit);
-			createAction(map.getCancelTimersMethod(), onExit.getAction(), false);
+			createAction(map.getCancelEventsMethod(), onExit.getAction(), false);
 		}
 	}
 }

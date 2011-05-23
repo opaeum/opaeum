@@ -1,43 +1,22 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.jface.bindings.keys.KeyStroke;
-import org.eclipse.jface.bindings.keys.ParseException;
-import org.eclipse.jface.fieldassist.ContentProposalAdapter;
-import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.PropertyRef;
 import org.nakeduml.uim.UimBinding;
-import org.nakeduml.uim.UimControl;
-import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.modeleditor.SafeUmlUimLinks;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.nakeduml.uim.util.ControlUtil;
 import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
-import org.topcased.tabbedproperties.sections.AbstractTextPropertySection;
-import org.topcased.tabbedproperties.sections.widgets.IText;
 
 /**
  * A section featuring a combo box with a seach button. This section<br>

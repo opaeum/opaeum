@@ -7,10 +7,16 @@ import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
 public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
+	//TODO simplify
 	private transient boolean isNewInVersion = false;
 	private transient boolean isNewInRevision = false;
 	private transient boolean requiresSqlRename = false;
 	private transient boolean shouldStore;
+	private transient String qualifiedJavaName;
+	private transient String javaNameString;
+	private transient String singularHumanName;
+	private transient String pluralHumanName;
+	private transient String qualifiedUmlName;
 	@Override
 	public void setStore(boolean store){
 		this.shouldStore = store;
@@ -146,13 +152,37 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 		result.setSinceVersion(getSinceVersion());
 		return result;
 	}
-	protected abstract void setSingularHumanName(String name);
-	protected abstract String getSingularHumanName();
-	protected abstract void setPluralHumanName(String name);
-	protected abstract String getPluralHumanName();
 	protected abstract void setSqlNameString(String name);
 	protected abstract String getSqlNameString();
-	protected abstract void setJavaNameString(String name);
-	protected abstract String getJavaNameString();
+	public String getQualifiedJavaName(){
+		return qualifiedJavaName;
+	}
+	public void setQualifiedJavaName(String qualifiedJavaName){
+		this.qualifiedJavaName = qualifiedJavaName;
+	}
+	public String getJavaNameString(){
+		return javaNameString;
+	}
+	public String getSingularHumanName(){
+		return singularHumanName;
+	}
+	public void setSingularHumanName(String singularHumanName){
+		this.singularHumanName = singularHumanName;
+	}
+	public String getPluralHumanName(){
+		return pluralHumanName;
+	}
+	public void setPluralHumanName(String pluralHumanName){
+		this.pluralHumanName = pluralHumanName;
+	}
+	public String getQualifiedUmlName(){
+		return qualifiedUmlName;
+	}
+	public void setQualifiedUmlName(String qualifiedUmlName){
+		this.qualifiedUmlName = qualifiedUmlName;
+	}
+	public void setJavaNameString(String javaNameString){
+		this.javaNameString = javaNameString;
+	}
 	protected abstract AbstractMappingInfo createCopy();
 }

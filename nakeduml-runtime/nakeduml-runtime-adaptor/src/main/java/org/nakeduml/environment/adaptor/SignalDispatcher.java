@@ -24,6 +24,7 @@ import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
 import org.jboss.seam.transaction.TransactionScoped;
 import org.nakeduml.environment.ISignalDispatcher;
+import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.ActiveObject;

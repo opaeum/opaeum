@@ -25,7 +25,7 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 	public void reset(){
 		this.signalsToDispatch.clear();
 	}
-	public SignalToDispatch getFirstSignalOfType(Class<? extends AbstractSignal> type){
+	public org.nakeduml.environment.SignalToDispatch getFirstSignalOfType(Class<? extends AbstractSignal> type){
 		List<SignalToDispatch> result = getSignalsOfType(type);
 		return result.isEmpty() ? null : result.get(0);
 	}
@@ -42,7 +42,7 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 	public void deliverAllPendingSignals(){
 		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
 		signalsToDispatch.clear();
-		for(SignalToDispatch signal:signals){
+		for(org.nakeduml.environment.SignalToDispatch signal:signals){
 			ActiveObject target = signal.getTarget();
 			CdiTestEnvironment.getInstance().beforeRequest(target);
 			Session session = CdiTestEnvironment.getInstance().getComponent(Session.class);
@@ -60,13 +60,13 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 	@Override
 	@Deprecated
 	public synchronized void deliverPendingSignalsOfType(Class<? extends AbstractSignal> type){
-		for(SignalToDispatch signal:getSignalsOfType(type)){
+		for(org.nakeduml.environment.SignalToDispatch signal:getSignalsOfType(type)){
 			signal.getTarget().processSignal(signal.getSignal());
 		}
 	}
 	public void prepareSignalsForDispatch(){
 		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
-		for(SignalToDispatch signal:signals){
+		for(org.nakeduml.environment.SignalToDispatch signal:signals){
 			signal.prepareForDispatch();
 		}
 	}

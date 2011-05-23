@@ -29,14 +29,17 @@ public class ExceptionAnalyser{
 		}
 		return rootCause;
 	}
-	public void throwRootCause(){
+	public RuntimeException wrapRootCauseIfNecessary(){
 		if(getRootCause() instanceof RuntimeException){
-			throw (RuntimeException) getRootCause();
+			return  (RuntimeException) getRootCause();
 		}else if(getRootCause() instanceof Error){
-			throw (Error) getRootCause();
+			return new RuntimeException(getRootCause());
 		}else{
-			throw new RuntimeException(getRootCause());
+			return  new RuntimeException(getRootCause());
 		}
+	}
+	public void throwRootCause(){
+		throw wrapRootCauseIfNecessary();
 	}
 	public boolean isDeadlockException(){
 		Throwable se = findFirstCause(SQLException.class);

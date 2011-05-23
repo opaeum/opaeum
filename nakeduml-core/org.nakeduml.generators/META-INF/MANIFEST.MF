@@ -74,4 +74,5 @@ Export-Package: net.sf.nakeduml.javageneration.hibernate,
  org.apache.velocity.util.introspection,
  org.nakedum.velocity,
  org.nakeduml.bootstrap,
- org.nakeduml.generation.features
+ org.nakeduml.generation.features,
+ templates.Model

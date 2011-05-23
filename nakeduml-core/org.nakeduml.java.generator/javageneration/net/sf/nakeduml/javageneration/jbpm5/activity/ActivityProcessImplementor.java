@@ -47,6 +47,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.ActiveObject;
 
 /**
@@ -167,6 +168,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 		if(implementor.hasNodeMethod()){
 			OJAnnotatedOperation operation = new OJAnnotatedOperation();
+			operation.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), node.getMappingInfo().getQualifiedPersistentName()));
+
 			operation.setName(implementor.getMap().doActionMethod());
 			activityClass.addToOperations(operation);
 			operation.addParam("context", ActivityUtil.PROCESS_CONTEXT);

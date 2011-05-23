@@ -1,5 +1,6 @@
 package org.nakeduml.environment.adaptor;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -10,30 +11,27 @@ import org.hibernate.Session;
 import org.jboss.logging.Logger;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
-import org.nakeduml.environment.Environment;
+import org.nakeduml.event.Retryable;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-public abstract class AbstractSignalMdb {
+public abstract class AbstractSignalMdb<T extends Retryable>{
 	@Inject
 	@DefaultTransaction
-	private SeamTransaction transaction;
+	protected SeamTransaction transaction;
 	@Inject
 	Logger logger;
 	@Inject
-	private Session hibernateSession;
+	protected Session hibernateSession;
 	@Inject
-	private
 	MessageRetryer retryer;
-	protected abstract void deliverMessage(SignalToDispatch std) throws Exception;
+	protected abstract void deliverMessage(T std) throws Exception;
+	protected abstract String getQueueName();
 	public void onMessage(Message message){
-		
-		
-		long start=System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		ObjectMessage obj = (ObjectMessage) message;
 		try{
-			message.acknowledge();
-			this.processInTryBlock((SignalToDispatch) obj.getObject());
+			this.processInTryBlock((T) obj.getObject());
 		}catch(Exception e){
 			logger.errorv("Unhandled exception in SignalMDB: {0}", e.toString());
 			logger.error(e.getMessage(), e);
@@ -44,37 +42,33 @@ public abstract class AbstractSignalMdb {
 				logger.error(e2.getMessage(), e2);
 			}
 			try{
-				getHibernateSession().close();
+				hibernateSession.close();
 			}catch(Exception e2){
 				logger.error(e2.getMessage(), e2);
 			}
-			logger.debug("Signal delivery took " + (System.currentTimeMillis()-start) + "ms");
+			logger.debug("Signal delivery took " + (System.currentTimeMillis() - start) + "ms");
 		}
 	}
-	private void processInTryBlock(SignalToDispatch std) throws Exception{
+	private void processInTryBlock(T std) throws Exception{
 		try{
 			deliverMessage(std);
 		}catch(Exception e){
 			try{
-				getHibernateSession().clear();
-				getTransaction().rollback();
+				hibernateSession.clear();
+				transaction.rollback();
 			}catch(Exception e2){
 			}
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			if(ea.isStaleStateException() || ea.isDeadlockException()){
 				if(std.getRetryCount() < 20){
-					logger.debugv("Retrying {0} because of {1}", std.getSignal().getClass().getSimpleName(), ea.getRootCause().toString());
-					if(std.getTarget() instanceof AbstractEntity){
-						getRetryer().retryMessage("queue/EntitySignalQueue", std);
-					}else{
-						getRetryer().retryMessage("queue/HelperSignalQueue", std);
-					}
+					logger.debugv("Retrying {0} because of {1}", std.getDescription(), ea.getRootCause().toString());
+						retryer.retryMessage(getQueueName(), std);
 				}else{
 					Throwable rootCause = ea.getRootCause();
 					if(rootCause instanceof SQLException && ea.getStackTrace(rootCause).contains("Call getNextException to see the cause")){
 						logger.debugv("Unresolved exception found {0}", rootCause.toString());
 					}
-					logger.debugv("RetryCount exceeded for signal {0}", std.getSignal().getClass().getSimpleName());
+					logger.debugv("RetryCount exceeded for signal {0}", std.getDescription());
 					ea.throwRootCause();
 				}
 			}else{
@@ -83,26 +77,5 @@ public abstract class AbstractSignalMdb {
 				ea.throwRootCause();
 			}
 		}
-	}
-	protected void setTransaction(SeamTransaction transaction) {
-		this.transaction = transaction;
-	}
-	protected SeamTransaction getTransaction() {
-		return transaction;
-	}
-	protected void setHibernateSession(Session hibernateSession) {
-		this.hibernateSession = hibernateSession;
-	}
-	protected Session getHibernateSession() {
-		return hibernateSession;
-	}
-	protected void setRetryer(MessageRetryer retryer) {
-		this.retryer = retryer;
-	}
-	protected MessageRetryer getRetryer() {
-		if(retryer==null){
-			retryer=Environment.getInstance().getComponent(MessageRetryer.class);
-		}
-		return retryer;
 	}
 }

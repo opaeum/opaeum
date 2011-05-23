@@ -55,7 +55,8 @@ public class WaitForEventElements {
 		} else if (this.event instanceof INakedOperation) {
 			return ((INakedOperation) this.event).getArgumentParameters();
 		} else {
-			// TODO if timeevent return one parameter
+			// TODO if timeevent then return one parameter
+			//TODO if AcceptCAllEvent then add returnInfo
 			return Collections.emptyList();
 		}
 	}

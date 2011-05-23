@@ -2,10 +2,10 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.util.List;
 
-import javax.swing.event.ChangeEvent;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
+import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTriggerImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -17,6 +17,7 @@ import nl.klasse.octopus.model.OclUsageType;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.ReceiveOperationEvent;
@@ -60,6 +61,29 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf {
 			ReceiveOperationEvent ce = (ReceiveOperationEvent) event;
 			trigger.setEvent(getNakedPeer(ce.getOperation()));
 		} else if (event instanceof ChangeEvent) {
+			INakedBehavior context = (INakedBehavior) getNakedPeer(behaviour);
+			// NB!!! TimeEvents are stored under a special id to
+			// duplicate it in each context it is used.
+			String id = getId(event)+getId(behaviour);
+			NakedChangeEventImpl nakedTimeEvent = (NakedChangeEventImpl) workspace.getModelElement(id);
+			if (nakedTimeEvent == null) {
+				nakedTimeEvent = new NakedChangeEventImpl();
+				ChangeEvent ce = (ChangeEvent) event;
+				nakedTimeEvent.initialize(id, ce.getName(),true);
+				// NB!!! Deviation from UML2 metamodel:
+				// We have to make the behaviour the owner to allow for the
+				// expression to be implemented correctly
+				// Without a behaviour context the expression is contextless and
+				// of limited use.
+				super.initialize(nakedTimeEvent, ce, behaviour);
+				INakedValueSpecification change = getValueSpecification(nakedTimeEvent, ce.getChangeExpression(), OclUsageType.DEF);
+				if (change != null) {
+					change.setType(getOclLibrary().lookupStandardType("Boolean"));
+					nakedTimeEvent.setChangeExpression(change);
+					change.setOwnerElement(nakedTimeEvent);
+				}
+			}
+			trigger.setEvent(nakedTimeEvent);
 		} else if (event instanceof TimeEvent) {
 			INakedBehavior context = (INakedBehavior) getNakedPeer(behaviour);
 			// NB!!! TimeEvents are stored under a special id to

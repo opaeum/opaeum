@@ -10,14 +10,23 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction {
+
 	private static final long serialVersionUID = 2697132216413111920L;
 	public static final String META_CLASS = "action";
 	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
 	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
 
+	@Override
+	public Collection<INakedElement> getOwnedElements(){
+		Collection<INakedElement> ownedElements = super.getOwnedElements();
+		ownedElements.addAll(getInput());
+		ownedElements.addAll(getOutput());
+		return ownedElements;
+	}
 	@Override
 	public String getMetaClass() {
 		return "action";

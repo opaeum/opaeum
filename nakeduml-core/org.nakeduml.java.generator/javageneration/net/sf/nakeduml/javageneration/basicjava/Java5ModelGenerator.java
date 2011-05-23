@@ -32,6 +32,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.runtime.domain.AbstractSignal;
@@ -97,7 +98,8 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 				}
 			}
 			applyStereotypesAsAnnotations((c), myClass);
-			
+			myClass.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), c.getMappingInfo().getQualifiedPersistentName()));
+
 		}
 	}
 
@@ -127,6 +129,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
 				callBackOper.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
 				listener.addToOperations(callBackOper);
+
 				super.createTextPath(listener, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 			}
 		}

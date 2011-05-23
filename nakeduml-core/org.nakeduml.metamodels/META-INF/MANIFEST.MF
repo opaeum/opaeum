@@ -69,8 +69,10 @@ Export-Package: net.sf.nakeduml,
  org.nakeduml.annotation,
  org.nakeduml.environment,
  org.nakeduml.environment.domain,
+ org.nakeduml.event,
+ org.nakeduml.hibernate.domain,
  org.nakeduml.jbpm.domain,
  org.nakeduml.name,
  org.nakeduml.runtime.domain,
  org.nakeduml.workinghours,
-  util
+ util
