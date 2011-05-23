@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -42,7 +43,8 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 				testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
 				testConstructor.getBody().addToStatements("addToOwningObject()");
 			}
-		}else{
+		}else if(c instanceof INakedBehavior){
+			
 		}
 	}
 	@Override
@@ -81,6 +83,8 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 					addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.setter() + "((" + ojClass.getName() + ")this)");
 				}
 			}
+		}else{
+			//TODO add to the behavior's field in the context
 		}
 		ojClass.addToOperations(addToOwningObject);
 	}

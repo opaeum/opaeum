@@ -58,8 +58,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractEventSource;
 import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.ActiveEntity;
 import org.nakeduml.runtime.domain.ActiveObject;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
@@ -296,6 +298,10 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 				if(auditClass.isAbstract()){
 					auditClass.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
 				}
+				auditClass.removeFromImplementedInterfaces(new OJPathName(AbstractEventSource.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(AbstractProcess.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(ActiveEntity.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
 				auditClass.removeFromOperations(OJUtil.findOperation(auditClass, "allInstances"));
 				removeAbstractEntityInterface(auditClass);
 				// TODO remove the underscore
@@ -429,7 +435,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 			if(BehaviorUtil.hasExecutionInstance(b)){
 				List<OJOperation> operations = auditClass.getOperations();
 				for(OJOperation oper:operations){
-					if((oper.getName().startsWith("do") || oper.getName().startsWith("fire") || oper.getName().startsWith("cancel"))
+					if((oper.getName().startsWith("do") || oper.getName().startsWith("requestEventsFor") || oper.getName().startsWith("cancelEventsFor"))
 							&& oper.getReturnType().getLast().equals("void")){
 						oper.setBody(new OJBlock());
 					}

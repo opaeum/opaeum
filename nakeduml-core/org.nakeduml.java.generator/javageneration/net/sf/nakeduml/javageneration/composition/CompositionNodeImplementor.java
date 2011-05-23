@@ -40,25 +40,21 @@ import org.nakeduml.runtime.domain.CompositionNode;
  * @author ampie
  * 
  */
-public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
+public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 	private static OJPathName COMPOSITION_NODE = null;
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
-
 	private CompositionNodeStrategy compositionNodeStrategy;
-
-
 	@Override
-	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
+	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)) {
+		if(config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)){
 			compositionNodeStrategy = new DefaultCompositionNodeStrategy();
 			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
-		} else if (config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)) {
+		}else if(config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)){
 			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
 			COMPOSITION_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerCompositionNode");
 		}
 	}
-
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedBehavioredClassifier c){
 		if(isPersistent(c)){
@@ -66,22 +62,14 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
 			if(ojClassifier instanceof OJAnnotatedClass){
 				OJAnnotatedClass ojClass = (OJAnnotatedClass) ojClassifier;
-				if(c instanceof INakedStructuredDataType){
-					// TODO implement this as "correct" as possible
-				}else if(c instanceof INakedEntity){
-					INakedEntity entity = (INakedEntity)c;
-					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
-					addGetOwningObject(entity, ojClass);
-					addRemoveFromOwner(entity, ojClass);
-					compositionNodeStrategy.addMarkDeleted(entity, ojClass);
-					compositionNodeStrategy.addAddToOwningObject(entity, ojClass);
-					addInit(entity, ojClass);
-					compositionNodeStrategy.addConstructorForTests(ojClass, entity);
-					addInternalSetOwner(entity, ojClass);
-					//TODO mark owned behaviour, etc as deleted.
-				}else if(c instanceof INakedBehavior){
-					//TODO
-				}
+				ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
+				addGetOwningObject(c, ojClass);
+				addRemoveFromOwner(c, ojClass);
+				compositionNodeStrategy.addMarkDeleted(c, ojClass);
+				compositionNodeStrategy.addAddToOwningObject(c, ojClass);
+				addInit(c, ojClass);
+				compositionNodeStrategy.addConstructorForTests(ojClass, c);
+				addInternalSetOwner(c, ojClass);
 			}
 		}
 	}
@@ -116,7 +104,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 				}
 			}
 		}else if(c instanceof INakedBehavior){
-			// TODO 
+			// TODO
 		}
 	}
 	protected void addRemoveFromOwner(INakedBehavioredClassifier sc,OJClass ojClass){
@@ -125,7 +113,6 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 		remove.getBody().addToStatements("this.markDeleted()");
 		ojClass.addToOperations(remove);
 	}
-
 	/**
 	 * Removes initialization logic from the default constructor and adds it to the init method which takes the
 	 */
@@ -146,12 +133,13 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor {
 			start++;
 		}
 		if(c instanceof INakedEntity){
-			INakedEntity entity = (INakedEntity)c;
+			INakedEntity entity = (INakedEntity) c;
 			if(entity.hasComposite()){
 				StructuralFeatureMap compositeFeatureMap = new NakedStructuralFeatureMap(entity.getEndToComposite());
 				ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
 				init.getBody().getStatements().add(start, new OJSimpleStatement("internalSetOwner((" + compositeFeatureMap.javaBaseType() + ")owner)"));
 			}
+		}else if(c instanceof INakedBehavior){
 		}
 		ojClass.addToOperations(init);
 	}
