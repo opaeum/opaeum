@@ -38,10 +38,7 @@ public class TinkerAuditCreator extends AbstractJavaProducingVisitor {
 			ClassifierMap classifierMap = new NakedClassifierMap(c);
 			OJAnnotatedClass myClass;
 			if (c instanceof INakedEnumeration) {
-				myClass = new OJEnum();
-				// In case it needs to be sent by jms or serialized as session
-				// state
-				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
+				return;
 			} else if (c instanceof INakedInterface) {
 				myClass = new OJAnnotatedInterface();
 				// In case it needs to be sent by jms or serialized as session

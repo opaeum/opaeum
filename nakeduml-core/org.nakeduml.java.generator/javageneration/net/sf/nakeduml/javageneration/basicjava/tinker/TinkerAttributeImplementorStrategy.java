@@ -4,6 +4,8 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementorStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
@@ -36,6 +38,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public static final String POLYMORPHIC_GETTER_FOR_TO_MANY_ITER = "polymorphicGetterForToManyIter";
 	public static final String POLYMORPHIC_GETTER_FOR_MANY_CLASS_FORNAME = "polymorphicGetterForManyClassForName";
 	public static final String POLYMORPHIC_GETTER_FORMANY_CONSTRUCTION = "polymorphicGetterForManyConstruction";
+	public static final String IFNOTNULL_EMBEDDED_MANY = "ifNotNullEmbeddedMany";
+	public static final String EMBEDDED_MANY_RESULT = "embeddedManyResult";
 	public static OJPathName TINKER_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerNode");
 
 	public TinkerAttributeImplementorStrategy() {
@@ -43,11 +47,26 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	}
 
 	@Override
-	public void addSimpleSetterBody(OJOperation setter, NakedStructuralFeatureMap map) {
-		setter.getBody().addToStatements(
-				"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getPersistentName().getAsIs()) + "\", " + map.umlName()
-						+ ")");
-		addEntityToTransactionThreadEntityVar(setter);
+	public void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
+		if (map.getProperty().getBaseType() instanceof INakedEntity) {
+			if (map.isOne()) {
+				buildManyToOneSetter(umlOwner, map, null, owner, setter);
+			} else if (map.isMany()) {
+				buildManyToManySetter(map, null, owner, setter);
+			} else {
+			}
+		} else {
+			if (map.isMany() && map.getProperty().getBaseType() instanceof INakedEnumeration) {
+				setter.getBody().addToStatements(
+						"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
+								+ TinkerUtil.tinkerUtil + ".convertEnumsForPersistence(" + map.umlName() + "))");
+			} else {
+				setter.getBody().addToStatements(
+						"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
+								+ map.umlName() + ")");
+			}
+			addEntityToTransactionThreadEntityVar(setter);
+		}
 	}
 
 	@Override
@@ -74,9 +93,55 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 					buildPolymorphicGetterForToOne(map, getter);
 				}
 			} else {
-				getter.getBody().addToStatements(
-						"return (" + map.javaBaseType() + ") this.vertex.getProperty(\""
-								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getPersistentName().getAsIs()) + "\")");
+				if (prop.getBaseType() instanceof INakedEntity) {
+					if (map.isOne()) {
+						buildPolymorphicGetterForToOne(map, getter);
+					} else if (map.isMany()) {
+						buildPolymorphicGetterForMany(map, getter);
+					} else {
+					}
+				} else if (prop.getBaseType() instanceof INakedEnumeration) {
+					if (map.isOne()) {
+						getter.getBody().addToStatements(
+								"String enumValue = (String)this.vertex.getProperty(\""
+										+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+						OJIfStatement ifNotNull = new OJIfStatement("enumValue !=null");
+						ifNotNull.addToThenPart("return " + map.javaTypePath().getLast() + ".valueOf(enumValue)");
+						ifNotNull.addToElsePart("return null");
+						getter.getBody().addToStatements(ifNotNull);
+					} else {
+						OJField result = new OJField();
+						result.setName(EMBEDDED_MANY_RESULT);
+						result.setType(map.javaTypePath());
+						result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") " + TinkerUtil.tinkerUtil + ".convertEnumsFromPersistence((Collection<String>)" + "this.vertex.getProperty(\""
+								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\"), "+map.javaBaseTypePath().getLast()+".class, "+map.getProperty().isOrdered()+" )");
+						owner.addToImports(new OJPathName("java.util.Collection"));
+						getter.getBody().addToLocals(result);
+						OJIfStatement ifNull = new OJIfStatement(EMBEDDED_MANY_RESULT + " != null");
+						ifNull.setName(IFNOTNULL_EMBEDDED_MANY);
+						ifNull.addToThenPart("return " + EMBEDDED_MANY_RESULT);
+						ifNull.addToElsePart("return " + map.javaDefaultValue());
+						getter.getBody().addToStatements(ifNull);
+					}
+				} else {
+					if (map.isOne()) {
+						getter.getBody().addToStatements(
+								"return (" + map.javaTypePath().getLast() + ") this.vertex.getProperty(\""
+										+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+					} else {
+						OJField result = new OJField();
+						result.setName(EMBEDDED_MANY_RESULT);
+						result.setType(map.javaTypePath());
+						result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") this.vertex.getProperty(\""
+								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+						getter.getBody().addToLocals(result);
+						OJIfStatement ifNull = new OJIfStatement(EMBEDDED_MANY_RESULT + " != null");
+						ifNull.setName(IFNOTNULL_EMBEDDED_MANY);
+						ifNull.addToThenPart("return " + EMBEDDED_MANY_RESULT);
+						ifNull.addToElsePart("return " + map.javaDefaultValue());
+						getter.getBody().addToStatements(ifNull);
+					}
+				}
 			}
 
 		}
@@ -86,10 +151,17 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 	public void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
-		INakedClassifier otherClassifier = map.getProperty().getOtherEnd().getOwner();
-		String otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
-		String otherAssociationName = map.getProperty().getAssociation().getName();
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		INakedClassifier otherClassifier;
+		String otherClassName;
+		String otherAssociationName = TinkerUtil.getEdgeName(map);
+		if (map.getProperty().getOtherEnd() != null) {
+			otherClassifier = map.getProperty().getOtherEnd().getOwner();
+			otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
+		} else {
+			otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
+			otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
+		}
 		if (isComposite) {
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");
 			iter.setName(POLYMORPHIC_GETTER_FOR_TO_ONE_ITER);
@@ -119,17 +191,6 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		getter.getBody().addToStatements("return null");
 	}
 
-	public static boolean calculateDirection(NakedStructuralFeatureMap map, boolean isComposite) {
-		if (map.isOneToOne() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
-			isComposite = map.getProperty().getMultiplicity().getLower() == 1 && map.getProperty().getMultiplicity().getUpper() == 1;
-		} else if (map.isOneToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
-			isComposite = map.getProperty().getMultiplicity().getUpper() > 1;
-		} else if (map.isManyToMany() && !isComposite && !map.getProperty().getOtherEnd().isComposite()) {
-			isComposite = 0 > map.getProperty().getName().compareTo(map.getProperty().getOtherEnd().getName());
-		}
-		return isComposite;
-	}
-
 	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter) {
 		OJField result = new OJField();
 		result.setType(map.javaTypePath());
@@ -139,16 +200,24 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		getter.getOwner().addToImports(defaultValue);
 
 		getter.getBody().addToLocals(result);
-		INakedClassifier manyClassifier = map.getProperty().getOtherEnd().getOwner();
+		INakedClassifier manyClassifier;
+		String associationName = TinkerUtil.getEdgeName(map);
+		boolean isComposite;
+		if (map.getProperty().getOtherEnd() != null) {
+			manyClassifier = map.getProperty().getOtherEnd().getOwner();
+			isComposite = map.getProperty().isComposite();
+			isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		} else {
+			manyClassifier = (INakedClassifier) map.getProperty().getBaseType();
+			isComposite = true;
+		}
 
-		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
 		OJSimpleStatement simpleStatement = new OJSimpleStatement();
 		simpleStatement.setName(POLYMORPHIC_GETTER_FOR_TO_MANY_ITER);
 		if (isComposite) {
-			simpleStatement.setExpression("Iterable<Edge> iter = this.vertex.getOutEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+			simpleStatement.setExpression("Iterable<Edge> iter = this.vertex.getOutEdges(\"" + associationName + "\")");
 		} else {
-			simpleStatement.setExpression("Iterable<Edge> iter = this.vertex.getInEdges(\"" + map.getProperty().getAssociation().getName() + "\")");
+			simpleStatement.setExpression("Iterable<Edge> iter = this.vertex.getInEdges(\"" + associationName + "\")");
 		}
 		getter.getBody().addToStatements(simpleStatement);
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
@@ -195,28 +264,27 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public void buildManyToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
 		addEntityToTransactionThreadEntityVar(setter);
-		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
-		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
+		removePolymorphicToOneRelationship(map, owner, setter);
+		createPolymorphicToOneRelationship(umlOwner, map, setter);
 	}
 
 	@Override
 	public void buildOneToOneSetter(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
 			OJOperation setter) {
 		addEntityToTransactionThreadEntityVar(setter);
-		removePolymorphicToOneRelationship(map, otherMap, owner, setter);
+		removePolymorphicToOneRelationship(map, owner, setter);
 		removeInverseToPolymorphicRelationship(map, otherMap, owner, setter);
-		createPolymorphicToOneRelationship(umlOwner, map, otherMap, setter);
+		createPolymorphicToOneRelationship(umlOwner, map, setter);
 	}
 
-	private void createPolymorphicToOneRelationship(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap,
-			OJOperation setter) {
+	private void createPolymorphicToOneRelationship(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJOperation setter) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 
 		OJIfStatement ifParamNotNull = new OJIfStatement();
 		ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
 		ifParamNotNull.setCondition(map.umlName() + "!=null");
-		String relationshipName = map.getProperty().getAssociation().getName();
+		String relationshipName = TinkerUtil.getEdgeName(map);
 		ifParamNotNull.getThenPart().addToStatements(
 				new OJSimpleStatement("Edge edge = "
 						+ UtilityCreator.getUtilPathName().toJavaString()
@@ -233,11 +301,10 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		setter.getBody().addToStatements(ifParamNotNull);
 	}
 
-	private void removePolymorphicToOneRelationship(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner,
-			OJOperation setter) {
+	private void removePolymorphicToOneRelationship(NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
-		String relationshipName = map.getProperty().getAssociation().getName();
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		String relationshipName = TinkerUtil.getEdgeName(map);
 		setter.getBody()
 				.addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement();
@@ -274,12 +341,17 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	@Override
 	public void buildManyToManySetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		addEntityToTransactionThreadEntityVar(setter);
-		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
+		boolean isComposite;
+		if (otherMap != null) {
+			isComposite = map.getProperty().isComposite();
+			isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		} else {
+			isComposite = true;
+		}
 		owner.addToImports(new OJPathName("java.util.List"));
 		owner.addToImports(new OJPathName("java.util.ArrayList"));
 		setter.getBody().addToStatements("List<Edge> edgesToRemove = new ArrayList<Edge>()");
-		String relationshipName = map.getProperty().getAssociation().getName();
+		String relationshipName = TinkerUtil.getEdgeName(map);
 		setter.getBody()
 				.addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
@@ -303,11 +375,11 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	@Override
 	public void buildManyAdder(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		OJIfStatement ifStatement = new OJIfStatement("!" + map.getter() + "().contains(" + map.umlName() + ")");
 		ifStatement.setName(MANY_TO_MANY_ADDER_IF_CONTAINS);
-		String relationshipName = map.getProperty().getAssociation().getName();
 		adder.getBody().addToStatements(ifStatement);
+		String relationshipName = TinkerUtil.getEdgeName(map);
 		ifStatement.addToThenPart(new OJSimpleStatement("Edge edge = "
 				+ UtilityCreator.getUtilPathName().toJavaString()
 				+ ".GraphDb.getDB().addEdge(null, "
@@ -322,12 +394,25 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		}
 	}
 
+	private void buildManyEmbeddedAdder(NakedStructuralFeatureMap map, Object object, OJOperation adder) {
+		OJField tmp = new OJField();
+		tmp.setName("tmp");
+		tmp.setType(map.javaTypePath());
+		tmp.setInitExp(map.getter() + "()");
+		OJIfStatement ifStatement = new OJIfStatement("!tmp.contains(" + map.umlName() + ")");
+		ifStatement.setName(MANY_TO_MANY_ADDER_IF_CONTAINS);
+		adder.getBody().addToStatements(ifStatement);
+		adder.getBody().addToLocals(tmp);
+		ifStatement.addToThenPart("tmp.add(" + map.umlName() + ")");
+		ifStatement.addToThenPart(map.setter() + "(tmp)");
+	}
+
 	@Override
 	public void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation remover) {
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		remover.getBody().addToStatements("List<Edge> edgesToRemove = new ArrayList<Edge>()");
-		String relationshipName = map.getProperty().getAssociation().getName();
+		String relationshipName = TinkerUtil.getEdgeName(map);
 		remover.getBody().addToStatements(
 				"Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJForStatement forStatement = new OJForStatement("edge", TinkerUtil.edgePathName, "iter");
@@ -351,5 +436,44 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	private void addEntityToTransactionThreadEntityVar(OJOperation setter) {
 		setter.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 		setter.getOwner().addToImports(TinkerUtil.transactionThreadEntityVar);
+	}
+
+	@Override
+	public void addSimpleAdder(NakedStructuralFeatureMap map, OJOperation adder) {
+		if (map.isMany()) {
+			if (map.getProperty().getBaseType() instanceof INakedEntity) {
+				buildManyAdder(map, null, adder);
+			} else {
+				buildManyEmbeddedAdder(map, null, adder);
+			}
+		} else {
+			adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
+		}
+	}
+
+	@Override
+	public void buildSimpleRemover(NakedStructuralFeatureMap map, OJOperation remover) {
+		if (map.isMany()) {
+			if (map.getProperty().getBaseType() instanceof INakedEntity) {
+				buildManyRemover(map, null, remover);
+			} else {
+				buildManyEmbeddedRemover(map, null, remover);
+			}
+		} else {
+			remover.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
+		}
+	}
+
+	private void buildManyEmbeddedRemover(NakedStructuralFeatureMap map, Object object, OJOperation remover) {
+		OJField tmp = new OJField();
+		tmp.setName("tmp");
+		tmp.setType(map.javaTypePath());
+		tmp.setInitExp(map.getter() + "()");
+		OJIfStatement ifStatement = new OJIfStatement("tmp.contains(" + map.umlName() + ")");
+		ifStatement.setName(MANY_TO_MANY_ADDER_IF_CONTAINS);
+		remover.getBody().addToStatements(ifStatement);
+		remover.getBody().addToLocals(tmp);
+		ifStatement.addToThenPart("tmp.remove(" + map.umlName() + ")");
+		ifStatement.addToThenPart(map.setter() + "(tmp)");
 	}
 }

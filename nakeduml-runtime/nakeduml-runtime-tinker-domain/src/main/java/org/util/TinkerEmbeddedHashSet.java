@@ -2,16 +2,14 @@ package org.util;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.nakeduml.runtime.domain.TinkerNode;
 
-public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, TinkerCollection<E> {
+public class TinkerEmbeddedHashSet<E> extends HashSet<E> implements TinkerSet<E>, TinkerCollection<E> {
 
-	Map<Class<? extends TinkerNode>, MethodHolder> methodMap = new HashMap<Class<? extends TinkerNode>, MethodHolder>();
+	private MethodHolder methodHolder;
 	private class MethodHolder {
 		private TinkerNode owner;
 		private Method adder;
@@ -23,16 +21,9 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, Tinker
 		}
 	}
 
-	public TinkerHashSet(TinkerHashSet ... tinkerSet) {
-		for (TinkerHashSet tinkerHashSet : tinkerSet) {
-			methodMap.putAll(tinkerHashSet.methodMap);
-			tinkerAddAll(tinkerHashSet);
-		}
-	}
-
-	public TinkerHashSet(Class<? extends TinkerNode> collectionType, TinkerNode owner, Method adder, Method remover) {
+	public TinkerEmbeddedHashSet(TinkerNode owner, Method adder, Method remover) {
 		super();
-		methodMap.put(collectionType, new MethodHolder(owner, adder, remover));
+		methodHolder = new MethodHolder(owner, adder, remover);
 	}
 
 	public boolean tinkerAddAll(Collection<? extends E> c) {
@@ -53,14 +44,6 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, Tinker
 	@Override
 	public boolean add(E e) {
 		try {
-			MethodHolder methodHolder = methodMap.get(e.getClass());
-			if (methodHolder==null) {
-				for (Class<? extends TinkerNode> key : methodMap.keySet()) {
-					if (key.isAssignableFrom(e.getClass())) {
-						methodHolder = methodMap.get(key);
-					}
-				}
-			}
 			methodHolder.adder.invoke(methodHolder.owner, e);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
@@ -76,14 +59,6 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, Tinker
 	@Override
 	public boolean remove(Object o) {
 		try {
-			MethodHolder methodHolder = methodMap.get(o.getClass());
-			if (methodHolder==null) {
-				for (Class<? extends TinkerNode> key : methodMap.keySet()) {
-					if (key.isAssignableFrom(o.getClass())) {
-						methodHolder = methodMap.get(key);
-					}
-				}
-			}			
 			methodHolder.remover.invoke(methodHolder.owner, o);
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);

@@ -1,11 +1,13 @@
 package net.sf.nakeduml.javageneration;
 
 import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.annotation.OJEnum;
 
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{
@@ -27,15 +29,23 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		}
 	}
 	public OJPathName javaAuditTypePath(){
-		if(isMany()){
-			OJPathName copy = super.javaTypePath().getCopy();
-			copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
-			return copy;
-			//TODO this string jol must be wrong
-		}else if(isJavaPrimitive() || javaBaseType().equals("String")){
-			return featureTypeMap.javaObjectTypePath();
-		}else{
-			return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+		if (getProperty().getBaseType() instanceof INakedEnumeration) {
+			return javaTypePath();
+		} else {
+			if(isMany()){
+				if(!isJavaPrimitive() && !javaBaseType().equals("String") && !javaBaseType().equals("Integer")) {
+					OJPathName copy = super.javaTypePath().getCopy();
+					copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
+					return copy;
+				} else {
+					return javaTypePath();
+				}
+				//TODO this string jol must be wrong
+			}else if(isJavaPrimitive() || javaBaseType().equals("String")){
+				return featureTypeMap.javaObjectTypePath();
+			}else{
+				return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+			}
 		}
 	}
 

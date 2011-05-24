@@ -101,7 +101,7 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 			owner.addToImports(new OJPathName("java.util.Date"));
 			INakedProperty prop = map.getProperty();
 			if (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-				if (map.isManyToOne() /*&& map.getProperty().getSubsettedProperties().isEmpty()*/) {
+				if (map.isManyToOne()) {
 					addDeletedOnFilterToPolymorphicGetterForToOne(map, getter);
 				} else if (map.isOneToMany()) {
 					addDeletedOnFilterTobuildPolymorphicGetterForMany(map, getter);
@@ -111,6 +111,14 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 					addDeletedOnFilterToPolymorphicGetterForToOne(map, getter);
 				}
 			} else {
+				if (!prop.isDerived() && prop.getBaseType() instanceof INakedEntity) {
+					if (map.isOne()) {
+						addDeletedOnFilterToPolymorphicGetterForToOne(map, getter);
+					} else if (map.isMany()) {
+						addDeletedOnFilterTobuildPolymorphicGetterForMany(map, getter);
+					} else {
+					}
+				}				
 			}
 		}
 		return getter;

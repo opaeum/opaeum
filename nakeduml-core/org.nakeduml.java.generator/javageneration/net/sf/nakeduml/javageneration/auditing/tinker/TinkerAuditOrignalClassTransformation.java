@@ -15,6 +15,7 @@ import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
@@ -391,7 +392,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		ifStatement.addToThenPart(ifStatement2);
 
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = TinkerAttributeImplementorStrategy.calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		if (isComposite) {
 			ifStatement.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, getAuditVertex(), " + map.umlName() + ".getAuditVertex(),\""
 					+ map.getProperty().getAssociation().getName() + "\")");
@@ -423,10 +424,19 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 				OJIfStatement ifStatement = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
 				ifStatement.addToThenPart("createAuditVertex(false)");
 				setter.getBody().addToStatements(ifStatement);
-				setter.getBody()
-						.addToStatements(
-								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
-										+ "\", name)");
+				if (map.isMany() && map.getProperty().getBaseType() instanceof INakedEnumeration) {
+					setter.getBody()
+							.addToStatements(
+									"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+											+ "\", "+ TinkerUtil.tinkerUtil.getLast() + ".convertEnumsForPersistence(" + map.umlName()+"))");
+					originalClass.addToImports(TinkerUtil.tinkerUtil);
+				} else {
+					setter.getBody()
+					.addToStatements(
+							"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+									+ "\"," + map.umlName()+")");
+					
+				}
 			}
 		}
 	}
@@ -437,7 +447,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 				TinkerAttributeImplementorStrategy.TINKER_MANY_TO_MANY_SETTER_COLLECT_EDGES);
 
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = TinkerAttributeImplementorStrategy.calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 
 		if (isComposite) {
 			OJIfStatement ifStatement = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(" + map.javaBaseTypePath().getLast()
@@ -508,7 +518,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		setter.getBody().getStatements().add(4, ifStatement3);
 
 		boolean isComposite = map.getProperty().isComposite();
-		isComposite = TinkerAttributeImplementorStrategy.calculateDirection(map, isComposite);
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		originalClass.addToImports(TinkerUtil.graphDbPathName);
 		originalClass.addToImports(TinkerUtil.tinkerUtil);
 		String associationName = map.getProperty().getAssociation().getName();

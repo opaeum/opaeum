@@ -99,9 +99,20 @@ public class OJBlock extends OJBlockGEN {
 				} else {
 					return s;
 				}
+			} else {
+				//TODO
 			}
 		}
 		return null;
-	}	
+	}
+	
+	public OJField findLocal(String name) {
+		for(OJField field:getLocals()) {
+			if (field.getName().equals(name)) {
+				return field;
+			}
+		}
+		return null;
+	}
 	
 }

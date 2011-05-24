@@ -14,8 +14,6 @@ import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.auditing.TinkerAuditImplementationStep;
 
-import org.eclipse.emf.common.util.URI;
-
 public class GenerateAudit2 {
 
 	protected File outputRoot;

@@ -7,7 +7,7 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 
 public interface AttributeImplementorStrategy {
-	void addSimpleSetterBody(OJOperation setter, NakedStructuralFeatureMap map);
+	void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter);
 
 	OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault);
 
@@ -26,5 +26,9 @@ public interface AttributeImplementorStrategy {
 	void buildManyAdder(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder);
 
 	void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder);
+
+	void addSimpleAdder(NakedStructuralFeatureMap map, OJOperation adder);
+
+	void buildSimpleRemover(NakedStructuralFeatureMap map, OJOperation remover);
 
 }

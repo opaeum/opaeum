@@ -5,15 +5,14 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.composition.tinker.TinkerCompositionNodeStrategy;
+import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -47,12 +46,12 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		if(config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_HIBERNATE)){
-			compositionNodeStrategy = new DefaultCompositionNodeStrategy();
-			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
-		}else if(config.getAttributeImplementationStrategy().equals(AttributeImplementor.ATRTIBUTE_STRATEGY_TINKER)){
+		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
 			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
 			COMPOSITION_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerCompositionNode");
+		} else {
+			compositionNodeStrategy = new DefaultCompositionNodeStrategy();
+			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 		}
 	}
 	@VisitAfter(matchSubclasses = true)

@@ -15,7 +15,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 public class DefaultAttributeImplementorStrategy implements AttributeImplementorStrategy {
 
 	@Override
-	public void addSimpleSetterBody(OJOperation setter, NakedStructuralFeatureMap map) {
+	public void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
 		setter.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
 	}
 
@@ -144,6 +144,16 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 	public void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
 		adder.getBody().addToStatements(map.umlName() + "." + otherMap.getter() + "().remove(this)");
 		adder.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
+	}
+
+	@Override
+	public void addSimpleAdder(NakedStructuralFeatureMap map, OJOperation adder) {
+		adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
+	}
+
+	@Override
+	public void buildSimpleRemover(NakedStructuralFeatureMap map, OJOperation remover) {
+		remover.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
 	}
 
 }

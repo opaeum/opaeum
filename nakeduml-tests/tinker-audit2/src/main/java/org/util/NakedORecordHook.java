@@ -3,11 +3,13 @@ package org.util;
 import com.orientechnologies.orient.core.db.graph.OGraphEdge;
 import com.orientechnologies.orient.core.db.graph.OGraphVertex;
 import com.orientechnologies.orient.core.hook.ORecordHook;
+import com.orientechnologies.orient.core.hook.ORecordHook.TYPE;
 import com.orientechnologies.orient.core.record.ORecord;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex;
+
 
 public class NakedORecordHook implements ORecordHook {
 
