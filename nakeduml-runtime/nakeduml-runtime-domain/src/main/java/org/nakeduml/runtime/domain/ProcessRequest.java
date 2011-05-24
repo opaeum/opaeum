@@ -1,11 +1,15 @@
 package org.nakeduml.runtime.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Any;
-
+@Entity
+@Table(name="numl_process_request")
 public class ProcessRequest extends AbstractRequest{
-	@Any(metaDef="ProcessMetaDef",metaColumn=@Column(name="process_type"))
+	public static final String PROCESS_META_DEF = "ProcessMetaDef";
+	@Any(metaDef=PROCESS_META_DEF,metaColumn=@Column(name="process_type"))
 	AbstractProcess process;
 
 	public AbstractProcess getProcess(){

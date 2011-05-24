@@ -16,9 +16,10 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Any;
 @Inheritance(strategy=InheritanceType.JOINED)
-@Table(name="abstract_request")
+@Table(name="numl_abstract_request")
 public abstract class AbstractRequest{
-	@Any(metaDef = "UserRoleMetaDef",metaColumn = @Column(name = "user_role_type"))
+	public static final String USER_ROLE_META_DEF="UserRoleMetaDef";
+	@Any(metaDef = USER_ROLE_META_DEF,metaColumn = @Column(name = "user_role_type"))
 	private AbstractUserRole requestor;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdOn;

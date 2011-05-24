@@ -32,6 +32,11 @@
           <artifactId>maven-eclipse-plugin</artifactId>
           <version>2.8</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.7.1</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -47,6 +52,11 @@
       <id>repository.jboss.org</id>
       <name>JBoss Repository</name>
       <url>https://repository.jboss.org/nexus/content/groups/public</url>
+    </repository>
+    <repository>
+      <id>java.net</id>
+      <name>java net</name>
+      <url>http://download.java.net/maven/2/</url>
     </repository>
   </repositories>
   <dependencies/>
@@ -85,6 +95,12 @@
         <artifactId>nakeduml-runtime-adaptor</artifactId>
         <version>${numl.version}</version>
         <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.nakeduml</groupId>
@@ -112,6 +128,12 @@
         <version>${hibernate.version}</version>
         <type>jar</type>
         <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>jta</artifactId>
+            <groupId>javax.transaction</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.arquillian</groupId>
@@ -126,12 +148,24 @@
         <version>${numl.version}</version>
         <type>jar</type>
         <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.seam.servlet</groupId>
         <artifactId>seam-servlet-impl</artifactId>
         <version>${seam.servlet.version}</version>
         <scope>runtime</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>seam-solder</artifactId>
+            <groupId>org.jboss.seam.solder</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.seam.servlet</groupId>
@@ -142,7 +176,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.1</version>
+        <version>1.5.10</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.seam.persistence</groupId>
@@ -178,8 +212,14 @@
       <dependency>
         <groupId>org.jboss.seam.config</groupId>
         <artifactId>seam-config-xml</artifactId>
-        <version>3.0.0.Beta2</version>
+        <version>3.0.0.Final</version>
         <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>seam-solder</artifactId>
+            <groupId>org.jboss.seam.solder</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.nakeduml.processmodel</groupId>
@@ -201,18 +241,32 @@
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>4.0.0.GA</version>
+        <type>jar</type>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>1.8.0.10</version>
+        <type>jar</type>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
     <processmodel.version>0.0.1</processmodel.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
-    <drools.version>5.2.0-alpha1</drools.version>
+    <drools.version>5.2.0.M1</drools.version>
     <hibernate.version>3.6.0.Final</hibernate.version>
     <numl.version>1.0.0.5-SNAPSHOT</numl.version>
     <jboss.domain>default</jboss.domain>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
-    <seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>
+    <seam.servlet.version>3.0.0.Final</seam.servlet.version>
     <seam.solder.version>3.0.0.Beta1</seam.solder.version>
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
   </properties>

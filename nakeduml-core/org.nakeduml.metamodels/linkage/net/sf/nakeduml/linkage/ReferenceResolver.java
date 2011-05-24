@@ -87,7 +87,7 @@ public class ReferenceResolver extends AbstractModelElementLinker {
 			while (importIter.hasNext()) {
 				INakedClassifier c = (INakedClassifier) importIter.next();
 				NakedImportedElementImpl importedElement = new NakedImportedElementImpl();
-				importedElement.setName(c.getName());
+				importedElement.initialize(p.getId() + c.getId(), c.getName(),false);
 				importedElement.setOwnerElement(ie.getNameSpace());
 				importedElement.setMappingInfo(ie.getMappingInfo());
 				if (c instanceof INakedPrimitiveType) {

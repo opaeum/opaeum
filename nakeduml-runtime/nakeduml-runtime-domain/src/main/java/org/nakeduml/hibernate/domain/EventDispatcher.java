@@ -8,10 +8,13 @@ import java.util.WeakHashMap;
 
 import org.hibernate.HibernateException;
 import org.hibernate.event.EventSource;
+import org.hibernate.event.FlushEntityEvent;
+import org.hibernate.event.FlushEntityEventListener;
 import org.hibernate.event.FlushEvent;
 import org.hibernate.event.FlushEventListener;
 import org.hibernate.event.PostLoadEvent;
 import org.hibernate.event.PostLoadEventListener;
+import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.event.def.DefaultFlushEventListener;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.IMessageSender;
@@ -22,26 +25,63 @@ import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractEventSource;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-public class EventDispatcher extends DefaultFlushEventListener implements PostLoadEventListener,FlushEventListener{
+public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,FlushEntityEventListener{
 	static Map<EventSource,Set<AbstractEventSource>> eventSourceMap = new WeakHashMap<EventSource,Set<AbstractEventSource>>();
 	@Override
 	public void onPostLoad(PostLoadEvent event){
 		if(event.getEntity() instanceof AbstractEventSource){
-			Set<AbstractEventSource> set = eventSourceMap.get(event.getSession());
-			if(set == null){
-				set = new HashSet<AbstractEventSource>();
-				eventSourceMap.put(event.getSession(), set);
-			}
-			set.add((AbstractEventSource) event.getEntity());
+			addEventSource(event.getSession(), (AbstractEventSource) event.getEntity());
 		}
 	}
 	@Override
+	public void onFlushEntity(FlushEntityEvent event) throws HibernateException{
+		if(event.getEntity() instanceof AbstractEventSource){
+			addEventSource(event.getSession(), (AbstractEventSource) event.getEntity());
+		}
+	}
+	private void addEventSource(EventSource session,AbstractEventSource entity){
+		Set<AbstractEventSource> set = eventSourceMap.get(session);
+		if(set == null){
+			set = new HashSet<AbstractEventSource>();
+			eventSourceMap.put(session, set);
+		}
+		set.add(entity);
+	}
+	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
-		super.onFlush(event);// Generate Ids
+		doFlush(event);// Generate Ids, perform flush events
 		Set<AbstractEventSource> eventSources = EventDispatcher.eventSourceMap.get(event.getSession());
 		if(eventSources != null){
 			eventSources.remove(event.getSession());
 			sendEvents(eventSources);
+		}
+	}
+	private void doFlush(FlushEvent event) throws HibernateException{
+		final EventSource source = event.getSession();
+		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
+			flushEverythingToExecutions(event);
+			performExecutions(source);
+			postFlush(source);
+			if(source.getFactory().getStatistics().isStatisticsEnabled()){
+				source.getFactory().getStatisticsImplementor().flush();
+			}
+		}
+	}
+	protected void performExecutions(EventSource session) throws HibernateException{
+		session.getPersistenceContext().setFlushing(true);
+		try{
+			session.getJDBCContext().getConnectionManager().flushBeginning();
+			// we need to lock the collection caches before
+			// executing entity inserts/updates in order to
+			// account for bidi associations
+			session.getActionQueue().prepareActions();
+			session.getActionQueue().executeActions();
+		}catch(HibernateException he){
+			// log.error("Could not synchronize database state with session", he);
+			throw he;
+		}finally{
+			session.getPersistenceContext().setFlushing(false);//NUML Modification to assist with auditing
+			session.getJDBCContext().getConnectionManager().flushEnding();
 		}
 	}
 	public static void sendEvents(Collection<AbstractEventSource> eventSources){

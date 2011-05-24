@@ -1,0 +1,18 @@
+<configuration xmlns="urn:hornetq"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:hornetq /schema/hornetq-jms.xsd">
+
+   <queue name="AuditQueue">
+      <entry name="queue/AuditQueue" />
+   </queue>
+   <queue name="HelperSignalQueue">
+      <entry name="queue/HelperSignalQueue" />
+   </queue>
+   <queue name="EntitySignalQueue">
+      <entry name="queue/EntitySignalQueue" />
+   </queue>
+   <queue name="AuditDLQ">
+		<entry name="queue/AuditDLQ" />
+   </queue>
+   
+</configuration>

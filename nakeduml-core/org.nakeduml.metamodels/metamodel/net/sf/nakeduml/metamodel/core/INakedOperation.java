@@ -20,5 +20,6 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	void setIsUserResponsibility(boolean b);
 	void setBodyCondition(INakedConstraint specification);
 	INakedConstraint getBodyCondition();
-	void setIsOclDef(boolean b);
+	boolean returnsImmediately();
+	void setReturnsImmediately(boolean b);
 }

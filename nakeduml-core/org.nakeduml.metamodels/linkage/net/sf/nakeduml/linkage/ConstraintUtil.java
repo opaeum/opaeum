@@ -32,14 +32,16 @@ public class ConstraintUtil{
 	
 	public static NakedConstraintImpl buildArtificialConstraint(INakedClassifier owner, INakedProperty p,String ocl,String constraintName){
 		NakedConstraintImpl constraint = new NakedConstraintImpl();
-		IMappingInfo mi = p.getMappingInfo().getCopy();
-		constraint.setMappingInfo(mi);
-		mi.setIdInModel(mi.getIdInModel() + constraintName);
+		IMappingInfo constraintMappingInfo = p.getMappingInfo().getCopy();
+		constraint.setMappingInfo(constraintMappingInfo);
+		constraintMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel() + constraintName);
+		constraint.initialize(constraintMappingInfo.getIdInModel(), constraintName, false);
 		NakedValueSpecificationImpl vs = new NakedValueSpecificationImpl();
 		vs.setOwnerElement(constraint);
-		mi = mi.getCopy();
-		vs.setMappingInfo(mi);
-		mi.setIdInModel(mi.getIdInModel() + constraintName);
+		IMappingInfo vsMappingInfo = constraintMappingInfo.getCopy();
+		vs.setMappingInfo(vsMappingInfo);
+		vsMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel()+"VS");
+		vs.initialize(vsMappingInfo.getIdInModel(), constraintName, false);
 		ParsedOclString parsedOclContext = new ParsedOclString(p.getName() + constraintName, OclUsageType.INV);
 		parsedOclContext.setContext(owner, p);
 		vs.setValue(parsedOclContext);

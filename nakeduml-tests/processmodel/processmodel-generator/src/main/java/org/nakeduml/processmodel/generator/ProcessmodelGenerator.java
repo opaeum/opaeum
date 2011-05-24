@@ -19,11 +19,11 @@ public class ProcessmodelGenerator extends MavenProjectCodeGenerator {
 	}
 
 	public Set<Class<? extends TransformationStep>> getIntegrationSteps() {
-		return toSet(org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects.class,org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels.class,org.nakeduml.bootstrap.WarBootstrapStep.class,org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects.class);
+		return toSet(org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects.class,org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels.class,org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects.class,org.nakeduml.bootstrap.WarBootstrapStep.class);
 	}
 	
 	public Set<Class<? extends TransformationStep>> getSteps() {
-		return toSet(org.nakeduml.generation.features.PersistenceUsingHibernate.class,org.nakeduml.generation.features.BpmUsingJbpm5.class,net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution.class,org.nakeduml.generation.features.ExtendedCompositionSemantics.class,net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class,org.nakeduml.generation.features.IntegrationTests.class,net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep.class);
+		return toSet(org.nakeduml.generation.features.ExtendedCompositionSemantics.class,net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep.class,org.nakeduml.generation.features.BpmUsingJbpm5.class,org.nakeduml.generation.features.IntegrationTests.class,org.nakeduml.generation.features.PersistenceUsingHibernate.class,net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class,net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution.class);
 	}
 	
 	static public void main(String[] args) throws Exception {

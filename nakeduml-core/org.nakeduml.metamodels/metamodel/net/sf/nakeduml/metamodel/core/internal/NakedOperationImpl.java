@@ -41,6 +41,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private boolean hasClassScope;
 	private boolean isAbstract;
 	private boolean isOclDef;
+	private boolean returnsImmediately;
 	public static IClassifier VOID_TYPE;
 	public boolean isStatic(){
 		return hasClassScope;
@@ -221,5 +222,12 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	protected boolean isNamedMember(INakedElement e){
 		return super.isNamedMember(e) || e instanceof INakedTypedElement;
+	}
+	@Override
+	public boolean returnsImmediately() {
+		return returnsImmediately;
+	}
+	public void setReturnsImmediately(boolean b){
+		this.returnsImmediately=b;
 	}
 }

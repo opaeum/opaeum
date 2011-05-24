@@ -12,16 +12,18 @@
 	    <property name="connection.datasource">${config.dataSourceName}</property>   
 		<property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
 		<property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
+<!--	<property name="hibernate.hbm2ddl.auto">update</property>  -->
 #else		
 		<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
 		<property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
 		<property name="hibernate.connection.url">jdbc:hsqldb:mem:${workspace.name}</property>
 		<property name="hibernate.connection.username">sa</property>
 		<property name="hibernate.connection.password"></property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 #end		
 		<property name="hibernate.format_sql">false</property>
 		<property name="hibernate.show_sql">false</property>
-<!--	<property name="hibernate.hbm2ddl.auto">update</property>  -->
+		
 		
 
 #foreach($c in $persistentClasses)
@@ -33,6 +35,9 @@
 		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceInfo" />
 		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceEventInfo" />
 		<mapping class="org.drools.persistence.info.WorkItemInfo" />
+		<mapping class="org.nakeduml.runtime.domain.AbstractRequest"/>
+		<mapping class="org.nakeduml.runtime.domain.TaskRequest"/>
+		<mapping class="org.nakeduml.runtime.domain.ProcessRequest"/>
 #end
 
 
@@ -48,9 +53,6 @@
 		<event type="post-update">
 			<listener class="org.nakeduml.audit.AuditListener" />
 		</event>
-		<event type="flush">
-			<listener class="org.nakeduml.audit.AuditListener" />
-		</event>
 #end
 #end	
 		<event type="flush-entity">
@@ -58,6 +60,15 @@
 		</event>
 		<event type="create">
 			<listener class="org.nakeduml.hibernate.domain.PrePersistListener" />
+		</event>
+		<event type="flush">
+			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
+		</event>
+		<event type="flush-entity">
+			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
+		</event>
+		<event type="post-load">
+			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
 		</event>
 	
 	</session-factory>

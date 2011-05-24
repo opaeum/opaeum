@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.actions.internal.NakedAcceptCallActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedAcceptEventActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCallBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCallOperationActionImpl;
@@ -17,6 +18,7 @@ import net.sf.nakeduml.metamodel.actions.internal.NakedSendSignalActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -52,6 +54,8 @@ public class ActionExtractor extends AbstractActionExtractor {
 	public void visitReplyAction(ReplyAction emfAction, NakedReplyActionImpl nakedAction) {
 		initAction(emfAction, nakedAction);
 		nakedAction.setReturnInfo((INakedInputPin) initializePin(getActivity(emfAction), emfAction.getReturnInformation()));
+		List<INakedInputPin> replyValues = populatePins(getActivity(emfAction), emfAction.getReplyValues());
+		nakedAction.setReplyValues(replyValues);
 	}
 
 	@VisitBefore
@@ -150,13 +154,14 @@ public class ActionExtractor extends AbstractActionExtractor {
 
 
 	@VisitBefore
-	public void visitAcceptCallAction(AcceptCallAction emfAction, NakedAcceptEventActionImpl nakedAction) {
+	public void visitAcceptCallAction(AcceptCallAction emfAction, NakedAcceptCallActionImpl nakedAction) {
 		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		if (!emfAction.getTriggers().isEmpty()) {
 			// we only support one trigger
 			nakedAction.setTrigger(buildTrigger(emfActivity, emfAction.getTriggers().iterator().next()));
 		}
+		nakedAction.setReturnInfo((INakedOutputPin) initializePin(emfActivity, emfAction.getReturnInformation()));
 		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
 		nakedAction.setResult(result);
 	}

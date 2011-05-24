@@ -31,6 +31,7 @@ processmodel-integrated/pom.xml
 processmodel-integrated/src/main/generated-java
 processmodel-integrated/src/main/generated-resources
 processmodel-integrated/src/test/generated-java
+processmodel-integrated/src/test/generated-resources
 processmodel-integrated/target
 processmodel-integrated/test-output
 processmodel-web/.classpath
