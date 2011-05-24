@@ -18,6 +18,7 @@
 		<module>org.nakeduml.java.metamodel</module>
 		<module>org.nakeduml.ocl.java.generator</module>
 		<module>org.nakeduml.metamodels</module>
+		<module>org.nakeduml.tinker.generator</module>
 		<module>org.nakeduml.java.generator</module>
 		<module>org.nakeduml.generators</module>
 		<module>org.nakeduml.uim</module>
