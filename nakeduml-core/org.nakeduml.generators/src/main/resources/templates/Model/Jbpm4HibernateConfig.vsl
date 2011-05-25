@@ -19,7 +19,7 @@
 		<property name="hibernate.connection.url">jdbc:hsqldb:mem:${workspace.name}</property>
 		<property name="hibernate.connection.username">sa</property>
 		<property name="hibernate.connection.password"></property>
-		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+<!--		<property name="hibernate.hbm2ddl.auto">create-drop</property>-->
 #end		
 		<property name="hibernate.format_sql">false</property>
 		<property name="hibernate.show_sql">false</property>

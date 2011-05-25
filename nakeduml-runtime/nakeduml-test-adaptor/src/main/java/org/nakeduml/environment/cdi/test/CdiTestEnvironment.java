@@ -1,11 +1,13 @@
 package org.nakeduml.environment.cdi.test;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -19,7 +21,6 @@ import javassist.util.proxy.ProxyFactory;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.util.AnnotationLiteral;
 
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentImpl;
@@ -28,6 +29,11 @@ import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.connection.ConnectionProvider;
+import org.hibernate.connection.ConnectionProviderFactory;
+import org.hibernate.dialect.HSQLDialect;
+import org.hibernate.jdbc.Work;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jboss.seam.solder.literal.DefaultLiteral;
 import org.jboss.seam.transaction.literal.DefaultTransactionLiteral;
 import org.jboss.weld.manager.BeanManagerImpl;
@@ -143,7 +149,20 @@ public class CdiTestEnvironment extends Environment{
 				Configuration hibernateConfiguration = new Configuration();
 				hibernateConfiguration.configure(getHibernateConfigName());
 				hibernateConfiguration.getTypeResolver().registerTypeOverride(PostgresDialect.PostgresqlMateralizedBlobType.INSTANCE);
-
+				ConnectionProvider connProvider = ConnectionProviderFactory.newConnectionProvider(hibernateConfiguration.getProperties());
+				Connection connection = connProvider.getConnection();
+				Statement st = connection.createStatement();
+				st.executeUpdate("CREATE SCHEMA ERICSSON_GSM AUTHORIZATION DBA");
+				st.executeUpdate("CREATE SCHEMA ERICSSON_UMTS AUTHORIZATION DBA");
+				st.executeUpdate("CREATE SCHEMA HUAWEI_GSM AUTHORIZATION DBA");
+				st.executeUpdate("CREATE SCHEMA HUAWEI_UMTS AUTHORIZATION DBA");
+				st.executeUpdate("CREATE SCHEMA SIEMENS_GSM AUTHORIZATION DBA");
+				st.executeUpdate("CREATE SCHEMA CM AUTHORIZATION DBA");
+				connection.commit();
+				st.close();
+				connection.close();
+				SchemaExport se = new SchemaExport(hibernateConfiguration);
+				se.create(false, true);
 				sessionFactory = hibernateConfiguration.buildSessionFactory();
 				System.out.println("Building session factory took " + (System.currentTimeMillis() - start) + "ms");
 			}catch(Throwable e){

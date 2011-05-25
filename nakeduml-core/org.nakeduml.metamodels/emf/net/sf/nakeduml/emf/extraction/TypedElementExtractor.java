@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
+import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
@@ -51,8 +52,8 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 	private static final int EXCEPTION = 0;
 	private static final int ARGUMENT = 1;
 	private static final int RESULT = 2;
-	@VisitBefore(matchSubclasses = false,match={Property.class, ExtensionEnd.class})
-	public void visitPort(Property p){
+	@VisitBefore(matchSubclasses = true)
+	public void visitPort(Port p){
 		NakedPortImpl np=new NakedPortImpl();
 		populateProperty(np, p);
 	}

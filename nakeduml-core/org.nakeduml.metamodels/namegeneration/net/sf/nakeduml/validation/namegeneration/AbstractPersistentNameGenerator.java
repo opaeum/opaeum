@@ -9,6 +9,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
@@ -31,12 +32,17 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 			} else {
 				return node.getMappingInfo().getPersistentName().getAsIs();
 			}
-		} else if (nme.getOwnerElement() instanceof INakedElement) {
-			INakedElement owner = (INakedElement) nme.getOwnerElement();
-			return owner.getMappingInfo().getPersistentName().getAsIs() + "."
-					+ nme.getMappingInfo().getPersistentName().getAsIs();
-		} else {
-			return nme.getMappingInfo().getPersistentName().getAsIs();
+		}else{
+			IMappingInfo mappingInfo2 = nme.getMappingInfo();
+			if (nme.getOwnerElement() instanceof INakedElement) {
+				INakedElement owner = (INakedElement) nme.getOwnerElement();
+				IMappingInfo mappingInfo = owner.getMappingInfo();
+				NameWrapper persistentName = mappingInfo.getPersistentName();
+				return persistentName.getAsIs() + "."
+						+ mappingInfo2.getPersistentName().getAsIs();
+			} else {
+				return mappingInfo2.getPersistentName().getAsIs();
+			}
 		}
 	}
 	protected final NameWrapper generateSqlName(INakedElement nme) {
