@@ -70,17 +70,17 @@
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-orient-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
+			<version>0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-neo4j-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
+			<version>0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-dex-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
+			<version>0.7</version>
 		</dependency>		
 		<dependency>
 			<groupId>com.tinkerpop</groupId>
