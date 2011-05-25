@@ -26,12 +26,12 @@ public class ExtendedCompositionSemanticsJavaStep extends AbstractJavaTransforma
 		FactoryMethodCreator fmc = new FactoryMethodCreator();
 		fmc.initialize(javaModel, config, textWorkspace, context);
 		fmc.startVisiting(workspace);
-//		ConfigurableCompositionDataGenerator sctdg = new ConfigurableCompositionDataGenerator();
-//		sctdg.initialize(javaModel, config, textWorkspace, context);
-//		sctdg.startVisiting(workspace);
-//		ConfigurableCompositionPropertiesGenerator ccpg = new ConfigurableCompositionPropertiesGenerator();
-//		ccpg.initialize(javaModel, config, textWorkspace, context);
-//		ccpg.setModelInstanceMap(sctdg.modelInstanceMap);
-//		ccpg.startVisiting(workspace);
+		ConfigurableCompositionDataGenerator sctdg = new ConfigurableCompositionDataGenerator();
+		sctdg.initialize(javaModel, config, textWorkspace, context);
+		sctdg.startVisiting(workspace);
+		ConfigurableCompositionPropertiesGenerator ccpg = new ConfigurableCompositionPropertiesGenerator();
+		ccpg.initialize(javaModel, config, textWorkspace, context);
+		ccpg.setModelInstanceMap(sctdg.modelInstanceMap);
+		ccpg.startVisiting(workspace);
 	}
 }
