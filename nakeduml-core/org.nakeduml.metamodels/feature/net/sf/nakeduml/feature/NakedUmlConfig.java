@@ -30,6 +30,8 @@ public class NakedUmlConfig {
 	private static final String GENERATE_MAVEN_POMS = "nakeduml.generate.poms";
 	private static final String SCM_TOOL = "nakeduml.scm.tool";
 	private static final String ATTRIBUTE_IMPLEMENTATION_STRATEGY = "attribute.implementation.strategy";
+	private static final String COMPOSITION_NODE_IMPLEMENTATION_STRATEGY = "composition.node.implementation.strategy";
+	
 	private Properties props = new SortedProperties();
 	private Map<String, File> outputRootMap = new HashMap<String, File>();
 	private File outputRoot;
@@ -83,7 +85,10 @@ public class NakedUmlConfig {
 			this.props.setProperty(SCM_TOOL, "git");
 		}
 		if (!this.props.containsKey(ATTRIBUTE_IMPLEMENTATION_STRATEGY)) {
-			this.props.setProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY, "HIBERNATE");
+			this.props.setProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY, "net.sf.nakeduml.javageneration.basicjava.DefaultAttributeImplementorStrategy");
+		}
+		if (!this.props.containsKey(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY)) {
+			this.props.setProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY, "net.sf.nakeduml.javageneration.composition.DefaultCompositionNodeStrategy");
 		}
 	}
 
@@ -196,6 +201,10 @@ public class NakedUmlConfig {
 
 	public String getAttributeImplementationStrategy(){
 		return this.props.getProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY);
+	}
+
+	public String getCompositionNodeImplementationStrategy(){
+		return this.props.getProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY);
 	}
 
 	public void setMavenGroupId(String string){

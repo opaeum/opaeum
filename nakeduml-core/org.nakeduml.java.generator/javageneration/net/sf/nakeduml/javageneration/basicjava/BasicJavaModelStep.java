@@ -8,7 +8,6 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.linkage.MappedTypeLinker;
 import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.linkage.ReferenceResolver;
@@ -81,7 +80,7 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		hcb.initialize(javaModel, config, textWorkspace, context);
 		hcb.startVisiting(workspace);
 		
-		PersistentNameMapGenerator pnmg=new PersistentNameMapGenerator(false, context.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class));
+		PersistentNameMapGenerator pnmg=new PersistentNameMapGenerator(false);
 		pnmg.initialize(javaModel, config, textWorkspace, context);
 		pnmg.startVisiting(workspace);
 

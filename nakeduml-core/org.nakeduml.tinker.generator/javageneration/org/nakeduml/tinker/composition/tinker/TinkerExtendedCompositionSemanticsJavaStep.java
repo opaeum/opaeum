@@ -8,9 +8,10 @@ import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJa
 import net.sf.nakeduml.linkage.SourcePopulationResolver;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
+import org.nakeduml.tinker.basicjava.TinkerFieldRemoverStep;
 import org.nakeduml.tinker.basicjava.tinker.TinkerTransformation;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {SourcePopulationResolver.class},after = {
+@StepDependency(phase = JavaTransformationPhase.class,requires = {TinkerFieldRemoverStep.class, SourcePopulationResolver.class},after = {
 		ExtendedCompositionSemanticsJavaStep.class})
 public class TinkerExtendedCompositionSemanticsJavaStep extends AbstractJavaTransformationStep{
 	@Override

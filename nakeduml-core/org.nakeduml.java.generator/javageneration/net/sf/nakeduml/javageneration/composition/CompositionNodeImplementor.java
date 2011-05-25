@@ -5,8 +5,6 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.composition.tinker.TinkerCompositionNodeStrategy;
-import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
@@ -46,12 +44,15 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
-			compositionNodeStrategy = new TinkerCompositionNodeStrategy();
-			COMPOSITION_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerCompositionNode");
-		} else {
-			compositionNodeStrategy = new DefaultCompositionNodeStrategy();
-			COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+		try {
+			compositionNodeStrategy = (CompositionNodeStrategy) Class.forName(config.getCompositionNodeImplementationStrategy()).newInstance();
+			if (config.getCompositionNodeImplementationStrategy().contains("Tinker")) {
+				COMPOSITION_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerCompositionNode");
+			} else {
+				COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
