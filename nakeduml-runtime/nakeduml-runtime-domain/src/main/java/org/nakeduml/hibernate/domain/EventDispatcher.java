@@ -80,7 +80,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			// log.error("Could not synchronize database state with session", he);
 			throw he;
 		}finally{
-			session.getPersistenceContext().setFlushing(false);//NUML Modification to assist with auditing
+			session.getPersistenceContext().setFlushing(false);// NUML Modification to assist with auditing
 			session.getJDBCContext().getConnectionManager().flushEnding();
 		}
 	}

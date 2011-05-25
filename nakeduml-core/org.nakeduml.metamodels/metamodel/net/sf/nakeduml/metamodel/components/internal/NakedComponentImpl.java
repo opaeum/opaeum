@@ -2,10 +2,13 @@ package net.sf.nakeduml.metamodel.components.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import net.sf.nakeduml.metamodel.components.INakedComponent;
+import net.sf.nakeduml.metamodel.components.INakedPort;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import nl.klasse.octopus.model.IPackage;
 
@@ -30,5 +33,33 @@ public class NakedComponentImpl extends NakedEntityImpl implements INakedCompone
 	@Override
 	protected boolean isNamedMember(INakedElement e){
 		return super.isNamedMember(e) || e instanceof INakedPackage;
+	}
+	@Override
+	public Collection<INakedPort> getOwnedPorts() {
+		return selectPorts(getOwnedAttributes());
+	}
+	private Collection<INakedPort> selectPorts(
+			List<INakedProperty> ownedAttributes2) {
+		Collection<INakedPort> result = new ArrayList<INakedPort>();
+		for (INakedProperty p : ownedAttributes2) {
+			if(p instanceof INakedPort){
+				result.add((INakedPort)p);
+			}
+		}
+		return result;
+	}
+	@Override
+	public Collection<INakedPort> getEffectivePorts() {
+		return selectPorts(getEffectiveAttributes());
+	}
+	@Override
+	public boolean isOrganizationUnit(){
+		Collection<INakedPort> effectivePorts = getEffectivePorts();
+		for(INakedPort p:effectivePorts){
+			if(p.isResponsibility()){
+				return true;
+			}
+		}
+		return false;
 	}
 }

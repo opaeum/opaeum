@@ -7,9 +7,8 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep;
 import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
-import net.sf.nakeduml.linkage.UserRepresentationCalculator;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-@StepDependency(phase = JavaTransformationPhase.class,requires = {BasicJavaModelStep.class,ExtendedCompositionSemanticsJavaStep.class, PersistenceUsingHibernateStep.class,UserRepresentationCalculator.class},
+@StepDependency(phase = JavaTransformationPhase.class,requires = {BasicJavaModelStep.class,ExtendedCompositionSemanticsJavaStep.class, PersistenceUsingHibernateStep.class},
 		after = {BasicJavaModelStep.class,ExtendedCompositionSemanticsJavaStep.class},before={PersistenceUsingHibernateStep.class})
 public class AccessControl extends AbstractJavaTransformationStep{
 	@Override

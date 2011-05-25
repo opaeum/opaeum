@@ -140,14 +140,14 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 		} else {
 			INakedEntity ne = new NakedEntityImpl();
 			initialize(ne, c, c.getNamespace());
-			ne.setRepresentsUser(representsUser(c));
+			ne.setRepresentsUser(isResponsibility(c));
 			initializeClassifier(ne, c);
 		}
 	}
 
-	private boolean representsUser(Classifier c) {
+	private boolean isResponsibility(Classifier c) {
 		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[] { "businessworker", "caseworker", "worker", "user",
-				"userrole" });
+				"userrole","responsibility" });
 		if (!representsUser) {
 			for (Dependency o : c.getClientDependencies()) {
 				if (o.getSuppliers().get(0) instanceof Actor) {
@@ -161,7 +161,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf {
 	@VisitBefore
 	public void visitInterface(Interface i, NakedInterfaceImpl ni) {
 		initializeClassifier(ni, i);
-		ni.setRepresentsUser(representsUser(i));
+		ni.setIsResponsibility(isResponsibility(i));
 	}
 
 	@VisitBefore

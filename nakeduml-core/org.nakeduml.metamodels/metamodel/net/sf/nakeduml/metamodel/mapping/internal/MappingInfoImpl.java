@@ -54,8 +54,8 @@ public class MappingInfoImpl extends AbstractMappingInfo{
 	public MappingInfoImpl(){
 	}
 	public String toString(){
-		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + persitentNameString + DEL + DEL
-				+ qualifiedPersistentName;
+		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + persitentNameString + DEL 
+				+ qualifiedPersistentName+DEL;
 	}
 	public static void main(String[] args){
 		String values = "12~1.3213~1~qualifiedJavaName~javaNameString~sqlNameString~SingularHumanName~pluralHumanName~qualifiedUmlName~qualifiedPersistentName";

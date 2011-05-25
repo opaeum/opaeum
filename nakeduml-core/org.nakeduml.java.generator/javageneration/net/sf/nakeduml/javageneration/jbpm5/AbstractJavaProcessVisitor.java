@@ -3,6 +3,15 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import java.util.Collection;
 import java.util.Date;
 
+import net.sf.nakeduml.javageneration.persistence.JpaUtil;
+import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javageneration.util.ReflectionUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -20,16 +29,6 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractProcessStep;
 import org.nakeduml.runtime.domain.ActiveEntity;
-
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.persistence.JpaUtil;
-import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javageneration.util.ReflectionUtil;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
 public abstract class AbstractJavaProcessVisitor extends AbstractBehaviorVisitor{
 	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(AbstractProcess.class.getName());

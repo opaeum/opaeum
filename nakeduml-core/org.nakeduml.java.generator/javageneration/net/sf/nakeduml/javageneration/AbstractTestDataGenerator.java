@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
@@ -10,7 +9,6 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;

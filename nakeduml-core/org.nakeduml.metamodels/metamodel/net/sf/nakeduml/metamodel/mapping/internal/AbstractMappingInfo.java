@@ -99,14 +99,11 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 	protected boolean hasSinceVersion(){
 		return getSinceVersion() != null;
 	}
-	public boolean hasJavaName(){
-		return getJavaNameString() != null && getJavaNameString().toString() != null;
-	}
 	public boolean hasMappingInfo(){
 		return hasSinceVersion();
 	}
 	public boolean hasPersistentName(){
-		return getSqlNameString() != null && getSqlNameString().toString() != null;
+		return getSqlNameString() != null &&getSqlNameString().trim().length()>0;
 	}
 	public NameWrapper getJavaName(){
 		if(this.javaName == null){

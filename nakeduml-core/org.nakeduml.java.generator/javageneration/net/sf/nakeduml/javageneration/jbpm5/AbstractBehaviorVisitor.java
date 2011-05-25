@@ -1,7 +1,5 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
-import java.util.Date;
-
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -9,22 +7,17 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
-import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
-import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJStatement;

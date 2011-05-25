@@ -36,12 +36,12 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
 	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
 	private INakedParameter returnParameter;
-	private boolean userResponsibility;
 	private INakedConstraint bodyCondition;
 	private boolean hasClassScope;
 	private boolean isAbstract;
 	private boolean isOclDef;
 	private boolean returnsImmediately;
+	private boolean longRunning;
 	public static IClassifier VOID_TYPE;
 	public boolean isStatic(){
 		return hasClassScope;
@@ -90,7 +90,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return i > 1;
 	}
 	public boolean shouldEmulateClass(){
-		return (hasMultipleConcurrentResults() || isUserResponsibility());
+		return (hasMultipleConcurrentResults() || isResponsibility());
 	}
 	public List<INakedParameter> getOwnedParameters(){
 		List<INakedParameter> results = new ArrayList<INakedParameter>(getArgumentParameters());
@@ -100,9 +100,6 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 			}
 		}
 		return results;
-	}
-	public void setIsUserResponsibility(boolean b){
-		this.userResponsibility = b;
 	}
 	// precondition: the various indices of a parameter have been set
 	@Override
@@ -151,12 +148,21 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	public boolean isQuery(){
 		return this.isQuery;
 	}
+	@Override
 	public boolean hasReturnParameter(){
 		return getReturnParameter() != null;
 	}
-	public boolean isUserResponsibility(){
-		//All operations on an interface representing a user are userResponsibilities
-		return this.userResponsibility || getOwner() instanceof INakedInterface && ((INakedInterface)getOwner()).representsUser();
+	@Override
+	public boolean isResponsibility(){
+		return getOwner() instanceof INakedInterface && ((INakedInterface)getOwner()).isResponsibility();
+	}
+	@Override
+	public boolean isLongRunning(){
+		return this.longRunning;
+	}
+	@Override
+	public void setIsLongRunning(boolean b){
+		this.longRunning=b;
 	}
 	@Override
 	public VisibilityKind getVisibility(){

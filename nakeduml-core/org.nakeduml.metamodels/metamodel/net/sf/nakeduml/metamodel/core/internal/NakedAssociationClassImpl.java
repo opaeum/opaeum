@@ -24,15 +24,4 @@ public class NakedAssociationClassImpl extends NakedAssociationImpl implements I
 		return getEnd1();
 	}
 
-	@Override
-	public boolean representsUser() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setRepresentsUser(boolean representsUser) {
-		// TODO Auto-generated method stub
-		
-	}
 }

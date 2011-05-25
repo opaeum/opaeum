@@ -121,7 +121,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator {
 		if (no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)) {
 			OperationMessageStructureImpl message = new OperationMessageStructureImpl(no.getOwner(), no);
 			this.visitClass(message);
-			if (no.isUserResponsibility()) {
+			if (no.isResponsibility()) {
 				NakedOperationMap map = new NakedOperationMap(no);
 				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());

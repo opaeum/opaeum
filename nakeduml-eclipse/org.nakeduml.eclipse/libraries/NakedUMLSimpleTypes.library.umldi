@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_kxYA0MP5Ed-SNsUNWzjz5A" activeDiagram="_Hp49wMbtEd-qWtMD5IZMIA">
   <model href="NakedUMLSimpleTypes.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="NakedUMLSimpleTypes" viewport="167,80">
+  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="NakedUMLSimpleTypes" viewport="0,80">
     <property xmi:id="_HqO8AMbtEd-qWtMD5IZMIA" key="pageFormatName" value="A4"/>
     <property xmi:id="_HqO8AcbtEd-qWtMD5IZMIA" key="diagramWidth" value="840"/>
     <property xmi:id="_HqO8AsbtEd-qWtMD5IZMIA" key="diagramHeight" value="1188"/>
@@ -31,7 +31,7 @@
         </semanticModel>
       </contained>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_jOtdUMbwEd-qWtMD5IZMIA" position="388,197" size="147,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_jOtdUMbwEd-qWtMD5IZMIA" position="381,197" size="178,-1">
       <anchorage xmi:id="_1JQ-YMbwEd-qWtMD5IZMIA" graphEdge="_1JSzkMbwEd-qWtMD5IZMIA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jOtdUcbwEd-qWtMD5IZMIA" presentation="default">
         <element href="NakedUMLSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
@@ -49,7 +49,7 @@
         </semanticModel>
       </contained>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_vG7ogMbwEd-qWtMD5IZMIA" position="363,25" size="184,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_vG7ogMbwEd-qWtMD5IZMIA" position="373,59" size="184,-1">
       <anchorage xmi:id="_1JQ-YcbwEd-qWtMD5IZMIA" graphEdge="_1JSzkMbwEd-qWtMD5IZMIA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_vG7ogcbwEd-qWtMD5IZMIA" presentation="default">
         <element href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>

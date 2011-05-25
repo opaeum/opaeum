@@ -7,7 +7,6 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -18,7 +17,6 @@ import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Auditable;
 import org.nakeduml.runtime.domain.Audited;

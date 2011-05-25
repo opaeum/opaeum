@@ -6,7 +6,7 @@ import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.StateMachineKind;
-@StepDependency(phase = LinkagePhase.class, after = {UserRepresentationCalculator.class}, requires = {UserRepresentationCalculator.class})
+@StepDependency(phase = LinkagePhase.class, after = {}, requires = {})
 public class ProcessIdentifier extends AbstractModelElementLinker{
 
 	@VisitBefore

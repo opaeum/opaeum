@@ -15,9 +15,9 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 	private Collection<INakedClassifier> implementingClassifiers = new ArrayList<INakedClassifier>();
 	private static final long serialVersionUID = 1406494153933781228L;
 	public static final String META_CLASS = "interface";
-	private boolean representsUser = false;
 	private Set<INakedReception> ownedReception = new HashSet<INakedReception>();
 	private INakedProperty endToComposite;
+	private boolean isResponsibility;
 
 	public boolean hasComposite() {
 		return getEndToComposite() != null;
@@ -67,15 +67,15 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 		return implementingClassifiers;
 	}
 
-	public void setRepresentsUser(boolean representsUser) {
-		this.representsUser = representsUser;
-	}
-
 	public void removeImplementingClassifier(INakedClassifier implementingClassifier) {
 		this.implementingClassifiers.remove(implementingClassifier);
 	}
 
-	public boolean representsUser() {
-		return representsUser;
+	public void setIsResponsibility(boolean isResponsibility){
+		this.isResponsibility = isResponsibility;
+	}
+
+	public boolean isResponsibility(){
+		return isResponsibility;
 	}
 }

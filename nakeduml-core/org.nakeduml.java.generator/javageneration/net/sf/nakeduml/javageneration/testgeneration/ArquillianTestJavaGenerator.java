@@ -13,7 +13,6 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
-import net.sf.nakeduml.javageneration.auditing.AuditMetadefAnnotationStep;
 import net.sf.nakeduml.javageneration.auditing.IntegratedAuditMetaDefStep;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;

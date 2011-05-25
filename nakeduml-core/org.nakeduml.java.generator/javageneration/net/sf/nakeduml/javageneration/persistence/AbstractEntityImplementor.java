@@ -1,8 +1,6 @@
 package net.sf.nakeduml.javageneration.persistence;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -23,10 +21,8 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.AbstractEntity;
 
 /**

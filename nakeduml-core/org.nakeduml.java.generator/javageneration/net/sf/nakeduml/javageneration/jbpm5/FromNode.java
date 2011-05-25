@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
-
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 

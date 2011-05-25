@@ -13,11 +13,12 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	boolean isStatic();
 	void setStatic(boolean b);
 	Set<? extends INakedBehavior> getMethods();
-	 void addMethod(INakedBehavior impl);
-	 //TODO move to code  generation class
+	void addMethod(INakedBehavior impl);
+	// TODO move to code generation class
 	boolean shouldEmulateClass();
-	boolean isUserResponsibility();
-	void setIsUserResponsibility(boolean b);
+	boolean isResponsibility();
+	boolean isLongRunning();
+	void setIsLongRunning(boolean b);
 	void setBodyCondition(INakedConstraint specification);
 	INakedConstraint getBodyCondition();
 	boolean returnsImmediately();

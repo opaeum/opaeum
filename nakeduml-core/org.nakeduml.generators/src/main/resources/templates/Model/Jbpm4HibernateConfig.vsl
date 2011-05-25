@@ -57,14 +57,12 @@
 #end	
 		<event type="flush-entity">
 			<listener class="org.nakeduml.hibernate.domain.PreUpdateListener" />
+			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
 		</event>
 		<event type="create">
 			<listener class="org.nakeduml.hibernate.domain.PrePersistListener" />
 		</event>
 		<event type="flush">
-			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
-		</event>
-		<event type="flush-entity">
 			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
 		</event>
 		<event type="post-load">

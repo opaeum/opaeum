@@ -19,8 +19,8 @@ public class AuditHibernatePackageAnnotator extends AbstractHibernatePackageAnno
 		super(true);
 	}
 
-	protected String getMetaDefName(INakedInterface i) {
-		return HibernateUtil.metadefName(i) + "Audit";
+	protected String getMetaDefNameSuffix() {
+		return "Audit";
 	}
 
 	protected String getIdType() {

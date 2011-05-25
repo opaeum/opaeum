@@ -34,7 +34,7 @@ public class BehaviorUtil{
 		if(oper == null){
 			return false;
 		}else if(oper.getOwner() instanceof INakedEntity){
-			return ((INakedEntity) oper.getOwner()).representsUser() && oper.isUserResponsibility();
+			return ((INakedEntity) oper.getOwner()).representsUser() && oper.isResponsibility();
 		}else{
 			return false;
 		}

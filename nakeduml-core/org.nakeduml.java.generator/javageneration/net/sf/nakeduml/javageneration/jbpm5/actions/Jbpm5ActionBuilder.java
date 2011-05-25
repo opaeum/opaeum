@@ -9,9 +9,7 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
 import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
-import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
@@ -20,23 +18,17 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
-import org.nakeduml.java.metamodel.OJClassifier;
-import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder{
 	protected A node;

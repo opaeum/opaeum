@@ -5,11 +5,4 @@ public interface ICompositionParticipant extends INakedClassifier {
 
 	INakedProperty getEndToComposite();
 
-	/**
-	 * Returns true if this Entity contains information that is directly related
-	 * to a user/actor/role in the system
-	 */
-	boolean representsUser();
-
-	void setRepresentsUser(boolean representsUser);
 }

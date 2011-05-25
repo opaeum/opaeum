@@ -12,7 +12,6 @@ import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;

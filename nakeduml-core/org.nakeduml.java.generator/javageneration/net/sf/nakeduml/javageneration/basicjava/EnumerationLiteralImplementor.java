@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -29,7 +30,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 
-public class EnumerationLiteralImplementor extends AttributeImplementor{
+public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void generateExtraConstructor(INakedEnumeration c){
 		OJEnum myClass = (OJEnum) findJavaClass(c);
@@ -58,18 +59,6 @@ public class EnumerationLiteralImplementor extends AttributeImplementor{
 			}
 		}
 	}
-	// @VisitBefore(matchSubclasses = true)
-	// public void generateGettersAndSetters(INakedEnumeration c) {
-	// OJAnnotatedClass owner = findJavaClass(c);
-	// List<? extends INakedProperty> allAttributes =
-	// c.getEffectiveAttributes();
-	// for (INakedProperty iNakedProperty : allAttributes) {
-	// NakedStructuralFeatureMap map = new
-	// NakedStructuralFeatureMap(iNakedProperty);
-	// OJPathName javaTypePath = map.javaTypePath();
-	// buildGetter(owner, map, javaTypePath);
-	// }
-	// }
 	@VisitBefore(matchSubclasses = true)
 	public void generateStaticMethods(INakedEnumeration c){
 		OJEnum myClass = (OJEnum) findJavaClass(c);

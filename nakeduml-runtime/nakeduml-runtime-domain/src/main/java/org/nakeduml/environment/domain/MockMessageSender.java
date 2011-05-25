@@ -9,9 +9,11 @@ import java.util.Map;
 import org.nakeduml.environment.IMessageSender;
 import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.event.AbstractNakedUmlEvent;
+import org.nakeduml.event.ChangeEvent;
+import org.nakeduml.event.TimeEvent;
 
 public class MockMessageSender implements IMessageSender{
-	Map<String,Collection<Serializable>> messageMap = new HashMap<String,Collection<Serializable>>();
+	protected Map<String,Collection<Serializable>> messageMap = new HashMap<String,Collection<Serializable>>();
 	@Override
 	public void sendObjectsToQueue(Collection<? extends Serializable> object,String queueName){
 		Collection<Serializable> queue = messageMap.get(queueName);
@@ -30,11 +32,21 @@ public class MockMessageSender implements IMessageSender{
 			}
 		}
 	}
-	private void deliver(Serializable serializable){
+	protected void deliver(Serializable serializable){
 		if(serializable instanceof SignalToDispatch){
 			((SignalToDispatch) serializable).getTarget().processSignal(((SignalToDispatch) serializable).getSignal());
 		}else if(serializable instanceof AbstractNakedUmlEvent){
 			((AbstractNakedUmlEvent) serializable).invokeCallback(((AbstractNakedUmlEvent) serializable).getEventSource());
+		}else if(serializable instanceof TimeEvent){
+			TimeEvent timeEvent = (TimeEvent) serializable;
+			timeEvent.invokeCallback(timeEvent.getEventSource());
+		}else if(serializable instanceof ChangeEvent){
+			ChangeEvent changeEvent = (ChangeEvent) serializable;
+			changeEvent.evaluateConditionOn(changeEvent.getEventSource());
+			if(changeEvent.isTrue()){
+				//TODO enlist event int static store and re-evaluate
+				changeEvent.invokeCallback(changeEvent.getEventSource());
+			}
 		}
 	}
 }

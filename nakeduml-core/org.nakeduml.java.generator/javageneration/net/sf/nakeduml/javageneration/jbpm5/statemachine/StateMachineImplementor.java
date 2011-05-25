@@ -11,7 +11,6 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
-import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;

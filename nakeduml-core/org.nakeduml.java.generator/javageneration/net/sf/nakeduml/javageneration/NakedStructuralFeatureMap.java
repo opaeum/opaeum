@@ -7,7 +7,6 @@ import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.annotation.OJEnum;
 
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{

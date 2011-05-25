@@ -9,9 +9,9 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.internal.types.OperationImpl;
 
-import nl.klasse.octopus.model.IParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 
 public class NakedOperationMap extends OperationMap{

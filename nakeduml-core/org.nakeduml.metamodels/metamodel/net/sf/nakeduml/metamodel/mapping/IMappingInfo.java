@@ -107,8 +107,6 @@ public interface IMappingInfo {
 
 	void setSinceVersion(Float version);
 
-	boolean hasJavaName();
-
 	boolean hasMappingInfo();
 
 	boolean hasPersistentName();

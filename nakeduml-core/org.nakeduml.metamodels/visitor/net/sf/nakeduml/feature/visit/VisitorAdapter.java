@@ -30,7 +30,16 @@ public abstract class VisitorAdapter<NODE, ROOT extends NODE> {
 
 	protected VisitorAdapter() {
 		// No polymorphism suport in visit methods
-		Method[] methods = getClass().getDeclaredMethods();
+		Class<? extends VisitorAdapter> class1 = getClass();
+		while(class1!=VisitorAdapter.class){
+			getMethodsFromClass(class1);
+			class1=(Class<? extends VisitorAdapter>) class1.getSuperclass();
+			
+		}
+	}
+
+	protected void getMethodsFromClass(Class<? extends VisitorAdapter> class1){
+		Method[] methods = class1.getDeclaredMethods();
 		for (Method m : methods) {
 			if (m.isAnnotationPresent(VisitBefore.class)) {
 				beforeMethods.add(new VisitSpec(m, true));

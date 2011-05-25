@@ -12,7 +12,6 @@ import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
-import net.sf.nakeduml.metamodel.actions.INakedInvocationAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;

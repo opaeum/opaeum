@@ -13,9 +13,6 @@ public class HibernatePackageAnnotator extends AbstractHibernatePackageAnnotator
 		super(isIntegrationPhase);
 	}
 
-	protected String getMetaDefName(INakedInterface i) {
-		return HibernateUtil.metadefName(i);
-	}
 
 	protected String getIdType() {
 		return "long";
@@ -35,5 +32,11 @@ public class HibernatePackageAnnotator extends AbstractHibernatePackageAnnotator
 	@Override
 	public void visitModel(INakedModel model) {
 		doModel(model);
+	}
+
+
+	@Override
+	protected String getMetaDefNameSuffix(){
+		return "";
 	}
 }

@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedReceptionImpl;
+import net.sf.nakeduml.metamodel.components.internal.NakedPortImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -29,6 +30,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Extension;
+import org.eclipse.uml2.uml.ExtensionEnd;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
@@ -49,7 +51,12 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 	private static final int EXCEPTION = 0;
 	private static final int ARGUMENT = 1;
 	private static final int RESULT = 2;
-	@VisitBefore(matchSubclasses = true)
+	@VisitBefore(matchSubclasses = false,match={Property.class, ExtensionEnd.class})
+	public void visitPort(Property p){
+		NakedPortImpl np=new NakedPortImpl();
+		populateProperty(np, p);
+	}
+	@VisitBefore(matchSubclasses = false,match={Property.class, ExtensionEnd.class})
 	public void visitProperty(Property p){
 		// only create properties that have not been created yet
 		if(this.workspace.getModelElement(getId(p)) == null){
@@ -65,13 +72,6 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 				}else{
 					int otherIndex = p.getAssociation().getMemberEnds().indexOf(p);
 					otherIndex = otherIndex == 1 ? 0 : 1;
-					
-					if (p.getAssociation().getMemberEnds().size()<2) {
-						System.out.println("Association has fewer than 3 member ends!!!" + p);
-						return;
-					}
-					
-					
 					Property opposite = p.getAssociation().getMemberEnds().get(otherIndex);
 					// Octopus doesn't like associations on enums, primitives or
 					// dataTypes, or stereotypes
@@ -186,7 +186,6 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 		INakedOperation nakedOper = new NakedOperationImpl();
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
-		nakedOper.setIsUserResponsibility(StereotypesHelper.hasStereotype(emfOper, "responsibility",StereotypeNames.USER_RESPONSIBILITY));
 		initialize(nakedOper, emfOper, emfOper.getOwner());
 		List<Constraint> preconditions = emfOper.getPreconditions();
 		List<Constraint> postconditions = emfOper.getPostconditions();

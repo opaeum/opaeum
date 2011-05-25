@@ -3,7 +3,6 @@ package net.sf.nakeduml.javageneration.basicjava;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
-import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;

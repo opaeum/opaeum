@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_-jWgMcPwEd-SNsUNWzjz5A" activeDiagram="_-jaxoMPwEd-SNsUNWzjz5A">
   <model href="NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-  <diagrams xmi:id="_-jaxoMPwEd-SNsUNWzjz5A" position="0,0" size="100,100" name="NakedUMLSimpleTypes" viewport="0,80">
+  <diagrams xmi:id="_-jaxoMPwEd-SNsUNWzjz5A" position="0,0" size="100,100" name="NakedUMLSimpleTypes" viewport="0,491">
     <property xmi:id="__I1L0MPwEd-SNsUNWzjz5A" key="pageFormatName" value="A4"/>
     <property xmi:id="__I1y4MPwEd-SNsUNWzjz5A" key="diagramWidth" value="840"/>
     <property xmi:id="__I1y4cPwEd-SNsUNWzjz5A" key="diagramHeight" value="1188"/>
@@ -246,6 +246,30 @@
         <element href="NakedUMLProfile.uml#_lzPd0P3eEd-uA4oh6NA2Cw"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_fv0RQjszEeC5OLJvkS0EWA" id="requiredFieldEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_Vd4Z8IaLEeC_IImVVrqPCQ" position="87,754" size="120,-1">
+      <anchorage xmi:id="_Yxzo0IaLEeC_IImVVrqPCQ" graphEdge="_Yx1eAIaLEeC_IImVVrqPCQ"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Vd5BAIaLEeC_IImVVrqPCQ" presentation="default">
+        <element href="NakedUMLProfile.uml#_VeOYMIaLEeC_IImVVrqPCQ"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_XIdscIaLEeC_IImVVrqPCQ" position="325,748" size="120,-1">
+      <anchorage xmi:id="_YxzBwIaLEeC_IImVVrqPCQ" graphEdge="_Yx1eAIaLEeC_IImVVrqPCQ"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XIdscYaLEeC_IImVVrqPCQ" presentation="default">
+        <element href="NakedUMLProfile.uml#_XIvZQIaLEeC_IImVVrqPCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_XIdscoaLEeC_IImVVrqPCQ">
+        <property xmi:id="_XIdsc4aLEeC_IImVVrqPCQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XIdsdIaLEeC_IImVVrqPCQ" presentation="default">
+          <element href="NakedUMLProfile.uml#_XIvZQIaLEeC_IImVVrqPCQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_Yx1eAIaLEeC_IImVVrqPCQ" anchor="_YxzBwIaLEeC_IImVVrqPCQ _Yxzo0IaLEeC_IImVVrqPCQ">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Yx1eAYaLEeC_IImVVrqPCQ" presentation="default">
+        <element href="NakedUMLProfile.uml#_Yx2FEIaLEeC_IImVVrqPCQ"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_Yx1eAoaLEeC_IImVVrqPCQ" id="requiredFieldEdgeObject"/>
     </contained>
   </diagrams>
 </diagrams:Diagrams>

@@ -11,7 +11,7 @@ import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.components.INakedComponent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -20,7 +20,6 @@ import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -40,33 +39,35 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
 		Set<INakedBehavior> processes = new HashSet<INakedBehavior>();
 		Set<INakedMessageStructure> tasks = new HashSet<INakedMessageStructure>();
-		Set<INakedEntity> users=new HashSet<INakedEntity>();
+		Set<INakedEntity> users = new HashSet<INakedEntity>();
+		Set<INakedComponent> orgUnits = new HashSet<INakedComponent>();
 		@VisitBefore
 		public void visitInterface(INakedInterface i){
 			interfaces.add(i);
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitProcess(INakedBehavior b){
-			if(b.isProcess() && b.getSpecification()!=null){
+			if(b.isProcess() && b.getSpecification() != null){
 				processes.add(b);
 			}
 		}
 		@VisitBefore(matchSubclasses = true)
+		public void visitComponent(INakedComponent c){
+			orgUnits.add(c);
+		}
+		@VisitBefore(matchSubclasses = true)
 		public void visitEntity(INakedEntity e){
-			for(INakedInterfaceRealization ir:(Collection<? extends INakedInterfaceRealization>) e.getInterfaceRealizations()){
-				if(ir.getContract().representsUser()){
-					users.add(e);
-					break;
-				}
+			if(e.representsUser()){
+				users.add(e);
 			}
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedOperation b){
-			if(b.isUserResponsibility()){
+			if(b.isResponsibility()){
 				tasks.add(new OperationMessageStructureImpl(b));
 			}
 		}
-		@VisitBefore(matchSubclasses=true)
+		@VisitBefore(matchSubclasses = true)
 		public void visitCallAction(INakedCallAction a){
 			if(a.isTask()){
 				tasks.add(a.getMessageStructure());
@@ -92,7 +93,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			doMetadef(collector.tasks, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, TaskRequest.TASK_META_DEF);
 			doMetadef(collector.processes, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, ProcessRequest.PROCESS_META_DEF);
 			doMetadef(collector.users, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, AbstractRequest.USER_ROLE_META_DEF);
-
+			doMetadef(collector.orgUnits, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, TaskRequest.ORGANIZATION_UNIT_META_DEF);
 		}
 	}
 	protected void applyFilter(boolean isAdaptor,OutputRootId outputRoot){
@@ -124,6 +125,8 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			doMetadef(collector.processes, false, OutputRootId.DOMAIN_GEN_TEST_SRC, ProcessRequest.PROCESS_META_DEF);
 			doMetadef(collector.users, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, AbstractRequest.USER_ROLE_META_DEF);
 			doMetadef(collector.users, false, OutputRootId.DOMAIN_GEN_TEST_SRC, AbstractRequest.USER_ROLE_META_DEF);
+			doMetadef(collector.orgUnits, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, TaskRequest.ORGANIZATION_UNIT_META_DEF);
+			doMetadef(collector.orgUnits, false, OutputRootId.DOMAIN_GEN_TEST_SRC, TaskRequest.ORGANIZATION_UNIT_META_DEF);
 		}
 	}
 	// TODO find another place for this
@@ -138,7 +141,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		return collector;
 	}
 	private void doInterface(INakedClassifier i,Collection<? extends INakedClassifier> impls,boolean isAdaptor,OutputRootId outputRoot){
-		String metaDefName = getMetaDefName((INakedInterface) i);
+		String metaDefName = HibernateUtil.metadefName((INakedInterface) i);
 		doMetadef(impls, isAdaptor, outputRoot, metaDefName);
 	}
 	protected void doMetadef(Collection<? extends INakedClassifier> impls,boolean isAdaptor,OutputRootId outputRoot,String metaDefName){
@@ -147,7 +150,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		createTextPathIfRequired(p, outputRoot);
 		OJAnnotationValue anyMetaDefs = getAnyMetaDefs(p);
 		anyMetaDefs.addAnnotationValue(metaDef);
-		metaDef.putAttribute("name", metaDefName);
+		metaDef.putAttribute("name", metaDefName + getMetaDefNameSuffix());
 		metaDef.putAttribute("metaType", "string");
 		metaDef.putAttribute("idType", getIdType());
 		OJAnnotationAttributeValue metaValues = new OJAnnotationAttributeValue("metaValues");
@@ -163,7 +166,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	}
 	protected abstract OJPathName getTargetEntity(OJPathName javaTypePath);
 	protected abstract String getIdType();
-	protected abstract String getMetaDefName(INakedInterface i);
+	protected abstract String getMetaDefNameSuffix();
 	private OJAnnotationValue getAnyMetaDefs(OJAnnotatedPackage p){
 		OJAnnotationValue anyMetaDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.AnyMetaDefs"));
 		if(anyMetaDefs == null){

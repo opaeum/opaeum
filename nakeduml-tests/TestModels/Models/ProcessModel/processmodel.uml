@@ -53,6 +53,7 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BnK-gd0QEduHesVHuVad2Q" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BnK-gN0QEduHesVHuVad2Q"/>
       </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_wmERwIaXEeCgEsOAkwdG4A" name="Port1" type="_VUgj8ARUEeCuA4oh6NA2Cw" aggregation="composite"/>
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_XJ5IMNOQEdubaLB0CR972w" name="executeProcessProcess" specification="_Va4BoNOQEdubaLB0CR972w">
         <ownedParameter xmi:id="_f8u20NOQEdubaLB0CR972w" name="name">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
@@ -1716,6 +1717,55 @@
     <packagedElement xmi:type="uml:Association" xmi:id="_r-2QAFHjEdyTle4M6qyXzw" memberEnd="_r-_Z8FHjEdyTle4M6qyXzw _r-_Z81HjEdyTle4M6qyXzw"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_wg0mYFHjEdyTle4M6qyXzw" memberEnd="_wg9wUFHjEdyTle4M6qyXzw _wg9wU1HjEdyTle4M6qyXzw"/>
     <packagedElement xmi:type="uml:Interface" xmi:id="_QcHZwNaCEd-yAo5VqUYKxA" name="Role"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_pcEbIIaVEeCgEsOAkwdG4A" name="orgstructure">
+    <packagedElement xmi:type="uml:Interface" xmi:id="_smZCEIaVEeCgEsOAkwdG4A" name="Responsibility1"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_vusPwIaVEeCgEsOAkwdG4A" name="UserRole1" clientDependency="_xU1uMIaVEeCgEsOAkwdG4A">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_8O5ykIaWEeCgEsOAkwdG4A" name="bla" type="_smZCEIaVEeCgEsOAkwdG4A" aggregation="composite"/>
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_vhhrkIaXEeCgEsOAkwdG4A" name="Port1" type="_30wb4NOQEdubaLB0CR972w" aggregation="composite"/>
+      <interfaceRealization xmi:id="_xU1uMIaVEeCgEsOAkwdG4A" name="InterfaceRealization1" supplier="_smZCEIaVEeCgEsOAkwdG4A" client="_vusPwIaVEeCgEsOAkwdG4A" contract="_smZCEIaVEeCgEsOAkwdG4A"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_yYoGcIaVEeCgEsOAkwdG4A" name="OrganizationUnit1">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_1a8A4IaVEeCgEsOAkwdG4A" name="Port1" type="_smZCEIaVEeCgEsOAkwdG4A" aggregation="composite"/>
+      <ownedAttribute xmi:id="_Hl-1AIaWEeCgEsOAkwdG4A" name="Property1" type="_vusPwIaVEeCgEsOAkwdG4A" aggregation="composite"/>
+      <ownedAttribute xmi:id="_1p3YQIaWEeCgEsOAkwdG4A" name="Property2" type="_Th34oNOQEdubaLB0CR972w"/>
+      <ownedConnector xmi:id="_4K9cAIaWEeCgEsOAkwdG4A" name="Connector2" kind="delegation">
+        <end xmi:id="_4K9cAYaWEeCgEsOAkwdG4A" role="_1a8A4IaVEeCgEsOAkwdG4A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4K9cAoaWEeCgEsOAkwdG4A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4K9cA4aWEeCgEsOAkwdG4A" value="1"/>
+        </end>
+        <end xmi:id="_4K9cBIaWEeCgEsOAkwdG4A" role="_1p3YQIaWEeCgEsOAkwdG4A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4K9cBYaWEeCgEsOAkwdG4A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4K9cBoaWEeCgEsOAkwdG4A" value="1"/>
+        </end>
+      </ownedConnector>
+      <ownedConnector xmi:id="__D2mcIaWEeCgEsOAkwdG4A" name="Connector1" kind="delegation">
+        <end xmi:id="__D2mcYaWEeCgEsOAkwdG4A" role="_1a8A4IaVEeCgEsOAkwdG4A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__D2mcoaWEeCgEsOAkwdG4A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__D2mc4aWEeCgEsOAkwdG4A" value="1"/>
+        </end>
+        <end xmi:id="__D2mdIaWEeCgEsOAkwdG4A" role="_8O5ykIaWEeCgEsOAkwdG4A" partWithPort="_Hl-1AIaWEeCgEsOAkwdG4A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__D2mdYaWEeCgEsOAkwdG4A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__D2mdoaWEeCgEsOAkwdG4A" value="1"/>
+        </end>
+      </ownedConnector>
+      <ownedConnector xmi:id="_xv9SAIaXEeCgEsOAkwdG4A" name="Connector3" kind="assembly">
+        <end xmi:id="_xv9SAYaXEeCgEsOAkwdG4A" role="_vhhrkIaXEeCgEsOAkwdG4A" partWithPort="_Hl-1AIaWEeCgEsOAkwdG4A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xv9SAoaXEeCgEsOAkwdG4A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xv9SA4aXEeCgEsOAkwdG4A" value="1"/>
+        </end>
+        <end xmi:id="_xv9SBIaXEeCgEsOAkwdG4A" role="_wmERwIaXEeCgEsOAkwdG4A" partWithPort="_1p3YQIaWEeCgEsOAkwdG4A">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xv9SBYaXEeCgEsOAkwdG4A" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xv9SBoaXEeCgEsOAkwdG4A" value="1"/>
+        </end>
+      </ownedConnector>
+      <nestedClassifier xmi:type="uml:Component" xmi:id="_SktFAIaZEeCgEsOAkwdG4A" name="Component1"/>
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_T5u-QIaZEeCgEsOAkwdG4A" name="Class1" clientDependency="_vnQOMIaZEeCgEsOAkwdG4A">
+        <ownedAttribute xmi:id="_YSLlMIaZEeCgEsOAkwdG4A" name="Property1"/>
+        <interfaceRealization xmi:id="_vnQOMIaZEeCgEsOAkwdG4A" name="InterfaceRealization1" supplier="_uiwEQIaZEeCgEsOAkwdG4A" client="_T5u-QIaZEeCgEsOAkwdG4A" contract="_uiwEQIaZEeCgEsOAkwdG4A"/>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Interface" xmi:id="_uiwEQIaZEeCgEsOAkwdG4A" name="Interface1"/>
+    </packagedElement>
   </packagedElement>
   <profileApplication xmi:id="_DYvR5dOQEdubaLB0CR972w">
     <eAnnotations xmi:id="_DYvR5tOQEdubaLB0CR972w" source="http://www.eclipse.org/uml2/2.0.0/UML">

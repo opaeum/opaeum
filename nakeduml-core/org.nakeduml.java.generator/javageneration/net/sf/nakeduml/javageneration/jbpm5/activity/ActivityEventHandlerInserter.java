@@ -3,7 +3,6 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;

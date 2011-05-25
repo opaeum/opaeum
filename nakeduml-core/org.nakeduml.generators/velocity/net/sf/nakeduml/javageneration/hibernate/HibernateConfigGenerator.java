@@ -56,7 +56,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor {
 		}
 
 		public void visitOperation(INakedOperation o) {
-			if (o.isUserResponsibility()) {
+			if (o.isResponsibility()) {
 				classes.add(OJUtil.classifierPathname(new OperationMessageStructureImpl(o)));
 			}
 		}

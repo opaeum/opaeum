@@ -3,7 +3,6 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
