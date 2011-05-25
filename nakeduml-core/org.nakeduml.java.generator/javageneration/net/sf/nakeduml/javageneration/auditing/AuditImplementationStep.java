@@ -14,6 +14,9 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 @StepDependency(phase = AuditGenerationPhase.class, requires = {AuditMetadefAnnotationStep.class})
 public class AuditImplementationStep extends AbstractJavaTransformationStep {
+	
+	public static String AUDIT = "Audit";
+	
 	@Override
 	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
 		TimestampAdder timestampAdder = new TimestampAdder();

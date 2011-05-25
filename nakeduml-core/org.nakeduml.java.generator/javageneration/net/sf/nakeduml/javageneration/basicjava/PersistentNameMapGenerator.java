@@ -67,7 +67,7 @@ public class PersistentNameMapGenerator extends AbstractJavaProducingVisitor{
 		mapClass.addToImports("java.util.Map");
 		mapClass.addToImports("java.util.HashMap");
 		mapClass.addToImports(AbstractEntity.class.getName());
-		map.setInitExp("new HashMap<String, Class<? extends AbstractEntity>>()");
+		map.setInitExp("new HashMap<String, Class<? extends "+"AbstractEntity"+">>()");
 		mapClass.addToFields(map);
 		map.setFinal(true);
 		OJConstructor constr = new OJConstructor();

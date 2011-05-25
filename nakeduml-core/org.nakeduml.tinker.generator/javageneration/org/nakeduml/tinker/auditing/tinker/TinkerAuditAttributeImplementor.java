@@ -1,11 +1,14 @@
 package org.nakeduml.tinker.auditing.tinker;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
-import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -81,12 +84,23 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		INakedProperty p = map.getProperty();
 		if (!OJUtil.isBuiltIn(p)) {
 			if (p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
-			} else if (p.isDerived() || p.isReadOnly()) {
-				implementAttributeFully(umlOwner, map);
+			} else if (p.isDerived()) {
+				copyDerivedProperty(umlOwner, map);
 			} else {
 				implementAttributeFully(umlOwner, map);
 			}
 		}
+	}
+
+	private void copyDerivedProperty(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
+		OJAnnotatedClass originalClass = findJavaClass(umlOwner);
+		OJAnnotatedClass auditClass = findAuditJavaClass(umlOwner);
+		OJOperation getter = originalClass.findOperation(map.getter(), Collections.EMPTY_LIST);
+		OJOperation copy = getter.getDeepCopy();
+		Map<String, OJPathName> pathMap = new HashMap<String, OJPathName>();
+		pathMap.put(map.javaBaseTypePath().toJavaString(), map.javaBaseTypePath());
+		copy.renameAll(pathMap, "Audit");
+		auditClass.addToOperations(copy);
 	}
 
 	private void implementAttributeFully(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {

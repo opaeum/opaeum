@@ -7,9 +7,6 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
-import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerAttributeImplementorStrategy;
-import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -23,26 +20,14 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.OJSimpleStatement;
-import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
-	private boolean isAudit = false;
-	private boolean isTinker = false;
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		if (transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)) {
-			isTinker = true;
-		}
-	}
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context,boolean isAudit){
-		super.initialize(javaModel, config, textWorkspace, context);
-		this.isAudit = isAudit;
-		isTinker = true;
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void property(INakedProperty p){
@@ -64,7 +49,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 	private void visitProperty(INakedClassifier owner,INakedProperty p){
 		if(p.isNavigable() && !(owner instanceof INakedInterface)){
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-			OJClass c = !isAudit ? findJavaClass(owner) : findAuditJavaClass(owner);
+			OJClass c = findJavaClass(owner);
 			if(p.isDerivedUnion()){
 				implementDefaultValueForDerivedUnion(map, c);
 			}
@@ -97,8 +82,8 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 			OJOperation getter = OJUtil.findOperation(ojClass, map.getter());
 			getter.getBody().getStatements().clear();
-			ojClass.addToImports(!isAudit ? map.javaDefaultTypePath() : map.javaAuditDefaultTypePath());
-			getter.getBody().addToStatements("return " + (!isAudit ? map.javaDefaultValue() : map.javaAuditDefaultValue()));
+			ojClass.addToImports(map.javaDefaultTypePath());
+			getter.getBody().addToStatements("return " + map.javaDefaultValue());
 		}
 	}
 	private void implementDefaultValueForDerivedUnion(NakedStructuralFeatureMap subsettedMap,OJClass c){
@@ -110,25 +95,25 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 		if (getter.getBody() == null || (getter.getBody().getStatements().size() == 1) || (getter.getBody().getStatements().size() == 0)) {
 			if (subsettedMap.isOne()) {
 				getter.setBody(new OJBlock());
-				c.addToImports(!isAudit ? subsettedMap.javaDefaultTypePath() : subsettedMap.javaAuditDefaultTypePath());
+				c.addToImports(subsettedMap.javaDefaultTypePath());
 				getter.getBody().addToStatements("return " + subsettedMap.javaDefaultValue());
 			}else{
-				OJPathName type = !isAudit ? subsettedMap.javaTypePath() : subsettedMap.javaAuditTypePath();
+				OJPathName type = subsettedMap.javaTypePath();
 				OJAnnotatedField sinit = new OJAnnotatedField();
 				String returnParameterName = subsettedMap.umlName() + "Subsetting";
 				sinit.setName(returnParameterName);
 				sinit.setType(type);
 				getter.setBody(new OJBlock());
 				getter.getBody().addToLocals(sinit);
-				sinit.setInitExp(!isAudit ? subsettedMap.javaDefaultValue() : subsettedMap.javaAuditDefaultValue());
-				c.addToImports(!isAudit ? subsettedMap.javaDefaultTypePath() : subsettedMap.javaAuditDefaultTypePath());
-				getter.getBody().addToStatements("return " + (!isAudit ? subsettedMap.javaDefaultValue() : subsettedMap.javaAuditDefaultValue()));
+				sinit.setInitExp(subsettedMap.javaDefaultValue());
+				c.addToImports(subsettedMap.javaDefaultTypePath());
+				getter.getBody().addToStatements("return " + subsettedMap.javaDefaultValue());
 			}
 		}
 	}
 	private void addSubsetToUnion(NakedStructuralFeatureMap subsettingMap,OJClass c,INakedProperty derivedUnion){
 		NakedStructuralFeatureMap derivedUnionMap = new NakedStructuralFeatureMap(derivedUnion);
-		OJPathName type = !isAudit ? derivedUnionMap.javaTypePath() : derivedUnionMap.javaAuditTypePath();
+		OJPathName type = derivedUnionMap.javaTypePath();
 		OJOperation sgetter = OJUtil.findOperation(c, derivedUnionMap.getter());
 		String returnParameterName = derivedUnionMap.umlName() + "Subsetting";
 		if(!isNormalPropertyOverride(subsettingMap, derivedUnionMap)){
@@ -148,39 +133,39 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 			returnParameter.setType(type);
 			if(returnParameter.getInitExp() == null){
 				// retain the possible derivation rule initialization
-				returnParameter.setInitExp(!isAudit ? derivedUnionMap.javaDefaultValue() : derivedUnionMap.javaAuditDefaultValue());
+				returnParameter.setInitExp(derivedUnionMap.javaDefaultValue());
 			}
 			c.addToImports(type);
-			c.addToImports(!isAudit ? derivedUnionMap.javaDefaultTypePath() : derivedUnionMap.javaAuditDefaultTypePath());
+			c.addToImports(derivedUnionMap.javaDefaultTypePath());
 			String expression = buildExpression(subsettingMap, derivedUnion);
 			if(subsettingMap.isOne()){
 				if(derivedUnionMap.isOne()){
 					// TODO this could be problematic if multiple subsetting
 					// properties are not null
 					// TODO logic of one subsetting not understood
-					if(!isTinker){
+//					if(!isTinker){
 						OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
 						sgetter.getBody().addToStatements(ifNotNull);
-					}else{
-						OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatementRecursive(
-								TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
-						if(ifStatement == null){
-							OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
-							sgetter.getBody().addToStatements(ifNotNull);
-						}else{
-							OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
-									TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
-							OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
-							String tinkerToOneExpression = ojSimpleStatement.getExpression();
-							tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
-							if(isAudit){
-								tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(), derivedUnionMap.javaBaseTypePath()
-										.getLast() + TinkerAuditCreator.AUDIT);
-							}
-							ojSimpleStatement.setExpression(tinkerToOneExpression);
-							ojTryStatement.getTryPart().addToStatements("this." + derivedUnionMap.umlName() + " = " + returnParameterName);
-						}
-					}
+//					}else{
+//						OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatementRecursive(
+//								TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
+//						if(ifStatement == null){
+//							OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
+//							sgetter.getBody().addToStatements(ifNotNull);
+//						}else{
+//							OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
+//									TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+//							OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
+//							String tinkerToOneExpression = ojSimpleStatement.getExpression();
+//							tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
+//							if(isAudit){
+//								tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(), derivedUnionMap.javaBaseTypePath()
+//										.getLast() + TinkerAuditCreator.AUDIT);
+//							}
+//							ojSimpleStatement.setExpression(tinkerToOneExpression);
+//							ojTryStatement.getTryPart().addToStatements("this." + derivedUnionMap.umlName() + " = " + returnParameterName);
+//						}
+//					}
 				}else{
 					OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + ".add(" + expression + ")");
 					sgetter.getBody().addToStatements(ifNotNull);

@@ -14,7 +14,7 @@
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yIjJcmRvEeCWwpEEhhedIw" presentation="org.topcased.modeler.uml.classdiagram">
       <element href="tinker.uml#_w8IxIM37EdqwVrslYOdUDA"/>
     </semanticModel>
-    <contained xsi:type="di:GraphNode" xmi:id="_z3TKQGRvEeCWwpEEhhedIw" position="150,40" size="363,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_z3TKQGRvEeCWwpEEhhedIw" position="139,55" size="363,-1">
       <anchorage xmi:id="_BviscGRwEeCWwpEEhhedIw" graphEdge="_Bv4DoGRwEeCWwpEEhhedIw _11lqkGeeEeC_85FOnhMg7Q _ZLkOwGehEeC_85FOnhMg7Q _71MyQGgPEeC_85FOnhMg7Q _2C1_4IScEeCnR9cDDCjUXA _8FqogISdEeCnR9cDDCjUXA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_z3TKQWRvEeCWwpEEhhedIw" presentation="default">
         <element href="tinker.uml#_z3Yp0GRvEeCWwpEEhhedIw"/>

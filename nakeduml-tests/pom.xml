@@ -8,6 +8,15 @@
 	<version>1.0.0.5-SNAPSHOT</version>
 	<description>Uml model compiler for the JBoss JEE and jBPM environment</description>
 	<modules>
-		<module>jbpmtestintegration</module>
+		<module>tinker-test</module>
+		<module>tinker-test-generator</module>
+		<module>tinker-audit-test</module>
+		<module>tinker-audit-test-generator</module>
+		<module>tinker-audit2-test</module>
+		<module>tinker-audit2-test-generator</module>
+		<module>tinker-softdelete-test</module>
+		<module>tinker-softdelete-test-generator</module>
+		<module>tinker-withcache-test</module>
+		<module>tinker-withcache-test-generator</module>
 	</modules>
 </project>

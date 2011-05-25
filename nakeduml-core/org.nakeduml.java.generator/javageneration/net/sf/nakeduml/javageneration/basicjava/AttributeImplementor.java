@@ -6,9 +6,6 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
-import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
-import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerAttributeImplementorStrategy;
-import net.sf.nakeduml.javageneration.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -53,15 +50,13 @@ public class AttributeImplementor extends StereotypeAnnotator{
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		if(transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)){
-			attributeImplementorStrategy = new TinkerAttributeImplementorStrategy();
-		}else{
-			attributeImplementorStrategy = new DefaultAttributeImplementorStrategy();
+		try {
+			attributeImplementorStrategy = (AttributeImplementorStrategy) Class.forName(config.getAttributeImplementationStrategy()).newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
-	@VisitAfter(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class
-	})
+	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})
 	public void visitFeature(INakedClassifier entity){
 		for(INakedProperty p:entity.getEffectiveAttributes()){
 			if(p.getOwner() instanceof INakedInterface && OJUtil.hasOJClass(entity)){
@@ -155,10 +150,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
 				buildSetter(umlOwner, owner, map);
-				if(!transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)
-						|| transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)){
-					buildField(owner, map).setTransient(true);
-				}
+				buildField(owner, map).setTransient(true);
 				OJOperation getter = attributeImplementorStrategy.buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
 				OJIfStatement ifNull = new OJIfStatement(map.umlName() + "==null", map.umlName() + "=(" + map.javaBaseType()
@@ -179,11 +171,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = null;
-		if(!transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)
-				|| transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)
-				|| ((umlOwner instanceof INakedEntity) && ((INakedEntity) umlOwner).getEndToComposite() == map.getProperty())){
-			field = buildField(owner, map);
-		}
+		field = buildField(owner, map);
 		if(map.isMany()){
 			if(field != null){
 				buildInitExpression(owner, map, field);
@@ -194,11 +182,8 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			buildRemoveAll(owner, map);
 			buildClear(owner, map);
 		}else if(map.isOne() && isPersistent(p.getNakedBaseType()) || p.getBaseType() instanceof INakedInterface){
-			if(!transformationContext.isFeatureSelected(TinkerExtendedCompositionSemanticsJavaStep.class)
-					|| transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)){
-				buildInternalAdder(owner, map);
-				buildInternalRemover(owner, map);
-			}
+			buildInternalAdder(owner, map);
+			buildInternalRemover(owner, map);
 		}
 		buildSetter(umlOwner, owner, map);
 		attributeImplementorStrategy.buildGetter(owner, map, false);

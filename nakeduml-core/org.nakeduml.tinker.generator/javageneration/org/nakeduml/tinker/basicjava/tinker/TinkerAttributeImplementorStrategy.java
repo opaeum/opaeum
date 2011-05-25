@@ -1,8 +1,8 @@
 package org.nakeduml.tinker.basicjava.tinker;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementorStrategy;
-import net.sf.nakeduml.javageneration.basicjava.tinker.TinkerUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
@@ -21,7 +21,6 @@ import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.tinker.basicjava.AttributeImplementor;
 
 public class TinkerAttributeImplementorStrategy implements AttributeImplementorStrategy {
 

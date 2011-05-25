@@ -12,5 +12,5 @@
 /org.nakeduml.generators/test-output
 /org.nakeduml.uim/test-output
 /org.nakeduml.uml2uim/test-output
-
-
+/org.nakeduml.java.generator/test-output
+/org.nakeduml.tinker.generator/target

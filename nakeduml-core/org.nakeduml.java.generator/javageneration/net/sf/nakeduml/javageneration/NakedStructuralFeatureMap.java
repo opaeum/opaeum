@@ -1,6 +1,6 @@
 package net.sf.nakeduml.javageneration;
 
-import net.sf.nakeduml.javageneration.auditing.tinker.TinkerAuditCreator;
+import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -10,6 +10,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{
+
 	public NakedStructuralFeatureMap(INakedProperty feature){
 		super(feature);
 		baseTypeMap = new NakedClassifierMap( feature.getNakedBaseType());
@@ -34,7 +35,7 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			if(isMany()){
 				if(!isJavaPrimitive() && !javaBaseType().equals("String") && !javaBaseType().equals("Integer")) {
 					OJPathName copy = super.javaTypePath().getCopy();
-					copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditCreator.AUDIT));
+					copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+AuditImplementationStep.AUDIT));
 					return copy;
 				} else {
 					return javaTypePath();
@@ -43,7 +44,7 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			}else if(isJavaPrimitive() || javaBaseType().equals("String")){
 				return featureTypeMap.javaObjectTypePath();
 			}else{
-				return new OJPathName(super.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+				return new OJPathName(super.javaTypePath().toJavaString()+AuditImplementationStep.AUDIT);
 			}
 		}
 	}
@@ -55,7 +56,7 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		} else if(baseTypeMap.isJavaPrimitive()){
 			return baseTypeMap.javaObjectTypePath();
 		}else{
-			return new OJPathName(baseTypeMap.javaTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+			return new OJPathName(baseTypeMap.javaTypePath().toJavaString()+AuditImplementationStep.AUDIT);
 		}
 	}	
 
@@ -75,18 +76,18 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 	public String javaAuditDefaultValue() {
 		OJPathName baseType = javaBaseTypePath();
 		String javaDefaultValue = featureTypeMap.javaDefaultValue();
-		return javaDefaultValue.replace(baseType.getLast(), baseType.getLast()+TinkerAuditCreator.AUDIT);
+		return javaDefaultValue.replace(baseType.getLast(), baseType.getLast()+AuditImplementationStep.AUDIT);
 	}
 
 	public OJPathName javaAuditDefaultTypePath(){
 		if(isMany()){
 			OJPathName baseType = super.javaBaseDefaultTypePath();
-			OJPathName auditBaseType = new OJPathName(baseType.toJavaString()+TinkerAuditCreator.AUDIT);
+			OJPathName auditBaseType = new OJPathName(baseType.toJavaString()+AuditImplementationStep.AUDIT);
 			OJPathName copy = super.javaDefaultTypePath().getCopy();
 			copy.addToElementTypes(auditBaseType);
 			return copy;
 		}else{
-			return new OJPathName(super.javaDefaultTypePath().toJavaString()+TinkerAuditCreator.AUDIT);
+			return new OJPathName(super.javaDefaultTypePath().toJavaString()+AuditImplementationStep.AUDIT);
 		}
 	}
 	

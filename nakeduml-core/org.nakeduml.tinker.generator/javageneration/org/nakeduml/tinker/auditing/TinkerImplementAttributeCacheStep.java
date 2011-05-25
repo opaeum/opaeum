@@ -3,7 +3,6 @@ package org.nakeduml.tinker.auditing;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
-import net.sf.nakeduml.javageneration.auditing.TinkerImplementCachePhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.nakeduml.tinker.basicjava.tinker.TinkerAttributeCacheImplementor;
