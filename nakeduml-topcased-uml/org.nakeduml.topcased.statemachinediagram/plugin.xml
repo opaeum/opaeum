@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.topcased.modeler.templates">
+      <template
+            di="templates/statemachinediagram/%name%.umldi"
+            model="templates/statemachinediagram/%name%.uml"
+            name="State Machine Diagram"
+            id="org.topcased.modeler.uml.statemachinediagram.templates.statemachinediagram"
+            editorId="org.topcased.modeler.uml.editor.UMLEditor"/>
+   </extension>
+   
+   <extension point="org.topcased.modeler.diagrams">
+      <diagram
+            configuration="org.topcased.modeler.uml.statemachinediagram.STMConfiguration"
+            editorID="org.topcased.modeler.uml.editor.UMLEditor"
+            id="org.topcased.modeler.uml.statemachinediagram"
+            name="State Machine Diagram">
+         <enableFor class="org.eclipse.uml2.uml.StateMachine"/>
+         <enableFor
+               class="org.eclipse.uml2.uml.Package"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromPackage">
+         </enableFor>
+         <enableFor
+            class="org.eclipse.uml2.uml.State"
+            creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromState">
+     	 </enableFor>
+         <enableFor
+               class="org.eclipse.uml2.uml.Class"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromClass">
+         </enableFor>  
+         <enableFor
+               class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromCallBehaviorAction">
+         </enableFor>        
+      </diagram>
+	</extension>
+	
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
+         <propertyTab
+               afterTab="org.topcased.modeler.modelTab"
+               category="model"
+               id="org.topcased.modeler.modelTab.triggersTab"
+               image="icons/properties/triggersTab.gif"
+               indented="true"
+               label="Triggers"/>
+         <propertyTab
+               afterTab="org.topcased.modeler.modelTab.triggersTab"
+               category="model"
+               id="org.topcased.modeler.modelTab.STMGuardTab"
+               image="icons/properties/guardTab.gif"
+               indented="true"
+               label="Guard"/>
+         <propertyTab
+               afterTab="org.topcased.modeler.modelTab.STMGuardTab"
+               category="model"
+               id="org.topcased.modeler.modelTab.effectTab"
+               image="icons/properties/effectTab.gif"
+               indented="true"
+               label="Effect"/>
+         <propertyTab
+               id="org.topcased.modeler.modelTab.entryPoints"
+               afterTab="org.topcased.modeler.modelTab"
+               category="model"
+               indented="true"
+               label="Entry Points"/>
+         <propertyTab
+               id="org.topcased.modeler.modelTab.exitPoints"
+               afterTab="org.topcased.modeler.modelTab"
+               category="model"
+               indented="true"
+               label="Exit Points"/>
+         <propertyTab
+               afterTab="org.topcased.modeler.modelTab"
+               category="model"
+               id="org.topcased.modeler.modelTab.specification"
+               indented="true"
+               label="Specification"/>
+         <propertyTab
+               afterTab="org.topcased.modeler.modelTab"
+               category="model"
+               id="org.topcased.modeler.modelTab.internalTransition"
+               image="icons/properties/transition_internal.gif"
+               indented="true"
+               label="Internal Transition"/>
+      </propertyTabs>
+
+   </extension>
+   
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="org.topcased.modeler.editor.Modeler">
+         <propertySection
+               id="org.topcased.modeler.uml.transitionKindSection"
+               class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionKindSection"
+               afterSection="org.topcased.modeler.uml.NamedElementSection"
+               tab="org.topcased.modeler.modelTab">
+               <input type="org.eclipse.uml2.uml.Transition"/>
+         </propertySection>
+      	<propertySection
+				id="org.topcased.modeler.uml.triggersSection"
+				class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionTriggersSection"
+				tab="org.topcased.modeler.modelTab.triggersTab">
+         		<input type="org.eclipse.uml2.uml.Transition"/>
+		</propertySection>
+       <propertySection
+             id="org.topcased.modeler.uml.guardSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionGuardSection"
+             tab="org.topcased.modeler.modelTab.STMGuardTab">
+          <input type="org.eclipse.uml2.uml.Transition"/>
+       </propertySection>
+       <propertySection
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionEffectSection"
+             id="org.topcased.modeler.uml.effectSection"
+             tab="org.topcased.modeler.modelTab.effectTab">
+          <input type="org.eclipse.uml2.uml.Transition"/>
+       </propertySection>
+     
+       
+       <propertySection
+             afterSection="org.topcased.modeler.uml.NamedElementSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TriggersEventSection"
+             id="org.topcased.modeler.uml.TriggersEventSection"
+             tab="org.topcased.modeler.modelTab">
+          <input type="org.eclipse.uml2.uml.Trigger"/>
+       </propertySection>
+       <propertySection
+             afterSection="org.topcased.modeler.uml.NamedElementSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.EntrySection"
+             filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.StateFilter"
+             id="org.topcased.modeler.uml.entrySection"
+             tab="org.topcased.modeler.modelTab">
+          <input type="org.eclipse.uml2.uml.State"/>
+       </propertySection>
+       
+       
+       <propertySection
+             afterSection="org.topcased.modeler.uml.entrySection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.ExitSection"
+             filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.StateFilter"
+             id="org.topcased.modeler.uml.exitSection"
+             tab="org.topcased.modeler.modelTab">
+          <input type="org.eclipse.uml2.uml.State"/>
+       </propertySection>
+       <propertySection
+             afterSection="org.topcased.modeler.uml.exitSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.DoActivitySection"
+             filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.StateFilter"
+             id="org.topcased.modeler.uml.doActivitySection"
+             tab="org.topcased.modeler.modelTab">
+          <input type="org.eclipse.uml2.uml.State"/>
+		</propertySection>
+		<propertySection
+			afterSection="org.topcased.modeler.uml.doActivitySection"
+			class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.DeferrableTriggersSection"
+			filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.StateFilter"
+			id="org.topcased.modeler.uml.deferredTriggersSection"
+			tab="org.topcased.modeler.modelTab">
+			<input type="org.eclipse.uml2.uml.State"/>
+		</propertySection>
+       <propertySection
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.EntryPointsSection"
+             id="org.topcased.modeler.uml.entryPointsSection"
+             tab="org.topcased.modeler.modelTab.entryPoints">
+          <input type="org.eclipse.uml2.uml.ConnectionPointReference"/>
+       </propertySection>
+       <propertySection
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.ExitPointsSection"
+             id="org.topcased.modeler.uml.exitPointsSection"
+             tab="org.topcased.modeler.modelTab.exitPoints">
+          <input type="org.eclipse.uml2.uml.ConnectionPointReference"/>
+       </propertySection>
+
+   
+       
+       <propertySection
+             afterSection="org.topcased.modeler.uml.NamedElementSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.PseudostateKindSection"
+             id="org.topcased.modeler.uml.pseudostateKindSection"
+             tab="org.topcased.modeler.modelTab">
+          <input type="org.eclipse.uml2.uml.Pseudostate"/>
+       </propertySection>
+
+		
+       
+       <propertySection
+             afterSection="org.topcased.modeler.BackgroundColorSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.CompositeStateRegionsOrientationPropertySection"
+             filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.CompositeStateGraphNodeFilter"
+             id="org.topcased.modeler.uml.compositeStateRegionsOrientationSection"
+             tab="org.topcased.modeler.graphicsTab">
+          <input type="org.topcased.modeler.di.model.GraphNode"/>
+       </propertySection>
+       
+       <propertySection
+             id="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.ForkAndJoinOrientationSection"
+             class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.ForkAndJoinOrientationSection"
+             filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.ForkAndJoinFilter"
+             afterSection="org.topcased.modeler.BackgroundColorSection"
+             tab="org.topcased.modeler.graphicsTab">
+          <input type="org.topcased.modeler.di.model.GraphNode"/>
+       </propertySection>
+       
+		<propertySection
+			id="org.topcased.modeler.uml.statemachinediagram.sectionsConstraintSpecificationSection"
+			class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.ConstraintSpecificationSection"
+			tab="org.topcased.modeler.modelTab.specification">
+			<input type="org.eclipse.uml2.uml.Constraint"/>
+		</propertySection>
+		
+      	<propertySection
+				id="org.topcased.modeler.uml.internalTransition"
+				class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.InternalTransitionSection"
+				tab="org.topcased.modeler.modelTab.internalTransition">
+         		<input type="org.eclipse.uml2.uml.State"/>
+		</propertySection>	
+		<propertySection
+		id="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.PseudoStateObjectVisibilityPropertySection"
+		class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.PseudoStateObjectVisibilityPropertySection"
+		 filter="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters.NamedPseudoStateFilter"
+		 afterSection="org.topcased.modeler.BackgroundColorSection"
+		 tab="org.topcased.modeler.graphicsTab">
+		<input type="org.eclipse.uml2.uml.Pseudostate"/>
+       </propertySection>
+  <propertySection
+        afterSection="org.topcased.modeler.BackgroundColorSection"
+        class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.EffectBodyVisibility"
+        id="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics.effectBodyVisibility"
+        tab="org.topcased.modeler.graphicsTab">
+     <input
+           type="org.eclipse.uml2.uml.Transition">
+     </input>
+  </propertySection>
+	
+      </propertySections>
+   </extension>
+   
+   
+
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			name="STM Diagram"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.RegionPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.RegionPreferencePage"
+			name="Region"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.StatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.StatePreferencePage"
+			name="State"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.CompositeStatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.CompositeStatePreferencePage"
+			name="Composite State"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.SubmachineStatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.SubmachineStatePreferencePage"
+			name="Submachine State"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.FinalStatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.FinalStatePreferencePage"
+			name="Final State"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.TransitionPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.TransitionPreferencePage"
+			name="Transition"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateInitialPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateInitialPreferencePage"
+			name="Pseudostate Initial"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateDeepHistoryPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateDeepHistoryPreferencePage"
+			name="Pseudostate Deep History"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateShallowHistoryPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateShallowHistoryPreferencePage"
+			name="Pseudostate Shallow History"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateJoinPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateJoinPreferencePage"
+			name="Pseudostate Join"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateForkPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateForkPreferencePage"
+			name="Pseudostate Fork"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateJunctionPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateJunctionPreferencePage"
+			name="Pseudostate Junction"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateChoicePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateChoicePreferencePage"
+			name="Pseudostate Choice"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateEntryPointPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateEntryPointPreferencePage"
+			name="Pseudostate Entry Point"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateExitPointPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateExitPointPreferencePage"
+			name="Pseudostate Exit Point"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateTerminatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateTerminatePreferencePage"
+			name="Pseudostate Terminate"/>
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.ConnectionPointReferencePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.ConnectionPointReferencePreferencePage"
+			name="Connection Point Reference"/>
+	</extension>
+
+	<extension point="org.eclipse.ui.propertyPages">
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramPreferencePage"
+			name="State Machine Diagram">       
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+		
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.RegionPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.RegionPreferencePage"
+			name="Region">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.StatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.StatePreferencePage"
+			name="State">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.CompositeStatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.CompositeStatePreferencePage"
+			name="Composite State">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.SubmachineStatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.SubmachineStatePreferencePage"
+			name="Submachine State">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.FinalStatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.FinalStatePreferencePage"
+			name="Final State">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.TransitionPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.TransitionPreferencePage"
+			name="Transition">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateInitialPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateInitialPreferencePage"
+			name="Pseudostate Initial">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateDeepHistoryPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateDeepHistoryPreferencePage"
+			name="Pseudostate Deep History">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateShallowHistoryPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateShallowHistoryPreferencePage"
+			name="Pseudostate Shallow History">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateJoinPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateJoinPreferencePage"
+			name="Pseudostate Join">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateForkPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateForkPreferencePage"
+			name="Pseudostate Fork">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateJunctionPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateJunctionPreferencePage"
+			name="Pseudostate Junction">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateChoicePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateChoicePreferencePage"
+			name="Pseudostate Choice">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateEntryPointPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateEntryPointPreferencePage"
+			name="Pseudostate Entry Point">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateExitPointPreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateExitPointPreferencePage"
+			name="Pseudostate Exit Point">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.PseudostateTerminatePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.PseudostateTerminatePreferencePage"
+			name="Pseudostate Terminate">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.topcased.modeler.uml.statemachinediagram.preferences.property.ConnectionPointReferencePreferencePage"
+			category="org.topcased.modeler.uml.statemachinediagram.preferences.property.STMDiagramPreferencePage"
+			class="org.topcased.modeler.uml.statemachinediagram.preferences.ConnectionPointReferencePreferencePage"
+			name="Connection Point Reference">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+	</extension>
+ <extension
+       point="org.topcased.modeler.topcasedPreferenceInitializer">
+    <preferenceInitializer
+          class="org.topcased.modeler.uml.statemachinediagram.preferences.STMDiagramTopcasedPreferenceInitializer"
+          editorId="org.topcased.modeler.uml.editor.UMLEditor"
+          id="org.topcased.modeler.uml.statemachinediagram.preferenceInitializer">
+    </preferenceInitializer>
+ </extension>
+ <extension
+       point="org.topcased.modeler.moveElementFilter">
+    <DiagramKeeper
+          configuration="org.topcased.modeler.uml.statemachinediagram"
+          keeper="org.topcased.modeler.uml.statemachinediagram.STMDiagramKeeper">
+    </DiagramKeeper>
+ </extension>
+ <extension
+       point="org.topcased.modeler.orderSerialization">
+    <OrderAlgorithm
+          algorithm="org.topcased.modeler.uml.statemachinediagram.StateMachineOrderingAlgorithm"
+          name="Order State Machine contents"
+          priority="MIDDLE">
+    </OrderAlgorithm>
+ </extension>
+ <extension
+       id="org.topcased.modeler.uml.statemachinediagram.stateMachineResizer"
+       name="State Machine resizer for regions"
+       point="org.topcased.modeler.optimizedResize">
+    <resizer
+          resizedPart="org.topcased.modeler.uml.statemachinediagram.edit.RegionEditPart"
+          resizerClass="org.topcased.modeler.uml.statemachinediagram.resize.RegionResizer">
+    </resizer>
+    <resizer
+          resizedPart="org.topcased.modeler.uml.statemachinediagram.edit.RegionEditPart"
+          resizerClass="org.topcased.modeler.uml.statemachinediagram.resize.RegionMinResizer">
+    </resizer>
+    <resizer
+          resizedPart="org.topcased.modeler.uml.statemachinediagram.edit.STMDiagramEditPart"
+          resizerClass="org.topcased.modeler.uml.statemachinediagram.resize.StateMachineResizer">
+    </resizer>
+    <resizer
+          resizedPart="org.topcased.modeler.uml.statemachinediagram.edit.STMDiagramEditPart"
+          resizerClass="org.topcased.modeler.uml.statemachinediagram.resize.StateMachineMinResizer">
+    </resizer>
+ </extension>
+ 
+ 
+ 		<extension
+	         id="org.topcased.modeler.uml.statemachinediagram.internal.decorators.UMLModelerStateDiagramDecoratorProvider"
+	         name="UML Modeler Activity Diagram Decorators"
+	         point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+	      <decoratorProvider
+	            class="org.topcased.modeler.uml.statemachinediagram.internal.decorators.UMLModelerStateDiagramDecoratorProvider">
+	         <Priority
+	               name="Lowest">
+	         </Priority>
+	         <object
+	               class="org.eclipse.uml2.uml.State(org.eclipse.uml2.uml)"
+	               id="State">
+	         </object>
+	         <context
+	               decoratorTargets="State">
+	         </context>
+	      </decoratorProvider>
+	   </extension>
+</plugin>

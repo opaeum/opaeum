@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML to UIM Transformation Actions
+Bundle-SymbolicName: org.nakeduml.uim2uim.actions;singleton:=true
+Bundle-Version: 1.0.0.5
+Bundle-Activator: org.nakeduml.uim2uim.actions.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.nakeduml.uim.uml2uim;visibility:=reexport,
+ org.nakeduml.uim.classform;visibility:=reexport,
+ org.topcased.modeler.diagrams;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.nakeduml.uim2uim.actions,
+ org.nakeduml.uml2uim
+Bundle-Vendor: NakedUML

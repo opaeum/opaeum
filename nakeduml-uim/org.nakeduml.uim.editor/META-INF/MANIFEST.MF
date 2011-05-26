@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.nakeduml.uim.editor
+Bundle-SymbolicName: org.nakeduml.uim.editor;singleton:=true
+Bundle-Version: 1.0.0.5
+Bundle-ClassPath: .
+Bundle-Activator: org.nakeduml.uim.presentation.UimEditorPlugin$Implementation
+Bundle-Vendor: nakeduml.org
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.nakeduml.uim.presentation
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.nakeduml.uim.edit;visibility:=reexport,
+ org.eclipse.emf.edit.ui;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.nakeduml.uim.classform
+Bundle-SymbolicName: org.nakeduml.uim.edit;singleton:=true
+Bundle-Version: 1.0.0.5
+Bundle-ClassPath: .
+Bundle-Activator: org.nakeduml.uim.provider.UimEditPlugin$Implementation
+Bundle-Vendor: NakedUML
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.nakeduml.uim.provider 
+Require-Bundle: org.eclipse.core.runtime,
+ org.nakeduml.uim;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

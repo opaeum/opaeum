@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.nakeduml.topcased.feature"
+      label="NakedUML Topcased UML Feature"
+      version="1.0.0.5"
+      provider-name="NakedUML">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecoretools.tabbedproperties"/>
+      <import plugin="org.topcased.tabbedproperties"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.nakeduml.eclipse"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.topcased.modeler.uml.oclinterpreter"/>
+      <import plugin="org.topcased.modeler"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.ocl.uml"/>
+      <import plugin="org.nakeduml.metamodels"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.uml2.common.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.uml2.common"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.topcased.modeler.graphconf"/>
+      <import plugin="org.topcased.validation.core"/>
+      <import plugin="org.topcased.ui"/>
+      <import plugin="org.topcased.validation.ocl"/>
+      <import plugin="org.topcased.modeler.diagrams.validation"/>
+      <import plugin="org.eclipse.emf.validation"/>
+   </requires>
+
+   <plugin
+         id="org.nakeduml.topcased.propertysections"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.activitydiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.classdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.statemachinediagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

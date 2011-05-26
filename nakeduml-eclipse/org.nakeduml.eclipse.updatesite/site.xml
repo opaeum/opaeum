@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.nakeduml.feature_1.0.0.5.jar" id="org.nakeduml.feature" version="1.0.0.5"/>
+   <feature url="features/org.nakeduml.core.feature_1.0.0.5.jar" id="org.nakeduml.core.feature" version="1.0.0.5"/>
+   <feature url="features/org.nakeduml.uim.feature_1.0.0.5.jar" id="org.nakeduml.uim.feature" version="1.0.0.5"/>
+   <feature url="features/org.nakeduml.topcased.feature_1.0.0.5.jar" id="org.nakeduml.topcased.feature" version="1.0.0.5"/>
+</site>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension point="org.topcased.modeler.templates">
+      <template
+            di="templates/org.nakeduml.uim.classform/%name%.uimdi"
+            model="templates/org.nakeduml.uim.classform/%name%.uim"
+            name="Class Form"
+            id="org.nakeduml.uim.classform.templates.org.nakeduml.uim.classform"
+            editorId="org.nakeduml.uim.modeleditor.editor.UimEditor"/>
+   </extension>
+   
+   <extension point="org.topcased.modeler.diagrams">
+      <diagram
+            configuration="org.nakeduml.uim.classform.ClassFormConfiguration"
+            id="org.nakeduml.uim.classform"
+            name="Class Form">
+         <enableFor
+               class="org.nakeduml.uim.ClassForm">
+         </enableFor>
+         <enableFor
+               class="org.nakeduml.uim.OperationInvocationForm">
+         </enableFor>
+         <enableFor
+               class="org.nakeduml.uim.StateForm">
+         </enableFor>
+         <enableFor
+               class="org.nakeduml.uim.ActionTaskForm">
+         </enableFor>
+         <enableFor
+               class="org.nakeduml.uim.OperationTaskForm">
+         </enableFor>
+      </diagram>
+	</extension>
+	
+	
+	<extension
+       point="org.topcased.modeler.topcasedPreferenceInitializer">
+    <preferenceInitializer
+          class="org.nakeduml.uim.classform.preferences.ClassFormDiagramTopcasedPreferenceInitializer"
+          editorId="org.nakeduml.uim.modeleditor.editor.UimEditor"
+          id="org.nakeduml.uim.classform.preferences.ClassFormTopcasedPreferenceInitializer">
+    </preferenceInitializer>
+ </extension>
+
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			id="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			category="org.nakeduml.uim.modeleditor.preferences.UimPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			name="ClassFormDiagram"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.UserFieldPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserFieldPreferencePage"
+			name="UserField"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.BuiltInActionPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.BuiltInActionPreferencePage"
+			name="BuiltInAction"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.OperationActionPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.OperationActionPreferencePage"
+			name="OperationAction"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.NavigationToEntityPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.NavigationToEntityPreferencePage"
+			name="NavigationToEntity"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.NavigationToOperationPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.NavigationToOperationPreferencePage"
+			name="NavigationToOperation"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.FormPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.FormPanelPreferencePage"
+			name="FormPanel"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.UserTablePreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserTablePreferencePage"
+			name="UserTable"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.UserPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserPanelPreferencePage"
+			name="UserPanel"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.UserColumnPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserColumnPreferencePage"
+			name="UserColumn"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.DetailPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.DetailPanelPreferencePage"
+			name="DetailPanel"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.TabPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.TabPanelPreferencePage"
+			name="TabPanel"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.TabPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.TabPreferencePage"
+			name="Tab"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.GridLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.GridLayoutPreferencePage"
+			name="GridLayout"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.ToolbarLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.ToolbarLayoutPreferencePage"
+			name="ToolbarLayout"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.BorderLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.BorderLayoutPreferencePage"
+			name="BorderLayout"/>
+		<page
+			id="org.nakeduml.uim.classform.preferences.XYLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.XYLayoutPreferencePage"
+			name="XYLayout"/>
+	</extension>
+
+	<extension point="org.eclipse.ui.propertyPages">
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			category="org.nakeduml.uim.modeleditor.preferences.property.UimPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			name="ClassFormDiagram">       
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+		
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.UserFieldPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserFieldPreferencePage"
+			name="UserField">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.BuiltInActionPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.BuiltInActionPreferencePage"
+			name="BuiltInAction">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.OperationActionPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.OperationActionPreferencePage"
+			name="OperationAction">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.NavigationToEntityPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.NavigationToEntityPreferencePage"
+			name="NavigationToEntity">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.NavigationToOperationPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.NavigationToOperationPreferencePage"
+			name="NavigationToOperation">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.FormPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.FormPanelPreferencePage"
+			name="FormPanel">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.UserTablePreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserTablePreferencePage"
+			name="UserTable">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.UserPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserPanelPreferencePage"
+			name="UserPanel">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.UserColumnPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.UserColumnPreferencePage"
+			name="UserColumn">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.DetailPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.DetailPanelPreferencePage"
+			name="DetailPanel">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.TabPanelPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.TabPanelPreferencePage"
+			name="TabPanel">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.TabPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.TabPreferencePage"
+			name="Tab">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.GridLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.GridLayoutPreferencePage"
+			name="GridLayout">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.ToolbarLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.ToolbarLayoutPreferencePage"
+			name="ToolbarLayout">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.BorderLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.BorderLayoutPreferencePage"
+			name="BorderLayout">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+		<page
+			id="org.nakeduml.uim.classform.preferences.property.XYLayoutPreferencePage"
+			category="org.nakeduml.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.nakeduml.uim.classform.preferences.XYLayoutPreferencePage"
+			name="XYLayout">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+		</page>
+    	
+	</extension>
+
+</plugin>
