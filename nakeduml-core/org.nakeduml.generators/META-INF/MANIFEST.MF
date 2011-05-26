@@ -5,16 +5,7 @@ Bundle-SymbolicName: org.nakeduml.generators
 Bundle-Version: 1.0.0.5
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.nakeduml.metamodels;bundle-version="1.0.0",
- org.nakeduml.java.generator;bundle-version="1.0.0",
- org.nakeduml.java.metamodel;bundle-version="1.0.0",
- org.nakeduml.ocl.java.generator;bundle-version="1.0.0.5",
- org.nakeduml.ocl.metamodel;bundle-version="1.0.0.5",
- org.eclipse.emf.common;bundle-version="2.6.0",
- org.eclipse.emf.ecore;bundle-version="2.6.1",
- org.eclipse.emf.ecore.xmi;bundle-version="2.5.0",
- org.eclipse.uml2.uml;bundle-version="3.1.1",
- org.eclipse.uml2.uml.resources;bundle-version="3.1.1"
+ org.nakeduml.java.generator;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/velocity-1.5.0.jar,
  .,

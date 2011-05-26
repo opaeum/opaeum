@@ -68,186 +68,172 @@ import org.eclipse.uml2.uml.UseCase;
  * Builds all classifier and the namespaces required to hostr them
  */
 @StepDependency(phase = EmfExtractionPhase.class)
-public class NameSpaceExtractor extends AbstractExtractorFromEmf {
+public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	/**
 	 * For imported profiles. Put them at the top level of the workspace
 	 */
 	@VisitBefore
-	public void visitProfile(Profile p) {
+	public void visitProfile(Profile p){
 		NakedProfileImpl np = new NakedProfileImpl();
-		np.initialize(getId(p), p.getName(),true);
-		if (p.eResource().getURI().isFile()) {
+		np.initialize(getId(p), p.getName(), true);
+		if(p.eResource().getURI().isFile()){
 			np.setModelFile(new File(p.eResource().getURI().toFileString()));
 		}
 		this.workspace.putModelElement(np);
 	}
-
 	@VisitBefore
-	public void visitStereotype(Stereotype c) {
-		if (getNakedPeer(c) == null) {
+	public void visitStereotype(Stereotype c){
+		if(getNakedPeer(c) == null){
 			INakedStereotype ns = new NakedStereotypeImpl();
 			initialize(ns, c, c.getNamespace());
 		}
 	}
-
 	@VisitBefore
-	public void visitModel(Model p) {
+	public void visitModel(Model p){
 		NakedModelImpl nm = new NakedModelImpl();
-		nm.initialize(getId(p), p.getName(),true);
-		if (p.eResource().getURI().isFile()) {
+		nm.initialize(getId(p), p.getName(), true);
+		if(p.eResource().getURI().isFile()){
 			nm.setModelFile(new File(p.eResource().getURI().toFileString()));
 		}
 		this.workspace.putModelElement(nm);
 	}
-
 	@VisitBefore
-	public void visitPackage(Package p, NakedPackageImpl np) {
+	public void visitPackage(Package p,NakedPackageImpl np){
 	}
-
 	@VisitBefore
-	public void visitComponent(Component c, NakedComponentImpl nc) {
+	public void visitComponent(Component c,NakedComponentImpl nc){
 		initializeClassifier(nc, c);
 	}
-
 	@VisitBefore
-	public void visitActor(Actor a, NakedActorImpl na) {
+	public void visitActor(Actor a,NakedActorImpl na){
 		initializeClassifier(na, a);
 	}
-
 	@VisitBefore
-	public void visitUseCase(UseCase uc, NakedUseCaseImpl nuc) {
+	public void visitUseCase(UseCase uc,NakedUseCaseImpl nuc){
 		initializeClassifier(nuc, uc);
 	}
-
 	@VisitBefore
-	public void visitCollaboration(Collaboration c, NakedCollaborationImpl nc) {
+	public void visitCollaboration(Collaboration c,NakedCollaborationImpl nc){
 		initializeClassifier(nc, c);
 	}
-
 	@VisitBefore
-	public void visitPrimitiveType(PrimitiveType p) {
+	public void visitPrimitiveType(PrimitiveType p){
 		INakedPrimitiveType npt = new NakedPrimitiveType();
 		initialize(npt, p, p.getNamespace());
 		initializeClassifier(npt, p);
 	}
-
 	@VisitBefore
-	public void visitClass(Class c) {
-		if (StereotypesHelper.hasStereotype(c, "Helper")) {
+	public void visitClass(Class c){
+		if(StereotypesHelper.hasStereotype(c, "Helper")){
 			NakedHelperClassImpl ne = new NakedHelperClassImpl();
 			initialize(ne, c, c.getNamespace());
 			initializeClassifier(ne, c);
-		} else {
+		}else{
 			INakedEntity ne = new NakedEntityImpl();
 			initialize(ne, c, c.getNamespace());
-			ne.setRepresentsUser(isResponsibility(c));
 			initializeClassifier(ne, c);
 		}
 	}
-
-	private boolean isResponsibility(Classifier c) {
-		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[] { "businessworker", "caseworker", "worker", "user",
-				"userrole","responsibility" });
-		if (!representsUser) {
-			for (Dependency o : c.getClientDependencies()) {
-				if (o.getSuppliers().get(0) instanceof Actor) {
+	private boolean isResponsibility(Interface c){
+		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{
+				"businessworker","caseworker","worker","user","userrole","responsibility"
+		});
+		if(!representsUser){
+			for(Dependency o:c.getClientDependencies()){
+				if(o.getSuppliers().get(0) instanceof Actor){
 					representsUser = true;
 				}
 			}
 		}
 		return representsUser;
 	}
-
 	@VisitBefore
-	public void visitInterface(Interface i, NakedInterfaceImpl ni) {
+	public void visitInterface(Interface i,NakedInterfaceImpl ni){
 		initializeClassifier(ni, i);
 		ni.setIsResponsibility(isResponsibility(i));
 	}
-
 	@VisitBefore
-	public void visitEnumeration(Enumeration e) {
-		if (StereotypesHelper.hasStereotype(e, "powertype") || e.getPowertypeExtents().size() > 0) {
+	public void visitEnumeration(Enumeration e){
+		if(StereotypesHelper.hasStereotype(e, "powertype") || e.getPowertypeExtents().size() > 0){
 			INakedPowerType npt = new NakedPowerTypeImpl();
 			initialize(npt, e, e.getNamespace());
 			initializeClassifier(npt, e);
-		} else {
+		}else{
 			INakedEnumeration ne = new NakedEnumerationImpl();
 			initialize(ne, e, e.getNamespace());
 			initializeClassifier(ne, e);
 		}
 	}
-
 	@VisitBefore
-	public void visitActivity(Activity a, NakedActivityImpl na) {
+	public void visitActivity(Activity a,NakedActivityImpl na){
 		ActivityKind kind = null;
-		if (StereotypesHelper.hasStereotype(a, new String[] { "process", "businessprocess" })) {
+		if(StereotypesHelper.hasStereotype(a, new String[]{
+				"process","businessprocess"
+		})){
 			kind = ActivityKind.PROCESS;
-		} else if (StereotypesHelper.hasStereotype(a, new String[] { "simpleMethod" })) {
+		}else if(StereotypesHelper.hasStereotype(a, new String[]{
+			"simpleMethod"
+		})){
 			kind = ActivityKind.SIMPLE_SYNCHRONOUS_METHOD;
-		} else {
+		}else{
 			kind = ActivityKind.COMPLEX_SYNCHRONOUS_METHOD;
 		}
 		na.setActivityKind(kind);
 		addConstraints(na, a.getPreconditions(), a.getPostconditions());
 		initializeClassifier(na, a);
 	}
-
 	@VisitBefore
-	public void visitStateMachine(StateMachine sm, NakedStateMachineImpl nsm) {
+	public void visitStateMachine(StateMachine sm,NakedStateMachineImpl nsm){
 		StateMachineKind kind = StateMachineKind.LONG_LIVED;
-		if (StereotypesHelper.hasStereotype(sm, new String[] { "screenFlow" })) {
+		if(StereotypesHelper.hasStereotype(sm, new String[]{
+			"screenFlow"
+		})){
 			kind = StateMachineKind.SCREEN_FLOW;
 		}
 		nsm.setStateMachineKind(kind);
 		addConstraints(nsm, sm.getPreconditions(), sm.getPostconditions());
 		initializeClassifier(nsm, sm);
 	}
-
 	@VisitBefore
-	public void visitOpaqueBehavior(OpaqueBehavior ob, NakedOpaqueBehaviorImpl nob) {
+	public void visitOpaqueBehavior(OpaqueBehavior ob,NakedOpaqueBehaviorImpl nob){
 		nob.setBodyExpression(buildParsedOclString(ob, OclUsageType.BODY, ob.getLanguages(), ob.getBodies()));
 		addConstraints(nob, ob.getPreconditions(), ob.getPostconditions());
 		initializeClassifier(nob, ob);
 	}
-
 	@VisitBefore
-	public void visitSignal(Signal s, NakedSignalImpl ns) {
+	public void visitSignal(Signal s,NakedSignalImpl ns){
 		initializeClassifier(ns, s);
 	}
-
 	@VisitBefore
-	public void visitDataType(DataType dt) {
-		if (StereotypesHelper.hasStereotype(dt, StereotypeNames.VALUE_TYPE)) {
+	public void visitDataType(DataType dt){
+		if(StereotypesHelper.hasStereotype(dt, StereotypeNames.VALUE_TYPE)){
 			INakedValueType nvt = new NakedValueTypeImpl();
 			initialize(nvt, dt, dt.getNamespace());
 			initializeClassifier(nvt, dt);
-		} else {
+		}else{
 			INakedStructuredDataType nsdt = new NakedStructuredDataType();
 			initialize(nsdt, dt, dt.getNamespace());
 			initializeClassifier(nsdt, dt);
 		}
 	}
-
 	@VisitBefore
-	public void visitAssociation(Association a, NakedAssociationImpl na) {
+	public void visitAssociation(Association a,NakedAssociationImpl na){
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
-		if (a.getName() == null) {
+		if(a.getName() == null){
 			// HACK!!! to avoid nullpointerexceptiosn in
 			// NAkedParsedOclStringResolver
 			// Something wrong with the phases
 			na.setName(a.getMemberEnds().get(0).getName() + "To" + a.getMemberEnds().get(1).getName());
 		}
 	}
-
 	@VisitBefore
-	public void visitAssociationClass(AssociationClass a, NakedAssociationClassImpl na) {
+	public void visitAssociationClass(AssociationClass a,NakedAssociationClassImpl na){
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
 	}
-
-	protected void initializeClassifier(INakedClassifier classifier, Classifier emfClassifier) {
-		if (classifier instanceof INakedBehavior && classifier.getOwnerElement() == null) {
+	protected void initializeClassifier(INakedClassifier classifier,Classifier emfClassifier){
+		if(classifier instanceof INakedBehavior && classifier.getOwnerElement() == null){
 			// try our best to get the containment tree in place - might be
 			// changed
 			// later

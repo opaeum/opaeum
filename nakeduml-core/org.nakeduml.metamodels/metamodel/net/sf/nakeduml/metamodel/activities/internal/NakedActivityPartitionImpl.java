@@ -7,10 +7,11 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import nl.klasse.octopus.model.IClassifier;
 
-public class NakedActivityPartitionImpl extends NakedElementImpl implements INakedActivityPartition{
+public class NakedActivityPartitionImpl extends NakedMultiplicityElement implements INakedActivityPartition{
 	private static final long serialVersionUID = -2640734629787128086L;
 	private INakedElement represented;
 	private INakedMultiplicity multiplicity = NakedMultiplicityImpl.ONE_ONE;

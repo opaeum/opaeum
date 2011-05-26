@@ -1,14 +1,38 @@
+UIM
 Put label width on all possible containers of fields
-Detach uml elements
-delete folders and make UimForm the root
-Generate a uid, name the form to the uid and attach the uid to the uml element
-populate a map containing all the uml elements in al the resources of the uml model's resourceset
-refresh this map everytime the uimeditor is activated to ensure all new elements 
-store this map in another map
 remove fields pointing to obsolete properties
 remove operation navigations and action buttons to obsolete operations
 remove obsolete forms 
-use grid layouts rather than xy layout
 set field label size on layout
 allow forms to be reused as panels
 migrate table control to swing
+Replace column with FieldColumn and ActionColumn, with bindings
+Add button bar for actions on multiple rows in the table
+Introduce entryScreen concept, allow formpanels to be used
+
+TOpcased
+Add topcased UML plugins to feature
+Build new plugin projects that contain the topcased jars
+override the pallette and the propertysections
+see if you can allow components to participate in associations 
+
+PropertySections
+Responsibility
+Tasks - escalations,potential delegates etc.
+States - requireRoles - think that through
+lookup for typedelements
+
+TaskManagement
+Model in Topcased with statemachine
+Model OrgUnit and User, but map them to the java interfaces - no dependency from actual models
+Model UserInterface too
+Implement ports as default interfaces that delegate operations to the containing component. Such invocations would either delegate to users or delegate
+to a process (ownedBehaviour of the component)
+
+Operations
+CAlculate which operations are long running
+All long-running operations should provide a second method providing the calling context
+AcceptCallAction - store operation structure
+unmarshall the pins to allow OCL compilation for postconditions
+
+

@@ -12,9 +12,9 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.VisibilityKind;
@@ -227,7 +227,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	}
 	@Override
 	protected boolean isNamedMember(INakedElement e){
-		return super.isNamedMember(e) || e instanceof INakedTypedElement;
+		return super.isNamedMember(e) || e instanceof INakedMultiplicityElement;
 	}
 	@Override
 	public boolean returnsImmediately() {

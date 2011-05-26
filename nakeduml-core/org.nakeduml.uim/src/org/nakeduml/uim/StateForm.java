@@ -6,7 +6,6 @@
  */
 package org.nakeduml.uim;
 
-import org.eclipse.uml2.uml.State;
 
 /**
  * <!-- begin-user-doc -->

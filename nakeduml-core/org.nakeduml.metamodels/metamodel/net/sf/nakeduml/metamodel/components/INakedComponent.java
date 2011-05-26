@@ -9,5 +9,5 @@ public interface INakedComponent extends INakedNameSpace,INakedClassifier{
 	boolean isOrganizationUnit();
 	Collection<INakedPort> getOwnedPorts();
 	Collection<INakedPort> getEffectivePorts();
-
+	Collection<INakedConnector> getOwnedConnectors();
 }

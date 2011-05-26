@@ -3,16 +3,16 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.tools.common.Util;
 
 public class ParameterUtil{
 
-	public static void addParameterTolist(INakedTypedElement p,int index,List list){
+	public static void addParameterTolist(INakedMultiplicityElement p,int index,List list){
 		if(index >= 0){
 			while(list.size() <= index){
 				list.add(null);

@@ -14,7 +14,7 @@ Export-Package: nl.klasse.octopus.codegen.helpers,
  nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.creators,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.visitors
-Require-Bundle: org.nakeduml.ocl.metamodel,
- org.nakeduml.java.metamodel
+Require-Bundle: org.nakeduml.ocl.metamodel;visibility:=reexport,
+ org.nakeduml.java.metamodel;visibility:=reexport
 Bundle-ClassPath: .
 

@@ -13,6 +13,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
@@ -142,7 +143,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 		while(iter.hasNext()){
 			Object o = iter.next();
 			ClassifierMap map = null;
-			if(o instanceof INakedTypedElement){
+			if(o instanceof INakedMultiplicityElement){
 				map = new NakedClassifierMap(((INakedTypedElement) o).getType());
 			}else if(o instanceof INakedClassifier){
 				map = new NakedClassifierMap((INakedClassifier) o);

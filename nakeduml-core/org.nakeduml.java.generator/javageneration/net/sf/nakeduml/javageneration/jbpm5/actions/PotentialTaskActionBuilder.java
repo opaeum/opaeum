@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
@@ -101,7 +101,7 @@ public abstract class PotentialTaskActionBuilder<A extends INakedCallAction> ext
 	private void implementJbpmAssignmentsIfNecessary(OJClassifier c) {
 		// for targets as well as swimlanes
 		if (node.isTask() && node.getTargetElement() != null) {
-			INakedTypedElement targetElement = node.getTargetElement();
+			INakedMultiplicityElement targetElement = node.getTargetElement();
 			NameWrapper cappedJavaName = node.getInPartition() == null ? node.getMappingInfo().getJavaName() : node.getInPartition()
 					.getMappingInfo().getJavaName();
 			cappedJavaName = cappedJavaName.getCapped();

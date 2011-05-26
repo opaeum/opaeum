@@ -13,11 +13,11 @@ import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.ParameterUtil;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.profiles.INakedProfile;
@@ -239,7 +239,7 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 
 	@Override
 	protected boolean isNamedMember(INakedElement e) {
-		return super.isNamedMember(e) || e instanceof INakedTypedElement;
+		return super.isNamedMember(e) || e instanceof INakedMultiplicityElement;
 	}
 
 	public boolean isClassifierBehavior() {

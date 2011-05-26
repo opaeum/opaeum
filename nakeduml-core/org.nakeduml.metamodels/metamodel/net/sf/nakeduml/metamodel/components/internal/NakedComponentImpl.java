@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.components.INakedComponent;
+import net.sf.nakeduml.metamodel.components.INakedConnector;
 import net.sf.nakeduml.metamodel.components.INakedPort;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -14,6 +15,7 @@ import nl.klasse.octopus.model.IPackage;
 
 public class NakedComponentImpl extends NakedEntityImpl implements INakedComponent{
 	protected Collection<INakedPackage> subPackages = new ArrayList<INakedPackage>();
+	protected Collection<INakedConnector> ownedConnectors = new ArrayList<INakedConnector>();
 	private static final long serialVersionUID = -5658739232216672479L;
 	public static final String META_CLASS = "component";
 	@Override
@@ -28,7 +30,10 @@ public class NakedComponentImpl extends NakedEntityImpl implements INakedCompone
 		super.addOwnedElement(element);
 		if(element instanceof INakedPackage){
 			this.subPackages.add((INakedPackage) element);
+		}else if(element instanceof INakedConnector){
+			this.ownedConnectors.add((INakedConnector) element);
 		}
+		
 	}
 	@Override
 	protected boolean isNamedMember(INakedElement e){
@@ -61,5 +66,9 @@ public class NakedComponentImpl extends NakedEntityImpl implements INakedCompone
 			}
 		}
 		return false;
+	}
+	@Override
+	public Collection<INakedConnector> getOwnedConnectors(){
+		return this.ownedConnectors;
 	}
 }

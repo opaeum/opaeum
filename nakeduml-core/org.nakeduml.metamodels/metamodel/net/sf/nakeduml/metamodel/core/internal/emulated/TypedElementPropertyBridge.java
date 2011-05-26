@@ -1,11 +1,16 @@
 package net.sf.nakeduml.metamodel.core.internal.emulated;
 
 
+import java.util.Collection;
+import java.util.Collections;
+
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.model.IClassifier;
@@ -44,7 +49,7 @@ public class TypedElementPropertyBridge extends AbstractPropertyBridge implement
 	}
 
 
-	public INakedTypedElement getOriginal() {
+	public INakedMultiplicityElement getOriginal() {
 		return parameter;
 	}
 	public IClassifier getType(){
@@ -60,5 +65,10 @@ public class TypedElementPropertyBridge extends AbstractPropertyBridge implement
 	}
 	public INakedMultiplicity getNakedMultiplicity(){
 		return parameter.getNakedMultiplicity();
+	}
+
+	@Override
+	public Collection<INakedConnectorEnd> getConnectorEnd(){
+		return Collections.emptySet();
 	}
 }

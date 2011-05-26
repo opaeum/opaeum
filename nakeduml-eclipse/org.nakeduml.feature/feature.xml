@@ -16,11 +16,24 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.uml2.uml" version="3.1.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.uml2.uml.resources" version="3.1.1" match="greaterOrEqual"/>
+      <import plugin="org.nakeduml.generators"/>
+      <import plugin="org.eclipse.core.resources" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.core" version="3.6.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.launching" version="3.5.100" match="greaterOrEqual"/>
+      <import plugin="org.nakeduml.eclipse" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.nakeduml.metamodels" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="org.nakeduml.eclipse"
          download-size="0"
          install-size="0"
-         version="1.0.0.5"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -31,126 +44,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.nakeduml.generators"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.java.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.java.metamodel"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.metamodels"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.ocl.java.generator"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.ocl.metamodel"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.nakeduml.reverse"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.topcased.validation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.classform"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.common"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.editor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.folderdiagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.modeleditor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.uml2uim"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.uim.userinteractionproperties"
          download-size="0"
          install-size="0"
          version="0.0.0"

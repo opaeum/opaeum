@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.core;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 
@@ -83,4 +84,5 @@ public interface INakedProperty extends INakedPackageableElement,INakedTypedElem
 	public boolean isRequired();
 	boolean isInverse();
 	public boolean isReadOnly();
+	Collection<INakedConnectorEnd> getConnectorEnd();
 }

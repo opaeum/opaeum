@@ -1,5 +1,9 @@
 package net.sf.nakeduml.javageneration;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
@@ -56,5 +60,9 @@ public class ArtificialProperty extends AbstractPropertyBridge{
 	@Override
 	public IClassifier getType(){
 		return type;
+	}
+	@Override
+	public Collection<INakedConnectorEnd> getConnectorEnd(){
+		return Collections.emptySet();
 	}
 }

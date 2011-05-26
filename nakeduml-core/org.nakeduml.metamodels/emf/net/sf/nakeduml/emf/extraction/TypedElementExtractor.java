@@ -8,8 +8,11 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedReceptionImpl;
+import net.sf.nakeduml.metamodel.components.internal.NakedConnectorEndImpl;
+import net.sf.nakeduml.metamodel.components.internal.NakedConnectorImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedPortImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -25,6 +28,7 @@ import nl.klasse.octopus.model.OclUsageType;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.ConnectorEnd;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
@@ -55,6 +59,7 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore(matchSubclasses = true)
 	public void visitPort(Port p){
 		NakedPortImpl np=new NakedPortImpl();
+		initializeTypedElement(np, p, p.getType(), p.getOwner());
 		populateProperty(np, p);
 	}
 	@VisitBefore(matchSubclasses = false,match={Property.class, ExtensionEnd.class})

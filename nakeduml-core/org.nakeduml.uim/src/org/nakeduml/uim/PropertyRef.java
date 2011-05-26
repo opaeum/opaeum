@@ -6,9 +6,6 @@
  */
 package org.nakeduml.uim;
 
-import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.uml2.uml.Property;
 
 /**
  * <!-- begin-user-doc -->

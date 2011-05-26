@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
@@ -23,6 +24,7 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	private boolean isDerivedUnion;
 	private Collection<INakedProperty> subsettedProperties = new ArrayList<INakedProperty>();
 	private Collection<INakedProperty> redefinedProperties = new ArrayList<INakedProperty>();
+	private Collection<INakedConnectorEnd> connectorEnds= new ArrayList<INakedConnectorEnd>();
 	private INakedValueSpecification initialValue;
 	private boolean navigable;
 	private INakedAssociation association;
@@ -136,6 +138,13 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
+		if(element instanceof INakedConnectorEnd){
+			connectorEnds.add((INakedConnectorEnd) element);
+		}
+	}
+	@Override
+	public Collection<INakedConnectorEnd> getConnectorEnd(){
+		return this.connectorEnds;
 	}
 	public void setQualifiers(List<INakedProperty> qualifiers){
 		if(qualifiers==null){

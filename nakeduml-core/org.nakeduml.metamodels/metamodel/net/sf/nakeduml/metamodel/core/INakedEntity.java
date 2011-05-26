@@ -22,7 +22,6 @@ public interface INakedEntity extends IClass, INakedBehavioredClassifier, INaked
 	 */
 	boolean representsUser();
 
-	void setRepresentsUser(boolean representsUser);
 
 
 

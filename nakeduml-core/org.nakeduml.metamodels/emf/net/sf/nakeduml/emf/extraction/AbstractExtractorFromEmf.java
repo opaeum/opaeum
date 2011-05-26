@@ -9,6 +9,7 @@ import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedPackageableElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
@@ -349,9 +350,14 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 
 	protected void populateMultiplicityAndBaseType(MultiplicityElement emfNode, Type type, NakedTypedElementImpl ae) {
+		populateMultiplicity(emfNode, ae);
+		ae.setBaseType((INakedClassifier) getNakedPeer(type));
+	}
+
+
+	protected void populateMultiplicity(MultiplicityElement emfNode,INakedMultiplicityElement ae){
 		ae.setMultiplicity(toNakedMultiplicity(emfNode));
 		ae.setIsOrdered(emfNode.isOrdered());
 		ae.setIsUnique(emfNode.isUnique());
-		ae.setBaseType((INakedClassifier) getNakedPeer(type));
 	}
 }

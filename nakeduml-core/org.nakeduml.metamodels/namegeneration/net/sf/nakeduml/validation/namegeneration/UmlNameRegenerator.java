@@ -22,6 +22,7 @@ import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -76,7 +77,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 					name = generateUmlName((INakedElement) end1).getCapped().getAsIs() + generateUmlName((INakedElement) end2).getCapped();
 				}
 			}
-		} else if (mew instanceof INakedTypedElement) {
+		} else if (mew instanceof INakedMultiplicityElement) {
 			name = generateTypedElementName(name, (INakedTypedElement) mew);
 		} else if (mew instanceof INakedValueSpecification) {
 			name = generateNameForValueSpecification(name, (INakedValueSpecification) mew);

@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -51,7 +52,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor {
 		for (INakedConstraint rule : c.getOwnedRules()) {
 			if (rule.getSpecification().isValidOclValue()) {
 				IOclContext cont = rule.getSpecification().getOclValue();
-				if (rule.getConstrainedElement() instanceof INakedTypedElement) {
+				if (rule.getConstrainedElement() instanceof INakedMultiplicityElement) {
 					String body = ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>());
 					OJOperation oper = new OJOperation();
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(c, (INakedTypedElement) rule.getConstrainedElement());
@@ -102,7 +103,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor {
 		failedConstraints.setInitExp("new HashSet<String>()");
 		oper.getBody().addToLocals(failedConstraints);
 		for (INakedConstraint c : cc.getOwnedRules()) {
-			if (c.getSpecification().isValidOclValue() && !(c.getConstrainedElement() instanceof INakedTypedElement)) {
+			if (c.getSpecification().isValidOclValue() && !(c.getConstrainedElement() instanceof INakedMultiplicityElement)) {
 				OJIfStatement ifBroken = new OJIfStatement();
 				ifBroken.setCondition("!" + getter(c) + "()");
 				String qname = c.getMappingInfo().getQualifiedJavaName();

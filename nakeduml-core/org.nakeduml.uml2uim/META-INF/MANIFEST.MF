@@ -6,18 +6,11 @@ Bundle-Version: 1.0.0.5
 Bundle-Activator: org.nakeduml.uim.uml2uim.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.uml2.uml,
- org.topcased.modeler.uml,
- org.topcased.modeler,
- org.nakeduml.uim,
- org.topcased.modeler.di,
- org.nakeduml.eclipse;bundle-version="1.0.0",
- org.nakeduml.metamodels;bundle-version="1.0.0",
- org.nakeduml.uim.modeleditor;bundle-version="1.0.0",
- org.nakeduml.uim.classform;bundle-version="1.0.0"
+ org.nakeduml.uim;visibility:=reexport,
+ org.nakeduml.metamodels;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
 Export-Package: org.nakeduml.uim.uml2uim,
  org.nakeduml.uml2uim
-Bundle-Vendor: nakeduml.org
+Bundle-Vendor: NakedUML

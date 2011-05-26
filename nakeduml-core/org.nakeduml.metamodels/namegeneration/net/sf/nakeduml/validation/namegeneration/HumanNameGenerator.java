@@ -4,6 +4,7 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
@@ -25,7 +26,7 @@ public class HumanNameGenerator extends AbstractNameGenerator {
 		if (mew instanceof INakedClassifier) {
 			INakedClassifier nc = (INakedClassifier) mew;
 			generatedName = generateHumanNameForClassifier(nc);
-		} else if (mew instanceof INakedTypedElement) {
+		} else if (mew instanceof INakedMultiplicityElement) {
 			INakedTypedElement tew = (INakedTypedElement) mew;
 			generatedName = generateNameForTypedElement(tew);
 		} else if (humanName != null) {

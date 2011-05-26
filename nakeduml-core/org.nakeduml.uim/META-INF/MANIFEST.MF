@@ -4,7 +4,7 @@ Bundle-Name: org.nakeduml.uim
 Bundle-SymbolicName: org.nakeduml.uim;singleton:=true
 Bundle-Version: 1.0.0.0
 Bundle-ClassPath: .
-Bundle-Vendor: %providerName
+Bundle-Vendor: NakedUML
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.nakeduml.uim,
@@ -13,5 +13,5 @@ Export-Package: org.nakeduml.uim,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.eclipse.uml2.uml;visibility:=reexport
+ org.nakeduml.metamodels;visibility:=reexport
 Bundle-ActivationPolicy: lazy

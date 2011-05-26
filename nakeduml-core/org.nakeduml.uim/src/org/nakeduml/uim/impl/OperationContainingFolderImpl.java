@@ -39,16 +39,4 @@ public abstract class OperationContainingFolderImpl extends AbstractFormFolderIm
 		return UimPackage.Literals.OPERATION_CONTAINING_FOLDER;
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public org.eclipse.uml2.uml.Class getRepresentedClass() {
-		
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
 } //OperationContainingFolderImpl

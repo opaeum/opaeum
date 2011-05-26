@@ -7,7 +7,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
@@ -43,7 +43,7 @@ public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 	}
 	private boolean hasInvariants(INakedClassifier nc){
 		for(INakedConstraint c:nc.getOwnedRules()){
-			if(!(c.getConstrainedElement() instanceof INakedTypedElement)){
+			if(!(c.getConstrainedElement() instanceof INakedMultiplicityElement)){
 				return true;
 			}
 		}

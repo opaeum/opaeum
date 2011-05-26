@@ -11,8 +11,8 @@
 	<classpathentry kind="src" output="target/classes" path="velocity"/>
 	<classpathentry kind="src" output="target/classes" path="generationfeatures"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
-	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.0.jar"/>
 	<classpathentry kind="src" path="src/main/resources/"/>
+	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/lang-2.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/collections-3.2.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>

@@ -16,6 +16,7 @@ import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -168,7 +169,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 		return ((baseType instanceof ICompositionParticipant || (baseType instanceof INakedEnumeration) && owner instanceof ICompositionParticipant))
 				&& !(baseType.hasStereotype(StereotypeNames.HELPER) || owner.hasStereotype(StereotypeNames.HELPER));
 	}
-	private INakedConstraint getSourcePopulationConstraint(INakedTypedElement t,INakedClassifier owner){
+	private INakedConstraint getSourcePopulationConstraint(INakedMultiplicityElement t,INakedClassifier owner){
 		for(INakedConstraint n:owner.getOwnedRules()){
 			if(t.equals(n.getConstrainedElement())){
 				return n;
