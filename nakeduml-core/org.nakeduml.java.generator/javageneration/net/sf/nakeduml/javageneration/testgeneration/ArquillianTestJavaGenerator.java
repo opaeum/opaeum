@@ -110,7 +110,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		if(isIntegrationPhase){
 			PackageAndProcessCollector collector = new PackageAndProcessCollector(workspace.getRootObjects());
 			OJPathName utilPkg = new OJPathName(config.getMavenGroupId() + ".util");
-			createExampleStartup(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_SRC);
+//			createExampleStartup(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_SRC);
 			createTestUtilClass(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC, workspace.getDirectoryName());
 			createExampleTestClass(workspace.getDirectoryName(), collector.rootEntity, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_TEST_SRC);
 		}
