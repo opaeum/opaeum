@@ -484,7 +484,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			INakedEnumeration en = (INakedEnumeration) f.getNakedBaseType();
 			NakedClassifierMap map = new NakedClassifierMap(en);
 			if(en.getLiterals().size() > 0){
-				return map.javaType() + "." + en.getLiterals().get(0).getName().toUpperCase();
+				return en.getLiterals().get(0).getName().toUpperCase();
 			}else{
 				return map.javaType() + ".has no literals!!!!";
 			}
