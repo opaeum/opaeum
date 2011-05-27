@@ -4,21 +4,13 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.linkage.MappedTypeLinker;
-import net.sf.nakeduml.linkage.ProcessIdentifier;
-import net.sf.nakeduml.linkage.ReferenceResolver;
-import net.sf.nakeduml.linkage.TypeResolver;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	AttributeImplementationStep.class,
-},after = {
-	AttributeImplementationStep.class
-})
-public class BasicJavaModelStep extends AbstractJavaTransformationStep{
+@StepDependency(phase = JavaTransformationPhase.class, requires = { AttributeImplementationStep.class }, after = { AttributeImplementationStep.class })
+public class BasicJavaModelStep extends AbstractJavaTransformationStep {
 
 	@Override
-	public void generate(INakedModelWorkspace workspace,TransformationContext context){
+	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
 		OperationAnnotator operationAnnotator = new OperationAnnotator();
 		operationAnnotator.initialize(javaModel, config, textWorkspace, context);
 		operationAnnotator.startVisiting(workspace);
@@ -40,8 +32,8 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		HashcodeBuilder hcb = new HashcodeBuilder();
 		hcb.initialize(javaModel, config, textWorkspace, context);
 		hcb.startVisiting(workspace);
-		
-		PersistentNameMapGenerator pnmg=new PersistentNameMapGenerator(false);
+
+		PersistentNameMapGenerator pnmg = new PersistentNameMapGenerator(false);
 		pnmg.initialize(javaModel, config, textWorkspace, context);
 		pnmg.startVisiting(workspace);
 	}
