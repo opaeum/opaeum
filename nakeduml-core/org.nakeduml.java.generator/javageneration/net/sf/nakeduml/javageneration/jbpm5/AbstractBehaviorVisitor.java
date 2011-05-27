@@ -77,17 +77,17 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 			cons = new OJConstructor();
 			ojBehvior.addToConstructors(cons);
 			cons.addParam("contextObject", contextClass.getPathName());
-			OJUtil.addProperty(ojBehvior, "contextObject", contextClass.getPathName(), true);
-			if (isPersistent(behaviorClass)) {
-				OJAnnotatedField contextObject = (OJAnnotatedField) ojBehvior.findField("contextObject");
-				OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
-				contextObject.putAnnotation(manyToOne);
-				OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-				column.putAttribute(new OJAnnotationAttributeValue("name", "context_object"));
-				column.putAttribute(new OJAnnotationAttributeValue("nullable", Boolean.FALSE));
-				contextObject.putAnnotation(column);
-			}
 			cons.getBody().addToStatements("this.contextObject=contextObject");
+		}
+		OJUtil.addProperty(ojBehvior, "contextObject", contextClass.getPathName(), true);
+		if (isPersistent(behaviorClass)) {
+			OJAnnotatedField contextObject = (OJAnnotatedField) ojBehvior.findField("contextObject");
+			OJAnnotationValue manyToOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
+			contextObject.putAnnotation(manyToOne);
+			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+			column.putAttribute(new OJAnnotationAttributeValue("name", "context_object"));
+			column.putAttribute(new OJAnnotationAttributeValue("nullable", Boolean.FALSE));
+			contextObject.putAnnotation(column);
 		}
 		return cons;
 	}
