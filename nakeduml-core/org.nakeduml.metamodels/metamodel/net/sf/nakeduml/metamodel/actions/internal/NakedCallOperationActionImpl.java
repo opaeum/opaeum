@@ -52,11 +52,8 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 	}
 
 	@Override
-	public boolean isTask() {
-		if (getOperation() != null && getOperation().isResponsibility()) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean isLongRunning(){
+		return getOperation()!=null && getOperation().isLongRunning();
 	}
+
 }

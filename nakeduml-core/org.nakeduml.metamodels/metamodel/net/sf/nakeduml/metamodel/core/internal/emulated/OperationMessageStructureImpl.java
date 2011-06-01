@@ -43,7 +43,7 @@ public class OperationMessageStructureImpl extends MessageStructureImpl implemen
 		return Collections.emptyList();
 	}
 	public boolean isPersistent(){
-		return oper.isResponsibility();
+		return oper.isLongRunning();
 	}
 	public INakedOperation getOperation(){
 		return oper;

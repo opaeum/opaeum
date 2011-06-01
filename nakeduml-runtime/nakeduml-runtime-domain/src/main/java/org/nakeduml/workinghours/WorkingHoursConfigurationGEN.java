@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.CompositionNode;
 
 abstract public class WorkingHoursConfigurationGEN implements  AbstractEntity, CompositionNode {
@@ -651,7 +651,7 @@ abstract public class WorkingHoursConfigurationGEN implements  AbstractEntity, C
 			}
 		}
 	}
-	public AbstractProcess getAbstractStateMachine() {
+	public IProcessObject getAbstractStateMachine() {
 		return null;
 	}
 	public boolean processSignal(Object signal) {

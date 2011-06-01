@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.MetaIdentifiable;
 
@@ -294,7 +294,7 @@ abstract public class HolidayGEN implements AbstractEntity,MetaIdentifiable{
 			}
 		}
 	}
-	public AbstractProcess getAbstractStateMachine(){
+	public IProcessObject getAbstractStateMachine(){
 		return null;
 	}
 	public boolean processSignal(Object signal){

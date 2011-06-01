@@ -25,7 +25,7 @@
       <import plugin="org.eclipse.draw2d"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.uml2.uml"/>
-      <import plugin="org.topcased.modeler" version="3.1.14" match="greaterOrEqual"/>
+      <import plugin="org.topcased.modeler" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.nakeduml.eclipse"/>
       <import plugin="org.eclipse.ui"/>
@@ -36,6 +36,11 @@
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.nakeduml.generators"/>
+      <import plugin="org.nakeduml.java.generator"/>
+      <import plugin="org.nakeduml.java.metamodel"/>
+      <import plugin="org.nakeduml.ocl.java.generator"/>
+      <import plugin="org.nakeduml.ocl.metamodel"/>
    </requires>
 
    <plugin

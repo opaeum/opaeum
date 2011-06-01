@@ -29,5 +29,7 @@ public interface INakedBehavior extends INakedMessageStructure, IParameterOwner,
 
 	boolean isClassifierBehavior();
 
+	boolean isProcess();
+
 
 }

@@ -11,7 +11,7 @@ import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.eclipse.ElementFinder;
+import org.nakeduml.eclipse.EmfElementFinder;
 
 public class TypedElementContentProposalProvider extends SimpleContentProposalProvider{
 	private final TypedElementCodeCompletingSection codeCompletingSection;
@@ -28,7 +28,7 @@ public class TypedElementContentProposalProvider extends SimpleContentProposalPr
 				TypedElement te = this.codeCompletingSection.getTypedElement(teName);
 				if(te != null){
 					Classifier c = (Classifier) te.getType();
-					List<IContentProposal> list = filterTypedElements(null, ElementFinder.getTypedElementsInScope(c));
+					List<IContentProposal> list = filterTypedElements(null, EmfElementFinder.getTypedElementsInScope(c));
 					return (IContentProposal[]) list.toArray(new IContentProposal[list.size()]);
 				}else{
 					Collection<? extends TypedElement> typedElements = this.codeCompletingSection.getTypedElements();
@@ -41,7 +41,7 @@ public class TypedElementContentProposalProvider extends SimpleContentProposalPr
 					String nextName = st.nextToken();
 					Property p = this.codeCompletingSection.getProperty(type, nextName);
 					if(p == null){
-						List<IContentProposal> list = filterTypedElements(nextName, ElementFinder.getTypedElementsInScope(type));
+						List<IContentProposal> list = filterTypedElements(nextName, EmfElementFinder.getTypedElementsInScope(type));
 						return (IContentProposal[]) list.toArray(new IContentProposal[list.size()]);
 					}
 					type = (Classifier) p.getType();

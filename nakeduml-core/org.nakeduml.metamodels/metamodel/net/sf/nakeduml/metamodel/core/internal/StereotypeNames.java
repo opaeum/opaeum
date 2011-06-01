@@ -7,6 +7,8 @@ public class StereotypeNames {
 	public static final String USER_GROUP = "UserGroup";
 	public static final String PRIMITIVE_TYPE = "PrimitiveType";
 	public static final String HELPER = "Helper";
+	public static final String USER_IN_ROLE = "UserInRole";
+	public static final String DEADLINE = "Deadline";
 	//RUP
 	public static String BUSINESS_ACTOR = "BusinessActor";
 	public static String BUSINESS_WORKER = "BusinessWorker";

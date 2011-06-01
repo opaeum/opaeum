@@ -2,7 +2,7 @@ package org.nakeduml.runtime.domain;
 
 import java.io.Serializable;
 
-public enum TimeUnit implements Serializable, AbstractEnum {
+public enum TimeUnit implements Serializable, IEnum {
 	CALENDAR_YEAR("calendarYear"), BUSINESS_YEAR("businessYear"), BUSINESS_MONTH("businessMonth"), CALENDAR_MONTH("calendarMonth"), BUSINESS_WEEK(
 			"businessWeek"), CALENDAR_WEEK("calendarWeek"), CALENDAR_DAY("calendarDay"), BUSINESS_DAY("businessDay"), BUSINESS_MINUTE(
 			"businessMinute"), ACTUAL_MINUTE("actualMinute"), BUSINESS_HOUR("businessHour"), ACTUAL_HOUR("actualHour"), ACTUAL_SECOND("acutalSecond");

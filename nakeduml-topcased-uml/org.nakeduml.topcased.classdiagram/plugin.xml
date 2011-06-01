@@ -971,7 +971,7 @@
    
    <extension point="org.topcased.modeler.diagrams">    
       <diagram
-            configuration="org.topcased.modeler.uml.classdiagram.ClassConfiguration"
+            configuration="org.nakeduml.topcased.classdiagram.ClassConfiguration"
             editorID="org.topcased.modeler.uml.editor.UMLEditor"
             icon="icons/diagram/ClassDiagram.gif"
             id="org.topcased.modeler.uml.classdiagram"

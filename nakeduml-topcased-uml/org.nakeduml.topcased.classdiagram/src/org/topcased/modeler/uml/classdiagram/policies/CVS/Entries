@@ -1,0 +1,21 @@
+/AssociationClassEdgeCreationEditPolicy.java/1.2/Wed Dec 20 16:56:20 2006//
+/AssociationClassMoveEditPolicy.java/1.1/Fri Jun 27 08:59:28 2008//
+/AssociationEdgeCreationEditPolicy.java/1.7/Mon Jun  2 06:44:45 2008//
+/AssociationEdgeObjectUVEditPolicy.java/1.5/Wed Jun  4 16:56:53 2008//
+/ClassDiagramLayoutEditPolicy.java/1.6/Wed Mar  4 17:37:29 2009//
+/ClassLayoutEditPolicy.java/1.4/Wed Mar  4 17:37:29 2009//
+/DataTypeLayoutEditPolicy.java/1.4/Fri Oct 13 10:10:10 2006//
+/EnumerationLayoutEditPolicy.java/1.2/Mon Oct 16 09:03:29 2006//
+/GeneralizationEdgeCreationEditPolicy.java/1.8/Fri Jun 27 08:59:28 2008//
+/InstanceSpecificationLayoutEditPolicy.java/1.2/Fri Oct 13 08:06:37 2006//
+/InstanceSpecificationLinkEdgeCreationEditPolicy.java/1.2/Mon Oct 18 09:46:46 2010//
+/InstanceSpecificationLinkEdgeObjectUVEditPolicy.java/1.1/Thu Jul  3 12:21:03 2008//
+/InterfaceLayoutEditPolicy.java/1.5/Wed Mar  4 17:37:29 2009//
+/InterfaceRealizationEdgeCreationEditPolicy.java/1.7/Mon Jun  2 06:44:45 2008//
+/PrimitiveTypeLayoutEditPolicy.java/1.1/Mon Oct 16 09:03:29 2006//
+/SignalLayoutEditPolicy.java/1.1/Thu Oct  8 13:54:26 2009//
+/TemplateBindingEdgeCreationEditPolicy.java/1.1/Wed Mar  4 17:37:29 2009//
+/TemplateSignatureLayoutEditPolicy.java/1.1/Wed Mar  4 17:37:29 2009//
+/TemplateSignatureResizableEditPolicy.java/1.1/Wed Mar  4 17:37:29 2009//
+/TemplateableElementLayoutEditPolicy.java/1.2/Mon Apr  6 07:38:19 2009//
+D

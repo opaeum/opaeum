@@ -13,7 +13,7 @@
    
 	<extension point="org.topcased.modeler.diagrams">
 		<diagram
-        configuration="org.topcased.modeler.uml.activitydiagram.ActivityConfiguration"
+        configuration="org.nakeduml.topcased.activitydiagram.ActivityConfiguration"
         editorID="org.topcased.modeler.uml.editor.UMLEditor"
         id="org.topcased.modeler.uml.activitydiagram"
         name="Activity Diagram">

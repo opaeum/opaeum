@@ -4,30 +4,19 @@ import java.util.List;
 
 import javax.persistence.GenerationType;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
-import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -42,90 +31,53 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
-public class JpaAnnotator extends AbstractJpaAnnotator {
+public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static boolean DEVELOPMENT_MODE = true;
-
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier cl) {
-		if (isPersistent(cl) && OJUtil.hasOJClass(cl)) {
-			INakedComplexStructure complexType = (INakedComplexStructure) cl;
-			annotateComplexStructure(complexType);
-		}
-	}
-
-	@VisitAfter()
-	public void visitOperation(INakedOperation o) {
-		if (o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)) {
-			OJAnnotatedClass ojClass = annotateComplexStructure(new OperationMessageStructureImpl(o));
-			if(o.getMethods().size()>0){
-				annotateInheritanceType(ojClass);
+	protected void visitComplexStructure(INakedComplexStructure complexType){
+		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
+			OJAnnotatedClass ojClass = findJavaClass(complexType);
+			buildToString(ojClass, complexType);
+			OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(), this.config,
+					complexType.getNameSpace());
+			if(complexType instanceof INakedEntity){
+				OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
+				if(uniqueConstraints.hasValues()){
+					table.putAttribute(uniqueConstraints);
+					JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
+				}
 			}
-		}
-	}
-
-	@VisitAfter()
-	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		if (oa.isTask()) {
-			OpaqueActionMessageStructureImpl msg = new OpaqueActionMessageStructureImpl(oa);
-			annotateComplexStructure(msg);
-			for (INakedPin p : oa.getPins()) {
-				annotateProperty(msg, OJUtil.buildStructuralFeatureMap(msg, p, false));
+			annotateInheritanceType(ojClass);
+			if(complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly() || complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()){
+				OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
+				ojClass.addAnnotationIfNew(mappedSuperclass);
+			}else{
+				JpaUtil.addEntity(ojClass);
 			}
-		}
-	}
-
-	private OJAnnotatedClass annotateComplexStructure(INakedComplexStructure complexType) {
-		OJAnnotatedClass ojClass = findJavaClass(complexType);
-		buildToString(ojClass, complexType);
-		OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(),
-				this.config, complexType.getNameSpace());
-		if (complexType instanceof INakedEntity) {
-			OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
-			if (uniqueConstraints.hasValues()) {
-				table.putAttribute(uniqueConstraints);
-				JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
+			boolean behaviourWithSpecification = complexType instanceof INakedBehavior && ((INakedBehavior) complexType).getSpecification() != null;
+			if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()){
+				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
+				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
+			}else{
+				OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"), complexType.getMappingInfo()
+						.getPersistentName().getAsIs());
+				ojClass.addAnnotationIfNew(discriminatorValue);
 			}
+			// EEUW!!
+			ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
 		}
-		//All classes gets default strategy
-//		if (complexType.getSubClasses().size() > 0) {
-		annotateInheritanceType(ojClass);
-//		}
-		if (complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly()
-				|| complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()) {
-			OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
-			ojClass.addAnnotationIfNew(mappedSuperclass);
-		} else {
-			JpaUtil.addEntity(ojClass);
-		}
-		boolean behaviourWithSpecification = complexType instanceof INakedBehavior && ((INakedBehavior)complexType).getSpecification()!=null;
-		if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()) {
-			JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
-			JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
-		} else {
-			OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"),
-					complexType.getMappingInfo().getPersistentName().getAsIs());
-			ojClass.addAnnotationIfNew(discriminatorValue);
-		}
-		
-		ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
-		return ojClass;
 	}
-
-
 	/**
-	 * Includes all appropriately qualified relationships and one-to-one
-	 * relationships
+	 * Includes all appropriately qualified relationships and one-to-one relationships
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	private OJAnnotationAttributeValue buildUniqueConstraintAnnotations(INakedEntity entity) {
+	private OJAnnotationAttributeValue buildUniqueConstraintAnnotations(INakedEntity entity){
 		OJAnnotationAttributeValue uniqueConstraints = new OJAnnotationAttributeValue("uniqueConstraints");
-		for (INakedProperty p : entity.getUniquenessConstraints()) {
+		for(INakedProperty p:entity.getUniquenessConstraints()){
 			OJAnnotationValue uniquenessConstraint = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));
-			OJAnnotationAttributeValue columns = new OJAnnotationAttributeValue("columnNames", p.getMappingInfo().getPersistentName()
-					.getAsIs());
-			for (INakedProperty q : p.getOtherEnd().getQualifiers()) {
+			OJAnnotationAttributeValue columns = new OJAnnotationAttributeValue("columnNames", p.getMappingInfo().getPersistentName().getAsIs());
+			for(INakedProperty q:p.getOtherEnd().getQualifiers()){
 				columns.addStringValue(q.getMappingInfo().getPersistentName().getAsIs());
 			}
 			uniquenessConstraint.putAttribute(columns);
@@ -133,8 +85,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 		return uniqueConstraints;
 	}
-
-	private void annotateInheritanceType(OJAnnotatedClass owner) {
+	private void annotateInheritanceType(OJAnnotatedClass owner){
 		OJAnnotationValue inheritance = new OJAnnotationValue(new OJPathName("javax.persistence.Inheritance"));
 		OJAnnotationAttributeValue inheritanceType = new OJAnnotationAttributeValue("strategy");
 		inheritanceType.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.InheritanceType"), "JOINED"));
@@ -147,55 +98,20 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		discriminator.putAttribute(new OJAnnotationAttributeValue("name", "type_descriminator"));
 		owner.addAnnotationIfNew(discriminator);
 	}
-
-	@VisitAfter(matchSubclasses = true)
-	public void visitClassifier(INakedClassifier entity) {
-		if (super.isPersistent(entity) && OJUtil.hasOJClass(entity)) {
-			for (INakedProperty p : entity.getEffectiveAttributes()) {
-				if (p.getOwner() instanceof INakedInterface || p.getOwner() == entity) {
-					if (p.getAssociation() instanceof INakedAssociationClass) {
-						annotateProperty(entity, OJUtil.buildAssociationClassMap(p, getOclEngine().getOclLibrary()));
-					} else {
-						annotateProperty(entity, OJUtil.buildStructuralFeatureMap(p));
-					}
-				}
-			}
-			if (entity instanceof INakedAssociationClass) {
-				INakedAssociationClass ac = (INakedAssociationClass) entity;
-				mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
-				mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
-			}
-		}
+	@VisitBefore
+	public void visitAssociationClass(INakedAssociationClass ac){
+		mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
+		mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
 	}
 
-	@VisitBefore(matchSubclasses = true, match = { INakedOutputPin.class })
-	public void visitObjectNode(INakedOutputPin node) {
-		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
-			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node,true));
-		}
-	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitVariable(INakedActivityVariable var) {
-		if (var.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(var)) {
-			annotateProperty(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
-		}
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void visitExpansionNode(INakedExpansionNode node) {
-		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
-			annotateProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
-		}
-	}
-
-	@VisitBefore(matchSubclasses = true)
-	public void visitCallAction(INakedCallAction node) {
-		if (node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)) {
-			if (node.isTask() || node.isProcessCall()) {
+	public void visitCallAction(INakedCallAction node){
+		if(node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)){
+			if(node.isLongRunning()){
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
-				annotateProperty(node.getActivity(), map);
-			} else if (BehaviorUtil.hasExecutionInstance(node.getCalledElement())) {
+				visitProperty(node.getActivity(), map);
+			}else if(BehaviorUtil.hasExecutionInstance(node.getCalledElement())){
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
 				OJAnnotatedField field = (OJAnnotatedField) findJavaClass(node.getActivity()).findField(map.umlName());
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
@@ -203,78 +119,64 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		}
 	}
 
-	@VisitBefore(matchSubclasses = true)
-	public void visitParameter(INakedParameter p) {
-		if (p.getOwnerElement() instanceof INakedBehavior) {
-			INakedBehavior sm = (INakedBehavior) p.getOwnerElement();
-			if (sm.isPersistent() && sm.getSpecification() == null) {
-				annotateProperty(sm, OJUtil.buildStructuralFeatureMap(sm, p));
-			}
-		} else if (p.getOwnerElement() instanceof INakedOperation && ((INakedOperation) p.getOwnerElement()).shouldEmulateClass()) {
-			OperationMessageStructureImpl o = new OperationMessageStructureImpl((INakedOperation) p.getOwnerElement());
-			annotateProperty(o, OJUtil.buildStructuralFeatureMap(o, p));
-		}
-	}
-
-	private void annotateProperty(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
-		if (!map.getProperty().isDerived()) {
-			if (map.isOne()) {
-				mapXToOne(umlOwner, map);
-			} else {
-				mapXToMany(umlOwner, map);
+	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+		if(isPersistent(umlOwner) && OJUtil.hasOJClass(umlOwner)){
+			if(!map.getProperty().isDerived()){
+				if(map.isOne()){
+					mapXToOne(umlOwner, map);
+				}else{
+					mapXToMany(umlOwner, map);
+				}
 			}
 		}
 	}
-
-	private void mapXToMany(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
+	private void mapXToMany(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.umlName());
-		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
-				"javax.persistence.FetchType"), "LAZY"));
-		if (p.getNakedBaseType() instanceof INakedEnumeration) {
+		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
+		if(p.getNakedBaseType() instanceof INakedEnumeration){
 			// Not supported
-		} else if (p.getNakedBaseType() instanceof INakedSimpleType) {
+		}else if(p.getNakedBaseType() instanceof INakedSimpleType){
 			// Not supported
-		} else if (isPersistent(p.getNakedBaseType())) {
+		}else if(isPersistent(p.getNakedBaseType())){
 			// Entities and behaviors, emulated entities
 			OJAnnotationValue toMany = null;
 			OJPathName baseTypePath = OJUtil.classifierPathname(p.getNakedBaseType());
 			OJAnnotationAttributeValue targetEntity = new OJAnnotationAttributeValue("targetEntity", baseTypePath);
-			if (p.isInverse() || p.getAssociation() instanceof INakedAssociationClass) {
+			if(p.isInverse() || p.getAssociation() instanceof INakedAssociationClass){
 				// Can only be bidirectional - implies the presence of
 				// non-inverse other
 				// end
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence." + (map.isOneToMany() ? "OneToMany" : "ManyToMany")));
-				if (p.isOrdered() && map.isOneToMany()) {
+				if(p.isOrdered() && map.isOneToMany()){
 					// Map as non-inverse to allow hibernate to update index -
 					// NB!!! this feature requires hibernate
 					String keyToParentTable = JpaUtil.calculateKeyToOwnerTable(p);
 					boolean fkNullable = !(p).getOtherEnd().isRequired();
 					JpaUtil.addJoinColumn(field, keyToParentTable, fkNullable);
-				} else {
+				}else{
 					String otherEndName = null;
-					if (p.getOtherEnd() != null) {
+					if(p.getOtherEnd() != null){
 						otherEndName = new NakedStructuralFeatureMap(((INakedProperty) p).getOtherEnd()).umlName();
 					}
 					toMany.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherEndName));
 				}
-			} else {
+			}else{
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToMany"));
 				JpaUtil.addJoinTable(umlOwner, map, field);
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
-			if (p.isComposite() || p.getAssociation() instanceof INakedAssociationClass) {
+			if(p.isComposite() || p.getAssociation() instanceof INakedAssociationClass){
 				JpaUtil.cascadeAll(toMany);
 			}
 			field.addAnnotationIfNew(toMany);
-		} else {
+		}else{
 			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
-
-	private void buildToString(OJAnnotatedClass owner, INakedClassifier umlClass) {
+	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = owner.findToString();
 		toString.setBody(new OJBlock());
 		toString.setReturnType(new OJPathName("String"));
@@ -285,11 +187,11 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		sb.setInitExp("new StringBuilder()");
 		toString.getBody().addToLocals(sb);
 		List<? extends INakedProperty> features = umlClass.getEffectiveAttributes();
-		for (INakedProperty f : features) {
-			if (!f.isDerived()) {
+		for(INakedProperty f:features){
+			if(!f.isDerived()){
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
-				if (map.isOne() && !f.isInverse()) {
-					if (isPersistent(f.getNakedBaseType())) {
+				if(map.isOne() && !f.isInverse()){
+					if(isPersistent(f.getNakedBaseType())){
 						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.umlName() + "=null\")");
 						ifNull.setElsePart(new OJBlock());
 						ifNull.getElsePart().addToStatements("sb.append(\"" + map.umlName() + ".id=\")");
@@ -297,7 +199,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 						ifNull.getElsePart().addToStatements(b);
 						ifNull.getElsePart().addToStatements("sb.append(\";\")");
 						toString.getBody().addToStatements(ifNull);
-					} else {
+					}else{
 						toString.getBody().addToStatements("sb.append(\"" + map.umlName() + "=\")");
 						toString.getBody().addToStatements("sb.append(" + map.getter() + "())");
 						toString.getBody().addToStatements("sb.append(\";\")");
@@ -308,11 +210,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		toString.getBody().addToStatements("return sb.toString()");
 		owner.addToOperations(toString);
 	}
-
 	// TODO move elsewhere??
-	public static void addEquals(OJClass ojClass) {
+	public static void addEquals(OJClass ojClass){
 		OJOperation equals = OJUtil.findOperation(ojClass, "equals");
-		if (equals == null) {
+		if(equals == null){
 			equals = new OJAnnotatedOperation();
 			ojClass.addToOperations(equals);
 			equals.setName("equals");
@@ -335,9 +236,5 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 		ifNotInstance.addToElsePart(ifIdNull);
 		ifIdNull.addToElsePart("return getId().equals(other.getId())");
 		equals.getBody().addToStatements(ifThis);
-	}
-	
-	public void addFilter() {
-		
 	}
 }

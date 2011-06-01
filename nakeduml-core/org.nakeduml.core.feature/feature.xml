@@ -22,11 +22,6 @@
       <import plugin="org.junit4" version="4.8.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.nakeduml.metamodels" version="1.0.0.5" match="greaterOrEqual"/>
-      <import plugin="org.nakeduml.ocl.java.generator" version="1.0.0.5" match="greaterOrEqual"/>
-      <import plugin="org.nakeduml.java.metamodel" version="1.0.0.5" match="greaterOrEqual"/>
-      <import plugin="org.nakeduml.ocl.metamodel" version="1.0.0.5" match="greaterOrEqual"/>
-      <import plugin="org.nakeduml.java.generator" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
    </requires>

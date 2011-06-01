@@ -10,7 +10,7 @@ import org.jboss.ejb3.annotation.Pool;
 import org.jboss.ejb3.annotation.defaults.PoolDefaults;
 import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IActiveObject;
 
 @MessageDriven(name = "EntitySignalMdb",activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType",propertyValue = "javax.jms.Queue"),
@@ -26,7 +26,7 @@ public class EntitySignalMdb extends AbstractSignalMdb<SignalToDispatch> impleme
 		transaction.begin();
 		signalToDispatch.prepareForDelivery(hibernateSession);
 		AbstractEntity target = (AbstractEntity) signalToDispatch.getTarget();
-		((ActiveObject)target).processSignal(signalToDispatch.getSignal());
+		((IActiveObject)target).processSignal(signalToDispatch.getSignal());
 		hibernateSession.flush();
 		transaction.commit();
 	}

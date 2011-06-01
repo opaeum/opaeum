@@ -21,6 +21,9 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 public class NakedAcceptEventActionImpl extends NakedActionImpl implements INakedAcceptEventAction{
 	private static final long serialVersionUID = -4255852720379805141L;
 	private INakedTrigger trigger;
+	public boolean isLongRunning(){
+		return true;
+	}
 	public INakedTrigger getTrigger(){
 		return trigger;
 	}

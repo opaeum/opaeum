@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmarks>
+   <site url="http://www.acceleo.org/update/" selected="true" name="Acceleo"/>
+   <site url="http://www.acceleo.org/modules/update/" selected="true" name="Acceleo modules"/>
+   <site url="http://download.eclipse.org/modeling/emft/updates/" selected="true" name="EMFT"/>
+   <site url="http://download.eclipse.org/tools/gef/updates/releases/" selected="true" name="GEF Zest"/>
+   <site url="http://download.eclipse.org/modeling/gmp/updates/releases" selected="true" name="gmf"/>
+   <site url="http://download.eclipse.org/modeling/m2m/updates/" selected="true" name="M2M"/>
+   <site url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/helios/" selected="true" name="Papyrus"/>
+   <site url="http://www.openarchitectureware.org/updatesite/milestone/site.xml" selected="true" name="openArchitectureWare"/>
+   <site url="http://aadl.info/aadl/OSATEUpdateSite/" selected="true" name="Osate"/>
+   <site url="http://www.irisa.fr/espresso/Polychrony/update/" selected="true" name="Polychrony"/>
+   <site url="http://topcased-mm.gforge.enseeiht.fr/release/topcased4.3.0/" selected="true" name="Topcased 4.3.0"/>
+   <site url="http://topcased-mm.gforge.enseeiht.fr/dependencies2/" selected="true" name="Topcased Dependencies"/>
+   <site url="http://download.eclipse.org/technology/dash/update/" selected="true" name="Eclipse Dashed Components"/>
+</bookmarks>

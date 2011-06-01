@@ -16,13 +16,5 @@ public interface INakedEntity extends IClass, INakedBehavioredClassifier, INaked
 	 */
 	List<INakedProperty> getUniquenessConstraints();
 
-	/**
-	 * Returns true if this Entity contains information that is directly related
-	 * to a user/actor/role in the system
-	 */
-	boolean representsUser();
-
-
-
 
 }

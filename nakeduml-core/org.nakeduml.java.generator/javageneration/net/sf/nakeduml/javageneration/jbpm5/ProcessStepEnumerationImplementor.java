@@ -24,7 +24,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.runtime.domain.AbstractProcessStep;
+import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.TriggerMethod;
 
 
@@ -34,7 +34,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 
 	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
 		OJEnum e = new OJEnum();
-		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(AbstractProcessStep.class);
+		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
 		e.addToImplementedInterfaces(abstractProcessStep);
 		e.setName(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));

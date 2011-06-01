@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.drools.runtime.process.ProcessContext;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
@@ -17,8 +18,8 @@ public class ChangeEvent extends AbstractNakedUmlEvent{
 	private String evaluationMethodName;
 	@Transient
 	private boolean isTrue;
-	public ChangeEvent(AbstractEntity process,String callBackMethodName,String evaluationMethodName){
-		super();
+	public ChangeEvent(AbstractEntity process,String callBackMethodName,String evaluationMethodName, ProcessContext ctx){
+		super(process,callBackMethodName,ctx);
 		this.evaluationMethodName = evaluationMethodName;
 	}
 	public ChangeEvent(AbstractEntity process,String callBackMethodName,boolean cancel){
@@ -41,4 +42,13 @@ public class ChangeEvent extends AbstractNakedUmlEvent{
 	public boolean isTrue(){
 		return isTrue;
 	}
+	public void invokeCallback(AbstractEntity context){
+		try{
+			getMethodByPersistentName(getCallbackMethodName(),String.class).invoke(context, getNodeInstanceId());
+		}catch(Exception e){
+			ExceptionAnalyser ea = new ExceptionAnalyser(e);
+			throw ea.wrapRootCauseIfNecessary();
+		}
+	}
+
 }

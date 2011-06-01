@@ -3,96 +3,81 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetPin;
+import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
-public class ActionMap extends ActivityNodeMap {
+public class ActionMap extends ActivityNodeMap{
+	public INakedAction getAction(){
+		return action;
+	}
 	private INakedAction action;
 	NakedStructuralFeatureMap targetMap;
-
-	public ActionMap(INakedAction action) {
+	public ActionMap(INakedAction action){
 		super(action);
-		this.action=action;
+		this.action = action;
 	}
-
-	public String getFireTimersMethod() {
+	public String getFireTimersMethod(){
 		return super.doActionMethod();
 	}
-
-	public String getCancelEventsMethod() {
+	public String getCancelEventsMethod(){
 		return "cancelEventsFor" + action.getMappingInfo().getJavaName();
 	}
-	public boolean targetIsImplicitObject() {
-		if (getActionWithTarget().getInPartition() != null) {
-			return false;
-		} else if (getActionWithTarget().getTarget() != null && getActionWithTarget().getTarget().hasValidInput()) {
-			return false;
-		} else {
-			return true;
+	public boolean targetIsImplicitObject(){
+		if(action instanceof IActionWithTargetElement){
+			if(action.getInPartition() != null){
+				return false;
+			}else if(action instanceof IActionWithTargetPin){
+				IActionWithTargetPin a = (IActionWithTargetPin) action;
+				if(a.getTarget() != null && a.getTarget().hasValidInput()){
+					return false;
+				}
+			}
 		}
+		return true;
 	}
-
-	public NakedStructuralFeatureMap targetMap() {
-		if (targetMap == null) {
-			if (this.getActionWithTarget().getInPartition() != null
-					&& this.getActionWithTarget().getInPartition().getRepresents() instanceof INakedProperty) {
-				targetMap = OJUtil.buildStructuralFeatureMap((INakedProperty) this.getActionWithTarget().getInPartition().getRepresents());
-			} else if (this.getActionWithTarget().getTargetElement() != null) {
-				targetMap = OJUtil.buildStructuralFeatureMap(this.getActionWithTarget().getActivity(), this.getActionWithTarget()
-						.getTargetElement());
+	public NakedStructuralFeatureMap targetMap(){
+		if(targetMap == null){
+			if(action instanceof IActionWithTargetElement){
+				if(action.getInPartition() != null && action.getInPartition().getRepresents() instanceof INakedProperty){
+					targetMap = OJUtil.buildStructuralFeatureMap((INakedProperty) action.getInPartition().getRepresents());
+				}else if(action instanceof IActionWithTargetPin && ((IActionWithTargetPin) action).getTarget() != null){
+					targetMap = OJUtil.buildStructuralFeatureMap(action.getActivity(), ((IActionWithTargetPin) action).getTarget());
+				}
 			}
 		}
 		return targetMap;
 	}
-
-	public String targetName() {
-		if (targetIsImplicitObject()) {
+	public String targetName(){
+		if(targetIsImplicitObject()){
 			return implicitObject();
-		} else {
-			return "tgt" + getActionWithTarget().getMappingInfo().getJavaName().getCapped();
+		}else{
+			return "tgt" + action.getMappingInfo().getJavaName().getCapped();
 		}
 	}
-
-	public String implicitObject() {
-		if (getActionWithTarget().getExpectedTargetType() != null) {
-			if (BehaviorUtil.hasExecutionInstance(getActionWithTarget().getActivity())) {
-				if (getActionWithTarget().getActivity().getContext() != null
-						&& getActionWithTarget().getActivity().getContext().conformsTo(getActionWithTarget().getExpectedTargetType())) {
+	private INakedClassifier getExpectedTargetType(){
+		if(action instanceof IActionWithTargetPin){
+			return ((IActionWithTargetPin) action).getExpectedTargetType();
+		}else if(action instanceof INakedCallBehaviorAction){
+			return action.getActivity().getContext();
+		}else{
+			return null;
+		}
+	}
+	private String implicitObject(){
+		if(getExpectedTargetType() != null){
+			if(BehaviorUtil.hasExecutionInstance(action.getActivity())){
+				if(action.getActivity().getContext() != null && action.getActivity().getContext().conformsTo(getExpectedTargetType())){
 					return "getContextObject()";
 				}
 			}
 		}
 		return "this";
 	}
-
-	public IActionWithTarget getActionWithTarget() {
-		if (action instanceof IActionWithTarget) {
-			return (IActionWithTarget) action;
-		} else {
-			return null;
-		}
-	}
-
-	public INakedClassifier targetBaseType() {
-		if (targetIsImplicitObject()) {
-			if (getActionWithTarget().getExpectedTargetType() != null) {
-				if (BehaviorUtil.hasExecutionInstance(getActionWithTarget().getActivity())) {
-					if (getActionWithTarget().getActivity().getContext() != null
-							&& getActionWithTarget().getActivity().getContext().conformsTo(getActionWithTarget().getExpectedTargetType())) {
-						return getActionWithTarget().getActivity().getContext();
-					}
-				}
-			}
-			return getActionWithTarget().getActivity();
-		} else {
-			return ((INakedProperty) targetMap().getFeature()).getNakedBaseType();
-		}
-	}
-
-	void setAction(IActionWithTarget action) {
+	void setAction(IActionWithTargetElement action){
 		this.action = action;
 	}
-
 }

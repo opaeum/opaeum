@@ -18,7 +18,10 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
+import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
+import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.ActivityNodeContainer;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
@@ -34,6 +37,8 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
@@ -314,10 +319,12 @@ public class ActivityFlowStep extends AbstractFlowStep {
 				INakedAction action = (INakedAction) node;
 				if (action instanceof INakedAcceptEventAction) {
 					addWaitState(nodesType, i, (INakedAcceptEventAction) node);
-				} else if (action instanceof INakedCallAction && ((INakedCallAction) node).isProcessCall()) {
+				} else if (action instanceof INakedCallBehaviorAction && ((INakedCallBehaviorAction) node).getBehavior().isProcess()) {
 					addSubProcessCall(nodesType, i, (INakedCallAction) node);
-				} else if (action instanceof INakedCallAction && ((INakedCallAction) node).isTask()) {
-					addWaitState(nodesType, i, (INakedCallAction) node);
+				} else if (action instanceof INakedEmbeddedTask) {
+					addWaitState(nodesType, i, (INakedEmbeddedTask) node);
+				} else if (action instanceof INakedCallOperationAction && ((INakedCallOperationAction) node).isLongRunning()) {
+					addWaitState(nodesType, i, (INakedCallOperationAction) node);
 				} else if (action.hasExceptions()) {
 					addExceptionAwareState(nodesType, i, action);
 				} else if (node instanceof INakedExpansionRegion) {
@@ -358,7 +365,7 @@ public class ActivityFlowStep extends AbstractFlowStep {
 		return node.isImplicitDecision();
 	}
 
-	private StateType addWaitState(NodesType nodes, int i, INakedCallAction task) {
+	private StateType addWaitState(NodesType nodes, int i, INakedAction task) {
 		StateType state = addState(nodes, i, task.getMappingInfo().getPersistentName().toString(), task.getMappingInfo()
 				.getNakedUmlId());
 		OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();

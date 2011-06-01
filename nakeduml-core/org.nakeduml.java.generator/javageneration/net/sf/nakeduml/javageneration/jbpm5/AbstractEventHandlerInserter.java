@@ -11,14 +11,21 @@ import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
+import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerContainer;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -42,21 +49,19 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	/**
 	 * Inserts a call to the eventListener as the last line of code in the body of the triggering operation
 	 */
-private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperation nakedOperation){
-		// TODO this code assumes that the owner of the operation is the only
-		// class listening to the event - what about subclasses?
-		OJAnnotatedClass ojContext = null;
+	private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperation nakedOperation){
+		OJAnnotatedClass ojOperationOwner = null;
 		boolean operationBelongsToContext = behavior.getContext() != null && behavior.getContext().conformsTo(nakedOperation.getOwner());
 		if(operationBelongsToContext){
-			ojContext = findJavaClass(behavior.getContext());
+			ojOperationOwner = findJavaClass(behavior.getContext());
 		}else if(behavior.conformsTo(nakedOperation.getOwner())){
-			ojContext = findJavaClass(behavior);
+			ojOperationOwner = findJavaClass(behavior);
 		}
 		NakedOperationMap map = new NakedOperationMap(nakedOperation);
-		OJOperation ojOperation = ojContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
+		OJOperation ojOperation = ojOperationOwner.findOperation(map.javaOperName(), map.javaParamTypePaths());
 		if(ojOperation == null){
 			// In superclass, but not overridden
-			ojOperation = implementInheritedEventMethod(nakedOperation, ojContext, map);
+			ojOperation = implementInheritedEventMethod(nakedOperation, ojOperationOwner, map);
 		}
 		OJStatement statement = null;
 		if(operationBelongsToContext){
@@ -78,6 +83,12 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 		myOwner.addToOperations(ojOperation);
 		StringBuilder sb = new StringBuilder("super." + map.javaOperName() + "(");
 		Iterator<? extends INakedParameter> pIter = nakedOperation.getArgumentParameters().iterator();
+		if(nakedOperation.isLongRunning()){
+			sb.append("context");
+			if(pIter.hasNext()){
+				sb.append(",");
+			}
+		}
 		for(INakedParameter p = null;pIter.hasNext();){
 			p = pIter.next();
 			ojOperation.addParam(p.getName(), map.javaParamTypePath(p));
@@ -87,12 +98,13 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 			}
 		}
 		sb.append(")");
-		if(nakedOperation.hasReturnParameter()){
+		if(nakedOperation.hasReturnParameter() || nakedOperation.isLongRunning()){
 			OJAnnotatedField result = new OJAnnotatedField("result", map.javaReturnTypePath());
 			result.setInitExp(sb.toString());
 			ojOperation.getBody().addToLocals(result);
 			ojOperation.getBody().addToStatements("return result");
 		}else{
+			ojOperation.getBody().addToStatements(sb.toString());
 		}
 		return ojOperation;
 	}
@@ -112,12 +124,17 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 		StringBuilder statement = new StringBuilder("on");
 		statement.append(element.getMappingInfo().getJavaName().getCapped());
 		statement.append("(");
-		Iterator<OJParameter> parms = ojOperation.getParameters().iterator();
-		while(parms.hasNext()){
-			OJParameter parm = parms.next();
-			statement.append(parm.getName());
-			if(parms.hasNext()){
-				statement.append(",");
+		if(element instanceof INakedOperation && ((INakedOperation) element).isLongRunning()){
+			statement.append("_" + element.getMappingInfo().getJavaName());
+			// See SpecificationImplementor.visitOperation
+		}else{
+			Iterator<OJParameter> parms = ojOperation.getParameters().iterator();
+			while(parms.hasNext()){
+				OJParameter parm = parms.next();
+				statement.append(parm.getName());
+				if(parms.hasNext()){
+					statement.append(",");
+				}
 			}
 		}
 		statement.append(")");
@@ -158,10 +175,10 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 		}
 		processSignal.getBody().addToStatements("return false");
 	}
-	public static OJAnnotatedOperation ensureProcessSignalPresent(OJAnnotatedClass behaviorClass) {
+	public static OJAnnotatedOperation ensureProcessSignalPresent(OJAnnotatedClass behaviorClass){
 		OJAnnotatedOperation processSignal = (OJAnnotatedOperation) OJUtil.findOperation(behaviorClass, "processSignal");
-		if(processSignal==null){
-			processSignal=new OJAnnotatedOperation("processSignal", new OJPathName("boolean"));
+		if(processSignal == null){
+			processSignal = new OJAnnotatedOperation("processSignal", new OJPathName("boolean"));
 			processSignal.addParam("signal", new OJPathName(AbstractSignal.class.getName()));
 			behaviorClass.addToOperations(processSignal);
 		}
@@ -223,9 +240,13 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 	private void implementEventListener(OJClass activityClass,WaitForEventElements eventActions){
 		INakedElement event = eventActions.getEvent();
 		String methodName = null;
-		methodName = "on" + event.getMappingInfo().getJavaName().getCapped();
+		if(event instanceof INakedEvent){
+			methodName = EventUtil.getCallbackMethodName((INakedEvent) event);
+		}else{
+			methodName = "on" + event.getMappingInfo().getJavaName().getCapped();
+		}
 		OJAnnotatedOperation listener = new OJAnnotatedOperation();
-		listener.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), Jbpm5Util.getEventMethodPersistentName(event)));
+		listener.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), EventUtil.getEventMethodPersistentName(event)));
 		listener.setName(methodName);
 		listener.setReturnType(new OJPathName("boolean"));
 		activityClass.addToOperations(listener);
@@ -233,6 +254,25 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 		for(INakedTypedElement param:(List<? extends INakedTypedElement>) eventActions.getArguments()){
 			ClassifierMap map = new NakedClassifierMap(param.getType());
 			listener.addParam(param.getMappingInfo().getJavaName().toString(), map.javaTypePath());
+		}
+		if(event instanceof INakedEvent){
+			if(event instanceof INakedDeadline){
+				INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
+				OJPathName pn =null;
+				if(origin instanceof INakedOperation){
+					pn=OJUtil.classifierPathname(new OperationMessageStructureImpl((INakedOperation) origin));
+				}else if(origin instanceof INakedEmbeddedSingleScreenTask){
+					pn=OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
+				}else{
+					pn=OJUtil.classifierPathname((INakedScreenFlowTask) origin);
+				}
+				listener.addParam("source", pn);
+			}else{
+				listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+				if(event instanceof INakedTimeEvent){
+					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getMappedTypes().getDateType()).javaTypePath());
+				}
+			}
 		}
 		OJAnnotatedField processed = new OJAnnotatedField();
 		processed.setName("consumed");
@@ -246,10 +286,20 @@ private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperatio
 		nodes.setType(umlNodeInstance);
 		listener.getBody().addToLocals(nodes);
 		for(FromNode node:eventActions.getWaitingNodes()){
-			consumeEventIfNodeIsWaiting(listener, node, listener.getBody());
+			if(event instanceof INakedEvent){
+				consumeEventIfNodeInstanceIsWaiting(listener, node, listener.getBody());
+			}else{
+				consumeEventIfNodeIsWaiting(listener, node, listener.getBody());
+			}
 		}
 		listener.setReturnType(new OJPathName("boolean"));
 		listener.getBody().addToStatements("return consumed");
+	}
+	private void consumeEventIfNodeInstanceIsWaiting(OJAnnotatedOperation listener,FromNode node,OJBlock body){
+		OJIfStatement ifTokenFound = new OJIfStatement();
+		body.addToStatements(ifTokenFound);
+		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId)" + "!=null");
+		implementEventConsumption(listener, node, ifTokenFound);
 	}
 	protected void implementEventHandling(OJAnnotatedClass ojBehavior,INakedTriggerContainer behavior,Collection<WaitForEventElements> ea){
 		addFindWaitingNode(ojBehavior);

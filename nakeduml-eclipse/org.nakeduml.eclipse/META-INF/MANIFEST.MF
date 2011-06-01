@@ -5,10 +5,10 @@ Bundle-SymbolicName: org.nakeduml.eclipse;singleton:=true
 Bundle-Version: 1.0.0.5
 Bundle-Activator: 
  org.nakeduml.eclipse.NakedUmlEclipsePlugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.ui;visibility:=reexport,
+ org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.uml2.uml;visibility:=reexport,
- org.eclipse.uml2.uml.resources
+ org.eclipse.uml2.uml.resources;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Bundle-ClassPath: .

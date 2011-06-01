@@ -1,19 +1,14 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
+import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements INakedCallBehaviorAction {
 	private static final long serialVersionUID = -236758123440467617L;
 	private INakedBehavior behavior;
-	private boolean isAutomated;
-	public boolean isAutomated() {
-		return this.isAutomated;
-	}
-	public void setAutomated(boolean isAutomated) {
-		this.isAutomated = isAutomated;
-	}
 	public INakedBehavior getBehavior() {
 		return this.behavior;
 	}
@@ -31,8 +26,8 @@ public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements 
 		return getBehavior();
 	}
 	@Override
-	public boolean isTask() {
-		return false;
+	public boolean isLongRunning(){
+		return getBehavior().isProcess();
 	}
 
 }

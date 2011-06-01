@@ -55,4 +55,9 @@ public class NakedOpaqueBehaviorImpl extends NakedBehaviorImpl implements INaked
 			return new NakedValueSpecificationImpl(getBodyExpression());
 		}
 	}
+
+	@Override
+	public boolean isPersistent(){
+		return false;
+	}
 }

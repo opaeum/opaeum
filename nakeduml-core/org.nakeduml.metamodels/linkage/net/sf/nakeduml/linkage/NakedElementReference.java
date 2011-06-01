@@ -1,6 +1,6 @@
 package net.sf.nakeduml.linkage;
 
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;
@@ -12,11 +12,11 @@ public class NakedElementReference implements IModelElementReference{
 	public NakedElementReference(ModelElementReferenceImpl context){
 		this.delegate = context;
 		if(context.getModelElement() instanceof GuardedFlow){
-			GuardedFlow t=(GuardedFlow)context.getModelElement();
-			this.delegate=new ModelElementReferenceImpl(context.getSurroundingClassifier(),t.getOwningBehavior());
-		}else if(context.getModelElement() instanceof INakedOpaqueAction){
-			INakedOpaqueAction t=(INakedOpaqueAction)context.getModelElement();
-			this.delegate=new ModelElementReferenceImpl(context.getSurroundingClassifier(),t.getMessageStructure());
+			GuardedFlow t = (GuardedFlow) context.getModelElement();
+			this.delegate = new ModelElementReferenceImpl(context.getSurroundingClassifier(), t.getOwningBehavior());
+		}else if(context.getModelElement() instanceof INakedEmbeddedSingleScreenTask){
+			INakedEmbeddedSingleScreenTask t = (INakedEmbeddedSingleScreenTask) context.getModelElement();
+			this.delegate = new ModelElementReferenceImpl(context.getSurroundingClassifier(), t.getMessageStructure());
 		}
 	}
 	public IModelElement getModelElement(){

@@ -1,6 +1,6 @@
 package net.sf.nakeduml.javageneration.util;
 
-import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -13,7 +13,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	private static final long serialVersionUID = 620463438474285488L;
 	INakedClassifier baseType;
 	IClassifier type;
-	private IActionWithTarget action;
+	private IActionWithTargetElement action;
 	NakedMultiplicityImpl multiplicity=null;
 	public NakedMultiplicityImpl getNakedMultiplicity() {
 		return multiplicity;
@@ -21,7 +21,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	public void setMultiplicity(NakedMultiplicityImpl multiplicity) {
 		this.multiplicity = multiplicity;
 	}
-	public ActionFeatureBridge(IActionWithTarget action){
+	public ActionFeatureBridge(IActionWithTargetElement action){
 		super(action.getActivity(), action.getTargetElement());
 		super.element=action;
 		if(action instanceof INakedCallAction){

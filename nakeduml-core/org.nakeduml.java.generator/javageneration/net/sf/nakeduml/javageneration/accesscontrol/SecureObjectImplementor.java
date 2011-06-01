@@ -17,10 +17,10 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.AbstractUserRole;
+import org.nakeduml.runtime.domain.IUserInRole;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.NakedUmlUser;
-import org.nakeduml.runtime.domain.SecureObject;
+import org.nakeduml.runtime.domain.ISecureObject;
 
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	
@@ -28,14 +28,14 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model){
-		super.createTextPath(ReflectionUtil.duplicateInterface(SecureObject.class), JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+		super.createTextPath(ReflectionUtil.duplicateInterface(ISecureObject.class), JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity entity){
 		OJAnnotatedClass ojClass = findJavaClass(entity);
-		ojClass.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(SecureObject.class));
+		ojClass.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(ISecureObject.class));
 		
-		ojClass.addToImports(ReflectionUtil.getUtilInterface(AbstractUserRole.class));
+		ojClass.addToImports(ReflectionUtil.getUtilInterface(IUserInRole.class));
 		
 		addIsOwnedByUser(ojClass, entity);
 		addCanBeOwnedByUser(ojClass, entity);
@@ -58,7 +58,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addCanBeOwnedByUser(OJClass owner,INakedEntity entity){
 		OJOperation canBeOwnedByUser = OJUtil.findOperation(owner, "canBeOwnedByUser");
 		if(canBeOwnedByUser == null || canBeOwnedByUser.getParameters().size() > 1){
-			OJPathName secureObject = ReflectionUtil.getUtilInterface(SecureObject.class);
+			OJPathName secureObject = ReflectionUtil.getUtilInterface(ISecureObject.class);
 			canBeOwnedByUser = new OJAnnotatedOperation();
 			canBeOwnedByUser.setName("canBeOwnedByUser");
 			canBeOwnedByUser.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
@@ -66,7 +66,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			canBeOwnedByUser.setReturnType(new OJPathName("boolean"));
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
 			forRoles.setBody(new OJBlock());
-			forRoles.setElemType(ReflectionUtil.getUtilInterface(AbstractUserRole.class));
+			forRoles.setElemType(ReflectionUtil.getUtilInterface(IUserInRole.class));
 			OJIfStatement ifEquals = new OJIfStatement("role instanceof " + entity.getMappingInfo().getJavaName(), "return true");
 			forRoles.getBody().addToStatements(ifEquals);
 			canBeOwnedByUser.getBody().addToStatements(forRoles);
@@ -81,7 +81,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addIsOwnedByUser(OJClass owner,INakedEntity entity){
 		OJOperation isOwnedByUser = OJUtil.findOperation(owner, "isOwnedByUser");
 		if(isOwnedByUser == null || isOwnedByUser.getParameters().size() > 1){
-			OJPathName secureObject = ReflectionUtil.getUtilInterface(SecureObject.class);
+			OJPathName secureObject = ReflectionUtil.getUtilInterface(ISecureObject.class);
 			isOwnedByUser = new OJAnnotatedOperation();
 			isOwnedByUser.setName("isOwnedByUser");
 			isOwnedByUser.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
@@ -89,7 +89,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 			isOwnedByUser.setReturnType(new OJPathName("boolean"));
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
 			forRoles.setBody(new OJBlock());
-			forRoles.setElemType(ReflectionUtil.getUtilInterface(AbstractUserRole.class));
+			forRoles.setElemType(ReflectionUtil.getUtilInterface(IUserInRole.class));
 			OJIfStatement ifEquals = new OJIfStatement("this.equals(role)", "return true");
 			forRoles.getBody().addToStatements(ifEquals);
 			isOwnedByUser.getBody().addToStatements(forRoles);
@@ -104,13 +104,13 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addIsGroupOwnershipValid(OJClass owner,INakedEntity entity){
 		OJOperation isGroupOwnershipValid = OJUtil.findOperation(owner, "isGroupOwnershipValid");
 		if(isGroupOwnershipValid == null || isGroupOwnershipValid.getParameters().size() > 0){
-			OJPathName secureObject = ReflectionUtil.getUtilInterface(SecureObject.class);
+			OJPathName secureObject = ReflectionUtil.getUtilInterface(ISecureObject.class);
 			isGroupOwnershipValid = new OJAnnotatedOperation();
 			isGroupOwnershipValid.setName("isGroupOwnershipValid");
 			isGroupOwnershipValid.addParam("user", ReflectionUtil.getUtilInterface(NakedUmlUser.class));
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
 			forRoles.setBody(new OJBlock());
-			forRoles.setElemType(ReflectionUtil.getUtilInterface(AbstractUserRole.class));
+			forRoles.setElemType(ReflectionUtil.getUtilInterface(IUserInRole.class));
 			OJForStatement forGroups = new OJForStatement("", "", "group", "role.getGroupsForSecurity()");
 			forGroups.setBody(new OJBlock());
 			forGroups.setElemType(ReflectionUtil.getUtilInterface(CompositionNode.class));

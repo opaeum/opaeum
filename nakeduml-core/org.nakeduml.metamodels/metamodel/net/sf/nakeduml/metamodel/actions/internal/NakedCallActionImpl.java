@@ -39,11 +39,6 @@ public abstract class NakedCallActionImpl extends NakedInvocationActionImpl impl
 		return exceptionPins;
 	}
 
-	@Override
-	public boolean isProcessCall() {
-		return getCalledElement() != null && getCalledElement().isProcess();
-	}
-
 	public Collection<INakedOutputPin> getOutput() {
 		return getResult();
 	}
@@ -70,7 +65,6 @@ public abstract class NakedCallActionImpl extends NakedInvocationActionImpl impl
 		}
 		return null;
 	}
-
 	public List<INakedOutputPin> getResult() {
 		return this.result;
 	}

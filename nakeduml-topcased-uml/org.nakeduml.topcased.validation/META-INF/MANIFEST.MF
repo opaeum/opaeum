@@ -10,7 +10,11 @@ Require-Bundle: org.eclipse.ui,
  org.topcased.validation.core,
  org.topcased.modeler,
  org.nakeduml.metamodels,
- org.nakeduml.eclipse
+ org.nakeduml.eclipse,
+ org.nakeduml.java.generator,
+ org.nakeduml.java.metamodel,
+ org.nakeduml.ocl.java.generator,
+ org.nakeduml.ocl.metamodel
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

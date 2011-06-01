@@ -163,4 +163,5 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public void setActivityKind(ActivityKind activityKind) {
 		this.activityKind = activityKind;
 	}
+
 }

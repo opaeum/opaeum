@@ -23,10 +23,6 @@ import nl.klasse.octopus.oclengine.IOclContext;
 public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOperation{
 	private static final long serialVersionUID = 6979135768898034683L;
 	public static final String META_CLASS = "operation";
-	@Override
-	public void setVisibility(VisibilityKind visibility){
-		this.visibility = visibility;
-	}
 	private VisibilityKind visibility;
 	private boolean isQuery;
 	private Set<INakedBehavior> method = new HashSet<INakedBehavior>();
@@ -40,13 +36,16 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private boolean hasClassScope;
 	private boolean isAbstract;
 	private boolean isOclDef;
-	private boolean returnsImmediately;
 	private boolean longRunning;
 	public static IClassifier VOID_TYPE;
 	public boolean isStatic(){
 		return hasClassScope;
 	}
 	public NakedOperationImpl(){
+	}
+	@Override
+	public void setVisibility(VisibilityKind visibility){
+		this.visibility = visibility;
 	}
 	public List<INakedParameter> getResultParameters(){
 		return this.resultParameters;
@@ -72,14 +71,6 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 			return getReturnParameter().getType();
 		}
 	}
-	public boolean isProcess(){
-		for(INakedBehavior b:getMethods()){
-			if(b.isProcess()){
-				return true;
-			}
-		}
-		return false;
-	}
 	public boolean hasMultipleConcurrentResults(){
 		int i = 0;
 		for(INakedParameter p:this.resultParameters){
@@ -90,7 +81,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return i > 1;
 	}
 	public boolean shouldEmulateClass(){
-		return (hasMultipleConcurrentResults() || isResponsibility());
+		return hasMultipleConcurrentResults()|| isLongRunning();
 	}
 	public List<INakedParameter> getOwnedParameters(){
 		List<INakedParameter> results = new ArrayList<INakedParameter>(getArgumentParameters());
@@ -151,10 +142,6 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	public boolean hasReturnParameter(){
 		return getReturnParameter() != null;
-	}
-	@Override
-	public boolean isResponsibility(){
-		return getOwner() instanceof INakedInterface && ((INakedInterface)getOwner()).isResponsibility();
 	}
 	@Override
 	public boolean isLongRunning(){
@@ -228,12 +215,5 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	protected boolean isNamedMember(INakedElement e){
 		return super.isNamedMember(e) || e instanceof INakedMultiplicityElement;
-	}
-	@Override
-	public boolean returnsImmediately() {
-		return returnsImmediately;
-	}
-	public void setReturnsImmediately(boolean b){
-		this.returnsImmediately=b;
 	}
 }

@@ -1,10 +1,16 @@
 package net.sf.nakeduml.linkage;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.StateMachine;
+
+import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
 import net.sf.nakeduml.metamodel.actions.INakedStartClassifierBehaviorAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
@@ -17,27 +23,24 @@ import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
+import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
 public class BehaviorUtil{
-	public static boolean isUserResponsibility(INakedOperation oper){
-		if(oper == null){
-			return false;
-		}else if(oper.getOwner() instanceof INakedEntity){
-			return ((INakedEntity) oper.getOwner()).representsUser() && oper.isResponsibility();
-		}else{
-			return false;
-		}
+	Map<INakedOperation,Collection<INakedAcceptCallAction>> callActions;
+	public BehaviorUtil(Map<INakedOperation,Collection<INakedAcceptCallAction>> callActions){
+		super();
+		this.callActions = callActions;
 	}
 	public static boolean hasMethodsWithStructure(INakedOperation no){
 		Set<? extends INakedBehavior> methods = no.getMethods();
@@ -48,10 +51,10 @@ public class BehaviorUtil{
 		}
 		return false;
 	}
-	public static boolean requiresExternalInput(INakedActivity a){
+	public boolean requiresExternalInput(INakedActivity a){
 		return requiresExternalInput(a, a);
 	}
-	private static boolean requiresExternalInput(INakedActivity a,INakedActivity origin){
+	private boolean requiresExternalInput(INakedActivity a,INakedActivity origin){
 		List<INakedActivityNode> nodes = a.getActivityNodesRecursively();
 		for(INakedActivityNode node:nodes){
 			if(requiresExternalInput(origin, node)){
@@ -60,13 +63,13 @@ public class BehaviorUtil{
 		}
 		return false;
 	}
-	public static boolean requiresExternalInput(INakedActivity origin,INakedActivityNode node){
+	public boolean requiresExternalInput(INakedActivity origin,INakedActivityNode node){
 		if((node instanceof INakedAcceptEventAction)){
 			return true;
 		}else if(node instanceof INakedStartClassifierBehaviorAction){
 			INakedStartClassifierBehaviorAction a = (INakedStartClassifierBehaviorAction) node;
-			if(a.getTarget() instanceof INakedBehavioredClassifier){
-				INakedBehavioredClassifier b = (INakedBehavioredClassifier) a.getTarget();
+			if(a.getObject() instanceof INakedBehavioredClassifier){
+				INakedBehavioredClassifier b = (INakedBehavioredClassifier) a.getObject();
 				if(b.getClassifierBehavior() != null){
 					return parameterOwnerRequiresExternalInput(origin, b.getClassifierBehavior());
 				}
@@ -74,29 +77,37 @@ public class BehaviorUtil{
 		}else if(node instanceof INakedCallAction){
 			INakedCallAction callAction = (INakedCallAction) node;
 			if(!callAction.isSynchronous()){
-				// Asynchronous tasks do not require external input for the activity to continue
+				// Asynchronous invocations do not require external input for the activity to continue
 				return false;
-			}else if(callAction.isTask()){
+			}else if(callAction.isLongRunning()){
 				return true;
 			}else{
 				return parameterOwnerRequiresExternalInput(origin, callAction.getCalledElement());
 			}
 		}else if(node instanceof INakedStructuredActivityNode){
 			for(INakedActivityNode n:((INakedStructuredActivityNode) node).getActivityNodes()){
-				if(requiresExternalInput(origin,n)){
+				if(requiresExternalInput(origin, n)){
 					return true;
-				}				
+				}
 			}
 		}
 		return false;
 	}
-	private static boolean parameterOwnerRequiresExternalInput(INakedActivity origin,IParameterOwner calledElement){
+	private boolean parameterOwnerRequiresExternalInput(INakedActivity origin,IParameterOwner calledElement){
 		if(calledElement instanceof INakedStateMachine){
 			return true;
 		}else if(calledElement instanceof INakedActivity){
 			return requiresExternalInput((INakedActivity) calledElement, origin);
 		}else if(calledElement instanceof INakedOperation){
 			INakedOperation o = (INakedOperation) calledElement;
+			return isLongRunning(origin, o);
+		}
+		return false;
+	}
+	private boolean isLongRunning(INakedActivity origin,INakedOperation o){
+		if(o.isLongRunning()){
+			return true;
+		}else{
 			for(INakedBehavior method:o.getMethods()){
 				// polymorphic - counts as a process call if ANY of the possible
 				// implementations are processes
@@ -105,8 +116,81 @@ public class BehaviorUtil{
 					if(!origin.equals(method) && requiresExternalInput((INakedActivity) method, origin)){
 						return true;
 					}
+				}else if(method instanceof INakedStateMachine){
+					return true;
 				}
 			}
+			Collection<INakedAcceptCallAction> acas = callActions.get(o);
+			if(acas != null){
+				for(INakedAcceptCallAction aca:acas){
+					if(requiresExternalInputBeforeReply(origin, aca, aca.getReplyAction())){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	private boolean requiresExternalInputBeforeReply(INakedActivity origin,INakedActivityNode aca,INakedReplyAction replyAction){
+		Set<INakedActivityEdge> allEffectiveOutgoing = aca.getAllEffectiveOutgoing();
+		for(INakedActivityEdge edge:allEffectiveOutgoing){
+			if(leadsTo(edge, replyAction)){
+				// TODO check for joins that have a long running node predecessor
+				if(requiresExternalInput(origin, edge.getEffectiveTarget())){
+					return true;
+				}
+				if(requiresExternalInputBeforeReply(origin, edge.getEffectiveTarget(), replyAction)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public boolean isLongRunning(INakedOperation o){
+		if(o.isLongRunning()){
+			return true;
+		}else{
+			for(INakedBehavior method:o.getMethods()){
+				// polymorphic - counts as a process call if ANY of the possible
+				// implementations are processes
+				if(method instanceof INakedActivity){
+					if(requiresExternalInput((INakedActivity) method)){
+						return true;
+					}
+				}else if(method instanceof INakedStateMachine){
+					return true;
+				}
+			}
+			Collection<INakedAcceptCallAction> acas = callActions.get(o);
+			if(acas != null){
+				for(INakedAcceptCallAction aca:acas){
+					Set<INakedActivityEdge> allEffectiveOutgoing = aca.getAllEffectiveOutgoing();
+					for(INakedActivityEdge edge:allEffectiveOutgoing){
+						if(leadsTo(edge, aca.getReplyAction()) && requiresExternalInput(aca.getActivity(), edge.getEffectiveTarget())){
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	private boolean leadsTo(INakedActivityEdge prevEdge,INakedReplyAction replyAction){
+		if(prevEdge.getEffectiveTarget().equals(replyAction.getCause())){
+			// Loopbacks
+			return false;
+		}
+		INakedActivityNode effectiveTarget = prevEdge.getEffectiveTarget();
+		if(effectiveTarget.equals(replyAction)){
+			return true;
+		}else{
+			Set<INakedActivityEdge> allEffectiveOutgoing = effectiveTarget.getAllEffectiveOutgoing();
+			for(INakedActivityEdge edge:allEffectiveOutgoing){
+				if(leadsTo(edge, replyAction)){
+					return true;
+				}
+			}
+			// TODO Auto-generated method stub
 		}
 		return false;
 	}
@@ -152,15 +236,22 @@ public class BehaviorUtil{
 		return false;
 	}
 	public static boolean hasExecutionInstance(IParameterOwner owner){
-		return owner != null
-				&& (owner.isProcess() || owner.hasMultipleConcurrentResults()
-						|| (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() == ActivityKind.COMPLEX_SYNCHRONOUS_METHOD) || (owner instanceof INakedOperation && isUserResponsibility((INakedOperation) owner)));
+		if(owner == null){
+			return false;
+		}else{
+			return owner instanceof INakedStateMachine || owner.hasMultipleConcurrentResults()
+					|| (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)
+					|| (owner instanceof INakedOperation && ((INakedOperation) owner).isLongRunning());
+		}
 	}
-	public static boolean hasMessageStructure(INakedCallAction action){
-		return hasExecutionInstance(action.getCalledElement()) || isTaskOrProcess(action);
-	}
-	public static boolean isTaskOrProcess(INakedCallAction ca){
-		return ca.isTask() || ca.isProcessCall();
+	public static boolean hasMessageStructure(INakedAction action){
+		if(action instanceof INakedEmbeddedTask){
+			return true;
+		}else if(action instanceof INakedCallAction){
+			return hasExecutionInstance(((INakedCallAction) action).getCalledElement());
+		}else{
+			return false;
+		}
 	}
 	public static INakedClassifier getNearestActualClass(INakedElementOwner ownerElement){
 		// Returns the first ownerElement that has an OJClass
@@ -214,7 +305,7 @@ public class BehaviorUtil{
 	public static boolean mustBeStoredOnActivity(INakedActivityVariable var){
 		return hasExecutionInstance(var.getActivity()) && var.getOwnerElement() instanceof INakedActivity;
 	}
-	public static boolean mustBeStoredOnActivity(INakedCallAction action){
+	public static boolean mustBeStoredOnActivity(INakedAction action){
 		return hasExecutionInstance(action.getActivity()) && hasMessageStructure(action) && action.getOwnerElement() instanceof INakedActivity;
 	}
 	public static boolean mustBeStoredOnActivity(INakedOutputPin node){
@@ -235,7 +326,7 @@ public class BehaviorUtil{
 		}
 	}
 	public static boolean shouldSurrounWithTry(INakedCallAction node){
-		return !isTaskOrProcess(node) && node.hasExceptions();
+		return !node.isLongRunning() && node.hasExceptions();
 	}
 	public static boolean isEffectiveFinalNode(INakedActivityNode node2){
 		boolean hasExceptionHandler = node2 instanceof INakedAction && ((INakedAction) node2).getHandlers().size() > 0;

@@ -1,7 +1,7 @@
 package org.nakeduml.workinghours;
-import org.nakeduml.runtime.domain.AbstractEnum;
+import org.nakeduml.runtime.domain.IEnum;
 import org.nakeduml.runtime.domain.MetaIdentifiable;
-public class TimeUnit implements MetaIdentifiable, AbstractEnum {
+public class TimeUnit implements MetaIdentifiable, IEnum {
 	/**
 	 * 
 	 */

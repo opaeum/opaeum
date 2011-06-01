@@ -12,13 +12,6 @@ public class ProcessRequest extends AbstractRequest{
 	public static final String PROCESS_META_DEF = "ProcessMetaDef";
 	@Any(metaDef=PROCESS_META_DEF,metaColumn=@Column(name="process_type"))
 	@JoinColumn(name="process_id")
-	AbstractProcess process;
+	IProcessObject processObject;
 
-	public AbstractProcess getProcess(){
-		return process;
-	}
-
-	public void setProcess(AbstractProcess process){
-		this.process = process;
-	}
 }

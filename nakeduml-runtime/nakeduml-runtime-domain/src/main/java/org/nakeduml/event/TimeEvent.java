@@ -7,7 +7,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.drools.runtime.process.ProcessContext;
 import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.ExceptionAnalyser;
 import org.nakeduml.runtime.domain.TimeUnit;
 
 @Entity
@@ -18,18 +20,27 @@ public class TimeEvent extends AbstractNakedUmlEvent{
 	Date when;
 	public TimeEvent(){
 	}
-	public TimeEvent(AbstractEntity process,String callBackMethodName, boolean cancelled){
-		super(process, callBackMethodName,cancelled);
+	public TimeEvent(AbstractEntity target,String callBackMethodName, boolean cancelled){
+		super(target, callBackMethodName,cancelled);
 		
 	}
-	public TimeEvent(AbstractEntity process,String callBackMethodName,Date when){
-		super(process, callBackMethodName);
+	public TimeEvent(AbstractEntity target,String callBackMethodName,Date when,ProcessContext ctx){
+		super(target, callBackMethodName,ctx);
 		this.when = when;
 	}
-	public TimeEvent(AbstractEntity process,String callBackMethodName,int duration,TimeUnit timeUnit){
-		super(process, callBackMethodName);
+	public TimeEvent(AbstractEntity target,String callBackMethodName,int duration,TimeUnit timeUnit,ProcessContext ctx){
+		super(target, callBackMethodName,ctx);
 		this.when = new Date(System.currentTimeMillis()+calculateMiliseconds(duration, timeUnit));
 	}
+	public void invokeCallback(AbstractEntity context){
+		try{
+			getMethodByPersistentName(getCallbackMethodName(),String.class,Date.class).invoke(context, getNodeInstanceId(),when);
+		}catch(Exception e){
+			ExceptionAnalyser ea = new ExceptionAnalyser(e);
+			throw ea.wrapRootCauseIfNecessary();
+		}
+	}
+
 	private static long calculateMiliseconds(long duration,TimeUnit timeUnit){
 		// TODO replace with calls to WorkingHours
 		switch(timeUnit){

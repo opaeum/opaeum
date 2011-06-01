@@ -8,13 +8,17 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.Caller;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractCaller;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.BehaviorCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ClassifierBehaviorStarter;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ExpansionNodeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectCreator;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.OpaqueActionCaller;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.OclActionCaller;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.OperationCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ScreenFlowTaskCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SignalSender;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.StructuralFeatureClearer;
@@ -31,10 +35,13 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAddStructuralFeatureValueAction;
 import net.sf.nakeduml.metamodel.actions.INakedAddVariableValueAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
+import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedClearStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedClearVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
+import net.sf.nakeduml.metamodel.actions.INakedOclAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.actions.INakedRaiseExceptionAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
@@ -56,6 +63,8 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
@@ -142,8 +151,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		SimpleNodeBuilder<?> builder = resolveBuilder(node, getOclEngine(), new ObjectNodeExpressor(getOclEngine().getOclLibrary()));
 		if(builder != null){
 			builder.implementActionOn(operation, block);
-			if(builder instanceof Caller){
-				block = surroundWithCatchIfRequired((INakedCallAction) node, (Caller) builder, operation, block);
+			if(builder instanceof AbstractCaller){
+				block = surroundWithCatchIfRequired((INakedCallAction) node, (AbstractCaller) builder, operation, block);
 			}
 		}
 		if(!(node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement())){
@@ -243,10 +252,16 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			actionBuilder = new VariableClearer(oclEngine, (INakedClearVariableAction) node, expressor);
 		}else if(node instanceof INakedReadVariableAction){
 			actionBuilder = new VariableReader(oclEngine, (INakedReadVariableAction) node, expressor);
-		}else if(node instanceof INakedOpaqueAction){
-			actionBuilder = new OpaqueActionCaller(oclEngine, (INakedOpaqueAction) node, expressor);
-		}else if(node instanceof INakedCallAction){
-			actionBuilder = new Caller(oclEngine, (INakedCallAction) node, expressor);
+		}else if(node instanceof INakedOclAction){
+			actionBuilder = new OclActionCaller(oclEngine, (INakedOclAction) node, expressor);
+		}else if(node instanceof INakedEmbeddedSingleScreenTask){
+			actionBuilder = new EmbeddedSingleScreenTaskCaller(oclEngine, (INakedEmbeddedSingleScreenTask) node, expressor);
+		}else if(node instanceof INakedCallOperationAction){
+			actionBuilder = new OperationCaller(oclEngine, (INakedCallOperationAction) node, expressor);
+		}else if(node instanceof INakedScreenFlowTask){
+			actionBuilder = new ScreenFlowTaskCaller(oclEngine, (INakedScreenFlowTask) node, expressor);
+		}else if(node instanceof INakedCallBehaviorAction){
+			actionBuilder = new BehaviorCaller(oclEngine, (INakedCallBehaviorAction) node, expressor);
 		}else if(node instanceof INakedCreateObjectAction){
 			actionBuilder = new ObjectCreator(oclEngine, (INakedCreateObjectAction) node, expressor);
 		}else if(node instanceof INakedStartClassifierBehaviorAction){
@@ -278,7 +293,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			return null;
 		}
 	}
-	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall,Caller caller,OJAnnotatedOperation operation,OJBlock originalBlock){
+	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall,AbstractCaller caller,OJAnnotatedOperation operation,OJBlock originalBlock){
 		if(BehaviorUtil.shouldSurrounWithTry(nakedCall)){
 			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operation, originalBlock);
 			for(INakedOutputPin e:nakedCall.getExceptionPins()){

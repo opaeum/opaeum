@@ -61,7 +61,7 @@ public class NakedComponentImpl extends NakedEntityImpl implements INakedCompone
 	public boolean isOrganizationUnit(){
 		Collection<INakedPort> effectivePorts = getEffectivePorts();
 		for(INakedPort p:effectivePorts){
-			if(p.isResponsibility()){
+			if(p.isBusinessService()){
 				return true;
 			}
 		}

@@ -16,11 +16,8 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	void addMethod(INakedBehavior impl);
 	// TODO move to code generation class
 	boolean shouldEmulateClass();
-	boolean isResponsibility();
 	boolean isLongRunning();
 	void setIsLongRunning(boolean b);
 	void setBodyCondition(INakedConstraint specification);
 	INakedConstraint getBodyCondition();
-	boolean returnsImmediately();
-	void setReturnsImmediately(boolean b);
 }

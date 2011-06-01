@@ -7,11 +7,10 @@ import java.util.Map;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.INakedSendObjectAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -40,8 +39,8 @@ public class ActivityValidator extends AbstractValidator{
 					if(!activity.isProcess()){
 						checkDisallowedActions(action);
 					}
-					if(action instanceof IActionWithTarget){
-						IActionWithTarget actionWithTarget = (IActionWithTarget) action;
+					if(action instanceof IActionWithTargetElement){
+						IActionWithTargetElement actionWithTarget = (IActionWithTargetElement) action;
 						validateTargets(actionWithTarget);
 					}
 				}else if(node instanceof INakedControlNode){
@@ -63,19 +62,17 @@ public class ActivityValidator extends AbstractValidator{
 				validateClashingNames(getEmulatedAttributes(activity), "The names of structural aspects processes may not clash",
 						ActivityValidationRule.UNIQUE_EMULATED_ATTRIBUTES);
 				if(activity.isProcess()){
-					validateClashingNames(getGuards(activity), "Guard names of activity edges my not clash",
-							ActivityValidationRule.UNIQUE_GUARD_NAMES);
+					validateClashingNames(getGuards(activity), "Guard names of activity edges my not clash", ActivityValidationRule.UNIQUE_GUARD_NAMES);
 				}
 			}
 		}
 	}
-	private void validateTargets(IActionWithTarget actionWithTarget){
+	private void validateTargets(IActionWithTargetElement actionWithTarget){
 		// TODO check target types with expected classifier
 		if(actionWithTarget.getTargetElement() == null){
 			// TODO check if target type represents user
 			if(actionWithTarget instanceof INakedOpaqueAction){
-				getErrorMap().putError(actionWithTarget, ActivityValidationRule.TARGET_FOR_OPAQUE_ACTIONS,
-						"Opaque action does not have an input marked as target)");
+				getErrorMap().putError(actionWithTarget, ActivityValidationRule.TARGET_FOR_OPAQUE_ACTIONS, "Opaque action does not have an input marked as target)");
 			}
 		}
 	}
@@ -96,23 +93,19 @@ public class ActivityValidator extends AbstractValidator{
 		}
 	}
 	private void checkDisallowedActions(INakedAction action){
-		if(action instanceof INakedSendObjectAction){
-			getErrorMap().putError(action, ActivityValidationRule.SEND_OBJECT_ACTION_ONLY_IN_PROCESS,
-					"SendObjectActions can only be used in activities marked as a processes");
-		}else if(action instanceof INakedOpaqueAction){
-			getErrorMap().putError(action, ActivityValidationRule.OPAQUE_ACTION_ONLY_IN_PROCESS,
-					"OpaqueActions can only be used in activities marked as a processes");
+		if(action instanceof INakedOpaqueAction){
+			getErrorMap().putError(action, ActivityValidationRule.OPAQUE_ACTION_ONLY_IN_PROCESS, "OpaqueActions can only be used in activities marked as a processes");
 		}else if(action instanceof INakedAcceptEventAction){
 			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS,
 					"AcceptEventActions can only be used in activities marked as a processes");
 		}else if(action instanceof INakedCallAction){
 			INakedCallAction callAction = (INakedCallAction) action;
-			if(callAction.getCalledElement().isProcess()){
+			if(callAction.isLongRunning()){
 				getErrorMap().putError(action, ActivityValidationRule.PROCESS_INVOCATION_ONLY_IN_PROCESS,
 						"Processes can only be invoked from activities marked as a processes");
-			}else if(callAction.isTask()){
+			}else if(callAction.isLongRunning()){
 				getErrorMap().putError(action, ActivityValidationRule.RESPONSIBILITIY_INVOCATION_ONLY_IN_PROCESS,
-						"User Responsibiliteis can only be invoked from activities marked as a processes");
+						"Long running actions can only be invoked from activities marked as a processes");
 			}
 		}
 	}

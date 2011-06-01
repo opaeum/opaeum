@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.actions.ActionType;
-import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.ITargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
-public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl implements IActionWithTarget {
+public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl implements IActionWithTargetElement {
 	private static final long serialVersionUID = 3165514874679324190L;
 	public INakedProperty feature;
 	public INakedInputPin object;

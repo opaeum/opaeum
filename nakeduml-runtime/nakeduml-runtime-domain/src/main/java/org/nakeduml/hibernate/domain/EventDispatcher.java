@@ -22,27 +22,27 @@ import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.event.AbstractNakedUmlEvent;
 import org.nakeduml.event.ChangeEvent;
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractEventSource;
+import org.nakeduml.runtime.domain.IEventSource;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,FlushEntityEventListener{
-	static Map<EventSource,Set<AbstractEventSource>> eventSourceMap = new WeakHashMap<EventSource,Set<AbstractEventSource>>();
+	static Map<EventSource,Set<IEventSource>> eventSourceMap = new WeakHashMap<EventSource,Set<IEventSource>>();
 	@Override
 	public void onPostLoad(PostLoadEvent event){
-		if(event.getEntity() instanceof AbstractEventSource){
-			addEventSource(event.getSession(), (AbstractEventSource) event.getEntity());
+		if(event.getEntity() instanceof IEventSource){
+			addEventSource(event.getSession(), (IEventSource) event.getEntity());
 		}
 	}
 	@Override
 	public void onFlushEntity(FlushEntityEvent event) throws HibernateException{
-		if(event.getEntity() instanceof AbstractEventSource){
-			addEventSource(event.getSession(), (AbstractEventSource) event.getEntity());
+		if(event.getEntity() instanceof IEventSource){
+			addEventSource(event.getSession(), (IEventSource) event.getEntity());
 		}
 	}
-	private void addEventSource(EventSource session,AbstractEventSource entity){
-		Set<AbstractEventSource> set = eventSourceMap.get(session);
+	private void addEventSource(EventSource session,IEventSource entity){
+		Set<IEventSource> set = eventSourceMap.get(session);
 		if(set == null){
-			set = new HashSet<AbstractEventSource>();
+			set = new HashSet<IEventSource>();
 			eventSourceMap.put(session, set);
 		}
 		set.add(entity);
@@ -50,7 +50,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
 		doFlush(event);// Generate Ids, perform flush events
-		Set<AbstractEventSource> eventSources = EventDispatcher.eventSourceMap.get(event.getSession());
+		Set<IEventSource> eventSources = EventDispatcher.eventSourceMap.get(event.getSession());
 		if(eventSources != null){
 			eventSources.remove(event.getSession());
 			sendEvents(eventSources);
@@ -84,12 +84,12 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			session.getJDBCContext().getConnectionManager().flushEnding();
 		}
 	}
-	public static void sendEvents(Collection<AbstractEventSource> eventSources){
+	public static void sendEvents(Collection<IEventSource> eventSources){
 		IMessageSender sender = Environment.getInstance().getComponent(IMessageSender.class);
 		Set<AbstractNakedUmlEvent> requestedEvents = new HashSet<AbstractNakedUmlEvent>();
 		Set<SignalToDispatch> signalsToEntities = new HashSet<SignalToDispatch>();
 		Set<SignalToDispatch> signalsToHelpers = new HashSet<SignalToDispatch>();
-		for(AbstractEventSource abstractEventSource:eventSources){
+		for(IEventSource abstractEventSource:eventSources){
 			Set<Object> outgoingEvents = abstractEventSource.getOutgoingEvents();
 			for(Object object:outgoingEvents){
 				if(object instanceof AbstractNakedUmlEvent){

@@ -17,7 +17,6 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 	public static final String META_CLASS = "interface";
 	private Set<INakedReception> ownedReception = new HashSet<INakedReception>();
 	private INakedProperty endToComposite;
-	private boolean isResponsibility;
 
 	public boolean hasComposite() {
 		return getEndToComposite() != null;
@@ -71,11 +70,4 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 		this.implementingClassifiers.remove(implementingClassifier);
 	}
 
-	public void setIsResponsibility(boolean isResponsibility){
-		this.isResponsibility = isResponsibility;
-	}
-
-	public boolean isResponsibility(){
-		return isResponsibility;
-	}
 }

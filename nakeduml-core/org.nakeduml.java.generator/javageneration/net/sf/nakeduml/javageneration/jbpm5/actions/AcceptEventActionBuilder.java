@@ -1,9 +1,11 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
-import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
+import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
@@ -16,20 +18,23 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation){
-		if(node.getTrigger().getEvent() instanceof INakedTimeEvent){
-			Jbpm5Util.implementTimeEventRequest(operation, (INakedTimeEvent) node.getTrigger().getEvent());
-			OJOperation cancel = new OJAnnotatedOperation();
-			ActionMap map = new ActionMap(node);
-			cancel.setName(map.getCancelEventsMethod());
-			operation.getOwner().addToOperations(cancel);
-			Jbpm5Util.cancelTimer(cancel, (INakedTimeEvent) node.getTrigger().getEvent());
-		}else if(node.getTrigger().getEvent() instanceof INakedChangeEvent){
-			Jbpm5Util.implementChangeEventRequest(operation, (INakedChangeEvent) node.getTrigger().getEvent());
-			OJOperation cancel = new OJAnnotatedOperation();
-			ActionMap map = new ActionMap(node);
-			cancel.setName(map.getCancelEventsMethod());
-			operation.getOwner().addToOperations(cancel);
-			Jbpm5Util.cancelChangeEvent(cancel, (INakedChangeEvent) node.getTrigger().getEvent());
+		if(!(node instanceof INakedAcceptDeadlineAction)){
+			// Deadlines and their cancellations are fired from the originating task message structure
+			if(node.getTrigger().getEvent() instanceof INakedTimeEvent){
+				ActionMap map = new ActionMap(node);
+				EventUtil.implementTimeEventRequest(operation, operation.getBody(),node.getActivity(),(INakedTimeEvent) node.getTrigger().getEvent(),"this");
+				OJOperation cancel = new OJAnnotatedOperation();
+				cancel.setName(map.getCancelEventsMethod());
+				operation.getOwner().addToOperations(cancel);
+				EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) node.getTrigger().getEvent(),"this");
+			}else if(node.getTrigger().getEvent() instanceof INakedEvent){
+				EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) node.getTrigger().getEvent());
+				OJOperation cancel = new OJAnnotatedOperation();
+				ActionMap map = new ActionMap(node);
+				cancel.setName(map.getCancelEventsMethod());
+				operation.getOwner().addToOperations(cancel);
+				EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) node.getTrigger().getEvent());
+			}
 		}
 	}
 	@Override

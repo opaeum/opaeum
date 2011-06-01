@@ -73,8 +73,4 @@ public abstract class NakedInvocationActionImpl extends NakedActionImpl implemen
 			return getInPartition();
 		}
 	}
-
-	public boolean isTask() {
-		return false;
-	}
 }

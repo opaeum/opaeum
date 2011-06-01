@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: State Machine Diagram
 Bundle-SymbolicName: org.nakeduml.topcased.statemachinediagram;singleton:=true
-Bundle-Version: 1.0.0.5
+Bundle-Version: 2.5.2.qualifier
 Bundle-Activator: org.topcased.modeler.uml.statemachinediagram.STMPlugin
-Bundle-Vendor: NakedUML
+Bundle-Vendor: Topcased
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
@@ -21,21 +21,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.nakeduml.topcased.classdiagram
+ org.nakeduml.topcased.classdiagram;bundle-version="3.0.12"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.topcased.modeler.uml.statemachinediagram;x-internal:=true,
  org.topcased.modeler.uml.statemachinediagram.commands;x-internal:=true,
  org.topcased.modeler.uml.statemachinediagram.dialogs;x-internal:=true,
  org.topcased.modeler.uml.statemachinediagram.edit,
- org.topcased.modeler.uml.statemachinediagram.edit.internal,
  org.topcased.modeler.uml.statemachinediagram.figures;x-internal:=true,
- org.topcased.modeler.uml.statemachinediagram.internal.decorators,
- org.topcased.modeler.uml.statemachinediagram.internal.properties.sections,
- org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.filters,
- org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.graphics,
- org.topcased.modeler.uml.statemachinediagram.policies;x-internal:=true,
- org.topcased.modeler.uml.statemachinediagram.preferences,
- org.topcased.modeler.uml.statemachinediagram.resize,
- org.topcased.modeler.uml.statemachinediagram.widgets
-Bundle-ClassPath: lib/plugins/org.topcased.modeler.uml.statemachinediagram_2.5.2.nakeduml.jar,
+ org.topcased.modeler.uml.statemachinediagram.policies;x-internal:=true
+Bundle-ClassPath: plugins/org.topcased.modeler.uml.statemachinediagram_2.5.2.nakeduml.jar,
  .

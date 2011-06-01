@@ -9,16 +9,17 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
-import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
+import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedUserInRole;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.components.INakedComponent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
@@ -56,22 +57,20 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			orgUnits.add(c);
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitEntity(INakedEntity e){
-			if(e.representsUser()){
-				users.add(e);
-			}
+		public void visitEntity(INakedUserInRole e){
+			users.add(e);
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitOperation(INakedOperation b){
-			if(b.isResponsibility()){
-				tasks.add(new OperationMessageStructureImpl(b));
-			}
+		public void visitOperation(INakedResponsibility b){
+			tasks.add(new OperationMessageStructureImpl(b));
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitCallAction(INakedCallAction a){
-			if(a.isTask()){
-				tasks.add(a.getMessageStructure());
-			}
+		public void visitOpaqueAction(INakedEmbeddedSingleScreenTask a){
+			tasks.add(a.getMessageStructure());
+		}
+		@VisitBefore(matchSubclasses = true)
+		public void visitCallBehaviorAction(INakedScreenFlowTask a){
+			tasks.add(a.getMessageStructure());
 		}
 	}
 	public AbstractHibernatePackageAnnotator(boolean isIntegrationPhase){

@@ -64,12 +64,11 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		Collection<IOclContext> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
 		if(conditions.size() > 0){
 			if(node instanceof INakedAction){
-				// preConditions and PostConditions work on parameters - emulate
-				// pins as parameters
+				// preConditions and PostConditions on actions operate on pins - make pins available as parameters
 				for(INakedPin pin:((INakedAction) node).getInput()){
 					buildPinField(oper, block, pin, false);
 				}
-				if(!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isTask()){
+				if(!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isLongRunning()){
 					// Most commonly used for Tasks where there would be a
 					// message structure T
 					// TODO support other output pins

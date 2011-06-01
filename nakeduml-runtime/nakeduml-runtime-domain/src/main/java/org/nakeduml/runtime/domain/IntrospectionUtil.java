@@ -109,9 +109,9 @@ public class IntrospectionUtil{
 			throw new RuntimeException(e);
 		}
 	}
-	public static AbstractEnum[] getAllLiterals(Class<? extends AbstractEnum> enumClass){
+	public static IEnum[] getAllLiterals(Class<? extends IEnum> enumClass){
 		try{
-			return (AbstractEnum[]) enumClass.getMethod("values", new Class[0]).invoke(null, new Object[0]);
+			return (IEnum[]) enumClass.getMethod("values", new Class[0]).invoke(null, new Object[0]);
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}

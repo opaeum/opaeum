@@ -1,16 +1,21 @@
 package net.sf.nakeduml.javageneration.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.sf.nakeduml.javageneration.ArtificialProperty;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
+import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -38,25 +43,23 @@ import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
+import org.nakeduml.java.metamodel.OJStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.name.NameConverter;
 
-
-public class OJUtil {
+public class OJUtil{
 	private static final Set<String> BUILT_IN_ATTRIBUTES = new HashSet<String>();
-	static {
+	static{
 		BUILT_IN_ATTRIBUTES.add("now");
 		BUILT_IN_ATTRIBUTES.add("currentUser");
 		BUILT_IN_ATTRIBUTES.add("today");
 	}
-
-	public static boolean isBuiltIn(INakedTypedElement f) {
+	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
-
-	public static OJAnnotatedOperation buildMain(OJAnnotatedClass ojClass) {
+	public static OJAnnotatedOperation buildMain(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation main = new OJAnnotatedOperation();
 		main.setName("main");
 		main.setStatic(true);
@@ -64,161 +67,166 @@ public class OJUtil {
 		ojClass.addToOperations(main);
 		return main;
 	}
-
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier owner, INakedTypedElement typedAndOrdered) {
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier owner,INakedTypedElement typedAndOrdered){
 		NakedStructuralFeatureMap linkedParameter;
-		if (typedAndOrdered instanceof INakedProperty) {
+		if(typedAndOrdered instanceof INakedProperty){
 			linkedParameter = OJUtil.buildStructuralFeatureMap((INakedProperty) typedAndOrdered);
-		} else {
+		}else{
 			linkedParameter = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(owner, typedAndOrdered));
 		}
 		return linkedParameter;
 	}
-
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedProperty sf) {
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedProperty sf){
 		return new NakedStructuralFeatureMap(sf);
 	}
-
-	public static NakedStructuralFeatureMap buildAssociationClassMap(INakedProperty sf, IOclLibrary l) {
+	public static NakedStructuralFeatureMap buildAssociationClassMap(INakedProperty sf,IOclLibrary l){
 		INakedAssociationClass ac = (INakedAssociationClass) sf.getAssociation();
-		class NakedAssociationClassPropertyMap extends NakedStructuralFeatureMap {
+		class NakedAssociationClassPropertyMap extends NakedStructuralFeatureMap{
 			private INakedAssociationClass assocClass;
-
-			public NakedAssociationClassPropertyMap(INakedProperty sf, INakedAssociationClass baseType, IClassifier type) {
+			public NakedAssociationClassPropertyMap(INakedProperty sf,INakedAssociationClass baseType,IClassifier type){
 				super(sf);
 				this.assocClass = baseType;
 				baseTypeMap = new NakedClassifierMap(baseType);
 				featureTypeMap = new NakedClassifierMap(type);
 			}
-
-			public String umlName() {
+			public String umlName(){
 				return buildAssocEndName(assocClass, getProperty());
 			}
-
-			protected boolean otherEndIsOne() {
+			protected boolean otherEndIsOne(){
 				return true;
 			}
-
-			public String getter() {
+			public String getter(){
 				String name = buildAssocEndName(assocClass, getProperty());
 				return "get" + StringHelpers.firstCharToUpper(name);
 			}
-
-			public String setter() {
+			public String setter(){
 				String name = buildAssocEndName(assocClass, getProperty());
 				return "set" + StringHelpers.firstCharToUpper(name);
 			}
-
-			public String adder() {
+			public String adder(){
 				String name = buildAssocEndName(assocClass, getProperty());
 				return "z_internalAddTo" + StringHelpers.firstCharToUpper(name);
 			}
-
-			public String remover() {
+			public String remover(){
 				String name = buildAssocEndName(assocClass, getProperty());
 				return "z_internalRemoveFrom" + StringHelpers.firstCharToUpper(name);
 			}
-
-			public String buildAssocEndName(IAssociationClass assoc, INakedProperty end) {
+			public String buildAssocEndName(IAssociationClass assoc,INakedProperty end){
 				String name = assoc.getName();
 				IAssociationEnd otherEnd = assoc.getOtherEnd(end);
 				boolean useNameExtension = (end.getNakedBaseType() == otherEnd.getBaseType());
-				if (useNameExtension) {
+				if(useNameExtension){
 					name = assoc.getName() + "_" + otherEnd.getName();
 				}
 				return name;
 			}
 		}
 		;
-		if (sf.getType() instanceof ICollectionType) {
+		if(sf.getType() instanceof ICollectionType){
 			return new NakedAssociationClassPropertyMap(sf, ac, l.lookupCollectionType(((ICollectionType) sf.getType()).getMetaType(), ac));
-		} else {
+		}else{
 			return new NakedAssociationClassPropertyMap(sf, ac, ac);
 		}
 	}
-
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedCallAction action, IOclLibrary lib) {
-		ActionFeatureBridge bridge = new ActionFeatureBridge(action);
-		if (action.getTargetElement() != null) {
-			IClassifier type = action.getTargetElement().getType();
-			if (type instanceof StdlibCollectionType) {
-				bridge.setType(lib.lookupCollectionType(((StdlibCollectionType) type).getMetaType(), bridge.getNakedBaseType()));
-			} else {
-				bridge.setType(bridge.getNakedBaseType());
-			}
-		} else {
-			bridge.setType(bridge.getNakedBaseType());
-		}
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,IOclLibrary lib){
+		ActionFeatureBridge bridge = buildActionBridge(action, lib);
 		return new NakedStructuralFeatureMap(bridge);
 	}
-
-	private static void addParentsToPath(INakedNameSpace c, OJPathName path) {
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(final INakedScreenFlowTask action,IOclLibrary lib){
+		ActionFeatureBridge bridge = buildActionBridge(action, lib);
+		//Sjoe!
+		return new NakedStructuralFeatureMap(bridge){
+			@Override
+			public OJPathName javaTypePath(){
+				if(isMany()){
+					OJPathName copy = super.javaTypePath().getCopy();
+					copy.removeAllFromElementTypes();
+					copy.addToElementTypes(javaBaseTypePath());
+					return copy;
+				}else{
+					return javaTypePath();
+				}
+			}
+			@Override
+			public OJPathName javaBaseTypePath(){
+				return classifierPathname(action);
+			}
+		};
+	}
+	public static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,IOclLibrary lib){
+		ActionFeatureBridge bridge = new ActionFeatureBridge(action);
+		if(action.getTargetElement() != null){
+			IClassifier type = action.getTargetElement().getType();
+			if(type instanceof StdlibCollectionType){
+				bridge.setType(lib.lookupCollectionType(((StdlibCollectionType) type).getMetaType(), bridge.getNakedBaseType()));
+			}else{
+				bridge.setType(bridge.getNakedBaseType());
+			}
+		}else{
+			bridge.setType(bridge.getNakedBaseType());
+		}
+		return bridge;
+	}
+	private static void addParentsToPath(INakedNameSpace c,OJPathName path){
 		INakedNameSpace parent = c.getParent();
-		if (parent != null) {
-			if (parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null) {
+		if(parent != null){
+			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null){
 				OJPathName pn = new OJPathName(((INakedPackage) parent).getMappedImplementationPackage());
 				path.addToNames(pn.getNames());
-			} else {
+			}else{
 				addParentsToPath(parent, path);
 				path.addToNames(parent.getName().toLowerCase());
 			}
 		}
 	}
-
 	/**
-	 * A NakedUml specific algorithm that takes mapped implementation types into
-	 * account as well as classifier nesting. With UML classifier nesting a
-	 * package is generated for every classifier with nested classifiers
+	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * nesting a package is generated for every classifier with nested classifiers
 	 * 
 	 * @param classifier
 	 * @return
 	 */
-	public static OJPathName packagePathname(INakedNameSpace p) {
-		if (p instanceof INakedPackage && ((INakedPackage) p).getMappedImplementationPackage() != null) {
+	public static OJPathName packagePathname(INakedNameSpace p){
+		if(p instanceof INakedPackage && ((INakedPackage) p).getMappedImplementationPackage() != null){
 			return new OJPathName(((INakedPackage) p).getMappedImplementationPackage());
-		} else {
+		}else{
 			OJPathName path = new OJPathName();
 			addParentsToPath(p, path);
 			path.addToNames(p.getName().toLowerCase());
 			return path;
 		}
 	}
-
 	/**
-	 * A NakedUml specific algorithm that takes mapped implementation types into
-	 * account as well as classifier nesting. With UML classifier nesting a
-	 * package is generated for every classifier with nested classifiers
+	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * nesting a package is generated for every classifier with nested classifiers
 	 * 
 	 * @param classifier
 	 * @return
 	 */
-	public static OJPathName classifierPathname(INakedClassifier classifier) {
-		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
+	public static OJPathName classifierPathname(INakedClassifier classifier){
+		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
 			return new OJPathName(classifier.getMappedImplementationType());
-		} else {
+		}else{
 			OJPathName path = packagePathname(classifier.getNameSpace());
 			path.addToNames(classifier.getName());
 			return path;
 		}
 	}
-	
-	public static OJPathName classifierAuditPathname(INakedClassifier classifier) {
-		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
-			return new OJPathName(classifier.getMappedImplementationType()+AuditImplementationStep.AUDIT);
-		} else {
+	public static OJPathName classifierAuditPathname(INakedClassifier classifier){
+		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
+			return new OJPathName(classifier.getMappedImplementationType() + AuditImplementationStep.AUDIT);
+		}else{
 			OJPathName path = packagePathname(classifier.getNameSpace());
 			path.addToNames(classifier.getName());
 			return path;
 		}
 	}
-	
-
-	public static final OJOperation addMethod(OJClass theClass, String name, String type, String expression) {
+	public static final OJOperation addMethod(OJClass theClass,String name,String type,String expression){
 		OJOperation get = OJUtil.findOperation(theClass, name);
-		if (get == null) {
+		if(get == null){
 			get = new OJAnnotatedOperation();
 			theClass.addToOperations(get);
-		} else {
+		}else{
 			get.setBody(new OJBlock());
 		}
 		get.setName(name);
@@ -226,18 +234,16 @@ public class OJUtil {
 		get.getBody().addToStatements("return " + expression);
 		return get;
 	}
-
-	public static void addConstructor(OJClass ojClass, OJField... params) {
+	public static void addConstructor(OJClass ojClass,OJField...params){
 		OJConstructor constructor = new OJConstructor();
-		for (OJField ojField : params) {
+		for(OJField ojField:params){
 			constructor.addParam(ojField.getName(), ojField.getType());
 			OJSimpleStatement setField = new OJSimpleStatement("this." + ojField.getName() + " = " + ojField.getName());
 			constructor.getBody().addToStatements(setField);
 		}
 		constructor.setOwningClass(ojClass);
 	}
-
-	public static OJAnnotatedField addProperty(OJClassifier ojClass, String name, OJPathName type, boolean withBody) {
+	public static OJAnnotatedField addProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
 		ojClass.addToImports(type);
 		OJOperation set = new OJAnnotatedOperation();
 		String capped = NameConverter.capitalize(name);
@@ -250,7 +256,7 @@ public class OJUtil {
 		get.setReturnType(type);
 		get.setBody(new OJBlock());
 		ojClass.addToOperations(get);
-		if (withBody) {
+		if(withBody){
 			set.getBody().addToStatements("this." + name + "=" + name);
 			get.getBody().addToStatements("return " + name);
 			OJAnnotatedField field = new OJAnnotatedField();
@@ -261,9 +267,8 @@ public class OJUtil {
 		}
 		return null;
 	}
-
 	// TODO move to annotated class
-	public static OJOperation findOperation(OJClass theClass, String name) {
+	public static OJOperation findOperation(OJClass theClass,String name){
 		// if (theClass.getName().equals("Network")) {
 		// StringBuffer sb = new StringBuffer();
 		// StackTraceElement[] stackTrace = Thread.currentThread()
@@ -274,48 +279,71 @@ public class OJUtil {
 		// System.out.println("called " + sb.toString());
 		// }
 		Iterator iter = theClass.getOperations().iterator();
-		while (iter.hasNext()) {
+		while(iter.hasNext()){
 			OJOperation o = (OJOperation) iter.next();
-			if (o.getName().equals(name)) {
+			if(o.getName().equals(name)){
 				return o;
 			}
 		}
 		return null;
 	}
-
-	public static void addFailedConstraints(OJOperation execute) {
+	public static void addFailedConstraints(OJOperation execute){
 		String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
 		execute.getOwner().addToImports(failedConstraints);
 		execute.addToThrows(failedConstraints);
 	}
-
 	/**
-	 * Some classifiers in UML would not necessarily be generated as Java
-	 * classes. Returns false for NakedBehaviors that have one or less resulting
-	 * parameters
+	 * Some classifiers in UML would not necessarily be generated as Java classes. Returns false for NakedBehaviors that have one or less
+	 * resulting parameters
 	 * 
 	 */
-	public static boolean hasOJClass(INakedClassifier c) {
-		if (c instanceof INakedClassifier) {
+	public static boolean hasOJClass(INakedClassifier c){
+		if(c instanceof INakedClassifier){
 			INakedClassifier nc = c;
-			if (nc.getCodeGenerationStrategy().isNone()) {
+			if(nc.getCodeGenerationStrategy().isNone()){
 				return false;
-			} else if (c instanceof INakedBehavior) {
+			}else if(c instanceof INakedBehavior){
 				return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
-			} else if (c instanceof INakedAssociation) {
+			}else if(c instanceof INakedAssociation){
 				return ((INakedAssociation) c).isClass();
-			} else if (c instanceof MessageStructureImpl) {
+			}else if(c instanceof MessageStructureImpl){
 				return true;
-			} else {
+			}else{
 				return true;
 			}
-		} else {
+		}else{
 			return false;
 		}
 	}
-
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner, INakedObjectNode pin,
-			boolean ensureUniqueness) {
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniqueness){
 		return new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniqueness));
+	}
+	public static void removeReturnStatement(OJOperation javaMethod){
+		Collection<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());
+		for(OJStatement st:sts){
+			if(st instanceof OJStatement && st.toJavaString().contains("return ")){
+				javaMethod.getBody().removeFromStatements(st);
+				break;
+			}
+		}
+	}
+	public static NakedStructuralFeatureMap buildStructuralFeatureMapToContext(IParameterOwner o,IOclLibrary lib){
+		ArtificialProperty p = new ArtificialProperty(o, lib);
+		return new NakedStructuralFeatureMap(p.getOtherEnd());
+	}
+	public static NakedStructuralFeatureMap buildStructuralFeatureMapFromContext(IParameterOwner o,IOclLibrary lib){
+		ArtificialProperty p = new ArtificialProperty(o, lib);
+		return new NakedStructuralFeatureMap(p);
+	}
+	public static NakedStructuralFeatureMap buildStructuralFeatureMapToOwningObject(ICompositionParticipant o,IOclLibrary lib){
+		ArtificialProperty p = new ArtificialProperty(o, lib);
+		return new NakedStructuralFeatureMap(p.getOtherEnd());
+	}
+	public static NakedStructuralFeatureMap buildStructuralFeatureMapFromOwningObject(ICompositionParticipant o,IOclLibrary lib){
+		ArtificialProperty p = new ArtificialProperty(o, lib);
+		return new NakedStructuralFeatureMap(p);
+	}
+	public static OJPathName classifierPathname(INakedScreenFlowTask origin){
+		return packagePathname(origin.getActivity()).append(origin.getMappingInfo().getJavaName().getCapped().getAsIs());
 	}
 }

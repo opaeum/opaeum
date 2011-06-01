@@ -4,6 +4,7 @@ import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -101,8 +102,8 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			String generatedQualifiedJavaName = generateQualifiedJavaName(oper.getOwner());
 			// Always keep packages in lowercase
 			generatedName = generatedQualifiedJavaName.toLowerCase() + "." + me.getName();
-		}else if(me instanceof INakedOpaqueAction){
-			INakedOpaqueAction action = (INakedOpaqueAction) me;
+		}else if(me instanceof INakedEmbeddedSingleScreenTask){
+			INakedEmbeddedSingleScreenTask action = (INakedEmbeddedSingleScreenTask) me;
 			// TODO support for mapping of Responsibilities, OpaqueActions or
 			// OpaqueBehavior
 			// generatedName = type.getMappedImplementationType();

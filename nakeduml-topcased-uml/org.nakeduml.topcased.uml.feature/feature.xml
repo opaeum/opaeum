@@ -1,61 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.nakeduml.topcased.feature"
-      label="NakedUML Topcased UML Feature"
-      version="1.0.0.5"
+      id="org.nakeduml.topcased.uml"
+      label="NakedUML Modeler"
+      version="4.3.0.qualifier"
       provider-name="NakedUML">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="%license">
+      %description
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="%copyrightURL">
+      %copyright
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="%licenseURL">
+      %license
    </license>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.emf.ecoretools.tabbedproperties"/>
-      <import plugin="org.topcased.tabbedproperties"/>
-      <import plugin="org.eclipse.uml2.uml"/>
-      <import plugin="org.nakeduml.eclipse"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.topcased.modeler.uml.oclinterpreter"/>
-      <import plugin="org.topcased.modeler"/>
-      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.ocl"/>
       <import plugin="org.eclipse.ocl.uml"/>
-      <import plugin="org.nakeduml.metamodels"/>
+      <import plugin="org.eclipse.ocl.ecore"/>
+      <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
       <import plugin="org.eclipse.uml2.common.edit"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.uml2.common"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.topcased.modeler.graphconf"/>
+      <import plugin="org.topcased.modeler"/>
       <import plugin="org.topcased.validation.core"/>
       <import plugin="org.topcased.ui"/>
-      <import plugin="org.topcased.validation.ocl"/>
-      <import plugin="org.topcased.modeler.diagrams.validation"/>
-      <import plugin="org.eclipse.emf.validation"/>
+      <import plugin="org.topcased.modeler.graphconf"/>
+      <import plugin="org.nakeduml.topcased.classdiagram" version="3.0.12" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="org.nakeduml.topcased.propertysections"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.topcased.activitydiagram"
+         id="org.topcased.modeler.uml.oclinterpreter"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -69,6 +57,41 @@
          unpack="false"/>
 
    <plugin
+         id="org.topcased.validation.ocl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.topcased.modeler.diagrams.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.activitydiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.componentdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.nakeduml.topcased.compositestructuresdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.nakeduml.topcased.statemachinediagram"
          download-size="0"
          install-size="0"
@@ -76,7 +99,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.nakeduml.topcased.validation"
+         id="org.nakeduml.topcased.propertysections"
          download-size="0"
          install-size="0"
          version="0.0.0"

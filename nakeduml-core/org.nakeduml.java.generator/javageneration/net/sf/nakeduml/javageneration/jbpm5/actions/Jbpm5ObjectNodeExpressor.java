@@ -124,6 +124,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 
 	@Override
 	protected String retrieveFromExecutionInstanceIfNecessary(INakedOutputPin feedingNode, String call) {
+		
 		if (feedingNode.getAction().getOwnerElement() instanceof INakedActivity) {
 			call = super.retrieveFromExecutionInstanceIfNecessary(feedingNode, call);
 		} else if (feedingNode.getAction() instanceof INakedCallAction) {

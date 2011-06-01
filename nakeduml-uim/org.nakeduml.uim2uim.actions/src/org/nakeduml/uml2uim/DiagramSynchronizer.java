@@ -24,7 +24,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.eclipse.StateMachineUtil;
+import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.uim.ActionKind;
 import org.nakeduml.uim.ActionTaskForm;
@@ -131,7 +131,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	@VisitBefore(matchSubclasses = false)
 	public void beforeState(State s){
 		String resourceUri = UmlUimLinks.getId(s);
-		StateMachine sm = StateMachineUtil.getStateMachine(s);
+		StateMachine sm = EmfStateMachineUtil.getStateMachine(s);
 		StateMachineFolder smf = (StateMachineFolder) UmlUimLinks.getInstance(s).getFolderFor(sm);
 		UimForm form = getFormFor(resourceUri, "uim");
 		StateForm sf;

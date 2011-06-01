@@ -78,13 +78,4 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 	public String getMetaClass(){
 		return META_CLASS;
 	}
-	public boolean representsUser(){
-		List<INakedInterfaceRealization> irs = getInterfaceRealizations();
-		for(INakedInterfaceRealization ir:irs){
-			if(ir.getContract().isResponsibility()){
-				return true;
-			}
-		}
-		return false;
-	}
 }

@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.Collection;
 
 import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -30,5 +31,9 @@ public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implem
 	@Override
 	public INakedOperation getOperation(){
 		return (INakedOperation) super.getTrigger().getEvent();
+	}
+	@Override
+	public INakedReplyAction getReplyAction(){
+		return (INakedReplyAction) getReturnInfo().getFeedingNode().getOwnerElement();
 	}
 }

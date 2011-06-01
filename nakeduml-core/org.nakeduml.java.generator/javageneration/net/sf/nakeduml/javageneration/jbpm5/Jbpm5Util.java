@@ -1,33 +1,25 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
-import java.util.HashSet;
-import java.util.Set;
 
-import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
-import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.environment.ITimeEventDispatcher;
-import org.nakeduml.event.ChangeEvent;
-import org.nakeduml.event.TimeEvent;
-import org.nakeduml.java.metamodel.OJClass;
+import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
-import org.nakeduml.runtime.domain.AbstractEventSource;
 import org.nakeduml.runtime.domain.ExceptionHolder;
-import org.nakeduml.runtime.domain.TimeUnit;
 
 public class Jbpm5Util{
 	public static String stepLiteralName(INakedElement s){
@@ -52,68 +44,6 @@ public class Jbpm5Util{
 	public static String getGuardMethod(GuardedFlow t){
 		return "is" + t.getSource().getMappingInfo().getJavaName().getCapped() + t.getMappingInfo().getJavaName().getCapped();
 	}
-	public static void implementTimeEventRequest(OJOperation operation,INakedTimeEvent event){
-		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		INakedValueSpecification when = event.getWhen();
-		operation.getOwner().addToImports(TimeEvent.class.getName());
-		if(when != null){
-			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getOwningBehavior(), when.getType());
-			String callBackMethodName = getEventMethodPersistentName(event);
-			if(event.isRelative()){
-				owner.addToImports(TimeUnit.class.getName());
-				TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
-				operation.getBody().addToStatements(
-						"getOutgoingEvents().add(new TimeEvent(this,\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit." + timeUnit.name() + "))");
-			}else{
-				operation.getBody().addToStatements("getOutgoingEvents().add(new TimeEvent(this,\"" + callBackMethodName + "\"," + whenExpr + "))");
-			}
-		}else{
-			operation.getBody().addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
-		}
-		addOutgoingEventManagement(owner);
-	}
-	public static void implementChangeEventRequest(OJOperation operation,INakedChangeEvent event){
-		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
-		INakedValueSpecification when = event.getChangeExpression();
-		operation.getOwner().addToImports(ChangeEvent.class.getName());
-		addOutgoingEventManagement(owner);
-		if(when != null){
-			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getOwningBehavior(), when.getType());
-			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation("evaluate" + event.getMappingInfo().getJavaName().getCapped(), new OJPathName("boolean"));
-			evaluationMethod
-					.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), "evaluate_" + event.getMappingInfo().getPersistentName()));
-			evaluationMethod.getBody().addToStatements("return " + whenExpr);
-			owner.addToOperations(evaluationMethod);
-			operation.getBody().addToStatements(
-					"getOutgoingEvents().add(new ChangeEvent(this,\"" + getEventMethodPersistentName(event) + "\",\"" + "evaluate_"
-							+ event.getMappingInfo().getPersistentName() + "\"))");
-		}else{
-			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
-		}
-	}
-	public static void addOutgoingEventManagement(OJClass ojClass){
-		OJPathName pn = new OJPathName(AbstractEventSource.class.getName());
-		if(!ojClass.getImplementedInterfaces().contains(pn)){
-			ojClass.addToImplementedInterfaces(pn);
-			OJPathName eventSetPath = new OJPathName(Set.class.getName());
-			eventSetPath.addToElementTypes(new OJPathName("Object"));
-			OJAnnotatedField field = OJUtil.addProperty(ojClass, "outgoingEvents", eventSetPath, true);
-			field.setInitExp("new HashSet<Object>()");
-			ojClass.addToImports(HashSet.class.getName());
-			field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
-		}
-	}
-	public static String getEventMethodPersistentName(INakedElement event){
-		return "on_" + event.getMappingInfo().getPersistentName();
-	}
-	public static void cancelTimer(OJOperation cancel,INakedTimeEvent event){
-		cancel.getOwner().addToImports(ITimeEventDispatcher.class.getName());
-		cancel.getBody().addToStatements("getOutgoingEvents().add(new TimeEvent(this,\"" + getEventMethodPersistentName(event) + "\",true))");
-	}
-	public static void cancelChangeEvent(OJOperation cancel,INakedChangeEvent event){
-		cancel.getOwner().addToImports(ITimeEventDispatcher.class.getName());
-		cancel.getBody().addToStatements("getOutgoingEvents().add(new ChangeEvent(this,\"" + getEventMethodPersistentName(event) + "\",true))");
-	}
 	public static String getArtificialForkName(INakedElement owner){
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();
 	}
@@ -134,5 +64,38 @@ public class Jbpm5Util{
 	}
 	public static String getArtificialChoiceName(INakedActivityNode node){
 		return node.getMappingInfo().getPersistentName().getAsIs() + "_choice";
+	}
+	public static void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior,boolean persistent,String propertyPrefix){
+		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, propertyPrefix, new OJPathName("WorkflowProcessInstance"), true);
+		processInstanceField.setTransient(true);
+		SingularNameWrapper name = new SingularNameWrapper(propertyPrefix, null);
+		if(persistent){
+			OJAnnotatedField processInstanceIdField = OJUtil.addProperty(ojBehavior, propertyPrefix + "Id", new OJPathName("Long"), true);
+			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
+			column.putAttribute(new OJAnnotationAttributeValue("name", name.getUnderscored() + "_instance_id"));
+			processInstanceIdField.putAnnotation(column);
+			processInstanceField.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+			OJOperation getter = OJUtil.findOperation(ojBehavior, "get" + name.getCapped() + "Instance");
+			ojBehavior.addToImports(getWorkflowProcesInstance());
+			ojBehavior.addToImports(getWorkflowProcessImpl());
+			getter.setBody(new OJBlock());
+			OJIfStatement ifNull = new OJIfStatement(
+					"this." + propertyPrefix + "Instance==null || true",
+					"this."
+							+ propertyPrefix
+							+ "Instance=(WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
+			OJIfStatement ifNotNull = new OJIfStatement("this." + propertyPrefix + "Instance!=null", "((WorkflowProcessImpl)this." + propertyPrefix
+					+ "Instance.getProcess()).setAutoComplete(true)");
+			ifNull.getThenPart().addToStatements(ifNotNull);
+			ojBehavior.addToImports(new OJPathName("org.drools.runtime.StatefulKnowledgeSession"));
+			getter.getBody().addToStatements(ifNull);
+			getter.getBody().addToStatements("return this." + propertyPrefix);
+		}
+		OJOperation getProcessDefinition = new OJAnnotatedOperation();
+		OJPathName processDefinition = new OJPathName("org.jbpm.workflow.core.WorkflowProcess");
+		getProcessDefinition.setName("get" + name.getCapped() + "Definition");
+		getProcessDefinition.setReturnType(processDefinition);
+		ojBehavior.addToOperations(getProcessDefinition);
+		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");
 	}
 }

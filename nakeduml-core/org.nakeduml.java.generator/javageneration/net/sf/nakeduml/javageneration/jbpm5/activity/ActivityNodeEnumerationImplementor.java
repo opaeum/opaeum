@@ -9,6 +9,7 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
@@ -45,8 +46,10 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 				}
 			}
 			return false;
-		} else if (BehaviorUtil.requiresExternalInput(n.getActivity(), n) || BehaviorUtil.isEffectiveFinalNode(n)) {
+		}else if(BehaviorUtil.isEffectiveFinalNode(n)){
 			return true;
+		} else if (n instanceof INakedAction){
+			return ((INakedAction)n).isLongRunning();
 		} else if (n instanceof INakedParameterNode) {
 			return ((INakedParameterNode) n).getParameter().isResult();
 		} else if (n instanceof INakedControlNode) {

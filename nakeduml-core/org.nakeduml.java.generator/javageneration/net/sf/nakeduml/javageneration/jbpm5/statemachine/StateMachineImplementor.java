@@ -31,30 +31,14 @@ import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.AbstractProcess;
-import org.nakeduml.runtime.domain.AbstractProcessStep;
+import org.nakeduml.runtime.domain.IProcessObject;
+import org.nakeduml.runtime.domain.IProcessStep;
 
 public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 	private OJAnnotatedClass javaStateMachine;
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitModel(INakedModel m) {
-		// Map<Class,OJPathName> map = new HashMap<Class,OJPathName>();
-		// map.put(AbstractProcess.class,
-		// ReflectionUtil.getUtilInterface(AbstractProcess.class));
-		// map.put(AbstractProcessStep.class,
-		// ReflectionUtil.getUtilInterface(AbstractProcessStep.class));
-		// map.put(ActiveEntity.class,
-		// ReflectionUtil.getUtilInterface(ActiveEntity.class));
-		// OJAnnotatedClass ap=
-		// ReflectionUtil.duplicateInterface(AbstractProcess.class,map);
-		// createTextPath(ap, JavaTextSource.GEN_SRC);
-		// OJAnnotatedClass
-		// aps=ReflectionUtil.duplicateInterface(AbstractProcessStep.class,map);
-		// createTextPath(aps, JavaTextSource.GEN_SRC);
-		// OJAnnotatedClass
-		// ae=ReflectionUtil.duplicateInterface(ActiveEntity.class,map);
-		// createTextPath(ae, JavaTextSource.GEN_SRC);
 	}
 
 	@VisitBefore(matchSubclasses = true)
@@ -115,13 +99,11 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 		javaStateMachine = findJavaClass(umlStateMachine);
 		addImports(javaStateMachine);
 		javaStateMachine.setName(umlStateMachine.getMappingInfo().getJavaName().toString());
-		super.implementRelationshipsWithContextAndProcess(umlStateMachine, javaStateMachine,umlStateMachine.isPersistent());
 		OJPackage statePackage = findOrCreatePackage(javaStateMachine.getPathName().getHead());
 		statePackage.addToClasses(javaStateMachine);
 		OJPathName stateClass = statePackage.getPathName();
 		stateClass.addToNames(umlStateMachine.getMappingInfo().getJavaName() + "State");
 		implementProcessInterfaceOperations(javaStateMachine, stateClass, umlStateMachine);
-		implementSpecificationOrStartClassifierBehaviour(umlStateMachine);
 		OJOperation execute = implementExecute(javaStateMachine, umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 	}
@@ -132,9 +114,8 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 		javaStateMachine.addToImports(new OJPathName(List.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(ArrayList.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(Timestamp.class.getName()));
-		javaStateMachine.addToImports(AbstractProcess.class.getName());
-		javaStateMachine.addToImports(AbstractProcessStep.class.getName());
-		javaStateMachine.addToImports(AbstractProcessStep.class.getName());
+		javaStateMachine.addToImports(IProcessObject.class.getName());
+		javaStateMachine.addToImports(IProcessStep.class.getName());
 	}
 
 	@Override

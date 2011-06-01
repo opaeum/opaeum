@@ -2,7 +2,8 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
-import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -28,18 +29,19 @@ public abstract class AbstractNodeBuilder {
 		if (actionMap.targetIsImplicitObject()) {
 			return block;
 		} else {
-			IActionWithTarget action = actionMap.getActionWithTarget();
+			IActionWithTargetElement action = (IActionWithTargetElement) actionMap.getAction();
 			String expression = null;
 			if (action.getInPartition() != null) {
 				// TODO is this wise? letting the partition override all pins
 				if (action.getInPartition().getRepresents() instanceof INakedProperty) {
 					expression = actionMap.targetMap().getter() + "()";
 				} else if (action.getInPartition().getRepresents() instanceof INakedClassifier) {
+					
 					expression = "NOT IMPLEMENTED";
 					// TODO use group assignment here
 				}
-			} else {
-				expression = buildPinExpression(operationContext, block, action.getTarget());
+			} else if(action instanceof IActionWithTargetPin){
+				expression = buildPinExpression(operationContext, block, ((IActionWithTargetPin) action).getTarget());
 			}
 			if (actionMap.targetMap().isOne()) {
 				OJPathName targetPath = actionMap.targetMap().javaBaseTypePath();

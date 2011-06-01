@@ -19,6 +19,11 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 	public static final String META_CLASS = "action";
 	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
 	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
+	@Override
+	public boolean isLongRunning(){
+		return false;
+	}
+
 
 	@Override
 	public Collection<INakedElement> getOwnedElements(){

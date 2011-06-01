@@ -1,163 +1,156 @@
 package net.sf.nakeduml.javageneration.jbpm5.activity;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.NakedOperationMap;
+import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
+import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import net.sf.nakeduml.metamodel.bpm.DeadlineKind;
+import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
+import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
+import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import nl.klasse.octopus.model.ICollectionType;
 
+import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.java.metamodel.OJBlock;
-import org.nakeduml.java.metamodel.OJConstructor;
+import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
+import org.nakeduml.runtime.domain.AbstractRequest;
+import org.nakeduml.runtime.domain.IBusinessServiceInvocation;
+import org.nakeduml.runtime.domain.ITaskInvocation;
+import org.nakeduml.runtime.domain.IUserInRole;
 
-public class TaskImplementor extends AbstractBehaviorVisitor {
-
+public class TaskImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
-	public void visitOpaqueBehavior(INakedOpaqueBehavior ob) {
-		// TODO find better place for this
-		if (BehaviorUtil.hasExecutionInstance(ob)) {
-			super.implementSpecificationOrStartClassifierBehaviour(ob);
-			if (ob.getContext() != null) {
-				addContextFieldAndConstructor(findJavaClass(ob), ob, ob.getContext());
+	public void visitScreenFlowTask(INakedScreenFlowTask a){
+		INakedStateMachine sm = (INakedStateMachine) a.getBehavior();
+		NakedClassifierMap map = new NakedClassifierMap(sm);
+		OJAnnotatedClass ojClass = new OJAnnotatedClass(a.getMappingInfo().getJavaName().getCapped().getAsIs());
+		OJAnnotatedPackage pkg = findOrCreatePackage(OJUtil.packagePathname(a.getActivity()));
+		pkg.addToClasses(ojClass);
+		createTextPath(ojClass, OutputRootId.DOMAIN_GEN_SRC);
+		JpaUtil.addEntity(ojClass);
+		JpaUtil.buildTableAnnotation(ojClass, a.getMappingInfo().getPersistentName().getAsIs(), super.config, a.getActivity());
+		OJAnnotatedField field = OJUtil.addProperty(ojClass, sm.getMappingInfo().getJavaName().getDecapped().getAsIs(), map.javaTypePath(), true);
+		OJAnnotationValue manyToone = field.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
+		manyToone.putAttribute("cascadeType", new OJEnumValue(new OJPathName(CascadeType.class.getName()), "ALL"));
+		for(INakedParameter p:sm.getOwnedParameters()){
+			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(a.getActivity(), p);
+			OJAnnotatedOperation setter = new OJAnnotatedOperation(pMap.setter());
+			setter.addParam(pMap.umlName(), pMap.javaTypePath());
+			ojClass.addToOperations(setter);
+			setter.getBody().addToStatements("get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.setter() + "(" + pMap.umlName() + ")");
+			OJAnnotatedOperation getter = new OJAnnotatedOperation(pMap.getter(), map.javaTypePath());
+			getter.getBody().addToStatements("return get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.getter() + "()");
+			ojClass.addToOperations(getter);
+		}
+		implementEmbeddedTask(a, ojClass);
+	}
+	@VisitBefore
+	public void visitEmbeddedSingleScreenTask(INakedEmbeddedSingleScreenTask oa){
+		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
+		ojClass.addToImplementedInterfaces(new OJPathName(ITaskInvocation.class.getName()));
+		implementEmbeddedTask(oa, ojClass);
+	}
+	@VisitBefore
+	public void visitResponsibility(INakedResponsibility oa){
+		OJAnnotatedClass ojClass = findJavaClass(new OperationMessageStructureImpl(oa));
+		ojClass.addToImplementedInterfaces(new OJPathName(IBusinessServiceInvocation.class.getName()));
+		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
+		// TODO select one
+		addAssignments(ojClass, exec, oa.getTaskDefinition().getPotentialOwners(), "potentialOwners");
+		addAssignments(ojClass, exec, oa.getTaskDefinition().getPotentialBusinessAdministrators(), "potentialBusinessAdministrators");
+		addAssignments(ojClass, exec, oa.getTaskDefinition().getPotentialStakeholders(), "potentialStakeholders");
+	}
+	private void implementEmbeddedTask(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
+		ojClass.addToImports(ITaskInvocation.class.getName());
+		implementExecute(oa, ojClass);
+		Jbpm5Util.implementRelationshipWithProcess(ojClass, true, "callingProcess");
+		addSetReturnInfo(ojClass);
+		addGetName(oa, ojClass);
+		OJAnnotatedOperation getProcessObject = addGetCallingProcessObject(ojClass, new NakedClassifierMap(oa.getActivity()).javaTypePath());
+		addRequestForWork(ojClass);
+		OJAnnotatedOperation completed = addEmbeddedTaskCompletedMethod(oa, ojClass);
+		Collection<INakedDeadline> deadlines = oa.getTaskDefinition().getDeadlines();
+		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
+		ojClass.addToOperations(started);
+		addCallingProcessObjectField(started);
+		addCallingProcessObjectField(completed);
+		for(INakedDeadline d:deadlines){
+			// TODO ensure uniqueness of deadline names
+			implementDeadlineCallback(ojClass, getProcessObject, d);
+			OJIfStatement ifNotNullCancel = new OJIfStatement("callingProcessObject!=null");
+			EventUtil.cancelTimer(ifNotNullCancel.getThenPart(), d, "this");
+			// Repeat if not Null because a previous event may cause the process to end
+			if(d.getKind() == DeadlineKind.COMPLETE){
+				completed.getBody().addToStatements(ifNotNullCancel);
+			}else{
+				started.getBody().addToStatements(ifNotNullCancel);
 			}
 		}
 	}
-
-	@VisitBefore
-	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		if (oa.isTask() && oa.getTargetElement() != null) {
-			INakedMessageStructure message = oa.getMessageStructure();
-			OJAnnotatedClass ojClass = findJavaClass(message);
-			implementExecute(oa, ojClass);
-			OJConstructor constr = super.addContextFieldAndConstructor(ojClass, message, oa.getActivity());
-			constr.addParam("context", ActivityUtil.PROCESS_CONTEXT);
-			constr.getBody().addToStatements("this.processInstanceId=context.getProcessInstance().getId()");
-			constr.getBody().addToStatements(
-					"this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
-			OJUtil.addProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
-			ojClass.addToImports(Jbpm5Util.getNodeInstance());
-			addGetName(oa, ojClass);
-//			implementRelationshipWithProcess(ojClass, true);
-			OJAnnotatedOperation completeMethod = addCompleteMethod(oa, ojClass);
-			completeMethod.getBody().addToStatements(
-					"getContextObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa.getTargetElement());
-			OJAnnotatedField user = OJUtil.addProperty(ojClass, "user", map.javaBaseTypePath(), true);
-			// TODO could be Interface - use @Any
-			user.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
-		}
+	private void implementDeadlineCallback(OJAnnotatedClass ojClass,OJAnnotatedOperation getProcessObject,INakedDeadline d){
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getCallbackMethodName(d));
+		ojClass.addToOperations(oper);
+		oper.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), d.getMappingInfo().getPersistentName().getAsIs()));
+		addCallingProcessObjectField(getProcessObject);
+		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
+		oper.getBody().addToStatements(ifNotNullCallback);
+		ifNotNullCallback.getThenPart().addToStatements("callProcessObject." + EventUtil.getCallbackMethodName(d) + "(this)");
 	}
-
-	@VisitAfter
-	public void visitOperation(INakedOperation o) {
-		/* Remember, a task can be subclassed/implemented by a process
-		 * Irrespective of whether it is a task or process
-		 * 1. Add returnInfo operation (setOperationXYZReturnInfo()) setting the ProcessInstance and nodInstance to return to
-		 * 2. Set reference to the requestor - currentUser or requestorOf calling process
-		 * 2. Create Request or Task object
-		 * 4. Check the type of the Context - if role then set fulfiller, if port on orgunit then set orgunit
-		 */
-		if (BehaviorUtil.isUserResponsibility(o)) {
-			super.implementRelationshipFromContextToProcess(o, findJavaClass(o.getOwner()), true);
-			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
-			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
-			implementExecute(o, ojOperationClass);
-//			implementRelationshipWithProcess(ojOperationClass, true);
-			OJAnnotatedClass ojContext = findJavaClass(o.getOwner());
-			NakedOperationMap map = new NakedOperationMap(o);
-			OJOperation ojOper = ojContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
-			OJPathName behaviorClass = ojOperationClass.getPathName();
-			// createJbpmProcess(o, ojOper);
-			ojOper.getBody().addToStatements(o.getName() + " _" + o.getName() + "= new " + o.getName() + "(this)");
-			List<? extends INakedParameter> args = o.getArgumentParameters();
-			for (INakedParameter arg : args) {
-				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(oc, arg);
-				ojOper.getBody().addToStatements("_" + o.getName()+"."+argMap.setter() + "(" + argMap.umlName() + ")" );
-			}
-			ojOper.getBody().addToStatements("_" + o.getName() + ".execute()");
-			ojOper.getBody().addToStatements("return _" + o.getName());
-			ojOper.setReturnType(behaviorClass);
-			super.addContextFieldAndConstructor(ojOperationClass, oc, o.getOwner());
-			addGetName(o, ojOperationClass);
-			OJAnnotatedOperation completeMethod = addCompleteMethod(o, ojOperationClass);
-			OJAnnotatedField callBackListener = new OJAnnotatedField("callBackListener", map.callbackListenerPath());
-			completeMethod.getBody().addToLocals(callBackListener);
-			callBackListener.setInitExp(getCallbackListener(map) + "()");
-			// TODO pass nodeInstance as input parameter.
-			OJIfStatement ifNotNull = new OJIfStatement("callBackListener!=null", "callBackListener." + map.callbackOperName() + "(this)");
-			completeMethod.getBody().addToStatements(ifNotNull);
-			implementgetCallbackListener(ojOperationClass, map);
-			OJAnnotatedOperation init = new OJAnnotatedOperation("init");
-			init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
-			init.getBody().addToStatements("this.processInstanceId=context.getProcessInstance().getId()");
-			init.getBody().addToStatements(
-					"this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
-			OJUtil.addProperty(ojOperationClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
-			ojOperationClass.addToImports(Jbpm5Util.getNodeInstance());
-			ojOperationClass.addToOperations(init);
-		}
+	public void addCallingProcessObjectField(OJAnnotatedOperation getProcessObject){
+		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", getProcessObject.getReturnType());
+		callingProcessObject.setInitExp("getCallingProcessObject()");
 	}
-
-	private void implementgetCallbackListener(OJAnnotatedClass ojOperationClass, NakedOperationMap map) {
-		// getCAllbackLister
-		OJAnnotatedOperation getCallbackListener = new OJAnnotatedOperation(getCallbackListener(map), map.callbackListenerPath());
-		ojOperationClass.addToOperations(getCallbackListener);
-		OJIfStatement processInstanceNotNull = new OJIfStatement("getProcessInstance()!=null ");
-		getCallbackListener.getBody().addToStatements(processInstanceNotNull);
-		OJAnnotatedField processObject = new OJAnnotatedField("processObject", map.callbackListenerPath());
-		processInstanceNotNull.getThenPart().addToLocals(processObject);
-		processObject.setInitExp("(" + map.callbackListenerPath().getLast() + ")getProcessInstance().getVariable(\"processObject\")");
-		processInstanceNotNull.getThenPart().addToStatements("return processObject");
-		getCallbackListener.getBody().addToStatements("return null");
-	}
-
-	public String getCallbackListener(NakedOperationMap map) {
-		return "get" + map.callbackListenerPath().getLast();
-	}
-
-	private OJAnnotatedOperation addCompleteMethod(PreAndPostConstrained constrained, OJAnnotatedClass ojOperationClass) {
-		OJAnnotatedOperation complete = new OJAnnotatedOperation();
-		ojOperationClass.addToOperations(complete);
-		complete.setName("complete");
-		if (constrained.getPostConditions().size() > 0) {
-			complete.getBody().addToStatements("evaluatePostConditions()");
-			OJUtil.addFailedConstraints(complete);
-		}
-		complete.getBody().addToStatements("setComplete(true)");
-		OJUtil.addProperty(ojOperationClass, "complete", new OJPathName("boolean"), true);
+	private OJAnnotatedOperation addEmbeddedTaskCompletedMethod(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
+		// TODO call this method from the TaskInstance
+		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
+		ojClass.addToOperations(complete);
+		OJAnnotatedOperation completeMethod = complete;
+		completeMethod.getBody().addToStatements("getCallingProcessObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
 		return complete;
 	}
-
-	private OJOperation implementExecute(PreAndPostConstrained element, OJAnnotatedClass ojClass) {
-		OJOperation execute = new OJAnnotatedOperation();
+	private void addRequestForWork(OJAnnotatedClass ojClass){
+		OJAnnotatedField field = OJUtil.addProperty(ojClass, "request", new OJPathName(AbstractRequest.class.getName()), true);
+		OJAnnotationValue manyToone = field.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
+		manyToone.putAttribute("cascadeType", new OJEnumValue(new OJPathName(CascadeType.class.getName()), "ALL"));
+	}
+	private OJAnnotatedOperation implementExecute(PreAndPostConstrained element,OJAnnotatedClass ojClass){
+		OJAnnotatedOperation execute = new OJAnnotatedOperation();
 		execute.setName("execute");
 		ojClass.addToOperations(execute);
-		if (element instanceof INakedOperation && element.getPreConditions().size() > 0) {
+		if(element instanceof INakedOperation && element.getPreConditions().size() > 0){
 			OJUtil.addFailedConstraints(execute);
 			execute.getBody().addToStatements("evaluatePreConditions()");
 		}
@@ -167,37 +160,34 @@ public class TaskImplementor extends AbstractBehaviorVisitor {
 		OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 		column.putAttribute(new OJAnnotationAttributeValue("name", "executed_on"));
 		f.putAnnotation(column);
-		OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"), new OJEnumValue(new OJPathName(
-				"javax.persistence.TemporalType"), "TIMESTAMP"));
+		OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"), new OJEnumValue(
+				new OJPathName("javax.persistence.TemporalType"), "TIMESTAMP"));
 		f.putAnnotation(temporal);
 		execute.getBody().addToStatements("setExecutedOn(new Date())");
 		return execute;
 	}
-
-	private void addGetName(INakedElement c, OJAnnotatedClass ojOperationClass) {
+	private void addGetName(INakedElement c,OJAnnotatedClass ojOperationClass){
 		OJOperation getName = OJUtil.findOperation(ojOperationClass, "getName");
-		if (getName == null) {
+		if(getName == null){
 			getName = new OJAnnotatedOperation();
 			getName.setName("getName");
 			getName.setReturnType(new OJPathName("String"));
 			ojOperationClass.addToOperations(getName);
-		} else {
+		}else{
 			getName.setBody(new OJBlock());
 		}
 		getName.getBody().addToStatements("return \"" + c.getName() + "On\"+getContextObject().getName()");
 	}
-
 	@VisitBefore(matchSubclasses = true)
-	public void visitCallAction(INakedCallAction ca) {
+	public void visitCallAction(INakedCallAction ca){
 		// Always order invocations of processes or tasks by the executedOn date
-		if (BehaviorUtil.isTaskOrProcess(ca)) {
+		if(ca.isLongRunning()){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(ca, getOclEngine().getOclLibrary());
-			if (map.isMany()) {
+			if(map.isMany()){
 				OJAnnotatedClass ojOwner = findJavaClass(ca.getActivity());
 				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.OrderBy"), "executedOn"));
 			}
 		}
 	}
-
 }

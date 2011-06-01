@@ -4,12 +4,12 @@ import java.util.Collection;
 
 public class NakedUmlUser{
 	private String username;
-	private Collection<? extends AbstractUserRole> roles;
+	private Collection<? extends IUserInRole> roles;
 
 	public String getUsername(){
 		return this.username;
 	}
-	public Collection<? extends AbstractUserRole> getRoles(){
+	public Collection<? extends IUserInRole> getRoles(){
 		return this.roles;
 	}
 }

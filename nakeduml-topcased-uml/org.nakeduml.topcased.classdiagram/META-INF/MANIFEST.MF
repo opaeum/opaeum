@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.nakeduml.topcased.classdiagram;singleton:=true
-Bundle-Version: 1.0.0.5
+Bundle-Version: 3.0.12.qualifier
 Bundle-Activator: org.topcased.modeler.uml.UMLPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -26,7 +26,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.topcased.validation.ocl,
  org.topcased.modeler.diagrams.validation
 Bundle-ActivationPolicy: lazy
-Export-Package: org.topcased.modeler.uml,
+Export-Package: org.nakeduml.topcased.classdiagram,
+ org.topcased.modeler.uml,
  org.topcased.modeler.uml.actions,
  org.topcased.modeler.uml.alldiagram,
  org.topcased.modeler.uml.alldiagram.commands,
@@ -50,11 +51,8 @@ Export-Package: org.topcased.modeler.uml,
    org.topcased.modeler.sysml.profilediagram,
    org.topcased.modeler.sysml.requirementdiagram",
  org.topcased.modeler.uml.classdiagram.commands;x-friends:="org.topcased.modeler.sysml",
- org.topcased.modeler.uml.classdiagram.dialogs,
  org.topcased.modeler.uml.classdiagram.edit;x-friends:="org.topcased.modeler.sysml,org.topcased.modeler.sysml.blockdefinitiondiagram",
- org.topcased.modeler.uml.classdiagram.edit.dragtrackers,
  org.topcased.modeler.uml.classdiagram.figures;x-friends:="org.topcased.modeler.sysml",
- org.topcased.modeler.uml.classdiagram.parentrule,
  org.topcased.modeler.uml.classdiagram.policies;x-friends:="org.topcased.modeler.sysml",
  org.topcased.modeler.uml.classdiagram.preferences;x-friends:="org.topcased.modeler.sysml,org.topcased.modeler.sysml.blockdefinitiondiagram,org.topcased.modeler.sysml.requirementdiagram",
  org.topcased.modeler.uml.classdiagram.util;
@@ -70,19 +68,15 @@ Export-Package: org.topcased.modeler.uml,
  org.topcased.modeler.uml.editor.outline,
  org.topcased.modeler.uml.figure,
  org.topcased.modeler.uml.internal.customchildmenu;x-internal:=true,
- org.topcased.modeler.uml.internal.decorators,
  org.topcased.modeler.uml.internal.properties.sections;x-internal:=true,
  org.topcased.modeler.uml.internal.properties.sections.association;x-internal:=true,
- org.topcased.modeler.uml.internal.properties.sections.classifier,
  org.topcased.modeler.uml.internal.properties.sections.composites;x-internal:=true,
- org.topcased.modeler.uml.internal.properties.sections.expression,
  org.topcased.modeler.uml.internal.properties.sections.feature;x-internal:=true,
  org.topcased.modeler.uml.internal.properties.sections.multiplicityelement;x-internal:=true,
  org.topcased.modeler.uml.internal.properties.sections.operation;x-internal:=true,
  org.topcased.modeler.uml.internal.properties.sections.operation.behavior,
  org.topcased.modeler.uml.internal.properties.sections.property;x-internal:=true,
  org.topcased.modeler.uml.internal.properties.sections.slot;x-internal:=true,
- org.topcased.modeler.uml.internal.properties.sections.stereotype,
  org.topcased.modeler.uml.internal.properties.sections.structuralfeature;x-internal:=true,
  org.topcased.modeler.uml.internal.ui.navigator;x-internal:=true,
  org.topcased.modeler.uml.parentrule,
@@ -103,9 +97,6 @@ Export-Package: org.topcased.modeler.uml,
  org.topcased.modeler.uml.usecasediagram.figures;x-friends:="org.topcased.modeler.sysml",
  org.topcased.modeler.uml.usecasediagram.policies;x-internal:=true,
  org.topcased.modeler.uml.usecasediagram.preferences;x-internal:=true,
- org.topcased.modeler.uml.validation.core,
  org.topcased.modeler.uml.validation.extend,
  org.topcased.modeler.uml.wizards
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: lib/plugins/org.topcased.modeler.uml_3.0.12.nakeduml.jar,
- .

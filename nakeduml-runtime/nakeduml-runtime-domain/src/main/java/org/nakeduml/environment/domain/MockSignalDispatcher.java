@@ -7,17 +7,17 @@ import java.util.List;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.runtime.domain.AbstractSignal;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IActiveObject;
 
 public class MockSignalDispatcher implements ISignalDispatcher {
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
 
-	public void sendSignal(Object source, ActiveObject target, AbstractSignal signal) {
+	public void sendSignal(Object source, IActiveObject target, AbstractSignal signal) {
 		signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 	}
 
-	public void sendSignal(Object source, Collection<? extends ActiveObject> targets, AbstractSignal signal) {
-		for (ActiveObject target : targets) {
+	public void sendSignal(Object source, Collection<? extends IActiveObject> targets, AbstractSignal signal) {
+		for (IActiveObject target : targets) {
 			signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 		}
 	}

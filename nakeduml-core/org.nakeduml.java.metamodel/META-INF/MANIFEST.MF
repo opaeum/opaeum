@@ -4,10 +4,11 @@ Bundle-Name: org.nakeduml.java.metamodel
 Bundle-Symbolic: org.nakeduml.java.metamodel;singleton:=true
 Bundle-Version: 1.0.0.5
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.nakeduml.java.metamodel,
- org.nakeduml.java.metamodel.annotation,
- org.nakeduml.java.metamodel.generated,
- org.nakeduml.java.metamodel.utilities
-Bundle-SymbolicName: org.nakeduml.java.metamodel
+Export-Package: org.nakeduml.java.metamodel;uses:="org.nakeduml.java.metamodel.annotation,org.nakeduml.java.metamodel.generated",
+ org.nakeduml.java.metamodel.annotation;uses:="org.nakeduml.java.metamodel",
+ org.nakeduml.java.metamodel.generated;uses:="org.nakeduml.java.metamodel",
+ org.nakeduml.java.metamodel.utilities;uses:="org.nakeduml.java.metamodel"
+Bundle-SymbolicName: org.nakeduml.java.metamodel;singleton:=true
 Bundle-ClassPath: .
+Bundle-Vendor: NakedUML
 

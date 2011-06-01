@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.eclipse.ElementFinder;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.topcased.tabbedproperties.sections.AbstractTextPropertySection;
 import org.topcased.tabbedproperties.sections.widgets.IText;
 
@@ -43,7 +43,7 @@ public abstract class TypedElementCodeCompletingSection extends AbstractTextProp
 		return null;
 	}
 	protected Property getProperty(Classifier c,String name){
-		Collection<TypedElement> typedElements = ElementFinder.getTypedElementsInScope(c);
+		Collection<TypedElement> typedElements = EmfElementFinder.getTypedElementsInScope(c);
 		for(TypedElement te:typedElements){
 			if(te.getName().equals(name)){
 				return (Property) te;

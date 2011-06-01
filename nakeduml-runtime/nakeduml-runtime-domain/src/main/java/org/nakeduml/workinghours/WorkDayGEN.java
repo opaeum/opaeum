@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.MetaIdentifiable;
 
@@ -356,7 +356,7 @@ abstract public class WorkDayGEN implements CompositionNode, AbstractEntity, Met
 			}
 		}
 	}
-	public AbstractProcess getAbstractStateMachine() {
+	public IProcessObject getAbstractStateMachine() {
 		return null;
 	}
 	public boolean processSignal(Object signal) {

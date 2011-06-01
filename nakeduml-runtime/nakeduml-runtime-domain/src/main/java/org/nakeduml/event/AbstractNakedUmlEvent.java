@@ -1,6 +1,7 @@
 package org.nakeduml.event;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.drools.runtime.process.ProcessContext;
+import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.runtime.domain.AbstractEntity;
@@ -17,7 +20,7 @@ import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 @Entity()
 @Table(name = "numl_abstract_event")
-public class AbstractNakedUmlEvent implements Retryable{
+public abstract class AbstractNakedUmlEvent implements Retryable{
 	private static final long serialVersionUID = 8920092390485701533L;
 	@Id
 	Long id;
@@ -30,6 +33,7 @@ public class AbstractNakedUmlEvent implements Retryable{
 	@Basic
 	@Column(name = "callback_method_name")
 	private String callbackMethodName;
+	@Basic
 	@Transient
 	private boolean toBeCancelled;
 	@Transient
@@ -37,6 +41,8 @@ public class AbstractNakedUmlEvent implements Retryable{
 	// For Mocking purposes
 	@Transient
 	private AbstractEntity eventSource;
+	@Basic
+	private String nodeInstanceId;
 	@Override
 	public String getDescription(){
 		return getEventSourceClassName() + "." + getCallbackMethodName() + "()";
@@ -47,26 +53,25 @@ public class AbstractNakedUmlEvent implements Retryable{
 	}
 	public AbstractNakedUmlEvent(){
 	}
-	public AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName){
-		this.eventSource = process;
-		this.eventSourceId = process.getId();
-		this.eventSourceClassName = IntrospectionUtil.getOriginalClass(process.getClass()).getAnnotation(PersistentName.class).value();
-		this.callbackMethodName = callBackMethodName;
+	public AbstractNakedUmlEvent(AbstractEntity target,String callBackMethodName,ProcessContext ctx){
+		this(target, callBackMethodName);
+		this.nodeInstanceId = ((NodeInstanceImpl) ctx.getNodeInstance()).getUniqueId();
+		this.eventSourceClassName = IntrospectionUtil.getOriginalClass(target.getClass()).getAnnotation(PersistentName.class).value();
 	}
 	public AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName2,boolean cancelled){
-		this(process,callBackMethodName2);
-		this.toBeCancelled=cancelled;
+		this(process, callBackMethodName2);
+		this.toBeCancelled = cancelled;
+	}
+	private AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName){
+		this.eventSource = process;
+		this.eventSourceId = process.getId();
+		this.callbackMethodName = callBackMethodName;
 	}
 	public Long getEventSourceId(){
 		return eventSourceId;
 	}
-	public void invokeCallback(AbstractEntity context){
-		try{
-			getCallbackMethod().invoke(context);
-		}catch(Exception e){
-			ExceptionAnalyser ea = new ExceptionAnalyser(e);
-			throw ea.wrapRootCauseIfNecessary();
-		}
+	public String getNodeInstanceId(){
+		return nodeInstanceId;
 	}
 	public int hashCode(){
 		return getEventSourceClass().hashCode();
@@ -94,13 +99,16 @@ public class AbstractNakedUmlEvent implements Retryable{
 	public AbstractEntity getEventSource(){
 		return eventSource;
 	}
-	private Method getCallbackMethod(){
-		return getMethodByPersistentName(callbackMethodName);
-	}
-	protected Method getMethodByPersistentName(String persistentMethodName){
+	protected Method getMethodByPersistentName(String persistentMethodName,Type...parameterTypes){
 		Method[] methods = getEventSourceClass().getMethods();
 		for(Method method:methods){
-			if(method.isAnnotationPresent(PersistentName.class) && method.getAnnotation(PersistentName.class).value().equals(persistentMethodName)){
+			if(method.isAnnotationPresent(PersistentName.class) && method.getAnnotation(PersistentName.class).value().equals(persistentMethodName)
+					&& method.getParameterTypes().length == parameterTypes.length){
+				for(int i = 0;i < parameterTypes.length;i++){
+					if(parameterTypes[i] != method.getParameterTypes()[i]){
+						break;
+					}
+				}
 				return method;
 			}
 		}
@@ -119,4 +127,5 @@ public class AbstractNakedUmlEvent implements Retryable{
 	public void incrementRetryCount(){
 		retryCount++;
 	}
+	public abstract void invokeCallback(AbstractEntity eventSource2);
 }

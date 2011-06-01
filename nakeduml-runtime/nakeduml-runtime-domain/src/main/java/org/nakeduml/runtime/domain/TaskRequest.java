@@ -14,35 +14,35 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Any;
+
 @Entity
-@Table(name="numl_task_request")
+@Table(name = "numl_task_request")
 public class TaskRequest extends AbstractRequest{
 	public static final String ORGANIZATION_UNIT_META_DEF = "OrganizationUnitMetaDef";
 	public static final String TASK_META_DEF = "TaskMetaDef";
-	@Any(metaDef=USER_ROLE_META_DEF,metaColumn=@Column(name="fulfiller_type"))
-	@JoinColumn(name="fulfiller_id")
-	private AbstractUserRole fulfiller;
-	@Any(metaDef=ORGANIZATION_UNIT_META_DEF,metaColumn=@Column(name="organization_unit_type"))
-	@JoinColumn(name="organization_unit_id")
-	private OrganizationUnit organizationUnit;
+	@Any(metaDef = USER_ROLE_META_DEF,metaColumn = @Column(name = "fulfiller_type"))
+	@JoinColumn(name = "fulfiller_id")
+	private IUserInRole fulfiller;
+	@Any(metaDef = ORGANIZATION_UNIT_META_DEF,metaColumn = @Column(name = "organization_unit_type"))
+	@JoinColumn(name = "organization_unit_id")
+	private IOrganizationUnit organizationUnit;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date acceptedOn;
-	@Any(metaDef=TASK_META_DEF,metaColumn=@Column(name="task_type"))
-	@JoinColumn(name="task_id")
-	AbstractTask task;
-	@OneToMany(mappedBy="parentTaskRequest",cascade=CascadeType.ALL, orphanRemoval=true)
+	@Any(metaDef = TASK_META_DEF,metaColumn = @Column(name = "task_type"))
+	@JoinColumn(name = "task_id")
+	ITaskInvocation taskInvocation;
+	@OneToMany(mappedBy = "parentTaskInstance",cascade = CascadeType.ALL,orphanRemoval = true)
 	private Set<AbstractRequest> childRequests = new HashSet<AbstractRequest>();
-	
-	public AbstractUserRole getFulfiller(){
+	public IUserInRole getFulfiller(){
 		return fulfiller;
 	}
-	public void setFulfiller(AbstractUserRole fulfiller){
+	public void setFulfiller(IUserInRole fulfiller){
 		this.fulfiller = fulfiller;
 	}
-	public OrganizationUnit getOrganizationUnit(){
+	public IOrganizationUnit getOrganizationUnit(){
 		return organizationUnit;
 	}
-	public void setOrganizationUnit(OrganizationUnit organizationUnit){
+	public void setOrganizationUnit(IOrganizationUnit organizationUnit){
 		this.organizationUnit = organizationUnit;
 	}
 	public Date getAcceptedOn(){
@@ -50,12 +50,6 @@ public class TaskRequest extends AbstractRequest{
 	}
 	public void setAcceptedOn(Date acceptedOn){
 		this.acceptedOn = acceptedOn;
-	}
-	public AbstractTask getTask(){
-		return task;
-	}
-	public void setTask(AbstractTask task){
-		this.task = task;
 	}
 	public Set<AbstractRequest> getChildRequests(){
 		return childRequests;

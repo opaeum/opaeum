@@ -4,7 +4,7 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityEventHandlerInserter;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityMessageEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.TaskImplementor;
@@ -41,7 +41,7 @@ public class Jbpm5JavaStep extends AbstractJavaTransformationStep {
 		statimpl.initialize(javaModel, config, textWorkspace, context);
 		statimpl.startVisiting(workspace);
 		// Lastly we insert the events - add to end of methods.
-		ActivityEventHandlerInserter aehi = new ActivityEventHandlerInserter();
+		ActivityMessageEventHandlerInserter aehi = new ActivityMessageEventHandlerInserter();
 		aehi.initialize(javaModel, config, textWorkspace, context);
 		aehi.startVisiting(workspace);
 		StateMachineEventHandlerInserter smehi = new StateMachineEventHandlerInserter();

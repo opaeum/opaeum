@@ -5,10 +5,11 @@ Bundle-SymbolicName: org.nakeduml.tinker.generator
 Bundle-Version: 1.0.0.5
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.nakeduml.metamodels;bundle-version="1.0.0.5",
- org.nakeduml.ocl.java.generator;bundle-version="1.0.0.5",
- org.nakeduml.java.metamodel;bundle-version="1.0.0.5",
- org.nakeduml.ocl.metamodel;bundle-version="1.0.0.5",
- org.nakeduml.java.generator;bundle-version="1.0.0"
+ org.nakeduml.java.generator,
+ org.nakeduml.generators,
+ org.nakeduml.java.metamodel,
+ org.nakeduml.metamodels,
+ org.nakeduml.ocl.java.generator,
+ org.nakeduml.ocl.metamodel
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

@@ -25,21 +25,21 @@ public abstract class AbstractRequest{
 	Long id;
 	@Any(metaDef = USER_ROLE_META_DEF,metaColumn = @Column(name = "user_role_type"))
 	@JoinColumn(name="requestor_id")
-	private AbstractUserRole requestor;
+	private IUserInRole requestor;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdOn;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date completedOn;
 	@ManyToOne()
-	@JoinColumn(name="parent_task_request")
-	private TaskRequest parentTaskRequest;
+	@JoinColumn(name="parent_task_instance")
+	private TaskRequest parentTaskInstance;
 	public AbstractRequest(){
 		super();
 	}
-	public AbstractUserRole getRequestor(){
+	public IUserInRole getRequestor(){
 		return requestor;
 	}
-	public void setRequestor(AbstractUserRole requestor){
+	public void setRequestor(IUserInRole requestor){
 		this.requestor = requestor;
 	}
 	public Date getCreatedOn(){

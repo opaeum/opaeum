@@ -8,7 +8,7 @@ import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -69,11 +69,6 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	@VisitBefore(matchSubclasses = false)
-	public void visitOpaqueAction(INakedOpaqueAction constrained) {
-		OpaqueActionMessageStructureImpl messageClass = new OpaqueActionMessageStructureImpl(constrained);
-		addEvaluationMethod(constrained.getPostConditions(), "evaluatePostConditions", messageClass);
-	}
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavioredClassifier(INakedBehavioredClassifier owner) {
@@ -85,7 +80,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 	}
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitDataTYpe(INakedDataType owner) {
+	public void visitDataType(INakedDataType owner) {
 		for (IOperation oper : owner.getOperations()) {
 			processOperation((INakedOperation) oper, owner);
 		}

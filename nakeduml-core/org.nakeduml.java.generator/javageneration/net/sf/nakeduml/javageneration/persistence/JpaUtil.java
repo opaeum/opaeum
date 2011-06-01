@@ -30,6 +30,8 @@ public class JpaUtil{
 	private static Set<String> RESERVED_NAMES = new HashSet<String>();
 	static{
 		RESERVED_NAMES.add("group");
+		RESERVED_NAMES.add("min");
+		RESERVED_NAMES.add("max");
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,NakedUmlConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);

@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.eclipse.ElementFinder;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -35,9 +35,9 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferencePro
 			Property p = (Property) getEObject();
 			List<EObject> choiceOfValues = new ArrayList<EObject>();
 			if(p.getClass_() != null){
-				choiceOfValues.addAll(ElementFinder.getPropertiesInScope(p.getClass_()));
+				choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope(p.getClass_()));
 			}else if(p.getAssociation() != null){
-				choiceOfValues.addAll(ElementFinder.getPropertiesInScope(p.getAssociation()));
+				choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope(p.getAssociation()));
 			}
 			if(p.getType() != null){
 				Iterator<EObject> iter = choiceOfValues.iterator();

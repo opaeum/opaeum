@@ -9,7 +9,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
-import org.nakeduml.eclipse.StateMachineUtil;
+import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.FormPanel;
 import org.nakeduml.uim.OperationAction;
 import org.nakeduml.uim.StateForm;
@@ -74,8 +74,8 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 				StateForm sui = (StateForm) ui;
 				State state = UmlUimLinks.getInstance(getEObject()).getState(sui);
 				if(state != null){
-					results.addAll(StateMachineUtil.getTriggerOperations(state));
-					results.addAll(StateMachineUtil.getNonTriggerOperations(StateMachineUtil.getStateMachine(state)));
+					results.addAll(EmfStateMachineUtil.getTriggerOperations(state));
+					results.addAll(EmfStateMachineUtil.getNonTriggerOperations(EmfStateMachineUtil.getStateMachine(state)));
 				}
 			}else{
 				results.addAll(UimUtil.getNearestClass(oa).getAllOperations());

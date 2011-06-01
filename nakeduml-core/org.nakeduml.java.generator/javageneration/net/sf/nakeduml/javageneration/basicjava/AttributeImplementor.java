@@ -2,34 +2,18 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedCallAction;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
-import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -43,108 +27,20 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-public class AttributeImplementor extends StereotypeAnnotator{
+public class AttributeImplementor extends AbstractStructuralFeatureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
-	private AttributeImplementorStrategy attributeImplementorStrategy;
+	protected AttributeImplementorStrategy attributeImplementorStrategy;
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		try {
+		try{
 			attributeImplementorStrategy = (AttributeImplementorStrategy) Class.forName(config.getAttributeImplementationStrategy()).newInstance();
-		} catch (Exception e) {
+		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
 	}
-	@VisitAfter(matchSubclasses = true,match = {INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class})
-	public void visitFeature(INakedClassifier entity){
-		for(INakedProperty p:entity.getEffectiveAttributes()){
-			if(p.getOwner() instanceof INakedInterface && OJUtil.hasOJClass(entity)){
-				if(p.getAssociation() instanceof INakedAssociationClass){
-					// TODO test this may create duplicates
-					// buildAssociationClassLogic(entity,
-					// (INakedAssociationClass) p.getAssociation());
-				}else{
-					visitProperty(entity, OJUtil.buildStructuralFeatureMap(p));
-				}
-			}
-		}
-	}
-	@VisitBefore
-	public void visitAssociationClass(INakedAssociationClass ac){
-		//
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) ac.getEnd1());
-		if(map.isManyToMany()){
-			new AssociationClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac.getEnd2()
-					.getNakedBaseType()));
-		}
-	}
-	@VisitAfter(matchSubclasses = true)
-	public void visitFeature(INakedProperty p){
-		if(OJUtil.hasOJClass(p.getOwner())){
-			if(p.getAssociation() instanceof INakedAssociationClass){
-				// visitProperty(p.getOwner(),
-				// OJUtil.buildAssociationClassMap(p,getOclEngine().getOclLibrary()));
-			}else{
-				visitProperty(p.getOwner(), OJUtil.buildStructuralFeatureMap(p));
-			}
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitVariable(INakedActivityVariable var){
-		if(BehaviorUtil.hasExecutionInstance(var.getActivity()) && var.getOwnerElement() instanceof INakedActivity){
-			// Variables contained by StructuredActivityNodes require
-			// contextable variables which will be delegated to BPM engine
-			implementAttributeFully(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitOutputPin(INakedOutputPin node){
-		if(BehaviorUtil.mustBeStoredOnActivity(node)){
-			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitExpansionNode(INakedExpansionNode node){
-		if(BehaviorUtil.mustBeStoredOnActivity(node)){
-			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
-		}
-	}
-	@VisitBefore()
-	public void visitOperation(INakedOperation o){
-		if(o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)){
-			OperationMessageStructureImpl umlOwner = new OperationMessageStructureImpl(o);
-			for(INakedParameter parm:o.getOwnedParameters()){
-				implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, parm));
-			}
-		}
-	}
-	@VisitBefore()
-	public void visitOpaqueAction(INakedOpaqueAction oa){
-		if(oa.isTask()){
-			OpaqueActionMessageStructureImpl umlOwner = new OpaqueActionMessageStructureImpl(oa);
-			for(INakedPin pin:oa.getPins()){
-				implementAttributeFully(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, pin, false));
-			}
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitCallAction(INakedCallAction node){
-		if((BehaviorUtil.mustBeStoredOnActivity(node))){
-			implementAttributeFully(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitParameter(INakedParameter node){
-		if(node.getOwnerElement() instanceof INakedBehavior){
-			// Activity Parameters will be done through ParameterNodes
-			INakedBehavior sm = (INakedBehavior) node.getOwnerElement();
-			if(BehaviorUtil.hasExecutionInstance(sm) && sm.getSpecification() == null){
-				implementAttributeFully(sm, OJUtil.buildStructuralFeatureMap(sm, node));
-			}
-		}
-	}
-	private void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -167,6 +63,16 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			}
 		}
 	}
+	@VisitBefore
+	public void visitAssociationClass(INakedAssociationClass ac){
+		//
+		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) ac.getEnd1());
+		if(map.isManyToMany()){
+			new AssociationClassCreator().generateManyToMany(ac, findJavaClass(ac), findJavaClass(ac.getEnd1().getNakedBaseType()), findJavaClass(ac.getEnd2()
+					.getNakedBaseType()));
+		}
+	}
+
 	private void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
@@ -195,7 +101,7 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			}
 		}
 	}
-	private OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJAnnotatedField field = new OJAnnotatedField();
 		field.setType(map.javaTypePath());
 		field.setName(map.umlName());
@@ -349,5 +255,9 @@ public class AttributeImplementor extends StereotypeAnnotator{
 			}
 		}
 		return setter;
+	}
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		// Do nothing
 	}
 }

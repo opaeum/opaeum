@@ -21,8 +21,8 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
-import org.nakeduml.eclipse.BehaviorUtil;
-import org.nakeduml.eclipse.ElementFinder;
+import org.nakeduml.eclipse.EmfBehaviorUtil;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
@@ -86,7 +86,7 @@ public class OclValueComposite extends Composite{
 					return vp.eResource();
 				}
 			};
-			for(TypedElement te:ElementFinder.getTypedElementsInScope(vp)){
+			for(TypedElement te:EmfElementFinder.getTypedElementsInScope(vp)){
 				if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter){
 					Variable<Object,Object> var = ExpressionsFactory.eINSTANCE.createVariable();
 					var.setType(te.getType());
@@ -96,14 +96,14 @@ public class OclValueComposite extends Composite{
 					contextAsClassifier.createOwnedAttribute(te.getName(), te.getType());
 				}
 			}
-			Classifier contextObject = BehaviorUtil.getContext(vp);
+			Classifier contextObject = EmfBehaviorUtil.getContext(vp);
 			if(contextObject != null){
 				Variable<Object,Object> var = ExpressionsFactory.eINSTANCE.createVariable();
 				var.setType(contextObject);
 				var.setName("contextObject");
 				variables.add(var);
 			}
-			Classifier self = BehaviorUtil.getSelf(vp);
+			Classifier self = EmfBehaviorUtil.getSelf(vp);
 			if(self == null){
 				contextAsClassifier.setName("Anonymous");
 			}else{

@@ -14,14 +14,14 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.runtime.domain.Constrained;
+import org.nakeduml.runtime.domain.IConstrained;
 import org.nakeduml.runtime.domain.IInvariantError;
 
 /**
  * This class implements the Constrained interface on classes that have invariants.
  */
 public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
-	private static final OJPathName CONSTRAINED = new OJPathName(Constrained.class.getName());
+	private static final OJPathName CONSTRAINED = new OJPathName(IConstrained.class.getName());
 	@VisitBefore()
 	public void visitModel(INakedModel p){
 		if(JavaTransformationPhase.IS_RUNTIME_AVAILABLE){

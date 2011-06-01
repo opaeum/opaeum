@@ -4,7 +4,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
-public interface INakedChangeEvent extends INakedElement{
+public interface INakedChangeEvent extends INakedEvent{
 	INakedValueSpecification getChangeExpression();
 	INakedClassifier getOwningBehavior();
 }

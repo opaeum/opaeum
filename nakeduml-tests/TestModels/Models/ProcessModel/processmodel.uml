@@ -1224,6 +1224,11 @@
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_XYGrcYVNEeCO_cyjCSiuxA" name="OnOperation1" operation="_JkkqIIVNEeCO_cyjCSiuxA"/>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_L-L3UIXFEeCO_cyjCSiuxA" name="OnOperation2" operation="_Arc-0IXFEeCO_cyjCSiuxA"/>
     </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_0W3doIe6EeC8RrVQoKImsA" name="Interface1">
+      <eAnnotations xmi:id="_0W3doYe6EeC8RrVQoKImsA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <details xmi:id="_0W3dooe6EeC8RrVQoKImsA" key="Responsibility"/>
+      </eAnnotations>
+    </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_Stke8EihEdyLo_OnlCyrLg" name="statemachines">
     <packageImport xmi:id="_gjpNQMMWEd--CeJM_PJ63w">
@@ -1657,15 +1662,7 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_pcEbIIaVEeCgEsOAkwdG4A" name="orgstructure">
     <packagedElement xmi:type="uml:Component" xmi:id="_yYoGcIaVEeCgEsOAkwdG4A" name="OrganizationUnit1">
-      <ownedAttribute xmi:type="uml:Port" xmi:id="_1a8A4IaVEeCgEsOAkwdG4A" name="Port1" aggregation="composite"/>
-      <ownedAttribute xmi:id="_Hl-1AIaWEeCgEsOAkwdG4A" name="Property1" aggregation="composite"/>
-      <nestedClassifier xmi:type="uml:Component" xmi:id="_SktFAIaZEeCgEsOAkwdG4A" name="Component1"/>
-      <nestedClassifier xmi:type="uml:Class" xmi:id="_T5u-QIaZEeCgEsOAkwdG4A" name="Class1" clientDependency="_vnQOMIaZEeCgEsOAkwdG4A">
-        <ownedAttribute xmi:id="_YSLlMIaZEeCgEsOAkwdG4A" name="Property1"/>
-        <interfaceRealization xmi:id="_vnQOMIaZEeCgEsOAkwdG4A" name="InterfaceRealization1" supplier="_uiwEQIaZEeCgEsOAkwdG4A" client="_T5u-QIaZEeCgEsOAkwdG4A" contract="_uiwEQIaZEeCgEsOAkwdG4A"/>
-      </nestedClassifier>
-      <nestedClassifier xmi:type="uml:Interface" xmi:id="_uiwEQIaZEeCgEsOAkwdG4A" name="Interface1"/>
-      <packagedElement xmi:type="uml:Package" xmi:id="_YmNZAIbcEeCrS4k9UVNODw" name="Package1"/>
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_w5FMUIezEeCmr6F0Cfbf_A" name="Class1"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_KAIkQFHiEdyTle4M6qyXzw" name="UserInRole" clientDependency="_NJAZsFHiEdyTle4M6qyXzw">
       <ownedAttribute xmi:id="_2HUKQFHiEdyTle4M6qyXzw" name="userName" visibility="private">

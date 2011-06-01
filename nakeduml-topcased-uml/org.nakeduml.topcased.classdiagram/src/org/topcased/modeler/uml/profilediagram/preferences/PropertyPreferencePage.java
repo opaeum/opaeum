@@ -1,0 +1,62 @@
+/***********************************************************************
+ * Copyright (c) 2008 Anyware Technologies
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Anyware Technologies - initial API and implementation
+ **********************************************************************/
+package org.topcased.modeler.uml.profilediagram.preferences;
+
+import org.topcased.modeler.preferences.AbstractNodePreferencePage;
+import org.topcased.modeler.uml.UMLPlugin;
+
+/**
+ * This class represents a preference page that is contributed to the Preferences or Property dialog. This page is used
+ * to modify preferences only. They are stored in the preference store that belongs to the main plug-in class. That way,
+ * preferences can be accessed directly via the preference store.
+ * 
+ * @generated
+ */
+public class PropertyPreferencePage extends AbstractNodePreferencePage
+{
+    /**
+     * @see org.topcased.modeler.preferences.AbstractNodePreferencePage#getNodeBackgroundColor()
+     * @generated
+     */
+    protected String getNodeBackgroundColor()
+    {
+        return ProfileDiagramPreferenceConstants.PROPERTY_DEFAULT_BACKGROUND_COLOR;
+    }
+
+    /**
+     * @see org.topcased.modeler.preferences.AbstractNodePreferencePage#getNodeFont()
+     * @generated
+     */
+    protected String getNodeFont()
+    {
+        return ProfileDiagramPreferenceConstants.PROPERTY_DEFAULT_FONT;
+    }
+
+    /**
+     * @see org.topcased.modeler.preferences.AbstractNodePreferencePage#getNodeForegroundColor()
+     * @generated
+     */
+    protected String getNodeForegroundColor()
+    {
+        return ProfileDiagramPreferenceConstants.PROPERTY_DEFAULT_FOREGROUND_COLOR;
+    }
+
+    /**
+     * @see org.topcased.facilities.preferences.AbstractTopcasedPreferencePage#getBundleId()
+     * @generated
+     */
+    protected String getBundleId()
+    {
+        return UMLPlugin.getId();
+    }
+
+}

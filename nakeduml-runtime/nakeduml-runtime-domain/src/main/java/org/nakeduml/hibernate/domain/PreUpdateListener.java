@@ -23,8 +23,8 @@ public class PreUpdateListener extends DefaultFlushEntityEventListener {
 			if (entity instanceof BaseAuditable) {
 				BaseAuditable baseAuditable = (BaseAuditable) entity;
 				baseAuditable.defaultUpdate();
-//			} else if (entity instanceof AbstractProcess) {
-//				ProcessInstanceInfo processInstanceInfo =session.immediateLoad(ProcessInstanceInfo.class.getName(), ((AbstractProcess)entity).getProcessInstanceId() );
+//			} else if (entity instanceof IProcessObject) {
+//				ProcessInstanceInfo processInstanceInfo =session.immediateLoad(ProcessInstanceInfo.class.getName(), ((IProcessObject)entity).getProcessInstanceId() );
 //				processInstanceInfo.update();
 			} else if (entity instanceof ProcessInstanceInfo) {
 				ProcessInstanceInfo processInstanceInfo = (ProcessInstanceInfo) entity;

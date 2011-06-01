@@ -9,14 +9,17 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.WaitForEventElements;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -44,21 +47,23 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 		Collection<WaitForEventElements> waitForEventElements = getWaitForEventElements(umlStateMachine);
 		// TODO fire default transition after doActivity if it is a simple state
 		for(WaitForEventElements wfe:waitForEventElements){
-			if(wfe.getEvent() instanceof INakedTimeEvent){
+			if(wfe.getEvent() instanceof INakedDeadline){
+				//fired and cancelled from task
+			}else if(wfe.getEvent() instanceof INakedTimeEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
 					OJOperation fire = findOrCreateRequestEventsMethod(javaStateMachine, map);
-					Jbpm5Util.implementTimeEventRequest(fire, (INakedTimeEvent) wfe.getEvent());
+					EventUtil.implementTimeEventRequest(fire, fire.getBody(), umlStateMachine, (INakedTimeEvent) wfe.getEvent(), "this");
 					OJOperation cancel = findOrCreateCancelMethod(javaStateMachine, map);
-					Jbpm5Util.cancelTimer(cancel, (INakedTimeEvent) wfe.getEvent());
+					EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) wfe.getEvent(), "this");
 				}
-			}else if(wfe.getEvent() instanceof INakedChangeEvent){
+			}else if(wfe.getEvent() instanceof INakedEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
 					OJOperation fire = findOrCreateRequestEventsMethod(javaStateMachine, map);
-					Jbpm5Util.implementChangeEventRequest(fire, (INakedChangeEvent) wfe.getEvent());
+					EventUtil.implementChangeEventRequest(fire, (INakedChangeEvent) wfe.getEvent());
 					OJOperation cancel = findOrCreateCancelMethod(javaStateMachine, map);
-					Jbpm5Util.cancelChangeEvent(cancel, (INakedChangeEvent) wfe.getEvent());
+					EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) wfe.getEvent());
 				}
 			}
 		}

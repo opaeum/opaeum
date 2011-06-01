@@ -13,17 +13,17 @@ import org.hibernate.Session;
 import org.nakeduml.event.Retryable;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractSignal;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 public class SignalToDispatch implements Retryable{
 	private static final long serialVersionUID = -2996390224218437999L;
 	protected AbstractSignal signal;
 	protected Object source;
-	protected ActiveObject target;
+	protected IActiveObject target;
 	private int retryCount;
 	private String uid;
-	public SignalToDispatch(Object source,ActiveObject target,AbstractSignal signal){
+	public SignalToDispatch(Object source,IActiveObject target,AbstractSignal signal){
 		super();
 		this.source = source;
 		this.target = target;
@@ -37,7 +37,7 @@ public class SignalToDispatch implements Retryable{
 	public Object getSource(){
 		return source;
 	}
-	public ActiveObject getTarget(){
+	public IActiveObject getTarget(){
 		return target;
 	}
 	public int getRetryCount(){
@@ -83,13 +83,13 @@ public class SignalToDispatch implements Retryable{
 	public void prepareForDispatch(){
 		try{
 			this.source = duplicate(this.source);
-			this.target = (ActiveObject) duplicate(this.target);
+			this.target = (IActiveObject) duplicate(this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
 			for(PropertyDescriptor pd:properties){
 				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
 					// TODO make recursive for dataobjects
-					if(value instanceof ActiveObject || value instanceof AbstractEntity){
+					if(value instanceof IActiveObject || value instanceof AbstractEntity){
 						Object duplicate = duplicate(value);
 						pd.getWriteMethod().invoke(signal, duplicate);
 					}else if(value instanceof Set<?>){
@@ -110,8 +110,8 @@ public class SignalToDispatch implements Retryable{
 	private Object duplicate(Object object) throws InstantiationException,IllegalAccessException{
 		if(object instanceof AbstractEntity){
 			return duplicateWithId((AbstractEntity) object);
-		}else if(object instanceof ActiveObject){
-			return duplicateImplementation((ActiveObject) object);
+		}else if(object instanceof IActiveObject){
+			return duplicateImplementation((IActiveObject) object);
 		}else{
 			return object;
 		}
@@ -119,12 +119,12 @@ public class SignalToDispatch implements Retryable{
 	public void prepareForDelivery(Session session){
 		try{
 			this.source = resolve(session, this.source);
-			this.target = (ActiveObject) resolve(session, this.target);
+			this.target = (IActiveObject) resolve(session, this.target);
 			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(signal.getClass());
 			for(PropertyDescriptor pd:properties){
 				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
-					if(value instanceof ActiveObject || value instanceof AbstractEntity){
+					if(value instanceof IActiveObject || value instanceof AbstractEntity){
 						pd.getWriteMethod().invoke(signal, resolve(session, value));
 					}else if(value instanceof Set<?>){
 						resolveCollectionOnDelivery(session, pd, new HashSet<Object>(), (Set<?>) value);
@@ -144,7 +144,7 @@ public class SignalToDispatch implements Retryable{
 	private void resolveCollectionOnDelivery(Session em,PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
 			IllegalAccessException,InvocationTargetException{
 		for(Object o:oldValue){
-			if(o instanceof ActiveObject || o instanceof AbstractEntity){
+			if(o instanceof IActiveObject || o instanceof AbstractEntity){
 				newValue.add(resolve(em, o));
 			}else{
 				newValue.add(o);
@@ -160,7 +160,7 @@ public class SignalToDispatch implements Retryable{
 				throw new IllegalStateException(ae.getClass().getSimpleName() + ":" + enttity.getId() + " could not be found!");
 			}
 			return result;
-		}else if(ae instanceof ActiveObject){
+		}else if(ae instanceof IActiveObject){
 			Class<?> originalClass = IntrospectionUtil.getOriginalClass(ae);
 			if(originalClass == Object.class){
 				// Would have an interface
@@ -175,7 +175,7 @@ public class SignalToDispatch implements Retryable{
 	private void duplicateCollectionForDispatch(PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
 			IllegalAccessException,InvocationTargetException{
 		for(Object o:oldValue){
-			if(o instanceof AbstractEntity || o instanceof ActiveObject){
+			if(o instanceof AbstractEntity || o instanceof IActiveObject){
 				newValue.add(duplicate((AbstractEntity) o));
 			}else{
 				newValue.add(o);
@@ -192,10 +192,10 @@ public class SignalToDispatch implements Retryable{
 		copy.setId(inputSource.getId());
 		return copy;
 	}
-	private Object duplicateImplementation(ActiveObject inputSource) throws InstantiationException,IllegalAccessException{
+	private Object duplicateImplementation(IActiveObject inputSource) throws InstantiationException,IllegalAccessException{
 		Environment instance = Environment.getInstance();
-		Class<ActiveObject> implementationClass = instance.getImplementationClass(inputSource);
-		ActiveObject copy = implementationClass.newInstance();
+		Class<IActiveObject> implementationClass = instance.getImplementationClass(inputSource);
+		IActiveObject copy = implementationClass.newInstance();
 		return copy;
 	}
 	public String getUid(){

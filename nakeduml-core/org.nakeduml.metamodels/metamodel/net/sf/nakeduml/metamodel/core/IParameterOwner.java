@@ -11,13 +11,6 @@ import nl.klasse.octopus.model.IParameter;
  */
 public interface IParameterOwner extends PreAndPostConstrained,INakedElement/*,IOperation*/{
 	INakedBehavioredClassifier getContext();
-	/**
-	 * Returns true if this invocations of this operation or behavior will result in a long running process. Screenflows are also considered
-	 * long-running -i.e. anything longer than a synchronous immediate method
-	 * 
-	 * @return
-	 */
-	boolean isProcess();
 	INakedTypedElement getReturnParameter();
 	/**
 	 * Returns an ordered list of all the input, output and return parameters of this operation or behavior

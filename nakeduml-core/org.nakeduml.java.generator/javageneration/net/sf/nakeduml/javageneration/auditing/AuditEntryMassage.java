@@ -20,7 +20,7 @@ import net.sf.nakeduml.javageneration.util.ActionFeatureBridge;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.linkage.TypeResolver;
-import net.sf.nakeduml.metamodel.actions.IActionWithTarget;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
@@ -58,11 +58,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractEventSource;
-import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.IEventSource;
+import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.AbstractSignal;
-import org.nakeduml.runtime.domain.ActiveEntity;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IActiveEntity;
+import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.RevisionEntity;
@@ -298,10 +298,10 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 				if(auditClass.isAbstract()){
 					auditClass.addToImplementedInterfaces(new OJPathName("java.io.Serializable"));
 				}
-				auditClass.removeFromImplementedInterfaces(new OJPathName(AbstractEventSource.class.getName()));
-				auditClass.removeFromImplementedInterfaces(new OJPathName(AbstractProcess.class.getName()));
-				auditClass.removeFromImplementedInterfaces(new OJPathName(ActiveEntity.class.getName()));
-				auditClass.removeFromImplementedInterfaces(new OJPathName(ActiveObject.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(IEventSource.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(IProcessObject.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(IActiveEntity.class.getName()));
+				auditClass.removeFromImplementedInterfaces(new OJPathName(IActiveObject.class.getName()));
 				auditClass.removeFromOperations(OJUtil.findOperation(auditClass, "allInstances"));
 				removeAbstractEntityInterface(auditClass);
 				// TODO remove the underscore
@@ -402,7 +402,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 						}else if(node instanceof INakedExpansionNode && BehaviorUtil.mustBeStoredOnActivity((INakedExpansionNode) node)){
 							visitProperty(new TypedElementPropertyBridge(activity, (INakedTypedElement) node));
 						}else if(node instanceof INakedCallAction && BehaviorUtil.mustBeStoredOnActivity((INakedCallAction) node)){
-							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTarget) node);
+							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTargetElement) node);
 							TypeResolver.resolveCollection(bridge, bridge.getBaseType(), getOclEngine().getOclLibrary());
 							visitProperty(bridge);
 						}

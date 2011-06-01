@@ -6,6 +6,8 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityImpl;
+import net.sf.nakeduml.metamodel.bpm.internal.NakedBusinessServiceImpl;
+import net.sf.nakeduml.metamodel.bpm.internal.NakedUserInRoleImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedOpaqueBehaviorImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedSignalImpl;
@@ -41,6 +43,7 @@ import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
@@ -54,6 +57,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Package;
@@ -128,15 +132,19 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			NakedHelperClassImpl ne = new NakedHelperClassImpl();
 			initialize(ne, c, c.getNamespace());
 			initializeClassifier(ne, c);
+		}else if(isBusinessService(c)){
+			NakedUserInRoleImpl ne = new NakedUserInRoleImpl();
+			initialize(ne, c, c.getNamespace());
+			initializeClassifier(ne, c);
 		}else{
 			INakedEntity ne = new NakedEntityImpl();
 			initialize(ne, c, c.getNamespace());
 			initializeClassifier(ne, c);
 		}
 	}
-	private boolean isResponsibility(Interface c){
+	private boolean isBusinessService(Classifier c){
 		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{
-				"businessworker","caseworker","worker","user","userrole","responsibility"
+				"businessworker","caseworker","worker","user","userrole","businessService"
 		});
 		if(!representsUser){
 			for(Dependency o:c.getClientDependencies()){
@@ -145,12 +153,30 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 				}
 			}
 		}
+		EList<Classifier> generals = c.getGenerals();
+		for(Classifier classifier:generals){
+			if(isBusinessService(classifier)){
+				return true;
+			}
+		}
+		if(c instanceof Class){
+			for(InterfaceRealization ir:((Class) c).getInterfaceRealizations()){
+				if(isBusinessService(c)){
+					return true;
+				}
+			}
+		}
 		return representsUser;
 	}
 	@VisitBefore
-	public void visitInterface(Interface i,NakedInterfaceImpl ni){
+	public void visitInterface(Interface i){
+		NakedInterfaceImpl ni;
+		if(isBusinessService(i)){
+			ni=new NakedBusinessServiceImpl();
+		}else{
+			ni=new NakedInterfaceImpl();
+		}
 		initializeClassifier(ni, i);
-		ni.setIsResponsibility(isResponsibility(i));
 	}
 	@VisitBefore
 	public void visitEnumeration(Enumeration e){

@@ -13,7 +13,7 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
  * @author barnar_a
  * 
  */
-public interface INakedCallAction extends INakedInvocationAction {
+public interface INakedCallAction extends INakedInvocationAction,IActionWithTargetElement {
 	/**
 	 * All the exceptions, returnPins, and parameters with and Out- or InOut
 	 * direction. I.e. all the pins that could possibly receive a value from the
@@ -31,14 +31,7 @@ public interface INakedCallAction extends INakedInvocationAction {
 
 	IParameterOwner getCalledElement();
 
-	/**
-	 * Returns true if the call would result in a process being instantiated
-	 * 
-	 * @return
-	 */
-	boolean isProcessCall();
-	boolean isTask();
-
+	boolean isLongRunning();
 
 	INakedMessageStructure getMessageStructure();
 

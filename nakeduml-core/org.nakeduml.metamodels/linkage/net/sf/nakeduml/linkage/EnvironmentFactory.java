@@ -90,7 +90,7 @@ public class EnvironmentFactory{
 		}
 		return env;
 	}
-	public Environment prepareBehaviorEnvironment(INakedElement element,INakedBehavior owningBehavior){
+	public Environment createBehaviorEnvironment(INakedElement element,INakedBehavior owningBehavior){
 		Environment env;
 		if(isContextObjectApplicable(owningBehavior)){
 			// Complex Activities, StateMachines, Transition Actions and

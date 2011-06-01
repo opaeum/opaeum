@@ -3,6 +3,7 @@ package net.sf.nakeduml.linkage;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.bpm.INakedUserInRole;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -19,10 +20,11 @@ public class RootEntityLinker extends AbstractModelElementLinker {
 		rootUserEntities = 0;
 	}
 
-	@VisitBefore(matchSubclasses = true)
-	public void checkEntity(INakedEntity ew) {
+	@VisitBefore(matchSubclasses = false)
+	public void checkEntity(INakedUserInRole ew) {
 		// TODO support interfaces
-		if (ew.representsUser() && !ew.hasSupertype() && isInUserModel(ew)) {
+		//TODO read from BPM model
+		if (!ew.hasSupertype() && isInUserModel(ew)) {
 			rootUserEntities++;
 			if (workspace.getRootUserEntity() != null) {
 				getErrorMap().putError(ew, CoreValidationRule.ONE_ROOT_USER, "More than one rootUserEntity detected");

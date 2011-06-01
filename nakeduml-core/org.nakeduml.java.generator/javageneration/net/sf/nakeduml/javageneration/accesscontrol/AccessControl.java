@@ -16,11 +16,5 @@ public class AccessControl extends AbstractJavaTransformationStep{
 		SecureObjectImplementor soi = new SecureObjectImplementor();
 		soi.initialize(javaModel, config, textWorkspace, context);
 		soi.startVisiting(workspace);
-		AbstractUserRoleImplementor aui = new AbstractUserRoleImplementor();
-		aui.initialize(javaModel, config, textWorkspace, context);
-		aui.startVisiting(workspace);
-		AccessControlAnnotator aca = new AccessControlAnnotator();
-		aca.initialize(javaModel, config, textWorkspace, context);
-		aca.startVisiting(workspace);
 	}
 }

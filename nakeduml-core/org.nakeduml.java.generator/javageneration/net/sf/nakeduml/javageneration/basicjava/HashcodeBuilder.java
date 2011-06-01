@@ -8,7 +8,8 @@ import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.actions.internal.OpaqueActionMessageStructureImpl;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -24,38 +25,33 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class HashcodeBuilder extends StereotypeAnnotator {
+public class HashcodeBuilder extends StereotypeAnnotator{
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c) {
-		if (OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)) {
+	public void visitClass(INakedClassifier c){
+		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildHashcode(ojClass, c);
 		}
 	}
-
 	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(INakedOperation no) {
-		if (no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)) {
+	public void visitOperation(INakedOperation no){
+		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
 			this.visitClass(new OperationMessageStructureImpl(no.getOwner(), no));
 		}
 	}
-
 	@VisitBefore()
-	public void visitOpaqueAction(INakedOpaqueAction oa) {
-		if (oa.isTask()) {
-			this.visitClass(new OpaqueActionMessageStructureImpl(oa));
-		}
+	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
+		this.visitClass(oa.getMessageStructure());
 	}
-
-	private void buildHashcode(OJAnnotatedClass owner, INakedClassifier umlClass) {
+	private void buildHashcode(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJField uid = owner.findField("uid");
-		if (umlClass.getGeneralizations().isEmpty()) {
-			if (uid == null) {
+		if(umlClass.getGeneralizations().isEmpty()){
+			if(uid == null){
 				owner.addToFields(new OJAnnotatedField("uid", new OJPathName("String")));
 				// TODO build validation that a derived or read only uuid
 				// property is not allowed
 				OJOperation setUid = OJUtil.findOperation(owner, "setUid");
-				if (setUid == null) {
+				if(setUid == null){
 					setUid = new OJAnnotatedOperation("setUid");
 					setUid.addParam("newUid", new OJPathName("java.lang.String"));
 					owner.addToOperations(setUid);
@@ -63,7 +59,7 @@ public class HashcodeBuilder extends StereotypeAnnotator {
 				setUid.setBody(new OJBlock());
 				setUid.getBody().addToStatements("this.uid=newUid");
 				OJOperation getUid = OJUtil.findOperation(owner, "getUid");
-				if (getUid == null) {
+				if(getUid == null){
 					getUid = new OJAnnotatedOperation("getUid", new OJPathName("java.lang.String"));
 					owner.addToOperations(getUid);
 				}
@@ -73,12 +69,11 @@ public class HashcodeBuilder extends StereotypeAnnotator {
 				getUid.getBody().addToStatements("return this.uid");
 			}
 		}
-		if (!(umlClass instanceof INakedDataType)) {
+		if(!(umlClass instanceof INakedDataType)){
 			OJOperation equals = new OJAnnotatedOperation("equals", new OJPathName("boolean"));
 			equals.addParam("other", new OJPathName("Object"));
 			equals.getBody().addToStatements(
-					new OJIfStatement("other instanceof " + owner.getName(), "return other==this || ((" + owner.getName()
-							+ ")other).getUid().equals(this.getUid())"));
+					new OJIfStatement("other instanceof " + owner.getName(), "return other==this || ((" + owner.getName() + ")other).getUid().equals(this.getUid())"));
 			equals.getBody().addToStatements("return false");
 			owner.addToOperations(equals);
 			OJOperation hashCode = new OJAnnotatedOperation("hashCode", new OJPathName("int"));

@@ -2,8 +2,10 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.TimeEvent;
 
 public class StereotypesHelper {
 	public static boolean hasStereotype(Element c, String string) {
@@ -41,5 +43,14 @@ public class StereotypesHelper {
 			}
 		}
 		return false;
+	}
+
+	public static Object getValue(Element element,String st,String attr){
+		for(Stereotype stereotype:element.getAppliedStereotypes()){
+			if(stereotype.getName().equalsIgnoreCase(st)){
+				return element.getValue(stereotype, attr);
+			}
+		}
+		return null;
 	}
 }

@@ -9,16 +9,16 @@ import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.adaptor.SignalToDispatch;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.AbstractSignal;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IActiveObject;
 
 public class CdiTestSignalDispatcher implements ISignalDispatcher{
 	List<SignalToDispatch> signalsToDispatch = new ArrayList<SignalToDispatch>();
-	public void sendSignal(Object source,ActiveObject target,AbstractSignal signal){
+	public void sendSignal(Object source,IActiveObject target,AbstractSignal signal){
 		SignalToDispatch e = new SignalToDispatch(source, target, signal);
 		signalsToDispatch.add(e);
 	}
-	public void sendSignal(Object source,Collection<? extends ActiveObject> targets,AbstractSignal signal){
-		for(ActiveObject target:targets){
+	public void sendSignal(Object source,Collection<? extends IActiveObject> targets,AbstractSignal signal){
+		for(IActiveObject target:targets){
 			signalsToDispatch.add(new SignalToDispatch(source, target, signal));
 		}
 	}
@@ -43,7 +43,7 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
 		signalsToDispatch.clear();
 		for(org.nakeduml.environment.SignalToDispatch signal:signals){
-			ActiveObject target = signal.getTarget();
+			IActiveObject target = signal.getTarget();
 			CdiTestEnvironment.getInstance().beforeRequest(target);
 			Session session = CdiTestEnvironment.getInstance().getComponent(Session.class);
 			signal.prepareForDelivery(session);
