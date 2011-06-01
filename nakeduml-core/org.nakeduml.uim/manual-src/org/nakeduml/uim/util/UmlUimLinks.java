@@ -27,7 +27,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.eclipse.ElementFinder;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.uim.AbstractFolder;
 import org.nakeduml.uim.ActionTaskForm;
 import org.nakeduml.uim.ClassForm;
@@ -223,6 +223,6 @@ public class UmlUimLinks{
 		return (Class) getUmlElement(nearestForm);
 	}
 	public Collection<Property> getOwnedAttributes(Classifier class1){
-		return (Collection)ElementFinder.getPropertiesInScope(class1);
+		return (Collection)EmfElementFinder.getPropertiesInScope(class1);
 	}
 }

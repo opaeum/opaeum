@@ -1,3 +1,8 @@
+Refactoring
+Make visitors TransformationSteps
+Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction
+Introduce new INakedUmlEmbeddedTask and INakedUmlStandaloneTask
+
 UIM
 Put label width on all possible containers of fields
 remove fields pointing to obsolete properties
@@ -10,14 +15,12 @@ Replace column with FieldColumn and ActionColumn, with bindings
 Add button bar for actions on multiple rows in the table
 Introduce entryScreen concept, allow formpanels to be used
 
-TOpcased
-Add topcased UML plugins to feature
-Build new plugin projects that contain the topcased jars
-override the pallette and the propertysections
-see if you can allow components to participate in associations 
-
-PropertySections
-Responsibility
+NakedUML Topcased
+Operation PArameters - remove visibility and effect
+Operation Ocl
+Provide action to synchronize a powerType's literals with its powertypeextent
+Property Specification
+Responsibility propertySection
 Tasks - escalations,potential delegates etc.
 States - requireRoles - think that through
 lookup for typedelements
@@ -30,7 +33,7 @@ Implement ports as default interfaces that delegate operations to the containing
 to a process (ownedBehaviour of the component)
 
 Operations
-CAlculate which operations are long running
+Calculate which operations are long running
 All long-running operations should provide a second method providing the calling context
 AcceptCallAction - store operation structure
 unmarshall the pins to allow OCL compilation for postconditions

@@ -22,8 +22,8 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.util.UMLUtil;
-import org.nakeduml.eclipse.BehaviorUtil;
-import org.nakeduml.eclipse.StateMachineUtil;
+import org.nakeduml.eclipse.EmfBehaviorUtil;
+import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.ActionTaskForm;
 import org.nakeduml.uim.ClassForm;
 import org.nakeduml.uim.FieldBinding;
@@ -145,8 +145,8 @@ public class UimUtil{
 			StateForm sui = (StateForm) ui;
 			State state = UmlUimLinks.getInstance(ui).getState(sui);
 			if(state != null){
-				List<Operation> results = StateMachineUtil.getTriggerOperations(state);
-				results.addAll(StateMachineUtil.getNonTriggerOperations(StateMachineUtil.getStateMachine(state)));
+				List<Operation> results = EmfStateMachineUtil.getTriggerOperations(state);
+				results.addAll(EmfStateMachineUtil.getNonTriggerOperations(EmfStateMachineUtil.getStateMachine(state)));
 				return results;
 			}
 		}
@@ -199,7 +199,7 @@ public class UimUtil{
 	}
 	public static Collection<Activity> getAllOwnedActivities(Class representedClass){
 		ArrayList<Behavior> behaviors = new ArrayList<Behavior>(representedClass.getOwnedBehaviors());
-		BehaviorUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
+		EmfBehaviorUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
 		Collection<Activity> results = new ArrayList<Activity>();
 		for(Behavior b:behaviors){
 			if(b instanceof Activity){
@@ -222,7 +222,7 @@ public class UimUtil{
 		}else if(e instanceof State){
 			State class1 = (State) e;
 			if(class1 != null){
-				return new ArrayList<TypedElement>( StateMachineUtil.getStateMachine(class1).getAllAttributes());
+				return new ArrayList<TypedElement>( EmfStateMachineUtil.getStateMachine(class1).getAllAttributes());
 			}
 		}else if(e instanceof OperationInvocationForm){
 			Operation operation = (Operation) e;

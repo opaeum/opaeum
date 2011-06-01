@@ -6,8 +6,15 @@ Bundle-Version: 1.0.0.5
 Bundle-Activator: org.nakeduml.uim.uml2uim.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.nakeduml.uim;visibility:=reexport,
- org.nakeduml.metamodels;visibility:=reexport
+ org.nakeduml.uim,
+ org.nakeduml.metamodels,
+ org.nakeduml.eclipse,
+ org.nakeduml.generators,
+ org.nakeduml.java.generator,
+ org.nakeduml.java.metamodel,
+ org.nakeduml.ocl.java.generator,
+ org.nakeduml.ocl.metamodel,
+ org.nakeduml.uim.classform
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

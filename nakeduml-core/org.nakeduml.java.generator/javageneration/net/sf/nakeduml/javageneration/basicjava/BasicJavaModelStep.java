@@ -44,5 +44,9 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep{
 		PersistentNameMapGenerator pnmg=new PersistentNameMapGenerator(false);
 		pnmg.initialize(javaModel, config, textWorkspace, context);
 		pnmg.startVisiting(workspace);
+		
+		SpecificationImplementor smi = new SpecificationImplementor();
+		smi.initialize(javaModel, config, textWorkspace, context);
+		smi.startVisiting(workspace);
 	}
 }
