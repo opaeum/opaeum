@@ -103,7 +103,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 				}
 			}
 		}
-		sender.sendObjectsToQueue(requestedEvents, "queue/EventRequestQueue");
+//		sender.sendObjectsToQueue(requestedEvents, "queue/EventRequestQueue");
 		sender.sendObjectsToQueue(signalsToEntities, "queue/EntitySignalQueue");
 		sender.sendObjectsToQueue(signalsToHelpers, "queue/HelperSignalQueue");
 	}

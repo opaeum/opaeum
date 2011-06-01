@@ -123,9 +123,9 @@ public class HibernateAnnotator extends AbstractStructuralFeatureVisitor{
 					// owner.addAnnotation(field, new OJAnnotation(new
 					// OJPathName("javax.persistence.Transient")));
 				}
-				if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
-					HibernateUtil.addManyToAny(owner, field, map);
-					if(f.isComposite()){
+				if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
+					HibernateUtil.addManyToAny(owner,field, map,config);
+					if (f.isComposite()) {
 						HibernateUtil.addCascade(field, CascadeType.ALL);
 					}
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));

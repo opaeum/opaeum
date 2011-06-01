@@ -295,9 +295,12 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		OJIfStatement ifIter = (OJIfStatement) getter.getBody().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
 		getter.getBody().removeAllFromStatements();
 		ifOneNull.addToThenPart(ifIter);
-		OJIfStatement ifEdge = (OJIfStatement) ifIter.getThenPart().findStatement(TinkerSoftDeleteTransformation.IF_EDGE_NOT_DELETED);
-		OJTryStatement tryConstructor = (OJTryStatement) ifEdge.getThenPart().findStatement(
-				TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+//		OJIfStatement ifEdge = (OJIfStatement) ifIter.getThenPart().findStatement(TinkerSoftDeleteTransformation.IF_EDGE_NOT_DELETED);
+//		OJTryStatement tryConstructor = (OJTryStatement) ifEdge.getThenPart().findStatement(
+//				TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+
+		OJTryStatement tryConstructor = (OJTryStatement) ifIter.getThenPart().findStatementRecursive(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+		
 		OJSimpleStatement construction = (OJSimpleStatement) tryConstructor.getTryPart().getStatements().get(1);
 		construction.setExpression(construction.getExpression().replace("return", "this." + map.umlName() + " = "));
 		getter.getBody().addToStatements(ifOneNull);
@@ -311,8 +314,12 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		ifEmpty.addToThenPart(simple);
 		OJForStatement forS = (OJForStatement) getter.getBody().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_MANY_FOR);
 		ifEmpty.addToThenPart(forS);
-		OJIfStatement ss = (OJIfStatement) forS.getBody().findStatement(TinkerSoftDeleteTransformation.FOR_MANY_IF_NOT_DELETED);
-		OJTryStatement tryPart = (OJTryStatement) ss.getThenPart().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_MANY_TRY);
+
+//		OJIfStatement ss = (OJIfStatement) forS.getBody().findStatement(TinkerSoftDeleteTransformation.FOR_MANY_IF_NOT_DELETED);
+//		OJTryStatement tryPart = (OJTryStatement) ss.getThenPart().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_MANY_TRY);
+		
+		OJTryStatement tryPart = (OJTryStatement) forS.getBody().findStatement(TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_MANY_TRY);
+		
 		OJSimpleStatement construction = (OJSimpleStatement) tryPart.getTryPart().findStatement(
 				TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FORMANY_CONSTRUCTION);
 		construction.setExpression(construction.getExpression().replace("result.add", "this." + map.umlName() + ".tinkerAdd"));

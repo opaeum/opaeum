@@ -9,12 +9,13 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-@PhaseDependency(after = { TinkerAuditGenerationPhase.class }, before={FileGenerationPhase.class})
+@PhaseDependency(after = { JavaTransformationPhase.class, TinkerAuditGenerationPhase.class }, before={FileGenerationPhase.class})
 public class TinkerImplementCachePhase implements TransformationPhase<AbstractJavaTransformationStep> {
 
 	private NakedUmlConfig config;
