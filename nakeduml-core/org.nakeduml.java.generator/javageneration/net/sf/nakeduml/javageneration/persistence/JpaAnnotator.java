@@ -86,7 +86,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 				JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
 			}
 		}
-		//All classes gets default strategy
+		//All classes get default strategy
 //		if (complexType.getSubClasses().size() > 0) {
 		annotateInheritanceType(ojClass);
 //		}
@@ -261,7 +261,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 				}
 			} else {
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToMany"));
-				JpaUtil.addJoinTable(umlOwner, map, field);
+				JpaUtil.addJoinTable(umlOwner, map, field,this.config);
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
