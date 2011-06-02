@@ -10,7 +10,7 @@ import org.eclipse.uml2.uml.ConnectorEnd;
 /**
  * Builds operations, properties,parameter and associations. Only builds associations if they are supported by NakedUml and Octopus
  */
-@StepDependency(phase = EmfExtractionPhase.class,requires = TypedElementExtractor.class,after = TypedElementExtractor.class)
+@StepDependency(phase = EmfExtractionPhase.class,requires = FeatureExtractor.class,after = FeatureExtractor.class)
 public class ConnectorEndExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore(matchSubclasses = true)
 	public void visitConnectorEnd(ConnectorEnd ce){

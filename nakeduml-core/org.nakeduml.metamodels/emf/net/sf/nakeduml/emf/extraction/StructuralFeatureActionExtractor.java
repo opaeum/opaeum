@@ -16,8 +16,8 @@ import org.eclipse.uml2.uml.ClearStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {TypedElementExtractor.class,ActivityStructureExtractor.class},after = {
-		TypedElementExtractor.class,ActivityStructureExtractor.class})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {
+		FeatureExtractor.class,ActivityStructureExtractor.class})
 public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 	@VisitBefore
 	public void visitAddStructuralFeatureValueAction(AddStructuralFeatureValueAction emfAction,

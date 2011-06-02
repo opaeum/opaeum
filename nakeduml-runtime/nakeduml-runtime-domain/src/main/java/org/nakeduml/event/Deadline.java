@@ -27,7 +27,7 @@ public class Deadline extends TimeEvent{
 	public void invokeCallback(AbstractEntity context){
 		try{
 			//Will call the TaskInvocation
-			getMethodByPersistentName(getCallbackMethodName(),Date.class).invoke(context, when);
+			getMethodByPersistentName(getCallbackMethodName(), Date.class).invoke(context, when);
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();

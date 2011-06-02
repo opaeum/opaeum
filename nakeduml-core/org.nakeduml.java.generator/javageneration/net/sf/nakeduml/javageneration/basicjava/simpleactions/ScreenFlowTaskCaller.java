@@ -1,31 +1,21 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
-import java.util.Collection;
-
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
-import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.TaskUtil;
-import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
-import net.sf.nakeduml.metamodel.bpm.TaskDelegation;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
-import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class ScreenFlowTaskCaller extends AbstractCaller<INakedScreenFlowTask>{
-	public ScreenFlowTaskCaller(IOclEngine oclEngine,INakedScreenFlowTask action,AbstractObjectNodeExpressor expressor){
+public class ScreenFlowTaskCaller extends AbstractCaller<INakedEmbeddedScreenFlowTask>{
+	public ScreenFlowTaskCaller(IOclEngine oclEngine,INakedEmbeddedScreenFlowTask action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override
@@ -42,8 +32,7 @@ public class ScreenFlowTaskCaller extends AbstractCaller<INakedScreenFlowTask>{
 		if(!(returnPin == null || returnPin.getLinkedTypedElement() == null || BehaviorUtil.hasMessageStructure(node))){
 			many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();
 		}
-		NakedClassifierMap messageMap = new NakedClassifierMap(node.getMessageStructure());
-		OJAnnotatedField processField = new OJAnnotatedField(node.getName(), messageMap.javaTypePath());
+		OJAnnotatedField processField = new OJAnnotatedField(node.getName(), OJUtil.classifierPathname(node));
 		processField.setInitExp(call);
 		block.addToLocals(processField);
 		INakedResponsibilityDefinition td = node.getTaskDefinition();
@@ -51,7 +40,6 @@ public class ScreenFlowTaskCaller extends AbstractCaller<INakedScreenFlowTask>{
 		TaskUtil.implementAssignmentsAndDeadlines(operation, block, td, taskName);
 		block.addToStatements(taskName + ".execute()");
 		call = taskName;
-		call = expressor.storeResults(resultMap, call, many);
-		fs.addToStatements(call);
+		fs.addToStatements(expressor.storeResults(resultMap, call, many));
 	}
 }

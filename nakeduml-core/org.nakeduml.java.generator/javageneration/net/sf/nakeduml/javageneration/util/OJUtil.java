@@ -13,7 +13,7 @@ import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
@@ -132,7 +132,7 @@ public class OJUtil{
 		ActionFeatureBridge bridge = buildActionBridge(action, lib);
 		return new NakedStructuralFeatureMap(bridge);
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(final INakedScreenFlowTask action,IOclLibrary lib){
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(final INakedEmbeddedScreenFlowTask action,IOclLibrary lib){
 		ActionFeatureBridge bridge = buildActionBridge(action, lib);
 		//Sjoe!
 		return new NakedStructuralFeatureMap(bridge){
@@ -343,7 +343,7 @@ public class OJUtil{
 		ArtificialProperty p = new ArtificialProperty(o, lib);
 		return new NakedStructuralFeatureMap(p);
 	}
-	public static OJPathName classifierPathname(INakedScreenFlowTask origin){
+	public static OJPathName classifierPathname(INakedEmbeddedScreenFlowTask origin){
 		return packagePathname(origin.getActivity()).append(origin.getMappingInfo().getJavaName().getCapped().getAsIs());
 	}
 }

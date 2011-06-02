@@ -5,9 +5,10 @@ import java.util.Collection;
 import net.sf.nakeduml.metamodel.actions.ITargetElement;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
-public interface INakedResponsibilityDefinition {
+public interface INakedResponsibilityDefinition extends INakedElement{
 	/**
 	 * After creating a task, an assignment will be created for each AbstractUser in this expression 
 	 */
@@ -25,4 +26,5 @@ public interface INakedResponsibilityDefinition {
 	
 	Collection<INakedDeadline> getDeadlines();
 	TaskDelegation getDelegation();
+	INakedClassifier getExpressionContext();
 }

@@ -13,8 +13,8 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
@@ -26,6 +26,7 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -45,6 +46,9 @@ import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public abstract class AbstractEventHandlerInserter extends AbstractJavaProducingVisitor{
+	private static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
+	private static final OJPathName NODE_CONTAINER = new OJPathName("org.jbpm.workflow.core.NodeContainer");
+	private static final OJPathName NODE = new OJPathName("org.jbpm.workflow.core.Node");
 	protected abstract void implementEventConsumption(OJOperation operationContext,FromNode node,OJIfStatement ifTokenFound);
 	/**
 	 * Inserts a call to the eventListener as the last line of code in the body of the triggering operation
@@ -238,6 +242,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	 * boolean indicating whether the event was consumed or not
 	 */
 	private void implementEventListener(OJClass activityClass,WaitForEventElements eventActions){
+		//TODO split this up for NakedEvents, Deadlines and MessageEvents
 		INakedElement event = eventActions.getEvent();
 		String methodName = null;
 		if(event instanceof INakedEvent){
@@ -248,9 +253,15 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		OJAnnotatedOperation listener = new OJAnnotatedOperation();
 		listener.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), EventUtil.getEventMethodPersistentName(event)));
 		listener.setName(methodName);
-		listener.setReturnType(new OJPathName("boolean"));
 		activityClass.addToOperations(listener);
-		// TODO for timeevents, pass the currentTime through
+		listener.setReturnType(new OJPathName("boolean"));
+		OJAnnotatedField processed = new OJAnnotatedField();
+		processed.setName("consumed");
+		processed.setType(new OJPathName("boolean"));
+		processed.setInitExp("false");
+		listener.getBody().addToLocals(processed);
+		OJIfStatement ifProcessActive=new OJIfStatement("getProcessInstance().getState() != ProcessInstance.STATE_ACTIVE");
+		listener.getBody().addToStatements(ifProcessActive);
 		for(INakedTypedElement param:(List<? extends INakedTypedElement>) eventActions.getArguments()){
 			ClassifierMap map = new NakedClassifierMap(param.getType());
 			listener.addParam(param.getMappingInfo().getJavaName().toString(), map.javaTypePath());
@@ -258,15 +269,16 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		if(event instanceof INakedEvent){
 			if(event instanceof INakedDeadline){
 				INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
-				OJPathName pn =null;
+				OJPathName pn = null;
 				if(origin instanceof INakedOperation){
-					pn=OJUtil.classifierPathname(new OperationMessageStructureImpl((INakedOperation) origin));
+					pn = OJUtil.classifierPathname(new OperationMessageStructureImpl((INakedOperation) origin));
 				}else if(origin instanceof INakedEmbeddedSingleScreenTask){
-					pn=OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
+					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
 				}else{
-					pn=OJUtil.classifierPathname((INakedScreenFlowTask) origin);
+					pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
 				}
 				listener.addParam("source", pn);
+				listener.addParam("triggerDate", new NakedClassifierMap(workspace.getMappedTypes().getDateType()).javaTypePath());
 			}else{
 				listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 				if(event instanceof INakedTimeEvent){
@@ -274,25 +286,42 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				}
 			}
 		}
-		OJAnnotatedField processed = new OJAnnotatedField();
-		processed.setName("consumed");
-		processed.setType(new OJPathName("boolean"));
-		processed.setInitExp("false");
-		listener.getBody().addToLocals(processed);
 		OJAnnotatedField nodes = new OJAnnotatedField();
 		nodes.setName("waitingNode");
 		OJPathName umlNodeInstance = ReflectionUtil.getUtilInterface(UmlNodeInstance.class);
 		activityClass.addToImports(umlNodeInstance);
 		nodes.setType(umlNodeInstance);
-		listener.getBody().addToLocals(nodes);
-		for(FromNode node:eventActions.getWaitingNodes()){
-			if(event instanceof INakedEvent){
-				consumeEventIfNodeInstanceIsWaiting(listener, node, listener.getBody());
-			}else{
-				consumeEventIfNodeIsWaiting(listener, node, listener.getBody());
+		ifProcessActive.getThenPart().addToLocals(nodes);
+		if(event instanceof INakedDeadline){
+			OJIfStatement ifTaskTokenFound = new OJIfStatement();
+			ifProcessActive.getThenPart().addToStatements(ifTaskTokenFound);
+			ifTaskTokenFound.setCondition("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(source.getNodeInstanceUniqueId())" + "!=null");
+			for(FromNode node:eventActions.getWaitingNodes()){
+				listener.getOwner().addToImports(NODE_INSTANCE_CONTAINER);
+				NameWrapper targetNodeName = node.getWaitingElement().getMappingInfo().getJavaName().getDecapped();
+				OJAnnotatedField nodeInstanceContainer = new OJAnnotatedField( targetNodeName+ "NIC", NODE_INSTANCE_CONTAINER);
+				ifTaskTokenFound.getThenPart().addToLocals(nodeInstanceContainer);
+				nodeInstanceContainer.setInitExp("(NodeInstanceContainer) waitingNode.getNodeInstanceContainer()");
+				listener.getOwner().addToImports(NODE_CONTAINER);
+				OJAnnotatedField nodeContainer = new OJAnnotatedField(targetNodeName+"NC", NODE_CONTAINER);
+				ifTaskTokenFound.getThenPart().addToLocals(nodeContainer);
+				nodeInstanceContainer.setInitExp("(NodeInstanceContainer) "+targetNodeName+"NIC.getNodeInstanceContainer()");
+				String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
+
+				listener.getOwner().addToImports(NODE);
+				ifTaskTokenFound.getThenPart().addToStatements("nodeInstanceContainer.getNodeInstance(nodeContainer.getNode("+literalExpression+".getId())).trigger(null, Node.CONNECTION_DEFAULT_TYPE)");
+			
+				implementEventConsumption(listener, node, ifTaskTokenFound);
+			}
+		}else if(event instanceof INakedEvent){
+			for(FromNode node:eventActions.getWaitingNodes()){
+				consumeEventIfNodeInstanceIsWaiting(listener, node, ifProcessActive.getThenPart());
+			}
+		}else{
+			for(FromNode node:eventActions.getWaitingNodes()){
+				consumeEventIfNodeIsWaiting(listener, node, ifProcessActive.getThenPart());
 			}
 		}
-		listener.setReturnType(new OJPathName("boolean"));
 		listener.getBody().addToStatements("return consumed");
 	}
 	private void consumeEventIfNodeInstanceIsWaiting(OJAnnotatedOperation listener,FromNode node,OJBlock body){

@@ -34,40 +34,38 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static boolean DEVELOPMENT_MODE = true;
 	protected void visitComplexStructure(INakedComplexStructure complexType){
+		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
 			buildToString(ojClass, complexType);
-		OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(),
-				this.config, complexType.getNameSpace());
-		if (complexType instanceof INakedEntity) {
-			OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
-			if (uniqueConstraints.hasValues()) {
-				table.putAttribute(uniqueConstraints);
-				JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
+			OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(), this.config,
+					complexType.getNameSpace());
+			if(complexType instanceof INakedEntity){
+				OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
+				if(uniqueConstraints.hasValues()){
+					table.putAttribute(uniqueConstraints);
+					JpaUtil.addNamedQueryForUniquenessConstraints(ojClass, (INakedEntity) complexType);
+				}
 			}
+			// All classes get default strategy
+			annotateInheritanceType(ojClass);
+			if(complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly() || complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()){
+				OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
+				ojClass.addAnnotationIfNew(mappedSuperclass);
+			}else{
+				JpaUtil.addEntity(ojClass);
+			}
+			boolean behaviourWithSpecification = complexType instanceof INakedBehavior && ((INakedBehavior) complexType).getSpecification() != null;
+			if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()){
+				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
+				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
+			}else{
+				OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"), complexType.getMappingInfo()
+						.getPersistentName().getAsIs());
+				ojClass.addAnnotationIfNew(discriminatorValue);
+			}
+			ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
 		}
-		//All classes get default strategy
-//		if (complexType.getSubClasses().size() > 0) {
-		annotateInheritanceType(ojClass);
-//		}
-		if (complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly()
-				|| complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()) {
-			OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
-			ojClass.addAnnotationIfNew(mappedSuperclass);
-		} else {
-			JpaUtil.addEntity(ojClass);
-		}
-		boolean behaviourWithSpecification = complexType instanceof INakedBehavior && ((INakedBehavior)complexType).getSpecification()!=null;
-		if(!behaviourWithSpecification && complexType.getGeneralizations().isEmpty()) {
-			JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
-			JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
-		} else {
-			OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"),
-					complexType.getMappingInfo().getPersistentName().getAsIs());
-			ojClass.addAnnotationIfNew(discriminatorValue);
-		}
-		
-		ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
-}
+	}
 	/**
 	 * Includes all appropriately qualified relationships and one-to-one relationships
 	 * 
@@ -105,8 +103,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
 		mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
 	}
-
-
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node){
 		if(node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)){
@@ -120,7 +116,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			}
 		}
 	}
-
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		if(isPersistent(umlOwner) && OJUtil.hasOJClass(umlOwner)){
 			if(!map.getProperty().isDerived()){
@@ -166,7 +161,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				}
 			}else{
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToMany"));
-				JpaUtil.addJoinTable(umlOwner, map, field,this.config);
+				JpaUtil.addJoinTable(umlOwner, map, field, this.config);
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);

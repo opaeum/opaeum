@@ -16,8 +16,8 @@ import org.eclipse.uml2.uml.InitialNode;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.MergeNode;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {TypedElementExtractor.class,ActivityStructureExtractor.class},after = {
-		TypedElementExtractor.class,ActivityStructureExtractor.class})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {
+		FeatureExtractor.class,ActivityStructureExtractor.class})
 public class ActivityControlNodeExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
 	public void visitInitialNode(InitialNode emfNode,NakedControlNodeImpl nakedNode){

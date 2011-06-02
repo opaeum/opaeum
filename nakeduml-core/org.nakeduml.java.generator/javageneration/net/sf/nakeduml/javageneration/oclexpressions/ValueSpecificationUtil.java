@@ -46,22 +46,26 @@ public class ValueSpecificationUtil {
 				return expressDefaultOrImplicitObject(owner, expectedType);
 			}
 		} else if (valueSpec.isOclValue()) {
-			if (valueSpec.isValidOclValue()) {
-				String expression = null;
-				OJClass ojOwner = (OJClass) operationContext.getOwner();
-				ExpressionCreator ec = new ExpressionCreator(ojOwner);
-				IOclContext value = (IOclContext) valueSpec.getValue();
-				List<OJParameter> parameters = new ArrayList<OJParameter>(operationContext.getParameters());
-				OJBlock body = operationContext.getBody();
-				buildContext(operationContext, value, parameters, body);
-				expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
-				expression = buildTypeCastIfNecessary(value.getExpression()) + expression;
-				return expression;
-			} else {
-				return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
-			}
+			return expressOcl(operationContext, valueSpec);
 		}
 		return expressLiterals(valueSpec);
+	}
+
+	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec){
+		if (valueSpec.isValidOclValue()) {
+			String expression = null;
+			OJClass ojOwner = (OJClass) operationContext.getOwner();
+			ExpressionCreator ec = new ExpressionCreator(ojOwner);
+			IOclContext value = (IOclContext) valueSpec.getValue();
+			List<OJParameter> parameters = new ArrayList<OJParameter>(operationContext.getParameters());
+			OJBlock body = operationContext.getBody();
+			buildContext(operationContext, value, parameters, body);
+			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
+			expression = buildTypeCastIfNecessary(value.getExpression()) + expression;
+			return expression;
+		} else {
+			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
+		}
 	}
 
 	public static void buildContext(OJOperation operationContext, IOclContext value, List<OJParameter> parameters, OJBlock body) {

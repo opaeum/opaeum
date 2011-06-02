@@ -22,7 +22,7 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 			// Deadlines and their cancellations are fired from the originating task message structure
 			if(node.getTrigger().getEvent() instanceof INakedTimeEvent){
 				ActionMap map = new ActionMap(node);
-				EventUtil.implementTimeEventRequest(operation, operation.getBody(),node.getActivity(),(INakedTimeEvent) node.getTrigger().getEvent(),"this");
+				EventUtil.implementTimeEventRequest(operation, operation.getBody(),(INakedTimeEvent) node.getTrigger().getEvent());
 				OJOperation cancel = new OJAnnotatedOperation();
 				cancel.setName(map.getCancelEventsMethod());
 				operation.getOwner().addToOperations(cancel);

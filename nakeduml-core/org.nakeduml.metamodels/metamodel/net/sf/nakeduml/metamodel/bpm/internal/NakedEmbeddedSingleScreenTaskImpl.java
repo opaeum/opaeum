@@ -11,13 +11,23 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
+import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl implements INakedEmbeddedSingleScreenTask{
 	private INakedMessageStructure asClass;
 	private INakedResponsibilityDefinition taskDefinition;
 	private List<INakedOutputPin> outputValues;
 	private boolean isSynchronous;
+	@Override
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+		if(stereotype.getName().equalsIgnoreCase(StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
+			this.taskDefinition=new NakedResponsibilityDefinitionImpl(stereotype);
+			addOwnedElement(this.taskDefinition);
+		}
+	}
 	public List<INakedOutputPin> getOutputValues(){
 		return outputValues;
 	}

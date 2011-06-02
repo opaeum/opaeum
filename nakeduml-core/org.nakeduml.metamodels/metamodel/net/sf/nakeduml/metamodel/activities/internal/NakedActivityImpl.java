@@ -101,8 +101,6 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
 		if (!classScope) {
 			for (INakedActivityNode node : getActivityNodesRecursively()) {
-				// TODO reconsider the outputpin thing - that's what variables
-				// are for
 				if (node instanceof INakedParameterNode) {
 					results.add(new TypedElementPropertyBridge(this, (INakedTypedElement) node));
 				}

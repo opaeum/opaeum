@@ -13,6 +13,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.jbpm5.TaskUtil;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -22,7 +23,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
@@ -53,7 +54,7 @@ import org.nakeduml.runtime.domain.IUserInRole;
 
 public class TaskImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
-	public void visitScreenFlowTask(INakedScreenFlowTask a){
+	public void visitScreenFlowTask(INakedEmbeddedScreenFlowTask a){
 		INakedStateMachine sm = (INakedStateMachine) a.getBehavior();
 		NakedClassifierMap map = new NakedClassifierMap(sm);
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(a.getMappingInfo().getJavaName().getCapped().getAsIs());
@@ -88,10 +89,7 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 		OJAnnotatedClass ojClass = findJavaClass(new OperationMessageStructureImpl(oa));
 		ojClass.addToImplementedInterfaces(new OJPathName(IBusinessServiceInvocation.class.getName()));
 		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
-		// TODO select one
-		addAssignments(ojClass, exec, oa.getTaskDefinition().getPotentialOwners(), "potentialOwners");
-		addAssignments(ojClass, exec, oa.getTaskDefinition().getPotentialBusinessAdministrators(), "potentialBusinessAdministrators");
-		addAssignments(ojClass, exec, oa.getTaskDefinition().getPotentialStakeholders(), "potentialStakeholders");
+		TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "self");
 	}
 	private void implementEmbeddedTask(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
 		ojClass.addToImports(ITaskInvocation.class.getName());
@@ -101,7 +99,10 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 		addGetName(oa, ojClass);
 		OJAnnotatedOperation getProcessObject = addGetCallingProcessObject(ojClass, new NakedClassifierMap(oa.getActivity()).javaTypePath());
 		addRequestForWork(ojClass);
-		OJAnnotatedOperation completed = addEmbeddedTaskCompletedMethod(oa, ojClass);
+		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
+		ojClass.addToOperations(complete);
+		complete.getBody().addToStatements("getCallingProcessObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
+		OJAnnotatedOperation completed = complete;
 		Collection<INakedDeadline> deadlines = oa.getTaskDefinition().getDeadlines();
 		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
 		ojClass.addToOperations(started);
@@ -132,14 +133,6 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 	public void addCallingProcessObjectField(OJAnnotatedOperation getProcessObject){
 		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", getProcessObject.getReturnType());
 		callingProcessObject.setInitExp("getCallingProcessObject()");
-	}
-	private OJAnnotatedOperation addEmbeddedTaskCompletedMethod(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
-		// TODO call this method from the TaskInstance
-		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
-		ojClass.addToOperations(complete);
-		OJAnnotatedOperation completeMethod = complete;
-		completeMethod.getBody().addToStatements("getCallingProcessObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
-		return complete;
 	}
 	private void addRequestForWork(OJAnnotatedClass ojClass){
 		OJAnnotatedField field = OJUtil.addProperty(ojClass, "request", new OJPathName(AbstractRequest.class.getName()), true);

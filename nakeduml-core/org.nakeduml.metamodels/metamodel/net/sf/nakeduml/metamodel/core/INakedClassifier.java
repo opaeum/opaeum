@@ -25,6 +25,7 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	 */
 	@Deprecated
 	INakedNameSpace getOwner(); 
+	INakedClassifier getNestingClassifier();
 	CodeGenerationStrategy getCodeGenerationStrategy();
 	void setCodeGenerationStrategy(CodeGenerationStrategy none);
 	String getMappedImplementationType();

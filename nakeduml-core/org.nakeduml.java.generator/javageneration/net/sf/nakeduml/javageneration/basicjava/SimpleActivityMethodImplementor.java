@@ -64,7 +64,7 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
@@ -258,8 +258,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			actionBuilder = new EmbeddedSingleScreenTaskCaller(oclEngine, (INakedEmbeddedSingleScreenTask) node, expressor);
 		}else if(node instanceof INakedCallOperationAction){
 			actionBuilder = new OperationCaller(oclEngine, (INakedCallOperationAction) node, expressor);
-		}else if(node instanceof INakedScreenFlowTask){
-			actionBuilder = new ScreenFlowTaskCaller(oclEngine, (INakedScreenFlowTask) node, expressor);
+		}else if(node instanceof INakedEmbeddedScreenFlowTask){
+			actionBuilder = new ScreenFlowTaskCaller(oclEngine, (INakedEmbeddedScreenFlowTask) node, expressor);
 		}else if(node instanceof INakedCallBehaviorAction){
 			actionBuilder = new BehaviorCaller(oclEngine, (INakedCallBehaviorAction) node, expressor);
 		}else if(node instanceof INakedCreateObjectAction){

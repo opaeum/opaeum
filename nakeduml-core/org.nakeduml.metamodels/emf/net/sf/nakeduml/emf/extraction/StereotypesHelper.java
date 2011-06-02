@@ -45,12 +45,4 @@ public class StereotypesHelper {
 		return false;
 	}
 
-	public static Object getValue(Element element,String st,String attr){
-		for(Stereotype stereotype:element.getAppliedStereotypes()){
-			if(stereotype.getName().equalsIgnoreCase(st)){
-				return element.getValue(stereotype, attr);
-			}
-		}
-		return null;
-	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -17,6 +18,8 @@ import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
 /**
@@ -183,4 +186,15 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	public int hashCode(){
 		return id.hashCode();
 	}
+	public INakedClassifier getNearestClassifier(){
+		INakedElementOwner o = getOwnerElement();
+		while(!(o instanceof INakedClassifier)){
+			if(o==null||o instanceof INakedModelWorkspace){
+				return null;
+			}
+			o=((INakedElement) o).getOwnerElement();
+		}
+		return (INakedClassifier) o;
+	}
+
 }

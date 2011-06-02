@@ -63,57 +63,38 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 			ReceiveOperationEvent ce = (ReceiveOperationEvent) event;
 			trigger.setEvent(getNakedPeer(ce.getOperation()));
 		}else if(event instanceof ChangeEvent){
-			INakedBehavior context = (INakedBehavior) getNakedPeer(behaviour);
-			// NB!!! TimeEvents are stored under a special id to
-			// duplicate it in each context it is used.
-			String id = getId(event) + getId(behaviour);
-			NakedChangeEventImpl nakedTimeEvent = (NakedChangeEventImpl) workspace.getModelElement(id);
-			if(nakedTimeEvent == null){
-				nakedTimeEvent = new NakedChangeEventImpl();
-				ChangeEvent ce = (ChangeEvent) event;
-				nakedTimeEvent.initialize(id, ce.getName(), true);
-				// NB!!! Deviation from UML2 metamodel:
-				// We have to make the behaviour the owner to allow for the
-				// expression to be implemented correctly
-				// Without a behaviour context the expression is contextless and
-				// of limited use.
-				super.initialize(nakedTimeEvent, ce, behaviour);
-				INakedValueSpecification change = getValueSpecification(nakedTimeEvent, ce.getChangeExpression(), OclUsageType.DEF);
-				if(change != null){
-					change.setType(getOclLibrary().lookupStandardType("Boolean"));
-					nakedTimeEvent.setChangeExpression(change);
-					change.setOwnerElement(nakedTimeEvent);
-				}
+			// NB!!! Deviation from UML2 metamodel:
+			// Change Events are stored with a special id under its trigger,
+			// effectively duplicating it in each trigger it is used.
+			// The action/transition owning the trigger thus provides the behvioral context of the change expression
+			String id = getEventId(t);
+			NakedChangeEventImpl nakedTimeEvent = new NakedChangeEventImpl();
+			ChangeEvent ce = (ChangeEvent) event;
+			nakedTimeEvent.initialize(id, ce.getName(), true);
+			super.initialize(nakedTimeEvent, ce, t);
+			INakedValueSpecification change = getValueSpecification(nakedTimeEvent, ce.getChangeExpression(), OclUsageType.DEF);
+			if(change != null){
+				change.setType(getOclLibrary().lookupStandardType("Boolean"));
+				nakedTimeEvent.setChangeExpression(change);
+				change.setOwnerElement(nakedTimeEvent);
 			}
 			trigger.setEvent(nakedTimeEvent);
 		}else if(event instanceof TimeEvent){
 			TimeEvent emfTimeEvent = ((TimeEvent) event);
 			String id = null;
-			Element owner = behaviour;
-			boolean isDeadline = StereotypesHelper.hasStereotype(emfTimeEvent, StereotypeNames.DEADLINE);
-			if(isDeadline){
-				Element e = (Element) StereotypesHelper.getValue(emfTimeEvent, StereotypeNames.DEADLINE, "origin");
-				if(e != null){
-					owner = e;
-				}
-			}
-			// NB!!! TimeEvents are stored under a special id to
-			// duplicate it in each context it is used.
-			id = getId(emfTimeEvent) + getId(owner);
-			NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) workspace.getModelElement(id);
-			if(nakedTimeEvent == null){
-				if(isDeadline){
-					nakedTimeEvent = new NakedDeadlineImpl();
-				}else{
-					nakedTimeEvent = new NakedTimeEventImpl();
-				}
-				nakedTimeEvent.initialize(id, emfTimeEvent.getName(), true);
+			if(isDeadline(emfTimeEvent)){
 				// NB!!! Deviation from UML2 metamodel:
-				// We have to make the behaviour the owner to allow for the
-				// expression to be implemented correctly
-				// Without a behaviour context the expression is contextless and
-				// of limited use.
-				super.initialize(nakedTimeEvent, emfTimeEvent, owner);
+				// Deadlines have been stored previously under its DefinedResponsisibility
+				trigger.setEvent(getNakedPeer(emfTimeEvent));
+			}else{
+				// NB!!! Deviation from UML2 metamodel:
+				// Normal Time Events are stored with a special id under its trigger,
+				// effectively duplicating it in each trigger it is used.
+				// The action/transition owning the trigger thus provides the behavioral context of the when expression
+				id = getEventId(t);
+				NakedTimeEventImpl nakedTimeEvent = new NakedTimeEventImpl();
+				nakedTimeEvent.initialize(id, emfTimeEvent.getName(), true);
+				super.initialize(nakedTimeEvent, emfTimeEvent, t);
 				INakedValueSpecification when = getValueSpecification(nakedTimeEvent, emfTimeEvent.getWhen(), OclUsageType.DEF);
 				if(when != null){
 					when.setType((INakedClassifier) getNakedPeer(emfTimeEvent.getWhen().getType()));
@@ -121,40 +102,10 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 					when.setOwnerElement(nakedTimeEvent);
 				}
 				nakedTimeEvent.setRelative(emfTimeEvent.isRelative());
-				nakedTimeEvent.setTimeUnit(resolveTimeUnit(emfTimeEvent));
 				trigger.setEvent(nakedTimeEvent);
 			}
 		}
 		return trigger;
-	}
-	private TimeUnit resolveTimeUnit(TimeEvent emfTimeEvent){
-		if(emfTimeEvent.getName() != null){
-			if(emfTimeEvent.getName().toLowerCase().contains("month")){
-				return TimeUnit.CALENDAR_MONTH;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("week")){
-				return TimeUnit.CALENDAR_WEEK;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("day")){
-				return TimeUnit.BUSINESS_DAY;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("hour")){
-				return TimeUnit.BUSINESS_HOUR;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("business") && emfTimeEvent.getName().toLowerCase().contains("minute")){
-				return TimeUnit.BUSINESS_MINUTE;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("day")){
-				return TimeUnit.CALENDAR_DAY;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("hour")){
-				return TimeUnit.ACTUAL_HOUR;
-			}
-			if(emfTimeEvent.getName().toLowerCase().contains("minute")){
-				return TimeUnit.ACTUAL_MINUTE;
-			}
-		}
-		return TimeUnit.BUSINESS_DAY;
 	}
 	protected INakedClassifier getNearestContext(Behavior b){
 		if(b != null && b.getContext() != null){

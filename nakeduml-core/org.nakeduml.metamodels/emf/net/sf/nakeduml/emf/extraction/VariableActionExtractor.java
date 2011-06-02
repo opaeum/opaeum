@@ -17,8 +17,8 @@ import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.RemoveVariableValueAction;
 import org.eclipse.uml2.uml.Variable;
 
-@StepDependency(phase = EmfExtractionPhase.class, requires = { TypedElementExtractor.class, ActivityStructureExtractor.class }, after = {
-		TypedElementExtractor.class, ActivityStructureExtractor.class })
+@StepDependency(phase = EmfExtractionPhase.class, requires = { FeatureExtractor.class, ActivityStructureExtractor.class }, after = {
+		FeatureExtractor.class, ActivityStructureExtractor.class })
 public class VariableActionExtractor extends AbstractActionExtractor {
 	@VisitBefore
 	public void visitAddVariableValueAction(AddVariableValueAction emfAction, NakedAddVariableValueActionImpl nakedAction) {

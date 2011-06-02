@@ -17,7 +17,7 @@ import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -53,7 +53,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 			classes.add(OJUtil.classifierPathname(a.getMessageStructure()));
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitScreenFlow(INakedScreenFlowTask a){
+		public void visitScreenFlow(INakedEmbeddedScreenFlowTask a){
 			OJPathName pn = OJUtil.packagePathname(a.getActivity());
 			pn.addToNames(a.getMappingInfo().getJavaName().getCapped().getAsIs());
 			classes.add(pn);

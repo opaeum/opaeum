@@ -1,5 +1,6 @@
 package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
@@ -17,6 +18,13 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 	}
 	public INakedElement getEvent() {
 		return event;
+	}
+	@Override
+	public void addOwnedElement(INakedElement element){
+		if(element instanceof INakedEvent){
+			this.event=element;
+		}
+		super.addOwnedElement(element);
 	}
 	@Override
 	public void addStereotype(INakedInstanceSpecification s){

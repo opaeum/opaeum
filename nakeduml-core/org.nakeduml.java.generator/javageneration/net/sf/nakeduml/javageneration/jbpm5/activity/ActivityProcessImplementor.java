@@ -38,7 +38,7 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.model.IClassifier;
@@ -162,8 +162,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			implementor = new ExpansionRegionBuilder(getOclEngine(), (INakedExpansionRegion) node);
 		}else if(node instanceof INakedEmbeddedSingleScreenTask){
 			implementor = new EmbeddedSingleScreenTaskBuilder(getOclEngine(), (INakedEmbeddedSingleScreenTask) node);
-		}else if(node instanceof INakedScreenFlowTask){
-			implementor = new ScreenFlowTaskBuilder(getOclEngine(), (INakedScreenFlowTask) node);
+		}else if(node instanceof INakedEmbeddedScreenFlowTask){
+			implementor = new ScreenFlowTaskBuilder(getOclEngine(), (INakedEmbeddedScreenFlowTask) node);
 		}else if(node instanceof INakedCallBehaviorAction){
 			implementor = new CallBehaviorActionBuilder(getOclEngine(), (INakedCallBehaviorAction) node);
 		}else if(node instanceof INakedCallOperationAction){

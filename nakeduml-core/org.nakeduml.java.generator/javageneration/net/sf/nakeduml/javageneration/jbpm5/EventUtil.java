@@ -5,16 +5,18 @@ import java.util.Set;
 
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimer;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
-import org.hibernate.property.Getter;
 import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.event.ChangeEvent;
+import org.nakeduml.event.Deadline;
 import org.nakeduml.event.TimeEvent;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -40,7 +42,7 @@ public class EventUtil{
 		operation.getOwner().addToImports(ChangeEvent.class.getName());
 		EventUtil.addOutgoingEventManagement(owner);
 		if(when != null){
-			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getOwningBehavior(), when.getType());
+			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getBehaviorContext(), when.getType());
 			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation("evaluate" + event.getMappingInfo().getJavaName().getCapped(), new OJPathName("boolean"));
 			evaluationMethod
 					.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), "evaluate_" + event.getMappingInfo().getPersistentName()));
@@ -66,7 +68,16 @@ public class EventUtil{
 			field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
-	public static void implementTimeEventRequest(OJOperation operation,OJBlock block, INakedClassifier context, INakedTimeEvent event, String targetExpression){
+	public static void implementTimeEventRequest(OJOperation operation,OJBlock block, INakedTimeEvent event){
+		operation.getOwner().addToImports(TimeEvent.class.getName());
+		implementTimerRequest(operation, block, event, "self", "TimeEvent");
+	}
+	public static void implementDeadlineRequest(OJOperation operation,OJBlock block, INakedDeadline event, String taskName){
+		operation.getOwner().addToImports(Deadline.class.getName());
+		implementTimerRequest(operation, block, event, taskName, "Deadline");
+	}
+	private static void implementTimerRequest(OJOperation operation,OJBlock block,INakedTimer event,String targetExpression,String eventType){
+		INakedClassifier context=event.getNearestClassifier();
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		String callBackMethodName=getEventMethodPersistentName(event);
 		INakedValueSpecification when = event.getWhen();
@@ -77,16 +88,16 @@ public class EventUtil{
 				owner.addToImports(TimeUnit.class.getName());
 				TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
 				block.addToStatements(
-						"getOutgoingEvents().add(new TimeEvent("+targetExpression+",\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit." + timeUnit.name() + "))");
+						"getOutgoingEvents().add(new "+eventType+"("+targetExpression+",\"" + callBackMethodName + "\"," + whenExpr + ",TimeUnit." + timeUnit.name() + "))");
 			}else{
-				block.addToStatements("getOutgoingEvents().add(new TimeEvent("+targetExpression+",\"" + callBackMethodName + "\"," + whenExpr + "))");
+				block.addToStatements("getOutgoingEvents().add(new "+eventType+"("+targetExpression+",\"" + callBackMethodName + "\"," + whenExpr + "))");
 			}
 		}else{
 			block.addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
 		}
 		addOutgoingEventManagement(owner);
 	}
-	public static void cancelTimer(OJBlock block, INakedTimeEvent event,String targetExpression){
+	public static void cancelTimer(OJBlock block, INakedTimer event,String targetExpression){
 		block.addToStatements("getOutgoingEvents().add(new TimeEvent("+targetExpression+",\"" + getEventMethodPersistentName(event) + "\",true))");
 	}
 	public static void cancelChangeEvent(OJBlock block,INakedChangeEvent event){

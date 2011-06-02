@@ -22,7 +22,7 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Variable;
 
-@StepDependency(phase = EmfExtractionPhase.class, requires = { TypedElementExtractor.class }, after = { TypedElementExtractor.class })
+@StepDependency(phase = EmfExtractionPhase.class, requires = { FeatureExtractor.class }, after = { FeatureExtractor.class })
 public class ActivityStructureExtractor extends AbstractActionExtractor {
 	@VisitBefore
 	public void visitVariable(Variable emfNode, NakedActivityVariable ae) {

@@ -15,8 +15,8 @@ import org.eclipse.uml2.uml.CentralBufferNode;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.Parameter;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {TypedElementExtractor.class,ActivityStructureExtractor.class},after = {
-		TypedElementExtractor.class,ActivityStructureExtractor.class})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {
+		FeatureExtractor.class,ActivityStructureExtractor.class})
 public class ObjectNodeExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
 	public void visitActivityParameterNode(ActivityParameterNode emfNode,NakedParameterNodeImpl nakedNode){

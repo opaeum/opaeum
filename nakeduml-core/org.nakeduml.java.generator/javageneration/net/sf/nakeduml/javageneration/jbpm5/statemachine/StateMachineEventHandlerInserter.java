@@ -53,7 +53,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
 					OJOperation fire = findOrCreateRequestEventsMethod(javaStateMachine, map);
-					EventUtil.implementTimeEventRequest(fire, fire.getBody(), umlStateMachine, (INakedTimeEvent) wfe.getEvent(), "this");
+					EventUtil.implementTimeEventRequest(fire, fire.getBody(), (INakedTimeEvent) wfe.getEvent());
 					OJOperation cancel = findOrCreateCancelMethod(javaStateMachine, map);
 					EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) wfe.getEvent(), "this");
 				}

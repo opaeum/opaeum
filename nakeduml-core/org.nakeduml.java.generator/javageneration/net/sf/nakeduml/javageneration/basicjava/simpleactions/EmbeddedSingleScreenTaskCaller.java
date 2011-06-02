@@ -31,7 +31,7 @@ public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<INakedEmbe
 			operation.getBody().addToStatements("task." + propertyMap.setter() + "(" + buildPinExpression(operation, block, input) + ")");
 		}
 		operation.getBody().addToStatements("task.setReturnInfo(context)");
-		TaskUtil.implementAssignmentsAndDeadlines(operation, block, node.getTaskDefinition(), "task.getTaskInstance()");
+		TaskUtil.implementAssignmentsAndDeadlines(operation, block, node.getTaskDefinition(), "task");
 		// TODO populate people assignments
 		operation.getBody().addToStatements("task.execute()");
 	}

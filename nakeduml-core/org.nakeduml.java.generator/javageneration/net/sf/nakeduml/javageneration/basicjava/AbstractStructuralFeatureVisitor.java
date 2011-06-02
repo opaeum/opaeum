@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
@@ -106,7 +106,7 @@ public abstract class AbstractStructuralFeatureVisitor extends StereotypeAnnotat
 		}
 	}
 	@VisitBefore()
-	public void visitScreenFlowTask(INakedScreenFlowTask node){
+	public void visitScreenFlowTask(INakedEmbeddedScreenFlowTask node){
 		if((BehaviorUtil.mustBeStoredOnActivity(node))){
 			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
 		}

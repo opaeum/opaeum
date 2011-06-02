@@ -24,6 +24,9 @@ Responsibility propertySection
 Tasks - escalations,potential delegates etc.
 States - requireRoles - think that through
 lookup for typedelements
+HTML Text editor for Signal templates
+Enumeration Literals and their slots
+Property lookup type - all, composition siblings,expression 
 
 TaskManagement
 Model in Topcased with statemachine

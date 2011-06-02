@@ -4,6 +4,9 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
+import net.sf.nakeduml.metamodel.bpm.internal.NakedDeadlineImpl;
+import net.sf.nakeduml.metamodel.bpm.internal.NakedResponsibilityImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
@@ -45,6 +48,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -52,28 +56,30 @@ import org.eclipse.uml2.uml.ValueSpecification;
  * Builds operations, properties,parameter and associations. Only builds associations if they are supported by NakedUml and Octopus
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = GeneralizationExtractor.class,after = GeneralizationExtractor.class)
-public class TypedElementExtractor extends AbstractExtractorFromEmf{
+public class FeatureExtractor extends AbstractExtractorFromEmf{
 	private static final int EXCEPTION = 0;
 	private static final int ARGUMENT = 1;
 	private static final int RESULT = 2;
 	@VisitBefore(matchSubclasses = true)
 	public void visitPort(Port p){
-		NakedPortImpl np=new NakedPortImpl();
+		NakedPortImpl np = new NakedPortImpl();
 		initializeTypedElement(np, p, p.getType(), p.getOwner());
 		populateProperty(np, p);
 	}
-	@VisitBefore(matchSubclasses = false,match={Property.class, ExtensionEnd.class})
+	@VisitBefore(matchSubclasses = false,match = {
+			Property.class,ExtensionEnd.class
+	})
 	public void visitProperty(Property p){
 		// only create properties that have not been created yet
 		if(this.workspace.getModelElement(getId(p)) == null){
 			if(p.getOwner() instanceof Property){
-//				System.out.println("Qualifier found: " + p.getQualifiedName());
+				// System.out.println("Qualifier found: " + p.getQualifiedName());
 			}else if(p.getAssociation() instanceof Extension){
 				// TODO convert these to some enum property that
 				// can map to target type in Java
 			}else{
 				NakedPropertyImpl np = null;
-				if(p.getAssociation() == null || p.getAssociation().getMemberEnds().size()<2){
+				if(p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2){
 					np = buildAttribute(p);
 				}else{
 					int otherIndex = p.getAssociation().getMemberEnds().indexOf(p);
@@ -189,10 +195,19 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(Operation emfOper){
-		INakedOperation nakedOper = new NakedOperationImpl();
+		NakedOperationImpl nakedOper;
+		Stereotype responsibility = StereotypesHelper.getStereotype(emfOper, StereotypeNames.RESPONSIBILITY);
+		if(responsibility!=null){
+			nakedOper = new NakedResponsibilityImpl();
+			initialize(nakedOper, emfOper, emfOper.getOwner());
+			initializeDeadlines(responsibility, emfOper);
+			
+		}else{
+			nakedOper = new NakedOperationImpl();
+			initialize(nakedOper, emfOper, emfOper.getOwner());
+		}
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
-		initialize(nakedOper, emfOper, emfOper.getOwner());
 		List<Constraint> preconditions = emfOper.getPreconditions();
 		List<Constraint> postconditions = emfOper.getPostconditions();
 		if(emfOper.getMethods().size() > 0){
@@ -249,8 +264,7 @@ public class TypedElementExtractor extends AbstractExtractorFromEmf{
 	private boolean shouldCountParameter(int paramaterKind,Parameter p){
 		switch(paramaterKind){
 		case EXCEPTION:
-			return (p.getDirection().equals(ParameterDirectionKind.OUT_LITERAL) || p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL))
-					&& p.isException();
+			return (p.getDirection().equals(ParameterDirectionKind.OUT_LITERAL) || p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL)) && p.isException();
 		case ARGUMENT:
 			return p.getDirection().equals(ParameterDirectionKind.IN_LITERAL) || p.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL);
 		case RESULT:

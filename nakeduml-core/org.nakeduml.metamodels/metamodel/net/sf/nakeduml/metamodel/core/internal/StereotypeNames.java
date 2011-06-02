@@ -7,8 +7,7 @@ public class StereotypeNames {
 	public static final String USER_GROUP = "UserGroup";
 	public static final String PRIMITIVE_TYPE = "PrimitiveType";
 	public static final String HELPER = "Helper";
-	public static final String USER_IN_ROLE = "UserInRole";
-	public static final String DEADLINE = "Deadline";
+	public static final String NUML_ANNOTATION = "http://www.nakeduml.org";
 	//RUP
 	public static String BUSINESS_ACTOR = "BusinessActor";
 	public static String BUSINESS_WORKER = "BusinessWorker";
@@ -30,6 +29,7 @@ public class StereotypeNames {
 	public static String SIGNAL = "Signal";
 	public static String STRUCTURED_DATA_TYPE = "StructuredDataType";
 	public static String VALUE_TYPE = "ValueType";
+	public static String TIME_EVENT = "TimeEvent";	
 		//Security
 	public static String SECURITY_ON_AUDIT_TRAIL = "SecurityOnAuditTrail";
 	public static String SECURITY_ON_CREATE = "SecurityOnCreate";
@@ -47,11 +47,13 @@ public class StereotypeNames {
 	public static String PROPERTY_PARTICIPATION = "PropertyParticipation";	
 	public static String STATE_PARTICIPATION = "StateParticipation";	
 	public static String USER_INTERACTION_SPECIFICATION = "UserInteractionSpecification";	
-	//Workflow
-	public static String TASK = "Task";	
-	public static String TIME_EVENT = "TimeEvent";	
-	public static String USER_RESPONSIBILITY = "UserResponsibility";	
-
-	public static String WITHOUT_CHECK = "WithoutCheck";	
+	//BPM
+	public static final String USER_IN_ROLE = "UserInRole";
+	public static final String DEADLINE = "Deadline";
+	public static final String EMBEDDED_SINGLE_SCREEN_TASK = "EmbeddedSingleScreenTask";
+	public static final String EMBEDDED_SCREEN_FLOW_TASK = "EmbeddedScreenFlowTask";
+	public static final String BUSINESS_SERVICE = "BusinessService";
+	public static final String ORGANIZATION_UNIT = "OrganizationUnit";
+	public static final String RESPONSIBILITY = "Responsibility";
 
 }

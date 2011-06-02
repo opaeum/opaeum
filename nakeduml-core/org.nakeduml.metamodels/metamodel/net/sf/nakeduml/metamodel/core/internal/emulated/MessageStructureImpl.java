@@ -33,6 +33,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure {
+
 	protected INakedElement element;
 	INakedClassifier owner;
 
@@ -44,6 +45,10 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 
 	public abstract List<INakedProperty> getOwnedAttributes();
 
+	@Override
+	public INakedClassifier getNestingClassifier(){
+		return owner;
+	}
 	// TODO make configurable
 	public CodeGenerationStrategy getCodeGenerationStrategy() {
 		return CodeGenerationStrategy.all;

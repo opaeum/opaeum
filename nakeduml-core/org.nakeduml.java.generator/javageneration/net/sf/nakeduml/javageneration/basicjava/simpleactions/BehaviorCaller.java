@@ -25,31 +25,36 @@ public class BehaviorCaller extends AbstractCaller<INakedCallBehaviorAction>{
 			NakedStructuralFeatureMap resultMap = null;
 			INakedPin returnPin = node.getReturnPin();
 			ActionMap actionMap = new ActionMap(node);
-			String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-					+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")";
-			if(BehaviorUtil.hasMessageStructure(node)){
-				resultMap = OJUtil.buildStructuralFeatureMap(node, oclEngine.getOclLibrary());
-			}else if(returnPin != null){
-				resultMap = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin);
-			}
-			OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-			if(resultMap != null){
+			NakedClassifierMap messageMap = new NakedClassifierMap(node.getMessageStructure());
+			if(node.getReturnPin() != null || BehaviorUtil.hasExecutionInstance(node.getBehavior())){
+				OJAnnotatedField resultField=new OJAnnotatedField(node.getName(), messageMap.javaTypePath());
+				OJBlock fs = block;
+				if(node.getBehavior().getContext() == null){
+				}else{
+					fs = buildLoopThroughTarget(operation, block, actionMap);
+					fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
+							+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+				}
+				block.addToLocals(resultField);
+				if(BehaviorUtil.hasExecutionInstance(node.getBehavior())){
+					resultMap = OJUtil.buildStructuralFeatureMap(node, oclEngine.getOclLibrary());
+				}else{
+					resultMap = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin);
+				}
 				expressor.maybeBuildResultVariable(operation, block, resultMap);
 				boolean many = resultMap.isMany();
 				if(!(returnPin == null || returnPin.getLinkedTypedElement() == null || BehaviorUtil.hasMessageStructure(node))){
 					many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();
 				}
 				if(node.getBehavior().isProcess() && !node.isSynchronous()){
-					NakedClassifierMap messageMap = new NakedClassifierMap(node.getMessageStructure());
-					OJAnnotatedField processField = new OJAnnotatedField(node.getName(), messageMap.javaTypePath());
-					processField.setInitExp(call);
-					block.addToLocals(processField);
-					block.addToStatements(processField.getName() + ".execute()");
-					call = processField.getName();
+					block.addToStatements(resultField.getName() + ".execute()");
 				}
-				call = expressor.storeResults(resultMap, call, many);
+				fs.addToStatements(expressor.storeResults(resultMap, resultField.getName(), many));
+			}else{
+				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
+				fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
+						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
 			}
-			fs.addToStatements(call);
 		}
 	}
 }

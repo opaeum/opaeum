@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
@@ -21,6 +22,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -43,6 +45,7 @@ import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
  * incorrectly have operations
  */
 public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements INakedClassifier {
+
 	private static final long serialVersionUID = -9194358342840031394L;
 	protected List<INakedProperty> ownedAttributes = new ArrayList<INakedProperty>();
 	private List<INakedOperation> ownedOperations = new ArrayList<INakedOperation>();
@@ -62,6 +65,17 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 
 	public List<INakedGeneralization> getNakedGeneralizations() {
 		return generalisations;
+	}
+	@Override
+	public INakedClassifier getNestingClassifier(){
+		INakedElementOwner o = getOwnerElement();
+		while(!(o instanceof INakedClassifier||o instanceof INakedModelWorkspace)){
+			o=((INakedElement) o).getOwnerElement();
+		}
+		if(o instanceof INakedClassifier){
+			return (INakedClassifier) o;
+		}
+		return null;
 	}
 
 	@Override

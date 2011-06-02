@@ -15,7 +15,7 @@ import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = TypedElementExtractor.class,after = TypedElementExtractor.class)
+@StepDependency(phase = EmfExtractionPhase.class,requires = FeatureExtractor.class,after = FeatureExtractor.class)
 public class StateExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
 	public void visitStateMachine(StateMachine esm){

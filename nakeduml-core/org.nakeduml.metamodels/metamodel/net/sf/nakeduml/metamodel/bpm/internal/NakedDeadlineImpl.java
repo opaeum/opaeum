@@ -1,13 +1,11 @@
 package net.sf.nakeduml.metamodel.bpm.internal;
 
-import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.bpm.DeadlineKind;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import net.sf.nakeduml.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 
-public class NakedDeadlineImpl extends NakedTimeEventImpl implements INakedDeadline{
+public class NakedDeadlineImpl extends AbstractTimeEventImpl implements INakedDeadline{
 	private DeadlineKind kind;
 	@Override
 	public DeadlineKind getKind(){
@@ -20,11 +18,8 @@ public class NakedDeadlineImpl extends NakedTimeEventImpl implements INakedDeadl
 		return (INakedDefinedResponsibility) getOwnerElement();
 	}
 	@Override
-	public INakedBehavior getOwningBehavior(){
-		if(getOrigin() instanceof INakedAction){
-			return ((INakedAction) getOrigin()).getActivity();
-		}else{
-			return null;
-		}
+	public String getMetaClass(){
+		return "deadline";
 	}
+
 }

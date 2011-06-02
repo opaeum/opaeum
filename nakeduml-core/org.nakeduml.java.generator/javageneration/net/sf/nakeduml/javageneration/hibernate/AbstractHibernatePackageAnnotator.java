@@ -11,7 +11,7 @@ import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
-import net.sf.nakeduml.metamodel.bpm.INakedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedUserInRole;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.components.INakedComponent;
@@ -69,7 +69,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			tasks.add(a.getMessageStructure());
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitCallBehaviorAction(INakedScreenFlowTask a){
+		public void visitCallBehaviorAction(INakedEmbeddedScreenFlowTask a){
 			tasks.add(a.getMessageStructure());
 		}
 	}

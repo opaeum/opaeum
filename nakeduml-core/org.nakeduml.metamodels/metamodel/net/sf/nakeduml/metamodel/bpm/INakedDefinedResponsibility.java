@@ -1,7 +1,8 @@
 package net.sf.nakeduml.metamodel.bpm;
 
-public interface INakedDefinedResponsibility{
+import net.sf.nakeduml.metamodel.core.INakedElement;
+
+public interface INakedDefinedResponsibility extends INakedElement{
 	INakedResponsibilityDefinition getTaskDefinition();
-	void setTaskDefinition(INakedResponsibilityDefinition taskDefinition);
 
 }

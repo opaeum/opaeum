@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedContextualEvent;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -19,11 +20,13 @@ import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EEnumLiteralImpl;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
@@ -42,19 +45,24 @@ import org.eclipse.uml2.uml.Trigger;
 })
 public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	@VisitAfter
-	public void visitTrigger(Trigger tr){
+	public void visitContextualEvent(Trigger t){
+		if(t.getEvent() instanceof TimeEvent && super.isDeadline((TimeEvent) t.getEvent())){
+			// Do nothing - normal stereotype application logic will work
+		}else{
+			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the correct
+			// naked element
+			INakedContextualEvent nakedPeer = (INakedContextualEvent) workspace.getModelElement(getEventId(t));
+			if(nakedPeer != null){
+				addStereotypes(nakedPeer, t.getEvent());
+				addKeywords(nakedPeer, t.getEvent());
+			}
+		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
 		INakedElement nakedPeer = getNakedPeer(element);
 		if(element instanceof Comment){
 			visitComment((Comment) element);
-		}else if(element instanceof Trigger){
-			// TimeEvent are stored with the Trigger
-			Trigger trigger = (Trigger) element;
-			if(trigger.getEvent() instanceof TimeEvent){
-				element = trigger.getEvent();
-			}
 		}
 		if(nakedPeer != null){
 			addStereotypes(nakedPeer, element);
@@ -70,7 +78,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			workspace.putModelElement(is);
 		}
 	}
-	public void visitComment(Comment a){
+	private void visitComment(Comment a){
 		INakedElement e = super.getNakedPeer(a.getOwner());
 		if(e != null){
 			INakedComment nakedComment = new NakedCommentImpl();
@@ -131,8 +139,8 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	private void putValue(int index,Object value,INakedSlot slot){
 		if(value != null){
 			NakedValueSpecificationImpl valueSpec = new NakedValueSpecificationImpl();
-			if(value instanceof EObject){
-				EObject eObjectValue = (EObject) value;
+			if(value instanceof EModelElement){
+				EModelElement eObjectValue = (EModelElement) value;
 				String valueId = getId(eObjectValue);
 				INakedElement nakedElementValue = workspace.getModelElement(valueId);
 				if(nakedElementValue == null){

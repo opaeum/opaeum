@@ -1,24 +1,10 @@
 package net.sf.nakeduml.metamodel.commonbehaviors.internal;
-import java.util.Collection;
-import java.util.Collections;
-
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
-import net.sf.nakeduml.metamodel.name.NameWrapper;
-import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
-
-import org.nakeduml.runtime.domain.TimeUnit;
-public class NakedTimeEventImpl extends NakedElementImpl implements INakedTimeEvent {
-	static public final String TIME_UNIT = "timeUnit";
-	private static final long serialVersionUID = -4132717082708308377L;
-	private boolean isRelative;
-	private TimeUnit timeUnit;
-	private INakedValueSpecification when;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+public class NakedTimeEventImpl extends AbstractTimeEventImpl implements INakedTimeEvent {
 	public NakedTimeEventImpl() {
 		super();
 	}
@@ -26,51 +12,17 @@ public class NakedTimeEventImpl extends NakedElementImpl implements INakedTimeEv
 	public String getMetaClass() {
 		return "TimeEvent";
 	}
-	public NameWrapper getTimeUnitName() {
-		return new SingularNameWrapper(getTimeUnit().getName(), null);
-	}
-	public boolean isRelative() {
-		return this.isRelative;
-	}
-	public void setRelative(boolean relative) {
-		this.isRelative = relative;
-	}
-	public void setTimeUnit(TimeUnit timeUnit) {
-		this.timeUnit = timeUnit;
-	}
-	public TimeUnit getTimeUnit() {
-		if (this.timeUnit == null) {
-			return TimeUnit.BUSINESS_DAY;
-		} else {
-			return this.timeUnit;
+	@Override
+	public INakedBehavior getBehaviorContext(){
+		INakedElementOwner o= getOwnerElement();
+		while(!(o instanceof INakedBehavior)){
+			o=((INakedElement) o).getOwnerElement();
 		}
-	}
-	public void setWhen(INakedValueSpecification when) {
-		this.when = when;
-	}
-	public INakedValueSpecification getWhen() {
-		return this.when;
+		return (INakedBehavior) o;
 	}
 	@Override
-	public void addStereotype(INakedInstanceSpecification stereotype) {
-		super.addStereotype(stereotype);
-		if (stereotype.hasValueForFeature(TIME_UNIT)) {
-			this.timeUnit = TimeUnit.lookup(stereotype.getFirstValueFor(TIME_UNIT).stringValue());
-		}
+	public INakedTrigger getOwningTrigger(){
+		return (INakedTrigger) getOwnerElement();
 	}
-	@Override
-	public Collection<INakedElement> getOwnedElements() {
-		if (when == null) {
-			return Collections.<INakedElement> emptySet();
-		} else {
-			return Collections.<INakedElement> singleton(when);
-		}
-	}
-	@Override
-	public void addOwnedElement(INakedElement element) {
-	}
-	public INakedBehavior getOwningBehavior() {
-		//The extractor will make sure the event is duplicated for each context
-		return (INakedBehavior) getOwnerElement();
-	}
+
 }
