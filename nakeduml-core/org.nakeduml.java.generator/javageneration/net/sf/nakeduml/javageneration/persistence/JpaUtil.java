@@ -32,6 +32,9 @@ public class JpaUtil{
 		RESERVED_NAMES.add("group");
 		RESERVED_NAMES.add("min");
 		RESERVED_NAMES.add("max");
+		RESERVED_NAMES.add("count");
+		RESERVED_NAMES.add("sum");
+		RESERVED_NAMES.add("avg");
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,NakedUmlConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);

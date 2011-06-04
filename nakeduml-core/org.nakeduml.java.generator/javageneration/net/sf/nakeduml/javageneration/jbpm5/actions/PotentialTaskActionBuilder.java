@@ -56,9 +56,9 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 			NakedOperationMap map = new NakedOperationMap(call.getOperation());
 			activityClass.addToImplementedInterfaces(map.callbackListenerPath());
 			completeMethodName = map.callbackOperName();
-			message = call.getMessageStructure();
+			message = call.getMessageStructure(getOclEngine().getOclLibrary());
 		}else{
-			message = ((INakedEmbeddedTask) node).getMessageStructure();
+			message = ((INakedEmbeddedTask) node).getMessageStructure(getOclEngine().getOclLibrary());
 			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}
 		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);

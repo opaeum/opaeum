@@ -16,7 +16,7 @@ public class VariableValueAdder extends SimpleNodeBuilder<INakedAddVariableValue
 
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper, OJBlock block) {
-		String valuePinField = buildPinExpression(oper, block, node.getValue());
+		String valuePinField = readPin(oper, block, node.getValue());
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getContext(), node.getVariable());
 		block.addToStatements(expressor.storeResults(map, valuePinField, map.isMany()));
 	}

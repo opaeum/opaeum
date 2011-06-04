@@ -14,8 +14,11 @@ import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
+import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 
@@ -43,7 +46,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	@VisitAfter
 	public void visitOperation(INakedOperation o){
 		if(o.isLongRunning()){
-			OperationMessageStructureImpl oc = new OperationMessageStructureImpl(o);
+			INakedMessageStructure oc = o.getMessageStructure(getOclEngine().getOclLibrary());
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
 			Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
 			addSetReturnInfo(ojOperationClass);
@@ -120,7 +123,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			javaMethod.getBody().addToLocals(behaviorField);
 			behaviorField.setInitExp("new " + ojBehavior.getLast() + "(this)");
 			populateBehavior(behavior, javaMethod);
-			NakedMessageStructureMap map = new NakedMessageStructureMap(behavior);
+			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ArtificialProperty(behavior, getOclEngine().getOclLibrary()));
 			javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
 			if(behavior.getSpecification()!=null){
 				javaMethod.getBody().addToStatements("_behavior.execute()");

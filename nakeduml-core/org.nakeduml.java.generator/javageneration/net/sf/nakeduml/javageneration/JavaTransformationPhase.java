@@ -9,6 +9,7 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.linkage.OclParsingPhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -35,6 +36,7 @@ public class JavaTransformationPhase implements TransformationPhase<AbstractJava
 	}
 
 	public Object[] execute(List<AbstractJavaTransformationStep> features,TransformationContext context) {
+		OJUtil.clearCache();
 		javaModel = new OJAnnotatedPackage();
 		for (AbstractJavaTransformationStep f : features) {
 			f.initialize(javaModel, config, textWorkspace);

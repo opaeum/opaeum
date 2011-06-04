@@ -37,7 +37,7 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 				block.addToStatements(signalName + "couldNotLinkPinToProperty!!!");
 			} else {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) pin.getLinkedTypedElement());
-				block.addToStatements(signalName + "." + map.setter() + "(" + buildPinExpression(operation, block, pin) + ")");
+				block.addToStatements(signalName + "." + map.setter() + "(" + readPin(operation, block, pin) + ")");
 			}
 		}
 		OJAnnotatedField signal = new OJAnnotatedField(signalName,cm.javaTypePath());
@@ -49,7 +49,7 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 		}
 		String targetExpression;
 		if (node.getTarget()!= null) {
-			targetExpression = buildPinExpression(operation, block, node.getTarget());
+			targetExpression = readPin(operation, block, node.getTarget());
 		}else {
 			targetExpression=source;
 		}

@@ -1,9 +1,11 @@
 package net.sf.nakeduml.emf.extraction;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.TransformationStep;
@@ -33,7 +35,6 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
@@ -56,15 +57,15 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
-			Collection<Element> children = new HashSet<Element>();
+			Map<String, Element> children = new HashMap<String,Element>();
 			EmfWorkspace w = (EmfWorkspace) root;
 			for(Element element:w.getOwnedElements()){
 				INakedElement nakedElement = workspace.getModelElement(getId(element));
 				if(nakedElement == null || !existingModels.contains(nakedElement)){
-					children.add(element);
+					children.put(getId(element),element);
 				}
 			}
-			return children;
+			return children.values();
 		}else{
 			return super.getChildren(root);
 		}
@@ -273,7 +274,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			// Need something here
 			body = bodies.get(0);
 		}
-		if(body != null && body.trim().length() > 0){
+		//TODO Extract constant here
+		if(body != null && body.trim().length() > 0 && !(body.equals("Type expression here"))){
 			ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usageType);
 			string.setExpressionString(body);
 			this.getErrorMap().linkElement(string, oe);

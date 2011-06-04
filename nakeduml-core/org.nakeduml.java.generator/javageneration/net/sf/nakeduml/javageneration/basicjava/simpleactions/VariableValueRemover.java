@@ -15,7 +15,7 @@ public class VariableValueRemover extends SimpleNodeBuilder<INakedRemoveVariable
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		String valuePinField = buildPinExpression(operation, block, node.getValue());
+		String valuePinField = readPin(operation, block, node.getValue());
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getContext(), node.getVariable());
 		if(map.isOne()){
 			// TODO what if node.getValue().isMany()?

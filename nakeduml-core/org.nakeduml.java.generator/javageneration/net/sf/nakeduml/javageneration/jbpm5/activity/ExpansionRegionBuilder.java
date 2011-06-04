@@ -31,7 +31,7 @@ public class ExpansionRegionBuilder extends Jbpm5ActionBuilder<INakedExpansionRe
 		OJBlock collectionBody = collectionExpression.getBody();
 		for (INakedExpansionNode expansionNode : outputElements) {
 			NakedStructuralFeatureMap map=OJUtil.buildStructuralFeatureMap(expansionNode.getActivity(), expansionNode);
-			expressor.maybeBuildResultVariable(oper, oper.getBody(), map);
+			expressor.buildResultVariable(oper, oper.getBody(), map);
 			owner.addToImports(map.javaDefaultTypePath());
 			owner.addToImports(map.javaTypePath());
 		}

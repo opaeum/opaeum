@@ -39,7 +39,7 @@ public class EnvironmentFactory{
 		this.workspace = workspace;
 	}
 	public Environment createPreEnvironment(INakedOperation owningBehavior){
-		return createSimpleBehavioralContext(owningBehavior);
+		return createSimpleBehavioralContext(owningBehavior.getOwner(), owningBehavior);
 	}
 	public Environment createClassifierEnvironment(INakedClassifier c){
 		Environment env = createSelflessEnvironment(c);
@@ -84,11 +84,11 @@ public class EnvironmentFactory{
 		Environment parent = new Environment();
 		Environment env = new Environment();
 		env.setParent(parent);
-		while(ns instanceof INakedClassifier && ns.getNameSpace().getNameSpace() != null){
-			// import everything up to the nearest package.
+		do{
 			env.addPackageContents(ns);
 			ns = ns.getNameSpace();
-		}
+			// import everything up to the nearest packag
+		}while(ns.getNameSpace() instanceof INakedClassifier);
 		if(ns != null){
 			env.addPackageContents(ns);
 		}
@@ -125,7 +125,11 @@ public class EnvironmentFactory{
 		}
 	}
 	private Environment createSimpleBehavioralContext(IParameterOwner owningBehavior){
-		Environment env = createClassifierEnvironment(owningBehavior.getContext());
+		// TODO Auto-generated method stub
+		return createSimpleBehavioralContext(owningBehavior.getContext(), owningBehavior);
+	}
+	private Environment createSimpleBehavioralContext(INakedClassifier context, IParameterOwner owningBehavior){
+		Environment env = createClassifierEnvironment(context);
 		addTypedElementsAsVariables(env, owningBehavior.getArgumentParameters());
 		return env;
 	}

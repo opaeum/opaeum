@@ -29,16 +29,21 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor {
+	@Override
+	public boolean pinsAvailableAsVariables(){
+		return true;
+	}
+
 	public Jbpm5ObjectNodeExpressor(IOclEngine oclEngine) {
 		super(oclEngine.getOclLibrary());
 	}
 
 	@Override
-	public OJAnnotatedField maybeBuildResultVariable(OJAnnotatedOperation operation, OJBlock block, NakedStructuralFeatureMap resultMap) {
+	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation, OJBlock block, NakedStructuralFeatureMap resultMap) {
+		OJAnnotatedField outPinVar = new OJAnnotatedField(resultMap.umlName(), resultMap.javaTypePath());
+		block.addToLocals(outPinVar);
 		if (inStructuredActivity(getOriginal(resultMap)) && resultMap.isMany()) {
 			// Setup collection
-			OJAnnotatedField outPinVar = new OJAnnotatedField(resultMap.umlName(), resultMap.javaTypePath());
-			block.addToLocals(outPinVar);
 			outPinVar.setInitExp("context.getVariable(\"" + resultMap.umlName() + "\")");
 			OJIfStatement ifNull = new OJIfStatement(resultMap.umlName() + "==null", resultMap.umlName() + "="
 					+ resultMap.javaDefaultValue());
@@ -48,7 +53,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 			operation.getOwner().addToImports(resultMap.javaDefaultTypePath());
 			return outPinVar;
 		}
-		return null;
+		return outPinVar;
 	}
 
 	private boolean inStructuredActivity(INakedElement node) {
@@ -131,7 +136,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 			//
 			INakedCallAction callAction = (INakedCallAction) feedingNode.getAction();
 			if (BehaviorUtil.hasMessageStructure(callAction)) {
-				INakedMessageStructure message = callAction.getMessageStructure();
+				INakedMessageStructure message = callAction.getMessageStructure(oclLibrary);
 				NakedClassifierMap messageMap = new NakedClassifierMap(message);
 				NakedStructuralFeatureMap featureMap = null;
 				if (feedingNode.getLinkedTypedElement() == null) {

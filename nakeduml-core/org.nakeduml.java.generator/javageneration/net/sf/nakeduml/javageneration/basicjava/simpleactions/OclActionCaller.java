@@ -30,14 +30,15 @@ public class OclActionCaller extends SimpleNodeBuilder<INakedOclAction> {
 			List<INakedInputPin> args = node.getInputValues();
 			for (INakedInputPin arg : args) {
 				//Make args available as vars to OCL
+				//Will lead to duplicate variables in simple synchronous methods
 				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), arg, false);
 				OJAnnotatedField argField = new OJAnnotatedField(argMap.umlName(), argMap.javaTypePath());
-				argField.setInitExp(super.buildPinExpression(operation, block, arg));
+				argField.setInitExp(super.readPin(operation, block, arg));
 				block.addToLocals(argField);
 			}
 			String expr = ValueSpecificationUtil.expressValue(operation, node.getBody(), node.getContext(), returnPin.getType());
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin);
-			expressor.maybeBuildResultVariable(operation, block, map);
+			expressor.buildResultVariable(operation, block, map);
 			expr=expressor.storeResults(map, expr, returnPin.getNakedMultiplicity().isMany());
 			block.addToStatements(expr);
 		}

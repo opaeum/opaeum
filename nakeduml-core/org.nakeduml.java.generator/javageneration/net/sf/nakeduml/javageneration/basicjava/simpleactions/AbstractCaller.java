@@ -37,7 +37,7 @@ public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleN
 		Iterator<? extends INakedInputPin> args = input.iterator();
 		while(args.hasNext()){
 			INakedObjectNode pin = args.next();
-			arguments.append(buildPinExpression(operation, operation.getBody(), pin));
+			arguments.append(readPin(operation, operation.getBody(), pin));
 			if(args.hasNext()){
 				arguments.append(",");
 			}

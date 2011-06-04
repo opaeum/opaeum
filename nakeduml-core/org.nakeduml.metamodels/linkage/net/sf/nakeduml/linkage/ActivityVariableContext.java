@@ -18,56 +18,60 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBrid
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-public final class ActivityVariableContext extends MessageStructureImpl {
+public final class ActivityVariableContext extends MessageStructureImpl{
 	private final INakedBehavior activity;
-
-	public ActivityVariableContext(INakedClassifier owner, INakedElement element, INakedBehavior activity) {
+	public ActivityVariableContext(INakedClassifier owner,INakedElement element,INakedBehavior activity){
 		super(owner, element);
 		this.activity = activity;
 	}
-
 	@Override
-	public IPackage getRoot() {
+	public IPackage getRoot(){
 		return activity.getNakedRoot();
 	}
-
 	@Override
-	public List<? extends INakedConstraint> getOwnedRules() {
+	public List<? extends INakedConstraint> getOwnedRules(){
 		return Collections.emptyList();
 	}
-
 	@Override
-	public List<? extends IOclContext> getDefinitions() {
+	public List<? extends IOclContext> getDefinitions(){
 		return Collections.emptyList();
 	}
-
 	@Override
-	public boolean isPersistent() {
+	public boolean isPersistent(){
 		return false;
 	}
-
 	@Override
-	public List<INakedProperty> getOwnedAttributes() {
+	public List<INakedProperty> getOwnedAttributes(){
 		List<INakedProperty> result = new ArrayList<INakedProperty>();
 		addVariables(result, element);
 		return result;
 	}
-
-	private void addVariables(List<INakedProperty> result, INakedElement element) {
+	private void addVariables(List<INakedProperty> result,INakedElement element){
 		Collection<? extends INakedTypedElement> variables = null;
-		if (element instanceof INakedActivity) {
-			INakedActivity activity=(INakedActivity) element;
-			HashSet<INakedTypedElement> localVariables = new HashSet<INakedTypedElement>( activity.getVariables());
+		if(element instanceof INakedActivity){
+			INakedActivity activity = (INakedActivity) element;
+			HashSet<INakedTypedElement> localVariables = new HashSet<INakedTypedElement>(activity.getVariables());
 			localVariables.addAll(activity.getOwnedParameters());
-			variables=localVariables;
+			variables = localVariables;
 		}
-		if (variables != null) {
-			for (INakedTypedElement var : variables) {
+		if(variables != null){
+			for(INakedTypedElement var:variables){
 				result.add(new TypedElementPropertyBridge(activity, var));
 			}
 		}
-		if (!(element == null || element instanceof INakedActivity)) {
+		if(!(element == null || element instanceof INakedActivity)){
 			addVariables(result, (INakedElement) element.getOwnerElement());
 		}
+	}
+	@Override
+	public boolean hasComposite(){
+		return false;
+	}
+	@Override
+	public INakedProperty getEndToComposite(){
+		return null;
+	}
+	@Override
+	public void setEndToComposite(INakedProperty artificialProperty){
 	}
 }

@@ -17,7 +17,6 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 	private static final long serialVersionUID = -257231836042506513L;
 	public static final String META_CLASS = "entity";
 	private List<INakedProperty> uniquenessConstraints;
-	private INakedProperty endToComposite;
 	public NakedEntityImpl(){
 	}
 	public boolean isPersistent(){
@@ -25,23 +24,6 @@ public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements IN
 	}
 	public boolean hasComposite(){
 		return getEndToComposite() != null;
-	}
-	public INakedProperty getEndToComposite(){
-		if(this.endToComposite == null){
-			for(INakedProperty np:getEffectiveAttributes()){
-				if(np.getOtherEnd() != null && np.getOtherEnd().isComposite()){
-					// Give preference to non-derived or local endsToComposite
-					if(this.endToComposite == null || (endToComposite.isDerived() && !np.isDerived()) || np.getOwner() == this){
-						if(this.endToComposite == null || this.endToComposite.getOwner() != this){
-							// Always find the local attribute first
-							this.endToComposite = np;
-						}
-						this.endToComposite = np;
-					}
-				}
-			}
-		}
-		return this.endToComposite;
 	}
 	/**
 	 * Includes all appropriately qualified relationships and one-to-one relationships

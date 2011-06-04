@@ -6,9 +6,7 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -44,19 +42,19 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 	@Override
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		super.initialize(javaModel, config, textWorkspace, context);
-		try {
+		try{
 			compositionNodeStrategy = (CompositionNodeStrategy) Class.forName(config.getCompositionNodeImplementationStrategy()).newInstance();
-			if (config.getCompositionNodeImplementationStrategy().contains("Tinker")) {
+			if(config.getCompositionNodeImplementationStrategy().contains("Tinker")){
 				COMPOSITION_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerCompositionNode");
-			} else {
+			}else{
 				COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 			}
-		} catch (Exception e) {
+		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
 	}
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedBehavioredClassifier c){
+	public void visitClass(ICompositionParticipant c){
 		if(isPersistent(c)){
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
@@ -64,7 +62,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 				OJAnnotatedClass ojClass = (OJAnnotatedClass) ojClassifier;
 				ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
 				addGetOwningObject(c, ojClass);
-				addRemoveFromOwner(c, ojClass);
+				addRemoveFromOwner(ojClass);
 				compositionNodeStrategy.addMarkDeleted(c, ojClass);
 				compositionNodeStrategy.addAddToOwningObject(c, ojClass);
 				addInit(c, ojClass);
@@ -82,32 +80,28 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 			ojClassifier.addToImports(COMPOSITION_NODE);
 		}
 	}
-	private void addInternalSetOwner(INakedBehavioredClassifier c,OJClass ojClass){
-		if(c instanceof INakedEntity){
-			INakedProperty endToComposite = ((INakedEntity) c).getEndToComposite();
-			// Composition is declared in this type, not supertype
-			if(endToComposite != null){
-				OJOperation oper = new OJOperation();
-				oper.setVisibility(OJVisibilityKindGEN.PROTECTED);
-				oper.setComment("Used to set the owner internally in extended composition semantics");
-				oper.setName("internalSetOwner");
-				NakedStructuralFeatureMap toOwnerMap = new NakedStructuralFeatureMap(endToComposite);
-				oper.addParam("newOwner", toOwnerMap.javaBaseTypePath());
-				// Leave body empty for derived feature
-				if(!endToComposite.isDerived()){
-					oper.getBody().addToStatements("this." + toOwnerMap.umlName() + "=newOwner");
-				}
-				ojClass.addToOperations(oper);
-				OJField fieldToOwner = ojClass.findField(toOwnerMap.umlName());
-				if(fieldToOwner != null){
-					fieldToOwner.setVisibility(OJVisibilityKind.PROTECTED);
-				}
+	private void addInternalSetOwner(ICompositionParticipant c,OJClass ojClass){
+		INakedProperty endToComposite = ((ICompositionParticipant) c).getEndToComposite();
+		// Composition is declared in this type, not supertype
+		if(endToComposite != null){
+			OJOperation oper = new OJOperation();
+			oper.setVisibility(OJVisibilityKindGEN.PROTECTED);
+			oper.setComment("Used to set the owner internally in extended composition semantics");
+			oper.setName("internalSetOwner");
+			NakedStructuralFeatureMap toOwnerMap = new NakedStructuralFeatureMap(endToComposite);
+			oper.addParam("newOwner", toOwnerMap.javaBaseTypePath());
+			// Leave body empty for derived feature
+			if(!endToComposite.isDerived()){
+				oper.getBody().addToStatements("this." + toOwnerMap.umlName() + "=newOwner");
 			}
-		}else if(c instanceof INakedBehavior){
-			// TODO
+			ojClass.addToOperations(oper);
+			OJField fieldToOwner = ojClass.findField(toOwnerMap.umlName());
+			if(fieldToOwner != null){
+				fieldToOwner.setVisibility(OJVisibilityKind.PROTECTED);
+			}
 		}
 	}
-	protected void addRemoveFromOwner(INakedBehavioredClassifier sc,OJClass ojClass){
+	protected void addRemoveFromOwner(OJClass ojClass){
 		OJAnnotatedOperation remove = new OJAnnotatedOperation();
 		remove.setName("removeFromOwningObject");
 		remove.getBody().addToStatements("this.markDeleted()");
@@ -116,7 +110,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 	/**
 	 * Removes initialization logic from the default constructor and adds it to the init method which takes the
 	 */
-	protected void addInit(INakedBehavioredClassifier c,OJClass ojClass){
+	protected void addInit(ICompositionParticipant c,OJClass ojClass){
 		OJOperation init = new OJAnnotatedOperation();
 		init.addParam("owner", COMPOSITION_NODE);
 		init.setName("init");
@@ -132,39 +126,23 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 			}
 			start++;
 		}
-		if(c instanceof INakedEntity){
-			INakedEntity entity = (INakedEntity) c;
-			if(entity.hasComposite()){
-				StructuralFeatureMap compositeFeatureMap = new NakedStructuralFeatureMap(entity.getEndToComposite());
-				ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
-				init.getBody().getStatements().add(start, new OJSimpleStatement("internalSetOwner((" + compositeFeatureMap.javaBaseType() + ")owner)"));
-			}
-		}else if(c instanceof INakedBehavior){
+		if(c.hasComposite()){
+			StructuralFeatureMap compositeFeatureMap = new NakedStructuralFeatureMap(c.getEndToComposite());
+			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
+			init.getBody().getStatements().add(start, new OJSimpleStatement("internalSetOwner((" + compositeFeatureMap.javaBaseType() + ")owner)"));
 		}
 		ojClass.addToOperations(init);
 	}
-	protected void addGetOwningObject(INakedBehavioredClassifier bc,OJClass ojClass){
+	protected void addGetOwningObject(ICompositionParticipant bc,OJClass ojClass){
 		OJOperation getOwner = new OJAnnotatedOperation();
 		getOwner.setName(GET_OWNING_OBJECT);
-		// TODO this needs to become a uml library
-		// getOwner.setReturnType(ReflectionUtil.getUtilInterface(CompositionNode.class));
-		getOwner.setReturnType(this.COMPOSITION_NODE);
+		getOwner.setReturnType(COMPOSITION_NODE);
 		getOwner.setBody(new OJBlock());
-		if(bc instanceof INakedEntity){
-			INakedEntity entity = (INakedEntity) bc;
-			if(entity.hasComposite()){
-				INakedProperty ce = entity.getEndToComposite();
-				getOwner.getBody().addToStatements("return get" + ce.getMappingInfo().getJavaName().getCapped() + "()");
-			}else{
-				getOwner.getBody().addToStatements("return null");
-			}
-		}else if(bc instanceof INakedBehavior){
-			INakedBehavior b = (INakedBehavior) bc;
-			if(b.getContext() != null){
-				getOwner.getBody().addToStatements("return getContextObject()");
-			}else{
-				getOwner.getBody().addToStatements("return null");
-			}
+		if(bc.hasComposite()){
+			INakedProperty ce = bc.getEndToComposite();
+			getOwner.getBody().addToStatements("return get" + ce.getMappingInfo().getJavaName().getCapped() + "()");
+		}else{
+			getOwner.getBody().addToStatements("return null");
 		}
 		ojClass.addToOperations(getOwner);
 	}

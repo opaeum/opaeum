@@ -1,7 +1,9 @@
 package net.sf.nakeduml.metamodel.commonbehaviors;
 
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 
 /**
@@ -11,7 +13,7 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
  * @author ampie
  * 
  */
-public interface INakedBehavior extends INakedMessageStructure, IParameterOwner, INakedBehavioredClassifier {
+public interface INakedBehavior extends INakedMessageStructure, IParameterOwner, INakedBehavioredClassifier,ICompositionParticipant {
 	@Deprecated
 	/**
 	 * is required for the following methods to be combined:

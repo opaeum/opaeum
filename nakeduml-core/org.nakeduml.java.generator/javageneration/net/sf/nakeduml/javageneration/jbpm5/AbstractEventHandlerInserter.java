@@ -25,6 +25,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
@@ -114,11 +115,11 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	}
 	private OJStatement buildCallFromContextToEventHandlerOnBehavior(INakedBehavior behavior,INakedElement nakedOperation,OJOperation ojOperation){
 		OJStatement statement;
+		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ArtificialProperty(behavior, getOclEngine().getOclLibrary()));
 		if(behavior.isClassifierBehavior()){
-			statement = new OJSimpleStatement("getClassifierBehavior()." + callToEventHandler(nakedOperation, ojOperation));
+			statement = new OJSimpleStatement(map.getter()+ "()." + callToEventHandler(nakedOperation, ojOperation));
 		}else{
-			NakedMessageStructureMap map = new NakedMessageStructureMap(behavior);
-			OJForStatement forEach = new OJForStatement("behavior", map.javaBaseTypePath(), map.fieldName());
+			OJForStatement forEach = new OJForStatement("behavior", map.javaBaseTypePath(), map.umlName());
 			forEach.getBody().addToStatements("behavior." + callToEventHandler(nakedOperation, ojOperation));
 			statement = forEach;
 		}
@@ -271,9 +272,9 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
 				OJPathName pn = null;
 				if(origin instanceof INakedOperation){
-					pn = OJUtil.classifierPathname(new OperationMessageStructureImpl((INakedOperation) origin));
+					pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure(getOclEngine().getOclLibrary()));
 				}else if(origin instanceof INakedEmbeddedSingleScreenTask){
-					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
+					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure(getOclEngine().getOclLibrary()));
 				}else{
 					pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
 				}

@@ -7,6 +7,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -25,11 +26,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy {
 
 	@Override
-	public void addConstructorForTests(OJAnnotatedClass ojClass, INakedBehavioredClassifier c) {
+	public void addConstructorForTests(OJAnnotatedClass ojClass, ICompositionParticipant c) {
 		if (c instanceof INakedEntity) {
 			INakedEntity entity = (INakedEntity) c;
 			if (entity.hasComposite()) {
-				INakedEntity owningType = (INakedEntity) entity.getEndToComposite().getNakedBaseType();
+				ICompositionParticipant owningType = (ICompositionParticipant) entity.getEndToComposite().getNakedBaseType();
 				OJPathName paramPath = OJUtil.classifierPathname(owningType);
 				OJConstructor testConstructor = findConstructor(ojClass, paramPath);
 				if (testConstructor == null) {
@@ -62,7 +63,7 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 	}
 
 	@Override
-	public void addMarkDeleted(INakedBehavioredClassifier sc, OJClass ojClass) {
+	public void addMarkDeleted(ICompositionParticipant sc, OJClass ojClass) {
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation();
 		markDeleted.setName("markDeleted");
 		ojClass.addToOperations(markDeleted);
@@ -81,7 +82,7 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 	}
 
 	@Override
-	public void addAddToOwningObject(INakedBehavioredClassifier c, OJAnnotatedClass ojClass) {
+	public void addAddToOwningObject(ICompositionParticipant c, OJAnnotatedClass ojClass) {
 		OJOperation addToOwningObject = new OJAnnotatedOperation();
 		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		addToOwningObject.setName("addToOwningObject");
@@ -104,7 +105,7 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 		ojClass.addToOperations(addToOwningObject);
 	}
 
-	public static void invokeOperationRecursively(INakedBehavioredClassifier ew, OJOperation markDeleted, String operationName) {
+	public static void invokeOperationRecursively(ICompositionParticipant ew, OJOperation markDeleted, String operationName) {
 		List<? extends INakedProperty> awss = ew.getOwnedAttributes();
 		for (int i = 0; i < awss.size(); i++) {
 			IModelElement a = (IModelElement) awss.get(i);

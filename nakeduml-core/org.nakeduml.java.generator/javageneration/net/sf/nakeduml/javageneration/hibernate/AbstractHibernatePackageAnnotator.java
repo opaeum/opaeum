@@ -62,15 +62,15 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedResponsibility b){
-			tasks.add(new OperationMessageStructureImpl(b));
+			tasks.add(b.getMessageStructure(getOclEngine().getOclLibrary()));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOpaqueAction(INakedEmbeddedSingleScreenTask a){
-			tasks.add(a.getMessageStructure());
+			tasks.add(a.getMessageStructure(getOclEngine().getOclLibrary()));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitCallBehaviorAction(INakedEmbeddedScreenFlowTask a){
-			tasks.add(a.getMessageStructure());
+			tasks.add(a.getMessageStructure(getOclEngine().getOclLibrary()));
 		}
 	}
 	public AbstractHibernatePackageAnnotator(boolean isIntegrationPhase){

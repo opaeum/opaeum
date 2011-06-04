@@ -44,6 +44,21 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	private List<INakedParameter> argumentParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> resultParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> exceptionParameters = new ArrayList<INakedParameter>();
+	private INakedProperty endToComponsite;
+	@Override
+	public boolean hasComposite(){
+		return endToComponsite!=null;
+	}
+
+	@Override
+	public INakedProperty getEndToComposite(){
+		return endToComponsite;
+	}
+
+
+	public void setEndToComposite(INakedProperty endToContext){
+		this.endToComponsite = endToContext;
+	}
 
 	public NakedBehaviorImpl() {
 		super();

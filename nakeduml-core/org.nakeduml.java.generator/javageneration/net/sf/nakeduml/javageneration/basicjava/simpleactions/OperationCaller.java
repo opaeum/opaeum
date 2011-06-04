@@ -35,7 +35,7 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 			}
 			OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
 			if(resultMap != null){
-				expressor.maybeBuildResultVariable(operation, block, resultMap);
+				expressor.buildResultVariable(operation, block, resultMap);
 				boolean many = resultMap.isMany();
 				if(!(returnPin == null || returnPin.getLinkedTypedElement() == null || BehaviorUtil.hasMessageStructure(node))){
 					many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();

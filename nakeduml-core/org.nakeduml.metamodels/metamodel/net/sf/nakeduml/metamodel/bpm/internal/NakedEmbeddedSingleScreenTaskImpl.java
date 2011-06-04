@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl implements INakedEmbeddedSingleScreenTask{
 	private INakedMessageStructure asClass;
@@ -55,9 +56,9 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 		return result;
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(){
+	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
 		if(asClass==null){
-			asClass=new EmbeddedSingleScreenTaskMessageStructureImpl(this);
+			asClass=new EmbeddedSingleScreenTaskMessageStructureImpl(this,lib);
 		}
 		return asClass;
 	}

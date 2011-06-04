@@ -16,7 +16,7 @@ public class StructuralFeatureValueRemover extends SimpleNodeBuilder<INakedRemov
 
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
-		String valuePinField = buildPinExpression(operation, block, node.getValue());
+		String valuePinField = readPin(operation, block, node.getValue());
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(operation, block, actionMap);
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(node.getFeature());

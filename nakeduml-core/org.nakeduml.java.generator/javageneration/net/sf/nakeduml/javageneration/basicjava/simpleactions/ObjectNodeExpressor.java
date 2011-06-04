@@ -12,26 +12,26 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class ObjectNodeExpressor extends AbstractObjectNodeExpressor {
-	public ObjectNodeExpressor(IOclLibrary oclLibrary) {
+public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
+	public ObjectNodeExpressor(IOclLibrary oclLibrary){
 		super(oclLibrary);
 	}
-
-	
-	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block, INakedObjectNode pin) {
+	public boolean pinsAvailableAsVariables(){
+		return false;
+	}
+	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block,INakedObjectNode pin){
 		// Either an outputpin or parameterNode
 		INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
 		INakedObjectNode feedingNode = pin.getFeedingNode();
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), feedingNode);
 		String call = map.umlName();// ParameterNode or top level output
 									// pin or expansion node
-		if (feedingNode instanceof INakedOutputPin) {
+		if(feedingNode instanceof INakedOutputPin){
 			call = retrieveFromExecutionInstanceIfNecessary((INakedOutputPin) feedingNode, call);
 		}
 		return surroundWithSelectionAndTransformation(call, edge);
 	}
-
-	public OJAnnotatedField maybeBuildResultVariable(OJAnnotatedOperation operation, OJBlock block, NakedStructuralFeatureMap map) {
+	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map){
 		OJAnnotatedField field = new OJAnnotatedField();
 		field.setName(map.umlName());
 		field.setType(map.javaTypePath());
@@ -41,13 +41,11 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor {
 		operation.getOwner().addToImports(map.javaDefaultTypePath());
 		return field;
 	}
-
-	public String getterForStructuredResults(NakedStructuralFeatureMap resultMap) {
+	public String getterForStructuredResults(NakedStructuralFeatureMap resultMap){
 		// Variable has been created in maybeBuildResultVariable
 		return resultMap.umlName();
 	}
-
-	public String setterForSingleResult(NakedStructuralFeatureMap resultMap, String call) {
+	public String setterForSingleResult(NakedStructuralFeatureMap resultMap,String call){
 		return resultMap.umlName() + "=" + call;
 	}
 }

@@ -36,12 +36,12 @@ public class HashcodeBuilder extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
 		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			this.visitClass(new OperationMessageStructureImpl(no.getOwner(), no));
+			this.visitClass(no.getMessageStructure(getOclEngine().getOclLibrary()));
 		}
 	}
 	@VisitBefore()
 	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
-		this.visitClass(oa.getMessageStructure());
+		this.visitClass(oa.getMessageStructure(getOclEngine().getOclLibrary()));
 	}
 	private void buildHashcode(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJField uid = owner.findField("uid");

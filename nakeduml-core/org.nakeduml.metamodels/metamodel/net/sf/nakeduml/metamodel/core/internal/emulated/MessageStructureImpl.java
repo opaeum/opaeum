@@ -217,7 +217,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 
 
 	public List<INakedProperty> getEffectiveAttributes() {
-		return getOwnedAttributes();
+		return new ArrayList<INakedProperty>( getOwnedAttributes());
 	}
 
 	public Collection<IImportedElement> getImports() {

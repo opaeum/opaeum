@@ -27,13 +27,16 @@ lookup for typedelements
 HTML Text editor for Signal templates
 Enumeration Literals and their slots
 Property lookup type - all, composition siblings,expression 
+Specifications for Behaviors
+CreateObjectAction::classifier
+isQuery for operations
+defaultValue for properties
 
 TaskManagement
-Model in Topcased with statemachine
-Model OrgUnit and User, but map them to the java interfaces - no dependency from actual models
 Model UserInterface too
 Implement ports as default interfaces that delegate operations to the containing component. Such invocations would either delegate to users or delegate
 to a process (ownedBehaviour of the component)
+Swimlanes and task definitions specify potentialOwners, Target pins specify actual owners. Create one task per value in targetPin expression
 
 Operations
 Calculate which operations are long running

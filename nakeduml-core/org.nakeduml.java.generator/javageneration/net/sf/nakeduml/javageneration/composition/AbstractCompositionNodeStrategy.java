@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.model.IModelElement;
@@ -25,7 +26,7 @@ public class AbstractCompositionNodeStrategy {
 		return c.findConstructor(parameter1);
 	}
 	
-	protected void markChildrenForDeletion(INakedBehavioredClassifier sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
+	protected void markChildrenForDeletion(ICompositionParticipant sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
 		for (INakedProperty np : sc.getEffectiveAttributes()) {
 			if (np.getOtherEnd() != null) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);

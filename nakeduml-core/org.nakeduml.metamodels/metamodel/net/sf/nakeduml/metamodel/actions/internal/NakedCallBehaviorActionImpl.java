@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements INakedCallBehaviorAction {
 	private static final long serialVersionUID = -236758123440467617L;
 	private INakedBehavior behavior;
@@ -22,7 +23,7 @@ public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements 
 		return getBehavior();
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(){
+	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
 		return getBehavior();
 	}
 	@Override

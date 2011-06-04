@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
@@ -20,6 +21,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.bpm.DeadlineKind;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
@@ -80,34 +82,40 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 	}
 	@VisitBefore
 	public void visitEmbeddedSingleScreenTask(INakedEmbeddedSingleScreenTask oa){
-		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
+		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure(getOclEngine().getOclLibrary()));
 		ojClass.addToImplementedInterfaces(new OJPathName(ITaskInvocation.class.getName()));
 		implementEmbeddedTask(oa, ojClass);
 	}
 	@VisitBefore
 	public void visitResponsibility(INakedResponsibility oa){
-		OJAnnotatedClass ojClass = findJavaClass(new OperationMessageStructureImpl(oa));
+		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure(getOclEngine().getOclLibrary()));
 		ojClass.addToImplementedInterfaces(new OJPathName(IBusinessServiceInvocation.class.getName()));
 		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
 		TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "self");
+		implementTask(oa, ojClass, new NakedOperationMap(oa).callbackOperName());
 	}
 	private void implementEmbeddedTask(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
 		ojClass.addToImports(ITaskInvocation.class.getName());
 		implementExecute(oa, ojClass);
 		Jbpm5Util.implementRelationshipWithProcess(ojClass, true, "callingProcess");
+		String callbackMethodName = "on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed";
+		implementTask(oa, ojClass, callbackMethodName);
+	}
+	private void implementTask(INakedDefinedResponsibility oa,OJAnnotatedClass ojClass,String callbackMethodName){
 		addSetReturnInfo(ojClass);
 		addGetName(oa, ojClass);
-		OJAnnotatedOperation getProcessObject = addGetCallingProcessObject(ojClass, new NakedClassifierMap(oa.getActivity()).javaTypePath());
+		OJAnnotatedOperation getProcessObject = addGetCallingProcessObject(ojClass, new NakedClassifierMap(oa.getTaskDefinition().getExpressionContext()).javaTypePath());
 		addRequestForWork(ojClass);
 		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
 		ojClass.addToOperations(complete);
-		complete.getBody().addToStatements("getCallingProcessObject().on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed(this)");
-		OJAnnotatedOperation completed = complete;
+		OJIfStatement ifNotNull=new OJIfStatement("getCallingProcessObject()!=null");
+		complete.getBody().addToStatements(ifNotNull);
+		ifNotNull.getThenPart().addToStatements("getCallingProcessObject()."+callbackMethodName+"(this)");
 		Collection<INakedDeadline> deadlines = oa.getTaskDefinition().getDeadlines();
 		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
 		ojClass.addToOperations(started);
 		addCallingProcessObjectField(started);
-		addCallingProcessObjectField(completed);
+		addCallingProcessObjectField(complete);
 		for(INakedDeadline d:deadlines){
 			// TODO ensure uniqueness of deadline names
 			implementDeadlineCallback(ojClass, getProcessObject, d);
@@ -115,7 +123,7 @@ public class TaskImplementor extends AbstractBehaviorVisitor{
 			EventUtil.cancelTimer(ifNotNullCancel.getThenPart(), d, "this");
 			// Repeat if not Null because a previous event may cause the process to end
 			if(d.getKind() == DeadlineKind.COMPLETE){
-				completed.getBody().addToStatements(ifNotNullCancel);
+				complete.getBody().addToStatements(ifNotNullCancel);
 			}else{
 				started.getBody().addToStatements(ifNotNullCancel);
 			}

@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 
 import java.util.Collection;
 
+import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
@@ -47,10 +48,24 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		}
 		this.expressor = (Jbpm5ObjectNodeExpressor) super.expressor;
 	}
-	public void setupVariables(OJAnnotatedOperation oper){
+	public void setupVariablesAndArgumentPins(OJAnnotatedOperation oper){
+		if(node instanceof INakedAction){
+			for(INakedPin pin:((INakedAction) node).getInput()){
+				OJBlock block = oper.getBody();
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
+				oper.getOwner().addToImports(map.javaTypePath());
+				OJAnnotatedField field = new OJAnnotatedField(pin.getMappingInfo().getJavaName().toString(), map.javaTypePath());
+				field.setInitExp(expressPin(oper, block, pin));
+				block.addToLocals(field);
+			}
+		}
 		ActivityUtil.setupVariables(oper, node);
 	}
 	public void implementFinalStep(OJBlock block){
+		if(node.getActivity().getSpecification()!=null){
+			NakedOperationMap map = new NakedOperationMap(node.getActivity().getSpecification());
+			block.addToStatements("getCallingProcessObject()." +map.callbackListener() + "(this)");
+		}
 		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName() + "State."
 				+ Jbpm5Util.stepLiteralName(node));
 	}
@@ -64,10 +79,6 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		Collection<IOclContext> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
 		if(conditions.size() > 0){
 			if(node instanceof INakedAction){
-				// preConditions and PostConditions on actions operate on pins - make pins available as parameters
-				for(INakedPin pin:((INakedAction) node).getInput()){
-					buildPinField(oper, block, pin, false);
-				}
 				if(!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isLongRunning()){
 					// Most commonly used for Tasks where there would be a
 					// message structure T
@@ -116,21 +127,12 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	public boolean waitsForEvent(){
 		return false;
 	}
-	protected final String buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin){
-		return buildPinField(operationContext, block, pin, true);
-	}
-	protected final String buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin,boolean ensureUniqueness){
-		if(pin == null){
-			return "!!NoPin!!";
-		}else{
-			String pinName = " " + pin.getMappingInfo().getJavaName().toString();
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, ensureUniqueness);
-			operationContext.getOwner().addToImports(map.javaTypePath());
-			OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-			field.setInitExp(buildPinExpression(operationContext, block, pin));
-			block.addToLocals(field);
-			return pinName;
-		}
+	protected final void  buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin){
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
+		operationContext.getOwner().addToImports(map.javaTypePath());
+		OJAnnotatedField field = new OJAnnotatedField(pin.getMappingInfo().getJavaName().getAsIs(), map.javaTypePath());
+		field.setInitExp(expressPin(operationContext, block, pin));
+		block.addToLocals(field);
 	}
 	public boolean hasNodeMethod(){
 		// TODO refine this

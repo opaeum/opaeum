@@ -12,13 +12,16 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOperation{
 	private static final long serialVersionUID = 6979135768898034683L;
@@ -38,6 +41,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private boolean isOclDef;
 	private boolean longRunning;
 	public static IClassifier VOID_TYPE;
+	private OperationMessageStructureImpl messageStructure;
 	public boolean isStatic(){
 		return hasClassScope;
 	}
@@ -60,7 +64,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		if(getOwner() instanceof INakedBehavioredClassifier){
 			return (INakedBehavioredClassifier) getOwner();
 		}else{
-			//Interfaces and DataTypes
+			// Interfaces and DataTypes
 			return null;
 		}
 	}
@@ -81,7 +85,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return i > 1;
 	}
 	public boolean shouldEmulateClass(){
-		return hasMultipleConcurrentResults()|| isLongRunning();
+		return hasMultipleConcurrentResults() || isLongRunning();
 	}
 	public List<INakedParameter> getOwnedParameters(){
 		List<INakedParameter> results = new ArrayList<INakedParameter>(getArgumentParameters());
@@ -149,7 +153,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	}
 	@Override
 	public void setIsLongRunning(boolean b){
-		this.longRunning=b;
+		this.longRunning = b;
 	}
 	@Override
 	public VisibilityKind getVisibility(){
@@ -215,5 +219,12 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	protected boolean isNamedMember(INakedElement e){
 		return super.isNamedMember(e) || e instanceof INakedMultiplicityElement;
+	}
+	@Override
+	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
+		if(this.messageStructure == null){
+			this.messageStructure = new OperationMessageStructureImpl(this, lib);
+		}
+		return messageStructure;
 	}
 }

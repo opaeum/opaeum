@@ -1,6 +1,8 @@
 package org.nakeduml.eclipse;
 
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -12,7 +14,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
 
-public class ApplySimpleTypesProfileAction  implements IObjectActionDelegate {
+public class ApplyProfileAction  implements IObjectActionDelegate {
 
 	private IStructuredSelection selection;
 
@@ -22,7 +24,11 @@ public class ApplySimpleTypesProfileAction  implements IObjectActionDelegate {
 			Object element = it.next();
 			if (element instanceof Model) {
 				Model model = (Model) element;
-				Resource resource = model.eResource().getResourceSet().getResource(URI.createURI("pathmap://NAKEDUML_PROFILES/NakedUMLSimpleTypes.uml"), true);
+				Map<URI,URI> uriMap = model.eResource().getResourceSet().getURIConverter().getURIMap();
+				for(Entry<URI,URI> entry:uriMap.entrySet()){
+					System.out.println(entry.getKey() + " MAPS TO " +entry.getValue());
+				}
+				Resource resource = model.eResource().getResourceSet().getResource(URI.createURI("pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml"), true);
 				Profile library=(Profile) resource.getContents().get(0);
 				model.applyProfile(library);
 //				model.eResource().save(null);

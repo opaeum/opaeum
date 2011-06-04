@@ -41,7 +41,7 @@ public abstract class AbstractNodeBuilder {
 					// TODO use group assignment here
 				}
 			} else if(action instanceof IActionWithTargetPin){
-				expression = buildPinExpression(operationContext, block, ((IActionWithTargetPin) action).getTarget());
+				expression = readPin(operationContext, block, ((IActionWithTargetPin) action).getTarget());
 			}
 			if (actionMap.targetMap().isOne()) {
 				OJPathName targetPath = actionMap.targetMap().javaBaseTypePath();
@@ -71,8 +71,15 @@ public abstract class AbstractNodeBuilder {
 			}
 		}
 	}
+	protected final String readPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
+		if(expressor.pinsAvailableAsVariables()){
+			return pin.getMappingInfo().getJavaName().getAsIs();
+		}else{
+			return expressPin(operationContext, block, pin);
+		}
+	}
 
-	protected final String buildPinExpression(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
+	protected final String expressPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
 		String expression = null;
 		if (pin instanceof INakedValuePin) {
 			expression = ValueSpecificationUtil.expressValue(operationContext, ((INakedValuePin) pin).getValue(), pin.getActivity(),

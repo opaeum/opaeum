@@ -87,7 +87,7 @@ public class ActivityFlowStep extends AbstractFlowStep {
 		subProcess.setName(node.getMappingInfo().getPersistentName().getAsIs());
 		MappingType mapping = ProcessFactory.eINSTANCE.createMappingType();
 		mapping.setType("in");
-		ActionFeatureBridge actionBridge = new ActionFeatureBridge(node);
+		ActionFeatureBridge actionBridge = new ActionFeatureBridge(node,workspace.getOclEngine().getOclLibrary());
 		if (node.getOwnerElement() instanceof INakedActivity) {
 			mapping.setFrom("processObject." + actionBridge.getName());
 		} else {

@@ -402,7 +402,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 						}else if(node instanceof INakedExpansionNode && BehaviorUtil.mustBeStoredOnActivity((INakedExpansionNode) node)){
 							visitProperty(new TypedElementPropertyBridge(activity, (INakedTypedElement) node));
 						}else if(node instanceof INakedCallAction && BehaviorUtil.mustBeStoredOnActivity((INakedCallAction) node)){
-							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTargetElement) node);
+							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTargetElement) node,getOclEngine().getOclLibrary());
 							TypeResolver.resolveCollection(bridge, bridge.getBaseType(), getOclEngine().getOclLibrary());
 							visitProperty(bridge);
 						}

@@ -9,18 +9,24 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
-public class EmbeddedSingleScreenTaskMessageStructureImpl extends MessageStructureImpl {
+public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompositionMessageStructure {
 	INakedEmbeddedSingleScreenTask action;
+
+	public INakedEmbeddedSingleScreenTask getAction(){
+		return action;
+	}
 
 	private List<INakedProperty> attributes;
 
-	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action) {
-		super(action.getActivity(), action);
+	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action,IOclLibrary lib) {
+		super(action.getActivity(), action,lib);
 		this.action = action;
 	}
 

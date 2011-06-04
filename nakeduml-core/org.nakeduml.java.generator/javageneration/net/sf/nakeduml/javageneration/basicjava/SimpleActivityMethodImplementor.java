@@ -18,7 +18,7 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpresso
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.OclActionCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.OperationCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ScreenFlowTaskCaller;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.EmbeddedScreenFlowTaskCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SignalSender;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.StructuralFeatureClearer;
@@ -259,7 +259,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		}else if(node instanceof INakedCallOperationAction){
 			actionBuilder = new OperationCaller(oclEngine, (INakedCallOperationAction) node, expressor);
 		}else if(node instanceof INakedEmbeddedScreenFlowTask){
-			actionBuilder = new ScreenFlowTaskCaller(oclEngine, (INakedEmbeddedScreenFlowTask) node, expressor);
+			actionBuilder = new EmbeddedScreenFlowTaskCaller(oclEngine, (INakedEmbeddedScreenFlowTask) node, expressor);
 		}else if(node instanceof INakedCallBehaviorAction){
 			actionBuilder = new BehaviorCaller(oclEngine, (INakedCallBehaviorAction) node, expressor);
 		}else if(node instanceof INakedCreateObjectAction){

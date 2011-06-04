@@ -59,8 +59,8 @@
 			<listener class="org.nakeduml.hibernate.domain.PreUpdateListener" />
 			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
 		</event>
-		<event type="create">
-			<listener class="org.nakeduml.hibernate.domain.PrePersistListener" />
+		<event type="pre-insert">
+			<listener class="org.nakeduml.hibernate.domain.PreInsertListener" />
 		</event>
 		<event type="flush">
 			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />

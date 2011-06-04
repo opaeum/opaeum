@@ -13,6 +13,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -22,9 +23,11 @@ import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
+import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
@@ -94,7 +97,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator{
 			}else if(c instanceof INakedBehavior){
 				INakedOperation specification = ((INakedBehavior) c).getSpecification();
 				if(specification != null){
-					NakedClassifierMap map = new NakedClassifierMap(new OperationMessageStructureImpl(specification));
+					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure(getOclEngine().getOclLibrary()));
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}
@@ -115,7 +118,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
 		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			OperationMessageStructureImpl message = new OperationMessageStructureImpl(no.getOwner(), no);
+			INakedMessageStructure message = no.getMessageStructure(getOclEngine().getOclLibrary());
 			this.visitClass(message);
 			if(no.isLongRunning()){
 				NakedOperationMap map = new NakedOperationMap(no);
@@ -131,7 +134,7 @@ public class Java5ModelGenerator extends StereotypeAnnotator{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
-		this.visitClass(oa.getMessageStructure());
+	public void visitOpaqueAction(INakedEmbeddedTask oa){
+		this.visitClass(oa.getMessageStructure(getOclEngine().getOclLibrary()));
 	}
 }

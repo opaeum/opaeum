@@ -7,6 +7,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 //TODO implement oneToMany emulation with OpaqueActions
 public class ActionFeatureBridge extends TypedElementPropertyBridge{
@@ -21,11 +22,11 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	public void setMultiplicity(NakedMultiplicityImpl multiplicity) {
 		this.multiplicity = multiplicity;
 	}
-	public ActionFeatureBridge(IActionWithTargetElement action){
+	public ActionFeatureBridge(IActionWithTargetElement action,IOclLibrary lib){
 		super(action.getActivity(), action.getTargetElement());
 		super.element=action;
 		if(action instanceof INakedCallAction){
-			baseType = ((INakedCallAction) action).getMessageStructure();
+			baseType = ((INakedCallAction) action).getMessageStructure(lib);
 		}
 		if(action.getTargetElement()==null){
 			this.multiplicity=new NakedMultiplicityImpl(0, 1);

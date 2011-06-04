@@ -2,11 +2,12 @@ package net.sf.nakeduml.javageneration.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.javageneration.ArtificialProperty;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
@@ -24,6 +25,7 @@ import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -50,12 +52,17 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.name.NameConverter;
 
 public class OJUtil{
+	public static void clearCache(){
+		structuralFeatureMaps.clear();
+	}
 	private static final Set<String> BUILT_IN_ATTRIBUTES = new HashSet<String>();
 	static{
 		BUILT_IN_ATTRIBUTES.add("now");
 		BUILT_IN_ATTRIBUTES.add("currentUser");
 		BUILT_IN_ATTRIBUTES.add("today");
 	}
+	private static Map<INakedTypedElement,NakedStructuralFeatureMap> structuralFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
+	private static Map<IActionWithTargetElement,NakedStructuralFeatureMap> actionFeatureMaps=new HashMap<IActionWithTargetElement,NakedStructuralFeatureMap>();
 	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
@@ -72,12 +79,22 @@ public class OJUtil{
 		if(typedAndOrdered instanceof INakedProperty){
 			linkedParameter = OJUtil.buildStructuralFeatureMap((INakedProperty) typedAndOrdered);
 		}else{
-			linkedParameter = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(owner, typedAndOrdered));
+			NakedStructuralFeatureMap map = structuralFeatureMaps.get(typedAndOrdered);
+			if(map == null){
+				map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(owner, typedAndOrdered));
+				structuralFeatureMaps.put(typedAndOrdered, map);
+			}
+			return map;
 		}
 		return linkedParameter;
 	}
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedProperty sf){
-		return new NakedStructuralFeatureMap(sf);
+		NakedStructuralFeatureMap map = structuralFeatureMaps.get(sf);
+		if(map == null){
+			map = new NakedStructuralFeatureMap(sf);
+			structuralFeatureMaps.put(sf, map);
+		}
+		return map;
 	}
 	public static NakedStructuralFeatureMap buildAssociationClassMap(INakedProperty sf,IOclLibrary l){
 		INakedAssociationClass ac = (INakedAssociationClass) sf.getAssociation();
@@ -129,32 +146,17 @@ public class OJUtil{
 		}
 	}
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,IOclLibrary lib){
-		ActionFeatureBridge bridge = buildActionBridge(action, lib);
-		return new NakedStructuralFeatureMap(bridge);
+		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
+		if(map == null){
+			ActionFeatureBridge bridge = buildActionBridge(action, lib);
+			map=new NakedStructuralFeatureMap(bridge);
+			actionFeatureMaps.put(action, map);
+		}
+		return map;
+
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(final INakedEmbeddedScreenFlowTask action,IOclLibrary lib){
-		ActionFeatureBridge bridge = buildActionBridge(action, lib);
-		//Sjoe!
-		return new NakedStructuralFeatureMap(bridge){
-			@Override
-			public OJPathName javaTypePath(){
-				if(isMany()){
-					OJPathName copy = super.javaTypePath().getCopy();
-					copy.removeAllFromElementTypes();
-					copy.addToElementTypes(javaBaseTypePath());
-					return copy;
-				}else{
-					return javaTypePath();
-				}
-			}
-			@Override
-			public OJPathName javaBaseTypePath(){
-				return classifierPathname(action);
-			}
-		};
-	}
-	public static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,IOclLibrary lib){
-		ActionFeatureBridge bridge = new ActionFeatureBridge(action);
+	private static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,IOclLibrary lib){
+		ActionFeatureBridge bridge = new ActionFeatureBridge(action, lib);
 		if(action.getTargetElement() != null){
 			IClassifier type = action.getTargetElement().getType();
 			if(type instanceof StdlibCollectionType){
@@ -316,7 +318,12 @@ public class OJUtil{
 		}
 	}
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniqueness){
-		return new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniqueness));
+		NakedStructuralFeatureMap map = structuralFeatureMaps.get(pin);
+		if(map == null){
+			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin));
+			structuralFeatureMaps.put(pin, map);
+		}
+		return map;
 	}
 	public static void removeReturnStatement(OJOperation javaMethod){
 		Collection<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());
@@ -326,22 +333,6 @@ public class OJUtil{
 				break;
 			}
 		}
-	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMapToContext(IParameterOwner o,IOclLibrary lib){
-		ArtificialProperty p = new ArtificialProperty(o, lib);
-		return new NakedStructuralFeatureMap(p.getOtherEnd());
-	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMapFromContext(IParameterOwner o,IOclLibrary lib){
-		ArtificialProperty p = new ArtificialProperty(o, lib);
-		return new NakedStructuralFeatureMap(p);
-	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMapToOwningObject(ICompositionParticipant o,IOclLibrary lib){
-		ArtificialProperty p = new ArtificialProperty(o, lib);
-		return new NakedStructuralFeatureMap(p.getOtherEnd());
-	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMapFromOwningObject(ICompositionParticipant o,IOclLibrary lib){
-		ArtificialProperty p = new ArtificialProperty(o, lib);
-		return new NakedStructuralFeatureMap(p);
 	}
 	public static OJPathName classifierPathname(INakedEmbeddedScreenFlowTask origin){
 		return packagePathname(origin.getActivity()).append(origin.getMappingInfo().getJavaName().getCapped().getAsIs());

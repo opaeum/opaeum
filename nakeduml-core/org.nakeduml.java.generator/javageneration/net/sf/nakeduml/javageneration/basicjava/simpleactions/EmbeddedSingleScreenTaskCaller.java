@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.TaskUtil;
@@ -21,18 +20,21 @@ public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<INakedEmbe
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		NakedClassifierMap map = new NakedClassifierMap(node.getMessageStructure());
-		OJAnnotatedField taskVar = new OJAnnotatedField("task", map.javaTypePath());
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
+		OJAnnotatedField taskVar = expressor.buildResultVariable(operation, block, map);
 		taskVar.setInitExp("new " + map.javaType() + "()");
-		operation.getBody().addToLocals(taskVar);
+		block.addToLocals(taskVar);
 		List<INakedInputPin> inputValues = node.getInputValues();
 		for(INakedInputPin input:inputValues){
 			NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), input, false);
-			operation.getBody().addToStatements("task." + propertyMap.setter() + "(" + buildPinExpression(operation, block, input) + ")");
+			operation.getBody().addToStatements(node.getMappingInfo().getJavaName().getAsIs()+"." + propertyMap.setter() + "(" + readPin(operation, block, input) + ")");
 		}
-		operation.getBody().addToStatements("task.setReturnInfo(context)");
-		TaskUtil.implementAssignmentsAndDeadlines(operation, block, node.getTaskDefinition(), "task");
-		// TODO populate people assignments
-		operation.getBody().addToStatements("task.execute()");
+		block.addToStatements(node.getMappingInfo().getJavaName().getAsIs()+".setReturnInfo(context)");
+		TaskUtil.implementAssignmentsAndDeadlines(operation, block, node.getTaskDefinition(), node.getMappingInfo().getJavaName().getAsIs());
+		//Add to contaiment tree
+		block.addToStatements(map.adder()+"("+ taskVar.getName() + ")");
+		//Store invocation in process
+		block.addToStatements(expressor.setterForSingleResult(map, taskVar.getName()));
+		block.addToStatements(node.getMappingInfo().getJavaName().getAsIs()+".execute()");
 	}
 }

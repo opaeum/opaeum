@@ -18,10 +18,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class AbstractObjectNodeExpressor{
-	private IOclLibrary oclLibrary;
+	protected IOclLibrary oclLibrary;
 	public AbstractObjectNodeExpressor(IOclLibrary oclLibrary){
 		this.oclLibrary = oclLibrary;
 	}
+	abstract public boolean pinsAvailableAsVariables();
 	public final String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow){
 		INakedObjectNode feedingNode = (INakedObjectNode) flow.getOriginatingObjectNode();
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode);
@@ -33,7 +34,7 @@ public abstract class AbstractObjectNodeExpressor{
 		return surroundWithSelectionAndTransformation(call, flow);
 	}
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block,INakedObjectNode pin);
-	abstract public OJAnnotatedField maybeBuildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map);
+	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map);
 	public abstract String setterForSingleResult(NakedStructuralFeatureMap resultMap,String call);
 	public abstract String getterForStructuredResults(NakedStructuralFeatureMap resultMap);
 	protected String surroundWithSelectionAndTransformation(String expression,INakedObjectFlow edge){
@@ -57,7 +58,6 @@ public abstract class AbstractObjectNodeExpressor{
 		if(edge.getSelection() == null && edge.getTransformation() == null){
 			INakedObjectNode source = edge.getOriginatingObjectNode();
 			// TODO what if the target is a controlNode
-
 			if(edge.getTarget() instanceof INakedObjectNode){
 				INakedObjectNode target = (INakedObjectNode) edge.getTarget();
 				// TODO need to take the transformations and selections of intermediary object flows into account

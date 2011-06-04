@@ -3,6 +3,7 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractBehaviorCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.BehaviorCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.OperationCaller;
@@ -27,7 +28,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public class CallBehaviorActionBuilder extends Jbpm5ActionBuilder<INakedCallBehaviorAction>{
-	private BehaviorCaller delegate;
+	private AbstractBehaviorCaller delegate;
 	public CallBehaviorActionBuilder(IOclEngine engine,INakedCallBehaviorAction node){
 		super(engine, node);
 		delegate = new BehaviorCaller(engine, node, new Jbpm5ObjectNodeExpressor(engine));

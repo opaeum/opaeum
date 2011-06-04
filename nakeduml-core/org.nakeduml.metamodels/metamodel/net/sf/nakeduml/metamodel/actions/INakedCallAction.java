@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
  * The superclass action for the invocation of either behviors or operations.
@@ -33,7 +34,7 @@ public interface INakedCallAction extends INakedInvocationAction,IActionWithTarg
 
 	boolean isLongRunning();
 
-	INakedMessageStructure getMessageStructure();
+	INakedMessageStructure getMessageStructure(IOclLibrary lib);
 
 	public boolean isSynchronous();
 

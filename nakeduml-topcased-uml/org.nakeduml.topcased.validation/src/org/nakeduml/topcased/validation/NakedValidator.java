@@ -18,8 +18,12 @@ import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.validation.IValidationRule;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
@@ -38,8 +42,10 @@ public class NakedValidator implements org.topcased.validation.core.IValidator {
 			NakedUmlConfig cfg = new NakedUmlConfig();
 			cfg.loadDefaults("test");
 			TransformationProcess process = new TransformationProcess();
-			File dir=new File(model.eResource().getURI().toFileString()).getParentFile();
-			process.execute(cfg, new EmfWorkspace(model, new WorkspaceMappingInfoImpl(new File(dir, dir.getName() + ".mappinginfo")),dir.getName()), new HashSet<Class<? extends TransformationStep>>(
+			IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path( model.eResource().getURI().toPlatformString(true)));
+			File dir=ifile.getLocation().toFile().getParentFile();
+			WorkspaceMappingInfoImpl mappingInfo = new WorkspaceMappingInfoImpl(new File(dir, dir.getName() + ".mappinginfo"));
+			process.execute(cfg, new EmfWorkspace(model, mappingInfo,dir.getName()), new HashSet<Class<? extends TransformationStep>>(
 					
 					Arrays.asList(StereotypeApplicationExtractor.class, NakedParsedOclStringResolver.class,ProcessIdentifier.class)));
 			INakedModelWorkspace workspace = process.findModel(INakedModelWorkspace.class);

@@ -78,6 +78,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	 */
 	@VisitBefore
 	public void visitProfile(Profile p){
+		//Different versions of the same profile may occur
 		NakedProfileImpl np = new NakedProfileImpl();
 		np.initialize(getId(p), p.getName(), true);
 		if(p.eResource().getURI().isFile()){
@@ -176,6 +177,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}else{
 			ni=new NakedInterfaceImpl();
 		}
+		initialize(ni, i, i.getNamespace());
 		initializeClassifier(ni, i);
 	}
 	@VisitBefore

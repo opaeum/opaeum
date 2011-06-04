@@ -17,6 +17,6 @@ public class ExceptionRaiser extends SimpleNodeBuilder<INakedRaiseExceptionActio
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
 		operation.getOwner().addToImports(Jbpm5Util.getExceptionHolder());
-		block.addToStatements("throw new ExceptionHolder(this,\"_raised\"," + super.buildPinExpression(operation,block, node.getException()) + ")");
+		block.addToStatements("throw new ExceptionHolder(this,\"_raised\"," + super.readPin(operation,block, node.getException()) + ")");
 	}
 }

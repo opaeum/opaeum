@@ -15,7 +15,7 @@ public class StructuralFeatureValueAdder extends SimpleNodeBuilder<INakedAddStru
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){
-		String valuePinField = buildPinExpression(oper, block, node.getValue());
+		String valuePinField = readPin(oper, block, node.getValue());
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock forEach = buildLoopThroughTarget(oper, block, actionMap);
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getFeature());

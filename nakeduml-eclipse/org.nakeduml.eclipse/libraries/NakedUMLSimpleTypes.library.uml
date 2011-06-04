@@ -18,11 +18,9 @@
     </packagedElement>
     <profileApplication xmi:id="_RAvYYMbtEd-qWtMD5IZMIA">
       <eAnnotations xmi:id="_RAv_cMbtEd-qWtMD5IZMIA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="../profiles/NakedUMLProfile.uml#_byqKsIaLEeC_IImVVrqPCQ"/>
+        <references xmi:type="ecore:EPackage" href="../profiles/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg"/>
       </eAnnotations>
       <appliedProfile href="../profiles/NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <NakedUMLProfile:ValueType xmi:id="_dosFgDtbEeC5OLJvkS0EWA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="net.sf.nakeduml.strategies.DateTimeStrategyFactory"/>
-  <NakedUMLProfile:PrimitiveType xmi:id="_hoNPEDtbEeC5OLJvkS0EWA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="net.sf.nakeduml.strategies.TextStrategyFactory"/>
 </xmi:XMI>

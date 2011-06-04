@@ -16,7 +16,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.EmbeddedSingleScreenTaskBuil
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
-import net.sf.nakeduml.javageneration.jbpm5.actions.ScreenFlowTaskBuilder;
+import net.sf.nakeduml.javageneration.jbpm5.actions.EmbeddedScreenFlowTaskBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -163,7 +163,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}else if(node instanceof INakedEmbeddedSingleScreenTask){
 			implementor = new EmbeddedSingleScreenTaskBuilder(getOclEngine(), (INakedEmbeddedSingleScreenTask) node);
 		}else if(node instanceof INakedEmbeddedScreenFlowTask){
-			implementor = new ScreenFlowTaskBuilder(getOclEngine(), (INakedEmbeddedScreenFlowTask) node);
+			implementor = new EmbeddedScreenFlowTaskBuilder(getOclEngine(), (INakedEmbeddedScreenFlowTask) node);
 		}else if(node instanceof INakedCallBehaviorAction){
 			implementor = new CallBehaviorActionBuilder(getOclEngine(), (INakedCallBehaviorAction) node);
 		}else if(node instanceof INakedCallOperationAction){
@@ -186,7 +186,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(implementor.isEffectiveFinalNode()){
 				implementor.implementFinalStep(operation.getBody());
 			}
-			implementor.setupVariables(operation);
+			implementor.setupVariablesAndArgumentPins(operation);
 			implementor.implementPreConditions(operation);
 			implementor.implementActionOn(operation);
 			if(implementor.isTask()){

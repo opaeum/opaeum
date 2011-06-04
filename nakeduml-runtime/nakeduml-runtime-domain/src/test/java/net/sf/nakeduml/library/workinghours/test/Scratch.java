@@ -13,6 +13,5 @@ public class Scratch{
 		NodeContainer nodeContainer=(NodeContainer) nodeInstanceContainer.getNodeContainer();
 		nodeInstanceContainer.getNodeInstance(nodeContainer.getNode(1)).trigger(f, Node.CONNECTION_DEFAULT_TYPE);
 		WorkflowProcess p=null;
-		p.
 	}
 }

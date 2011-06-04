@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.nakeduml.java.metamodel.OJPathName;
 
@@ -13,12 +14,12 @@ import org.nakeduml.java.metamodel.OJPathName;
 public class NakedMessageStructureMap {
 	INakedComplexStructure structure;
 	ClassifierMap classifierMap;
-	public NakedMessageStructureMap(IParameterOwner p) {
+	public NakedMessageStructureMap(IParameterOwner p, IOclLibrary lib) {
 		super();
 		if (p instanceof INakedBehavior) {
 			this.structure = (INakedComplexStructure) p;
 		} else if(p instanceof INakedOperation){
-			this.structure=new OperationMessageStructureImpl((INakedOperation) p);
+			this.structure=((INakedOperation) p).getMessageStructure(lib);
 		}
 		classifierMap=new NakedClassifierMap(structure);
 	}

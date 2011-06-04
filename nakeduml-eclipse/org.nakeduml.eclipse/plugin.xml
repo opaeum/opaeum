@@ -48,12 +48,19 @@
              id="org.nakeduml.eclipse.applysimpletypes"
              objectClass="org.eclipse.uml2.uml.Model">
           <action
-                class="org.nakeduml.eclipse.ApplySimpleTypesProfileAction"
+                class="org.nakeduml.eclipse.ApplyProfileAction"
                 enablesFor="*"
-                id="org.nakeduml.eclipse.ApplySimpleTypesProfileAction"
-                label="Apply NakedUML Simple Types Profile"
+                id="org.nakeduml.eclipse.ApplyNakedUMLProfileAction"
+                label="Apply NakedUML Profile"
                 menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
-          </action>         
+          </action>
+          <action
+                class="org.nakeduml.eclipse.ApplyProfileAction"
+                enablesFor="*"
+                id="org.nakeduml.eclipse.ApplyNakedUMLProfileForBPMAction"
+                label="Apply BPM Profile"
+                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
+          </action>
        </objectContribution>
     </extension>
   <extension

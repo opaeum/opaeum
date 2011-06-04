@@ -22,10 +22,12 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
+import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 public abstract class AbstractStructuralFeatureVisitor extends StereotypeAnnotator{
@@ -46,14 +48,6 @@ public abstract class AbstractStructuralFeatureVisitor extends StereotypeAnnotat
 					}else{
 						visitProperty(entity, OJUtil.buildStructuralFeatureMap(p));
 					}
-				}
-			}
-			if(entity instanceof ICompositionParticipant){
-				ICompositionParticipant cp = (ICompositionParticipant) entity;
-				boolean noConcreteEndToComposite = cp.getEndToComposite() == null || (!(cp instanceof INakedInterface) && cp.getEndToComposite().isDerived());
-				if(noConcreteEndToComposite && cp.getNameSpace() instanceof INakedComplexStructure){
-					visitProperty(entity, OJUtil.buildStructuralFeatureMapToOwningObject(cp, getOclEngine().getOclLibrary()));
-					visitProperty((INakedClassifier) entity.getNameSpace(), OJUtil.buildStructuralFeatureMapFromOwningObject(cp, getOclEngine().getOclLibrary()));
 				}
 			}
 		}
@@ -83,13 +77,9 @@ public abstract class AbstractStructuralFeatureVisitor extends StereotypeAnnotat
 	@VisitBefore()
 	public void visitOperation(INakedOperation o){
 		if(o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)){
-			OperationMessageStructureImpl umlOwner = new OperationMessageStructureImpl(o);
+			INakedMessageStructure umlOwner = o.getMessageStructure(getOclEngine().getOclLibrary());
 			visitComplexStructure(umlOwner);
-			for(INakedParameter parm:o.getOwnedParameters()){
-				visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, parm));
-			}
-			visitProperty(umlOwner, OJUtil.buildStructuralFeatureMapToContext(o, getOclEngine().getOclLibrary()));
-			visitProperty(o.getContext(), OJUtil.buildStructuralFeatureMapFromContext(o, getOclEngine().getOclLibrary()));
+			visitFeaturesOf(umlOwner);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -101,8 +91,6 @@ public abstract class AbstractStructuralFeatureVisitor extends StereotypeAnnotat
 					visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, parm));
 				}
 			}
-			visitProperty(umlOwner, OJUtil.buildStructuralFeatureMapToContext(umlOwner, getOclEngine().getOclLibrary()));
-			visitProperty(umlOwner.getContext(), OJUtil.buildStructuralFeatureMapFromContext(umlOwner, getOclEngine().getOclLibrary()));
 		}
 	}
 	@VisitBefore()
@@ -113,12 +101,9 @@ public abstract class AbstractStructuralFeatureVisitor extends StereotypeAnnotat
 	}
 	@VisitBefore()
 	public void visitEmbeddedSingleScreenTask(INakedEmbeddedSingleScreenTask node){
-		INakedComplexStructure umlOwner = node.getMessageStructure();
+		INakedComplexStructure umlOwner = node.getMessageStructure(getOclEngine().getOclLibrary());
 		visitComplexStructure(umlOwner);
-		List<? extends INakedProperty> ownedAttributes = umlOwner.getOwnedAttributes();
-		for(INakedProperty p:ownedAttributes){
-			visitProperty(umlOwner, new NakedStructuralFeatureMap(p));
-		}
+		visitFeaturesOf(umlOwner);
 		if((BehaviorUtil.mustBeStoredOnActivity(node))){
 			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
 		}

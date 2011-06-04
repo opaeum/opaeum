@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
@@ -61,6 +62,7 @@ import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.oclengine.internal.OclErrContextImpl;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
+import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
 @StepDependency(phase = LinkagePhase.class,after = {
@@ -106,7 +108,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				environmentFactory.addFlowParameters(env, (INakedActivityEdge) edge);
 			}else{
 				env = environmentFactory.createStateMachineEnvironment((INakedStateMachine) owningBehavior);
-				environmentFactory.addFlowParameters(env, (INakedTransition)edge);
+				environmentFactory.addFlowParameters(env, (INakedTransition) edge);
 			}
 			INakedClassifier context = edge.getOwningBehavior().getContext();
 			if(context == null){
@@ -178,12 +180,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			w.setType(getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
 		}
 		if(w != null && w.getValue() instanceof ParsedOclString){
-			Environment env =null;
+			Environment env = null;
 			if(ev.getBehaviorContext() instanceof INakedStateMachine){
 				env = environmentFactory.createStateMachineEnvironment((INakedStateMachine) ev.getBehaviorContext());
 			}else{
 				env = environmentFactory.createActivityEnvironment(ev, (INakedActivity) ev.getBehaviorContext());
-				
 			}
 			ParsedOclString value = (ParsedOclString) w.getValue();
 			value.setContext(ev.getBehaviorContext(), ev.getBehaviorContext());
@@ -195,7 +196,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		INakedClassifier owner = op.getOwner();
 		Environment env = null;
 		if(BehaviorUtil.hasExecutionInstance(op)){
-			env = environmentFactory.createOperationMessageEnvironment(op, new OperationMessageStructureImpl(op));
+			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure(getOclLibrary()));
 			replacePreAndBodyConditions(op, owner, env);
 			op.setPostConditions(replaceParsedOclConstraints(owner, op.getPostConditions(), env));
 			if(op instanceof INakedResponsibility){
@@ -239,8 +240,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}
 		b.setPostConditions(replaceParsedOclConstraints(ctx, b.getPostConditions(), env));
 	}
-	@VisitBefore(matchSubclasses = true)
+	@VisitAfter(matchSubclasses = true)
 	public void visitAction(INakedAction a){
+		// NB!!! vistAfter to ensure valuepins are done first so that their types can be calculated
 		INakedActivity activity = a.getActivity();
 		INakedClassifier ctx = activity.getContext();
 		if(ctx == null){
@@ -370,7 +372,14 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			IOclContext newC = transformIntoOclContext(holder, ast, localErrors);
 			IClassifier expressionType = newC.getExpression().getExpressionType();
 			if(expectedType != null){
-				// Strings are default types, assume no type has been set
+				if(expectedType instanceof StdlibCollectionType && !(expressionType instanceof StdlibCollectionType)){
+					expectedType = ((StdlibCollectionType) expectedType).getElementType();
+					// be lenient with multiplicity - will likely be corrected automatically
+				}
+				if(expressionType instanceof StdlibCollectionType && !(expectedType instanceof StdlibCollectionType)){
+					expressionType = ((StdlibCollectionType) expressionType).getElementType();
+					// be lenient with multiplicity - will likely be corrected automatically
+				}
 				if(!expressionType.conformsTo(expectedType)){
 					this.getErrorMap().putError(holder, CoreValidationRule.OCL,
 							"Return value of type " + expectedType.getName() + " expected, but the expression returns a value of type " + expressionType.getName());
@@ -409,8 +418,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		IOclContext result = null;
 		OclUsageType type = holder.getType();
 		if(ast != null){
-			OclContextImpl replacement = new OclContextImpl(new String(holder.getName()), type,
-					new NakedElementReference((ModelElementReferenceImpl) holder.getContext()), ast);
+			OclContextImpl replacement = new OclContextImpl(new String(holder.getName()), type, (ModelElementReferenceImpl) holder.getContext(), ast);
 			replacement.setExpressionByUser(holder.getExpressionString());
 			replacement.setLineAndColumn(holder.getLine(), holder.getColumn());
 			replacement.setFilename(holder.getFilename());

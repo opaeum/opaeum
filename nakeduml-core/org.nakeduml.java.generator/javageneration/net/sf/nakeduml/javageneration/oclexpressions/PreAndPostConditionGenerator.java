@@ -15,9 +15,11 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -100,7 +102,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 		}
 		//
 		if (BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()) {
-			OperationMessageStructureImpl messageClass = new OperationMessageStructureImpl(oper);
+			INakedMessageStructure messageClass = oper.getMessageStructure(getOclEngine().getOclLibrary());
 			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass);
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
 		} else {

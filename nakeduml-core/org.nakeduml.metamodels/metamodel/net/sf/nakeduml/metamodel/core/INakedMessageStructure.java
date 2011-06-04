@@ -6,5 +6,5 @@ package net.sf.nakeduml.metamodel.core;
  * @author abarnard
  *
  */
-public interface INakedMessageStructure extends INakedComplexStructure{
+public interface INakedMessageStructure extends INakedComplexStructure,ICompositionParticipant{
 }

@@ -18,6 +18,7 @@ import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -49,19 +50,13 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 			}
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitOpaqueAction(INakedEmbeddedSingleScreenTask a){
-			classes.add(OJUtil.classifierPathname(a.getMessageStructure()));
-		}
-		@VisitBefore(matchSubclasses = true)
-		public void visitScreenFlow(INakedEmbeddedScreenFlowTask a){
-			OJPathName pn = OJUtil.packagePathname(a.getActivity());
-			pn.addToNames(a.getMappingInfo().getJavaName().getCapped().getAsIs());
-			classes.add(pn);
+		public void visitOpaqueAction(INakedEmbeddedTask a){
+			classes.add(OJUtil.classifierPathname(a.getMessageStructure(getOclEngine().getOclLibrary())));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedOperation o){
 			if(o.isLongRunning()){
-				classes.add(OJUtil.classifierPathname(new OperationMessageStructureImpl(o)));
+				classes.add(OJUtil.classifierPathname(o.getMessageStructure(getOclEngine().getOclLibrary())));
 			}
 		}
 		@Override

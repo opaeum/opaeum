@@ -19,7 +19,7 @@ public class VariableReader extends SimpleNodeBuilder<INakedReadVariableAction> 
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
 		INakedOutputPin result = node.getResult();
 		NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(result.getActivity(), result);
-		expressor.maybeBuildResultVariable(operation, block, resultMap);
+		expressor.buildResultVariable(operation, block, resultMap);
 		NakedStructuralFeatureMap variableMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), node.getVariable());
 		String call=expressor.storeResults(resultMap, variableMap.umlName(), variableMap.isMany());
 		block.addToStatements(call);
