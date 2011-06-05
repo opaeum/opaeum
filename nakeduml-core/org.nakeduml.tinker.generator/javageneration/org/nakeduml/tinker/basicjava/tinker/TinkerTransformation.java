@@ -42,7 +42,8 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 				addInitNullToDefaultConstructor(ojClass);
 			}
 			if (c.getEndToComposite() != null) {
-				initializeVertex(ojClass, c);
+				addInitVertex(ojClass, c);
+				addInitVertexToConstructorWithOwningObject(ojClass, c);
 			}
 			implementIsRoot(ojClass, c.getEndToComposite()==null);
 			addSuperToDefaultConstructor(ojClass);
@@ -105,26 +106,28 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 		ojClass.addToImports(TinkerUtil.transactionThreadEntityVar);
 	}
 
-	private void initializeVertex(OJAnnotatedClass ojClass, INakedEntity c) {
+	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass, INakedEntity c) {
 		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
-		OJAnnotatedOperation initVertex = new OJAnnotatedOperation();
-		initVertex.setName(INIT_VERTEX);
-		initVertex.addParam("owningObject", compositeEndMap.javaBaseTypePath());
-		initVertex.setVisibility(OJVisibilityKind.PRIVATE);
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
 		if (c.getGeneralizations().isEmpty()) {
 			constructor.getBody().getStatements().add(0, new OJSimpleStatement("this.vertex = org.util.GraphDb.getDB().addVertex(null)"));
 			constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 			constructor.getBody().addToStatements("defaultCreate()");
 			ojClass.addToImports(TinkerUtil.transactionThreadEntityVar);
-
 		} else {
 			constructor.getBody().getStatements().add(0, new OJSimpleStatement("super()"));
 		}
 		OJSimpleStatement initVertexStatement = new OJSimpleStatement("initVertex(owningObject)");
 		initVertexStatement.setName(INIT_VERTEX);
 		constructor.getBody().getStatements().add(1, initVertexStatement);
+	}
 
+	private void addInitVertex(OJAnnotatedClass ojClass, INakedEntity c) {
+		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
+		OJAnnotatedOperation initVertex = new OJAnnotatedOperation();
+		initVertex.setName(INIT_VERTEX);
+		initVertex.addParam("owningObject", compositeEndMap.javaBaseTypePath());
+		initVertex.setVisibility(OJVisibilityKind.PRIVATE);
 		if (compositeEndMap.isOneToOne()) {
 			initVertex.getBody().addToStatements(
 					"Iterable<Edge> iter = owningObject.getVertex().getOutEdges" + "(\"" + c.getEndToComposite().getAssociation().getName() + "\")");
