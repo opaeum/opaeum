@@ -30,6 +30,10 @@ public class JpaUtil{
 	private static Set<String> RESERVED_NAMES = new HashSet<String>();
 	static{
 		RESERVED_NAMES.add("group");
+		RESERVED_NAMES.add("min");
+		RESERVED_NAMES.add("max");
+		RESERVED_NAMES.add("count");
+		RESERVED_NAMES.add("sum");
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,NakedUmlConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);
@@ -48,6 +52,12 @@ public class JpaUtil{
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,NakedUmlConfig config,INakedNameSpace ns){
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
+		buildTableAndSchema(tableName, config, ns, table);
+		owner.addAnnotationIfNew(table);
+		return table;
+	}
+	private static void buildTableAndSchema(String tableName,
+			NakedUmlConfig config, INakedNameSpace ns, OJAnnotationValue table) {
 		if(config.needsSchema()){
 			INakedPackage schema = getNearestSchema(ns);
 			if(config.supportSchema()){
@@ -67,8 +77,6 @@ public class JpaUtil{
 		}else{
 			table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + config.getDefaultSchema() + "_" + tableName + BACKTICK));
 		}
-		owner.addAnnotationIfNew(table);
-		return table;
 	}
 	private static String getValidSqlName(String tableName){
 		if(RESERVED_NAMES.contains(tableName.toLowerCase())){
@@ -141,13 +149,13 @@ public class JpaUtil{
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
-	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field){
+	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field, NakedUmlConfig config){
 		// ManyToMany or non-navigable XToMany
 		INakedProperty f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
 		String keyToParentTable = calculateKeyToOwnerTable(f);
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
-		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
+		buildTableAndSchema(tableName, config, umlOwner, joinTable);
 		OJAnnotationValue otherJoinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
 		otherJoinColumn.putAttribute(new OJAnnotationAttributeValue("name", f.getMappingInfo().getPersistentName().getAsIs()));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("inverseJoinColumns", otherJoinColumn));

@@ -211,7 +211,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 					// OJPathName("javax.persistence.Transient")));
 				}
 				if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
-					HibernateUtil.addManyToAny(owner,field, map);
+					HibernateUtil.addManyToAny(owner,field, map,config);
 					if (f.isComposite()) {
 						HibernateUtil.addCascade(field, CascadeType.ALL);
 					}

@@ -15,7 +15,7 @@ import org.nakeduml.event.Retryable;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-public abstract class AbstractSignalMdb<T extends Retryable>{
+public abstract class AbstractSignalMdb<T extends Retryable> {
 	@Inject
 	@DefaultTransaction
 	protected SeamTransaction transaction;
@@ -25,56 +25,74 @@ public abstract class AbstractSignalMdb<T extends Retryable>{
 	protected Session hibernateSession;
 	@Inject
 	MessageRetryer retryer;
+
 	protected abstract void deliverMessage(T std) throws Exception;
+
 	protected abstract String getQueueName();
-	public void onMessage(Message message){
+
+	public void onMessage(Message message) {
 		long start = System.currentTimeMillis();
 		ObjectMessage obj = (ObjectMessage) message;
-		try{
+		try {
 			this.processInTryBlock((T) obj.getObject());
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.errorv("Unhandled exception in SignalMDB: {0}", e.toString());
 			logger.error(e.getMessage(), e);
-		}finally{
-			try{
+		} finally {
+			try {
 				message.acknowledge();
-			}catch(Exception e2){
+			} catch (Exception e2) {
 				logger.error(e2.getMessage(), e2);
 			}
-			try{
+			try {
 				hibernateSession.close();
-			}catch(Exception e2){
+			} catch (Exception e2) {
 				logger.error(e2.getMessage(), e2);
 			}
-			logger.debug("Signal delivery took " + (System.currentTimeMillis() - start) + "ms");
+			logger.debug("Signal delivery took "
+					+ (System.currentTimeMillis() - start) + "ms");
 		}
 	}
-	private void processInTryBlock(T std) throws Exception{
-		try{
+
+	private void processInTryBlock(T std) throws Exception {
+		try {
 			deliverMessage(std);
-		}catch(Exception e){
-			try{
+		} catch (Exception e) {
+			try {
 				hibernateSession.clear();
 				transaction.rollback();
-			}catch(Exception e2){
+			} catch (Exception e2) {
 			}
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
-			if(ea.isStaleStateException() || ea.isDeadlockException()){
-				if(std.getRetryCount() < 20){
-					logger.debugv("Retrying {0} because of {1}", std.getDescription(), ea.getRootCause().toString());
-						retryer.retryMessage(getQueueName(), std);
-				}else{
+			if (ea.isStaleStateException() || ea.isDeadlockException()) {
+				if (std.getRetryCount() < 20) {
+					logger.debugv("Retrying {0} because of {1}",
+							std.getDescription(), ea.getRootCause().toString());
+					retryer.retryMessage(getQueueName(), std);
+				} else {
 					Throwable rootCause = ea.getRootCause();
-					if(rootCause instanceof SQLException && ea.getStackTrace(rootCause).contains("Call getNextException to see the cause")){
-						logger.debugv("Unresolved exception found {0}", rootCause.toString());
+					if (rootCause instanceof SQLException
+							&& ea.getStackTrace(rootCause).contains(
+									"Call getNextException to see the cause")) {
+						logger.debugv("Unresolved exception found {0}",
+								rootCause.toString());
 					}
-					logger.debugv("RetryCount exceeded for signal {0}", std.getDescription());
+					logger.debugv("RetryCount exceeded for signal {0}",
+							std.getDescription());
 					ea.throwRootCause();
 				}
-			}else{
-				Throwable rootCause = ea.getRootCause();
-				logger.debugv("Exception {0} can not be retried", rootCause.toString());
-				ea.throwRootCause();
+			} else {
+				if (ea.stringOccurs("getNodeInstancesRecursively")
+						&& ea.stringOccurs("java.lang.NullPointerException")) {
+					logger.debugv(
+							"Process had already completed on delivery of {0}",
+							std.getDescription());
+				} else {
+					Throwable rootCause = ea.getRootCause();
+					logger.debugv("Exception {0} can not be retried",
+							rootCause.toString());
+					ea.throwRootCause();
+				}
 			}
 		}
 	}
