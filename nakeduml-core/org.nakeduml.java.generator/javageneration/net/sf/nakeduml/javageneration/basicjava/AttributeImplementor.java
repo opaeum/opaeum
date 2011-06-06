@@ -27,7 +27,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-public class AttributeImplementor extends AbstractStructuralFeatureVisitor{
+public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	protected AttributeImplementorStrategy attributeImplementorStrategy;
@@ -38,6 +38,17 @@ public class AttributeImplementor extends AbstractStructuralFeatureVisitor{
 			attributeImplementorStrategy = (AttributeImplementorStrategy) Class.forName(config.getAttributeImplementationStrategy()).newInstance();
 		}catch(Exception e){
 			throw new RuntimeException(e);
+		}
+	}
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		// Do nothing
+	}
+	@VisitBefore(matchSubclasses=true)
+	public void visitInterface(INakedInterface i){
+		for(INakedProperty p:i.getOwnedAttributes()){
+			visitProperty(i, OJUtil.buildStructuralFeatureMap(p));
+			
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
@@ -255,9 +266,5 @@ public class AttributeImplementor extends AbstractStructuralFeatureVisitor{
 			}
 		}
 		return setter;
-	}
-	@Override
-	protected void visitComplexStructure(INakedComplexStructure umlOwner){
-		// Do nothing
 	}
 }

@@ -4,11 +4,11 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ResponsibilityImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -18,8 +18,6 @@ import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
-import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -29,7 +27,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.IActiveEntity;
-import org.nakeduml.runtime.domain.IBusinessServiceInvocation;
 
 public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
@@ -64,8 +61,8 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 				ojOper.getBody().addToStatements("_" + o.getName() + "." + argMap.setter() + "(" + argMap.umlName() + ")");
 			}
 			if(o instanceof INakedResponsibility){
-				ojOperationClass.addToImports(IBusinessServiceInvocation.class.getName());
-				ojOperationClass.addToImplementedInterfaces(new OJPathName(IBusinessServiceInvocation.class.getName()));
+				ojOperationClass.addToImports(ResponsibilityImplementor.RESPONSIBILITY_OBJECT);
+				ojOperationClass.addToImplementedInterfaces(ResponsibilityImplementor.RESPONSIBILITY_OBJECT);
 				ojOper.getBody().addToStatements("_" + o.getName() + ".execute()");
 			}
 			ojOper.getBody().addToStatements("return _" + o.getName());

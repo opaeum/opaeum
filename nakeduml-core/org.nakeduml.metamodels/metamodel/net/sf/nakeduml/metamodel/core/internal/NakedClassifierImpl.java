@@ -150,10 +150,14 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			for(INakedProperty np:getEffectiveAttributes()){
 				if(np.getOtherEnd() != null && np.getOtherEnd().isComposite()){
 					// Give preference to non-derived or local endsToComposite
-					boolean notDerived = endToComposite.isDerived() && !np.isDerived();
-					boolean local = np.getOwner() == this && this.endToComposite.getOwner() != this;
-					if(this.endToComposite == null || notDerived || local){
+					if(endToComposite == null){
 						this.endToComposite = np;
+					}else{
+						boolean notDerived = endToComposite.isDerived() && !np.isDerived();
+						boolean local = np.getOwner() == this && this.endToComposite.getOwner() != this;
+						if(this.endToComposite == null || notDerived || local){
+							this.endToComposite = np;
+						}
 					}
 				}
 			}

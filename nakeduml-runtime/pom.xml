@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.nakeduml</groupId>
 		<artifactId>numl</artifactId>
-		<version>1.0.0.5-SNAPSHOT</version>
+		<version>1.0.0.6-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -11,7 +11,7 @@
 	<artifactId>numl-runtime</artifactId>
 	<packaging>pom</packaging>
 	<name>numl-runtime</name>
-	<version>1.0.0.5-SNAPSHOT</version>
+	<version>1.0.0.6-SNAPSHOT</version>
 
 	<modules>
 		<module>nakeduml-runtime-domain</module>

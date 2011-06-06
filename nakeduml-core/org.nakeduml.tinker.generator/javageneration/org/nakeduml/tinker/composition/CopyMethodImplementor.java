@@ -15,6 +15,7 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
+import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 import nl.klasse.octopus.model.IModelElement;
 
 import org.nakeduml.java.metamodel.OJBlock;

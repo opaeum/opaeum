@@ -3,6 +3,6 @@ package org.nakeduml.runtime.domain;
 
 
 
-public interface Auditable extends HibernateEntity,AbstractEntity {
+public interface Auditable extends HibernateEntity,IPersistentObject {
 	public Audited makeAuditCopy();
 }

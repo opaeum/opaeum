@@ -1,7 +1,7 @@
 package net.sf.nakeduml.javageneration.persistence;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.AbstractStructuralFeatureVisitor;
+import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -18,7 +18,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
-public abstract class AbstractJpaAnnotator extends AbstractStructuralFeatureVisitor {
+public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 
 	protected final void mapXToOneEnumeration(INakedProperty f, OJAnnotatedClass owner, OJAnnotatedField field) {
 		JpaUtil.addColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), !f.isRequired());

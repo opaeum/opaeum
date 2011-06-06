@@ -14,9 +14,11 @@ public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAct
 	public BehaviorCaller(IOclEngine oclEngine,INakedCallBehaviorAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
-	protected void maybeStartBehavior(OJAnnotatedOperation oper, OJBlock block,NakedStructuralFeatureMap resultMap){
+	protected void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap){
 		if(node.getBehavior().isProcess() && !node.isSynchronous()){
 			block.addToStatements(resultMap.umlName() + ".execute()");
+		}else{
+			//JBPM will start the process
 		}
 	}
 	protected NakedStructuralFeatureMap getResultMap(){
@@ -24,9 +26,12 @@ public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAct
 		if(BehaviorUtil.hasExecutionInstance(node.getBehavior())){
 			resultMap = OJUtil.buildStructuralFeatureMap(node, oclEngine.getOclLibrary());
 		}else{
-			resultMap = OJUtil.buildStructuralFeatureMap(node.getReturnPin().getActivity(), node.getReturnPin(),true);
+			resultMap = OJUtil.buildStructuralFeatureMap(node.getReturnPin().getActivity(), node.getReturnPin(), true);
 		}
 		return resultMap;
 	}
-
+	@Override
+	protected boolean shouldStoreMessageStructureOnProcess(){
+		return node.getBehavior().getContext() == null && BehaviorUtil.hasExecutionInstance(node.getBehavior());
+	}
 }

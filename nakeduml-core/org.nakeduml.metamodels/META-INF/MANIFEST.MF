@@ -76,5 +76,4 @@ Export-Package: net.sf.nakeduml,
  org.nakeduml.jbpm.domain,
  org.nakeduml.name,
  org.nakeduml.runtime.domain,
- org.nakeduml.workinghours,
  util

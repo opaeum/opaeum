@@ -4,20 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractBehaviorCaller;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.BehaviorCaller;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.OperationCaller;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javageneration.util.ReflectionUtil;
-import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -25,7 +19,6 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public class CallBehaviorActionBuilder extends Jbpm5ActionBuilder<INakedCallBehaviorAction>{
 	private AbstractBehaviorCaller delegate;
@@ -40,10 +33,9 @@ public class CallBehaviorActionBuilder extends Jbpm5ActionBuilder<INakedCallBeha
 		}else{
 			OJTryStatement tryStatement = delegate.surroundWithCatchIfNecessary(operation, operation.getBody());
 			if(tryStatement != null){
-				OJPathName umlNodeInstance = ReflectionUtil.getUtilInterface(UmlNodeInstance.class);
-				operation.getOwner().addToImports(umlNodeInstance);
-				OJAnnotatedField waitingNode = new OJAnnotatedField("waitingNode", umlNodeInstance);
-				waitingNode.setInitExp("(" + umlNodeInstance.getLast() + ")context.getNodeInstance()");
+				operation.getOwner().addToImports(AbstractEventHandlerInserter.UML_NODE_INSTANCE);
+				OJAnnotatedField waitingNode = new OJAnnotatedField("waitingNode", AbstractEventHandlerInserter.UML_NODE_INSTANCE);
+				waitingNode.setInitExp("(" + AbstractEventHandlerInserter.UML_NODE_INSTANCE.getLast() + ")context.getNodeInstance()");
 				tryStatement.getCatchPart().addToLocals(waitingNode);
 				implementExceptionPins(operation, tryStatement);
 				implementExceptionHandlers(operation, tryStatement);

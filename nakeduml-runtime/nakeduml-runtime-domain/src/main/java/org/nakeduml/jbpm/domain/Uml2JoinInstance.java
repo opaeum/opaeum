@@ -31,4 +31,7 @@ public class Uml2JoinInstance extends JoinInstance implements UmlNodeInstance {
 	public void takeTransition(String targetNodeName) {
 		takeTransition(targetNodeName, null);
 	}
+	public void triggerEvent(String type) {
+	}
+
 }

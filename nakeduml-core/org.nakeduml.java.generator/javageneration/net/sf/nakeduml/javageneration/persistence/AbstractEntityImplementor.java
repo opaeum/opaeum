@@ -23,7 +23,7 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 /**
  * This class builds all the operations specified by the AbstractEntity
@@ -31,7 +31,7 @@ import org.nakeduml.runtime.domain.AbstractEntity;
  * the id of the instance involved
  */
 public class AbstractEntityImplementor extends AbstractJavaProducingVisitor {
-	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(AbstractEntity.class.getName());
+	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(IPersistentObject.class.getName());
 
 	@VisitBefore
 	public void visitModel(INakedModel p) {

@@ -31,4 +31,8 @@ public class Uml2EndStateInstance extends EndNodeInstance implements UmlNodeInst
 	public void takeTransition(String targetNodeName) {
 		takeTransition(targetNodeName, null);
 	}
+	public void triggerEvent(String type) {
+		super.triggerEvent(type);
+	}
+
 }

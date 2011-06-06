@@ -3,9 +3,7 @@ package net.sf.nakeduml.pomgeneration;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -33,20 +31,16 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.apache.maven.pom.ConfigurationType2;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.DocumentRoot;
-import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.Model;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.POMPackage;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.util.POMResourceFactoryImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.nakeduml.bootstrap.BootstrapGenerationPhase;
 
@@ -60,7 +54,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private Map<String,DocumentRoot> rootMap = new HashMap<String,DocumentRoot>();
 	DocumentRoot parentPom;
 	private SortedSet<String> ignores = new TreeSet<String>();
-	public static final String NUML_VERSION = "1.0.0.5-SNAPSHOT";
+	public static final String NUML_VERSION = "1.0.0.6-SNAPSHOT";
 	@Override
 	public void initialize(NakedUmlConfig config){
 		this.config = config;

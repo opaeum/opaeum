@@ -34,12 +34,26 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
+public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 	protected TransformationContext transformationContext;
+	@Override
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace){
+		this.javaModel = pac;
+		this.config = config;
+		this.textWorkspace = textWorkspace;
+		
+	}
+	@Override
+	public void generate(INakedModelWorkspace workspace,TransformationContext context){
+		this.transformationContext=context;
+		startVisiting(workspace);
+		
+	}
+	@Deprecated
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
 		this.javaModel = javaModel;
 		this.config = config;

@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessService;
-import net.sf.nakeduml.metamodel.bpm.INakedOrganizationUnit;
+import net.sf.nakeduml.metamodel.bpm.INakedBusinessComponent;
 import net.sf.nakeduml.metamodel.components.INakedPort;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 
-public class NakedOrganizationUnitImpl extends NakedComponentImpl implements INakedOrganizationUnit{
+public class NakedOrganizationUnitImpl extends NakedComponentImpl implements INakedBusinessComponent{
 	@Override
 	public Collection<INakedBusinessService> getProvidedBusinessServices(){
 		Set<INakedBusinessService> result = new HashSet<INakedBusinessService>();

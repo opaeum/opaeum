@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.nakedum.velocity.AbstractTextProducingVisitor;
-
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+
+import org.nakedum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements TransformationStep {
 	protected INakedModel currentModel;

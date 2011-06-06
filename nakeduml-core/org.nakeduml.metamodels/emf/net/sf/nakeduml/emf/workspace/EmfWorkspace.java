@@ -41,16 +41,17 @@ public class EmfWorkspace implements Element{
 	Set<Package> primaryModels = new HashSet<Package>();
 	private WorkspaceMappingInfoImpl mappingInfo;
 	private ResourceSet resourceSet;
-	private String name;
 	private URI directoryUri;
-	private String directoryName;
-	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String name){
-		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, name);
+	private String identifier;
+	//Load single model
+	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String identifier){
+		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
 		addGeneratingModelOrProfile(model);
 		this.directoryUri=model.eResource().getURI().trimFileExtension().trimSegments(1);
 		System.out.println();
 	}
-	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String name){
+	//Load entire resourceSet
+	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String identifier){
 		this.resourceSet = rs;
 		this.mappingInfo = mappingInfo;
 		for(Element pkg:getOwnedElements()){
@@ -59,7 +60,7 @@ public class EmfWorkspace implements Element{
 			}
 		}
 		this.directoryUri=uri;
-		this.name = name;
+		this.identifier=identifier;
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -295,7 +296,7 @@ public class EmfWorkspace implements Element{
 		return null;
 	}
 	public String getName(){
-		return this.name;
+		return this.getIdentifier();
 	}
 	public ResourceSet getResourceSet(){
 		return resourceSet;
@@ -313,11 +314,11 @@ public class EmfWorkspace implements Element{
 	public URI getDirectoryUri(){
 		return this.directoryUri;
 	}
-	public void setDirectoryName(String directoryName){
-		this.directoryName = directoryName;
+	public void setIdentifier(String directoryName){
+		this.identifier = directoryName;
 	}
-	public String getDirectoryName(){
-		return directoryName;
+	public String getIdentifier(){
+		return identifier;
 	}
 	public Collection<Model> getOwnedModels(){
 		EList<Element> ownedElements = getOwnedElements();

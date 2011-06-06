@@ -8,17 +8,13 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
-import net.sf.nakeduml.javageneration.StereotypeAnnotator;
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
-import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
-import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
@@ -27,8 +23,6 @@ import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
-import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJPackage;
@@ -42,13 +36,16 @@ import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.runtime.domain.AbstractSignal;
 
-public class Java5ModelGenerator extends StereotypeAnnotator{
-	@VisitAfter(matchSubclasses = true)
+public class Java5ModelGenerator extends AbstractStructureVisitor{
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		visitClass(umlOwner);
+		
+	}
+	@VisitAfter(match={INakedInterface.class,INakedEnumeration.class})
 	public void visitClass(INakedClassifier c){
 		// We do not generate simple data types. They can't participate in
-		// two-way
-		// associations
-		// and should be built-in or pre-implemented
+		// two-way associations and should be built-in or pre-implemented
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)){
 			ClassifierMap classifierMap = new NakedClassifierMap(c);
 			OJAnnotatedClass myClass;
@@ -133,8 +130,8 @@ public class Java5ModelGenerator extends StereotypeAnnotator{
 			}
 		}
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitOpaqueAction(INakedEmbeddedTask oa){
-		this.visitClass(oa.getMessageStructure(getOclEngine().getOclLibrary()));
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		
 	}
 }

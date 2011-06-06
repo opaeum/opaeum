@@ -25,7 +25,7 @@ import org.jboss.seam.transaction.SeamTransaction;
 import org.jboss.seam.transaction.TransactionScoped;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.SignalToDispatch;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IActiveObject;
 
@@ -104,7 +104,7 @@ public class SignalDispatcher implements ISignalDispatcher{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						if(s.getTarget() instanceof AbstractEntity){
+						if(s.getTarget() instanceof IPersistentObject){
 							entityProducer.send(session.createObjectMessage(s));
 						}else{
 							helperProducer.send(session.createObjectMessage(s));

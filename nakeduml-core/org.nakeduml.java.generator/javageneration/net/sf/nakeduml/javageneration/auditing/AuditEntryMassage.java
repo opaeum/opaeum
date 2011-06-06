@@ -57,14 +57,14 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.IEventSource;
-import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.AbstractSignal;
-import org.nakeduml.runtime.domain.IActiveEntity;
-import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
+import org.nakeduml.runtime.domain.IActiveEntity;
+import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IEventSource;
+import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.RevisionEntity;
 import org.nakeduml.runtime.domain.RevisionType;
 
@@ -559,7 +559,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		OJPathName toRemove = null;
 		Set<OJPathName> implementedInterfaces = auditClass.getImplementedInterfaces();
 		for(OJPathName ojPathName:implementedInterfaces){
-			if(ojPathName.equals(new OJPathName(AbstractEntity.class.getName()))){
+			if(ojPathName.equals(new OJPathName(IPersistentObject.class.getName()))){
 				toRemove = ojPathName;
 				break;
 			}
@@ -567,7 +567,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		auditClass.removeFromImplementedInterfaces(toRemove);
 		Set<OJPathName> imports = auditClass.getImports();
 		for(OJPathName ojPathName:imports){
-			if(ojPathName.equals(new OJPathName(AbstractEntity.class.getName()))){
+			if(ojPathName.equals(new OJPathName(IPersistentObject.class.getName()))){
 				toRemove = ojPathName;
 				break;
 			}
@@ -575,7 +575,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		if(auditClass instanceof OJAnnotatedInterface){
 			OJAnnotatedInterface i = (OJAnnotatedInterface) auditClass;
 			for(OJPathName ojPathName:i.getSuperInterfaces()){
-				if(ojPathName.equals(new OJPathName(AbstractEntity.class.getName()))){
+				if(ojPathName.equals(new OJPathName(IPersistentObject.class.getName()))){
 					toRemove = ojPathName;
 					break;
 				}
@@ -692,7 +692,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		javaClass.addToOperations(setter);
 		OJAnnotatedOperation originalForAbstractEntity = new OJAnnotatedOperation();
 		originalForAbstractEntity.setName("setOriginal");
-		originalForAbstractEntity.addParam(NameConverter.decapitalize(auditClassName), new OJPathName(AbstractEntity.class.getName()));
+		originalForAbstractEntity.addParam(NameConverter.decapitalize(auditClassName), new OJPathName(IPersistentObject.class.getName()));
 		originalForAbstractEntity.getBody().addToStatements(
 				"setOriginal((" + umlClass.getMappingInfo().getJavaName() + ") " + NameConverter.decapitalize(auditClassName) + ")");
 		javaClass.addToOperations(originalForAbstractEntity);

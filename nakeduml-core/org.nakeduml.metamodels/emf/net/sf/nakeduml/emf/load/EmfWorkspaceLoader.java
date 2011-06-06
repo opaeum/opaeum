@@ -6,8 +6,10 @@ import java.net.URLClassLoader;
 import java.util.Map;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,42 +26,75 @@ public class EmfWorkspaceLoader{
 	protected static void registerResourceFactories(){
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
+	@Deprecated
 	public static EmfWorkspace loadDirectory(File dir,String workspaceName,String extension) throws Exception{
+		return loadDirectory(getResourceSetSingleton(), dir, workspaceName);
+	}
+	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,String workspaceName){
 		System.out.println("UML2ModelLoader.loadDirectory()");
+		String ext = UMLResource.FILE_EXTENSION;
 		long time = System.currentTimeMillis();
-		getResourceSetSingleton().getResourceFactoryRegistry().getExtensionToFactoryMap().put(extension, UMLResource.Factory.INSTANCE);
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(ext, UMLResource.Factory.INSTANCE);
 		File[] files = dir.listFiles();
+		URI dirUri = findDirUri(resourceSet, dir, ext);
 		for(File file:files){
-			if(file.getName().endsWith(extension)){
-				load(getResourceSetSingleton(), URI.createFileURI(file.getAbsolutePath()));
+			if(file.getName().endsWith(ext)){
+				load(resourceSet, dirUri.appendSegment(file.getName()));
 			}
 		}
-		EcoreUtil.resolveAll(getResourceSetSingleton());
+		EcoreUtil.resolveAll(resourceSet);
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
 		WorkspaceMappingInfoImpl mappingInfo = getMappingInfo(dir, workspaceName);
-		URI dirUri = URI.createFileURI(dir.getAbsolutePath());
-		EmfWorkspace emfWorkspace = new EmfWorkspace(dirUri, getResourceSetSingleton(), mappingInfo, workspaceName);
+		EmfWorkspace emfWorkspace = new EmfWorkspace(dirUri, resourceSet, mappingInfo, workspaceName);
 		emfWorkspace.guessGeneratingModelsAndProfiles(dirUri);
 		return emfWorkspace;
 	}
-	public static EmfWorkspace loadSingleModelWorkspace(File modelFile,String workspaceName) throws Exception{
-		URI model_uri=URI.createFileURI(modelFile.getAbsolutePath());
-		Model model = loadModel( model_uri);
-		File dir = new File(model_uri.toFileString()).getParentFile();
+	private static URI findDirUri(ResourceSet resourceSet,File dir,String extension){
+		URI dirUri=null;
+		EList<Resource> resources = resourceSet.getResources();
+		for(Resource r:resources){
+			URI ruir = r.getURI();
+			URI potentialDirUri = ruir.trimFileExtension().trimSegments(1);
+			String lastSegment = potentialDirUri.lastSegment();
+			if(ruir.fileExtension().equals(extension) && lastSegment!=null && lastSegment.equals(dir.getName())){
+				dirUri=potentialDirUri;
+			}
+		}
+		if(dirUri==null){
+			dirUri=URI.createFileURI(dir.getAbsolutePath());
+		}
+		return dirUri;
+	}
+	@Deprecated
+	public static EmfWorkspace loadSingleModelWorkspace(File modelFile,String workspaceIdentifier) throws Exception{
+		ResourceSet resourceSetSingleton = getResourceSetSingleton();
+		return loadSingleModelWorkspace(resourceSetSingleton, modelFile, workspaceIdentifier);
+	}
+	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet, File modelFile,String workspaceName) throws Exception{
+		String ext = modelFile.getName().substring(modelFile.getName().lastIndexOf(".")+1);
+		File dir = modelFile.getParentFile();
+		URI dirUri = findDirUri(resourceSet,dir, ext);
+		Model model = loadModel(resourceSet,dirUri.appendSegment(modelFile.getName()));
 		EmfWorkspace result = new EmfWorkspace(model, getMappingInfo(dir, workspaceName), workspaceName);
 		return result;
 	}
+	@Deprecated
 	public static Model loadModel(URI model_uri) throws Exception{
+		ResourceSet resourceSetSingleton = getResourceSetSingleton();
+		return loadModel(resourceSetSingleton, model_uri);
+	}
+	private static Model loadModel(ResourceSet resourceSetSingleton,URI model_uri){
 		long time = System.currentTimeMillis();
 		System.out.println("UML2ModelLoader.loadModel()");
-		Model model = (Model) load(getResourceSetSingleton(), model_uri);
+		Model model = (Model) load(resourceSetSingleton, model_uri);
 		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		System.out.println("UML2ModelLoader.loadModel() took " + (System.currentTimeMillis() - time) + "ms");
 		return model;
 	}
-	private static WorkspaceMappingInfoImpl getMappingInfo(File dir,String workspaceName){
-		return new WorkspaceMappingInfoImpl(new File(dir, workspaceName + ".mappinginfo"));
+	private static WorkspaceMappingInfoImpl getMappingInfo(File dir,String workspaceIdentifier){
+		return new WorkspaceMappingInfoImpl(new File(dir, workspaceIdentifier + ".mappinginfo"));
 	}
+	@Deprecated
 	private static ResourceSet getResourceSetSingleton() throws Exception{
 		if(RESOURCE_SET == null){
 			RESOURCE_SET = setupStandAloneAppForUML2();
@@ -77,44 +112,46 @@ public class EmfWorkspaceLoader{
 		}
 		return package_;
 	}
-	protected static ResourceSet setupStandAloneAppForUML2() throws Exception{
+	public static ResourceSet setupStandAloneAppForUML2(){
 		ResourceSet resourceSet = new ResourceSetImpl();
 		if(!Thread.currentThread().getContextClassLoader().getClass().getName().equals("org.eclipse.core.runtime.internal.adaptor.ContextFinder")){
-			String uml2ResourceJar = findUml2ResourceJar();
 			resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 			Map uriMap = resourceSet.getURIConverter().getURIMap();
-			URI uri = URI.createURI(uml2ResourceJar);
+			URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
+			URI uri = URI.createURI(findJar(loader, "nakeduml-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources"));
 			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
+			uri = URI.createURI(findJar(loader, "nakeduml-metamodels"));
+			uriMap.put(URI.createURI(StereotypeNames.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
+			uriMap.put(URI.createURI(StereotypeNames.PROFILES_PATH_MAP), uri.appendSegment("profiles").appendSegment(""));
 		}
 		return resourceSet;
 	}
-	public static String findUml2ResourceJar() throws Exception{
-		URLClassLoader s = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-		String uml2Jar = findUml2ResourceJar(s);
-		if(uml2Jar == null){
-			uml2Jar = findUml2ResourceJar((URLClassLoader) ClassLoader.getSystemClassLoader());
-		}
-		return uml2Jar;
-	}
+	@Deprecated
 	public static String findUml2ResourceJar(URLClassLoader s){
+		return findJar(s, "nakeduml-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources");
+	}
+	public static String findJar(URLClassLoader s,String...names){
 		URL[] urls = s.getURLs();
 		String UML2JAR = null;
-		for(URL url:urls){
-			if(url.toExternalForm().contains("nakeduml-metamodels") || url.toString().contains("org/eclipse/uml2/uml/resources")
-					|| url.toString().contains("org.eclipse.uml2.uml.resources")){
-				File file = new File(url.getFile());
-				System.out.println(url.getFile());
-				UML2JAR = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";
-				break;
+		outer:for(URL url:urls){
+			for(String string:names){
+				if(url.toExternalForm().contains(string)){
+					File file = new File(url.getFile());
+					System.out.println(url.getFile());
+					UML2JAR = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";
+					break outer;
+				}
 			}
 		}
 		if(UML2JAR == null && s.getParent() instanceof URLClassLoader){
-			return findUml2ResourceJar((URLClassLoader) s.getParent());
-		}else{
-			return UML2JAR;
+			UML2JAR = findJar((URLClassLoader) s.getParent(), names);
 		}
+		if(UML2JAR == null){
+			UML2JAR = findUml2ResourceJar((URLClassLoader) ClassLoader.getSystemClassLoader());
+		}
+		return UML2JAR;
 	}
 }

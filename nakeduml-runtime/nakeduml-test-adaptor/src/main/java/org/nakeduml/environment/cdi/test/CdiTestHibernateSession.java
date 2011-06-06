@@ -42,7 +42,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 @RequestScoped
 public class CdiTestHibernateSession implements Session{
@@ -153,8 +153,8 @@ public class CdiTestHibernateSession implements Session{
 		map.put(getId(e), e);
 	}
 	private void setId(Object e,long id){
-		if(e instanceof AbstractEntity){
-			((AbstractEntity) e).setId(id);
+		if(e instanceof IPersistentObject){
+			((IPersistentObject) e).setId(id);
 		}else if(e instanceof ProcessInstanceInfo){
 			((ProcessInstanceInfo) e).setId(id);
 		}
@@ -205,7 +205,7 @@ public class CdiTestHibernateSession implements Session{
 		}
 	}
 	private boolean isSupportedEntity(Class<?> child){
-		return AbstractEntity.class.isAssignableFrom(child) || ProcessInstanceInfo.class.isAssignableFrom(child);
+		return IPersistentObject.class.isAssignableFrom(child) || ProcessInstanceInfo.class.isAssignableFrom(child);
 	}
 	public String getEntityName(Class<?> class1){
 		Entity entity = class1.getAnnotation(Entity.class);
@@ -252,8 +252,8 @@ public class CdiTestHibernateSession implements Session{
 	}
 	private Number getId(Object abstractEntity){
 		Number id = null;
-		if(abstractEntity instanceof AbstractEntity){
-			id = ((AbstractEntity) abstractEntity).getId();
+		if(abstractEntity instanceof IPersistentObject){
+			id = ((IPersistentObject) abstractEntity).getId();
 		}else if(abstractEntity instanceof ProcessInstanceInfo){
 			id = ((ProcessInstanceInfo) abstractEntity).getId();
 		}

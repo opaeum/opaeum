@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.drools.runtime.process.ProcessContext;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 @Entity
@@ -18,11 +18,11 @@ public class ChangeEvent extends AbstractNakedUmlEvent{
 	private String evaluationMethodName;
 	@Transient
 	private boolean isTrue;
-	public ChangeEvent(AbstractEntity process,String callBackMethodName,String evaluationMethodName, ProcessContext ctx){
+	public ChangeEvent(IPersistentObject process,String callBackMethodName,String evaluationMethodName, ProcessContext ctx){
 		super(process,callBackMethodName,ctx);
 		this.evaluationMethodName = evaluationMethodName;
 	}
-	public ChangeEvent(AbstractEntity process,String callBackMethodName,boolean cancel){
+	public ChangeEvent(IPersistentObject process,String callBackMethodName,boolean cancel){
 		super(process,callBackMethodName,cancel);
 	}
 	public String getEvaluationMethodName(){
@@ -31,7 +31,7 @@ public class ChangeEvent extends AbstractNakedUmlEvent{
 	public void setEvaluationMethodName(String EvaluationMethodName){
 		this.evaluationMethodName = EvaluationMethodName;
 	}
-	public void evaluateConditionOn(AbstractEntity context){
+	public void evaluateConditionOn(IPersistentObject context){
 		try{
 			isTrue=(Boolean) getMethodByPersistentName(evaluationMethodName).invoke(context);
 		}catch(Exception e){
@@ -42,7 +42,7 @@ public class ChangeEvent extends AbstractNakedUmlEvent{
 	public boolean isTrue(){
 		return isTrue;
 	}
-	public void invokeCallback(AbstractEntity context){
+	public void invokeCallback(IPersistentObject context){
 		try{
 			getMethodByPersistentName(getCallbackMethodName(),String.class).invoke(context, getNodeInstanceId());
 		}catch(Exception e){

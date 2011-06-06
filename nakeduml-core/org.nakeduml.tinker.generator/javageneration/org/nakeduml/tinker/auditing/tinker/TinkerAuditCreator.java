@@ -18,6 +18,7 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJPackage;
@@ -89,7 +90,7 @@ public class TinkerAuditCreator extends AbstractJavaProducingVisitor {
 			} else if (c instanceof INakedBehavior) {
 				INakedOperation specification = ((INakedBehavior) c).getSpecification();
 				if (specification != null) {
-					NakedClassifierMap map = new NakedClassifierMap(new OperationMessageStructureImpl(specification));
+					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure(getOclEngine().getOclLibrary()));
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}

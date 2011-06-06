@@ -9,14 +9,11 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import nl.klasse.octopus.model.IImportedElement;
 
 public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootObject {
-	private File modelFile;
+	private String fileName;
 
-	public File getModelFile() {
-		return modelFile;
-	}
 
-	public void setModelFile(File modelFile) {
-		this.modelFile = modelFile;
+	public void setFileName(String modelFile) {
+		this.fileName = modelFile;
 	}
 
 	public INakedRootObject getNakedRoot() {
@@ -25,7 +22,7 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 
 	@Override
 	public String getFileName() {
-		return modelFile.getName().substring(0, modelFile.getName().indexOf("."));
+		return fileName.substring(0, fileName.indexOf("."));
 	}
 
 	public Collection<INakedRootObject> getDependencies() {

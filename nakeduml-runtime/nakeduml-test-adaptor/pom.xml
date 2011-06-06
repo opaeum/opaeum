@@ -3,9 +3,9 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>numl-core</artifactId>
+		<artifactId>numl-runtime</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.5-SNAPSHOT</version>
+		<version>1.0.0.6-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -13,7 +13,7 @@
 	<artifactId>nakeduml-test-adaptor</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Test Infrastructure for Adaptor Projects </name>
-	<version>1.0.0.5-SNAPSHOT</version>
+	<version>1.0.0.6-SNAPSHOT</version>
 	<properties>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>

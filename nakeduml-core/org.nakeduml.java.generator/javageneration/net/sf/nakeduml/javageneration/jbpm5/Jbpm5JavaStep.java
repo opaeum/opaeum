@@ -7,7 +7,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityMessageEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
-import net.sf.nakeduml.javageneration.jbpm5.activity.TaskImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ResponsibilityImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineImplementor;
@@ -31,7 +31,7 @@ public class Jbpm5JavaStep extends AbstractJavaTransformationStep {
 		ActivityNodeEnumerationImplementor action = new ActivityNodeEnumerationImplementor();
 		action.initialize(javaModel, config, textWorkspace, context);
 		action.startVisiting(workspace);
-		TaskImplementor uiei = new TaskImplementor();
+		ResponsibilityImplementor uiei = new ResponsibilityImplementor();
 		uiei.initialize(javaModel, config, textWorkspace, context);
 		uiei.startVisiting(workspace);
 		StateMachineImplementor smimpl = new StateMachineImplementor();

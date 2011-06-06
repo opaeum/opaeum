@@ -42,7 +42,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		modelWorkspace.setName(emfWorkspace.getName());
-		modelWorkspace.setDirectoryName(emfWorkspace.getDirectoryName());
+		modelWorkspace.setDirectoryName(emfWorkspace.getIdentifier());
 		for (Element e : emfWorkspace.getOwnedElements()) {
 			URI mappedTypesUri = e.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 			try {

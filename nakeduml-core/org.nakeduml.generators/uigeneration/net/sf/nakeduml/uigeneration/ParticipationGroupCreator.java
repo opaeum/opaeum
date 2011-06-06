@@ -6,8 +6,6 @@ import static net.sf.nakeduml.uigeneration.StereotypeNames.participationInGroup;
 
 import java.util.Set;
 
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -18,6 +16,8 @@ import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;
 import net.sf.nakeduml.userinteractionmetamodel.ClassifierUserInteraction;
 import net.sf.nakeduml.userinteractionmetamodel.ParticipationGroup;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
+
+import org.nakeduml.name.NameConverter;
 
 @StepDependency(phase = UserInteractionTransformationPhase.class, requires = { OperationUserInteractionCreator.class }, before = ParticipationCreator.class, after = OperationUserInteractionCreator.class)
 public class ParticipationGroupCreator extends AbstractParticipationCreator {

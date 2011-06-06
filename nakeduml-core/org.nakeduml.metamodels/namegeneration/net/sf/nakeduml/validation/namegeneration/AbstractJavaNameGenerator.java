@@ -1,6 +1,5 @@
 package net.sf.nakeduml.validation.namegeneration;
 
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
@@ -10,6 +9,7 @@ import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
@@ -17,6 +17,7 @@ import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
+
 
 public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	protected final NameWrapper generateJavaName(INakedElement element){
@@ -135,5 +136,50 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			result.append(s);
 		}
 		return result.toString();
+	}
+	/**
+	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * nesting a package is generated for every classifier with nested classifiers
+	 * 
+	 * @param classifier
+	 * @return
+	 */
+	public static String packagePathname(INakedNameSpace p){
+		if(p instanceof INakedPackage && ((INakedPackage) p).getMappedImplementationPackage() != null){
+			return ((INakedPackage) p).getMappedImplementationPackage();
+		}else{
+			StringBuilder path = new StringBuilder();
+			addParentsToPath(p, path);
+			path.append(".");
+			path.append(p.getName().toLowerCase());
+			return path.toString();
+		}
+	}
+	/**
+	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * nesting a package is generated for every classifier with nested classifiers
+	 * 
+	 * @param classifier
+	 * @return
+	 */
+	public static String classifierPathname(INakedClassifier classifier){
+		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
+			return classifier.getMappedImplementationType();
+		}else{
+			String path = packagePathname(classifier.getNameSpace());
+			return path + "."+ classifier.getName();
+		}
+	}
+	private static void addParentsToPath(INakedNameSpace c,StringBuilder path){
+		INakedNameSpace parent = c.getParent();
+		if(parent != null){
+			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null){
+				path.append(((INakedPackage) parent).getMappedImplementationPackage());
+			}else{
+				addParentsToPath(parent, path);
+				path.append(".");
+				path.append(parent.getName().toLowerCase());
+			}
+		}
 	}
 }

@@ -9,19 +9,17 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
+import net.sf.nakeduml.metamodel.bpm.INakedBusinessComponent;
+import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
-import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import net.sf.nakeduml.metamodel.bpm.INakedUserInRole;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.components.INakedComponent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
@@ -30,18 +28,17 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
-import org.nakeduml.runtime.domain.AbstractRequest;
-import org.nakeduml.runtime.domain.ProcessRequest;
-import org.nakeduml.runtime.domain.TaskRequest;
 
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor{
+	private static final String PARTICIPANT_META_DEF = "ParticipantMetaDef";
+	private static final String OPERATION_PROCESS_META_DEF = "OperationProcessMetaDef";
+	private static final String TASK_OBJECT_META_DEF = "TaskObjectMetaDef";
 	private boolean isIntegrationPhase;
 	public final class MetaDeflElementCollector extends AbstractJavaProducingVisitor{
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
 		Set<INakedBehavior> processes = new HashSet<INakedBehavior>();
 		Set<INakedMessageStructure> tasks = new HashSet<INakedMessageStructure>();
-		Set<INakedEntity> users = new HashSet<INakedEntity>();
-		Set<INakedComponent> orgUnits = new HashSet<INakedComponent>();
+		Set<INakedClassifier> participant = new HashSet<INakedClassifier>();
 		@VisitBefore
 		public void visitInterface(INakedInterface i){
 			interfaces.add(i);
@@ -53,12 +50,12 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			}
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitComponent(INakedComponent c){
-			orgUnits.add(c);
+		public void visitComponent(INakedBusinessComponent c){
+			participant.add(c);
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitEntity(INakedUserInRole e){
-			users.add(e);
+		public void visitEntity(INakedBusinessRole e){
+			participant.add(e);
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedResponsibility b){
@@ -69,7 +66,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			tasks.add(a.getMessageStructure(getOclEngine().getOclLibrary()));
 		}
 		@VisitBefore(matchSubclasses = true)
-		public void visitCallBehaviorAction(INakedEmbeddedScreenFlowTask a){
+		public void visitEmbeddedScreeFlowTask(INakedEmbeddedScreenFlowTask a){
 			tasks.add(a.getMessageStructure(getOclEngine().getOclLibrary()));
 		}
 	}
@@ -89,10 +86,9 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, (Collection<INakedRootObject>) ownedElements), true,
 						OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 			}
-			doMetadef(collector.tasks, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, TaskRequest.TASK_META_DEF);
-			doMetadef(collector.processes, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, ProcessRequest.PROCESS_META_DEF);
-			doMetadef(collector.users, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, AbstractRequest.USER_ROLE_META_DEF);
-			doMetadef(collector.orgUnits, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, TaskRequest.ORGANIZATION_UNIT_META_DEF);
+			doMetadef(collector.tasks, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, TASK_OBJECT_META_DEF);
+			doMetadef(collector.processes, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, OPERATION_PROCESS_META_DEF);
+			doMetadef(collector.participant, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, PARTICIPANT_META_DEF);
 		}
 	}
 	protected void applyFilter(boolean isAdaptor,OutputRootId outputRoot){
@@ -118,14 +114,12 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies), true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
 				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies), false, OutputRootId.DOMAIN_GEN_TEST_SRC);
 			}
-			doMetadef(collector.tasks, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, TaskRequest.TASK_META_DEF);
-			doMetadef(collector.tasks, false, OutputRootId.DOMAIN_GEN_TEST_SRC, TaskRequest.TASK_META_DEF);
-			doMetadef(collector.processes, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, ProcessRequest.PROCESS_META_DEF);
-			doMetadef(collector.processes, false, OutputRootId.DOMAIN_GEN_TEST_SRC, ProcessRequest.PROCESS_META_DEF);
-			doMetadef(collector.users, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, AbstractRequest.USER_ROLE_META_DEF);
-			doMetadef(collector.users, false, OutputRootId.DOMAIN_GEN_TEST_SRC, AbstractRequest.USER_ROLE_META_DEF);
-			doMetadef(collector.orgUnits, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, TaskRequest.ORGANIZATION_UNIT_META_DEF);
-			doMetadef(collector.orgUnits, false, OutputRootId.DOMAIN_GEN_TEST_SRC, TaskRequest.ORGANIZATION_UNIT_META_DEF);
+			doMetadef(collector.tasks, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, TASK_OBJECT_META_DEF);
+			doMetadef(collector.tasks, false, OutputRootId.DOMAIN_GEN_TEST_SRC, TASK_OBJECT_META_DEF);
+			doMetadef(collector.processes, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, OPERATION_PROCESS_META_DEF);
+			doMetadef(collector.processes, false, OutputRootId.DOMAIN_GEN_TEST_SRC, OPERATION_PROCESS_META_DEF);
+			doMetadef(collector.participant, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, PARTICIPANT_META_DEF);
+			doMetadef(collector.participant, false, OutputRootId.DOMAIN_GEN_TEST_SRC, PARTICIPANT_META_DEF);
 		}
 	}
 	// TODO find another place for this

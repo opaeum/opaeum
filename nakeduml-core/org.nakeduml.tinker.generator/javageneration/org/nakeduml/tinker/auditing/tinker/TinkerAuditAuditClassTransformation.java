@@ -9,6 +9,7 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJConstructor;

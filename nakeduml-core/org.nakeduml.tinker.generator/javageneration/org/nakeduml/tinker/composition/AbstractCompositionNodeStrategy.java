@@ -7,6 +7,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 import nl.klasse.octopus.model.IModelElement;
 
 import org.nakeduml.java.metamodel.OJBlock;

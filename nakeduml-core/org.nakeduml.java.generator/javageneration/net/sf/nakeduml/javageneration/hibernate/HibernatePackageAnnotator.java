@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 

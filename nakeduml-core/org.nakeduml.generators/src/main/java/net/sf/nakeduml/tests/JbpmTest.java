@@ -6,28 +6,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.POMFactory;
-import org.nakeduml.bootstrap.WarBootstrapStep;
-import org.nakeduml.generation.features.BpmUsingJbpm5;
-import org.nakeduml.generation.features.ExtendedCompositionSemantics;
-import org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects;
-import org.nakeduml.generation.features.IntegrationTests;
-import org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels;
-import org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects;
-import org.nakeduml.generation.features.PersistenceUsingHibernate;
-
-import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationStep;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
-import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
-import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
-import net.sf.nakeduml.pomgeneration.IntegratedSeam3PomStep;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.pomgeneration.PomGenerationStep;
+
+import org.apache.maven.pom.Dependency;
+import org.apache.maven.pom.POMFactory;
 
 public class JbpmTest extends AbstractTestCodeGenerator {
 	protected JbpmTest(String outputRoot, String modelDirectory) {

@@ -58,6 +58,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 			getter.getBody().addToStatements(
 					"return isStepActive(" + javaStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
 		}
+		
 		implementMethodIfRequired(state, map.getOnEntryMethod(), state.getEntry());
 		implementMethodIfRequired(state, map.getOnExitMethod(), state.getExit());
 		implementMethodIfRequired(state, map.getDoActivityMethod(), state.getDoActivity());
@@ -106,6 +107,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 		implementProcessInterfaceOperations(javaStateMachine, stateClass, umlStateMachine);
 		OJOperation execute = implementExecute(javaStateMachine, umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
+
 	}
 
 	private void addImports(OJClass javaStateMachine) {

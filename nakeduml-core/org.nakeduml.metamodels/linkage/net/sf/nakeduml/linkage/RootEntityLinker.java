@@ -3,7 +3,7 @@ package net.sf.nakeduml.linkage;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.bpm.INakedUserInRole;
+import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -21,7 +21,7 @@ public class RootEntityLinker extends AbstractModelElementLinker {
 	}
 
 	@VisitBefore(matchSubclasses = false)
-	public void checkEntity(INakedUserInRole ew) {
+	public void checkEntity(INakedBusinessRole ew) {
 		// TODO support interfaces
 		//TODO read from BPM model
 		if (!ew.hasSupertype() && isInUserModel(ew)) {

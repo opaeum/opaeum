@@ -1,32 +1,25 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import java.util.Collection;
-
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
-import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
-import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
+import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
-import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 /**
  * Base class for all action builders that could potentially build a task representing a usertask.
@@ -47,11 +40,10 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 	}
 	private void implementCompleteMethod(OJClass activityClass){
 		activityClass.addToImports(Jbpm5Util.getNodeInstance());
-		// TODO find better place for this
 		OJAnnotatedOperation complete = null;
 		String completeMethodName = null;
 		INakedMessageStructure message = null;
-		if(node instanceof INakedCallOperationAction && ((INakedCallOperationAction) node).getOperation() != null){
+		if(node instanceof INakedCallOperationAction && ((INakedCallOperationAction) node).getOperation() instanceof INakedResponsibility){
 			INakedCallOperationAction call = (INakedCallOperationAction) node;
 			NakedOperationMap map = new NakedOperationMap(call.getOperation());
 			activityClass.addToImplementedInterfaces(map.callbackListenerPath());
@@ -62,22 +54,24 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}
 		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);
-		activityClass.addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
+		activityClass.addToImports(AbstractEventHandlerInserter.UML_NODE_INSTANCE);
 		if(complete == null){
 			complete = new OJAnnotatedOperation();
 			complete.setName(completeMethodName);
 			activityClass.addToOperations(complete);
-			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", ReflectionUtil.getUtilInterface(UmlNodeInstance.class)));
+			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", AbstractEventHandlerInserter.UML_NODE_INSTANCE));
 			complete.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
 		}
 		OJIfStatement ifFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(completedTask.getNodeInstanceUniqueId()))!=null");
 		complete.getBody().addToStatements(ifFound);
 		implementConditions(complete, ifFound.getThenPart(), node, false);
 		if(callMap.isOne()){
+			//continue with process
 		}else{
+			//continue with process only if all tasks are complete
 			OJForStatement forEachTask = new OJForStatement("task", callMap.javaBaseTypePath(), callMap.getter() + "()");
 			ifFound.getThenPart().addToStatements(forEachTask);
-			forEachTask.getBody().addToStatements(new OJIfStatement("!task.getComplete()", "return"));
+			forEachTask.getBody().addToStatements(new OJIfStatement("!task.isComplete()", "return"));
 		}
 		implementConditionalFlows(complete, ifFound.getThenPart());
 	}

@@ -1,7 +1,7 @@
 package org.nakeduml.tinker.basicjava;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.AbstractStructuralFeatureVisitor;
+import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementorStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;

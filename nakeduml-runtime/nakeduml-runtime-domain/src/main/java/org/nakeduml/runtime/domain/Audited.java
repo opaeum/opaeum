@@ -6,7 +6,7 @@ package org.nakeduml.runtime.domain;
 
 public interface Audited {
 	Auditable getOriginal();
-	void setOriginal(AbstractEntity abstractEntity);
+	void setOriginal(IPersistentObject abstractEntity);
 	void setRevision(RevisionEntity revisionEntity);
 	RevisionEntity getRevision();
 	RevisionType getRevisionType();

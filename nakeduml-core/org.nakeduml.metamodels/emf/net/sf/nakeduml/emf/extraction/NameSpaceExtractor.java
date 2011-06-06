@@ -1,7 +1,5 @@
 package net.sf.nakeduml.emf.extraction;
 
-import java.io.File;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
@@ -78,12 +76,10 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	 */
 	@VisitBefore
 	public void visitProfile(Profile p){
-		//Different versions of the same profile may occur
+		// Different versions of the same profile may occur
 		NakedProfileImpl np = new NakedProfileImpl();
 		np.initialize(getId(p), p.getName(), true);
-		if(p.eResource().getURI().isFile()){
-			np.setModelFile(new File(p.eResource().getURI().toFileString()));
-		}
+		np.setFileName(p.eResource().getURI().lastSegment());
 		this.workspace.putModelElement(np);
 	}
 	@VisitBefore
@@ -97,9 +93,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitModel(Model p){
 		NakedModelImpl nm = new NakedModelImpl();
 		nm.initialize(getId(p), p.getName(), true);
-		if(p.eResource().getURI().isFile()){
-			nm.setModelFile(new File(p.eResource().getURI().toFileString()));
-		}
+		nm.setFileName(p.eResource().getURI().lastSegment());
 		this.workspace.putModelElement(nm);
 	}
 	@VisitBefore
@@ -162,7 +156,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}
 		if(c instanceof Class){
 			for(InterfaceRealization ir:((Class) c).getInterfaceRealizations()){
-				if(isBusinessService(c)){
+				if(isBusinessService(ir.getContract())){
 					return true;
 				}
 			}
@@ -173,9 +167,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitInterface(Interface i){
 		NakedInterfaceImpl ni;
 		if(isBusinessService(i)){
-			ni=new NakedBusinessServiceImpl();
+			ni = new NakedBusinessServiceImpl();
 		}else{
-			ni=new NakedInterfaceImpl();
+			ni = new NakedInterfaceImpl();
 		}
 		initialize(ni, i, i.getNamespace());
 		initializeClassifier(ni, i);

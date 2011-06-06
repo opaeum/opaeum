@@ -38,7 +38,6 @@ import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.TransitionListener;
-import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public class StateMachineEventHandlerInserter extends AbstractEventHandlerInserter{
 	@VisitBefore(matchSubclasses = true)
@@ -145,7 +144,7 @@ public class StateMachineEventHandlerInserter extends AbstractEventHandlerInsert
 		}
 	}
 	private void maybeContinueFlow(OJOperation operationContext,OJBlock block,GuardedFlow flow){
-		operationContext.getOwner().addToImports(ReflectionUtil.getUtilInterface(UmlNodeInstance.class));
+		operationContext.getOwner().addToImports(UML_NODE_INSTANCE);
 		operationContext.getOwner().addToImports(ReflectionUtil.getUtilInterface(TransitionListener.class));
 		OJAnnonymousInnerClass listener = new OJAnnonymousInnerClass(operationContext.getOwner().getPathName(), "listener",
 				ReflectionUtil.getUtilInterface(TransitionListener.class));

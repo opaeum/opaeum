@@ -24,4 +24,8 @@ public class EmbeddedScreenFlowTaskCaller extends AbstractBehaviorCaller<INakedE
 	protected NakedStructuralFeatureMap getResultMap(){
 		return OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
 	}
+	@Override
+	protected boolean shouldStoreMessageStructureOnProcess(){
+		return true;
+	}
 }

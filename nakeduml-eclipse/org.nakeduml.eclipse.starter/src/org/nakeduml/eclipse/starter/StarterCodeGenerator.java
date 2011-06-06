@@ -2,8 +2,8 @@ package org.nakeduml.eclipse.starter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
@@ -11,11 +11,19 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.pomgeneration.MavenProjectCodeGenerator;
 
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.ProfileApplication;
+import org.eclipse.uml2.uml.Stereotype;
 import org.nakeduml.bootstrap.WarBootstrapStep;
+import org.nakeduml.eclipse.ApplyProfileAction;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
 import org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects;
@@ -29,37 +37,50 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 		GENERATOR_ROOT,
 		GENERATOR_SRC
 	}
-	private NakedUmlConfigDialog dialog;
-	protected StarterCodeGenerator(NakedUmlConfigDialog dialog,String modelDirectory){
-		super(calculateOutputRoot(dialog), modelDirectory);
-		this.dialog = dialog;
+	public StarterCodeGenerator(ResourceSet resourceSet,NakedUmlConfig cfg,File modelDirectory){
+		super(resourceSet, cfg, modelDirectory);
 	}
-	private static String calculateOutputRoot(NakedUmlConfigDialog dialog){
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		return new File(root.getLocation().toFile(), dialog.getWorkspaceIdentifier()).getAbsolutePath();
-	}
-	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException{
-		NakedUmlConfig cfg = new NakedUmlConfig();
-		cfg.setOutputRoot(super.outputRoot);
-		cfg.load(new File(super.modelDirectory, workspace.getDirectoryName() + "-nakeduml.properties"), workspace.getName());
-		String domain = dialog.getCompanyDomain();
-		StringBuilder mavenGroup = null;
-		StringTokenizer st = new StringTokenizer(domain, ".");
-		while(st.hasMoreTokens()){
-			if(mavenGroup == null){
-				mavenGroup = new StringBuilder(st.nextToken());
-			}else{
-				mavenGroup.insert(0, '.');
-				mavenGroup.insert(0, st.nextToken());
+	@Override
+	protected NakedUmlConfig prepareConfig() throws IOException{
+		NakedUmlConfig cfg = super.prepareConfig();
+		cfg.mapOutputRoot(OutputRootId.GENERATOR_SRC, true, "-generator", "src/main/java");
+		for(File file:cfg.getOutputRoot().listFiles()){
+			if(file.getName().equals(".project") || file.getName().equals(".classpath")){
+				file.delete();
 			}
 		}
-		mavenGroup.append('.');
-		mavenGroup.append(dialog.getWorkspaceIdentifier());
-		cfg.setMavenGroupId(mavenGroup.toString());
-		mapOutputRoots(cfg);
 		cfg.mapOutputRoot(OutputRootId.GENERATOR_SRC, true, "-generator", "src/main/java");
-		cfg.store();
 		return cfg;
+	}
+	@Override
+	protected EmfWorkspace loadSingleModel(File modelFile) throws Exception{
+		EmfWorkspace result = super.loadSingleModel(modelFile);
+		setMappedImplementationPackage(result);
+		return result;
+	}
+	protected void setMappedImplementationPackage(EmfWorkspace result){
+		for(Package pkg:result.getPrimaryModels()){
+			if(pkg instanceof Model){
+				Model model = (Model) pkg;
+				Profile pf = ApplyProfileAction.applyNakedUmlProfile(model);
+				Stereotype st = pf.getOwnedStereotype(StereotypeNames.PACKAGE);
+				if(!model.isStereotypeApplied(st)){
+					model.applyStereotype(st);
+				}
+				model.setValue(st, "mappedImplementationPackage", super.cfg.getMavenGroupId() + "." + model.getName().toLowerCase());
+				try{
+					model.eResource().save(new HashMap());
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	@Override
+	protected EmfWorkspace loadDirectory() throws IOException{
+		EmfWorkspace result = super.loadDirectory();
+		setMappedImplementationPackage(result);
+		return result;
 	}
 	@Override
 	protected Set<Class<? extends TransformationStep>> getSteps(){
@@ -80,7 +101,10 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 		return basicIntegrationSteps;
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicIntegrationSteps(){
-		return toSet(HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class,
-				IntegrationTestsAcrossMultipleModels.class, WarBootstrapStep.class);
+		return toSet(HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class, IntegrationTestsAcrossMultipleModels.class,
+				WarBootstrapStep.class);
+	}
+	public File getOutputRoot(){
+		return cfg.getOutputRoot();
 	}
 }

@@ -36,7 +36,10 @@ TaskManagement
 Model UserInterface too
 Implement ports as default interfaces that delegate operations to the containing component. Such invocations would either delegate to users or delegate
 to a process (ownedBehaviour of the component)
-Swimlanes and task definitions specify potentialOwners, Target pins specify actual owners. Create one task per value in targetPin expression
+Swimlanes WITHOUT property "represents" and task definitions specify potentialOwners, Swimlanes WITH property "represents" and Target pins specify actual owners.
+Swimlanes with Classifier Represents and no potential Owners will use ClassifierX.allInstance() for POTENTIAL owners 
+Create one task per value in targetElement expression
+Remember that Responsibilities implemented as STateMachines are TaskObjects, not OperationProcessObjects
 
 Operations
 Calculate which operations are long running
@@ -44,4 +47,19 @@ All long-running operations should provide a second method providing the calling
 AcceptCallAction - store operation structure
 unmarshall the pins to allow OCL compilation for postconditions
 
+Processes
+Implement effects, entry and do-action subprocess calls
+Implement history state
+Implement transition across state boundaries
+IMplement real asynchronous actions
+Log all events as well as asynchronous actions directly in database and deliver them asynchronously
+
+MAven
+put MavenArtefatId in profile
+default MAvenArtifactIdPrefix to worskpaceidentifier-modelName
+programmaticallyset m2_repo
+
+Validation
+ModelNameUniqueness
+Asynchronous actions cannot have outputs
 

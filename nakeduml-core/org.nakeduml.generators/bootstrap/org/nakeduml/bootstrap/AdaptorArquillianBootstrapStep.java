@@ -6,8 +6,6 @@ import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.pomgeneration.AdaptorArquillianPomStep;
-import net.sf.nakeduml.pomgeneration.BasicJavaAdaptorPomStep;
-import net.sf.nakeduml.pomgeneration.WarPomStep;
 
 @StepDependency(phase = BootstrapGenerationPhase.class, requires = { AdaptorArquillianPomStep.class, TextFileGenerator.class }, before = { TextFileGenerator.class })
 public class AdaptorArquillianBootstrapStep extends AbstractBootstrapStep {

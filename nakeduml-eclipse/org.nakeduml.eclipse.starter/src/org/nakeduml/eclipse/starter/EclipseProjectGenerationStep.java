@@ -47,12 +47,13 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 			IProject project = root.getProject(tp.getName());
 			if(!project.exists()){
 				IProjectDescription description = root.getWorkspace().newProjectDescription(project.getName());
-				description.setLocation(new Path(config.getOutputRoot().getAbsolutePath() + "/" + tp.getName()));
+				Path path = new Path(config.getOutputRoot().getAbsolutePath() + "/" + tp.getName());
+				description.setLocation(path);
 				project.create(description, null);
 				project.open(null);
 				Set<String> natureSet = new HashSet<String>(Arrays.asList(description.getNatureIds()));
 				natureSet.add(JavaCore.NATURE_ID);
-				natureSet.add("org.maven.ide.eclipse.maven2Nature");
+//				natureSet.add("org.maven.ide.eclipse.maven2Nature");
 				description.setNatureIds((String[]) natureSet.toArray(new String[natureSet.size()]));
 				project.setDescription(description, null);
 				IJavaProject javaProject = JavaCore.create(project);

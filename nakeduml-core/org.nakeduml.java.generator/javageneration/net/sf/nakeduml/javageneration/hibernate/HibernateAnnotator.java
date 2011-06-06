@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.AbstractStructuralFeatureVisitor;
+import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -15,12 +15,10 @@ import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -42,7 +40,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.HibernateEntity;
 
-public class HibernateAnnotator extends AbstractStructuralFeatureVisitor{
+public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true,match = {
 		INakedAssociationClass.class
 	})

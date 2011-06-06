@@ -10,7 +10,7 @@ import org.nakeduml.hibernate.domain.PrePersistListener;
 import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
 import org.nakeduml.runtime.adaptor.DataGeneratorProperty;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 
@@ -19,7 +19,7 @@ public class NakedUtilTestClasses {
 	public static Class<?>[] getTestClasses() throws ClassNotFoundException, IOException {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		classes.add(Environment.class);
-		classes.add(AbstractEntity.class);
+		classes.add(IPersistentObject.class);
 		classes.add(ManagedHibernateSessionFactoryProvider.class);
 		classes.add(AuditSyncManager.class);
 		classes.add(UmlProcessMarshaller.class);

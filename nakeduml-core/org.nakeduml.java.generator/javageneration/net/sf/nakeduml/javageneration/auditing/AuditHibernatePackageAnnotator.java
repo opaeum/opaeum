@@ -2,8 +2,6 @@ package net.sf.nakeduml.javageneration.auditing;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.hibernate.AbstractHibernatePackageAnnotator;
-import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 

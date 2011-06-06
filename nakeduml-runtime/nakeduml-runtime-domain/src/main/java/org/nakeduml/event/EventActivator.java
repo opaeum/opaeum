@@ -8,7 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.nakeduml.environment.IMessageSender;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 public class EventActivator{
 	public void activateTimeEvents(Session session,IMessageSender sender){
@@ -25,7 +25,7 @@ public class EventActivator{
 		List<ChangeEvent> list = cri.list();
 		List<ChangeEvent> trueCases = new ArrayList<ChangeEvent>();
 		for(ChangeEvent changeEvent:list){
-			AbstractEntity source = (AbstractEntity) session.get(changeEvent.getEventSourceClass(), changeEvent.getEventSourceId());
+			IPersistentObject source = (IPersistentObject) session.get(changeEvent.getEventSourceClass(), changeEvent.getEventSourceId());
 			changeEvent.evaluateConditionOn(source);
 			if(changeEvent.isTrue()){
 				session.delete(changeEvent);

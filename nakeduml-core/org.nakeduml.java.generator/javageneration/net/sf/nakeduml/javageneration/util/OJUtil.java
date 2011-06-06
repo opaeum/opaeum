@@ -16,25 +16,22 @@ import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IAssociationClass;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
 import nl.klasse.octopus.stdlib.IOclLibrary;
-import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -157,29 +154,7 @@ public class OJUtil{
 	}
 	private static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,IOclLibrary lib){
 		ActionFeatureBridge bridge = new ActionFeatureBridge(action, lib);
-		if(action.getTargetElement() != null){
-			IClassifier type = action.getTargetElement().getType();
-			if(type instanceof StdlibCollectionType){
-				bridge.setType(lib.lookupCollectionType(((StdlibCollectionType) type).getMetaType(), bridge.getNakedBaseType()));
-			}else{
-				bridge.setType(bridge.getNakedBaseType());
-			}
-		}else{
-			bridge.setType(bridge.getNakedBaseType());
-		}
 		return bridge;
-	}
-	private static void addParentsToPath(INakedNameSpace c,OJPathName path){
-		INakedNameSpace parent = c.getParent();
-		if(parent != null){
-			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null){
-				OJPathName pn = new OJPathName(((INakedPackage) parent).getMappedImplementationPackage());
-				path.addToNames(pn.getNames());
-			}else{
-				addParentsToPath(parent, path);
-				path.addToNames(parent.getName().toLowerCase());
-			}
-		}
 	}
 	/**
 	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -189,14 +164,7 @@ public class OJUtil{
 	 * @return
 	 */
 	public static OJPathName packagePathname(INakedNameSpace p){
-		if(p instanceof INakedPackage && ((INakedPackage) p).getMappedImplementationPackage() != null){
-			return new OJPathName(((INakedPackage) p).getMappedImplementationPackage());
-		}else{
-			OJPathName path = new OJPathName();
-			addParentsToPath(p, path);
-			path.addToNames(p.getName().toLowerCase());
-			return path;
-		}
+		return new OJPathName( AbstractJavaNameGenerator.packagePathname(p));
 	}
 	/**
 	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -206,13 +174,7 @@ public class OJUtil{
 	 * @return
 	 */
 	public static OJPathName classifierPathname(INakedClassifier classifier){
-		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
-			return new OJPathName(classifier.getMappedImplementationType());
-		}else{
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
+		return new OJPathName(AbstractJavaNameGenerator.classifierPathname(classifier));
 	}
 	public static OJPathName classifierAuditPathname(INakedClassifier classifier){
 		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){

@@ -16,9 +16,10 @@ import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.IUserInRole;
 
 public class TaskUtil{
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
+
 	public static void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName){
 		if(td.getPotentialOwners() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialOwners", "potentialOwner");
@@ -46,7 +47,7 @@ public class TaskUtil{
 		OJIfStatement ifEmpty=new OJIfStatement(taskName+".getTaskInstance().get" + name.getAsIs() + "().isEmpty()");
 		block.addToStatements(ifEmpty);
 		if(potentialOwners.getOclValue().getExpression().getExpressionType() instanceof StdlibCollectionType){
-			OJForStatement forEach = new OJForStatement("participant", new OJPathName(IUserInRole.class.getName()), expr);
+			OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
 			ifEmpty.getThenPart().addToStatements(forEach);
 			OJPathName assignment = new OJPathName("org.nakeduml.runtime.bpm.Assignment");
 			OJAnnotatedField z = new OJAnnotatedField(name.getSingular().getAsIs(), assignment);

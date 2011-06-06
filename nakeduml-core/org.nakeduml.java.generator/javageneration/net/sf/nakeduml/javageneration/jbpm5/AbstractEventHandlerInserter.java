@@ -6,11 +6,9 @@ import java.util.List;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
@@ -26,7 +24,6 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
@@ -44,12 +41,12 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.AbstractSignal;
-import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public abstract class AbstractEventHandlerInserter extends AbstractJavaProducingVisitor{
 	private static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
 	private static final OJPathName NODE_CONTAINER = new OJPathName("org.jbpm.workflow.core.NodeContainer");
 	private static final OJPathName NODE = new OJPathName("org.jbpm.workflow.core.Node");
+	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.nakeduml.runtime.domain.UmlNodeInstance");
 	protected abstract void implementEventConsumption(OJOperation operationContext,FromNode node,OJIfStatement ifTokenFound);
 	/**
 	 * Inserts a call to the eventListener as the last line of code in the body of the triggering operation
@@ -289,9 +286,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		}
 		OJAnnotatedField nodes = new OJAnnotatedField();
 		nodes.setName("waitingNode");
-		OJPathName umlNodeInstance = ReflectionUtil.getUtilInterface(UmlNodeInstance.class);
-		activityClass.addToImports(umlNodeInstance);
-		nodes.setType(umlNodeInstance);
+		activityClass.addToImports(UML_NODE_INSTANCE);
+		nodes.setType(UML_NODE_INSTANCE);
 		ifProcessActive.getThenPart().addToLocals(nodes);
 		if(event instanceof INakedDeadline){
 			OJIfStatement ifTaskTokenFound = new OJIfStatement();

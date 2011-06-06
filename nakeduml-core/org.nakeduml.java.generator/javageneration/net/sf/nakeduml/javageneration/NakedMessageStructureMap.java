@@ -4,7 +4,6 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 

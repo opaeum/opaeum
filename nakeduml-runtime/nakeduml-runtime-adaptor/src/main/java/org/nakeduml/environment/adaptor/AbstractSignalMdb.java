@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.event.Retryable;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 public abstract class AbstractSignalMdb<T extends Retryable> {

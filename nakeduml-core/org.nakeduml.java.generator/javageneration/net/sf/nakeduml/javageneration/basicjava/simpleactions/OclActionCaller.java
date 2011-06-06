@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;

@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>numl-core</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.5-SNAPSHOT</version>
+		<version>1.0.0.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -10,7 +10,7 @@
 	<artifactId>nakeduml-java-metamodel</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Java Metamodel</name>
-	<version>1.0.0.5-SNAPSHOT</version>
+	<version>1.0.0.6-SNAPSHOT</version>
 	<description>A Metamodel for the Java language</description>
 	<url>http://github.com/nakeduml</url>
 	<build>

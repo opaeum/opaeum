@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.nakeduml.environment.ITimeEventDispatcher;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.TimeUnit;
 
 public class MockTimeEventDispatcher implements ITimeEventDispatcher {
 	private class MockTimer {
-		AbstractEntity process;
+		IPersistentObject process;
 		String callBackMethodName;
 
-		public AbstractEntity getProcess() {
+		public IPersistentObject getProcess() {
 			return process;
 		}
 
@@ -23,7 +23,7 @@ public class MockTimeEventDispatcher implements ITimeEventDispatcher {
 			return callBackMethodName;
 		}
 
-		public MockTimer(AbstractEntity process, String callBackMethodName) {
+		public MockTimer(IPersistentObject process, String callBackMethodName) {
 			super();
 			this.process = process;
 			this.callBackMethodName = callBackMethodName;
@@ -44,19 +44,19 @@ public class MockTimeEventDispatcher implements ITimeEventDispatcher {
 
 	private Map<MockTimer, Date> mockedEvents = new HashMap<MockTimer, Date>();
 
-	public void scheduleEvent(AbstractEntity process, String callBackMethodNameParm, final Date date) {
+	public void scheduleEvent(IPersistentObject process, String callBackMethodNameParm, final Date date) {
 		final MockTimer te = new MockTimer(process, callBackMethodNameParm);
 		mockedEvents.put(te, date);
 	}
 
-	public void scheduleEvent(AbstractEntity process, String callBackMethodNameParm, long duration, TimeUnit timeUnit) {
+	public void scheduleEvent(IPersistentObject process, String callBackMethodNameParm, long duration, TimeUnit timeUnit) {
 		MockTimer te = new MockTimer(process, callBackMethodNameParm);
 		// TODO apply WorkingHours
 		Date date = new Date(System.currentTimeMillis() + calculateMiliseconds(duration, timeUnit));
 		mockedEvents.put(te, date);
 	}
 
-	public void cancelTimer(AbstractEntity process, String callBackMethodNameParm) {
+	public void cancelTimer(IPersistentObject process, String callBackMethodNameParm) {
 		MockTimer te = new MockTimer(process, callBackMethodNameParm);
 		mockedEvents.remove(te);
 	}
@@ -79,7 +79,7 @@ public class MockTimeEventDispatcher implements ITimeEventDispatcher {
 	}
 
 	private void dispatchEvent(MockTimer timeEvent) {
-		AbstractEntity target = timeEvent.getProcess();
+		IPersistentObject target = timeEvent.getProcess();
 		if (target != null) {
 			try {
 				target.getClass().getMethod(timeEvent.getCallBackMethodName()).invoke(target);
@@ -103,7 +103,7 @@ public class MockTimeEventDispatcher implements ITimeEventDispatcher {
 	}
 
 	@Override
-	public Date getTimeScheduled(AbstractEntity process, String callBackMethodName) {
+	public Date getTimeScheduled(IPersistentObject process, String callBackMethodName) {
 		MockTimer te = new MockTimer(process, callBackMethodName);
 		return mockedEvents.get(te);
 	}

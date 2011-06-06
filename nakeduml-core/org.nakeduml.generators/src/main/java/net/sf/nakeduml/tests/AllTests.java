@@ -1,6 +1,5 @@
 package net.sf.nakeduml.tests;
 
-import java.io.File;
 
 
 public class AllTests {

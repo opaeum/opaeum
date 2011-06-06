@@ -9,17 +9,19 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 
-public abstract class AbstractJavaTransformationStep implements TransformationStep {
+public abstract class AbstractJavaTransformationStep implements TransformationStep, JavaTransformationStep {
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 
+	@Override
 	public void initialize(OJAnnotatedPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace) {
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 	}
 
+	@Override
 	public abstract void generate(INakedModelWorkspace workspace, TransformationContext context);
 
 

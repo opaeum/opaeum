@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -35,8 +36,10 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		panel.setLayout(new GridLayout(2, true));
 		new Label(panel, 0).setText("Identifier for project");
 		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE);
+		txtWorkspaceIdentifier.setLayoutData(new GridData(SWT.FILL,GridData.BEGINNING,true,false));
 		new Label(panel, 0).setText("Company domain name");
 		txtCompanyDomain = new Text(panel, SWT.SINGLE);
+		txtCompanyDomain.setLayoutData(new GridData(SWT.FILL,GridData.BEGINNING,true,false));
 		
 		return composite;
 	}

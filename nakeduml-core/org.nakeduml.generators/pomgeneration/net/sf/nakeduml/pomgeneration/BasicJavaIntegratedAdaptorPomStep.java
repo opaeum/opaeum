@@ -11,7 +11,6 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
-import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(requires = {},before = {},after = {},phase = PomGenerationPhase.class)
 public class BasicJavaIntegratedAdaptorPomStep extends PomGenerationStep{

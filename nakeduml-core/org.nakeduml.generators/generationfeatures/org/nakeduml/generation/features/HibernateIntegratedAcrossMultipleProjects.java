@@ -2,7 +2,6 @@ package org.nakeduml.generation.features;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;

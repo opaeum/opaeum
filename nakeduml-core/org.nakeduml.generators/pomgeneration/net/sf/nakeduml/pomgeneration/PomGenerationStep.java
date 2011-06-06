@@ -6,9 +6,7 @@ import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
-import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationStep;
-import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.model.IImportedElement;

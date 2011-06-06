@@ -1,10 +1,10 @@
 package org.nakeduml.runtime.adaptor;
 
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 public abstract class EntityHelper {
 
-	public void setSelectedObject(AbstractEntity auditedObject){
+	public void setSelectedObject(IPersistentObject auditedObject){
 		// TODO Auto-generated method stub
 		
 	}

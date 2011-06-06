@@ -6,7 +6,6 @@ import java.util.HashSet;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
-import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Profile;

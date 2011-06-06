@@ -1,7 +1,7 @@
 package org.nakeduml.environment;
 
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 public interface PersistentNameClassMap{
-	public Class<? extends AbstractEntity> getClass(String name);
+	public Class<? extends IPersistentObject> getClass(String name);
 }

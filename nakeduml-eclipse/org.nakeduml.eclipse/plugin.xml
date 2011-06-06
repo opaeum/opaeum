@@ -63,18 +63,4 @@
           </action>
        </objectContribution>
     </extension>
-  <extension
-     point="org.eclipse.emf.ecore.uri_mapping">
-    <mapping
-       source="pathmap://NAKEDUML_LIBRARIES/"
-       target="platform:/plugin/org.nakeduml.eclipse/libraries/">
-    </mapping>
-  </extension>
-  <extension
-     point="org.eclipse.emf.ecore.uri_mapping">
-    <mapping
-       source="pathmap://NAKEDUML_PROFILES/"
-       target="platform:/plugin/org.nakeduml.eclipse/profiles/">
-    </mapping>
-  </extension>
 </plugin>

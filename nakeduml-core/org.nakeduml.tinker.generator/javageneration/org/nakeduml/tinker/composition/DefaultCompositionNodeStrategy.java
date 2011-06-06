@@ -9,8 +9,10 @@ import net.sf.nakeduml.javageneration.composition.CompositionNodeStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -28,7 +30,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy {
 
 	@Override
-	public void addConstructorForTests(OJAnnotatedClass ojClass,INakedBehavioredClassifier c){
+	public void addConstructorForTests(OJAnnotatedClass ojClass,ICompositionParticipant c){
 		if(c instanceof INakedEntity){
 			INakedEntity entity = (INakedEntity) c;
 			if(entity.hasComposite()){
@@ -50,7 +52,7 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 		}
 	}
 	@Override
-	public void addMarkDeleted(INakedBehavioredClassifier sc, OJClass ojClass) {
+	public void addMarkDeleted(ICompositionParticipant sc, OJClass ojClass) {
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation();
 		markDeleted.setName("markDeleted");
 		ojClass.addToOperations(markDeleted);
@@ -69,7 +71,7 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 	}	
 	
 	@Override
-	public void addAddToOwningObject(INakedBehavioredClassifier c, OJAnnotatedClass ojClass) {
+	public void addAddToOwningObject(ICompositionParticipant c, OJAnnotatedClass ojClass) {
 		OJOperation addToOwningObject = new OJAnnotatedOperation();
 		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		addToOwningObject.setName("addToOwningObject");

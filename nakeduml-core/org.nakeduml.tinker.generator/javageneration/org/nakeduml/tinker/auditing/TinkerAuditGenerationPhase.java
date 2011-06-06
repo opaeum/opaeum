@@ -10,6 +10,7 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.JavaTransformationStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
@@ -33,7 +34,7 @@ public class TinkerAuditGenerationPhase implements TransformationPhase<AbstractJ
 
 	@Override
 	public Object[] execute(List<AbstractJavaTransformationStep> features,TransformationContext context) {
-		for (AbstractJavaTransformationStep a : features) {
+		for (JavaTransformationStep a : features) {
 			a.initialize(javaModel, config, textWorkspace);
 			a.generate(workspace, context);
 		}

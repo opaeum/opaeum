@@ -9,7 +9,6 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
-import org.nakeduml.environment.ITimeEventDispatcher;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;

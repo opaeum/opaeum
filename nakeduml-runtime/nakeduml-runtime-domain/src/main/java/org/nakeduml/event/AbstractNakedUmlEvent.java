@@ -14,7 +14,7 @@ import org.drools.runtime.process.ProcessContext;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.environment.Environment;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
@@ -40,7 +40,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	private int retryCount;
 	// For Mocking purposes
 	@Transient
-	private AbstractEntity eventSource;
+	private IPersistentObject eventSource;
 	@Basic
 	private String nodeInstanceId;
 	@Override
@@ -53,16 +53,16 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	}
 	public AbstractNakedUmlEvent(){
 	}
-	public AbstractNakedUmlEvent(AbstractEntity target,String callBackMethodName,ProcessContext ctx){
+	public AbstractNakedUmlEvent(IPersistentObject target,String callBackMethodName,ProcessContext ctx){
 		this(target, callBackMethodName);
 		this.nodeInstanceId = ((NodeInstanceImpl) ctx.getNodeInstance()).getUniqueId();
 		this.eventSourceClassName = IntrospectionUtil.getOriginalClass(target.getClass()).getAnnotation(PersistentName.class).value();
 	}
-	public AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName2,boolean cancelled){
+	public AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName2,boolean cancelled){
 		this(process, callBackMethodName2);
 		this.toBeCancelled = cancelled;
 	}
-	private AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName){
+	private AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName){
 		this.eventSource = process;
 		this.eventSourceId = process.getId();
 		this.callbackMethodName = callBackMethodName;
@@ -88,7 +88,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	public String getEventSourceClassName(){
 		return eventSourceClassName;
 	}
-	public Class<? extends AbstractEntity> getEventSourceClass(){
+	public Class<? extends IPersistentObject> getEventSourceClass(){
 		try{
 			return Environment.getPersistentNameClassMap().getClass(eventSourceClassName);
 		}catch(Exception e){
@@ -96,7 +96,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 		}
 	}
 	// For Mocking Purposes
-	public AbstractEntity getEventSource(){
+	public IPersistentObject getEventSource(){
 		return eventSource;
 	}
 	protected Method getMethodByPersistentName(String persistentMethodName,Type...parameterTypes){
@@ -127,5 +127,5 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	public void incrementRetryCount(){
 		retryCount++;
 	}
-	public abstract void invokeCallback(AbstractEntity eventSource2);
+	public abstract void invokeCallback(IPersistentObject eventSource2);
 }

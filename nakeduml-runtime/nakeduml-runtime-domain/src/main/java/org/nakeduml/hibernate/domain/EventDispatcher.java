@@ -21,7 +21,7 @@ import org.nakeduml.environment.IMessageSender;
 import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.event.AbstractNakedUmlEvent;
 import org.nakeduml.event.ChangeEvent;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IEventSource;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
@@ -95,7 +95,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 				if(object instanceof AbstractNakedUmlEvent){
 					requestedEvents.add((AbstractNakedUmlEvent) object);
 				}else if(object instanceof SignalToDispatch){
-					if(((SignalToDispatch) object).getTarget() instanceof AbstractEntity){
+					if(((SignalToDispatch) object).getTarget() instanceof IPersistentObject){
 						signalsToEntities.add((SignalToDispatch) object);
 					}else{
 						signalsToHelpers.add((SignalToDispatch) object);
@@ -107,9 +107,9 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		sender.sendObjectsToQueue(signalsToEntities, "queue/EntitySignalQueue");
 		sender.sendObjectsToQueue(signalsToHelpers, "queue/HelperSignalQueue");
 	}
-	protected AbstractEntity getAbstractEntity(FlushEvent event,ChangeEvent changeEvent){
+	protected IPersistentObject getAbstractEntity(FlushEvent event,ChangeEvent changeEvent){
 		try{
-			return (AbstractEntity) event.getSession().load(Class.forName(changeEvent.getEventSourceClassName()), changeEvent.getEventSourceId());
+			return (IPersistentObject) event.getSession().load(Class.forName(changeEvent.getEventSourceClassName()), changeEvent.getEventSourceId());
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();

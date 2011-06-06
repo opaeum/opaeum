@@ -18,7 +18,7 @@ import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
@@ -26,9 +26,23 @@ public abstract class MavenProjectCodeGenerator{
 	protected TransformationProcess process = new TransformationProcess();
 	protected File outputRoot;
 	protected File modelDirectory;
+	protected String workspaceIdentifier;
+	protected NakedUmlConfig cfg;
+	private ResourceSet resourceSet;
+	//CAlled in standalone build process
 	protected MavenProjectCodeGenerator(String outputRoot,String modelDirectory){
 		this.outputRoot = new File(outputRoot);
+		this.workspaceIdentifier = this.outputRoot.getName();
 		this.modelDirectory = new File(modelDirectory);
+		this.resourceSet=EmfWorkspaceLoader.setupStandAloneAppForUML2();
+	}
+	//CAlled from Eclipse
+	protected MavenProjectCodeGenerator(ResourceSet rs, NakedUmlConfig cfg,File modelDirectory){
+		this.workspaceIdentifier = cfg.getWorkspaceIdentifier();
+		this.outputRoot = cfg.getOutputRoot();
+		this.modelDirectory = modelDirectory;
+		this.cfg = cfg;
+		this.resourceSet=rs;
 	}
 	/**
 	 * May be called multiple times
@@ -39,18 +53,23 @@ public abstract class MavenProjectCodeGenerator{
 		process.removeModel(OJPackage.class);
 		long start = System.currentTimeMillis();
 		File modelFile = new File(modelDirectory, modelFileName);
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(modelFile, outputRoot.getName());
-		workspace.setDirectoryName(this.outputRoot.getName());
-		NakedUmlConfig cfg = buildConfig(workspace);
+		EmfWorkspace workspace = loadSingleModel(modelFile);
+		NakedUmlConfig cfg = prepareConfig();
 		cfg.store();
 		process.execute(cfg, workspace, getSteps());
 		workspace.getMappingInfo().store();
 		System.out.println("Generating code for model '" + modelFileName + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
-	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException{
-		NakedUmlConfig cfg = new NakedUmlConfig();
-		cfg.setOutputRoot(outputRoot);
-		cfg.load(new File(modelDirectory, workspace.getDirectoryName() + "-nakeduml.properties"), workspace.getName());
+	protected EmfWorkspace loadSingleModel(File modelFile) throws Exception{
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet,modelFile, prepareConfig().getWorkspaceIdentifier());
+		return workspace;
+	}
+	protected NakedUmlConfig prepareConfig() throws IOException{
+		if(this.cfg == null){
+			NakedUmlConfig cfg = new NakedUmlConfig();
+			cfg.setOutputRoot(outputRoot);
+			cfg.load(new File(modelDirectory, "nakeduml.properties"), workspaceIdentifier);
+		}
 		cfg.store();
 		mapOutputRoots(cfg);
 		return cfg;
@@ -58,11 +77,14 @@ public abstract class MavenProjectCodeGenerator{
 	public void transformDirectory() throws Exception,IOException,FileNotFoundException{
 		System.out.println("Transforming model directory: " + modelDirectory);
 		long start = System.currentTimeMillis();
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(modelDirectory, outputRoot.getName(), "uml");
-		workspace.setDirectoryName(this.outputRoot.getName());
-		NakedUmlConfig cfg = buildConfig(workspace);
+		EmfWorkspace workspace = loadDirectory();
+		NakedUmlConfig cfg = prepareConfig();
 		process.execute(cfg, workspace, getSteps());
 		System.out.println("Transforming workspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
+	}
+	protected EmfWorkspace loadDirectory() throws IOException{
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(resourceSet,modelDirectory, prepareConfig().getWorkspaceIdentifier());
+		return workspace;
 	}
 	protected abstract Set<Class<? extends TransformationStep>> getSteps();
 	protected void mapOutputRoots(NakedUmlConfig cfg){
@@ -126,14 +148,13 @@ public abstract class MavenProjectCodeGenerator{
 		return new HashSet<Class<? extends TransformationStep>>(Arrays.asList(classes));
 	}
 	public void generateIntegrationCode() throws Exception{
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(modelDirectory, outputRoot.getName(), "uml");
-		workspace.setDirectoryName(this.outputRoot.getName());
-		NakedUmlConfig cfg = buildConfig(workspace);
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(resourceSet,modelDirectory, workspaceIdentifier);
+		NakedUmlConfig cfg = prepareConfig();
 		OutputRoot iags = cfg.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
-		 iags.overwriteFiles();
+		iags.overwriteFiles();
 		// iags.dontCleanDirectories();
 		OutputRoot iagr = cfg.getOutputRoot(CharArrayTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE);
-		 iagr.overwriteFiles();
+		iagr.overwriteFiles();
 		// iagr.dontCleanDirectories();
 		process.removeModel(OJAnnotatedPackage.class);
 		process.removeModel(TextWorkspace.class);

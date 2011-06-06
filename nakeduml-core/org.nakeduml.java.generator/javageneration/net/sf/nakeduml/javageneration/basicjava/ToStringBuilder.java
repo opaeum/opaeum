@@ -6,15 +6,12 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;

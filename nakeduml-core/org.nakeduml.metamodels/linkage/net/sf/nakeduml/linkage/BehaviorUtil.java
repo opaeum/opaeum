@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.uml2.uml.StateMachine;
-
 import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -24,7 +22,6 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
-import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;

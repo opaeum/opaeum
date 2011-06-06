@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import org.hibernate.Session;
 import org.nakeduml.event.Retryable;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
@@ -76,8 +76,8 @@ public class SignalToDispatch implements Retryable{
 		}
 	}
 	private void retrieveId(Object a){
-		if(a instanceof AbstractEntity){
-			((AbstractEntity) a).getId();
+		if(a instanceof IPersistentObject){
+			((IPersistentObject) a).getId();
 		}
 	}
 	public void prepareForDispatch(){
@@ -89,7 +89,7 @@ public class SignalToDispatch implements Retryable{
 				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
 					// TODO make recursive for dataobjects
-					if(value instanceof IActiveObject || value instanceof AbstractEntity){
+					if(value instanceof IActiveObject || value instanceof IPersistentObject){
 						Object duplicate = duplicate(value);
 						pd.getWriteMethod().invoke(signal, duplicate);
 					}else if(value instanceof Set<?>){
@@ -108,8 +108,8 @@ public class SignalToDispatch implements Retryable{
 		}
 	}
 	private Object duplicate(Object object) throws InstantiationException,IllegalAccessException{
-		if(object instanceof AbstractEntity){
-			return duplicateWithId((AbstractEntity) object);
+		if(object instanceof IPersistentObject){
+			return duplicateWithId((IPersistentObject) object);
 		}else if(object instanceof IActiveObject){
 			return duplicateImplementation((IActiveObject) object);
 		}else{
@@ -124,7 +124,7 @@ public class SignalToDispatch implements Retryable{
 			for(PropertyDescriptor pd:properties){
 				if(pd.getWriteMethod() != null && pd.getReadMethod() != null){
 					Object value = pd.getReadMethod().invoke(signal);
-					if(value instanceof IActiveObject || value instanceof AbstractEntity){
+					if(value instanceof IActiveObject || value instanceof IPersistentObject){
 						pd.getWriteMethod().invoke(signal, resolve(session, value));
 					}else if(value instanceof Set<?>){
 						resolveCollectionOnDelivery(session, pd, new HashSet<Object>(), (Set<?>) value);
@@ -144,7 +144,7 @@ public class SignalToDispatch implements Retryable{
 	private void resolveCollectionOnDelivery(Session em,PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
 			IllegalAccessException,InvocationTargetException{
 		for(Object o:oldValue){
-			if(o instanceof IActiveObject || o instanceof AbstractEntity){
+			if(o instanceof IActiveObject || o instanceof IPersistentObject){
 				newValue.add(resolve(em, o));
 			}else{
 				newValue.add(o);
@@ -153,8 +153,8 @@ public class SignalToDispatch implements Retryable{
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
 	private Object resolve(Session em,Object ae){
-		if(ae instanceof AbstractEntity){
-			AbstractEntity enttity = (AbstractEntity) ae;
+		if(ae instanceof IPersistentObject){
+			IPersistentObject enttity = (IPersistentObject) ae;
 			Object result = em.get(IntrospectionUtil.getOriginalClass(ae), enttity.getId());
 			if(result == null){
 				throw new IllegalStateException(ae.getClass().getSimpleName() + ":" + enttity.getId() + " could not be found!");
@@ -175,19 +175,19 @@ public class SignalToDispatch implements Retryable{
 	private void duplicateCollectionForDispatch(PropertyDescriptor pd,Collection<Object> newValue,Collection<?> oldValue) throws InstantiationException,
 			IllegalAccessException,InvocationTargetException{
 		for(Object o:oldValue){
-			if(o instanceof AbstractEntity || o instanceof IActiveObject){
-				newValue.add(duplicate((AbstractEntity) o));
+			if(o instanceof IPersistentObject || o instanceof IActiveObject){
+				newValue.add(duplicate((IPersistentObject) o));
 			}else{
 				newValue.add(o);
 			}
 		}
 		pd.getWriteMethod().invoke(signal, newValue);
 	}
-	private Object duplicateWithId(AbstractEntity inputSource) throws InstantiationException,IllegalAccessException{
-		Class<AbstractEntity> implementationClass = IntrospectionUtil.getOriginalClass(inputSource);
-		AbstractEntity copy = implementationClass.newInstance();
+	private Object duplicateWithId(IPersistentObject inputSource) throws InstantiationException,IllegalAccessException{
+		Class<IPersistentObject> implementationClass = IntrospectionUtil.getOriginalClass(inputSource);
+		IPersistentObject copy = implementationClass.newInstance();
 		if(inputSource.getId() == null){
-			throw new IllegalStateException("entity " + ((AbstractEntity) inputSource).getClass().getName() + " does not have an id");
+			throw new IllegalStateException("entity " + ((IPersistentObject) inputSource).getClass().getName() + " does not have an id");
 		}
 		copy.setId(inputSource.getId());
 		return copy;

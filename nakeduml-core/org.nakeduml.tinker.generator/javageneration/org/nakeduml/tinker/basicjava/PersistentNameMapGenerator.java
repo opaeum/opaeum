@@ -17,7 +17,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 public class PersistentNameMapGenerator extends AbstractJavaProducingVisitor{
 	private boolean isIntegrationPhase;
@@ -65,7 +65,7 @@ public class PersistentNameMapGenerator extends AbstractJavaProducingVisitor{
 		map.getType().addToElementTypes(classExtendsAbstractEntity);
 		mapClass.addToImports("java.util.Map");
 		mapClass.addToImports("java.util.HashMap");
-		mapClass.addToImports(AbstractEntity.class.getName());
+		mapClass.addToImports(IPersistentObject.class.getName());
 		map.setInitExp("new HashMap<String, Class<? extends "+"BaseTinker"+">>()");
 		mapClass.addToFields(map);
 		map.setFinal(true);

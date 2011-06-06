@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+     point="org.eclipse.emf.ecore.uri_mapping">
+    <mapping
+       source="pathmap://NAKEDUML_LIBRARIES/"
+       target="platform:/plugin/org.nakeduml.metamodels/libraries/">
+    </mapping>
+  </extension>
+  <extension
+     point="org.eclipse.emf.ecore.uri_mapping">
+    <mapping
+       source="pathmap://NAKEDUML_PROFILES/"
+       target="platform:/plugin/org.nakeduml.metamodels/profiles/">
+    </mapping>
+  </extension>
  
 
 </plugin>

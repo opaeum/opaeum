@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0 pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="NakedUMLLibraryForBPM">
+    <packagedElement xmi:type="uml:Interface" xmi:id="_tH0fAIoVEeCLqpffVZYAlw" name="BusinessRole">
+      <generalization xmi:id="_gqBlQI29EeCrtavWRHwoHg" general="_YgstsI29EeCrtavWRHwoHg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_uVek8IoVEeCLqpffVZYAlw" name="BusinessComponent">
+      <generalization xmi:id="_dlqcYI29EeCrtavWRHwoHg" general="_YgstsI29EeCrtavWRHwoHg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:StateMachine" xmi:id="_zFmsEIoVEeCLqpffVZYAlw" name="TaskRequest">
+      <generalization xmi:id="_qMfygI3oEeCfQedkc0TCdA" general="_6MA8UI2-EeCrtavWRHwoHg"/>
+      <ownedAttribute xmi:id="_tog08I29EeCrtavWRHwoHg" name="subRequests" type="_6MA8UI2-EeCrtavWRHwoHg" aggregation="composite" association="_towFgI29EeCrtavWRHwoHg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tog08Y29EeCrtavWRHwoHg" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tog08o29EeCrtavWRHwoHg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_BB8NEI6VEeCne5ArYLDbiA" name="participationsInTask" type="_vZOC4I6UEeCne5ArYLDbiA" aggregation="composite" association="_BCPvEI6VEeCne5ArYLDbiA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BB8NEY6VEeCne5ArYLDbiA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BB8NEo6VEeCne5ArYLDbiA" value="2"/>
+      </ownedAttribute>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_nezb8I6SEeCrtavWRHwoHg" name="addTaskRequestParticipant" specification="_v52VoI6SEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_nezb8Y6SEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_nezb8o6SEeCrtavWRHwoHg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA"/>
+        <variable xmi:id="_nezb846SEeCrtavWRHwoHg" name="participation" type="_vZOC4I6UEeCne5ArYLDbiA"/>
+        <node xmi:type="uml:CreateObjectAction" xmi:id="_nezb9I6SEeCrtavWRHwoHg" name="CreatePartipation" classifier="_vZOC4I6UEeCne5ArYLDbiA">
+          <result xmi:id="_nezb9Y6SEeCrtavWRHwoHg" name="result" outgoing="_nezcCI6SEeCrtavWRHwoHg">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_sKTckI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+          </result>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_nezb9o6SEeCrtavWRHwoHg" name="addParticipation" outgoing="_nezcDo6SEeCrtavWRHwoHg" incoming="_nezcC46SEeCrtavWRHwoHg" structuralFeature="_BB8NEI6VEeCne5ArYLDbiA">
+          <object xmi:type="uml:ValuePin" xmi:id="_nezb946SEeCrtavWRHwoHg" name="object">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_waNS4I6hEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_nezb-I6SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>self</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_nezb-Y6SEeCrtavWRHwoHg" name="value">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_Xv08cI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_nezb-o6SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>participation</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:AddVariableValueAction" xmi:id="_nezb-46SEeCrtavWRHwoHg" name="StoreParticipation" outgoing="_nezcC46SEeCrtavWRHwoHg" variable="_nezb846SEeCrtavWRHwoHg">
+          <value xmi:id="_nezb_I6SEeCrtavWRHwoHg" name="value" incoming="_nezcCI6SEeCrtavWRHwoHg">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_rOCBkI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+          </value>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_nezb_Y6SEeCrtavWRHwoHg" name="SetNewParticipant" outgoing="_nezcEY6SEeCrtavWRHwoHg" incoming="_nezcDo6SEeCrtavWRHwoHg" structuralFeature="_3YyGlIoXEeCPduia_-NbFw">
+          <object xmi:type="uml:ValuePin" xmi:id="_nezb_o6SEeCrtavWRHwoHg" name="objec">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_vEKtAI6hEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_nezb_46SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>participation</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_nezcAI6SEeCrtavWRHwoHg" name="value">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_YpcFAI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_nezcAY6SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>newParticipant</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_nezcAo6SEeCrtavWRHwoHg" name="SetKind" outgoing="_nezcFI6SEeCrtavWRHwoHg" incoming="_nezcEY6SEeCrtavWRHwoHg" structuralFeature="_2tlBVI6UEeCne5ArYLDbiA">
+          <object xmi:type="uml:ValuePin" xmi:id="_nezcA46SEeCrtavWRHwoHg" name="object">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_ZV6JcI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_nezcBI6SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>participation</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_nezcBY6SEeCrtavWRHwoHg" name="value">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_aDEKYI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_nezcBo6SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>kind</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:ActivityFinalNode" xmi:id="_nezcB46SEeCrtavWRHwoHg" name="ActivityFinalNode1" incoming="_nezcFI6SEeCrtavWRHwoHg"/>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_nezcCI6SEeCrtavWRHwoHg" name="ObjectFlow1" source="_nezb9Y6SEeCrtavWRHwoHg" target="_nezb_I6SEeCrtavWRHwoHg">
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_nezcCY6SEeCrtavWRHwoHg" name="ObjectFlow1Expression">
+            <language>OCL</language>
+            <body>Type expression here</body>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_nezcCo6SEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_nezcC46SEeCrtavWRHwoHg" name="ControlFlow1" source="_nezb-46SEeCrtavWRHwoHg" target="_nezb9o6SEeCrtavWRHwoHg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_nezcDI6SEeCrtavWRHwoHg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_nezcDY6SEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_nezcDo6SEeCrtavWRHwoHg" name="ControlFlow2" source="_nezb9o6SEeCrtavWRHwoHg" target="_nezb_Y6SEeCrtavWRHwoHg">
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_nezcD46SEeCrtavWRHwoHg" name="ControlFlow2Expression">
+            <language>OCL</language>
+            <body>Type expression here</body>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_nezcEI6SEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_nezcEY6SEeCrtavWRHwoHg" name="ControlFlow3" source="_nezb_Y6SEeCrtavWRHwoHg" target="_nezcAo6SEeCrtavWRHwoHg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_nezcEo6SEeCrtavWRHwoHg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_nezcE46SEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_nezcFI6SEeCrtavWRHwoHg" name="ControlFlow4" source="_nezcAo6SEeCrtavWRHwoHg" target="_nezcB46SEeCrtavWRHwoHg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_nezcFY6SEeCrtavWRHwoHg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_nezcFo6SEeCrtavWRHwoHg" value="1"/>
+        </edge>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_n9EsUI6SEeCrtavWRHwoHg" name="removeTaskRequestParticipant" specification="_wuzAoI6SEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_n9EsUY6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_n9EsUo6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
+        <node xmi:type="uml:RemoveStructuralFeatureValueAction" xmi:id="_n9EsU46SEeCrtavWRHwoHg" name="RemoveParticipation" structuralFeature="_XLHkUI6NEeCrtavWRHwoHg">
+          <object xmi:type="uml:ValuePin" xmi:id="_n9EsVI6SEeCrtavWRHwoHg" name="object">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_Tb9TgI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_n9EsVY6SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>self</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_n9EsVo6SEeCrtavWRHwoHg" name="values">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_UdawgI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_n9EsV46SEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>self.participationsInRequest->select(p|p.participant=participant and p.kind = kind)</body>
+            </value>
+          </value>
+        </node>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_0lAQAIoaEeCPduia_-NbFw" name="delegate"/>
+      <ownedOperation xmi:id="__6uyIIoaEeCPduia_-NbFw" name="forward"/>
+      <ownedOperation xmi:id="_GRVH0IobEeCPduia_-NbFw" name="stop"/>
+      <ownedOperation xmi:id="_LlMOIIobEeCPduia_-NbFw" name="revoke"/>
+      <ownedOperation xmi:id="_Nk_isIobEeCPduia_-NbFw" name="claim"/>
+      <ownedOperation xmi:id="_v52VoI6SEeCrtavWRHwoHg" name="addTaskRequestParticipant" method="_nezb8I6SEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_v52VoY6SEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_v52Voo6SEeCrtavWRHwoHg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_wuzAoI6SEeCrtavWRHwoHg" name="removeTaskRequestParticipant" method="_n9EsUI6SEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_wuzAoY6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_wuzAoo6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
+      </ownedOperation>
+      <region xmi:id="_zFmsEYoVEeCLqpffVZYAlw" name="TaskInstanceRegion">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_PGwF0IoaEeCPduia_-NbFw" name="Inactive"/>
+        <subvertex xmi:type="uml:State" xmi:id="_Qtk5sIoaEeCPduia_-NbFw" name="Created"/>
+        <subvertex xmi:type="uml:State" xmi:id="_Q0VB8IoaEeCPduia_-NbFw" name="Ready"/>
+        <subvertex xmi:type="uml:State" xmi:id="_Q6NAcIoaEeCPduia_-NbFw" name="Reserved"/>
+        <subvertex xmi:type="uml:State" xmi:id="_RC_JAIoaEeCPduia_-NbFw" name="ReadyButSuspended"/>
+        <subvertex xmi:type="uml:State" xmi:id="_RIDPMIoaEeCPduia_-NbFw" name="Completed"/>
+        <subvertex xmi:type="uml:State" xmi:id="_RMUEIIoaEeCPduia_-NbFw" name="InProgress"/>
+        <subvertex xmi:type="uml:FinalState" xmi:id="_dAgD4IoaEeCPduia_-NbFw" name="Closed"/>
+        <subvertex xmi:type="uml:State" xmi:id="_sFnzcIobEeCPduia_-NbFw" name="ReservedButSuspended"/>
+        <subvertex xmi:type="uml:State" xmi:id="_tnUPsIobEeCPduia_-NbFw" name="InProgressButSuspended"/>
+        <transition xmi:id="_fSHrwIobEeCPduia_-NbFw" name="" source="_PGwF0IoaEeCPduia_-NbFw" target="_Qtk5sIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_feodwIobEeCPduia_-NbFw" name="Transition2" source="_Qtk5sIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_fp_ZMIobEeCPduia_-NbFw" name="Transition3" source="_Q0VB8IoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_f0sNUIobEeCPduia_-NbFw" name="Transition4" source="_Q6NAcIoaEeCPduia_-NbFw" target="_RMUEIIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_gC3MMIobEeCPduia_-NbFw" name="Transition5" source="_RMUEIIoaEeCPduia_-NbFw" target="_RIDPMIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_gYXiIIobEeCPduia_-NbFw" name="Transition6" source="_RIDPMIoaEeCPduia_-NbFw" target="_dAgD4IoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_qzQzsIobEeCPduia_-NbFw" name="Transition7" source="_Q0VB8IoaEeCPduia_-NbFw" target="_RC_JAIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_rCGg8IobEeCPduia_-NbFw" name="Transition8" source="_RC_JAIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_vQNgIIobEeCPduia_-NbFw" name="Transition9" source="_Q6NAcIoaEeCPduia_-NbFw" target="_sFnzcIobEeCPduia_-NbFw"/>
+        <transition xmi:id="_vyoQsIobEeCPduia_-NbFw" name="Transition10" source="_sFnzcIobEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_wDQGoIobEeCPduia_-NbFw" name="Transition11" source="_RMUEIIoaEeCPduia_-NbFw" target="_tnUPsIobEeCPduia_-NbFw"/>
+        <transition xmi:id="_wTuyoIobEeCPduia_-NbFw" name="Transition12" source="_tnUPsIobEeCPduia_-NbFw" target="_RMUEIIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_7gtBYIobEeCPduia_-NbFw" name="Transition13" source="_RMUEIIoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_89quoIobEeCPduia_-NbFw" name="Transition14" source="_Q0VB8IoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_9sHJAIobEeCPduia_-NbFw" name="Transition15" source="_Q6NAcIoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_A-zo0IocEeCPduia_-NbFw" name="Transition16" source="_Q6NAcIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_3YyGkIoXEeCPduia_-NbFw" name="ParticipationParticipant" memberEnd="_3YyGkYoXEeCPduia_-NbFw _3YyGlIoXEeCPduia_-NbFw" navigableOwnedEnd="_3YyGlIoXEeCPduia_-NbFw _3YyGkYoXEeCPduia_-NbFw">
+      <ownedEnd xmi:id="_3YyGkYoXEeCPduia_-NbFw" name="participation" type="_jRjnII6MEeCrtavWRHwoHg" association="_3YyGkIoXEeCPduia_-NbFw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3YyGkooXEeCPduia_-NbFw" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3YyGk4oXEeCPduia_-NbFw"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_3YyGlIoXEeCPduia_-NbFw" name="participant" type="_YgstsI29EeCrtavWRHwoHg" association="_3YyGkIoXEeCPduia_-NbFw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3YyGlYoXEeCPduia_-NbFw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3YyGlooXEeCPduia_-NbFw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_YgstsI29EeCrtavWRHwoHg" name="Participant">
+      <ownedAttribute xmi:id="_rz7zsI6TEeCne5ArYLDbiA" name="initiatedRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_t59sEI6TEeCne5ArYLDbiA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tvrusI6TEeCne5ArYLDbiA"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_wQamEI6TEeCne5ArYLDbiA" name="self.participation->select(p|p.kind=RequestParticipationKind::initiator and p.participant=self)">
+          <language>ocl</language>
+          <body>self.participation->select(p|p.kind=RequestParticipationKind::initiator and p.participant=self)</body>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_jSstQI6lEeCFsPOcAnk69Q" name="managedRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mGQaAI6lEeCFsPOcAnk69Q" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_l8lgoI6lEeCFsPOcAnk69Q"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_vC2hkI6lEeCFsPOcAnk69Q" name="self.participation->select(p|p.kind=RequestParticipationKind::businessOwner and p.participant=self)">
+          <language>ocl</language>
+          <body>self.participation->select(p|p.kind=RequestParticipationKind::businessOwner and p.participant=self)</body>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_7MraII6lEeCFsPOcAnk69Q" name="interestingRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_D_fTkI6mEeCFsPOcAnk69Q" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DnS2AI6mEeCFsPOcAnk69Q"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_FkwBMI6mEeCFsPOcAnk69Q" name="self.participation->select(p|p.kind=RequestParticipationKind::stakeholder and p.participant=self)">
+          <language>ocl</language>
+          <body>self.participation->select(p|p.kind=RequestParticipationKind::stakeholder and p.participant=self)</body>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_NYHP0I6mEeCFsPOcAnk69Q" name="ownedTaskRequests" isReadOnly="true" isDerived="true">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jyyGEI6mEeCFsPOcAnk69Q" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jNZhEI6mEeCFsPOcAnk69Q"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_OovxQI6mEeCFsPOcAnk69Q" name="self.participation->select(p|p.participant=self and oclIsKind(ParticipationInTask) and oclAsType(ParticipationInTask).kind=TaskParticipationKind::owner)">
+          <language>ocl</language>
+          <body>self.participation->select(p|p.participant=self and oclIsKind(ParticipationInTask) and oclAsType(ParticipationInTask).kind=TaskParticipationKind::owner)</body>
+        </defaultValue>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_towFgI29EeCrtavWRHwoHg" name="TaskRequestSubRequest" memberEnd="_towFgY29EeCrtavWRHwoHg _tog08I29EeCrtavWRHwoHg" navigableOwnedEnd="_towFgY29EeCrtavWRHwoHg">
+      <ownedEnd xmi:id="_towFgY29EeCrtavWRHwoHg" name="parentTask" type="_zFmsEIoVEeCLqpffVZYAlw" association="_towFgI29EeCrtavWRHwoHg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_towFgo29EeCrtavWRHwoHg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_towFg429EeCrtavWRHwoHg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:StateMachine" xmi:id="_ciiWAI2-EeCrtavWRHwoHg" name="ProcessRequest">
+      <generalization xmi:id="_qrxIcI3oEeCfQedkc0TCdA" general="_6MA8UI2-EeCrtavWRHwoHg"/>
+      <region xmi:id="_e2jAAI2-EeCrtavWRHwoHg" name="ProcessRequestRegion"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:StateMachine" xmi:id="_6MA8UI2-EeCrtavWRHwoHg" name="AbstractRequest" isAbstract="true">
+      <ownedAttribute xmi:id="_XLHkUI6NEeCrtavWRHwoHg" name="participationsInRequest" type="_GVhgMI6NEeCrtavWRHwoHg" aggregation="composite" association="_XLVmwI6NEeCrtavWRHwoHg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XLHkUY6NEeCrtavWRHwoHg" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XLHkUo6NEeCrtavWRHwoHg" value="2"/>
+      </ownedAttribute>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_911hoI6NEeCrtavWRHwoHg" name="addRequestParticipant" specification="_Qo338I6QEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_CpdosI6OEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_Iy2zYI6PEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
+        <variable xmi:id="_cRVawI6OEeCrtavWRHwoHg" name="participation" type="_GVhgMI6NEeCrtavWRHwoHg"/>
+        <node xmi:type="uml:CreateObjectAction" xmi:id="_LzLmQI6OEeCrtavWRHwoHg" name="CreatePartipation" classifier="_GVhgMI6NEeCrtavWRHwoHg">
+          <result xmi:id="_RZnDQI6OEeCrtavWRHwoHg" name="result" outgoing="_kWNQII6OEeCrtavWRHwoHg">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_t1RwoI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+          </result>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_UudfMI6OEeCrtavWRHwoHg" name="addParticipation" outgoing="_ig8iMI6PEeCrtavWRHwoHg" incoming="_7J8GoI6OEeCrtavWRHwoHg" structuralFeature="_XLHkUI6NEeCrtavWRHwoHg">
+          <object xmi:type="uml:ValuePin" xmi:id="_mJImUI6OEeCrtavWRHwoHg" name="object">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_bxwg0I6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_m5BLII6OEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>self</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_phN8cI6OEeCrtavWRHwoHg" name="value">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_cmBPUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_prsHEI6OEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>participation</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:AddVariableValueAction" xmi:id="_fQ48II6OEeCrtavWRHwoHg" name="StoreParticipation" outgoing="_7J8GoI6OEeCrtavWRHwoHg" variable="_cRVawI6OEeCrtavWRHwoHg">
+          <value xmi:id="_iGFAkI6OEeCrtavWRHwoHg" name="value" incoming="_kWNQII6OEeCrtavWRHwoHg">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_djDfUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+          </value>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_RzuW8I6PEeCrtavWRHwoHg" name="SetNewParticipant" outgoing="_ziglwI6PEeCrtavWRHwoHg" incoming="_ig8iMI6PEeCrtavWRHwoHg" structuralFeature="_3YyGlIoXEeCPduia_-NbFw">
+          <object xmi:type="uml:ValuePin" xmi:id="_eNtLYI6PEeCrtavWRHwoHg" name="objec">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_elXQ4I6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_eXOTwI6PEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>participation</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="__ZrBAI6PEeCrtavWRHwoHg" name="value">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_uf-6gI6kEeCFsPOcAnk69Q" name="LiteralInteger2"/>
+            <upperValue xmi:type="uml:LiteralInteger" xmi:id="_fiKQUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="__j7wQI6PEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>newParticipant</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_j25BcI6PEeCrtavWRHwoHg" name="SetKind" outgoing="_06UGMI6PEeCrtavWRHwoHg" incoming="_ziglwI6PEeCrtavWRHwoHg" structuralFeature="_cATKlI6NEeCrtavWRHwoHg">
+          <object xmi:type="uml:ValuePin" xmi:id="_wnZfgI6PEeCrtavWRHwoHg" name="object">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_vl3kgI6kEeCFsPOcAnk69Q" name="LiteralInteger2"/>
+            <upperValue xmi:type="uml:LiteralInteger" xmi:id="_gaiCwI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_ww6n4I6PEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>participation</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_Br5iUI6QEeCrtavWRHwoHg" name="value">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_hPBawI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_B1EFYI6QEeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>kind</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:ActivityFinalNode" xmi:id="_0CGr0I6PEeCrtavWRHwoHg" name="ActivityFinalNode1" incoming="_06UGMI6PEeCrtavWRHwoHg"/>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_kWNQII6OEeCrtavWRHwoHg" name="ObjectFlow1" source="_RZnDQI6OEeCrtavWRHwoHg" target="_iGFAkI6OEeCrtavWRHwoHg">
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_wPIl8I6OEeCrtavWRHwoHg" name="ObjectFlow1Expression">
+            <language>OCL</language>
+            <body>Type expression here</body>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_kWNQIo6OEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_7J8GoI6OEeCrtavWRHwoHg" name="ControlFlow1" source="_fQ48II6OEeCrtavWRHwoHg" target="_UudfMI6OEeCrtavWRHwoHg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_7J8GoY6OEeCrtavWRHwoHg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_7J8Goo6OEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_ig8iMI6PEeCrtavWRHwoHg" name="ControlFlow2" source="_UudfMI6OEeCrtavWRHwoHg" target="_RzuW8I6PEeCrtavWRHwoHg">
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_xvfTgI6QEeCrtavWRHwoHg" name="ControlFlow2Expression">
+            <language>OCL</language>
+            <body>Type expression here</body>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_ig8iMo6PEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_ziglwI6PEeCrtavWRHwoHg" name="ControlFlow3" source="_RzuW8I6PEeCrtavWRHwoHg" target="_j25BcI6PEeCrtavWRHwoHg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_ziglwY6PEeCrtavWRHwoHg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_ziglwo6PEeCrtavWRHwoHg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_06UGMI6PEeCrtavWRHwoHg" name="ControlFlow4" source="_j25BcI6PEeCrtavWRHwoHg" target="_0CGr0I6PEeCrtavWRHwoHg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_06UGMY6PEeCrtavWRHwoHg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_06UGMo6PEeCrtavWRHwoHg" value="1"/>
+        </edge>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_q1y30I6QEeCrtavWRHwoHg" name="removeRequestParticipant" specification="_Nl5kQI6SEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_2a1oUI6QEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_3J674I6QEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
+        <node xmi:type="uml:RemoveStructuralFeatureValueAction" xmi:id="_9IP7gI6QEeCrtavWRHwoHg" name="RemoveParticipation" structuralFeature="_XLHkUI6NEeCrtavWRHwoHg">
+          <object xmi:type="uml:ValuePin" xmi:id="_AnZi8I6REeCrtavWRHwoHg" name="object">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_7Rdo8I6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_BBoA0I6REeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>self</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_ETPikI6REeCrtavWRHwoHg" name="values">
+            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_8Y7nUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_Eb_O4I6REeCrtavWRHwoHg" name="ValuePin1Expression">
+              <language>OCL</language>
+              <body>self.participationsInRequest->select(p|p.participant=participant and p.kind = kind)</body>
+            </value>
+          </value>
+        </node>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_ov5DMIoaEeCPduia_-NbFw" name="suspend"/>
+      <ownedOperation xmi:id="_qwWfEIoaEeCPduia_-NbFw" name="resume"/>
+      <ownedOperation xmi:id="_4RNcAIoaEeCPduia_-NbFw" name="complete"/>
+      <ownedOperation xmi:id="_-PsMoIoaEeCPduia_-NbFw" name="start"/>
+      <ownedOperation xmi:id="_Qo338I6QEeCrtavWRHwoHg" name="addRequestParticipant" method="_911hoI6NEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_TKUhAI6QEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_TsHmgI6QEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_VJyB4I6REeCrtavWRHwoHg" name="getInitiator" isQuery="true" bodyCondition="_Ybu60I6REeCrtavWRHwoHg">
+        <ownedRule xmi:id="_Ybu60I6REeCrtavWRHwoHg" name="body">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_Yx5YEI6REeCrtavWRHwoHg" name="Constraint1Expression">
+            <language>OCL</language>
+            <body>self.participationsInRequest->any(p|p.kind=RequestParticipationKind::initiator).participant</body>
+          </specification>
+        </ownedRule>
+        <ownedParameter xmi:id="_40qxAI6REeCrtavWRHwoHg" name="result" type="_YgstsI29EeCrtavWRHwoHg" direction="return"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_Nl5kQI6SEeCrtavWRHwoHg" name="removeRequestParticipant" method="_q1y30I6QEeCrtavWRHwoHg">
+        <ownedParameter xmi:id="_P68JAI6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg"/>
+        <ownedParameter xmi:id="_P8scgI6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
+      </ownedOperation>
+      <region xmi:id="_FgGnMI6lEeCFsPOcAnk69Q" name="Region1"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_2tdYsI3oEeCfQedkc0TCdA" name="TaskObject">
+      <generalization xmi:id="_i-H6UI53EeCfQedkc0TCdA" general="_Wd2QoI53EeCfQedkc0TCdA"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_5DVD4I3oEeCfQedkc0TCdA" name="OperationProcessObject">
+      <generalization xmi:id="_jOKhcI53EeCfQedkc0TCdA" general="_Wd2QoI53EeCfQedkc0TCdA"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_I3guUI3pEeCfQedkc0TCdA" name="TaskRequestTaskObject" memberEnd="_I3guUY3pEeCfQedkc0TCdA _I3guVI3pEeCfQedkc0TCdA" navigableOwnedEnd="_I3guVI3pEeCfQedkc0TCdA _I3guUY3pEeCfQedkc0TCdA">
+      <ownedEnd xmi:id="_I3guUY3pEeCfQedkc0TCdA" name="taskRequest" type="_zFmsEIoVEeCLqpffVZYAlw" association="_I3guUI3pEeCfQedkc0TCdA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I3guUo3pEeCfQedkc0TCdA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_I3guU43pEeCfQedkc0TCdA"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_I3guVI3pEeCfQedkc0TCdA" name="taskObject" type="_2tdYsI3oEeCfQedkc0TCdA" association="_I3guUI3pEeCfQedkc0TCdA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_I3guVY3pEeCfQedkc0TCdA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_I3guVo3pEeCfQedkc0TCdA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_JY15wI3pEeCfQedkc0TCdA" name="ProcessRequestOperationProcess" isAbstract="true" memberEnd="_JY15wY3pEeCfQedkc0TCdA _JY15xI3pEeCfQedkc0TCdA" isDerived="true" navigableOwnedEnd="_JY15xI3pEeCfQedkc0TCdA _JY15wY3pEeCfQedkc0TCdA">
+      <ownedEnd xmi:id="_JY15wY3pEeCfQedkc0TCdA" name="processRequest" type="_ciiWAI2-EeCrtavWRHwoHg" association="_JY15wI3pEeCfQedkc0TCdA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JY15wo3pEeCfQedkc0TCdA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JY15w43pEeCfQedkc0TCdA"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_JY15xI3pEeCfQedkc0TCdA" name="processObject" type="_5DVD4I3oEeCfQedkc0TCdA" association="_JY15wI3pEeCfQedkc0TCdA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JY15xY3pEeCfQedkc0TCdA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JY15xo3pEeCfQedkc0TCdA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_Wd2QoI53EeCfQedkc0TCdA" name="RequestObject"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_lEGvYI53EeCfQedkc0TCdA" name="AbstractRequestResponsibilityObject" isAbstract="true" memberEnd="_lEGvYY53EeCfQedkc0TCdA _lEGvZI53EeCfQedkc0TCdA" isDerived="true" navigableOwnedEnd="_lEGvYY53EeCfQedkc0TCdA _lEGvZI53EeCfQedkc0TCdA">
+      <ownedEnd xmi:id="_lEGvYY53EeCfQedkc0TCdA" name="request" type="_6MA8UI2-EeCrtavWRHwoHg" association="_lEGvYI53EeCfQedkc0TCdA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lEGvYo53EeCfQedkc0TCdA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lEGvY453EeCfQedkc0TCdA"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lEGvZI53EeCfQedkc0TCdA" name="responsibilityObject" type="_Wd2QoI53EeCfQedkc0TCdA" association="_lEGvYI53EeCfQedkc0TCdA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lEGvZY53EeCfQedkc0TCdA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lEGvZo53EeCfQedkc0TCdA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_jRjnII6MEeCrtavWRHwoHg" name="Participation"/>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_ysdO4I6MEeCrtavWRHwoHg" name="RequestParticipationKind">
+      <ownedLiteral xmi:id="_2HekQI6MEeCrtavWRHwoHg" name="businessOwner"/>
+      <ownedLiteral xmi:id="_2-CY0I6MEeCrtavWRHwoHg" name="potentialBusinessOwner"/>
+      <ownedLiteral xmi:id="_4YwDUI6MEeCrtavWRHwoHg" name="stakeholder"/>
+      <ownedLiteral xmi:id="_8OBEsI6MEeCrtavWRHwoHg" name="potentialStakeholder"/>
+      <ownedLiteral xmi:id="_DQXGEI6NEeCrtavWRHwoHg" name="initiator"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_GVhgMI6NEeCrtavWRHwoHg" name="ParticipationInRequest">
+      <generalization xmi:id="_WhDToI6NEeCrtavWRHwoHg" general="_jRjnII6MEeCrtavWRHwoHg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_XLVmwI6NEeCrtavWRHwoHg" name="A_&lt;abstractRequest>_&lt;participationInRequest>" memberEnd="_XLVmwY6NEeCrtavWRHwoHg _XLHkUI6NEeCrtavWRHwoHg" navigableOwnedEnd="_XLVmwY6NEeCrtavWRHwoHg">
+      <ownedEnd xmi:id="_XLVmwY6NEeCrtavWRHwoHg" name="request" type="_6MA8UI2-EeCrtavWRHwoHg" association="_XLVmwI6NEeCrtavWRHwoHg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XLVmwo6NEeCrtavWRHwoHg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XLVmw46NEeCrtavWRHwoHg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_cATKkI6NEeCrtavWRHwoHg" name="A_&lt;participationInRequest>_&lt;requestParticipantType>" memberEnd="_cATKkY6NEeCrtavWRHwoHg _cATKlI6NEeCrtavWRHwoHg" navigableOwnedEnd="_cATKlI6NEeCrtavWRHwoHg">
+      <ownedEnd xmi:id="_cATKkY6NEeCrtavWRHwoHg" name="participationInRequest" type="_GVhgMI6NEeCrtavWRHwoHg" association="_cATKkI6NEeCrtavWRHwoHg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cATKko6NEeCrtavWRHwoHg" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cATKk46NEeCrtavWRHwoHg"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_cATKlI6NEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg" association="_cATKkI6NEeCrtavWRHwoHg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cATKlY6NEeCrtavWRHwoHg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cATKlo6NEeCrtavWRHwoHg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_neCVAI6UEeCne5ArYLDbiA" name="TaskParticipationKind">
+      <ownedLiteral xmi:id="_plvBUI6UEeCne5ArYLDbiA" name="owner"/>
+      <ownedLiteral xmi:id="_qJU2kI6UEeCne5ArYLDbiA" name="potentialOwner"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_vZOC4I6UEeCne5ArYLDbiA" name="ParticipationInTask">
+      <generalization xmi:id="__w8fQI6UEeCne5ArYLDbiA" general="_jRjnII6MEeCrtavWRHwoHg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_2tlBUI6UEeCne5ArYLDbiA" name="A_&lt;taskParticipation>_&lt;taskParticipationKind>" memberEnd="_2tlBUY6UEeCne5ArYLDbiA _2tlBVI6UEeCne5ArYLDbiA" navigableOwnedEnd="_2tlBVI6UEeCne5ArYLDbiA">
+      <ownedEnd xmi:id="_2tlBUY6UEeCne5ArYLDbiA" name="p" type="_vZOC4I6UEeCne5ArYLDbiA" association="_2tlBUI6UEeCne5ArYLDbiA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2tlBUo6UEeCne5ArYLDbiA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2tlBU46UEeCne5ArYLDbiA"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_2tlBVI6UEeCne5ArYLDbiA" name="kind" type="_neCVAI6UEeCne5ArYLDbiA" association="_2tlBUI6UEeCne5ArYLDbiA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2tlBVY6UEeCne5ArYLDbiA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2tlBVo6UEeCne5ArYLDbiA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_BCPvEI6VEeCne5ArYLDbiA" name="A_&lt;taskRequest>_&lt;taskParticipation>" memberEnd="_BCPvEY6VEeCne5ArYLDbiA _BB8NEI6VEeCne5ArYLDbiA" navigableOwnedEnd="_BCPvEY6VEeCne5ArYLDbiA">
+      <ownedEnd xmi:id="_BCPvEY6VEeCne5ArYLDbiA" name="taskRequest" type="_zFmsEIoVEeCLqpffVZYAlw" association="_BCPvEI6VEeCne5ArYLDbiA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BCPvEo6VEeCne5ArYLDbiA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BCPvE46VEeCne5ArYLDbiA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <profileApplication xmi:id="_AbMFII9QEeCWao_GIBSLZQ">
+      <eAnnotations xmi:id="_AbMFIY9QEeCWao_GIBSLZQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <NakedUMLProfile:Package xmi:id="_AbRksI9QEeCWao_GIBSLZQ" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.nakedumllibraryforbpm"/>
+</xmi:XMI>

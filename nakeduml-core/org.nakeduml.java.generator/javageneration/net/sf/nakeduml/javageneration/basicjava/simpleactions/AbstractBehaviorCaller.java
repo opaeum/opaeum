@@ -6,6 +6,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -16,7 +17,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 	public AbstractBehaviorCaller(IOclEngine oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 	}
-	protected abstract void maybeStartBehavior(OJAnnotatedOperation oper, OJBlock block,NakedStructuralFeatureMap resultMap);
+	protected abstract void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap);
 	protected abstract NakedStructuralFeatureMap getResultMap();
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
@@ -25,41 +26,46 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 		}else{
 			if(node.getReturnPin() != null || BehaviorUtil.hasExecutionInstance(node.getBehavior())){
 				NakedStructuralFeatureMap resultMap = getResultMap();
-				OJAnnotatedField resultField=expressor.buildResultVariable(operation, block, resultMap);
+				OJAnnotatedField resultField = expressor.buildResultVariable(operation, block, resultMap);
 				OJBlock fs = block;
-				if(node.getBehavior().getContext() == null){
+				if(node.getBehavior().getContext() == null && BehaviorUtil.hasExecutionInstance(node.getBehavior())){
 					resultField.setInitExp("new " + resultMap.javaBaseType() + "()");
 					for(INakedPin p:node.getArguments()){
-						NakedStructuralFeatureMap paramMap= OJUtil.buildStructuralFeatureMap(node.getBehavior(), p.getLinkedTypedElement());
-						fs.addToStatements(resultField.getName() + "." +paramMap.setter() + "(" +readPin(operation, block, p)+ ")");
+						NakedStructuralFeatureMap paramMap = OJUtil.buildStructuralFeatureMap(node.getBehavior(), p.getLinkedTypedElement());
+						fs.addToStatements(resultField.getName() + "." + paramMap.setter() + "(" + readPin(operation, fs, p) + ")");
 					}
 				}else{
-					ActionMap actionMap = new ActionMap(node);
-					fs = buildLoopThroughTarget(operation, block, actionMap);
-					fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-							+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+					fs = callBehavior(operation, block);
 				}
 				fs.addToLocals(resultField);
-				
-				maybeStartBehavior(operation, block, resultMap);
+				if(shouldStoreMessageStructureOnProcess()){
+					INakedMessageStructure messageStructure = node.getMessageStructure(getOclEngine().getOclLibrary());
+					NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(messageStructure.getEndToComposite().getOtherEnd());
+					fs.addToStatements(featureMap.adder() + "(" + resultField.getName() + ")");
+				}
+				maybeStartBehavior(operation, fs, resultMap);
 				fs.addToStatements(expressor.storeResults(resultMap, resultMap.umlName(), resultIsMany(resultMap)));
 			}else{
-				ActionMap actionMap = new ActionMap(node);
-				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-				fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+				callBehavior(operation, block);
 			}
 		}
 	}
-
-
+	public OJBlock callBehavior(OJAnnotatedOperation operation,OJBlock block){
+		OJBlock fs;
+		ActionMap actionMap = new ActionMap(node);
+		fs = buildLoopThroughTarget(operation, block, actionMap);
+		fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
+				+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+		return fs;
+	}
+	protected abstract boolean shouldStoreMessageStructureOnProcess();
 	private boolean resultIsMany(NakedStructuralFeatureMap resultMap){
 		boolean many = resultMap.isMany();
-		if(!(node.getReturnPin() == null || node.getReturnPin().getLinkedTypedElement() == null || BehaviorUtil.hasMessageStructure(node))){
-			many = node.getReturnPin().getLinkedTypedElement().getNakedMultiplicity().isMany();
+		if(BehaviorUtil.hasMessageStructure(node) && node.getTargetElement()!=null){
+			many = node.getTargetElement().getNakedMultiplicity().isMany();
+		}else if(!(node.getReturnPin() == null || node.getReturnPin().getLinkedTypedElement() == null)){
+			many = node.getReturnPin().getNakedMultiplicity().isMany();
 		}
 		return many;
 	}
-
-
 }

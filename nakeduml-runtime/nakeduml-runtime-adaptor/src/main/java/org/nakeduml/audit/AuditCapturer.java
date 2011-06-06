@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Auditable;
 import org.nakeduml.runtime.domain.Audited;
@@ -42,7 +42,7 @@ public class AuditCapturer{
 			for(Audited audited:entities){
 				// Set the aboriginal
 				Auditable original = audited.getOriginal();
-				AbstractEntity fetchedOriginal = (AbstractEntity) session.load(IntrospectionUtil.getOriginalClass(original.getClass()), original.getId());
+				IPersistentObject fetchedOriginal = (IPersistentObject) session.load(IntrospectionUtil.getOriginalClass(original.getClass()), original.getId());
 				audited.setOriginal(fetchedOriginal);
 //				if(audited.getPreviousVersion()!=null){
 				if(original.getObjectVersion()>0){

@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import org.hibernate.Session;
 import org.nakeduml.environment.ITimeEventDispatcher;
 import org.nakeduml.event.TimeEvent;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.TimeUnit;
 
 @Stateless
@@ -26,11 +26,11 @@ public class TimeEventDispatcher implements ITimeEventDispatcher{
 	public TimerService getTimerService(){
 		return timerService;
 	}
-	public void scheduleEvent(AbstractEntity process,String callBackMethodNameParm,final Date date){
+	public void scheduleEvent(IPersistentObject process,String callBackMethodNameParm,final Date date){
 	}
-	public void scheduleEvent(AbstractEntity process,String callBackMethodNameParm,long duration,TimeUnit timeUnit){
+	public void scheduleEvent(IPersistentObject process,String callBackMethodNameParm,long duration,TimeUnit timeUnit){
 	}
-	public void cancelTimer(AbstractEntity process,String callBackMethodNameParm){
+	public void cancelTimer(IPersistentObject process,String callBackMethodNameParm){
 	}
 	@Timeout
 	public void dispatch(Timer timer){
@@ -41,7 +41,7 @@ public class TimeEventDispatcher implements ITimeEventDispatcher{
 	public void fireMockedTimers(String methodName){
 	}
 	@Override
-	public Date getTimeScheduled(AbstractEntity process,String callBackMethodNameParm){
+	public Date getTimeScheduled(IPersistentObject process,String callBackMethodNameParm){
 		return null;
 	}
 }

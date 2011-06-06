@@ -7,7 +7,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.adaptor.SignalToDispatch;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IActiveObject;
 
@@ -47,7 +47,7 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 			CdiTestEnvironment.getInstance().beforeRequest(target);
 			Session session = CdiTestEnvironment.getInstance().getComponent(Session.class);
 			signal.prepareForDelivery(session);
-			if(target instanceof AbstractEntity){
+			if(target instanceof IPersistentObject){
 				signal.getTarget().processSignal(signal.getSignal());
 				session.flush();
 			}else{

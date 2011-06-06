@@ -3,46 +3,59 @@ package net.sf.nakeduml.javageneration.util;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
+import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
-//TODO implement oneToMany emulation with OpaqueActions
 public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	private static final long serialVersionUID = 620463438474285488L;
 	INakedClassifier baseType;
 	IClassifier type;
 	private IActionWithTargetElement action;
-	NakedMultiplicityImpl multiplicity=null;
-	public NakedMultiplicityImpl getNakedMultiplicity() {
+	NakedMultiplicityImpl multiplicity = null;
+	public NakedMultiplicityImpl getNakedMultiplicity(){
 		return multiplicity;
 	}
-	public void setMultiplicity(NakedMultiplicityImpl multiplicity) {
+	public void setMultiplicity(NakedMultiplicityImpl multiplicity){
 		this.multiplicity = multiplicity;
 	}
 	public ActionFeatureBridge(IActionWithTargetElement action,IOclLibrary lib){
 		super(action.getActivity(), action.getTargetElement());
-		super.element=action;
+		super.element = action;
 		if(action instanceof INakedCallAction){
 			baseType = ((INakedCallAction) action).getMessageStructure(lib);
+		}else if(action instanceof INakedEmbeddedTask){
+			baseType = ((INakedEmbeddedTask) action).getMessageStructure(lib);
 		}
-		if(action.getTargetElement()==null){
-			this.multiplicity=new NakedMultiplicityImpl(0, 1);
+		if(action.getTargetElement() == null){
+			this.multiplicity = new NakedMultiplicityImpl(0, 1);
 		}else{
-			this.multiplicity=(NakedMultiplicityImpl) action.getTargetElement().getNakedMultiplicity();
+			this.multiplicity = (NakedMultiplicityImpl) action.getTargetElement().getNakedMultiplicity();
 		}
-		this.action=action;
+		this.action = action;
+		if(action.getTargetElement() != null){
+			IClassifier type = action.getTargetElement().getType();
+			if(type instanceof StdlibCollectionType){
+				setType(lib.lookupCollectionType(((StdlibCollectionType) type).getMetaType(), getNakedBaseType()));
+			}else{
+				setType(getNakedBaseType());
+			}
+		}else{
+			setType(getNakedBaseType());
+		}
 	}
 	public INakedAction getAction(){
 		return action;
 	}
 	public boolean isOrdered(){
-		return super.parameter==null?false:super.parameter.isOrdered();
+		return super.parameter == null ? false : super.parameter.isOrdered();
 	}
 	public boolean isUnique(){
-		return super.parameter==null?false:super.parameter.isUnique();
+		return super.parameter == null ? false : super.parameter.isUnique();
 	}
 	@Override
 	public INakedClassifier getNakedBaseType(){
@@ -51,10 +64,10 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	public String getName(){
 		return action.getName();
 	}
-	public IClassifier getType() {
+	public IClassifier getType(){
 		return type;
 	}
-	public void setType(IClassifier type) {
+	public void setType(IClassifier type){
 		this.type = type;
 	}
 }

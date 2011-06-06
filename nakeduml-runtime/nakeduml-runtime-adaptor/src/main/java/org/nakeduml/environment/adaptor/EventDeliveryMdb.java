@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.hibernate.Session;
 import org.nakeduml.event.AbstractNakedUmlEvent;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 public class EventDeliveryMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
 	@Inject
@@ -13,7 +13,7 @@ public class EventDeliveryMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
 	protected void deliverMessage(AbstractNakedUmlEvent std) throws Exception{
 		hibernateSession.clear();
 		transaction.begin();
-		AbstractEntity eventSource = (AbstractEntity) hibernateSession.load(std.getEventSourceClass(), std.getEventSourceId());
+		IPersistentObject eventSource = (IPersistentObject) hibernateSession.load(std.getEventSourceClass(), std.getEventSourceId());
 		std.invokeCallback(eventSource);
 		std=(AbstractNakedUmlEvent) hibernateSession.merge(std);
 		hibernateSession.delete(std);

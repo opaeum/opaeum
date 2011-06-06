@@ -7,8 +7,6 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
-import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -19,8 +17,6 @@ import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.oclengine.IOclContext;
 
