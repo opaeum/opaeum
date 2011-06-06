@@ -6,7 +6,6 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -42,22 +41,13 @@ public class TinkerFieldRemoverImplementor extends AbstractJavaProducingVisitor 
 	
 	private void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
-		if(!OJUtil.isBuiltIn(p) && !isCompositeOwner(umlOwner, map)) {
+		if(!OJUtil.isBuiltIn(p)) {
 			OJAnnotatedClass owner = findJavaClass(umlOwner);
 			removeField(owner, map);
 			if(map.isOne() && isPersistent(p.getNakedBaseType()) || p.getBaseType() instanceof INakedInterface){
 				removeInternalAdder(owner, map);
 				removeInternalRemover(owner, map);
 			}
-		}
-	}
-
-	private boolean isCompositeOwner(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
-		if (umlOwner instanceof ICompositionParticipant) {
-			ICompositionParticipant entity = (ICompositionParticipant)umlOwner;
-			return entity.getEndToComposite()!=null && entity.getEndToComposite().equals(map.getProperty());
-		} else {
-			return false;
 		}
 	}
 

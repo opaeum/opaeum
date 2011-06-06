@@ -1,6 +1,9 @@
 package org.nakeduml.tinker.auditing.tinker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
@@ -86,6 +89,9 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 				extendsBaseTinkerAuditable(originalClass);
 			}
 			implementTinkerAuditableNode(originalClass);
+			
+			OJAnnotatedOperation markDeleted = (OJAnnotatedOperation) originalClass.findOperation("markDeleted", Collections.EMPTY_LIST);
+			implementMarkDeletedAudit(c, originalClass, markDeleted);
 		}
 	}
 
@@ -113,7 +119,76 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			}
 		}
 	}
-	
+
+	private void implementMarkDeletedAudit(INakedEntity c, OJAnnotatedClass originalClass, OJAnnotatedOperation markDeleted) {
+		addCreateAuditVertexToFirstLine(markDeleted.getBody());
+		List<INakedProperty> properties = new ArrayList<INakedProperty>();
+		if (c.getGeneralizations().isEmpty()) {
+			properties.addAll(c.getEffectiveAttributes());
+		} else {
+			properties.addAll(c.getOwnedAttributes());
+		}
+		for (INakedProperty np : properties) {
+			if (np.getOtherEnd() != null && !np.isDerived()) {
+				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
+				if (map.isManyToMany()) {
+					implementInternalCreateAuditVertexToMany(originalClass, markDeleted, map);
+				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable()) {
+					String zinternalCreateAuditToPreviousOneName = TinkerUtil.constructNameForInternalCreateAuditToOne(map);
+					OJSimpleStatement ss = new OJSimpleStatement(zinternalCreateAuditToPreviousOneName + "()");
+					if (!np.getSubsettedProperties().isEmpty()) {
+						OJIfStatement ifFromSuper = new OJIfStatement("getClass().equals("+originalClass.getName()+".class)");
+						ifFromSuper.addToThenPart(ss);
+						markDeleted.getBody().getStatements().add(1, ifFromSuper);
+					} else {
+						markDeleted.getBody().getStatements().add(1, ss);
+					}
+				} else if (!np.isComposite() && map.isOneToMany() && np.getOtherEnd().isNavigable()) {
+					implementInternalCreateAuditVertexToMany(originalClass, markDeleted, map);
+				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
+					String zinternalCreateAuditToPreviousOneName = TinkerUtil.constructNameForInternalCreateAuditToOne(map);
+					markDeleted.getBody().getStatements().add(1, new OJSimpleStatement(zinternalCreateAuditToPreviousOneName + "()"));
+				}
+			}
+		}
+	}
+
+	private void implementInternalCreateAuditVertexToMany(OJAnnotatedClass originalClass, OJAnnotatedOperation markDeleted, NakedStructuralFeatureMap map) {
+		markDeleted.getBody().getStatements().add(1, new OJSimpleStatement(TinkerUtil.constructNameForInternalCreateAuditManies(map) + "()"));
+		OJAnnotatedOperation internalCreateAuditToManies = new OJAnnotatedOperation(TinkerUtil.constructNameForInternalCreateAuditManies(map));
+		internalCreateAuditToManies.setVisibility(OJVisibilityKind.PRIVATE);
+		originalClass.addToOperations(internalCreateAuditToManies);
+		OJForStatement forMany = new OJForStatement(map.umlName(), map.javaBaseTypePath(), map.getter() + "()");
+		internalCreateAuditToManies.getBody().addToStatements(forMany);
+		forMany.getBody().addToStatements(TinkerUtil.constructNameForInternalCreateAuditMany(map) + "("+map.umlName()+")");
+		
+		OJAnnotatedOperation internalCreateAuditToMany = new OJAnnotatedOperation(TinkerUtil.constructNameForInternalCreateAuditMany(map));
+		internalCreateAuditToMany.setVisibility(OJVisibilityKind.PRIVATE);
+		internalCreateAuditToMany.addParam(map.umlName(), map.javaBaseTypePath());
+		originalClass.addToOperations(internalCreateAuditToMany);
+		OJIfStatement ifNotHasAuditEntry = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry("+map.umlName()+".getClass().getName() + getUid())");
+		ifNotHasAuditEntry.addToThenPart(map.umlName() + ".createAuditVertex(false)");
+		internalCreateAuditToMany.getBody().addToStatements(ifNotHasAuditEntry);
+		internalCreateAuditToMany.getBody().addToStatements("Vertex edgeRemovedFromAuditVertex = "+map.umlName()+".getAuditVertex()");
+
+		boolean isComposite = map.getProperty().isComposite();
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		String associationName = map.getProperty().getAssociation().getName();
+		OJIfStatement ifHasNoEdges = new OJIfStatement("TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\""+associationName+"\").isEmpty()");
+		internalCreateAuditToMany.getBody().addToStatements(ifHasNoEdges);
+		if (isComposite) {
+			ifHasNoEdges.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, getAuditVertex(), edgeRemovedFromAuditVertex, \""+associationName+"\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"inClass\", "+map.javaBaseTypePath().getLast()+".class.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+		} else {
+			ifHasNoEdges.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, edgeRemovedFromAuditVertex, getAuditVertex(), \""+associationName+"\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"outClass\", "+map.javaBaseTypePath().getLast()+".class.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
+		}
+	}
+
 	private void extendsBaseTinkerAuditable(OJAnnotatedClass originalClass) {
 		originalClass.setSuperclass(new OJPathName(BASE_AUDIT_TINKER));
 	}
@@ -355,8 +430,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 							+ map.getProperty().getAssociation().getName() + "\")");
 
 			tryException.getTryPart().addToStatements("auditEdge.setProperty(\"inClass\", edge.getProperty(\"inClass\")" + "+ \"Audit\")");
-			tryException.getTryPart()
-					.addToStatements("auditEdge.setProperty(\"outClass\", edge.getProperty(\"outClass\")" + "+ \"Audit\")");
+			tryException.getTryPart().addToStatements("auditEdge.setProperty(\"outClass\", edge.getProperty(\"outClass\")" + "+ \"Audit\")");
 		}
 		tryException.getTryPart().addToStatements("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
 		OJParameter catchParam = new OJParameter("e", new OJPathName("java.lang.Exception"));
@@ -425,17 +499,21 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 				ifStatement.addToThenPart("createAuditVertex(false)");
 				setter.getBody().addToStatements(ifStatement);
 				if (map.isMany() && map.getProperty().getBaseType() instanceof INakedEnumeration) {
-					setter.getBody()
-							.addToStatements(
-									"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
-											+ "\", "+ TinkerUtil.tinkerUtil.getLast() + ".convertEnumsForPersistence(" + map.umlName()+"))");
+					setter.getBody().addToStatements(
+							"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
+									+ TinkerUtil.tinkerUtil.getLast() + ".convertEnumsForPersistence(" + map.umlName() + "))");
 					originalClass.addToImports(TinkerUtil.tinkerUtil);
 				} else {
-					setter.getBody()
-					.addToStatements(
-							"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
-									+ "\"," + map.umlName()+")");
-					
+					if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
+						setter.getBody().addToStatements(
+								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+										+ "\"," + map.umlName() + "!=null?" + map.umlName() + ".name():null)");
+					} else {
+						setter.getBody().addToStatements(
+								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+										+ "\"," + map.umlName() + ")");
+
+					}
 				}
 			}
 		}
@@ -498,33 +576,33 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 
 	private void addAuditToToOneSetter(INakedClassifier umlOwner, OJAnnotatedClass originalClass, NakedStructuralFeatureMap map) {
 		OJAnnotatedOperation setter = (OJAnnotatedOperation) originalClass.findOperation(map.setter(), Arrays.asList(map.javaTypePath()));
-		OJIfStatement ifStatement1 = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
-		ifStatement1.addToThenPart("createAuditVertex(false)");
-		setter.getBody().getStatements().add(0, ifStatement1);
+		
+		addCreateAuditVertexToFirstLine(setter.getBody());
 
-		OJIfStatement ifStatement2 = new OJIfStatement(map.getter() + "() != null && TransactionThreadVar.hasNoAuditEntry(" + map.getter()
-				+ "().getClass().getName() + " + map.getter() + "().getUid())");
-		ifStatement2.addToThenPart(map.getter() + "().createAuditVertex(false)");
-		setter.getBody().getStatements().add(1, ifStatement2);
-
-		setter.getBody().getStatements().add(2, new OJSimpleStatement("Vertex edgeRemovedFromAuditVertex = null"));
-		OJIfStatement ifStatement = new OJIfStatement(map.getter() + "() != null");
-		ifStatement.addToThenPart("edgeRemovedFromAuditVertex = " + map.getter() + "().getAuditVertex()");
-		setter.getBody().getStatements().add(3, ifStatement);
-
+		createAuditToPreviousOne(map, originalClass, setter);
+		
 		OJIfStatement ifStatement3 = new OJIfStatement(map.umlName() + " != null && TransactionThreadVar.hasNoAuditEntry(" + map.umlName()
 				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
 		ifStatement3.addToThenPart(map.umlName() + ".createAuditVertex(false)");
-		setter.getBody().getStatements().add(4, ifStatement3);
-
-		boolean isComposite = map.getProperty().isComposite();
-		isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		setter.getBody().getStatements().add(5, ifStatement3);
 		originalClass.addToImports(TinkerUtil.graphDbPathName);
 		originalClass.addToImports(TinkerUtil.tinkerUtil);
+		
+		createEdgeToNewOne(map, setter);
+	}
+
+	private void addCreateAuditVertexToFirstLine(OJBlock block) {
+		OJIfStatement ifStatement1 = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
+		ifStatement1.addToThenPart("createAuditVertex(false)");
+		block.getStatements().add(0, ifStatement1);
+	}
+
+	private void createEdgeToNewOne(NakedStructuralFeatureMap map, OJAnnotatedOperation setter) {
+		boolean isComposite = map.getProperty().isComposite();
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 		String associationName = map.getProperty().getAssociation().getName();
 		if (isComposite) {
 			OJIfStatement ifVarNull = new OJIfStatement(map.umlName() + " != null");
-
 			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(getAuditVertex(), " + map.umlName() + ".getAuditVertex(),\""
 					+ associationName + "\").isEmpty()");
 			ifVarNull.addToThenPart(existEdge);
@@ -533,7 +611,43 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			setter.getBody().addToStatements(ifVarNull);
+		} else {
+			OJIfStatement ifVarNull = new OJIfStatement(map.umlName() + " != null");
+			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(" + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
+					+ associationName + "\").isEmpty()");
+			ifVarNull.addToThenPart(existEdge);
+			existEdge.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, " + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
+					+ associationName + "\")");
+			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			setter.getBody().addToStatements(ifVarNull);
+		}
+	}
 
+	private void createAuditToPreviousOne(NakedStructuralFeatureMap map, OJAnnotatedClass originalClass, OJAnnotatedOperation setter) {
+		
+		String zinternalCreateAuditToPreviousOneName = TinkerUtil.constructNameForInternalCreateAuditToOne(map);
+		OJAnnotatedOperation internalCreateAuditToPreviousOne = new OJAnnotatedOperation(zinternalCreateAuditToPreviousOneName);
+		internalCreateAuditToPreviousOne.setVisibility(OJVisibilityKind.PRIVATE);
+		originalClass.addToOperations(internalCreateAuditToPreviousOne);
+		
+		setter.getBody().getStatements().add(1, new OJSimpleStatement(zinternalCreateAuditToPreviousOneName + "()"));
+		
+		OJIfStatement ifStatement2 = new OJIfStatement(map.getter() + "() != null && TransactionThreadVar.hasNoAuditEntry(" + map.getter()
+				+ "().getClass().getName() + " + map.getter() + "().getUid())");
+		ifStatement2.addToThenPart(map.getter() + "().createAuditVertex(false)");
+		internalCreateAuditToPreviousOne.getBody().addToStatements(ifStatement2);
+
+		internalCreateAuditToPreviousOne.getBody().addToStatements("Vertex edgeRemovedFromAuditVertex = null");
+
+		OJIfStatement ifStatement = new OJIfStatement(map.getter() + "() != null");
+		ifStatement.addToThenPart("edgeRemovedFromAuditVertex = " + map.getter() + "().getAuditVertex()");
+		internalCreateAuditToPreviousOne.getBody().addToStatements(ifStatement);
+		
+		boolean isComposite = map.getProperty().isComposite();
+		isComposite = TinkerUtil.calculateDirection(map, isComposite);
+		String associationName = map.getProperty().getAssociation().getName();
+		if (isComposite) {
 			OJIfStatement ifEdgeToRemoveNull = new OJIfStatement(
 					"edgeRemovedFromAuditVertex != null && TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\"" + associationName
 							+ "\").isEmpty()");
@@ -543,19 +657,8 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.javaBaseTypePath().getLast() + ".class.getName() + \""
 					+ TinkerAuditCreator.AUDIT + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
-			setter.getBody().addToStatements(ifEdgeToRemoveNull);
+			internalCreateAuditToPreviousOne.getBody().addToStatements(ifEdgeToRemoveNull);
 		} else {
-			OJIfStatement ifVarNull = new OJIfStatement(map.umlName() + " != null");
-			OJIfStatement existEdge = new OJIfStatement("TinkerUtil.getEdgesBetween(" + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
-					+ associationName + "\").isEmpty()");
-			ifVarNull.addToThenPart(existEdge);
-
-			existEdge.addToThenPart("Edge auditEdge = GraphDb.getDB().addEdge(null, " + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
-					+ associationName + "\")");
-			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
-			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
-			setter.getBody().addToStatements(ifVarNull);
-
 			OJIfStatement ifEdgeToRemoveNull = new OJIfStatement(
 					"edgeRemovedFromAuditVertex != null  && TinkerUtil.getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\"" + associationName
 							+ "\").isEmpty()");
@@ -565,7 +668,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 					+ TinkerAuditCreator.AUDIT + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
-			setter.getBody().addToStatements(ifEdgeToRemoveNull);
+			internalCreateAuditToPreviousOne.getBody().addToStatements(ifEdgeToRemoveNull);
 		}
 	}
 

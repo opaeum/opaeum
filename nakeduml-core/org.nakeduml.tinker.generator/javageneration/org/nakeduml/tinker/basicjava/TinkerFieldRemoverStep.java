@@ -7,6 +7,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
+import org.nakeduml.tinker.basicjava.tinker.TinkerFieldCompositeOwnerAdderImplementor;
 import org.nakeduml.tinker.basicjava.tinker.TinkerFieldRemoverImplementor;
 import org.nakeduml.tinker.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 
@@ -18,6 +19,11 @@ public class TinkerFieldRemoverStep extends AbstractJavaTransformationStep {
 		TinkerFieldRemoverImplementor fieldRemover = new TinkerFieldRemoverImplementor();
 		fieldRemover.initialize(javaModel, config, textWorkspace, context);
 		fieldRemover.startVisiting(workspace);
+		
+		TinkerFieldCompositeOwnerAdderImplementor compositeFieldAdder = new TinkerFieldCompositeOwnerAdderImplementor();
+		compositeFieldAdder.initialize(javaModel, config, textWorkspace, context);
+		compositeFieldAdder.startVisiting(workspace);
+		
 	}
 
 }

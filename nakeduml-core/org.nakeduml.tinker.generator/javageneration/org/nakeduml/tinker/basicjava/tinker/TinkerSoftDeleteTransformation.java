@@ -29,7 +29,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
-import org.nakeduml.tinker.auditing.TinkerImplementAttributeCacheStep;
 import org.nakeduml.tinker.composition.AbstractCompositionNodeStrategy;
 
 public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor {
@@ -154,36 +153,12 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 		if (c.hasSupertype()) {
 			markDeleted.getBody().addToStatements("super.markDeleted()");
 		}
-		if (transformationContext.isFeatureSelected(TinkerImplementAttributeCacheStep.class)) {
-			markChildrenForDeletion(c, ojClass, markDeleted);
-		}
 		AbstractCompositionNodeStrategy.invokeOperationRecursively(c, markDeleted, "markDeleted()");
 		if (!c.hasSupertype()) {
 			removeVertex(c, ojClass, markDeleted);
 		}
 	}
 	
-	private void markChildrenForDeletion(INakedEntity sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
-		for (INakedProperty np : sc.getEffectiveAttributes()) {
-			if (np.getOtherEnd() != null) {
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
-				if (map.isManyToMany() && !np.isDerivedUnion() && !np.isDerivedUnion()) {
-				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable() && !np.isDerivedUnion()) {
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", (map.getProperty().isOrdered()?"((TinkerList)":"((TinkerSet)") + map.getter() + "()." + otherMap.getter()
-							+ "()).tinkerRemove((" + ojClass.getName() + ")this)");
-					markDeleted.getBody().addToStatements(ifNotNull);
-					ojClass.addToImports(map.getProperty().isOrdered()?TinkerUtil.tinkerList:TinkerUtil.tinkerSet);
-				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
-					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalAdder()
-							+ "(null)");
-					markDeleted.getBody().addToStatements(ifNotNull);
-				}
-			}
-		}
-	}
-	
-
 	private void removeVertex(INakedEntity sc, OJClass ojClass, OJOperation markDeleted) {
 		OJPathName datePath = new OJPathName("java.util.Date");
 		OJField deletedOn = new OJField();
@@ -195,13 +170,17 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 		markDeleted.getBody().addToStatements("Iterable<Edge> inEdges = this.vertex.getInEdges()");
 
 		OJForStatement forInEdgesStatement = new OJForStatement("inEdge", TinkerUtil.edgePathName, "inEdges");
-		forInEdgesStatement.getBody().addToStatements("inEdge.setProperty(\"deletedOn\", TinkerFormatter.format(deletedOn))");
+		OJIfStatement ifNotAudit = new OJIfStatement("!inEdge.getLabel().equals(\"audit\")");
+		ifNotAudit.addToThenPart("inEdge.setProperty(\"deletedOn\", TinkerFormatter.format(deletedOn))");
+		forInEdgesStatement.getBody().addToStatements(ifNotAudit);
 		ojClass.addToImports(TinkerUtil.tinkerFormatter);
 		markDeleted.getBody().addToStatements(forInEdgesStatement);
 
 		markDeleted.getBody().addToStatements("Iterable<Edge> outEdges = this.vertex.getOutEdges()");
+		OJIfStatement ifNotAudit2 = new OJIfStatement("!outEdge.getLabel().equals(\"audit\")");
+		ifNotAudit2.addToThenPart("outEdge.setProperty(\"deletedOn\", TinkerFormatter.format(deletedOn))");
 		OJForStatement forOutEdgesStatement = new OJForStatement("outEdge", TinkerUtil.edgePathName, "outEdges");
-		forOutEdgesStatement.getBody().addToStatements("outEdge.setProperty(\"deletedOn\", TinkerFormatter.format(deletedOn))");
+		forOutEdgesStatement.getBody().addToStatements(ifNotAudit2);
 		ojClass.addToImports(TinkerUtil.tinkerFormatter);
 		markDeleted.getBody().addToStatements(forOutEdgesStatement);
 
