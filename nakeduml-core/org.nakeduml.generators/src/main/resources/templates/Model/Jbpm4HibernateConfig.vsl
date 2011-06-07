@@ -56,11 +56,8 @@
 #end
 #end	
 		<event type="flush-entity">
-			<listener class="org.nakeduml.hibernate.domain.PreUpdateListener" />
+			<listener class="org.nakeduml.hibernate.domain.FlushEntityListener" />
 			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
-		</event>
-		<event type="pre-insert">
-			<listener class="org.nakeduml.hibernate.domain.PreInsertListener" />
 		</event>
 		<event type="flush">
 			<listener class="org.nakeduml.hibernate.domain.EventDispatcher" />
