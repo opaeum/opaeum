@@ -15,7 +15,7 @@
 
 	<modules>
 		<module>nakeduml-runtime-domain</module>
-		<module>nakeduml-runtime-tinker-domain</module>
+	<!--	<module>nakeduml-runtime-tinker-domain</module> -->
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>
 	</modules>
