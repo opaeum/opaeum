@@ -61,9 +61,15 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 						"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
 								+ TinkerUtil.tinkerUtil + ".convertEnumsForPersistence(" + map.umlName() + "))");
 			} else {
-				setter.getBody().addToStatements(
-						"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
-								+ map.umlName() + ")");
+				if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
+					setter.getBody().addToStatements(
+							"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
+									+ map.umlName() + "!=null?" + map.umlName() + ".name():null)");
+				} else {
+					setter.getBody().addToStatements(
+							"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
+									+ map.umlName() + ")");
+				}
 			}
 			addEntityToTransactionThreadEntityVar(setter);
 		}
@@ -113,8 +119,10 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 						OJField result = new OJField();
 						result.setName(EMBEDDED_MANY_RESULT);
 						result.setType(map.javaTypePath());
-						result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") " + TinkerUtil.tinkerUtil + ".convertEnumsFromPersistence((Collection<String>)" + "this.vertex.getProperty(\""
-								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\"), "+map.javaBaseTypePath().getLast()+".class, "+map.getProperty().isOrdered()+" )");
+						result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") " + TinkerUtil.tinkerUtil
+								+ ".convertEnumsFromPersistence((Collection<String>)" + "this.vertex.getProperty(\""
+								+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\"), " + map.javaBaseTypePath().getLast()
+								+ ".class, " + map.getProperty().isOrdered() + " )");
 						owner.addToImports(new OJPathName("java.util.Collection"));
 						getter.getBody().addToLocals(result);
 						OJIfStatement ifNull = new OJIfStatement(EMBEDDED_MANY_RESULT + " != null");

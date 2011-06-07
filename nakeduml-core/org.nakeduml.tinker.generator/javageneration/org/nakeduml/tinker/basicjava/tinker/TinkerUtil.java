@@ -69,4 +69,20 @@ public class TinkerUtil {
 		}
 	}
 
+	public static String constructNameForInternalCreateAuditToOne(NakedStructuralFeatureMap map) {
+		return "z_internalCreateAuditToOne" + NameConverter.capitalize(map.umlName());
+	}
+
+	public static String constructNameForInternalCreateAuditManies(NakedStructuralFeatureMap map) {
+		return "z_internalCreateAuditToMany" + NameConverter.toPlural(NameConverter.capitalize(map.umlName()));
+	}
+
+	public static String constructNameForInternalCreateAuditMany(NakedStructuralFeatureMap map) {
+		return "z_internalCreateAuditToMany" + NameConverter.capitalize(map.umlName());
+	}
+
+	public static String constructNameForInternalManiesRemoval(NakedStructuralFeatureMap map) {
+		return "z_internalRemoveAllFrom" + NameConverter.capitalize(map.umlName());
+	}
+
 }
