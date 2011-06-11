@@ -1,15 +1,16 @@
 package org.tinker.embedded;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
-public class TestEmbeddedSimpleTypes extends BaseTest {
+public class TestEmbeddedSimpleTypes extends BaseLocalDbTest {
 
 	@Test
 	public void testNumbers() {

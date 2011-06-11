@@ -8,7 +8,7 @@ import org.audittest.One;
 import org.audittest.Three;
 import org.audittest.Two;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

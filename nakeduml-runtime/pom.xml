@@ -18,6 +18,7 @@
 		<module>nakeduml-runtime-tinker-domain</module>
 		<module>nakeduml-runtime-adaptor</module>
 		<module>nakeduml-test-adaptor</module>
+		<module>nakeduml-runtime-orient</module>
 	</modules>
         
 	<dependencyManagement>

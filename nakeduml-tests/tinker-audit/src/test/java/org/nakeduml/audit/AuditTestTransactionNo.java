@@ -18,7 +18,7 @@ import org.audittest.OneAudit;
 import org.audittest.OtherOne;
 import org.audittest.OtherOneAudit;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -35,7 +35,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals("THEHAND",hand.getAudits().iterator().next().getName());
 		assertEquals(2, countVertices());
 		assertEquals(1, countEdges());		
-		assertEquals(2, hand.getAudits().iterator().next().getTransactionNo());
+		assertEquals(new Long(2), hand.getAudits().iterator().next().getTransactionNo());
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
 		assertEquals(10, countEdges());
-		assertEquals(2, hand.getAudits().iterator().next().getTransactionNo());
+		assertEquals(new Long(2), hand.getAudits().iterator().next().getTransactionNo());
 	}
 	
 	@Test
@@ -62,7 +62,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		hand.setName("THEGOD");
 		db.stopTransaction(Conclusion.SUCCESS);
 		Iterator<HandAudit> iterator1 = hand.getAudits().iterator();
-		assertEquals(2, iterator1.next().getTransactionNo());
+		assertEquals(new Long(2), iterator1.next().getTransactionNo());
 		assertEquals(2, countVertices());
 		assertEquals(1, countEdges());
 		db.startTransaction();
@@ -76,9 +76,9 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(9, countVertices());
 		assertEquals(11, countEdges());
 		Iterator<HandAudit> iterator2 = hand.getAudits().iterator();
-		assertEquals(2, iterator2.next().getTransactionNo());
-		assertEquals(3, iterator2.next().getTransactionNo());
-		assertEquals(3, finger3.getAudits().iterator().next().getTransactionNo());
+		assertEquals(new Long(2), iterator2.next().getTransactionNo());
+		assertEquals(new Long(3), iterator2.next().getTransactionNo());
+		assertEquals(new Long(3), finger3.getAudits().iterator().next().getTransactionNo());
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		Hand hand = new Hand();
 		hand.setName("THEHAND");
 		db.stopTransaction(Conclusion.SUCCESS);
-		assertEquals(2, hand.getAudits().iterator().next().getTransactionNo());
+		assertEquals(new Long(2), hand.getAudits().iterator().next().getTransactionNo());
 		assertEquals(2, countVertices());
 		assertEquals(1, countEdges());		
 		db.startTransaction();
@@ -101,9 +101,9 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(9, countVertices());
 		assertEquals(11, countEdges());
 		Iterator<HandAudit> iterator1 = hand.getAudits().iterator();
-		assertEquals(2, iterator1.next().getTransactionNo());
-		assertEquals(3, iterator1.next().getTransactionNo());
-		assertEquals(3, finger3.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), iterator1.next().getTransactionNo());
+		assertEquals(new Long(3), iterator1.next().getTransactionNo());
+		assertEquals(new Long(3), finger3.getAudits().iterator().next().getTransactionNo());		
 		db.startTransaction();
 		Finger finger4 = new Finger(hand);
 		finger4.setName("finger4");
@@ -111,9 +111,9 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(12, countVertices());
 		assertEquals(15, countEdges());
 		Iterator<HandAudit> iterator2 = hand.getAudits().iterator();
-		assertEquals(2, iterator2.next().getTransactionNo());
-		assertEquals(3, iterator2.next().getTransactionNo());
-		assertEquals(4, finger4.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), iterator2.next().getTransactionNo());
+		assertEquals(new Long(3), iterator2.next().getTransactionNo());
+		assertEquals(new Long(4), finger4.getAudits().iterator().next().getTransactionNo());		
 		db.startTransaction();
 		finger4.setName("finger41");
 		db.stopTransaction(Conclusion.SUCCESS);
@@ -122,9 +122,9 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals("finger4", finger4.getAudits().get(1).getPreviousAuditEntry().getName());
 		assertEquals("THEHAND", finger4.getAudits().get(1).getPreviousAuditEntry().getHand().getName());
 		Iterator<HandAudit> iterator3 = hand.getAudits().iterator();
-		assertEquals(2, iterator3.next().getTransactionNo());
-		assertEquals(3, iterator3.next().getTransactionNo());
-		assertEquals(4, finger4.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), iterator3.next().getTransactionNo());
+		assertEquals(new Long(3), iterator3.next().getTransactionNo());
+		assertEquals(new Long(4), finger4.getAudits().iterator().next().getTransactionNo());		
 	}
 	
 	@Test
@@ -139,9 +139,9 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
 		assertEquals(7, countEdges());		
-		assertEquals(2, hand.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, finger.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, nail.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), hand.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), finger.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), nail.getAudits().iterator().next().getTransactionNo());		
 	}
 	
 	@Test
@@ -158,10 +158,10 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
 		assertEquals(8, countEdges());		
-		assertEquals(2, hand1.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, finger1.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, hand2.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, finger2.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), hand1.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), finger1.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), hand2.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), finger2.getAudits().iterator().next().getTransactionNo());		
 		db.startTransaction();
 		finger1.setHand(hand2);
 		finger2.setHand(hand1);
@@ -169,17 +169,17 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(12, countVertices());
 		assertEquals(16, countEdges());		
 		Iterator<HandAudit> hand1Iter = hand1.getAudits().iterator();
-		assertEquals(2, hand1Iter.next().getTransactionNo());		
-		assertEquals(3, hand1Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), hand1Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), hand1Iter.next().getTransactionNo());		
 		Iterator<HandAudit> hand2Iter = hand2.getAudits().iterator();
-		assertEquals(2, hand2Iter.next().getTransactionNo());		
-		assertEquals(3, hand2Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), hand2Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), hand2Iter.next().getTransactionNo());		
 		Iterator<FingerAudit> finger1Iter = finger1.getAudits().iterator();
-		assertEquals(2, finger1Iter.next().getTransactionNo());		
-		assertEquals(3, finger1Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), finger1Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), finger1Iter.next().getTransactionNo());		
 		Iterator<FingerAudit> finger2Iter = finger2.getAudits().iterator();
-		assertEquals(2, finger2Iter.next().getTransactionNo());		
-		assertEquals(3, finger2Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), finger2Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), finger2Iter.next().getTransactionNo());		
 	}
 	
 	@Test
@@ -197,10 +197,10 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(8, countVertices());
 		assertEquals(8, countEdges());	
 		
-		assertEquals(2, hand1.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, finger1.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, hand2.getAudits().iterator().next().getTransactionNo());		
-		assertEquals(2, finger2.getAudits().iterator().next().getTransactionNo());	
+		assertEquals(new Long(2), hand1.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), finger1.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), hand2.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(2), finger2.getAudits().iterator().next().getTransactionNo());	
 		
 		db.startTransaction();
 		finger1.setHand(hand2);
@@ -211,16 +211,16 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(0, hand1.getFinger().size());
 		
 		Iterator<HandAudit> hand1Iter = hand1.getAudits().iterator();
-		assertEquals(2, hand1Iter.next().getTransactionNo());		
-		assertEquals(3, hand1Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), hand1Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), hand1Iter.next().getTransactionNo());		
 		Iterator<HandAudit> hand2Iter = hand2.getAudits().iterator();
-		assertEquals(2, hand2Iter.next().getTransactionNo());		
-		assertEquals(3, hand2Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), hand2Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), hand2Iter.next().getTransactionNo());		
 		Iterator<FingerAudit> finger1Iter = finger1.getAudits().iterator();
-		assertEquals(2, finger1Iter.next().getTransactionNo());		
-		assertEquals(3, finger1Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), finger1Iter.next().getTransactionNo());		
+		assertEquals(new Long(3), finger1Iter.next().getTransactionNo());		
 		Iterator<FingerAudit> finger2Iter = finger2.getAudits().iterator();
-		assertEquals(2, finger2Iter.next().getTransactionNo());		
+		assertEquals(new Long(2), finger2Iter.next().getTransactionNo());		
 		assertFalse(finger2Iter.hasNext());		
 		
 	}
@@ -242,9 +242,9 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		assertEquals(5, countEdges());
 		handAudits = hand1.getAudits();
 		List<OneAudit> oneAudits = one1.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
 		db.startTransaction();
 		OtherOne otherOne1 = new OtherOne(hand1);
 		otherOne1.setName("otherOne1");
@@ -254,11 +254,11 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		List<OtherOneAudit> otherOneAudits = otherOne1.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(4, handAudits.get(2).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
-		assertEquals(4, otherOneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), handAudits.get(2).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(4), otherOneAudits.get(0).getTransactionNo());
 		db.startTransaction();
 		one1.setOtherOne(otherOne1);
 		db.stopTransaction(Conclusion.SUCCESS);
@@ -267,13 +267,13 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(4, handAudits.get(2).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
-		assertEquals(5, oneAudits.get(1).getTransactionNo());
-		assertEquals(4, otherOneAudits.get(0).getTransactionNo());
-		assertEquals(5, otherOneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), handAudits.get(2).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), oneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), otherOneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), otherOneAudits.get(1).getTransactionNo());
 		db.startTransaction();
 		one1.setName("one1Again");
 		db.stopTransaction(Conclusion.SUCCESS);
@@ -282,14 +282,14 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		handAudits = hand1.getAudits();
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(4, handAudits.get(2).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
-		assertEquals(5, oneAudits.get(1).getTransactionNo());
-		assertEquals(6, oneAudits.get(2).getTransactionNo());
-		assertEquals(4, otherOneAudits.get(0).getTransactionNo());
-		assertEquals(5, otherOneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), handAudits.get(2).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), oneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(6), oneAudits.get(2).getTransactionNo());
+		assertEquals(new Long(4), otherOneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), otherOneAudits.get(1).getTransactionNo());
 		db.startTransaction();
 		OtherOne otherOne2 = new OtherOne(hand1);
 		otherOne2.setName("otherOne2");
@@ -300,16 +300,16 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
 		List<OtherOneAudit> otherOne2Audits = otherOne2.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(4, handAudits.get(2).getTransactionNo());
-		assertEquals(7, handAudits.get(3).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
-		assertEquals(5, oneAudits.get(1).getTransactionNo());
-		assertEquals(6, oneAudits.get(2).getTransactionNo());
-		assertEquals(4, otherOneAudits.get(0).getTransactionNo());
-		assertEquals(5, otherOneAudits.get(1).getTransactionNo());
-		assertEquals(7, otherOne2Audits.get(0).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), handAudits.get(2).getTransactionNo());
+		assertEquals(new Long(7), handAudits.get(3).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), oneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(6), oneAudits.get(2).getTransactionNo());
+		assertEquals(new Long(4), otherOneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), otherOneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(7), otherOne2Audits.get(0).getTransactionNo());
 		db.startTransaction();
 		one1.setOtherOne(otherOne2);
 		db.stopTransaction(Conclusion.SUCCESS);
@@ -319,19 +319,19 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
 		otherOne2Audits = otherOne2.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(4, handAudits.get(2).getTransactionNo());
-		assertEquals(7, handAudits.get(3).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
-		assertEquals(5, oneAudits.get(1).getTransactionNo());
-		assertEquals(6, oneAudits.get(2).getTransactionNo());
-		assertEquals(8, oneAudits.get(3).getTransactionNo());
-		assertEquals(4, otherOneAudits.get(0).getTransactionNo());
-		assertEquals(5, otherOneAudits.get(1).getTransactionNo());
-		assertEquals(8, otherOneAudits.get(2).getTransactionNo());
-		assertEquals(7, otherOne2Audits.get(0).getTransactionNo());
-		assertEquals(8, otherOne2Audits.get(1).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), handAudits.get(2).getTransactionNo());
+		assertEquals(new Long(7), handAudits.get(3).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), oneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(6), oneAudits.get(2).getTransactionNo());
+		assertEquals(new Long(8), oneAudits.get(3).getTransactionNo());
+		assertEquals(new Long(4), otherOneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), otherOneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(8), otherOneAudits.get(2).getTransactionNo());
+		assertEquals(new Long(7), otherOne2Audits.get(0).getTransactionNo());
+		assertEquals(new Long(8), otherOne2Audits.get(1).getTransactionNo());
 		db.startTransaction();
 		hand1.removeFromOtherOne(otherOne1);
 		otherOne1.setHand(new Hand());
@@ -342,20 +342,20 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		oneAudits = one1.getAudits();
 		otherOneAudits = otherOne1.getAudits();
 		otherOne2Audits = otherOne2.getAudits();
-		assertEquals(2, handAudits.get(0).getTransactionNo());
-		assertEquals(3, handAudits.get(1).getTransactionNo());
-		assertEquals(4, handAudits.get(2).getTransactionNo());
-		assertEquals(7, handAudits.get(3).getTransactionNo());
-		assertEquals(9, handAudits.get(4).getTransactionNo());
-		assertEquals(3, oneAudits.get(0).getTransactionNo());
-		assertEquals(5, oneAudits.get(1).getTransactionNo());
-		assertEquals(6, oneAudits.get(2).getTransactionNo());
-		assertEquals(8, oneAudits.get(3).getTransactionNo());
-		assertEquals(4, otherOneAudits.get(0).getTransactionNo());
-		assertEquals(5, otherOneAudits.get(1).getTransactionNo());
-		assertEquals(8, otherOneAudits.get(2).getTransactionNo());
-		assertEquals(7, otherOne2Audits.get(0).getTransactionNo());
-		assertEquals(8, otherOne2Audits.get(1).getTransactionNo());
+		assertEquals(new Long(2), handAudits.get(0).getTransactionNo());
+		assertEquals(new Long(3), handAudits.get(1).getTransactionNo());
+		assertEquals(new Long(4), handAudits.get(2).getTransactionNo());
+		assertEquals(new Long(7), handAudits.get(3).getTransactionNo());
+		assertEquals(new Long(9), handAudits.get(4).getTransactionNo());
+		assertEquals(new Long(3), oneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), oneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(6), oneAudits.get(2).getTransactionNo());
+		assertEquals(new Long(8), oneAudits.get(3).getTransactionNo());
+		assertEquals(new Long(4), otherOneAudits.get(0).getTransactionNo());
+		assertEquals(new Long(5), otherOneAudits.get(1).getTransactionNo());
+		assertEquals(new Long(8), otherOneAudits.get(2).getTransactionNo());
+		assertEquals(new Long(7), otherOne2Audits.get(0).getTransactionNo());
+		assertEquals(new Long(8), otherOne2Audits.get(1).getTransactionNo());
 	}
 
 }

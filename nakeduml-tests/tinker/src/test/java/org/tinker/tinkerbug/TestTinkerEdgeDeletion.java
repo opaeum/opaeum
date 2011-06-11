@@ -3,24 +3,14 @@ package org.tinker.tinkerbug;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
 
-public class TestTinkerEdgeDeletion {
+public class TestTinkerEdgeDeletion extends BaseLocalDbTest {
 	
-	private Graph db;
-	
-	@Before
-	public void before() {
-		db = new Neo4jGraph("/tmp/neo4jtest");
-		db.clear();
-	}
-
 	@After
 	public void after() {
 		db.shutdown();
@@ -48,23 +38,5 @@ public class TestTinkerEdgeDeletion {
 		}
 
 	}
-	
-	protected long countVertices() {
-		int count = 0;
-		Iterable<Vertex> vertices = db.getVertices();
-		for (@SuppressWarnings("unused") Vertex vertex : vertices) {
-			count++;
-		}
-		return count;
-	}
-
-	protected long countEdges() {
-		int count = 0;
-		Iterable<Edge> edges = db.getEdges();
-		for (@SuppressWarnings("unused") Edge edge : edges) {
-			count++;
-		}
-		return count;
-	}	
 	
 }

@@ -3,6 +3,7 @@ package org.tinker;
 import java.util.Set;
 
 import org.apache.commons.lang.time.StopWatch;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.derivedunion.Hand;
 import org.tinker.derivedunion.MamalHand;
 

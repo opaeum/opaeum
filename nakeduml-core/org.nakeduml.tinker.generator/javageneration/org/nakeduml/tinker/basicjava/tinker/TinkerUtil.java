@@ -12,12 +12,18 @@ public class TinkerUtil {
 	public static String tinkeriseUmlName(String umlName) {
 		return umlName.replace("::", "__");
 	}
-
-	public static OJPathName edgePathName = new OJPathName("com.tinkerpop.blueprints.pgm.Edge");
+	
+	
+	public static final OJPathName tinkerIdUtilPathName = new OJPathName("org.nakeduml.nakeduml.tinker.runtime.TinkerIdUtil");
+	public static final OJPathName BASE_AUDIT_SOFT_DELETE_TINKER = new OJPathName("org.nakeduml.runtime.domain.BaseTinkerSoftDelete");
+	public static final OJPathName BASE_TINKER = new OJPathName("org.nakeduml.runtime.domain.BaseTinker");
+	public static final String BASE_AUDIT_TINKER = "org.nakeduml.runtime.domain.BaseTinkerAuditable";
+	public static OJPathName oGraphDatabase = new OJPathName("com.orientechnologies.orient.core.db.graph.OGraphDatabase");
+	public static OJPathName schemaPathName = new OJPathName("com.orientechnologies.orient.core.metadata.schema.OSchema");
 	public static OJPathName vertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.Vertex");
 	public static OJPathName orientVertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex");
 	public static OJPathName tinkerFormatter = new OJPathName("org.util.TinkerFormatter");
-	public static OJPathName transactionAuditThreadVar = new OJPathName("org.util.TransactionAuditThreadVar");
+	public static OJPathName transactionThreadVar = new OJPathName("org.util.TransactionThreadVar");
 	public static OJPathName transactionThreadEntityVar = new OJPathName("org.util.TransactionThreadEntityVar");
 	public static OJPathName graphDbPathName = new OJPathName("org.util.GraphDb");
 	public static OJPathName tinkerAuditNodePathName = new OJPathName("org.nakeduml.runtime.domain.TinkerAuditNode");
@@ -28,6 +34,10 @@ public class TinkerUtil {
 	public static OJPathName tinkerEmbeddedArrayListImpl = new OJPathName("org.util.TinkerEmbeddedArrayList");
 	public static OJPathName tinkerSet = new OJPathName("org.util.TinkerSet");
 	public static OJPathName tinkerList = new OJPathName("org.util.TinkerList");
+	public static OJPathName edgePathName = new OJPathName("com.tinkerpop.blueprints.pgm.Edge");
+	public static OJPathName storagePathName = new OJPathName("com.orientechnologies.orient.core.storage.OStorage");
+	public static String graphDbAccess = "GraphDb.getDb()";
+	public static OJPathName tinkerSchemaHelperPathName = new OJPathName("org.util.TinkerSchemaHelper");
 
 	public static String constructSelfToAuditEdgeLabel(INakedEntity entity) {
 		return "audit";

@@ -1,10 +1,13 @@
 package org.tinker;
 
-import static org.junit.Assert.*;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-public class TestNonCompositeOneToOne extends BaseTest{
+import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
+
+public class TestNonCompositeOneToOne extends BaseLocalDbTest {
 
 	@Test
 	public void testSettingAndGetting() {

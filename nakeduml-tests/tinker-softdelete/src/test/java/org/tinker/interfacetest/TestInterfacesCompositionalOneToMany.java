@@ -1,11 +1,12 @@
 package org.tinker.interfacetest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
-public class TestInterfacesCompositionalOneToMany extends BaseTest {
+public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 
 	@Test
 	public void testSettingAndGetting() {

@@ -61,31 +61,17 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-			<version>4.8.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tinkerpop.blueprints</groupId>
-			<artifactId>blueprints-orient-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tinkerpop.blueprints</groupId>
-			<artifactId>blueprints-neo4j-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tinkerpop.blueprints</groupId>
-			<artifactId>blueprints-dex-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
-		</dependency>		
-		<dependency>
-			<groupId>com.tinkerpop</groupId>
-			<artifactId>gremlin</artifactId>
-			<version>1.0</version>
-		</dependency>
+
+        <dependency>
+            <groupId>org.nakeduml</groupId>
+            <artifactId>nakeduml-runtime-domain</artifactId>
+            <version>1.0.0.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop.blueprints</groupId>
+            <artifactId>blueprints-core</artifactId>
+            <version>0.8-SNAPSHOT</version>
+        </dependency>
+
 	</dependencies>
 </project>

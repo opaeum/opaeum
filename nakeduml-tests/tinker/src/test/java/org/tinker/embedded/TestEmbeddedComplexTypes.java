@@ -1,12 +1,14 @@
 package org.tinker.embedded;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.Demon;
 import org.tinker.God;
 
-public class TestEmbeddedComplexTypes extends BaseTest {
+public class TestEmbeddedComplexTypes extends BaseLocalDbTest {
 
 	@Test
 	public void testEmbeddedSingleType() {

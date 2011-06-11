@@ -1,6 +1,8 @@
 package org.nakeduml.audit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +13,7 @@ import org.audittest.FingerAudit;
 import org.audittest.Hand;
 import org.audittest.HandAudit;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

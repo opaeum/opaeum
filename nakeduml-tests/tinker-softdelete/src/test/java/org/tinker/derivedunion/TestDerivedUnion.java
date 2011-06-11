@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
-public class TestDerivedUnion extends BaseTest {
+public class TestDerivedUnion extends BaseLocalDbTest {
 
 	@Test
 	public void testSettingAndGetting() {

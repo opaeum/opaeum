@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-public class TestNonCompositeOneToMany extends BaseTest {
+public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 
 	@Test
 	public void testSettingAndGetting() {

@@ -6,4 +6,5 @@ public interface TinkerNode {
 	Vertex getVertex();
 	boolean isTinkerRoot();
 	String getUid();
+	Long getId();
 }
