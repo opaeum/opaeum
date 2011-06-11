@@ -11,7 +11,7 @@ import org.tinker.God;
 
 public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 
-//	@Test
+	@Test
 	public void testSettingAndGetting() {
 		God god = new God();
 		god.setName("THEGOD");

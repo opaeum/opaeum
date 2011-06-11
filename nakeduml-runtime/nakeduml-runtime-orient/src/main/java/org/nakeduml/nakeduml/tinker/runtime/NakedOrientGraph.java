@@ -166,20 +166,16 @@ public class NakedOrientGraph implements NakedGraph {
 
 	@Override
 	public void addRoot() {
-		Vertex v = orientGraph.addVertex(null);
-		v.setProperty("transactionCount", 1);
-		orientGraph.getRawGraph().setRoot("root", ((OrientVertex) v).getRawElement());
+		Vertex root = orientGraph.addVertex(null);
+		root.setProperty("transactionCount", 1);
+		orientGraph.getRawGraph().setRoot("root", ((OrientVertex) root).getRawElement());
+		((OrientVertex) root).getRawElement().save();
 	}
 
 	@Override
 	public long countVertices() {
-		int count = 0;
-		Iterable<ODocument> iter = orientGraph.getRawGraph().browseVertices();
-		for (@SuppressWarnings("unused") ODocument oDocument : iter) {
-			count++;
-		}
-		return count;
-//		return orientGraph.getRawGraph().countVertexes();
+		//Exclude the root node
+		return orientGraph.getRawGraph().countVertexes() - 1;
 	}
 
 	@Override

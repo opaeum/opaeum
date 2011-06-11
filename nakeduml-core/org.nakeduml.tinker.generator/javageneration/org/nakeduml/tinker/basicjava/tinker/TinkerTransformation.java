@@ -97,11 +97,11 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 	private void addGetVersion(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getVersion = new OJAnnotatedOperation("getVersion");
 		getVersion.setReturnType(new OJPathName("int"));
-		getVersion.getBody().addToStatements("return ((OrientVertex)this.vertex).getRawElement().getVersion()");
-		ojClass.addToImports(TinkerUtil.orientVertexPathName);
+		getVersion.getBody().addToStatements("return TinkerIdUtil.getVersion(this.vertex)");
+		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
 		ojClass.addToOperations(getVersion);
 	}
-
+		
 	private void implementTinkerNode(OJAnnotatedClass ojClass) {
 		ojClass.addToImplementedInterfaces(new OJPathName("org.nakeduml.runtime.domain.TinkerNode"));
 	}

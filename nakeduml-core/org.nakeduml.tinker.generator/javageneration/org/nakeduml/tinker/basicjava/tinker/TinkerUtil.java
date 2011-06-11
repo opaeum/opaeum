@@ -21,7 +21,6 @@ public class TinkerUtil {
 	public static OJPathName oGraphDatabase = new OJPathName("com.orientechnologies.orient.core.db.graph.OGraphDatabase");
 	public static OJPathName schemaPathName = new OJPathName("com.orientechnologies.orient.core.metadata.schema.OSchema");
 	public static OJPathName vertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.Vertex");
-	public static OJPathName orientVertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.impls.orientdb.OrientVertex");
 	public static OJPathName tinkerFormatter = new OJPathName("org.util.TinkerFormatter");
 	public static OJPathName transactionThreadVar = new OJPathName("org.util.TransactionThreadVar");
 	public static OJPathName transactionThreadEntityVar = new OJPathName("org.util.TransactionThreadEntityVar");

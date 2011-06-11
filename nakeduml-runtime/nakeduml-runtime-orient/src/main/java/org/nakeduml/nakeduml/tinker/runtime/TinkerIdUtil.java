@@ -9,5 +9,9 @@ public class TinkerIdUtil {
 	public static Long getId(Vertex v) {
 		return ((ORecordId)((OrientVertex)v).getId()).getClusterPosition();
 	}
-	
+
+	public static int getVersion(Vertex v) {
+		return ((OrientVertex)v).getRawElement().getVersion();
+	}
+
 }

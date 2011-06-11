@@ -3,17 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.nakeduml</groupId>
-	<artifactId>nakeduml-test-tinker</artifactId>
+	<artifactId>nakeduml-runtime-neo4j</artifactId>
 	<version>1.0.0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>nakeduml-test-tinker</name>
+	<name>nakeduml-runtime-neo4j</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
 	<dependencies>
 
 		<dependency>
@@ -23,10 +22,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<groupId>com.tinkerpop.blueprints</groupId>
+			<artifactId>blueprints-neo4j-graph</artifactId>
+			<version>0.8-SNAPSHOT</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
 	</dependencies>
 </project>

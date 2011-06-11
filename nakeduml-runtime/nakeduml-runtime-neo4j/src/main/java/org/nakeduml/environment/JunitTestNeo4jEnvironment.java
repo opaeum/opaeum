@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 import org.apache.commons.io.FileUtils;
-import org.nakeduml.nakeduml.tinker.runtime.NakedOrientGraph;
+import org.nakeduml.nakeduml.tinker.runtime.NakedNeo4jGraph;
 import org.util.NakedGraph;
 import org.util.TransactionThreadEntityVar;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
-import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
+import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
 
-public class JunitTestOrientEnvironment extends Environment {
+public class JunitTestNeo4jEnvironment extends Environment {
 
 	@Override
 	public <T> Class<T> getImplementationClass(T o) {
@@ -30,11 +30,11 @@ public class JunitTestOrientEnvironment extends Environment {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				} 
-			}			
-			OrientGraph db = new OrientGraph(this.properties.getProperty("tinkerdb"));
-			db.setTransactionMode(Mode.valueOf(this.properties.getProperty("tinkerdb.transactionmode", "MANUAL")));
+			}	
+			Neo4jGraph db = new Neo4jGraph(this.properties.getProperty("tinkerdb"));
+			db.setTransactionMode(Mode.valueOf(this.properties.getProperty("tinkerdb.transactionmode")));
 			TransactionThreadEntityVar.clear();
-			NakedGraph nakedGraph = new NakedOrientGraph(db, new Boolean(this.properties.getProperty("tinkerdb.withschema", "false")));
+			NakedGraph nakedGraph = new NakedNeo4jGraph(db);
 			nakedGraph.registerListeners();
 			return (T)nakedGraph;
 		}

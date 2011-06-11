@@ -11,6 +11,7 @@ import org.util.NakedGraph;
 import org.util.TinkerSchemaHelper;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
+import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 
 public class BaseLocalDbTest {
 
@@ -18,9 +19,9 @@ public class BaseLocalDbTest {
 
 	@Before
 	public void before() {
-		GraphDb.setDb(Environment.getInstance().getComponent(NakedGraph.class));
-		db = GraphDb.getDb();
+		db = Environment.getInstance().getComponent(NakedGraph.class);
 		db.clear();
+		GraphDb.setDb(db);
 		Properties properties = loadProperties();
 		if (new Boolean(properties.getProperty("tinkerdb.withschema", "false"))) {
 			try {
@@ -34,14 +35,16 @@ public class BaseLocalDbTest {
 				throw new RuntimeException(e);
 			}
 		}
-		db.registerListeners();
+		db.setTransactionMode(Mode.MANUAL);
+//		db.registerListeners();
 		db.startTransaction();
 		db.addRoot();
 		db.stopTransaction(Conclusion.SUCCESS);
+		db.setTransactionMode(Mode.valueOf(properties.getProperty("tinkerdb.transactionmode", "MANUAL")));
 	}
 
 	protected long countVertices() {
-		return db.countVertices() - 1;
+		return db.countVertices();
 	}
 
 	protected long countEdges() {
