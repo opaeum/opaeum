@@ -31,7 +31,7 @@ public class AuditSync implements Synchronization{
 	private final AuditSyncManager manager;
 	private final Transaction transaction;
 	private final LinkedList<Audited> auditedEntities;
-	private final Map<Pair<String,Integer>,Audited> usedIds;
+	private final Map<Pair<String,AuditId>,Audited> usedIds;
 	private AbstractWorkUnit abstractWorkUnit;
 	private boolean isAsync;
 	Instance<AuditSequencer> auditSequencerInstance;
@@ -40,7 +40,7 @@ public class AuditSync implements Synchronization{
 		this.manager = manager;
 		transaction = session.getTransaction();
 		auditedEntities = new LinkedList<Audited>();
-		usedIds = new HashMap<Pair<String,Integer>,Audited>();
+		usedIds = new HashMap<Pair<String,AuditId>,Audited>();
 		abstractWorkUnit = new AbstractWorkUnit();
 		this.isAsync = isAsync;
 		this.auditSequencerInstance = lookupAuditSequencerInstance();
@@ -48,20 +48,14 @@ public class AuditSync implements Synchronization{
 	}
 	public void addAudited(Audited audited){
 		try{
-			Pair<String,Integer> usedIdsKey = Pair.make(audited.getClass().getSimpleName(), audited.getId().hashCode());
+			Pair<String,AuditId> usedIdsKey = Pair.make(audited.getClass().getSimpleName(), audited.getId());
 			Audited alreadyAudited = usedIds.get(usedIdsKey);
-			int objectVersion = audited.getOriginal().getObjectVersion();
 			if(alreadyAudited != null){
 				int i = auditedEntities.indexOf(alreadyAudited);
 				auditedEntities.remove(alreadyAudited);
 				audited.setRevisionType(alreadyAudited.getRevisionType());
 				auditedEntities.add(i, audited);
 			}else{
-//				if(objectVersion > 0 && audited.getRevisionType()==RevisionType.MOD){
-//					Audited previousVersion = audited.getClass().newInstance();
-//					previousVersion.setId(new AuditId(audited.getOriginal().getId(), objectVersion - 1));
-//					audited.setPreviousVersion(previousVersion);
-//				}
 				auditedEntities.offer(audited);
 			}
 			usedIds.put(usedIdsKey, audited);

@@ -1,6 +1,5 @@
 package org.nakeduml.environment.adaptor;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -12,7 +11,6 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
 import org.nakeduml.event.Retryable;
-import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 public abstract class AbstractSignalMdb<T extends Retryable> {
@@ -25,10 +23,13 @@ public abstract class AbstractSignalMdb<T extends Retryable> {
 	protected Session hibernateSession;
 	@Inject
 	MessageRetryer retryer;
+	@Inject
+	MessageSender sender;
 
 	protected abstract void deliverMessage(T std) throws Exception;
 
 	protected abstract String getQueueName();
+	protected abstract String getDlqName();
 
 	public void onMessage(Message message) {
 		long start = System.currentTimeMillis();
@@ -84,6 +85,7 @@ public abstract class AbstractSignalMdb<T extends Retryable> {
 			} else {
 				if (ea.stringOccurs("getNodeInstancesRecursively")
 						&& ea.stringOccurs("java.lang.NullPointerException")) {
+					//swallow this
 					logger.debugv(
 							"Process had already completed on delivery of {0}",
 							std.getDescription());
@@ -91,6 +93,7 @@ public abstract class AbstractSignalMdb<T extends Retryable> {
 					Throwable rootCause = ea.getRootCause();
 					logger.debugv("Exception {0} can not be retried",
 							rootCause.toString());
+					retryer.sendMessage(getDlqName(), std);
 					ea.throwRootCause();
 				}
 			}

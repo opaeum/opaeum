@@ -25,4 +25,9 @@ public class EventDeliveryMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
 	protected String getQueueName(){
 		return "queue/EventDeliveryQueue";
 	}
+
+	@Override
+	protected String getDlqName(){
+		return "queue/EventDeliveryDeadLetterQueue";
+	}
 }

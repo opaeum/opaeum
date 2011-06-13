@@ -36,14 +36,19 @@ public class MessageRetryer{
 	@Timeout
 	public void redeliver(Timer t){
 		PayloadToResend p = (PayloadToResend) t.getInfo();
+		String destination = p.getDestination();
+		Serializable payload = p.getPayload();
+		sendMessage(destination, payload);
+	}
+	public void sendMessage(String destination,Serializable payload){
 		Connection conn = null;
 		Session sess = null;
 		try{
-			Queue q = (Queue) new InitialContext().lookup(p.getDestination());
+			Queue q = (Queue) new InitialContext().lookup(destination);
 			conn = factory.createConnection();
 			sess = conn.createSession(false, Session.CLIENT_ACKNOWLEDGE);
 			MessageProducer prod = sess.createProducer(q);
-			prod.send(sess.createObjectMessage(p.getPayload()));
+			prod.send(sess.createObjectMessage(payload));
 			prod.close();
 		}catch(RuntimeException e){
 			throw e;

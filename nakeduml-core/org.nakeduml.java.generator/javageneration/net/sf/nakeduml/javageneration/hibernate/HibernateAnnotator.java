@@ -331,7 +331,7 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 			OJAnnotationValue type = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Type"));
 			type.putAttribute(new OJAnnotationAttributeValue("type", "long"));
 			collectionId.putAttribute(new OJAnnotationAttributeValue("type", type));
-			collectionId.putAttribute(new OJAnnotationAttributeValue("generator", "id_generator"));
+			collectionId.putAttribute(new OJAnnotationAttributeValue("generator", "sequence"));
 			field.addAnnotationIfNew(collectionId);
 		}
 	}

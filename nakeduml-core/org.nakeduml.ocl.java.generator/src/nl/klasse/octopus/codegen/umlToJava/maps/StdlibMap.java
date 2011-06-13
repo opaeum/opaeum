@@ -17,7 +17,7 @@ public class StdlibMap {
 	public static final OJPathName javaSetType 			= new OJPathName("java.util.Set");
 	public static final OJPathName javaSequenceType 	= new OJPathName("java.util.List");
 	public static final OJPathName javaOrderedSetType 	= new OJPathName("java.util.List");
-	public static final OJPathName javaBagType 			= new OJPathName("java.util.List");
+	public static final OJPathName javaBagType 			= new OJPathName("java.util.Collection");
 	public static final OJPathName javaStringType 		= new OJPathName("java.lang.String");
 	public static final OJPathName javaIntegerType		= new OJPathName("java.lang.int");
 	public static final OJPathName javaBooleanType 		= new OJPathName("java.lang.boolean");
