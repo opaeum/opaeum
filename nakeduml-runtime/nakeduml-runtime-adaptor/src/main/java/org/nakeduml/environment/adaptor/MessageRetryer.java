@@ -1,5 +1,8 @@
 package org.nakeduml.environment.adaptor;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -47,6 +50,14 @@ public class MessageRetryer{
 			Queue q = (Queue) new InitialContext().lookup(destination);
 			conn = factory.createConnection();
 			sess = conn.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+			try{
+				ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
+				os.writeObject(payload);
+			}catch(IOException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			MessageProducer prod = sess.createProducer(q);
 			prod.send(sess.createObjectMessage(payload));
 			prod.close();

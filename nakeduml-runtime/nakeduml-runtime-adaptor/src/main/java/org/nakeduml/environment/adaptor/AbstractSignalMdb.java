@@ -91,6 +91,7 @@ public abstract class AbstractSignalMdb<T extends Retryable> {
 							std.getDescription());
 				} else {
 					Throwable rootCause = ea.getRootCause();
+					logger.debug(rootCause);
 					logger.debugv("Exception {0} can not be retried",
 							rootCause.toString());
 					retryer.sendMessage(getDlqName(), std);

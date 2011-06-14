@@ -19,7 +19,6 @@ import org.nakeduml.runtime.domain.ActiveObject;
 		@ActivationConfigProperty(propertyName = "acknowledgeMode",propertyValue = "Client-acknowledge")})
 @TransactionManagement(TransactionManagementType.BEAN)
 @Pool(maxSize = 1,value = PoolDefaults.POOL_IMPLEMENTATION_STRICTMAX,timeout = 1000 * 60 * 60 * 24)
-@Depends({"jboss.j2ee:service=EJB3,name=org.nakeduml.environment.adaptor.MessageRetryer,type=service","jboss.j2ee:service=EJB3,name=org.nakeduml.environment.adaptor.MessageSender,type=service"})
 public class EntitySignalMdb extends AbstractSignalMdb<SignalToDispatch> implements MessageListener{
 	@Override
 	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{
