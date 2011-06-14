@@ -7,10 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.tinker.God;
-import org.tinker.Universe;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-public class TestOneToMany extends BaseTest {
+public class TestOneToMany extends BaseLocalDbTest {
 
 	@Test
 	public void testCompositeCreation() {

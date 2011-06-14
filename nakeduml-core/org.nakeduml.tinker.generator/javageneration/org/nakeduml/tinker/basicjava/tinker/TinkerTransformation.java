@@ -9,7 +9,6 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -24,7 +23,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 public class TinkerTransformation extends AbstractJavaProducingVisitor {
 
 	public static final String INIT_VERTEX = "initVertex";
-	private static final String BASE_TINKER = "org.util.BaseTinker";
 
 	public void initialize(OJAnnotatedPackage javaModel, NakedUmlConfig config, TextWorkspace textWorkspace, TransformationContext context) {
 		super.initialize(javaModel, config, textWorkspace, context);
@@ -34,12 +32,14 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 	public void visitClass(INakedEntity c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
+			ojClass.addToImports(TinkerUtil.graphDbPathName);
 			if (c.getGeneralizations().isEmpty()) {
 				addGetVersion(ojClass);
 				persistUid(ojClass);
-				initialiseVertexInDefaultConstructor(ojClass);
+				initialiseVertexInDefaultConstructor(c, ojClass);
 				extendsBaseTinker(ojClass);
 				addInitNullToDefaultConstructor(ojClass);
+				implementGetId(ojClass);
 			}
 			if (c.getEndToComposite() != null) {
 				addInitVertex(ojClass, c);
@@ -50,6 +50,14 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 			addContructorWithVertex(ojClass, c);
 			implementTinkerNode(ojClass);
 		}
+	}
+
+	private void implementGetId(OJAnnotatedClass ojClass) {
+		OJAnnotatedOperation getId = new OJAnnotatedOperation("getId");
+		getId.setReturnType(new OJPathName("java.lang.Long"));
+		getId.getBody().addToStatements("return TinkerIdUtil.getId(this.vertex)");
+		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
+		ojClass.addToOperations(getId);
 	}
 
 	private void implementIsRoot(OJAnnotatedClass ojClass, boolean b) {
@@ -71,7 +79,7 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 	}
 
 	private void extendsBaseTinker(OJAnnotatedClass ojClass) {
-		ojClass.setSuperclass(new OJPathName(BASE_TINKER));
+		ojClass.setSuperclass(TinkerUtil.BASE_TINKER);
 	}
 
 	private void persistUid(OJAnnotatedClass ojClass) {
@@ -89,18 +97,18 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 	private void addGetVersion(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getVersion = new OJAnnotatedOperation("getVersion");
 		getVersion.setReturnType(new OJPathName("int"));
-		getVersion.getBody().addToStatements("return ((OrientVertex)this.vertex).getRawElement().getVersion()");
-		ojClass.addToImports(TinkerUtil.orientVertexPathName);
+		getVersion.getBody().addToStatements("return TinkerIdUtil.getVersion(this.vertex)");
+		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
 		ojClass.addToOperations(getVersion);
 	}
-
+		
 	private void implementTinkerNode(OJAnnotatedClass ojClass) {
 		ojClass.addToImplementedInterfaces(new OJPathName("org.nakeduml.runtime.domain.TinkerNode"));
 	}
 
-	private void initialiseVertexInDefaultConstructor(OJAnnotatedClass ojClass) {
+	private void initialiseVertexInDefaultConstructor(INakedEntity c, OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.getDefaultConstructor();
-		constructor.getBody().addToStatements("this.vertex = " + UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().addVertex(null)");
+		constructor.getBody().addToStatements("this.vertex = " + TinkerUtil.graphDbAccess + ".addVertex(\""+c.getMappingInfo().getJavaName()+"\")");
 		constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 		constructor.getBody().addToStatements("defaultCreate()");
 		ojClass.addToImports(TinkerUtil.transactionThreadEntityVar);
@@ -110,7 +118,7 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
 		if (c.getGeneralizations().isEmpty()) {
-			constructor.getBody().getStatements().add(0, new OJSimpleStatement("this.vertex = org.util.GraphDb.getDB().addVertex(null)"));
+			constructor.getBody().getStatements().add(0, new OJSimpleStatement("this.vertex = "+ TinkerUtil.graphDbAccess +".addVertex(\""+c.getMappingInfo().getJavaName()+"\")"));
 			constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
 			constructor.getBody().addToStatements("defaultCreate()");
 			ojClass.addToImports(TinkerUtil.transactionThreadEntityVar);
@@ -132,18 +140,17 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 			initVertex.getBody().addToStatements(
 					"Iterable<Edge> iter = owningObject.getVertex().getOutEdges" + "(\"" + c.getEndToComposite().getAssociation().getName() + "\")");
 			OJIfStatement ifAllReadyHasOne = new OJIfStatement("iter.iterator().hasNext()");
-			ifAllReadyHasOne.addToThenPart(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeVertex(this.vertex)");
+			ifAllReadyHasOne.addToThenPart(TinkerUtil.graphDbAccess + ".removeVertex(this.vertex)");
 			ifAllReadyHasOne.addToThenPart("throw new IllegalStateException(\""
 					+ c.getEndToComposite().getOtherEnd().getOwner().getMappingInfo().getQualifiedJavaName() + " already has an association with "
 					+ c.getMappingInfo().getQualifiedJavaName() + ", the relationship is one to one!\")");
 			initVertex.getBody().addToStatements(ifAllReadyHasOne);
 		}
 
-		ojClass.addToImports(TinkerUtil.graphDbPathName);
 		// Add association meta information, i.e. classname of other end
 		String associationName = c.getEndToComposite().getAssociation().getName();
 		initVertex.getBody().addToStatements(
-				"Edge edge = org.util.GraphDb.getDB().addEdge(null, owningObject.getVertex(), this.vertex, \"" + associationName + "\")");
+				"Edge edge = " + TinkerUtil.graphDbAccess + ".addEdge(null, owningObject.getVertex(), this.vertex, \"" + associationName + "\")");
 		initVertex.getBody().addToStatements("edge.setProperty(\"outClass\", owningObject.getClass().getName())");
 		initVertex.getBody().addToStatements("edge.setProperty(\"inClass\", this.getClass().getName())");
 

@@ -33,7 +33,6 @@ import org.nakeduml.tinker.composition.AbstractCompositionNodeStrategy;
 
 public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor {
 
-	private static final String BASE_AUDIT_TINKER = "org.util.BaseTinkerSoftDelete";
 	public static final String IF_EDGE_NOT_DELETED = "if_edge_not_deleted";
 	public static final String FOR_MANY_IF_NOT_DELETED = "forManyIfNotDeleted";
 
@@ -189,7 +188,7 @@ public class TinkerSoftDeleteTransformation extends AbstractJavaProducingVisitor
 	}
 
 	private void extendsBaseTinkerSoftDelete(OJAnnotatedClass ojClass) {
-		ojClass.setSuperclass(new OJPathName(BASE_AUDIT_TINKER));
+		ojClass.setSuperclass(TinkerUtil.BASE_AUDIT_SOFT_DELETE_TINKER);
 	}
 
 }

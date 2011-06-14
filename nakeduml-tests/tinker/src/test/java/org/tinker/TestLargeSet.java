@@ -3,7 +3,6 @@ package org.tinker;
 import org.apache.commons.lang.time.StopWatch;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.tinker.derivedunion.HumanHand;
 
 import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;

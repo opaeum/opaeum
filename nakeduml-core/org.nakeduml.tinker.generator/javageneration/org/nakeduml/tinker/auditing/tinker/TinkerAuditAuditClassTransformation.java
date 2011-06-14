@@ -47,6 +47,7 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 				addGetOriginal(ojAuditClass, c);
 				implementGetTransactionNo(ojAuditClass);
 				addGetUid(ojAuditClass);
+				implementGetId(ojAuditClass);
 			}
 			if (!c.getIsAbstract()) {
 				implementGetPreviousAuditEntry(ojAuditClass);
@@ -71,15 +72,23 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 		implementTinkerAuditNode(auditIntf);
 	}
 	
+	private void implementGetId(OJAnnotatedClass ojClass) {
+		OJAnnotatedOperation getId = new OJAnnotatedOperation("getId");
+		getId.setReturnType(new OJPathName("java.lang.Long"));
+		getId.getBody().addToStatements("return TinkerIdUtil.getId(this.vertex)");
+		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
+		ojClass.addToOperations(getId);
+	}	
+	
 	private void addIteratorToNext(OJAnnotatedClass ojAuditClass) {
 		OJOperation iterateToLatest = new OJOperation();
 		iterateToLatest.setName("iterateToLatest");
 		iterateToLatest.setReturnType(TinkerUtil.tinkerAuditNodePathName);
-		iterateToLatest.addParam("transactionNo", new OJPathName("int"));
+		iterateToLatest.addParam("transactionNo", new OJPathName("java.lang.Long"));
 		iterateToLatest.addParam("previous", TinkerUtil.tinkerAuditNodePathName);
 		iterateToLatest.getBody().addToStatements("TinkerAuditNode nextAudit = previous.getNextAuditEntry()");
 		OJIfStatement ifNextAuditNotNull = new OJIfStatement("nextAudit!=null");
-		OJIfStatement ifTransactionNoSmaller = new OJIfStatement("((transactionNo == -1) || (nextAudit.getTransactionNo() < transactionNo))", "return iterateToLatest(transactionNo, nextAudit)");
+		OJIfStatement ifTransactionNoSmaller = new OJIfStatement("((transactionNo == -1L) || (nextAudit.getTransactionNo() < transactionNo))", "return iterateToLatest(transactionNo, nextAudit)");
 		ifTransactionNoSmaller.addToElsePart("return previous");
 		ifNextAuditNotNull.addToThenPart(ifTransactionNoSmaller);
 		ifNextAuditNotNull.addToElsePart("return previous");
@@ -96,20 +105,20 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 			getPreviousAuditVertexInternal.setName("getNextAuditVertexInternal");
 		}
 		getPreviousAuditVertexInternal.setReturnType(TinkerUtil.vertexPathName);
-		getPreviousAuditVertexInternal.getBody().addToStatements("TreeMap<Integer, Edge> auditTransactions = new TreeMap<Integer, Edge>()");
+		getPreviousAuditVertexInternal.getBody().addToStatements("TreeMap<Long, Edge> auditTransactions = new TreeMap<Long, Edge>()");
 		OJForStatement forEdge = new OJForStatement("edge", TinkerUtil.edgePathName, "getOriginal().getVertex().getOutEdges(\"audit\")");
-		forEdge.getBody().addToStatements("Integer transaction = (Integer) edge.getProperty(\"transactionNo\")");
+		forEdge.getBody().addToStatements("Long transaction = (Long) edge.getProperty(\"transactionNo\")");
 		forEdge.getBody().addToStatements("auditTransactions.put(transaction, edge)");
 		getPreviousAuditVertexInternal.getBody().addToStatements(forEdge);
 
 		OJIfStatement ifNoAudits = new OJIfStatement("!auditTransactions.isEmpty()");
 		OJForStatement forAudits;
 		if (previous) {
-			ifNoAudits.addToThenPart("NavigableSet<Integer> descendingKeySet = auditTransactions.descendingKeySet()");
-			forAudits = new OJForStatement("auditTransactionNo", new OJPathName("Integer"), "descendingKeySet");
+			ifNoAudits.addToThenPart("NavigableSet<Long> descendingKeySet = auditTransactions.descendingKeySet()");
+			forAudits = new OJForStatement("auditTransactionNo", new OJPathName("Long"), "descendingKeySet");
 		} else {
-			ifNoAudits.addToThenPart("NavigableSet<Integer> ascendingKeySet = auditTransactions.navigableKeySet()");
-			forAudits = new OJForStatement("auditTransactionNo", new OJPathName("Integer"), "ascendingKeySet");
+			ifNoAudits.addToThenPart("NavigableSet<Long> ascendingKeySet = auditTransactions.navigableKeySet()");
+			forAudits = new OJForStatement("auditTransactionNo", new OJPathName("Long"), "ascendingKeySet");
 		}
 		OJIfStatement ifTransactionSmaller = new OJIfStatement();
 		if (previous) {
@@ -144,10 +153,10 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 		OJIfStatement ifPreviousAuditVertex = new OJIfStatement();
 		if (previous) {
 			ifPreviousAuditVertex.setCondition("previousAuditVertex != null");
-			ifPreviousAuditVertex.addToThenPart("Edge auditParentEdge = GraphDb.getDB().addEdge(null, this.vertex, previousAuditVertex, \"previous\")");
+			ifPreviousAuditVertex.addToThenPart("Edge auditParentEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, this.vertex, previousAuditVertex, \"previous\")");
 		} else {
 			ifPreviousAuditVertex.setCondition("nextAuditVertex != null");
-			ifPreviousAuditVertex.addToThenPart("Edge auditParentEdge = GraphDb.getDB().addEdge(null, nextAuditVertex, this.vertex, \"previous\")");
+			ifPreviousAuditVertex.addToThenPart("Edge auditParentEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, nextAuditVertex, this.vertex, \"previous\")");
 		}
 		ifPreviousAuditVertex.addToThenPart("auditParentEdge.setProperty(\"outClass\", this.getClass().getName() + \"Audit\")");
 		ifPreviousAuditVertex.addToThenPart("auditParentEdge.setProperty(\"inClass\", this.getClass().getName() + \"Audit\")");
@@ -230,8 +239,8 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 	private void implementGetTransactionNo(OJAnnotatedClass ojAuditClass) {
 		OJOperation ojOperation = new OJOperation();
 		ojOperation.setName("getTransactionNo");
-		ojOperation.setReturnType(new OJPathName("int"));
-		ojOperation.getBody().addToStatements("return (Integer)this.vertex.getProperty(\"transactionNo\")");
+		ojOperation.setReturnType(new OJPathName("java.lang.Long"));
+		ojOperation.getBody().addToStatements("return (Long)this.vertex.getProperty(\"transactionNo\")");
 		ojAuditClass.addToOperations(ojOperation);
 	}
 

@@ -62,13 +62,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-runtime-domain</artifactId>
+			<artifactId>nakeduml-runtime-orient</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-runtime-tinker-domain</artifactId>
+			<artifactId>nakeduml-test-tinker</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

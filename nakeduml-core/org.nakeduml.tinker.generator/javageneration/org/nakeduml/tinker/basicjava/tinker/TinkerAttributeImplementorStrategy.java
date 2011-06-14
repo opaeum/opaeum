@@ -295,8 +295,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		String relationshipName = TinkerUtil.getEdgeName(map);
 		ifParamNotNull.getThenPart().addToStatements(
 				new OJSimpleStatement("Edge edge = "
-						+ UtilityCreator.getUtilPathName().toJavaString()
-						+ ".GraphDb.getDB().addEdge(null, "
+						+ TinkerUtil.graphDbAccess + ".addEdge(null, "
 						+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
 								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
@@ -317,7 +316,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 				.addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement();
 		ifNotNull.setCondition("iter.iterator().hasNext()");
-		ifNotNull.getThenPart().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(iter.iterator().next())");
+		ifNotNull.getThenPart().addToStatements(TinkerUtil.graphDbAccess + ".removeEdge(iter.iterator().next())");
 		setter.getBody().addToStatements(ifNotNull);
 	}
 
@@ -369,7 +368,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 		OJForStatement removeFor = new OJForStatement("edge", TinkerUtil.edgePathName, "edgesToRemove");
 		removeFor.setName(TINKER_MANY_TO_MANY_SETTER_REMOVE_EDGES);
-		removeFor.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(edge)");
+		removeFor.getBody().addToStatements(TinkerUtil.graphDbAccess + ".removeEdge(edge)");
 		setter.getBody().addToStatements(removeFor);
 
 		OJIfStatement ifNotNull = new OJIfStatement(map.umlName() + " != null");
@@ -389,8 +388,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		adder.getBody().addToStatements(ifStatement);
 		String relationshipName = TinkerUtil.getEdgeName(map);
 		ifStatement.addToThenPart(new OJSimpleStatement("Edge edge = "
-				+ UtilityCreator.getUtilPathName().toJavaString()
-				+ ".GraphDb.getDB().addEdge(null, "
+				+ TinkerUtil.graphDbAccess + ".addEdge(null, "
 				+ (!isComposite ? "((" + TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(), this.vertex," : "this.vertex, (("
 						+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
@@ -437,7 +435,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 		OJForStatement removeFor = new OJForStatement("edge", TinkerUtil.edgePathName, "edgesToRemove");
 		removeFor.setName(TINKER_MANY_REMOVER);
-		removeFor.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeEdge(edge)");
+		removeFor.getBody().addToStatements(TinkerUtil.graphDbAccess + ".removeEdge(edge)");
 		remover.getBody().addToStatements(removeFor);
 	}
 

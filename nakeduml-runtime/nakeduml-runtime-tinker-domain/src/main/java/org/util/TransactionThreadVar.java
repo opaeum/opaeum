@@ -13,16 +13,10 @@ public class TransactionThreadVar {
 
 	private static ThreadLocal<Map<String, Vertex>> transactionVar = new ThreadLocal<Map<String, Vertex>>() {
 
-		Map<String, Vertex> auditVertexMap = new HashMap<String, Vertex>();
-		
 		public Map<String, Vertex> get() {
-			return auditVertexMap;
+			return super.get();
 		}
 
-		public void set(Map<String, Vertex> newValue) {
-			auditVertexMap = newValue;
-		}
-		
 		@Override
 	    protected Map<String, Vertex> initialValue() {
 	        return new HashMap<String, Vertex>();
@@ -43,7 +37,7 @@ public class TransactionThreadVar {
 	
 	public static void clear() {
 		transactionVar.get().clear();
-		GraphDb.incrementTransactionCount();
+		org.util.GraphDb.incrementTransactionCount();
 	}
 
 	public static void putAuditVertexFalse(String clazzAndId, Vertex auditVertex) {

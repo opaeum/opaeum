@@ -7,10 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
-public class TestPolymorphism extends BaseTest {
+public class TestPolymorphism extends BaseLocalDbTest {
 
 	@Test
 	public void testCreationAndNavigation() {

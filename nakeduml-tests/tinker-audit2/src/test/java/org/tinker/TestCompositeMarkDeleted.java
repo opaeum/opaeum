@@ -3,6 +3,7 @@ package org.tinker;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -25,7 +26,6 @@ public class TestCompositeMarkDeleted extends BaseLocalDbTest {
 		assertEquals(2, god.getAudits().size());
 		assertEquals(3, god.getAudits().get(0).getUniverse().size());
 		assertEquals(2, god.getAudits().get(1).getUniverse().size());
-		
 	}
 	
 }

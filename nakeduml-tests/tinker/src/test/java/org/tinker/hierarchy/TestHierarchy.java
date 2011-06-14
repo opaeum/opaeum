@@ -4,13 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
-import org.tinker.hierarchy.Folder;
-import org.tinker.hierarchy.Hierarchy;
-import org.tinker.hierarchy.RealRootFolder;
 
-public class TestHierarchy extends BaseTest {
+public class TestHierarchy extends BaseLocalDbTest {
 
 	@Test
 	public void testSettingAndGetting() {

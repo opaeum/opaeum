@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 import org.tinker.REASON;
 

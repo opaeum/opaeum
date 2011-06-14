@@ -13,7 +13,7 @@ import org.audittest.OneAudit;
 import org.audittest.OtherOne;
 import org.audittest.OtherOneAudit;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

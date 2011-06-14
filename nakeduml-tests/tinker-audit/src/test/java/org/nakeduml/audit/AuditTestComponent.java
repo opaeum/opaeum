@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.audittest.CompositeKing;
 import org.audittest.Hand;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

@@ -3,7 +3,7 @@ package org.tinker;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.tinker.God;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 public class TestCreateEntityAndProperty extends BaseLocalDbTest {
 

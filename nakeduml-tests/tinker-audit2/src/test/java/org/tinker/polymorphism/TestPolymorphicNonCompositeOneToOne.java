@@ -1,8 +1,9 @@
 package org.tinker.polymorphism;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;

@@ -9,6 +9,7 @@ import org.nakeduml.tinker.auditing.tinker.TinkerAuditAttributeImplementor;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditAuditClassTransformation;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditCreator;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditOrignalClassTransformation;
+import org.nakeduml.tinker.auditing.tinker.TinkerAuditSchemaGenerator;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditSuperTypeGenerator;
 
 @StepDependency(phase = TinkerAuditGenerationPhase.class, requires={TinkerSoftDeleteImplementationStep.class}, after={TinkerSoftDeleteImplementationStep.class})
@@ -31,6 +32,9 @@ public class TinkerAuditImplementationStep extends AbstractJavaTransformationSte
 		TinkerAuditOrignalClassTransformation tinkerAuditOrignalClassTransformation = new TinkerAuditOrignalClassTransformation();
 		tinkerAuditOrignalClassTransformation.initialize(javaModel, config, textWorkspace, context);
 		tinkerAuditOrignalClassTransformation.startVisiting(workspace);
+		TinkerAuditSchemaGenerator schemaGenerator = new TinkerAuditSchemaGenerator();
+		schemaGenerator.initialize(javaModel, config, textWorkspace, context);
+		schemaGenerator.startVisiting(workspace);
 	}
 
 }
