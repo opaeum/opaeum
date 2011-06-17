@@ -5,18 +5,24 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 //TODO this class needs to be in generated source folder
 @MappedSuperclass
 public abstract class BaseAuditable implements Serializable{
 
 	private static final long serialVersionUID = 3751023772087546585L;
+//	@Generated(GenerationTime.INSERT)
 	private Date createdOn;
+//	@Generated(GenerationTime.ALWAYS)
 	private Date updatedOn;
 	public BaseAuditable() {
 		super();

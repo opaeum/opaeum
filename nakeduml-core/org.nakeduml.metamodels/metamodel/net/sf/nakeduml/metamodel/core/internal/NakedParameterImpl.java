@@ -124,4 +124,5 @@ public class NakedParameterImpl extends NakedTypedElementImpl implements INakedT
 		// TODO Auto-generated method stub
 		return ParameterDirectionKind.IN.equals(getDirection()) || ParameterDirectionKind.INOUT.equals(getDirection());
 	}
+
 }

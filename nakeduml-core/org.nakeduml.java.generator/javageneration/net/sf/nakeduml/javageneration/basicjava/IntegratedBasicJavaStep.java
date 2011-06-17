@@ -13,7 +13,7 @@ public class IntegratedBasicJavaStep extends AbstractJavaTransformationStep{
 
 	@Override
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){
-		PersistentNameMapGenerator pnmg=new PersistentNameMapGenerator(true);
+		JavaMetaInfoMapGenerator pnmg=new JavaMetaInfoMapGenerator(true);
 		pnmg.initialize(javaModel, config, textWorkspace, context);
 		pnmg.startVisiting(workspace);
 	}

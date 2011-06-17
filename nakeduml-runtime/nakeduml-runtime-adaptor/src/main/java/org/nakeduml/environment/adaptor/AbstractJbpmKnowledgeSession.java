@@ -19,16 +19,17 @@ import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
-public class AbstractJbpmKnowledgeSession{
+public abstract class AbstractJbpmKnowledgeSession{
 	private static AbstractJbpmKnowledgeBase knowledgeBase;
 	protected StatefulKnowledgeSession knowledgeSession;
 	@Inject
-	protected Session session;
+	protected SessionFactory sessionFactory;
 	public AbstractJbpmKnowledgeSession(){
 		super();
 	}
@@ -52,25 +53,24 @@ public class AbstractJbpmKnowledgeSession{
 		properties.put("drools.processSignalManagerFactory", "org.jbpm.persistence.processinstance.JPASignalManagerFactory");
 		SessionConfiguration config = new SessionConfiguration(properties);
 		final org.drools.runtime.Environment environment = EnvironmentFactory.newEnvironment();
-		session.setFlushMode(FlushMode.MANUAL);
+		final Session session = sessionFactory.getCurrentSession();
 		environment.set(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER, new HibernateEnvironmentBuilder(session).getPersistenceContextManager());
-		environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[]{new JPAPlaceholderResolverStrategy(environment){
-			@Override
-			public Object read(ObjectInputStream is) throws IOException,ClassNotFoundException{
-				String canonicalName = is.readUTF();
-				Object id = is.readObject();
-				Class<?> clazz = Class.forName(canonicalName);
-				Object obj = session.get(clazz, (Serializable) id);
-				return obj;
-			}
-			public void write(ObjectOutputStream os, Object object) throws IOException {
-			        
-			        
-		            os.writeUTF(IntrospectionUtil.getOriginalClass(object).getCanonicalName());
-		            os.writeObject(getClassIdValue(object));
-		       
-		    }
-		},new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT)});
+		environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[]{
+				new JPAPlaceholderResolverStrategy(environment){
+					@Override
+					public Object read(ObjectInputStream is) throws IOException,ClassNotFoundException{
+						String canonicalName = is.readUTF();
+						Object id = is.readObject();
+						Class<?> clazz = Class.forName(canonicalName);
+						Object obj = session.get(clazz, (Serializable) id);
+						return obj;
+					}
+					public void write(ObjectOutputStream os,Object object) throws IOException{
+						os.writeUTF(IntrospectionUtil.getOriginalClass(object).getCanonicalName());
+						os.writeObject(getClassIdValue(object));
+					}
+				},new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT)});
 		return kbase.newStatefulKnowledgeSession(config, environment);
 	}
+
 }

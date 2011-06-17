@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -30,6 +31,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.tools.common.StringHelpers;
 
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJClassifier;
@@ -39,8 +41,12 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedElement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
+import org.nakeduml.java.metamodel.annotation.OJEnum;
+import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.name.NameConverter;
 
 
@@ -317,5 +323,29 @@ public class OJUtil {
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner, INakedObjectNode pin,
 			boolean ensureUniqueness) {
 		return new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniqueness));
+	}
+
+	public static void addMetaInfo(OJAnnotatedElement element,INakedElement property){
+		OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
+		metaInfo.putAttribute("nakedUmlId", property.getMappingInfo().getNakedUmlId());
+		metaInfo.putAttribute("persistentName", property.getMappingInfo().getQualifiedPersistentName());
+		element.putAnnotation(metaInfo);
+	}
+
+	public static void addField(OJEnum ojEnum, OJConstructor constr, String name, OJPathName type) {
+		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
+		getter.getBody().addToStatements("return this." + name);
+		ojEnum.addToOperations(getter);
+		constr.addParam(name, type);
+		constr.getBody().addToStatements("this." + name + "=" + name);
+		OJAnnotatedField field = new OJAnnotatedField(name, type);
+		ojEnum.addToFields(field);
+	}
+
+	public  static void addParameter(OJEnumLiteral l, String name, String value) {
+		OJAnnotatedField persistentName = new OJAnnotatedField();
+		persistentName.setName(name);
+		persistentName.setInitExp(value);
+		l.addToAttributeValues(persistentName);
 	}
 }

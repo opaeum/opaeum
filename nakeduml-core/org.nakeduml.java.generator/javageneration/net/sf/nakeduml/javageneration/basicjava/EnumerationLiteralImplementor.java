@@ -54,6 +54,13 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					addToConstructor(constr, myClass, attr, c);
 				}
 			}
+			OJUtil.addField(myClass, constr, "persistentName", new OJPathName("String"));
+			OJUtil.addField(myClass, constr, "nakedUmlId", new OJPathName("int"));
+			for(IEnumLiteral el:c.getLiterals()){
+				INakedEnumerationLiteral nl=(INakedEnumerationLiteral) el;
+				OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()) , "persistentName", '"'+ nl.getMappingInfo().getQualifiedPersistentName() + '"');
+				OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()) , "nakedUmlId", nl.getMappingInfo().getNakedUmlId().toString());
+			}
 			if(!constr.getParameters().isEmpty()){
 				myClass.addToConstructors(constr);
 			}
@@ -65,7 +72,8 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		// Does lookups on arbitrary string properties
 		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
 		for(INakedProperty iNakedProperty:allAttributes){
-			if(iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne() && !iNakedProperty.isDerived()){
+			if(iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne()
+					&& !iNakedProperty.isDerived()){
 				// TODO support for other types??
 				OJAnnotatedOperation staticOp = new OJAnnotatedOperation();
 				staticOp.setStatic(true);
@@ -83,8 +91,8 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					List<INakedSlot> slots = nakedLiteral.getSlots();
 					for(INakedSlot iNakedSlot:slots){
 						if(iNakedSlot.getDefiningFeature().equals(iNakedProperty)){
-							ifSPS.setCondition(iNakedProperty.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, iNakedSlot.getFirstValue(), true)
-									+ ")");
+							ifSPS.setCondition(iNakedProperty.getName() + ".equals("
+									+ ValueSpecificationUtil.expressValue(myClass, iNakedSlot.getFirstValue(), true) + ")");
 							ifSPS.addToThenPart("return " + iEnumLiteral.getName());
 							break;
 						}
@@ -117,9 +125,6 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		String parname = feat.getName();
 		constr.addParam(parname, type);
 		String setter = mapper.setter();
-		// TODO Why is this being set to private???
-		// OJUtil.findOperation(myClass,
-		// mapper.getter()).setVisibility(OJVisibilityKindGEN.PRIVATE);
 		constr.getBody().addToStatements("this." + setter + "(" + parname + ")");
 		OJEnum oje = (OJEnum) myClass;
 		for(IEnumLiteral l:c.getLiterals()){

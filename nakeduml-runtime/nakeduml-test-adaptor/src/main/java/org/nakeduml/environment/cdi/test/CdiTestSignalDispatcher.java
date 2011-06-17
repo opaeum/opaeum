@@ -57,13 +57,6 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 			CdiTestEnvironment.getInstance().afterRequest(target);
 		}
 	}
-	@Override
-	@Deprecated
-	public synchronized void deliverPendingSignalsOfType(Class<? extends AbstractSignal> type){
-		for(org.nakeduml.environment.SignalToDispatch signal:getSignalsOfType(type)){
-			signal.getTarget().processSignal(signal.getSignal());
-		}
-	}
 	public void prepareSignalsForDispatch(){
 		ArrayList<SignalToDispatch> signals = new ArrayList<SignalToDispatch>(signalsToDispatch);
 		for(org.nakeduml.environment.SignalToDispatch signal:signals){

@@ -4,8 +4,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Collection;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+import javax.ejb.EJBException;
+import javax.ejb.SessionSynchronization;
+import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -15,49 +26,91 @@ import javax.jms.Session;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.jboss.logging.Logger;
 import org.nakeduml.environment.IMessageSender;
+import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-public class MessageSender implements IMessageSender{
-	@Override
-	public void sendObjectsToQueue(Collection<? extends Serializable> objects,String queue){
-		Connection connection = null;
-		Session session = null;
+@Stateful
+@RequestScoped
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
+public class MessageSender implements IMessageSender,SessionSynchronization{
+	@Inject
+	Logger logger;
+	@Resource(mappedName = "java:/XAConnectionFactory")
+	ConnectionFactory factory;
+	Connection connection = null;
+	Map<String,MessageProducer> producers = new HashMap<String,MessageProducer>();
+	private Session session;
+	private InitialContext initialContext;
+	@PreDestroy
+	public void release(){
 		try{
-			//TODO get to work inside a transaction
-			InitialContext initialContext = new InitialContext();
-			ConnectionFactory factory = (ConnectionFactory) initialContext.lookup("/ConnectionFactory");
-			connection = factory.createConnection();
-			session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
-			MessageProducer producer = session.createProducer((Queue) initialContext.lookup(queue));
-			for(Serializable s:objects){
-				try{
-					ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
-					os.writeObject(s);
-					producer.send(session.createObjectMessage(s));
-				}catch(IOException e){
-					e.printStackTrace();
-				}
+			if(initialContext != null){
+				initialContext.close();
 			}
-			producer.close();
-		}catch(JMSException e){
-			throw new RuntimeException(e);
-		}catch(NamingException e){
-			throw new RuntimeException(e);
-		}finally{
-			try{
+			for(MessageProducer p:producers.values()){
+				p.close();
+			}
+			if(session != null){
 				session.close();
-			}catch(Exception ignore){
 			}
-			try{
-				connection.close();
-			}catch(Exception ignore){
-			}
+			connection.close();
+		}catch(Exception e){
+			logger.debug("Error closing jms resources", e);
 		}
 	}
-
+	@Override
+	public void sendObjectToQueue(Serializable s,String queue){
+		try{
+			MessageProducer producer = getProducer(queue);
+			try{
+				ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
+				os.writeObject(s);
+				producer.send(session.createObjectMessage(s));
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}catch(Exception e){
+			logger.error("Error sending message", e);
+			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
+		}
+	}
+	private MessageProducer getProducer(String queue) throws JMSException,NamingException{
+		MessageProducer producer = producers.get(queue);
+		if(producer == null){
+			producer = getSession().createProducer((Queue) getInitialContext().lookup(queue));
+			producers.put(queue, producer);
+		}
+		return producer;
+	}
+	private InitialContext getInitialContext() throws NamingException{
+		if(initialContext == null){
+			initialContext = new InitialContext();
+		}
+		return initialContext;
+	}
+	private Session getSession() throws JMSException{
+		if(session == null){
+			connection = factory.createConnection();
+			session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+		}
+		return session;
+	}
 	@Override
 	public void deliverMockedMessages(){
-		// TODO Auto-generated method stub
-		
+	}
+	@Override
+	public void afterBegin() throws EJBException,RemoteException{
+	}
+	@Override
+	public void beforeCompletion() throws EJBException,RemoteException{
+	}
+	@Override
+	public void afterCompletion(boolean committed) throws EJBException,RemoteException{
+		try{
+			session.commit();
+		}catch(Exception e){
+			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
+		}
 	}
 }

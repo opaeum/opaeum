@@ -15,13 +15,13 @@ import org.nakeduml.event.TimeEvent;
 public class MockMessageSender implements IMessageSender{
 	protected Map<String,Collection<Serializable>> messageMap = new HashMap<String,Collection<Serializable>>();
 	@Override
-	public void sendObjectsToQueue(Collection<? extends Serializable> object,String queueName){
+	public void sendObjectToQueue(Serializable object,String queueName){
 		Collection<Serializable> queue = messageMap.get(queueName);
 		if(queue == null){
 			queue = new ArrayList<Serializable>();
 			messageMap.put(queueName, queue);
 		}
-		queue.addAll(object);
+		queue.add(object);
 	}
 	@Override
 	public void deliverMockedMessages(){

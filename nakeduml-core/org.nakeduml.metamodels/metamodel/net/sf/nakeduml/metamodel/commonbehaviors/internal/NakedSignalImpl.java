@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
 import nl.klasse.octopus.model.IDataType;
@@ -14,6 +15,19 @@ import nl.klasse.octopus.model.IDataType;
 public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal,IDataType{
 	private static final long serialVersionUID = 5492485182705048910L;
 	public static final String META_CLASS = "signal";
+	private Integer listenerPoolSize;
+	@Override
+	public Integer getListenerPoolSize(){
+		return listenerPoolSize;
+	}
+	@Override
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		// TODO Auto-generated method stub
+		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("listenerPoolSize")){
+			setListenerPoolSize(stereotype.getFirstValueFor("listenerPoolSize").intValue());
+		}
+	}
 	public NakedSignalImpl(){
 	}
 	@Override
@@ -55,5 +69,8 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 	}
 	public boolean isPersistent(){
 		return false;
+	}
+	public void setListenerPoolSize(Integer listenerPoolSize){
+		this.listenerPoolSize = listenerPoolSize;
 	}
 }

@@ -18,7 +18,7 @@ public interface IParameterOwner extends PreAndPostConstrained,INakedElement/*,I
 	 * @return
 	 */
 	boolean isProcess();
-	INakedTypedElement getReturnParameter();
+	INakedParameter getReturnParameter();
 	/**
 	 * Returns an ordered list of all the input, output and return parameters of this operation or behavior
 	 */

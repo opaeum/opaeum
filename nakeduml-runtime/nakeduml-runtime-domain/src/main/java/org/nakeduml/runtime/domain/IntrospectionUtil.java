@@ -15,26 +15,38 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarFile;
 
+import org.nakeduml.annotation.NumlMetaInfo;
+
 public class IntrospectionUtil{
 	public static MethodDescriptor getMethod(String name,Class<?> c){
-		try{
-			MethodDescriptor[] methods = Introspector.getBeanInfo(c, Object.class).getMethodDescriptors();
-			for(int i = 0;i < methods.length;i++){
-				MethodDescriptor descriptor = methods[i];
-				if(descriptor.getName().equals(name)){
-					return descriptor;
-				}
+		MethodDescriptor[] methods = getMethods(c);
+		for(int i = 0;i < methods.length;i++){
+			MethodDescriptor descriptor = methods[i];
+			if(descriptor.getName().equals(name)){
+				return descriptor;
 			}
-			return null;
+		}
+		return null;
+	}
+	public static MethodDescriptor[] getMethods(Class<?> c){
+		MethodDescriptor[] methods;
+		try{
+			if(c.isInterface()){
+				methods = Introspector.getBeanInfo(c).getMethodDescriptors();
+			}else{
+				methods = Introspector.getBeanInfo(c,Object.class).getMethodDescriptors();
+			}
 		}catch(IntrospectionException e){
 			throw new RuntimeException(e);
 		}
+		return methods;
 	}
 	public static PropertyDescriptor getProperty(String name,Class<?> c){
 		try{
@@ -58,12 +70,12 @@ public class IntrospectionUtil{
 			throw new RuntimeException(e);
 		}
 	}
-	public static <T>  Class<T> getOriginalClass(T target){
+	public static <T>Class<T> getOriginalClass(T target){
 		Class<T> c = (Class<T>) target.getClass();
 		return (Class<T>) getOriginalClass(c);
 	}
 	public static <T>Class<? extends T> getOriginalClass(Class<? extends T> c){
-		while(c.getName().indexOf("$$") > -1 || c.isSynthetic()){
+		while(c.getName().indexOf("$$") > -1 || c.isSynthetic() || c.getName().indexOf("$Proxy") > -1){
 			c = (Class<? extends T>) c.getSuperclass();
 		}
 		return c;
@@ -161,16 +173,17 @@ public class IntrospectionUtil{
 			}
 		}
 	}
-	private static void addDependenciesFromParameters(Set<Class<?>> result,Type[] parameterTypes,Annotation[][] parameterAnnotations,String...packages){
-		for(int i=0; i<parameterTypes.length;i++){
-			Type paramType=parameterTypes[i];
+	private static void addDependenciesFromParameters(Set<Class<?>> result,Type[] parameterTypes,Annotation[][] parameterAnnotations,
+			String...packages){
+		for(int i = 0;i < parameterTypes.length;i++){
+			Type paramType = parameterTypes[i];
 			addAnnotationTypes(result, parameterAnnotations[i], packages);
 			deriveDependenciesFromGenericType(result, paramType);
 		}
 	}
 	private static void addAnnotationTypes(Set<Class<?>> result,Annotation[] annotations,String...packages){
 		for(Annotation annotation:annotations){
-			deriveDependenciesFromGenericType(result,annotation.annotationType(), packages);
+			deriveDependenciesFromGenericType(result, annotation.annotationType(), packages);
 		}
 	}
 	private static void deriveDependenciesFromGenericType(Set<Class<?>> result,Type elementType,String...packages){
@@ -232,15 +245,48 @@ public class IntrospectionUtil{
 		}
 		return classes;
 	}
-	public static Class classForName(String name) throws ClassNotFoundException {
-		try {
+	public static Class classForName(String name) throws ClassNotFoundException{
+		try{
 			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-			if ( contextClassLoader != null ) {
+			if(contextClassLoader != null){
 				return contextClassLoader.loadClass(name);
 			}
+		}catch(Throwable ignore){
 		}
-		catch ( Throwable ignore ) {
+		return Class.forName(name);
+	}
+	public static Enum<?>[] getEnumLiterals(Class<? extends Enum> c){
+		List<Enum<?>> result = new ArrayList<Enum<?>>();
+		try{
+			for(Field field:c.getDeclaredFields()){
+				if(field.getType() == c){
+					field.setAccessible(true);
+					result.add((Enum<?>) field.get(null));
+				}
+			}
+		}catch(RuntimeException ignore){
+			throw ignore;
+		}catch(Exception e){
+			throw new RuntimeException(e);
 		}
-		return Class.forName( name );
-	}	
+		return (Enum<?>[]) result.toArray(new Enum<?>[result.size()]);
+	}
+	public static Field getDeclaredField(Class<?> c,String name){
+		Field[] declaredFields = c.getDeclaredFields();
+		for(Field field:declaredFields){
+			if(field.getName().equals(name)){
+				return field;
+			}
+		}
+		return null;
+	}
+	public static <T>T newInstance(Class<T> class1){
+		try{
+			return class1.newInstance();
+		}catch(RuntimeException e){
+			throw e;
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+	}
 }

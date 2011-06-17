@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 
-import org.nakeduml.annotation.PersistentName;
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.environment.ITimeEventDispatcher;
 import org.nakeduml.event.ChangeEvent;
 import org.nakeduml.event.TimeEvent;
@@ -81,7 +81,7 @@ public class Jbpm5Util{
 			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getOwningBehavior(), when.getType());
 			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation("evaluate" + event.getMappingInfo().getJavaName().getCapped(), new OJPathName("boolean"));
 			evaluationMethod
-					.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), "evaluate_" + event.getMappingInfo().getPersistentName()));
+					.putAnnotation(new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()), "evaluate_" + event.getMappingInfo().getPersistentName()));
 			evaluationMethod.getBody().addToStatements("return " + whenExpr);
 			owner.addToOperations(evaluationMethod);
 			operation.getBody().addToStatements(

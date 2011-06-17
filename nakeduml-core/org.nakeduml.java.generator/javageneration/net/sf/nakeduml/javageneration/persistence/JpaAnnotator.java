@@ -20,6 +20,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
+import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -265,7 +266,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator {
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
-			if (p.isComposite() || p.getAssociation() instanceof INakedAssociationClass) {
+			if (p.isComposite() || p.getAssociation() instanceof INakedAssociationClass || p.getBaseType() instanceof INakedDataType) {
 				JpaUtil.cascadeAll(toMany);
 			}
 			field.addAnnotationIfNew(toMany);

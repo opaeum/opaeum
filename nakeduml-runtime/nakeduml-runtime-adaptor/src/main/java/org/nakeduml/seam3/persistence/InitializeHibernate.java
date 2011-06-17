@@ -4,29 +4,28 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
-import org.hibernate.Session;
+import org.jboss.logging.Logger;
 
-@Startup
 @Singleton(name="InitializeHibernate")
-@TransactionManagement(TransactionManagementType.BEAN)
-public class InitializeHibernate {
-
-	@DependentScopedSession
+@Startup
+@TransactionAttribute(TransactionAttributeType.NEVER)
+public class InitializeHibernate{
 	@Inject
-	Session session;
-	
+	Logger logger;
+	@Inject
+	ManagedHibernateSessionFactoryProvider sessionFactory;
 	@PostConstruct
-	public void init() {
-		System.out.println("init");
+	public void init(){
+		logger.debug("init");
+		//Invoke method on factory to ensure it is loaded
+		sessionFactory.getSessionFactory().openSession().close();
 	}
-	
-	//This is to ensure closed is called and the tables dropped
 	@PreDestroy
-	public void destroy() {
-		session.getSessionFactory().close();
+	public void destroy(){
+		sessionFactory.close();
 	}
 }
