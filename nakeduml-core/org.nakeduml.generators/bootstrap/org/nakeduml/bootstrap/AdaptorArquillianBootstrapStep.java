@@ -16,7 +16,6 @@ public class AdaptorArquillianBootstrapStep extends AbstractBootstrapStep {
 		createConfig("beans.xml", CharArrayTextSource.OutputRootId.ADAPTOR_RESOURCE, "META-INF");
 		createConfig("arquillian.xml", CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE);
 		createConfig("log4j.properties", CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE);
-		createConfig("hornetq-jms.xml", CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE_JBOSSAS);
 		createConfig("jndi.properties", CharArrayTextSource.OutputRootId.ADAPTOR_TEST_RESOURCE_JBOSSAS);
 	}
 }

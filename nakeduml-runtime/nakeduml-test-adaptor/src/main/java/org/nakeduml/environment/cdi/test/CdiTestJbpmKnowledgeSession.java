@@ -1,15 +1,19 @@
 package org.nakeduml.environment.cdi.test;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.ejb.EJBException;
+import javax.ejb.SessionSynchronization;
 
 import org.hibernate.HibernateException;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeSession;
 
 
-public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession{
+public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession {
 	static{
 		CdiTestHibernateSession.addMockedQuery(new MockQuery(){
 			@Override
@@ -29,4 +33,5 @@ public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession{
 			}
 		});
 	}
+
 }

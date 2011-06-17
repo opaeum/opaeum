@@ -10,13 +10,13 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import net.sf.nakeduml.metamodel.core.IModifiableTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -128,7 +128,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			oclValue.setContext(c, attr);
 			Environment env = environmentFactory.createClassifierEnvironment(c);
 			iv.setValue(replaceSingleParsedOclString(oclValue, c, attr.getType(), env));
-			iv.setType(attr.getType());
+			if(iv.isValidOclValue()){
+				overridePinType(attr, iv.getOclValue().getExpression().getExpressionType());
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -170,8 +172,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			INakedClassifier owner = op.getOwner();
 			bodyExpression.setContext(owner, op);
 			Environment env = environmentFactory.createPreEnvironment(owner, op);
-			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env));
-			bodyCondition.setType(op.getReturnType());
+			IOclContext ocl = replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env);
+			bodyCondition.setValue(ocl);
+			if(bodyCondition.isValidOclValue()){
+				overridePinType(op.getReturnParameter(), ocl.getExpression().getExpressionType());
+			}
 			// TODO support OpaqueBehavior for effects.
 		}
 		op.setPreConditions(replaceParcedOclStringsForOclContext(op.getOwner(), op, op.getPreConditions()));
@@ -245,15 +250,20 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			overridePinType(pin, type);
 		}
 	}
-	private void overridePinType(INakedPin pin,IClassifier type){
+	private void overridePinType(IModifiableTypedElement pin,IClassifier type){
 		pin.setType(type);
 		if(type instanceof INakedClassifier){
 			pin.setBaseType((INakedClassifier) type);
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
 		}else if(type instanceof ICollectionType){
 			ICollectionType collectionType = (ICollectionType) type;
-			pin.setBaseType((INakedClassifier) collectionType.getElementType());
+			if(collectionType.getElementType() instanceof INakedClassifier && (pin.getNakedBaseType()==null || !collectionType.getElementType().conformsTo(pin.getNakedBaseType()))){
+				pin.setBaseType((INakedClassifier) collectionType.getElementType());
+			}
+			pin.setType(getOclLibrary().lookupCollectionType(collectionType.getMetaType(), pin.getNakedBaseType()));
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), Integer.MAX_VALUE));
+			pin.setIsOrdered(collectionType.getMetaType()==CollectionMetaType.SEQUENCE||collectionType.getMetaType()==CollectionMetaType.ORDEREDSET);
+			pin.setIsUnique(collectionType.getMetaType()==CollectionMetaType.SET||collectionType.getMetaType()==CollectionMetaType.ORDEREDSET);
 		}else if(type instanceof StdlibPrimitiveType){
 			StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
 			pin.setBaseType(getBuiltInTypes().lookupStandardType(standardType));

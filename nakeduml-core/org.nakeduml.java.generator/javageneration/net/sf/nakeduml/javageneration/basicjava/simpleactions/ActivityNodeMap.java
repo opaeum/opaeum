@@ -11,7 +11,7 @@ public class ActivityNodeMap {
 		this.node = node;
 	}
 	public String doActionMethod(){
-		return "do"+node.getMappingInfo().getJavaName().getCapped();
+		return "do"+node.getMappingInfo().getJavaName().getCapped() + node.getMappingInfo().getNakedUmlId();
 	}
 
 }

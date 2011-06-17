@@ -1,7 +1,10 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -21,7 +24,7 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault) {
-		OJOperation getter = new OJAnnotatedOperation();
+		OJAnnotatedOperation getter = new OJAnnotatedOperation();
 		getter.setName(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
@@ -32,6 +35,8 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 			getter.getBody().addToStatements("return " + map.umlName());
 		}
 		getter.setStatic(map.isStatic());
+		INakedElement property = map.getProperty();
+		OJUtil.addMetaInfo(getter, property);
 		return getter;
 	}
 

@@ -1,7 +1,7 @@
 package net.sf.nakeduml.metamodel.core;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.ParameterDirectionKind;
-public interface INakedParameter extends INakedTypedElement, IParameter {
+public interface INakedParameter extends IModifiableTypedElement, IParameter {
 	void setLinkedParameter(INakedParameter p);
 //	IParameterOwner getOwner();
 	/**
@@ -42,10 +42,6 @@ public interface INakedParameter extends INakedTypedElement, IParameter {
 	void setDirection(ParameterDirectionKind in);
 	boolean isException();
 	void setException(boolean e);
-	void setBaseType(INakedClassifier nakedPeer);
-	void setIsOrdered(boolean ordered);
-	void setIsUnique(boolean unique);
-	void setMultiplicity(INakedMultiplicity nakedMultiplicityImpl);
 	boolean isArgument();
 
 }

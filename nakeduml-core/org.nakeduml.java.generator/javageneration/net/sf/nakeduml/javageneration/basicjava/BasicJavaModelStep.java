@@ -33,7 +33,7 @@ public class BasicJavaModelStep extends AbstractJavaTransformationStep {
 		hcb.initialize(javaModel, config, textWorkspace, context);
 		hcb.startVisiting(workspace);
 
-		PersistentNameMapGenerator pnmg = new PersistentNameMapGenerator(false);
+		JavaMetaInfoMapGenerator pnmg = new JavaMetaInfoMapGenerator(false);
 		pnmg.initialize(javaModel, config, textWorkspace, context);
 		pnmg.startVisiting(workspace);
 	}

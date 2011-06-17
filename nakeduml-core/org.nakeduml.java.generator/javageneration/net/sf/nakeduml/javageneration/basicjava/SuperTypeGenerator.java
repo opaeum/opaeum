@@ -17,7 +17,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 public class SuperTypeGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
-		if(c.getGeneralizations().size() ==1){
+		if(c.getGeneralizations().size() == 1){
 			OJAnnotatedClass myClass = findJavaClass(c);
 			if(myClass != null){
 				for(INakedGeneralization g:c.getNakedGeneralizations()){
@@ -28,13 +28,15 @@ public class SuperTypeGenerator extends AbstractJavaProducingVisitor{
 					constructor.getBody().addToStatements("super()");
 				}
 			}
-		}else if(c.getNakedGeneralizations().size()>1){
-			//TODO implement as validation rule
+		}else if(c.getNakedGeneralizations().size() > 1){
+			// TODO implement as validation rule
 			System.out.println(c + " has more than one generalization");
 		}
-		for(INakedInterfaceRealization ir:c.getInterfaceRealizations()){
-			OJAnnotatedClass myClass = findJavaClass(c);
-			myClass.addToImplementedInterfaces(OJUtil.classifierPathname(ir.getContract()));
+		if(OJUtil.hasOJClass(c)){
+			for(INakedInterfaceRealization ir:c.getInterfaceRealizations()){
+				OJAnnotatedClass myClass = findJavaClass(c);
+				myClass.addToImplementedInterfaces(OJUtil.classifierPathname(ir.getContract()));
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

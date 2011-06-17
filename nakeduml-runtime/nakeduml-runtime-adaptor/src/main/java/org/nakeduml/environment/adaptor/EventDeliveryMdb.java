@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.nakeduml.event.AbstractNakedUmlEvent;
 import org.nakeduml.runtime.domain.AbstractEntity;
 
-public class EventDeliveryMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
+public class EventDeliveryMdb extends AbstractEventMdb<AbstractNakedUmlEvent>{
 	@Inject
 	Session hibernateSession;
 	@Override
@@ -24,5 +24,10 @@ public class EventDeliveryMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
 	@Override
 	protected String getQueueName(){
 		return "queue/EventDeliveryQueue";
+	}
+
+	@Override
+	protected String getDlqName(){
+		return "queue/EventDeliveryDeadLetterQueue";
 	}
 }

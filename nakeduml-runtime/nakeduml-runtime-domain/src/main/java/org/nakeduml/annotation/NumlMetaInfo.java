@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 
-public @interface PersistentName{
-	String value();
+public @interface NumlMetaInfo{
+	String persistentName();
+	int nakedUmlId();
 }

@@ -85,7 +85,6 @@ public class HibernateProcessPersistenceContext implements ProcessPersistenceCon
 	@Override
 	public List<Long> getProcessInstancesWaitingForEvent(String type) {
 		Query processInstancesForEvent = session.getNamedQuery("ProcessInstancesWaitingForEvent");
-		processInstancesForEvent.setFlushMode(FlushMode.COMMIT);
 		processInstancesForEvent.setParameter("type", type);
 		return (List<Long>) processInstancesForEvent.list();
 	}
