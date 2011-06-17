@@ -1,103 +1,44 @@
 package org.nakeduml.environment.adaptor;
 
-import java.sql.SQLException;
+import javax.jms.MessageListener;
 
-import javax.inject.Inject;
-import javax.jms.Message;
-import javax.jms.ObjectMessage;
+import org.drools.runtime.process.WorkflowProcessInstance;
+import org.nakeduml.environment.SignalToDispatch;
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.AbstractProcess;
+import org.nakeduml.runtime.domain.ActiveObject;
 
-import org.hibernate.Session;
-import org.jboss.logging.Logger;
-import org.jboss.seam.transaction.DefaultTransaction;
-import org.jboss.seam.transaction.SeamTransaction;
-import org.nakeduml.event.Retryable;
-import org.nakeduml.runtime.domain.ExceptionAnalyser;
-
-public abstract class AbstractSignalMdb<T extends Retryable> {
-	@Inject
-	@DefaultTransaction
-	protected SeamTransaction transaction;
-	@Inject
-	Logger logger;
-	@Inject
-	protected Session hibernateSession;
-	@Inject
-	MessageRetryer retryer;
-	@Inject
-	MessageSender sender;
-
-	protected abstract void deliverMessage(T std) throws Exception;
-
-	protected abstract String getQueueName();
-	protected abstract String getDlqName();
-
-	public void onMessage(Message message) {
-		long start = System.currentTimeMillis();
-		ObjectMessage obj = (ObjectMessage) message;
-		try {
-			this.processInTryBlock((T) obj.getObject());
-		} catch (Exception e) {
-			logger.errorv("Unhandled exception in SignalMDB: {0}", e.toString());
-			logger.error(e.getMessage(), e);
-		} finally {
-			try {
-				message.acknowledge();
-			} catch (Exception e2) {
-				logger.error(e2.getMessage(), e2);
-			}
-			try {
-				hibernateSession.close();
-			} catch (Exception e2) {
-				logger.error(e2.getMessage(), e2);
-			}
-			logger.debug("Signal delivery took "
-					+ (System.currentTimeMillis() - start) + "ms");
+public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatch> implements MessageListener{
+	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{
+		if(signalToDispatch.targetIsEntity()){
+			deliverToEntity(signalToDispatch);
+		}else{
+			deliverToHelper(signalToDispatch);
 		}
 	}
-
-	private void processInTryBlock(T std) throws Exception {
-		try {
-			deliverMessage(std);
-		} catch (Exception e) {
-			try {
-				hibernateSession.clear();
-				transaction.rollback();
-			} catch (Exception e2) {
+	private void deliverToHelper(SignalToDispatch signalToDispatch) throws Exception{
+		// CM Hack check for explicit process failure instead
+		transaction.begin();
+		signalToDispatch.prepareForDelivery(sessionFactory.getCurrentSession());
+		transaction.commit();
+		Object s = signalToDispatch.getSource();
+		if(s instanceof AbstractProcess){
+			transaction.begin();
+			WorkflowProcessInstance processInstance = ((AbstractProcess) s).getProcessInstance();
+			transaction.commit();
+			if(processInstance != null){
+				signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 			}
-			ExceptionAnalyser ea = new ExceptionAnalyser(e);
-			if (ea.isStaleStateException() || ea.isDeadlockException()) {
-				if (std.getRetryCount() < 20) {
-					logger.debugv("Retrying {0} because of {1}",
-							std.getDescription(), ea.getRootCause().toString());
-					retryer.retryMessage(getQueueName(), std);
-				} else {
-					Throwable rootCause = ea.getRootCause();
-					if (rootCause instanceof SQLException
-							&& ea.getStackTrace(rootCause).contains(
-									"Call getNextException to see the cause")) {
-						logger.debugv("Unresolved exception found {0}",
-								rootCause.toString());
-					}
-					logger.debugv("RetryCount exceeded for signal {0}",
-							std.getDescription());
-					ea.throwRootCause();
-				}
-			} else {
-				if (ea.stringOccurs("getNodeInstancesRecursively")
-						&& ea.stringOccurs("java.lang.NullPointerException")) {
-					//swallow this
-					logger.debugv(
-							"Process had already completed on delivery of {0}",
-							std.getDescription());
-				} else {
-					Throwable rootCause = ea.getRootCause();
-					logger.debug(rootCause);
-					logger.debugv("Exception {0} can not be retried",
-							rootCause.toString());
-					retryer.sendMessage(getDlqName(), std);
-					ea.throwRootCause();
-				}
-			}
+		}else{
+			signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 		}
+	}
+	protected void deliverToEntity(SignalToDispatch signalToDispatch) throws Exception{
+		transaction.setTransactionTimeout(600);
+		transaction.begin();
+		signalToDispatch.prepareForDelivery(sessionFactory.getCurrentSession());
+		AbstractEntity target = (AbstractEntity) signalToDispatch.getTarget();
+		((ActiveObject) target).processSignal(signalToDispatch.getSignal());
+		transaction.commit();
 	}
 }

@@ -20,6 +20,9 @@ public class ExceptionAnalyser{
 		String stackTrace = new String(w.toCharArray());
 		return stackTrace;
 	}
+	public boolean isResourceAllocationTimeout(){
+		return occursIn("javax.resource.ResourceException: Interrupted while requesting permit", exception);
+	}
 	public boolean isStaleStateException(){
 		return occursIn("org.hibernate.StaleObjectStateException", exception);
 	}

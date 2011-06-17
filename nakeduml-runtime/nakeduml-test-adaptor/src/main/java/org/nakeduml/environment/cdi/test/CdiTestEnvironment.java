@@ -243,7 +243,6 @@ public class CdiTestEnvironment extends Environment{
 			lifecycle.beginSession();
 			lifecycle.beginRequest();
 			try{
-				resolveBean(Session.class,DefaultLiteral.INSTANCE).setFlushMode(FlushMode.MANUAL);
 				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).begin();
 			}catch(RuntimeException e){
 				throw e;

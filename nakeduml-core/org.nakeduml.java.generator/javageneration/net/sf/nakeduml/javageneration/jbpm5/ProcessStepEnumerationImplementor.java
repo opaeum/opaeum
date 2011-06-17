@@ -19,11 +19,9 @@ import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
-import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.AbstractProcessStep;
 import org.nakeduml.runtime.domain.TriggerMethod;
 
@@ -31,7 +29,12 @@ import org.nakeduml.runtime.domain.TriggerMethod;
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
 	protected abstract INakedElement getEnclosingElement(INakedElement step);
 	protected abstract Collection<INakedTrigger> getMethodTriggers(INakedElement step);
-
+	interface x{
+		
+	}
+	enum en implements x{
+		
+	}
 	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
 		OJEnum e = new OJEnum();
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(AbstractProcessStep.class);
@@ -42,11 +45,11 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		super.createTextPath(e, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
-		addField(e, constructor, "parentState", abstractProcessStep);
-		addField(e, constructor, "persistentName", new OJPathName("String"));
-		addField(e, constructor, "id", new OJPathName("long"));
-		addField(e, constructor, "humanName", new OJPathName("String"));
-		addField(e, constructor, "triggerMethods", new OJPathName(TriggerMethod.class.getName()+"[]"));
+		OJUtil.addField(e, constructor, "parentState", abstractProcessStep);
+		OJUtil.addField(e, constructor, "persistentName", new OJPathName("String"));
+		OJUtil.addField(e, constructor, "id", new OJPathName("long"));
+		OJUtil.addField(e, constructor, "humanName", new OJPathName("String"));
+		OJUtil.addField(e, constructor, "triggerMethods", new OJPathName(TriggerMethod.class.getName()+"[]"));
 		e.addToImports(TriggerMethod.class.getName());
 		OJOperation getQualifiedName = new OJAnnotatedOperation();
 		getQualifiedName.setName("getQualifiedName");
@@ -72,6 +75,9 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		forAll.getBody().addToStatements(ifEquals);
 		resolve.getBody().addToStatements("return null");
 		e.addToOperations(resolve);
+		OJAnnotatedOperation getNakedUmlId = new OJAnnotatedOperation("getNakedUmlId",new OJPathName("int"));
+		getNakedUmlId.getBody().addToStatements("return (int)getId()");
+		e.addToOperations(getNakedUmlId);
 		return e;
 	}
 
@@ -81,14 +87,14 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		l.setName(Jbpm5Util.stepLiteralName(step));
 		e.addToLiterals(l);
 		if (getEnclosingElement(step) != null) {
-			addParameter(l, "parentState", Jbpm5Util.stepLiteralName(getEnclosingElement(step)));
+			OJUtil.addParameter(l, "parentState", Jbpm5Util.stepLiteralName(getEnclosingElement(step)));
 		}else{
-			addParameter(l, "parentState", "null");
+			OJUtil.addParameter(l, "parentState", "null");
 		}
-		addParameter(l, "persistentName", '"' + step.getMappingInfo().getPersistentName().getWithoutId().getAsIs() + '"');
-		addParameter(l, "id", step.getMappingInfo().getNakedUmlId().toString() + 'l');
-		addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
-		addParameter(l, "triggerMethods", buildTriggerMethodParameter(getMethodTriggers(step)));
+		OJUtil.addParameter(l, "persistentName", '"' + step.getMappingInfo().getQualifiedPersistentName() + '"');
+		OJUtil.addParameter(l, "id", step.getMappingInfo().getNakedUmlId().toString() + 'l');
+		OJUtil.addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
+		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getMethodTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);
 	}
 	
@@ -110,20 +116,5 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		}
 		sb.append('}');
 		return sb.toString();
-	}
-	public void addParameter(OJEnumLiteral l, String name, String value) {
-		OJAnnotatedField persistentName = new OJAnnotatedField();
-		persistentName.setName(name);
-		persistentName.setInitExp(value);
-		l.addToAttributeValues(persistentName);
-	}
-	private void addField(OJEnum ojEnum, OJConstructor constr, String name, OJPathName type) {
-		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
-		getter.getBody().addToStatements("return this." + name);
-		ojEnum.addToOperations(getter);
-		constr.addParam(name, type);
-		constr.getBody().addToStatements("this." + name + "=" + name);
-		OJAnnotatedField field = new OJAnnotatedField(name, type);
-		ojEnum.addToFields(field);
 	}
 }

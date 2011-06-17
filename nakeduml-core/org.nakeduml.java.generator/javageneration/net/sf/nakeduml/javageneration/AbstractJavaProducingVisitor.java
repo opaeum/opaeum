@@ -33,7 +33,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
+public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
@@ -191,5 +191,16 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor{
 	}
 	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
+	}
+	@Override
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace){
+	 this.initialize(pac, config, textWorkspace, null);
+		
+	}
+	@Override
+	public void generate(INakedModelWorkspace workspace,TransformationContext context){
+		this.transformationContext=context;
+		startVisiting(workspace);
+		
 	}
 }

@@ -29,6 +29,9 @@ public class MessageRetryer{
 	TimerService timerService;
 	@Resource(mappedName="ConnectionFactory")
 	ConnectionFactory factory;
+	public void testDeployment(){
+		
+	}
 	public void retryMessage(String destination,Serializable payload){
 		long delay = Math.round(Math.random() * 10000);// Randomly spread delay to minimise risk of concurrency
 		timerService.createTimer(new Date(System.currentTimeMillis() + delay), new PayloadToResend(destination, payload));

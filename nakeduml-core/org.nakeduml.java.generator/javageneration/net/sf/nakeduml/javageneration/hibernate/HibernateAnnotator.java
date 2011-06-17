@@ -151,6 +151,10 @@ public class HibernateAnnotator extends AbstractHibernateGenerator {
 		OJAnnotatedClass owner = findJavaClass(complexType);
 		addAllInstances(complexType, owner);
 		OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
+		OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Entity"));
+		entity.setImportType(false);
+		entity.putAttribute("dynamicUpdate", true);
+		owner.putAnnotation(entity);
 		if (table != null && table.hasAttribute("uniqueConstraints")) {
 			OJAnnotationAttributeValue attr = table.findAttribute("uniqueConstraints");
 			for (OJAnnotationValue v : attr.getAnnotationValues()) {

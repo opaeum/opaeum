@@ -39,32 +39,32 @@ public class ManagedHibernateSessionProvider implements Serializable {
 	@Inject
 	private ManagedHibernateSessionFactoryProvider managedHibernateSessionFactoryProvider;
 	
-	@RequestScoped
-	@Produces
-	@ExtensionManaged
-	public SessionFactory createSessionFactory1() {
-		return managedHibernateSessionFactoryProvider.getSessionFactory();
-	}
-	@DependentScopedSession
-	@Produces
-	@ExtensionManaged
-	@Dependent
-	public SessionFactory createSessionFactory2() {
-		return managedHibernateSessionFactoryProvider.getSessionFactory();
-	}
-	@TransactionScopedSession
-	@Produces
-	@ExtensionManaged
-	@TransactionScoped
-	public SessionFactory createSessionFactory3() {
-		return managedHibernateSessionFactoryProvider.getSessionFactory();
-	}
-	
-	@Audit
-	@Produces
-	@ExtensionManaged
-	public SessionFactory createSessionFactory() {
-		return managedHibernateSessionFactoryProvider.getSessionFactory();
-	}	
+//	@RequestScoped
+//	@Produces
+//	@ExtensionManaged
+//	public SessionFactory createSessionFactory1() {
+//		return managedHibernateSessionFactoryProvider.getSessionFactory();
+//	}
+//	@DependentScopedSession
+//	@Produces
+//	@ExtensionManaged
+//	@Dependent
+//	public SessionFactory createSessionFactory2() {
+//		return managedHibernateSessionFactoryProvider.getSessionFactory();
+//	}
+////	@TransactionScopedSession
+////	@Produces
+////	@ExtensionManaged
+////	@TransactionScoped
+////	public SessionFactory createSessionFactory3() {
+////		return managedHibernateSessionFactoryProvider.getSessionFactory();
+////	}
+//	
+//	@Audit
+//	@Produces
+//	@ExtensionManaged
+//	public SessionFactory createSessionFactory() {
+//		return managedHibernateSessionFactoryProvider.getSessionFactory();
+//	}	
 	
 }

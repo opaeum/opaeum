@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.AbstractEntity;
@@ -22,17 +23,15 @@ import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.RevisionEntity;
-import org.nakeduml.seam3.persistence.TransactionScopedSession;
 
 @TransactionAttribute
 public class AuditCapturer{
 	@Inject
 	Logger logger;
 	@Inject
-	@TransactionScopedSession
-	private Session session;
+	SessionFactory sessionFactory;
 	public void persistAudit(AbstractWorkUnit workUnit){
-		session.setFlushMode(FlushMode.COMMIT);
+		Session session=sessionFactory.getCurrentSession();
 		try{
 			RevisionEntity revisionEntity = new RevisionEntity();
 			session.persist(revisionEntity);
@@ -85,7 +84,7 @@ public class AuditCapturer{
 					}
 				}
 			}
-			session.flush();
+			session.flush(); // Is this necessary?
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			ea.throwRootCause();

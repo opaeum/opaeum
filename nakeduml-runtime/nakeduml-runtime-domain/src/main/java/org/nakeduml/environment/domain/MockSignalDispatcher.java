@@ -50,10 +50,4 @@ public class MockSignalDispatcher implements ISignalDispatcher {
 		}
 	}
 
-	@Override
-	public void deliverPendingSignalsOfType(Class<? extends AbstractSignal> type) {
-		for (SignalToDispatch signal : getSignalsOfType(type)) {
-			signal.getTarget().processSignal(signal.getSignal());
-		}
-	}
 }

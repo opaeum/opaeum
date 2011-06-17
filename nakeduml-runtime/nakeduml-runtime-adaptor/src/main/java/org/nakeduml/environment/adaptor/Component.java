@@ -1,6 +1,7 @@
 package org.nakeduml.environment.adaptor;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.Set;
 
@@ -32,26 +33,31 @@ public class Component extends BeanManagerAware{
 			return (Class<T>) o.getClass();
 		}else{
 			Class<T> c = (Class<T>) IntrospectionUtil.getOriginalClass(o);
-			if(c == Object.class){
+			if(c == Object.class || c == Proxy.class){
 				// injected by interface
 				BeanManager beanManager = getBeanManager();
-				Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(o.getClass().getInterfaces()[0], DefaultLiteral.INSTANCE));
-				Set<Type> types = bean.getTypes();
-				for(Type type:types){
-					if(type instanceof Class && !((Class<?>) type).isInterface() && type != Object.class){
-						return (Class<T>) type;
+				for(Class<?> class1:o.getClass().getInterfaces()){
+					if(!(class1.getName().startsWith("java") || class1.getName().startsWith("org.jboss") || class1.getName().startsWith(
+							"org.nakeduml"))){
+						Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(class1, DefaultLiteral.INSTANCE));
+						Set<Type> types = bean.getTypes();
+						for(Type type:types){
+							if(type instanceof Class && !((Class<?>) type).isInterface() && type != Object.class){
+								return (Class<T>) type;
+							}
+						}
+						return (Class<T>) class1;// return most significant interface
 					}
 				}
 			}
-			return c;
+			return c;// You're fucked
 		}
 	}
-
 	@SuppressWarnings("unchecked")
-	public <T> T getInstance(Class<T> type, Annotation ... qualifiers) {
+	public <T>T getInstance(Class<T> type,Annotation...qualifiers){
 		BeanManager beanManager = getBeanManager();
-        Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(type, qualifiers));
-        CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
-        return (T)beanManager.getReference(bean, type, ctx);
-	}	
+		Bean<T> bean = (Bean<T>) beanManager.resolve(beanManager.getBeans(type, qualifiers));
+		CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
+		return (T) beanManager.getReference(bean, type, ctx);
+	}
 }

@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.nakeduml.event.AbstractNakedUmlEvent;
 
-public class EventRequestMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
+public class EventRequestMdb extends AbstractEventMdb<AbstractNakedUmlEvent>{
 	@Inject
 	Session hibernateSession;
 	@Override
@@ -19,7 +19,7 @@ public class EventRequestMdb extends AbstractSignalMdb<AbstractNakedUmlEvent>{
 		if(std.isToBeCancelled()){
 			Criteria c=hibernateSession.createCriteria(std.getClass());
 			c.add(Restrictions.eq("eventSourceId", std.getEventSourceId()));
-			c.add(Restrictions.eq("eventSourceClassName", std.getEventSourceClassName()));
+			c.add(Restrictions.eq("eventSourceClassId", std.getEventSourceClassId()));
 			c.add(Restrictions.eq("callbackMethodName", std.getCallbackMethodName()));
 			List<AbstractNakedUmlEvent> list = c.list();
 			for(AbstractNakedUmlEvent event:list){

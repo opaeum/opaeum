@@ -232,8 +232,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		String methodName = null;
 		methodName = "on" + event.getMappingInfo().getJavaName().getCapped();
 		OJAnnotatedOperation listener = new OJAnnotatedOperation();
-		listener.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), Jbpm5Util
-				.getEventMethodPersistentName(event)));
+//		listener.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), Jbpm5Util
+//				.getEventMethodPersistentName(event)));
 		listener.setName(methodName);
 		listener.setReturnType(new OJPathName("boolean"));
 		activityClass.addToOperations(listener);

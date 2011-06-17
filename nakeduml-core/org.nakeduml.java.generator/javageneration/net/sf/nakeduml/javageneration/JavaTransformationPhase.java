@@ -19,7 +19,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 @PhaseDependency(after = { LinkagePhase.class,
 		NameGenerationPhase.class,OclParsingPhase.class }, before = { FileGenerationPhase.class })
-public class JavaTransformationPhase implements TransformationPhase<AbstractJavaTransformationStep> {
+public class JavaTransformationPhase implements TransformationPhase<JavaTransformationStep> {
 	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();
 	@InputModel
 	private TextWorkspace textWorkspace;
@@ -34,9 +34,9 @@ public class JavaTransformationPhase implements TransformationPhase<AbstractJava
 		this.config = config;
 	}
 
-	public Object[] execute(List<AbstractJavaTransformationStep> features,TransformationContext context) {
+	public Object[] execute(List<JavaTransformationStep> features,TransformationContext context) {
 		javaModel = new OJAnnotatedPackage();
-		for (AbstractJavaTransformationStep f : features) {
+		for (JavaTransformationStep f : features) {
 			f.initialize(javaModel, config, textWorkspace);
 			f.generate(modelWorkspace, context);
 			context.featureApplied(f.getClass());

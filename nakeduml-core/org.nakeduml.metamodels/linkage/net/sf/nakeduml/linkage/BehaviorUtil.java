@@ -239,6 +239,6 @@ public class BehaviorUtil{
 	}
 	public static boolean isEffectiveFinalNode(INakedActivityNode node2){
 		boolean hasExceptionHandler = node2 instanceof INakedAction && ((INakedAction) node2).getHandlers().size() > 0;
-		return(node2.getAllEffectiveOutgoing().isEmpty() && !hasExceptionHandler);
+		return node2.getAllEffectiveOutgoing().isEmpty() && node2.getOwnerElement() instanceof INakedActivity && !hasExceptionHandler;
 	}
 }

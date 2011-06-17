@@ -18,6 +18,7 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
@@ -99,7 +100,7 @@ public class OperationAnnotator extends StereotypeAnnotator {
 			oper.setVisibility(operationMap.javaVisibility());
 			owner.addToOperations(oper);
 			applyStereotypesAsAnnotations((o), oper);
-			oper.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), o.getMappingInfo().getQualifiedPersistentName()));
+			OJUtil.addMetaInfo(oper, o);
 		}
 		return oper;
 	}

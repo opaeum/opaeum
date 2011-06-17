@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.nakeduml.annotation.PersistentName;
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
@@ -25,8 +25,8 @@ public class AbstractNakedUmlEvent implements Retryable{
 	@Column(name = "event_source_id")
 	private Long eventSourceId;
 	@Basic
-	@Column(name = "event_source_class_name")
-	private String eventSourceClassName;
+	@Column(name = "event_source_class_id")
+	private Integer eventSourceClassId;
 	@Basic
 	@Column(name = "callback_method_name")
 	private String callbackMethodName;
@@ -39,7 +39,7 @@ public class AbstractNakedUmlEvent implements Retryable{
 	private AbstractEntity eventSource;
 	@Override
 	public String getDescription(){
-		return getEventSourceClassName() + "." + getCallbackMethodName() + "()";
+		return getEventSourceClass().getName() + "." + getCallbackMethodName() + "()";
 	}
 	@Override
 	public int getRetryCount(){
@@ -50,7 +50,7 @@ public class AbstractNakedUmlEvent implements Retryable{
 	public AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName){
 		this.eventSource = process;
 		this.eventSourceId = process.getId();
-		this.eventSourceClassName = IntrospectionUtil.getOriginalClass(process.getClass()).getAnnotation(PersistentName.class).value();
+		this.eventSourceClassId = IntrospectionUtil.getOriginalClass(process.getClass()).getAnnotation(NumlMetaInfo.class).nakedUmlId();
 		this.callbackMethodName = callBackMethodName;
 	}
 	public AbstractNakedUmlEvent(AbstractEntity process,String callBackMethodName2,boolean cancelled){
@@ -80,12 +80,9 @@ public class AbstractNakedUmlEvent implements Retryable{
 			return false;
 		}
 	}
-	public String getEventSourceClassName(){
-		return eventSourceClassName;
-	}
-	public Class<? extends AbstractEntity> getEventSourceClass(){
+	public Class<?> getEventSourceClass(){
 		try{
-			return Environment.getPersistentNameClassMap().getClass(eventSourceClassName);
+			return Environment.getMetaInfoMap().getClass(eventSourceClassId);
 		}catch(Exception e){
 			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
 		}
@@ -100,7 +97,7 @@ public class AbstractNakedUmlEvent implements Retryable{
 	protected Method getMethodByPersistentName(String persistentMethodName){
 		Method[] methods = getEventSourceClass().getMethods();
 		for(Method method:methods){
-			if(method.isAnnotationPresent(PersistentName.class) && method.getAnnotation(PersistentName.class).value().equals(persistentMethodName)){
+			if(method.isAnnotationPresent(NumlMetaInfo.class) && method.getAnnotation(NumlMetaInfo.class).persistentName().equals(persistentMethodName)){
 				return method;
 			}
 		}
@@ -118,5 +115,8 @@ public class AbstractNakedUmlEvent implements Retryable{
 	@Override
 	public void incrementRetryCount(){
 		retryCount++;
+	}
+	public Integer getEventSourceClassId(){
+		return this.eventSourceClassId;
 	}
 }
