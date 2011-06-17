@@ -37,8 +37,8 @@ public class ArquillianUtils {
 		EnterpriseArchive ear = ShrinkWrap.createDomain().getArchiveFactory().create(EnterpriseArchive.class, "test.ear");
 		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_API));
 		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_IMPL));
-		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
-		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
+//		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
+//		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
 		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
 		ear.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
 		return ear;
@@ -68,8 +68,8 @@ public class ArquillianUtils {
 	private static void includeSeam(WebArchive war) {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SOLDER_IMPL));
-		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
-		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_API));
+//		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_PERSISTENCE_IMPL));
 	}
 
 	public static void includeSeamServlet(WebArchive war) {

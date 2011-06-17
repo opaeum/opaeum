@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,17 +24,13 @@ import javax.enterprise.inject.spi.Bean;
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentImpl;
 import org.drools.runtime.StatefulKnowledgeSession;
-import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.connection.ConnectionProviderFactory;
-import org.hibernate.dialect.HSQLDialect;
-import org.hibernate.jdbc.Work;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jboss.seam.solder.literal.DefaultLiteral;
-import org.jboss.seam.transaction.literal.DefaultTransactionLiteral;
 import org.jboss.weld.manager.BeanManagerImpl;
 import org.jboss.weld.mock.MockBeanDeploymentArchive;
 import org.jboss.weld.mock.MockDeployment;
@@ -224,7 +219,7 @@ public class CdiTestEnvironment extends Environment{
 		}
 		if(componentStack.isEmpty()){
 			try{
-				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).commit();
+				resolveBean(CdiTestSeamTransaction.class, DefaultLiteral.INSTANCE).commit();
 				signalDispatcher.prepareSignalsForDispatch();
 				resolveBean(Session.class,DefaultLiteral.INSTANCE).close();
 			}catch(RuntimeException e){
@@ -243,7 +238,7 @@ public class CdiTestEnvironment extends Environment{
 			lifecycle.beginSession();
 			lifecycle.beginRequest();
 			try{
-				resolveBean(CdiTestSeamTransaction.class, DefaultTransactionLiteral.INSTANCE).begin();
+				resolveBean(CdiTestSeamTransaction.class, DefaultLiteral.INSTANCE).begin();
 			}catch(RuntimeException e){
 				throw e;
 			}catch(Exception e){

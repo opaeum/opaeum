@@ -8,6 +8,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.hibernate.classic.Session;
 import org.jboss.logging.Logger;
 
 @Singleton(name="InitializeHibernate")
@@ -22,7 +23,9 @@ public class InitializeHibernate{
 	public void init(){
 		logger.debug("init");
 		//Invoke method on factory to ensure it is loaded
-		sessionFactory.getSessionFactory().openSession().close();
+		Session session = sessionFactory.getSessionFactory().openSession();
+		session.enableFilter("noDeletedObjects");
+		session.close();
 	}
 	@PreDestroy
 	public void destroy(){

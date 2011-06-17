@@ -1,12 +1,7 @@
 package org.nakeduml.seam3.persistence;
 
 import javax.annotation.PreDestroy;
-import javax.ejb.DependsOn;
-import javax.ejb.Singleton;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 
 import org.hibernate.Session;
@@ -37,9 +32,13 @@ public class ManagedHibernateSessionFactoryProvider{
 		return this.sessionFactory;
 	}
 	@Produces
-	@RequestScoped
+	@UserManagedSession
 	public Session getSession(){
 		return this.sessionFactory.openSession();
+	}
+	@Produces
+	public Session getTransactionScopedSession(){
+		return this.sessionFactory.getCurrentSession();
 	}
 	@PreDestroy
 	public void close(){

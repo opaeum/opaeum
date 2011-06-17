@@ -1,11 +1,13 @@
 package com.rorotika.cm.ericsson.gsm.load.loadprocess;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 
 import org.hibernate.Session;
 import org.nakeduml.environment.cdi.test.CdiTestEnvironment;
 
+@Alternative
 public class CdiTestHibernateSessionProducer{
 	@Produces
 	@RequestScoped
