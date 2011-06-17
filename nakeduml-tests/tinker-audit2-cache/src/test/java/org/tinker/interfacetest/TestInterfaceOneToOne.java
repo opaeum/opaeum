@@ -13,10 +13,12 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 
 	@Test
 	public void test() {
+		db.startTransaction();
 		Vertex vertex1 = db.addVertex(null);
 		Vertex vertex2 = db.addVertex(null);
 		db.addEdge(null, vertex1, vertex2, "one");
 		db.addEdge(null, vertex1, vertex2, "one");
+		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(2, countVertices());
 		assertEquals(2, countEdges());
 	}

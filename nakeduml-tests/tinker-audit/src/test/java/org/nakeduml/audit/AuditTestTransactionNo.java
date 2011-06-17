@@ -119,12 +119,14 @@ public class AuditTestTransactionNo extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
 		assertEquals(16, countEdges());
+		db.startTransaction();
 		assertEquals("finger4", finger4.getAudits().get(1).getPreviousAuditEntry().getName());
 		assertEquals("THEHAND", finger4.getAudits().get(1).getPreviousAuditEntry().getHand().getName());
 		Iterator<HandAudit> iterator3 = hand.getAudits().iterator();
 		assertEquals(new Long(2), iterator3.next().getTransactionNo());
 		assertEquals(new Long(3), iterator3.next().getTransactionNo());
-		assertEquals(new Long(4), finger4.getAudits().iterator().next().getTransactionNo());		
+		assertEquals(new Long(4), finger4.getAudits().iterator().next().getTransactionNo());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
 	@Test

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class TestCompositionOneToOne extends BaseLocalDbTest {
@@ -49,7 +48,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		assertEquals(29, countEdges());
 	}
 	
-	@Test(expected=OTransactionException.class)
+	@Test(expected=RuntimeException.class)
 	public void testOneToOneSet() {
 		db.startTransaction();
 		God god = new God();

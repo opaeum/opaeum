@@ -20,7 +20,10 @@ public class BaseLocalDbTest {
 	@Before
 	public void before() {
 		db = Environment.getInstance().getComponent(NakedGraph.class);
+//		db.setTransactionMode(Mode.MANUAL);
+//		db.startTransaction();
 		db.clear();
+//		db.stopTransaction(Conclusion.SUCCESS);
 		GraphDb.setDb(db);
 		Properties properties = loadProperties();
 		if (new Boolean(properties.getProperty("tinkerdb.withschema", "false"))) {
@@ -36,7 +39,9 @@ public class BaseLocalDbTest {
 			}
 		}
 		db.setTransactionMode(Mode.MANUAL);
-//		db.registerListeners();
+		if (Boolean.valueOf(properties.getProperty("tinkerdb.register.listeners", "true"))) {
+			db.registerListeners();
+		}
 		db.startTransaction();
 		db.addRoot();
 		db.stopTransaction(Conclusion.SUCCESS);

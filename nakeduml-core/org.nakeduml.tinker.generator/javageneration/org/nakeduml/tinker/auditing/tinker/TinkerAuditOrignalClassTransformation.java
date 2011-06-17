@@ -308,7 +308,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"transactionNo\", "+TinkerUtil.graphDbAccess+".getTransactionCount())");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"outClass\", this.getClass().getName())");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"inClass\", this.getClass().getName() + \"Audit\")");
-		createAuditVertexWithAuditEdge.getBody().addToStatements("copyShallowState(this, this)");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("copyAuditShallowState(this, this)");
 		ojClass.addToOperations(createAuditVertexWithAuditEdge);
 	}
 
@@ -373,17 +373,17 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		OJForStatement forStatement = (OJForStatement) adder.getBody().findStatement(TinkerAttributeImplementorStrategy.TINKER_MANY_REMOVER);
 		OJIfStatement ifStatement1 = new OJIfStatement("TransactionThreadVar.hasNoAuditEntry(getClass().getName() + getUid())");
 		ifStatement1.addToThenPart("createAuditVertex(false)");
-		forStatement.getBody().addToStatements(ifStatement1);
+		forStatement.getBody().addToStatements(0, ifStatement1);
 		OJIfStatement ifStatement2 = new OJIfStatement(map.umlName() + " != null && TransactionThreadVar.hasNoAuditEntry(" + map.umlName()
 				+ ".getClass().getName() + " + map.umlName() + ".getUid())");
 		ifStatement2.addToThenPart(map.umlName() + ".createAuditVertex(false)");
-		forStatement.getBody().addToStatements(ifStatement2);
+		forStatement.getBody().addToStatements(1, ifStatement2);
 
 		boolean isComposite = map.getProperty().isComposite();
 		isComposite = TinkerUtil.calculateDirection(map, isComposite);
 
 		OJTryStatement tryException = buildRemovedAuditEdge(map, otherMap, isComposite);
-		forStatement.getBody().addToStatements(tryException);
+		forStatement.getBody().addToStatements(2, tryException);
 
 	}
 
@@ -508,9 +508,12 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
 										+ "\"," + map.umlName() + "!=null?" + map.umlName() + ".name():null)");
 					} else if (map.isMany()) {
+//						setter.getBody().addToStatements(
+//								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+//										+ "\"," + " new " + map.javaDefaultTypePath().getLast() + "<"+ map.javaBaseTypePath().getLast() + ">(" + map.umlName() + "))");
 						setter.getBody().addToStatements(
 								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
-										+ "\"," + " new " + map.javaDefaultTypePath().getLast() + "<"+ map.javaBaseTypePath().getLast() + ">(" + map.umlName() + "))");
+										+ "\", "  + map.umlName() + ".toArray(new "+map.javaBaseTypePath().getLast()+"[]{}))");
 					} else {
 						setter.getBody().addToStatements(
 								"getAuditVertex().setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
@@ -573,7 +576,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 
 		NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(map.getProperty().getOtherEnd());
 		OJTryStatement tryException = buildRemovedAuditEdge(map, otherMap, isComposite);
-		removeEdges.getBody().addToStatements(tryException);
+		removeEdges.getBody().addToStatements(0, tryException);
 
 	}
 
@@ -639,6 +642,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		OJIfStatement ifStatement2 = new OJIfStatement(map.getter() + "() != null && TransactionThreadVar.hasNoAuditEntry(" + map.getter()
 				+ "().getClass().getName() + " + map.getter() + "().getUid())");
 		ifStatement2.addToThenPart(map.getter() + "().createAuditVertex(false)");
+		ifStatement2.addToThenPart("TransactionThreadEntityVar.setNewEntity("+map.getter()+"())");
 		internalCreateAuditToPreviousOne.getBody().addToStatements(ifStatement2);
 
 		internalCreateAuditToPreviousOne.getBody().addToStatements("Vertex edgeRemovedFromAuditVertex = null");

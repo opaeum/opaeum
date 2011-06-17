@@ -8,7 +8,7 @@ import org.util.TinkerFormatter;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class BaseTinker implements Serializable{
+public abstract class BaseTinker implements TinkerNode, Serializable{
 
 	private static final long serialVersionUID = 3751023772087546585L;
 	protected Vertex vertex;
@@ -45,6 +45,10 @@ public abstract class BaseTinker implements Serializable{
 
 	public void defaultUpdate() {
 		setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+	}
+	
+	public String getName() {
+		return getClass().getName() + "["+getId()+"]";
 	}
 
 }

@@ -34,6 +34,17 @@ public class OJBlock extends OJBlockGEN {
 		this.addToStatements(stat);
 	}
 	
+	public void addToStatements(int index, OJStatement statement) {
+		getStatements().add(index, statement);
+	}
+	
+	public void addToStatements(int indexOfRemoveVertex, String expression) {
+		if (expression.length() == 0) return;
+		OJSimpleStatement stat = new OJSimpleStatement();
+		stat.setExpression(expression);
+		this.addToStatements(indexOfRemoveVertex, stat);
+	}
+	
 	public String toJavaString(){
 		String result = "";
 		if (getComment().length() != 0) result = "/* " + getComment() + "*/\n";
@@ -79,7 +90,7 @@ public class OJBlock extends OJBlockGEN {
 
 	public OJStatement findStatement(String name) {
 		for(OJStatement statement:getStatements()) {
-			if (statement.getName().equals(name)) {
+			if (statement.getName()!=null && statement.getName().equals(name)) {
 				return statement;
 			}
 		}

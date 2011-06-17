@@ -35,6 +35,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.name.NameConverter;
+import org.nakeduml.tinker.basicjava.tinker.TinkerAttributeImplementorStrategy;
 import org.nakeduml.tinker.basicjava.tinker.TinkerUtil;
 
 public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
@@ -151,24 +152,21 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 							buildPolymorphicGetterForMany(map, getter);
 						} else {
 						}
+					} else if (prop.getBaseType() instanceof INakedEnumeration) {
+						if (map.isOne()) {
+							TinkerAttributeImplementorStrategy.buildGetterForToOneEnumeration(map, getter, prop);
+						} else {
+							TinkerAttributeImplementorStrategy.buildGetterForManyEnumeration(owner, map, getter, prop);
+						}
 					} else {
 						if (map.isOne()) {
 							getter.getBody().addToStatements(
 									"return (" + map.javaTypePath() + ") this.vertex.getProperty(\""
 											+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
 						} else {
-							OJField result = new OJField();
-							result.setName("result");
-							result.setType(map.javaAuditTypePath());
-							result.setInitExp("(" + map.javaAuditTypePath().getCollectionTypeName() + ") this.vertex.getProperty(\""
-									+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
-							getter.getBody().addToLocals(result);
-							OJIfStatement ifNull = new OJIfStatement("result != null");
-							ifNull.addToThenPart("return result");
-							ifNull.addToElsePart("return " + map.javaDefaultValue());
-							getter.getBody().addToStatements(ifNull);
+							TinkerAttributeImplementorStrategy.buildGetterForToManyEmbbedded(owner, map, getter, prop);
 						}
-					}
+					}						
 				}
 			}
 		}

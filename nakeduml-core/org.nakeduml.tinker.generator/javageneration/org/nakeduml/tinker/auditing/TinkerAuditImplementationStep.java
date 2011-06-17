@@ -5,6 +5,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
+import org.nakeduml.tinker.auditing.tinker.AuditCopyMethodImplementor;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditAttributeImplementor;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditAuditClassTransformation;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditCreator;
@@ -35,6 +36,9 @@ public class TinkerAuditImplementationStep extends AbstractJavaTransformationSte
 		TinkerAuditSchemaGenerator schemaGenerator = new TinkerAuditSchemaGenerator();
 		schemaGenerator.initialize(javaModel, config, textWorkspace, context);
 		schemaGenerator.startVisiting(workspace);
+		AuditCopyMethodImplementor auditCopyMethodImplementor = new AuditCopyMethodImplementor();
+		auditCopyMethodImplementor.initialize(javaModel, config, textWorkspace, context);
+		auditCopyMethodImplementor.startVisiting(workspace);
 	}
 
 }

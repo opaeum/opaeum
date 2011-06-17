@@ -5,12 +5,14 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -25,6 +27,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.tinker.basicjava.tinker.TinkerUtil;
 
 public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVisitor {
@@ -47,7 +50,11 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 				addGetOriginal(ojAuditClass, c);
 				implementGetTransactionNo(ojAuditClass);
 				addGetUid(ojAuditClass);
-				implementGetId(ojAuditClass);
+				implementGetSetId(ojAuditClass);
+				addGetObjectVersion(ojAuditClass);
+				if (c.findAttribute("name") == null) {
+					addGetName(c, ojAuditClass);
+				}
 			}
 			if (!c.getIsAbstract()) {
 				implementGetPreviousAuditEntry(ojAuditClass);
@@ -64,6 +71,16 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 		}
 	}
 
+	private void addGetName(INakedComplexStructure entity, OJClass ojClass) {
+		OJAnnotatedOperation getName = new OJAnnotatedOperation();
+		getName.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		getName.setName("getName");
+		getName.setReturnType(new OJPathName("String"));
+		getName.setBody(new OJBlock());
+		getName.getBody().addToStatements("return \"" + entity.getMappingInfo().getJavaName() + "[\"+getId()+\"]\"");
+		ojClass.addToOperations(getName);
+	}
+
 	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(INakedInterface c) {
 		OJAnnotatedInterface myIntf = (OJAnnotatedInterface) findJavaClass(c);
@@ -72,12 +89,28 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 		implementTinkerAuditNode(auditIntf);
 	}
 	
-	private void implementGetId(OJAnnotatedClass ojClass) {
+	private void addGetObjectVersion(OJAnnotatedClass ojClass) {
+		OJAnnotatedOperation getObjectVersion = new OJAnnotatedOperation("getObjectVersion");
+		getObjectVersion.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		getObjectVersion.setReturnType(new OJPathName("int"));
+		getObjectVersion.getBody().addToStatements("return TinkerIdUtil.getVersion(this.vertex)");
+		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
+		ojClass.addToOperations(getObjectVersion);
+	}	
+	
+	private void implementGetSetId(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getId = new OJAnnotatedOperation("getId");
+		getId.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getId.setReturnType(new OJPathName("java.lang.Long"));
 		getId.getBody().addToStatements("return TinkerIdUtil.getId(this.vertex)");
 		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
 		ojClass.addToOperations(getId);
+		
+		OJAnnotatedOperation setId = new OJAnnotatedOperation("setId");
+		setId.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		setId.addParam("id", new OJPathName("java.lang.Long"));
+		setId.getBody().addToStatements("TinkerIdUtil.setId(this.vertex, id)");
+		ojClass.addToOperations(setId);		
 	}	
 	
 	private void addIteratorToNext(OJAnnotatedClass ojAuditClass) {

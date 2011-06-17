@@ -4,38 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
-import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
 
-public class TestOrientRemoveEdgeBug {
-
-	private OrientGraph db;
-	
-	@Before
-	public void before() {
-		db = new OrientGraph("local:/tmp/orientdbtest1");
-		db.setTransactionMode(Mode.MANUAL);
-		db.clear();
-	}
-
-	@After
-	public void after() {
-		db.shutdown();
-	}
+public class TestOrientRemoveEdgeBug extends BaseLocalDbTest {
 
 	protected long countVertices() {
-		return db.getRawGraph().countVertexes();
+		return db.countVertices();
 	}
 
 	protected long countEdges() {
-		 return db.getRawGraph().countEdges();
+		 return db.countEdges();
 	}	
 	
 	@Test

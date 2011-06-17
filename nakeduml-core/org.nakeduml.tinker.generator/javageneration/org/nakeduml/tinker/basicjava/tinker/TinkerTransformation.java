@@ -19,6 +19,7 @@ import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 public class TinkerTransformation extends AbstractJavaProducingVisitor {
 
@@ -34,12 +35,12 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			ojClass.addToImports(TinkerUtil.graphDbPathName);
 			if (c.getGeneralizations().isEmpty()) {
-				addGetVersion(ojClass);
+				addGetObjectVersion(ojClass);
 				persistUid(ojClass);
 				initialiseVertexInDefaultConstructor(c, ojClass);
 				extendsBaseTinker(ojClass);
 				addInitNullToDefaultConstructor(ojClass);
-				implementGetId(ojClass);
+				implementGetSetId(ojClass);
 			}
 			if (c.getEndToComposite() != null) {
 				addInitVertex(ojClass, c);
@@ -49,19 +50,37 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 			addSuperToDefaultConstructor(ojClass);
 			addContructorWithVertex(ojClass, c);
 			implementTinkerNode(ojClass);
+			implementAbstractEntity(ojClass);
 		}
 	}
 
-	private void implementGetId(OJAnnotatedClass ojClass) {
+	private void implementAbstractEntity(OJAnnotatedClass ojClass) {
+		ojClass.addToImplementedInterfaces(new OJPathName("org.nakeduml.runtime.domain.AbstractEntity"));
+	}
+	
+	private void implementTinkerNode(OJAnnotatedClass ojClass) {
+		ojClass.addToImplementedInterfaces(new OJPathName("org.nakeduml.runtime.domain.TinkerNode"));
+	}
+	
+
+	private void implementGetSetId(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getId = new OJAnnotatedOperation("getId");
+		getId.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getId.setReturnType(new OJPathName("java.lang.Long"));
 		getId.getBody().addToStatements("return TinkerIdUtil.getId(this.vertex)");
 		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
 		ojClass.addToOperations(getId);
+
+		OJAnnotatedOperation setId = new OJAnnotatedOperation("setId");
+		setId.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		setId.addParam("id", new OJPathName("java.lang.Long"));
+		setId.getBody().addToStatements("TinkerIdUtil.setId(this.vertex, id)");
+		ojClass.addToOperations(setId);
 	}
 
 	private void implementIsRoot(OJAnnotatedClass ojClass, boolean b) {
-		OJOperation isRoot = new OJOperation();
+		OJAnnotatedOperation isRoot = new OJAnnotatedOperation();
+		isRoot.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		isRoot.setName("isTinkerRoot");
 		isRoot.setReturnType(new OJPathName("boolean"));
 		isRoot.getBody().addToStatements("return " + b);
@@ -83,7 +102,8 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 	}
 
 	private void persistUid(OJAnnotatedClass ojClass) {
-		OJOperation getUid = OJUtil.findOperation(ojClass, "getUid");
+		OJAnnotatedOperation getUid = (OJAnnotatedOperation) OJUtil.findOperation(ojClass, "getUid");
+		getUid.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getUid.getBody().removeAllFromStatements();
 		getUid.getBody().addToStatements("String uid = (String) this.vertex.getProperty(\"uid\")");
 		OJIfStatement ifStatement = new OJIfStatement("uid==null || uid.trim().length()==0");
@@ -94,18 +114,15 @@ public class TinkerTransformation extends AbstractJavaProducingVisitor {
 		getUid.getBody().addToStatements("return uid");
 	}
 
-	private void addGetVersion(OJAnnotatedClass ojClass) {
-		OJAnnotatedOperation getVersion = new OJAnnotatedOperation("getVersion");
-		getVersion.setReturnType(new OJPathName("int"));
-		getVersion.getBody().addToStatements("return TinkerIdUtil.getVersion(this.vertex)");
+	private void addGetObjectVersion(OJAnnotatedClass ojClass) {
+		OJAnnotatedOperation getObjectVersion = new OJAnnotatedOperation("getObjectVersion");
+		getObjectVersion.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		getObjectVersion.setReturnType(new OJPathName("int"));
+		getObjectVersion.getBody().addToStatements("return TinkerIdUtil.getVersion(this.vertex)");
 		ojClass.addToImports(TinkerUtil.tinkerIdUtilPathName);
-		ojClass.addToOperations(getVersion);
+		ojClass.addToOperations(getObjectVersion);
 	}
 		
-	private void implementTinkerNode(OJAnnotatedClass ojClass) {
-		ojClass.addToImplementedInterfaces(new OJPathName("org.nakeduml.runtime.domain.TinkerNode"));
-	}
-
 	private void initialiseVertexInDefaultConstructor(INakedEntity c, OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.getDefaultConstructor();
 		constructor.getBody().addToStatements("this.vertex = " + TinkerUtil.graphDbAccess + ".addVertex(\""+c.getMappingInfo().getJavaName()+"\")");
