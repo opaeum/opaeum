@@ -9,7 +9,7 @@ import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.topcased.modeler.preferences.AbstractTopcasedPreferenceInitializer;
 
 /**
- * Initialize preferences to all UIM diagrams.
+ * Initialize preferences to all Uim diagrams.
  * @generated
  */
 public class AllDiagramPreferenceInitializer extends AbstractTopcasedPreferenceInitializer{

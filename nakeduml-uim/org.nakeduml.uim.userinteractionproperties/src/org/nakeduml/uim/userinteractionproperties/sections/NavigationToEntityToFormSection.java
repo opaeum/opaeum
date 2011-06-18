@@ -8,10 +8,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Classifier;
-import org.nakeduml.uim.ClassForm;
-import org.nakeduml.uim.NavigationToEntity;
 import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.NavigationToEntity;
+import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;
+import org.nakeduml.uim.form.ClassForm;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
@@ -45,7 +46,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getNavigationToEntity_ToForm();
+		return ActionPackage.eINSTANCE.getNavigationToEntity_ToForm();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -70,7 +71,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 		}
 		List<ClassForm> choices = new ArrayList<ClassForm>();
 		ITypeCacheAdapter tca = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), UimPackage.eINSTANCE
+		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), ActionPackage.eINSTANCE
 				.getNavigationToEntity_ToForm().getEType());
 		for(ClassForm classForm:source){
 			if(UmlUimLinks.getInstance(nte).getRepresentedClass(classForm.getFolder()) == toClass){
@@ -87,7 +88,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	 */
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
-		f.add(new UimItemProviderAdapterFactory());
+		f.add(new ActionItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}

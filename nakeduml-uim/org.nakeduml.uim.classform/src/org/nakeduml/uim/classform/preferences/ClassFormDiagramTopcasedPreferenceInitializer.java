@@ -86,12 +86,6 @@ public class ClassFormDiagramTopcasedPreferenceInitializer implements ITopcasedP
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMDATATABLE_DEFAULT_FOREGROUND_COLOR, "0,0,0");
 		// Initialize the default value of the UIMDATATABLE_DEFAULT_FONT property
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMDATATABLE_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
-		// Initialize the default value of the UIMDATACOLUMN_DEFAULT_BACKGROUND_COLOR property 
-		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMDATACOLUMN_DEFAULT_BACKGROUND_COLOR, "255,255,255");
-		// Initialize the default value of the UIMDATACOLUMN_DEFAULT_FOREGROUND_COLOR property
-		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMDATACOLUMN_DEFAULT_FOREGROUND_COLOR, "0,0,0");
-		// Initialize the default value of the UIMDATACOLUMN_DEFAULT_FONT property
-		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMDATACOLUMN_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
 		// Initialize the default value of the DETAILPANEL_DEFAULT_BACKGROUND_COLOR property 
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.DETAILPANEL_DEFAULT_BACKGROUND_COLOR, "255,255,255");
 		// Initialize the default value of the DETAILPANEL_DEFAULT_FOREGROUND_COLOR property
@@ -128,6 +122,12 @@ public class ClassFormDiagramTopcasedPreferenceInitializer implements ITopcasedP
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMFULLLAYOUT_DEFAULT_FOREGROUND_COLOR, "0,0,0");
 		// Initialize the default value of the UIMFULLLAYOUT_DEFAULT_FONT property
 		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMFULLLAYOUT_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the UIMCOLUMNLAYOUT_DEFAULT_BACKGROUND_COLOR property 
+		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMCOLUMNLAYOUT_DEFAULT_BACKGROUND_COLOR, "255,255,255");
+		// Initialize the default value of the UIMCOLUMNLAYOUT_DEFAULT_FOREGROUND_COLOR property
+		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMCOLUMNLAYOUT_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the UIMCOLUMNLAYOUT_DEFAULT_FONT property
+		defaultClassFormPreference.put(ClassFormDiagramPreferenceConstants.UIMCOLUMNLAYOUT_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
 		return defaultClassFormPreference;
 	}
 }

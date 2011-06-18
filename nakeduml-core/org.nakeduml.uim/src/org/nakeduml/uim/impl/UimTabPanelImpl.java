@@ -10,18 +10,25 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.nakeduml.uim.OutlayableComponent;
-import org.nakeduml.uim.UimLayout;
+
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UimTab;
 import org.nakeduml.uim.UimTabPanel;
+
+import org.nakeduml.uim.layout.LayoutPackage;
+import org.nakeduml.uim.layout.OutlayableComponent;
+import org.nakeduml.uim.layout.UimLayout;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,14 +38,24 @@ import org.nakeduml.uim.UimTabPanel;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.nakeduml.uim.impl.UimTabPanelImpl#getParent <em>Parent</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.UimTabPanelImpl#getActiveTabIndex <em>Active Tab Index</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UimTabPanelImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UimTabPanelImpl#getActiveTabIndex <em>Active Tab Index</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
+	/**
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChildren()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<UimTab> children;
+
 	/**
 	 * The default value of the '{@link #getActiveTabIndex() <em>Active Tab Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -58,16 +75,6 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 	 * @ordered
 	 */
 	protected Integer activeTabIndex = ACTIVE_TAB_INDEX_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getChildren()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UimTab> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -121,12 +128,24 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_TAB_PANEL__PARENT, newParent, newParent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<UimTab> getChildren() {
+		if (children == null) {
+			children = new EObjectContainmentWithInverseEList<UimTab>(UimTab.class, this, UimPackage.UIM_TAB_PANEL__CHILDREN, UimPackage.UIM_TAB__PARENT);
+		}
+		return children;
 	}
 
 	/**
@@ -148,18 +167,6 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 		activeTabIndex = newActiveTabIndex;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX, oldActiveTabIndex, activeTabIndex));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<UimTab> getChildren() {
-		if (children == null) {
-			children = new EObjectContainmentWithInverseEList<UimTab>(UimTab.class, this, UimPackage.UIM_TAB_PANEL__CHILDREN, UimPackage.UIM_TAB__PARENT);
-		}
-		return children;
 	}
 
 	/**
@@ -206,7 +213,7 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case UimPackage.UIM_TAB_PANEL__PARENT:
-				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				return eInternalContainer().eInverseRemove(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -221,10 +228,10 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 		switch (featureID) {
 			case UimPackage.UIM_TAB_PANEL__PARENT:
 				return getParent();
-			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
-				return getActiveTabIndex();
 			case UimPackage.UIM_TAB_PANEL__CHILDREN:
 				return getChildren();
+			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
+				return getActiveTabIndex();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -241,12 +248,12 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 			case UimPackage.UIM_TAB_PANEL__PARENT:
 				setParent((UimLayout)newValue);
 				return;
-			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
-				setActiveTabIndex((Integer)newValue);
-				return;
 			case UimPackage.UIM_TAB_PANEL__CHILDREN:
 				getChildren().clear();
 				getChildren().addAll((Collection<? extends UimTab>)newValue);
+				return;
+			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
+				setActiveTabIndex((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -263,11 +270,11 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 			case UimPackage.UIM_TAB_PANEL__PARENT:
 				setParent((UimLayout)null);
 				return;
-			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
-				setActiveTabIndex(ACTIVE_TAB_INDEX_EDEFAULT);
-				return;
 			case UimPackage.UIM_TAB_PANEL__CHILDREN:
 				getChildren().clear();
+				return;
+			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
+				setActiveTabIndex(ACTIVE_TAB_INDEX_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -283,10 +290,10 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 		switch (featureID) {
 			case UimPackage.UIM_TAB_PANEL__PARENT:
 				return getParent() != null;
-			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
-				return ACTIVE_TAB_INDEX_EDEFAULT == null ? activeTabIndex != null : !ACTIVE_TAB_INDEX_EDEFAULT.equals(activeTabIndex);
 			case UimPackage.UIM_TAB_PANEL__CHILDREN:
 				return children != null && !children.isEmpty();
+			case UimPackage.UIM_TAB_PANEL__ACTIVE_TAB_INDEX:
+				return ACTIVE_TAB_INDEX_EDEFAULT == null ? activeTabIndex != null : !ACTIVE_TAB_INDEX_EDEFAULT.equals(activeTabIndex);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -300,7 +307,7 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == OutlayableComponent.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_TAB_PANEL__PARENT: return UimPackage.OUTLAYABLE_COMPONENT__PARENT;
+				case UimPackage.UIM_TAB_PANEL__PARENT: return LayoutPackage.OUTLAYABLE_COMPONENT__PARENT;
 				default: return -1;
 			}
 		}
@@ -316,7 +323,7 @@ public class UimTabPanelImpl extends UimContainerImpl implements UimTabPanel {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == OutlayableComponent.class) {
 			switch (baseFeatureID) {
-				case UimPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_TAB_PANEL__PARENT;
+				case LayoutPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_TAB_PANEL__PARENT;
 				default: return -1;
 			}
 		}

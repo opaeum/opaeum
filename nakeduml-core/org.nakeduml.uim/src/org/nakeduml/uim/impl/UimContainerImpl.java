@@ -8,13 +8,18 @@ package org.nakeduml.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.nakeduml.uim.EditableSecureObject;
-import org.nakeduml.uim.SecurityConstraint;
+
 import org.nakeduml.uim.UimContainer;
 import org.nakeduml.uim.UimPackage;
+
+import org.nakeduml.uim.security.EditableSecureObject;
+import org.nakeduml.uim.security.SecurityConstraint;
+import org.nakeduml.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -183,7 +188,7 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == EditableSecureObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_CONTAINER__EDITABILITY: return UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
+				case UimPackage.UIM_CONTAINER__EDITABILITY: return SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
 				default: return -1;
 			}
 		}
@@ -199,7 +204,7 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == EditableSecureObject.class) {
 			switch (baseFeatureID) {
-				case UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.UIM_CONTAINER__EDITABILITY;
+				case SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.UIM_CONTAINER__EDITABILITY;
 				default: return -1;
 			}
 		}

@@ -1,10 +1,9 @@
 package org.nakeduml.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.nakeduml.uim.ActionKind;
-import org.nakeduml.uim.BuiltInAction;
+import org.nakeduml.uim.action.ActionKind;
+import org.nakeduml.uim.action.BuiltInAction;
 import org.nakeduml.uim.figures.ActionFigure;
-import org.topcased.draw2d.figures.Label;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 

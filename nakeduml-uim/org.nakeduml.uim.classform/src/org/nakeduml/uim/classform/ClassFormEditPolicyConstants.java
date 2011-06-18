@@ -70,12 +70,6 @@ public interface ClassFormEditPolicyConstants{
 	 */
 	String UIMDATATABLE_EDITPOLICY = "UimDataTable EditPolicy";
 	/**
-	 * The key used to install an <i>UIMDataColumn</i> EditPolicy.
-	 * 
-	 * @generated
-	 */
-	String UIMDATACOLUMN_EDITPOLICY = "UimDataColumn EditPolicy";
-	/**
 	 * The key used to install an <i>DetailPanel</i> EditPolicy.
 	 * 
 	 * @generated
@@ -111,6 +105,11 @@ public interface ClassFormEditPolicyConstants{
 	 * @generated
 	 */
 	String UIMFULLLAYOUT_EDITPOLICY = "UimFullLayout EditPolicy";
+	/**
+	 * The key used to install an <i>UimColumnLayout</i> EditPolicy.
+	 * @generated
+	 */
+	String UIMCOLUMNLAYOUT_EDITPOLICY = "UimColumnLayout EditPolicy";
 	/**
 	 * The key used to install an <i>TransitionAction</i> EditPolicy.
 	 * 

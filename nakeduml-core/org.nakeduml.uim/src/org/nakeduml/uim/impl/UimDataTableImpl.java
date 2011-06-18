@@ -10,28 +10,40 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.nakeduml.uim.DetailPanel;
-import org.nakeduml.uim.EditableSecureObject;
-import org.nakeduml.uim.OutlayableComponent;
-import org.nakeduml.uim.SecureObject;
-import org.nakeduml.uim.SecurityConstraint;
-import org.nakeduml.uim.TableBinding;
+
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimContainer;
-import org.nakeduml.uim.UimDataColumn;
 import org.nakeduml.uim.UimDataTable;
-import org.nakeduml.uim.UimLayout;
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionElement;
+
+import org.nakeduml.uim.binding.BindingPackage;
+import org.nakeduml.uim.binding.TableBinding;
+
+import org.nakeduml.uim.form.DetailPanel;
+import org.nakeduml.uim.form.FormPackage;
+
+import org.nakeduml.uim.layout.LayoutContainer;
+import org.nakeduml.uim.layout.LayoutPackage;
+import org.nakeduml.uim.layout.OutlayableComponent;
+import org.nakeduml.uim.layout.UimLayout;
+
+import org.nakeduml.uim.security.EditableSecureObject;
+import org.nakeduml.uim.security.SecureObject;
+import org.nakeduml.uim.security.SecurityConstraint;
+import org.nakeduml.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,10 +55,10 @@ import org.nakeduml.uim.UserInteractionElement;
  *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getDetailPanels <em>Detail Panels</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getLayout <em>Layout</em>}</li>
  *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getBinding <em>Binding</em>}</li>
- *   <li>{@link org.nakeduml.uim.impl.UimDataTableImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *
@@ -104,6 +116,16 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	protected SecurityConstraint editability;
 
 	/**
+	 * The cached value of the '{@link #getLayout() <em>Layout</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLayout()
+	 * @generated
+	 * @ordered
+	 */
+	protected UimLayout layout;
+
+	/**
 	 * The cached value of the '{@link #getBinding() <em>Binding</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,16 +134,6 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * @ordered
 	 */
 	protected TableBinding binding;
-
-	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getChildren()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UimDataColumn> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -149,7 +161,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 */
 	public EList<DetailPanel> getDetailPanels() {
 		if (detailPanels == null) {
-			detailPanels = new EObjectWithInverseResolvingEList<DetailPanel>(DetailPanel.class, this, UimPackage.UIM_DATA_TABLE__DETAIL_PANELS, UimPackage.DETAIL_PANEL__MASTER_COMPONENT);
+			detailPanels = new EObjectWithInverseResolvingEList<DetailPanel>(DetailPanel.class, this, UimPackage.UIM_DATA_TABLE__DETAIL_PANELS, FormPackage.DETAIL_PANEL__MASTER_COMPONENT);
 		}
 		return detailPanels;
 	}
@@ -223,6 +235,47 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public UimLayout getParent() {
+		if (eContainerFeatureID() != UimPackage.UIM_DATA_TABLE__PARENT) return null;
+		return (UimLayout)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetParent(UimLayout newParent, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newParent, UimPackage.UIM_DATA_TABLE__PARENT, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParent(UimLayout newParent) {
+		if (newParent != eInternalContainer() || (eContainerFeatureID() != UimPackage.UIM_DATA_TABLE__PARENT && newParent != null)) {
+			if (EcoreUtil.isAncestor(this, newParent))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newParent != null)
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+			msgs = basicSetParent(newParent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__PARENT, newParent, newParent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SecurityConstraint getEditability() {
 		return editability;
 	}
@@ -266,9 +319,8 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimLayout getParent() {
-		if (eContainerFeatureID() != UimPackage.UIM_DATA_TABLE__PARENT) return null;
-		return (UimLayout)eContainer();
+	public UimLayout getLayout() {
+		return layout;
 	}
 
 	/**
@@ -276,8 +328,13 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetParent(UimLayout newParent, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newParent, UimPackage.UIM_DATA_TABLE__PARENT, msgs);
+	public NotificationChain basicSetLayout(UimLayout newLayout, NotificationChain msgs) {
+		UimLayout oldLayout = layout;
+		layout = newLayout;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__LAYOUT, oldLayout, newLayout);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
 		return msgs;
 	}
 
@@ -286,20 +343,18 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setParent(UimLayout newParent) {
-		if (newParent != eInternalContainer() || (eContainerFeatureID() != UimPackage.UIM_DATA_TABLE__PARENT && newParent != null)) {
-			if (EcoreUtil.isAncestor(this, newParent))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+	public void setLayout(UimLayout newLayout) {
+		if (newLayout != layout) {
 			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
-			msgs = basicSetParent(newParent, msgs);
+			if (layout != null)
+				msgs = ((InternalEObject)layout).eInverseRemove(this, LayoutPackage.UIM_LAYOUT__PARENT, UimLayout.class, msgs);
+			if (newLayout != null)
+				msgs = ((InternalEObject)newLayout).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__PARENT, UimLayout.class, msgs);
+			msgs = basicSetLayout(newLayout, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__PARENT, newParent, newParent));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__LAYOUT, newLayout, newLayout));
 	}
 
 	/**
@@ -335,26 +390,14 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 		if (newBinding != binding) {
 			NotificationChain msgs = null;
 			if (binding != null)
-				msgs = ((InternalEObject)binding).eInverseRemove(this, UimPackage.TABLE_BINDING__TABLE, TableBinding.class, msgs);
+				msgs = ((InternalEObject)binding).eInverseRemove(this, BindingPackage.TABLE_BINDING__TABLE, TableBinding.class, msgs);
 			if (newBinding != null)
-				msgs = ((InternalEObject)newBinding).eInverseAdd(this, UimPackage.TABLE_BINDING__TABLE, TableBinding.class, msgs);
+				msgs = ((InternalEObject)newBinding).eInverseAdd(this, BindingPackage.TABLE_BINDING__TABLE, TableBinding.class, msgs);
 			msgs = basicSetBinding(newBinding, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__BINDING, newBinding, newBinding));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<UimDataColumn> getChildren() {
-		if (children == null) {
-			children = new EObjectContainmentWithInverseEList<UimDataColumn>(UimDataColumn.class, this, UimPackage.UIM_DATA_TABLE__CHILDREN, UimPackage.UIM_DATA_COLUMN__PARENT);
-		}
-		return children;
 	}
 
 	/**
@@ -372,12 +415,14 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetParent((UimLayout)otherEnd, msgs);
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
+				if (layout != null)
+					msgs = ((InternalEObject)layout).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.UIM_DATA_TABLE__LAYOUT, null, msgs);
+				return basicSetLayout((UimLayout)otherEnd, msgs);
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				if (binding != null)
 					msgs = ((InternalEObject)binding).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.UIM_DATA_TABLE__BINDING, null, msgs);
 				return basicSetBinding((TableBinding)otherEnd, msgs);
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildren()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -394,14 +439,14 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				return ((InternalEList<?>)getDetailPanels()).basicRemove(otherEnd, msgs);
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return basicSetVisibility(null, msgs);
-			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				return basicSetEditability(null, msgs);
 			case UimPackage.UIM_DATA_TABLE__PARENT:
 				return basicSetParent(null, msgs);
+			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+				return basicSetEditability(null, msgs);
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
+				return basicSetLayout(null, msgs);
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				return basicSetBinding(null, msgs);
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
-				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -415,7 +460,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case UimPackage.UIM_DATA_TABLE__PARENT:
-				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				return eInternalContainer().eInverseRemove(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -434,14 +479,14 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				return getName();
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return getVisibility();
-			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				return getEditability();
 			case UimPackage.UIM_DATA_TABLE__PARENT:
 				return getParent();
+			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+				return getEditability();
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
+				return getLayout();
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				return getBinding();
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
-				return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -465,18 +510,17 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				setVisibility((SecurityConstraint)newValue);
 				return;
-			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				setEditability((SecurityConstraint)newValue);
-				return;
 			case UimPackage.UIM_DATA_TABLE__PARENT:
 				setParent((UimLayout)newValue);
 				return;
+			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+				setEditability((SecurityConstraint)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
+				setLayout((UimLayout)newValue);
+				return;
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				setBinding((TableBinding)newValue);
-				return;
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
-				getChildren().clear();
-				getChildren().addAll((Collection<? extends UimDataColumn>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -499,17 +543,17 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				setVisibility((SecurityConstraint)null);
 				return;
-			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				setEditability((SecurityConstraint)null);
-				return;
 			case UimPackage.UIM_DATA_TABLE__PARENT:
 				setParent((UimLayout)null);
 				return;
+			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+				setEditability((SecurityConstraint)null);
+				return;
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
+				setLayout((UimLayout)null);
+				return;
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				setBinding((TableBinding)null);
-				return;
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
-				getChildren().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -529,14 +573,14 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return visibility != null;
-			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				return editability != null;
 			case UimPackage.UIM_DATA_TABLE__PARENT:
 				return getParent() != null;
+			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+				return editability != null;
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
+				return layout != null;
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				return binding != null;
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
-				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -556,7 +600,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 		}
 		if (baseClass == SecureObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__VISIBILITY: return UimPackage.SECURE_OBJECT__VISIBILITY;
+				case UimPackage.UIM_DATA_TABLE__VISIBILITY: return SecurityPackage.SECURE_OBJECT__VISIBILITY;
 				default: return -1;
 			}
 		}
@@ -565,9 +609,15 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
+		if (baseClass == OutlayableComponent.class) {
+			switch (derivedFeatureID) {
+				case UimPackage.UIM_DATA_TABLE__PARENT: return LayoutPackage.OUTLAYABLE_COMPONENT__PARENT;
+				default: return -1;
+			}
+		}
 		if (baseClass == EditableSecureObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__EDITABILITY: return UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
+				case UimPackage.UIM_DATA_TABLE__EDITABILITY: return SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
 				default: return -1;
 			}
 		}
@@ -576,9 +626,9 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
-		if (baseClass == OutlayableComponent.class) {
+		if (baseClass == LayoutContainer.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__PARENT: return UimPackage.OUTLAYABLE_COMPONENT__PARENT;
+				case UimPackage.UIM_DATA_TABLE__LAYOUT: return LayoutPackage.LAYOUT_CONTAINER__LAYOUT;
 				default: return -1;
 			}
 		}
@@ -600,7 +650,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 		}
 		if (baseClass == SecureObject.class) {
 			switch (baseFeatureID) {
-				case UimPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.UIM_DATA_TABLE__VISIBILITY;
+				case SecurityPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.UIM_DATA_TABLE__VISIBILITY;
 				default: return -1;
 			}
 		}
@@ -609,9 +659,15 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
+		if (baseClass == OutlayableComponent.class) {
+			switch (baseFeatureID) {
+				case LayoutPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_DATA_TABLE__PARENT;
+				default: return -1;
+			}
+		}
 		if (baseClass == EditableSecureObject.class) {
 			switch (baseFeatureID) {
-				case UimPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.UIM_DATA_TABLE__EDITABILITY;
+				case SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.UIM_DATA_TABLE__EDITABILITY;
 				default: return -1;
 			}
 		}
@@ -620,9 +676,9 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
-		if (baseClass == OutlayableComponent.class) {
+		if (baseClass == LayoutContainer.class) {
 			switch (baseFeatureID) {
-				case UimPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_DATA_TABLE__PARENT;
+				case LayoutPackage.LAYOUT_CONTAINER__LAYOUT: return UimPackage.UIM_DATA_TABLE__LAYOUT;
 				default: return -1;
 			}
 		}

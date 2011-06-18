@@ -6,11 +6,12 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.OperationInvocationForm;
-import org.nakeduml.uim.UimControl;
 import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.control.ControlFactory;
+import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.control.UimControl;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
 
 public class ControlUtil{
 	public static ControlKind[] getAllowedControlKinds(FormPanel form,TypedElement typedElement){
@@ -98,31 +99,31 @@ public class ControlUtil{
 	public static UimControl instantiate(ControlKind kind){
 		switch(kind){
 		case CHECK_BOX:
-			return UimFactory.eINSTANCE.createUimCheckBox();
+			return ControlFactory.eINSTANCE.createUimCheckBox();
 		case TOGGLE_BUTTON:
-			return UimFactory.eINSTANCE.createUimToggleButton();
+			return ControlFactory.eINSTANCE.createUimToggleButton();
 		case DATE_POPUP:
-			return UimFactory.eINSTANCE.createUimDatePopup();
+			return ControlFactory.eINSTANCE.createUimDatePopup();
 		case DROPDOWN:
-			return UimFactory.eINSTANCE.createUimDropdown();
+			return ControlFactory.eINSTANCE.createUimDropdown();
 		case SINGLE_SELECT_LIST_BOX:
-			return UimFactory.eINSTANCE.createUimSingleSelectListBox();
+			return ControlFactory.eINSTANCE.createUimSingleSelectListBox();
 		case MULTI_SELECT_LIST_BOX:
-			return UimFactory.eINSTANCE.createUimMultiSelectListBox();
+			return ControlFactory.eINSTANCE.createUimMultiSelectListBox();
 		case SINGLE_SELECT_POPUP_SEARCH:
-			return UimFactory.eINSTANCE.createUimSingleSelectPopupSearch();
+			return ControlFactory.eINSTANCE.createUimSingleSelectPopupSearch();
 		case MULTI_SELECT_POPUP_SEARCH:
-			return UimFactory.eINSTANCE.createUimMultiSelectPopupSearch();
+			return ControlFactory.eINSTANCE.createUimMultiSelectPopupSearch();
 		case SINGLE_SELECT_TREE_VIEW:
-			return UimFactory.eINSTANCE.createUimSingleSelectTreeView();
+			return ControlFactory.eINSTANCE.createUimSingleSelectTreeView();
 		case MULTI_SELECT_TREE_VIEW:
-			return UimFactory.eINSTANCE.createUimMultiSelectTreeView();
+			return ControlFactory.eINSTANCE.createUimMultiSelectTreeView();
 		case TEXT:
-			return UimFactory.eINSTANCE.createUimText();
+			return ControlFactory.eINSTANCE.createUimText();
 		case NUMBER_SCROLLER:
-			return UimFactory.eINSTANCE.createUimNumberScroller();
+			return ControlFactory.eINSTANCE.createUimNumberScroller();
 		case TEXT_AREA:
-			return UimFactory.eINSTANCE.createUimTextArea();
+			return ControlFactory.eINSTANCE.createUimTextArea();
 		}
 		return null;
 	}

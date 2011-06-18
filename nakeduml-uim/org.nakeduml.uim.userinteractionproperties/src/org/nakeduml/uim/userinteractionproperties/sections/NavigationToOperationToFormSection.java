@@ -9,11 +9,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Operation;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.NavigationToOperation;
-import org.nakeduml.uim.OperationInvocationForm;
 import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.NavigationToOperation;
+import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
@@ -47,7 +48,7 @@ public class NavigationToOperationToFormSection extends AbstractChooserPropertyS
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getNavigationToOperation_ToForm();
+		return ActionPackage.eINSTANCE.getNavigationToOperation_ToForm();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -69,7 +70,7 @@ public class NavigationToOperationToFormSection extends AbstractChooserPropertyS
 		FormPanel ui = UimUtil.getNearestForm(on);
 		//TODO check if parent is table first
 		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
-		Collection<EObject> population = typeCacheAdapter.getReachableObjectsOfType(getEObject(), UimPackage.eINSTANCE.getNavigationToOperation_ToForm().getEType());
+		Collection<EObject> population = typeCacheAdapter.getReachableObjectsOfType(getEObject(), ActionPackage.eINSTANCE.getNavigationToOperation_ToForm().getEType());
 		List<Operation> validOperations = UimUtil.getValidOperationsFor(ui);
 		List<OperationInvocationForm> results = new ArrayList<OperationInvocationForm>();
 		for(EObject eObject:population){
@@ -88,7 +89,7 @@ public class NavigationToOperationToFormSection extends AbstractChooserPropertyS
 	 */
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
-		f.add(new UimItemProviderAdapterFactory());
+		f.add(new ActionItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}

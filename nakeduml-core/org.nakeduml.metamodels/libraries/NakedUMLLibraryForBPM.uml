@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0 pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0 pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="NakedUMLLibraryForBPM">
     <packagedElement xmi:type="uml:Interface" xmi:id="_tH0fAIoVEeCLqpffVZYAlw" name="BusinessRole">
       <generalization xmi:id="_gqBlQI29EeCrtavWRHwoHg" general="_YgstsI29EeCrtavWRHwoHg"/>
@@ -127,8 +127,12 @@
           </value>
         </node>
       </ownedBehavior>
-      <ownedOperation xmi:id="_0lAQAIoaEeCPduia_-NbFw" name="delegate"/>
-      <ownedOperation xmi:id="__6uyIIoaEeCPduia_-NbFw" name="forward"/>
+      <ownedOperation xmi:id="_0lAQAIoaEeCPduia_-NbFw" name="delegate">
+        <ownedParameter xmi:id="_TsfTcJTyEeChgI0v02SJHQ" name="delegate" type="_tH0fAIoVEeCLqpffVZYAlw"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="__6uyIIoaEeCPduia_-NbFw" name="forward">
+        <ownedParameter xmi:id="_kN7FcJTyEeChgI0v02SJHQ" name="toPerson" type="_tH0fAIoVEeCLqpffVZYAlw"/>
+      </ownedOperation>
       <ownedOperation xmi:id="_GRVH0IobEeCPduia_-NbFw" name="stop"/>
       <ownedOperation xmi:id="_LlMOIIobEeCPduia_-NbFw" name="revoke"/>
       <ownedOperation xmi:id="_Nk_isIobEeCPduia_-NbFw" name="claim"/>
@@ -180,36 +184,51 @@
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_YgstsI29EeCrtavWRHwoHg" name="Participant">
-      <ownedAttribute xmi:id="_rz7zsI6TEeCne5ArYLDbiA" name="initiatedRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+      <ownedAttribute xmi:id="_rz7zsI6TEeCne5ArYLDbiA" name="initiatedRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isUnique="false" isReadOnly="true" isDerived="true">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_t59sEI6TEeCne5ArYLDbiA" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tvrusI6TEeCne5ArYLDbiA"/>
         <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_wQamEI6TEeCne5ArYLDbiA" name="self.participation->select(p|p.kind=RequestParticipationKind::initiator and p.participant=self)">
           <language>ocl</language>
-          <body>self.participation->select(p|p.kind=RequestParticipationKind::initiator and p.participant=self)</body>
+          <body>self.participationsInRequests->select(kind=RequestParticipationKind::initiator)->collect(request)
+</body>
         </defaultValue>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_jSstQI6lEeCFsPOcAnk69Q" name="managedRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+      <ownedAttribute xmi:id="_jSstQI6lEeCFsPOcAnk69Q" name="managedRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isUnique="false" isReadOnly="true" isDerived="true">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mGQaAI6lEeCFsPOcAnk69Q" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_l8lgoI6lEeCFsPOcAnk69Q"/>
         <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_vC2hkI6lEeCFsPOcAnk69Q" name="self.participation->select(p|p.kind=RequestParticipationKind::businessOwner and p.participant=self)">
           <language>ocl</language>
-          <body>self.participation->select(p|p.kind=RequestParticipationKind::businessOwner and p.participant=self)</body>
+          <body>self.participationsInRequests->select(kind=RequestParticipationKind::businessOwner)->collect(request)</body>
         </defaultValue>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_7MraII6lEeCFsPOcAnk69Q" name="interestingRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+      <ownedAttribute xmi:id="_7MraII6lEeCFsPOcAnk69Q" name="interestingRequests" type="_6MA8UI2-EeCrtavWRHwoHg" isUnique="false" isReadOnly="true" isDerived="true">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_D_fTkI6mEeCFsPOcAnk69Q" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DnS2AI6mEeCFsPOcAnk69Q"/>
         <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_FkwBMI6mEeCFsPOcAnk69Q" name="self.participation->select(p|p.kind=RequestParticipationKind::stakeholder and p.participant=self)">
           <language>ocl</language>
-          <body>self.participation->select(p|p.kind=RequestParticipationKind::stakeholder and p.participant=self)</body>
+          <body>self.participationsInRequests->select(kind=RequestParticipationKind::stakeholder )->collect(request)</body>
         </defaultValue>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_NYHP0I6mEeCFsPOcAnk69Q" name="ownedTaskRequests" isReadOnly="true" isDerived="true">
+      <ownedAttribute xmi:id="_NYHP0I6mEeCFsPOcAnk69Q" name="ownedTaskRequests" type="_zFmsEIoVEeCLqpffVZYAlw" isUnique="false" isReadOnly="true" isDerived="true">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jyyGEI6mEeCFsPOcAnk69Q" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jNZhEI6mEeCFsPOcAnk69Q"/>
         <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_OovxQI6mEeCFsPOcAnk69Q" name="self.participation->select(p|p.participant=self and oclIsKind(ParticipationInTask) and oclAsType(ParticipationInTask).kind=TaskParticipationKind::owner)">
           <language>ocl</language>
-          <body>self.participation->select(p|p.participant=self and oclIsKind(ParticipationInTask) and oclAsType(ParticipationInTask).kind=TaskParticipationKind::owner)</body>
+          <body>self.participationsInTasks->collect(taskRequest)</body>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_DIGv8JBkEeCWM9wKKqKWag" name="participationsInTasks" type="_vZOC4I6UEeCne5ArYLDbiA" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bxF34JBkEeCWM9wKKqKWag" value="*"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_DVBxoJBkEeCWM9wKKqKWag" name="Property1Expression">
+          <language>OCL</language>
+          <body>participation->select(oclIsKindOf(ParticipationInTask))->collect(oclAsType(ParticipationInTask))</body>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_TfLFAJBkEeCWM9wKKqKWag" name="participationsInRequests" type="_GVhgMI6NEeCrtavWRHwoHg" isUnique="false">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Z0XFcJBkEeCWM9wKKqKWag" value="*"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_TpzAoJBkEeCWM9wKKqKWag" name="Property1Expression">
+          <language>OCL</language>
+          <body>participation->select(oclIsKindOf(ParticipationInRequest))->collect(oclAsType(ParticipationInRequest))</body>
         </defaultValue>
       </ownedAttribute>
     </packagedElement>
@@ -435,9 +454,13 @@
       <generalization xmi:id="__w8fQI6UEeCne5ArYLDbiA" general="_jRjnII6MEeCrtavWRHwoHg"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_2tlBUI6UEeCne5ArYLDbiA" name="A_&lt;taskParticipation>_&lt;taskParticipationKind>" memberEnd="_2tlBUY6UEeCne5ArYLDbiA _2tlBVI6UEeCne5ArYLDbiA" navigableOwnedEnd="_2tlBVI6UEeCne5ArYLDbiA">
-      <ownedEnd xmi:id="_2tlBUY6UEeCne5ArYLDbiA" name="p" type="_vZOC4I6UEeCne5ArYLDbiA" association="_2tlBUI6UEeCne5ArYLDbiA">
+      <ownedEnd xmi:id="_2tlBUY6UEeCne5ArYLDbiA" name="participation" type="_vZOC4I6UEeCne5ArYLDbiA" association="_2tlBUI6UEeCne5ArYLDbiA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2tlBUo6UEeCne5ArYLDbiA" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2tlBU46UEeCne5ArYLDbiA"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_mvIaIJBhEeCWM9wKKqKWag" name="pExpression">
+          <language>OCL</language>
+          <body>Type expression here</body>
+        </defaultValue>
       </ownedEnd>
       <ownedEnd xmi:id="_2tlBVI6UEeCne5ArYLDbiA" name="kind" type="_neCVAI6UEeCne5ArYLDbiA" association="_2tlBUI6UEeCne5ArYLDbiA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2tlBVY6UEeCne5ArYLDbiA" value="1"/>
@@ -450,12 +473,16 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BCPvE46VEeCne5ArYLDbiA" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <profileApplication xmi:id="_AbMFII9QEeCWao_GIBSLZQ">
-      <eAnnotations xmi:id="_AbMFIY9QEeCWao_GIBSLZQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg"/>
-      </eAnnotations>
-      <appliedProfile href="pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-    </profileApplication>
+    <packagedElement xmi:type="uml:Package" xmi:id="_g5ShYJTxEeChgI0v02SJHQ" name="events">
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_wozuQJTxEeChgI0v02SJHQ" name="Started" operation="_-PsMoIoaEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_xJEisJTxEeChgI0v02SJHQ" name="Claimed" operation="_Nk_isIobEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_xe-hQJTxEeChgI0v02SJHQ" name="Suspended" operation="_ov5DMIoaEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_-4L-EJTxEeChgI0v02SJHQ" name="Stopped" operation="_GRVH0IobEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="__VPtgJTxEeChgI0v02SJHQ" name="Resumed" operation="_qwWfEIoaEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="__wyaAJTxEeChgI0v02SJHQ" name="Revoked" operation="_LlMOIIobEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_JpztkJTyEeChgI0v02SJHQ" name="Delegated" operation="_0lAQAIoaEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_J-K0AJTyEeChgI0v02SJHQ" name="Forwarded" operation="__6uyIIoaEeCPduia_-NbFw"/>
+    </packagedElement>
   </uml:Model>
   <NakedUMLProfile:Package xmi:id="_AbRksI9QEeCWao_GIBSLZQ" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.nakedumllibraryforbpm"/>
 </xmi:XMI>

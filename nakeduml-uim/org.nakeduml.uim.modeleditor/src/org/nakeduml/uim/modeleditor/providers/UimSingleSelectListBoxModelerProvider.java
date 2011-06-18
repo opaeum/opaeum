@@ -5,11 +5,11 @@ package org.nakeduml.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.control.ControlPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.UimSingleSelectListBox} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.control.UimSingleSelectListBox} object.
  *
  * @generated
  */
@@ -28,6 +28,6 @@ public class UimSingleSelectListBoxModelerProvider extends UimLookupModelerProvi
 	 * @generated
 	 */
 	public EAttribute getLabelFeature(Object object){
-		return UimPackage.eINSTANCE.getUimControl_Width();
+		return ControlPackage.eINSTANCE.getUimControl_Width();
 	}
 }

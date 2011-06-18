@@ -4,12 +4,14 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Property;
-import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.UimBinding;
 import org.nakeduml.uim.UimDataTable;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.NavigationToEntity;
+import org.nakeduml.uim.binding.BindingPackage;
+import org.nakeduml.uim.binding.PropertyRef;
+import org.nakeduml.uim.binding.UimBinding;
 import org.nakeduml.uim.figures.IBindingFigure;
 import org.nakeduml.uim.figures.UimDataColumnFigure;
 import org.nakeduml.uim.util.SafeUmlUimLinks;
@@ -100,7 +102,7 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		}
 		if(notifier instanceof NavigationToEntity && notifier == getEObject()){
 			switch(msg.getFeatureID(NavigationToEntity.class)){
-			case UimPackage.NAVIGATION_TO_ENTITY__BINDING:
+			case ActionPackage.NAVIGATION_TO_ENTITY__BINDING:
 				// TODO memory leak may result - recursively remove all
 				// listening
 				super.updateModelListening(oldValue, newValue);
@@ -111,16 +113,16 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		}
 		if(notifier instanceof UimBinding){
 			switch(msg.getFeatureID(UimBinding.class)){
-			case UimPackage.UIM_BINDING__UML_ELEMENT_UID:
-			case UimPackage.UIM_BINDING__NEXT:
+			case BindingPackage.UIM_BINDING__UML_ELEMENT_UID:
+			case BindingPackage.UIM_BINDING__NEXT:
 				super.updateModelListening(oldValue, newValue);
 				break;
 			}
 		}
 		if(notifier instanceof PropertyRef){
 			switch(msg.getFeatureID(PropertyRef.class)){
-			case UimPackage.PROPERTY_REF__UML_ELEMENT_UID:
-			case UimPackage.PROPERTY_REF__NEXT:
+			case BindingPackage.PROPERTY_REF__UML_ELEMENT_UID:
+			case BindingPackage.PROPERTY_REF__NEXT:
 				super.updateModelListening(oldValue, newValue);
 				break;
 			}

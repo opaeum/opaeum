@@ -9,7 +9,6 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -23,19 +22,20 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.uim.ActionKind;
-import org.nakeduml.uim.ActionTaskForm;
-import org.nakeduml.uim.ActivityFolder;
-import org.nakeduml.uim.ClassForm;
-import org.nakeduml.uim.EntityFolder;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.OperationInvocationForm;
-import org.nakeduml.uim.OperationTaskForm;
-import org.nakeduml.uim.StateForm;
-import org.nakeduml.uim.StateMachineFolder;
 import org.nakeduml.uim.UimFactory;
-import org.nakeduml.uim.UimForm;
 import org.nakeduml.uim.UmlReference;
+import org.nakeduml.uim.action.ActionKind;
+import org.nakeduml.uim.folder.ActivityFolder;
+import org.nakeduml.uim.folder.EntityFolder;
+import org.nakeduml.uim.folder.StateMachineFolder;
+import org.nakeduml.uim.form.ActionTaskForm;
+import org.nakeduml.uim.form.ClassForm;
+import org.nakeduml.uim.form.FormFactory;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
+import org.nakeduml.uim.form.OperationTaskForm;
+import org.nakeduml.uim.form.StateForm;
+import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
@@ -53,14 +53,14 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		UimForm form = getFormFor(resourceUri, "uim");
 		ActionTaskForm atf = null;
 		if(regenerate || form.getPanel() == null){
-			atf = UimFactory.eINSTANCE.createActionTaskForm();
+			atf = FormFactory.eINSTANCE.createActionTaskForm();
 			initForm(form, a, atf);
 			// TODO make input entities editable through inputs tab per entity
 			FormCreator fc = new FormCreator(atf);
 			ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 			pins.addAll(a.getOutputs());
 			fc.prepareFormPanel("Task: " + NameConverter.separateWords(a.getName()), pins);
-			fc.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.POSTPONE_TASK, ActionKind.RETURN_TASK);
+			fc.addButtonBar(ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK,ActionKind.SUSPEND_TASK);
 		}else{
 			atf = (ActionTaskForm) form.getPanel();
 		}
@@ -79,7 +79,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		UimForm form = getFormFor(resourceUri, "uim");
 		ClassForm panel;
 		if(regenerate || form.getPanel() == null){
-			panel = UimFactory.eINSTANCE.createClassForm();
+			panel = FormFactory.eINSTANCE.createClassForm();
 			initForm(form, c, panel);
 			panel.setName(c.getName() + suffix);
 			FormCreator fc = new FormCreator(panel);
@@ -100,12 +100,12 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			UimForm form = getFormFor(resourceUri, "uim");
 			OperationTaskForm otf;
 			if(regenerate || form.getPanel() == null){
-				otf = UimFactory.eINSTANCE.createOperationTaskForm();
+				otf = FormFactory.eINSTANCE.createOperationTaskForm();
 				initForm(form, o, otf);
 				// TODO make input entities editable through inputs tab per entity
 				FormCreator fc = new FormCreator(otf);
 				fc.prepareFormPanel("Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
-				fc.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.POSTPONE_TASK, ActionKind.RETURN_TASK);
+				fc.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.SUSPEND_TASK);
 				otf.setFolder(ef);
 			}else{
 				otf = (OperationTaskForm) form.getPanel();
@@ -118,7 +118,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		UimForm form = getFormFor(resourceUri, "uim");
 		OperationInvocationForm oif;
 		if(regenerate || form.getPanel() == null){
-			oif = UimFactory.eINSTANCE.createOperationInvocationForm();
+			oif = FormFactory.eINSTANCE.createOperationInvocationForm();
 			initForm(form, o, oif);
 			// TODO make input entities editable through inputs tab per entity
 			FormCreator fc = new FormCreator(oif);
@@ -139,7 +139,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		UimForm form = getFormFor(resourceUri, "uim");
 		StateForm sf;
 		if(regenerate || form.getPanel() == null){
-			sf = UimFactory.eINSTANCE.createStateForm();
+			sf = FormFactory.eINSTANCE.createStateForm();
 			initForm(form, s, sf);
 			// TODO make input entities editable through inputs tab per entity
 			FormCreator fc = new FormCreator(sf);
@@ -166,7 +166,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	private UimForm getFormFor(String id,String extenstion){
 		Resource resource = getResource(id, extenstion);
 		if(resource.getContents().isEmpty()){
-			resource.getContents().add(UimFactory.eINSTANCE.createUimForm());
+			resource.getContents().add(FormFactory.eINSTANCE.createUimForm());
 		}
 		return (UimForm) resource.getContents().get(0);
 	}

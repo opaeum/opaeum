@@ -190,24 +190,6 @@ public interface ClassFormDiagramPreferenceConstants{
 	 */
 	String UIMDATATABLE_DEFAULT_FONT = "UimDataTable Default Font";
 	/**
-	 * The key used to install a <i>UIMDataColumn Default Background Color</i> Preference.
-	 * 
-	 * @generated
-	 */
-	String UIMDATACOLUMN_DEFAULT_BACKGROUND_COLOR = "UimDataColumn Default Background Color";
-	/**
-	 * The key used to install a <i>UIMDataColumn Default Foreground Color</i> Preference.
-	 * 
-	 * @generated
-	 */
-	String UIMDATACOLUMN_DEFAULT_FOREGROUND_COLOR = "UimDataColumn Default Foreground Color";
-	/**
-	 * The key used to install a <i>UIMDataColumn Default Font</i> Preference.
-	 * 
-	 * @generated
-	 */
-	String UIMDATACOLUMN_DEFAULT_FONT = "UimDataColumn Default Font";
-	/**
 	 * The key used to install a <i>DetailPanel Default Background Color</i> Preference.
 	 * 
 	 * @generated
@@ -315,6 +297,21 @@ public interface ClassFormDiagramPreferenceConstants{
 	 * @generated
 	 */
 	String UIMFULLLAYOUT_DEFAULT_FONT = "UimFullLayout Default Font";
+	/**
+	 * The key used to install a <i>UimColumnLayout Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String UIMCOLUMNLAYOUT_DEFAULT_BACKGROUND_COLOR = "UimColumnLayout Default Background Color";
+	/**
+	 * The key used to install a <i>UimColumnLayout Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String UIMCOLUMNLAYOUT_DEFAULT_FOREGROUND_COLOR = "UimColumnLayout Default Foreground Color";
+	/**
+	 * The key used to install a <i>UimColumnLayout Default Font</i> Preference.
+	 * @generated
+	 */
+	String UIMCOLUMNLAYOUT_DEFAULT_FONT = "UimColumnLayout Default Font";
 	/**
 	 * The key used to install a <i>TransitionAction Default Background Color</i> Preference.
 	 * 

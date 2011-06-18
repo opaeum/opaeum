@@ -4,15 +4,15 @@ import java.util.Collection;
 
 import net.sf.nakeduml.feature.StepDependency;
 
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.NavigationBinding;
-import org.nakeduml.uim.OperationAction;
-import org.nakeduml.uim.TableBinding;
-import org.nakeduml.uim.TransitionAction;
-import org.nakeduml.uim.UimAction;
-import org.nakeduml.uim.UimForm;
-import org.nakeduml.uim.UimLayout;
 import org.nakeduml.uim.UmlReference;
+import org.nakeduml.uim.action.OperationAction;
+import org.nakeduml.uim.action.TransitionAction;
+import org.nakeduml.uim.action.UimAction;
+import org.nakeduml.uim.binding.FieldBinding;
+import org.nakeduml.uim.binding.NavigationBinding;
+import org.nakeduml.uim.binding.TableBinding;
+import org.nakeduml.uim.form.UimForm;
+import org.nakeduml.uim.layout.UimLayout;
 import org.nakeduml.uim.util.UmlUimLinks;
 
 @StepDependency(phase = UserInteractionSynchronizationPhase.class)

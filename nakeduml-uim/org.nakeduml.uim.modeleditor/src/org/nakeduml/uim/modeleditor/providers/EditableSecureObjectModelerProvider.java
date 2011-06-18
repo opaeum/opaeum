@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.EditableSecureObject} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.security.EditableSecureObject} object.
  *
  * @generated
  */

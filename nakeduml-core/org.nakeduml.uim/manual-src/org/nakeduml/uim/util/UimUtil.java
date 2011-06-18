@@ -21,25 +21,21 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
-import org.eclipse.uml2.uml.util.UMLUtil;
 import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
-import org.nakeduml.uim.ActionTaskForm;
-import org.nakeduml.uim.ClassForm;
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.LookupBinding;
-import org.nakeduml.uim.NavigationBinding;
-import org.nakeduml.uim.OperationContainingFolder;
-import org.nakeduml.uim.OperationInvocationForm;
-import org.nakeduml.uim.OperationTaskForm;
-import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.StateForm;
-import org.nakeduml.uim.TableBinding;
-import org.nakeduml.uim.UimBinding;
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimDataTable;
-import org.nakeduml.uim.UimForm;
+import org.nakeduml.uim.binding.FieldBinding;
+import org.nakeduml.uim.binding.LookupBinding;
+import org.nakeduml.uim.binding.NavigationBinding;
+import org.nakeduml.uim.binding.PropertyRef;
+import org.nakeduml.uim.binding.TableBinding;
+import org.nakeduml.uim.binding.UimBinding;
+import org.nakeduml.uim.form.ClassForm;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
+import org.nakeduml.uim.form.OperationTaskForm;
+import org.nakeduml.uim.form.StateForm;
 
 public class UimUtil{
 	public static TypedElement getResultingType(final UimBinding uIMBinding){

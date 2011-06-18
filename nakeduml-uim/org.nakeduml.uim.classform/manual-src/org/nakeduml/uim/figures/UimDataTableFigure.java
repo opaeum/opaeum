@@ -5,7 +5,7 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
-import org.nakeduml.uim.layouts.UserTableLayout;
+import org.nakeduml.uim.layouts.StackLayout;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.IContainerFigure;
 import org.topcased.draw2d.figures.ILabel;
@@ -56,7 +56,7 @@ public class UimDataTableFigure extends Figure implements IContainerFigure,ILabe
 	}
 	protected IFigure createContainer(){
 		Figure container = new Figure();
-		container.setLayoutManager(new UserTableLayout());
+		container.setLayoutManager(new StackLayout());
 		container.setOpaque(true);
 		return container;
 	}

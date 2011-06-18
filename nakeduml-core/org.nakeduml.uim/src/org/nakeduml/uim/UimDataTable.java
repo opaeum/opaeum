@@ -6,7 +6,10 @@
  */
 package org.nakeduml.uim;
 
-import org.eclipse.emf.common.util.EList;
+import org.nakeduml.uim.binding.TableBinding;
+
+import org.nakeduml.uim.layout.LayoutContainer;
+import org.nakeduml.uim.layout.OutlayableComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,7 +20,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.nakeduml.uim.UimDataTable#getBinding <em>Binding</em>}</li>
- *   <li>{@link org.nakeduml.uim.UimDataTable#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,10 +27,10 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface UimDataTable extends MasterComponent, UimContainer, OutlayableComponent {
+public interface UimDataTable extends MasterComponent, OutlayableComponent, LayoutContainer {
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.TableBinding#getTable <em>Table</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.binding.TableBinding#getTable <em>Table</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Binding</em>' containment reference isn't clear,
@@ -38,7 +40,7 @@ public interface UimDataTable extends MasterComponent, UimContainer, OutlayableC
 	 * @return the value of the '<em>Binding</em>' containment reference.
 	 * @see #setBinding(TableBinding)
 	 * @see org.nakeduml.uim.UimPackage#getUimDataTable_Binding()
-	 * @see org.nakeduml.uim.TableBinding#getTable
+	 * @see org.nakeduml.uim.binding.TableBinding#getTable
 	 * @model opposite="table" containment="true"
 	 * @generated
 	 */
@@ -53,23 +55,5 @@ public interface UimDataTable extends MasterComponent, UimContainer, OutlayableC
 	 * @generated
 	 */
 	void setBinding(TableBinding value);
-
-	/**
-	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
-	 * The list contents are of type {@link org.nakeduml.uim.UimDataColumn}.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimDataColumn#getParent <em>Parent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Children</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Children</em>' containment reference list.
-	 * @see org.nakeduml.uim.UimPackage#getUimDataTable_Children()
-	 * @see org.nakeduml.uim.UimDataColumn#getParent
-	 * @model opposite="parent" containment="true"
-	 * @generated
-	 */
-	EList<UimDataColumn> getChildren();
 
 } // UimDataTable

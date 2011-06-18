@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.uml2.uml.edit,
  org.eclipse.ocl.uml,
  org.nakeduml.metamodels,
- org.nakeduml.topcased.classdiagram
+ org.nakeduml.topcased.classdiagram,
+ org.nakeduml.topcased.activitydiagram;bundle-version="2.6.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.nakeduml.topcased.propertysections

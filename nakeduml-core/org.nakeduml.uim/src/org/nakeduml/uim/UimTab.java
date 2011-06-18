@@ -6,6 +6,7 @@
  */
 package org.nakeduml.uim;
 
+import org.nakeduml.uim.layout.LayoutContainer;
 
 /**
  * <!-- begin-user-doc -->

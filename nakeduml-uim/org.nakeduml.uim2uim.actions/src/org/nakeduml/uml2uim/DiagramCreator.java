@@ -1,46 +1,31 @@
 package org.nakeduml.uml2uim;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.name.NameConverter;
-import org.nakeduml.uim.ActionKind;
-import org.nakeduml.uim.BuiltInAction;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.LayoutContainer;
-import org.nakeduml.uim.OutlayableComponent;
-import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.TableBinding;
-import org.nakeduml.uim.UimAction;
 import org.nakeduml.uim.UimComponent;
-import org.nakeduml.uim.UimDataColumn;
 import org.nakeduml.uim.UimDataTable;
-import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UimField;
-import org.nakeduml.uim.UimFullLayout;
-import org.nakeduml.uim.UimGridLayout;
-import org.nakeduml.uim.UimLayout;
-import org.nakeduml.uim.UimPanel;
 import org.nakeduml.uim.UimTab;
 import org.nakeduml.uim.UimTabPanel;
 import org.nakeduml.uim.UserInteractionElement;
+import org.nakeduml.uim.action.UimAction;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.layout.LayoutContainer;
+import org.nakeduml.uim.layout.OutlayableComponent;
+import org.nakeduml.uim.layout.UimColumnLayout;
+import org.nakeduml.uim.layout.UimFullLayout;
+import org.nakeduml.uim.layout.UimGridLayout;
+import org.nakeduml.uim.layout.UimLayout;
 import org.nakeduml.uim.layouts.FullLayoutManager;
 import org.nakeduml.uim.layouts.GridLayout;
 import org.nakeduml.uim.layouts.IUimLayoutManager;
+import org.nakeduml.uim.layouts.UimColumnLayoutManager;
 import org.nakeduml.uim.util.ControlUtil;
-import org.nakeduml.uim.util.SafeUmlUimLinks;
-import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramInterchangeFactory;
 import org.topcased.modeler.di.model.EMFSemanticModelBridge;
@@ -81,13 +66,6 @@ public class DiagramCreator{
 			if(layout != null){
 				populate(currentNode, layout);
 			}
-		}else if(c instanceof UimDataColumn){
-			UimLayout layout = ((UimDataColumn) c).getLayout();
-			currentNode.setPosition(new Point(1, 31));
-			currentNode.setSize(new Dimension(calculateWidth(c), parentNode.getSize().height - 32));
-			if(layout != null){
-				populate(currentNode, layout);
-			}
 		}else if(c instanceof UimLayout){
 			currentNode.setPosition(new Point(0, 0));
 			currentNode.setSize(new Dimension(parentNode.getSize().width, parentNode.getSize().height));
@@ -96,6 +74,10 @@ public class DiagramCreator{
 				doLayout(currentNode, gridLayout, new GridLayout(gridLayout.getNumberOfColumns()));
 			}else if(c instanceof UimFullLayout){
 				doLayout(currentNode, ((UimFullLayout) c), new FullLayoutManager());
+			}else if(c instanceof UimColumnLayout){
+				currentNode.setPosition(new Point(1, 31));
+				currentNode.setSize(new Dimension(calculateWidth(c), parentNode.getSize().height - 32));
+				doLayout(currentNode, (UimColumnLayout)c,new UimColumnLayoutManager());
 			}
 		}
 	}
@@ -121,8 +103,6 @@ public class DiagramCreator{
 				populateChildren(gn, ((UimLayout) child).getChildren());
 			}else if(child instanceof UimTabPanel){
 				populateChildren(gn, ((UimTabPanel) child).getChildren());
-			}else if(child instanceof UimDataTable){
-				populateChildren(gn, ((UimDataTable) child).getChildren());
 			}
 		}
 	}
@@ -196,7 +176,7 @@ public class DiagramCreator{
 			width = Math.max(rowWidth + 2, width);
 		}
 		if(c instanceof UimDataTable){
-			EList<UimDataColumn> columns = ((UimDataTable) c).getChildren();
+			EList<OutlayableComponent> columns = ((UimDataTable) c).getLayout().getChildren();
 			for(UimComponent uimComponent:columns){
 				width += calculateWidth(uimComponent);
 				width += 2;

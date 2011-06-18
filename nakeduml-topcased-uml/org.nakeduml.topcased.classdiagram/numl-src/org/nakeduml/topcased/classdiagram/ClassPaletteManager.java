@@ -2,22 +2,17 @@ package org.nakeduml.topcased.classdiagram;
 
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
-import org.eclipse.uml2.uml.Interface;
-import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
@@ -25,40 +20,37 @@ import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.palette.ModelerConnectionCreationToolEntry;
 import org.topcased.modeler.editor.palette.ModelerCreationToolEntry;
 import org.topcased.modeler.editor.palette.ModelerPaletteManager;
-import org.topcased.modeler.uml.UMLPlugin;
 import org.topcased.modeler.uml.classdiagram.ClassImageRegistry;
-import org.topcased.modeler.uml.editor.UMLEditor;
 import org.topcased.modeler.utils.CustomPaletteArrayList;
 
 public class ClassPaletteManager extends ModelerPaletteManager{
 	// declare all the palette categories of the diagram
-	private PaletteDrawer objectsDrawer;
+	private PaletteDrawer classesDrawer;
+	private PaletteDrawer featuresDrawer;
 	private PaletteDrawer connectionsDrawer;
 	private PaletteDrawer organizationDrawer;
 	// private PaletteDrawer commentDrawer;
-	private final ICreationUtils creationUtils;
+	private ICreationUtils creationUtils;
 	public ClassPaletteManager(ICreationUtils utils){
 		super();
 		this.creationUtils = utils;
 	}
 	@Override
 	protected void createCategories(){
-		createObjectsDrawer();
+		createClassesDrawer();
+		createFeaturesDrawer();
 		createConnectionsDrawer();
 		createOrganizationDrawer();
 		// createCommentDrawer();
 	}
-	/**
-	 * Updates the main categories of the palette <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
 	@Override
 	protected void updateCategories(){
 		// deletion of the existing categories and creation of the updated
 		// categories
-		getRoot().remove(objectsDrawer);
-		createObjectsDrawer();
+		getRoot().remove(classesDrawer);
+		createClassesDrawer();
+		getRoot().remove(featuresDrawer);
+		createFeaturesDrawer();
 		getRoot().remove(connectionsDrawer);
 		createConnectionsDrawer();
 		getRoot().remove(organizationDrawer);
@@ -66,52 +58,51 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		// getRoot().remove(commentDrawer);
 		// createCommentDrawer();
 	}
-	private void createOrganizationDrawer(){
-		organizationDrawer = new PaletteDrawer("Organization", null);
+	private void createFeaturesDrawer(){
+		featuresDrawer = new PaletteDrawer("Features", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.classdiagram");
 		CreationFactory factory;
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInterface(), "default"){
-			@Override
-			public EObject getNewModelObject(){
-				Interface element = (Interface) super.getNewModelObject();
-				element.addKeyword("Responsibility");
-				IEditorReference[] ers = UMLPlugin.getActivePage().getEditorReferences();
-				for(int i = 0;i < ers.length;i++){
-					IEditorReference er = ers[i];
-					IEditorPart editor = er.getEditor(false);
-					if(editor instanceof UMLEditor){
-						UMLEditor e = (UMLEditor) editor;
-						EList<Resource> resources = e.getResourceSet().getResources();
-						for(Resource resource:resources){
-							if(resource.getURI().toString().contains("NakedUMLProfile")){
-								Profile p = (Profile) resource.getContents().get(0);
-								Stereotype responsibility = p.getOwnedStereotype("Responsibility");
-								try{
-									element.applyStereotype(responsibility);
-								}catch(Exception ex){
-									System.out.println();
-								}
-							}
-						}
-					}
-				}
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Responsibility", "Responsibility", factory, ClassImageRegistry.getImageDescriptor("INTERFACE"), ClassImageRegistry
+		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOperation(), "default");
+		entries.add(new ModelerCreationToolEntry("Operation", "Operation", factory, ClassImageRegistry.getImageDescriptor("OPERATION"), ClassImageRegistry
+				.getImageDescriptor("OPERATION_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getProperty(), "default");
+		entries.add(new ModelerCreationToolEntry("Property", "Property", factory, ClassImageRegistry.getImageDescriptor("PROPERTY"), ClassImageRegistry
+				.getImageDescriptor("PROPERTY_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getEnumerationLiteral(), "default");
+		entries.add(new ModelerCreationToolEntry("Enumeration Literal", "Enumeration Literal", factory, ClassImageRegistry.getImageDescriptor("ENUMERATIONLITERAL"),
+				ClassImageRegistry.getImageDescriptor("ENUMERATIONLITERAL_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReception(), "default");
+		entries.add(new ModelerCreationToolEntry("Reception", "Reception", factory, ClassImageRegistry.getImageDescriptor("RECEPTION"), ClassImageRegistry
+				.getImageDescriptor("RECEPTION_LARGE")));
+		featuresDrawer.addAll(entries);
+		if(featuresDrawer.getChildren().size() > 0){
+			getRoot().add(featuresDrawer);
+		}
+
+		
+	}
+	private void createOrganizationDrawer(){
+		organizationDrawer = new PaletteDrawer("BPM", null);
+		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.classdiagram");
+		CreationFactory businessServiceFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInterface(), StereotypeNames.BUSINESS_SERVICE);
+		entries.add(new ModelerCreationToolEntry("BusinessService", "BusinessService", businessServiceFactory, ClassImageRegistry.getImageDescriptor("INTERFACE"),
+				ClassImageRegistry.getImageDescriptor("INTERFACE")));
+		CreationFactory businessRoleFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getClass_(), StereotypeNames.BUSINESS_ROLE);
+		entries.add(new ModelerCreationToolEntry("BusinessRole", "BusinessRole", businessRoleFactory, ClassImageRegistry.getImageDescriptor("CLASS"), ClassImageRegistry
 				.getImageDescriptor("INTERFACE")));
+		CreationFactory businessComponentFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getComponent(), StereotypeNames.BUSINESS_COMPONENT);
+		entries.add(new ModelerCreationToolEntry("BusinessComponent", "BusinessComponent", businessComponentFactory, ClassImageRegistry.getImageDescriptor("CLASS"),
+				ClassImageRegistry.getImageDescriptor("CLASS")));
+		CreationFactory notificationFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSignal(), StereotypeNames.NOTIFICATION);
+		entries.add(new ModelerCreationToolEntry("Notification", "Notification", notificationFactory , ClassImageRegistry.getImageDescriptor("SIGNAL"),
+				ClassImageRegistry.getImageDescriptor("SIGNAL")));
 		organizationDrawer.addAll(entries);
 		if(organizationDrawer.getChildren().size() > 0){
 			getRoot().add(organizationDrawer);
 		}
 	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	private void createObjectsDrawer(){
-		objectsDrawer = new PaletteDrawer("Objects", null);
+	private void createClassesDrawer(){
+		classesDrawer = new PaletteDrawer("Classes", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.classdiagram");
 		CreationFactory factory;
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPackage(), "default");
@@ -126,12 +117,6 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInterface(), "default");
 		entries.add(new ModelerCreationToolEntry("Interface", "Interface", factory, ClassImageRegistry.getImageDescriptor("INTERFACE"), ClassImageRegistry
 				.getImageDescriptor("INTERFACE_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOperation(), "default");
-		entries.add(new ModelerCreationToolEntry("Operation", "Operation", factory, ClassImageRegistry.getImageDescriptor("OPERATION"), ClassImageRegistry
-				.getImageDescriptor("OPERATION_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getProperty(), "default");
-		entries.add(new ModelerCreationToolEntry("Property", "Property", factory, ClassImageRegistry.getImageDescriptor("PROPERTY"), ClassImageRegistry
-				.getImageDescriptor("PROPERTY_LARGE")));
 		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInstanceSpecification(), "default");
 		// entries.add(new ModelerCreationToolEntry("Instance Specification", "Instance Specification", factory, ClassImageRegistry
 		// .getImageDescriptor("INSTANCESPECIFICATION"), ClassImageRegistry.getImageDescriptor("INSTANCESPECIFICATION_LARGE")));
@@ -145,99 +130,20 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getComponent(), "default");
 		entries.add(new ModelerCreationToolEntry("Component", "Component", factory, ClassImageRegistry.getImageDescriptor("ENUMERATION"), ClassImageRegistry
 				.getImageDescriptor("ENUMERATION_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getEnumerationLiteral(), "default");
-		entries.add(new ModelerCreationToolEntry("Enumeration Literal", "Enumeration Literal", factory, ClassImageRegistry.getImageDescriptor("ENUMERATIONLITERAL"),
-				ClassImageRegistry.getImageDescriptor("ENUMERATIONLITERAL_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPrimitiveType(), "default");
 		entries.add(new ModelerCreationToolEntry("Primitive Type", "Primitive Type", factory, ClassImageRegistry.getImageDescriptor("PRIMITIVETYPE"), ClassImageRegistry
 				.getImageDescriptor("PRIMITIVETYPE_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getTemplateParameter(), "default");
-		// entries.add(new ModelerCreationToolEntry("TemplateParameter", "TemplateParameter", factory,
-		// ClassImageRegistry.getImageDescriptor("TEMPLATEPARAMETER"),
-		// ClassImageRegistry.getImageDescriptor("TEMPLATEPARAMETER_LARGE")));
-		//
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getTemplateParameter(), "default");
-		// entries.add(new ModelerCreationToolEntry("TemplateSignature", "TemplateSignature", factory,
-		// ClassImageRegistry.getImageDescriptor("TEMPLATESIGNATURE"),
-		// ClassImageRegistry.getImageDescriptor("TEMPLATESIGNATURE_LARGE")));
-		// PaletteStack dependencyStack = new PaletteStack("Redefinable Template Signature", "Redefinable Template Signature",
-		// ClassImageRegistry.getImageDescriptor("REDEFINABLETEMPLATESIGNATURE"));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getRedefinableTemplateSignature(), "default");
-		// dependencyStack.add(new ModelerCreationToolEntry("Redefinable Template Signature", "Redefinable Template Signature", factory,
-		// ClassImageRegistry
-		// .getImageDescriptor("REDEFINABLETEMPLATESIGNATURE"),
-		// ClassImageRegistry.getImageDescriptor("REDEFINABLETEMPLATESIGNATURE_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getClassifierTemplateParameter(), "default");
-		// dependencyStack.add(new ModelerCreationToolEntry("Classifier Template Parameter", "Classifier Template Parameter", factory,
-		// ClassImageRegistry
-		// .getImageDescriptor("CLASSIFIERTEMPLATEPARAMETER"), ClassImageRegistry.getImageDescriptor("CLASSIFIERTEMPLATEPARAMETER_LARGE")));
-		// entries.add(dependencyStack);
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSignal(), "default");
 		entries.add(new ModelerCreationToolEntry("Signal", "Signal", factory, ClassImageRegistry.getImageDescriptor("SIGNAL"), ClassImageRegistry
 				.getImageDescriptor("SIGNAL_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReception(), "default");
-		entries.add(new ModelerCreationToolEntry("Reception", "Reception", factory, ClassImageRegistry.getImageDescriptor("RECEPTION"), ClassImageRegistry
-				.getImageDescriptor("RECEPTION_LARGE")));
-		// PaletteStack eventStack = new PaletteStack("Execution Event", "Execution Event",
-		// ClassImageRegistry.getImageDescriptor("EXECUTIONEVENT"));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getExecutionEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Execution Event", "Execution Event", factory,
-		// ClassImageRegistry.getImageDescriptor("EXECUTIONEVENT"),
-		// ClassImageRegistry.getImageDescriptor("EXECUTIONEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCreationEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Creation Event", "Creation Event", factory,
-		// ClassImageRegistry.getImageDescriptor("CREATIONEVENT"),
-		// ClassImageRegistry.getImageDescriptor("CREATIONEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getDestructionEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Destruction Event", "Destruction Event", factory,
-		// ClassImageRegistry.getImageDescriptor("DESTRUCTIONEVENT"),
-		// ClassImageRegistry.getImageDescriptor("DESTRUCTIONEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSendOperationEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Send Operation Event", "Send Operation Event", factory,
-		// ClassImageRegistry.getImageDescriptor("SENDOPERATIONEVENT"),
-		// ClassImageRegistry.getImageDescriptor("SENDOPERATIONEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSendSignalEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Send Signal Event", "Send Signal Event", factory,
-		// ClassImageRegistry.getImageDescriptor("SENDSIGNALEVENT"),
-		// ClassImageRegistry.getImageDescriptor("SENDSIGNALEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReceiveOperationEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Receive Operation Event", "Receive Operation Event", factory, ClassImageRegistry
-		// .getImageDescriptor("RECEIVEOPERATIONEVENT"), ClassImageRegistry.getImageDescriptor("RECEIVEOPERATIONEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReceiveSignalEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Receive Signal Event", "Receive Signal Event", factory,
-		// ClassImageRegistry.getImageDescriptor("RECEIVESIGNALEVENT"),
-		// ClassImageRegistry.getImageDescriptor("RECEIVESIGNALEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCallEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Call Event", "Call Event", factory,
-		// ClassImageRegistry.getImageDescriptor("CALLEVENT"), ClassImageRegistry
-		// .getImageDescriptor("CALLEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getChangeEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Change Event", "Change Event", factory,
-		// ClassImageRegistry.getImageDescriptor("CHANGEEVENT"), ClassImageRegistry
-		// .getImageDescriptor("CHANGEEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAnyReceiveEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Any Receive Event", "Any Receive Event", factory,
-		// ClassImageRegistry.getImageDescriptor("ANYRECEIVEEVENT"),
-		// ClassImageRegistry.getImageDescriptor("ANYRECEIVEEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSignalEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Signal Event", "Signal Event", factory,
-		// ClassImageRegistry.getImageDescriptor("SIGNALEVENT"), ClassImageRegistry
-		// .getImageDescriptor("SIGNALEVENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getTimeEvent(), "default");
-		// eventStack.add(new ModelerCreationToolEntry("Time Event", "Time Event", factory,
-		// ClassImageRegistry.getImageDescriptor("TIMEEVENT"), ClassImageRegistry
-		// .getImageDescriptor("TIMEEVENT_LARGE")));
-		// entries.add(eventStack);
-		objectsDrawer.addAll(entries);
-		if(objectsDrawer.getChildren().size() > 0){
-			getRoot().add(objectsDrawer);
+		CreationFactory notificationFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInterface(), StereotypeNames.HELPER);
+		entries.add(new ModelerCreationToolEntry("Helper", "Helper", notificationFactory , ClassImageRegistry.getImageDescriptor("INTERFACE"),
+				ClassImageRegistry.getImageDescriptor("INTERFACE")));
+		classesDrawer.addAll(entries);
+		if(classesDrawer.getChildren().size() > 0){
+			getRoot().add(classesDrawer);
 		}
 	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	private void createConnectionsDrawer(){
 		connectionsDrawer = new PaletteDrawer("Connections", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.classdiagram");
@@ -398,11 +304,6 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 			getRoot().add(connectionsDrawer);
 		}
 	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	private void createCommentDrawer(){
 		// commentDrawer = new PaletteDrawer("Comment", null);
 		// List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.classdiagram");

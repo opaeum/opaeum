@@ -32,12 +32,11 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
-import org.nakeduml.uim.UimForm;
+import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.modeleditor.UimPlugin;
 import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
-import org.topcased.modeler.editor.Modeler;
 
 public abstract class AbstractUimGenerationAction{
 	private IStructuredSelection selection;

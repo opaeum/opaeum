@@ -45,6 +45,13 @@ public class UimDiagramsPage extends DiagramsPage{
 	public ComposedAdapterFactory getAdapterFactory(){
 		List factories = new ArrayList();
 		factories.add(new org.nakeduml.uim.provider.UimItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.layout.provider.LayoutItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.control.provider.ControlItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.folder.provider.FolderItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.form.provider.FormItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.binding.provider.BindingItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.security.provider.SecurityItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory());
 		factories.add(new ResourceItemProviderAdapterFactory());
 		factories.add(new ReflectiveItemProviderAdapterFactory());
 		return new ComposedAdapterFactory(factories);

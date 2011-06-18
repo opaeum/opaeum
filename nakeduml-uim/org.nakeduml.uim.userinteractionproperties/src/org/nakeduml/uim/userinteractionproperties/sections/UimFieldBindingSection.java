@@ -8,10 +8,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.UimBinding;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.binding.BindingPackage;
+import org.nakeduml.uim.binding.UimBinding;
+import org.nakeduml.uim.control.ControlKind;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.nakeduml.uim.util.ControlUtil;
 import org.nakeduml.uim.util.UimUtil;
@@ -74,8 +75,8 @@ public class UimFieldBindingSection extends AbstractBindingSection{
 			switch(msg.getFeatureID(UimField.class)){
 			case UimPackage.UIM_FIELD__BINDING:
 				ControlKind[] cks = ControlUtil.getAllowedControlKinds(UimUtil.getNearestForm(getEObject()), UimUtil.getResultingType((UimBinding) newValue));
-				UimField uimField = (UimField)getEObject();
-				if(cks[0]!=uimField.getControlKind()){
+				UimField uimField = (UimField) getEObject();
+				if(cks[0] != uimField.getControlKind()){
 					uimField.setControlKind(cks[0]);
 					uimField.setControl(ControlUtil.instantiate(cks[0]));
 				}
@@ -83,10 +84,9 @@ public class UimFieldBindingSection extends AbstractBindingSection{
 				break;
 			}
 		}
-}
+	}
 	@Override
 	protected EClass getFeatureEClass(){
-		return UimPackage.eINSTANCE.getFieldBinding();
+		return BindingPackage.eINSTANCE.getFieldBinding();
 	}
-
 }

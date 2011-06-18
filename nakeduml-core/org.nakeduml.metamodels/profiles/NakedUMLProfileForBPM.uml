@@ -1,6 +1,798 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_XkGiwB07Ed-QQ4mYkrb7Gg" name="NakedUMLProfileForBPM">
   <eAnnotations xmi:id="_AAAtcI5-EeCrtavWRHwoHg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_GHwXMJSyEeChgI0v02SJHQ" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7" nsPrefix="NakedUMLProfileForBPM">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXMZSyEeChgI0v02SJHQ" name="BusinessService">
+        <eAnnotations xmi:id="_GHwXMpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXM5SyEeChgI0v02SJHQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXNZSyEeChgI0v02SJHQ" name="Responsibility" abstract="true" eSuperTypes="_GHwXPJSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXNpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_n2V-wI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXN5SyEeChgI0v02SJHQ" name="base_Operation" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXOZSyEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXPJSyEeChgI0v02SJHQ" name="Deadlines">
+        <eAnnotations xmi:id="_GHwXPZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pLd-oI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXPpSyEeChgI0v02SJHQ" name="deadlines" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXQJSyEeChgI0v02SJHQ" name="EmbeddedSingleScreenTask" eSuperTypes="_GHwXRZSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXQZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rMNuYI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXQpSyEeChgI0v02SJHQ" name="base_OpaqueAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXRZSyEeChgI0v02SJHQ" name="EmbeddedTask" eSuperTypes="_GHwXPJSyEeChgI0v02SJHQ _GHwXTZSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXRpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_vCvzsI6AEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_GHwXR5SyEeChgI0v02SJHQ" name="overrideSwimlane" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXSZSyEeChgI0v02SJHQ" name="owner" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXTZSyEeChgI0v02SJHQ" name="TaskAssignments" abstract="true">
+        <eAnnotations xmi:id="_GHwXTpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_JUgiMI5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXT5SyEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXUZSyEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXU5SyEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXVZSyEeChgI0v02SJHQ" name="BusinessComponent">
+        <eAnnotations xmi:id="_GHwXVpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_w0nhUI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXV5SyEeChgI0v02SJHQ" name="base_Component" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXWZSyEeChgI0v02SJHQ" name="BusinessRole">
+        <eAnnotations xmi:id="_GHwXWpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_yFc3EI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXW5SyEeChgI0v02SJHQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXXZSyEeChgI0v02SJHQ" name="EmbeddedScreenFlowTask" eSuperTypes="_GHwXRZSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXXpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_GNGh0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXX5SyEeChgI0v02SJHQ" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//CallBehaviorAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXYpSyEeChgI0v02SJHQ" name="Deadline">
+        <eAnnotations xmi:id="_GHwXY5SyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_UwVhwI5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXZJSyEeChgI0v02SJHQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_GHwXZpSyEeChgI0v02SJHQ" name="kind" ordered="false" lowerBound="1" eType="_GHwXaJSyEeChgI0v02SJHQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_GHwXaJSyEeChgI0v02SJHQ" name="DeadlineKind">
+        <eAnnotations xmi:id="_GHwXaZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_fdLfQJRuEeChgI0v02SJHQ"/>
+        <eLiterals xmi:id="_GHwXapSyEeChgI0v02SJHQ" name="START"/>
+        <eLiterals xmi:id="_GHwXa5SyEeChgI0v02SJHQ" name="COMPLETE" value="1"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXbJSyEeChgI0v02SJHQ" name="AcceptDeadlineAction">
+        <eAnnotations xmi:id="_GHwXbZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_V_sQ0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXbpSyEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXcJSyEeChgI0v02SJHQ" name="Swimlane" eSuperTypes="_GHwXTZSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXcZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_alsWII5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXcpSyEeChgI0v02SJHQ" name="base_ActivityPartition" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ActivityPartition"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXdZSyEeChgI0v02SJHQ" name="Owner">
+        <eAnnotations xmi:id="_GHwXdpSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_g4fJ4I5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXd5SyEeChgI0v02SJHQ" name="base_InputPin" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXeZSyEeChgI0v02SJHQ" name="ResponsibilityTask" eSuperTypes="_GHwXPJSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXepSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rjLK8I5_EeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXfJSyEeChgI0v02SJHQ" name="ExposedBusinessService">
+        <eAnnotations xmi:id="_GHwXfZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mm-r0I6BEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXfpSyEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXgJSyEeChgI0v02SJHQ" name="base_Port" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Port"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXgpSyEeChgI0v02SJHQ" name="TaskResponsibility" eSuperTypes="_GHwXNZSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXg5SyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RF9vgI6DEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXhJSyEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXh5SyEeChgI0v02SJHQ" name="ProcessResponsibility" eSuperTypes="_GHwXNZSyEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_GHwXiJSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__y8BII6FEeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXipSyEeChgI0v02SJHQ" name="Notification">
+        <eAnnotations xmi:id="_GHwXi5SyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rhsr8JRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_GHwXjJSyEeChgI0v02SJHQ" name="template" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXjpSyEeChgI0v02SJHQ" name="base_Signal" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXkJSyEeChgI0v02SJHQ" name="AcceptTaskEventAction">
+        <eAnnotations xmi:id="_GHwXkZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1UMgwJRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXkpSyEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_GHwXlJSyEeChgI0v02SJHQ" name="SendNotificationAction">
+        <eAnnotations xmi:id="_GHwXlZSyEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_x8GWMJSxEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_GHwXlpSyEeChgI0v02SJHQ" name="base_SendSignalAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//SendSignalAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="__ahDIJSxEeChgI0v02SJHQ" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/__af1AJSxEeChgI0v02SJHQ/6" nsPrefix="NakedUMLProfileForBPM">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDIZSxEeChgI0v02SJHQ" name="BusinessService">
+        <eAnnotations xmi:id="__ahDIpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDI5SxEeChgI0v02SJHQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDJZSxEeChgI0v02SJHQ" name="Responsibility" abstract="true" eSuperTypes="__ahDLJSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDJpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_n2V-wI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDJ5SxEeChgI0v02SJHQ" name="base_Operation" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDKZSxEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDLJSxEeChgI0v02SJHQ" name="Deadlines">
+        <eAnnotations xmi:id="__ahDLZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pLd-oI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDLpSxEeChgI0v02SJHQ" name="deadlines" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDMJSxEeChgI0v02SJHQ" name="EmbeddedSingleScreenTask" eSuperTypes="__ahDNZSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDMZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rMNuYI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDMpSxEeChgI0v02SJHQ" name="base_OpaqueAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDNZSxEeChgI0v02SJHQ" name="EmbeddedTask" eSuperTypes="__ahDLJSxEeChgI0v02SJHQ __ahDPZSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDNpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_vCvzsI6AEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="__ahDN5SxEeChgI0v02SJHQ" name="overrideSwimlane" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDOZSxEeChgI0v02SJHQ" name="owner" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDPZSxEeChgI0v02SJHQ" name="TaskAssignments" abstract="true">
+        <eAnnotations xmi:id="__ahDPpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_JUgiMI5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDP5SxEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDQZSxEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDQ5SxEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDRZSxEeChgI0v02SJHQ" name="BusinessComponent">
+        <eAnnotations xmi:id="__ahDRpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_w0nhUI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDR5SxEeChgI0v02SJHQ" name="base_Component" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDSZSxEeChgI0v02SJHQ" name="BusinessRole">
+        <eAnnotations xmi:id="__ahDSpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_yFc3EI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDS5SxEeChgI0v02SJHQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDTZSxEeChgI0v02SJHQ" name="EmbeddedScreenFlowTask" eSuperTypes="__ahDNZSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDTpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_GNGh0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDT5SxEeChgI0v02SJHQ" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//CallBehaviorAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDUpSxEeChgI0v02SJHQ" name="Deadline">
+        <eAnnotations xmi:id="__ahDU5SxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_UwVhwI5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDVJSxEeChgI0v02SJHQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="__ahDVpSxEeChgI0v02SJHQ" name="kind" ordered="false" lowerBound="1" eType="__ahDWJSxEeChgI0v02SJHQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="__ahDWJSxEeChgI0v02SJHQ" name="DeadlineKind">
+        <eAnnotations xmi:id="__ahDWZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_fdLfQJRuEeChgI0v02SJHQ"/>
+        <eLiterals xmi:id="__ahDWpSxEeChgI0v02SJHQ" name="START"/>
+        <eLiterals xmi:id="__ahDW5SxEeChgI0v02SJHQ" name="COMPLETE" value="1"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDXJSxEeChgI0v02SJHQ" name="AcceptDeadlineAction">
+        <eAnnotations xmi:id="__ahDXZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_V_sQ0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDXpSxEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDYJSxEeChgI0v02SJHQ" name="Swimlane" eSuperTypes="__ahDPZSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDYZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_alsWII5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDYpSxEeChgI0v02SJHQ" name="base_ActivityPartition" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ActivityPartition"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDZZSxEeChgI0v02SJHQ" name="Owner">
+        <eAnnotations xmi:id="__ahDZpSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_g4fJ4I5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDZ5SxEeChgI0v02SJHQ" name="base_InputPin" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDaZSxEeChgI0v02SJHQ" name="ResponsibilityTask" eSuperTypes="__ahDLJSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDapSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rjLK8I5_EeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDbJSxEeChgI0v02SJHQ" name="ExposedBusinessService">
+        <eAnnotations xmi:id="__ahDbZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mm-r0I6BEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDbpSxEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDcJSxEeChgI0v02SJHQ" name="base_Port" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Port"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDcpSxEeChgI0v02SJHQ" name="TaskResponsibility" eSuperTypes="__ahDJZSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDc5SxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RF9vgI6DEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDdJSxEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDd5SxEeChgI0v02SJHQ" name="ProcessResponsibility" eSuperTypes="__ahDJZSxEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="__ahDeJSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__y8BII6FEeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDepSxEeChgI0v02SJHQ" name="Notification">
+        <eAnnotations xmi:id="__ahDe5SxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rhsr8JRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="__ahDfJSxEeChgI0v02SJHQ" name="template" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDfpSxEeChgI0v02SJHQ" name="base_Signal" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDgJSxEeChgI0v02SJHQ" name="AcceptTaskEventAction">
+        <eAnnotations xmi:id="__ahDgZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1UMgwJRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDgpSxEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="__ahDhJSxEeChgI0v02SJHQ" name="SendNotificationAction">
+        <eAnnotations xmi:id="__ahDhZSxEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_x8GWMJSxEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="__ahDhpSxEeChgI0v02SJHQ" name="base_SendSignalAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//SendSignalAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_qa-pkJRuEeChgI0v02SJHQ" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/_qa80YJRuEeChgI0v02SJHQ/5" nsPrefix="NakedUMLProfileForBPM">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-pkZRuEeChgI0v02SJHQ" name="BusinessService">
+        <eAnnotations xmi:id="_qa-pkpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pk5RuEeChgI0v02SJHQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-plZRuEeChgI0v02SJHQ" name="Responsibility" abstract="true" eSuperTypes="_qa-pnJRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-plpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_n2V-wI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pl5RuEeChgI0v02SJHQ" name="base_Operation" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pmZRuEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-pnJRuEeChgI0v02SJHQ" name="Deadlines">
+        <eAnnotations xmi:id="_qa-pnZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pLd-oI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pnpRuEeChgI0v02SJHQ" name="deadlines" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-poJRuEeChgI0v02SJHQ" name="EmbeddedSingleScreenTask" eSuperTypes="_qa-ppZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-poZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rMNuYI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-popRuEeChgI0v02SJHQ" name="base_OpaqueAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-ppZRuEeChgI0v02SJHQ" name="EmbeddedTask" eSuperTypes="_qa-pnJRuEeChgI0v02SJHQ _qa-prZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-pppRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_vCvzsI6AEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_qa-pp5RuEeChgI0v02SJHQ" name="overrideSwimlane" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pqZRuEeChgI0v02SJHQ" name="owner" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-prZRuEeChgI0v02SJHQ" name="TaskAssignments" abstract="true">
+        <eAnnotations xmi:id="_qa-prpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_JUgiMI5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pr5RuEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-psZRuEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-ps5RuEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-ptZRuEeChgI0v02SJHQ" name="BusinessComponent">
+        <eAnnotations xmi:id="_qa-ptpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_w0nhUI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pt5RuEeChgI0v02SJHQ" name="base_Component" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-puZRuEeChgI0v02SJHQ" name="BusinessRole">
+        <eAnnotations xmi:id="_qa-pupRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_yFc3EI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pu5RuEeChgI0v02SJHQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-pvZRuEeChgI0v02SJHQ" name="EmbeddedScreenFlowTask" eSuperTypes="_qa-ppZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-pvpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_GNGh0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pv5RuEeChgI0v02SJHQ" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//CallBehaviorAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-pwpRuEeChgI0v02SJHQ" name="Deadline">
+        <eAnnotations xmi:id="_qa-pw5RuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_UwVhwI5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pxJRuEeChgI0v02SJHQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_qa-pxpRuEeChgI0v02SJHQ" name="kind" ordered="false" lowerBound="1" eType="_qa-pyJRuEeChgI0v02SJHQ"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_qa-pyJRuEeChgI0v02SJHQ" name="DeadlineKind">
+        <eAnnotations xmi:id="_qa-pyZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_fdLfQJRuEeChgI0v02SJHQ"/>
+        <eLiterals xmi:id="_qa-pypRuEeChgI0v02SJHQ" name="START"/>
+        <eLiterals xmi:id="_qa-py5RuEeChgI0v02SJHQ" name="COMPLETE" value="1"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-pzJRuEeChgI0v02SJHQ" name="AcceptDeadlineAction">
+        <eAnnotations xmi:id="_qa-pzZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_V_sQ0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-pzpRuEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p0JRuEeChgI0v02SJHQ" name="Swimlane" eSuperTypes="_qa-prZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-p0ZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_alsWII5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p0pRuEeChgI0v02SJHQ" name="base_ActivityPartition" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ActivityPartition"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p1ZRuEeChgI0v02SJHQ" name="Owner">
+        <eAnnotations xmi:id="_qa-p1pRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_g4fJ4I5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p15RuEeChgI0v02SJHQ" name="base_InputPin" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p2ZRuEeChgI0v02SJHQ" name="ResponsibilityTask" eSuperTypes="_qa-pnJRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-p2pRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rjLK8I5_EeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p3JRuEeChgI0v02SJHQ" name="ExposedBusinessService">
+        <eAnnotations xmi:id="_qa-p3ZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mm-r0I6BEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p3pRuEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p4JRuEeChgI0v02SJHQ" name="base_Port" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Port"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p4pRuEeChgI0v02SJHQ" name="TaskResponsibility" eSuperTypes="_qa-plZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-p45RuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RF9vgI6DEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p5JRuEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p55RuEeChgI0v02SJHQ" name="ProcessResponsibility" eSuperTypes="_qa-plZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_qa-p6JRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__y8BII6FEeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p6pRuEeChgI0v02SJHQ" name="Notification">
+        <eAnnotations xmi:id="_qa-p65RuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rhsr8JRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_qa-p7JRuEeChgI0v02SJHQ" name="template" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p7pRuEeChgI0v02SJHQ" name="base_Signal" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_qa-p8JRuEeChgI0v02SJHQ" name="AcceptTaskEventAction">
+        <eAnnotations xmi:id="_qa-p8ZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1UMgwJRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_qa-p8pRuEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_m6gzgJRuEeChgI0v02SJHQ" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/_m6flYJRuEeChgI0v02SJHQ/4" nsPrefix="NakedUMLProfileForBPM">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6gzgZRuEeChgI0v02SJHQ" name="BusinessService">
+        <eAnnotations xmi:id="_m6gzgpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6gzg5RuEeChgI0v02SJHQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6gzhZRuEeChgI0v02SJHQ" name="Responsibility" abstract="true" eSuperTypes="_m6gzjJRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6gzhpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_n2V-wI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6gzh5RuEeChgI0v02SJHQ" name="base_Operation" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6gziZRuEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6gzjJRuEeChgI0v02SJHQ" name="Deadlines">
+        <eAnnotations xmi:id="_m6gzjZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pLd-oI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6gzjpRuEeChgI0v02SJHQ" name="deadlines" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6gzkJRuEeChgI0v02SJHQ" name="EmbeddedSingleScreenTask" eSuperTypes="_m6gzlZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6gzkZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rMNuYI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6gzkpRuEeChgI0v02SJHQ" name="base_OpaqueAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6gzlZRuEeChgI0v02SJHQ" name="EmbeddedTask" eSuperTypes="_m6gzjJRuEeChgI0v02SJHQ _m6halJRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6gzlpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_vCvzsI6AEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_m6gzl5RuEeChgI0v02SJHQ" name="overrideSwimlane" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hakJRuEeChgI0v02SJHQ" name="owner" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6halJRuEeChgI0v02SJHQ" name="TaskAssignments" abstract="true">
+        <eAnnotations xmi:id="_m6halZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_JUgiMI5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6halpRuEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hamJRuEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hampRuEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6hanJRuEeChgI0v02SJHQ" name="BusinessComponent">
+        <eAnnotations xmi:id="_m6hanZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_w0nhUI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hanpRuEeChgI0v02SJHQ" name="base_Component" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6haoJRuEeChgI0v02SJHQ" name="BusinessRole">
+        <eAnnotations xmi:id="_m6haoZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_yFc3EI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6haopRuEeChgI0v02SJHQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6hapJRuEeChgI0v02SJHQ" name="EmbeddedScreenFlowTask" eSuperTypes="_m6gzlZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6hapZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_GNGh0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6happRuEeChgI0v02SJHQ" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//CallBehaviorAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6haqZRuEeChgI0v02SJHQ" name="Deadline">
+        <eAnnotations xmi:id="_m6haqpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_UwVhwI5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6haq5RuEeChgI0v02SJHQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6harZRuEeChgI0v02SJHQ" name="AcceptDeadlineAction">
+        <eAnnotations xmi:id="_m6harpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_V_sQ0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6har5RuEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6hasZRuEeChgI0v02SJHQ" name="Swimlane" eSuperTypes="_m6halJRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6haspRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_alsWII5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6has5RuEeChgI0v02SJHQ" name="base_ActivityPartition" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ActivityPartition"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6hatpRuEeChgI0v02SJHQ" name="Owner">
+        <eAnnotations xmi:id="_m6hat5RuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_g4fJ4I5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hauJRuEeChgI0v02SJHQ" name="base_InputPin" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6haupRuEeChgI0v02SJHQ" name="ResponsibilityTask" eSuperTypes="_m6gzjJRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6hau5RuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rjLK8I5_EeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6havZRuEeChgI0v02SJHQ" name="ExposedBusinessService">
+        <eAnnotations xmi:id="_m6havpRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mm-r0I6BEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hav5RuEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6hawZRuEeChgI0v02SJHQ" name="base_Port" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Port"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6haw5RuEeChgI0v02SJHQ" name="TaskResponsibility" eSuperTypes="_m6gzhZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6haxJRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RF9vgI6DEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6haxZRuEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6hayJRuEeChgI0v02SJHQ" name="ProcessResponsibility" eSuperTypes="_m6gzhZRuEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_m6hayZRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__y8BII6FEeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6hay5RuEeChgI0v02SJHQ" name="Notification">
+        <eAnnotations xmi:id="_m6hazJRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rhsr8JRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_m6hazZRuEeChgI0v02SJHQ" name="template" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6haz5RuEeChgI0v02SJHQ" name="base_Signal" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_m6ha0ZRuEeChgI0v02SJHQ" name="AcceptTaskEventAction">
+        <eAnnotations xmi:id="_m6ha0pRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1UMgwJRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_m6ha05RuEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_m6ha1ZRuEeChgI0v02SJHQ" name="DeadlineKind">
+        <eAnnotations xmi:id="_m6ha1pRuEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_fdLfQJRuEeChgI0v02SJHQ"/>
+        <eLiterals xmi:id="_m6ha15RuEeChgI0v02SJHQ" name="START"/>
+        <eLiterals xmi:id="_m6ha2JRuEeChgI0v02SJHQ" name="COMPLETE" value="1"/>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_CyjjUJRtEeChgI0v02SJHQ" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/_CyhuIJRtEeChgI0v02SJHQ/3" nsPrefix="NakedUMLProfileForBPM">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CyjjUZRtEeChgI0v02SJHQ" name="BusinessService">
+        <eAnnotations xmi:id="_CyjjUpRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CyjjU5RtEeChgI0v02SJHQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CyjjVZRtEeChgI0v02SJHQ" name="Responsibility" abstract="true" eSuperTypes="_CyjjXJRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CyjjVpRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_n2V-wI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CyjjV5RtEeChgI0v02SJHQ" name="base_Operation" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CyjjWZRtEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CyjjXJRtEeChgI0v02SJHQ" name="Deadlines">
+        <eAnnotations xmi:id="_CykKYJRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pLd-oI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKYZRtEeChgI0v02SJHQ" name="deadlines" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKY5RtEeChgI0v02SJHQ" name="EmbeddedSingleScreenTask" eSuperTypes="_CykKaJRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CykKZJRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rMNuYI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKZZRtEeChgI0v02SJHQ" name="base_OpaqueAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKaJRtEeChgI0v02SJHQ" name="EmbeddedTask" eSuperTypes="_CyjjXJRtEeChgI0v02SJHQ _CykKcJRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CykKaZRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_vCvzsI6AEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_CykKapRtEeChgI0v02SJHQ" name="overrideSwimlane" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKbJRtEeChgI0v02SJHQ" name="owner" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKcJRtEeChgI0v02SJHQ" name="TaskAssignments" abstract="true">
+        <eAnnotations xmi:id="_CykKcZRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_JUgiMI5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKcpRtEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKdJRtEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKdpRtEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKeJRtEeChgI0v02SJHQ" name="BusinessComponent">
+        <eAnnotations xmi:id="_CykKeZRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_w0nhUI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKepRtEeChgI0v02SJHQ" name="base_Component" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKfJRtEeChgI0v02SJHQ" name="BusinessRole">
+        <eAnnotations xmi:id="_CykKfZRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_yFc3EI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKfpRtEeChgI0v02SJHQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKgJRtEeChgI0v02SJHQ" name="EmbeddedScreenFlowTask" eSuperTypes="_CykKaJRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CykKgZRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_GNGh0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKgpRtEeChgI0v02SJHQ" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//CallBehaviorAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKhZRtEeChgI0v02SJHQ" name="Deadline">
+        <eAnnotations xmi:id="_CykKhpRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_UwVhwI5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKh5RtEeChgI0v02SJHQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKiZRtEeChgI0v02SJHQ" name="AcceptDeadlineAction">
+        <eAnnotations xmi:id="_CykKipRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_V_sQ0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKi5RtEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKjZRtEeChgI0v02SJHQ" name="Swimlane" eSuperTypes="_CykKcJRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CykKjpRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_alsWII5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKj5RtEeChgI0v02SJHQ" name="base_ActivityPartition" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ActivityPartition"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKkpRtEeChgI0v02SJHQ" name="Owner">
+        <eAnnotations xmi:id="_CykKk5RtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_g4fJ4I5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykKlJRtEeChgI0v02SJHQ" name="base_InputPin" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKlpRtEeChgI0v02SJHQ" name="ResponsibilityTask" eSuperTypes="_CyjjXJRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CykKl5RtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rjLK8I5_EeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykKmZRtEeChgI0v02SJHQ" name="ExposedBusinessService">
+        <eAnnotations xmi:id="_CykxcJRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mm-r0I6BEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykxcZRtEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_Cykxc5RtEeChgI0v02SJHQ" name="base_Port" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Port"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykxdZRtEeChgI0v02SJHQ" name="TaskResponsibility" eSuperTypes="_CyjjVZRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_CykxdpRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RF9vgI6DEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_Cykxd5RtEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykxepRtEeChgI0v02SJHQ" name="ProcessResponsibility" eSuperTypes="_CyjjVZRtEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_Cykxe5RtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__y8BII6FEeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_CykxfZRtEeChgI0v02SJHQ" name="Notification">
+        <eAnnotations xmi:id="_CykxfpRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rhsr8JRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_Cykxf5RtEeChgI0v02SJHQ" name="template" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykxgZRtEeChgI0v02SJHQ" name="base_Signal" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_Cykxg5RtEeChgI0v02SJHQ" name="AcceptTaskEventAction">
+        <eAnnotations xmi:id="_CykxhJRtEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1UMgwJRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_CykxhZRtEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_xugzgJRsEeChgI0v02SJHQ" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/_xueXQJRsEeChgI0v02SJHQ/2" nsPrefix="NakedUMLProfileForBPM">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xugzgZRsEeChgI0v02SJHQ" name="BusinessService">
+        <eAnnotations xmi:id="_xugzgpRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzg5RsEeChgI0v02SJHQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xugzhZRsEeChgI0v02SJHQ" name="Responsibility" abstract="true" eSuperTypes="_xugzjJRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xugzhpRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_n2V-wI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzh5RsEeChgI0v02SJHQ" name="base_Operation" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugziZRsEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xugzjJRsEeChgI0v02SJHQ" name="Deadlines">
+        <eAnnotations xmi:id="_xugzjZRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pLd-oI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzjpRsEeChgI0v02SJHQ" name="deadlines" ordered="false" upperBound="-1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xugzkJRsEeChgI0v02SJHQ" name="EmbeddedSingleScreenTask" eSuperTypes="_xugzlZRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xugzkZRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rMNuYI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzkpRsEeChgI0v02SJHQ" name="base_OpaqueAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//OpaqueAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xugzlZRsEeChgI0v02SJHQ" name="EmbeddedTask" eSuperTypes="_xugzjJRsEeChgI0v02SJHQ _xugznZRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xugzlpRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_vCvzsI6AEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_xugzl5RsEeChgI0v02SJHQ" name="overrideSwimlane" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzmZRsEeChgI0v02SJHQ" name="owner" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xugznZRsEeChgI0v02SJHQ" name="TaskAssignments" abstract="true">
+        <eAnnotations xmi:id="_xugznpRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_JUgiMI5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzn5RsEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xugzoZRsEeChgI0v02SJHQ" name="potentialStakeholders" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhakJRsEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhakpRsEeChgI0v02SJHQ" name="BusinessComponent">
+        <eAnnotations xmi:id="_xuhak5RsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_w0nhUI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhalJRsEeChgI0v02SJHQ" name="base_Component" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhalpRsEeChgI0v02SJHQ" name="BusinessRole">
+        <eAnnotations xmi:id="_xuhal5RsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_yFc3EI59EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhamJRsEeChgI0v02SJHQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhampRsEeChgI0v02SJHQ" name="EmbeddedScreenFlowTask" eSuperTypes="_xugzlZRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xuham5RsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_GNGh0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhanJRsEeChgI0v02SJHQ" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//CallBehaviorAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhan5RsEeChgI0v02SJHQ" name="Deadline">
+        <eAnnotations xmi:id="_xuhaoJRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_UwVhwI5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhaoZRsEeChgI0v02SJHQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhao5RsEeChgI0v02SJHQ" name="AcceptDeadlineEvent">
+        <eAnnotations xmi:id="_xuhapJRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_V_sQ0I5-EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhapZRsEeChgI0v02SJHQ" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//AcceptEventAction"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhap5RsEeChgI0v02SJHQ" name="Swimlane" eSuperTypes="_xugznZRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xuhaqJRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_alsWII5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhaqZRsEeChgI0v02SJHQ" name="base_ActivityPartition" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ActivityPartition"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuharJRsEeChgI0v02SJHQ" name="Owner">
+        <eAnnotations xmi:id="_xuharZRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_g4fJ4I5_EeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuharpRsEeChgI0v02SJHQ" name="base_InputPin" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//InputPin"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhasJRsEeChgI0v02SJHQ" name="ResponsibilityTask" eSuperTypes="_xugzjJRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xuhasZRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rjLK8I5_EeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhas5RsEeChgI0v02SJHQ" name="ExposedBusinessService">
+        <eAnnotations xmi:id="_xuhatJRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mm-r0I6BEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhatZRsEeChgI0v02SJHQ" name="potentialBusinessAdministrators" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhat5RsEeChgI0v02SJHQ" name="base_Port" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Port"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhauZRsEeChgI0v02SJHQ" name="TaskResponsibility" eSuperTypes="_xugzhZRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xuhaupRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_RF9vgI6DEeCrtavWRHwoHg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_xuhau5RsEeChgI0v02SJHQ" name="potentialOwners" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ValueSpecification"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhavpRsEeChgI0v02SJHQ" name="ProcessResponsibility" eSuperTypes="_xugzhZRsEeChgI0v02SJHQ">
+        <eAnnotations xmi:id="_xuhav5RsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__y8BII6FEeCrtavWRHwoHg"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_xuhawZRsEeChgI0v02SJHQ" name="Notification">
+        <eAnnotations xmi:id="_xuhawpRsEeChgI0v02SJHQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_rhsr8JRsEeChgI0v02SJHQ"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_xuhaw5RsEeChgI0v02SJHQ" name="template" ordered="false" lowerBound="1"/>
+      </eClassifiers>
+    </contents>
     <contents xmi:type="ecore:EPackage" xmi:id="_nDB1AI6JEeCrtavWRHwoHg" name="NakedUMLProfileForBPM" nsURI="http:///schemas/NakedUMLProfileForBPM/_nDAm4I6JEeCrtavWRHwoHg/1" nsPrefix="NakedUMLProfileForBPM">
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_nDB1AY6JEeCrtavWRHwoHg" name="BusinessService">
         <eAnnotations xmi:id="_nDB1Ao6JEeCrtavWRHwoHg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mfT6YI59EeCrtavWRHwoHg"/>
@@ -261,6 +1053,12 @@
   <elementImport xmi:id="_4mESII6CEeCrtavWRHwoHg">
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Port"/>
   </elementImport>
+  <elementImport xmi:id="_rC9hgJRsEeChgI0v02SJHQ">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Signal"/>
+  </elementImport>
+  <elementImport xmi:id="_07rswJSxEeChgI0v02SJHQ">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#SendSignalAction"/>
+  </elementImport>
   <packageImport xmi:id="_b3qnYCWuEd62NaW46C6lHg">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
@@ -314,8 +1112,9 @@
     <ownedAttribute xmi:id="_qrACQo5-EeCrtavWRHwoHg" name="base_TimeEvent" association="_qrACQI5-EeCrtavWRHwoHg">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeEvent"/>
     </ownedAttribute>
+    <ownedAttribute xmi:id="_oQfH8JRuEeChgI0v02SJHQ" name="kind" type="_fdLfQJRuEeChgI0v02SJHQ"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Stereotype" xmi:id="_V_sQ0I5-EeCrtavWRHwoHg" name="AcceptDeadlineEvent">
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_V_sQ0I5-EeCrtavWRHwoHg" name="AcceptDeadlineAction">
     <ownedAttribute xmi:id="_0_meko5-EeCrtavWRHwoHg" name="base_AcceptEventAction" association="_0_mekI5-EeCrtavWRHwoHg">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#AcceptEventAction"/>
     </ownedAttribute>
@@ -404,5 +1203,36 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="__y8BII6FEeCrtavWRHwoHg" name="ProcessResponsibility">
     <generalization xmi:id="_BjkRQI6GEeCrtavWRHwoHg" general="_n2V-wI59EeCrtavWRHwoHg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_rhsr8JRsEeChgI0v02SJHQ" name="Notification">
+    <ownedAttribute xmi:id="_sT_EgJRsEeChgI0v02SJHQ" name="template">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_yPyUkJRsEeChgI0v02SJHQ" name="base_Signal" association="_yPxGcJRsEeChgI0v02SJHQ">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Signal"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_yPxGcJRsEeChgI0v02SJHQ" name="Signal_Notification" memberEnd="_yPxtgJRsEeChgI0v02SJHQ _yPyUkJRsEeChgI0v02SJHQ">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_yPxtgJRsEeChgI0v02SJHQ" name="extension_Notification" type="_rhsr8JRsEeChgI0v02SJHQ" aggregation="composite" association="_yPxGcJRsEeChgI0v02SJHQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_1UMgwJRsEeChgI0v02SJHQ" name="AcceptTaskEventAction">
+    <ownedAttribute xmi:id="_2zSU8pRsEeChgI0v02SJHQ" name="base_AcceptEventAction" association="_2zSU8JRsEeChgI0v02SJHQ">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#AcceptEventAction"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_2zSU8JRsEeChgI0v02SJHQ" name="AcceptEventAction_AcceptTaskEvent" memberEnd="_2zSU8ZRsEeChgI0v02SJHQ _2zSU8pRsEeChgI0v02SJHQ">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_2zSU8ZRsEeChgI0v02SJHQ" name="extension_AcceptTaskEvent" type="_1UMgwJRsEeChgI0v02SJHQ" aggregation="composite" association="_2zSU8JRsEeChgI0v02SJHQ"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_fdLfQJRuEeChgI0v02SJHQ" name="DeadlineKind">
+    <ownedLiteral xmi:id="_i2inwJRuEeChgI0v02SJHQ" name="START"/>
+    <ownedLiteral xmi:id="_mK8XwJRuEeChgI0v02SJHQ" name="COMPLETE"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_x8GWMJSxEeChgI0v02SJHQ" name="SendNotificationAction">
+    <ownedAttribute xmi:id="_4SqPoJSxEeChgI0v02SJHQ" name="base_SendSignalAction" association="_4SpokJSxEeChgI0v02SJHQ">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#SendSignalAction"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_4SpokJSxEeChgI0v02SJHQ" name="SendSignalAction_SendNotificationAction" memberEnd="_4SpokZSxEeChgI0v02SJHQ _4SqPoJSxEeChgI0v02SJHQ">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_4SpokZSxEeChgI0v02SJHQ" name="extension_SendNotificationAction" type="_x8GWMJSxEeChgI0v02SJHQ" aggregation="composite" association="_4SpokJSxEeChgI0v02SJHQ"/>
   </packagedElement>
 </uml:Profile>

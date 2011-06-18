@@ -1,5 +1,6 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
@@ -30,7 +31,9 @@ import net.sf.nakeduml.validation.CoreValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ConnectorEnd;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.DataType;
@@ -51,15 +54,13 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.eclipse.EmfParameterUtil;
 
 /**
  * Builds operations, properties,parameter and associations. Only builds associations if they are supported by NakedUml and Octopus
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = GeneralizationExtractor.class,after = GeneralizationExtractor.class)
 public class FeatureExtractor extends AbstractExtractorFromEmf{
-	private static final int EXCEPTION = 0;
-	private static final int ARGUMENT = 1;
-	private static final int RESULT = 2;
 	@VisitBefore(matchSubclasses = true)
 	public void visitPort(Port p){
 		NakedPortImpl np = new NakedPortImpl();
@@ -143,7 +144,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		if(p.getDefaultValue() != null){
 			OclUsageType ut = p.isDerived() ? OclUsageType.DERIVE : OclUsageType.INIT;
 			INakedValueSpecification vs = getValueSpecification(np, p.getDefaultValue(), ut);
-			np.setInitialValue(vs);
+			if(vs != null){
+				np.setInitialValue(vs);
+			}
 		}
 		// TODO look at implementing qualifiers as free attributes of the association
 		String[] qualifierNames = new String[p.getQualifiers().size()];
@@ -155,19 +158,8 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	}
 	private void setOwnedAttributeIndexIfNecessary(Property assEnd,INakedProperty aew){
 		if(assEnd.isNavigable()){
-			EList<Property> ownedAttributes = null;
-			if(assEnd.getOwner() instanceof Signal){
-				ownedAttributes = ((Signal) assEnd.getOwner()).getOwnedAttributes();
-			}
-			if(assEnd.getOwner() instanceof DataType){
-				ownedAttributes = ((DataType) assEnd.getOwner()).getOwnedAttributes();
-			}
-			if(assEnd.getOwner() instanceof org.eclipse.uml2.uml.Class){
-				ownedAttributes = ((org.eclipse.uml2.uml.Class) assEnd.getOwner()).getOwnedAttributes();
-			}
-			if(ownedAttributes != null){
-				aew.setOwnedAttributeIndex(ownedAttributes.indexOf(assEnd));
-			}
+			int indexOf = EmfParameterUtil.calculateOwnedAttributeIndex(assEnd);
+			aew.setOwnedAttributeIndex(indexOf);
 		}
 	}
 	private INakedProperty getProperty(Property p){
@@ -197,11 +189,10 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	public void visitOperation(Operation emfOper){
 		NakedOperationImpl nakedOper;
 		Stereotype responsibility = StereotypesHelper.getStereotype(emfOper, StereotypeNames.RESPONSIBILITY);
-		if(responsibility!=null){
+		if(responsibility != null){
 			nakedOper = new NakedResponsibilityImpl();
 			initialize(nakedOper, emfOper, emfOper.getOwner());
 			initializeDeadlines(responsibility, emfOper);
-			
 		}else{
 			nakedOper = new NakedOperationImpl();
 			initialize(nakedOper, emfOper, emfOper.getOwner());
@@ -228,65 +219,19 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		}
 		addConstraints(nakedOper, preconditions, postconditions);
 	}
-	/**
-	 * 
-	 * Unlike Ocl, Octopus and Java, UML2 does not distinguish between return paramaters and other parameters
-	 * 
-	 */
-	private int calculateIndex(Parameter emfParameter,int parameterKind){
-		List ownedParameter = getContainerList(emfParameter);
-		int index = 0;
-		for(int i = 0;i < ownedParameter.size();i++){
-			Parameter p = (Parameter) ownedParameter.get(i);
-			if(shouldCountParameter(parameterKind, p)){
-				if(p.equals(emfParameter)){
-					break;
-				}else{
-					index++;
-				}
-			}
-		}
-		return index;
-	}
-	private List getContainerList(Parameter emfParameter){
-		List ownedParameter = null;
-		if(emfParameter.getOperation() == null){
-			if(emfParameter.getOwner() instanceof Behavior){
-				ownedParameter = ((Behavior) emfParameter.getOwner()).getOwnedParameters();
-			}else{
-				throw new IllegalStateException("Unknown owner for parameter:" + emfParameter.getOwner());
-			}
-		}else{
-			ownedParameter = emfParameter.getOperation().getOwnedParameters();
-		}
-		return ownedParameter;
-	}
-	private boolean shouldCountParameter(int paramaterKind,Parameter p){
-		switch(paramaterKind){
-		case EXCEPTION:
-			return (p.getDirection().equals(ParameterDirectionKind.OUT_LITERAL) || p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL)) && p.isException();
-		case ARGUMENT:
-			return p.getDirection().equals(ParameterDirectionKind.IN_LITERAL) || p.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL);
-		case RESULT:
-			return p.getDirection().equals(ParameterDirectionKind.OUT_LITERAL) || p.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL)
-					|| p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL);
-		default:
-			return false;
-		}
-	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(Parameter emfParameter){
 		NakedParameterImpl nakedParameter = new NakedParameterImpl();
 		if(emfParameter.getDirection().equals(ParameterDirectionKind.IN_LITERAL)){
-			nakedParameter.setArgumentIndex(calculateIndex(emfParameter, ARGUMENT));
+			nakedParameter.setArgumentIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.ARGUMENT));
 			nakedParameter.setResultIndex(-1);
 			nakedParameter.setExceptionIndex(-1);
 			nakedParameter.setReturn(false);
 			nakedParameter.setException(false);
 			nakedParameter.setDirection(nl.klasse.octopus.model.ParameterDirectionKind.IN);
 		}else if(emfParameter.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL)){
-			nakedParameter.setArgumentIndex(calculateIndex(emfParameter, ARGUMENT));
-			nakedParameter.setResultIndex(calculateIndex(emfParameter, RESULT));
+			nakedParameter.setArgumentIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.ARGUMENT));
+			nakedParameter.setResultIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.RESULT));
 			nakedParameter.setExceptionIndex(-1);
 			nakedParameter.setReturn(false);
 			nakedParameter.setException(false);
@@ -295,9 +240,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			// Octopus does not have a RETURN literal
 			nakedParameter.setReturn(true);
 			nakedParameter.setArgumentIndex(-1);
-			nakedParameter.setResultIndex(calculateIndex(emfParameter, RESULT));
+			nakedParameter.setResultIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.RESULT));
 			if(emfParameter.isException()){
-				nakedParameter.setExceptionIndex(calculateIndex(emfParameter, EXCEPTION));
+				nakedParameter.setExceptionIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.EXCEPTION));
 				nakedParameter.setException(true);
 			}else{
 				nakedParameter.setExceptionIndex(-1);
@@ -307,9 +252,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		}else if(emfParameter.getDirection().equals(ParameterDirectionKind.OUT_LITERAL)){
 			nakedParameter.setReturn(false);
 			nakedParameter.setArgumentIndex(-1);
-			nakedParameter.setResultIndex(calculateIndex(emfParameter, RESULT));
+			nakedParameter.setResultIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.RESULT));
 			if(emfParameter.isException()){
-				nakedParameter.setExceptionIndex(calculateIndex(emfParameter, EXCEPTION));
+				nakedParameter.setExceptionIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.EXCEPTION));
 				nakedParameter.setException(true);
 			}else{
 				nakedParameter.setExceptionIndex(-1);

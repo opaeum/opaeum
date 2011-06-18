@@ -1,7 +1,7 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.layout.LayoutPackage;
 import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
 
 /**
@@ -31,6 +31,6 @@ public class UimBorderLayoutHorizontalSection extends AbstractBooleanPropertySec
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getUimBorderLayout_Horizontal();
+		return LayoutPackage.eINSTANCE.getUimBorderLayout_Horizontal();
 	}
 }

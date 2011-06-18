@@ -8,6 +8,8 @@ package org.nakeduml.uim;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.nakeduml.uim.layout.OutlayableComponent;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Tab Panel</b></em>'.
@@ -16,8 +18,8 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.nakeduml.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}</li>
  *   <li>{@link org.nakeduml.uim.UimTabPanel#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.nakeduml.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,6 +28,24 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface UimTabPanel extends UimContainer, OutlayableComponent {
+	/**
+	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
+	 * The list contents are of type {@link org.nakeduml.uim.UimTab}.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimTab#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Children</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Children</em>' containment reference list.
+	 * @see org.nakeduml.uim.UimPackage#getUimTabPanel_Children()
+	 * @see org.nakeduml.uim.UimTab#getParent
+	 * @model opposite="parent" containment="true"
+	 * @generated
+	 */
+	EList<UimTab> getChildren();
+
 	/**
 	 * Returns the value of the '<em><b>Active Tab Index</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,23 +71,5 @@ public interface UimTabPanel extends UimContainer, OutlayableComponent {
 	 * @generated
 	 */
 	void setActiveTabIndex(Integer value);
-
-	/**
-	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
-	 * The list contents are of type {@link org.nakeduml.uim.UimTab}.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimTab#getParent <em>Parent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Children</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Children</em>' containment reference list.
-	 * @see org.nakeduml.uim.UimPackage#getUimTabPanel_Children()
-	 * @see org.nakeduml.uim.UimTab#getParent
-	 * @model opposite="parent" containment="true"
-	 * @generated
-	 */
-	EList<UimTab> getChildren();
 
 } // UimTabPanel

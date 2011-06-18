@@ -1,8 +1,8 @@
 package org.nakeduml.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.nakeduml.uim.UimGridLayout;
 import org.nakeduml.uim.figures.UimGridLayoutFigure;
+import org.nakeduml.uim.layout.UimGridLayout;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 

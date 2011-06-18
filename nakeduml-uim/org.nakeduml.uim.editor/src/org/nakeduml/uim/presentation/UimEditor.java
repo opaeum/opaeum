@@ -163,6 +163,20 @@ import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
+import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;
+
+import org.nakeduml.uim.binding.provider.BindingItemProviderAdapterFactory;
+
+import org.nakeduml.uim.control.provider.ControlItemProviderAdapterFactory;
+
+import org.nakeduml.uim.folder.provider.FolderItemProviderAdapterFactory;
+
+import org.nakeduml.uim.form.provider.FormItemProviderAdapterFactory;
+
+import org.nakeduml.uim.layout.provider.LayoutItemProviderAdapterFactory;
+
+import org.nakeduml.uim.security.provider.SecurityItemProviderAdapterFactory;
+
 
 /**
  * This is an example of a Uim model editor.
@@ -697,6 +711,13 @@ public class UimEditor
 
 		adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new UimItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new LayoutItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ControlItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new FolderItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new FormItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new BindingItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new SecurityItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ActionItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 

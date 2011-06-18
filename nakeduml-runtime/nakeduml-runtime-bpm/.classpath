@@ -36,7 +36,7 @@
       <attribute value="jar:file:/home/ampie/.m2/repository/org/mvel/mvel2/2.1.RC1/mvel2-2.1.RC1-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.5-SNAPSHOT/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.5-SNAPSHOT/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="src" path="/nakeduml-runtime-domain"/>
   <classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2/stringtemplate-3.2.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>

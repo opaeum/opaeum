@@ -9,11 +9,11 @@ import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.DetailPanel} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.form.DetailPanel} object.
  *
  * @generated
  */
-public class DetailPanelModelerProvider extends LayoutContainerModelerProvider implements ILabelFeatureProvider{
+public class DetailPanelModelerProvider extends UimFormModelerProvider implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *

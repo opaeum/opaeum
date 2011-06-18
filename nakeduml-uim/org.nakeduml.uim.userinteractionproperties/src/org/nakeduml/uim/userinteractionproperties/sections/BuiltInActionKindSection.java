@@ -1,15 +1,16 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.nakeduml.uim.ActionKind;
-import org.nakeduml.uim.ActionTaskForm;
-import org.nakeduml.uim.BuiltInAction;
-import org.nakeduml.uim.ClassForm;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.OperationInvocationForm;
-import org.nakeduml.uim.OperationTaskForm;
-import org.nakeduml.uim.StateForm;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.action.ActionKind;
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.BuiltInAction;
+import org.nakeduml.uim.form.ActionTaskForm;
+import org.nakeduml.uim.form.ClassForm;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
+import org.nakeduml.uim.form.OperationTaskForm;
+import org.nakeduml.uim.form.StateForm;
 import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 
@@ -39,7 +40,7 @@ public class BuiltInActionKindSection extends AbstractEnumerationPropertySection
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getBuiltInAction_Kind();
+		return ActionPackage.eINSTANCE.getBuiltInAction_Kind();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -60,7 +61,7 @@ public class BuiltInActionKindSection extends AbstractEnumerationPropertySection
 			};
 		}else if(uf instanceof OperationTaskForm || uf instanceof ActionTaskForm){
 			return new String[]{
-					ActionKind.RETURN_TASK.getName(),ActionKind.COMPLETE_TASK.getName(),ActionKind.POSTPONE_TASK.getName()
+					ActionKind.SUSPEND_TASK.getName(),ActionKind.COMPLETE_TASK.getName(),ActionKind.DELEGATE_TASK.getName()
 			};
 		}else{
 			return new String[0];

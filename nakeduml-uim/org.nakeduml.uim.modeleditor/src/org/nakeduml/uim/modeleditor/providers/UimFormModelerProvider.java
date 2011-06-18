@@ -5,15 +5,16 @@ package org.nakeduml.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.UimForm} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.form.UimForm} object.
  *
  * @generated
  */
-public class UimFormModelerProvider extends UserInteractionElementModelerProvider implements ILabelFeatureProvider{
+public class UimFormModelerProvider extends ItemProviderAdapter implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *

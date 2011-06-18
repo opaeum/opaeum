@@ -12,8 +12,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -24,9 +27,17 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.nakeduml.uim.UimDataTable;
-import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UimPackage;
+
+import org.nakeduml.uim.binding.BindingFactory;
+
+import org.nakeduml.uim.layout.LayoutFactory;
+import org.nakeduml.uim.layout.LayoutPackage;
+
+import org.nakeduml.uim.security.SecurityFactory;
+import org.nakeduml.uim.security.SecurityPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.UimDataTable} object.
@@ -125,10 +136,10 @@ public class UimDataTableItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UimPackage.Literals.SECURE_OBJECT__VISIBILITY);
-			childrenFeatures.add(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY);
+			childrenFeatures.add(SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY);
+			childrenFeatures.add(SecurityPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY);
+			childrenFeatures.add(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT);
 			childrenFeatures.add(UimPackage.Literals.UIM_DATA_TABLE__BINDING);
-			childrenFeatures.add(UimPackage.Literals.UIM_DATA_TABLE__CHILDREN);
 		}
 		return childrenFeatures;
 	}
@@ -188,8 +199,8 @@ public class UimDataTableItemProvider
 				return;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+			case UimPackage.UIM_DATA_TABLE__LAYOUT:
 			case UimPackage.UIM_DATA_TABLE__BINDING:
-			case UimPackage.UIM_DATA_TABLE__CHILDREN:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -209,23 +220,53 @@ public class UimDataTableItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.SECURE_OBJECT__VISIBILITY,
-				 UimFactory.eINSTANCE.createSecurityConstraint()));
+				(SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY,
+				 SecurityFactory.eINSTANCE.createSecurityConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY,
-				 UimFactory.eINSTANCE.createSecurityConstraint()));
+				(SecurityPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY,
+				 SecurityFactory.eINSTANCE.createSecurityConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimColumnLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimFullLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimXYLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimBorderLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimToolbarLayout()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(LayoutPackage.Literals.LAYOUT_CONTAINER__LAYOUT,
+				 LayoutFactory.eINSTANCE.createUimGridLayout()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_DATA_TABLE__BINDING,
-				 UimFactory.eINSTANCE.createTableBinding()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.UIM_DATA_TABLE__CHILDREN,
-				 UimFactory.eINSTANCE.createUimDataColumn()));
+				 BindingFactory.eINSTANCE.createTableBinding()));
 	}
 
 	/**
@@ -240,8 +281,8 @@ public class UimDataTableItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
-			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
+			childFeature == SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == SecurityPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString

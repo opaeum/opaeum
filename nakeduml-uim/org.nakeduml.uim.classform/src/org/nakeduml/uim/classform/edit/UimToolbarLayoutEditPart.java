@@ -12,7 +12,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.nakeduml.uim.classform.commands.UimToolbarLayoutRestoreConnectionCommand;
 import org.nakeduml.uim.classform.policies.UimToolbarLayoutLayoutEditPolicy;
 import org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferenceConstants;
-import org.topcased.draw2d.figures.ContainerFigure;
+import org.nakeduml.uim.figures.UimToolbarLayoutFigure;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
@@ -58,7 +58,7 @@ public class UimToolbarLayoutEditPart extends EMFGraphNodeEditPart{
 	 * @generated
 	 */
 	protected IFigure createFigure(){
-		return new ContainerFigure();
+		return new UimToolbarLayoutFigure();
 	}
 	/**
 	 * @see org.topcased.modeler.edit.GraphNodeEditPart#getPreferenceDefaultBackgroundColor()

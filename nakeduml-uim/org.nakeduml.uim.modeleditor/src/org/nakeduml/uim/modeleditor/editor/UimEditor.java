@@ -22,7 +22,7 @@ import org.topcased.modeler.editor.Modeler;
 
 /**
  * Generated Model editor
- * 
+ *
  * @generated
  */
 public class UimEditor extends Modeler{
@@ -35,6 +35,20 @@ public class UimEditor extends Modeler{
 		List factories = new ArrayList();
 		factories.add(new org.nakeduml.uim.provider.UimItemProviderAdapterFactory());
 		factories.add(new org.nakeduml.uim.modeleditor.providers.UimModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.layout.provider.LayoutItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.LayoutModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.control.provider.ControlItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.ControlModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.folder.provider.FolderItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.FolderModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.form.provider.FormItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.FormModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.binding.provider.BindingItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.BindingModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.security.provider.SecurityItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.SecurityModelerProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory());
+		factories.add(new org.nakeduml.uim.modeleditor.providers.ActionModelerProviderAdapterFactory());
 		factories.addAll(super.getAdapterFactories());
 		return factories;
 	}
@@ -43,8 +57,7 @@ public class UimEditor extends Modeler{
 	 * @generated
 	 */
 	public String getId(){
-		return "org.topcased.modeler.editor.Modeler";
-//		return EDITOR_ID;
+		return EDITOR_ID;
 	}
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapter(java.lang.Class)
@@ -59,7 +72,7 @@ public class UimEditor extends Modeler{
 	}
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getPreferenceStore()
-	 * 
+	 *
 	 * @generated
 	 */
 	public IPreferenceStore getPreferenceStore(){

@@ -11,7 +11,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Element;
-import org.nakeduml.uim.util.UmlUimLinks;
 
 public class AbstractUimSynchronizer extends EmfElementVisitor implements TransformationStep{
 	ResourceSet resourceSet;

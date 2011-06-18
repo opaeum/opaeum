@@ -6,9 +6,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.DetailPanel;
-import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
+import org.nakeduml.uim.form.DetailPanel;
+import org.nakeduml.uim.form.FormPackage;
+import org.nakeduml.uim.form.provider.FormItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -41,7 +41,7 @@ public class DetailPanelMasterComponentSection extends AbstractChooserPropertySe
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getDetailPanel_MasterComponent();
+		return FormPackage.eINSTANCE.getDetailPanel_MasterComponent();
 	}
 	/**
 	 * <!-- begin-user-doc -->
@@ -61,7 +61,7 @@ public class DetailPanelMasterComponentSection extends AbstractChooserPropertySe
 	 * @generated
 	 */
 	protected Object[] getComboFeatureValues(){
-		return getChoices(getEObject(), UimPackage.eINSTANCE.getDetailPanel_MasterComponent().getEType());
+		return getChoices(getEObject(), FormPackage.eINSTANCE.getDetailPanel_MasterComponent().getEType());
 	}
 	/**
 	 * <!-- begin-user-doc -->
@@ -72,7 +72,7 @@ public class DetailPanelMasterComponentSection extends AbstractChooserPropertySe
 	 */
 	protected ILabelProvider getLabelProvider(){
 		List f = new ArrayList();
-		f.add(new UimItemProviderAdapterFactory());
+		f.add(new FormItemProviderAdapterFactory());
 		f.addAll(AbstractTabbedPropertySheetPage.getPrincipalAdapterFactories());
 		return new TabbedPropertiesLabelProvider(new ComposedAdapterFactory(f));
 	}

@@ -8,19 +8,31 @@ package org.nakeduml.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.OutlayableComponent;
+
 import org.nakeduml.uim.UimComponent;
-import org.nakeduml.uim.UimControl;
 import org.nakeduml.uim.UimField;
-import org.nakeduml.uim.UimLayout;
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionElement;
+
+import org.nakeduml.uim.binding.BindingPackage;
+import org.nakeduml.uim.binding.FieldBinding;
+
+import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.control.ControlPackage;
+import org.nakeduml.uim.control.UimControl;
+
+import org.nakeduml.uim.layout.LayoutPackage;
+import org.nakeduml.uim.layout.OutlayableComponent;
+import org.nakeduml.uim.layout.UimLayout;
+
+import org.nakeduml.uim.security.impl.EditableSecureObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -194,7 +206,7 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -235,9 +247,9 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 		if (newControl != control) {
 			NotificationChain msgs = null;
 			if (control != null)
-				msgs = ((InternalEObject)control).eInverseRemove(this, UimPackage.UIM_CONTROL__FIELD, UimControl.class, msgs);
+				msgs = ((InternalEObject)control).eInverseRemove(this, ControlPackage.UIM_CONTROL__FIELD, UimControl.class, msgs);
 			if (newControl != null)
-				msgs = ((InternalEObject)newControl).eInverseAdd(this, UimPackage.UIM_CONTROL__FIELD, UimControl.class, msgs);
+				msgs = ((InternalEObject)newControl).eInverseAdd(this, ControlPackage.UIM_CONTROL__FIELD, UimControl.class, msgs);
 			msgs = basicSetControl(newControl, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -320,9 +332,9 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 		if (newBinding != binding) {
 			NotificationChain msgs = null;
 			if (binding != null)
-				msgs = ((InternalEObject)binding).eInverseRemove(this, UimPackage.FIELD_BINDING__FIELD, FieldBinding.class, msgs);
+				msgs = ((InternalEObject)binding).eInverseRemove(this, BindingPackage.FIELD_BINDING__FIELD, FieldBinding.class, msgs);
 			if (newBinding != null)
-				msgs = ((InternalEObject)newBinding).eInverseAdd(this, UimPackage.FIELD_BINDING__FIELD, FieldBinding.class, msgs);
+				msgs = ((InternalEObject)newBinding).eInverseAdd(this, BindingPackage.FIELD_BINDING__FIELD, FieldBinding.class, msgs);
 			msgs = basicSetBinding(newBinding, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -381,7 +393,7 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case UimPackage.UIM_FIELD__PARENT:
-				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				return eInternalContainer().eInverseRemove(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -514,7 +526,7 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 		}
 		if (baseClass == OutlayableComponent.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_FIELD__PARENT: return UimPackage.OUTLAYABLE_COMPONENT__PARENT;
+				case UimPackage.UIM_FIELD__PARENT: return LayoutPackage.OUTLAYABLE_COMPONENT__PARENT;
 				default: return -1;
 			}
 		}
@@ -541,7 +553,7 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 		}
 		if (baseClass == OutlayableComponent.class) {
 			switch (baseFeatureID) {
-				case UimPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_FIELD__PARENT;
+				case LayoutPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_FIELD__PARENT;
 				default: return -1;
 			}
 		}

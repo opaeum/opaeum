@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -20,9 +22,12 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.nakeduml.uim.UimComponent;
-import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UimPackage;
+
+import org.nakeduml.uim.security.SecurityFactory;
+import org.nakeduml.uim.security.SecurityPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.UimComponent} object.
@@ -75,7 +80,7 @@ public class UimComponentItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UimPackage.Literals.SECURE_OBJECT__VISIBILITY);
+			childrenFeatures.add(SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY);
 		}
 		return childrenFeatures;
 	}
@@ -139,8 +144,8 @@ public class UimComponentItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UimPackage.Literals.SECURE_OBJECT__VISIBILITY,
-				 UimFactory.eINSTANCE.createSecurityConstraint()));
+				(SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY,
+				 SecurityFactory.eINSTANCE.createSecurityConstraint()));
 	}
 
 }

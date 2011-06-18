@@ -18,7 +18,7 @@ import org.eclipse.uml2.uml.Transition;
 
 public class EmfBehaviorUtil{
 	public static Classifier getContext(Element behavioralElement){
-		while(!(behavioralElement instanceof Behavior)){
+		while(!(behavioralElement instanceof Behavior || behavioralElement ==null)){
 			behavioralElement = behavioralElement.getOwner();
 		}
 		if(behavioralElement instanceof Behavior){
@@ -32,7 +32,7 @@ public class EmfBehaviorUtil{
 		return null;
 	}
 	public static Classifier getSelf(Element behavioralElement){
-		while(!(behavioralElement instanceof Behavior)){
+		while(!(behavioralElement instanceof Classifier || behavioralElement==null)){
 			behavioralElement = behavioralElement.getOwner();
 		}
 		if(behavioralElement instanceof Behavior){
@@ -41,9 +41,15 @@ public class EmfBehaviorUtil{
 				return EmfStateMachineUtil.getStateMachine(behavioralElement.getOwner());
 			}else if(hasMessageStructure(behavior)){
 				return behavior;
-			}else {
+			}else if(behavior.getContext()!=null){
+				
 				return behavior.getContext();
+			}else{
+				return behavior;
 			}
+		}
+		if(behavioralElement instanceof Classifier){
+			return (Classifier) behavioralElement;
 		}
 		return null;
 	}

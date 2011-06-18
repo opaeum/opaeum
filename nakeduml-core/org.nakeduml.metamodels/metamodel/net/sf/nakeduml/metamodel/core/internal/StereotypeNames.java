@@ -50,12 +50,20 @@ public class StereotypeNames {
 	public static String STATE_PARTICIPATION = "StateParticipation";	
 	public static String USER_INTERACTION_SPECIFICATION = "UserInteractionSpecification";	
 	//BPM
-	public static final String USER_IN_ROLE = "UserInRole";
+	public static final String BUSINESS_ROLE = "BusinessRole";
 	public static final String DEADLINE = "Deadline";
 	public static final String EMBEDDED_SINGLE_SCREEN_TASK = "EmbeddedSingleScreenTask";
 	public static final String EMBEDDED_SCREEN_FLOW_TASK = "EmbeddedScreenFlowTask";
 	public static final String BUSINESS_SERVICE = "BusinessService";
-	public static final String ORGANIZATION_UNIT = "OrganizationUnit";
+	public static final String BUSINESS_COMPONENT = "BusinessComponent";
 	public static final String RESPONSIBILITY = "Responsibility";
+	public static final String ACCEPT_DEADLINE_ACTION = "AcceptDeadlineAction";
+	public static final String SEND_NOTIFICATION_ACTION = "SendNotificationAction";
+	public static final String NOTIFICATION= "Notification";
+	public static final String NAKEDUML_BPM_PROFILE = "NakedUMLProfileForBPM.uml";
+	public static final String NAKEDUML_BPM_LIBRARY = "NakedUMLLibraryForBPM.uml";
+	public static final String NAKEDUML_PROFILE = "NakedUMLProfile.uml";
+	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
+	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 
 }

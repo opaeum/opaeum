@@ -1,7 +1,6 @@
 package org.nakeduml.uim.figures;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 
 import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
@@ -10,7 +9,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
-import org.eclipse.draw2d.SimpleRaisedBorder;
 import org.nakeduml.uim.figures.controls.GraphicsBridge;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.ILabelFigure;

@@ -1,7 +1,7 @@
 package org.nakeduml.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.nakeduml.uim.NavigationToEntity;
+import org.nakeduml.uim.action.NavigationToEntity;
 import org.nakeduml.uim.figures.NavigationToEntityFigure;
 import org.topcased.modeler.di.model.GraphNode;
 

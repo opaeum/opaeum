@@ -12,7 +12,6 @@ import org.jbpm.workflow.core.impl.NodeImpl;
 import org.jbpm.workflow.core.impl.WorkflowProcessImpl;
 import org.jbpm.workflow.instance.NodeInstance;
 import org.jbpm.workflow.instance.NodeInstanceContainer;
-import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.jbpm.workflow.instance.node.StateNodeInstance;
 import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.TransitionListener;

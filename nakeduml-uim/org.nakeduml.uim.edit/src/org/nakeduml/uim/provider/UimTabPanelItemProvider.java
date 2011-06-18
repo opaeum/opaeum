@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -22,9 +24,12 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+
 import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UimTabPanel;
+
+import org.nakeduml.uim.security.SecurityPackage;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.UimTabPanel} object.
@@ -194,8 +199,8 @@ public class UimTabPanelItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
-			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
+			childFeature == SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == SecurityPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString

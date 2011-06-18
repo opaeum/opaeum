@@ -5,6 +5,7 @@ package org.nakeduml.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
@@ -13,7 +14,7 @@ import org.topcased.modeler.providers.ILabelFeatureProvider;
  *
  * @generated
  */
-public class UimTabModelerProvider extends LayoutContainerModelerProvider implements ILabelFeatureProvider{
+public class UimTabModelerProvider extends ItemProviderAdapter implements ILabelFeatureProvider{
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 *

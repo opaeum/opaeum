@@ -45,6 +45,12 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
 			<propertyTab
+				id="org.nakeduml.topcased.activitydiagram.deadlinesTab"
+				label="Deadlines"
+				category="model"
+				indented="true"
+				afterTab="org.nakeduml.eclipse.numlTab"/>
+			<propertyTab
 				id="org.topcased.modeler.modelTab.activityGuardTab"
 				label="Guard"
 				category="model"
@@ -68,10 +74,119 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
 			<propertySection
-				id="org.topcased.modeler.uml.ActivityEdgeGuardSection"
-				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ActivityEdgeGuardSection"
-				tab="org.topcased.modeler.modelTab.activityGuardTab">
-				<input type="org.eclipse.uml2.uml.ActivityEdge"/>
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
+         			filter="org.nakeduml.topcased.activitydiagram.filters.AcceptEventActionTriggerSectionFilter"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.AcceptEventAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.StructuralFeatureAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.VariableActionVariableSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.VariableActionVariableSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.VariableAction">
+      			</input>
+			</propertySection>
+  			<propertySection
+         			class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+			         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.numl"
+			         tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.Pin">
+      			</input>
+   			</propertySection>
+		   <propertySection
+		   		afterSection="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.numl"
+		         class="org.nakeduml.topcased.activitydiagram.propertysections.ValuePinValueSection"
+		         id="org.nakeduml.topcased.activitydiagram.propertysections.ValuePinValueSection"
+		         tab="org.nakeduml.eclipse.numlTab">
+		      <input
+		            type="org.eclipse.uml2.uml.ValuePin">
+		      </input>
+		   </propertySection>		
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.ActivityEdge">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
+         			filter="org.nakeduml.topcased.activitydiagram.filters.SendSignalActionSignalFilter"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.SendSignalAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
+         			filter="org.nakeduml.topcased.activitydiagram.filters.SendNotificationActionFilter"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.SendSignalAction">
+      			</input>
+			</propertySection>
+		
+			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.ActionPotentialOwnersSection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionPotentialOwnersSection"
+				filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.nakeduml.eclipse.numlTab">
+				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.ActionBusinessAdministratorsSection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionBusinessAdministratorsSection"
+				filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.nakeduml.eclipse.numlTab">
+				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.ActionStakeholdersSection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionStakeholdersSection"
+				filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.nakeduml.eclipse.numlTab">
+				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+			</propertySection>
+			<propertySection
+         class="org.nakeduml.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
+         filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+         id="org.nakeduml.topcased.activitydiagram.ActionDeadlineSection"
+         tab="org.nakeduml.topcased.activitydiagram.deadlinesTab">
+				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.AcceptDeadlineDeadlineSection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.AcceptDeadlineDeadlineSection"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				filter="org.nakeduml.topcased.activitydiagram.filters.AcceptDeadlineActionFilter"
+				tab="org.nakeduml.eclipse.numlTab">
+				<input type="org.eclipse.uml2.uml.AcceptEventAction"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				filter="org.nakeduml.topcased.activitydiagram.filters.AcceptTaskEventActionTaskEvent"
+				tab="org.nakeduml.eclipse.numlTab">
+				<input type="org.eclipse.uml2.uml.AcceptEventAction"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.ActivityEdgeWeightSection"

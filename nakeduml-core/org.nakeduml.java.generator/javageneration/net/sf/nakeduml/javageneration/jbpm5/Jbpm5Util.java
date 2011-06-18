@@ -65,11 +65,11 @@ public class Jbpm5Util{
 		return node.getMappingInfo().getPersistentName().getAsIs() + "_choice";
 	}
 	public static void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior,boolean persistent,String propertyPrefix){
-		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, propertyPrefix, new OJPathName("WorkflowProcessInstance"), true);
+		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, propertyPrefix+"Instance", new OJPathName("WorkflowProcessInstance"), true);
 		processInstanceField.setTransient(true);
 		SingularNameWrapper name = new SingularNameWrapper(propertyPrefix, null);
 		if(persistent){
-			OJAnnotatedField processInstanceIdField = OJUtil.addProperty(ojBehavior, propertyPrefix + "Id", new OJPathName("Long"), true);
+			OJAnnotatedField processInstanceIdField = OJUtil.addProperty(ojBehavior, propertyPrefix + "InstanceId", new OJPathName("Long"), true);
 			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 			column.putAttribute(new OJAnnotationAttributeValue("name", name.getUnderscored() + "_instance_id"));
 			processInstanceIdField.putAnnotation(column);
@@ -88,7 +88,7 @@ public class Jbpm5Util{
 			ifNull.getThenPart().addToStatements(ifNotNull);
 			ojBehavior.addToImports(new OJPathName("org.drools.runtime.StatefulKnowledgeSession"));
 			getter.getBody().addToStatements(ifNull);
-			getter.getBody().addToStatements("return this." + propertyPrefix);
+			getter.getBody().addToStatements("return this." + propertyPrefix+"Instance");
 		}
 		OJOperation getProcessDefinition = new OJAnnotatedOperation();
 		OJPathName processDefinition = new OJPathName("org.jbpm.workflow.core.WorkflowProcess");

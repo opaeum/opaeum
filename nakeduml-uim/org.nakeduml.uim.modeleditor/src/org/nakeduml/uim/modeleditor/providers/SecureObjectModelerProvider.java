@@ -9,7 +9,7 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.SecureObject} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.security.SecureObject} object.
  *
  * @generated
  */

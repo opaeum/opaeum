@@ -4,15 +4,15 @@
 package org.nakeduml.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.nakeduml.uim.BuiltInAction;
-import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.NavigationToOperation;
-import org.nakeduml.uim.OperationAction;
-import org.nakeduml.uim.UimBorderLayout;
 import org.nakeduml.uim.UimField;
-import org.nakeduml.uim.UimGridLayout;
-import org.nakeduml.uim.UimToolbarLayout;
-import org.nakeduml.uim.UimXYLayout;
+import org.nakeduml.uim.action.BuiltInAction;
+import org.nakeduml.uim.action.NavigationToEntity;
+import org.nakeduml.uim.action.NavigationToOperation;
+import org.nakeduml.uim.action.OperationAction;
+import org.nakeduml.uim.layout.UimBorderLayout;
+import org.nakeduml.uim.layout.UimGridLayout;
+import org.nakeduml.uim.layout.UimToolbarLayout;
+import org.nakeduml.uim.layout.UimXYLayout;
 
 /**
  * @generated

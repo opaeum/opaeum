@@ -28,7 +28,7 @@ public class GeneratorPomStep extends PomGenerationStep {
 		result[0].setGroupId("org.nakeduml");
 		result[0].setArtifactId("nakeduml-generators");
 		result[0].setScope("compile");
-		result[0].setVersion("1.0.0.5-SNAPSHOT");
+		result[0].setVersion(PomGenerationPhase.NUML_VERSION);
 		result[0].setType("jar");
 		
 		return result;

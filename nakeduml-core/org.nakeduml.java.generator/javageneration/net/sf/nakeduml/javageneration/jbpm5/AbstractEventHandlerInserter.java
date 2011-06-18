@@ -258,7 +258,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		processed.setType(new OJPathName("boolean"));
 		processed.setInitExp("false");
 		listener.getBody().addToLocals(processed);
-		OJIfStatement ifProcessActive=new OJIfStatement("getProcessInstance().getState() != ProcessInstance.STATE_ACTIVE");
+		OJIfStatement ifProcessActive=new OJIfStatement("getProcessInstance()!=null");
 		listener.getBody().addToStatements(ifProcessActive);
 		for(INakedTypedElement param:(List<? extends INakedTypedElement>) eventActions.getArguments()){
 			ClassifierMap map = new NakedClassifierMap(param.getType());

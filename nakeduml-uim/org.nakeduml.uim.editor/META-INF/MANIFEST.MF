@@ -8,7 +8,14 @@ Bundle-Activator: org.nakeduml.uim.presentation.UimEditorPlugin$Implementation
 Bundle-Vendor: nakeduml.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.nakeduml.uim.presentation
+Export-Package: org.nakeduml.uim.action.presentation,
+ org.nakeduml.uim.binding.presentation,
+ org.nakeduml.uim.control.presentation,
+ org.nakeduml.uim.folder.presentation,
+ org.nakeduml.uim.form.presentation,
+ org.nakeduml.uim.layout.presentation,
+ org.nakeduml.uim.presentation,
+ org.nakeduml.uim.security.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.nakeduml.uim.edit;visibility:=reexport,

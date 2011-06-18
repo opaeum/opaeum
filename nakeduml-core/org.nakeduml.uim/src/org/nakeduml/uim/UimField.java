@@ -6,6 +6,14 @@
  */
 package org.nakeduml.uim;
 
+import org.nakeduml.uim.binding.FieldBinding;
+
+import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.control.UimControl;
+
+import org.nakeduml.uim.layout.OutlayableComponent;
+
+import org.nakeduml.uim.security.EditableSecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +41,7 @@ package org.nakeduml.uim;
 public interface UimField extends EditableSecureObject, OutlayableComponent {
 	/**
 	 * Returns the value of the '<em><b>Control</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.UimControl#getField <em>Field</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.control.UimControl#getField <em>Field</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Control</em>' containment reference isn't clear,
@@ -43,7 +51,7 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 	 * @return the value of the '<em>Control</em>' containment reference.
 	 * @see #setControl(UimControl)
 	 * @see org.nakeduml.uim.UimPackage#getUimField_Control()
-	 * @see org.nakeduml.uim.UimControl#getField
+	 * @see org.nakeduml.uim.control.UimControl#getField
 	 * @model opposite="field" containment="true" required="true"
 	 * @generated
 	 */
@@ -61,7 +69,7 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 
 	/**
 	 * Returns the value of the '<em><b>Control Kind</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.nakeduml.uim.ControlKind}.
+	 * The literals are from the enumeration {@link org.nakeduml.uim.control.ControlKind}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Control Kind</em>' attribute isn't clear,
@@ -69,7 +77,7 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Control Kind</em>' attribute.
-	 * @see org.nakeduml.uim.ControlKind
+	 * @see org.nakeduml.uim.control.ControlKind
 	 * @see #setControlKind(ControlKind)
 	 * @see org.nakeduml.uim.UimPackage#getUimField_ControlKind()
 	 * @model
@@ -82,7 +90,7 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Control Kind</em>' attribute.
-	 * @see org.nakeduml.uim.ControlKind
+	 * @see org.nakeduml.uim.control.ControlKind
 	 * @see #getControlKind()
 	 * @generated
 	 */
@@ -117,7 +125,7 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.FieldBinding#getField <em>Field</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.nakeduml.uim.binding.FieldBinding#getField <em>Field</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Binding</em>' containment reference isn't clear,
@@ -127,7 +135,7 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 	 * @return the value of the '<em>Binding</em>' containment reference.
 	 * @see #setBinding(FieldBinding)
 	 * @see org.nakeduml.uim.UimPackage#getUimField_Binding()
-	 * @see org.nakeduml.uim.FieldBinding#getField
+	 * @see org.nakeduml.uim.binding.FieldBinding#getField
 	 * @model opposite="field" containment="true" required="true"
 	 * @generated
 	 */

@@ -8,14 +8,19 @@ package org.nakeduml.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.nakeduml.uim.SecureObject;
-import org.nakeduml.uim.SecurityConstraint;
+
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimContainer;
 import org.nakeduml.uim.UimPackage;
+
+import org.nakeduml.uim.security.SecureObject;
+import org.nakeduml.uim.security.SecurityConstraint;
+import org.nakeduml.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -195,7 +200,7 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == SecureObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_COMPONENT__VISIBILITY: return UimPackage.SECURE_OBJECT__VISIBILITY;
+				case UimPackage.UIM_COMPONENT__VISIBILITY: return SecurityPackage.SECURE_OBJECT__VISIBILITY;
 				default: return -1;
 			}
 		}
@@ -211,7 +216,7 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == SecureObject.class) {
 			switch (baseFeatureID) {
-				case UimPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.UIM_COMPONENT__VISIBILITY;
+				case SecurityPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.UIM_COMPONENT__VISIBILITY;
 				default: return -1;
 			}
 		}

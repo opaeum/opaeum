@@ -6,23 +6,25 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.uim.ActionKind;
-import org.nakeduml.uim.BuiltInAction;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.FormPanel;
-import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.TableBinding;
-import org.nakeduml.uim.UimDataColumn;
 import org.nakeduml.uim.UimDataTable;
 import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.UimField;
-import org.nakeduml.uim.UimFullLayout;
-import org.nakeduml.uim.UimGridLayout;
-import org.nakeduml.uim.UimLayout;
 import org.nakeduml.uim.UimPanel;
 import org.nakeduml.uim.UimTab;
 import org.nakeduml.uim.UimTabPanel;
+import org.nakeduml.uim.action.ActionFactory;
+import org.nakeduml.uim.action.ActionKind;
+import org.nakeduml.uim.action.BuiltInAction;
+import org.nakeduml.uim.binding.BindingFactory;
+import org.nakeduml.uim.binding.FieldBinding;
+import org.nakeduml.uim.binding.PropertyRef;
+import org.nakeduml.uim.binding.TableBinding;
+import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.layout.LayoutFactory;
+import org.nakeduml.uim.layout.UimFullLayout;
+import org.nakeduml.uim.layout.UimGridLayout;
+import org.nakeduml.uim.layout.UimLayout;
 import org.nakeduml.uim.util.ControlUtil;
 import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UimUtil;
@@ -36,14 +38,14 @@ public class FormCreator{
 		this.formPanel = cf;
 	}
 	public void prepareFormPanel(String title,Collection<? extends TypedElement> typedElements){
-		UimFullLayout formLayout = UimFactory.eINSTANCE.createUimFullLayout();
+		UimFullLayout formLayout = LayoutFactory.eINSTANCE.createUimFullLayout();
 		formPanel.setLayout(formLayout);
 		tabPanel = UimFactory.eINSTANCE.createUimTabPanel();
 		formLayout.getChildren().add(tabPanel);
 		UimTab tab = UimFactory.eINSTANCE.createUimTab();
 		tab.setName("Edit Details");
 		tabPanel.getChildren().add(tab);
-		mainTabLayout = UimFactory.eINSTANCE.createUimGridLayout();
+		mainTabLayout = LayoutFactory.eINSTANCE.createUimGridLayout();
 		mainTabLayout.setNumberOfColumns(1);
 		tab.setLayout(mainTabLayout);
 		addUserFields(typedElements);
@@ -66,7 +68,7 @@ public class FormCreator{
 		UimTab tab = UimFactory.eINSTANCE.createUimTab();
 		this.tabPanel.getChildren().add(tab);
 		tab.setName(NameConverter.separateWords(e.getName()));
-		UimGridLayout tabLayout = UimFactory.eINSTANCE.createUimGridLayout();
+		UimGridLayout tabLayout = LayoutFactory.eINSTANCE.createUimGridLayout();
 		tabLayout.setNumberOfColumns(1);
 		tab.setLayout(tabLayout);
 		for(Property property:SafeUmlUimLinks.getInstance(e).getOwnedAttributes(c)){
@@ -83,11 +85,11 @@ public class FormCreator{
 		tab.setName(NameConverter.separateWords(e.getName()));
 		tabPanel.getChildren().add(tab);
 		// Create tab XYLayout
-		UimFullLayout tabLayout = UimFactory.eINSTANCE.createUimFullLayout();
+		UimFullLayout tabLayout = LayoutFactory.eINSTANCE.createUimFullLayout();
 		tab.setLayout(tabLayout);
 		// cfeate Data TAble
 		UimDataTable table = UimFactory.eINSTANCE.createUimDataTable();
-		TableBinding binding = UimFactory.eINSTANCE.createTableBinding();
+		TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
 		table.setBinding(binding);
 		binding.setUmlElementUid(UmlUimLinks.getId(e));
 		tabLayout.getChildren().add(table);
@@ -98,7 +100,7 @@ public class FormCreator{
 				column.setName(NameConverter.separateWords(property.getName()));
 				table.getChildren().add(column);
 				// CReate column xy layout
-				UimGridLayout columnLayout = UimFactory.eINSTANCE.createUimGridLayout();
+				UimGridLayout columnLayout = LayoutFactory.eINSTANCE.createUimGridLayout();
 				columnLayout.setNumberOfColumns(1);
 				column.setLayout(columnLayout);
 				addUserField(columnLayout, 0, property);
@@ -121,15 +123,15 @@ public class FormCreator{
 		ControlKind controlKind = ControlUtil.getPreferredControlKind(formPanel, property);
 		uf.setControlKind(controlKind);
 		uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
-		FieldBinding binding = UimFactory.eINSTANCE.createFieldBinding();
+		FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
 		uf.setBinding(binding);
 		binding.setUmlElementUid(UmlUimLinks.getId(properties[0]));
 		if(properties.length > 1){
-			PropertyRef prev = UimFactory.eINSTANCE.createPropertyRef();
+			PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
 			prev.setUmlElementUid(UmlUimLinks.getId(properties[1]));
 			binding.setNext(prev);
 			for(int i = 2;i < properties.length;i++){
-				PropertyRef next = UimFactory.eINSTANCE.createPropertyRef();
+				PropertyRef next = BindingFactory.eINSTANCE.createPropertyRef();
 				next.setUmlElementUid(UmlUimLinks.getId(properties[i]));
 				prev.setNext(next);
 				prev = next;
@@ -143,11 +145,11 @@ public class FormCreator{
 	public void addButtonBar(ActionKind...updateCurrentEntity){
 		UimPanel panel = UimFactory.eINSTANCE.createUimPanel();
 		this.mainTabLayout.getChildren().add(panel);
-		UimGridLayout gl = UimFactory.eINSTANCE.createUimGridLayout();
+		UimGridLayout gl = LayoutFactory.eINSTANCE.createUimGridLayout();
 		panel.setLayout(gl);
 		gl.setNumberOfColumns(updateCurrentEntity.length);
 		for(ActionKind actionKind:updateCurrentEntity){
-			BuiltInAction bia = UimFactory.eINSTANCE.createBuiltInAction();
+			BuiltInAction bia = ActionFactory.eINSTANCE.createBuiltInAction();
 			bia.setKind(actionKind);
 			bia.setName(NameConverter.separateWords(NameConverter.capitalize(actionKind.getName())));
 			gl.getChildren().add(bia);

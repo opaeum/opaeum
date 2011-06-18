@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
-import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
@@ -40,15 +38,14 @@ public class EmfElementFinder{
 		List<TypedElement> result = new ArrayList<TypedElement>();
 		if(behavioralElement != null){
 			Element a = behavioralElement;
-			while(!(a == null || a instanceof Behavior)){
+			while(!(a == null || a instanceof Classifier)){
 				if(a instanceof StructuredActivityNode){
 					result.addAll(((StructuredActivityNode) a).getVariables());
 				}
 				if(a instanceof Transition){
-					addTransitionParameters(result, (Transition)a);
+					addTransitionParameters(result, (Transition) a);
 				}
 				a = a.getOwner();
-				
 			}
 			if(a instanceof Behavior){
 				result.addAll(((Behavior) a).getOwnedParameters());
@@ -59,9 +56,9 @@ public class EmfElementFinder{
 				if(a.getOwner() instanceof Transition){
 					Transition owner = (Transition) a.getOwner();
 					addTransitionParameters(result, owner);
-					a=EmfStateMachineUtil.getStateMachine(a.getOwner());
+					a = EmfStateMachineUtil.getStateMachine(a.getOwner());
 				}else if(a.getOwner() instanceof State){
-					a=EmfStateMachineUtil.getStateMachine(a.getOwner());
+					a = EmfStateMachineUtil.getStateMachine(a.getOwner());
 				}
 			}
 			if(a != null){
@@ -89,15 +86,10 @@ public class EmfElementFinder{
 	}
 	public static List<TypedElement> getPropertiesInScope(Classifier c){
 		List<TypedElement> result = new ArrayList<TypedElement>(c.getAllAttributes());
-		EList<Resource> rs = c.eResource().getResourceSet().getResources();
-		for(Resource r:rs){
-			if(!r.getURI().toString().contains("UML.metamodel.uml") && r.getURI().fileExtension().equals("uml")){
-				TreeIterator<EObject> allContents = r.getAllContents();
-				while(allContents.hasNext()){
-					EObject eObject = (EObject) allContents.next();
-					if(matches(c, eObject)){
-						result.add((TypedElement) eObject);
-					}
+		for(Association a:c.getAssociations()){
+			for(Property end:a.getNavigableOwnedEnds()){
+				if(end.getOtherEnd().getType().equals(c)){
+					result.add(end);
 				}
 			}
 		}
@@ -105,13 +97,6 @@ public class EmfElementFinder{
 	}
 	private static boolean matches(Classifier c,EObject eObject){
 		boolean found = false;
-		if(eObject instanceof Property){
-			Property p = (Property) eObject;
-			if(p.isNavigable() && p.getOtherEnd() != null && p.getOtherEnd().getType() != null && c.conformsTo(p.getOtherEnd().getType())
-					&& !c.getAllAttributes().contains(p)){
-				found = true;
-			}
-		}
 		return found;
 	}
 }

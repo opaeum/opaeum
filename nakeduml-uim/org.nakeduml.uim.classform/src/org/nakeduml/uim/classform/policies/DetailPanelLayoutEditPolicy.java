@@ -4,10 +4,10 @@
 package org.nakeduml.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.nakeduml.uim.UimBorderLayout;
-import org.nakeduml.uim.UimGridLayout;
-import org.nakeduml.uim.UimToolbarLayout;
-import org.nakeduml.uim.UimXYLayout;
+import org.nakeduml.uim.layout.UimBorderLayout;
+import org.nakeduml.uim.layout.UimGridLayout;
+import org.nakeduml.uim.layout.UimToolbarLayout;
+import org.nakeduml.uim.layout.UimXYLayout;
 
 /**
  * @generated

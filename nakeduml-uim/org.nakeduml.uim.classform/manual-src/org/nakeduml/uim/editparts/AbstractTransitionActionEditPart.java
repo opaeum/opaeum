@@ -2,10 +2,9 @@ package org.nakeduml.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.uml2.uml.Transition;
-import org.nakeduml.uim.TransitionAction;
+import org.nakeduml.uim.action.TransitionAction;
 import org.nakeduml.uim.figures.ActionFigure;
 import org.nakeduml.uim.util.UmlUimLinks;
-import org.topcased.draw2d.figures.Label;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 

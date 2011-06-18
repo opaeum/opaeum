@@ -5,8 +5,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.uim.PropertyRef;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 

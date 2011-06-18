@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_HHLxMI6OEeCrtavWRHwoHg" activeDiagram="_ViTvQI6UEeCne5ArYLDbiA">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_HHLxMI6OEeCrtavWRHwoHg" activeDiagram="_ilGi8ZTxEeChgI0v02SJHQ">
   <model href="NakedUMLLibraryForBPM.uml#_qb8akM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_AQ1LII6TEeCrtavWRHwoHg" position="0,0" size="100,100" name="AbstractRequest" viewport="0,531">
     <property xmi:id="_AROMsI6TEeCrtavWRHwoHg" key="pageFormatName" value="A4"/>
@@ -477,7 +477,7 @@
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_2tUiqI6UEeCne5ArYLDbiA" visible="false" id="middleNameEdgeObject" offset="180,-97"/>
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_2tUiqY6UEeCne5ArYLDbiA" id="stereotypeEdgeObject" offset="0,-10"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_6HGh4I6UEeCne5ArYLDbiA" position="18,36" size="603,176">
+    <contained xsi:type="di:GraphNode" xmi:id="_6HGh4I6UEeCne5ArYLDbiA" position="30,38" size="603,176">
       <anchorage xmi:id="_7w7mcI6UEeCne5ArYLDbiA" graphEdge="_7w_Q0I6UEeCne5ArYLDbiA _BCEv8I6VEeCne5ArYLDbiA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_6HGh4Y6UEeCne5ArYLDbiA" presentation="default">
         <element href="NakedUMLLibraryForBPM.uml#_zFmsEIoVEeCLqpffVZYAlw"/>
@@ -2173,6 +2173,23 @@
           <element href="NakedUMLLibraryForBPM.uml#_n9EsU46SEeCrtavWRHwoHg"/>
         </semanticModel>
       </contained>
+    </diagrams>
+  </subdiagrams>
+  <subdiagrams xmi:id="_ilGi8JTxEeChgI0v02SJHQ">
+    <model href="NakedUMLLibraryForBPM.uml#_g5ShYJTxEeChgI0v02SJHQ"/>
+    <diagrams xmi:id="_ilGi8ZTxEeChgI0v02SJHQ" position="0,0" size="100,100" name="events" viewport="0,0">
+      <property xmi:id="_il8QcJTxEeChgI0v02SJHQ" key="pageFormatName" value="A4"/>
+      <property xmi:id="_il8QcZTxEeChgI0v02SJHQ" key="diagramWidth" value="840"/>
+      <property xmi:id="_il8QcpTxEeChgI0v02SJHQ" key="diagramHeight" value="1188"/>
+      <property xmi:id="_il8Qc5TxEeChgI0v02SJHQ" key="pageMarginName" value="Small Margin"/>
+      <property xmi:id="_il8QdJTxEeChgI0v02SJHQ" key="diagramTopMargin" value="20"/>
+      <property xmi:id="_il8QdZTxEeChgI0v02SJHQ" key="diagramBottomMargin" value="20"/>
+      <property xmi:id="_il8QdpTxEeChgI0v02SJHQ" key="diagramLeftMargin" value="20"/>
+      <property xmi:id="_il8Qd5TxEeChgI0v02SJHQ" key="diagramRightMargin" value="20"/>
+      <property xmi:id="_il8QeJTxEeChgI0v02SJHQ" key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ilGi8pTxEeChgI0v02SJHQ" presentation="org.topcased.modeler.uml.classdiagram">
+        <element href="NakedUMLLibraryForBPM.uml#_g5ShYJTxEeChgI0v02SJHQ"/>
+      </semanticModel>
     </diagrams>
   </subdiagrams>
 </diagrams:Diagrams>

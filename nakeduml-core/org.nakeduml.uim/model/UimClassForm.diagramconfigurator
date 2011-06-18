@@ -15,7 +15,6 @@
       <items xmi:id="_hX5-YLZ2Ed-RJ8wcAxIiqQ" name="Tabbed Panel" part="_YDpkwLZ2Ed-RJ8wcAxIiqQ"/>
       <items xmi:id="_jfk1gLZ2Ed-RJ8wcAxIiqQ" name="Tab" part="_Y_Y0QLZ2Ed-RJ8wcAxIiqQ"/>
       <items xmi:id="_k5mjgLZ2Ed-RJ8wcAxIiqQ" name="Data Table" part="_Z4dxULZ2Ed-RJ8wcAxIiqQ"/>
-      <items xmi:id="_nO_tkLZ2Ed-RJ8wcAxIiqQ" name="Data Colum" part="_a9024LZ2Ed-RJ8wcAxIiqQ"/>
       <items xmi:id="_pBXDELZ2Ed-RJ8wcAxIiqQ" name="Master/Detail Panel" part="_cKzAULZ2Ed-RJ8wcAxIiqQ"/>
     </paletteCategories>
     <paletteCategories xmi:id="_SVknoLZ2Ed-RJ8wcAxIiqQ" name="Layouts">
@@ -36,31 +35,31 @@
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_XJwIULZ2Ed-RJ8wcAxIiqQ" object="_dExKsLZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ _R18KoH0OEeCIG9E9tdFBUQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_YDpkwLZ2Ed-RJ8wcAxIiqQ" object="_e0eNwLZ1Ed-RJ8wcAxIiqQ" childElements="_Y_Y0QLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_Y_Y0QLZ2Ed-RJ8wcAxIiqQ" object="_hfrPwLZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ _R18KoH0OEeCIG9E9tdFBUQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
-  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_Z4dxULZ2Ed-RJ8wcAxIiqQ" object="_kQE60LZ1Ed-RJ8wcAxIiqQ" childElements="_a9024LZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
-  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_a9024LZ2Ed-RJ8wcAxIiqQ" object="_mN0Z4LZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_Z4dxULZ2Ed-RJ8wcAxIiqQ" object="_kQE60LZ1Ed-RJ8wcAxIiqQ" childElements="_MwZn8JG5EeCMrKUFIUcMUA" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_cKzAULZ2Ed-RJ8wcAxIiqQ" object="_oQ1agLZ1Ed-RJ8wcAxIiqQ" childElements="_sPvqoLZ2Ed-RJ8wcAxIiqQ _v2PQMLZ2Ed-RJ8wcAxIiqQ _w4iasLZ2Ed-RJ8wcAxIiqQ _yJNYYLZ2Ed-RJ8wcAxIiqQ" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_sPvqoLZ2Ed-RJ8wcAxIiqQ" object="_qBv-gLZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_v2PQMLZ2Ed-RJ8wcAxIiqQ" object="_w93cELZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_w4iasLZ2Ed-RJ8wcAxIiqQ" object="_ysQ3kLZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_yJNYYLZ2Ed-RJ8wcAxIiqQ" object="_044gILZ1Ed-RJ8wcAxIiqQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q" container="true" layout="ClassLayout" defaultWidth="250" defaultHeight="250" maximumWidth="1200" maximumHeight="1200"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_R18KoH0OEeCIG9E9tdFBUQ" object="_NxsSEH0OEeCIG9E9tdFBUQ" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ" container="true" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_MwZn8JG5EeCMrKUFIUcMUA" object="_Jf8j0JG5EeCMrKUFIUcMUA" childElements="_2dIhILZ1Ed-RJ8wcAxIiqQ _3gliMLZ1Ed-RJ8wcAxIiqQ _4R31MLZ1Ed-RJ8wcAxIiqQ _5Ds6wLZ1Ed-RJ8wcAxIiqQ _7mg1wLZ1Ed-RJ8wcAxIiqQ _mrmSALfpEd-qbYqp0PzQ_Q _XJwIULZ2Ed-RJ8wcAxIiqQ _YDpkwLZ2Ed-RJ8wcAxIiqQ _Z4dxULZ2Ed-RJ8wcAxIiqQ _cKzAULZ2Ed-RJ8wcAxIiqQ" container="true"/>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_H0K64LZ1Ed-RJ8wcAxIiqQ">
     <genClass href="Uim.genmodel#//uim/UimField"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_Km7WYLZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/NavigationToEntity"/>
+    <genClass href="Uim.genmodel#//uim/action/NavigationToEntity"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_MzFE4LZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/NavigationToOperation"/>
+    <genClass href="Uim.genmodel#//uim/action/NavigationToOperation"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_O_US8LZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/BuiltInAction"/>
+    <genClass href="Uim.genmodel#//uim/action/BuiltInAction"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_R4yacLZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/OperationAction"/>
+    <genClass href="Uim.genmodel#//uim/action/OperationAction"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_V7rBELZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/FormPanel"/>
+    <genClass href="Uim.genmodel#//uim/form/FormPanel"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_dExKsLZ1Ed-RJ8wcAxIiqQ">
     <genClass href="Uim.genmodel#//uim/UimPanel"/>
@@ -74,31 +73,31 @@
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_kQE60LZ1Ed-RJ8wcAxIiqQ">
     <genClass href="Uim.genmodel#//uim/UimDataTable"/>
   </objects>
-  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_mN0Z4LZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/UimDataColumn"/>
-  </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_oQ1agLZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/DetailPanel"/>
+    <genClass href="Uim.genmodel#//uim/form/DetailPanel"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_qBv-gLZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/UimXYLayout"/>
+    <genClass href="Uim.genmodel#//uim/layout/UimXYLayout"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_w93cELZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/UimGridLayout"/>
+    <genClass href="Uim.genmodel#//uim/layout/UimGridLayout"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_ysQ3kLZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/UimToolbarLayout"/>
+    <genClass href="Uim.genmodel#//uim/layout/UimToolbarLayout"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_044gILZ1Ed-RJ8wcAxIiqQ">
-    <genClass href="Uim.genmodel#//uim/UimBorderLayout"/>
+    <genClass href="Uim.genmodel#//uim/layout/UimBorderLayout"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_jv-OYLfpEd-qbYqp0PzQ_Q">
-    <genClass href="Uim.genmodel#//uim/TransitionAction"/>
+    <genClass href="Uim.genmodel#//uim/action/TransitionAction"/>
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_NxsSEH0OEeCIG9E9tdFBUQ">
-    <genClass href="Uim.genmodel#//uim/UimFullLayout"/>
+    <genClass href="Uim.genmodel#//uim/layout/UimFullLayout"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_Jf8j0JG5EeCMrKUFIUcMUA">
+    <genClass href="Uim.genmodel#//uim/layout/UimColumnLayout"/>
   </objects>
   <genModel href="Uim.genmodel#/"/>
-  <templateRootObject href="Uim.genmodel#//uim/UimForm"/>
+  <templateRootObject href="Uim.genmodel#//uim/form/UimForm"/>
   <editorConfigurator href="Uim.editorconfigurator#_1Q9DYKtoEd-KPcvNJvbi5Q"/>
 </diagramconfigurator:DiagramConfiguration>

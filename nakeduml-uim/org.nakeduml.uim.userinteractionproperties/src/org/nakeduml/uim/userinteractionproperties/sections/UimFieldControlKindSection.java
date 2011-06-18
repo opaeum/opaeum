@@ -6,11 +6,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.FieldBinding;
-import org.nakeduml.uim.UimControl;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.binding.FieldBinding;
+import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.control.UimControl;
 import org.nakeduml.uim.util.ControlUtil;
 import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.internal.utils.Messages;
@@ -65,7 +65,6 @@ public class UimFieldControlKindSection extends AbstractEnumerationPropertySecti
 		}
 		return result;
 	}
-
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 

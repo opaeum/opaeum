@@ -1,33 +1,25 @@
 package org.nakeduml.uim.editparts;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.nakeduml.uim.ControlKind;
-import org.nakeduml.uim.UimBinding;
-import org.nakeduml.uim.UimCheckBox;
-import org.nakeduml.uim.UimControl;
-import org.nakeduml.uim.UimDatePopup;
-import org.nakeduml.uim.UimDropdown;
 import org.nakeduml.uim.UimField;
-import org.nakeduml.uim.UimMultiSelectListBox;
-import org.nakeduml.uim.UimMultiSelectPopupSearch;
-import org.nakeduml.uim.UimMultiSelectTreeView;
-import org.nakeduml.uim.UimNumberScroller;
 import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.UimSingleSelectListBox;
-import org.nakeduml.uim.UimSingleSelectPopupSearch;
-import org.nakeduml.uim.UimSingleSelectTreeView;
-import org.nakeduml.uim.UimText;
-import org.nakeduml.uim.UimTextArea;
-import org.nakeduml.uim.UimToggleButton;
+import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.control.UimCheckBox;
+import org.nakeduml.uim.control.UimControl;
+import org.nakeduml.uim.control.UimDatePopup;
+import org.nakeduml.uim.control.UimDropdown;
+import org.nakeduml.uim.control.UimMultiSelectListBox;
+import org.nakeduml.uim.control.UimMultiSelectPopupSearch;
+import org.nakeduml.uim.control.UimMultiSelectTreeView;
+import org.nakeduml.uim.control.UimNumberScroller;
+import org.nakeduml.uim.control.UimSingleSelectListBox;
+import org.nakeduml.uim.control.UimSingleSelectPopupSearch;
+import org.nakeduml.uim.control.UimSingleSelectTreeView;
+import org.nakeduml.uim.control.UimText;
+import org.nakeduml.uim.control.UimTextArea;
+import org.nakeduml.uim.control.UimToggleButton;
 import org.nakeduml.uim.figures.UimFieldFigure;
 import org.nakeduml.uim.figures.controls.UimCheckBoxFigure;
 import org.nakeduml.uim.figures.controls.UimDatePopupFigure;
@@ -39,12 +31,8 @@ import org.nakeduml.uim.figures.controls.UimTextAreaFigure;
 import org.nakeduml.uim.figures.controls.UimTextFigure;
 import org.nakeduml.uim.figures.controls.UimToggleButtonFigure;
 import org.nakeduml.uim.figures.controls.UimTreeFigure;
-import org.nakeduml.uim.modeleditor.UimPlugin;
-import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.nakeduml.uim.util.ControlUtil;
-import org.nakeduml.uim.util.UimUtil;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.tabbedproperties.internal.utils.Messages;
 
 public class AbstractUimFieldEditPart extends BoundEditPart{
 	public AbstractUimFieldEditPart(GraphNode obj){

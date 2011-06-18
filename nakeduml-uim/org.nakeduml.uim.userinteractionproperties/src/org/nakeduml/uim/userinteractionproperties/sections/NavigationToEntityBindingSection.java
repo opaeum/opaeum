@@ -7,8 +7,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.NavigationToEntity;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.NavigationToEntity;
+import org.nakeduml.uim.binding.BindingPackage;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -38,7 +39,7 @@ public class NavigationToEntityBindingSection extends AbstractBindingSection{
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getNavigationToEntity_Binding();
+		return ActionPackage.eINSTANCE.getNavigationToEntity_Binding();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -63,7 +64,6 @@ public class NavigationToEntityBindingSection extends AbstractBindingSection{
 	}
 	@Override
 	protected EClass getFeatureEClass(){
-		// TODO Auto-generated method stub
-		return UimPackage.eINSTANCE.getNavigationBinding();
+		return BindingPackage.eINSTANCE.getNavigationBinding();
 	}
 }

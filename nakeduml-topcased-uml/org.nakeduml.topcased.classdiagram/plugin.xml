@@ -7,7 +7,7 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            class="org.topcased.modeler.uml.editor.UMLEditor"
+            class="org.nakeduml.topcased.uml.editor.UMLEditor"
             icon="icons/UML.gif"
             default="false"
             name="UML Editor"
@@ -977,6 +977,7 @@
             id="org.topcased.modeler.uml.classdiagram"
             name="Class Diagram">
          <enableFor class="org.eclipse.uml2.uml.Package"/>
+         <enableFor class="org.eclipse.uml2.uml.Component"/>
       </diagram>    
       <diagram
             configuration="org.topcased.modeler.uml.usecasediagram.UseCaseConfiguration"
@@ -1002,7 +1003,7 @@
                category="model"
                indented="true"
                label="First End"
-         	   afterTab="org.topcased.modeler.modelTab"/>
+         	   afterTab="org.nakeduml.eclipse.numlTab"/>
          <propertyTab
                id="org.topcased.modeler.modelTab.secondEndTab"
                category="model"
@@ -1014,17 +1015,17 @@
                category="model"
                indented="true"
                label="Parameters"
-         	   afterTab="org.topcased.modeler.modelTab"/>
+         	   afterTab="org.nakeduml.eclipse.numlTab"/>
          <propertyTab
             id="org.topcased.modeler.profilesTab"
             category="modelDetails"
             label="Profiles"
-            afterTab="org.topcased.modeler.modelTab"/>
+            afterTab="org.nakeduml.eclipse.numlTab"/>
          <propertyTab
             id="org.topcased.modeler.stereotypesTab"
             category="modelDetails"
             label="Stereotypes"
-            afterTab="org.topcased.modeler.modelTab"/>
+            afterTab="org.nakeduml.eclipse.numlTab"/>
          <propertyTab
             id="org.topcased.modeler.stereotypeAttributesTab"
             category="modelDetails"
@@ -1038,19 +1039,31 @@
             afterTab="org.topcased.modeler.advancedTab"
             indented="true"/>
          <propertyTab
-               afterTab="org.topcased.modeler.modelTab"
+            id="org.nakeduml.eclipse.templateTab"
+            category="model"
+            label="Notification Text"
+            afterTab="org.nakeduml.eclipse.numlTab"
+            indented="true"/>
+         <!--propertyTab
+               afterTab="org.nakeduml.eclipse.numlTab"
                category="model"
                id="org.topcased.modeler.modelTab.specification"
                indented="true"
                label="Specification">
-         </propertyTab>
+         </propertyTab-->
       </propertyTabs>
    </extension>
    
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections
-        contributorId="org.topcased.modeler.editor.Modeler"
-        sibling_order="&lt;propertySection&#x0A;         afterSection=&quot;org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection&quot;&#x0A;         class=&quot;org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection&quot;&#x0A;         id=&quot;org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection&quot;&#x0A;         tab=&quot;org.topcased.modeler.modelTab&quot;&gt;&#x0A;      &lt;input&#x0A;            type=&quot;org.eclipse.uml2.uml.InstanceSpecification&quot;&gt;&#x0A;      &lt;/input&gt;&#x0A;   &lt;/propertySection&gt;">
+        contributorId="org.topcased.modeler.editor.Modeler">
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.SignalTemplateSection"
+				class="org.nakeduml.topcased.propertysections.NotificationTemplateSection"
+				filter="org.nakeduml.topcased.propertysections.filters.NotificationFilter"
+				tab="org.nakeduml.eclipse.templateTab">
+         		<input type="org.eclipse.uml2.uml.Signal"/>
+			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection"
@@ -1069,31 +1082,31 @@
 				tab="org.topcased.modeler.stereotypeAttributesTab">
          		<input type="org.eclipse.uml2.uml.Element"/>
 			</propertySection>
-			<propertySection
+			<!--propertySection
          class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          filter="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSectionFilter"
          id="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
 				<input type="org.eclipse.uml2.uml.NamedElement"/>
-			</propertySection>
-			<propertySection
+			</propertySection-->
+			<!--propertySection
          afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          class="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
          filter="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSectionFilter"
          id="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.TypedElement">
       </input>
-   </propertySection>
+   </propertySection-->
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.InstanceSpecification"/>
 			</propertySection>
-   <propertySection
+   <!--propertySection
          afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationSpecificationSection"
          id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationSpecificationSection"
@@ -1101,31 +1114,31 @@
       <input
             type="org.eclipse.uml2.uml.InstanceSpecification">
       </input>
-   </propertySection>
+   </propertySection-->
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
-				tab="org.topcased.modeler.modelTab">
+				tab="org.nakeduml.eclipse.numlTab">
 				<input type="org.eclipse.uml2.uml.Slot"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
 				<input type="org.eclipse.uml2.uml.Slot"/>
 			</propertySection>
-			<propertySection
+			<!--propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
 				<input type="org.eclipse.uml2.uml.NamedElement"/>
-			</propertySection>	
+			</propertySection-->	
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.Classifier"/>
 			</propertySection>
@@ -1140,9 +1153,16 @@
 			</propertySection>
 			
 			<propertySection
+				id="org.nakeduml.topcased.propertysections.OpaqueExpressionBodySection"
+				class="org.nakeduml.topcased.propertysections.OpaqueExpressionBodySection"
+				tab="org.nakeduml.eclipse.numlTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
+				<input type="org.eclipse.uml2.uml.OpaqueExpression"/>
+			</propertySection>
+			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
 				filter="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSectionFilter">
 			</propertySection>
@@ -1157,28 +1177,28 @@
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
@@ -1186,7 +1206,7 @@
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.BehavioralFeatureIsAbstractSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.BehavioralFeatureIsAbstractSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.BehavioralFeature"/>
 			</propertySection>
@@ -1194,7 +1214,7 @@
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
-				tab="org.topcased.modeler.modelTab">
+				tab="org.nakeduml.eclipse.numlTab">
 				<input type="org.eclipse.uml2.uml.Comment"/>
 			</propertySection>
 
@@ -1403,7 +1423,7 @@
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.association.AssociationIsDerivedSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.association.AssociationIsDerivedSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection">
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
@@ -1453,70 +1473,69 @@
 				<input type="org.eclipse.uml2.uml.Connector"/>
 			</propertySection>
 			
-			<!-- Sections relatives to a Property element-->
-			<propertySection
+			<!-- Sections relatives to a Property element			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.property.PropertyRedefinedPropertySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.property.PropertyRedefinedPropertySection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.Property"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.property.PropertySubsettedPropertySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.property.PropertySubsettedPropertySection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.Property"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.property.PropertyIsDerivedSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.property.PropertyIsDerivedSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.Property"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.property.PropertyIsDerivedUnionSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.property.PropertyIsDerivedUnionSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.Property"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.multiplicityelement.MultiplicityElementIsOrderedSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.multiplicityelement.MultiplicityElementIsOrderedSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.MultiplicityElement"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.multiplicityelement.MultiplicityElementIsUniqueSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.multiplicityelement.MultiplicityElementIsUniqueSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.MultiplicityElement"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.structuralfeature.StructuralFeatureIsReadOnlySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.structuralfeature.StructuralFeatureIsReadOnlySection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.feature.FeatureIsStaticSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.feature.FeatureIsStaticSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
          		<input type="org.eclipse.uml2.uml.Feature"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.multiplicityelement.MultiplicityElementCardinalitySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.multiplicityelement.MultiplicityElementCardinalitySection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.MultiplicityElement"/>
-			</propertySection>
+			</propertySection-->
 			<propertySection
         		 class="org.topcased.modeler.uml.internal.properties.sections.operation.behavior.OperationBehaviorSection"
          		id="org.topcased.modeler.uml.internal.properties.sections.operation.OperationBehaviorSection"
@@ -1528,14 +1547,14 @@
          class="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection"
          filter="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSectionFilter"
          id="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
 				<input type="org.eclipse.uml2.uml.ElementImport"/>
 			</propertySection>
    <propertySection
          afterSection="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
          class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeMetaclassSection"
          id="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.Stereotype">
       </input>
@@ -1544,7 +1563,7 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection"
          class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeImageSection"
          id="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.Stereotype">
       </input>
@@ -1553,7 +1572,7 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection"
          class="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
          id="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.Stereotype">
       </input>
@@ -1562,7 +1581,7 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
          class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
          id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
       </input>
@@ -1571,24 +1590,24 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
          class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
          id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
       </input>
    </propertySection>
-   <propertySection
+   <!--propertySection
          class="org.topcased.modeler.uml.internal.properties.sections.property.PropertyDefaultValueSection"
          id="org.topcased.modeler.uml.internal.properties.sections.PropertyDefaultValueSection"
          tab="org.topcased.modeler.modelTab.specification">
       <input
             type="org.eclipse.uml2.uml.Property">
       </input>
-   </propertySection>
+   </propertySection-->
    <propertySection
          afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
          class="org.topcased.modeler.uml.internal.properties.sections.expression.ExpressionSymbolSection"
          id="org.topcased.modeler.uml.internal.properties.sections.expression.ExpressionSymbolSection"
-         tab="org.topcased.modeler.modelTab">
+         tab="org.nakeduml.eclipse.numlTab">
       <input
             type="org.eclipse.uml2.uml.Expression">
       </input>
@@ -1682,7 +1701,7 @@
           metamodel="http://www.eclipse.org/uml2/3.0.0/UML">
     </detector>
  </extension>
- <extension
+ <!--extension
        point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
     <decoratorProvider
           class="org.topcased.modeler.uml.internal.decorators.StereotypeDecoratorProvider">
@@ -1697,7 +1716,7 @@
                decoratorTargets="EObject">
          </context>       
     </decoratorProvider>
- </extension>
+ </extension-->
  <extension
        point="org.topcased.modeler.synchronizedModelDiagramRule">
     <synchronizedModelDiagramRule
@@ -1714,6 +1733,13 @@
           synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
        <description>
           Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a &quot;From package&quot; information is already provided.
+       </description>
+    </synchronizedModelDiagramRule>
+    <synchronizedModelDiagramRule
+          graphicType="org.topcased.modeler.uml.classdiagram.edit.ClassEditPart"
+          modelInterface="org.eclipse.uml2.uml.Component"
+          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+       <description>
        </description>
     </synchronizedModelDiagramRule>
     <synchronizedModelDiagramRule
@@ -1772,14 +1798,14 @@
           Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
        </description>
     </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
+    <!--synchronizedModelDiagramRule
           graphicType="org.topcased.modeler.uml.usecasediagram.edit.PackageEditPart"
           modelInterface="org.eclipse.uml2.uml.Package"
           synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
        <description>
           Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
        </description>
-    </synchronizedModelDiagramRule>
+    </synchronizedModelDiagramRule-->
     <synchronizedModelDiagramRule
           graphicType="org.topcased.modeler.uml.usecasediagram.edit.UseCaseEditPart"
           modelInterface="org.eclipse.uml2.uml.UseCase"
@@ -1790,7 +1816,7 @@
     </synchronizedModelDiagramRule>    
  </extension>
    
-	     <extension
+	     <!--extension
 	         id="org.topcased.modeler.uml.internal.decorators.UMLModelerDiagramDecoratorProvider"
 	         name="UML Diagram Decorators"
 	         point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
@@ -1814,7 +1840,7 @@
                 id="Class">
           </object>
 	      </decoratorProvider>
-	   </extension>
+	   </extension-->
       <extension
             point="org.topcased.modeler.duplicationAdapter">
          <adapter
@@ -1944,14 +1970,14 @@
                priority="MIDDLE">
          </OrderAlgorithm>
       </extension>
-      <extension
+      <!--extension
             point="org.topcased.modeler.diagrams.validation.missingAnchors">
          <modelAnchors
                class="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
                modelanchor="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
                type="ActivityEdge">
          </modelAnchors>
-      </extension>
+      </extension-->
       <extension
             point="org.topcased.modeler.todoNoteExtension">
          <todo

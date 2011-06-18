@@ -12,7 +12,7 @@ import net.sf.nakeduml.feature.TransformationPhase;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.nakeduml.uim.UserInteractionModel;
+import org.nakeduml.uim.folder.UserInteractionModel;
 import org.nakeduml.uim.util.UmlUimLinks;
 
 @PhaseDependency()

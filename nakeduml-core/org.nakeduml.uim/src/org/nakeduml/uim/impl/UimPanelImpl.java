@@ -16,10 +16,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import org.nakeduml.uim.OutlayableComponent;
-import org.nakeduml.uim.UimLayout;
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UimPanel;
+
+import org.nakeduml.uim.layout.LayoutPackage;
+import org.nakeduml.uim.layout.OutlayableComponent;
+import org.nakeduml.uim.layout.UimLayout;
+
+import org.nakeduml.uim.layout.impl.LayoutContainerImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -87,7 +91,7 @@ public class UimPanelImpl extends LayoutContainerImpl implements UimPanel {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -134,7 +138,7 @@ public class UimPanelImpl extends LayoutContainerImpl implements UimPanel {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case UimPackage.UIM_PANEL__PARENT:
-				return eInternalContainer().eInverseRemove(this, UimPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
+				return eInternalContainer().eInverseRemove(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
@@ -206,7 +210,7 @@ public class UimPanelImpl extends LayoutContainerImpl implements UimPanel {
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == OutlayableComponent.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_PANEL__PARENT: return UimPackage.OUTLAYABLE_COMPONENT__PARENT;
+				case UimPackage.UIM_PANEL__PARENT: return LayoutPackage.OUTLAYABLE_COMPONENT__PARENT;
 				default: return -1;
 			}
 		}
@@ -222,7 +226,7 @@ public class UimPanelImpl extends LayoutContainerImpl implements UimPanel {
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == OutlayableComponent.class) {
 			switch (baseFeatureID) {
-				case UimPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_PANEL__PARENT;
+				case LayoutPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_PANEL__PARENT;
 				default: return -1;
 			}
 		}

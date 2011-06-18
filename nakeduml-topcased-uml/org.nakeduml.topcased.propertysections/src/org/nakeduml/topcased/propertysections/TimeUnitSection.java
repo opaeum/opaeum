@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.nakeduml.emf.extraction.StereotypesHelper;
+
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.Notification;
@@ -31,7 +33,7 @@ import org.topcased.modeler.uml.UMLPlugin;
 import org.topcased.modeler.uml.editor.UMLEditor;
 
 public class TimeUnitSection extends AbstractEnumerationPropertySection{
-	Stereotype stereotype;
+//	Stereotype stereotype;
 	Enumeration timeUnit;
 	CCombo combo;
 	@Override
@@ -44,8 +46,8 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 		for(IEditorReference er:ers){
 			IEditorPart e = er.getEditor(false);
 			if(e instanceof UMLEditor){
-				UMLEditor ue=(UMLEditor) e;
-				EList<Resource> resources =  ue.getResourceSet().getResources();
+				UMLEditor ue = (UMLEditor) e;
+				EList<Resource> resources = ue.getResourceSet().getResources();
 				for(Resource r:resources){
 					if(r.getURI().toString().contains("NakedUMLProfile")){
 						p = (Profile) r.getContents().get(0);
@@ -87,7 +89,7 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 					}
 					@Override
 					public void execute(){
-						((TimeEvent) getEObject()).setValue(stereotype, "timeUnit", newValue);
+						((TimeEvent) getEObject()).setValue(getStereotype(), "timeUnit", newValue);
 					}
 					@Override
 					public boolean canUndo(){
@@ -95,7 +97,7 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 					}
 					@Override
 					public void undo(){
-						((TimeEvent) getEObject()).setValue(stereotype, "timeUnit", oldValue);
+						((TimeEvent) getEObject()).setValue(getStereotype(), "timeUnit", oldValue);
 					}
 					@Override
 					public void redo(){
@@ -141,7 +143,7 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 		if(!getTimeEvent().isStereotypeApplied(getStereotype())){
-			getTimeEvent().applyStereotype(getStereotype());
+			StereotypesHelper.applyStereotype(getTimeEvent(), getStereotype());
 		}
 	}
 	private Stereotype getStereotype(){
@@ -171,7 +173,11 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 	}
 	@Override
 	protected Object getOldFeatureValue(){
-		return getTimeEvent().getValue(getStereotype(), "timeUnit");
+		if(getTimeEvent().isStereotypeApplied(getStereotype())){
+			return getTimeEvent().getValue(getStereotype(), "timeUnit");
+		}else{
+			return null;
+		}
 	}
 	private TimeEvent getTimeEvent(){
 		return (TimeEvent) getEObject();

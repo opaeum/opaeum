@@ -9,9 +9,11 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.nakeduml.uim.UimDataTable;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.binding.BindingPackage;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
+import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 /**
  * A section featuring a combo box with a seach button. This section<br>
@@ -20,7 +22,7 @@ import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  *
- * @generated
+ *  @generated not 
  */
 public class UimDataTableBindingSection extends AbstractBindingSection{
 	/**
@@ -53,7 +55,16 @@ public class UimDataTableBindingSection extends AbstractBindingSection{
 	protected Object getFeatureValue(){
 		return ((UimDataTable) getEObject()).getBinding();
 	}
-
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 *
+	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
+	 * @generated NOT
+	 */
+	protected Object[] getComboFeatureValues(){
+		return new Object[0];
+	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -69,6 +80,6 @@ public class UimDataTableBindingSection extends AbstractBindingSection{
 	}
 	@Override
 	protected EClass getFeatureEClass(){
-		return UimPackage.eINSTANCE.getTableBinding();
+		return BindingPackage.eINSTANCE.getTableBinding();
 	}
 }

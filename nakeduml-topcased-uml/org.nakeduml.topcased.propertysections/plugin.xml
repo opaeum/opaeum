@@ -16,15 +16,6 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
 		   <propertySection
-		   		afterSection="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.numl"
-		         class="org.nakeduml.topcased.propertysections.ValuePinValueSection"
-		         id="org.nakeduml.topcased.propertysections.ValuePinValueSection"
-		         tab="org.nakeduml.eclipse.numlTab">
-		      <input
-		            type="org.eclipse.uml2.uml.ValuePin">
-		      </input>
-		   </propertySection>		
-		   <propertySection
 		         class="org.nakeduml.topcased.propertysections.TimeUnitSection"
 		         id="org.nakeduml.topcased.propertysections.TimeUnitSection"
 		         tab="org.nakeduml.eclipse.numlTab">
@@ -78,49 +69,10 @@
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.AcceptEventActionTriggerSection"
-         			id="org.nakeduml.topcased.propertysections.AcceptEventActionTriggerSection"
+         			class="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
+         			id="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
          			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.AcceptEventAction">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.StructuralFeatureActionFeatureSection"
-         			id="org.nakeduml.topcased.propertysections.StructuralFeatureActionFeatureSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.StructuralFeatureAction">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.VariableActionVariableSection"
-         			id="org.nakeduml.topcased.propertysections.VariableActionVariableSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.VariableAction">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.SendSignalActionSignalSection"
-         			id="org.nakeduml.topcased.propertysections.SendSignalActionSignalSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.SendSignalAction">
-      			</input>
-			</propertySection>
-  			<propertySection
-         			class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-			         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.numl"
-			         tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Pin">
-      			</input>
-   			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.ActivityEdgeGuardSection"
-         			id="org.nakeduml.topcased.propertysections.ActivityEdgeGuardSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.ActivityEdge">
+      			<input type="org.eclipse.uml2.uml.Property">
       			</input>
 			</propertySection>
 			<propertySection

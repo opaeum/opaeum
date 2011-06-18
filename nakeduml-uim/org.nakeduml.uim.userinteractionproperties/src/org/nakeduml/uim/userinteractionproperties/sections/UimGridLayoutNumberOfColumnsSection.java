@@ -1,7 +1,7 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.layout.LayoutPackage;
 import org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection;
 
 /**
@@ -31,7 +31,7 @@ public class UimGridLayoutNumberOfColumnsSection extends AbstractIntegerProperty
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getUimGridLayout_NumberOfColumns();
+		return LayoutPackage.eINSTANCE.getUimGridLayout_NumberOfColumns();
 	}
 	/**
 	 * <!-- begin-user-doc -->

@@ -9,6 +9,7 @@ import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.hibernate.PersistentObjectException;
 import org.nakeduml.environment.PersistentNameClassMap;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -59,7 +60,7 @@ public class PersistentNameMapGenerator extends AbstractJavaProducingVisitor{
 		OJClass mapClass = new OJAnnotatedClass("PersistentNameClassMapImpl");
 		mapClass.addToImplementedInterfaces(new OJPathName(PersistentNameClassMap.class.getName()));
 		UtilityCreator.getUtilPack().addToClasses(mapClass);
-		OJPathName classExtendsAbstractEntity = new OJPathName("Class<? extends " +"AbstractEntity"+ ">");
+		OJPathName classExtendsAbstractEntity = new OJPathName("Class<? extends " +IPersistentObject.class.getSimpleName()+ ">");
 		super.createTextPath(mapClass, output);
 		OJAnnotatedField map = new OJAnnotatedField("map", new OJPathName("java.util.Map"));
 		map.getType().addToElementTypes(new OJPathName("String"));
@@ -67,7 +68,7 @@ public class PersistentNameMapGenerator extends AbstractJavaProducingVisitor{
 		mapClass.addToImports("java.util.Map");
 		mapClass.addToImports("java.util.HashMap");
 		mapClass.addToImports(IPersistentObject.class.getName());
-		map.setInitExp("new HashMap<String, Class<? extends "+"AbstractEntity"+">>()");
+		map.setInitExp("new HashMap<String, Class<? extends "+IPersistentObject.class.getSimpleName()+">>()");
 		mapClass.addToFields(map);
 		map.setFinal(true);
 		OJConstructor constr = new OJConstructor();

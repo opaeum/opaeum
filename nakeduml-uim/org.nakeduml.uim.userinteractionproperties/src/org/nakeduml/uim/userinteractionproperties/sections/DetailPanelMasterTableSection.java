@@ -8,10 +8,11 @@ import java.util.ListIterator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.DetailPanel;
 import org.nakeduml.uim.MasterComponent;
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.form.DetailPanel;
+import org.nakeduml.uim.form.FormPackage;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
@@ -47,7 +48,7 @@ public class DetailPanelMasterTableSection extends
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature() {
-		return UimPackage.eINSTANCE.getDetailPanel_MasterComponent();
+		return FormPackage.eINSTANCE.getDetailPanel_MasterComponent();
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class DetailPanelMasterTableSection extends
 		ITypeCacheAdapter tca = TypeCacheAdapter
 				.getExistingTypeCacheAdapter(getEObject());
 		choices.addAll((Collection) tca.getReachableObjectsOfType(getEObject(),
-				UimPackage.eINSTANCE.getDetailPanel_MasterComponent().getEType()));
+				FormPackage.eINSTANCE.getDetailPanel_MasterComponent().getEType()));
 		ListIterator<MasterComponent> li = choices.listIterator();
 		while (li.hasNext()) {
 			if (UimUtil.getNearestForm((UimComponent) li.next()) != UimUtil

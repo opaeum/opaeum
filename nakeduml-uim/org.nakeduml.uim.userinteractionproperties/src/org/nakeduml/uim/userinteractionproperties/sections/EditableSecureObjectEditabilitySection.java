@@ -6,9 +6,10 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.EditableSecureObject;
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
+import org.nakeduml.uim.security.EditableSecureObject;
+import org.nakeduml.uim.security.SecurityPackage;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -41,7 +42,7 @@ public class EditableSecureObjectEditabilitySection extends AbstractChooserPrope
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getEditableSecureObject_Editability();
+		return SecurityPackage.eINSTANCE.getEditableSecureObject_Editability();
 	}
 	/**
 	 * <!-- begin-user-doc -->
@@ -61,7 +62,7 @@ public class EditableSecureObjectEditabilitySection extends AbstractChooserPrope
 	 * @generated
 	 */
 	protected Object[] getComboFeatureValues(){
-		return getChoices(getEObject(), UimPackage.eINSTANCE.getEditableSecureObject_Editability().getEType());
+		return getChoices(getEObject(), SecurityPackage.eINSTANCE.getEditableSecureObject_Editability().getEType());
 	}
 	/**
 	 * <!-- begin-user-doc -->

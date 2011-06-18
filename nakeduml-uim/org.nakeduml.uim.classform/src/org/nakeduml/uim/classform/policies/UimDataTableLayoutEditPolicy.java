@@ -4,7 +4,7 @@
 package org.nakeduml.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.nakeduml.uim.UimDataColumn;
+import org.nakeduml.uim.layout.UimColumnLayout;
 
 /**
  * @generated
@@ -23,7 +23,7 @@ public class UimDataTableLayoutEditPolicy extends org.topcased.modeler.edit.poli
 	 * @generated
 	 */
 	protected boolean isValid(EObject child,EObject parent){
-		if(child instanceof UimDataColumn){
+		if(child instanceof UimColumnLayout){
 			return true;
 		}
 		return false;

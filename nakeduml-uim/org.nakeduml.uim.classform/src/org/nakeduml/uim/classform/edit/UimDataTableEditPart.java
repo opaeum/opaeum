@@ -12,7 +12,6 @@ import org.eclipse.swt.graphics.FontData;
 import org.nakeduml.uim.classform.commands.UimDataTableRestoreConnectionCommand;
 import org.nakeduml.uim.classform.policies.UimDataTableLayoutEditPolicy;
 import org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferenceConstants;
-import org.nakeduml.uim.editparts.AbstractUimDataTableEditPart;
 import org.nakeduml.uim.figures.UimDataTableFigure;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
@@ -28,7 +27,7 @@ import org.topcased.modeler.utils.Utils;
  *
  * @generated
  */
-public class UimDataTableEditPart extends AbstractUimDataTableEditPart{
+public class UimDataTableEditPart extends EMFGraphNodeEditPart{
 	/**
 	 * Constructor
 	 *

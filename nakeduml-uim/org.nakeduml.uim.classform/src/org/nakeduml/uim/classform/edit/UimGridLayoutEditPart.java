@@ -13,10 +13,8 @@ import org.nakeduml.uim.classform.commands.UimGridLayoutRestoreConnectionCommand
 import org.nakeduml.uim.classform.policies.UimGridLayoutLayoutEditPolicy;
 import org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferenceConstants;
 import org.nakeduml.uim.editparts.AbstractUimGridLayoutEditPart;
-import org.nakeduml.uim.figures.UimGridLayoutFigure;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 import org.topcased.modeler.edit.policies.LabelDirectEditPolicy;
 import org.topcased.modeler.edit.policies.ResizableEditPolicy;
 import org.topcased.modeler.edit.policies.RestoreEditPolicy;

@@ -9,7 +9,7 @@ import org.nakeduml.uim.UimPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.ClassForm} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.form.ClassForm} object.
  *
  * @generated
  */

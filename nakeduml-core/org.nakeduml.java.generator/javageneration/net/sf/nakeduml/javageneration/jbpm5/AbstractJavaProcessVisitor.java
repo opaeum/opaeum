@@ -79,7 +79,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 		javaMethod.getOwner().addToImports(STATEFUL_KNOWLEDGE_SESSION);
 	}
-	protected void implementProcessInterfaceOperations(OJClass ojBehavior,OJPathName stepEnumeration,INakedBehavior umlBehavior){
+	protected void implementProcessInterfaceOperations(OJAnnotatedClass ojBehavior,OJPathName stepEnumeration,INakedBehavior umlBehavior){
+		Jbpm5Util.implementRelationshipWithProcess(ojBehavior, true, "process");
 		ojBehavior.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(IProcessObject.class));
 		doGetInnermostNonParallelStep(ojBehavior, umlBehavior);
 		doIsStepActive(ojBehavior, umlBehavior);

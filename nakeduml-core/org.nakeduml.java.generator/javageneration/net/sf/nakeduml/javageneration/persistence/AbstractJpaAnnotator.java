@@ -56,6 +56,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName(toOneType));
 		JpaUtil.fetchLazy(toOne);
 		if (f.getNakedBaseType() instanceof INakedStructuredDataType || f.isComposite()) {
+			//TODO validate that INakedStructuredDataType cannot participate in bidirectional relationships
 			// Compositional semantics - should also delete Orphan
 			JpaUtil.cascadeAll(toOne);
 		}

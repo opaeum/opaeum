@@ -26,7 +26,11 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 		}
 	}
 	public static Profile applyNakedUmlProfile(Model model){
-		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI("pathmap://NAKEDUML_PROFILES/NakedUMLProfile.uml"), true);
+		String profileName = "NakedUMLProfile.uml";
+		return applyProfile(model, profileName);
+	}
+	public static Profile applyProfile(Model model,String profileName){
+		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI("pathmap://NAKEDUML_PROFILES/"+profileName), true);
 		Profile library = (Profile) resource.getContents().get(0);
 		if(!model.isProfileApplied(library)){
 			model.applyProfile(library);

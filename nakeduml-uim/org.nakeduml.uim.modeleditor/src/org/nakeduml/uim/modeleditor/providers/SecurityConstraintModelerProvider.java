@@ -5,11 +5,11 @@ package org.nakeduml.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.security.SecurityPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.nakeduml.uim.SecurityConstraint} object.
+ * This is the item provider adpater for a {@link org.nakeduml.uim.security.SecurityConstraint} object.
  *
  * @generated
  */
@@ -28,6 +28,6 @@ public class SecurityConstraintModelerProvider extends WorkspaceSecurityConstrai
 	 * @generated
 	 */
 	public EAttribute getLabelFeature(Object object){
-		return UimPackage.eINSTANCE.getWorkspaceSecurityConstraint_RequiresGroupOwnership();
+		return SecurityPackage.eINSTANCE.getWorkspaceSecurityConstraint_RequiresGroupOwnership();
 	}
 }

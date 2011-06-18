@@ -1,21 +1,15 @@
 package org.nakeduml.uml2uim;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
-import org.nakeduml.uim.UserInteractionModel;
 import org.nakeduml.uim.util.UmlUimLinks;
-import org.topcased.modeler.diagrams.model.Diagrams;
 
 public class RegenerateAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
 	//FOr operation: task (error if not task) and invocation form

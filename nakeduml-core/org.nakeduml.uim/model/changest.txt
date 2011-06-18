@@ -11,26 +11,11 @@ remove obsolete forms
 set field label size on layout
 allow forms to be reused as panels
 migrate table control to swing
-Replace column with FieldColumn and ActionColumn, with bindings
 Add button bar for actions on multiple rows in the table
 Introduce entryScreen concept, allow formpanels to be used
+Introduce ocl expressions for things such as lookups and allowedRoles
 
-NakedUML Topcased
-Operation PArameters - remove visibility and effect
-Operation Ocl
-Provide action to synchronize a powerType's literals with its powertypeextent
-Property Specification
-Responsibility propertySection
-Tasks - escalations,potential delegates etc.
-States - requireRoles - think that through
-lookup for typedelements
-HTML Text editor for Signal templates
-Enumeration Literals and their slots
-Property lookup type - all, composition siblings,expression 
-Specifications for Behaviors
-CreateObjectAction::classifier
-isQuery for operations
-defaultValue for properties
+)
 
 TaskManagement
 Model UserInterface too
@@ -47,14 +32,22 @@ All long-running operations should provide a second method providing the calling
 AcceptCallAction - store operation structure
 unmarshall the pins to allow OCL compilation for postconditions
 
-Processes
+Statemachines
 Implement effects, entry and do-action subprocess calls
 Implement history state
 Implement transition across state boundaries
-IMplement real asynchronous actions
-Log all events as well as asynchronous actions directly in database and deliver them asynchronously
+Implement state invariants
 
-MAven
+Classes
+Generalizationsets
+PowerTypes
+link powerTypeInstances with generalization
+
+Activities
+Implement real asynchronous actions, i.e. call the action in another physical thread
+Log all events as well as asynchronous actions and signals directly in database and deliver them asynchronously
+
+Maven
 put MavenArtefatId in profile
 default MAvenArtifactIdPrefix to worskpaceidentifier-modelName
 programmaticallyset m2_repo
@@ -63,3 +56,11 @@ Validation
 ModelNameUniqueness
 Asynchronous actions cannot have outputs
 
+Runtime
+For BusinessComponent instances, add a property called LDAP Identifier which associates that instance with an ldap entry
+On login, check ldap query for logged in user and take the user through a wizard adding a businessrole instance for every potential role where the user also belongs to the businesscomponentinstance
+For ocl expressions from uim - use Javassist to generate expressions at runtime, including common composite logic
+For preconditions on operations that do NOT refer to parameters, disable the operationNavigation or action if it evaluates to false
+For preconditions of transitions that do NOT refer to event parameters, disable the associated operationNaviation/actionButton if it evualuates to false
+For notification templates, isolate velocity statements and remove empty containing nodes from treee
+For notications templates, repeat rows if table contained in a foreach 

@@ -12,7 +12,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -22,9 +26,17 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.nakeduml.uim.UimFactory;
+
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
+
+import org.nakeduml.uim.binding.BindingFactory;
+
+import org.nakeduml.uim.control.ControlFactory;
+
+import org.nakeduml.uim.security.SecurityPackage;
+
+import org.nakeduml.uim.security.provider.EditableSecureObjectItemProvider;
 
 /**
  * This is the item provider adapter for a {@link org.nakeduml.uim.UimField} object.
@@ -229,82 +241,82 @@ public class UimFieldItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimControl()));
+				 ControlFactory.eINSTANCE.createUimControl()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimCheckBox()));
+				 ControlFactory.eINSTANCE.createUimNumberScroller()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimLookup()));
+				 ControlFactory.eINSTANCE.createUimToggleButton()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimText()));
+				 ControlFactory.eINSTANCE.createUimLookup()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimTextArea()));
+				 ControlFactory.eINSTANCE.createUimSingleSelectPopupSearch()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimDropdown()));
+				 ControlFactory.eINSTANCE.createUimMultiSelectPopupSearch()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimDatePopup()));
+				 ControlFactory.eINSTANCE.createUimMultiSelectTreeView()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimSingleSelectListBox()));
+				 ControlFactory.eINSTANCE.createUimMultiSelectListBox()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimSingleSelectTreeView()));
+				 ControlFactory.eINSTANCE.createUimDropdown()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimMultiSelectTreeView()));
+				 ControlFactory.eINSTANCE.createUimCheckBox()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimMultiSelectListBox()));
+				 ControlFactory.eINSTANCE.createUimTextArea()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimMultiSelectPopupSearch()));
+				 ControlFactory.eINSTANCE.createUimText()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimSingleSelectPopupSearch()));
+				 ControlFactory.eINSTANCE.createUimDatePopup()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimToggleButton()));
+				 ControlFactory.eINSTANCE.createUimSingleSelectListBox()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 UimFactory.eINSTANCE.createUimNumberScroller()));
+				 ControlFactory.eINSTANCE.createUimSingleSelectTreeView()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__BINDING,
-				 UimFactory.eINSTANCE.createFieldBinding()));
+				 BindingFactory.eINSTANCE.createFieldBinding()));
 	}
 
 	/**
@@ -319,8 +331,8 @@ public class UimFieldItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UimPackage.Literals.SECURE_OBJECT__VISIBILITY ||
-			childFeature == UimPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
+			childFeature == SecurityPackage.Literals.SECURE_OBJECT__VISIBILITY ||
+			childFeature == SecurityPackage.Literals.EDITABLE_SECURE_OBJECT__EDITABILITY;
 
 		if (qualify) {
 			return getString
@@ -328,6 +340,17 @@ public class UimFieldItemProvider
 				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
 		}
 		return super.getCreateChildText(owner, feature, child, selection);
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return UimEditPlugin.INSTANCE;
 	}
 
 }

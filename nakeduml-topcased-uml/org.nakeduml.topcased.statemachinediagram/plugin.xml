@@ -35,6 +35,31 @@
                creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromCallBehaviorAction">
          </enableFor>        
       </diagram>
+      <diagram
+            configuration="org.topcased.modeler.uml.ScreenFlowDiagramConfiguration"
+            editorID="org.topcased.modeler.uml.editor.UMLEditor"
+            id="org.nakeduml.topcased.screenflowdiagram"
+            name="Screen Flow Diagram">
+         <enableFor
+               class="org.eclipse.uml2.uml.StateMachine">
+         </enableFor>
+         <enableFor
+               class="org.eclipse.uml2.uml.Package"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromPackage">
+         </enableFor>
+         <enableFor
+               class="org.eclipse.uml2.uml.State"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromState">
+         </enableFor>
+         <enableFor
+               class="org.eclipse.uml2.uml.Class"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromClass">
+         </enableFor>
+         <enableFor
+               class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromCallBehaviorAction">
+         </enableFor>
+      </diagram>
 	</extension>
 	
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">

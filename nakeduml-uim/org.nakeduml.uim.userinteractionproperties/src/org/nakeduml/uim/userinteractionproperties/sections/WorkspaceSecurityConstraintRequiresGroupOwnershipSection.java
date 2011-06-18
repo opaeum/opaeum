@@ -1,7 +1,7 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.security.SecurityPackage;
 import org.topcased.tabbedproperties.sections.AbstractBooleanPropertySection;
 
 /**
@@ -31,6 +31,6 @@ public class WorkspaceSecurityConstraintRequiresGroupOwnershipSection extends Ab
 	 * @generated
 	 */
 	protected EStructuralFeature getFeature(){
-		return UimPackage.eINSTANCE.getWorkspaceSecurityConstraint_RequiresGroupOwnership();
+		return SecurityPackage.eINSTANCE.getWorkspaceSecurityConstraint_RequiresGroupOwnership();
 	}
 }

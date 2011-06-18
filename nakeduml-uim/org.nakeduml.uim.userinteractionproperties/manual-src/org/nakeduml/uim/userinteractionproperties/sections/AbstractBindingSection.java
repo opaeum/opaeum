@@ -8,10 +8,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.uim.PropertyRef;
-import org.nakeduml.uim.UimBinding;
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.binding.BindingFactory;
+import org.nakeduml.uim.binding.PropertyRef;
+import org.nakeduml.uim.binding.UimBinding;
 import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
@@ -70,7 +71,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 					Classifier cl = (Classifier) te.getType();
 					Property p = getProperty(cl, st.nextToken());
 					if(p != null){
-						PropertyRef pr2 = UimFactory.eINSTANCE.createPropertyRef();
+						PropertyRef pr2 = BindingFactory.eINSTANCE.createPropertyRef();
 						pr2.setUmlElementUid(UmlUimLinks.getId(p));
 						if(fb.getNext() == null){
 							fb.setNext(pr2);
