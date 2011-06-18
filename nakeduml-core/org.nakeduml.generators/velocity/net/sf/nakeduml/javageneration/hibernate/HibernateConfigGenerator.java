@@ -112,6 +112,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 		}
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? CDI_ENVIRONMENT : DOMAIN_ENVIRONMENT);
 		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, hibernateConfigName);
+		properties.setProperty(Environment.DB_USER, config.getDbUser());
 		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
 		processTemplate(workspace, "templates/Model/Jbpm5HibernateConfig.vsl", hibernateConfigName, outputRootId, vars);
 	}

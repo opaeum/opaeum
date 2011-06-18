@@ -22,4 +22,8 @@ public class SerializableValue extends Value{
 	public Object getValue(Session session){
 		return value;
 	}
+	@Override
+	public Class<?> getValueClass(){
+		return value.getClass();
+	}
 }

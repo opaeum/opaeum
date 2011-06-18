@@ -31,6 +31,7 @@ public abstract class Value implements Serializable{
 			return null;
 		}
 	}
+	public abstract Class<?> getValueClass();
 	private static CollectionValue valueOfCollection(Collection<Value> newValue,Collection<?> oldValue){
 		for(Object o:oldValue){
 			newValue.add(valueOf(o));

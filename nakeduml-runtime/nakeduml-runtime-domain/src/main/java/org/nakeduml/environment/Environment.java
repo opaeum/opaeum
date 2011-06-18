@@ -11,6 +11,7 @@ public abstract class Environment {
 	public static final String ENVIRONMENT_IMPLEMENTATION = "nakeduml.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "nakeduml.env.properties";
 	public static final String PERSISTENT_NAME_CLASS_MAP = "nakeduml.persistentname.classmap.implementation";
+	public static final String DB_USER = "nakeduml.database.user";
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
 	protected static JavaMetaInfoMap persistentNameClassMap;
 	protected Properties properties;
@@ -46,7 +47,9 @@ public abstract class Environment {
 		}
 		return newInstance;
 	}
-
+	public String getProperty(String name){
+		return properties.getProperty(name);
+	}
 	public static Properties loadProperties() {
 		Properties properties;
 		try {

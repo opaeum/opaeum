@@ -32,115 +32,109 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples
 //or in the finally block
-public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
+public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior behavior) {
-		if (OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier) {
+	public void visitBehavior(INakedBehavior behavior){
+		if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier){
 			// Ignore transition effects and state actions for now
-			if (BehaviorUtil.hasExecutionInstance(behavior)) {
+			if(BehaviorUtil.hasExecutionInstance(behavior)){
 				addEvaluationMethod(behavior.getPreConditions(), "evaluatePreConditions", behavior);
 				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior);
-			} else {
+			}else{
 				NakedOperationMap mapper = new NakedOperationMap(behavior);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPreConditions(), true);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPostConditions(), false);
 			}
 		}
 	}
-
 	@VisitBefore(matchSubclasses = true)
-	public void visitOpaqueBehavior(INakedOpaqueBehavior behavior) {
-		if (BehaviorUtil.hasExecutionInstance(behavior)) {
+	public void visitOpaqueBehavior(INakedOpaqueBehavior behavior){
+		if(BehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass javaContext = findJavaClass(behavior);
 			OJAnnotatedOperation execute = (OJAnnotatedOperation) OJUtil.findOperation(javaContext, "execute");
-			if (execute == null) {
+			if(execute == null){
 				execute = new OJAnnotatedOperation("execute");
 				javaContext.addToOperations(execute);
 			}
-			if (behavior.getBodyExpression() != null) {
+			if(behavior.getBodyExpression() != null){
 				NakedOperationMap map = new NakedOperationMap(behavior);
 				this.addBody(execute, behavior.getContext(), map, behavior.getBody());
 			}
-		} else if (OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression()!=null) {
+		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier
+				&& behavior.getBodyExpression() != null){
 			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
 			NakedOperationMap map = new NakedOperationMap(behavior);
 			OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
 			this.addBody(oper, behavior.getContext(), map, behavior.getBody());
 		}
 	}
-
 	@VisitBefore(matchSubclasses = false)
-	public void visitOpaqueAction(INakedOpaqueAction constrained) {
+	public void visitOpaqueAction(INakedOpaqueAction constrained){
 		OpaqueActionMessageStructureImpl messageClass = new OpaqueActionMessageStructureImpl(constrained);
 		addEvaluationMethod(constrained.getPostConditions(), "evaluatePostConditions", messageClass);
 	}
-
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavioredClassifier(INakedBehavioredClassifier owner) {
-		for (INakedOperation oper : owner.getEffectiveOperations()) {
-			if (oper.getOwner() instanceof INakedInterface || oper.getOwner() == owner) {
-				processOperation(oper, owner);
+	public void visitBehavioredClassifier(INakedBehavioredClassifier owner){
+		if(OJUtil.hasOJClass(owner)){
+			for(INakedOperation oper:owner.getEffectiveOperations()){
+				if(oper.getOwner() instanceof INakedInterface || oper.getOwner() == owner){
+					processOperation(oper, owner);
+				}
 			}
 		}
 	}
-
 	@VisitBefore(matchSubclasses = true)
-	public void visitDataTYpe(INakedDataType owner) {
-		for (IOperation oper : owner.getOperations()) {
+	public void visitDataTYpe(INakedDataType owner){
+		for(IOperation oper:owner.getOperations()){
 			processOperation((INakedOperation) oper, owner);
 		}
 	}
-
-	private void processOperation(INakedOperation oper, INakedClassifier owner) {
+	private void processOperation(INakedOperation oper,INakedClassifier owner){
 		NakedOperationMap mapper = new NakedOperationMap(oper);
-		if (oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null) {
+		if(oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null){
 			OJPathName path = OJUtil.classifierPathname(owner);
 			OJClass myOwner = javaModel.findClass(path);
-			if (myOwner != null) {
-				OJAnnotatedOperation myOper = (OJAnnotatedOperation) myOwner.findOperation(mapper.javaOperName(),
-						mapper.javaParamTypePaths());
+			if(myOwner != null){
+				OJAnnotatedOperation myOper = (OJAnnotatedOperation) myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 				INakedValueSpecification specification = oper.getBodyCondition().getSpecification();
 				addBody(myOper, owner, mapper, specification);
 			}
 		}
 		//
-		if (BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()) {
+		if(BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
 			OperationMessageStructureImpl messageClass = new OperationMessageStructureImpl(oper);
 			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass);
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
-		} else {
+		}else{
 			addLocalConditions(owner, mapper, oper.getPreConditions(), true);
 			addLocalConditions(owner, mapper, oper.getPostConditions(), false);
 		}
 	}
-
-	public void addLocalConditions(INakedClassifier owner, NakedOperationMap mapper, Collection<IOclContext> conditions, boolean pre) {
+	public void addLocalConditions(INakedClassifier owner,NakedOperationMap mapper,Collection<IOclContext> conditions,boolean pre){
 		OJClass myOwner = findJavaClass(owner);
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getOperation());
-		if (conditions.size() > 0) {
+		if(conditions.size() > 0){
 			cg.addConstraintChecks(myOper1, conditions, pre);
 		}
 	}
-
-	public void addEvaluationMethod(Collection<IOclContext> conditions, String evaluationMethodName, INakedClassifier messageClass) {
-		if (conditions.size() > 0) {
+	public void addEvaluationMethod(Collection<IOclContext> conditions,String evaluationMethodName,INakedClassifier messageClass){
+		if(conditions.size() > 0){
 			OJClass myOwner = findJavaClass(messageClass);
 			OJOperation myOper1 = new OJAnnotatedOperation();
 			myOper1.setName(evaluationMethodName);
 			myOwner.addToOperations(myOper1);
 			ConstraintGenerator cg = new ConstraintGenerator(myOwner, messageClass);
-			if (conditions.size() > 0) {
+			if(conditions.size() > 0){
 				cg.addConstraintChecks(myOper1, conditions, true);
 				// true because they can sit anywhere in the method
 			}
 		}
 	}
-
-	private void addBody(OJAnnotatedOperation ojOper, INakedClassifier owner, NakedOperationMap map, INakedValueSpecification specification) {
-		if (map.getOperation().getReturnParameter() == null) {
+	private void addBody(OJAnnotatedOperation ojOper,INakedClassifier owner,NakedOperationMap map,INakedValueSpecification specification){
+		if(map.getOperation().getReturnParameter() == null){
 			ojOper.getBody().addToStatements(ValueSpecificationUtil.expressValue(ojOper, specification, owner, specification.getType()));
-		} else {
+		}else{
 			String expString = "";
 			OJField result = new OJField();
 			result.setName("result");

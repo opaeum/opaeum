@@ -61,7 +61,7 @@ public class SignalToDispatch implements Retryable{
 	}
 	@Override
 	public String getDescription(){
-		return getSignal().getClass().getSimpleName() + " to " + getTarget().getClass().getSimpleName();
+		return getSignal().getClass().getSimpleName() + " to " + targetValue.getValueClass().getSimpleName();
 	}
 	public void retrieveIds(){
 		try{

@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -29,6 +30,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.connection.ConnectionProviderFactory;
+import org.hibernate.mapping.PersistentClass;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jboss.seam.solder.literal.DefaultLiteral;
 import org.jboss.weld.manager.BeanManagerImpl;
@@ -42,6 +44,7 @@ import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
 import org.nakeduml.hibernate.domain.PostgresDialect;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 import org.nakeduml.test.adaptor.CditTestLogger;
 
 public class CdiTestEnvironment extends Environment{
@@ -65,9 +68,8 @@ public class CdiTestEnvironment extends Environment{
 	public <T>T getComponent(Class<T> clazz){
 		return this.getComponent(clazz, DefaultLiteral.INSTANCE);
 	}
-	
 	@Override
-	public <T>T getComponent(Class<T> clazz, Annotation qualifiers){
+	public <T>T getComponent(Class<T> clazz,Annotation qualifiers){
 		try{
 			if(clazz == ITimeEventDispatcher.class){
 				return clazz.cast(timeEventDispatcher);
@@ -93,7 +95,8 @@ public class CdiTestEnvironment extends Environment{
 			throw new RuntimeException(e);
 		}
 	}
-	private <T>T resolveAndWrapBean(Class<T> clazz,Annotation q) throws NoSuchMethodException,InstantiationException,IllegalAccessException,InvocationTargetException{
+	private <T>T resolveAndWrapBean(Class<T> clazz,Annotation q) throws NoSuchMethodException,InstantiationException,IllegalAccessException,
+			InvocationTargetException{
 		final T component = resolveBean(clazz, q);
 		if(component != null){
 			ProxyFactory proxyFactory = new ProxyFactory();
@@ -143,16 +146,10 @@ public class CdiTestEnvironment extends Environment{
 				long start = System.currentTimeMillis();
 				Configuration hibernateConfiguration = new Configuration();
 				hibernateConfiguration.configure(getHibernateConfigName());
-				hibernateConfiguration.getTypeResolver().registerTypeOverride(PostgresDialect.PostgresqlMateralizedBlobType.INSTANCE);
 				ConnectionProvider connProvider = ConnectionProviderFactory.newConnectionProvider(hibernateConfiguration.getProperties());
+				ManagedHibernateSessionFactoryProvider.createSchemas(hibernateConfiguration, connProvider.getConnection());
 				Connection connection = connProvider.getConnection();
 				Statement st = connection.createStatement();
-				st.executeUpdate("CREATE SCHEMA ERICSSON_GSM AUTHORIZATION DBA");
-				st.executeUpdate("CREATE SCHEMA ERICSSON_UMTS AUTHORIZATION DBA");
-				st.executeUpdate("CREATE SCHEMA HUAWEI_GSM AUTHORIZATION DBA");
-				st.executeUpdate("CREATE SCHEMA HUAWEI_UMTS AUTHORIZATION DBA");
-				st.executeUpdate("CREATE SCHEMA SIEMENS_GSM AUTHORIZATION DBA");
-				st.executeUpdate("CREATE SCHEMA CM AUTHORIZATION DBA");
 				connection.commit();
 				st.close();
 				connection.close();
@@ -221,7 +218,7 @@ public class CdiTestEnvironment extends Environment{
 			try{
 				resolveBean(CdiTestSeamTransaction.class, DefaultLiteral.INSTANCE).commit();
 				signalDispatcher.prepareSignalsForDispatch();
-				resolveBean(Session.class,DefaultLiteral.INSTANCE).close();
+				resolveBean(Session.class, DefaultLiteral.INSTANCE).close();
 			}catch(RuntimeException e){
 				throw e;
 			}catch(Exception e){
@@ -230,7 +227,6 @@ public class CdiTestEnvironment extends Environment{
 			lifecycle.endRequest();
 			lifecycle.endSession();
 			signalDispatcher.deliverAllPendingSignals();
-			
 		}
 	}
 	public void beforeRequest(Object component){

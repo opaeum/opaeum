@@ -23,11 +23,14 @@ public class EntityValue extends Value{
 	}
 	@Override
 	public Object getValue(Session session){
-		Class<?> asdf = Environment.getMetaInfoMap().getClass(classId);
+		Class<?> asdf = getValueClass();
 		Object result = session.get(asdf, id);
 		if(result == null){
 			throw new IllegalStateException(asdf.getSimpleName() + ":" + id + " could not be found!");
 		}
 		return result;
+	}
+	public Class<?> getValueClass(){
+		return Environment.getMetaInfoMap().getClass(classId);
 	}
 }
