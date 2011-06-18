@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class TestCompositeComponent extends BaseLocalDbTest {
@@ -35,7 +34,7 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 		assertEquals("THEGOD", spaceTime.getTime().getSpaceTime().getUniverse().getGod().getName());
 	}
 	
-	@Test(expected=OTransactionException.class)
+	@Test(expected=RuntimeException.class)
 	public void testSetToNull() {
 		db.startTransaction();
 		God god = new God();

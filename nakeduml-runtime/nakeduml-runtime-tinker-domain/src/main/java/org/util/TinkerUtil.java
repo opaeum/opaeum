@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class TinkerUtil {
 
-	public static Collection<?> convertEnumsForPersistence(Collection<? extends Enum<?>> multiEmbeddedReason) {
+	public static String[] convertEnumsForPersistence(Collection<? extends Enum<?>> multiEmbeddedReason) {
 		Collection<String> persistentCollection;
 		if (multiEmbeddedReason instanceof Set) {
 			persistentCollection = new HashSet<String>();
@@ -17,10 +17,10 @@ public class TinkerUtil {
 		for (Enum<?> e : multiEmbeddedReason) {
 			persistentCollection.add(e.toString());
 		}
-		return persistentCollection;
+		return persistentCollection.toArray(new String[]{});
 	}
 
-	public static Collection convertEnumsFromPersistence(Collection<String> multiEmbeddedReason, Class<? extends Enum> e, boolean isOrdered) {
+	public static Collection convertEnumsFromPersistence(String[] multiEmbeddedReason, Class<? extends Enum> e, boolean isOrdered) {
 		if (multiEmbeddedReason != null) {
 			Collection<Enum> persistentCollection;
 			if (!isOrdered) {

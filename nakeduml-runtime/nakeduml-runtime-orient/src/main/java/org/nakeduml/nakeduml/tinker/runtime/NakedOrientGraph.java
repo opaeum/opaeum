@@ -22,7 +22,7 @@ public class NakedOrientGraph implements NakedGraph {
 
 	private OrientGraph orientGraph;
 	private boolean withschema;
-	
+
 	public NakedOrientGraph(OrientGraph orientGraph, boolean withSchema) {
 		super();
 		this.orientGraph = orientGraph;
@@ -142,7 +142,7 @@ public class NakedOrientGraph implements NakedGraph {
 	@Override
 	public Vertex addVertex(String className) {
 		ODocument oDocument;
-		if (this.withschema){
+		if (this.withschema) {
 			oDocument = orientGraph.getRawGraph().createVertex(className);
 		} else {
 			oDocument = orientGraph.getRawGraph().createVertex();
@@ -167,14 +167,14 @@ public class NakedOrientGraph implements NakedGraph {
 	@Override
 	public void addRoot() {
 		Vertex root = orientGraph.addVertex(null);
-		root.setProperty("transactionCount", 1);
+		root.setProperty("transactionCount", 0);
 		orientGraph.getRawGraph().setRoot("root", ((OrientVertex) root).getRawElement());
 		((OrientVertex) root).getRawElement().save();
 	}
 
 	@Override
 	public long countVertices() {
-		//Exclude the root node
+		// Exclude the root node
 		return orientGraph.getRawGraph().countVertexes() - 1;
 	}
 

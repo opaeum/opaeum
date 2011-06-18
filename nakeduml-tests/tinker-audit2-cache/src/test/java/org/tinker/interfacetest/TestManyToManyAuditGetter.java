@@ -43,6 +43,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		assertEquals(1, god.getAudits().size());
 		assertEquals(2, manyA1.getAudits().size());
 		assertEquals(2, manyB1.getAudits().size());
+		db.startTransaction();
 		assertEquals(0, ((ManyA1) manyA1).getAudits().get(0).getManyB().size());
 		assertEquals(1, ((ManyA1) manyA1).getAudits().get(1).getManyB().size());
 		assertEquals(0, ((ManyB1) manyB1).getAudits().get(0).getManyA().size());
@@ -53,7 +54,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		assertEquals("manyB1_1", ((ManyB1) manyB1).getAudits().get(1).getName());
 		assertEquals("manyB1_1", ((ManyA1) manyA1).getAudits().get(1).getManyB().iterator().next().getName());
 		assertEquals("manyA1_1", ((ManyB1) manyB1).getAudits().get(1).getManyA().iterator().next().getName());
-
+		db.stopTransaction(Conclusion.SUCCESS);
 		db.startTransaction();
 		manyA1.addToManyB(manyB11);
 		manyA1.setName("manyA1_11");
@@ -64,6 +65,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		assertEquals(2, manyB1.getAudits().size());
 		assertEquals(2, manyB11.getAudits().size());
 		assertEquals(0, ((ManyA1) manyA1).getAudits().get(0).getManyB().size());
+		db.startTransaction();
 		assertEquals(1, ((ManyA1) manyA1).getAudits().get(1).getManyB().size());
 		assertEquals(2, ((ManyA1) manyA1).getAudits().get(2).getManyB().size());
 		assertEquals(0, ((ManyB1) manyB1).getAudits().get(0).getManyA().size());
@@ -91,7 +93,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 			}
 		}
 		assertTrue(foundManyB1_1 && foundManyB11_1);
-
+		db.stopTransaction(Conclusion.SUCCESS);
 		db.startTransaction();
 		manyA11.addToManyB(manyB1);
 		manyA11.addToManyB(manyB11);
@@ -100,6 +102,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		manyB11.setName("manyB11_11");
 		db.stopTransaction(Conclusion.SUCCESS);
 
+		db.startTransaction();
 		assertEquals(2, ((ManyB1) manyB1).getAudits().get(2).getManyA().size());
 		boolean foundManyA11_1 = false;
 		boolean foundManyA1_11 = false;
@@ -111,7 +114,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 			}
 		}
 		assertTrue(foundManyA11_1 && foundManyA1_11);
-
+		db.stopTransaction(Conclusion.SUCCESS);
 		db.startTransaction();
 		manyA111.addToManyB(manyB1);
 		manyA111.addToManyB(manyB11);
@@ -120,6 +123,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		manyB11.setName("manyB11_111");
 		db.stopTransaction(Conclusion.SUCCESS);
 
+		db.startTransaction();
 		assertEquals(4, ((ManyB1) manyB11).getAudits().size());
 		foundManyA1_11 = false;
 		foundManyA11_1 = false;
@@ -138,15 +142,17 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		assertEquals(0, ((ManyA1) manyA1).getAudits().get(0).getManyB().size());
 		assertEquals(1, ((ManyA1) manyA1).getAudits().get(1).getManyB().size());
 		assertEquals(2, ((ManyA1) manyA1).getAudits().get(2).getManyB().size());
-
+		db.stopTransaction(Conclusion.SUCCESS);
 		db.startTransaction();
 		manyB11.removeFromManyA(manyA1);
 		db.stopTransaction(Conclusion.SUCCESS);
+		db.startTransaction();
 		assertEquals(5, manyB11.getAudits().size());
 		assertEquals(2, ((ManyB1) manyB11).getAudits().get(4).getManyA().size());
 		assertEquals(3, ((ManyB1) manyB11).getAudits().get(3).getManyA().size());
 		assertEquals(2, ((ManyB1) manyB11).getAudits().get(2).getManyA().size());
 		assertEquals(1, ((ManyB1) manyB11).getAudits().get(1).getManyA().size());
 		assertEquals(0, ((ManyB1) manyB11).getAudits().get(0).getManyA().size());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 }

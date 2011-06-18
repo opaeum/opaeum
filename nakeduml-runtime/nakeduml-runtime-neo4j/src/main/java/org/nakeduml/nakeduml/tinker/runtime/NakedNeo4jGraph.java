@@ -8,6 +8,7 @@ import java.util.Set;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.event.TransactionEventHandler;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.util.NakedGraph;
 
@@ -23,6 +24,7 @@ import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jVertex;
 public class NakedNeo4jGraph implements NakedGraph {
 
 	private Neo4jGraph neo4jGraph;
+	private TransactionEventHandler transactionEventHandler;
 	private boolean withschema;
 
 	public NakedNeo4jGraph(Neo4jGraph orientGraph) {
@@ -172,11 +174,14 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void addRoot() {
+		((EmbeddedGraphDatabase)neo4jGraph.getRawGraph()).getConfig().getGraphDbModule().createNewReferenceNode();
+		Vertex root = getRoot();
+		root.setProperty("transactionCount", 1);
 	}
 
 	@Override
 	public long countVertices() {
-		return ((EmbeddedGraphDatabase) neo4jGraph.getRawGraph()).getConfig().getGraphDbModule().getNodeManager().getNumberOfIdsInUse(Node.class);
+		return ((EmbeddedGraphDatabase) neo4jGraph.getRawGraph()).getConfig().getGraphDbModule().getNodeManager().getNumberOfIdsInUse(Node.class) - 1;
 	}
 
 	@Override
@@ -186,6 +191,10 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void registerListeners() {
+		if (transactionEventHandler==null) {
+			transactionEventHandler = new NakedTransactionEventHandler();
+			neo4jGraph.getRawGraph().registerTransactionEventHandler(transactionEventHandler);
+		}
 	}
 
 	@Override

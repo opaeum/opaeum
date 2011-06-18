@@ -91,9 +91,10 @@ public class AuditTestGeneration extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
 		assertEquals(16, countEdges());
-		
+		db.startTransaction();
 		assertEquals("finger4", finger4.getAudits().get(1).getPreviousAuditEntry().getName());
 		assertEquals("THEHAND", finger4.getAudits().get(1).getPreviousAuditEntry().getHand().getName());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
 	@Test

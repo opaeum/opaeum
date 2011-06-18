@@ -22,10 +22,12 @@ public class TestCompositeMarkDeleted extends BaseLocalDbTest {
 		db.startTransaction();
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
+		db.startTransaction();
 		assertEquals(2, god.getUniverse().size());
 		assertEquals(2, god.getAudits().size());
 		assertEquals(3, god.getAudits().get(0).getUniverse().size());
 		assertEquals(2, god.getAudits().get(1).getUniverse().size());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
 }

@@ -14,10 +14,12 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 
 	@Test
 	public void test() {
+		db.startTransaction();
 		Vertex vertex1 = GraphDb.getDb().addVertex(null);
 		Vertex vertex2 = GraphDb.getDb().addVertex(null);
 		GraphDb.getDb().addEdge(null, vertex1, vertex2, "one");
 		GraphDb.getDb().addEdge(null, vertex1, vertex2, "one");
+		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(2, countVertices());
 		assertEquals(2, countEdges());
 	}

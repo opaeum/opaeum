@@ -9,6 +9,11 @@ public class TinkerIdUtil {
 		return (Long)((Neo4jVertex)v).getId();
 	}
 	
+	public static void setId(Vertex v, Long id) {
+		throw new IllegalStateException("Id can not be set using Neo4j");
+	}
+	
+	
 	public static int getVersion(Vertex v) {
 		return -1;
 	}	

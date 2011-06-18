@@ -72,6 +72,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		assertEquals(2, handAudits.size());
 		HandAudit handAudit1 = handAudits.get(0);
 		HandAudit handAudit2 = handAudits.get(1);
+		db.startTransaction();
 		assertEquals(handAudit2.getPreviousAuditEntry().getName(), handAudit1.getName());
 		assertEquals("glove11", handAudit2.getGlove().getName());
 		assertEquals("glove1", handAudit1.getGlove().getName());
@@ -86,6 +87,7 @@ public class AuditTestOneToOne extends BaseLocalDbTest {
 		assertEquals("hand1", gloveAudit2.getPreviousAuditEntry().getHand().getName());
 		assertEquals("hand11", gloveAudit2.getPreviousAuditEntry().getHand().getOriginal().getName());
 		assertEquals("glove11", handAudit2.getGlove().getName());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
 	@Test

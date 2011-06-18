@@ -10,6 +10,10 @@ public class TinkerIdUtil {
 		return ((ORecordId)((OrientVertex)v).getId()).getClusterPosition();
 	}
 
+	public static void setId(Vertex v, Long id) {
+		throw new IllegalStateException("Id can not be set using OrientDb");
+	}
+
 	public static int getVersion(Vertex v) {
 		return ((OrientVertex)v).getRawElement().getVersion();
 	}

@@ -7,12 +7,11 @@ import org.audittest.Hand;
 import org.junit.Test;
 import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 	
-	@Test(expected=OTransactionException.class)
+	@Test(expected=RuntimeException.class)
 	public void test() {
 		db.startTransaction();
 		Hand hand1 = new Hand();
@@ -25,7 +24,7 @@ public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
-	@Test(expected=OTransactionException.class)
+	@Test(expected=RuntimeException.class)
 	public void test2() {
 		db.startTransaction();
 		Hand hand1 = new Hand();
