@@ -9,6 +9,7 @@ import javax.ejb.EJBException;
 import javax.ejb.SessionSynchronization;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeSession;
 
@@ -32,6 +33,11 @@ public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession {
 				return result;
 			}
 		});
+	}
+
+	@Override
+	public Session getHibernateSession(){
+		return CdiTestEnvironment.getInstance().getComponent(Session.class);
 	}
 
 }

@@ -34,14 +34,15 @@ import org.nakeduml.runtime.domain.ExceptionAnalyser;
 @RequestScoped
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class MessageSender implements IMessageSender,SessionSynchronization{
+	private static final long serialVersionUID = 1L;
 	@Inject
 	Logger logger;
 	@Resource(mappedName = "java:/XAConnectionFactory")
 	ConnectionFactory factory;
-	Connection connection = null;
-	Map<String,MessageProducer> producers = new HashMap<String,MessageProducer>();
-	private Session session;
-	private InitialContext initialContext;
+	transient Connection connection = null;
+	transient Map<String,MessageProducer> producers = new HashMap<String,MessageProducer>();
+	transient private Session session;
+	transient private InitialContext initialContext;
 	@PreDestroy
 	public void release(){
 		try{
@@ -54,7 +55,10 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 			if(session != null){
 				session.close();
 			}
-			connection.close();
+			if(connection!=null){
+				connection.close();
+			}
+			connection=null;
 		}catch(Exception e){
 			logger.debug("Error closing jms resources", e);
 		}
@@ -109,6 +113,7 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 	public void afterCompletion(boolean committed) throws EJBException,RemoteException{
 		try{
 			session.commit();
+			release();
 		}catch(Exception e){
 			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
 		}

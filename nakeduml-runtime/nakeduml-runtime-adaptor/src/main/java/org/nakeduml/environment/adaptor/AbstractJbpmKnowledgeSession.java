@@ -6,8 +6,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
-import javax.inject.Inject;
-
 import org.drools.KnowledgeBase;
 import org.drools.SessionConfiguration;
 import org.drools.impl.EnvironmentFactory;
@@ -17,9 +15,7 @@ import org.drools.marshalling.impl.SerializablePlaceholderResolverStrategy;
 import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
 import org.drools.runtime.EnvironmentName;
 import org.drools.runtime.StatefulKnowledgeSession;
-import org.hibernate.FlushMode;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.jbpm.adaptor.HibernateEnvironmentBuilder;
@@ -28,8 +24,6 @@ import org.nakeduml.runtime.domain.IntrospectionUtil;
 public abstract class AbstractJbpmKnowledgeSession{
 	private static AbstractJbpmKnowledgeBase knowledgeBase;
 	protected StatefulKnowledgeSession knowledgeSession;
-	@Inject
-	protected SessionFactory sessionFactory;
 	public AbstractJbpmKnowledgeSession(){
 		super();
 	}
@@ -53,7 +47,7 @@ public abstract class AbstractJbpmKnowledgeSession{
 		properties.put("drools.processSignalManagerFactory", "org.jbpm.persistence.processinstance.JPASignalManagerFactory");
 		SessionConfiguration config = new SessionConfiguration(properties);
 		final org.drools.runtime.Environment environment = EnvironmentFactory.newEnvironment();
-		final Session session = sessionFactory.getCurrentSession();
+		final Session session = getHibernateSession();
 		environment.set(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER, new HibernateEnvironmentBuilder(session).getPersistenceContextManager());
 		environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[]{
 				new JPAPlaceholderResolverStrategy(environment){
@@ -72,5 +66,5 @@ public abstract class AbstractJbpmKnowledgeSession{
 				},new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT)});
 		return kbase.newStatefulKnowledgeSession(config, environment);
 	}
-
+	public abstract Session getHibernateSession();
 }
