@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.EJBException;
+import javax.ejb.PrePassivate;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -43,22 +44,25 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 	transient Map<String,MessageProducer> producers = new HashMap<String,MessageProducer>();
 	transient private Session session;
 	transient private InitialContext initialContext;
+	@PrePassivate
 	@PreDestroy
 	public void release(){
 		try{
 			if(initialContext != null){
 				initialContext.close();
 			}
-			for(MessageProducer p:producers.values()){
-				p.close();
+			if(producers != null){
+				for(MessageProducer p:producers.values()){
+					p.close();
+				}
 			}
 			if(session != null){
 				session.close();
 			}
-			if(connection!=null){
+			if(connection != null){
 				connection.close();
 			}
-			connection=null;
+			connection = null;
 		}catch(Exception e){
 			logger.debug("Error closing jms resources", e);
 		}
@@ -70,7 +74,7 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 			try{
 				ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
 				os.writeObject(s);
-				producer.send(session.createObjectMessage(s));
+				producer.send(getSession().createObjectMessage(s));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -80,6 +84,9 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 		}
 	}
 	private MessageProducer getProducer(String queue) throws JMSException,NamingException{
+		if(producers == null){
+			producers = new HashMap<String,MessageProducer>();
+		}
 		MessageProducer producer = producers.get(queue);
 		if(producer == null){
 			producer = getSession().createProducer((Queue) getInitialContext().lookup(queue));

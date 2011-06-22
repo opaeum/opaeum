@@ -23,9 +23,9 @@ import javax.naming.InitialContext;
 import org.jboss.ejb3.annotation.Pool;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-@Stateless
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Stateless(name="MessageRetryer")
 @Pool(value = "StrictMaxPool",maxSize = 100)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class MessageRetryer{
 	@Resource
 	TimerService timerService;

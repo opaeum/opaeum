@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -20,19 +21,17 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
-import org.nakeduml.environment.IMessageSender;
 import org.nakeduml.event.Retryable;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 public abstract class AbstractEventMdb<T extends Retryable>{
-	@Inject
 	@Resource
 	protected UserTransaction transaction;
 	@Inject
 	Logger logger;
 	@Inject
 	protected SessionFactory sessionFactory;
-	@Inject
+	@EJB(name="MessageRetryer")
 	MessageRetryer retryer;
 	protected abstract void deliverMessage(T std) throws Exception;
 	protected abstract String getQueueName();
