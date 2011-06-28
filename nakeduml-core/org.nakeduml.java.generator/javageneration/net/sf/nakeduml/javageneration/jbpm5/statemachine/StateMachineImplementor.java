@@ -14,6 +14,7 @@ import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -30,7 +31,9 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.AbstractProcess;
 import org.nakeduml.runtime.domain.AbstractProcessStep;
 
@@ -56,7 +59,6 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 		// ae=ReflectionUtil.duplicateInterface(ActiveEntity.class,map);
 		// createTextPath(ae, JavaTextSource.GEN_SRC);
 	}
-
 	@VisitBefore(matchSubclasses = true)
 	public void state(INakedState state) {
 		NakedStateMap map = new NakedStateMap(state);
@@ -77,6 +79,13 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor {
 		implementMethodIfRequired(state, map.getOnEntryMethod(), state.getEntry());
 		implementMethodIfRequired(state, map.getOnExitMethod(), state.getExit());
 		implementMethodIfRequired(state, map.getDoActivityMethod(), state.getDoActivity());
+		if(state.getKind().isShallowHistory() || state.getKind().isDeepHistory()){
+			String fieldName = state.getName()+state.getMappingInfo().getNakedUmlId();
+			OJPathName statePat = new OJPathName(javaStateMachine.getPathName().toJavaString() + "State");
+			OJAnnotatedField historyField=OJUtil.addProperty(javaStateMachine, fieldName,statePat, true);
+			OJAnnotationValue enumeratd = new OJAnnotationValue(new OJPathName( "javax.persistence.Enumerated"));
+			historyField.putAnnotation(enumeratd);
+		}
 	}
 
 	private void implementMethodIfRequired(INakedState state, String methodName, INakedBehavior behavior) {

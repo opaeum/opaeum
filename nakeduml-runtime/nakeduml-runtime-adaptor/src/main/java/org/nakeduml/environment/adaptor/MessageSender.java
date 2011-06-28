@@ -62,9 +62,14 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 			if(connection != null){
 				connection.close();
 			}
-			connection = null;
 		}catch(Exception e){
 			logger.debug("Error closing jms resources", e);
+		}finally{
+			connection = null;
+			producers=null;
+			session=null;
+			initialContext=null;
+			
 		}
 	}
 	@Override
@@ -74,10 +79,10 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 			try{
 				ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
 				os.writeObject(s);
-				producer.send(getSession().createObjectMessage(s));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
+			producer.send(getSession().createObjectMessage(s));
 		}catch(Exception e){
 			logger.error("Error sending message", e);
 			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();

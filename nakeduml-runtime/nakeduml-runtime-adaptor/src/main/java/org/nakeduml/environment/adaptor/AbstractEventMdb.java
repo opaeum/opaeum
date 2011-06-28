@@ -69,13 +69,13 @@ public abstract class AbstractEventMdb<T extends Retryable>{
 		ObjectMessage obj = (ObjectMessage) message;
 		try{
 			this.processInTryBlock((T) obj.getObject());
-		}catch(Exception e){
+		}catch(Throwable e){
 			logger.errorv("Unhandled exception in SignalMDB: {0}", e.toString());
 			logger.error(e.getMessage(), e);
 		}finally{
 			try{
 				message.acknowledge();
-			}catch(Exception e2){
+			}catch(Throwable e2){
 				logger.error(e2.getMessage(), e2);
 			}
 			logger.debug("Signal delivery took " + (System.currentTimeMillis() - start) + "ms");
@@ -84,7 +84,7 @@ public abstract class AbstractEventMdb<T extends Retryable>{
 	private void processInTryBlock(T std) throws Exception{
 		try{
 			deliverMessage(std);
-		}catch(Exception e){
+		}catch(Throwable e){
 			try{
 				transaction.rollback();
 			}catch(Exception e2){
