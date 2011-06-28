@@ -104,7 +104,8 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 			properties.setProperty(Environment.DBMS, "POSTGRESQL");
 			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, UtilityCreator.getUtilPathName() + ".metainfo.adaptor."
 					+ JavaMetaInfoMapGenerator.javaMetaInfoMapName());
-			processTemplate(workspace, "templates/Model/HornetQConfig.vsl", "hornetq-jms.xml", outputRootId, vars);
+			processTemplate(workspace, "templates/Model/HornetQJms.vsl", "hornetq-jms.xml", outputRootId, vars);
+			processTemplate(workspace, "templates/Model/HornetQConfig.vsl", "hornetq-configuration.xml", outputRootId, vars);
 		}else{
 			properties.setProperty(Environment.DBMS, "HSQL");
 			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
