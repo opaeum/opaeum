@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 
 import org.hibernate.Session;
@@ -68,11 +69,13 @@ public class ManagedHibernateSessionFactoryProvider{
 			}
 		}
 	}
+	@Dependent
 	@Produces
 	@UserManagedSession
 	public Session getSession(){
 		return this.sessionFactory.openSession();
 	}
+	@Dependent
 	@Produces
 	public Session getTransactionScopedSession(){
 		return this.sessionFactory.getCurrentSession();
