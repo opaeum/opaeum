@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.com/arquillian"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:gfembedded="urn:arq:org.jboss.arquillian.glassfish.embedded30"
+   xmlns:gfremote="urn:arq:org.jboss.arquillian.container.glassfish.remote30"
+   xmlns:jbossmanaged="urn:arq:org.jboss.arquillian.container.jbossas.managed_6">
+
+   <engine>
+      <deploymentExportPath>/tmp/</deploymentExportPath>
+   </engine>
+   
+   <jbossmanaged:container>
+      <javaVmArguments>-Xms1024m -Xmx2048m -XX:MaxPermSize=512m -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Djboss.i18n.generate-proxies=true</javaVmArguments>
+   </jbossmanaged:container>
+</arquillian>

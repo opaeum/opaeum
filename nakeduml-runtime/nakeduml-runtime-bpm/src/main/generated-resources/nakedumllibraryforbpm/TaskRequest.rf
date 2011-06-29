@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<process xmlns="http://drools.org/drools-5.0/process" id="naked_uml_library_for_bpm_task_request" name="naked_uml_library_for_bpm_task_request" package-name="NakedUMLLibraryForBPM" type="RuleFlow" version="0.0">
+  <header>
+    <variables>
+      <variable name="processObject">
+        <type className="nakedumllibraryforbpm.TaskRequest" name="org.drools.process.core.datatype.impl.type.ObjectDataType"/>
+      </variable>
+    </variables>
+  </header>
+  <nodes>
+    <state height="50" id="113" name="in_progress_but_suspended" width="100" x="100" y="100"/>
+    <start height="50" id="109" name="inactive" width="100" x="150" y="150"/>
+    <state height="50" id="106" name="completed" width="100" x="200" y="200"/>
+    <state height="50" id="112" name="closed" width="100" x="250" y="250"/>
+    <end height="50" id="500112" name="closed_end" terminate="false" width="100" x="300" y="300"/>
+    <join height="50" id="600105" name="join_for_reserved" type="2" width="100" x="350" y="350"/>
+    <state height="50" id="105" name="reserved" width="100" x="400" y="400"/>
+    <state height="50" id="104" name="created" width="100" x="450" y="450"/>
+    <join height="50" id="600110" name="join_for_in_progress" type="2" width="100" x="500" y="500"/>
+    <state height="50" id="110" name="in_progress" width="100" x="550" y="550"/>
+    <join height="50" id="600111" name="join_for_ready" type="2" width="100" x="600" y="600"/>
+    <state height="50" id="111" name="ready" width="100" x="650" y="650"/>
+    <state height="50" id="107" name="reserved_but_suspended" width="100" x="700" y="700"/>
+    <state height="50" id="108" name="ready_but_suspended" width="100" x="750" y="750"/>
+  </nodes>
+  <connections>
+    <connection from="112" fromType="DROOLS_DEFAULT" to="500112"/>
+    <connection from="600105" fromType="DROOLS_DEFAULT" to="105"/>
+    <connection from="600110" fromType="DROOLS_DEFAULT" to="110"/>
+    <connection from="600111" fromType="DROOLS_DEFAULT" to="111"/>
+    <connection from="105" fromType="DROOLS_DEFAULT" to="600105"/>
+    <connection from="106" fromType="DROOLS_DEFAULT" to="112"/>
+    <connection from="107" fromType="DROOLS_DEFAULT" to="600105"/>
+    <connection from="110" fromType="DROOLS_DEFAULT" to="106"/>
+    <connection from="109" fromType="DROOLS_DEFAULT" to="104"/>
+    <connection from="105" fromType="DROOLS_DEFAULT" to="600111"/>
+    <connection from="111" fromType="DROOLS_DEFAULT" to="108"/>
+    <connection from="111" fromType="DROOLS_DEFAULT" to="600111"/>
+    <connection from="113" fromType="DROOLS_DEFAULT" to="600110"/>
+    <connection from="105" fromType="DROOLS_DEFAULT" to="600110"/>
+    <connection from="111" fromType="DROOLS_DEFAULT" to="600105"/>
+    <connection from="108" fromType="DROOLS_DEFAULT" to="600111"/>
+    <connection from="104" fromType="DROOLS_DEFAULT" to="600111"/>
+    <connection from="105" fromType="DROOLS_DEFAULT" to="107"/>
+    <connection from="110" fromType="DROOLS_DEFAULT" to="113"/>
+    <connection from="110" fromType="DROOLS_DEFAULT" to="600105"/>
+  </connections>
+</process>

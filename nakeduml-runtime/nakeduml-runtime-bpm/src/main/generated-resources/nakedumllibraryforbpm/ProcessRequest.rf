@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<process xmlns="http://drools.org/drools-5.0/process" id="naked_uml_library_for_bpm_process_request" name="naked_uml_library_for_bpm_process_request" package-name="NakedUMLLibraryForBPM" type="RuleFlow" version="0.0">
+  <header>
+    <variables>
+      <variable name="processObject">
+        <type className="nakedumllibraryforbpm.ProcessRequest" name="org.drools.process.core.datatype.impl.type.ObjectDataType"/>
+      </variable>
+    </variables>
+  </header>
+  <nodes/>
+  <connections/>
+</process>
