@@ -32,7 +32,6 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
-import org.nakeduml.annotation.PersistentName;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
@@ -147,7 +146,8 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	private void implementDeadlineCallback(OJAnnotatedClass ojClass,OJAnnotatedOperation getProcessObject,INakedDeadline d, INakedDefinedResponsibility a){
 		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getCallbackMethodName(d));
 		ojClass.addToOperations(oper);
-		oper.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), d.getMappingInfo().getPersistentName().getAsIs()));
+		//TODO give this some thought
+		OJUtil.addMetaInfo(oper, a);
 		addCallingProcessObjectField(getProcessObject,a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);

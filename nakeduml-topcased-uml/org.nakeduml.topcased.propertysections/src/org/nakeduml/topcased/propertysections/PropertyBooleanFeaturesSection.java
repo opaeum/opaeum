@@ -1,12 +1,11 @@
 package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.nakeduml.topcased.propertysections.AbstractMultiFeaturePropertySection.BooleanSelectionListener;
 
 public class PropertyBooleanFeaturesSection extends AbstractMultiFeaturePropertySection{
 	private Button isReadOnly;
@@ -14,10 +13,10 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 	private Button isDerivedUnion;
 	private Button isDerived;
 	protected void setSectionData(Composite composite){
-		layout(null, isReadOnly,120);
-		layout(isReadOnly, isStatic,120);
-		layout(isStatic, isDerived,120);
-		layout(isDerived, isDerivedUnion,120);
+		layout(null, isReadOnly, 120);
+		layout(isReadOnly, isStatic, 120);
+		layout(isStatic, isDerived, 120);
+		layout(isDerived, isDerivedUnion, 120);
 	}
 	private Property getProperty(){
 		return (Property) getEObject();

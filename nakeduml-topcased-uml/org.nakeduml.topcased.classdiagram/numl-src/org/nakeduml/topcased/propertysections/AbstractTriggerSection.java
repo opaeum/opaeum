@@ -2,6 +2,7 @@ package org.nakeduml.topcased.propertysections;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CCombo;
@@ -57,34 +58,37 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 			@Override
 			public void widgetSelected(SelectionEvent e){
 				String text = eventTypeCombo.getText();
-				Trigger trigger = getTriggers().get(0);
+				
+
 				if(SIGNAL_TEXT.equals(text)){
-					if(!(trigger.getEvent() instanceof SignalEvent)){
-						trigger.setEvent(null);
+					forceTriggerCreation();
+					if(!(forceTriggerCreation().getEvent() instanceof SignalEvent)){
+						forceTriggerCreation().setEvent(null);
 					}
 					selectSignalState();
 				}else if(CHANGE_EVENT.equals(text)){
-					if(!(trigger.getEvent() instanceof ChangeEvent)){
-						trigger.setEvent(null);
+					if(!(forceTriggerCreation().getEvent() instanceof ChangeEvent)){
+						forceTriggerCreation().setEvent(null);
 					}
 					selectChangeSignalState();
 				}else if(OPERATION_TEXT.equals(text)){
-					if(!(trigger.getEvent() instanceof CallEvent)){
-						trigger.setEvent(null);
+					if(!(forceTriggerCreation().getEvent() instanceof CallEvent)){
+						forceTriggerCreation().setEvent(null);
 					}
 					selectOperationState();
 				}else if(RELATIVE_TIME_EVENT.equals(text)){
-					if(!(trigger.getEvent() instanceof TimeEvent && ((TimeEvent) trigger.getEvent()).isRelative())){
-						trigger.setEvent(null);
+					if(!(forceTriggerCreation().getEvent() instanceof TimeEvent && ((TimeEvent) getTriggers().get(0).getEvent()).isRelative())){
+						forceTriggerCreation().setEvent(null);
 					}
 					selectRelativeTimeEventState();
 				}else if(ABSOLUTE_TIME_EVENT.equals(text)){
-					if(!(trigger.getEvent() instanceof TimeEvent && !((TimeEvent) trigger.getEvent()).isRelative())){
-						trigger.setEvent(null);
+					if(!(forceTriggerCreation().getEvent() instanceof TimeEvent && !((TimeEvent) getTriggers().get(0).getEvent()).isRelative())){
+						forceTriggerCreation().setEvent(null);
 					}
 					selectAbsoluteTimeEventState();
 				}else{
-					trigger.setEvent(null);
+					//TODO do in commmand
+					getTriggers().clear();
 					stack.topControl=null;
 				}
 				refresh();
@@ -103,6 +107,14 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 		absoluteTimeEventDetailsComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), eventDetailsComposite, labelWidth);
 		signalChooserComposite = new SignalChooserForEvent(eventDetailsComposite, labelWidth,getWidgetFactory());
 		operationChooserComposite = new OperationChooserForEvent(eventDetailsComposite, labelWidth,getWidgetFactory());
+	}
+	private Trigger forceTriggerCreation(){
+		if(getTriggers().isEmpty()){
+			Trigger trigger = UMLFactory.eINSTANCE.createTrigger();
+			trigger.setName(getOwner().getName() + "Trigger");
+			getEditingDomain().getCommandStack().execute(AddCommand.create(getEditingDomain(), getOwner(), getTriggerStructuralFeature(), trigger));
+		}
+		return getTriggers().get(0);
 	}
 	protected String getEventDetailsLabel(){
 		return "Event Details";
@@ -172,12 +184,8 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		if(getTriggers().isEmpty()){
-			Trigger trigger = UMLFactory.eINSTANCE.createTrigger();
-			trigger.setName(getOwner().getName() + "Trigger");
-			getEditingDomain().getCommandStack().execute(AddCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getAcceptEventAction_Trigger(), trigger));
-		}
-		Event event = getTriggers().get(0).getEvent();
+		
+		Event event = getTriggers().isEmpty()?null: getTriggers().get(0).getEvent();
 		if(event instanceof SignalEvent){
 			eventTypeCombo.setText(SIGNAL_TEXT);
 			selectSignalState();
@@ -201,4 +209,5 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 			eventTypeCombo.setText("");
 		}
 	}
+	protected abstract EReference getTriggerStructuralFeature();
 }

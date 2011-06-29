@@ -24,13 +24,6 @@
 		      </input>
 		   </propertySection>
 		   	<propertySection
-         				class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         				filter="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSectionFilter"
-         				id="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.NamedElement"/>
-			</propertySection>		
-		   	<propertySection
          				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
          				class="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
          				id="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
@@ -60,15 +53,6 @@
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
-         			filter="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSectionFilter"
-         			id="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.TypedElement">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
          			class="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
          			id="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -81,22 +65,6 @@
          			id="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
          			tab="org.nakeduml.eclipse.numlTab">
       			<input type="org.eclipse.uml2.uml.Constraint">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.TransitionGuardSection"
-         			id="org.nakeduml.topcased.propertysections.TransitionGuardSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Transition">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.TransitionTriggerSection"
-         			id="org.nakeduml.topcased.propertysections.TransitionTriggerSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Transition">
       			</input>
 			</propertySection>
    		</propertySections>

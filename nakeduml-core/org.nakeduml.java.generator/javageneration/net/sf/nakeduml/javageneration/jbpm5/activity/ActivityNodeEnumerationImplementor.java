@@ -45,23 +45,21 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 				}
 			}
 			return false;
-<<<<<<< HEAD
 		}else if(BehaviorUtil.isEffectiveFinalNode(n)){
 			return true;
-		} else if (n instanceof INakedAction){
-			return ((INakedAction)n).isLongRunning();
-		} else if (n instanceof INakedParameterNode) {
-=======
-		}else if(BehaviorUtil.requiresExternalInput(n.getActivity(), n) || BehaviorUtil.isEffectiveFinalNode(n)){
-			return true;
+		}else if(n instanceof INakedAction){
+			return ((INakedAction) n).isLongRunning();
 		}else if(n instanceof INakedParameterNode){
->>>>>>> 4da1c8dfab3c64613d7d2dba66b34301b0387595
 			return ((INakedParameterNode) n).getParameter().isResult();
 		}else if(n instanceof INakedControlNode){
 			INakedControlNode cNode = (INakedControlNode) n;
 			ControlNodeType cNodeType = cNode.getControlNodeType();
-			boolean flowFinalNode = cNodeType.isFlowFinalNode() && cNode.getOwnerElement() instanceof INakedActivity;// TODO check if the owner
-																																																								// has parallel flows
+			boolean flowFinalNode = cNodeType.isFlowFinalNode() && cNode.getOwnerElement() instanceof INakedActivity;// TODO check if the
+																														// owner has
+																														// multiple
+																														// concurrent flows
+																														// has parallel
+																														// flows
 			return cNodeType.isActivityFinalNode() || flowFinalNode || cNodeType.isJoinNode();
 		}else{
 			return false;

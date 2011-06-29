@@ -64,7 +64,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 			String teName = st.nextToken();
 			TypedElement te = getTypedElement(teName);
 			if(te != null){
-				UimBinding fb = (UimBinding) UimFactory.eINSTANCE.create(getFeatureEClass());
+				UimBinding fb = (UimBinding) BindingFactory.eINSTANCE.create(getFeatureEClass());
 				fb.setUmlElementUid(UmlUimLinks.getId(te));
 				PropertyRef prev = null;
 				while(st.hasMoreTokens()){

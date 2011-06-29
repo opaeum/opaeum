@@ -2,7 +2,7 @@ package org.nakeduml.environment;
 
 import org.hibernate.Session;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 public class EntityValue extends Value{
@@ -11,7 +11,7 @@ public class EntityValue extends Value{
 	Integer classId;
 	public EntityValue(){
 	}
-	public EntityValue(AbstractEntity e){
+	public EntityValue(IPersistentObject e){
 		this.classId=IntrospectionUtil.getOriginalClass(e).getAnnotation(NumlMetaInfo.class).nakedUmlId(); 
 		this.id=e.getId();
 	}

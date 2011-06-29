@@ -55,6 +55,7 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -65,6 +66,7 @@ import org.nakeduml.eclipse.EmfParameterUtil;
 import org.nakeduml.eclipse.ImportLibraryAction;
 
 public class NakedUmlContentAdaptor extends EContentAdapter{
+	
 	private final class EmfUmlElementLinker extends UMLSwitch<EObject>{
 		private Notification notification;
 		private EmfUmlElementLinker(Notification not){
@@ -142,8 +144,43 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 					removeReferencingPins(oldValue);
 					break;
 				}
+				break;
+			case UMLPackage.BEHAVIOR__SPECIFICATION:
+				Operation oper = (Operation) notification.getNewValue();
+				if(notification.getNewValue() instanceof Operation){
+					synchronizeBehaviorParameters(behavior, oper);
+				}else if(notification.getNewValue()==null){
+					for(Parameter parameter:oper.getOwnedParameters()){
+						EList<EObject> references = StereotypesHelper.getNumlAnnotation(parameter).getReferences();
+						references.removeAll(behavior.getOwnedParameters());
+					}
+				}
+				break;
 			}
 			return null;
+		}
+		private void synchronizeBehaviorParameters(Behavior behavior,Operation oper){
+			EList<Parameter> operParams = oper.getOwnedParameters();
+			for(int i = 0;i < operParams.size();i++){
+				Parameter p = operParams.get(i);
+				EList<EObject> references = StereotypesHelper.getNumlAnnotation(p).getReferences();
+				if(behavior.getOwnedParameters().size() > i){
+					Parameter bp = behavior.getOwnedParameters().get(i);
+					bp.setName(p.getName());
+					bp.setType(p.getType());
+					bp.setDirection(p.getDirection());
+					if(!references.contains(bp)){
+						references.add(bp);
+					}
+				}else{
+					Parameter bp = behavior.createOwnedParameter(p.getName(), p.getType());
+					bp.setDirection(p.getDirection());
+					references.add(bp);
+				}
+			}
+			while(behavior.getOwnedParameters().size() > operParams.size()){
+				behavior.getOwnedParameters().remove(behavior.getOwnedParameters().size() - 1);
+			}
 		}
 		public EObject casePackage(Package p){
 			p.getName();
@@ -244,6 +281,7 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 						createSlot((InstanceSpecification) e, (Property) notification.getNewValue());
 					}
 				}
+				break;
 			case UMLPackage.ENUMERATION__OWNED_LITERAL:
 				switch(notification.getEventType()){
 				case Notification.ADD:
@@ -271,15 +309,13 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 		public EObject caseOperation(Operation oper){
 			switch(notification.getFeatureID(Operation.class)){
 			case UMLPackage.OPERATION__OWNED_PARAMETER:
+				for(Behavior b:oper.getMethods()){
+					synchronizeBehaviorParameters(b, oper);
+				}
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					Parameter newValue = (Parameter) notification.getNewValue();
 					newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
-					for(Behavior b:oper.getMethods()){
-						Parameter methodParam = b.createOwnedParameter(newValue.getName(), newValue.getType());
-						methodParam.setDirection(newValue.getDirection());
-						StereotypesHelper.getNumlAnnotation(newValue).getReferences().add(methodParam);
-					}
 					for(EObject e:StereotypesHelper.getNumlAnnotation(oper).getReferences()){
 						if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
 							addResult(newValue, (AcceptEventAction) e.eContainer());
@@ -291,14 +327,9 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 				case Notification.REMOVE:
 					Parameter oldValue = (Parameter) notification.getOldValue();
 					removeReferencingPins(oldValue);
-					for(EObject e:StereotypesHelper.getNumlAnnotation(oldValue).getReferences()){
-						if(e instanceof Parameter && e.eContainer() instanceof Behavior){
-							Behavior b = (Behavior) e.eContainer();
-							b.getOwnedParameters().remove(e);
-						}
-					}
 					break;
 				}
+				break;
 			}
 			return null;
 		}
@@ -307,6 +338,11 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 			case UMLPackage.PARAMETER__DIRECTION:
 				ParameterDirectionKind oldDirection = (ParameterDirectionKind) notification.getOldValue();
 				ParameterDirectionKind newDirection = (ParameterDirectionKind) notification.getNewValue();
+				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
+					if(eObject instanceof Parameter){
+						((Parameter) eObject).setDirection(newDirection);
+					}
+				}
 				for(EObject eObject:StereotypesHelper.getNumlAnnotation((Element) p.eContainer()).getReferences()){
 					if(eObject instanceof CallAction){
 						CallAction a = (CallAction) eObject;
@@ -352,6 +388,17 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
 					if(eObject instanceof Pin){
 						((Pin) eObject).setName(notification.getNewStringValue());
+					}else if(eObject instanceof Parameter){
+						((Parameter) eObject).setName(notification.getNewStringValue());
+					}
+				}
+				break;
+			case UMLPackage.PARAMETER__TYPE:
+				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
+					if(eObject instanceof Pin){
+						((Pin) eObject).setType((Type) notification.getNewValue());
+					}else if(eObject instanceof Parameter){
+						((Parameter) eObject).setType((Type) notification.getNewValue());
 					}
 				}
 			}
@@ -471,7 +518,9 @@ public class NakedUmlContentAdaptor extends EContentAdapter{
 			case UMLPackage.CALL_BEHAVIOR_ACTION__BEHAVIOR:
 				manageReferences(notification);
 				Behavior oper = (Behavior) notification.getNewValue();
-				synchronizeParameters(oper.getOwnedParameters(), a);
+				if(oper != null){
+					synchronizeParameters(oper.getOwnedParameters(), a);
+				}
 				break;
 			}
 			return null;

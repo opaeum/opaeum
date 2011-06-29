@@ -64,7 +64,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			ojOperationOwner = findJavaClass(behavior);
 		}
 		NakedOperationMap map = new NakedOperationMap(nakedOperation);
-		OJOperation ojOperation = ojOperationOwner.findOperation(map.javaOperName(), map.javaParamTypePaths());
+		OJAnnotatedOperation ojOperation = (OJAnnotatedOperation) ojOperationOwner.findOperation(map.javaOperName(), map.javaParamTypePaths());
 		if(ojOperation == null){
 			// In superclass, but not overridden
 			ojOperation = implementInheritedEventMethod(nakedOperation, ojOperationOwner, map);
@@ -269,6 +269,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		processed.setInitExp("false");
 		listener.getBody().addToLocals(processed);
 		OJIfStatement ifProcessActive=new OJIfStatement("getProcessInstance()!=null");
+		listener.getBody().addToStatements(ifProcessActive);
 		for(INakedTypedElement param:(List<? extends INakedTypedElement>) eventActions.getArguments()){
 			ClassifierMap map = new NakedClassifierMap(param.getType());
 			listener.addParam(param.getMappingInfo().getJavaName().toString(), map.javaTypePath());

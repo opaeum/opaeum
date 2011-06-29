@@ -21,7 +21,7 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
-import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 	private boolean isIntegrationPhase;
@@ -66,7 +66,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 		mapClass.setSuperclass(new OJPathName(JavaMetaInfoMap.class.getName()));
 		findOrCreatePackage(metaInfoPackage).addToClasses(mapClass);
 		super.createTextPath(mapClass, output);
-		mapClass.addToImports(AbstractEntity.class.getName());
+		mapClass.addToImports(IPersistentObject.class.getName());
 		OJConstructor constr = new OJConstructor();
 		mapClass.addToConstructors(constr);
 		OJBlock initBlock = constr.getBody();

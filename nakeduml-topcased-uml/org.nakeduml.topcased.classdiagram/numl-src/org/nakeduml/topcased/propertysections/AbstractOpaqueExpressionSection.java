@@ -32,7 +32,6 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	protected abstract ValueSpecification getValueSpecification();
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		forceOpaqueExpression();
 		oclComposite.setValueElement(getOclContext());
 	}
 	protected Element getOclContext(){
@@ -48,7 +47,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 				oe.getLanguages().add("OCL");
 			}
 			getEditingDomain().getCommandStack().execute(cmd);
-		}else if(getExpression(getEObject()).getBodies().size()==0){
+		}else if(getExpression(getEObject()).getBodies().size() == 0){
 			OpaqueExpression oe = getExpression(getEObject());
 			if(oe.getBodies().isEmpty()){
 				oe.getBodies().add(DEFAULT_TEXT);
@@ -57,7 +56,12 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		}
 	}
 	protected String getFeatureAsString(){
-		return getExpression(getEObject()).getBodies().get(0);
+		OpaqueExpression expression = getExpression(getEObject());
+		if(expression == null || expression.getBodies().size() == 0){
+			return "Type expression here";
+		}else{
+			return expression.getBodies().get(0);
+		}
 	}
 	protected Object getNewFeatureValue(String newText){
 		return newText;
@@ -80,11 +84,12 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	protected void setSectionData(Composite composite){
 		FormData labelFd = new FormData();
 		labelFd.left = new FormAttachment(0, 0);
-		
 		this.label.setLayoutData(labelFd);
 		FormData fd = new FormData(400, 400);
 		fd.right = new FormAttachment(100, 0);
-		fd.left = new FormAttachment(0,getStandardLabelWidth(composite, new String[]{getLabelText()}));
+		fd.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{
+			getLabelText()
+		}));
 		fd.height = 50;
 		this.oclComposite.setLayoutData(fd);
 	}
@@ -104,6 +109,8 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		super.refresh();
 		if(getValueSpecification() instanceof OpaqueExpression){
 			oclComposite.getTextControl().setText(getFeatureAsString());
+		}else{
+			oclComposite.getTextControl().setText(DEFAULT_TEXT);
 		}
 	}
 	@Override
@@ -114,9 +121,12 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		}
 	}
 	protected void handleTextModified(){
-		Command cmd = SetCommand.create(getEditingDomain(), getExpression(getEObject()), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), this.oclComposite
-				.getTextControl().getText(), 0);
-		getEditingDomain().getCommandStack().execute(cmd);
+		String oclText = this.oclComposite.getTextControl().getText();
+		if(oclText.trim().length() > 0 && !DEFAULT_TEXT.contains(oclText)){
+			forceOpaqueExpression();
+			Command cmd = SetCommand.create(getEditingDomain(), getExpression(getEObject()), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), oclText, 0);
+			getEditingDomain().getCommandStack().execute(cmd);
+		}
 	}
 	protected TextChangeListener getListener(){
 		return listener;

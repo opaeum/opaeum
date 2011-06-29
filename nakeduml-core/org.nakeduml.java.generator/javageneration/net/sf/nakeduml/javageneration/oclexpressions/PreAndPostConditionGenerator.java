@@ -7,6 +7,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -66,16 +67,6 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			this.addBody(oper, behavior.getContext(), map, behavior.getBody());
 		}
 	}
-<<<<<<< HEAD
-
-
-=======
-	@VisitBefore(matchSubclasses = false)
-	public void visitOpaqueAction(INakedOpaqueAction constrained){
-		OpaqueActionMessageStructureImpl messageClass = new OpaqueActionMessageStructureImpl(constrained);
-		addEvaluationMethod(constrained.getPostConditions(), "evaluatePostConditions", messageClass);
-	}
->>>>>>> 4da1c8dfab3c64613d7d2dba66b34301b0387595
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavioredClassifier(INakedBehavioredClassifier owner){
 		if(OJUtil.hasOJClass(owner)){

@@ -14,9 +14,9 @@ import org.jboss.logging.Logger;
 import org.nakeduml.environment.IMessageSender;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.SignalToDispatch;
-import org.nakeduml.runtime.domain.AbstractEventSource;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IEventSource;
 
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RequestScoped
@@ -27,15 +27,15 @@ public class SignalDispatcher implements ISignalDispatcher{
 	IMessageSender sender;
 	@Inject
 	Logger logger;
-	public void sendSignal(Object source,ActiveObject target,AbstractSignal signal){
-		if(!(source instanceof AbstractEventSource)){
+	public void sendSignal(Object source,IActiveObject target,AbstractSignal signal){
+		if(!(source instanceof IEventSource)){
 			//Only send if it does not come from a hibernate-registered event source
 			SignalToDispatch std = new SignalToDispatch(source, target, signal);
 			std.prepareForDispatch();
 			sender.sendObjectToQueue(std,std.getQueueName());
 		}
 	}
-	public void sendSignal(Object source,Collection<? extends ActiveObject> targets,AbstractSignal signal){
+	public void sendSignal(Object source,Collection<? extends IActiveObject> targets,AbstractSignal signal){
 	}
 	public void reset(){
 	}

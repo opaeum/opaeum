@@ -31,6 +31,8 @@ public class RegenerateAction extends AbstractUimGenerationAction implements IOb
 			ffs.visitUpThenDown(modelElement);
 			FormSynchronizer fs = new FormSynchronizer(workspace,uimResourceSet, true);
 			fs.visitRecursively(modelElement);
+			DiagramSynchronizer ds = new DiagramSynchronizer(workspace,uimResourceSet,false);
+			ds.visitRecursively(modelElement);
 			save(workspace.getDirectoryUri(),workspace.getResourceSet());
 			save(workspace.getDirectoryUri(),uimResourceSet);
 		}catch(IOException e){

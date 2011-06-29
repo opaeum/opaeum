@@ -191,6 +191,16 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
+		 * @see org.nakeduml.uim.layout.util.LayoutSwitch#caseUimColumnLayout(org.nakeduml.uim.layout.UimColumnLayout)
+		 * @generated
+		 */
+		public Object caseUimColumnLayout(org.nakeduml.uim.layout.UimColumnLayout object){
+			if("default".equals(presentation)){
+				return createGraphElementUimColumnLayout(object, presentation);
+			}
+			return null;
+		}
+		/**
 		 * @see org.nakeduml.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
@@ -604,9 +614,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @generated
 	 */
 	protected GraphElement createGraphElementUimBorderLayout(org.nakeduml.uim.layout.UimBorderLayout element,String presentation){
-		// TODO this snippet of code should be customized if it is not well generated
-		GraphNode nodeParent = createGraphNode(element, presentation);
-		return nodeParent;
+		return createGraphNode(element, presentation);
 	}
 	/**
 	 * @param element the model element
@@ -615,6 +623,15 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @generated
 	 */
 	protected GraphElement createGraphElementUimFullLayout(org.nakeduml.uim.layout.UimFullLayout element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementUimColumnLayout(org.nakeduml.uim.layout.UimColumnLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**

@@ -23,6 +23,7 @@
       <items xmi:id="_3PvNULZ2Ed-RJ8wcAxIiqQ" name="Toolbar Layout" part="_w4iasLZ2Ed-RJ8wcAxIiqQ"/>
       <items xmi:id="_5Hwe4LZ2Ed-RJ8wcAxIiqQ" name="Border Layout" part="_yJNYYLZ2Ed-RJ8wcAxIiqQ"/>
       <items xmi:id="_aqzPsH1UEeCIG9E9tdFBUQ" name="Full Layout" part="_R18KoH0OEeCIG9E9tdFBUQ"/>
+      <items xmi:id="_VCXj0J8PEeChAfdP9Smqxg" name="Column layout" part="_MwZn8JG5EeCMrKUFIUcMUA"/>
     </paletteCategories>
   </palette>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_2dIhILZ1Ed-RJ8wcAxIiqQ" object="_H0K64LZ1Ed-RJ8wcAxIiqQ" defaultWidth="200" defaultHeight="20" maximumWidth="1200"/>

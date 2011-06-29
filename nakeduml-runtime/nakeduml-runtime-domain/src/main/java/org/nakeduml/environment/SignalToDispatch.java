@@ -23,14 +23,14 @@ public class SignalToDispatch implements Retryable{
 	private String uid;
 	private Integer signalClassId;
 	private transient Object source;
-	private transient ActiveObject target;
+	private transient IActiveObject target;
 	private transient AbstractSignal signal;
 	private List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
 	private boolean targetIsEntity;
 	private String queueName;
-	public SignalToDispatch(Object source,ActiveObject target,AbstractSignal signal){
+	public SignalToDispatch(Object source,IActiveObject target,AbstractSignal signal){
 		super();
-		this.targetIsEntity = target instanceof AbstractEntity;
+		this.targetIsEntity = target instanceof IPersistentObject;
 		this.queueName = "queue/" + signal.getClass().getName();
 		this.source = source;
 		this.target = target;
@@ -121,7 +121,7 @@ public class SignalToDispatch implements Retryable{
 		if(this.sourceValue != null){
 			this.source = sourceValue.getValue(session);
 		}
-		this.target = (ActiveObject) targetValue.getValue(session);
+		this.target = (IActiveObject) targetValue.getValue(session);
 		this.signal = (AbstractSignal) IntrospectionUtil.newInstance(Environment.getMetaInfoMap().getClass(signalClassId));
 		for(PropertyValue signalProperty:this.propertyValues){
 			signalProperty.setValue(signal, session);

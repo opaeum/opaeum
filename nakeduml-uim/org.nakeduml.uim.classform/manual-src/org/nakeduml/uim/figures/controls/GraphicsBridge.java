@@ -42,31 +42,31 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void translate(int x,int y){
-		System.out.println("GraphicsBridge.translate()");
+//		System.out.println("GraphicsBridge.translate()");
 		g.translate(x, y);
 		getClipBounds().x = x;
 		getClipBounds().y = y;
 	}
 	@Override
 	public void setXORMode(Color c){
-		System.out.println("GraphicsBridge.setXORMode()");
+//		System.out.println("GraphicsBridge.setXORMode()");
 		g.setXORMode(true);
 		g.setForegroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
 	}
 	@Override
 	public void setPaintMode(){
-		System.out.println("GraphicsBridge.setPaintMode()");
+//		System.out.println("GraphicsBridge.setPaintMode()");
 		g.setXORMode(false);
 	}
 	@Override
 	public void setFont(Font font){
-		System.out.println("GraphicsBridge.setFont()");
+//		System.out.println("GraphicsBridge.setFont()");
 		this.font = font;
 		g.setFont(new org.eclipse.swt.graphics.Font(Workbench.getInstance().getDisplay(), font.getFontName(), font.getSize(), font.getStyle()));
 	}
 	@Override
 	public void setColor(Color c){
-		System.out.println("GraphicsBridge.setColor()");
+//		System.out.println("GraphicsBridge.setColor()");
 		this.color = c;
 		if(c != null){
 			g.setForegroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
@@ -83,13 +83,13 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void setClip(Shape clip){
-		System.out.println("GraphicsBridge.setClip()");
+//		System.out.println("GraphicsBridge.setClip()");
 		this.clip = clip;
 	}
 	@Override
 	public FontMetrics getFontMetrics(Font f){
 		final org.eclipse.swt.graphics.FontMetrics fontMetrics = g.getFontMetrics();
-		System.out.println("GraphicsBridge.getFontMetrics()");
+//		System.out.println("GraphicsBridge.getFontMetrics()");
 		return new FontMetrics(f){
 			@Override
 			public int getLeading(){
@@ -119,7 +119,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 			FontData fontData = g.getFont().getFontData()[0];
 			this.font = new Font(fontData.getName(), fontData.getStyle(), fontData.getHeight());
 		}
-		System.out.println("GraphicsBridge.getFont()");
+//		System.out.println("GraphicsBridge.getFont()");
 		return this.font;
 	}
 	@Override
@@ -127,12 +127,12 @@ public class GraphicsBridge extends java.awt.Graphics{
 		if(color == null){
 			this.color = new Color(g.getBackgroundColor().getRed(), g.getBackgroundColor().getGreen(), g.getBackgroundColor().getBlue());
 		}
-		System.out.println("GraphicsBridge.getColor()");
+//		System.out.println("GraphicsBridge.getColor()");
 		return color;
 	}
 	@Override
 	public Rectangle getClipBounds(){
-		System.out.println("GraphicsBridge.getClipBounds()");
+//		System.out.println("GraphicsBridge.getClipBounds()");
 		if(clipBounds == null){
 			org.eclipse.draw2d.geometry.Rectangle rectangle = g.getClip(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 10000, 10000));
 			clipBounds = new Rectangle(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
@@ -141,27 +141,27 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public Shape getClip(){
-		System.out.println("GraphicsBridge.getClip()");
+//		System.out.println("GraphicsBridge.getClip()");
 		return clip;
 	}
 	@Override
 	public void fillRoundRect(int x,int y,int width,int height,int arcWidth,int arcHeight){
-		System.out.println("GraphicsBridge.fillRoundRect()");
+//		System.out.println("GraphicsBridge.fillRoundRect()");
 		g.fillRoundRectangle(new org.eclipse.draw2d.geometry.Rectangle(x, y, arcWidth, arcHeight), arcWidth, arcHeight);
 	}
 	@Override
 	public void fillRect(int x,int y,int width,int height){
-		System.out.println("GraphicsBridge.fillRect()");
+//		System.out.println("GraphicsBridge.fillRect()");
 		g.fillRectangle(x, y, width, height);
 	}
 	@Override
 	public void fillPolygon(int[] xPoints,int[] yPoints,int nPoints){
-		System.out.println("GraphicsBridge.fillPolygon()");
+//		System.out.println("GraphicsBridge.fillPolygon()");
 		PointList pl = buildpointList(xPoints, yPoints, nPoints);
 		g.fillPolygon(pl);
 	}
 	private PointList buildpointList(int[] xPoints,int[] yPoints,int nPoints){
-		System.out.println("GraphicsBridge.buildpointList()");
+//		System.out.println("GraphicsBridge.buildpointList()");
 		PointList pl = new PointList();
 		for(int i = 0;i < nPoints;i++){
 			pl.addPoint(xPoints[i], yPoints[i]);
@@ -180,7 +180,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void drawString(AttributedCharacterIterator iterator,int x,int y){
-		System.out.println("GraphicsBridge.drawString()");
+//		System.out.println("GraphicsBridge.drawString()");
 		StringBuffer sb = new StringBuffer();
 		for(int i = iterator.getBeginIndex();i <= iterator.getEndIndex();i++){
 			sb.append(iterator.next());
@@ -189,7 +189,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void drawString(String str,int x,int y){
-		System.out.println("GraphicsBridge.drawString()");
+//		System.out.println("GraphicsBridge.drawString()");
 		FontData fontData = g.getFont().getFontData()[0];
 		int potentialY = y - Math.round(fontData.height);
 		fontData.setHeight(fontData.getHeight() - 3);
@@ -198,39 +198,39 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void drawRoundRect(int x,int y,int width,int height,int arcWidth,int arcHeight){
-		System.out.println("GraphicsBridge.drawRoundRect()");
+//		System.out.println("GraphicsBridge.drawRoundRect()");
 		g.drawRoundRectangle(new org.eclipse.draw2d.geometry.Rectangle(x, y, width, height), arcWidth, arcHeight);
 	}
 	@Override
 	public void drawPolyline(int[] xPoints,int[] yPoints,int nPoints){
-		System.out.println("GraphicsBridge.drawPolyline()");
+//		System.out.println("GraphicsBridge.drawPolyline()");
 		g.drawPolyline(buildpointList(xPoints, yPoints, nPoints));
 	}
 	@Override
 	public void drawPolygon(int[] xPoints,int[] yPoints,int nPoints){
-		System.out.println("GraphicsBridge.drawPolygon()");
+//		System.out.println("GraphicsBridge.drawPolygon()");
 		g.drawPolygon(buildpointList(xPoints, yPoints, nPoints));
 	}
 	@Override
 	public void drawOval(int x,int y,int width,int height){
-		System.out.println("GraphicsBridge.drawOval()");
+//		System.out.println("GraphicsBridge.drawOval()");
 		g.drawOval(x, y, width, height);
 	}
 	@Override
 	public void drawLine(int x1,int y1,int x2,int y2){
-		System.out.println("GraphicsBridge.drawLine()");
+//		System.out.println("GraphicsBridge.drawLine()");
 		g.drawLine(x1, y1, x2, y2);
 	}
 	@Override
 	public boolean drawImage(Image img,int dx1,int dy1,int dx2,int dy2,int sx1,int sy1,int sx2,int sy2,Color bgcolor,ImageObserver observer){
 		// TODO Auto-generated method stub
-		System.out.println("GraphicsBridge.drawImage()");
+//		System.out.println("GraphicsBridge.drawImage()");
 		return false;
 	}
 	@Override
 	public boolean drawImage(Image img,int dx1,int dy1,int dx2,int dy2,int sx1,int sy1,int sx2,int sy2,ImageObserver observer){
 		// TODO Auto-generated method stub
-		System.out.println("GraphicsBridge.drawImage()");
+//		System.out.println("GraphicsBridge.drawImage()");
 		return false;
 	}
 	@Override
@@ -293,7 +293,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 	@Override
 	public void drawArc(int x,int y,int width,int height,int startAngle,int arcAngle){
 		g.drawArc(x, y, width, height, startAngle, arcAngle);
-		System.out.println("GraphicsBridge.drawArc()");
+//		System.out.println("GraphicsBridge.drawArc()");
 	}
 	@Override
 	public void dispose(){
@@ -301,7 +301,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public java.awt.Graphics create(){
-		System.out.println("GraphicsBridge.create()");
+//		System.out.println("GraphicsBridge.create()");
 		// MapModeGraphics mapModeGraphics = (MapModeGraphics) g;
 		// GraphicsBridge result = new GraphicsBridge(new MapModeGraphics(mapModeGraphics, mapModeGraphics.getMapMode()));
 		GraphicsBridge result = new GraphicsBridge(g);
@@ -311,11 +311,11 @@ public class GraphicsBridge extends java.awt.Graphics{
 	@Override
 	public void copyArea(int x,int y,int width,int height,int dx,int dy){
 		// TODO Auto-generated method stub
-		System.out.println("GraphicsBridge.copyArea()");
+//		System.out.println("GraphicsBridge.copyArea()");
 	}
 	@Override
 	public void clipRect(int x,int y,int width,int height){
-		System.out.println("GraphicsBridge.clipRect()");
+//		System.out.println("GraphicsBridge.clipRect()");
 		org.eclipse.draw2d.geometry.Rectangle newClipBounds = g.getClip(new org.eclipse.draw2d.geometry.Rectangle(x, y, width, height));
 		g.clipRect(new org.eclipse.draw2d.geometry.Rectangle(x, y, width, height));
 		this.clipBounds = new Rectangle(newClipBounds.x, newClipBounds.y, newClipBounds.width, newClipBounds.height);
@@ -372,7 +372,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 	}
 	@Override
 	public void clearRect(int x,int y,int width,int height){
-		System.out.println("GraphicsBridge.clearRect()");
+//		System.out.println("GraphicsBridge.clearRect()");
 		// TODO Auto-generated method stub
 	}
 	public void pushState(){

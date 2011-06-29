@@ -48,7 +48,6 @@ public class EmfWorkspace implements Element{
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
 		addGeneratingModelOrProfile(model);
 		this.directoryUri=model.eResource().getURI().trimFileExtension().trimSegments(1);
-		System.out.println();
 	}
 	//Load entire resourceSet
 	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String identifier){
@@ -104,7 +103,7 @@ public class EmfWorkspace implements Element{
 		for(Resource r:resourceSet.getResources()){
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if(pkg!=null&& !fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore") && isRootObject(pkg)){
+			if((pkg!=null&& (pkg.getName()==null|| (!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore"))) && isRootObject(pkg))){
 				result.add(pkg);
 			}
 		}

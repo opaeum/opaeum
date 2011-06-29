@@ -14,7 +14,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
-import org.nakeduml.annotation.PersistentName;
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.event.ChangeEvent;
 import org.nakeduml.event.Deadline;
 import org.nakeduml.event.TimeEvent;
@@ -44,8 +44,11 @@ public class EventUtil{
 		if(when != null){
 			String whenExpr = ValueSpecificationUtil.expressValue(operation, when, event.getBehaviorContext(), when.getType());
 			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation("evaluate" + event.getMappingInfo().getJavaName().getCapped(), new OJPathName("boolean"));
+			OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
+			metaInfo.putAttribute("persistentName", "evaluate_" + event.getMappingInfo().getPersistentName());
+			metaInfo.putAttribute("nakedUmlId", event.getMappingInfo().getNakedUmlId());
 			evaluationMethod
-					.putAnnotation(new OJAnnotationValue(new OJPathName(PersistentName.class.getName()), "evaluate_" + event.getMappingInfo().getPersistentName()));
+					.putAnnotation(metaInfo);
 			evaluationMethod.getBody().addToStatements("return " + whenExpr);
 			owner.addToOperations(evaluationMethod);
 			operation.getBody().addToStatements(

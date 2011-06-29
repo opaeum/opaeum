@@ -68,7 +68,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 		// subDiagrams.getDiagrams().add(diag);
 		return diag;
 	}
-	@VisitBefore(matchSubclasses = false)
+	@VisitBefore(matchSubclasses = true)
 	public void beforeClass(Class c){
 		EntityFolder folder = (EntityFolder) UmlUimLinks.getInstance(c).getFolderFor(c.getNamespace());
 		createClassForm(c, folder, ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);

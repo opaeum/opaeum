@@ -11,9 +11,8 @@
 			editorId="org.topcased.modeler.uml.editor.UMLEditor"/>
 	</extension>
    
-	<extension point="org.topcased.modeler.diagrams">
 		<diagram
-        configuration="org.nakeduml.topcased.activitydiagram.ActivityConfiguration"
+        configuration="org.topcased.modeler.uml.activitydiagram.ActivityConfiguration"
         editorID="org.topcased.modeler.uml.editor.UMLEditor"
         id="org.topcased.modeler.uml.activitydiagram"
         name="Activity Diagram">
@@ -40,6 +39,73 @@
            class="org.eclipse.uml2.uml.StructuredActivityNode">
      </enableFor>
   </diagram>
+	<extension point="org.topcased.modeler.diagrams">
+		<diagram
+        	configuration="org.nakeduml.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
+        	editorID="org.topcased.modeler.uml.editor.UMLEditor"
+        	id="org.topcased.modeler.uml.activitydiagram.bpm"
+        	name="Business Process Diagram">
+		 	<enableFor class="org.eclipse.uml2.uml.Package" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Component" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Operation" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
+         	</enableFor>
+		</diagram>
+		<diagram
+        	configuration="org.nakeduml.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
+        	editorID="org.topcased.modeler.uml.editor.UMLEditor"
+        	id="org.topcased.modeler.uml.activitydiagram.bpm"
+        	name="Business Process Diagram">
+		 	<enableFor class="org.eclipse.uml2.uml.Package" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Component" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Operation" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
+         	</enableFor>
+		</diagram>
+		<diagram
+        	configuration="org.nakeduml.topcased.activitydiagram.method.MethodConfiguration"
+        	editorID="org.topcased.modeler.uml.editor.UMLEditor"
+        	id="org.topcased.modeler.uml.activitydiagram.method"
+        	name="Method Diagram">
+		 	<enableFor class="org.eclipse.uml2.uml.Activity"/>
+	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
+         	</enableFor>
+      		<enableFor class="org.eclipse.uml2.uml.State"
+            	creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromState">
+      		</enableFor>
+		</diagram>
+  		<diagram
+        	configuration="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.StructuredActivityNodeConfiguration"
+	        editorID="org.topcased.modeler.uml.editor.UMLEditor"
+	        id="org.topcased.modeler.uml.structuredactivitynodediagram"
+	        name="Structured Activity Node Diagram">
+		     <enableFor
+		           class="org.eclipse.uml2.uml.StructuredActivityNode">
+		     </enableFor>
+		</diagram>
+		<diagram
+	        configuration="org.topcased.modeler.uml.activitydiagram.ActivityConfiguration"
+	        editorID="org.topcased.modeler.uml.editor.UMLEditor"
+	        id="org.topcased.modeler.uml.activitydiagram"
+	        name="Activity Diagram">
+			 <enableFor class="org.eclipse.uml2.uml.Activity"/>
+	         <enableFor
+	               class="org.eclipse.uml2.uml.UseCase"
+	               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromUseCase">
+	         </enableFor>
+		     <enableFor
+	               class="org.eclipse.uml2.uml.CallBehaviorAction"
+	               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
+	         </enableFor>
+	      <enableFor
+	            class="org.eclipse.uml2.uml.State"
+	            creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromState">
+	      </enableFor>
+		</diagram>
+		
 	</extension>
 
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">

@@ -3,10 +3,12 @@ package org.nakeduml.topcased.activitydiagram.propertysections;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.nakeduml.topcased.propertysections.AbstractTriggerSection;
 
 public class AcceptEventActionTriggerSection extends AbstractTriggerSection{
@@ -25,4 +27,8 @@ public class AcceptEventActionTriggerSection extends AbstractTriggerSection{
 	AcceptEventAction getAction(){
 		return (AcceptEventAction) getEObject();
 	}
+	protected EReference getTriggerStructuralFeature(){
+		return UMLPackage.eINSTANCE.getAcceptEventAction_Trigger();
+	}
+
 }

@@ -160,6 +160,9 @@ public class ClassFormPaletteManager extends ModelerPaletteManager{
 		factory = new GraphElementCreationFactory(creationUtils, LayoutPackage.eINSTANCE.getUimFullLayout(), "default");
 		entries.add(new ModelerCreationToolEntry("Full Layout", "Full Layout", factory, ClassFormImageRegistry.getImageDescriptor("UIMFULLLAYOUT"),
 				ClassFormImageRegistry.getImageDescriptor("UIMFULLLAYOUT_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, LayoutPackage.eINSTANCE.getUimColumnLayout(), "default");
+		entries.add(new ModelerCreationToolEntry("Column layou", "Column layou", factory, ClassFormImageRegistry.getImageDescriptor("UIMCOLUMNLAYOUT"),
+				ClassFormImageRegistry.getImageDescriptor("UIMCOLUMNLAYOUT_LARGE")));
 		layoutsDrawer.addAll(entries);
 		getRoot().add(layoutsDrawer);
 	}

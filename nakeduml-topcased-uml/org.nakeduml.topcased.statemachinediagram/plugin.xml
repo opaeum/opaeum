@@ -35,31 +35,6 @@
                creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromCallBehaviorAction">
          </enableFor>        
       </diagram>
-      <diagram
-            configuration="org.topcased.modeler.uml.ScreenFlowDiagramConfiguration"
-            editorID="org.topcased.modeler.uml.editor.UMLEditor"
-            id="org.nakeduml.topcased.screenflowdiagram"
-            name="Screen Flow Diagram">
-         <enableFor
-               class="org.eclipse.uml2.uml.StateMachine">
-         </enableFor>
-         <enableFor
-               class="org.eclipse.uml2.uml.Package"
-               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromPackage">
-         </enableFor>
-         <enableFor
-               class="org.eclipse.uml2.uml.State"
-               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromState">
-         </enableFor>
-         <enableFor
-               class="org.eclipse.uml2.uml.Class"
-               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromClass">
-         </enableFor>
-         <enableFor
-               class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromCallBehaviorAction">
-         </enableFor>
-      </diagram>
 	</extension>
 	
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
@@ -116,6 +91,20 @@
    
    <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="org.topcased.modeler.editor.Modeler">
+       <propertySection
+               afterSection="org.topcased.modeler.uml.NamedElementSection"
+             class="org.nakeduml.topcased.statemachinediagram.TransitionGuardSection"
+             id="org.nakeduml.topcased.statemachinediagram.TransitionGuardSection"
+             tab="org.nakeduml.eclipse.numlTab">
+          <input type="org.eclipse.uml2.uml.Transition"/>
+       </propertySection>
+       <propertySection
+               afterSection="org.nakeduml.topcased.statemachinediagram.TransitionGuardSection"
+             class="org.nakeduml.topcased.statemachinediagram.TransitionTriggerSection"
+             id="org.nakeduml.topcased.statemachinediagram.TransitionTriggerSection"
+             tab="org.nakeduml.eclipse.numlTab">
+          <input type="org.eclipse.uml2.uml.Transition"/>
+       </propertySection>
          <propertySection
                id="org.topcased.modeler.uml.transitionKindSection"
                class="org.topcased.modeler.uml.statemachinediagram.internal.properties.sections.TransitionKindSection"
@@ -603,3 +592,4 @@
 	      </decoratorProvider>
 	   </extension>
 </plugin>
+       

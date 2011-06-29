@@ -17,6 +17,21 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BB8NEY6VEeCne5ArYLDbiA" value="*"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BB8NEo6VEeCne5ArYLDbiA" value="2"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_sMysAKDQEeCEB8xJMe8jaA" name="potentialOwners" type="_YgstsI29EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+        <eAnnotations xmi:id="_s-QlMKDQEeCEB8xJMe8jaA" source="http://www.nakeduml.org"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SI6BcKDSEeCi16HgBnUGFw"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_i7b_8KDREeCi16HgBnUGFw" name="potentialOwnersExpression">
+          <language>OCL</language>
+          <body>self.participationsInTask->select(p|p.kind=TaskParticipationKind::potentialOwner)</body>
+        </defaultValue>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_wy5fAKDREeCi16HgBnUGFw" name="owner" type="_YgstsI29EeCrtavWRHwoHg" isReadOnly="true" isDerived="true">
+        <eAnnotations xmi:id="_xbg-MKDREeCi16HgBnUGFw" source="http://www.nakeduml.org"/>
+        <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_KFvcQKDSEeCi16HgBnUGFw" name="ownerExpression">
+          <language>OCL</language>
+          <body>self.participationsInTask->any(p|p.kind=TaskParticipationKind::owner) </body>
+        </defaultValue>
+      </ownedAttribute>
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_nezb8I6SEeCrtavWRHwoHg" name="addTaskRequestParticipant" specification="_v52VoI6SEeCrtavWRHwoHg">
         <ownedParameter xmi:id="_nezb8Y6SEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg"/>
         <ownedParameter xmi:id="_nezb8o6SEeCrtavWRHwoHg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA"/>
@@ -144,33 +159,90 @@
         <ownedParameter xmi:id="_wuzAoY6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg"/>
         <ownedParameter xmi:id="_wuzAoo6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
       </ownedOperation>
+      <ownedOperation xmi:id="_1gF8AKDTEeCi16HgBnUGFw" name="skip"/>
       <region xmi:id="_zFmsEYoVEeCLqpffVZYAlw" name="TaskInstanceRegion">
         <subvertex xmi:type="uml:Pseudostate" xmi:id="_PGwF0IoaEeCPduia_-NbFw" name="Inactive"/>
         <subvertex xmi:type="uml:State" xmi:id="_Qtk5sIoaEeCPduia_-NbFw" name="Created"/>
-        <subvertex xmi:type="uml:State" xmi:id="_Q0VB8IoaEeCPduia_-NbFw" name="Ready"/>
-        <subvertex xmi:type="uml:State" xmi:id="_Q6NAcIoaEeCPduia_-NbFw" name="Reserved"/>
-        <subvertex xmi:type="uml:State" xmi:id="_RC_JAIoaEeCPduia_-NbFw" name="ReadyButSuspended"/>
-        <subvertex xmi:type="uml:State" xmi:id="_RIDPMIoaEeCPduia_-NbFw" name="Completed"/>
-        <subvertex xmi:type="uml:State" xmi:id="_RMUEIIoaEeCPduia_-NbFw" name="InProgress"/>
-        <subvertex xmi:type="uml:FinalState" xmi:id="_dAgD4IoaEeCPduia_-NbFw" name="Closed"/>
-        <subvertex xmi:type="uml:State" xmi:id="_sFnzcIobEeCPduia_-NbFw" name="ReservedButSuspended"/>
-        <subvertex xmi:type="uml:State" xmi:id="_tnUPsIobEeCPduia_-NbFw" name="InProgressButSuspended"/>
+        <subvertex xmi:type="uml:FinalState" xmi:id="_dAgD4IoaEeCPduia_-NbFw" name="Completed"/>
+        <subvertex xmi:type="uml:State" xmi:id="_XwDj4KCVEeCmJqvPP4zbUw" name="Active">
+          <region xmi:id="_XwDj4aCVEeCmJqvPP4zbUw" name="Region1">
+            <subvertex xmi:type="uml:State" xmi:id="_Q0VB8IoaEeCPduia_-NbFw" name="Ready"/>
+            <subvertex xmi:type="uml:State" xmi:id="_Q6NAcIoaEeCPduia_-NbFw" name="Reserved"/>
+            <subvertex xmi:type="uml:State" xmi:id="_RMUEIIoaEeCPduia_-NbFw" name="InProgress"/>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_UBMQAKCWEeCmJqvPP4zbUw" name="History" kind="shallowHistory"/>
+            <subvertex xmi:type="uml:FinalState" xmi:id="_YxQFsKCWEeCmJqvPP4zbUw" name="FinalState1"/>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_t3M00KDPEeCv9IRqC7lfYw" name="NumberOfPotentialOwners?" kind="choice"/>
+            <transition xmi:id="_oYvoEKDPEeCv9IRqC7lfYw" name="Transition1" source="_UBMQAKCWEeCmJqvPP4zbUw" target="_t3M00KDPEeCv9IRqC7lfYw"/>
+            <transition xmi:id="_weFXgKDPEeCv9IRqC7lfYw" name="Transition2" source="_t3M00KDPEeCv9IRqC7lfYw" target="_Q0VB8IoaEeCPduia_-NbFw" guard="_bVzO0KDSEeCi16HgBnUGFw">
+              <ownedRule xmi:id="_bVzO0KDSEeCi16HgBnUGFw" name="Transition2Guard">
+                <specification xmi:type="uml:OpaqueExpression" xmi:id="_bV7xsKDSEeCi16HgBnUGFw" name="Transition2GuardExpression">
+                  <language>OCL</language>
+                  <body>potentialOwners->size()>1</body>
+                </specification>
+              </ownedRule>
+            </transition>
+            <transition xmi:id="_wyEqgKDPEeCv9IRqC7lfYw" name="Transition3" source="_t3M00KDPEeCv9IRqC7lfYw" target="_Q6NAcIoaEeCPduia_-NbFw" guard="_eNMSsKDSEeCi16HgBnUGFw">
+              <ownedRule xmi:id="_eNMSsKDSEeCi16HgBnUGFw" name="Transition3Guard">
+                <specification xmi:type="uml:OpaqueExpression" xmi:id="_eNOu8KDSEeCi16HgBnUGFw" name="Transition3GuardExpression">
+                  <language>OCL</language>
+                  <body>potentialOwners->size()=1</body>
+                </specification>
+              </ownedRule>
+            </transition>
+            <transition xmi:id="_2DpKcKDSEeCi16HgBnUGFw" name="Transition4" source="_RMUEIIoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw">
+              <trigger xmi:id="_2yChgKDSEeCi16HgBnUGFw" name="Transition4Trigger" event="_-4L-EJTxEeChgI0v02SJHQ"/>
+            </transition>
+            <transition xmi:id="_E2ZNFKDTEeCi16HgBnUGFw" name="Transition5" source="_Q6NAcIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw">
+              <trigger xmi:id="_GApZsKDTEeCi16HgBnUGFw" name="Transition5Trigger" event="__wyaAJTxEeChgI0v02SJHQ"/>
+            </transition>
+          </region>
+        </subvertex>
+        <subvertex xmi:type="uml:State" xmi:id="_eXmqMKCWEeCmJqvPP4zbUw" name="Suspended">
+          <region xmi:id="_eXmqMaCWEeCmJqvPP4zbUw" name="Region1">
+            <subvertex xmi:type="uml:State" xmi:id="_RC_JAIoaEeCPduia_-NbFw" name="ReadyButSuspended"/>
+            <subvertex xmi:type="uml:State" xmi:id="_sFnzcIobEeCPduia_-NbFw" name="ReservedButSuspended"/>
+            <subvertex xmi:type="uml:State" xmi:id="_tnUPsIobEeCPduia_-NbFw" name="InProgressButSuspended"/>
+          </region>
+        </subvertex>
+        <subvertex xmi:type="uml:FinalState" xmi:id="_renQAKDTEeCi16HgBnUGFw" name="Obsolete"/>
         <transition xmi:id="_fSHrwIobEeCPduia_-NbFw" name="" source="_PGwF0IoaEeCPduia_-NbFw" target="_Qtk5sIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_feodwIobEeCPduia_-NbFw" name="Transition2" source="_Qtk5sIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_fp_ZMIobEeCPduia_-NbFw" name="Transition3" source="_Q0VB8IoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_f0sNUIobEeCPduia_-NbFw" name="Transition4" source="_Q6NAcIoaEeCPduia_-NbFw" target="_RMUEIIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_gC3MMIobEeCPduia_-NbFw" name="Transition5" source="_RMUEIIoaEeCPduia_-NbFw" target="_RIDPMIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_gYXiIIobEeCPduia_-NbFw" name="Transition6" source="_RIDPMIoaEeCPduia_-NbFw" target="_dAgD4IoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_qzQzsIobEeCPduia_-NbFw" name="Transition7" source="_Q0VB8IoaEeCPduia_-NbFw" target="_RC_JAIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_rCGg8IobEeCPduia_-NbFw" name="Transition8" source="_RC_JAIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_vQNgIIobEeCPduia_-NbFw" name="Transition9" source="_Q6NAcIoaEeCPduia_-NbFw" target="_sFnzcIobEeCPduia_-NbFw"/>
-        <transition xmi:id="_vyoQsIobEeCPduia_-NbFw" name="Transition10" source="_sFnzcIobEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_wDQGoIobEeCPduia_-NbFw" name="Transition11" source="_RMUEIIoaEeCPduia_-NbFw" target="_tnUPsIobEeCPduia_-NbFw"/>
-        <transition xmi:id="_wTuyoIobEeCPduia_-NbFw" name="Transition12" source="_tnUPsIobEeCPduia_-NbFw" target="_RMUEIIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_7gtBYIobEeCPduia_-NbFw" name="Transition13" source="_RMUEIIoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_89quoIobEeCPduia_-NbFw" name="Transition14" source="_Q0VB8IoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_9sHJAIobEeCPduia_-NbFw" name="Transition15" source="_Q6NAcIoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw"/>
-        <transition xmi:id="_A-zo0IocEeCPduia_-NbFw" name="Transition16" source="_Q6NAcIoaEeCPduia_-NbFw" target="_Q0VB8IoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_feodwIobEeCPduia_-NbFw" name="Transition2" source="_Qtk5sIoaEeCPduia_-NbFw" target="_XwDj4KCVEeCmJqvPP4zbUw">
+          <trigger xmi:id="_qKLfkKDGEeCv9IRqC7lfYw" name="Transition2Trigger" event="_9W4lAKDGEeCv9IRqC7lfYw"/>
+        </transition>
+        <transition xmi:id="_fp_ZMIobEeCPduia_-NbFw" name="Transition3" source="_Q0VB8IoaEeCPduia_-NbFw" target="_Q6NAcIoaEeCPduia_-NbFw">
+          <trigger xmi:id="_rVN44KDSEeCi16HgBnUGFw" name="Transition3Trigger" event="_xJEisJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_f0sNUIobEeCPduia_-NbFw" name="Transition4" source="_Q6NAcIoaEeCPduia_-NbFw" target="_RMUEIIoaEeCPduia_-NbFw">
+          <trigger xmi:id="_z45KIKDSEeCi16HgBnUGFw" name="Transition4Trigger" event="_wozuQJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_gC3MMIobEeCPduia_-NbFw" name="Transition5" source="_RMUEIIoaEeCPduia_-NbFw" target="_YxQFsKCWEeCmJqvPP4zbUw">
+          <trigger xmi:id="_Lam-cKDHEeCv9IRqC7lfYw" name="Transition5Trigger" event="_M3E8cKDHEeCv9IRqC7lfYw"/>
+        </transition>
+        <transition xmi:id="_qzQzsIobEeCPduia_-NbFw" name="Transition7" source="_Q0VB8IoaEeCPduia_-NbFw" target="_RC_JAIoaEeCPduia_-NbFw">
+          <trigger xmi:id="_UPmeoKDGEeCv9IRqC7lfYw" name="Transition7Trigger" event="_xe-hQJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_vQNgIIobEeCPduia_-NbFw" name="Transition9" source="_Q6NAcIoaEeCPduia_-NbFw" target="_sFnzcIobEeCPduia_-NbFw">
+          <trigger xmi:id="_dOVUMKDGEeCv9IRqC7lfYw" name="Transition9Trigger" event="_xe-hQJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_wDQGoIobEeCPduia_-NbFw" name="Transition11" source="_RMUEIIoaEeCPduia_-NbFw" target="_tnUPsIobEeCPduia_-NbFw">
+          <trigger xmi:id="_ezD2UKDGEeCv9IRqC7lfYw" name="Transition11Trigger" event="_xe-hQJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_vnrq4KCWEeCmJqvPP4zbUw" name="Transition1" source="_eXmqMKCWEeCmJqvPP4zbUw" target="_XwDj4KCVEeCmJqvPP4zbUw">
+          <trigger xmi:id="_ZOI1MKDGEeCv9IRqC7lfYw" name="Transition1Trigger" event="__VPtgJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="__sZ_0KCjEeCmJqvPP4zbUw" name="Transition6" source="_XwDj4KCVEeCmJqvPP4zbUw" target="_dAgD4IoaEeCPduia_-NbFw"/>
+        <transition xmi:id="_vNq_4KDMEeCv9IRqC7lfYw" name="Transition8" kind="local" source="_XwDj4KCVEeCmJqvPP4zbUw" target="_Q6NAcIoaEeCPduia_-NbFw">
+          <trigger xmi:id="_ytkOMKDMEeCv9IRqC7lfYw" name="Transition8Trigger" event="_JpztkJTyEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_5xIXlKDMEeCv9IRqC7lfYw" name="Transition10" source="_XwDj4KCVEeCmJqvPP4zbUw" target="_Q0VB8IoaEeCPduia_-NbFw">
+          <trigger xmi:id="_C_Et0KDNEeCv9IRqC7lfYw" name="Transition10Trigger" event="_J-K0AJTyEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_JhMXAKDNEeCv9IRqC7lfYw" name="Transition12" source="_XwDj4KCVEeCmJqvPP4zbUw" target="_RMUEIIoaEeCPduia_-NbFw">
+          <trigger xmi:id="_Lpuw0KDNEeCv9IRqC7lfYw" name="Transition12Trigger" event="_wozuQJTxEeChgI0v02SJHQ"/>
+        </transition>
+        <transition xmi:id="_tEnkhKDTEeCi16HgBnUGFw" name="Transition13" source="_XwDj4KCVEeCmJqvPP4zbUw" target="_renQAKDTEeCi16HgBnUGFw">
+          <trigger xmi:id="_v9rcUKDTEeCi16HgBnUGFw" name="Transition13Trigger" event="_9VPTUKDTEeCi16HgBnUGFw"/>
+        </transition>
       </region>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_3YyGkIoXEeCPduia_-NbFw" name="ParticipationParticipant" memberEnd="_3YyGkYoXEeCPduia_-NbFw _3YyGlIoXEeCPduia_-NbFw" navigableOwnedEnd="_3YyGlIoXEeCPduia_-NbFw _3YyGkYoXEeCPduia_-NbFw">
@@ -380,6 +452,7 @@
         <ownedParameter xmi:id="_P68JAI6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg"/>
         <ownedParameter xmi:id="_P8scgI6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg"/>
       </ownedOperation>
+      <ownedOperation xmi:id="_3USwcKDGEeCv9IRqC7lfYw" name="activate"/>
       <region xmi:id="_FgGnMI6lEeCFsPOcAnk69Q" name="Region1"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_2tdYsI3oEeCfQedkc0TCdA" name="TaskObject">
@@ -482,6 +555,9 @@
       <packagedElement xmi:type="uml:CallEvent" xmi:id="__wyaAJTxEeChgI0v02SJHQ" name="Revoked" operation="_LlMOIIobEeCPduia_-NbFw"/>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_JpztkJTyEeChgI0v02SJHQ" name="Delegated" operation="_0lAQAIoaEeCPduia_-NbFw"/>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_J-K0AJTyEeChgI0v02SJHQ" name="Forwarded" operation="__6uyIIoaEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_9W4lAKDGEeCv9IRqC7lfYw" name="OnActivate" operation="_3USwcKDGEeCv9IRqC7lfYw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_M3E8cKDHEeCv9IRqC7lfYw" name="OnComplete" operation="_4RNcAIoaEeCPduia_-NbFw"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_9VPTUKDTEeCi16HgBnUGFw" name="OnSkip" operation="_1gF8AKDTEeCi16HgBnUGFw"/>
     </packagedElement>
   </uml:Model>
   <NakedUMLProfile:Package xmi:id="_AbRksI9QEeCWao_GIBSLZQ" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.nakedumllibraryforbpm"/>

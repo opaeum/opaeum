@@ -1,7 +1,9 @@
 package org.nakeduml.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
@@ -20,6 +22,7 @@ import org.nakeduml.uim.control.UimSingleSelectTreeView;
 import org.nakeduml.uim.control.UimText;
 import org.nakeduml.uim.control.UimTextArea;
 import org.nakeduml.uim.control.UimToggleButton;
+import org.nakeduml.uim.figures.ColumnFigure;
 import org.nakeduml.uim.figures.UimFieldFigure;
 import org.nakeduml.uim.figures.controls.UimCheckBoxFigure;
 import org.nakeduml.uim.figures.controls.UimDatePopupFigure;
@@ -35,14 +38,52 @@ import org.nakeduml.uim.util.ControlUtil;
 import org.topcased.modeler.di.model.GraphNode;
 
 public class AbstractUimFieldEditPart extends BoundEditPart{
+	boolean refreshing = false;
+	LayoutListener listener = new LayoutListener(){
+		@Override
+		public void invalidate(IFigure container){
+			Rectangle constraint = (Rectangle) container.getLayoutManager().getConstraint(getFigure());
+			if(!refreshing && constraint!=null){
+				UimField uimField = (UimField) getEObject();
+				if(container instanceof ColumnFigure){
+					if(uimField.getLabelWidth()==null ||constraint.width != uimField.getLabelWidth()){
+						uimField.setLabelWidth(constraint.width);
+					}
+				}else{
+//					if(constraint.width != (uimField.getLabelWidth()+Integer.parseInt(uimField.getControl().getWidth()))){
+//						uimField.setLabelWidth(constraint.width-uimField.getControl().getWidth());
+//					}
+				}
+			}
+		}
+		@Override
+		public boolean layout(IFigure container){
+			// TODO Auto-generated method stub
+			return false;
+		}
+		@Override
+		public void postLayout(IFigure container){
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void remove(IFigure child){
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void setConstraint(IFigure child,Object constraint){
+			// TODO Auto-generated method stub
+		}
+	};
 	public AbstractUimFieldEditPart(GraphNode obj){
 		super(obj);
 	}
 	protected IFigure createFigure(){
-		return new UimFieldFigure();
+		UimFieldFigure uimFieldFigure = new UimFieldFigure();
+		return uimFieldFigure;
 	}
 	@Override
 	protected void refreshVisuals(){
+		refreshing = true;
 		if(getEObject() instanceof UimField){
 			UimField pf = (UimField) getEObject();
 			UimFieldFigure fig = (UimFieldFigure) getFigure();
@@ -51,12 +92,23 @@ public class AbstractUimFieldEditPart extends BoundEditPart{
 			layoutLabel(pf.getLabelWidth());
 		}
 		super.refreshVisuals();
+		refreshing = false;
 	}
 	private void layoutLabel(int width){
 		UimFieldFigure fig = (UimFieldFigure) getFigure();
 		fig.setLabelWidth(width);
-		fig.getLayoutManager().invalidate();
-		fig.revalidate();
+		fig.getParent().getParent().invalidateTree();
+		fig.getParent().getParent().revalidate();
+	}
+	@Override
+	public void activate(){
+		super.activate();
+		getFigure().getParent().addLayoutListener(listener);
+	}
+	@Override
+	public void deactivate(){
+		super.deactivate();
+		getFigure().getParent().removeLayoutListener(listener);
 	}
 	protected void handleModelChanged(Notification msg){
 		super.handleModelChanged(msg);
@@ -70,11 +122,18 @@ public class AbstractUimFieldEditPart extends BoundEditPart{
 			case UimPackage.UIM_FIELD__CONTROL:
 				fig.getControl().setSize(new Dimension(ControlUtil.getPreferredWidth(kind), ControlUtil.getPreferredHeight(kind)));
 				updateModelListening(oldValue, newValue);
-				refreshVisuals();
+				updateControlFigure();
+				super.refreshVisuals();
 				break;
 			case UimPackage.UIM_FIELD__BINDING:
 				updateModelListening(oldValue, newValue);
-				refreshVisuals();
+				super.refreshVisuals();
+				break;
+			case UimPackage.UIM_FIELD__LABEL_WIDTH:
+				Integer newWidth = (Integer) msg.getNewValue();
+				Integer oldWidth = ((UimField) getEObject()).getLabelWidth();
+				layoutLabel(newWidth);
+				break;
 			default:
 				break;
 			}

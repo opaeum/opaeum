@@ -207,15 +207,5 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
 	}
-	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace){
-	 this.initialize(pac, config, textWorkspace, null);
-		
-	}
-	@Override
-	public void generate(INakedModelWorkspace workspace,TransformationContext context){
-		this.transformationContext=context;
-		startVisiting(workspace);
-		
-	}
+
 }

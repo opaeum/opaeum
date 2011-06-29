@@ -64,7 +64,7 @@ public abstract class AbstractUimGenerationAction{
 			if(namedElement != null){
 				runActionRecursively(namedElement);
 				if(hasForm(namedElement)){
-					openAUIDiagram(namedElement,action);
+					openUimDiagram(namedElement,action);
 				}
 			}
 		}
@@ -75,11 +75,9 @@ public abstract class AbstractUimGenerationAction{
 		uri = uri.appendSegment("test");
 		uri = uri.appendFileExtension("uim");
 		uri = uri.trimSegments(0);
-		System.out.println(uri);
 		uri = uri.trimFileExtension();
-		System.out.println(uri);
 	}
-	public void openAUIDiagram(NamedElement namedElement,IAction action){
+	public void openUimDiagram(NamedElement namedElement,IAction action){
 		try{
 			String fileName = getFileName(namedElement,action);
 			URI dirUri = namedElement.eResource().getURI().trimFileExtension().trimSegments(1);

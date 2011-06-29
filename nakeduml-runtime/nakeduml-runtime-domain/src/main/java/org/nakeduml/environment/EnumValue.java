@@ -1,11 +1,11 @@
 package org.nakeduml.environment;
 
 import org.hibernate.Session;
-import org.nakeduml.runtime.domain.AbstractEnum;
+import org.nakeduml.runtime.domain.IEnum;
 
 public class EnumValue extends Value{
 	Integer enumId;
-	public EnumValue(AbstractEnum value){
+	public EnumValue(IEnum value){
 		this.enumId = value.getNakedUmlId();
 	}
 	@Override

@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractEnum;
+import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.IEnum;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
@@ -29,7 +29,7 @@ public abstract class JavaMetaInfoMap{
 	protected void putClass(Class<? extends Object> c){
 		if(AbstractSignal.class.isAssignableFrom(c)){
 			addSecondaryClass(c, "Mdb");
-		}else if(AbstractEntity.class.isAssignableFrom(c)){
+		}else if(IPersistentObject.class.isAssignableFrom(c)){
 			addSecondaryClass(c, "_Audit");
 		}
 		allClasses.add(c);
@@ -59,8 +59,8 @@ public abstract class JavaMetaInfoMap{
 					if(metaInfo != null){
 						enumNakedUmlIdMap.put(metaInfo.nakedUmlId(), en);
 						enumPersistentNameMap.put(metaInfo.persistentName(), en);
-					}else if(en instanceof AbstractEnum){
-						AbstractEnum ae = (AbstractEnum) en;
+					}else if(en instanceof IEnum){
+						IEnum ae = (IEnum) en;
 						enumNakedUmlIdMap.put(ae.getNakedUmlId(), en);
 						enumPersistentNameMap.put(ae.getPersistentName(), en);
 					}

@@ -1,21 +1,17 @@
 Refactoring
-Make visitors TransformationSteps
 Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction
-Introduce new INakedUmlEmbeddedTask and INakedUmlStandaloneTask
 
 UIM
 Put label width on all possible containers of fields
+Row height on uimColumnLayout
 remove fields pointing to obsolete properties
 remove operation navigations and action buttons to obsolete operations
 remove obsolete forms 
-set field label size on layout
 allow forms to be reused as panels
 migrate table control to swing
 Add button bar for actions on multiple rows in the table
 Introduce entryScreen concept, allow formpanels to be used
 Introduce ocl expressions for things such as lookups and allowedRoles
-
-)
 
 TaskManagement
 Model UserInterface too

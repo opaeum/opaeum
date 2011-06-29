@@ -68,7 +68,7 @@ public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 	private AbstractFormFolder findFolder(Namespace p,EClass eClass){
 		AbstractFormFolder pf = (AbstractFormFolder) UmlUimLinks.getInstance(p).getFolderFor(p);
 		if(pf == null || regenerate){
-			pf = (AbstractFormFolder) UimPackage.eINSTANCE.getEFactoryInstance().create(eClass);
+			pf = (AbstractFormFolder) FolderPackage.eINSTANCE.getEFactoryInstance().create(eClass);
 		}
 		initFolder(p, pf);
 		return pf;

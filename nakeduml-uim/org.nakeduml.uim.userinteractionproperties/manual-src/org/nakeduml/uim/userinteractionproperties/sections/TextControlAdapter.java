@@ -39,6 +39,8 @@ public class TextControlAdapter implements IText{
 	@Override
 	public void setText(String string){
 		if(text instanceof Text){
+			((Text) text).setText(string);
+		}else{
 			text.setToolTipText(string);
 		}
 	}

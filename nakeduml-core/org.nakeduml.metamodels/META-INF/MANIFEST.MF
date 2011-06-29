@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.uml2.uml;bundle-version="3.1.1";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: 
  .,
- lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar
+ lib/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT.jar
 Export-Package: net.sf.nakeduml,
  net.sf.nakeduml.detachment,
  net.sf.nakeduml.domainmetamodel,

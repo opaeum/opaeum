@@ -2,17 +2,17 @@ package org.nakeduml.environment;
 
 import org.hibernate.Session;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IActiveObject;
 
 public class HelperValue extends Value{
 	private static final long serialVersionUID = 9038651829406737134L;
 	Integer classOrInterfaceId;
-	private Class<ActiveObject> helperClass;
+	private Class<IActiveObject> helperClass;
 	public HelperValue(){
 	}
-	public HelperValue(ActiveObject s){
+	public HelperValue(IActiveObject s){
 		Environment instance = Environment.getInstance();
-		Class<ActiveObject> implementationClass = instance.getImplementationClass(s);
+		Class<IActiveObject> implementationClass = instance.getImplementationClass(s);
 		NumlMetaInfo metaInfo = implementationClass.getAnnotation(NumlMetaInfo.class);
 		if(metaInfo != null){
 			classOrInterfaceId = metaInfo.nakedUmlId();

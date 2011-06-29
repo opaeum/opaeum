@@ -93,17 +93,11 @@ public class FormCreator{
 		table.setBinding(binding);
 		binding.setUmlElementUid(UmlUimLinks.getId(e));
 		tabLayout.getChildren().add(table);
+		table.setLayout(LayoutFactory.eINSTANCE.createUimColumnLayout());
 		Collection<Property> attrs = SafeUmlUimLinks.getInstance(e).getOwnedAttributes((Classifier) e.getType());
 		for(Property property:attrs){
 			if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
-				UimDataColumn column = UimFactory.eINSTANCE.createUimDataColumn();
-				column.setName(NameConverter.separateWords(property.getName()));
-				table.getChildren().add(column);
-				// CReate column xy layout
-				UimGridLayout columnLayout = LayoutFactory.eINSTANCE.createUimGridLayout();
-				columnLayout.setNumberOfColumns(1);
-				column.setLayout(columnLayout);
-				addUserField(columnLayout, 0, property);
+				addUserField(table.getLayout(), 0, property);
 			}
 		}
 		// create fields

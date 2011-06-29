@@ -50,6 +50,9 @@ public class StereotypeNames {
 	public static String STATE_PARTICIPATION = "StateParticipation";	
 	public static String USER_INTERACTION_SPECIFICATION = "UserInteractionSpecification";	
 	//BPM
+	public static final String BUSINES_PROCESS= "BusinessProcess";
+	public static final String CALL_BUSINES_PROCESS_ACTION= "CallBusinessProcessAction";
+	public static final String CALL_METHOD_ACTION= "CallMethodAction";
 	public static final String BUSINESS_ROLE = "BusinessRole";
 	public static final String DEADLINE = "Deadline";
 	public static final String EMBEDDED_SINGLE_SCREEN_TASK = "EmbeddedSingleScreenTask";
@@ -65,5 +68,6 @@ public class StereotypeNames {
 	public static final String NAKEDUML_PROFILE = "NakedUMLProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
+	public static final String SCREEN_FLOW = "ScreenFlow";
 
 }

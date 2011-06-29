@@ -124,12 +124,12 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 					}
 				}
 			}
+			for(DocumentRoot documentRoot:this.rootMap.values()){
+				outputToFile(documentRoot);
+			}
+			outputToFile(parentPom);
+			saveIgnoreFile();
 		}
-		for(DocumentRoot documentRoot:this.rootMap.values()){
-			outputToFile(documentRoot);
-		}
-		outputToFile(parentPom);
-		saveIgnoreFile();
 		return new Object[0];
 	}
 	private void saveIgnoreFile(){

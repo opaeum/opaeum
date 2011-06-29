@@ -29,6 +29,8 @@ public class SynchronizeAction extends AbstractUimGenerationAction implements IO
 			ffs.visitUpThenDown(modelElement);
 			FormSynchronizer fs = new FormSynchronizer(workspace,uimResourceSet, false);
 			fs.visitRecursively(modelElement);
+			DiagramSynchronizer ds = new DiagramSynchronizer(workspace,uimResourceSet,false);
+			ds.visitRecursively(modelElement);
 			save(workspace.getDirectoryUri(),workspace.getResourceSet());
 			save(workspace.getDirectoryUri(),uimResourceSet);
 		}catch(IOException e){

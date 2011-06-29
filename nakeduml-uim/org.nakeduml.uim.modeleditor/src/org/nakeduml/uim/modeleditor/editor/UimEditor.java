@@ -6,13 +6,19 @@ package org.nakeduml.uim.modeleditor.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.nakeduml.uim.modeleditor.UimPlugin;
+import org.nakeduml.uim.util.UmlUimLinks;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.topcased.modeler.commands.GEFtoEMFCommandStackWrapper;
@@ -22,10 +28,24 @@ import org.topcased.modeler.editor.Modeler;
 
 /**
  * Generated Model editor
- *
+ * 
  * @generated
  */
 public class UimEditor extends Modeler{
+	@Override
+	protected EObject openFile(IFile file,boolean b){
+		EObject openFile = super.openFile(file, b);
+		IWorkbenchPage activePage = UimPlugin.getActivePage();
+		if(activePage != null){
+			for(IEditorReference r:activePage.getEditorReferences()){
+				IEditorPart editor = r.getEditor(false);
+				if(editor instanceof Modeler){
+					UmlUimLinks.init(((Modeler) editor).getResourceSet());
+				}
+			}
+		}
+		return openFile;
+	}
 	public static final String EDITOR_ID = "org.nakeduml.uim.modeleditor.editor.UimEditor";
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapterFactories()
@@ -54,10 +74,10 @@ public class UimEditor extends Modeler{
 	}
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getId()
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getId(){
-		return EDITOR_ID;
+		return super.getContributorId();
 	}
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapter(java.lang.Class)
@@ -72,7 +92,7 @@ public class UimEditor extends Modeler{
 	}
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getPreferenceStore()
-	 *
+	 * 
 	 * @generated
 	 */
 	public IPreferenceStore getPreferenceStore(){

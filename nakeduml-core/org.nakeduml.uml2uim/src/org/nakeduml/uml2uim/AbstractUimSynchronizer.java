@@ -1,6 +1,7 @@
 package org.nakeduml.uml2uim;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
@@ -17,8 +18,8 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements Transf
 	protected boolean regenerate;
 	public AbstractUimSynchronizer(){
 	}
-	public AbstractUimSynchronizer(EmfWorkspace workspace, ResourceSet resourceSet,boolean regenerate){
-		super.workspace=workspace;
+	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate){
+		super.workspace = workspace;
 		init(resourceSet, regenerate);
 	}
 	public void init(ResourceSet resourceSet,boolean regenerate){
@@ -52,8 +53,13 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements Transf
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
 		try{
-			resource = resourceSet.getResource(formUri, true);
-		}catch(RuntimeException e){
+			resource = resourceSet.getResource(formUri,false);
+			resource.load(new HashMap<Object,Object>());
+		}catch(Exception e){
+			try{
+				resource.delete(new HashMap<Object,Object>());
+			}catch(Exception e2){
+			}
 			resource = resourceSet.createResource(formUri);
 		}
 		return resource;

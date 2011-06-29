@@ -1,39 +1,38 @@
 package org.nakeduml.topcased.classdiagram;
 
-import java.util.List;
-
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
-import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.uml2.uml.ActivityParameterNode;
-import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.uml2.uml.Component;
-import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLSwitch;
+import org.nakeduml.topcased.classdiagram.edit.BusinessComponentEditPart;
+import org.nakeduml.topcased.classdiagram.edit.BusinessRoleEditPart;
+import org.nakeduml.topcased.classdiagram.edit.BusinessServiceEditPart;
+import org.nakeduml.topcased.classdiagram.figure.Gradient;
 import org.topcased.modeler.ModelerPropertyConstants;
-import org.topcased.modeler.commands.CreateGraphNodeCommand;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.SimpleSemanticModelElement;
 import org.topcased.modeler.di.model.util.DIUtils;
-import org.topcased.modeler.edit.DynamicInstanceEditPartController;
 import org.topcased.modeler.edit.EListEditPart;
 import org.topcased.modeler.edit.EMFGraphEdgeEditPart;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 import org.topcased.modeler.editor.ModelerEditPartFactory;
-import org.topcased.modeler.uml.UMLPlugin;
 import org.topcased.modeler.uml.alldiagram.AllSimpleObjectConstants;
 import org.topcased.modeler.uml.alldiagram.edit.CommentEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.CommentLinkEditPart;
@@ -44,6 +43,7 @@ import org.topcased.modeler.uml.alldiagram.edit.PackageEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.PackageImportEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.PackageMergeEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.UsageEditPart;
+import org.topcased.modeler.uml.alldiagram.figures.PackageFigure;
 import org.topcased.modeler.uml.classdiagram.ClassSimpleObjectConstants;
 import org.topcased.modeler.uml.classdiagram.edit.AnyReceiveEventEditPart;
 import org.topcased.modeler.uml.classdiagram.edit.AssociationClassEditPart;
@@ -81,60 +81,26 @@ import org.topcased.modeler.uml.classdiagram.edit.SlotEditPart;
 import org.topcased.modeler.uml.classdiagram.edit.TemplateBindingEditPart;
 import org.topcased.modeler.uml.classdiagram.edit.TemplateSignatureEditPart;
 import org.topcased.modeler.uml.classdiagram.edit.TimeEventEditPart;
-import org.topcased.modeler.uml.classdiagram.policies.ClassDiagramLayoutEditPolicy;
+import org.topcased.modeler.uml.classdiagram.figures.AssociationFigure;
+import org.topcased.modeler.uml.classdiagram.figures.ClassFigure;
+import org.topcased.modeler.uml.classdiagram.figures.EnumerationFigure;
 import org.topcased.modeler.utils.Utils;
 
 public class ClassEditPartFactory extends ModelerEditPartFactory{
 	public EditPart createEditPart(EditPart context,Object model){
 		if(model instanceof Diagram){
-			return new ClassDiagramEditPart((Diagram) model){
-				@Override
-				protected EditPolicy getLayoutEditPolicy(){
-					return new ClassDiagramLayoutEditPolicy(){
-						@Override
-						protected Command getCreateCommand(EditDomain domain,GraphNode newObject,GraphNode newParent,final EObject newContainerParent,Point location,
-								Dimension dimension,int attach,List featuresList,boolean needModelUpdate){
-							final EObject lit = Utils.getElement(newObject);
-							if(lit instanceof EnumerationLiteral){
-						        return new CreateGraphNodeCommand(domain, newObject, newParent, newContainerParent, location, dimension, attach, featuresList, needModelUpdate){
-
-									@Override
-									public void execute(){
-										super.execute();
-										((EnumerationLiteral)lit).getClassifiers().add((Classifier) newContainerParent);
-									}
-						        	
-						        };
-
-							}else{
-								return super.getCreateCommand(domain, newObject, newParent, newContainerParent, location, dimension, attach, featuresList,
-										needModelUpdate);
-							}
-						}
-					};
-				}
-			};
+			return new ClassDiagramEditPart((Diagram) model);
 		}else if(model instanceof GraphNode){
 			final GraphNode node = (GraphNode) model;
 			EObject element = Utils.getElement(node);
 			if(element != null){
-				if(UMLPlugin.UML_URI.equals(element.eClass().getEPackage().getNsURI())){
-					return new NodeUMLSwitch(node).doSwitch(element);
-				}else{
-					// This is for the extension point org.topcased.modeler.customEditPart
-					return DynamicInstanceEditPartController.instance.getInstanceEditPart(element, node, this.getClass());
-				}
+				return new NodeUMLSwitch(node).doSwitch(element);
 			}
 		}else if(model instanceof GraphEdge){
 			final GraphEdge edge = (GraphEdge) model;
 			EObject element = Utils.getElement(edge);
 			if(element != null){
-				if(UMLPlugin.UML_URI.equals(element.eClass().getEPackage().getNsURI())){
-					return new EdgeUMLSwitch(edge).doSwitch(element);
-				}else{
-					// This is for the extension point org.topcased.modeler.customEditPart
-					return DynamicInstanceEditPartController.instance.getInstanceEditPart(element, edge, this.getClass());
-				}
+				return new EdgeUMLSwitch(edge).doSwitch(element);
 			}
 			if(edge.getSemanticModel() instanceof SimpleSemanticModelElement){
 				if(ClassSimpleObjectConstants.SIMPLE_OBJECT_COMMENTLINK.equals(((SimpleSemanticModelElement) edge.getSemanticModel()).getTypeInfo())){
@@ -176,7 +142,19 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 			return new ClassifierTemplateParameterEditPart(node);
 		}
 		public EditPart casePackage(org.eclipse.uml2.uml.Package object){
-			return new PackageEditPart(node);
+			return new PackageEditPart(node){
+				@Override
+				protected IFigure createFigure(){
+					return new PackageFigure(){
+						@Override
+						public void paintChildren(Graphics graphics){
+							getContentPane().setOpaque(false);
+							Gradient.paintChildren(graphics, (Figure) this.getContentPane());
+							super.paintChildren(graphics);
+						}
+					};
+				}
+			};
 		}
 		/**
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -198,9 +176,33 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				}
 				return new EListEditPart(node, features);
 			}else if(StereotypesHelper.hasKeyword(object, StereotypeNames.BUSINESS_ROLE)){
-				return new BusinessRoleEditPart(node);
+				return new BusinessRoleEditPart(node){
+					@Override
+					protected IFigure createFigure(){
+						return new ClassFigure(){
+							@Override
+							public void paintChildren(Graphics graphics){
+								Gradient.paintChildren(graphics, this);
+								super.paintChildren(graphics);
+							}
+						};
+					}
+
+				};
 			}else{
-				return new ClassEditPart(node);
+				return new ClassEditPart(node){
+					@Override
+					protected IFigure createFigure(){
+						return new ClassFigure(){
+							@Override
+							public void paintChildren(Graphics graphics){
+								Gradient.paintChildren(graphics, this);
+								super.paintChildren(graphics);
+							}
+						};
+					}
+
+				};
 			}
 		}
 		public EditPart caseInterface(org.eclipse.uml2.uml.Interface object){
@@ -224,14 +226,26 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new DataTypeEditPart(node);
 			}
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseOperation(org.eclipse.uml2.uml.Operation)
-		 * @generated
-		 */
 		public EditPart caseOperation(org.eclipse.uml2.uml.Operation object){
-			return new OperationEditPart(node);
+			return new OperationEditPart(node){
+				@Override
+				public void performRequest(Request request){
+					if(request.getType() == RequestConstants.REQ_OPEN){
+						MessageBox messageBox = new MessageBox(getModeler().getSite().getShell());
+						messageBox.setMessage("open UIM diagrams here");
+						messageBox.open();
+					}
+					super.performRequest(request);
+				}
+				@Override
+				protected IAction createChangeDiagramAction(EObject modelObject){
+					Operation oper = (Operation) modelObject;
+					if(oper.getMethods().size() > 0){
+						return super.createChangeDiagramAction(oper.getMethods().get(0));
+					}
+					return super.createChangeDiagramAction(oper);
+				}
+			};
 		}
 		public EditPart caseProperty(org.eclipse.uml2.uml.Property object){
 			return new PropertyEditPart(node);
@@ -254,45 +268,33 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 		public EditPart caseComment(org.eclipse.uml2.uml.Comment object){
 			return new CommentEditPart(node);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseSlot(org.eclipse.uml2.uml.Slot)
-		 * @generated
-		 */
 		public EditPart caseSlot(org.eclipse.uml2.uml.Slot object){
 			return new SlotEditPart(node);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseEnumeration(org.eclipse.uml2.uml.Enumeration)
-		 * @generated
-		 */
 		public EditPart caseEnumeration(org.eclipse.uml2.uml.Enumeration object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
 				int featureID = Integer.parseInt(feature);
 				return new EListEditPart(node, object.eClass().getEStructuralFeature(featureID));
 			}else{
-				return new EnumerationEditPart(node);
+				return new EnumerationEditPart(node){
+					@Override
+					protected IFigure createFigure(){
+						return new EnumerationFigure(){
+							@Override
+							public void paintChildren(Graphics graphics){
+								Gradient.paintChildren(graphics, this);
+								super.paintChildren(graphics);
+							}
+						};
+					}
+
+				};
 			}
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseEnumerationLiteral(org.eclipse.uml2.uml.EnumerationLiteral)
-		 * @generated
-		 */
 		public EditPart caseEnumerationLiteral(org.eclipse.uml2.uml.EnumerationLiteral object){
 			return new EnumerationLiteralEditPart(node);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#casePrimitiveType(org.eclipse.uml2.uml.PrimitiveType)
-		 * @generated
-		 */
 		public EditPart casePrimitiveType(org.eclipse.uml2.uml.PrimitiveType object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -302,10 +304,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new PrimitiveTypeEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseAssociationClass(org.eclipse.uml2.uml.AssociationClass)
-		 * @generated NOT
-		 */
 		public EditPart caseAssociationClass(org.eclipse.uml2.uml.AssociationClass object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -323,12 +321,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ClassFromAssociationClassEditPart(node);
 			}
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseConstraint(org.eclipse.uml2.uml.Constraint)
-		 * @generated
-		 */
 		public EditPart caseConstraint(org.eclipse.uml2.uml.Constraint object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -338,10 +330,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ConstraintEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseSignal(org.eclipse.uml2.uml.Signal)
-		 * @generated
-		 */
 		public EditPart caseSignal(org.eclipse.uml2.uml.Signal object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -351,10 +339,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new SignalEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseReception(org.eclipse.uml2.uml.Reception)
-		 * @generated
-		 */
 		public EditPart caseReception(org.eclipse.uml2.uml.Reception object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -377,10 +361,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ExecutionEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseCreationEvent(org.eclipse.uml2.uml.CreationEvent)
-		 * @generated
-		 */
 		public EditPart caseCreationEvent(org.eclipse.uml2.uml.CreationEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -390,10 +370,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new CreationEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseDestructionEvent(org.eclipse.uml2.uml.DestructionEvent)
-		 * @generated
-		 */
 		public EditPart caseDestructionEvent(org.eclipse.uml2.uml.DestructionEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -403,10 +379,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new DestructionEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseSendOperationEvent(org.eclipse.uml2.uml.SendOperationEvent)
-		 * @generated
-		 */
 		public EditPart caseSendOperationEvent(org.eclipse.uml2.uml.SendOperationEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -416,10 +388,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new SendOperationEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseSendSignalEvent(org.eclipse.uml2.uml.SendSignalEvent)
-		 * @generated
-		 */
 		public EditPart caseSendSignalEvent(org.eclipse.uml2.uml.SendSignalEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -429,10 +397,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new SendSignalEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseReceiveOperationEvent(org.eclipse.uml2.uml.ReceiveOperationEvent)
-		 * @generated
-		 */
 		public EditPart caseReceiveOperationEvent(org.eclipse.uml2.uml.ReceiveOperationEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -442,10 +406,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ReceiveOperationEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseReceiveSignalEvent(org.eclipse.uml2.uml.ReceiveSignalEvent)
-		 * @generated
-		 */
 		public EditPart caseReceiveSignalEvent(org.eclipse.uml2.uml.ReceiveSignalEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -455,10 +415,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ReceiveSignalEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseCallEvent(org.eclipse.uml2.uml.CallEvent)
-		 * @generated
-		 */
 		public EditPart caseCallEvent(org.eclipse.uml2.uml.CallEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -468,10 +424,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new CallEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseAnyReceiveEvent(org.eclipse.uml2.uml.AnyReceiveEvent)
-		 * @generated
-		 */
 		public EditPart caseAnyReceiveEvent(org.eclipse.uml2.uml.AnyReceiveEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -481,10 +433,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new AnyReceiveEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseChangeEvent(org.eclipse.uml2.uml.ChangeEvent)
-		 * @generated
-		 */
 		public EditPart caseChangeEvent(org.eclipse.uml2.uml.ChangeEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -494,10 +442,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ChangeEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseSignalEvent(org.eclipse.uml2.uml.SignalEvent)
-		 * @generated
-		 */
 		public EditPart caseSignalEvent(org.eclipse.uml2.uml.SignalEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -507,10 +451,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new SignalEventEditPart(node);
 			}
 		}
-		/**
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseTimeEvent(org.eclipse.uml2.uml.TimeEvent)
-		 * @generated
-		 */
 		public EditPart caseTimeEvent(org.eclipse.uml2.uml.TimeEvent object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
@@ -520,129 +460,54 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new TimeEventEditPart(node);
 			}
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
-		 * @generated
-		 */
 		public EditPart defaultCase(EObject object){
 			return new EMFGraphNodeEditPart(node);
 		}
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
 	private class EdgeUMLSwitch extends UMLSwitch<EditPart>{
-		/** The graphical edge */
+		private final class NakedAssociationFigure extends AssociationFigure{
+		}
 		private GraphEdge edge;
-		/**
-		 * Constructor <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @param edge
-		 *            the graphical edge
-		 * @generated
-		 */
 		public EdgeUMLSwitch(GraphEdge edge){
 			this.edge = edge;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseDependency(org.eclipse.uml2.uml.Dependency)
-		 * @generated
-		 */
 		public EditPart caseDependency(org.eclipse.uml2.uml.Dependency object){
 			return new DependencyEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseUsage(org.eclipse.uml2.uml.Usage)
-		 * @generated
-		 */
 		public EditPart caseUsage(org.eclipse.uml2.uml.Usage object){
 			return new UsageEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseAssociation(org.eclipse.uml2.uml.Association)
-		 * @generated
-		 */
 		public EditPart caseAssociation(org.eclipse.uml2.uml.Association object){
 			return new AssociationEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseGeneralization(org.eclipse.uml2.uml.Generalization)
-		 * @generated
-		 */
 		public EditPart caseGeneralization(org.eclipse.uml2.uml.Generalization object){
 			return new GeneralizationEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseInterfaceRealization(org.eclipse.uml2.uml.InterfaceRealization)
-		 * @generated
-		 */
 		public EditPart caseInterfaceRealization(org.eclipse.uml2.uml.InterfaceRealization object){
 			return new InterfaceRealizationEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseTemplateBinding(org.eclipse.uml2.uml.TemplateBinding)
-		 */
 		public EditPart caseTemplateBinding(org.eclipse.uml2.uml.TemplateBinding object){
 			return new TemplateBindingEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#casePackageImport(org.eclipse.uml2.uml.PackageImport)
-		 * @generated
-		 */
 		public EditPart casePackageImport(org.eclipse.uml2.uml.PackageImport object){
 			return new PackageImportEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#casePackageMerge(org.eclipse.uml2.uml.PackageMerge)
-		 * @generated
-		 */
 		public EditPart casePackageMerge(org.eclipse.uml2.uml.PackageMerge object){
 			return new PackageMergeEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseAssociationClass(org.eclipse.uml2.uml.AssociationClass)
-		 * @generated
-		 */
 		public EditPart caseAssociationClass(org.eclipse.uml2.uml.AssociationClass object){
-			return new AssociationClassEditPart(edge);
+			return new AssociationClassEditPart(edge){
+
+				@Override
+				protected IFigure createFigure(){
+					return new NakedAssociationFigure();
+				}
+				
+			};
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseInstanceSpecification(org.eclipse.uml2.uml.InstanceSpecification)
-		 * @generated
-		 */
 		public EditPart caseInstanceSpecification(org.eclipse.uml2.uml.InstanceSpecification object){
 			return new InstanceSpecificationLinkEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
-		 * @generated
-		 */
 		public EditPart defaultCase(EObject object){
 			return new EMFGraphEdgeEditPart(edge);
 		}

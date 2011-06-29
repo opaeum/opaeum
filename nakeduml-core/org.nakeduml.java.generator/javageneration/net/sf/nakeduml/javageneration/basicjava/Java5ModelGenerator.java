@@ -36,7 +36,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
-import org.nakeduml.runtime.domain.AbstractEnum;
+import org.nakeduml.runtime.domain.IEnum;
 import org.nakeduml.runtime.domain.AbstractSignal;
 
 public class Java5ModelGenerator extends AbstractStructureVisitor{
@@ -56,7 +56,7 @@ public class Java5ModelGenerator extends AbstractStructureVisitor{
 				myClass = new OJEnum();
 				// In case it needs to be sent by jms or serialized as session state
 				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
-				myClass.addToImplementedInterfaces(new OJPathName(AbstractEnum.class.getName()));
+				myClass.addToImplementedInterfaces(new OJPathName(IEnum.class.getName()));
 				OJUtil.addMetaInfo(myClass, c);
 
 			} else if (c instanceof INakedInterface) {

@@ -17,7 +17,6 @@ import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.tinker.basicjava.tinker.TinkerUtil;
-import org.nakeduml.tinker.composition.AbstractCompositionNodeStrategy;
 
 public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy {
 
@@ -51,7 +50,7 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 		}
 	}
 
-	private void removeVertex(INakedBehavioredClassifier sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
+	private void removeVertex(ICompositionParticipant sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
 		OJSimpleStatement removeVertex  = new OJSimpleStatement( UtilityCreator.getUtilPathName().toJavaString() + "." + TinkerUtil.graphDbAccess + ".removeVertex(this.vertex)" );
 		removeVertex.setName(REMOVE_VERTEX);
 		markDeleted.getBody().addToStatements(removeVertex);

@@ -8,23 +8,23 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractEnum;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.IEnum;
+import org.nakeduml.runtime.domain.IActiveObject;
 
 public abstract class Value implements Serializable{
 	private static final long serialVersionUID = 531640008870617688L;
 	public static Value valueOf(Object value){
-		if(value instanceof AbstractEntity){
-			return valueOf((AbstractEntity) value);
-		}else if(value instanceof ActiveObject){
-			return valueOf((ActiveObject) value);
+		if(value instanceof IPersistentObject){
+			return valueOf((IPersistentObject) value);
+		}else if(value instanceof IActiveObject){
+			return valueOf((IActiveObject) value);
 		}else if(value instanceof Set<?>){
 			return valueOfCollection(new HashSet<Value>(), (Set<?>) value);
 		}else if(value instanceof List<?>){
 			return valueOfCollection(new ArrayList<Value>(), (List<?>) value);
-		}else if(value instanceof AbstractEnum){
-			return new EnumValue((AbstractEnum) value);
+		}else if(value instanceof IEnum){
+			return new EnumValue((IEnum) value);
 		}else if(value instanceof Serializable){
 			return new SerializableValue((Serializable) value);
 		}else{
@@ -38,13 +38,13 @@ public abstract class Value implements Serializable{
 		}
 		return new CollectionValue(newValue);
 	}
-	private static EntityValue valueOf(AbstractEntity inputSource){
+	private static EntityValue valueOf(IPersistentObject inputSource){
 		if(inputSource.getId() == null){
-			throw new IllegalStateException("entity " + ((AbstractEntity) inputSource).getClass().getName() + " does not have an id");
+			throw new IllegalStateException("entity " + ((IPersistentObject) inputSource).getClass().getName() + " does not have an id");
 		}
 		return new EntityValue(inputSource);
 	}
-	private static HelperValue valueOf(ActiveObject inputSource){
+	private static HelperValue valueOf(IActiveObject inputSource){
 		return new HelperValue(inputSource);
 	}
 	public abstract Object getValue(Session session);

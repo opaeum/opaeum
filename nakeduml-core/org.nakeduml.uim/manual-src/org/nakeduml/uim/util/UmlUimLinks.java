@@ -8,12 +8,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
@@ -41,7 +46,12 @@ import org.nakeduml.uim.form.OperationInvocationForm;
 import org.nakeduml.uim.form.OperationTaskForm;
 import org.nakeduml.uim.form.StateForm;
 
-public class UmlUimLinks{
+public class UmlUimLinks extends EContentAdapter{
+	@Override
+	public void notifyChanged(final Notification not){
+		if(not.getEventType() == Notification.ADD){
+		}
+	}
 	private boolean umlLoaded;
 	public boolean umlLoaded(){
 		return this.umlLoaded;
@@ -78,6 +88,7 @@ public class UmlUimLinks{
 		}
 		if(l == null){
 			l = new UmlUimLinks();
+			rs.eAdapters().add(l);
 		}
 		for(Resource r:rs.getResources()){
 			TreeIterator<EObject> allContents = r.getAllContents();
@@ -149,22 +160,33 @@ public class UmlUimLinks{
 		return null;
 	}
 	public static String getId(Element umlElement){
-		EAnnotation ann = umlElement.getEAnnotation("http://www.nakeduml.org");
-		if(ann == null){
-			ann = umlElement.createEAnnotation("http://www.nakeduml.org");
-			char[] a = UUID.randomUUID().toString().toCharArray();
-			for(int i = 0;i < a.length;i++){
-				if(!Character.isJavaIdentifierPart(a[i])){
-					a[i] = '_';
+		if(umlElement instanceof EmfWorkspace){
+			return ((EmfWorkspace) umlElement).getName();
+		}else{
+			EAnnotation ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+			if(ann == null){
+				ann = umlElement.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+			}
+			String uid = ann == null ? null : ann.getDetails().get("uid");
+			if(uid == null){
+				char[] a = UUID.randomUUID().toString().toCharArray();
+				for(int i = 0;i < a.length;i++){
+					if(!Character.isJavaIdentifierPart(a[i])){
+						a[i] = '_';
+					}
+				}
+				uid = new String(a);
+				if(ann == null){
+					// not in editable resource,but the filename and fragment would be stable and unique
+					Resource eResource = umlElement.eResource();
+					URI uri = eResource.getURI();
+					uid = uri.lastSegment() + eResource.getURIFragment(umlElement);
+				}else{
+					ann.getDetails().put("uid", uid);
 				}
 			}
-			if(ann != null){
-				ann.getDetails().put("uid", new String(a));
-			}else{
-				return new String(a);
-			}
+			return uid;
 		}
-		return ann.getDetails().get("uid");
 	}
 	private String getId(UmlReference uimElement){
 		return uimElement.getUmlElementUid();
@@ -223,6 +245,6 @@ public class UmlUimLinks{
 		return (Class) getUmlElement(nearestForm);
 	}
 	public Collection<Property> getOwnedAttributes(Classifier class1){
-		return (Collection)EmfElementFinder.getPropertiesInScope(class1);
+		return (Collection) EmfElementFinder.getPropertiesInScope(class1);
 	}
 }

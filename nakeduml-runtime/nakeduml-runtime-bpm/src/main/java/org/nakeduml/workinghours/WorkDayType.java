@@ -96,4 +96,14 @@ public class WorkDayType implements MetaIdentifiable, IEnum {
 	public int getClassId() {
 		return 19;
 	}
+	@Override
+	public String getPersistentName(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getNakedUmlId(){
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

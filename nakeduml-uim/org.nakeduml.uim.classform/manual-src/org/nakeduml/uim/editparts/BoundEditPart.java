@@ -13,7 +13,7 @@ import org.nakeduml.uim.binding.BindingPackage;
 import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.binding.UimBinding;
 import org.nakeduml.uim.figures.IBindingFigure;
-import org.nakeduml.uim.figures.UimDataColumnFigure;
+import org.nakeduml.uim.figures.UimColumnLayoutFigure;
 import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.draw2d.figures.ILabel;
@@ -32,12 +32,12 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 			ILabel field = fig.getBindingLabel();
 			if(uIMBinding != null && SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(uIMBinding) != null){
 				IFigure parent = fig.getParent();
-				while(!(parent.getParent() == null || parent instanceof UimDataColumnFigure)){
+				while(!(parent.getParent() == null || parent instanceof UimColumnLayoutFigure)){
 					parent = parent.getParent();
 				}
 				StringBuffer s = new StringBuffer();
 				if(SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(uIMBinding) instanceof Property){
-					if(parent instanceof UimDataColumnFigure){
+					if(parent instanceof UimColumnLayoutFigure){
 						s.append("row.");
 					}else{
 						s.append("self.");
@@ -84,7 +84,6 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 				// TODO memory leak may result - recursively remove all
 				// listening
 				super.updateModelListening(oldValue, newValue);
-				refreshVisuals();
 			default:
 				break;
 			}
@@ -95,7 +94,6 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 				// TODO memory leak may result - recursively remove all
 				// listening
 				super.updateModelListening(oldValue, newValue);
-				refreshVisuals();
 			default:
 				break;
 			}
@@ -106,7 +104,6 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 				// TODO memory leak may result - recursively remove all
 				// listening
 				super.updateModelListening(oldValue, newValue);
-				refreshVisuals();// ???necessary
 			default:
 				break;
 			}

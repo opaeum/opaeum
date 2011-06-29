@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
@@ -67,15 +68,19 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		putFormElements(atf);
 		atf.setFolder((ActivityFolder) UmlUimLinks.getInstance(a).getFolderFor(a.getActivity()));
 	}
-	@VisitBefore(matchSubclasses = false)
+	@VisitBefore(matchSubclasses = true)
 	public void beforeClass(Class c){
 		EntityFolder folder = (EntityFolder) UmlUimLinks.getInstance(c).getFolderFor(c.getNamespace());
 		createClassForm(c, folder, ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
 		createClassForm(c, folder, ActionKind.CREATE, ActionKind.BACK);
 	}
+	@VisitBefore(matchSubclasses = true)
+	public void beforeComponent(Component c){
+		//TODO create external view;
+	}
 	private void createClassForm(Class c,EntityFolder folder,ActionKind...actionKinds){
 		String suffix = actionKinds[0] == ActionKind.UPDATE ? "Editor" : "Creator";
-		String resourceUri = UmlUimLinks.getInstance(c).getId(c) + suffix;
+		String resourceUri = UmlUimLinks.getId(c) + suffix;
 		UimForm form = getFormFor(resourceUri, "uim");
 		ClassForm panel;
 		if(regenerate || form.getPanel() == null){

@@ -4,9 +4,9 @@ import javax.jms.MessageListener;
 
 import org.drools.runtime.process.WorkflowProcessInstance;
 import org.nakeduml.environment.SignalToDispatch;
-import org.nakeduml.runtime.domain.AbstractEntity;
-import org.nakeduml.runtime.domain.AbstractProcess;
-import org.nakeduml.runtime.domain.ActiveObject;
+import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IProcessObject;
 
 public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatch> implements MessageListener{
 	protected void deliverMessage(SignalToDispatch signalToDispatch) throws Exception{
@@ -22,9 +22,9 @@ public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatc
 		signalToDispatch.prepareForDelivery(sessionFactory.getCurrentSession());
 		transaction.commit();
 		Object s = signalToDispatch.getSource();
-		if(s instanceof AbstractProcess){
+		if(s instanceof IProcessObject){
 			transaction.begin();
-			WorkflowProcessInstance processInstance = ((AbstractProcess) s).getProcessInstance();
+			WorkflowProcessInstance processInstance = ((IProcessObject) s).getProcessInstance();
 			transaction.commit();
 			if(processInstance != null){
 				signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
@@ -37,8 +37,8 @@ public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatc
 		transaction.setTransactionTimeout(600);
 		transaction.begin();
 		signalToDispatch.prepareForDelivery(sessionFactory.getCurrentSession());
-		AbstractEntity target = (AbstractEntity) signalToDispatch.getTarget();
-		((ActiveObject) target).processSignal(signalToDispatch.getSignal());
+		IPersistentObject target = (IPersistentObject) signalToDispatch.getTarget();
+		((IActiveObject) target).processSignal(signalToDispatch.getSignal());
 		transaction.commit();
 	}
 }
