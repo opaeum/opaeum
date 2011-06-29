@@ -179,7 +179,9 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 		if(implementor.hasNodeMethod()){
 			OJAnnotatedOperation operation = new OJAnnotatedOperation();
-			operation.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), node.getMappingInfo().getQualifiedPersistentName()));
+			OJUtil.addMetaInfo(operation, node);
+
+
 			operation.setName(implementor.getMap().doActionMethod());
 			activityClass.addToOperations(operation);
 			operation.addParam("context", ActivityUtil.PROCESS_CONTEXT);

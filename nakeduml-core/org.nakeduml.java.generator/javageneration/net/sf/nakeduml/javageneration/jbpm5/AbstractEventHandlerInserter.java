@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.NakedMessageStructureMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -29,6 +30,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
+import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
@@ -52,7 +54,9 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	 * Inserts a call to the eventListener as the last line of code in the body of the triggering operation
 	 */
 	private void insertCallToOperationHandler(INakedBehavior behavior,INakedOperation nakedOperation){
-		OJAnnotatedClass ojOperationOwner = null;
+		// TODO this code assumes that the owner of the operation is the only
+		// class listening to the event - what about subclasses?
+		OJAnnotatedClass ojOperationOwner= null;
 		boolean operationBelongsToContext = behavior.getContext() != null && behavior.getContext().conformsTo(nakedOperation.getOwner());
 		if(operationBelongsToContext){
 			ojOperationOwner = findJavaClass(behavior.getContext());
@@ -79,9 +83,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			statements.add(statement);
 		}
 	}
-	private OJOperation implementInheritedEventMethod(INakedOperation nakedOperation,OJAnnotatedClass myOwner,NakedOperationMap map){
-		OJOperation ojOperation;
-		ojOperation = new OJAnnotatedOperation(map.javaOperName(), map.javaReturnTypePath());
+	private OJAnnotatedOperation implementInheritedEventMethod(INakedOperation nakedOperation,OJAnnotatedClass myOwner,NakedOperationMap map){
+		OJAnnotatedOperation ojOperation = new OJAnnotatedOperation(map.javaOperName(), map.javaReturnTypePath());
 		myOwner.addToOperations(ojOperation);
 		StringBuilder sb = new StringBuilder("super." + map.javaOperName() + "(");
 		Iterator<? extends INakedParameter> pIter = nakedOperation.getArgumentParameters().iterator();
@@ -110,15 +113,22 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		}
 		return ojOperation;
 	}
-	private OJStatement buildCallFromContextToEventHandlerOnBehavior(INakedBehavior behavior,INakedElement nakedOperation,OJOperation ojOperation){
+	private OJStatement buildCallFromContextToEventHandlerOnBehavior(INakedBehavior behavior,INakedElement nakedOperation,
+			OJAnnotatedOperation ojOperation){
 		OJStatement statement;
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ArtificialProperty(behavior, getOclEngine().getOclLibrary()));
 		if(behavior.isClassifierBehavior()){
-			statement = new OJSimpleStatement(map.getter()+ "()." + callToEventHandler(nakedOperation, ojOperation));
+			statement = new OJSimpleStatement("getClassifierBehavior()." + callToEventHandler(nakedOperation, ojOperation));
 		}else{
+			addConsumedFieldIfNecessary(ojOperation);
+			OJIfStatement ifNotConsumed=new OJIfStatement("!consumed");
 			OJForStatement forEach = new OJForStatement("behavior", map.javaBaseTypePath(), map.umlName());
-			forEach.getBody().addToStatements("behavior." + callToEventHandler(nakedOperation, ojOperation));
-			statement = forEach;
+			ifNotConsumed.getThenPart().addToStatements(forEach);
+			forEach.getBody().addToStatements("consumed=behavior." + callToEventHandler(nakedOperation, ojOperation));
+			OJIfStatement ifConsumedNow = new OJIfStatement("consumed");
+			forEach.getBody().addToStatements(ifConsumedNow);
+			ifConsumedNow.getThenPart().addToStatements("break");
+			statement = ifNotConsumed;
 		}
 		return statement;
 	}
@@ -218,7 +228,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			OJClass myOwner = (OJClass) this.javaModel.findIntfOrCls(path);
 			myOwner.addToImports(signal.getMappingInfo().getQualifiedJavaName());
 			String signalReception = "on" + signal.getMappingInfo().getJavaName().getCapped();
-			OJOperation ojOperation = OJUtil.findOperation(myOwner, signalReception);
+			OJAnnotatedOperation ojOperation = (OJAnnotatedOperation) OJUtil.findOperation(myOwner, signalReception);
 			if(ojOperation == null){
 				ojOperation = new OJAnnotatedOperation();
 				ojOperation.setName(signalReception);
@@ -259,7 +269,6 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		processed.setInitExp("false");
 		listener.getBody().addToLocals(processed);
 		OJIfStatement ifProcessActive=new OJIfStatement("getProcessInstance()!=null");
-		listener.getBody().addToStatements(ifProcessActive);
 		for(INakedTypedElement param:(List<? extends INakedTypedElement>) eventActions.getArguments()){
 			ClassifierMap map = new NakedClassifierMap(param.getType());
 			listener.addParam(param.getMappingInfo().getJavaName().toString(), map.javaTypePath());
@@ -316,16 +325,20 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			}
 		}else{
 			for(FromNode node:eventActions.getWaitingNodes()){
-				consumeEventIfNodeIsWaiting(listener, node, ifProcessActive.getThenPart());
+				consumeEventIfNodeInstanceIsWaiting(listener, node, ifProcessActive.getThenPart());
 			}
 		}
 		listener.getBody().addToStatements("return consumed");
 	}
-	private void consumeEventIfNodeInstanceIsWaiting(OJAnnotatedOperation listener,FromNode node,OJBlock body){
-		OJIfStatement ifTokenFound = new OJIfStatement();
-		body.addToStatements(ifTokenFound);
-		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId)" + "!=null");
-		implementEventConsumption(listener, node, ifTokenFound);
+	private void addConsumedFieldIfNecessary(OJAnnotatedOperation listener){
+		OJField consumedField = listener.getBody().findLocal("consumed");
+		if(consumedField == null){
+			consumedField = new OJAnnotatedField();
+			consumedField.setName("consumed");
+			consumedField.setType(new OJPathName("boolean"));
+			consumedField.setInitExp("false");
+			listener.getBody().addToLocals(consumedField);
+		}
 	}
 	protected void implementEventHandling(OJAnnotatedClass ojBehavior,INakedTriggerContainer behavior,Collection<WaitForEventElements> ea){
 		addFindWaitingNode(ojBehavior);
@@ -348,16 +361,18 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		activityClass.addToImports("java.util.Collection");
 		forNodeInstances.setCollection("getNodeInstancesRecursively()");
 		findWaitingNodeByNodeId.getBody().addToStatements(forNodeInstances);
-		OJIfStatement ifNameEquals = new OJIfStatement("((" + Jbpm5Util.getNode().getLast() + ")nodeInstance.getNode()).getId()==step", "return nodeInstance");
+		OJIfStatement ifNameEquals = new OJIfStatement("((" + Jbpm5Util.getNode().getLast() + ")nodeInstance.getNode()).getId()==step",
+				"return nodeInstance");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);
 		findWaitingNodeByNodeId.getBody().addToStatements("return null");
 	}
-	private void consumeEventIfNodeIsWaiting(OJOperation operationContext,FromNode node,OJBlock body){
+	private void consumeEventIfNodeInstanceIsWaiting(OJOperation operationContext,FromNode node,OJBlock body){
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		body.addToStatements(ifTokenFound);
 		String literalExpression = operationContext.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
 		if(node.isRestingNode()){
-			ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression + ".getId()))" + "!=null");
+			ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression
+					+ ".getId()))" + "!=null");
 		}else{
 			ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId("
 					+ node.getWaitingElement().getMappingInfo().getNakedUmlId() + "l))" + "!=null");

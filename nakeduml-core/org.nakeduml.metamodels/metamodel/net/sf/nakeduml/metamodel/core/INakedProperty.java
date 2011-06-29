@@ -13,7 +13,7 @@ import nl.klasse.octopus.model.IAttribute;
  * 
  */
 // TODO refactore all this out to the NakedUmlStructuralFeatureMap
-public interface INakedProperty extends INakedPackageableElement,INakedTypedElement,IAttribute,IAssociationEnd{
+public interface INakedProperty extends INakedPackageableElement,IModifiableTypedElement,IAttribute,IAssociationEnd{
 	INakedProperty getOtherEnd();
 	/**
 	 * Returns true if this property has one or more qualifiers

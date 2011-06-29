@@ -11,10 +11,12 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.auditing.IntegratedAuditMetaDefStep;
+import net.sf.nakeduml.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import net.sf.nakeduml.javageneration.jbpm5.IntegratedJbpm5EnvironmentStep;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -22,6 +24,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakedum.velocity.AbstractTextProducingVisitor;
@@ -38,6 +41,11 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 	}
 	public static final class MappingCollector extends AbstractJavaProducingVisitor{
 		private final HashSet<OJPathName> classes = new HashSet<OJPathName>();
+		private final HashSet<OJPathName> signals = new HashSet<OJPathName>();
+		@VisitBefore
+		public void signal(INakedSignal s){
+			signals.add(OJUtil.classifierPathname(s));
+		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitClassifier(INakedClassifier c){
 			if(isPersistent(c)){
@@ -67,7 +75,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 			generateConfigAndEnvironment(rootObjects, hibernateConfigName, OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
 			HashMap<String,Object> vars = buildVars(rootObjects, false);
 			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
-			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "standalone-" + hibernateConfigName,
+			processTemplate(workspace, "templates/Model/Jbpm5HibernateConfig.vsl", "standalone-" + hibernateConfigName,
 					OutputRootId.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, vars);
 		}
 	}
@@ -81,22 +89,31 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, true);
 			HashMap<String,Object> vars = buildVars(selfAndDependencies, false);
 			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
-			processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", "standalone-" + hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, vars);
+			processTemplate(workspace, "templates/Model/Jbpm5HibernateConfig.vsl", "standalone-" + hibernateConfigName,
+					OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, vars);
 		}
 	}
-	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,String hibernateConfigName,OutputRootId outputRootId,boolean isAdaptorEnvironment){
+	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,String hibernateConfigName,OutputRootId outputRootId,
+			boolean isAdaptorEnvironment){
 		SortedProperties properties = new SortedProperties();
+		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment);
 		if(isAdaptorEnvironment){
-			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName() + ".jbpm.adaptor.JbpmKnowledgeBase");
+			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
+					+ ".jbpm.adaptor.JbpmKnowledgeBase");
+			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, UtilityCreator.getUtilPathName() + ".metainfo.adaptor."
+					+ JavaMetaInfoMapGenerator.javaMetaInfoMapName());
+			processTemplate(workspace, "templates/Model/HornetQConfig.vsl", "hornetq-jms.xml", outputRootId, vars);
 		}else{
-			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName() + ".jbpm.domain.JbpmKnowledgeBase");
+			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, UtilityCreator.getUtilPathName()
+					+ ".jbpm.domain.JbpmKnowledgeBase");
+			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, UtilityCreator.getUtilPathName() + ".metainfo.domain."
+					+ JavaMetaInfoMapGenerator.javaMetaInfoMapName());
 		}
-		properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, UtilityCreator.getUtilPathName() + ".PersistentNameClassMapImpl");
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? CDI_ENVIRONMENT : DOMAIN_ENVIRONMENT);
 		properties.setProperty(Environment.HIBERNATE_CONFIG_NAME, hibernateConfigName);
+		properties.setProperty(Environment.DB_USER, config.getDbUser());
 		findOrCreateTextFile(properties, outputRootId, Environment.PROPERTIES_FILE_NAME);
-		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment);
-		processTemplate(workspace, "templates/Model/Jbpm4HibernateConfig.vsl", hibernateConfigName, outputRootId, vars);
+		processTemplate(workspace, "templates/Model/Jbpm5HibernateConfig.vsl", hibernateConfigName, outputRootId, vars);
 	}
 	private HashMap<String,Object> buildVars(Collection<? extends INakedElement> models,boolean isAdaptorEnvironment){
 		HashMap<String,Object> vars = new HashMap<String,Object>();
@@ -113,6 +130,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 			}
 		}
 		vars.put("persistentClasses", collector.classes);
+		vars.put("signals", collector.signals);
 		vars.put("pkg", HibernateUtil.getHibernatePackage(isAdaptorEnvironment));
 		return vars;
 	}

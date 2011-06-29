@@ -1,6 +1,7 @@
 package org.nakeduml.environment.domain;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -15,6 +16,7 @@ import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.ITimeEventDispatcher;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 public class DomainEnvironment extends Environment{
 	private MockTimeEventDispatcher timeEventDispatcher = new MockTimeEventDispatcher();
@@ -35,7 +37,9 @@ public class DomainEnvironment extends Environment{
 	}
 	@Override
 	public <T>T getComponent(Class<T> clazz){
-		if(clazz == ITimeEventDispatcher.class){
+		if(components.get(clazz.getName()) != null){
+			return (T) components.get(clazz.getName());
+		}else if(clazz == ITimeEventDispatcher.class){
 			return (T) timeEventDispatcher;
 		}else if(clazz == ISignalDispatcher.class){
 			return (T) signalDispatcher;
@@ -43,13 +47,14 @@ public class DomainEnvironment extends Environment{
 			return (T) getKnowledgeSession();
 		}else if(clazz == Session.class){
 			return (T) getHibernateSession();
+		}else{
+			return null;
 		}
-		return (T) components.get(clazz.getName());
 	}
 	@Override
-	public <T>T getComponent(Class<T> clazz, Annotation qualifiers){
+	public <T>T getComponent(Class<T> clazz,Annotation qualifiers){
 		throw new IllegalArgumentException("Qualifiers is not yet supported in the domain environment");
-	}	
+	}
 	private Session getHibernateSession(){
 		if(this.hibernateSession == null){
 			if(this.sessionFactory == null){
@@ -61,13 +66,13 @@ public class DomainEnvironment extends Environment{
 		}
 		return this.hibernateSession;
 	}
-	public void reset() {
+	public void reset(){
 		signalDispatcher.reset();
 		timeEventDispatcher.reset();
-		knowledgeSession=null;
-		//TODO this should not be necessary
-		abstractJbpmKnowledgeBase=null;
-		if (hibernateSession!=null) {
+		knowledgeSession = null;
+		// TODO this should not be necessary
+		abstractJbpmKnowledgeBase = null;
+		if(hibernateSession != null){
 			hibernateSession.clear();
 		}
 		components.clear();
@@ -94,7 +99,15 @@ public class DomainEnvironment extends Environment{
 	}
 	@Override
 	public <T>Class<T> getImplementationClass(T o){
-		// TODO Auto-generated method stub
-		return null;
+		Class<T> originalClass = IntrospectionUtil.getOriginalClass(o);
+		if(originalClass == Object.class || originalClass==Proxy.class){
+			// Interface
+			for(Class<?> class1:o.getClass().getInterfaces()){
+				if(!(class1.getName().startsWith("java") || class1.getName().startsWith("org.jboss") || class1.getName().startsWith("org.nakeduml"))){
+					return (Class<T>) class1;// return most significant interface
+				}
+			}
+		}
+		return originalClass;
 	}
 }

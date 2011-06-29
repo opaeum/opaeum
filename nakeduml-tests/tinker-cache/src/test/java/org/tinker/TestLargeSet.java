@@ -1,39 +1,19 @@
 package org.tinker;
 
 import org.apache.commons.lang.time.StopWatch;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.derivedunion.HumanHand;
 
-import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.TransactionalGraph;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
-import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
 
-public class TestLargeSet {
+public class TestLargeSet extends BaseLocalDbTest {
 
-	protected TransactionalGraph db;
-
-	@Before
-	public void before() {
-		db = new OrientGraph("local:/tmp/orientdbtest2");
-		db.clear();
-		db.setTransactionMode(Mode.MANUAL);
-	}	
-	
-	@After
-	public void after() {
-		db.shutdown();
-	}	
-	
 //	@Test
 	public void test() {
 		StopWatch stopWatch = new StopWatch();
-		((OrientGraph)db).getRawGraph().declareIntent( new OIntentMassiveInsert() );
+//		((OrientGraph)db).getRawGraph().declareIntent( new OIntentMassiveInsert() );
 		db.startTransaction();
 		stopWatch.start();
 		Vertex one = db.addVertex(null);
@@ -49,7 +29,7 @@ public class TestLargeSet {
 			}
 		}
 		db.stopTransaction(Conclusion.SUCCESS);
-		((OrientGraph)db).getRawGraph().declareIntent( null );
+//		((OrientGraph)db).getRawGraph().declareIntent( null );
 		stopWatch.stop();
 		System.out.println(stopWatch.toString());
 		stopWatch.reset();

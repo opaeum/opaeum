@@ -16,6 +16,6 @@
 	<classpathentry kind="src" output="target/classes" path="jbpm5metamodel"/>
 	<classpathentry kind="src" output="target/classes" path="uimetamodel"/>
 	<classpathentry kind="src" output="target/classes" path="pommetamodel"/>
-	<classpathentry exported="true" kind="lib" path="lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/nakeduml-runtime-domain-1.0.0.5-SNAPSHOT.jar" sourcepath="/nakeduml-runtime-domain"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

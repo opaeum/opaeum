@@ -43,6 +43,7 @@ public class Jbpm5Util{
 	public static String getGuardMethod(GuardedFlow t){
 		return "is" + t.getSource().getMappingInfo().getJavaName().getCapped() + t.getMappingInfo().getJavaName().getCapped();
 	}
+
 	public static String getArtificialForkName(INakedElement owner){
 		return "fork_for_" + owner.getMappingInfo().getPersistentName();
 	}

@@ -3,7 +3,7 @@ package org.tinker.interfacetest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 import org.util.GraphDb;
 
@@ -14,10 +14,12 @@ public class TestInterfaceOneToOne extends BaseLocalDbTest {
 
 	@Test
 	public void test() {
-		Vertex vertex1 = GraphDb.getDB().addVertex(null);
-		Vertex vertex2 = GraphDb.getDB().addVertex(null);
-		GraphDb.getDB().addEdge(null, vertex1, vertex2, "one");
-		GraphDb.getDB().addEdge(null, vertex1, vertex2, "one");
+		db.startTransaction();
+		Vertex vertex1 = GraphDb.getDb().addVertex(null);
+		Vertex vertex2 = GraphDb.getDb().addVertex(null);
+		GraphDb.getDb().addEdge(null, vertex1, vertex2, "one");
+		GraphDb.getDb().addEdge(null, vertex1, vertex2, "one");
+		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(2, countVertices());
 		assertEquals(2, countEdges());
 	}

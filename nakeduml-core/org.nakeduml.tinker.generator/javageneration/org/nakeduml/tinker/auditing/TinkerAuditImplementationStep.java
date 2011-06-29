@@ -5,10 +5,12 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
+import org.nakeduml.tinker.auditing.tinker.AuditCopyMethodImplementor;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditAttributeImplementor;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditAuditClassTransformation;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditCreator;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditOrignalClassTransformation;
+import org.nakeduml.tinker.auditing.tinker.TinkerAuditSchemaGenerator;
 import org.nakeduml.tinker.auditing.tinker.TinkerAuditSuperTypeGenerator;
 
 @StepDependency(phase = TinkerAuditGenerationPhase.class, requires={TinkerSoftDeleteImplementationStep.class}, after={TinkerSoftDeleteImplementationStep.class})
@@ -31,6 +33,12 @@ public class TinkerAuditImplementationStep extends AbstractJavaTransformationSte
 		TinkerAuditOrignalClassTransformation tinkerAuditOrignalClassTransformation = new TinkerAuditOrignalClassTransformation();
 		tinkerAuditOrignalClassTransformation.initialize(javaModel, config, textWorkspace, context);
 		tinkerAuditOrignalClassTransformation.startVisiting(workspace);
+		TinkerAuditSchemaGenerator schemaGenerator = new TinkerAuditSchemaGenerator();
+		schemaGenerator.initialize(javaModel, config, textWorkspace, context);
+		schemaGenerator.startVisiting(workspace);
+		AuditCopyMethodImplementor auditCopyMethodImplementor = new AuditCopyMethodImplementor();
+		auditCopyMethodImplementor.initialize(javaModel, config, textWorkspace, context);
+		auditCopyMethodImplementor.startVisiting(workspace);
 	}
 
 }

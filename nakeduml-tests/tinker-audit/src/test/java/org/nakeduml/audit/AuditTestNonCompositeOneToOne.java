@@ -13,7 +13,7 @@ import org.audittest.OneAudit;
 import org.audittest.OtherOne;
 import org.audittest.OtherOneAudit;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -117,8 +117,10 @@ public class AuditTestNonCompositeOneToOne extends BaseLocalDbTest {
 		assertEquals(4, otherOneAudits.size());
 		assertEquals(2, otherOne2Audits.size());
 		assertNotNull(oneAudits.get(3).getOtherOne());
+		db.startTransaction();
 		assertNull(otherOneAudits.get(2).getOne());
 		assertNull(otherOneAudits.get(3).getOne());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
 	@Test
@@ -141,8 +143,9 @@ public class AuditTestNonCompositeOneToOne extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
 		assertEquals(10, countEdges());
+		db.startTransaction();
 		assertEquals(0, hand1.getAudits().get(2).getOne().size());
-		
+		db.stopTransaction(Conclusion.SUCCESS);
 		
 	}
 	

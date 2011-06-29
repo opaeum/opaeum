@@ -2,8 +2,7 @@ package org.nakeduml.runtime.domain;
 
 
 public interface TinkerAuditNode extends TinkerNode {
-	int getTransactionNo();
-//	List<? extends TinkerAuditNode> getNextAuditEntries();
+	Long getTransactionNo();
 	TinkerAuditNode getNextAuditEntry();
 	TinkerAuditableNode getOriginal();
 }

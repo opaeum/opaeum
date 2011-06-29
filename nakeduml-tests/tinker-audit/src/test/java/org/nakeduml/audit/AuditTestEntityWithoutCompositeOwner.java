@@ -1,17 +1,17 @@
 package org.nakeduml.audit;
 
+import static org.junit.Assert.assertEquals;
+
 import org.audittest.Finger;
 import org.audittest.Hand;
-import static org.junit.Assert.*;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-import com.orientechnologies.orient.core.exception.OTransactionException;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 	
-	@Test(expected=OTransactionException.class)
+	@Test(expected=RuntimeException.class)
 	public void test() {
 		db.startTransaction();
 		Hand hand1 = new Hand();
@@ -24,7 +24,7 @@ public class AuditTestEntityWithoutCompositeOwner extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
-	@Test(expected=OTransactionException.class)
+	@Test(expected=RuntimeException.class)
 	public void test2() {
 		db.startTransaction();
 		Hand hand1 = new Hand();

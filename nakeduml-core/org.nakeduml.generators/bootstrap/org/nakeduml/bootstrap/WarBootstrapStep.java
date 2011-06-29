@@ -18,7 +18,6 @@ public class WarBootstrapStep extends AbstractBootstrapStep{
 		createConfig("web.xml", CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, "WEB-INF");
 		createConfig("arquillian.xml", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE);
 		createConfig("log4j.properties", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE);
-		createConfig("hornetq-jms.xml", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE_JBOSSAS);
 		createConfig("jndi.properties", CharArrayTextSource.OutputRootId.WEB_TEST_RESOURCE_JBOSSAS);
 		createDefaultHtmlPages("home.xhtml");
 		createDefaultHtmlPages("index.html");

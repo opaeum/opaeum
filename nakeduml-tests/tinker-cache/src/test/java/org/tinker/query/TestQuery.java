@@ -1,8 +1,8 @@
 package org.tinker.query;
 
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-public class TestQuery extends BaseTest {
+public class TestQuery extends BaseLocalDbTest {
 
 //	@Test
 //	public void testSQLQuery() {

@@ -9,6 +9,7 @@ import net.sf.nakeduml.linkage.SourcePopulationResolver;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.nakeduml.tinker.basicjava.TinkerFieldRemoverStep;
+import org.nakeduml.tinker.basicjava.tinker.TinkerSchemaGenerator;
 import org.nakeduml.tinker.basicjava.tinker.TinkerTransformation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {TinkerFieldRemoverStep.class, SourcePopulationResolver.class},after = {
@@ -19,5 +20,8 @@ public class TinkerExtendedCompositionSemanticsJavaStep extends AbstractJavaTran
 		TinkerTransformation tinkerTransformation = new TinkerTransformation();
 		tinkerTransformation.initialize(javaModel, config, textWorkspace, context);
 		tinkerTransformation.startVisiting(workspace);
+		TinkerSchemaGenerator schemaGenerator = new TinkerSchemaGenerator(); 
+		schemaGenerator.initialize(javaModel, config, textWorkspace, context);
+		schemaGenerator.startVisiting(workspace);
 	}
 }

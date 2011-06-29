@@ -1,5 +1,6 @@
 package org.nakeduml.hibernate.domain;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.hibernate.event.FlushEvent;
 import org.hibernate.event.FlushEventListener;
 import org.hibernate.event.PostLoadEvent;
 import org.hibernate.event.PostLoadEventListener;
+import org.hibernate.event.PreInsertEvent;
+import org.hibernate.event.PreInsertEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.event.def.DefaultFlushEventListener;
 import org.nakeduml.environment.Environment;
@@ -25,7 +28,7 @@ import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IEventSource;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,FlushEntityEventListener{
+public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,FlushEntityEventListener,PreInsertEventListener{
 	static Map<EventSource,Set<IEventSource>> eventSourceMap = new WeakHashMap<EventSource,Set<IEventSource>>();
 	@Override
 	public void onPostLoad(PostLoadEvent event){
@@ -86,33 +89,34 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	}
 	public static void sendEvents(Collection<IEventSource> eventSources){
 		IMessageSender sender = Environment.getInstance().getComponent(IMessageSender.class);
-		Set<AbstractNakedUmlEvent> requestedEvents = new HashSet<AbstractNakedUmlEvent>();
-		Set<SignalToDispatch> signalsToEntities = new HashSet<SignalToDispatch>();
-		Set<SignalToDispatch> signalsToHelpers = new HashSet<SignalToDispatch>();
 		for(IEventSource abstractEventSource:eventSources){
 			Set<Object> outgoingEvents = abstractEventSource.getOutgoingEvents();
 			for(Object object:outgoingEvents){
 				if(object instanceof AbstractNakedUmlEvent){
-					requestedEvents.add((AbstractNakedUmlEvent) object);
+					sender.sendObjectToQueue((Serializable) object, "queue/EventRequestQueue");
 				}else if(object instanceof SignalToDispatch){
-					if(((SignalToDispatch) object).getTarget() instanceof IPersistentObject){
-						signalsToEntities.add((SignalToDispatch) object);
-					}else{
-						signalsToHelpers.add((SignalToDispatch) object);
-					}
+					SignalToDispatch std = (SignalToDispatch)object;
+					std.prepareForDispatch();
+					sender.sendObjectToQueue(std, std.getQueueName());
 				}
 			}
+			outgoingEvents.clear();
 		}
-//		sender.sendObjectsToQueue(requestedEvents, "queue/EventRequestQueue");
-		sender.sendObjectsToQueue(signalsToEntities, "queue/EntitySignalQueue");
-		sender.sendObjectsToQueue(signalsToHelpers, "queue/HelperSignalQueue");
+		
 	}
 	protected IPersistentObject getAbstractEntity(FlushEvent event,ChangeEvent changeEvent){
 		try{
-			return (IPersistentObject) event.getSession().load(Class.forName(changeEvent.getEventSourceClassName()), changeEvent.getEventSourceId());
+			return (IPersistentObject) event.getSession().load(changeEvent.getEventSourceClass(), changeEvent.getEventSourceId());
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();
 		}
+	}
+	@Override
+	public boolean onPreInsert(PreInsertEvent event){
+		if(event.getEntity() instanceof IEventSource){
+			addEventSource(event.getSession(), (IEventSource) event.getEntity());
+		}
+		return false;
 	}
 }

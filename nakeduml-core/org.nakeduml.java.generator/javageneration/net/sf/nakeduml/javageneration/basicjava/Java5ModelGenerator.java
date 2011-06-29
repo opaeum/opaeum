@@ -27,13 +27,16 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
+import org.nakeduml.runtime.domain.AbstractEnum;
 import org.nakeduml.runtime.domain.AbstractSignal;
 
 public class Java5ModelGenerator extends AbstractStructureVisitor{
@@ -53,16 +56,28 @@ public class Java5ModelGenerator extends AbstractStructureVisitor{
 				myClass = new OJEnum();
 				// In case it needs to be sent by jms or serialized as session state
 				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
-			}else if(c instanceof INakedInterface){
+				myClass.addToImplementedInterfaces(new OJPathName(AbstractEnum.class.getName()));
+				OJUtil.addMetaInfo(myClass, c);
+
+			} else if (c instanceof INakedInterface) {
 				myClass = new OJAnnotatedInterface();
-				// In case it needs to be sent by jms or serialized as session state
-				((OJAnnotatedInterface) myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
-			}else{
+				//In case it needs to be sent by jms or serialized as session state
+				((OJAnnotatedInterface)myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
+				OJUtil.addMetaInfo(myClass, c);
+
+			} else {
 				myClass = new OJAnnotatedClass();
 				// Create default constructor for inits
 				myClass.getDefaultConstructor();
 				// In case it needs to be sent by jms or serialized as session state
 				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
+				OJUtil.addMetaInfo(myClass, c);
+				OJAnnotatedField seri = new OJAnnotatedField("serialVersionUID", new OJPathName("long"));
+				seri.setStatic(true);
+				seri.setFinal(true);
+				seri.setVisibility(OJVisibilityKind.PRIVATE);
+				seri.setInitExp(c.getMappingInfo().getNakedUmlId()+"");
+				myClass.addToFields(seri);
 			}
 			// TODO find another place
 			if(c instanceof INakedSignal){
@@ -99,7 +114,6 @@ public class Java5ModelGenerator extends AbstractStructureVisitor{
 				}
 			}
 			applyStereotypesAsAnnotations((c), myClass);
-			myClass.putAnnotation(new OJAnnotationValue(new OJPathName("org.nakeduml.annotation.PersistentName"), c.getMappingInfo().getQualifiedPersistentName()));
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

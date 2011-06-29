@@ -35,6 +35,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.name.NameConverter;
+import org.nakeduml.tinker.basicjava.tinker.TinkerAttributeImplementorStrategy;
 import org.nakeduml.tinker.basicjava.tinker.TinkerUtil;
 
 public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
@@ -151,24 +152,21 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 							buildPolymorphicGetterForMany(map, getter);
 						} else {
 						}
+					} else if (prop.getBaseType() instanceof INakedEnumeration) {
+						if (map.isOne()) {
+							TinkerAttributeImplementorStrategy.buildGetterForToOneEnumeration(map, getter, prop);
+						} else {
+							TinkerAttributeImplementorStrategy.buildGetterForManyEnumeration(owner, map, getter, prop);
+						}
 					} else {
 						if (map.isOne()) {
 							getter.getBody().addToStatements(
 									"return (" + map.javaTypePath() + ") this.vertex.getProperty(\""
 											+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
 						} else {
-							OJField result = new OJField();
-							result.setName("result");
-							result.setType(map.javaAuditTypePath());
-							result.setInitExp("(" + map.javaAuditTypePath().getCollectionTypeName() + ") this.vertex.getProperty(\""
-									+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
-							getter.getBody().addToLocals(result);
-							OJIfStatement ifNull = new OJIfStatement("result != null");
-							ifNull.addToThenPart("return result");
-							ifNull.addToElsePart("return " + map.javaDefaultValue());
-							getter.getBody().addToStatements(ifNull);
+							TinkerAttributeImplementorStrategy.buildGetterForToManyEmbbedded(owner, map, getter, prop);
 						}
-					}
+					}						
 				}
 			}
 		}
@@ -187,7 +185,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		param.addToElementTypes(map.javaAuditBaseTypePath());
 		getAllAuditsForOne.addParam("removedAudits", param);
 
-		getAllAuditsForOne.addParam("transactionNo", new OJPathName("int"));
+		getAllAuditsForOne.addParam("transactionNo", new OJPathName("java.lang.Long"));
 		getAllAuditsForOne.setReturnType(map.javaAuditBaseTypePath());
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
 		ifStatement.addToThenPart(map.javaAuditBaseTypePath().getLast() + " result = previous.getAuditFor" + NameConverter.capitalize(map.umlName())
@@ -209,7 +207,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		getAuditsForThisOne.setVisibility(OJVisibilityKind.PRIVATE);
 		owner.addToOperations(getAuditsForThisOne);
 		getAuditsForThisOne.setName("getAuditFor" + NameConverter.capitalize(map.umlName()));
-		getAuditsForThisOne.addParam("transactionNo", new OJPathName("int"));
+		getAuditsForThisOne.addParam("transactionNo", new OJPathName("java.lang.Long"));
 
 		OJPathName param = new OJPathName("java.util.Map");
 		param.addToElementTypes(new OJPathName("String"));
@@ -282,7 +280,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		getAllAuditsForMany.addParam("audits", param);
 		getAllAuditsForMany.addParam("removedAudits", param);
 
-		getAllAuditsForMany.addParam("transactionNo", new OJPathName("int"));
+		getAllAuditsForMany.addParam("transactionNo", new OJPathName("java.lang.Long"));
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
 		ifStatement.addToThenPart("audits.putAll(previous.getAuditsFor" + NameConverter.capitalize(map.umlName()) + "(audits, removedAudits, transactionNo))");
 		ifStatement.addToThenPart("getAllAuditsFor" + NameConverter.capitalize(map.umlName())
@@ -303,7 +301,7 @@ public class TinkerAuditAttributeImplementor extends StereotypeAnnotator {
 		param.addToElementTypes(map.javaAuditBaseTypePath());
 		getAuditsForThisMany.addParam("audits", param);
 		getAuditsForThisMany.addParam("removedAudits", param);
-		getAuditsForThisMany.addParam("transactionNo", new OJPathName("int"));
+		getAuditsForThisMany.addParam("transactionNo", new OJPathName("java.lang.Long"));
 		getAuditsForThisMany.setReturnType(param);
 		OJField result = new OJField();
 		result.setType(param);

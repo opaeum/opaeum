@@ -58,10 +58,14 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitComplexStructure(INakedComplexStructure complexType){
-		if(OJUtil.hasOJClass(complexType) && isPersistent(complexType)){
+		if(OJUtil.hasOJClass(complexType)){
 			OJAnnotatedClass owner = findJavaClass(complexType);
 			addAllInstances(complexType, owner);
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
+			OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Entity"));
+			entity.setImportType(false);
+			entity.putAttribute("dynamicUpdate", true);
+			owner.putAnnotation(entity);
 			if(table != null && table.hasAttribute("uniqueConstraints")){
 				OJAnnotationAttributeValue attr = table.findAttribute("uniqueConstraints");
 				for(OJAnnotationValue v:attr.getAnnotationValues()){
@@ -121,9 +125,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					// owner.addAnnotation(field, new OJAnnotation(new
 					// OJPathName("javax.persistence.Transient")));
 				}
-				if (f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)) {
-					HibernateUtil.addManyToAny(owner,field, map,config);
-					if (f.isComposite()) {
+				if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
+					HibernateUtil.addManyToAny(owner, field, map, config);
+					if(f.isComposite()){
 						HibernateUtil.addCascade(field, CascadeType.ALL);
 					}
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
@@ -233,7 +237,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			OJAnnotationValue type = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Type"));
 			type.putAttribute(new OJAnnotationAttributeValue("type", "long"));
 			collectionId.putAttribute(new OJAnnotationAttributeValue("type", type));
-			collectionId.putAttribute(new OJAnnotationAttributeValue("generator", "id_generator"));
+			collectionId.putAttribute(new OJAnnotationAttributeValue("generator", "sequence"));
 			field.addAnnotationIfNew(collectionId);
 		}
 	}

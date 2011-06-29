@@ -6,11 +6,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public class TestCompositeComponent extends BaseTest {
+public class TestCompositeComponent extends BaseLocalDbTest {
 
 	@Test
 	public void testCreation() {
@@ -52,9 +53,9 @@ public class TestCompositeComponent extends BaseTest {
 	
 	@Test
 	public void testBug() {
-		Vertex one = org.util.GraphDb.getDB().addVertex(null);
-		Vertex two = org.util.GraphDb.getDB().addVertex(null);
-		Edge edge = org.util.GraphDb.getDB().addEdge(null, one, two,"one-two");
+		Vertex one = db.addVertex(null);
+		Vertex two = db.addVertex(null);
+		Edge edge = db.addEdge(null, one, two,"one-two");
 		edge.setProperty("inClass", two.getClass().getName());
 		
 		assertEquals(2, countVertices());
@@ -62,7 +63,7 @@ public class TestCompositeComponent extends BaseTest {
 		
 		Iterable<Edge> iter8 = one.getOutEdges("one-two");
 		if ( iter8.iterator().hasNext() ) {
-			org.util.GraphDb.getDB().removeEdge(iter8.iterator().next());
+			db.removeEdge(iter8.iterator().next());
 		}
 		assertEquals(2, countVertices());
 		assertEquals(0, countEdges());		

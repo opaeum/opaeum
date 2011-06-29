@@ -5,8 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-public class TestCompositionOneToOne extends BaseTest {
+public class TestCompositionOneToOne extends BaseLocalDbTest {
 
 	@Test
 	public void testCreation() {

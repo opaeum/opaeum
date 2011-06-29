@@ -3,10 +3,10 @@ package org.tinker;
 import java.util.Set;
 
 import org.apache.commons.lang.time.StopWatch;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.derivedunion.Hand;
 import org.tinker.derivedunion.MamalHand;
 
-import com.orientechnologies.orient.core.config.OGlobalConfiguration;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
 public class TestLargeSet extends BaseLocalDbTest {
@@ -15,7 +15,7 @@ public class TestLargeSet extends BaseLocalDbTest {
 	public void test() {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		OGlobalConfiguration.TX_USE_LOG.setValue(false);
+//		OGlobalConfiguration.TX_USE_LOG.setValue(false);
 //		GraphDb.getRawGraph().declareIntent( new OIntentMassiveInsert() );
 		db.startTransaction();
 		God god = new God();

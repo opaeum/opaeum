@@ -101,8 +101,8 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 			// Fetch root entity
 			OJPathName utilPkg = UtilityCreator.getUtilPathName();
 			createTestUtilClass(collector, utilPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC, model.getFileName());
-			createExampleTestClass(model.getFileName(), collector.rootEntity, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
-			createExampleStartup(collector, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
+//			createExampleTestClass(model.getFileName(), collector.rootEntity, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
+//			createExampleStartup(collector, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

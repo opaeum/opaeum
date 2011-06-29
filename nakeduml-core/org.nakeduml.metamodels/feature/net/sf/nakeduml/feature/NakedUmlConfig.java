@@ -10,7 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class NakedUmlConfig{
+import org.nakeduml.environment.Environment;
+
+
+public class NakedUmlConfig {
+	private static final String DB_USER = "nakeduml.database.user";
 	private static final String JDBC_DIALECT = "nakeduml.jdbc.dialect";
 	private static final String DATA_SOURCE_NAME = "nakeduml.hibernate.ds.name";
 	private static final String LIST_COLUMNS = "nakeduml.list.columns";
@@ -180,6 +184,10 @@ public class NakedUmlConfig{
 	public String getCompositionNodeImplementationStrategy(){
 		return this.props.getProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY);
 	}
+	public String getDbUser(){
+		return this.props.getProperty(DB_USER);
+	}
+
 	public void setMavenGroupId(String string){
 		this.props.setProperty(MAVEN_GROUPID, string);
 	}

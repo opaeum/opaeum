@@ -9,7 +9,7 @@ import org.audittest.Hand;
 import org.audittest.ManyA;
 import org.audittest.ManyB;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

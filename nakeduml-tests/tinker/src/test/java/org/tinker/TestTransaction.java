@@ -1,17 +1,9 @@
 package org.tinker;
 
-import static org.junit.Assert.*;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
-import org.drools.command.assertion.AssertEquals;
-import org.junit.Test;
-import org.tinker.God;
 
-import com.orientechnologies.orient.core.id.ORecordId;
-import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
-import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
-import com.tinkerpop.blueprints.pgm.Vertex;
-
-public class TestTransaction extends BaseTest {
+public class TestTransaction extends BaseLocalDbTest {
 
 //	@Test
 //	public void testTransactionPass() {

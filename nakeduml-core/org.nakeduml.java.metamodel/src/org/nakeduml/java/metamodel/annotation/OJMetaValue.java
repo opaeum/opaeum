@@ -17,6 +17,13 @@ import org.nakeduml.java.metamodel.OJPathName;
  * attribute value that could also have a value
  */
 public abstract class OJMetaValue extends OJElement {
+	boolean importType=true;
+	public boolean isImportType(){
+		return importType;
+	}
+	public void setImportType(boolean importType){
+		this.importType = importType;
+	}
 	protected List<Object> values = new ArrayList<Object>();
 
 	public List<Object> getValues() {
@@ -153,6 +160,7 @@ public abstract class OJMetaValue extends OJElement {
 
 	public void copyDeepInfoInto(OJMetaValue copy) {
 		super.copyInfoInto(copy);
+		copy.importType=importType;
 		for (Object o : values) {
 			if (o instanceof OJPathName) {
 				copy.values.add(((OJPathName) o).getDeepCopy());

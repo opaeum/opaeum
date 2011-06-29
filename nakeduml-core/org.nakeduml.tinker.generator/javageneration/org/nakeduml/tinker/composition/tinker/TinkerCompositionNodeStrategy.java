@@ -13,10 +13,16 @@ import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.tinker.basicjava.tinker.TinkerUtil;
+import org.nakeduml.tinker.composition.AbstractCompositionNodeStrategy;
 
-public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy{
+public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrategy implements CompositionNodeStrategy {
+
+	public static final String REMOVE_VERTEX = "removeVertex";
+
 	@Override
 	public void addConstructorForTests(OJAnnotatedClass ojClass,ICompositionParticipant c){
 		if(c.hasComposite()){
@@ -44,8 +50,11 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 			removeVertex(sc, ojClass, markDeleted);
 		}
 	}
-	private void removeVertex(ICompositionParticipant sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
-		markDeleted.getBody().addToStatements(UtilityCreator.getUtilPathName().toJavaString() + ".GraphDb.getDB().removeVertex(this.vertex)");
+
+	private void removeVertex(INakedBehavioredClassifier sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
+		OJSimpleStatement removeVertex  = new OJSimpleStatement( UtilityCreator.getUtilPathName().toJavaString() + "." + TinkerUtil.graphDbAccess + ".removeVertex(this.vertex)" );
+		removeVertex.setName(REMOVE_VERTEX);
+		markDeleted.getBody().addToStatements(removeVertex);
 	}
 	@Override
 	public void addAddToOwningObject(ICompositionParticipant c,OJAnnotatedClass ojClass){

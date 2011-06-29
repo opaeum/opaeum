@@ -4,11 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
-import org.tinker.hierarchy.Folder;
-import org.tinker.hierarchy.Hierarchy;
-import org.tinker.hierarchy.RealRootFolder;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

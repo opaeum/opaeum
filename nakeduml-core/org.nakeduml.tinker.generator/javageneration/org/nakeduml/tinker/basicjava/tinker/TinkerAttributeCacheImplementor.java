@@ -29,10 +29,12 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
+import org.nakeduml.java.metamodel.OJStatement;
 import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.tinker.composition.tinker.TinkerCompositionNodeStrategy;
 
 public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisitor {
 
@@ -82,29 +84,38 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		} else {
 			properties.addAll(ew.getOwnedAttributes());
 		}
+		//This is to ensure that the vertex removal happens lasts, after being removed from the cache
+		int indexOfRemoveVertex = 0;
+		OJStatement removeVertex = markDeleted.getBody().findStatement(TinkerCompositionNodeStrategy.REMOVE_VERTEX);
+		if (removeVertex!=null) {
+			indexOfRemoveVertex = markDeleted.getBody().getStatements().indexOf(removeVertex);
+			if (indexOfRemoveVertex == -1) {
+				indexOfRemoveVertex = 0;
+			}
+		}
 		for (INakedProperty np : properties) {
 			if (np.getOtherEnd() != null && !np.isDerived()) {
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
 				if (map.isManyToMany()) {
-					implementInternalRemoveMany(ojClass, markDeleted, map);
+					implementInternalRemoveMany(ojClass, markDeleted, map, indexOfRemoveVertex);
 				} else if (map.isManyToOne() && np.getOtherEnd().isNavigable()) {
 					OJIfStatement ifNotNull = new OJIfStatement(map.umlName() + "!=null", map.umlName() + "." + otherMap.internalRemover()
 							+ "(this)");
-					markDeleted.getBody().addToStatements(ifNotNull);
+					markDeleted.getBody().addToStatements(indexOfRemoveVertex, ifNotNull);
 				} else if (!np.isComposite() && map.isOneToMany() && np.getOtherEnd().isNavigable()) {
-					implementInternalRemoveMany(ojClass, markDeleted, map);
+					implementInternalRemoveMany(ojClass, markDeleted, map, indexOfRemoveVertex);
 				} else if (map.isOneToOne() && !np.isInverse() && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.isDerivedUnion()) {
 					OJIfStatement ifNotNull = new OJIfStatement(map.umlName() + "!=null", map.umlName() + "." + otherMap.internalRemover()
 							+ "(this)");
-					markDeleted.getBody().addToStatements(ifNotNull);
+					markDeleted.getBody().addToStatements(indexOfRemoveVertex,  ifNotNull);
 				}
 			}
 		}
 	}	
 
-	private void implementInternalRemoveMany(OJClass ojClass, OJAnnotatedOperation markDeleted, NakedStructuralFeatureMap map) {
-		markDeleted.getBody().addToStatements(TinkerUtil.constructNameForInternalManiesRemoval(map) + "()");
+	private void implementInternalRemoveMany(OJClass ojClass, OJAnnotatedOperation markDeleted, NakedStructuralFeatureMap map, int indexOfRemoveVertex) {
+		markDeleted.getBody().addToStatements(indexOfRemoveVertex, TinkerUtil.constructNameForInternalManiesRemoval(map) + "()");
 		OJAnnotatedOperation internalRemoveManies = new OJAnnotatedOperation(TinkerUtil.constructNameForInternalManiesRemoval(map));
 		ojClass.addToOperations(internalRemoveManies);
 		OJField tmp = new OJField();
@@ -326,13 +337,11 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		OJIfStatement ifEmpty = new OJIfStatement("this." + map.umlName() + ".isEmpty()");
 		OJField result = getter.getBody().findLocal(TinkerAttributeImplementorStrategy.EMBEDDED_MANY_RESULT);
 		ifEmpty.getThenPart().addToLocals(result);
-		OJIfStatement ifNotNull = (OJIfStatement) getter.getBody().findStatementRecursive(TinkerAttributeImplementorStrategy.IFNOTNULL_EMBEDDED_MANY);
-		ifNotNull.getThenPart().getStatements().clear();
-		ifNotNull.addToThenPart(map.umlName() + ".tinkerAddAll(" + TinkerAttributeImplementorStrategy.EMBEDDED_MANY_RESULT + ")");
-		ifNotNull.setElsePart(null);
+		OJIfStatement ifNotNullEmbbedded = (OJIfStatement) getter.getBody().findStatementRecursive(TinkerAttributeImplementorStrategy.EMBEDDED_MANY_RESULT_IFNOTNULL);
+		ifEmpty.addToThenPart(ifNotNullEmbbedded);
 		getter.getBody().removeAllFromStatements();
 		getter.getBody().removeAllFromLocals();
-		ifEmpty.addToThenPart(ifNotNull);
+		ifEmpty.addToThenPart(map.umlName() + ".tinkerAddAll(" + TinkerAttributeImplementorStrategy.EMBEDDED_MANY_RESULT + ")");
 		getter.getBody().addToStatements(ifEmpty);
 		getter.getBody().addToStatements("return this." + map.umlName());
 	}

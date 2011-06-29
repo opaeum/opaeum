@@ -1,8 +1,9 @@
 package org.tinker.polymorphism;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
@@ -33,7 +34,7 @@ public class TestPolymorphicNonCompositeOneToOne extends BaseLocalDbTest {
 		assertEquals(17, countEdges());
 		assertEquals("concreteZ1", concreteX1.getAbstractZ1().getName());
 
-		db.stopTransaction(Conclusion.SUCCESS);
+		db.startTransaction();
 		concreteZ2.setAbstractX1(concreteX2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());

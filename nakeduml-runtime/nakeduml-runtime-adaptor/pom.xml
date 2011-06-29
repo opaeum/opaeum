@@ -4,7 +4,7 @@
 		<artifactId>numl-runtime</artifactId>
 		<groupId>org.nakeduml</groupId>
 		<version>1.0.0.6-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+		<relativePath>../../nakeduml-core/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
@@ -162,22 +162,22 @@
 				</exclusion>
 			</exclusions>
 		</dependency-->
-		<dependency>
-			<groupId>org.jboss.seam.persistence</groupId>
-			<artifactId>seam-persistence-api</artifactId>
-			<version>${seam.persistence.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.seam.persistence</groupId>
-			<artifactId>seam-persistence-impl</artifactId>
-			<version>${seam.persistence.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.jboss.seam.solder</groupId>
-					<artifactId>seam-solder</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.jboss.seam.persistence</groupId>-->
+<!--			<artifactId>seam-persistence-api</artifactId>-->
+<!--			<version>${seam.persistence.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.jboss.seam.persistence</groupId>-->
+<!--			<artifactId>seam-persistence-impl</artifactId>-->
+<!--			<version>${seam.persistence.version}</version>-->
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<groupId>org.jboss.seam.solder</groupId>-->
+<!--					<artifactId>seam-solder</artifactId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.jboss.seam.solder</groupId>
 			<artifactId>seam-solder-api</artifactId>

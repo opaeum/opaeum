@@ -1,6 +1,5 @@
 package org.nakeduml.event;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,21 +16,19 @@ public class EventActivator{
 		List<TimeEvent> list = cri.list();
 		for(TimeEvent timeEvent:list){
 			session.delete(timeEvent);
+			sender.sendObjectToQueue(timeEvent, "queue/EventDeliveryQueue");
 		}
-		sender.sendObjectsToQueue(list, "queue/EventDeliveryQueue");
 	}
 	public void activateChangeEvents(Session session,IMessageSender sender){
 		Criteria cri = session.createCriteria(ChangeEvent.class);
 		List<ChangeEvent> list = cri.list();
-		List<ChangeEvent> trueCases = new ArrayList<ChangeEvent>();
 		for(ChangeEvent changeEvent:list){
 			IPersistentObject source = (IPersistentObject) session.get(changeEvent.getEventSourceClass(), changeEvent.getEventSourceId());
 			changeEvent.evaluateConditionOn(source);
 			if(changeEvent.isTrue()){
 				session.delete(changeEvent);
-				trueCases.add(changeEvent);
+				sender.sendObjectToQueue(changeEvent, "queue/EventDeliveryQueue");
 			}
 		}
-		sender.sendObjectsToQueue(trueCases, "queue/EventDeliveryQueue");
 	}
 }

@@ -11,8 +11,10 @@ public abstract class Environment {
 	public static final String ENVIRONMENT_IMPLEMENTATION = "nakeduml.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "nakeduml.env.properties";
 	public static final String PERSISTENT_NAME_CLASS_MAP = "nakeduml.persistentname.classmap.implementation";
+	public static final String DB_USER = "nakeduml.database.user";
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
-	protected static PersistentNameClassMap persistentNameClassMap;
+	protected static JavaMetaInfoMap persistentNameClassMap;
+	protected Properties properties;
 
 	public static Environment getInstance() {
 		if (instance.get() == null) {
@@ -20,9 +22,9 @@ public abstract class Environment {
 		}
 		return instance.get();
 	}
-	public static PersistentNameClassMap getPersistentNameClassMap() {
+	public static JavaMetaInfoMap getMetaInfoMap() {
 		if (persistentNameClassMap == null) {
-			persistentNameClassMap= (PersistentNameClassMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
+			persistentNameClassMap= (JavaMetaInfoMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
 		}
 		return persistentNameClassMap;
 	}
@@ -33,6 +35,9 @@ public abstract class Environment {
 		try {
 			Properties properties = loadProperties();
 			newInstance = Class.forName(properties.getProperty(environmentImplementation)).newInstance();
+			if (newInstance instanceof Environment) {
+				((Environment)newInstance).properties = properties;
+			}
 		} catch (InstantiationException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
@@ -42,7 +47,9 @@ public abstract class Environment {
 		}
 		return newInstance;
 	}
-
+	public String getProperty(String name){
+		return properties.getProperty(name);
+	}
 	public static Properties loadProperties() {
 		Properties properties;
 		try {

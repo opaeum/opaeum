@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 
 import org.drools.runtime.process.ProcessContext;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
-import org.nakeduml.annotation.PersistentName;
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
@@ -28,8 +28,8 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	@Column(name = "event_source_id")
 	private Long eventSourceId;
 	@Basic
-	@Column(name = "event_source_class_name")
-	private String eventSourceClassName;
+	@Column(name = "event_source_class_id")
+	private Integer eventSourceClassId;
 	@Basic
 	@Column(name = "callback_method_name")
 	private String callbackMethodName;
@@ -45,7 +45,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	private String nodeInstanceId;
 	@Override
 	public String getDescription(){
-		return getEventSourceClassName() + "." + getCallbackMethodName() + "()";
+		return getEventSourceClass().getName() + "." + getCallbackMethodName() + "()";
 	}
 	@Override
 	public int getRetryCount(){
@@ -56,7 +56,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	public AbstractNakedUmlEvent(IPersistentObject target,String callBackMethodName,ProcessContext ctx){
 		this(target, callBackMethodName);
 		this.nodeInstanceId = ((NodeInstanceImpl) ctx.getNodeInstance()).getUniqueId();
-		this.eventSourceClassName = IntrospectionUtil.getOriginalClass(target.getClass()).getAnnotation(PersistentName.class).value();
+		this.eventSourceClassId = IntrospectionUtil.getOriginalClass(target.getClass()).getAnnotation(NumlMetaInfo.class).nakedUmlId();
 	}
 	public AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName2,boolean cancelled){
 		this(process, callBackMethodName2);
@@ -65,6 +65,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	private AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName){
 		this.eventSource = process;
 		this.eventSourceId = process.getId();
+		this.eventSourceClassId = IntrospectionUtil.getOriginalClass(process.getClass()).getAnnotation(NumlMetaInfo.class).nakedUmlId();
 		this.callbackMethodName = callBackMethodName;
 	}
 	public Long getEventSourceId(){
@@ -85,12 +86,9 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 			return false;
 		}
 	}
-	public String getEventSourceClassName(){
-		return eventSourceClassName;
-	}
-	public Class<? extends IPersistentObject> getEventSourceClass(){
+	public Class<?> getEventSourceClass(){
 		try{
-			return Environment.getPersistentNameClassMap().getClass(eventSourceClassName);
+			return Environment.getMetaInfoMap().getClass(eventSourceClassId);
 		}catch(Exception e){
 			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
 		}
@@ -102,7 +100,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	protected Method getMethodByPersistentName(String persistentMethodName,Type...parameterTypes){
 		Method[] methods = getEventSourceClass().getMethods();
 		for(Method method:methods){
-			if(method.isAnnotationPresent(PersistentName.class) && method.getAnnotation(PersistentName.class).value().equals(persistentMethodName)
+			if(method.isAnnotationPresent(NumlMetaInfo.class) && method.getAnnotation(NumlMetaInfo.class).persistentName().equals(persistentMethodName)
 					&& method.getParameterTypes().length == parameterTypes.length){
 				for(int i = 0;i < parameterTypes.length;i++){
 					if(parameterTypes[i] != method.getParameterTypes()[i]){
@@ -128,4 +126,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 		retryCount++;
 	}
 	public abstract void invokeCallback(IPersistentObject eventSource2);
+	public Integer getEventSourceClassId(){
+		return this.eventSourceClassId;
+	}
 }

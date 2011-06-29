@@ -1,11 +1,14 @@
 package org.tinker;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -131,8 +134,8 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		
 		assertEquals(2, god.getAudits().size());
 		assertEquals(3, demon1.getAudits().size());
+		db.startTransaction();
 		assertEquals(2, god.getAudits().get(0).getDemon().size());
-		
 		Set<DemonAudit> auditDemons = god.getAudits().get(0).getDemon();
 		assertEquals(2, auditDemons.size());
 		assertNotNull(auditDemons.iterator().next().getUniverse());
@@ -140,6 +143,7 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		auditDemons = god.getAudits().get(1).getDemon();
 		assertEquals(2, auditDemons.size());
 		assertNull(auditDemons.iterator().next().getUniverse());
+		db.stopTransaction(Conclusion.SUCCESS);
 		
 	}		
 }

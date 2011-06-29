@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -112,6 +113,7 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		assertEquals(31, countEdges());
 		assertNull(universe2.getAngel());
 		
+		db.startTransaction();
 		assertEquals(3, god.getAudits().size());
 		assertEquals(2, god.getAudits().get(0).getAngels().size());
 		assertEquals(2, god.getAudits().get(0).getUniverse().size());
@@ -119,5 +121,6 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		assertEquals(1, god.getAudits().get(1).getUniverse().size());
 		assertEquals(1, god.getAudits().get(2).getAngels().size());
 		assertEquals(1, god.getAudits().get(2).getUniverse().size());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}	
 }

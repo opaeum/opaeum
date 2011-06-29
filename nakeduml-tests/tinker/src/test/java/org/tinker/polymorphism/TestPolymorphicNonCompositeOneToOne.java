@@ -1,11 +1,12 @@
 package org.tinker.polymorphism;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import org.tinker.BaseTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
-public class TestPolymorphicNonCompositeOneToOne extends BaseTest {
+public class TestPolymorphicNonCompositeOneToOne extends BaseLocalDbTest {
 
 	@Test
 	public void testSettingAndGetting() {

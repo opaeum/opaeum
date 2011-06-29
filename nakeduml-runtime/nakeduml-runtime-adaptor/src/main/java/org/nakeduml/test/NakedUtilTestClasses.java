@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.nakeduml.audit.AuditSyncManager;
 import org.nakeduml.environment.Environment;
-import org.nakeduml.hibernate.domain.PrePersistListener;
 import org.nakeduml.jbpm.adaptor.HibernateProcessPersistenceContext;
 import org.nakeduml.jbpm.domain.UmlProcessMarshaller;
 import org.nakeduml.runtime.adaptor.DataGeneratorProperty;
@@ -23,7 +22,6 @@ public class NakedUtilTestClasses {
 		classes.add(ManagedHibernateSessionFactoryProvider.class);
 		classes.add(AuditSyncManager.class);
 		classes.add(UmlProcessMarshaller.class);
-		classes.add(PrePersistListener.class);
 		classes.add(HibernateProcessPersistenceContext.class);
 		classes.add(IntrospectionUtil.class);
 		classes.add(DataGeneratorProperty.class);

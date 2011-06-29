@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -21,8 +19,7 @@ import javax.transaction.Synchronization;
 
 import org.hibernate.Transaction;
 import org.hibernate.event.EventSource;
-import org.jboss.seam.persistence.util.InstanceResolver;
-import org.jboss.seam.solder.beanManager.BeanManagerLocator;
+import org.nakeduml.environment.Environment;
 import org.nakeduml.runtime.domain.AuditId;
 import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
@@ -31,37 +28,31 @@ public class AuditSync implements Synchronization{
 	private final AuditSyncManager manager;
 	private final Transaction transaction;
 	private final LinkedList<Audited> auditedEntities;
-	private final Map<Pair<String,Integer>,Audited> usedIds;
+	private final Map<Pair<String,AuditId>,Audited> usedIds;
 	private AbstractWorkUnit abstractWorkUnit;
 	private boolean isAsync;
-	Instance<AuditSequencer> auditSequencerInstance;
-	Instance<AuditCapturer> auditCapturerInstance;
+//	Instance<AuditSequencer> auditSequencerInstance;
+//	Instance<AuditCapturer> auditCapturerInstance;
 	public AuditSync(AuditSyncManager manager,EventSource session,boolean isAsync){
 		this.manager = manager;
 		transaction = session.getTransaction();
 		auditedEntities = new LinkedList<Audited>();
-		usedIds = new HashMap<Pair<String,Integer>,Audited>();
+		usedIds = new HashMap<Pair<String,AuditId>,Audited>();
 		abstractWorkUnit = new AbstractWorkUnit();
 		this.isAsync = isAsync;
-		this.auditSequencerInstance = lookupAuditSequencerInstance();
-		this.auditCapturerInstance = lookupAuditCapturer();
+//		this.auditSequencerInstance = lookupAuditSequencerInstance();
+//		this.auditCapturerInstance = lookupAuditCapturer();
 	}
 	public void addAudited(Audited audited){
 		try{
-			Pair<String,Integer> usedIdsKey = Pair.make(audited.getClass().getSimpleName(), audited.getId().hashCode());
+			Pair<String,AuditId> usedIdsKey = Pair.make(audited.getClass().getSimpleName(), audited.getId());
 			Audited alreadyAudited = usedIds.get(usedIdsKey);
-			int objectVersion = audited.getOriginal().getObjectVersion();
 			if(alreadyAudited != null){
 				int i = auditedEntities.indexOf(alreadyAudited);
 				auditedEntities.remove(alreadyAudited);
 				audited.setRevisionType(alreadyAudited.getRevisionType());
 				auditedEntities.add(i, audited);
 			}else{
-//				if(objectVersion > 0 && audited.getRevisionType()==RevisionType.MOD){
-//					Audited previousVersion = audited.getClass().newInstance();
-//					previousVersion.setId(new AuditId(audited.getOriginal().getId(), objectVersion - 1));
-//					audited.setPreviousVersion(previousVersion);
-//				}
 				auditedEntities.offer(audited);
 			}
 			usedIds.put(usedIdsKey, audited);
@@ -74,7 +65,8 @@ public class AuditSync implements Synchronization{
 	@Override
 	public void beforeCompletion(){
 		if(!isAsync){
-			AuditCapturer auditCapturer = auditCapturerInstance.get();
+//			AuditCapturer auditCapturer = auditCapturerInstance.get();
+			AuditCapturer auditCapturer = Environment.getInstance().getComponent(AuditCapturer.class);
 			abstractWorkUnit.setAuditedEntities(auditedEntities);
 			auditCapturer.persistAudit(abstractWorkUnit);
 			manager.remove(transaction);
@@ -85,7 +77,8 @@ public class AuditSync implements Synchronization{
 		if(isAsync && Status.STATUS_COMMITTED == status){
 			try{
 				abstractWorkUnit.setAuditedEntities(auditedEntities);
-				abstractWorkUnit.setSequence(auditSequencerInstance.get().getAndIncrement());
+//				abstractWorkUnit.setSequence(auditSequencerInstance.get().getAndIncrement());
+				abstractWorkUnit.setSequence(Environment.getInstance().getComponent(AuditSequencer.class).getAndIncrement());
 				sendAuditMessage();
 			}catch(Exception e){
 				new ExceptionAnalyser(e).throwRootCause();
@@ -122,14 +115,14 @@ public class AuditSync implements Synchronization{
 			}
 		}
 	}
-	private Instance<AuditSequencer> lookupAuditSequencerInstance(){
-		BeanManagerLocator locator = new BeanManagerLocator();
-		BeanManager beanManager = locator.getBeanManager();
-		return InstanceResolver.getInstance(AuditSequencer.class, beanManager);
-	}
-	private Instance<AuditCapturer> lookupAuditCapturer(){
-		BeanManagerLocator locator = new BeanManagerLocator();
-		BeanManager beanManager = locator.getBeanManager();
-		return InstanceResolver.getInstance(AuditCapturer.class, beanManager);
-	}
+//	private Instance<AuditSequencer> lookupAuditSequencerInstance(){
+//		BeanManagerLocator locator = new BeanManagerLocator();
+//		BeanManager beanManager = locator.getBeanManager();
+//		return InstanceResolver.getInstance(AuditSequencer.class, beanManager);
+//	}
+//	private Instance<AuditCapturer> lookupAuditCapturer(){
+//		BeanManagerLocator locator = new BeanManagerLocator();
+//		BeanManager beanManager = locator.getBeanManager();
+//		return InstanceResolver.getInstance(AuditCapturer.class, beanManager);
+//	}
 }

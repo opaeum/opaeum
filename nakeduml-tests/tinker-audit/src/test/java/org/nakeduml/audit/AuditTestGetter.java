@@ -1,6 +1,8 @@
 package org.nakeduml.audit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +13,7 @@ import org.audittest.FingerAudit;
 import org.audittest.Hand;
 import org.audittest.HandAudit;
 import org.junit.Test;
-import org.tinker.BaseLocalDbTest;
+import org.nakeduml.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -54,8 +56,10 @@ public class AuditTestGetter extends BaseLocalDbTest {
 		
 		assertEquals(2, hand.getAudits().size());
 		Iterator<HandAudit> iterator = hand.getAudits().iterator();
+		db.startTransaction();
 		assertEquals(0,iterator.next().getFinger().size());		
-		assertEquals(3,iterator.next().getFinger().size());		
+		assertEquals(3,iterator.next().getFinger().size());
+		db.stopTransaction(Conclusion.SUCCESS);
 	}
 	
 	@Test
@@ -147,6 +151,7 @@ public class AuditTestGetter extends BaseLocalDbTest {
 		assertEquals(2, hand2Audits.size());
 		
 		HandAudit hand1Audit = hand1Audits.get(0);
+		db.startTransaction();
 		Set<FingerAudit> finger1Audits = hand1Audit.getFinger();
 		assertEquals(3, finger1Audits.size());
 		boolean foundFinger1Again2 = false;
@@ -164,13 +169,13 @@ public class AuditTestGetter extends BaseLocalDbTest {
 		assertEquals(3, finger2Audits.size());
 		finger2Audits = hand2Audits.get(1).getFinger();
 		assertEquals(2, finger2Audits.size());
-
+		db.stopTransaction(Conclusion.SUCCESS);
 		db.startTransaction();
 		finger22.setName("finger22Again");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(24, countVertices());
 		assertEquals(37, countEdges());
-		
+		db.startTransaction();
 		hand2Audits = hand2.getAudits();
 		assertEquals(2, hand2Audits.size());
 		boolean finger21Name = false;
@@ -188,6 +193,7 @@ public class AuditTestGetter extends BaseLocalDbTest {
 				fail();
 			}
 		}
+		db.stopTransaction(Conclusion.SUCCESS);
 		assertTrue(finger21Name);
 		assertTrue(finger22Name);
 		assertTrue(finger23Name);
