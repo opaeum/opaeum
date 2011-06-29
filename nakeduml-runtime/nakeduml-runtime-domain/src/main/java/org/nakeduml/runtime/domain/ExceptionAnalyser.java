@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ExceptionAnalyser{
-	private Exception exception;
+	private Throwable exception;
 	private Throwable rootCause;
-	public ExceptionAnalyser(Exception exception){
+	public ExceptionAnalyser(Throwable exception){
 		this.exception = exception;
 	}
 	public String getStackTrace(Throwable e){

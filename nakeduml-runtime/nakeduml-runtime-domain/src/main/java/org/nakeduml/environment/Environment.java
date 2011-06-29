@@ -12,9 +12,11 @@ public abstract class Environment {
 	public static final String PROPERTIES_FILE_NAME = "nakeduml.env.properties";
 	public static final String PERSISTENT_NAME_CLASS_MAP = "nakeduml.persistentname.classmap.implementation";
 	public static final String DB_USER = "nakeduml.database.user";
+	public static final String DBMS = "nakeduml.database.management.system";
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
 	protected static JavaMetaInfoMap persistentNameClassMap;
 	protected Properties properties;
+	private DatabaseManagementSystem dbms;
 
 	public static Environment getInstance() {
 		if (instance.get() == null) {
@@ -22,6 +24,7 @@ public abstract class Environment {
 		}
 		return instance.get();
 	}
+	
 	public static JavaMetaInfoMap getMetaInfoMap() {
 		if (persistentNameClassMap == null) {
 			persistentNameClassMap= (JavaMetaInfoMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
@@ -46,6 +49,12 @@ public abstract class Environment {
 			throw new RuntimeException(e);
 		}
 		return newInstance;
+	}
+	public DatabaseManagementSystem getDatabaseManagementSystem(){
+		if(this.dbms==null){
+			this.dbms=DatabaseManagementSystem.valueOf(getProperty(DBMS));
+		}
+		return dbms;
 	}
 	public String getProperty(String name){
 		return properties.getProperty(name);

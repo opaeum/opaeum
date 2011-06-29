@@ -70,9 +70,7 @@ public enum StateKind implements Serializable {
 	public boolean isDeepHistory() {
 		return getValue() == DEEP_HISTORY.getValue();
 	}
-	public int getClassId() {
-		return Math.abs(12451);
-	}
+	
 	public String getName() {
 		return this.name;
 	}

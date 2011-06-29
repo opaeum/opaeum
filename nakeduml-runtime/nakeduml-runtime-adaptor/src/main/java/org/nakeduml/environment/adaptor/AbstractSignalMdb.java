@@ -2,7 +2,8 @@ package org.nakeduml.environment.adaptor;
 
 import javax.jms.MessageListener;
 
-import org.drools.runtime.process.WorkflowProcessInstance;
+import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
+import org.jbpm.process.instance.ProcessInstance;
 import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IActiveObject;
@@ -24,9 +25,9 @@ public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatc
 		Object s = signalToDispatch.getSource();
 		if(s instanceof IProcessObject){
 			transaction.begin();
-			WorkflowProcessInstance processInstance = ((IProcessObject) s).getProcessInstance();
+			ProcessInstanceInfo processInstance =(ProcessInstanceInfo) sessionFactory.getCurrentSession().get(ProcessInstanceInfo.class, ((IProcessObject) s).getProcessInstanceId());
 			transaction.commit();
-			if(processInstance != null){
+			if(processInstance!=null && processInstance.getState()!=ProcessInstance.STATE_ABORTED && processInstance.getState()!=ProcessInstance.STATE_COMPLETED ){
 				signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 			}
 		}else{

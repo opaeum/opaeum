@@ -237,8 +237,8 @@ public class IntrospectionUtil{
 		File[] files = directory.listFiles();
 		for(File file:files){
 			if(file.isDirectory()){
-				assert !file.getName().contains(".");
-				classes.addAll(findClasses(file, packageName + "." + file.getName()));
+//				assert !file.getName().contains(".");
+//				classes.addAll(findClasses(file, packageName + "." + file.getName()));
 			}else if(file.getName().endsWith(".class")){
 				classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
 			}
