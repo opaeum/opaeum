@@ -173,13 +173,7 @@ public class TimeUnit implements MetaIdentifiable, IEnum {
 		return 33;
 	}
 	@Override
-	public String getPersistentName(){
-		// TODO Auto-generated method stub
+	public String getUuid(){
 		return null;
-	}
-	@Override
-	public int getNakedUmlId(){
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }
