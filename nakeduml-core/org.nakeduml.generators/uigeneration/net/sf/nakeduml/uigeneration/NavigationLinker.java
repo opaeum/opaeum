@@ -31,7 +31,7 @@ import net.sf.nakeduml.userinteractionmetamodel.PropertyNavigation;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionElement;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class, requires = { SlotParticipationCreator.class }, after = SlotParticipationCreator.class)
+@StepDependency(phase = UimTransformationPhase.class, requires = { SlotParticipationCreator.class }, after = SlotParticipationCreator.class)
 public class NavigationLinker extends GeneratingUserInteractionTransformationStep {
 	private HashMap<ClassifierUserInteraction, ClassifierUserInteraction> userInteractionMap = new HashMap<ClassifierUserInteraction, ClassifierUserInteraction>();
 

@@ -53,7 +53,7 @@ import net.sf.nakeduml.userinteractionmetamodel.TypedElementParticipationKind;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class, requires = { OperationUserInteractionCreator.class, ParticipationGroupCreator.class }, after = OperationUserInteractionCreator.class)
+@StepDependency(phase = UimTransformationPhase.class, requires = { OperationUserInteractionCreator.class, ParticipationGroupCreator.class }, after = OperationUserInteractionCreator.class)
 public class ParticipationCreator extends AbstractParticipationCreator {
 
 	@VisitAfter

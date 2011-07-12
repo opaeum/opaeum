@@ -11,8 +11,10 @@ import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -23,6 +25,7 @@ import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
+import org.drools.drools._5._0.process.ActionNodeType;
 import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionType;
@@ -30,6 +33,7 @@ import org.drools.drools._5._0.process.ConnectionsType;
 import org.drools.drools._5._0.process.ConstraintType;
 import org.drools.drools._5._0.process.ConstraintsType;
 import org.drools.drools._5._0.process.DocumentRoot;
+import org.drools.drools._5._0.process.DynamicType;
 import org.drools.drools._5._0.process.EndType;
 import org.drools.drools._5._0.process.HeaderType;
 import org.drools.drools._5._0.process.JoinType;
@@ -106,8 +110,8 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		return root;
 	}
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentModelOrProfile
-				.getFileName();
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentModelOrProfile
+				.getIdentifier();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
@@ -186,6 +190,17 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 	protected CompositeType createCompositeState(NodesType nodes, int i, String name, Integer nakedUmlId) {
 		CompositeType flowState = ProcessFactory.eINSTANCE.createCompositeType();
 		nodes.getComposite().add(flowState);
+		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
+		flowState.getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
+		flowState.setName(name);
+		setBounds(i, flowState, nakedUmlId);
+		flowState.setHeight("500");
+		flowState.setWidth("500");
+		return flowState;
+	}
+	protected DynamicType createDynamicState(NodesType nodes, int i, String name, Integer nakedUmlId) {
+		DynamicType flowState = ProcessFactory.eINSTANCE.createDynamicType();
+		nodes.getDynamic().add(flowState);
 		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
 		flowState.getConnections().add(ProcessFactory.eINSTANCE.createConnectionsType());
 		flowState.setName(name);

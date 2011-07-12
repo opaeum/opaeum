@@ -59,7 +59,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	public void initialize(NakedUmlConfig config){
 		this.config = config;
 		if(config.generateMavenPoms()){
-			parentPom = buildPomRoot(config.getOutputRoot(), workspace.getDirectoryName(), "pom", true);
+			parentPom = buildPomRoot(config.getOutputRoot(), workspace.getIdentifier(), "pom", true);
 			readIgnoreFile(config);
 			Plugin compiler = POMFactory.eINSTANCE.createPlugin();
 			compiler.setGroupId("org.apache.maven.plugins");
@@ -112,14 +112,14 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			for(PomGenerationStep step:features){
 				step.initialize(config, workspace);
 				if(step.getExampleTargetDir().useWorkspaceName()){
-					String prefix = workspace.getDirectoryName();
+					String prefix = workspace.getIdentifier();
 					DocumentRoot root = getRoot(step, prefix);
 					updatePom(step, root);
 				}else{
 					List<INakedRootObject> models = workspace.getGeneratingModelsOrProfiles();
 					for(INakedRootObject model:models){
 						step.setModel(model);
-						DocumentRoot root = getRoot(step, model.getFileName());
+						DocumentRoot root = getRoot(step, model.getIdentifier());
 						updatePom(step, root);
 					}
 				}
@@ -200,7 +200,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			PomUtil.populatePropertiesFrom(root.getProject(), step.getProperties());
 			PomUtil.createModuleIfNew(parentPom, step.getProjectName());
 			Properties props = new Properties();
-			props.put(workspace.getDirectoryName() + ".version", config.getMavenGroupVersion());
+			props.put(workspace.getIdentifier() + ".version", config.getMavenGroupVersion());
 			PomUtil.populatePropertiesFrom(parentPom.getProject(), props);
 			createParent(step, root);
 			createDependencies(step, root);
@@ -256,7 +256,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 		root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 		root.getProject().getParent().setGroupId(config.getMavenGroupId());
-		root.getProject().getParent().setArtifactId(workspace.getDirectoryName());
+		root.getProject().getParent().setArtifactId(workspace.getIdentifier());
 		root.getProject().getParent().setVersion(config.getMavenGroupVersion());
 	}
 	private void outputToFile(DocumentRoot root){

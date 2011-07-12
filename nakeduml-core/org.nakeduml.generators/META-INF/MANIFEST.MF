@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Nakeduml Generators
 Bundle-SymbolicName: org.nakeduml.generators
-Bundle-Version: 1.0.0.5
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.nakeduml.java.generator,
  org.nakeduml.java.metamodel,
  org.nakeduml.metamodels,
@@ -20,7 +20,6 @@ Export-Package: net.sf.nakeduml.javageneration.hibernate,
  net.sf.nakeduml.ocl,
  net.sf.nakeduml.pomgeneration,
  net.sf.nakeduml.tests,
- net.sf.nakeduml.uigeneration,
  org.apache.commons.collections,
  org.apache.commons.collections.bag,
  org.apache.commons.collections.bidimap,

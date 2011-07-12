@@ -26,8 +26,8 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class, after = ClassifierBuilder.class, requires = ClassifierBuilder.class)
-public class FeatureBuilder extends AbstractUserInteractionTransformationStep {
+@StepDependency(phase = UimTransformationPhase.class, after = ClassifierBuilder.class, requires = ClassifierBuilder.class)
+public class FeatureBuilder extends AbstractUimTransformationStep {
 	@VisitBefore
 	public void visitProperty(INakedEntity c) {
 		if (hasUserInteractions(c)) {

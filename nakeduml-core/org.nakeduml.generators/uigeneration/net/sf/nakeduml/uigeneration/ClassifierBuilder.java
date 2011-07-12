@@ -29,8 +29,8 @@ import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.INakedValueType;
 import net.sf.nakeduml.validation.namegeneration.HumanNameGenerator;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class, requires = HumanNameGenerator.class)
-public class ClassifierBuilder extends AbstractUserInteractionTransformationStep {
+@StepDependency(phase = UimTransformationPhase.class, requires = HumanNameGenerator.class)
+public class ClassifierBuilder extends AbstractUimTransformationStep {
 	@VisitBefore
 	public void buildEntity(INakedEntity c) {
 		DomainClassifier dc = new DomainEntity();

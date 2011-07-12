@@ -22,7 +22,7 @@ import net.sf.nakeduml.userinteractionmetamodel.OperationUserInteraction;
 import net.sf.nakeduml.userinteractionmetamodel.OperationUserInteractionKind;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class,requires = {CustomUserInteractionCreator.class},after = CustomUserInteractionCreator.class)
+@StepDependency(phase = UimTransformationPhase.class,requires = {CustomUserInteractionCreator.class},after = CustomUserInteractionCreator.class)
 public class OperationUserInteractionCreator extends GeneratingUserInteractionTransformationStep{
 	@VisitBefore
 	public void visitOperation(INakedOperation o){

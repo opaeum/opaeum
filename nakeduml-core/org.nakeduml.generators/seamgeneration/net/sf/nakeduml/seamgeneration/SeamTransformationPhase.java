@@ -8,7 +8,7 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
-import net.sf.nakeduml.uigeneration.UserInteractionTransformationPhase;
+import net.sf.nakeduml.uigeneration.UimTransformationPhase;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionWorkspace;
 
 @PhaseDependency(after = UserInteractionTransformationPhase.class, before = FileGenerationPhase.class)

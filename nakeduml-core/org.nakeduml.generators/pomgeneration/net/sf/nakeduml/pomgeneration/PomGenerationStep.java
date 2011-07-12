@@ -2,6 +2,7 @@ package net.sf.nakeduml.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -33,7 +34,7 @@ public abstract class PomGenerationStep implements TransformationStep{
 		this.workspace = workspace;
 	}
 	public String getVersionVariable(){
-		return "${" + workspace.getDirectoryName() + ".version}";
+		return "${" + workspace.getIdentifier() + ".version}";
 	}
 	public String getPackaging(){
 		return "jar";
@@ -57,9 +58,9 @@ public abstract class PomGenerationStep implements TransformationStep{
 	}
 	public final String getProjectName(){
 		if(useWorkspaceName()){
-			return this.workspace.getDirectoryName() + getExampleTargetDir().getProjectSuffix();
+			return this.workspace.getIdentifier() + getExampleTargetDir().getProjectSuffix();
 		}else{
-			return this.model.getFileName() + getExampleTargetDir().getProjectSuffix();
+			return this.model.getIdentifier() + getExampleTargetDir().getProjectSuffix();
 		}
 	}
 	public boolean hasFinalName(){
@@ -166,7 +167,7 @@ public abstract class PomGenerationStep implements TransformationStep{
 		seamConfig.setScope("test");
 		seamConfig.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		ExclusionsType exclusions = seamConfig.getExclusions();
-		exludeSeamSolder(exclusions);		
+		exludeSeamSolder(exclusions);
 		dependencies.add(seamConfig);
 	}
 	private void exludeSeamSolder(ExclusionsType exclusions){
@@ -185,13 +186,19 @@ public abstract class PomGenerationStep implements TransformationStep{
 		dependencies.add(dependency);
 	}
 	protected void addJbossJeeSpec(Collection<Dependency> dependencies){
-		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.jboss.spec");
-		dependency.setArtifactId("jboss-javaee-6.0");
-		dependency.setVersion("1.0.0.Final");
-		dependency.setScope("provided");
-		dependency.setType("pom");
-		dependencies.add(dependency);
+		Dependency jboss = POMFactory.eINSTANCE.createDependency();
+		jboss.setGroupId("org.jboss.ejb3");
+		jboss.setArtifactId("jboss-ejb3-ext-api");
+		jboss.setVersion("1.1.1");
+		jboss.setScope("provided");
+		dependencies.add(jboss);
+		Dependency spec = POMFactory.eINSTANCE.createDependency();
+		spec.setGroupId("org.jboss.spec");
+		spec.setArtifactId("jboss-javaee-6.0");
+		spec.setVersion("1.0.0.Final");
+		spec.setScope("provided");
+		spec.setType("pom");
+		dependencies.add(spec);
 	}
 	protected void addNumlTestAdaptor(Collection<Dependency> result){
 		Dependency numlAdaptor = POMFactory.eINSTANCE.createDependency();
@@ -228,10 +235,13 @@ public abstract class PomGenerationStep implements TransformationStep{
 	}
 	protected Collection<Dependency> getBasicDependencies(String projectSuffix){
 		Collection<Dependency> result = getTestDepedencies();
-		Collection<IImportedElement> imports = this.model.getImports();
-		for(IImportedElement imp:imports){
-			if(imp.getElement() instanceof INakedRootObject){
-				addDependencyToRootObject(projectSuffix, (INakedRootObject) imp.getElement(), result);
+		if(getExampleTargetDir().useWorkspaceName()){
+		}else{
+			Collection<IImportedElement> imports = this.model.getImports();
+			for(IImportedElement imp:imports){
+				if(imp.getElement() instanceof INakedRootObject){
+					addDependencyToRootObject(projectSuffix, (INakedRootObject) imp.getElement(), result);
+				}
 			}
 		}
 		return result;
@@ -240,7 +250,7 @@ public abstract class PomGenerationStep implements TransformationStep{
 		if(workspace.isPrimaryModel(rootObject)){
 			Dependency d = POMFactory.eINSTANCE.createDependency();
 			d.setGroupId(config.getMavenGroupId());
-			d.setArtifactId(rootObject.getFileName() + projectSuffix);
+			d.setArtifactId(rootObject.getIdentifier() + projectSuffix);
 			d.setVersion(getVersionVariable());
 			d.setScope("compile");
 			d.setType("jar");

@@ -71,7 +71,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 	public void visitWorkspace(INakedModelWorkspace workspace){
 		if(isIntegrationPhase){
 			Collection<INakedRootObject> rootObjects = (Collection<INakedRootObject>) workspace.getOwnedElements();
-			String hibernateConfigName = workspace.getDirectoryName() + "-hibernate.cfg.xml";
+			String hibernateConfigName = workspace.getIdentifier() + "-hibernate.cfg.xml";
 			generateConfigAndEnvironment(rootObjects, hibernateConfigName, OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
 			HashMap<String,Object> vars = buildVars(rootObjects, false);
 			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
@@ -82,7 +82,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 	@VisitBefore
 	public void visitModel(INakedModel model){
 		if(!isIntegrationPhase){
-			String hibernateConfigName = model.getFileName() + "-hibernate.cfg.xml";
+			String hibernateConfigName = model.getIdentifier() + "-hibernate.cfg.xml";
 			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getDependencies());
 			selfAndDependencies.add(model);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false);

@@ -31,7 +31,7 @@ public class WarPomStep extends PomGenerationStep{
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		Dependency integrated = POMFactory.eINSTANCE.createDependency();
 		integrated.setGroupId(config.getMavenGroupId());
-		integrated.setArtifactId(workspace.getDirectoryName() + "-integrated");
+		integrated.setArtifactId(workspace.getIdentifier() + "-integrated");
 		integrated.setVersion(config.getMavenGroupVersion());
 		integrated.setScope("compile");
 		dependencies.add(integrated);

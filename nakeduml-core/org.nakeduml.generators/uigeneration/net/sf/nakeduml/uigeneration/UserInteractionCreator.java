@@ -19,7 +19,7 @@ import net.sf.nakeduml.userinteractionmetamodel.UserInteractionWorkspace;
 
 import org.nakeduml.java.metamodel.OJPackage;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class, requires = { FeatureBuilder.class }, after = FeatureBuilder.class)
+@StepDependency(phase = UimTransformationPhase.class, requires = { FeatureBuilder.class }, after = FeatureBuilder.class)
 public class UserInteractionCreator extends GeneratingUserInteractionTransformationStep {
 	private INakedInterface hierarchy;
 

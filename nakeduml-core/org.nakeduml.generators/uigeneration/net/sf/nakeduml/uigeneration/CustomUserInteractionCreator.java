@@ -19,7 +19,7 @@ import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;
 import net.sf.nakeduml.userinteractionmetamodel.ClassifierUserInteraction;
 import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class,requires = {UserInteractionCreator.class},after = UserInteractionCreator.class)
+@StepDependency(phase = UimTransformationPhase.class,requires = {UserInteractionCreator.class},after = UserInteractionCreator.class)
 public class CustomUserInteractionCreator extends GeneratingUserInteractionTransformationStep{
 	@VisitBefore
 	public void visitGeneralization(INakedGeneralization g){

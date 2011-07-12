@@ -109,12 +109,6 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor {
 		}
 	}
 
-	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentRootObject.getFileName();
-		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
-		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
-		return or;
-	}
 
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root) {
@@ -125,6 +119,12 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor {
 		}
 	}
 
+	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentRootObject.getIdentifier();
+		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
+		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
+		return or;
+	}
 	public void findOrCreateTextFile(CharArrayWriter outputBuilder, Enum<?> outputRootId, String... names) {
 		OutputRoot outputRoot = config.getOutputRoot(outputRootId);
 		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);

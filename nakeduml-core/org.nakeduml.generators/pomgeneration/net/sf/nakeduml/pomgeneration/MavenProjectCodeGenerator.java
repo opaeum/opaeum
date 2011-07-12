@@ -9,6 +9,7 @@ import java.util.Set;
 
 import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.emf.workspace.UriResolver;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationProcess;
@@ -18,6 +19,7 @@ import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
@@ -148,7 +150,7 @@ public abstract class MavenProjectCodeGenerator{
 		return new HashSet<Class<? extends TransformationStep>>(Arrays.asList(classes));
 	}
 	public void generateIntegrationCode() throws Exception{
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(resourceSet,modelDirectory, workspaceIdentifier);
+		EmfWorkspace workspace = loadDirectory();
 		NakedUmlConfig cfg = prepareConfig();
 		OutputRoot iags = cfg.getOutputRoot(JavaTextSource.OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 		iags.overwriteFiles();
@@ -158,7 +160,10 @@ public abstract class MavenProjectCodeGenerator{
 		// iagr.dontCleanDirectories();
 		process.removeModel(OJAnnotatedPackage.class);
 		process.removeModel(TextWorkspace.class);
-		process.findModel(INakedModelWorkspace.class).clearGeneratingModelOrProfiles();
+		INakedModelWorkspace nmw = process.findModel(INakedModelWorkspace.class);
+		workspace.setMappingInfo(nmw.getWorkspaceMappingInfo());
+		nmw.clearGeneratingModelOrProfiles();
+		
 		process.execute(cfg, workspace, getIntegrationSteps());
 		cfg.store();
 		workspace.getMappingInfo().store();

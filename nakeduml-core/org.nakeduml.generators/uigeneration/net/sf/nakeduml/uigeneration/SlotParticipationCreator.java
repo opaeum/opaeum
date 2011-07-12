@@ -7,7 +7,7 @@ import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;
 import net.sf.nakeduml.userinteractionmetamodel.ClassifierUserInteraction;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class,requires = ParticipationCreator.class,after = ParticipationCreator.class)
+@StepDependency(phase = UimTransformationPhase.class,requires = ParticipationCreator.class,after = ParticipationCreator.class)
 public class SlotParticipationCreator extends AbstractParticipationCreator{
 	@VisitBefore
 	public void visitInstance(INakedInstanceSpecification is){

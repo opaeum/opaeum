@@ -4,14 +4,13 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
 	<classpathentry kind="src" output="target/classes" path="bootstrap"/>
-	<classpathentry kind="src" output="target/classes" path="uigeneration"/>
 	<classpathentry kind="src" output="target/classes" path="obsolete"/>
 	<classpathentry kind="src" output="target/classes" path="jbpm5generation"/>
 	<classpathentry kind="src" output="target/classes" path="pomgeneration"/>
 	<classpathentry kind="src" output="target/classes" path="velocity"/>
 	<classpathentry kind="src" output="target/classes" path="generationfeatures"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
-	<classpathentry kind="src" path="src/main/resources/"/>
+	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/lang-2.1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/collections-3.2.0.jar"/>

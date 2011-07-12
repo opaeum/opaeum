@@ -19,7 +19,7 @@ import net.sf.nakeduml.userinteractionmetamodel.UserInteractionKind;
 
 import org.nakeduml.name.NameConverter;
 
-@StepDependency(phase = UserInteractionTransformationPhase.class, requires = { OperationUserInteractionCreator.class }, before = ParticipationCreator.class, after = OperationUserInteractionCreator.class)
+@StepDependency(phase = UimTransformationPhase.class, requires = { OperationUserInteractionCreator.class }, before = ParticipationCreator.class, after = OperationUserInteractionCreator.class)
 public class ParticipationGroupCreator extends AbstractParticipationCreator {
 
 	@VisitAfter
