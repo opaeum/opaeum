@@ -25,61 +25,59 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 
-@PhaseDependency(after = DetachmentPhase.class, before = {LinkagePhase.class })
-public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf> {
+@PhaseDependency(after = DetachmentPhase.class,before = {
+	LinkagePhase.class
+})
+public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf>{
 	public static final String MAPPINGS_EXTENSION = "mappings";
 	@InputModel(implementationClass = NakedModelWorkspaceImpl.class)
 	private INakedModelWorkspace modelWorkspace;
 	@InputModel
 	private EmfWorkspace emfWorkspace;
 	private NakedUmlConfig config;
-
-	public void initialize(NakedUmlConfig config) {
+	public void initialize(NakedUmlConfig config){
 		this.config = config;
 	}
-
-	public Object[] execute(List<AbstractExtractorFromEmf> features, TransformationContext context) {
+	public Object[] execute(List<AbstractExtractorFromEmf> features,TransformationContext context){
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		modelWorkspace.setName(emfWorkspace.getName());
-		modelWorkspace.setDirectoryName(emfWorkspace.getIdentifier());
-		for (Element e : emfWorkspace.getOwnedElements()) {
+		modelWorkspace.setIdentifier(emfWorkspace.getIdentifier());
+		for(Element e:emfWorkspace.getOwnedElements()){
 			URI mappedTypesUri = e.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
-			try {
+			try{
 				InputStream inStream = e.eResource().getResourceSet().getURIConverter().createInputStream(mappedTypesUri);
 				Properties props = new Properties();
 				props.load(inStream);
-				Set<Entry<Object, Object>> entrySet = props.entrySet();
-				for (Entry<Object, Object> entry : entrySet) {
+				Set<Entry<Object,Object>> entrySet = props.entrySet();
+				for(Entry<Object,Object> entry:entrySet){
 					modelWorkspace.getMappedTypes().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
 				}
 				System.out.println("Loaded mappings: " + mappedTypesUri);
-			} catch (IOException e1) {
-//				System.out.println("Could not load mappedTypes in " + mappedTypesUri);
-//				System.out.println(e);
+			}catch(IOException e1){
+				// System.out.println("Could not load mappedTypes in " + mappedTypesUri);
+				// System.out.println(e);
 			}
 		}
-		//FIrst initialize to allow extractors to determine previously extracted models
-		for (AbstractExtractorFromEmf v : features) {
+		// FIrst initialize to allow extractors to determine previously extracted models
+		for(AbstractExtractorFromEmf v:features){
 			v.initialize(modelWorkspace);
 		}
-		for (AbstractExtractorFromEmf v : features) {
+		for(AbstractExtractorFromEmf v:features){
 			v.startVisiting(emfWorkspace);
 		}
-		for (Package gp : emfWorkspace.getGeneratingModelsOrProfiles()) {
+		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
 			modelWorkspace.addGeneratingRootObject((INakedRootObject) getNakedPackage(gp));
 		}
-		for (Package gp : emfWorkspace.getPrimaryModels()) {
+		for(Package gp:emfWorkspace.getPrimaryModels()){
 			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
 		}
-		return new Object[] {};
+		return new Object[]{};
 	}
-
-	private INakedPackage getNakedPackage(Package emfModel) {
+	private INakedPackage getNakedPackage(Package emfModel){
 		return (INakedPackage) modelWorkspace.getModelElement(getIdFor(emfModel));
 	}
-
-	private static String getIdFor(Package model) {
+	private static String getIdFor(Package model){
 		return AbstractExtractorFromEmf.getId(model);
 	}
 }

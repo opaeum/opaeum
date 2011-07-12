@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
+import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -43,6 +45,8 @@ public class EmfWorkspace implements Element{
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
+	private UriResolver uriResolver;
+	private UmlElementMap umlElementMap;
 	//Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
@@ -60,6 +64,7 @@ public class EmfWorkspace implements Element{
 		}
 		this.directoryUri=uri;
 		this.identifier=identifier;
+		this.umlElementMap=UmlElementMap.getInstance(rs);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -328,5 +333,20 @@ public class EmfWorkspace implements Element{
 			}
 		}
 		return result;
+	}
+	public UmlElementMap getUmlElementMap(){
+		return umlElementMap;
+	}
+	public void setUriResolver(UriResolver uriResolver){
+		this.uriResolver = uriResolver;
+	}
+	public UriResolver getUriResolver(){
+		if(uriResolver==null){
+			uriResolver=new DefaultUriResolver();
+		}
+		return uriResolver;
+	}
+	public void setMappingInfo(IWorkspaceMappingInfo mappingInfo2){
+		this.mappingInfo=(WorkspaceMappingInfoImpl) mappingInfo2;
 	}
 }

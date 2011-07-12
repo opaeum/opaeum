@@ -22,7 +22,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationImpl;
-import net.sf.nakeduml.metamodel.core.internal.NakedHelperClassImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedHelperImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedInterfaceImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPackageImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPowerTypeImpl;
@@ -79,7 +79,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		// Different versions of the same profile may occur
 		NakedProfileImpl np = new NakedProfileImpl();
 		np.initialize(getId(p), p.getName(), true);
-		np.setFileName(p.eResource().getURI().lastSegment());
+		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
 		this.workspace.putModelElement(np);
 	}
 	@VisitBefore
@@ -93,7 +93,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitModel(Model p){
 		NakedModelImpl nm = new NakedModelImpl();
 		nm.initialize(getId(p), p.getName(), true);
-		nm.setFileName(p.eResource().getURI().lastSegment());
+		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
 		this.workspace.putModelElement(nm);
 	}
 	@VisitBefore
@@ -124,7 +124,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitClass(Class c){
 		if(StereotypesHelper.hasStereotype(c, "Helper")){
-			NakedHelperClassImpl ne = new NakedHelperClassImpl();
+			NakedHelperImpl ne = new NakedHelperImpl();
 			initialize(ne, c, c.getNamespace());
 			initializeClassifier(ne, c);
 		}else if(isBusinessService(c)){
@@ -168,8 +168,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		NakedInterfaceImpl ni;
 		if(isBusinessService(i)){
 			ni = new NakedBusinessServiceImpl();
-		}else{
-			ni = new NakedInterfaceImpl();
+		}else if(StereotypesHelper.hasStereotype(i, "Helper")){
+			ni=new NakedHelperImpl();
+		}else{	ni = new NakedInterfaceImpl();
 		}
 		initialize(ni, i, i.getNamespace());
 		initializeClassifier(ni, i);

@@ -83,6 +83,9 @@ public class NakedUmlConfig {
 		if(!this.props.containsKey(MAVEN_GROUPID)){
 			this.props.setProperty(MAVEN_GROUPID, "za.co.companyname." + projectName);
 		}
+		if(!this.props.containsKey(DB_USER)){
+			this.props.setProperty(DB_USER, projectName);
+		}
 		if(!this.props.containsKey(MAVEN_GROUP_VERSION)){
 			this.props.setProperty(MAVEN_GROUP_VERSION, "0.0.1");
 		}

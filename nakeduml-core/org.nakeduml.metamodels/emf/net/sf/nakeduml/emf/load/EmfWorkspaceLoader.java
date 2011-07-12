@@ -50,18 +50,18 @@ public class EmfWorkspaceLoader{
 		return emfWorkspace;
 	}
 	private static URI findDirUri(ResourceSet resourceSet,File dir,String extension){
-		URI dirUri=null;
+		URI dirUri = null;
 		EList<Resource> resources = resourceSet.getResources();
 		for(Resource r:resources){
 			URI ruir = r.getURI();
 			URI potentialDirUri = ruir.trimFileExtension().trimSegments(1);
 			String lastSegment = potentialDirUri.lastSegment();
-			if(ruir.fileExtension().equals(extension) && lastSegment!=null && lastSegment.equals(dir.getName())){
-				dirUri=potentialDirUri;
+			if(ruir.fileExtension().equals(extension) && lastSegment != null && lastSegment.equals(dir.getName())){
+				dirUri = potentialDirUri;
 			}
 		}
-		if(dirUri==null){
-			dirUri=URI.createFileURI(dir.getAbsolutePath());
+		if(dirUri == null){
+			dirUri = URI.createFileURI(dir.getAbsolutePath());
 		}
 		return dirUri;
 	}
@@ -70,11 +70,11 @@ public class EmfWorkspaceLoader{
 		ResourceSet resourceSetSingleton = getResourceSetSingleton();
 		return loadSingleModelWorkspace(resourceSetSingleton, modelFile, workspaceIdentifier);
 	}
-	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet, File modelFile,String workspaceName) throws Exception{
-		String ext = modelFile.getName().substring(modelFile.getName().lastIndexOf(".")+1);
+	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet,File modelFile,String workspaceName) throws Exception{
+		String ext = modelFile.getName().substring(modelFile.getName().lastIndexOf(".") + 1);
 		File dir = modelFile.getParentFile();
-		URI dirUri = findDirUri(resourceSet,dir, ext);
-		Model model = loadModel(resourceSet,dirUri.appendSegment(modelFile.getName()));
+		URI dirUri = findDirUri(resourceSet, dir, ext);
+		Model model = loadModel(resourceSet, dirUri.appendSegment(modelFile.getName()));
 		EmfWorkspace result = new EmfWorkspace(model, getMappingInfo(dir, workspaceName), workspaceName);
 		return result;
 	}
@@ -123,9 +123,18 @@ public class EmfWorkspaceLoader{
 			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
-			uri = URI.createURI(findJar(loader, "nakeduml-metamodels"));
-			uriMap.put(URI.createURI(StereotypeNames.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
-			uriMap.put(URI.createURI(StereotypeNames.PROFILES_PATH_MAP), uri.appendSegment("profiles").appendSegment(""));
+			String jar = findJar(loader, "nakeduml-metamodels");
+			if(jar != null){
+				// Maven jar found
+				uri = URI.createURI(jar);
+			}else{
+				// eclipse jar
+				jar = findJar(loader, "org.nakeduml.metamodels_");
+				uri = URI.createURI(jar);
+				uri=uri.appendSegment("models");
+			}
+			uriMap.put(URI.createURI(StereotypeNames.MODELS_PATHMAP), uri.appendSegment(""));
+//			URI umlProfile = uri.appendSegment("profiles").appendSegment("NakedUMLProfile.uml");
 		}
 		return resourceSet;
 	}
@@ -138,7 +147,8 @@ public class EmfWorkspaceLoader{
 		String UML2JAR = null;
 		outer:for(URL url:urls){
 			for(String string:names){
-				if(url.toExternalForm().contains(string)){
+				String ext = url.toExternalForm();
+				if(ext.contains(string) && ext.endsWith(".jar")){
 					File file = new File(url.getFile());
 					System.out.println(url.getFile());
 					UML2JAR = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";

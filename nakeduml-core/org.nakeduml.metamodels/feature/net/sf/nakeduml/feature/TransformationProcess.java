@@ -127,11 +127,14 @@ public class TransformationProcess{
 				ensureRequiredDependenciesPresent(c);
 			}
 			for(Class<? extends TransformationStep> c:selectedFeatures){
-				for(Class<? extends TransformationStep> replaced:c.getAnnotation(StepDependency.class).replaces()){
+				StepDependency annotation = c.getAnnotation(StepDependency.class);
+				for(Class<? extends TransformationStep> replaced:annotation.replaces()){
 					selectedFeatures.remove(replaced);
 				}
 			}
 			return actualClasses;
+		}catch(RuntimeException e){
+			throw e;
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
@@ -140,7 +143,12 @@ public class TransformationProcess{
 		if(!actualClasses.contains(stepClass)){
 			actualClasses.add(stepClass);
 			stepClass.newInstance();// force static inits
-			for(Class<? extends TransformationStep> c:stepClass.getAnnotation(StepDependency.class).requires()){
+			StepDependency annotation = stepClass.getAnnotation(StepDependency.class);
+			if(annotation==null){
+				throw new IllegalStateException(stepClass.getName() + " does not have a StepDependency annotation");
+			}
+			Class<? extends TransformationStep>[] requires = annotation.requires();
+			for(Class<? extends TransformationStep> c:requires){
 				ensureRequiredDependenciesPresent(c);
 			}
 		}

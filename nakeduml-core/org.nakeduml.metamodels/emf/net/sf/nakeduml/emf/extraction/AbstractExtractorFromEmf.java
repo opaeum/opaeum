@@ -31,6 +31,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Constraint;
@@ -143,7 +144,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				return string;
 			}
 		}
-		return e.eResource().getURI().lastSegment() + "@" + e.eResource().getURIFragment(e);
+		Resource eResource = e.eResource();
+		return eResource.getURI().lastSegment() + "@" + eResource.getURIFragment(e);
 	}
 	protected INakedElement getNakedPeer(Element e){
 		if(e == null || e instanceof EmfWorkspace){

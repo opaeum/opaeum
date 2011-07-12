@@ -95,8 +95,4 @@ public class EmfElementFinder{
 		}
 		return result;
 	}
-	private static boolean matches(Classifier c,EObject eObject){
-		boolean found = false;
-		return found;
-	}
 }
