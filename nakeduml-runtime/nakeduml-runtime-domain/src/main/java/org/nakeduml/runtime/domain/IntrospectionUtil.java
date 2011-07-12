@@ -41,7 +41,7 @@ public class IntrospectionUtil{
 			if(c.isInterface()){
 				methods = Introspector.getBeanInfo(c).getMethodDescriptors();
 			}else{
-				methods = Introspector.getBeanInfo(c,Object.class).getMethodDescriptors();
+				methods = Introspector.getBeanInfo(c, Object.class).getMethodDescriptors();
 			}
 		}catch(IntrospectionException e){
 			throw new RuntimeException(e);
@@ -101,7 +101,9 @@ public class IntrospectionUtil{
 	public static void set(PropertyDescriptor property,Object target,Object value){
 		try{
 			if(property.getWriteMethod() != null){
-				property.getWriteMethod().invoke(target, new Object[]{value});
+				property.getWriteMethod().invoke(target, new Object[]{
+					value
+				});
 			}else{
 				throw new RuntimeException("Property '" + property.getName() + "' is readOnly");
 			}
@@ -173,8 +175,7 @@ public class IntrospectionUtil{
 			}
 		}
 	}
-	private static void addDependenciesFromParameters(Set<Class<?>> result,Type[] parameterTypes,Annotation[][] parameterAnnotations,
-			String...packages){
+	private static void addDependenciesFromParameters(Set<Class<?>> result,Type[] parameterTypes,Annotation[][] parameterAnnotations,String...packages){
 		for(int i = 0;i < parameterTypes.length;i++){
 			Type paramType = parameterTypes[i];
 			addAnnotationTypes(result, parameterAnnotations[i], packages);
@@ -237,15 +238,15 @@ public class IntrospectionUtil{
 		File[] files = directory.listFiles();
 		for(File file:files){
 			if(file.isDirectory()){
-//				assert !file.getName().contains(".");
-//				classes.addAll(findClasses(file, packageName + "." + file.getName()));
+				// assert !file.getName().contains(".");
+				// classes.addAll(findClasses(file, packageName + "." + file.getName()));
 			}else if(file.getName().endsWith(".class")){
 				classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
 			}
 		}
 		return classes;
 	}
-	public static Class classForName(String name) throws ClassNotFoundException{
+	public static Class classForName(String name){
 		try{
 			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 			if(contextClassLoader != null){
@@ -253,7 +254,11 @@ public class IntrospectionUtil{
 			}
 		}catch(Throwable ignore){
 		}
-		return Class.forName(name);
+		try{
+			return Class.forName(name);
+		}catch(Throwable t){
+			throw new RuntimeException(t);
+		}
 	}
 	public static Enum<?>[] getEnumLiterals(Class<? extends Enum> c){
 		List<Enum<?>> result = new ArrayList<Enum<?>>();

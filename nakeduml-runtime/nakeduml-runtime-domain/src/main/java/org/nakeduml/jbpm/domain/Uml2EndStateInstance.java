@@ -1,38 +1,30 @@
 package org.nakeduml.jbpm.domain;
 
-import java.util.List;
 
 
 import org.drools.definition.process.Connection;
-import org.jbpm.workflow.core.impl.ExtendedNodeImpl;
 import org.jbpm.workflow.instance.node.EndNodeInstance;
-import org.jbpm.workflow.instance.node.StateNodeInstance;
 import org.nakeduml.runtime.domain.TransitionListener;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public class Uml2EndStateInstance extends EndNodeInstance implements UmlNodeInstance {
-	public void takeTransition(String name, TransitionListener listener) {
-		for (List<Connection> list : getEndNode().getOutgoingConnections().values()) {
-			for (Connection connection : list) {
-				if (connection.getTo().getName().equals(name)) {
-					triggerEvent(ExtendedNodeImpl.EVENT_NODE_EXIT);
-					if (listener != null) {
-						listener.onTransition();
-					}
-					((org.jbpm.workflow.instance.NodeInstanceContainer) getNodeInstanceContainer()).removeNodeInstance(this);
-					triggerConnection(connection);
-					return;
-				}
-			}
-		}
-	}
-
 	@Override
-	public void takeTransition(String targetNodeName) {
-		takeTransition(targetNodeName, null);
+	public void triggerConnection(Connection arg0){
+		super.triggerConnection(arg0);
 	}
-	public void triggerEvent(String type) {
+	public void transitionToNode(long id){
+		UmlJbpmUtil.transitionFromNodeToNode(this, id, null, true);
+	}
+	public void triggerEvent(String type){
 		super.triggerEvent(type);
+	}
+	@Override
+	public void transitionToNode(long to,TransitionListener listener){
+		UmlJbpmUtil.transitionFromNodeToNode(this, to, listener, true);
+	}
+	@Override
+	public void flowToNode(String targetNodeName){
+		UmlJbpmUtil.flowToNode(this, targetNodeName);
 	}
 
 }

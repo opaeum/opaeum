@@ -21,6 +21,8 @@ import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.event.def.DefaultFlushEventListener;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.environment.IMessageSender;
+import org.nakeduml.environment.MethodInvocationHolder;
+import org.nakeduml.environment.MethodInvoker;
 import org.nakeduml.environment.SignalToDispatch;
 import org.nakeduml.event.AbstractNakedUmlEvent;
 import org.nakeduml.event.ChangeEvent;
@@ -98,6 +100,8 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 					SignalToDispatch std = (SignalToDispatch)object;
 					std.prepareForDispatch();
 					sender.sendObjectToQueue(std, std.getQueueName());
+				}else if(object instanceof MethodInvocationHolder){
+					sender.sendObjectToQueue((Serializable) object, ((MethodInvocationHolder) object).getQueueName());
 				}
 			}
 			outgoingEvents.clear();

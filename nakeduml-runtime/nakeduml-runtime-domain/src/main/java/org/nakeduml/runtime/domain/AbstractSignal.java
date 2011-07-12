@@ -14,13 +14,14 @@ public abstract class AbstractSignal implements Serializable{
 	public void send(IEventSource from,IActiveObject to){
 		if(from != null){
 			if(from instanceof BaseAuditable){
-				//Ensure flushing - hack
+				// Ensure flushing - hack
 				((BaseAuditable) from).defaultUpdate();
 			}
 			from.getOutgoingEvents().add(new SignalToDispatch(from, to, this));
+		}else{
+			// TODO get rid of signal dispatcher?
+			Environment.getInstance().getComponent(ISignalDispatcher.class).sendSignal(null, to, this);
 		}
-		// TODO get rid of signal dispatcher?
-		Environment.getInstance().getComponent(ISignalDispatcher.class).sendSignal(from, to, this);
 	}
 	public void send(IEventSource from,Collection<? extends IActiveObject> to){
 		for(IActiveObject activeObject:to){

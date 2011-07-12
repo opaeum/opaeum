@@ -1,10 +1,6 @@
 package org.nakeduml.workinghours;
 import org.nakeduml.runtime.domain.IEnum;
-import org.nakeduml.runtime.domain.MetaIdentifiable;
-public class WorkDayType implements MetaIdentifiable, IEnum {
-	/**
-	 * 
-	 */
+public class WorkDayType implements IEnum {
 	private static final long serialVersionUID = 5546864012892815979L;
 	static final public WorkDayType DEFAULT = new WorkDayType();
 	static final public String[] ALLNAMES = { "DEFAULT", "weekday", "saturday", "sunday" };
@@ -88,22 +84,12 @@ public class WorkDayType implements MetaIdentifiable, IEnum {
 	static public WorkDayType[] getAllLiterals() {
 		return ALL;
 	}
-	public String getMetaId() {
-		return "_9_5_c530259_1132751800812_670037_16";
-	}
 	public void setClassId(int dummy) {
 	}
 	public int getClassId() {
 		return 19;
 	}
-	@Override
-	public String getPersistentName(){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public int getNakedUmlId(){
-		// TODO Auto-generated method stub
-		return 0;
+	public String getUuid(){
+		return mofIdForLiteral;
 	}
 }

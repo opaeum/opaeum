@@ -407,7 +407,7 @@ public class UmlProcessMarshaller extends AbstractProcessInstanceMarshaller {
 			}
 			break;
 		case PersisterEnums.COMPOSITE_NODE_INSTANCE:
-			nodeInstance = new CompositeContextNodeInstance();
+			nodeInstance = new Uml2CompositeContextNodeInstance();
 			nbTimerInstances = stream.readInt();
 			if (nbTimerInstances > 0) {
 				List<Long> timerInstances = new ArrayList<Long>();
@@ -421,7 +421,7 @@ public class UmlProcessMarshaller extends AbstractProcessInstanceMarshaller {
 			nodeInstance = new ForEachNodeInstance();
 			break;
 		case PersisterEnums.DYNAMIC_NODE_INSTANCE:
-			nodeInstance = new DynamicNodeInstance();
+			nodeInstance = new Uml2DynamicNodeInstance();
 			nbTimerInstances = stream.readInt();
 			if (nbTimerInstances > 0) {
 				List<Long> timerInstances = new ArrayList<Long>();

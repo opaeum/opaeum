@@ -44,14 +44,8 @@ public enum TimeUnit implements Serializable, IEnum {
 	}
 
 	@Override
-	public String getPersistentName(){
-		// TODO Auto-generated method stub
+	public String getUuid(){
 		return null;
 	}
 
-	@Override
-	public int getNakedUmlId(){
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

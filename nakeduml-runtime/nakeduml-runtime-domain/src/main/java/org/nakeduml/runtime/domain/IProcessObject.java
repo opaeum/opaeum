@@ -8,5 +8,5 @@ public interface IProcessObject extends IActiveObject{
 	IProcessStep getInnermostNonParallelStep();
 	void forceToStep(IProcessStep step);
 	WorkflowProcessInstance getProcessInstance();
-	long getProcessInstanceId();
+	Long getProcessInstanceId();
 }

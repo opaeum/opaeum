@@ -1,10 +1,6 @@
 package org.nakeduml.workinghours;
 import org.nakeduml.runtime.domain.IEnum;
-import org.nakeduml.runtime.domain.MetaIdentifiable;
-public class TimeUnit implements MetaIdentifiable, IEnum {
-	/**
-	 * 
-	 */
+public class TimeUnit implements  IEnum {
 	private static final long serialVersionUID = -7891898661873010721L;
 	static final public TimeUnit DEFAULT = new TimeUnit();
 	static final public String[] ALLNAMES = { "DEFAULT", "businessWeek", "businessMonth", "actualMinute",
@@ -173,13 +169,7 @@ public class TimeUnit implements MetaIdentifiable, IEnum {
 		return 33;
 	}
 	@Override
-	public String getPersistentName(){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public int getNakedUmlId(){
-		// TODO Auto-generated method stub
-		return 0;
+	public String getUuid(){
+		return mofIdForLiteral;
 	}
 }
