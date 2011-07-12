@@ -36,5 +36,9 @@ public interface IRegionOwner extends INakedNameSpace {
 	 */
 	INakedRegion getTopMostRegionContaining(INakedState state);
 	IRegionOwner getLeastCommonAncestor(IRegionOwner two);
+	/**
+	 * Returns all states contained by this region owner recursively down the the inner most region's states
+	 * @return
+	 */
 	Set<INakedState> getAllStates();
 }

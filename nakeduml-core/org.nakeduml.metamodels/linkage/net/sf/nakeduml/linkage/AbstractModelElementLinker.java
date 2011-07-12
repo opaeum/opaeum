@@ -39,11 +39,6 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 					children.add(element);
 				}
 			}
-			for (INakedElement e : children) {
-				if(e instanceof INakedPackage && ((INakedPackage) e).isLinked()){
-					System.out.println();
-				}
-			}
 			return children;
 		} else {
 			return root.getOwnedElements();

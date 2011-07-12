@@ -59,9 +59,9 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 
 	void addPrimaryModel(INakedRootObject rootObject);
 
-	void setDirectoryName(String directoryName);
+	void setIdentifier(String directoryName);
 
-	String getDirectoryName();
+	String getIdentifier();
 
 	Collection<INakedRootObject> getPrimaryRootObjects();
 }

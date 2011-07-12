@@ -18,8 +18,6 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.ClassifierDependencyComparator;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
-import net.sf.nakeduml.metamodel.models.INakedModel;
-import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedTypes;
@@ -222,11 +220,11 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace {
 		
 	}
 
-	public void setDirectoryName(String directoryName) {
+	public void setIdentifier(String directoryName) {
 		this.directoryName = directoryName;
 	}
 
-	public String getDirectoryName() {
+	public String getIdentifier() {
 		return directoryName;
 	}
 

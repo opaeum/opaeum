@@ -89,9 +89,6 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			pcs.setExpressionString(pcs.getExpressionString() + "->select(o|o." + other + ".oclIsUndefined() or o." + other + "=self)");
 			// System.out.println("oneToOne:" + pcs.getExpressionString());
 		}else{
-			if(!(constr.getSpecification().getOclValue() instanceof ParsedOclString)){
-				System.out.println();
-			}
 			ParsedOclString pcs = (ParsedOclString) constr.getSpecification().getOclValue();
 			pcs.setExpressionString(pcs.getExpressionString() + "->asSet()");
 			// System.out.println("toMany:" + pcs.getExpressionString());

@@ -91,11 +91,11 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	 */
 	public abstract String getMetaClass();
 	/**
-	 * This method is used primarily by Octopus. When a qualifiedUmlName has been specified, it returns a PathName based on it.
+	 * This method is used only by Octopus ocl generation. Uses the qualifiedJavaName
 	 */
 	public PathName getPathName(){
 		PathName result = null;
-		if(getMappingInfo().getQualifiedUmlName() == null){
+		if(getMappingInfo().getQualifiedJavaName() == null){
 			if(getOwnerElement() instanceof INakedElement){
 				result = ((INakedElement) getOwnerElement()).getPathName().getCopy();
 				result.addString(getName());
@@ -104,10 +104,10 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 			}
 		}else{
 			result = new PathName();
-			StringTokenizer st = new StringTokenizer(getMappingInfo().getQualifiedUmlName(), ":");
+			StringTokenizer st = new StringTokenizer(getMappingInfo().getQualifiedJavaName(), ".");
 			while(st.hasMoreElements()){
 				String s = (String) st.nextElement();
-				if(s.length() > 0 && !s.equals(":")){
+				if(s.length() > 0 ){
 					result.addString(s);
 				}
 			}

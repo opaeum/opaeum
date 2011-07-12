@@ -20,6 +20,8 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -328,5 +330,36 @@ public class BehaviorUtil{
 	public static boolean isEffectiveFinalNode(INakedActivityNode node2){
 		boolean hasExceptionHandler = node2 instanceof INakedAction && ((INakedAction) node2).getHandlers().size() > 0;
 		return node2.getAllEffectiveOutgoing().isEmpty() && node2.getOwnerElement() instanceof INakedActivity && !hasExceptionHandler;
+	}
+	public static boolean isRestingNode(INakedActivityNode n){
+		if(n instanceof INakedPin){
+			return false;
+		}else if(n instanceof INakedStructuredActivityNode){
+			INakedStructuredActivityNode s = (INakedStructuredActivityNode) n;
+			for(INakedActivityNode child:s.getActivityNodes()){
+				if(isRestingNode(child)){
+					return true;
+				}
+			}
+			return false;
+		}else if(BehaviorUtil.isEffectiveFinalNode(n)){
+			return true;
+		}else if(n instanceof INakedAction){
+			return ((INakedAction) n).isLongRunning();
+		}else if(n instanceof INakedParameterNode){
+			return ((INakedParameterNode) n).getParameter().isResult();
+		}else if(n instanceof INakedControlNode){
+			INakedControlNode cNode = (INakedControlNode) n;
+			ControlNodeType cNodeType = cNode.getControlNodeType();
+			boolean flowFinalNode = cNodeType.isFlowFinalNode() && cNode.getOwnerElement() instanceof INakedActivity;// TODO check if the
+																														// owner has
+																														// multiple
+																														// concurrent flows
+																														// has parallel
+																														// flows
+			return cNodeType.isActivityFinalNode() || flowFinalNode || cNodeType.isJoinNode();
+		}else{
+			return false;
+		}
 	}
 }

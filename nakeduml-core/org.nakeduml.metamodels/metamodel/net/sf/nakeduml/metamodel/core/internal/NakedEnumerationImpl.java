@@ -53,4 +53,10 @@ public class NakedEnumerationImpl extends NakedClassifierImpl implements
 	public List<IEnumLiteral> getLiterals() {
 		return (List)this.literals;
 	}
+
+
+	@Override
+	public List<INakedEnumerationLiteral> getOwnedLiterals(){
+		return literals;
+	}
 }

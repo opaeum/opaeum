@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.core.internal;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +11,7 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 	private String fileName;
 
 
-	public void setFileName(String modelFile) {
+	public void setIdentifier(String modelFile) {
 		this.fileName = modelFile;
 	}
 
@@ -21,8 +20,8 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 	}
 
 	@Override
-	public String getFileName() {
-		return fileName.substring(0, fileName.indexOf("."));
+	public String getIdentifier() {
+		return fileName;
 	}
 
 	public Collection<INakedRootObject> getDependencies() {

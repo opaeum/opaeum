@@ -2,8 +2,7 @@ package net.sf.nakeduml.metamodel.core.internal;
 
 
 public class StereotypeNames {
-	public static final String LIBRARIES_PATHMAP="pathmap://NAKEDUML_LIBRARIES/";
-	public static final String PROFILES_PATH_MAP="pathmap://NAKEDUML_PROFILES/";
+	public static final String MODELS_PATHMAP="pathmap://NAKEDUML_MODELS/";
 	public static final String NAVIGATION_TOO_MANY="TooMany";
 	public static final String HIERARCHY = "Hierarchy";
 	public static final String USER_GROUP = "UserGroup";

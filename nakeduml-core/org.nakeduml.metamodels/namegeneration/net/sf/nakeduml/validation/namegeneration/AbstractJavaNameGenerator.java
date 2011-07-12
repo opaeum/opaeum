@@ -1,6 +1,8 @@
 package net.sf.nakeduml.validation.namegeneration;
 
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
@@ -12,12 +14,13 @@ import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
+import net.sf.nakeduml.metamodel.profiles.INakedProfile;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
-
 
 public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	protected final NameWrapper generateJavaName(INakedElement element){
@@ -67,6 +70,20 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 				INakedControlNode node = (INakedControlNode) element;
 				name = node.getControlNodeType().name() + node.getMappingInfo().getNakedUmlId();
 			}
+		}else if(element instanceof INakedState){
+			INakedState state = (INakedState) element;
+			for(INakedState s:state.getStateMachine().getAllStates()){
+				if(s.getName().equals(state.getName()) && s != state){
+					name = state.getName() + state.getMappingInfo().getNakedUmlId();
+				}
+			}
+		}else if(element instanceof INakedAction){
+			INakedAction action = (INakedAction) element;
+			for(INakedActivityNode s:action.getActivity().getActivityNodesRecursively()){
+				if(s instanceof INakedAction && s.getName().equals(action.getName()) && s != action){
+					name = action.getName() + action.getMappingInfo().getNakedUmlId();
+				}
+			}
 		}
 		return new SingularNameWrapper(name, null);
 	}
@@ -74,28 +91,12 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 		String generatedName = null;
 		if(me instanceof INakedPackage){
 			INakedPackage nakedPackage = ((INakedPackage) me);
-			if(nakedPackage.getMappedImplementationPackage() != null){
-				generatedName = nakedPackage.getMappedImplementationPackage();
-			}else{
-				if(nakedPackage.isRootPackage() || nakedPackage.getParent() == null){
-					generatedName = me.getName();
-				}else{
-					generatedName = generateQualifiedJavaName(nakedPackage.getParent()).toLowerCase() + "." + me.getName();
-				}
-			}
+			generatedName = packagePathname(nakedPackage);
 		}else if(me instanceof INakedAssociation){
 			generatedName = pathname(me.getPathName());
 		}else if(me instanceof INakedClassifier){
 			INakedClassifier nakedClassifier = (INakedClassifier) me;
-			if(nakedClassifier.getCodeGenerationStrategy().isNone()){
-				generatedName = nakedClassifier.getMappedImplementationType();
-			}
-			if(generatedName == null){
-				String generatedQualifiedJavaName = generateQualifiedJavaName(nakedClassifier.getNameSpace());
-				// Always keep packages in lowercase
-				generatedName = generatedQualifiedJavaName.toLowerCase() + "." + me.getName();
-				nakedClassifier.setMappedImplementationType(generatedName);
-			}
+			generatedName = classifierPathname(nakedClassifier);
 		}else if(me instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) me;
 			// TODO support for mapping of Responsibilities
@@ -145,15 +146,19 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	 * @return
 	 */
 	public static String packagePathname(INakedNameSpace p){
-		if(p instanceof INakedPackage && ((INakedPackage) p).getMappedImplementationPackage() != null){
-			return ((INakedPackage) p).getMappedImplementationPackage();
-		}else{
-			StringBuilder path = new StringBuilder();
-			addParentsToPath(p, path);
-			path.append(".");
-			path.append(p.getName().toLowerCase());
-			return path.toString();
+		if(p instanceof INakedPackage){
+			INakedPackage np = (INakedPackage) p;
+			if(np.getMappedImplementationPackage() != null){
+				return np.getMappedImplementationPackage();
+			}else if(np.isRootPackage() || p instanceof INakedModel || p instanceof INakedProfile || p.getParent() == null){
+				return np.getName().toLowerCase();
+			}
 		}
+		StringBuilder path = new StringBuilder();
+		addParentsToPath(p, path);
+		path.append(".");
+		path.append(p.getName().toLowerCase());
+		return path.toString();
 	}
 	/**
 	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -167,7 +172,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			return classifier.getMappedImplementationType();
 		}else{
 			String path = packagePathname(classifier.getNameSpace());
-			return path + "."+ classifier.getName();
+			return path + "." + classifier.getName();
 		}
 	}
 	private static void addParentsToPath(INakedNameSpace c,StringBuilder path){

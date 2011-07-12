@@ -62,14 +62,6 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 		this.requiresSqlRename = requiresSqlRename;
 	}
 	/**
-	 * Returns a '/'- delimited path using the uml names of the consituents of the path
-	 * 
-	 * @return
-	 */
-	public String getUmlPath(){
-		return getQualifiedUmlName().replace("::", "/");
-	}
-	/**
 	 * Returns a '/'- delimited path using the java names of the consituents of the path
 	 * 
 	 * @return
