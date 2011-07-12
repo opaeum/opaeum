@@ -4,7 +4,11 @@ import java.util.Collection;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.bindings.keys.ParseException;
+import org.eclipse.jface.bindings.keys.SWTKeySupport;
 import org.eclipse.jface.fieldassist.ContentProposalAdapter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
@@ -18,13 +22,14 @@ public abstract class TypedElementCodeCompletingSection extends AbstractTextProp
 	@Override
 	public IText getTextWidget(Composite parent,int style){
 		TextControlAdapter text = new TextControlAdapter(parent, style);
+		text.setLayoutData(new FormData());
 		// "." and "#" will also activate the content proposals
 		char[] autoActivationCharacters = new char[]{
 			'.'
 		};
 		KeyStroke keyStroke;
 		try{
-			keyStroke = KeyStroke.getInstance("Ctrl+Space");
+			keyStroke = KeyStroke.getInstance("CTRL+SPACE");
 			// assume that myTextControl has already been created in some way
 			ContentProposalAdapter adapter = new ContentProposalAdapter(text.getTextControl(), new TypedElementContentAdaptor(), new TypedElementContentProposalProvider(
 					this), keyStroke, autoActivationCharacters);

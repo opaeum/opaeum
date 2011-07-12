@@ -79,6 +79,7 @@ public class AbstractUimFieldEditPart extends BoundEditPart{
 	}
 	protected IFigure createFigure(){
 		UimFieldFigure uimFieldFigure = new UimFieldFigure();
+		new DirectEditHelper(uimFieldFigure, this);
 		return uimFieldFigure;
 	}
 	@Override

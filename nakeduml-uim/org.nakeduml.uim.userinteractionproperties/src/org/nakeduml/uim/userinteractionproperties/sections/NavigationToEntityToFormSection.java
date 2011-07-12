@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Classifier;
-import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.NavigationToEntity;
 import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;
@@ -74,7 +74,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), ActionPackage.eINSTANCE
 				.getNavigationToEntity_ToForm().getEType());
 		for(ClassForm classForm:source){
-			if(UmlUimLinks.getInstance(nte).getRepresentedClass(classForm.getFolder()) == toClass){
+			if(UmlUimLinks.getInstance(classForm).getRepresentedClass(classForm.getFolder()) == toClass){
 				choices.add(classForm);
 			}
 		}

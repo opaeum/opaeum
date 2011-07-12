@@ -14,22 +14,6 @@
       </editor>
    </extension>
    
-   <extension point="org.eclipse.ui.newWizards">
-      <wizard
-            icon="icons/Uim.gif"
-            class="org.nakeduml.uim.modeleditor.wizards.NewUimDiagrams"
-            category="org.topcased.facilities.newWizards/org.topcased.modeler.newdiagram"
-            name="Uim Diagram"
-            id="org.nakeduml.uim.modeleditor.wizards.NewUimDiagrams">
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-   </extension>
-   
-   <extension point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID="org.topcased.modeler.perspective">
-         <newWizardShortcut id="org.nakeduml.uim.modeleditor.wizards.NewUimDiagrams"/>
-      </perspectiveExtension>
-   </extension>
    
    <extension point="org.eclipse.ui.preferencePages">
       <page

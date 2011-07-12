@@ -22,7 +22,7 @@ import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.eclipse.EmfParameterUtil;
-import org.nakeduml.topcased.uml.editor.NakedUmlContentAdaptor;
+import org.nakeduml.topcased.uml.editor.NakedUmlElementLinker;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
 public abstract class ObjectChooserComposite extends Composite{
@@ -55,7 +55,7 @@ public abstract class ObjectChooserComposite extends Composite{
 				AcceptEventAction action = (AcceptEventAction) trigger.getOwner();
 				action.getResults().clear();
 				for(TypedElement t:EmfParameterUtil.getArguments(getCause())){
-					NakedUmlContentAdaptor.addResult(t, action);
+					NakedUmlElementLinker.addResult(t, action);
 				}
 			}
 			@Override

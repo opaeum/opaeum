@@ -59,26 +59,21 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		nameData.height=12;
 		nameTxt.setLayoutData(nameData);
 		nameTxt.addFocusListener(new FocusListener(){
-			@Override
 			public void focusLost(FocusEvent e){
 				event.setName(nameTxt.getText());
 				maybeFire();
 			}
-			@Override
 			public void focusGained(FocusEvent e){
 				// TODO Auto-generated method stub
 			}
 		});
 		TextChangeListener textChangeListener = new TextChangeListener(){
-			@Override
 			public void textChanged(Control control){
 				event.setName(nameTxt.getText());
 				maybeFire();
 			}
-			@Override
 			public void focusOut(Control control){
 			}
-			@Override
 			public void focusIn(Control control){
 			}
 		};

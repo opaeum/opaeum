@@ -3,6 +3,8 @@ package org.nakeduml.topcased.uml.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.emf.workspace.UmlElementMap;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
@@ -16,10 +18,15 @@ import org.topcased.modeler.preferences.ModelerPreferenceConstants;
 import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
 
 public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
+	UmlElementMap umlElementMap;
+	public UmlElementMap getUmlElementMap(){
+		return umlElementMap;
+	}
 	@Override
 	protected EObject openFile(IFile file,boolean resolve){
 		EObject openFile = super.openFile(file, resolve);
-		getResourceSet().eAdapters().add(new NakedUmlContentAdaptor());
+		getResourceSet().eAdapters().add(new NakedUmlElementLinker());
+		umlElementMap= new UmlElementMap(getResourceSet());
         IPreferenceStore ps = getPreferenceStore(file);
         if(ps!=null){
         	String filters = ps.getString(ModelerPreferenceConstants.FILTERS_PREF);

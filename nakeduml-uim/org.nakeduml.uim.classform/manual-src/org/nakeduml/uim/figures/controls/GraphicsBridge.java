@@ -21,10 +21,12 @@ import javax.swing.JComponent;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.ui.internal.Workbench;
+import org.topcased.draw2d.figures.ILabelFigure;
 
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -72,7 +74,6 @@ public class GraphicsBridge extends java.awt.Graphics{
 			g.setForegroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
 			g.setBackgroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
 		}else{
-			System.out.println();
 		}
 	}
 	@Override
@@ -384,15 +385,27 @@ public class GraphicsBridge extends java.awt.Graphics{
 			isPopped = true;
 		}
 	}
+	public static org.eclipse.draw2d.geometry.Rectangle convert(java.awt.Rectangle b){
+		org.eclipse.draw2d.geometry.Rectangle rectangle = new org.eclipse.draw2d.geometry.Rectangle(b.x, b.y, b.width, b.height);
+		return rectangle;
+	}
 	public static GraphicsBridge buildBridge(Graphics graphics,Figure f,JComponent c){
+		IFigure l=f;
+		if(f instanceof ILabelFigure){
+			l=((ILabelFigure) f).getLabel();
+		}
 		GraphicsBridge g2 = new GraphicsBridge(graphics);
-		c.setForeground(new Color(f.getForegroundColor().getRed(), f.getForegroundColor().getGreen(), f.getForegroundColor().getBlue()));
-		c.setBackground(new Color(f.getBackgroundColor().getRed(), f.getBackgroundColor().getGreen(), f.getBackgroundColor().getBlue()));
+//		c.setForeground(convert(l.getForegroundColor()));
+//		c.setBackground(convert(l.getBackgroundColor()));
 		c.setBounds(new Rectangle(f.getBounds().x + 2, f.getBounds().y + 2, f.getBounds().width - 4, f.getBounds().height - 4));
 		java.awt.Graphics create = g2.create(f.getBounds().x + 2, f.getBounds().y + 2, f.getBounds().width - 4, f.getBounds().height - 4);
-		FontData fontData = f.getFont().getFontData()[0];
-		c.setFont(new Font(fontData.getName(), fontData.getStyle(), fontData.getHeight() + 3));
+		c.setFont(convert(l.getFont()));
 		return (GraphicsBridge) create;
+	}
+	public static Font convert(org.eclipse.swt.graphics.Font font2){
+		FontData fontData = font2.getFontData()[0];
+		Font font3 = new Font(fontData.getName(), fontData.getStyle(), fontData.getHeight() + 3);
+		return font3;
 	}
 	public static void doLayout(Component c){
 		c.doLayout();
@@ -402,5 +415,8 @@ public class GraphicsBridge extends java.awt.Graphics{
 				doLayout(component);
 			}
 		}
+	}
+	public static Color convert(org.eclipse.swt.graphics.Color c){
+		return new Color(c.getRed(), c.getGreen(), c.getBlue());
 	}
 }

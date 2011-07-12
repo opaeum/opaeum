@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: State Machine Diagram
-Bundle-SymbolicName: org.topcased.modeler.uml.statemachinediagram; singleton:=true
-Bundle-Version: 2.5.2.qualifier
+Bundle-Name: NakedUML State Machine Diagrams
+Bundle-SymbolicName: org.nakeduml.topcased.statemachinediagram;singleton:=true
+Bundle-Version: 1.0.0.6
 Bundle-Activator: org.topcased.modeler.uml.statemachinediagram.STMPlugin
-Bundle-Vendor: Topcased
+Bundle-Vendor: NakedUML
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.nakeduml.topcased.classdiagram;bundle-version="3.0.12"
+ org.nakeduml.topcased.classdiagram
 Bundle-ActivationPolicy: lazy
 Export-Package: org.nakeduml.topcased.statemachinediagram,
  org.topcased.modeler.uml.statemachinediagram;x-internal:=true,
@@ -40,3 +40,4 @@ Export-Package: org.nakeduml.topcased.statemachinediagram,
  org.topcased.modeler.uml.statemachinediagram.widgets
 Bundle-ClassPath: plugins/org.topcased.modeler.uml.statemachinediagram_2.5.2.nakeduml.jar,
  .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

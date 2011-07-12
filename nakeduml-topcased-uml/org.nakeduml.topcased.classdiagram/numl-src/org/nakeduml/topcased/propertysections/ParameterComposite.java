@@ -16,8 +16,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
@@ -41,7 +43,7 @@ public class ParameterComposite extends Composite{
 	private Text parameterNameTxt;
 	private CSingleObjectChooser parameterType;
 	private CCombo parameterDirectionCb;
-	private ComboViewer parameterDirectionCbViewer;
+	private Button isExceptionBtn;
 	public ParameterComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style);
 		this.widgetFactory = widgetFactory;
@@ -67,11 +69,10 @@ public class ParameterComposite extends Composite{
 		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()));
 		parameterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Direction : ");
-		parameterDirectionCb = widgetFactory.createCCombo(parent, SWT.BORDER|SWT.FLAT );
+		parameterDirectionCb = widgetFactory.createCCombo(parent, SWT.BORDER | SWT.FLAT);
 		parameterDirectionCb.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		parameterDirectionCbViewer = new ComboViewer(parameterDirectionCb,SWT.FLAT | SWT.BORDER);
-		parameterDirectionCbViewer.setContentProvider(new ArrayContentProvider());
-		parameterDirectionCbViewer.setLabelProvider(new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()));
+		isExceptionBtn = widgetFactory.createButton(parent, "Is Exception", SWT.CHECK);
+		isExceptionBtn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	}
 	private void hookListeners(){
 		TextChangeHelper parameterNameListener = new TextChangeHelper(){
@@ -94,17 +95,37 @@ public class ParameterComposite extends Composite{
 				}
 			}
 		});
-		parameterDirectionCbViewer.addSelectionChangedListener(new ISelectionChangedListener(){
-			public void selectionChanged(SelectionChangedEvent event){
-				Object selectedElement = ((StructuredSelection) parameterDirectionCbViewer.getSelection()).getFirstElement();
+		parameterDirectionCb.addSelectionListener(new SelectionListener(){
+			@Override
+			public void widgetSelected(SelectionEvent e){
+				ParameterDirectionKind selectedElement = ParameterDirectionKind.get(parameterDirectionCb.getSelectionIndex());
 				if(!selectedElement.equals(parameter.getDirection())){
 					mixedEditDomain.getEMFEditingDomain().getCommandStack()
 							.execute(SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_Direction(), selectedElement));
 				}
 			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e){
+				// TODO Auto-generated method stub
+			}
+		});
+		isExceptionBtn.addSelectionListener(new SelectionListener(){
+			@Override
+			public void widgetSelected(SelectionEvent e){
+				boolean v = isExceptionBtn.getSelection();
+				if(v != parameter.isException()){
+					mixedEditDomain.getEMFEditingDomain().getCommandStack()
+							.execute(SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_IsException(), v));
+				}
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e){
+				// TODO Auto-generated method stub
+			}
 		});
 	}
 	private void loadData(){
+		parameterDirectionCb.removeAll();
 		if(parameter != null){
 			String nameToDisplay = parameter.getName() != null ? parameter.getName() : "";
 			parameterNameTxt.setText(nameToDisplay);
@@ -112,14 +133,18 @@ public class ParameterComposite extends Composite{
 			if(parameter.getType() != null){
 				parameterType.setSelection(parameter.getType());
 			}
-			parameterDirectionCbViewer.setInput(ParameterDirectionKind.VALUES);
-			if(parameter.getDirection() != null){
-				parameterDirectionCbViewer.setSelection(new StructuredSelection(parameter.getDirection()), true);
+			List<ParameterDirectionKind> values = ParameterDirectionKind.VALUES;
+			for(ParameterDirectionKind p:values){
+				parameterDirectionCb.add(p.getName());
 			}
+			if(parameter.getDirection() != null){
+				parameterDirectionCb.select(parameter.getDirection().ordinal());
+			}
+			isExceptionBtn.setSelection(parameter.isException());
 		}else{
 			parameterNameTxt.setText("");
 			parameterType.setSelection(null);
-			parameterDirectionCbViewer.setInput(null);
+			isExceptionBtn.setSelection(false);
 		}
 	}
 	private Object[] getChoices(){
@@ -127,7 +152,6 @@ public class ParameterComposite extends Composite{
 		choices.add("");
 		Collection<EObject> types = TypeCacheAdapter.getExistingTypeCacheAdapter(parameter.getOperation()).getReachableObjectsOfType(parameter.getOperation(),
 				UMLPackage.eINSTANCE.getType());
-		
 		choices.addAll(UmlMetaTypeRemover.removeAll(types));
 		return choices.toArray();
 	}

@@ -60,7 +60,6 @@ public class NakedValidator implements org.topcased.validation.core.IValidator {
 						String message = replaceArguments((EObject) key, brokenRule, messagePattern);
 						BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.ERROR, "net.sf.nakeduml.topcased.Validator", i++,
 								message, new Object[] { key });
-						System.out.println(message);
 						arg1.add(diagnostic);
 					}
 				}

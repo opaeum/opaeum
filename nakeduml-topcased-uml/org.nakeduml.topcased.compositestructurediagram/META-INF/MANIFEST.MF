@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: NakedUML Composite Structures Diagram
 Bundle-SymbolicName: org.nakeduml.topcased.compositestructuresdiagram;singleton:=true
-Bundle-Version: 2.5.1.qualifier
-Bundle-Vendor: %providerName
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: NakedUML
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.uml2.uml.edit,
  org.topcased.modeler,
- org.nakeduml.topcased.classdiagram;bundle-version="3.0.12"
+ org.nakeduml.topcased.classdiagram
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresPlugin
 Export-Package: org.topcased.modeler.uml.compositestructuresdiagram,
@@ -17,7 +17,10 @@ Export-Package: org.topcased.modeler.uml.compositestructuresdiagram,
  org.topcased.modeler.uml.compositestructuresdiagram.common.util,
  org.topcased.modeler.uml.compositestructuresdiagram.edit,
  org.topcased.modeler.uml.compositestructuresdiagram.figures,
- org.topcased.modeler.uml.compositestructuresdiagram.policies
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+ org.topcased.modeler.uml.compositestructuresdiagram.figures.internal,
+ org.topcased.modeler.uml.compositestructuresdiagram.parentrule,
+ org.topcased.modeler.uml.compositestructuresdiagram.policies,
+ org.topcased.modeler.uml.compositestructuresdiagram.preferences
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: plugins/org.topcased.modeler.uml.compositestructuresdiagram_2.5.1.nakeduml.jar,
  .

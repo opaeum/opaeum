@@ -9,9 +9,11 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.widgets.Display;
 import org.nakeduml.uim.classform.commands.UimTabRestoreConnectionCommand;
 import org.nakeduml.uim.classform.policies.UimTabLayoutEditPolicy;
 import org.nakeduml.uim.classform.preferences.ClassFormDiagramPreferenceConstants;
+import org.nakeduml.uim.figure.TabListener;
 import org.nakeduml.uim.figures.UimTabFigure;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
@@ -58,7 +60,19 @@ public class UimTabEditPart extends EMFGraphNodeEditPart{
 	 * @generated
 	 */
 	protected IFigure createFigure(){
-		return new UimTabFigure();
+		UimTabFigure uimTabFigure = new UimTabFigure();
+		uimTabFigure.addTabListener(new TabListener(){
+			@Override
+			public void tabSelected(UimTabFigure a){
+				Display.getCurrent().timerExec(400,new Runnable(){
+					@Override
+					public void run(){
+						performDirectEdit();
+					}
+				});
+			}
+		});
+		return uimTabFigure;
 	}
 	/**
 	 * @see org.topcased.modeler.edit.GraphNodeEditPart#getPreferenceDefaultBackgroundColor()

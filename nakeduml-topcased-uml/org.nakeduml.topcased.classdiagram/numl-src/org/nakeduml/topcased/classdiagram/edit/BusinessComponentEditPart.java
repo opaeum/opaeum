@@ -32,34 +32,6 @@ public class BusinessComponentEditPart extends ClassEditPart{
 	@Override
 	protected IFigure createFigure(){
 		BusinessComponentFigure f = new BusinessComponentFigure();
-		f.addLayoutListener(new LayoutListener(){
-
-			@Override
-			public void invalidate(IFigure container){
-				
-			}
-
-			@Override
-			public boolean layout(IFigure container){
-				return false;
-			}
-
-			@Override
-			public void postLayout(IFigure container){
-				System.out.println();
-			}
-
-			@Override
-			public void remove(IFigure child){
-			}
-
-			@Override
-			public void setConstraint(IFigure child,Object constraint){
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
 		return f;
 	}
 }

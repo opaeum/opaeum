@@ -34,7 +34,6 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
-		// TODO Auto-generated method stub
 		super.setInput(part, selection);
 	}
 	@Override
@@ -69,10 +68,10 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 				break;
 			case UMLPackage.OPERATION__IS_ABSTRACT:
 				if(msg.getNewBooleanValue()){
-					oclComposite.getTextControl().setEnabled(true && getOperation().isQuery());
+					oclComposite.getTextControl().setEnabled(false);
 					createBodyCondition();
 				}else{
-					oclComposite.getTextControl().setEnabled(false);
+					oclComposite.getTextControl().setEnabled(true && getOperation().isQuery());
 					removeBodyCondition();
 				}
 				break;

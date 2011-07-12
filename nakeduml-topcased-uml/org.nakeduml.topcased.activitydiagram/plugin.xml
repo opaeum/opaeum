@@ -2,56 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-	<extension point="org.topcased.modeler.templates">
-		<template
-			di="templates/activitydiagram/%name%.umldi"
-			model="templates/activitydiagram/%name%.uml"
-			name="Activity Diagram"
-			id="org.topcased.modeler.uml.activitydiagram.templates.activitydiagram"
-			editorId="org.topcased.modeler.uml.editor.UMLEditor"/>
-	</extension>
-   
-		<diagram
-        configuration="org.topcased.modeler.uml.activitydiagram.ActivityConfiguration"
-        editorID="org.topcased.modeler.uml.editor.UMLEditor"
-        id="org.topcased.modeler.uml.activitydiagram"
-        name="Activity Diagram">
-		 <enableFor class="org.eclipse.uml2.uml.Activity"/>
-         <enableFor
-               class="org.eclipse.uml2.uml.UseCase"
-               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromUseCase">
-         </enableFor>
-	     <enableFor
-               class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
-         </enableFor>
-      <enableFor
-            class="org.eclipse.uml2.uml.State"
-            creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromState">
-      </enableFor>
-		</diagram>
-  <diagram
-        configuration="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.StructuredActivityNodeConfiguration"
-        editorID="org.topcased.modeler.uml.editor.UMLEditor"
-        id="org.topcased.modeler.uml.structuredactivitynodediagram"
-        name="Structured Activity Node Diagram">
-     <enableFor
-           class="org.eclipse.uml2.uml.StructuredActivityNode">
-     </enableFor>
-  </diagram>
 	<extension point="org.topcased.modeler.diagrams">
-		<diagram
-        	configuration="org.nakeduml.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
-        	editorID="org.topcased.modeler.uml.editor.UMLEditor"
-        	id="org.topcased.modeler.uml.activitydiagram.bpm"
-        	name="Business Process Diagram">
-		 	<enableFor class="org.eclipse.uml2.uml.Package" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
-		 	<enableFor class="org.eclipse.uml2.uml.Component" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
-		 	<enableFor class="org.eclipse.uml2.uml.Operation" creationCommand="org.nakeduml.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
-	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
-         	</enableFor>
-		</diagram>
 		<diagram
         	configuration="org.nakeduml.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
         	editorID="org.topcased.modeler.uml.editor.UMLEditor"
@@ -232,10 +183,10 @@
 				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
 			</propertySection>
 			<propertySection
-         class="org.nakeduml.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
-         filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
-         id="org.nakeduml.topcased.activitydiagram.ActionDeadlineSection"
-         tab="org.nakeduml.topcased.activitydiagram.deadlinesTab">
+		         class="org.nakeduml.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
+		         filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+		         id="org.nakeduml.topcased.activitydiagram.ActionDeadlineSection"
+		         tab="org.nakeduml.topcased.activitydiagram.deadlinesTab">
 				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
 			</propertySection>
 			<propertySection
@@ -356,32 +307,31 @@
                tab="org.topcased.modeler.modelTab"
                afterSection="org.topcased.modeler.uml.VisibilitySection">
             <input type="org.eclipse.uml2.uml.ActivityPartition"/>
-         </propertySection>
-   <propertySection
-         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.PinTypeSection"
-         id="org.topcased.modeler.uml.internal.properties.sections.PinTypeSection"
-         tab="org.topcased.modeler.modelTab">
-      <input
-            type="org.eclipse.uml2.uml.Pin">
-      </input>
-   </propertySection>
-   <propertySection
-         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.PinNameSection"
-         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection"
-         tab="org.topcased.modeler.modelTab">
-      <input
-            type="org.eclipse.uml2.uml.Pin">
-      </input>
-   </propertySection>
-   <propertySection
-         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection"
-         id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection.ControlNode"
-         tab="org.topcased.modeler.graphicsTab">
-      <input
-            type="org.eclipse.uml2.uml.ControlNode">
-      </input>
-   </propertySection>
-			
+        </propertySection>
+		<propertySection
+		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.PinTypeSection"
+		         id="org.topcased.modeler.uml.internal.properties.sections.PinTypeSection"
+		         tab="org.topcased.modeler.modelTab">
+		      <input
+		            type="org.eclipse.uml2.uml.Pin">
+		      </input>
+		</propertySection>
+		<propertySection
+		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.PinNameSection"
+		         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection"
+		         tab="org.topcased.modeler.modelTab">
+		      <input
+		            type="org.eclipse.uml2.uml.Pin">
+		      </input>
+		</propertySection>
+		   <propertySection
+		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection"
+		         id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection.ControlNode"
+		         tab="org.topcased.modeler.graphicsTab">
+		      <input
+		            type="org.eclipse.uml2.uml.ControlNode">
+		      </input>
+		   </propertySection>
 		</propertySections>
    </extension>
    

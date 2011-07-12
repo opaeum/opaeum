@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.UimDataTable;
+import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.OperationAction;
 import org.nakeduml.uim.form.FormPanel;
 import org.nakeduml.uim.form.StateForm;
@@ -55,7 +56,7 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
-		return UmlUimLinks.getInstance(getEObject()).getOperation((OperationAction) getEObject());
+		return UmlUimLinks.getInstance((UmlReference)getEObject()).getOperation((OperationAction) getEObject());
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -72,7 +73,7 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 			if(nearestTable == null && ui instanceof StateForm){
 				// get valid methods for state only
 				StateForm sui = (StateForm) ui;
-				State state = UmlUimLinks.getInstance(getEObject()).getState(sui);
+				State state = UmlUimLinks.getInstance((UmlReference)getEObject()).getState(sui);
 				if(state != null){
 					results.addAll(EmfStateMachineUtil.getTriggerOperations(state));
 					results.addAll(EmfStateMachineUtil.getNonTriggerOperations(EmfStateMachineUtil.getStateMachine(state)));

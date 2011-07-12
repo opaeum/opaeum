@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: NakdeUML Component Diagram
 Bundle-SymbolicName: org.nakeduml.topcased.componentdiagram;singleton:=true
-Bundle-Version: 3.0.2.qualifier
+Bundle-Version: 1.0.0.6
 Bundle-Activator: org.topcased.modeler.uml.componentdiagram.ComponentPlugin
-Bundle-Vendor: %providerName
+Bundle-Vendor: NakedUML
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.nakeduml.topcased.classdiagram;bundle-version="3.0.12"
+ org.nakeduml.topcased.classdiagram
 Bundle-ActivationPolicy: lazy
 Export-Package: org.topcased.modeler.uml.componentdiagram,
  org.topcased.modeler.uml.componentdiagram.commands,
@@ -29,6 +29,6 @@ Export-Package: org.topcased.modeler.uml.componentdiagram,
  org.topcased.modeler.uml.componentdiagram.figures,
  org.topcased.modeler.uml.componentdiagram.internal.figures,
  org.topcased.modeler.uml.componentdiagram.policies
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: plugins/org.topcased.modeler.uml.componentdiagram_3.0.2.nakeduml.jar,
  .

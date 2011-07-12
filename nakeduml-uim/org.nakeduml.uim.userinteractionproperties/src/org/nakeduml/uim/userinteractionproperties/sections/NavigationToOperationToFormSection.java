@@ -10,6 +10,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Operation;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.NavigationToOperation;
 import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;

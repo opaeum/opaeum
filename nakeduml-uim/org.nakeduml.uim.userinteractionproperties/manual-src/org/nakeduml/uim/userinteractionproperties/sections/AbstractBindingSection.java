@@ -8,12 +8,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.uim.UimComponent;
-import org.nakeduml.uim.UimFactory;
 import org.nakeduml.uim.binding.BindingFactory;
 import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.binding.UimBinding;
-import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
 
@@ -24,7 +23,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		return (UimBinding) getFeatureValue();
 	}
 	protected Collection<TypedElement> getTypedElements(){
-		return UimUtil.getOwnedTypedElements(UimUtil.getNearestClass((UimComponent) getEObject()));
+		return EmfElementFinder.getTypedElementsInScope(UimUtil.getNearestClass((UimComponent) getEObject()));
 	}
 	@Override
 	protected String getFeatureAsString(){
@@ -42,7 +41,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		return sb.toString();
 	}
 	private String getName(PropertyRef next){
-		Property typedElement = SafeUmlUimLinks.getInstance(getEObject()).getProperty(next);
+		Property typedElement = UmlUimLinks.getInstance(getBinding()).getProperty(next);
 		if(typedElement == null){
 			return "NOTFOUND";
 		}else{
@@ -50,7 +49,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		}
 	}
 	private String getName(UimBinding binding){
-		TypedElement typedElement = SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(binding);
+		TypedElement typedElement = UmlUimLinks.getInstance(getBinding()).getTypedElement(binding);
 		if(typedElement == null){
 			return "NOTFOUND";
 		}else{

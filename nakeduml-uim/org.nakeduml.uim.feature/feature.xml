@@ -2,7 +2,7 @@
 <feature
       id="org.nakeduml.uim.feature"
       label="User Interaction Modelling"
-      version="1.0.0.5"
+      version="1.0.0.qualifier"
       provider-name="NakedUML">
 
    <description url="http://www.example.com/description">

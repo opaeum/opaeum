@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Activity Diagram
+Bundle-Name: NakedUML Activity Diagrams
 Bundle-SymbolicName: org.nakeduml.topcased.activitydiagram;singleton:=true
-Bundle-Version: 2.6.1.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.activitydiagram.ActivityPlugin
-Bundle-Vendor: Topcased
+Bundle-Vendor: NakedUML
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
  org.eclipse.emf.edit.ui,
@@ -21,9 +21,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
  org.eclipse.ui,
- org.nakeduml.topcased.classdiagram;bundle-version="3.0.12",
- org.nakeduml.metamodels;bundle-version="1.0.0",
- org.nakeduml.eclipse;bundle-version="1.0.0"
+ org.nakeduml.topcased.classdiagram,
+ org.nakeduml.metamodels,
+ org.nakeduml.eclipse
 Bundle-ActivationPolicy: lazy
 Export-Package: org.nakeduml.topcased.activitydiagram.bpm,
  org.nakeduml.topcased.activitydiagram.filters,
@@ -54,6 +54,6 @@ Export-Package: org.nakeduml.topcased.activitydiagram.bpm,
  org.topcased.modeler.uml.activitydiagram.preferences,
  org.topcased.modeler.uml.activitydiagram.providers,
  org.topcased.modeler.uml.activitydiagram.utils
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: plugins/org.topcased.modeler.uml.activitydiagram_2.6.1.nakeduml.jar,
  .

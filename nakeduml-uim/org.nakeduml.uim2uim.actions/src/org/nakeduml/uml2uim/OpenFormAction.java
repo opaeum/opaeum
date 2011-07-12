@@ -1,5 +1,6 @@
 package org.nakeduml.uml2uim;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.uml2.uml.Activity;
@@ -10,7 +11,11 @@ import org.nakeduml.uim.util.UmlUimLinks;
 
 public class OpenFormAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
 	@Override
-	protected void runActionRecursively(NamedElement eObject){
+	protected void runActionRecursively(NamedElement eObject,IAction action){
+		URI uri = getUimdiFileUri(eObject, action);
+		if(!getFile(uri).exists()){
+			SynchronizeAction.doSynchronize(eObject);
+		}
 	}
 
 	@Override
@@ -34,6 +39,6 @@ public class OpenFormAction extends AbstractUimGenerationAction implements IObje
 				suffix = "Task";
 			}
 		}
-		return UmlUimLinks.getInstance(namedElement).getId(namedElement) + suffix;
+		return UmlUimLinks.getId(namedElement) + suffix;
 	}
 }

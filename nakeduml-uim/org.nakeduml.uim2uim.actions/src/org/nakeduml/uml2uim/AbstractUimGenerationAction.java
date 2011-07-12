@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +33,8 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
+import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
+import org.nakeduml.topcased.uml.editor.NakedUmlElementLinker;
 import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.modeleditor.UimPlugin;
 import org.nakeduml.uim.modeleditor.editor.UimEditor;
@@ -62,14 +65,14 @@ public abstract class AbstractUimGenerationAction{
 				}
 			}
 			if(namedElement != null){
-				runActionRecursively(namedElement);
+				runActionRecursively(namedElement, action);
 				if(hasForm(namedElement)){
-					openUimDiagram(namedElement,action);
+					openUimDiagram(namedElement, action);
 				}
 			}
 		}
 	}
-	protected abstract void runActionRecursively(NamedElement eObject);
+	protected abstract void runActionRecursively(NamedElement eObject,IAction action);
 	public static void main(String[] args) throws Exception{
 		URI uri = URI.createFileURI(new File(".").getCanonicalPath());
 		uri = uri.appendSegment("test");
@@ -79,33 +82,22 @@ public abstract class AbstractUimGenerationAction{
 	}
 	public void openUimDiagram(NamedElement namedElement,IAction action){
 		try{
-			String fileName = getFileName(namedElement,action);
-			URI dirUri = namedElement.eResource().getURI().trimFileExtension().trimSegments(1);
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			String platformString = dirUri.toPlatformString(true);
-			IFolder folder = root.getFolder(new Path(platformString));
-			UimPlugin default1 = UimPlugin.getDefault();
-			IWorkbenchPage activePage = default1.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			URI fileUri = dirUri.appendSegment("forms").appendSegment(fileName).appendFileExtension("uimdi");
-			if(folder.exists()){
-				folder.refreshLocal(100, null);
-			}
-			String platformString2 = fileUri.toPlatformString(true);
-			IFile diFile = root.getFile(new Path(platformString2));
+			URI fileUri = getUimdiFileUri(namedElement, action);
+			refreshContainingFolder(fileUri);
+			IFile diFile = getFile(fileUri);
 			if(diFile.exists()){
-				for(IEditorReference er:activePage.getEditorReferences()){
+				for(IEditorReference er:UimPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences()){
 					IEditorPart curEditor = er.getEditor(false);
 					if(curEditor instanceof UimEditor){
 						UimEditor uimEditor = (UimEditor) curEditor;
-						for(Resource r:new ArrayList<Resource>( uimEditor.getResourceSet().getResources())){
+						for(Resource r:new ArrayList<Resource>(uimEditor.getResourceSet().getResources())){
 							if(r.getURI().equals(fileUri)){
 								uimEditor.getSite().getPage().closeEditor(uimEditor, false);
 							}
 						}
 					}
-					
 				}
-				IEditorPart editorPart = IDE.openEditor(activePage, diFile, true);
+				IEditorPart editorPart = IDE.openEditor(UimPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage(), diFile, true);
 				if(editorPart instanceof UimEditor){
 					UimEditor uimEditor = (UimEditor) editorPart;
 					UimForm referencedForm = getReferencedForm(uimEditor, namedElement);
@@ -113,13 +105,35 @@ public abstract class AbstractUimGenerationAction{
 				}
 			}
 		}catch(PartInitException e){
-			e.getMessage();
+			NakedUmlEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, NakedUmlEclipsePlugin.getPluginId(), e.getMessage(),e));
 			e.printStackTrace();
 		}catch(CoreException e){
+			NakedUmlEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, NakedUmlEclipsePlugin.getPluginId(), e.getMessage(),e));
 			e.printStackTrace();
 		}
 	}
-	public String getFileName(NamedElement namedElement, IAction action){
+	protected IFile getFile(URI fileUri){
+		String platformString2 = fileUri.toPlatformString(true);
+		IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
+		return diFile;
+	}
+	protected URI getUimdiFileUri(NamedElement namedElement,IAction action){
+		try{
+			String fileName = getFileName(namedElement, action);
+			URI dirUri = namedElement.eResource().getURI().trimFileExtension().trimSegments(1);
+			URI fileUri = dirUri.appendSegment("forms").appendSegment(fileName).appendFileExtension("uimdi");
+			return fileUri;
+		}catch(Exception ce){
+			throw new RuntimeException(ce);
+		}
+	}
+	private void refreshContainingFolder(URI dirUri) throws CoreException{
+		IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(dirUri.trimSegments(1).toPlatformString(true)));
+		if(folder.exists()){
+			folder.refreshLocal(100, null);
+		}
+	}
+	public String getFileName(NamedElement namedElement,IAction action){
 		String suffix = "";
 		if(namedElement instanceof StateMachine || namedElement instanceof Activity){
 			suffix = "Editor";
@@ -152,17 +166,5 @@ public abstract class AbstractUimGenerationAction{
 			}
 		}
 		return null;
-	}
-	protected void save(URI rootDir,ResourceSet r) throws IOException{
-		String rootString = toString(rootDir);
-		for(Resource resource:r.getResources()){
-			String string = toString(resource.getURI());
-			if(string!=null&&string.startsWith(rootString)){
-				resource.save(new HashMap());
-			}
-		}
-	}
-	private String toString(URI rootDir){
-		return rootDir.isFile() ? rootDir.toFileString() : rootDir.toPlatformString(true);
 	}
 }

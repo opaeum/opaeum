@@ -23,12 +23,10 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		public BooleanSelectionListener(EAttribute feature_IsStatic){
 			this.myFeature = feature_IsStatic;
 		}
-		@Override
 		public void widgetSelected(SelectionEvent e){
 			feature = myFeature;
 			createCommand(getEObject().eGet(myFeature), Boolean.valueOf(((Button) e.getSource()).getSelection()));
 		}
-		@Override
 		public void widgetDefaultSelected(SelectionEvent e){
 		}
 	}

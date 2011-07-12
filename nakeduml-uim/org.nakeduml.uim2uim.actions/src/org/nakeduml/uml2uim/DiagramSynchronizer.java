@@ -12,14 +12,9 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
-import org.eclipse.uml2.uml.StateMachine;
-import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.action.ActionKind;
 import org.nakeduml.uim.folder.EntityFolder;
-import org.nakeduml.uim.folder.StateMachineFolder;
 import org.nakeduml.uim.form.FormPanel;
-import org.nakeduml.uim.form.OperationInvocationForm;
-import org.nakeduml.uim.form.StateForm;
 import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
@@ -29,7 +24,7 @@ import org.topcased.modeler.di.model.EMFSemanticModelBridge;
 import org.topcased.modeler.diagrams.model.Diagrams;
 import org.topcased.modeler.diagrams.model.DiagramsFactory;
 
-@StepDependency(phase = UserInteractionSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
+@StepDependency(phase = UimSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
 public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	public DiagramSynchronizer(){
 	}
@@ -38,7 +33,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		String resourceUri = UmlUimLinks.getInstance(a).getId(a);
+		String resourceUri = UmlUimLinks.getId(a);
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -70,13 +65,13 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void beforeClass(Class c){
-		EntityFolder folder = (EntityFolder) UmlUimLinks.getInstance(c).getFolderFor(c.getNamespace());
+		EntityFolder folder = (EntityFolder) getFolderFor(c.getNamespace());
 		createClassForm(c, folder, ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
 		createClassForm(c, folder, ActionKind.CREATE, ActionKind.BACK);
 	}
 	private void createClassForm(Class c,EntityFolder folder,ActionKind...actionKinds){
 		String suffix = actionKinds[0] == ActionKind.UPDATE ? "Editor" : "Creator";
-		String resourceUri = UmlUimLinks.getInstance(c).getId(c) + suffix;
+		String resourceUri = UmlUimLinks.getId(c) + suffix;
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -87,9 +82,8 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeOperation(Operation o){
-		EntityFolder ef = (EntityFolder) UmlUimLinks.getInstance(o).getFolderFor(o.getClass_());
 		if(UimUtil.isTask(o)){
-			String resourceUri = UmlUimLinks.getInstance(o).getId(o) + "Task";
+			String resourceUri = UmlUimLinks.getId(o) + "Task";
 			UimForm form = getFormFor(resourceUri, "uim");
 			if(form != null){
 				Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -99,9 +93,8 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 			}
 		}
 		// TODO generate table Panels for multi output parameters and detail panels for single output parameters
-		String resourceUri = UmlUimLinks.getInstance(o).getId(o) + "Invoker";
+		String resourceUri = UmlUimLinks.getId(o) + "Invoker";
 		UimForm form = getFormFor(resourceUri, "uim");
-		OperationInvocationForm oif;
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
 			// TODO make input entities editable through inputs tab per entity
@@ -112,10 +105,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	@VisitBefore(matchSubclasses = false)
 	public void beforeState(State s){
 		String resourceUri = UmlUimLinks.getId(s);
-		StateMachine sm = EmfStateMachineUtil.getStateMachine(s);
-		StateMachineFolder smf = (StateMachineFolder) UmlUimLinks.getInstance(s).getFolderFor(sm);
 		UimForm form = getFormFor(resourceUri, "uim");
-		StateForm sf;
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
 			// TODO make input entities editable through inputs tab per entity

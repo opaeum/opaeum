@@ -7,6 +7,7 @@ import org.eclipse.uml2.uml.Property;
 import org.nakeduml.uim.UimDataTable;
 import org.nakeduml.uim.UimField;
 import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UserInteractionElement;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.NavigationToEntity;
 import org.nakeduml.uim.binding.BindingPackage;
@@ -14,7 +15,6 @@ import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.binding.UimBinding;
 import org.nakeduml.uim.figures.IBindingFigure;
 import org.nakeduml.uim.figures.UimColumnLayoutFigure;
-import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.modeler.di.model.GraphNode;
@@ -30,22 +30,22 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		if(uIMBinding != null){
 			IBindingFigure fig = (IBindingFigure) getFigure();
 			ILabel field = fig.getBindingLabel();
-			if(uIMBinding != null && SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(uIMBinding) != null){
+			if(uIMBinding != null && UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) != null){
 				IFigure parent = fig.getParent();
 				while(!(parent.getParent() == null || parent instanceof UimColumnLayoutFigure)){
 					parent = parent.getParent();
 				}
 				StringBuffer s = new StringBuffer();
-				if(SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(uIMBinding) instanceof Property){
+				if(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) instanceof Property){
 					if(parent instanceof UimColumnLayoutFigure){
 						s.append("row.");
 					}else{
 						s.append("self.");
 					}
-					s.append(SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(uIMBinding).getName());
+					s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
 				}else{// parameter or pin
 					s.append("params[");
-					s.append(SafeUmlUimLinks.getInstance(getEObject()).getTypedElement(uIMBinding).getName());
+					s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
 					s.append("]");
 				}
 				addString(uIMBinding.getNext(), s);
@@ -67,11 +67,14 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		return null;
 	}
 	void addString(PropertyRef pr,StringBuffer sb){
-		if(pr != null && UmlUimLinks.getInstance(getEObject()).getProperty(pr) != null){
+		if(pr != null && UmlUimLinks.getInstance(getUserInteractioinElement()).getProperty(pr) != null){
 			sb.append(".");
-			sb.append(UmlUimLinks.getInstance(getEObject()).getProperty(pr).getName());
+			sb.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getProperty(pr).getName());
 			addString(pr.getNext(), sb);
 		}
+	}
+	private UserInteractionElement getUserInteractioinElement(){
+		return (UserInteractionElement)getEObject();
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){

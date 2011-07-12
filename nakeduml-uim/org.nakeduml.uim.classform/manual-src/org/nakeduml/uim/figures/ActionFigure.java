@@ -48,7 +48,7 @@ public class ActionFigure extends Figure implements ILabelFigure{
 		label.setBounds(getBounds());
 		GraphicsBridge g2 = GraphicsBridge.buildBridge(graphics, this, button);
 		button.setText(label.getText());
-		button.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(155, 155, 155), new Color(200, 200, 200)));
+		button.setBorder(new BevelBorder(BevelBorder.RAISED));
 		button.doLayout();
 		button.paint(g2);
 		graphics.popState();

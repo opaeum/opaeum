@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
-         <propertyTab
-               id="org.nakeduml.eclipse.numlTab"
-               category="model"
-               indented="false"
-               label="NakedUML"
-               
-         	   />
-         	   <!--afterTab="org.topcased.modeler.modelTab"-->
-	  </propertyTabs>
-	</extension>    
+
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
 		   <propertySection
@@ -23,50 +12,6 @@
 		            type="org.eclipse.uml2.uml.TimeEvent">
 		      </input>
 		   </propertySection>
-		   	<propertySection
-         				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         				class="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
-         				id="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
-         				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.Property"/>
-			</propertySection>	
-		   	<propertySection
-         				afterSection="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
-         				class="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
-         				id="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
-         				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.Property"/>
-			</propertySection>	
-			<propertySection
-				id="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
-				class="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
-				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
-         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
-				class="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
-				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
-         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
-         			id="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Property">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
-         			id="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Constraint">
-      			</input>
-			</propertySection>
    		</propertySections>
    		
 	</extension>

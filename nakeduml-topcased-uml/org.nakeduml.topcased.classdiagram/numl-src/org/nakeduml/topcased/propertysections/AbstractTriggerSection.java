@@ -55,7 +55,6 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 				"",SIGNAL_TEXT,OPERATION_TEXT,RELATIVE_TIME_EVENT,ABSOLUTE_TIME_EVENT,CHANGE_EVENT
 		});
 		eventTypeCombo.addSelectionListener(new SelectionListener(){
-			@Override
 			public void widgetSelected(SelectionEvent e){
 				String text = eventTypeCombo.getText();
 				
@@ -93,7 +92,6 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 				}
 				refresh();
 			}
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e){
 			}
 		});

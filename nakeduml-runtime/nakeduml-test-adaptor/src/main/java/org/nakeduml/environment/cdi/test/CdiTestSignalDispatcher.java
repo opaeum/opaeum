@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.nakeduml.environment.ConversationalPersistence;
 import org.nakeduml.environment.ISignalDispatcher;
 import org.nakeduml.environment.adaptor.SignalToDispatch;
 import org.nakeduml.runtime.domain.IPersistentObject;
@@ -45,7 +46,7 @@ public class CdiTestSignalDispatcher implements ISignalDispatcher{
 		for(org.nakeduml.environment.SignalToDispatch signal:signals){
 			IActiveObject target = signal.getTarget();
 			CdiTestEnvironment.getInstance().beforeRequest(target);
-			Session session = CdiTestEnvironment.getInstance().getComponent(Session.class);
+			ConversationalPersistence session = CdiTestEnvironment.getInstance().getComponent(ConversationalPersistence.class);
 			signal.prepareForDelivery(session);
 			if(target instanceof IPersistentObject){
 				signal.getTarget().processSignal(signal.getSignal());

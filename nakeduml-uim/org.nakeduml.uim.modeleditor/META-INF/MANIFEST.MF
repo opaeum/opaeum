@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.nakeduml.uim.modeleditor
+Bundle-Name: NakedUML User Interface Modeler
 Bundle-SymbolicName: org.nakeduml.uim.modeleditor;singleton:=true
-Bundle-Version: 1.0.0.5
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.nakeduml.uim.modeleditor.UimPlugin
 Bundle-Vendor: NakedUML
 Bundle-Localization: plugin
@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.uml2.uml;visibility:=reexport,
  org.topcased.modeler;visibility:=reexport,
  org.eclipse.ui.views.properties.tabbed;visibility:=reexport,
- org.nakeduml.eclipse;visibility:=reexport
+ org.nakeduml.eclipse;visibility:=reexport,
+ org.nakeduml.topcased.classdiagram;visibility:=reexport
 Eclipse-LazyStart: true
 Export-Package: org.nakeduml.uim.modeleditor,
  org.nakeduml.uim.modeleditor.actions,

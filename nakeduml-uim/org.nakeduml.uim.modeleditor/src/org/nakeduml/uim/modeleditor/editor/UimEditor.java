@@ -6,6 +6,8 @@ package org.nakeduml.uim.modeleditor.editor;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.emf.workspace.UmlElementMap;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
@@ -17,6 +19,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uim.modeleditor.UimPlugin;
 import org.nakeduml.uim.util.UmlUimLinks;
 import org.osgi.service.prefs.BackingStoreException;
@@ -39,8 +42,9 @@ public class UimEditor extends Modeler{
 		if(activePage != null){
 			for(IEditorReference r:activePage.getEditorReferences()){
 				IEditorPart editor = r.getEditor(false);
-				if(editor instanceof Modeler){
-					UmlUimLinks.init(((Modeler) editor).getResourceSet());
+				if(editor instanceof NakedUmlEditor){
+					UmlElementMap umlElementMap = ((NakedUmlEditor) editor).getUmlElementMap();
+					UmlUimLinks.associate(getResourceSet(),umlElementMap);
 				}
 			}
 		}

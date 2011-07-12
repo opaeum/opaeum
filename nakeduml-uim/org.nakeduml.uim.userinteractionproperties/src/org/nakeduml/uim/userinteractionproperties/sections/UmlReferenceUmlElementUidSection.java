@@ -47,13 +47,13 @@ public class UmlReferenceUmlElementUidSection extends AbstractChooserPropertySec
 	 */
 	protected Object[] getComboFeatureValues(){
 		PropertyRef pr = (PropertyRef) getEObject();
-		if(pr.getBinding() != null && UmlUimLinks.getInstance(getEObject()).getTypedElement(pr.getBinding()) != null){
-			TypedElement typedElement = UmlUimLinks.getInstance(getEObject()).getTypedElement(pr.getBinding());
+		if(pr.getBinding() != null && UmlUimLinks.getInstance(pr).getTypedElement(pr.getBinding()) != null){
+			TypedElement typedElement = UmlUimLinks.getInstance(pr).getTypedElement(pr.getBinding());
 			Classifier classifier = (Classifier) typedElement.getType();
 			EList<Property> attrs = classifier.getAllAttributes();
 			return (Property[]) attrs.toArray(new Property[attrs.size()]);
-		}else if(pr.getPrevious() != null && UmlUimLinks.getInstance(getEObject()).getProperty(pr.getPrevious()) != null){
-			TypedElement typedElement = UmlUimLinks.getInstance(getEObject()).getProperty(pr.getPrevious());
+		}else if(pr.getPrevious() != null && UmlUimLinks.getInstance(pr).getProperty(pr.getPrevious()) != null){
+			TypedElement typedElement = UmlUimLinks.getInstance(pr).getProperty(pr.getPrevious());
 			Classifier classifier = (Classifier) typedElement.getType();
 			EList<Property> attrs = classifier.getAllAttributes();
 			return (Property[]) attrs.toArray(new Property[attrs.size()]);

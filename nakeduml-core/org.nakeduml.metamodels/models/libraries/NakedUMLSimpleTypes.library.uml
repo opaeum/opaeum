@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_pAJT4I6HEeCrtavWRHwoHg/0 ../profiles/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="NakedUMLSimpleTypes">
+    <eAnnotations xmi:id="_Q8BvsKWVEeC1jO7mb0dnpQ" source="http://www.nakeduml.org">
+      <details xmi:id="_Q8BvsaWVEeC1jO7mb0dnpQ" key="uid" value="11635dbf_3e09_453b_a8ae_c0094b3cb245"/>
+    </eAnnotations>
+    <eAnnotations xmi:id="_BLSZ4KTcEeCVYsXdt36CsA" source="http://www.nakeduml.org">
+      <details xmi:id="_BLVdMKTcEeCVYsXdt36CsA" key="uid" value="31e27293_523c_44b2_b9cb_9dea70cba348"/>
+    </eAnnotations>
+    <elementImport xmi:id="_naIU4MbwEd-qWtMD5IZMIA">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78MbwEd-qWtMD5IZMIA">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78cbwEd-qWtMD5IZMIA">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+    </elementImport>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_w4cZ8MPxEd-SNsUNWzjz5A" name="DateTime">
+      <eAnnotations xmi:id="_Q8CWwKWVEeC1jO7mb0dnpQ" source="http://www.nakeduml.org">
+        <details xmi:id="_Q8CWwaWVEeC1jO7mb0dnpQ" key="uid" value="737e8168_2016_4fab_8e46_e41a15d821f8"/>
+      </eAnnotations>
+      <eAnnotations xmi:id="_BLWEQKTcEeCVYsXdt36CsA" source="http://www.nakeduml.org">
+        <details xmi:id="_BLWEQaTcEeCVYsXdt36CsA" key="uid" value="56c72230_7665_40a3_b31b_52f5477145f9"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_i0SLIMbwEd-qWtMD5IZMIA" name="Text">
+      <eAnnotations xmi:id="_Q8CWwqWVEeC1jO7mb0dnpQ" source="http://www.nakeduml.org">
+        <details xmi:id="_Q8CWw6WVEeC1jO7mb0dnpQ" key="uid" value="669384aa_9148_4986_bb02_fdd26dd88de4"/>
+      </eAnnotations>
+      <eAnnotations xmi:id="_BLWEQqTcEeCVYsXdt36CsA" source="http://www.nakeduml.org">
+        <details xmi:id="_BLWEQ6TcEeCVYsXdt36CsA" key="uid" value="39722924_46da_4c12_862d_dd3c0dfa2407"/>
+      </eAnnotations>
+      <generalization xmi:id="_1JWd8MbwEd-qWtMD5IZMIA">
+        <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </generalization>
+    </packagedElement>
+    <profileApplication xmi:id="_MGs-kKTcEeCVYsXdt36CsA">
+      <eAnnotations xmi:id="_MGx3EKTcEeCVYsXdt36CsA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="../profiles/NakedUMLProfile.uml#_pAJ68I6HEeCrtavWRHwoHg"/>
+      </eAnnotations>
+      <appliedProfile href="../profiles/NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <NakedUMLProfile:ValueType xmi:id="_NV8_8KTcEeCVYsXdt36CsA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="net.sf.nakeduml.strategies.DateTimeStrategyFactory"/>
+  <NakedUMLProfile:PrimitiveType xmi:id="_NyWBAKTcEeCVYsXdt36CsA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="net.sf.nakeduml.strategies.TextStrategyFactory"/>
+</xmi:XMI>

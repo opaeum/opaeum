@@ -22,7 +22,6 @@ public class CditTestLogger extends Logger{
 			string = String.format(string, parameters);
 		}
 		System.out.print(string);
-		System.out.println();
 		if(DUMP_STACK_ON_ERROR){
 			if(thrown != null){
 				thrown.printStackTrace();

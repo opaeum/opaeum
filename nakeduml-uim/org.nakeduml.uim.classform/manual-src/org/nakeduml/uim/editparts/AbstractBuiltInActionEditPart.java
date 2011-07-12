@@ -12,7 +12,9 @@ public class AbstractBuiltInActionEditPart extends EMFGraphNodeEditPart{
 		super(obj);
 	}
 	protected IFigure createFigure(){
-		return new ActionFigure();
+		ActionFigure actionFigure = new ActionFigure();
+		new DirectEditHelper(actionFigure, this);
+		return actionFigure;
 	}
 	public void refreshVisuals(){
 		ActionKind kind = ((BuiltInAction) getEObject()).getKind();
