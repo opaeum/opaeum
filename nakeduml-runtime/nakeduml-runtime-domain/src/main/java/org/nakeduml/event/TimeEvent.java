@@ -20,8 +20,8 @@ public class TimeEvent extends AbstractNakedUmlEvent{
 	Date when;
 	public TimeEvent(){
 	}
-	public TimeEvent(IPersistentObject target,String callBackMethodName, boolean cancelled){
-		super(target, callBackMethodName,cancelled);
+	public TimeEvent(IPersistentObject target,String callBackMethodName, boolean cancelled,ProcessContext ctx){
+		super(target, callBackMethodName,cancelled,ctx);
 		
 	}
 	public TimeEvent(IPersistentObject target,String callBackMethodName,Date when,ProcessContext ctx){
@@ -34,7 +34,7 @@ public class TimeEvent extends AbstractNakedUmlEvent{
 	}
 	public void invokeCallback(IPersistentObject context){
 		try{
-			getMethodByPersistentName(getCallbackMethodName(),String.class,Date.class).invoke(context, getNodeInstanceId(),when);
+			getMethodByUuid(getCallbackMethodUuid()).invoke(context, getNodeInstanceId(),when);
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();

@@ -13,8 +13,8 @@ public class Deadline extends TimeEvent{
 		super();
 	}
 
-	public Deadline(IPersistentObject target,String callBackMethodName,boolean cancelled){
-		super(target, callBackMethodName, cancelled);
+	public Deadline(IPersistentObject target,String callBackMethodName,boolean cancelled,ProcessContext ctx){
+		super(target, callBackMethodName, cancelled,ctx);
 	}
 
 	public Deadline(IPersistentObject target,String callBackMethodName,Date when,ProcessContext ctx){
@@ -27,7 +27,7 @@ public class Deadline extends TimeEvent{
 	public void invokeCallback(IPersistentObject context){
 		try{
 			//Will call the TaskInvocation
-			getMethodByPersistentName(getCallbackMethodName(), Date.class).invoke(context, when);
+			getMethodByUuid(getCallbackMethodUuid()).invoke(context, when);
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();

@@ -20,7 +20,7 @@ import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 @Entity()
 @Table(name = "numl_abstract_event")
-public abstract class AbstractNakedUmlEvent implements Retryable{
+public abstract class AbstractNakedUmlEvent implements AsynchronouslyDelivered{
 	private static final long serialVersionUID = 8920092390485701533L;
 	@Id
 	Long id;
@@ -31,8 +31,8 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	@Column(name = "event_source_class_id")
 	private Integer eventSourceClassId;
 	@Basic
-	@Column(name = "callback_method_name")
-	private String callbackMethodName;
+	@Column(name = "callback_method_uuid")
+	private String callbackMethodUuid;
 	@Basic
 	@Transient
 	private boolean toBeCancelled;
@@ -45,7 +45,7 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	private String nodeInstanceId;
 	@Override
 	public String getDescription(){
-		return getEventSourceClass().getName() + "." + getCallbackMethodName() + "()";
+		return getEventSourceClass().getName() + ".event";
 	}
 	@Override
 	public int getRetryCount(){
@@ -53,20 +53,20 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 	}
 	public AbstractNakedUmlEvent(){
 	}
-	public AbstractNakedUmlEvent(IPersistentObject target,String callBackMethodName,ProcessContext ctx){
-		this(target, callBackMethodName);
+	public AbstractNakedUmlEvent(IPersistentObject target,String callBackMethodUuid,ProcessContext ctx){
+		this(target, callBackMethodUuid);
 		this.nodeInstanceId = ((NodeInstanceImpl) ctx.getNodeInstance()).getUniqueId();
-		this.eventSourceClassId = IntrospectionUtil.getOriginalClass(target.getClass()).getAnnotation(NumlMetaInfo.class).nakedUmlId();
+		this.eventSourceClassId = Environment.getMetaInfoMap().getNakedUmlId(IntrospectionUtil.getOriginalClass(target.getClass()));
 	}
-	public AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName2,boolean cancelled){
-		this(process, callBackMethodName2);
+	public AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName2,boolean cancelled, ProcessContext ctx){
+		this(process, callBackMethodName2,ctx);
 		this.toBeCancelled = cancelled;
 	}
-	private AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodName){
+	private AbstractNakedUmlEvent(IPersistentObject process,String callBackMethodUuid){
 		this.eventSource = process;
 		this.eventSourceId = process.getId();
-		this.eventSourceClassId = IntrospectionUtil.getOriginalClass(process.getClass()).getAnnotation(NumlMetaInfo.class).nakedUmlId();
-		this.callbackMethodName = callBackMethodName;
+		this.eventSourceClassId = Environment.getMetaInfoMap().getNakedUmlId(IntrospectionUtil.getOriginalClass(process.getClass()));
+		this.callbackMethodUuid = callBackMethodUuid;
 	}
 	public Long getEventSourceId(){
 		return eventSourceId;
@@ -81,39 +81,29 @@ public abstract class AbstractNakedUmlEvent implements Retryable{
 		if(other instanceof AbstractNakedUmlEvent){
 			AbstractNakedUmlEvent te = (AbstractNakedUmlEvent) other;
 			return te.getEventSourceClass().equals(getEventSourceClass()) && te.getEventSourceId().equals(getEventSourceId())
-					&& getCallbackMethodName().equals(te.getCallbackMethodName());
+					&& getCallbackMethodUuid().equals(te.getCallbackMethodUuid());
 		}else{
 			return false;
 		}
 	}
 	public Class<?> getEventSourceClass(){
-		try{
-			return Environment.getMetaInfoMap().getClass(eventSourceClassId);
-		}catch(Exception e){
-			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
-		}
+		return Environment.getMetaInfoMap().getClass(eventSourceClassId);
 	}
 	// For Mocking Purposes
 	public IPersistentObject getEventSource(){
 		return eventSource;
 	}
-	protected Method getMethodByPersistentName(String persistentMethodName,Type...parameterTypes){
+	protected Method getMethodByUuid(String uuid){
 		Method[] methods = getEventSourceClass().getMethods();
 		for(Method method:methods){
-			if(method.isAnnotationPresent(NumlMetaInfo.class) && method.getAnnotation(NumlMetaInfo.class).persistentName().equals(persistentMethodName)
-					&& method.getParameterTypes().length == parameterTypes.length){
-				for(int i = 0;i < parameterTypes.length;i++){
-					if(parameterTypes[i] != method.getParameterTypes()[i]){
-						break;
-					}
-				}
+			if(method.isAnnotationPresent(NumlMetaInfo.class) && method.getAnnotation(NumlMetaInfo.class).uuid().equals(uuid)){
 				return method;
 			}
 		}
 		return null;// Error condition
 	}
-	public String getCallbackMethodName(){
-		return callbackMethodName;
+	public String getCallbackMethodUuid(){
+		return callbackMethodUuid;
 	}
 	public boolean isToBeCancelled(){
 		return toBeCancelled;

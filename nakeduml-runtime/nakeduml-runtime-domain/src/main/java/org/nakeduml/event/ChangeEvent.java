@@ -7,33 +7,33 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.drools.runtime.process.ProcessContext;
-import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
+import org.nakeduml.runtime.domain.IPersistentObject;
 
 @Entity
 @Table(name = "numl_change_event")
 public class ChangeEvent extends AbstractNakedUmlEvent{
 	@Basic
-	@Column(name = "evaluation_method_name")
-	private String evaluationMethodName;
+	@Column(name = "evaluation_method_uuid")
+	private String evaluationMethodUuid;
 	@Transient
 	private boolean isTrue;
-	public ChangeEvent(IPersistentObject process,String callBackMethodName,String evaluationMethodName, ProcessContext ctx){
-		super(process,callBackMethodName,ctx);
-		this.evaluationMethodName = evaluationMethodName;
+	public ChangeEvent(IPersistentObject process,String callBackMethodUuid,String evaluationMethodUuid, ProcessContext ctx){
+		super(process,callBackMethodUuid,ctx);
+		this.evaluationMethodUuid = evaluationMethodUuid;
 	}
-	public ChangeEvent(IPersistentObject process,String callBackMethodName,boolean cancel){
-		super(process,callBackMethodName,cancel);
+	public ChangeEvent(IPersistentObject process,String callBackMethodUuid,boolean cancel,ProcessContext ctx){
+		super(process,callBackMethodUuid,cancel,ctx);
 	}
-	public String getEvaluationMethodName(){
-		return evaluationMethodName;
+	public String getEvaluationMethodUuid(){
+		return evaluationMethodUuid;
 	}
 	public void setEvaluationMethodName(String EvaluationMethodName){
-		this.evaluationMethodName = EvaluationMethodName;
+		this.evaluationMethodUuid = EvaluationMethodName;
 	}
 	public void evaluateConditionOn(IPersistentObject context){
 		try{
-			isTrue=(Boolean) getMethodByPersistentName(evaluationMethodName).invoke(context);
+			isTrue=(Boolean) getMethodByUuid(evaluationMethodUuid).invoke(context);
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();
@@ -44,7 +44,7 @@ public class ChangeEvent extends AbstractNakedUmlEvent{
 	}
 	public void invokeCallback(IPersistentObject context){
 		try{
-			getMethodByPersistentName(getCallbackMethodName(),String.class).invoke(context, getNodeInstanceId());
+			getMethodByUuid(getCallbackMethodUuid()).invoke(context, getNodeInstanceId());
 		}catch(Exception e){
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
 			throw ea.wrapRootCauseIfNecessary();

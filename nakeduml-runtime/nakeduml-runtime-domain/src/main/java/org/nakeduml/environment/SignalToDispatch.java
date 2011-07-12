@@ -2,20 +2,18 @@ package org.nakeduml.environment;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
-import org.hibernate.Session;
-import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.event.Retryable;
-import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.environment.marshall.PropertyValue;
+import org.nakeduml.environment.marshall.Value;
+import org.nakeduml.event.AsynchronouslyDelivered;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
-public class SignalToDispatch implements Retryable{
+public class SignalToDispatch implements AsynchronouslyDelivered{
 	private static final long serialVersionUID = -2996390224218437999L;
 	protected Value sourceValue;
 	protected Value targetValue;
@@ -25,7 +23,7 @@ public class SignalToDispatch implements Retryable{
 	private transient Object source;
 	private transient IActiveObject target;
 	private transient AbstractSignal signal;
-	private List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
+	private Collection<PropertyValue> propertyValues;
 	private boolean targetIsEntity;
 	private String queueName;
 	public SignalToDispatch(Object source,IActiveObject target,AbstractSignal signal){
@@ -94,38 +92,23 @@ public class SignalToDispatch implements Retryable{
 		}
 	}
 	public void prepareForDispatch(){
-		try{
-			this.propertyValues.clear();
-			Class<? extends AbstractSignal> class1 = signal.getClass();
-			NumlMetaInfo annotation = class1.getAnnotation(NumlMetaInfo.class);
-			this.signalClassId = annotation.nakedUmlId();
-			this.sourceValue = Value.valueOf(this.source);
-			this.targetValue = Value.valueOf(this.target);
-			PropertyDescriptor[] properties = IntrospectionUtil.getProperties(class1);
-			for(PropertyDescriptor pd:properties){
-				if(pd.getWriteMethod() != null && pd.getReadMethod() != null && pd.getReadMethod().getAnnotation(NumlMetaInfo.class) != null){
-					Object propertyValue = pd.getReadMethod().invoke(signal);
-					propertyValues.add(new PropertyValue(pd, Value.valueOf(propertyValue)));
-				}
-			}
-			signal = null;
-			source = null;
-			target = null;
-		}catch(IllegalAccessException e){
-			throw new RuntimeException(e);
-		}catch(InvocationTargetException e){
-			throw new RuntimeException(e.getTargetException());
-		}
+		this.propertyValues.clear();
+		Class<? extends AbstractSignal> class1 = signal.getClass();
+		this.signalClassId = Environment.getMetaInfoMap().getNakedUmlId(class1);
+		propertyValues = Environment.getMetaInfoMap().getSecondaryObject(SignalMarshaller.class, class1).marshall(signal);
+		this.sourceValue = Value.valueOf(this.source);
+		this.targetValue = Value.valueOf(this.target);
+		signal = null;
+		source = null;
+		target = null;
 	}
-	public void prepareForDelivery(Session session){
+	public void prepareForDelivery(AbstractPersistence session){
 		if(this.sourceValue != null){
-			this.source = sourceValue.getValue(session);
+			this.source = Value.valueOf(sourceValue,session);
 		}
-		this.target = (IActiveObject) targetValue.getValue(session);
-		this.signal = (AbstractSignal) IntrospectionUtil.newInstance(Environment.getMetaInfoMap().getClass(signalClassId));
-		for(PropertyValue signalProperty:this.propertyValues){
-			signalProperty.setValue(signal, session);
-		}
+		this.target = (IActiveObject) Value.valueOf(targetValue,session);
+		JavaMetaInfoMap map = Environment.getMetaInfoMap();
+		signal=map.getSecondaryObject(SignalMarshaller.class, map.getClass(signalClassId)).unmarshall(this.propertyValues);
 	}
 	public String getUid(){
 		if(this.uid == null || this.uid.trim().length() == 0){

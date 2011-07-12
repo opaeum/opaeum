@@ -17,7 +17,6 @@ public abstract class Environment {
 	protected static JavaMetaInfoMap persistentNameClassMap;
 	protected Properties properties;
 	private DatabaseManagementSystem dbms;
-
 	public static Environment getInstance() {
 		if (instance.get() == null) {
 			instance.set((Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION));
@@ -77,4 +76,5 @@ public abstract class Environment {
 	public abstract <T> T getComponent(Class<T> clazz);
 	public abstract <T> T getComponent(Class<T> clazz, Annotation qualifiers);
 	public abstract void reset();
+	
 }
