@@ -18,18 +18,24 @@ public class GeneratorPomStep extends PomGenerationStep {
 	public OutputRoot getExampleTargetDir() {
 		return config.getOutputRoot(StarterCodeGenerator.OutputRootId.GENERATOR_SRC);
 	}
-	//TODO add to parent pom
+	//TODO add to parent pom - creates a bootstrap problem maybe not
 	//TODO add code generation 
 
 	@Override
 	public Dependency[] getDependencies() {
-		Dependency[] result = new Dependency[1];
+		Dependency[] result = new Dependency[2];
 		result[0] = POMFactory.eINSTANCE.createDependency();
 		result[0].setGroupId("org.nakeduml");
 		result[0].setArtifactId("nakeduml-generators");
 		result[0].setScope("compile");
 		result[0].setVersion(PomGenerationPhase.NUML_VERSION);
 		result[0].setType("jar");
+		result[1] = POMFactory.eINSTANCE.createDependency();
+		result[1].setGroupId("org.nakeduml");
+		result[1].setArtifactId("nakeduml-uml2uim");
+		result[1].setScope("compile");
+		result[1].setVersion(PomGenerationPhase.NUML_VERSION);
+		result[1].setType("jar");
 		
 		return result;
 	}

@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.nakeduml.eclipse.feature_1.0.0.5.jar" id="org.nakeduml.eclipse.feature" version="1.0.0.5">
+   <feature url="features/org.nakeduml.core.feature_1.0.0.201106301617.jar" id="org.nakeduml.core.feature" version="1.0.0.201106301617">
       <category name="NakedUML"/>
    </feature>
-   <feature url="features/org.nakeduml.topcased.uml_4.3.0.201105281736.jar" id="org.nakeduml.topcased.uml" version="4.3.0.201105281736">
+   <feature url="features/org.nakeduml.eclipse.feature_1.0.0.201106301617.jar" id="org.nakeduml.eclipse.feature" version="1.0.0.201106301617">
       <category name="NakedUML"/>
    </feature>
-   <feature url="features/org.nakeduml.uim.feature_1.0.0.5.jar" id="org.nakeduml.uim.feature" version="1.0.0.5">
+   <feature url="features/org.nakeduml.topcased.uml_1.0.0.201106301617.jar" id="org.nakeduml.topcased.uml" version="1.0.0.201106301617">
       <category name="NakedUML"/>
    </feature>
-   <feature url="features/org.topcased.modeler.toolkit_4.3.1.201105281736.jar" id="org.topcased.modeler.toolkit" version="4.3.1.201105281736">
+   <feature url="features/org.nakeduml.uim.feature_1.0.0.201106301617.jar" id="org.nakeduml.uim.feature" version="1.0.0.201106301617">
+      <category name="NakedUML"/>
+   </feature>
+   <feature url="features/org.topcased.dependencies_3.4.1.201106301617.jar" id="org.topcased.dependencies" version="3.4.1.201106301617">
       <category name="Topcased"/>
    </feature>
-   <feature url="features/org.topcased.modeler.feature_4.1.0.201105281736.jar" id="org.topcased.modeler.feature" version="4.1.0.201105281736">
+   <feature url="features/org.topcased.modeler.feature_4.1.0.201106301617.jar" id="org.topcased.modeler.feature" version="4.1.0.201106301617">
       <category name="Topcased"/>
    </feature>
    <category-def name="NakedUML" label="NakedUML"/>

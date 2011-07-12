@@ -7,6 +7,7 @@ import java.util.Set;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.emf.workspace.UriResolver;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
@@ -14,13 +15,18 @@ import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.pomgeneration.MavenProjectCodeGenerator;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.common.util.EList;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
-import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Stereotype;
 import org.nakeduml.bootstrap.WarBootstrapStep;
 import org.nakeduml.eclipse.ApplyProfileAction;
@@ -31,6 +37,8 @@ import org.nakeduml.generation.features.IntegrationTests;
 import org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels;
 import org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects;
 import org.nakeduml.generation.features.PersistenceUsingHibernate;
+import org.nakeduml.uml2uim.FormSynchronizer;
+import org.nakeduml.uml2uim.ModelCopyStep;
 
 public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 	public enum OutputRootId{
@@ -44,9 +52,11 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 	protected NakedUmlConfig prepareConfig() throws IOException{
 		NakedUmlConfig cfg = super.prepareConfig();
 		cfg.mapOutputRoot(OutputRootId.GENERATOR_SRC, true, "-generator", "src/main/java");
-		for(File file:cfg.getOutputRoot().listFiles()){
-			if(file.getName().equals(".project") || file.getName().equals(".classpath")){
-				file.delete();
+		if(cfg.getOutputRoot().exists()){
+			for(File file:cfg.getOutputRoot().listFiles()){
+				if(file.getName().equals(".project") || file.getName().equals(".classpath")){
+					file.delete();
+				}
 			}
 		}
 		cfg.mapOutputRoot(OutputRootId.GENERATOR_SRC, true, "-generator", "src/main/java");
@@ -56,7 +66,28 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 	protected EmfWorkspace loadSingleModel(File modelFile) throws Exception{
 		EmfWorkspace result = super.loadSingleModel(modelFile);
 		setMappedImplementationPackage(result);
+		result.setUriResolver(getUriResolver());
 		return result;
+	}
+	private UriResolver getUriResolver(){
+		return new UriResolver(){
+			@Override
+			public File resolve(URI uri){
+				String platformString2 = uri.toPlatformString(true);
+				try{
+					IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
+					return diFile.getLocation().toFile();
+				}catch(IllegalArgumentException a){
+					try{
+						IFolder diFile = ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(platformString2));
+						return diFile.getLocation().toFile();
+					}catch(IllegalArgumentException a2){
+						IProject diFile = ResourcesPlugin.getWorkspace().getRoot().getProject(platformString2);
+						return diFile.getLocation().toFile();
+					}
+				}
+			}
+		};
 	}
 	protected void setMappedImplementationPackage(EmfWorkspace result){
 		for(Package pkg:result.getPrimaryModels()){
@@ -79,6 +110,7 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 	@Override
 	protected EmfWorkspace loadDirectory() throws IOException{
 		EmfWorkspace result = super.loadDirectory();
+		result.setUriResolver(getUriResolver());
 		setMappedImplementationPackage(result);
 		return result;
 	}
@@ -90,7 +122,7 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicSteps(){
 		return toSet(PersistenceUsingHibernateStep.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
-				BpmUsingJbpm5.class, PersistenceUsingHibernate.class, IntegrationTests.class);
+				BpmUsingJbpm5.class, PersistenceUsingHibernate.class, IntegrationTests.class, FormSynchronizer.class);
 	}
 	@Override
 	protected Set<Class<? extends TransformationStep>> getIntegrationSteps(){
@@ -101,7 +133,7 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 		return basicIntegrationSteps;
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicIntegrationSteps(){
-		return toSet(HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class, IntegrationTestsAcrossMultipleModels.class,
+		return toSet(ModelCopyStep.class,HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class, IntegrationTestsAcrossMultipleModels.class,
 				WarBootstrapStep.class);
 	}
 	public File getOutputRoot(){

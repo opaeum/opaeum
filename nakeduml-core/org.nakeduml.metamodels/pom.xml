@@ -84,6 +84,12 @@
 										<exclude>**/junk/**</exclude>
 									</excludes>
 								</resource>
+								<resource>
+									<directory>models</directory>
+									<excludes>
+										<exclude>**/junk/**</exclude>
+									</excludes>
+								</resource>
 							</resources>
 						</configuration>
 					</execution>

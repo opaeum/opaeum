@@ -3,6 +3,7 @@ package org.nakeduml.uml2uim;
 import java.util.Collection;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
 import org.eclipse.emf.common.util.URI;
@@ -27,12 +28,12 @@ import org.nakeduml.uim.folder.StateMachineFolder;
 import org.nakeduml.uim.folder.UserInteractionModel;
 import org.nakeduml.uim.folder.UserInteractionWorkspace;
 import org.nakeduml.uim.util.UmlUimLinks;
-
+@StepDependency(phase=UimSynchronizationPhase.class)
 public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 	public FormFolderSynchronizer(){
 	}
-	public FormFolderSynchronizer(EmfWorkspace workspace, ResourceSet resourceSet,boolean regenerate){
-		super(workspace,resourceSet, regenerate);
+	public FormFolderSynchronizer(EmfWorkspace workspace,ResourceSet uimRst,boolean regenerate){
+		super(workspace, uimRst, regenerate);
 	}
 	@VisitBefore
 	public void visitWorkspace(EmfWorkspace w){
@@ -51,9 +52,9 @@ public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 		formUri = formUri.appendFileExtension("uim");
 		Resource resource = null;
 		try{
-			resource = resourceSet.getResource(formUri, true);
+			resource = uimRst.getResource(formUri, true);
 		}catch(RuntimeException e){
-			resource = resourceSet.createResource(formUri);
+			resource = uimRst.createResource(formUri);
 		}
 		return resource;
 	}
@@ -66,7 +67,7 @@ public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 		PackageFolder pf = (PackageFolder) findFolder(p, FolderPackage.eINSTANCE.getPackageFolder());
 	}
 	private AbstractFormFolder findFolder(Namespace p,EClass eClass){
-		AbstractFormFolder pf = (AbstractFormFolder) UmlUimLinks.getInstance(p).getFolderFor(p);
+		AbstractFormFolder pf = (AbstractFormFolder) getFolderFor(p);
 		if(pf == null || regenerate){
 			pf = (AbstractFormFolder) FolderPackage.eINSTANCE.getEFactoryInstance().create(eClass);
 		}
@@ -86,17 +87,9 @@ public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 		StateMachineFolder pf = (StateMachineFolder) findFolder(sm, FolderPackage.eINSTANCE.getStateMachineFolder());
 	}
 	private void initFolder(NamedElement p,AbstractFormFolder pf){
-		UmlUimLinks.getInstance(p).link((UmlReference) pf);
-		AbstractFolder parentFolder=null;
-		if(p instanceof Model){
-			Collection<UmlReference> ue = UmlUimLinks.getInstance(p).getUimElements(workspace);
-			if(ue.size() > 0){
-				parentFolder = (AbstractFolder) ue.iterator().next();
-			}
-		}else{
-			Namespace owner = (Namespace) p.getOwner();
-			parentFolder = UmlUimLinks.getInstance(p).getFolderFor(owner);
-		}
+		AbstractFolder parentFolder = null;
+		Namespace owner = (Namespace) p.getOwner();
+		parentFolder = getFolderFor(owner);
 		if(parentFolder != pf.getParent()){
 			parentFolder.getChildren().add(pf);
 		}

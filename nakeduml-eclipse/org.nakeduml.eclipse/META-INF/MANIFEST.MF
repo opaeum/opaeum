@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.nakeduml.eclipse
 Bundle-SymbolicName: org.nakeduml.eclipse;singleton:=true
-Bundle-Version: 1.0.0.5
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: 
  org.nakeduml.eclipse.NakedUmlEclipsePlugin
 Require-Bundle: org.eclipse.ui;visibility:=reexport,

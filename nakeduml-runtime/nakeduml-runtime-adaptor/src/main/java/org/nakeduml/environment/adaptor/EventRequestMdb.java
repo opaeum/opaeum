@@ -15,12 +15,12 @@ public class EventRequestMdb extends AbstractEventMdb<AbstractNakedUmlEvent>{
 	@Override
 	protected void deliverMessage(AbstractNakedUmlEvent std) throws Exception{
 		hibernateSession.clear();
-		transaction.begin();
+		umtPersistence.beginTransaction();
 		if(std.isToBeCancelled()){
 			Criteria c=hibernateSession.createCriteria(std.getClass());
 			c.add(Restrictions.eq("eventSourceId", std.getEventSourceId()));
 			c.add(Restrictions.eq("eventSourceClassId", std.getEventSourceClassId()));
-			c.add(Restrictions.eq("callbackMethodName", std.getCallbackMethodName()));
+			c.add(Restrictions.eq("callbackMethodName", std.getCallbackMethodUuid()));
 			List<AbstractNakedUmlEvent> list = c.list();
 			for(AbstractNakedUmlEvent event:list){
 				hibernateSession.delete(event);
@@ -29,7 +29,7 @@ public class EventRequestMdb extends AbstractEventMdb<AbstractNakedUmlEvent>{
 			hibernateSession.persist(std);
 		}
 		hibernateSession.flush();
-		transaction.commit();
+		umtPersistence.commitTransaction();
 	}
 	@Override
 	protected String getQueueName(){

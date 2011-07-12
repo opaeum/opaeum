@@ -57,16 +57,16 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 				description.setNatureIds((String[]) natureSet.toArray(new String[natureSet.size()]));
 				project.setDescription(description, null);
 				IJavaProject javaProject = JavaCore.create(project);
-				IFolder binFolder = createFolder(project, "target", "classes");
-				javaProject.setOutputLocation(binFolder.getFullPath(), null);
-				List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
-				IVMInstall vmInstall = JavaRuntime.getDefaultVMInstall();
-				LibraryLocation[] locations = JavaRuntime.getLibraryLocations(vmInstall);
-				for(LibraryLocation location:locations){
-					entries.add(JavaCore.newLibraryEntry(location.getSystemLibraryPath(), null, null));
-				}
-				// add libs to project class path
-				javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), null);
+//				IFolder binFolder = createFolder(project, "target", "classes");
+//				javaProject.setOutputLocation(binFolder.getFullPath(), null);
+//				List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
+//				IVMInstall vmInstall = JavaRuntime.getDefaultVMInstall();
+//				LibraryLocation[] locations = JavaRuntime.getLibraryLocations(vmInstall);
+//				for(LibraryLocation location:locations){
+//					entries.add(JavaCore.newLibraryEntry(location.getSystemLibraryPath(), null, null));
+//				}
+//				// add libs to project class path
+//				javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), null);
 			}
 		}catch(RuntimeException e){
 			throw e;

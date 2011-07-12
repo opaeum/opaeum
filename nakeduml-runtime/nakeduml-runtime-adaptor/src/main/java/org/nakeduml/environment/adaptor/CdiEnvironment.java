@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.nakeduml.environment.Environment;
+import org.nakeduml.environment.ConversationalPersistence;
+import org.nakeduml.environment.UmtPersistence;
 
 public class CdiEnvironment extends Environment{
 	@Override

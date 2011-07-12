@@ -12,13 +12,13 @@ public class EventDeliveryMdb extends AbstractEventMdb<AbstractNakedUmlEvent>{
 	@Override
 	protected void deliverMessage(AbstractNakedUmlEvent std) throws Exception{
 		hibernateSession.clear();
-		transaction.begin();
+		umtPersistence.beginTransaction();
 		IPersistentObject eventSource = (IPersistentObject) hibernateSession.load(std.getEventSourceClass(), std.getEventSourceId());
 		std.invokeCallback(eventSource);
 		std=(AbstractNakedUmlEvent) hibernateSession.merge(std);
 		hibernateSession.delete(std);
 		hibernateSession.flush();
-		transaction.commit();
+		umtPersistence.commitTransaction();
 	}
 
 	@Override

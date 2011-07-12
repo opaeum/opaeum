@@ -21,16 +21,15 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
-import org.nakeduml.event.Retryable;
+import org.nakeduml.environment.UmtPersistence;
+import org.nakeduml.event.AsynchronouslyDelivered;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
-public abstract class AbstractEventMdb<T extends Retryable>{
-	@Resource
-	protected UserTransaction transaction;
+public abstract class AbstractEventMdb<T extends AsynchronouslyDelivered>{
 	@Inject
 	Logger logger;
 	@Inject
-	protected SessionFactory sessionFactory;
+	protected UmtPersistence umtPersistence;
 	@EJB(name="MessageRetryer")
 	MessageRetryer retryer;
 	protected abstract void deliverMessage(T std) throws Exception;
@@ -86,7 +85,7 @@ public abstract class AbstractEventMdb<T extends Retryable>{
 			deliverMessage(std);
 		}catch(Throwable e){
 			try{
-				transaction.rollback();
+				umtPersistence.rollbackTransaction();
 			}catch(Exception e2){
 			}
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);

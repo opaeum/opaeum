@@ -26,7 +26,6 @@ import org.nakeduml.uim.layout.UimFullLayout;
 import org.nakeduml.uim.layout.UimGridLayout;
 import org.nakeduml.uim.layout.UimLayout;
 import org.nakeduml.uim.util.ControlUtil;
-import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
 
@@ -71,7 +70,7 @@ public class FormCreator{
 		UimGridLayout tabLayout = LayoutFactory.eINSTANCE.createUimGridLayout();
 		tabLayout.setNumberOfColumns(1);
 		tab.setLayout(tabLayout);
-		for(Property property:SafeUmlUimLinks.getInstance(e).getOwnedAttributes(c)){
+		for(Property property:UmlUimLinks.getInstance(this.tabPanel).getOwnedAttributes(c)){
 			if(requiresTableTab(property)){
 				// No further details
 			}else if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
@@ -94,7 +93,7 @@ public class FormCreator{
 		binding.setUmlElementUid(UmlUimLinks.getId(e));
 		tabLayout.getChildren().add(table);
 		table.setLayout(LayoutFactory.eINSTANCE.createUimColumnLayout());
-		Collection<Property> attrs = SafeUmlUimLinks.getInstance(e).getOwnedAttributes((Classifier) e.getType());
+		Collection<Property> attrs = UmlUimLinks.getInstance(this.tabPanel).getOwnedAttributes((Classifier) e.getType());
 		for(Property property:attrs){
 			if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
 				addUserField(table.getLayout(), 0, property);

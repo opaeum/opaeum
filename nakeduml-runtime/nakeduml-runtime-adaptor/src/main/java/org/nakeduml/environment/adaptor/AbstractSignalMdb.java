@@ -19,14 +19,14 @@ public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatc
 	}
 	private void deliverToHelper(SignalToDispatch signalToDispatch) throws Exception{
 		// CM Hack check for explicit process failure instead
-		transaction.begin();
-		signalToDispatch.prepareForDelivery(sessionFactory.getCurrentSession());
-		transaction.commit();
+		umtPersistence.beginTransaction();
+		signalToDispatch.prepareForDelivery(umtPersistence);
+		umtPersistence.commitTransaction();
 		Object s = signalToDispatch.getSource();
 		if(s instanceof IProcessObject){
-			transaction.begin();
-			ProcessInstanceInfo processInstance =(ProcessInstanceInfo) sessionFactory.getCurrentSession().get(ProcessInstanceInfo.class, ((IProcessObject) s).getProcessInstanceId());
-			transaction.commit();
+			umtPersistence.beginTransaction();
+			ProcessInstanceInfo processInstance =(ProcessInstanceInfo) umtPersistence.getReference(ProcessInstanceInfo.class, ((IProcessObject) s).getProcessInstanceId());
+			umtPersistence.commitTransaction();
 			if(processInstance!=null && processInstance.getState()!=ProcessInstance.STATE_ABORTED && processInstance.getState()!=ProcessInstance.STATE_COMPLETED ){
 				signalToDispatch.getTarget().processSignal(signalToDispatch.getSignal());
 			}
@@ -35,11 +35,11 @@ public abstract class AbstractSignalMdb extends AbstractEventMdb<SignalToDispatc
 		}
 	}
 	protected void deliverToEntity(SignalToDispatch signalToDispatch) throws Exception{
-		transaction.setTransactionTimeout(600);
-		transaction.begin();
-		signalToDispatch.prepareForDelivery(sessionFactory.getCurrentSession());
+		umtPersistence.setTransactionTimeout(600);
+		umtPersistence.beginTransaction();
+		signalToDispatch.prepareForDelivery(umtPersistence);
 		IPersistentObject target = (IPersistentObject) signalToDispatch.getTarget();
 		((IActiveObject) target).processSignal(signalToDispatch.getSignal());
-		transaction.commit();
+		umtPersistence.commitTransaction();
 	}
 }

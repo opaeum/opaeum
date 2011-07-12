@@ -8,8 +8,6 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Class;
@@ -23,8 +21,6 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.uim.UimFactory;
-import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.ActionKind;
 import org.nakeduml.uim.folder.ActivityFolder;
 import org.nakeduml.uim.folder.EntityFolder;
@@ -37,11 +33,10 @@ import org.nakeduml.uim.form.OperationInvocationForm;
 import org.nakeduml.uim.form.OperationTaskForm;
 import org.nakeduml.uim.form.StateForm;
 import org.nakeduml.uim.form.UimForm;
-import org.nakeduml.uim.util.SafeUmlUimLinks;
 import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
 
-@StepDependency(phase = UserInteractionSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
+@StepDependency(phase = UimSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
 public class FormSynchronizer extends AbstractUimSynchronizer{
 	public FormSynchronizer(){
 	}
@@ -50,7 +45,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		String resourceUri = UmlUimLinks.getInstance(a).getId(a);
+		String resourceUri = UmlUimLinks.getId(a);
 		UimForm form = getFormFor(resourceUri, "uim");
 		ActionTaskForm atf = null;
 		if(regenerate || form.getPanel() == null){
@@ -65,12 +60,11 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		}else{
 			atf = (ActionTaskForm) form.getPanel();
 		}
-		putFormElements(atf);
-		atf.setFolder((ActivityFolder) UmlUimLinks.getInstance(a).getFolderFor(a.getActivity()));
+		atf.setFolder((ActivityFolder) getFolderFor(a.getActivity()));
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void beforeClass(Class c){
-		EntityFolder folder = (EntityFolder) UmlUimLinks.getInstance(c).getFolderFor(c.getNamespace());
+		EntityFolder folder = (EntityFolder) getFolderFor(c.getNamespace());
 		createClassForm(c, folder, ActionKind.UPDATE, ActionKind.DELETE, ActionKind.BACK);
 		createClassForm(c, folder, ActionKind.CREATE, ActionKind.BACK);
 	}
@@ -88,20 +82,19 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			initForm(form, c, panel);
 			panel.setName(c.getName() + suffix);
 			FormCreator fc = new FormCreator(panel);
-			Collection<Property> allAttributes = SafeUmlUimLinks.getInstance(c).getOwnedAttributes(c);
+			Collection<Property> allAttributes = UmlUimLinks.getInstance(form).getOwnedAttributes(c);
 			fc.prepareFormPanel((actionKinds[0] == ActionKind.UPDATE ? "Edit " : "Create") + NameConverter.separateWords(c.getName()), allAttributes);
 			fc.addButtonBar(actionKinds);
 		}else{
 			panel= (ClassForm) form.getPanel();
 		}
-		putFormElements(panel);
 		panel.setFolder(folder);
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeOperation(Operation o){
-		EntityFolder ef = (EntityFolder) UmlUimLinks.getInstance(o).getFolderFor(o.getClass_());
+		EntityFolder ef = (EntityFolder) getFolderFor(o.getClass_());
 		if(UimUtil.isTask(o)){
-			String resourceUri = UmlUimLinks.getInstance(o).getId(o) + "Task";
+			String resourceUri = UmlUimLinks.getId(o) + "Task";
 			UimForm form = getFormFor(resourceUri, "uim");
 			OperationTaskForm otf;
 			if(regenerate || form.getPanel() == null){
@@ -116,10 +109,9 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				otf = (OperationTaskForm) form.getPanel();
 				otf.setFolder(ef);
 			}
-			putFormElements(otf);
 		}
 		// TODO generate table Panels for multi output parameters and detail panels for single output parameters
-		String resourceUri = UmlUimLinks.getInstance(o).getId(o) + "Invoker";
+		String resourceUri = UmlUimLinks.getId(o) + "Invoker";
 		UimForm form = getFormFor(resourceUri, "uim");
 		OperationInvocationForm oif;
 		if(regenerate || form.getPanel() == null){
@@ -134,13 +126,12 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			oif = (OperationInvocationForm) form.getPanel();
 			oif.setFolder(ef);
 		}
-		putFormElements(oif);
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeState(State s){
 		String resourceUri = UmlUimLinks.getId(s);
 		StateMachine sm = EmfStateMachineUtil.getStateMachine(s);
-		StateMachineFolder smf = (StateMachineFolder) UmlUimLinks.getInstance(s).getFolderFor(sm);
+		StateMachineFolder smf = (StateMachineFolder) getFolderFor(sm);
 		UimForm form = getFormFor(resourceUri, "uim");
 		StateForm sf;
 		if(regenerate || form.getPanel() == null){
@@ -161,7 +152,6 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			sf = (StateForm) form.getPanel();
 			sf.setFolder(smf);
 		}
-		putFormElements(sf);
 	}
 	private void initForm(UimForm form,NamedElement a,FormPanel sf){
 		form.setPanel(sf);
@@ -176,15 +166,4 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 		return (UimForm) resource.getContents().get(0);
 	}
 
-	private void putFormElements(FormPanel form){
-		UmlUimLinks.getInstance(form).link(form);
-		// Optimization
-		TreeIterator<EObject> eAllContents = form.eAllContents();
-		while(eAllContents.hasNext()){
-			EObject eObject = (EObject) eAllContents.next();
-			if(eObject instanceof UmlReference){
-				UmlUimLinks.getInstance(form).link((UmlReference) eObject);
-			}
-		}
-	}
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.nakeduml.eclipse.feature"
-      label="NakedUml Core"
-      version="1.0.0.5">
+      label="NakedUml Eclipse Feature"
+      version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -30,14 +30,15 @@
       <import plugin="org.eclipse.jdt.core" version="3.6.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.launching" version="3.5.100" match="greaterOrEqual"/>
       <import plugin="org.nakeduml.java.generator"/>
-      <import plugin="org.nakeduml.metamodels" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.nakeduml.metamodels"/>
       <import plugin="org.nakeduml.ocl.java.generator"/>
       <import plugin="org.nakeduml.ocl.metamodel"/>
       <import plugin="org.nakeduml.tinker.generator"/>
       <import plugin="org.nakeduml.uim"/>
       <import plugin="org.nakeduml.uim.uml2uim"/>
-      <import plugin="org.nakeduml.eclipse" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.nakeduml.core.feature" version="1.0.0.5"/>
+      <import plugin="org.nakeduml.eclipse"/>
+      <import feature="org.nakeduml.core.feature" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.nakeduml.java.metamodel"/>
    </requires>
 
    <plugin
@@ -56,13 +57,6 @@
 
    <plugin
          id="org.nakeduml.reverse"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.nakeduml.java.metamodel"
          download-size="0"
          install-size="0"
          version="0.0.0"

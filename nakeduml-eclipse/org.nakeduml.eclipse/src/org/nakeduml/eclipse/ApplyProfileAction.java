@@ -30,7 +30,7 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 		return applyProfile(model, profileName);
 	}
 	public static Profile applyProfile(Model model,String profileName){
-		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI("pathmap://NAKEDUML_PROFILES/"+profileName), true);
+		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP  + "profiles/"+profileName), true);
 		Profile library = (Profile) resource.getContents().get(0);
 		if(!model.isProfileApplied(library)){
 			model.applyProfile(library);

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 
@@ -12,19 +13,25 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Namespace;
+import org.nakeduml.uim.folder.AbstractFolder;
+import org.nakeduml.uim.util.UmlUimLinks;
 
 public class AbstractUimSynchronizer extends EmfElementVisitor implements TransformationStep{
-	ResourceSet resourceSet;
+	ResourceSet uimRst;
 	protected boolean regenerate;
+	protected UmlUimLinks links;
 	public AbstractUimSynchronizer(){
 	}
 	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate){
 		super.workspace = workspace;
-		init(resourceSet, regenerate);
+		init(workspace,resourceSet,  regenerate);
 	}
-	public void init(ResourceSet resourceSet,boolean regenerate){
-		this.regenerate = regenerate;
-		this.resourceSet = resourceSet;
+	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b){
+		super.workspace=workspace;
+		this.regenerate = b;
+		this.uimRst = uimRst;
+		links=new UmlUimLinks(workspace.getUmlElementMap());
 	}
 	protected void visitParentsRecursively(Element parent){
 		if(parent != null){
@@ -41,7 +48,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements Transf
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
-			return ((EmfWorkspace) root).getOwnedModels();
+			return ((EmfWorkspace) root).getGeneratingModelsOrProfiles();
 		}else{
 			return super.getChildren(root);
 		}
@@ -53,15 +60,19 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements Transf
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
 		try{
-			resource = resourceSet.getResource(formUri,false);
+			resource = uimRst.getResource(formUri,false);
 			resource.load(new HashMap<Object,Object>());
 		}catch(Exception e){
 			try{
 				resource.delete(new HashMap<Object,Object>());
 			}catch(Exception e2){
 			}
-			resource = resourceSet.createResource(formUri);
+			resource = uimRst.createResource(formUri);
 		}
 		return resource;
 	}
+	protected AbstractFolder getFolderFor(Namespace class_){
+		return null;
+	}
+	
 }

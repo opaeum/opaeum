@@ -1,5 +1,12 @@
+Eclipse
+Reverse engineer a profile into the workspace
+Keep a NakedUmlWorkspace in sync with the resourceset of a NakedUmlEditor instance to reduce overheads for validation
+StarterAction - automatically set maven group id as package prefix of mappedimplementationpackage of rootObjects
+
 Refactoring
 Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction
+Change all visitors to become transformation steps
+Move Emf stuff to a project under the core feature
 
 UIM
 Put label width on all possible containers of fields
@@ -8,10 +15,12 @@ remove fields pointing to obsolete properties
 remove operation navigations and action buttons to obsolete operations
 remove obsolete forms 
 allow forms to be reused as panels
-migrate table control to swing
 Add button bar for actions on multiple rows in the table
-Introduce entryScreen concept, allow formpanels to be used
-Introduce ocl expressions for things such as lookups and allowedRoles
+Introduce entryScreen for components, allow formpanels to be used, have an external and internal view
+Introduce ocl expressions for things such as lookups and security constraints
+
+Processes
+Rethink the queue per signal idea - consider the implications of migration
 
 TaskManagement
 Model UserInterface too
@@ -30,11 +39,13 @@ unmarshall the pins to allow OCL compilation for postconditions
 
 Statemachines
 Implement effects, entry and do-action subprocess calls
-Implement history state
-Implement transition across state boundaries
 Implement state invariants
+Call completion events of composite states
+
+STateResolver classes
 
 Classes
+ENumResolver class
 Generalizationsets
 PowerTypes
 link powerTypeInstances with generalization
@@ -42,6 +53,7 @@ link powerTypeInstances with generalization
 Activities
 Implement real asynchronous actions, i.e. call the action in another physical thread
 Log all events as well as asynchronous actions and signals directly in database and deliver them asynchronously
+Provide button to display actions' pins
 
 Maven
 put MavenArtefatId in profile
@@ -51,10 +63,13 @@ programmaticallyset m2_repo
 Validation
 ModelNameUniqueness
 Asynchronous actions cannot have outputs
+Date type to be specified when using timeevents
 
 Runtime
 For BusinessComponent instances, add a property called LDAP Identifier which associates that instance with an ldap entry
-On login, check ldap query for logged in user and take the user through a wizard adding a businessrole instance for every potential role where the user also belongs to the businesscomponentinstance
+On BusinessRole, have a boolean field that states if a user can automatically create such a role instance
+On login, check ldap query for logged in user and take the user through a wizard adding a businessrole instance for every potential role 
+where the user also belongs to the ldap group that represents the businesscomponentinstance
 For ocl expressions from uim - use Javassist to generate expressions at runtime, including common composite logic
 For preconditions on operations that do NOT refer to parameters, disable the operationNavigation or action if it evaluates to false
 For preconditions of transitions that do NOT refer to event parameters, disable the associated operationNaviation/actionButton if it evualuates to false

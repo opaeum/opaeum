@@ -30,7 +30,7 @@ public class ImportLibraryAction  implements IObjectActionDelegate {
 	}
 
 	public static Model importLibrary(Model model,String librName){
-		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI("pathmap://NAKEDUML_LIBRARIES/"+librName), true);
+		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP +"libraries/"+librName), true);
 		Model library=(Model) resource.getContents().get(0);
 		EList<PackageImport> packageImports = model.getPackageImports();
 		for(PackageImport packageImport:packageImports){

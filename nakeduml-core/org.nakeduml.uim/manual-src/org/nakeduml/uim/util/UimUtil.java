@@ -25,6 +25,7 @@ import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimDataTable;
+import org.nakeduml.uim.UserInteractionElement;
 import org.nakeduml.uim.binding.FieldBinding;
 import org.nakeduml.uim.binding.LookupBinding;
 import org.nakeduml.uim.binding.NavigationBinding;
@@ -205,11 +206,11 @@ public class UimUtil{
 		return results;
 	}
 	public static Collection<? extends TypedElement> getOwnedTypedElements(FormPanel nearestForm){
-		Element e = SafeUmlUimLinks.getInstance(nearestForm).getUmlElement(nearestForm);
-		return getOwnedTypedElements(e);
+		Element e = UmlUimLinks.getInstance(nearestForm).getUmlElement(nearestForm);
+		return getOwnedTypedElements(nearestForm, e);
 	}
-	public static Collection<TypedElement> getOwnedTypedElements(Element e){
-		UmlUimLinks links = SafeUmlUimLinks.getInstance(e);
+	public static Collection<TypedElement> getOwnedTypedElements(UserInteractionElement u,Element e){
+		UmlUimLinks links = UmlUimLinks.getInstance(u);
 		if(e instanceof Class){
 			Class class1 = (Class) e;
 			if(class1 != null){

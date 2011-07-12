@@ -36,7 +36,7 @@ public class GeneratorGenerationStep extends AbstractJavaTransformationStep{
 		//TODO generate example Java step
 		OJAnnotatedClass buildGeneratorClass(OJPackage genPackage){
 			OJAnnotatedClass c = new OJAnnotatedClass();
-			c.setName(NameConverter.capitalize(workspace.getDirectoryName()) + "Generator");
+			c.setName(NameConverter.capitalize(workspace.getIdentifier()) + "Generator");
 			genPackage.addToClasses(c);
 			OJConstructor constr = new OJConstructor();
 			constr.addParam("outputRoot", new OJPathName("String"));
@@ -86,9 +86,9 @@ public class GeneratorGenerationStep extends AbstractJavaTransformationStep{
 			OJAnnotatedField instance = new OJAnnotatedField("instance", c.getPathName());
 			StringBuffer str = new StringBuffer("new " + c.getName() + "(");
 			str.append("workspaceFile.getAbsolutePath() +\"/");
-			str.append(workspace.getDirectoryName());
+			str.append(workspace.getIdentifier());
 			str.append("\",workspaceFile.getAbsolutePath()+\"");
-			str.append(GenerateAction.getModelDirPath());
+			str.append(GenerateAction.model.eResource().getURI().trimSegments(1).toPlatformString(true));
 			str.append("\")");
 			instance.setInitExp(str.toString());
 			block2.addToLocals(instance);
