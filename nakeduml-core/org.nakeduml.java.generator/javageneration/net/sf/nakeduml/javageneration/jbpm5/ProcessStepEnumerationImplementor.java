@@ -22,7 +22,6 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
-import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.TriggerMethod;
 
@@ -47,38 +46,30 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
 		OJUtil.addField(e, constructor, "parentState", abstractProcessStep);
-		OJUtil.addField(e, constructor, "persistentName", new OJPathName("String"));
+		OJUtil.addField(e, constructor, "uuid", new OJPathName("String"));
 		OJUtil.addField(e, constructor, "id", new OJPathName("long"));
 		OJUtil.addField(e, constructor, "humanName", new OJPathName("String"));
 		OJUtil.addField(e, constructor, "triggerMethods", new OJPathName(TriggerMethod.class.getName()+"[]"));
 		e.addToImports(TriggerMethod.class.getName());
-		OJOperation getQualifiedName = new OJAnnotatedOperation();
-		getQualifiedName.setName("getQualifiedName");
-		getQualifiedName.setReturnType(new OJPathName("String"));
-		e.addToOperations(getQualifiedName);
 		// OJIfStatement ifParentNull = new OJIfStatement("parent==null", "return persistentName");
 		// ifParentNull.setElsePart(new OJBlock());
 		// ifParentNull.getElsePart().addToStatements("return parent.getQualifiedName()+ \"/\" + persistentName");
 		// getQualifiedName.getBody().addToStatements(ifParentNull);
-		getQualifiedName.getBody().addToStatements("return persistentName");
 		OJOperation resolve = new OJAnnotatedOperation();
-		resolve.setName("resolveByQualifiedName");
+		resolve.setName("resolveById");
 		resolve.setStatic(true);
 		resolve.setReturnType(e.getPathName());
-		resolve.addParam("qualifiedName", "String");
+		resolve.addParam("id", "long");
 		OJForStatement forAll = new OJForStatement();
 		forAll.setBody(new OJBlock());
 		forAll.setElemName("s");
 		forAll.setElemType(e.getPathName());
 		forAll.setCollection("values()");
 		resolve.getBody().addToStatements(forAll);
-		OJIfStatement ifEquals = new OJIfStatement("s.getQualifiedName().equals(qualifiedName)", "return s");
+		OJIfStatement ifEquals = new OJIfStatement("s.getId()==id", "return s");
 		forAll.getBody().addToStatements(ifEquals);
 		resolve.getBody().addToStatements("return null");
 		e.addToOperations(resolve);
-		OJAnnotatedOperation getNakedUmlId = new OJAnnotatedOperation("getNakedUmlId",new OJPathName("int"));
-		getNakedUmlId.getBody().addToStatements("return (int)getId()");
-		e.addToOperations(getNakedUmlId);
 		return e;
 	}
 
@@ -92,7 +83,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		}else{
 			OJUtil.addParameter(l, "parentState", "null");
 		}
-		OJUtil.addParameter(l, "persistentName", '"' + step.getMappingInfo().getQualifiedPersistentName() + '"');
+		OJUtil.addParameter(l, "uuid", '"' + step.getMappingInfo().getIdInModel()+ '"');
 		OJUtil.addParameter(l, "id", step.getMappingInfo().getNakedUmlId().toString() + 'l');
 		OJUtil.addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
 		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getMethodTriggers(step)));

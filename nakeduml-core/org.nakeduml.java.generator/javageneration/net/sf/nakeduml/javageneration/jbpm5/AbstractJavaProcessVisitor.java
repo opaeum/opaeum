@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -16,6 +17,7 @@ import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.OJWhileStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
@@ -94,6 +96,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		findNodeInstaceByUniqueId.getBody().addToStatements("return null");
 		ojBehavior.addToOperations(findNodeInstaceByUniqueId);
 		addGetNodeInstancesRecursively(ojBehavior);
+		addInit(ojBehavior);
 	}
 	private void doForceToStep(OJClass ojBehavior,OJPathName stepEnumeration,INakedBehavior umlBehavior){
 		OJOperation forceStateChange = new OJAnnotatedOperation();
@@ -196,9 +199,11 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
 		for(INakedElement flow:topLevelFlows){
 			String endNodeFieldName = Jbpm5Util.endNodeFieldNameFor(flow);
-			OJAnnotatedField field = new OJAnnotatedField(endNodeFieldName, new OJPathName(ojBehavior.getName() + "State"));
+			OJPathName statePath = new OJPathName(ojBehavior.getName() + "State");
+			OJAnnotatedField field = new OJAnnotatedField(endNodeFieldName, statePath);
 			ojBehavior.addToFields(field);
 			if(umlBehavior.isPersistent()){
+				HibernateUtil.addEnumResolverAsCustomType(field, statePath);
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Enumerated")));
 			}
 		}
@@ -216,7 +221,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		forNodeInstances.setElemType(Jbpm5Util.getNodeInstance());
 		forNodeInstances.setElemName("nodeInstance");
 		forNodeInstances.setCollection("getNodeInstancesRecursively()");
-		OJIfStatement ifNameEquals = new OJIfStatement("step.getQualifiedName().equals(nodeInstance.getNode().getName())", "return true");
+		OJIfStatement ifNameEquals = new OJIfStatement("step.getId()==nodeInstance.getNodeId()", "return true");
 		forNodeInstances.getBody().addToStatements(ifNameEquals);
 		isStepActive.getBody().addToStatements("return false");
 		isStepActive.setReturnType(new OJPathName("java.lang.boolean"));
@@ -256,8 +261,23 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 			whileOneChild.getBody().addToStatements(
 					"nodeInstance=(" + Jbpm5Util.getNodeInstance().getLast() + ")((NodeInstanceContainer)nodeInstance).getNodeInstances().iterator().next()");
 			ifEnded.getElsePart().addToStatements(whileOneChild);
-			ifEnded.getElsePart().addToStatements(
-					"return " + ojBehavior.getName() + "State.resolveByQualifiedName(((" + Jbpm5Util.getNode().getLast() + ")nodeInstance.getNode()).getName())");
+			ifEnded.getElsePart().addToStatements("return " + ojBehavior.getName() + "State.resolveById(nodeInstance.getNodeId())");
 		}
+	}
+	private void addInit(OJAnnotatedClass activityClass){
+		OJAnnotatedOperation init = new OJAnnotatedOperation("init");
+		activityClass.addToOperations(init);
+		init.addParam("context", Jbpm5Util.getProcessContext());
+		copyDefaultConstructor(activityClass, init);
+		init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
+		init.getBody().addToStatements("((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true)");
+	}
+	private void copyDefaultConstructor(OJAnnotatedClass activityClass,OJAnnotatedOperation init){
+		OJBlock body = activityClass.getDefaultConstructor().getBody();
+		if(body.getStatements().size()>0 && body.getStatements().get(0).toJavaString().contains("super()")){
+			body.getStatements().set(0, new OJSimpleStatement("super.init(context)"));
+		}
+		init.setBody(body);
+		activityClass.getDefaultConstructor().setBody(new OJBlock());
 	}
 }

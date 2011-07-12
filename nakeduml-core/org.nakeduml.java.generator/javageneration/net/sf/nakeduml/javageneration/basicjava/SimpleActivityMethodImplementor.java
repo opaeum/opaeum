@@ -92,7 +92,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			// Does not have loopbacks
 			// Does not accept any events
 			// output pin names must be unique
-			// cannot call processes, user responsibilities, or any process that
+			// cannot call contractedProcesses, user responsibilities, or any process that
 			// does not return immediately
 			// Object flows: sourceAndTarget must be conformant and
 			// multilplicity must be compatible

@@ -8,6 +8,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
@@ -34,7 +35,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 		visitProperty(p.getOwner(), p);
 	}
 	@VisitBefore(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class
+			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class
 	})
 	public void classifier(INakedClassifier c){
 		for(INakedProperty p:c.getEffectiveAttributes()){

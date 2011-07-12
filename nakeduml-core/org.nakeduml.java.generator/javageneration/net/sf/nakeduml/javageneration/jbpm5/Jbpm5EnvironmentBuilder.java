@@ -3,10 +3,13 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.basicjava.Java5ModelGenerationStep;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -21,7 +24,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-
+@StepDependency(phase=JavaTransformationPhase.class, requires=Java5ModelGenerationStep.class,after=Java5ModelGenerationStep.class)
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 	public static class ProcessCollector extends VisitorAdapter<INakedElement,INakedModel>{
 		private Collection<INakedBehavior> processes = new ArrayList<INakedBehavior>();
@@ -47,6 +50,9 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 		}
 	}
 	boolean isIntegrationPhase = true;
+	public Jbpm5EnvironmentBuilder(){
+		this(false);//default non-integration phase
+	}
 	public Jbpm5EnvironmentBuilder(boolean isIntegrationPhase){
 		this.isIntegrationPhase = isIntegrationPhase;
 	}

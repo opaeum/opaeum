@@ -45,7 +45,7 @@ public class Java5ModelGenerator extends AbstractStructureVisitor{
 		visitClass(umlOwner);
 		
 	}
-	@VisitAfter(match={INakedInterface.class,INakedEnumeration.class})
+	@VisitAfter(matchSubclasses=true, match={INakedInterface.class,INakedEnumeration.class})
 	public void visitClass(INakedClassifier c){
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented

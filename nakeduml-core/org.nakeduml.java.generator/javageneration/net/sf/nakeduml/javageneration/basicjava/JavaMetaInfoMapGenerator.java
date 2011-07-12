@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -11,9 +12,12 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import nl.klasse.octopus.model.IOperation;
 
 import org.nakeduml.environment.JavaMetaInfoMap;
 import org.nakeduml.java.metamodel.OJBlock;
@@ -43,7 +47,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 		if(isIntegrationPhase){
 			ClassCollector classCollector = new ClassCollector();
 			classCollector.startVisiting(ws);
-			createMapClass(UtilityCreator.getUtilPathName().append("metainfo"), OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC,classCollector.classes);
+			createMapClass(UtilityCreator.getUtilPathName().append("metainfo"), OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, classCollector.classes);
 		}
 	}
 	@VisitBefore
@@ -56,8 +60,8 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 					collector.visitRecursively(model);
 				}
 			}
-			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("domain"),OutputRootId.DOMAIN_GEN_TEST_SRC, collector.classes);
-			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("adaptor"),OutputRootId.ADAPTOR_GEN_TEST_SRC, collector.classes);
+			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("domain"), OutputRootId.DOMAIN_GEN_TEST_SRC, collector.classes);
+			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("adaptor"), OutputRootId.ADAPTOR_GEN_TEST_SRC, collector.classes);
 		}
 	}
 	protected void createMapClass(OJPathName metaInfoPackage ,OutputRootId output, Collection<INakedClassifier> cls){
@@ -71,7 +75,12 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 		mapClass.addToConstructors(constr);
 		OJBlock initBlock = constr.getBody();
 		for(INakedClassifier c:cls){
-			initBlock.addToStatements("putClass(" + c.getMappingInfo().getQualifiedJavaName() + ".class)");
+			IMappingInfo ci = c.getMappingInfo();
+			initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\""+ci.getIdInModel()+"\"," + ci.getNakedUmlId()+")");
+			for(IOperation o:c.getOperations()){
+				IMappingInfo mi = ((INakedOperation)o).getMappingInfo();
+				initBlock.addToStatements("putMethod("+ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() +"\"," + mi.getNakedUmlId() + ")");
+			}
 		}
 	}
 	public static String javaMetaInfoMapName(){

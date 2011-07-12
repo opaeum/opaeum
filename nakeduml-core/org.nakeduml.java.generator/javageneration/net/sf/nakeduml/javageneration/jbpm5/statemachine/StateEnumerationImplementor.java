@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepEnumerationImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -18,6 +21,7 @@ import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
 public class StateEnumerationImplementor extends ProcessStepEnumerationImplementor{
 	@Override
 	protected INakedElement getEnclosingElement(INakedElement s){
@@ -43,20 +47,18 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void state(INakedState state){
-		if(state.getKind().isRestingState()){
-			INakedStateMachine sm = state.getStateMachine();
-			OJPackage p = findOrCreatePackage(OJUtil.packagePathname(sm.getParent()));
-			OJEnum e = (OJEnum) p.findClass(new OJPathName(sm.getMappingInfo().getJavaName().getAsIs() + "State"));
-			buildLiteral(state, e);
-		}
+		INakedStateMachine sm = state.getStateMachine();
+		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(sm.getParent()));
+		OJEnum e = (OJEnum) p.findClass(new OJPathName(sm.getMappingInfo().getJavaName().getAsIs() + "State"));
+		buildLiteral(state, e);
 	}
 	@Override
-	protected Collection<INakedTrigger> getMethodTriggers(INakedElement step) {
+	protected Collection<INakedTrigger> getMethodTriggers(INakedElement step){
 		INakedState state = (INakedState) step;
-		Collection<INakedTrigger> result=new ArrayList<INakedTrigger>();
+		Collection<INakedTrigger> result = new ArrayList<INakedTrigger>();
 		List<INakedTransition> outgoing = state.getOutgoing();
-		for (INakedTransition t : outgoing) {
-			if(t.getTrigger()!=null && t.getTrigger().getEvent() instanceof INakedOperation){
+		for(INakedTransition t:outgoing){
+			if(t.getTrigger() != null && t.getTrigger().getEvent() instanceof INakedOperation){
 				result.add(t.getTrigger());
 			}
 		}

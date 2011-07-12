@@ -91,4 +91,11 @@ public class HibernateUtil {
 	public static String metadefName(INakedClassifier nakedBaseType) {
 		return nakedBaseType.getMappingInfo().getJavaName().getAsIs();
 	}
+
+	public static void addEnumResolverAsCustomType(OJAnnotatedField field,OJPathName pn){
+		field.removeAnnotation(new OJPathName("javax.persistence.Enumerated"));
+		OJAnnotationValue type = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Type"));
+		type.putAttribute("type", pn.toJavaString()+"Resolver");
+		field.putAnnotation(type);
+	}
 }

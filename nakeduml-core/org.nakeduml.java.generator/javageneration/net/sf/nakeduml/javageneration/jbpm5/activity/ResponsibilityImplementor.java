@@ -6,14 +6,18 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.Java5ModelGenerationStep;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.TaskUtil;
+import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineImplementor;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -44,6 +48,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
+@StepDependency(phase=JavaTransformationPhase.class, requires={ActivityProcessImplementor.class,StateMachineImplementor.class},after={StateMachineImplementor.class,ActivityProcessImplementor.class})
 public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	public static final OJPathName RESPONSIBILITY_OBJECT = new OJPathName("org.nakeduml.bpm.ResponsibilityObject");
 	public static final OJPathName ABSTRACT_REQUEST = new OJPathName("org.nakeduml.bpm.AbstractRequest");
@@ -63,7 +68,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
 	public void visitStateMachine(INakedStateMachine sm){
 		if(sm.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(sm)){
-			// TODO distinguish between tasks and processes
+			// TODO distinguish between tasks and contractedProcesses
 			OJAnnotatedClass ojClass = findJavaClass(sm);
 			ojClass.addToImplementedInterfaces(TASK_OBJECT);
 			OJAnnotatedField field = OJUtil.addProperty(ojClass, "taskRequest", TASK_REQUEST, true);
@@ -144,14 +149,14 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		}
 	}
 	private void implementDeadlineCallback(OJAnnotatedClass ojClass,OJAnnotatedOperation getProcessObject,INakedDeadline d, INakedDefinedResponsibility a){
-		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getCallbackMethodName(d));
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventHandlerName(d));
 		ojClass.addToOperations(oper);
 		//TODO give this some thought
 		OJUtil.addMetaInfo(oper, a);
 		addCallingProcessObjectField(getProcessObject,a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);
-		ifNotNullCallback.getThenPart().addToStatements("callProcessObject." + EventUtil.getCallbackMethodName(d) + "(this)");
+		ifNotNullCallback.getThenPart().addToStatements("callProcessObject." + EventUtil.getEventHandlerName(d) + "(this)");
 	}
 	private void addCallingProcessObjectField(OJAnnotatedOperation getProcessObject,INakedDefinedResponsibility v){
 		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", getProcessObject.getReturnType());
@@ -200,7 +205,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction ca){
-		// Always order invocations of processes or tasks by the executedOn date
+		// Always order invocations of contractedProcesses or tasks by the executedOn date
 		if(ca.isLongRunning()){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(ca, getOclEngine().getOclLibrary());
 			if(map.isMany()){

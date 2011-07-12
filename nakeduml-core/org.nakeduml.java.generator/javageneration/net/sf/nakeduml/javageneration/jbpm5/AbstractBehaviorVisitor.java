@@ -32,7 +32,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 	protected void addSetReturnInfo(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
 		ojClass.addToOperations(setReturnInfo);
-		setReturnInfo.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+		setReturnInfo.addParam("context", Jbpm5Util.getProcessContext());
 		setReturnInfo.getBody().addToStatements("this.callingProcessInstanceId=context.getProcessInstance().getId()");
 		setReturnInfo.getBody().addToStatements("this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
 		OJUtil.addProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);

@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
+import net.sf.nakeduml.metamodel.statemachines.INakedState;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -97,5 +98,8 @@ public class Jbpm5Util{
 		getProcessDefinition.setReturnType(processDefinition);
 		ojBehavior.addToOperations(getProcessDefinition);
 		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");
+	}
+	public static OJPathName getProcessContext(){
+		return new OJPathName("org.drools.runtime.process.ProcessContext");
 	}
 }

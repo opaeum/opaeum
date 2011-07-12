@@ -10,9 +10,11 @@ import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.components.INakedComponent;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -31,7 +33,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	protected abstract void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap);
 	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
 	@VisitAfter(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class
+			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class,INakedSignal.class,INakedComponent.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
@@ -83,8 +85,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			visitFeaturesOf(umlOwner);
 		}
 	}
-	@VisitBefore(match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class
+	@VisitBefore(matchSubclasses=true, match = {
+			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class,INakedComponent.class
 	})
 	public void visitClassifier(INakedClassifier umlOwner){
 		visitComplexStructure((INakedComplexStructure) umlOwner);

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: NakedUML Java Generator
 Bundle-SymbolicName: org.nakeduml.java.generator
-Bundle-Version: 1.0.0.5
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.nakeduml.metamodels,
  org.nakeduml.ocl.java.generator,
  org.nakeduml.ocl.metamodel,

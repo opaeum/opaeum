@@ -21,7 +21,7 @@ import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedHelperClass;
+import net.sf.nakeduml.metamodel.core.INakedHelper;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -346,9 +346,6 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 		StringBuilder currentPath = new StringBuilder();
 		theList.add(currentPath);
 		createHierarchicalEntries(entity, theList, currentPath);
-		if(theList.isEmpty()){
-			System.out.println();
-		}
 		for(StringBuilder key:theList){
 			int level = key.toString().split("\\.").length - 1;
 			DataPopulatorPropertyEntry entry = new DataPopulatorPropertyEntry(level, entity.getMappingInfo().getQualifiedJavaName(), entity.getMappingInfo()
@@ -535,7 +532,7 @@ public class ConfigurableCompositionDataGenerator extends AbstractTestDataGenera
 			}else{
 				return map.javaType() + ".has no literals!!!!";
 			}
-		}else if(f.getBaseType() instanceof INakedHelperClass){
+		}else if(f.getBaseType() instanceof INakedHelper){
 			return "new " + f.getBaseType().getName() + "()";
 		}else if(f.getBaseType() instanceof INakedInterface){
 			return "new " + f.getBaseType().getName() + "()";

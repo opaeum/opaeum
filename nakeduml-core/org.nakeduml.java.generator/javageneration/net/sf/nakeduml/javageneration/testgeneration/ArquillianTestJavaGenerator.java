@@ -100,7 +100,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 			PackageAndProcessCollector collector = new PackageAndProcessCollector(getModelInScope());
 			// Fetch root entity
 			OJPathName utilPkg = UtilityCreator.getUtilPathName();
-			createTestUtilClass(collector, utilPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC, model.getFileName());
+			createTestUtilClass(collector, utilPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC, model.getIdentifier());
 //			createExampleTestClass(model.getFileName(), collector.rootEntity, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
 //			createExampleStartup(collector, utilPkg, OutputRootId.ADAPTOR_TEST_SRC);
 		}
@@ -111,8 +111,8 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 			PackageAndProcessCollector collector = new PackageAndProcessCollector(workspace.getRootObjects());
 			OJPathName utilPkg = new OJPathName(config.getMavenGroupId() + ".util");
 			// createExampleStartup(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_SRC);
-			createTestUtilClass(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC, workspace.getDirectoryName());
-			createExampleTestClass(workspace.getDirectoryName(), collector.rootEntity, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_TEST_SRC);
+			createTestUtilClass(collector, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_TEST_SRC, workspace.getIdentifier());
+			createExampleTestClass(workspace.getIdentifier(), collector.rootEntity, utilPkg, OutputRootId.INTEGRATED_ADAPTOR_TEST_SRC);
 		}
 	}
 	private void createExampleTestClass(String hibernatePrefix,INakedEntity root,OJPathName pkg,OutputRootId outputRootId){
@@ -217,7 +217,6 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 				OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
 				getTestProcessClasses.getBody().addToStatements(addAuditClass);
 			}else{
-				System.out.println();
 			}
 			OJSimpleStatement addClassState = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "State.class)");
 			getTestProcessClasses.getBody().addToStatements(addClassState);
@@ -249,9 +248,6 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		for(INakedClassifier c:collection){
 			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
 			getTestClasses.getBody().addToStatements(addClass);
-			if(c.getName().equals("HuaweiGsmCommand")){
-				System.out.println();
-			}
 			if(!(c instanceof INakedEnumeration || c instanceof INakedActor || c.getCodeGenerationStrategy().isNone())){
 				if(!(c instanceof INakedSignal) && !(c instanceof INakedInterface) && !c.getIsAbstract() && !(c instanceof INakedStateMachine)
 						&& !(c instanceof INakedDataType)){

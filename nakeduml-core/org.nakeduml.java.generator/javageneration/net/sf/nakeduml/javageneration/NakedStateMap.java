@@ -11,12 +11,6 @@ public class NakedStateMap extends StateMap {
 		super(s);
 		this.state=s;
 	}
-	public String getRequestEventsMethod() {
-		return "requestEventsFor" + state.getMappingInfo().getJavaName();
-	}
-	public String getCancelEventsMethod() {
-		return "cancelEventsFor" + state.getMappingInfo().getJavaName();
-	}
 	public String getOnEntryMethod() {
 		return "onEntryOf"+state.getMappingInfo().getJavaName();
 	}
@@ -26,8 +20,6 @@ public class NakedStateMap extends StateMap {
 	public INakedState getState(){
 		return state;
 	}
-	public String getDoActivityMethod() {
-		return "onDoOf"+state.getMappingInfo().getJavaName();
-	}
+
 
 }

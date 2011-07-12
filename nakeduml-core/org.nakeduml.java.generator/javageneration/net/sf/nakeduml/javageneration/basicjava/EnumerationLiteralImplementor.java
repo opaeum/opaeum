@@ -54,12 +54,10 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					addToConstructor(constr, myClass, attr, c);
 				}
 			}
-			OJUtil.addField(myClass, constr, "persistentName", new OJPathName("String"));
-			OJUtil.addField(myClass, constr, "nakedUmlId", new OJPathName("int"));
+			OJUtil.addField(myClass, constr, "uuid", new OJPathName("String"));
 			for(IEnumLiteral el:c.getLiterals()){
 				INakedEnumerationLiteral nl=(INakedEnumerationLiteral) el;
-				OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()) , "persistentName", '"'+ nl.getMappingInfo().getQualifiedPersistentName() + '"');
-				OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()) , "nakedUmlId", nl.getMappingInfo().getNakedUmlId().toString());
+				OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()) , "uuid", "\"" + nl.getMappingInfo().getIdInModel()+"\"" );
 			}
 			if(!constr.getParameters().isEmpty()){
 				myClass.addToConstructors(constr);

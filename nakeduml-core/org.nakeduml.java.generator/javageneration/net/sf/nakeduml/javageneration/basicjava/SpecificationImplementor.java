@@ -54,7 +54,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			OJPathName behaviorClass = ojOperationClass.getPathName();
 			// createJbpmProcess(o, ojOper);
 			ojOper.getBody().addToStatements(o.getName() + " _" + o.getName() + "= new " + o.getName() + "(this)");
-			ojOper.getBody().addToStatements(o.getName() + " _" + o.getName() + ".setReturnInfo(context)");
+			ojOper.getBody().addToStatements("_" + o.getName() + ".setReturnInfo(context)");
 			List<? extends INakedParameter> args = o.getArgumentParameters();
 			for(INakedParameter arg:args){
 				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(oc, arg);

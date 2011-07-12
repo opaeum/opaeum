@@ -3,7 +3,10 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.basicjava.Java5ModelGenerationStep;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
@@ -22,47 +25,17 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 
+@StepDependency(phase=JavaTransformationPhase.class, requires=ActivityProcessImplementor.class,after=ActivityProcessImplementor.class)
 public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationImplementor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedActivity c){
 		if(c.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
 			OJEnum e = super.buildOJEnum(c, hasStructuredNodes(c));
 			for(INakedActivityNode n:c.getActivityNodesRecursively()){
-				if(isRestingNode(n)){
+				if(BehaviorUtil.isRestingNode(n)){
 					buildLiteral(n, e);
 				}
 			}
-		}
-	}
-	private static boolean isRestingNode(INakedActivityNode n){
-		if(n instanceof INakedPin){
-			return false;
-		}else if(n instanceof INakedStructuredActivityNode){
-			INakedStructuredActivityNode s = (INakedStructuredActivityNode) n;
-			for(INakedActivityNode child:s.getActivityNodes()){
-				if(isRestingNode(child)){
-					return true;
-				}
-			}
-			return false;
-		}else if(BehaviorUtil.isEffectiveFinalNode(n)){
-			return true;
-		}else if(n instanceof INakedAction){
-			return ((INakedAction) n).isLongRunning();
-		}else if(n instanceof INakedParameterNode){
-			return ((INakedParameterNode) n).getParameter().isResult();
-		}else if(n instanceof INakedControlNode){
-			INakedControlNode cNode = (INakedControlNode) n;
-			ControlNodeType cNodeType = cNode.getControlNodeType();
-			boolean flowFinalNode = cNodeType.isFlowFinalNode() && cNode.getOwnerElement() instanceof INakedActivity;// TODO check if the
-																														// owner has
-																														// multiple
-																														// concurrent flows
-																														// has parallel
-																														// flows
-			return cNodeType.isActivityFinalNode() || flowFinalNode || cNodeType.isJoinNode();
-		}else{
-			return false;
 		}
 	}
 	private boolean hasStructuredNodes(INakedActivity sm){

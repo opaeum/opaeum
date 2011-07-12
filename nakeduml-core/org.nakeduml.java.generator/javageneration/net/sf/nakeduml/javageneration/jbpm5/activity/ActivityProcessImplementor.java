@@ -3,7 +3,9 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 import java.util.Arrays;
 import java.util.Collection;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
@@ -18,9 +20,13 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
+import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
+import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.linkage.PinLinker;
+import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
@@ -52,9 +58,13 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.IActiveObject;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+		PersistenceStep.class,OclExpressionExecution.class,PinLinker.class,ProcessIdentifier.class
+},after = {
+		PersistenceStep.class,OclExpressionExecution.class
+})
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void activityEdge(INakedActivityEdge edge){
@@ -81,7 +91,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			oper.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(), booleanType));
 			oper.setName(Jbpm5Util.getGuardMethod(edge));
-			oper.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+			oper.addParam("context", Jbpm5Util.getProcessContext());
 		}
 	}
 	private void addObjectFlowVariable(INakedActivityEdge edge,OJAnnotatedOperation oper,INakedObjectFlow objectFlow){
@@ -124,22 +134,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				doIsStepActive(activityClass, activity);
 				super.addGetNodeInstancesRecursively(activityClass);
 			}
-			if(activity.isProcess()){
-				addInit(activityClass);
-			}
 		}
-	}
-	private void addInit(OJAnnotatedClass activityClass){
-		OJAnnotatedOperation init = new OJAnnotatedOperation("init");
-		activityClass.addToOperations(init);
-		init.addParam("context", ActivityUtil.PROCESS_CONTEXT);
-		copyDefaultConstructor(activityClass, init);
-		init.getBody().addToStatements("this.setProcessInstanceId(context.getProcessInstance().getId())");
-		init.getBody().addToStatements("((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true)");
-	}
-	private void copyDefaultConstructor(OJAnnotatedClass activityClass,OJAnnotatedOperation init){
-		init.setBody(activityClass.getDefaultConstructor().getBody());
-		activityClass.getDefaultConstructor().setBody(new OJBlock());
 	}
 	private void doExecute(INakedActivity activity,OJAnnotatedClass activityClass){
 		OJOperation execute = implementExecute(activityClass, activity);
@@ -148,7 +143,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 	}
 	private void implementNodeMethods(OJClass activityClass,INakedActivity activity){
-		activityClass.addToImports(ActivityUtil.PROCESS_CONTEXT);
+		activityClass.addToImports(Jbpm5Util.getProcessContext());
 		for(INakedActivityNode node:activity.getActivityNodesRecursively()){
 			if(node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode || node instanceof INakedExpansionRegion
 					|| node instanceof INakedExpansionNode){
@@ -180,11 +175,9 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		if(implementor.hasNodeMethod()){
 			OJAnnotatedOperation operation = new OJAnnotatedOperation();
 			OJUtil.addMetaInfo(operation, node);
-
-
 			operation.setName(implementor.getMap().doActionMethod());
 			activityClass.addToOperations(operation);
-			operation.addParam("context", ActivityUtil.PROCESS_CONTEXT);
+			operation.addParam("context", Jbpm5Util.getProcessContext());
 			if(implementor.isEffectiveFinalNode()){
 				implementor.implementFinalStep(operation.getBody());
 			}

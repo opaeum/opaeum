@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
@@ -30,6 +32,7 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = ActivityProcessImplementor.class,after = ActivityProcessImplementor.class)
 public class ActivityMessageEventHandlerInserter extends AbstractEventHandlerInserter{
 	private Jbpm5ActionBuilder<INakedActivityNode> actionBuilder;
 	@VisitBefore(matchSubclasses = true)
@@ -40,17 +43,17 @@ public class ActivityMessageEventHandlerInserter extends AbstractEventHandlerIns
 		}
 	}
 	@Override
-	protected void implementEventConsumption(OJOperation operationContext, FromNode fromNode,OJIfStatement ifTokenFound){
-		OJBlock block=ifTokenFound.getThenPart();
+	protected void implementEventConsumption(OJOperation operationContext,FromNode fromNode,OJIfStatement ifTokenFound){
+		OJBlock block = ifTokenFound.getThenPart();
 		INakedAcceptEventAction node = (INakedAcceptEventAction) fromNode.getWaitingElement();
 		storeArguments(ifTokenFound, node);
 		block = checkWeight(operationContext, block, node);
 		if(node.isImplicitFork()){
 			block.addToStatements("consumed=true");
-			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
+			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
 		}else if(node.isImplicitDecision()){
 			block.addToStatements("consumed=true");
-			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
+			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
 		}else{
 			GuardedFlow flow = fromNode.getDefaultTransition();
 			if(flow != null){
@@ -64,8 +67,8 @@ public class ActivityMessageEventHandlerInserter extends AbstractEventHandlerIns
 		StringBuilder sb = new StringBuilder();
 		// Check if all weights have been satisfied
 		// NB!! the weight logic only makes sense on AcceptEventActions. This is the only place where outputpin value count equates to
-		// weight. Everywhere else it is impossible to determine weight. In other places it could also lead to stuck processes
-		//TODO implement validation
+		// weight. Everywhere else it is impossible to determine weight. In other places it could also lead to stuck contractedProcesses
+		// TODO implement validation
 		for(INakedActivityEdge edge:node.getDefaultOutgoing()){
 			if(edge.getSource() instanceof INakedOutputPin){
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), (INakedOutputPin) edge.getSource());

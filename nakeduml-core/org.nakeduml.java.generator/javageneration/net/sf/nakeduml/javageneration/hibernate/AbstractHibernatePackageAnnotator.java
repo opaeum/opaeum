@@ -15,8 +15,10 @@ import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -36,17 +38,26 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	private boolean isIntegrationPhase;
 	public final class MetaDeflElementCollector extends AbstractJavaProducingVisitor{
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
-		Set<INakedBehavior> processes = new HashSet<INakedBehavior>();
+		Set<INakedBehavior> contractedProcesses = new HashSet<INakedBehavior>();
+		Set<INakedBehavior> allProcesses = new HashSet<INakedBehavior>();
 		Set<INakedMessageStructure> tasks = new HashSet<INakedMessageStructure>();
 		Set<INakedClassifier> participant = new HashSet<INakedClassifier>();
+		Set<INakedEnumeration> enumerations = new HashSet<INakedEnumeration>();
+		@VisitBefore
+		public void visitEnumeration(INakedEnumeration i){
+			enumerations.add(i);
+		}
 		@VisitBefore
 		public void visitInterface(INakedInterface i){
 			interfaces.add(i);
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitProcess(INakedBehavior b){
-			if(b.isProcess() && b.getSpecification() != null){
-				processes.add(b);
+			if(b.isProcess()){
+				allProcesses.add(b);
+				if(b.getSpecification() != null){
+					contractedProcesses.add(b);
+				}
 			}
 		}
 		@VisitBefore(matchSubclasses = true)
@@ -78,26 +89,28 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	public abstract void visitModel(INakedModel model);
 	protected void doWorkspace(INakedModelWorkspace workspace){
 		if(isIntegrationPhase){
-			applyFilter(true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
-			Collection<? extends INakedElement> ownedElements = workspace.getOwnedElements();
-			MetaDeflElementCollector collector = collectElements(ownedElements);
+			OJAnnotatedPackage pkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
+			createTextPathIfRequired(pkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
+			applyFilter(pkg);
+			MetaDeflElementCollector collector = collectElements(workspace.getOwnedElements());
 			Set<INakedInterface> interfaces = collector.interfaces;
 			for(INakedInterface i:interfaces){
-				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, (Collection<INakedRootObject>) ownedElements), true,
-						OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
+				String metaDefName = HibernateUtil.metadefName((INakedInterface) i);
+				doMetaDef(GeneralizationUtil.getConcreteEntityImplementationsOf(i, (Collection<INakedRootObject>) workspace.getOwnedElements()), metaDefName, pkg);
 			}
-			doMetadef(collector.tasks, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, TASK_OBJECT_META_DEF);
-			doMetadef(collector.processes, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, OPERATION_PROCESS_META_DEF);
-			doMetadef(collector.participant, true, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, PARTICIPANT_META_DEF);
+			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, pkg);
+			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, pkg);
+			doMetaDef(collector.participant, PARTICIPANT_META_DEF, pkg);
+			doTypeDefs(collector.enumerations, "Resolver",pkg);
+			doTypeDefs(collector.allProcesses, "StateResolver",pkg);
+
 		}
 	}
-	protected void applyFilter(boolean isAdaptor,OutputRootId outputRoot){
-		OJAnnotatedPackage ap = findOrCreatePackage(HibernateUtil.getHibernatePackage(isAdaptor));
+	private void applyFilter(OJAnnotatedPackage ap){
 		OJAnnotationValue filterDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.FilterDef"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("defaultCondition", "deleted_on > " + getCurrentTimestampSQLFunction()));
 		ap.putAnnotation(filterDef);
-		createTextPathIfRequired(ap, outputRoot);
 	}
 	private String getCurrentTimestampSQLFunction(){
 		Dialect dialect = HibernateUtil.getHibernateDialect(this.config);
@@ -105,22 +118,49 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	}
 	protected void doModel(INakedModel model){
 		if(!isIntegrationPhase){
-			applyFilter(true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
-			applyFilter(false, OutputRootId.DOMAIN_GEN_TEST_SRC);
+			OJAnnotatedPackage adPkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
+			createTextPathIfRequired(adPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC);
+			OJAnnotatedPackage domainPkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(false));
+			createTextPathIfRequired(domainPkg, OutputRootId.DOMAIN_GEN_TEST_SRC);
+			applyFilter(adPkg);
+			applyFilter(domainPkg);
 			Collection<INakedRootObject> selfAndDependencies = getModelInScope();
 			MetaDeflElementCollector collector = collectElements(selfAndDependencies);
 			Set<INakedInterface> interfaces = collector.interfaces;
 			for(INakedInterface i:interfaces){
-				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies), true, OutputRootId.ADAPTOR_GEN_TEST_SRC);
-				doInterface(i, GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies), false, OutputRootId.DOMAIN_GEN_TEST_SRC);
+				Collection<INakedBehavioredClassifier> generalizations = GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies);
+				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), adPkg);
+				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), domainPkg);
 			}
-			doMetadef(collector.tasks, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, TASK_OBJECT_META_DEF);
-			doMetadef(collector.tasks, false, OutputRootId.DOMAIN_GEN_TEST_SRC, TASK_OBJECT_META_DEF);
-			doMetadef(collector.processes, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, OPERATION_PROCESS_META_DEF);
-			doMetadef(collector.processes, false, OutputRootId.DOMAIN_GEN_TEST_SRC, OPERATION_PROCESS_META_DEF);
-			doMetadef(collector.participant, true, OutputRootId.ADAPTOR_GEN_TEST_SRC, PARTICIPANT_META_DEF);
-			doMetadef(collector.participant, false, OutputRootId.DOMAIN_GEN_TEST_SRC, PARTICIPANT_META_DEF);
+			doTypeDefs(collector.enumerations, "Resolver",domainPkg);
+			doTypeDefs(collector.allProcesses, "StateResolver",domainPkg);
+			doTypeDefs(collector.enumerations, "Resolver",adPkg);
+			doTypeDefs(collector.allProcesses, "StateResolver",adPkg);
+			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, adPkg);
+			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, domainPkg);
+			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, adPkg);
+			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, domainPkg);
+			doMetaDef(collector.participant, PARTICIPANT_META_DEF, adPkg);
+			doMetaDef(collector.participant, PARTICIPANT_META_DEF, domainPkg);
 		}
+	}
+	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackage p){
+		OJAnnotationValue typeDefs=getTypeDefs(p);
+		for(INakedClassifier a:processes){
+			OJAnnotationValue typeDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDef"));
+			typeDefs.addAnnotationValue(typeDef);
+			p.putAnnotation(typeDef);
+			typeDef.putAttribute("name", a.getMappingInfo().getQualifiedJavaName() + string);
+			typeDef.putAttribute("typeClass", new OJPathName(a.getMappingInfo().getQualifiedJavaName() + string));
+		}
+	}
+	private OJAnnotationValue getTypeDefs(OJAnnotatedPackage p){
+		OJAnnotationValue typeDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.TypeDefs"));
+		if(typeDefs==null){
+			typeDefs=new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDefs"));
+			p.putAnnotation(typeDefs);
+		}
+		return typeDefs;
 	}
 	// TODO find another place for this
 	private MetaDeflElementCollector collectElements(Collection<? extends INakedElement> ownedElements){
@@ -133,18 +173,12 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		return collector;
 	}
-	private void doInterface(INakedClassifier i,Collection<? extends INakedClassifier> impls,boolean isAdaptor,OutputRootId outputRoot){
-		String metaDefName = HibernateUtil.metadefName((INakedInterface) i);
-		doMetadef(impls, isAdaptor, outputRoot, metaDefName);
-	}
-	protected void doMetadef(Collection<? extends INakedClassifier> impls,boolean isAdaptor,OutputRootId outputRoot,String metaDefName){
+	private void doMetaDef(Collection<? extends INakedClassifier> impls,String metaDefName,OJAnnotatedPackage p){
 		OJAnnotationValue metaDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AnyMetaDef"));
-		OJAnnotatedPackage p = (OJAnnotatedPackage) this.findOrCreatePackage(HibernateUtil.getHibernatePackage(isAdaptor));
-		createTextPathIfRequired(p, outputRoot);
 		OJAnnotationValue anyMetaDefs = getAnyMetaDefs(p);
 		anyMetaDefs.addAnnotationValue(metaDef);
 		metaDef.putAttribute("name", metaDefName + getMetaDefNameSuffix());
-		metaDef.putAttribute("metaType", "string");
+		metaDef.putAttribute("metaType", "integer");
 		metaDef.putAttribute("idType", getIdType());
 		OJAnnotationAttributeValue metaValues = new OJAnnotationAttributeValue("metaValues");
 		metaDef.putAttribute(metaValues);
@@ -152,7 +186,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
 			NakedClassifierMap map = new NakedClassifierMap(bc);
 			OJPathName javaTypePath = map.javaTypePath();
-			metaValue.putAttribute("value", javaTypePath.toString());
+			metaValue.putAttribute("value", bc.getMappingInfo().getNakedUmlId());
 			metaValue.putAttribute("targetEntity", getTargetEntity(javaTypePath));
 			metaValues.addAnnotationValue(metaValue);
 		}

@@ -92,7 +92,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		return file;
 	}
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot){
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getDirectoryName() : currentRootObject.getFileName();
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentRootObject.getIdentifier();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;

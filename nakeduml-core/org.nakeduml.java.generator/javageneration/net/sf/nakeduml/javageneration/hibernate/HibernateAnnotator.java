@@ -4,13 +4,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
+import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
+import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.InverseCalculator;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -21,6 +26,7 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.hibernate.annotations.CascadeType;
@@ -40,6 +46,8 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.HibernateEntity;
 
+@StepDependency(phase = JavaTransformationPhase.class, requires = { PersistenceStep.class, InverseCalculator.class,
+	PersistentNameGenerator.class }, after = { OclExpressionExecution.class, PersistenceStep.class }, before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true,match = {
 		INakedAssociationClass.class
@@ -117,7 +125,10 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}else if(map.isManyToMany()){
 					implementCollectionId(field);
 				}
-				if(f.getNakedBaseType() instanceof INakedEnumeration || f.getNakedBaseType() instanceof INakedSimpleType){
+				if(f.getNakedBaseType() instanceof INakedEnumeration){
+					HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+					implementManyForValueTypes(f, map, field);
+				}else if(f.getNakedBaseType() instanceof INakedSimpleType){
 					implementManyForValueTypes(f, map, field);
 				}else if(isPersistent(f.getNakedBaseType())){
 					HibernateUtil.applyFilter(field, HibernateUtil.getHibernateDialect(this.config));
@@ -140,7 +151,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
 		INakedProperty f = map.getProperty();
 		if(f.getNakedBaseType() instanceof INakedEnumeration){
-			// TODO use custom type that uses the sqlName
+			HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
 		}else if(f.getNakedBaseType() instanceof INakedSimpleType){
 			// TODO use strategies
 		}else if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -191,7 +202,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		// ojType.addAnnotation(>???);
 	}
 	private void implementManyForValueTypes(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
-		OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
+		OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
 		OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement", OJUtil.classifierPathname(f.getNakedBaseType()));
 		collectionOfElements.putAttribute(targetElement);
 		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
