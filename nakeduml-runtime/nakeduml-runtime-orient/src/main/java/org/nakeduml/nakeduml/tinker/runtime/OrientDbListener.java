@@ -6,7 +6,8 @@ import java.util.List;
 import org.nakeduml.runtime.domain.BaseTinkerAuditable;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
-import org.util.TransactionThreadEntityVar;
+import org.nakeduml.tinker.runtime.GraphDb;
+import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 import org.util.TransactionThreadVar;
 
 import com.orientechnologies.orient.core.db.ODatabase;
@@ -49,6 +50,7 @@ public class OrientDbListener implements ODatabaseListener {
 	@Override
 	public void onBeforeTxCommit(ODatabase iDatabase) {
 		TransactionThreadVar.clear();
+		GraphDb.incrementTransactionCount();
 		List<TinkerCompositionNode> entities = TransactionThreadEntityVar.get();
 		for (TinkerCompositionNode entity : entities) {
 			TinkerNode tinkerNode = (TinkerNode) entity;

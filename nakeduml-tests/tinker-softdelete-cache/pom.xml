@@ -59,16 +59,16 @@
 		</plugins>
 	</build>
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>org.nakeduml</groupId>-->
-<!--			<artifactId>nakeduml-runtime-neo4j</artifactId>-->
-<!--			<version>1.0.0.5-SNAPSHOT</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-runtime-orient</artifactId>
+			<artifactId>nakeduml-runtime-neo4j</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.nakeduml</groupId>-->
+<!--			<artifactId>nakeduml-runtime-orient</artifactId>-->
+<!--			<version>1.0.0.5-SNAPSHOT</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>nakeduml-test-tinker</artifactId>

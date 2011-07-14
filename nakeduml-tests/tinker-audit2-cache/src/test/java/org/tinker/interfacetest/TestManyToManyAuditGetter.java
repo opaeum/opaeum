@@ -14,7 +14,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 	@Test
 	public void testGetter() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		ManyA manyA1 = new ManyA1(god);
 		manyA1.setName("manyA1");
 		ManyA manyA11 = new ManyA1(god);
@@ -29,7 +29,7 @@ public class TestManyToManyAuditGetter extends BaseLocalDbTest {
 		manyB111.setName("manyB111");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(20, countEdges());
 		assertEquals(1, god.getAudits().size());
 		assertEquals(1, manyA1.getAudits().size());
 		assertEquals(1, manyB1.getAudits().size());

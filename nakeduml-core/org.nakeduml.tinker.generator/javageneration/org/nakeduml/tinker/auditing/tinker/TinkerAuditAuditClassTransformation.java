@@ -40,6 +40,7 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 	public void visitClass(INakedEntity c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
 			OJAnnotatedClass ojAuditClass = findAuditJavaClass(c);
+			ojAuditClass.addToImports(new OJPathName("org.nakeduml.runtime.domain.IntrospectionUtil"));
 			if (c.getGeneralizations().isEmpty()) {
 				addVertexFieldWithSetter(ojAuditClass);
 				addGetPreviousNextAuditVertexInternal(ojAuditClass, true);
@@ -191,8 +192,8 @@ public class TinkerAuditAuditClassTransformation extends AbstractJavaProducingVi
 			ifPreviousAuditVertex.setCondition("nextAuditVertex != null");
 			ifPreviousAuditVertex.addToThenPart("Edge auditParentEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, nextAuditVertex, this.vertex, \"previous\")");
 		}
-		ifPreviousAuditVertex.addToThenPart("auditParentEdge.setProperty(\"outClass\", this.getClass().getName() + \"Audit\")");
-		ifPreviousAuditVertex.addToThenPart("auditParentEdge.setProperty(\"inClass\", this.getClass().getName() + \"Audit\")");
+		ifPreviousAuditVertex.addToThenPart("auditParentEdge.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"Audit\")");
+		ifPreviousAuditVertex.addToThenPart("auditParentEdge.setProperty(\"inClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"Audit\")");
 		ifPreviousAuditVertex.addToThenPart("return auditParentEdge");
 		ifPreviousAuditVertex.addToElsePart("return null");
 		createEdgeToPreviousAuditInternal.getBody().addToStatements(ifPreviousAuditVertex);

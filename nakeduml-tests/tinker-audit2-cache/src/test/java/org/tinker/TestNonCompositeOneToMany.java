@@ -15,7 +15,7 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -27,25 +27,25 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		demon2.setName("demon2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		universe1.addToDemon(demon1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 		assertEquals(1, universe1.getDemon().size());
 		db.startTransaction();
 		universe1.addToDemon(demon2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(22, countEdges());
 		assertEquals(2, universe1.getDemon().size());
 	}
 	
 	@Test
 	public void testSettingAll() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -57,7 +57,7 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		demon2.setName("demon2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		Set<Demon> demons = new HashSet<Demon>();
 		demons.add(demon1);
@@ -65,27 +65,27 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		universe1.addAllToDemon(demons);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(20, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(2, universe1.getDemon().size());
 		db.startTransaction();
 		universe2.addAllToDemon(demons);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(28, countEdges());
+		assertEquals(29, countEdges());
 		assertEquals(0, universe1.getDemon().size());
 		assertEquals(2, universe2.getDemon().size());
 		db.startTransaction();
 		universe2.removeFromDemon(demon1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(19, countVertices());
-		assertEquals(30, countEdges());
+		assertEquals(31, countEdges());
 		assertEquals(0, universe1.getDemon().size());
 		assertEquals(1, universe2.getDemon().size());
 		db.startTransaction();
 		demon2.setUniverse(null);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(32, countEdges());
+		assertEquals(33, countEdges());
 		assertEquals(0, universe1.getDemon().size());
 		assertEquals(0, universe2.getDemon().size());
 	}
@@ -93,7 +93,7 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testMarkDeleted() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -105,7 +105,7 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		demon2.setName("demon2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		Set<Demon> demons = new HashSet<Demon>();
 		demons.add(demon1);
@@ -113,12 +113,12 @@ public class TestNonCompositeOneToMany extends BaseLocalDbTest {
 		universe1.addAllToDemon(demons);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(20, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(2, universe1.getDemon().size());
 		db.startTransaction();
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(27, countEdges());
+		assertEquals(28, countEdges());
 	}		
 }

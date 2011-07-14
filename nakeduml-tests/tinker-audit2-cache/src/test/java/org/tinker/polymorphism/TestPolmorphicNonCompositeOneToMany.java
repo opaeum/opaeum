@@ -17,7 +17,7 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		
 		ConcreteX1 concreteX1 = new ConcreteX1(god);
@@ -31,19 +31,19 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 
 		db.startTransaction();
 		concreteX1.addToAbstractA1(concreteA1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 		assertEquals(1, concreteX1.getAbstractA1().size());
 		db.startTransaction();
 		concreteX1.addToAbstractA1(concreteA2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(22, countEdges());
 		assertEquals(2, concreteX1.getAbstractA1().size());
 
 		db.startTransaction();
@@ -53,7 +53,7 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteX2.addAllToAbstractA1(concreteA1s);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(29, countEdges());
+		assertEquals(30, countEdges());
 		assertEquals(0, concreteX1.getAbstractA1().size());
 		assertEquals(2, concreteX2.getAbstractA1().size());
 		
@@ -74,7 +74,7 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testMarkDeleted() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		ConcreteX1 concreteX1 = new ConcreteX1(god);
 		concreteX1.setName("concreteX1");
@@ -86,7 +86,7 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteA2.setName("concreteA2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		
 		db.startTransaction();
 		Set<AbstractA1> abstractA1s = new HashSet<AbstractA1>();
@@ -95,14 +95,14 @@ public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {
 		concreteX1.addAllToAbstractA1(abstractA1s);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(20, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(2,god.getAbstractX1().size());
 		
 		db.startTransaction();
 		concreteX1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(27, countEdges());
+		assertEquals(28, countEdges());
 		assertEquals(1,god.getAbstractX1().size());
 	}
 }

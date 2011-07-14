@@ -15,10 +15,8 @@ public class TestLargeSet extends BaseLocalDbTest {
 	public void test() {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-//		OGlobalConfiguration.TX_USE_LOG.setValue(false);
-//		GraphDb.getRawGraph().declareIntent( new OIntentMassiveInsert() );
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		for (int i = 0; i < 100000; i++) {
 			MamalHand hand = new MamalHand(god);
 			hand.setName("hand" + i);
@@ -27,7 +25,6 @@ public class TestLargeSet extends BaseLocalDbTest {
 			}
 		}
 		db.stopTransaction(Conclusion.SUCCESS);
-//		GraphDb.getRawGraph().declareIntent( null );
 		stopWatch.stop();
 		System.out.println(stopWatch.toString());
 

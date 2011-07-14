@@ -16,7 +16,7 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 	@Test
 	public void testSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		AbstractA1 abstractA1 = new ConcreteA1(god);
 		AbstractA1 abstractA11 = new ConcreteA1(god);
@@ -26,28 +26,28 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 		AbstractB abstractB21 = new ConcreteB2(god);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(20, countEdges());
 		
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(16, countVertices());
-		assertEquals(23, countEdges());
+		assertEquals(24, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB11);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(27, countEdges());
+		assertEquals(28, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(32, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB21);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(22, countVertices());
-		assertEquals(35, countEdges());
+		assertEquals(36, countEdges());
 		
 		int concreteB1Count = 0;
 		int concreteB2Count = 0;
@@ -84,29 +84,29 @@ public class TestPolymorphicNonCompositeManyToMany extends BaseLocalDbTest {
 		abstractA11.addAllToAbstractB(abstractBs);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(27, countVertices());
-		assertEquals(48, countEdges());
+		assertEquals(49, countEdges());
 		
 	}
 	
 	@Test
 	public void testAddingSameObjectTwice() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		AbstractA1 abstractA1 = new ConcreteA1(god);
 		AbstractB abstractB1 = new ConcreteB1(god); 
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());
+		assertEquals(8, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(11, countEdges());
+		assertEquals(12, countEdges());
 		db.startTransaction();
 		abstractA1.addToAbstractB(abstractB1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(11, countEdges());
+		assertEquals(12, countEdges());
 	}
 }

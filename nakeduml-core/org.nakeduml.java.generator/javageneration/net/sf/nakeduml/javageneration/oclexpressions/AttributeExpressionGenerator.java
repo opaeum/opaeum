@@ -56,7 +56,7 @@ public class AttributeExpressionGenerator extends AbstractJavaProducingVisitor {
 		String getterName = mapper.getter();
 		OJOperation getterOp = myClass.findOperation(getterName, Collections.emptyList());
 		getterOp.setBody(new OJBlock());
-		OJField field = new OJField();
+		OJField field = new OJAnnotatedField();
 		field.setName(mapper.umlName());
 		field.setType(mapper.javaTypePath());
 		field.setInitExp(ValueSpecificationUtil.expressValue(getterOp, vs, mapper.getProperty().getOwner(), mapper.getProperty().getType()));

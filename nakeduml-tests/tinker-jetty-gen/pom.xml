@@ -17,15 +17,25 @@
   <dependencies>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-java-generator</artifactId>
+			<artifactId>nakeduml-runtime-tinker-domain</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
-			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-tinker-generator</artifactId>
+			<version>1.0.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
-			<scope>test</scope>			
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
   </dependencies>
 </project>

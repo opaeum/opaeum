@@ -16,13 +16,13 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testCompositeCreation() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(4, countVertices());
-		assertEquals(4, countEdges());
+		assertEquals(5, countEdges());
 		assertEquals("THEGOD", universe1.getGod().getName());
 		assertEquals("universe1", god.getUniverse().iterator().next().getName());
 		db.startTransaction();
@@ -30,7 +30,7 @@ public class TestOneToMany extends BaseLocalDbTest {
 		universe2.setName("universe2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(7, countVertices());
-		assertEquals(8, countEdges());
+		assertEquals(9, countEdges());
 		assertEquals("THEGOD", universe2.getGod().getName());
 		assertEquals(2, god.getUniverse().size());
 	}
@@ -38,23 +38,23 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testCompositeDeletion() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(2, countVertices());
-		assertEquals(1, countEdges());
+		assertEquals(2, countEdges());
 		db.startTransaction();
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(5, countVertices());
-		assertEquals(5, countEdges());
+		assertEquals(6, countEdges());
 		db.startTransaction();
 		Universe universe2 = new Universe(god);
 		universe2.setName("universe2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(9, countEdges());
+		assertEquals(10, countEdges());
 		assertEquals("THEGOD", universe1.getGod().getName());
 		assertEquals("THEGOD", universe2.getGod().getName());
 		assertEquals(2, god.getUniverse().size());
@@ -62,25 +62,25 @@ public class TestOneToMany extends BaseLocalDbTest {
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(12, countEdges());
+		assertEquals(13, countEdges());
 		assertEquals(1, god.getUniverse().size());
 		db.startTransaction();
 		universe2.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(15, countEdges());
+		assertEquals(16, countEdges());
 		assertEquals(0, god.getUniverse().size());
 		db.startTransaction();
 		god.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(13, countVertices());
-		assertEquals(16, countEdges());
+		assertEquals(17, countEdges());
 	}
 	
 	@Test
 	public void testCompositeDeletionCascading() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -89,17 +89,17 @@ public class TestOneToMany extends BaseLocalDbTest {
 		god.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());	
+		assertEquals(8, countEdges());	
 	}
 	
 	@Test
 	public void testCompositalAddAll() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
-		Universe universe1 = new Universe();
+		Universe universe1 = new Universe(true);
 		universe1.setName("universe1");
-		Universe universe2 = new Universe();
+		Universe universe2 = new Universe(true);
 		universe2.setName("universe2");
 		Set<Universe> all = new HashSet<Universe>();
 		all.add(universe1);
@@ -107,7 +107,7 @@ public class TestOneToMany extends BaseLocalDbTest {
 		god.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());			
+		assertEquals(8, countEdges());			
 		assertEquals(2, god.getUniverse().size());
 		assertEquals("THEGOD",universe1.getGod().getName());
 		assertEquals("THEGOD",universe2.getGod().getName());
@@ -116,17 +116,17 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testCompositalAddTo() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
-		Universe universe1 = new Universe();
+		Universe universe1 = new Universe(true);
 		universe1.setName("universe1");
-		Universe universe2 = new Universe();
+		Universe universe2 = new Universe(true);
 		universe2.setName("universe2");
 		god.addToUniverse(universe1);
 		god.addToUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());			
+		assertEquals(8, countEdges());			
 		assertEquals(2, god.getUniverse().size());
 		assertEquals("THEGOD",universe1.getGod().getName());
 		assertEquals("THEGOD",universe2.getGod().getName());
@@ -135,37 +135,37 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testCompositalInverseSet() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
-		Universe universe1 = new Universe();
+		Universe universe1 = new Universe(true);
 		universe1.setName("universe1");
-		Universe universe2 = new Universe();
+		Universe universe2 = new Universe(true);
 		universe2.setName("universe2");
 		god.addToUniverse(universe1);
 		god.addToUniverse(universe2);
-		God otherGod = new God();
+		God otherGod = new God(true);
 		otherGod.setName("THEOTHERGOD");
-		Universe otherUniverse1 = new Universe();
+		Universe otherUniverse1 = new Universe(true);
 		otherUniverse1.setName("otherUniverse1");
-		Universe otherUniverse2 = new Universe();
+		Universe otherUniverse2 = new Universe(true);
 		otherUniverse2.setName("otherUniverse2");
 		otherGod.addToUniverse(otherUniverse1);
 		otherGod.addToUniverse(otherUniverse2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(14, countEdges());			
+		assertEquals(16, countEdges());			
 		db.startTransaction();
 		otherUniverse1.setGod(god);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(15, countVertices());
-		assertEquals(19, countEdges());
+		assertEquals(21, countEdges());
 		assertEquals(3,god.getUniverse().size());
 		assertEquals("THEGOD",otherUniverse1.getGod().getName());
 		db.startTransaction();
 		otherUniverse2.setGod(god);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(24, countEdges());
+		assertEquals(26, countEdges());
 		assertEquals(4,god.getUniverse().size());
 		assertEquals("THEGOD",otherUniverse2.getGod().getName());
 		assertEquals(0, otherGod.getUniverse().size());
@@ -174,11 +174,11 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testCompositalSet() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
-		Universe universe1 = new Universe();
+		Universe universe1 = new Universe(true);
 		universe1.setName("universe1");
-		Universe universe2 = new Universe();
+		Universe universe2 = new Universe(true);
 		universe2.setName("universe2");
 		Set<Universe> all = new HashSet<Universe>();
 		all.add(universe1);
@@ -186,17 +186,17 @@ public class TestOneToMany extends BaseLocalDbTest {
 		god.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());
+		assertEquals(8, countEdges());
 		assertEquals(2, god.getUniverse().size());
 		assertEquals("THEGOD",universe1.getGod().getName());
 		assertEquals("THEGOD",universe2.getGod().getName());
 		
 		db.startTransaction();
-		God otherGod = new God();
+		God otherGod = new God(true);
 		otherGod.setName("THEOTHERGOD");
-		Universe otherUniverse1 = new Universe();
+		Universe otherUniverse1 = new Universe(true);
 		otherUniverse1.setName("otherUniverse1");
-		Universe otherUniverse2 = new Universe();
+		Universe otherUniverse2 = new Universe(true);
 		otherUniverse2.setName("otherUniverse2");
 		Set<Universe> otherAll = new HashSet<Universe>();
 		otherAll.add(otherUniverse1);
@@ -204,7 +204,7 @@ public class TestOneToMany extends BaseLocalDbTest {
 		otherGod.addAllToUniverse(otherAll);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(14, countEdges());		
+		assertEquals(16, countEdges());		
 		assertEquals(2, otherGod.getUniverse().size());
 		assertEquals("THEOTHERGOD",otherUniverse1.getGod().getName());
 		assertEquals("THEOTHERGOD",otherUniverse2.getGod().getName());
@@ -213,7 +213,7 @@ public class TestOneToMany extends BaseLocalDbTest {
 		otherGod.setUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(28, countEdges());			
+		assertEquals(30, countEdges());			
 		assertEquals(2, otherGod.getUniverse().size());
 		assertEquals(2, god.getUniverse().size());
 		assertNotNull(universe1.getGod());
@@ -223,11 +223,11 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testRemoveAll() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
-		Universe universe1 = new Universe();
+		Universe universe1 = new Universe(true);
 		universe1.setName("universe1");
-		Universe universe2 = new Universe();
+		Universe universe2 = new Universe(true);
 		universe2.setName("universe2");
 		Set<Universe> all = new HashSet<Universe>();
 		all.add(universe1);
@@ -235,17 +235,17 @@ public class TestOneToMany extends BaseLocalDbTest {
 		god.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());		
+		assertEquals(8, countEdges());		
 		assertEquals(2, god.getUniverse().size());
 		assertEquals("THEGOD",universe1.getGod().getName());
 		assertEquals("THEGOD",universe2.getGod().getName());
 		db.startTransaction();
 		god.removeAllFromUniverse(all);
-		God otherGod = new God();
+		God otherGod = new God(true);
 		otherGod.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(15, countEdges());		
+		assertEquals(17, countEdges());		
 		assertEquals(0, god.getUniverse().size());
 		assertNotNull(universe1.getGod());
 		assertNotNull(universe2.getGod());
@@ -254,11 +254,11 @@ public class TestOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testClearAll() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
-		Universe universe1 = new Universe();
+		Universe universe1 = new Universe(true);
 		universe1.setName("universe1");
-		Universe universe2 = new Universe();
+		Universe universe2 = new Universe(true);
 		universe2.setName("universe2");
 		Set<Universe> all = new HashSet<Universe>();
 		all.add(universe1);
@@ -266,17 +266,17 @@ public class TestOneToMany extends BaseLocalDbTest {
 		god.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(6, countVertices());
-		assertEquals(7, countEdges());			
+		assertEquals(8, countEdges());			
 		assertEquals(2, god.getUniverse().size());
 		assertEquals("THEGOD",universe1.getGod().getName());
 		assertEquals("THEGOD",universe2.getGod().getName());
 		db.startTransaction();
 		god.clearUniverse();
-		God otherGod = new God();
+		God otherGod = new God(true);
 		otherGod.addAllToUniverse(all);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(15, countEdges());		
+		assertEquals(17, countEdges());		
 		assertEquals(0, god.getUniverse().size());
 		assertNotNull(universe1.getGod());
 		assertNotNull(universe2.getGod());

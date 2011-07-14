@@ -3,14 +3,18 @@ package org.nakeduml.nakeduml.tinker.runtime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.tinker.runtime.NakedGraph;
+import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.event.TransactionEventHandler;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
-import org.util.NakedGraph;
 
 import com.tinkerpop.blueprints.pgm.AutomaticIndex;
 import com.tinkerpop.blueprints.pgm.Edge;
@@ -26,15 +30,16 @@ public class NakedNeo4jGraph implements NakedGraph {
 	private Neo4jGraph neo4jGraph;
 	private TransactionEventHandler transactionEventHandler;
 	private boolean withschema;
+	private TinkerSchemaHelper schemaHelper;
 
-	public NakedNeo4jGraph(Neo4jGraph orientGraph) {
+	public NakedNeo4jGraph(Neo4jGraph orientGraph, TinkerSchemaHelper schemaHelper) {
 		super();
 		this.neo4jGraph = orientGraph;
+		this.schemaHelper = schemaHelper;
 	}
 
-	public NakedNeo4jGraph(Neo4jGraph orientGraph, boolean withSchema) {
-		super();
-		this.neo4jGraph = orientGraph;
+	public NakedNeo4jGraph(Neo4jGraph orientGraph, TinkerSchemaHelper schemaHelper, boolean withSchema) {
+		this(orientGraph, schemaHelper);
 		this.withschema = withSchema;
 	}
 
@@ -135,7 +140,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void incrementTransactionCount() {
-		neo4jGraph.getRawGraph().getReferenceNode().setProperty("transactionCount", (Integer) getRoot().getProperty("transactionCount") + 1);
+		getRoot().setProperty("transactionCount", (Integer) getRoot().getProperty("transactionCount") + 1);
 	}
 
 	@Override
@@ -144,13 +149,10 @@ public class NakedNeo4jGraph implements NakedGraph {
 	}
 
 	@Override
-	public Vertex getRoot() {
-		return new Neo4jVertex(neo4jGraph.getRawGraph().getReferenceNode(), neo4jGraph);
-	}
-
-	@Override
 	public Vertex addVertex(String className) {
-		return neo4jGraph.addVertex(null);
+		Vertex v = neo4jGraph.addVertex(null);
+		v.setProperty("className", className);
+		return v;
 	}
 
 	@Override
@@ -174,10 +176,19 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void addRoot() {
-		((EmbeddedGraphDatabase)neo4jGraph.getRawGraph()).getConfig().getGraphDbModule().createNewReferenceNode();
-		Vertex root = getRoot();
-		root.setProperty("transactionCount", 1);
+		try {
+			neo4jGraph.getRawGraph().getNodeById(1);
+		} catch (NotFoundException e) {
+			((EmbeddedGraphDatabase) neo4jGraph.getRawGraph()).getConfig().getGraphDbModule().createNewReferenceNode();
+			Vertex root = getRoot();
+			root.setProperty("transactionCount", 1);
+		}
 	}
+	
+	@Override
+	public Vertex getRoot() {
+		return new Neo4jVertex(neo4jGraph.getRawGraph().getNodeById(1), neo4jGraph);
+	}	
 
 	@Override
 	public long countVertices() {
@@ -191,13 +202,53 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void registerListeners() {
-		if (transactionEventHandler==null) {
+		if (transactionEventHandler == null) {
 			transactionEventHandler = new NakedTransactionEventHandler();
 			neo4jGraph.getRawGraph().registerTransactionEventHandler(transactionEventHandler);
 		}
 	}
 
 	@Override
-	public void createSchema(List<String> classNames) {
+	public void clearAutoIndices() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<AbstractEntity> getCompositeRoots() {
+		List<AbstractEntity> result = new ArrayList<AbstractEntity>();
+		Iterable<Edge> iter = getRoot().getOutEdges("root");
+		for (Edge edge : iter) {
+			try {
+				Class<?> c = Class.forName((String) edge.getProperty("inClass"));
+				result.add((AbstractEntity) c.getConstructor(Vertex.class).newInstance(edge.getInVertex()));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public <T> T instantiateClassifier(Long id) {
+		try {
+			Vertex v = neo4jGraph.getVertex(id);
+			Class<?> c =schemaHelper.getClassNames().get((String) v.getProperty("className"));
+			return (T) c.getConstructor(Vertex.class).newInstance(v);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}		
+	}
+
+	@Override
+	public <T> List<T> query(Class<?> className, int first, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createSchema(Map<Class<?>, String> classNames) {
+		// TODO Auto-generated method stub
+		
 	}
 }

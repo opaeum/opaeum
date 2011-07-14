@@ -9,12 +9,15 @@ import java.util.Set;
 import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.OutputRoot;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 
 import org.nakeduml.tinker.auditing.TinkerAuditImplementationStep;
 import org.nakeduml.tinker.auditing.TinkerImplementAttributeCacheStep;
+import org.nakeduml.tinker.passbyvalue.DtoImplementationStep;
+import org.nakeduml.tinker.passbyvalue.TinkerPassByValueImplementationStep;
 
 public class GenerateTinkerAuditWithCache {
 
@@ -53,7 +56,9 @@ public class GenerateTinkerAuditWithCache {
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
 				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class,
 				TinkerAuditImplementationStep.class,
-				TinkerImplementAttributeCacheStep.class);
+				TinkerImplementAttributeCacheStep.class,
+				DtoImplementationStep.class,
+				TinkerPassByValueImplementationStep.class);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {
@@ -66,11 +71,10 @@ public class GenerateTinkerAuditWithCache {
 	}
 
 	protected void mapOutputRoots(NakedUmlConfig cfg) {
-		mapDomainProjects(cfg);
-	}
-
-	private void mapDomainProjects(NakedUmlConfig cfg) {
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, true, "", "../src/main/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, false, "", "../src/main/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC, false, "", "../src/main/generated-adapter");		
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "", "src/test/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "", "src/test/generated-java");		
 	}
 
 	protected static Set<Class<? extends TransformationStep>> toSet(Class<? extends TransformationStep>... classes) {

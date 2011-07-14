@@ -80,6 +80,13 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-generators</artifactId>
+			<version>${numl.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>		
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

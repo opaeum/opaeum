@@ -59,7 +59,10 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	private void addXmlAnyElement(OJAnnotatedClass clazz,INakedEntity c,INakedProperty p){
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) clazz.findOperation(map.getter(), Collections.EMPTY_LIST);
-		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
+		//The operation might be on a super class
+		if (oper!=null) {
+			oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlAnyElement")));
+		}
 	}
 	private void addXmlRootElement(OJAnnotatedClass owner){
 		owner.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlRootElement")));

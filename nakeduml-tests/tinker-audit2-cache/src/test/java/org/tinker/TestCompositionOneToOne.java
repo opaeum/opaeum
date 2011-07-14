@@ -13,7 +13,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 	@Test
 	public void testCreation() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -21,7 +21,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		spaceTime.setName("spaceTime1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime1", universe1.getSpaceTime().getName());
 		assertNotNull(spaceTime.getUniverse());
@@ -31,7 +31,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 	@Test(expected=IllegalStateException.class)
 	public void testOneToOneException() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -39,7 +39,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		spaceTime1.setName("spaceTime1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		SpaceTime spaceTime2 = new SpaceTime(universe1);
 		spaceTime2.setName("spaceTime2");
@@ -51,7 +51,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 	@Test(expected=RuntimeException.class)
 	public void testOneToOneSet() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -59,7 +59,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		spaceTime1.setName("spaceTime1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		
 		SpaceTime spaceTime2 = new SpaceTime();
@@ -70,7 +70,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(21, countVertices());
-		assertEquals(30, countEdges());
+		assertEquals(31, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime2", universe1.getSpaceTime().getName());
 		assertEquals("THEGOD", spaceTime2.getUniverse().getGod().getName());
@@ -79,7 +79,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		spaceTime2.setUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(25, countVertices());
-		assertEquals(38, countEdges());
+		assertEquals(39, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime1", universe1.getSpaceTime().getName());
 		assertNotNull(spaceTime1.getUniverse());
@@ -93,7 +93,7 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 	@Test
 	public void testMarkDeleted() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -101,12 +101,12 @@ public class TestCompositionOneToOne extends BaseLocalDbTest {
 		spaceTime1.setName("spaceTime1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(15, countVertices());
-		assertEquals(22, countEdges());
+		assertEquals(23, countEdges());
 		assertEquals(0, god.getUniverse().size());
 	}	
 	

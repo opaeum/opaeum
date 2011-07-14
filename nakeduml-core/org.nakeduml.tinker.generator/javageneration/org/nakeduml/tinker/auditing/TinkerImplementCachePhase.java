@@ -14,8 +14,9 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.tinker.passbyvalue.TinkerPassByValuePhase;
 
-@PhaseDependency(after = { JavaTransformationPhase.class, TinkerAuditGenerationPhase.class }, before={FileGenerationPhase.class})
+@PhaseDependency(after = { JavaTransformationPhase.class, TinkerAuditGenerationPhase.class }, before={FileGenerationPhase.class ,TinkerPassByValuePhase.class})
 public class TinkerImplementCachePhase implements TransformationPhase<AbstractJavaTransformationStep> {
 
 	private NakedUmlConfig config;

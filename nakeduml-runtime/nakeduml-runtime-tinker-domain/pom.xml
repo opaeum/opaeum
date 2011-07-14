@@ -14,12 +14,27 @@
 	<version>${numl.version}</version>
 	<url>http://github.com/nakeduml</url>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jsf-myfaces.version>2.0.5</jsf-myfaces.version>
+	</properties>
+	
 	<repositories>
-
 		<repository>
 			<id>tinkerpop-repository</id>
 			<name>TinkerPop Maven2 Repository</name>
 			<url>http://tinkerpop.com/maven2</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>true</updatePolicy>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Technology Maven Repository</name>
+			<url>http://repository.prime.com.tr</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 
@@ -78,7 +93,34 @@
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-core</artifactId>
-			<version>0.8-SNAPSHOT</version>
+			<version>0.9-SNAPSHOT</version>
+		</dependency>
+
+		<!-- MYFACES -->
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-api</artifactId>
+			<version>${jsf-myfaces.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+			<version>${jsf-myfaces.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>el-impl</artifactId>
+			<version>2.2</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Primefaces -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>2.2</version>
 		</dependency>
 
 	</dependencies>

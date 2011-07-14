@@ -13,7 +13,7 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 	@Test
 	public void testCreation() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");
@@ -22,7 +22,7 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 //		assertEquals(10, countVertices("God", "Universe", "SpaceTime", "Space", "Time", "GodAudit", "UniverseAudit", "SpaceTimeAudit", "SpaceAudit", "TimeAudit"));
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		assertNotNull(universe1.getSpaceTime());
 		assertEquals("spaceTime1", universe1.getSpaceTime().getName());
 		assertNotNull(spaceTime.getUniverse());
@@ -38,7 +38,7 @@ public class TestCompositeComponent extends BaseLocalDbTest {
 //	@Test(expected=OTransactionException.class)
 	public void testSetToNull() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Universe universe1 = new Universe(god);
 		universe1.setName("universe1");

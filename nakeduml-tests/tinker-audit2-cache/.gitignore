@@ -2,6 +2,7 @@
 .project
 .settings
 src/main/generated-java
+src/main/generated-adapter
 src/main/generated-resources
 src/test/generated-java
 src/test/generated-resources

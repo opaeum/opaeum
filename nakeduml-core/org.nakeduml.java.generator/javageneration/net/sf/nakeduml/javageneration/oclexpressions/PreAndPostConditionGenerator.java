@@ -27,6 +27,7 @@ import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 //TODO implement post conditions 
@@ -142,7 +143,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor {
 			ojOper.getBody().addToStatements(ValueSpecificationUtil.expressValue(ojOper, specification, owner, specification.getType()));
 		} else {
 			String expString = "";
-			OJField result = new OJField();
+			OJField result = new OJAnnotatedField();
 			result.setName("result");
 			result.setType(map.javaReturnTypePath());
 			result.setInitExp(map.javaReturnDefaultValue());

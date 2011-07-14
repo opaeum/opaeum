@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.prime.com.tr/ui">
+<h:head>
+	<title>ConversationTest 1</title>
+</h:head>
+<h:body>
+	<h:outputStylesheet name="style.css" library="css" />
+	<div id="container">
+	<h1>CODI ConversationScoped Test 1</h1>
+	<h:form id="mainForm">
+		<h:panelGrid columns="2">
+			<h:outputLabel for="rootLabel" value="Context Root" />
+			<h:inputText id="rootLabel" value="#{contextRoot.name}" />
+			<h:outputLabel for="names" value="Some conversation scoped names" />
+			<h:selectOneMenu id="names" value="#{testConversation1.name}" required="true">
+				<f:selectItems var="name" itemLabel="#{name}" value="#{testConversation1.names}" itemValue="#{name}" />
+			</h:selectOneMenu>
+			<h:messages showDetail="true" showSummary="false" />
+		</h:panelGrid>
+
+		<p:dataTable var="blackHole" value="#{contextRoot.universe}" paginator="true" rows="10"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
+			<f:facet name="header">  
+            Ajax Pagination  
+        </f:facet>
+
+			<f:facet name="header">  
+            Displaying 100,000,000 BlackHoles  
+        	</f:facet>
+
+			<p:column headerText="Model">
+				<h:outputText value="#{blackHole.name}" />
+			</p:column>
+
+		</p:dataTable>
+		<h:commandButton value="Update" action="#{updateContextRoot.update}" />
+	</h:form></div>
+</h:body>
+</html>

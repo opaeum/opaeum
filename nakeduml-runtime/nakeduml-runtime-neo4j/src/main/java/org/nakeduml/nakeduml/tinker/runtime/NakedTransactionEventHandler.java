@@ -6,9 +6,10 @@ import java.util.List;
 import org.nakeduml.runtime.domain.BaseTinkerAuditable;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
+import org.nakeduml.tinker.runtime.GraphDb;
+import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 import org.neo4j.graphdb.event.TransactionData;
 import org.neo4j.graphdb.event.TransactionEventHandler;
-import org.util.TransactionThreadEntityVar;
 import org.util.TransactionThreadVar;
 
 public class NakedTransactionEventHandler<T> implements TransactionEventHandler<T> {
@@ -17,6 +18,7 @@ public class NakedTransactionEventHandler<T> implements TransactionEventHandler<
 	public T beforeCommit(TransactionData data) throws Exception {
 		if (!isEmpty(data)) {
 			TransactionThreadVar.clear();
+			GraphDb.incrementTransactionCount();
 			List<TinkerCompositionNode> entities = TransactionThreadEntityVar.get();
 			for (TinkerCompositionNode entity : entities) {
 				TinkerNode tinkerNode = (TinkerNode) entity;

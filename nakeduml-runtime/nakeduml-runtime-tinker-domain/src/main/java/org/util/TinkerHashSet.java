@@ -11,6 +11,8 @@ import org.nakeduml.runtime.domain.TinkerNode;
 
 public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, TinkerCollection<E> {
 
+	private static final long serialVersionUID = -3482884255366688370L;
+
 	Map<Class<? extends TinkerNode>, MethodHolder> methodMap = new HashMap<Class<? extends TinkerNode>, MethodHolder>();
 	private class MethodHolder {
 		private TinkerNode owner;
@@ -23,8 +25,8 @@ public class TinkerHashSet<E> extends HashSet<E> implements TinkerSet<E>, Tinker
 		}
 	}
 
-	public TinkerHashSet(TinkerHashSet ... tinkerSet) {
-		for (TinkerHashSet tinkerHashSet : tinkerSet) {
+	public TinkerHashSet(TinkerHashSet<E> ... tinkerSet) {
+		for (TinkerHashSet<E> tinkerHashSet : tinkerSet) {
 			methodMap.putAll(tinkerHashSet.methodMap);
 			tinkerAddAll(tinkerHashSet);
 		}

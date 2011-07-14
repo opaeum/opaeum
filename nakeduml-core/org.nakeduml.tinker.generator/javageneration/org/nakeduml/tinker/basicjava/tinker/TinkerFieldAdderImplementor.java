@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
@@ -43,9 +44,10 @@ public class TinkerFieldAdderImplementor extends AbstractJavaProducingVisitor {
 	
 	@VisitAfter(matchSubclasses = true)
 	public void visitFeature(INakedProperty p){
-		if(OJUtil.hasOJClass(p.getOwner())){
+		INakedClassifier owner = p.getOwner();
+		if(!(owner instanceof INakedEnumeration) && OJUtil.hasOJClass(owner)){
 			if(!(p.getAssociation() instanceof INakedAssociationClass)){
-				visitProperty(p.getOwner(), OJUtil.buildStructuralFeatureMap(p));
+				visitProperty(owner, OJUtil.buildStructuralFeatureMap(p));
 			}
 		}
 	}

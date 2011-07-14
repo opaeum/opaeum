@@ -1,0 +1,13 @@
+cmProfile\:\:EricssonGsmCommands=com.rorotika.cm.annotations.EricssonGsmCommands
+cmProfile\:\:CmElement=com.rorotika.cm.annotations.CmElement
+cmProfile\:\:CmParameter=com.rorotika.cm.annotations.CmParameter
+cmProfile\:\:CmRelation=com.rorotika.cm.annotations.CmRelation
+cmProfile\:\:ParameterRole=com.rorotika.cm.annotations.ParameterRole
+cmProfile\:\:EricssonUmtsElement=com.rorotika.cm.annotations.EricssonUmtsElement
+cmProfile\:\:EricssonUmtsParameter=com.rorotika.cm.annotations.EricssonUmtsParameter
+cmProfile\:\:EricssonUmtsNameSpace=com.rorotika.cm.annotations.EricssonUmtsNamespace
+cmProfile\:\:HuaweiUmtsCommands=com.rorotika.cm.annotations.HuaweiUmtsCommands
+cmProfile\:\:HuaweiUmtsElement=com.rorotika.cm.annotations.HuaweiUmtsElement
+cmProfile\:\:HuaweiGsmCommands=com.rorotika.cm.annotations.HuaweiGsmCommands
+cmProfile\:\:HuaweiGsmElement=com.rorotika.cm.annotations.HuaweiGsmElement
+cmProfile\:\:XMLTransient=javax.xml.bind.annotation.XmlTransient

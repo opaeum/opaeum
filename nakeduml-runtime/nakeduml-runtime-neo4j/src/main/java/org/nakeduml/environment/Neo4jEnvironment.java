@@ -3,7 +3,7 @@ package org.nakeduml.environment;
 import java.lang.annotation.Annotation;
 
 import org.nakeduml.nakeduml.tinker.runtime.NakedNeo4jGraph;
-import org.util.NakedGraph;
+import org.nakeduml.tinker.runtime.NakedGraph;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;

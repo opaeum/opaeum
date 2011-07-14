@@ -13,7 +13,6 @@ public class TinkerIdUtil {
 		throw new IllegalStateException("Id can not be set using Neo4j");
 	}
 	
-	
 	public static int getVersion(Vertex v) {
 		return -1;
 	}	

@@ -12,14 +12,18 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
-import net.sf.nakeduml.javageneration.auditing.TinkerAuditImplementationStep;
-import net.sf.nakeduml.javageneration.auditing.TinkerImplementAttributeCacheStep;
 
-import org.eclipse.emf.common.util.URI;
+import org.nakeduml.tinker.auditing.TinkerAuditImplementationStep;
+import org.nakeduml.tinker.auditing.TinkerImplementAttributeCacheStep;
+import org.nakeduml.tinker.auditing.TinkerJsfImplementationStep;
+import org.nakeduml.tinker.auditing.TinkerSoftDeleteImplementationStep;
+import org.nakeduml.tinker.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
+import org.nakeduml.tinker.passbyvalue.DtoImplementationStep;
+import org.nakeduml.tinker.passbyvalue.TinkerPassByValueImplementationStep;
 
 public class GenerateTinkerJetty {
 
-	protected File outputRoot;  
+	protected File outputRoot;
 	protected File modelFile;
 	protected TransformationProcess process = new TransformationProcess();
 
@@ -50,11 +54,11 @@ public class GenerateTinkerJetty {
 
 	@SuppressWarnings("unchecked")
 	private Set<Class<? extends TransformationStep>> getSteps() {
-		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class, 
+		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class,
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
-				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class,
-				TinkerAuditImplementationStep.class,
-				TinkerImplementAttributeCacheStep.class);
+				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class, TinkerExtendedCompositionSemanticsJavaStep.class,
+				TinkerSoftDeleteImplementationStep.class, TinkerImplementAttributeCacheStep.class, TinkerJsfImplementationStep.class,
+				DtoImplementationStep.class, TinkerPassByValueImplementationStep.class);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {
@@ -71,7 +75,10 @@ public class GenerateTinkerJetty {
 	}
 
 	private void mapDomainProjects(NakedUmlConfig cfg) {
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, true, "", "../src/main/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, false, "", "../src/main/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC, false, "", "../src/main/generated-adaptor");		
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "", "../src/test/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "", "../src/test/generated-java");		
 	}
 
 	protected static Set<Class<? extends TransformationStep>> toSet(Class<? extends TransformationStep>... classes) {

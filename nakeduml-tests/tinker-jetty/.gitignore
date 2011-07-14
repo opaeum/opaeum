@@ -2,8 +2,11 @@
 .project
 .settings
 src/main/generated-java
+src/main/generated-adaptor
 src/main/generated-resources
 src/test/generated-java
+src/test/resources/tinker-test-neo4j
 src/test/generated-resources
 target
 test-output
+*.swf

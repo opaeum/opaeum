@@ -203,8 +203,16 @@ public class NakedUmlConfig {
 		return this.props.getProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY);
 	}
 
+	public void setAttributeImplementationStrategy(String strategy){
+		this.props.setProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY, strategy);
+	}
+
 	public String getCompositionNodeImplementationStrategy(){
 		return this.props.getProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY);
+	}
+
+	public void setCompositionNodeImplementationStrategy(String strategy){
+		this.props.setProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY, strategy);
 	}
 
 	public void setMavenGroupId(String string){

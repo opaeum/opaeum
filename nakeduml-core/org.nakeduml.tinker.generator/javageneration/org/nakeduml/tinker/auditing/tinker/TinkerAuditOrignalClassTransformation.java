@@ -24,6 +24,7 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.apache.commons.lang.StringUtils;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJField;
@@ -175,15 +176,16 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		String associationName = map.getProperty().getAssociation().getName();
 		OJIfStatement ifHasNoEdges = new OJIfStatement(TinkerUtil.graphDbAccess + ".getEdgesBetween(edgeRemovedFromAuditVertex, getAuditVertex(),\""+associationName+"\").isEmpty()");
 		internalCreateAuditToMany.getBody().addToStatements(ifHasNoEdges);
+		originalClass.addToImports(new OJPathName("org.nakeduml.runtime.domain.IntrospectionUtil"));
 		if (isComposite) {
 			ifHasNoEdges.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, getAuditVertex(), edgeRemovedFromAuditVertex, \""+associationName+"\")");
-			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"inClass\", "+map.javaBaseTypePath().getLast()+".class.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
 		} else {
 			ifHasNoEdges.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, edgeRemovedFromAuditVertex, getAuditVertex(), \""+associationName+"\")");
 			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"outClass\", "+map.javaBaseTypePath().getLast()+".class.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
-			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"inClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifHasNoEdges.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
 		}
 	}
@@ -244,12 +246,12 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		OJIfStatement ifOneInEdgeAllreadyExist = new OJIfStatement("!inIter.hasNext()");
 		ifOneInEdgeAllreadyExist.addToThenPart("Edge auditParentEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, oneAuditVertex, getAuditVertex(), label)");
 		ifOneInEdgeAllreadyExist.addToThenPart("auditParentEdge.setProperty(\"outClass\",clazz.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
-		ifOneInEdgeAllreadyExist.addToThenPart("auditParentEdge.setProperty(\"inClass\",this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+		ifOneInEdgeAllreadyExist.addToThenPart("auditParentEdge.setProperty(\"inClass\","+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 		ifStatement.addToThenPart(ifOneInEdgeAllreadyExist);
 		ifStatement.addToElsePart("Iterator<Edge> outIter = getAuditVertex().getOutEdges(label).iterator()");
 		OJIfStatement ifOneOutEdgeAllreadyExist = new OJIfStatement("!outIter.hasNext()");
 		ifOneOutEdgeAllreadyExist.addToThenPart("Edge auditParentEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, getAuditVertex(), oneAuditVertex, label)");
-		ifOneOutEdgeAllreadyExist.addToThenPart("auditParentEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+		ifOneOutEdgeAllreadyExist.addToThenPart("auditParentEdge.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 		ifOneOutEdgeAllreadyExist.addToThenPart("auditParentEdge.setProperty(\"inClass\", clazz.getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 		ifStatement.addToElsePart(ifOneOutEdgeAllreadyExist);
 		createEdgeToOne.getBody().addToStatements(ifStatement);
@@ -300,14 +302,14 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		OJAnnotatedOperation createAuditVertexWithAuditEdge = new OJAnnotatedOperation("createAuditVertexWithAuditEdge");
 		createAuditVertexWithAuditEdge.setVisibility(OJVisibilityKind.PRIVATE);
 		ojClass.addToImports(TinkerUtil.graphDbPathName);
-		createAuditVertexWithAuditEdge.getBody().addToStatements("this.auditVertex = "+ TinkerUtil.graphDbAccess +".addVertex(\""+c.getMappingInfo().getJavaName()+"Audit\")");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("this.auditVertex = "+ TinkerUtil.graphDbAccess +".addVertex(\""+StringUtils.replace(c.getMappingInfo().getQualifiedPersistentName(),".","_")+"Audit\")");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("TransactionThreadVar.putAuditVertexFalse(getClass().getName() + getUid(), this.auditVertex)");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("this.auditVertex.setProperty(\"transactionNo\", "+TinkerUtil.graphDbAccess+".getTransactionCount())");
 		createAuditVertexWithAuditEdge.getBody().addToStatements(
 				"Edge auditEdgeToOriginal = " + TinkerUtil.graphDbAccess + ".addEdge(null, this.vertex, this.auditVertex, \"audit\")");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"transactionNo\", "+TinkerUtil.graphDbAccess+".getTransactionCount())");
-		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"outClass\", this.getClass().getName())");
-		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"inClass\", this.getClass().getName() + \"Audit\")");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+")");
+		createAuditVertexWithAuditEdge.getBody().addToStatements("auditEdgeToOriginal.setProperty(\"inClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"Audit\")");
 		createAuditVertexWithAuditEdge.getBody().addToStatements("copyAuditShallowState(this, this)");
 		ojClass.addToOperations(createAuditVertexWithAuditEdge);
 	}
@@ -469,13 +471,13 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 		if (isComposite) {
 			ifStatement.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, getAuditVertex(), " + map.umlName() + ".getAuditVertex(),\""
 					+ map.getProperty().getAssociation().getName() + "\")");
-			ifStatement.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement.addToThenPart("auditEdge.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifStatement.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 		} else {
 			ifStatement.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, " + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
 					+ map.getProperty().getAssociation().getName() + "\")");
 			ifStatement.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
-			ifStatement.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifStatement.addToThenPart("auditEdge.setProperty(\"inClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 		}
 	}
 
@@ -614,7 +616,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			ifVarNull.addToThenPart(existEdge);
 			existEdge.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, getAuditVertex()," + map.umlName() + ".getAuditVertex(), \""
 					+ associationName + "\")");
-			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
 			setter.getBody().addToStatements(ifVarNull);
 		} else {
@@ -625,7 +627,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 			existEdge.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, " + map.umlName() + ".getAuditVertex(), getAuditVertex(),\""
 					+ associationName + "\")");
 			existEdge.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
-			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			existEdge.addToThenPart("auditEdge.setProperty(\"inClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			setter.getBody().addToStatements(ifVarNull);
 		}
 	}
@@ -660,7 +662,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 							+ "\").isEmpty()");
 			ifEdgeToRemoveNull.addToThenPart("Edge auditEdge = " + TinkerUtil.graphDbAccess + ".addEdge(null, getAuditVertex(), edgeRemovedFromAuditVertex, \""
 					+ associationName + "\")");
-			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"outClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"outClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"inClass\", " + map.javaBaseTypePath().getLast() + ".class.getName() + \""
 					+ TinkerAuditCreator.AUDIT + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
@@ -673,7 +675,7 @@ public class TinkerAuditOrignalClassTransformation extends AbstractJavaProducing
 					+ "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"outClass\", " + map.javaBaseTypePath().getLast() + ".class.getName() + \""
 					+ TinkerAuditCreator.AUDIT + "\")");
-			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"inClass\", this.getClass().getName() + \"" + TinkerAuditCreator.AUDIT + "\")");
+			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"inClass\", "+TinkerUtil.TINKER_GET_CLASSNAME+" + \"" + TinkerAuditCreator.AUDIT + "\")");
 			ifEdgeToRemoveNull.addToThenPart("auditEdge.setProperty(\"deletedOn\", TinkerFormatter.format(new Date()))");
 			internalCreateAuditToPreviousOne.getBody().addToStatements(ifEdgeToRemoveNull);
 		}

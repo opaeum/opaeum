@@ -43,6 +43,8 @@ public class GenerateTinkerSoftdeleteCache {
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(modelFile, outputRoot.getName());
 		workspace.setDirectoryName(outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "", "src/test/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "", "src/test/generated-java");		
 		cfg.store();
 		process.execute(cfg, workspace, getSteps());
 		workspace.getMappingInfo().store();

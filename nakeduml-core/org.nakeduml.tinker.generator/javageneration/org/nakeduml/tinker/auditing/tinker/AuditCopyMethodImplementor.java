@@ -68,7 +68,7 @@ public class AuditCopyMethodImplementor extends AbstractJavaProducingVisitor {
 					if (np.getNakedBaseType() instanceof INakedSimpleType || np.getNakedBaseType() instanceof INakedEnumeration) {
 						OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "() != null");
 						ifNotNull.addToThenPart("to." + map.setter() + "(from." + map.getter() + "())");
-						ifNotNull.addToThenPart("change.add("+map.getProperty().getMappingInfo().getPersistentName()+")");
+						ifNotNull.addToThenPart("change.add(\""+map.getProperty().getMappingInfo().getPersistentName()+"\")");
 						body.addToStatements(ifNotNull);
 					}
 				}

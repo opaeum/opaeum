@@ -183,6 +183,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor {
 								result.setName("result");
 								result.setType(map.javaTypePath());
 								result.setInitExp("new HashSet<" + map.javaBaseType() + ">()");
+								owner.addToImports(new OJPathName("java.util.HashSet"));
 								copyMany.getBody().addToLocals(result);
 
 								OJForStatement forS = new OJForStatement("", "", "entity", "from");

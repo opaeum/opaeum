@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui">
+	<html>
+<h:head>
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit resizable="true" position="top" height="50" zindex="10" style="padding:0;overflow:visible;" scrollable="null">
+			<ui:include src="../menu/menu.xhtml" />
+		</p:layoutUnit>
+		<p:layoutUnit resizable="true" position="bottom" header="BOTTOM" height="100">
+			<h:outputText value="Bottom content." />
+		</p:layoutUnit>
+		<p:layoutUnit resizable="true" position="left" header="LEFT" width="300">
+			<h:outputText value="Left content" />
+		</p:layoutUnit>
+		<p:layoutUnit resizable="true" position="right" header="RIGHT" width="200">
+			<h:outputText value="Right Content" />
+		</p:layoutUnit>
+		<p:layoutUnit resizable="true" position="center" header="CENTER">
+			<ui:insert name="body" />
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+	</html>
+</f:view>

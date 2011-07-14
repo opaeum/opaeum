@@ -16,7 +16,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 	@Test
 	public void tetSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		ManyA manyA1 = new ManyA1(god);
 		manyA1.setName("manyA1");
@@ -28,7 +28,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyA21.setName("manyA21");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		
 		db.startTransaction();
 		ManyB manyB1 = new ManyB1(god);
@@ -41,7 +41,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyB21.setName("manyB21");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(19, countVertices());
-		assertEquals(26, countEdges());
+		assertEquals(27, countEdges());
 		db.startTransaction();
 		Set<ManyB> manyBs = new HashSet<ManyB>();
 		manyBs.add(manyB1);
@@ -51,19 +51,19 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyA1.addAllToManyB(manyBs);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(24, countVertices());
-		assertEquals(39, countEdges());
+		assertEquals(40, countEdges());
 
 		db.startTransaction();
 		manyA11.addAllToManyB(manyBs);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(29, countVertices());
-		assertEquals(52, countEdges());
+		assertEquals(53, countEdges());
 		
 		db.startTransaction();
 		manyA11.clearManyB();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(34, countVertices());
-		assertEquals(57, countEdges());
+		assertEquals(58, countEdges());
 		int countManyB1 = 0;
 		int countManyB2 = 0;
 		for (ManyB manyB : manyA1.getManyB()) {
@@ -81,7 +81,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 	@Test
 	public void testMarkDeleted() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		ManyA manyA1 = new ManyA1(god);
 		manyA1.setName("manyA1");
@@ -93,7 +93,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyA21.setName("manyA21");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		ManyB manyB1 = new ManyB1(god);
 		manyB1.setName("manyB1");
@@ -105,7 +105,7 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyB21.setName("manyB21");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(19, countVertices());
-		assertEquals(26, countEdges());
+		assertEquals(27, countEdges());
 		db.startTransaction();
 		Set<ManyA> manyAs = new HashSet<ManyA>();
 		manyAs.add(manyA1);
@@ -118,11 +118,11 @@ public class TestInterfaceManyToMany extends BaseLocalDbTest {
 		manyB21.addAllToManyA(manyAs);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(27, countVertices());
-		assertEquals(66, countEdges());
+		assertEquals(67, countEdges());
 		db.startTransaction();
 		manyB1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(33, countVertices());
-		assertEquals(77, countEdges());
+		assertEquals(78, countEdges());
 	}
 }

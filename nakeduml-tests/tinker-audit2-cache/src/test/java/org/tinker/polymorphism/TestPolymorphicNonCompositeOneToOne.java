@@ -13,7 +13,7 @@ public class TestPolymorphicNonCompositeOneToOne extends BaseLocalDbTest {
 	@Test
 	public void testSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		ConcreteX1 concreteX1 = new ConcreteX1(god);
 		concreteX1.setName("concreteX1");
@@ -25,20 +25,20 @@ public class TestPolymorphicNonCompositeOneToOne extends BaseLocalDbTest {
 		concreteZ2.setName("concreteZ2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 
 		db.startTransaction();
 		concreteX1.setAbstractZ1(concreteZ1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 		assertEquals("concreteZ1", concreteX1.getAbstractZ1().getName());
 
 		db.startTransaction();
 		concreteZ2.setAbstractX1(concreteX2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(22, countEdges());
 		assertEquals("concreteX2", concreteZ2.getAbstractX1().getName());
 	}
 }

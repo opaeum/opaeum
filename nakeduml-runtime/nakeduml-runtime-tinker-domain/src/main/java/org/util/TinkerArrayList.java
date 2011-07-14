@@ -10,6 +10,8 @@ import org.nakeduml.runtime.domain.TinkerNode;
 
 public class TinkerArrayList<E> extends ArrayList<E> implements TinkerList<E>, TinkerCollection<E> {
 
+	private static final long serialVersionUID = -3023484191252825265L;
+
 	Map<Class<? extends TinkerNode>, MethodHolder> methodMap = new HashMap<Class<? extends TinkerNode>, MethodHolder>();
 	private class MethodHolder {
 		private TinkerNode owner;
@@ -22,8 +24,8 @@ public class TinkerArrayList<E> extends ArrayList<E> implements TinkerList<E>, T
 		}
 	}
 
-	public TinkerArrayList(TinkerArrayList ... tinkerList) {
-		for (TinkerArrayList tinkerArrayList : tinkerList) {
+	public TinkerArrayList(TinkerArrayList<E> ... tinkerList) {
+		for (TinkerArrayList<E> tinkerArrayList : tinkerList) {
 			methodMap.putAll(tinkerArrayList.methodMap);
 			tinkerAddAll(tinkerArrayList);
 		}

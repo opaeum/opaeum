@@ -14,7 +14,7 @@ public class TestAuditAttributeCache extends BaseLocalDbTest {
 	@Test
 	public void testMany() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		ManyA1 manyA11 = new ManyA1(god);
 		manyA11.setName("manyA11");
@@ -26,7 +26,7 @@ public class TestAuditAttributeCache extends BaseLocalDbTest {
 		manyA11.getManyB().add(manyB12);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(14, countEdges());
+		assertEquals(15, countEdges());
 		god.getMany().clear();
 		boolean found = false;
 		for (Many many : god.getMany()) {
@@ -52,7 +52,7 @@ public class TestAuditAttributeCache extends BaseLocalDbTest {
 		}
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(11, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 		assertEquals(3, god.getMany().size());
 		for (Many many : god.getMany()) {
 			if (many instanceof ManyA) {

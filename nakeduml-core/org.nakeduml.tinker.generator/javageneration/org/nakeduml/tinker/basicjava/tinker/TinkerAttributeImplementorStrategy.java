@@ -21,6 +21,7 @@ import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJEnum;
 
 public class TinkerAttributeImplementorStrategy implements AttributeImplementorStrategy {
 
@@ -41,6 +42,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 	public static final String IFNOTNULL_EMBEDDED_MANY = "ifNotNullEmbeddedMany";
 	public static final String EMBEDDED_MANY_RESULT = "embeddedManyResult";
 	public static final String EMBEDDED_MANY_RESULT_IFNOTNULL = "embeddedManyResultifNotNull";
+	public static final String EMBEDDED_MANY_PROPERTY_RESULT = "embeddedManyPropertyResult";
 	public static OJPathName TINKER_NODE = new OJPathName("org.nakeduml.runtime.domain.TinkerNode");
 
 	public TinkerAttributeImplementorStrategy() {
@@ -49,36 +51,40 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 	@Override
 	public void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
-		if (map.getProperty().getBaseType() instanceof INakedEntity) {
-			if (map.isOne()) {
-				buildManyToOneSetter(umlOwner, map, null, owner, setter);
-			} else if (map.isMany()) {
-				buildManyToManySetter(map, null, owner, setter);
-			} else {
-			}
+		if (umlOwner instanceof INakedEnumeration) {
+			setter.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
 		} else {
-			if (map.isMany() && map.getProperty().getBaseType() instanceof INakedEnumeration) {
-				setter.getBody().addToStatements(
-						"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
-								+ TinkerUtil.tinkerUtil + ".convertEnumsForPersistence(" + map.umlName() + "))");
+			if (map.getProperty().getBaseType() instanceof INakedEntity) {
+				if (map.isOne()) {
+					buildManyToOneSetter(umlOwner, map, null, owner, setter);
+				} else if (map.isMany()) {
+					buildManyToManySetter(map, null, owner, setter);
+				} else {
+				}
 			} else {
-				if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
+				if (map.isMany() && map.getProperty().getBaseType() instanceof INakedEnumeration) {
 					setter.getBody().addToStatements(
 							"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
-									+ map.umlName() + "!=null?" + map.umlName() + ".name():null)");
+									+ TinkerUtil.tinkerUtil + ".convertEnumsForPersistence(" + map.umlName() + "))");
 				} else {
-					if (map.isMany()) {
+					if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
 						setter.getBody().addToStatements(
 								"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
-										+ map.umlName() + ".toArray(new "+map.javaBaseTypePath().getLast()+"[]{}))");
+										+ map.umlName() + "!=null?" + map.umlName() + ".name():null)");
 					} else {
-						setter.getBody().addToStatements(
-								"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", "
-										+ map.umlName() + ")");
+						if (map.isMany()) {
+							setter.getBody().addToStatements(
+									"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+											+ "\", " + map.umlName() + ".toArray(new " + map.javaBaseTypePath().getLast() + "[]{}))");
+						} else {
+							setter.getBody().addToStatements(
+									"this.vertex.setProperty(\"" + TinkerUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+											+ "\", " + map.umlName() + ")");
+						}
 					}
 				}
+				addEntityToTransactionThreadEntityVar(setter);
 			}
-			addEntityToTransactionThreadEntityVar(setter);
 		}
 	}
 
@@ -91,6 +97,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		if (owner instanceof OJAnnotatedInterface) {
 		} else if (returnDefault) {
 			getter.getBody().addToStatements("return " + map.javaDefaultValue());
+		} else if (owner instanceof OJEnum) {
+			getter.getBody().addToStatements("return " + map.umlName());
 		} else {
 			INakedProperty prop = map.getProperty();
 			owner.addToImports(TinkerUtil.edgePathName);
@@ -139,18 +147,31 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		OJField result = new OJField();
 		result.setName(EMBEDDED_MANY_RESULT);
 		result.setType(map.javaTypePath());
-		OJIfStatement ifNull = new OJIfStatement("this.vertex.getProperty(\""+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\") != null");
-		ifNull.setName(EMBEDDED_MANY_RESULT_IFNOTNULL);
-		if (map.getProperty().isOrdered()) {
-			ifNull.addToThenPart(result.getName() + " = " +"Arrays.asList( (" + map.javaBaseTypePath().getLast() + "[])this.vertex.getProperty(\""
-					+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\"))");
-		} else {
-			ifNull.addToThenPart(result.getName() + " = " +"new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast() + ">(Arrays.asList(("
-					+ map.javaBaseTypePath().getLast() + "[])this.vertex.getProperty(\""
-					+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")))");
-		}
-		ifNull.addToElsePart(result.getName() + " = " + map.javaDefaultValue());
 		getter.getBody().addToLocals(result);
+
+		OJField property = new OJField();
+		property.setType(new OJPathName("java.lang.Object"));
+		property.setInitExp("this.vertex.getProperty(\"" + TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+		property.setName(EMBEDDED_MANY_PROPERTY_RESULT);
+		getter.getBody().addToLocals(property);
+
+		OJIfStatement ifNull = new OJIfStatement(EMBEDDED_MANY_PROPERTY_RESULT + " != null");
+		ifNull.setName(EMBEDDED_MANY_RESULT_IFNOTNULL);
+
+		OJIfStatement ifList = new OJIfStatement(EMBEDDED_MANY_PROPERTY_RESULT + " instanceof List");
+		ifNull.addToThenPart(ifList);
+
+		if (map.getProperty().isOrdered()) {
+			ifList.addToThenPart(result.getName() + " = " + " (List)" + EMBEDDED_MANY_PROPERTY_RESULT);
+			ifList.addToElsePart(result.getName() + " = " + "Arrays.asList( (" + map.javaBaseTypePath().getLast() + "[])" + EMBEDDED_MANY_PROPERTY_RESULT + ")");
+		} else {
+			ifList.addToThenPart(result.getName() + " = " + "new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast() + ">((List)"
+					+ EMBEDDED_MANY_PROPERTY_RESULT + ")");
+			ifList.addToElsePart(result.getName() + " = " + "new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseTypePath().getLast()
+					+ ">(Arrays.asList((" + map.javaBaseTypePath().getLast() + "[])" + EMBEDDED_MANY_PROPERTY_RESULT + "))");
+		}
+
+		ifNull.addToElsePart(result.getName() + " = " + map.javaDefaultValue());
 		getter.getBody().addToStatements(ifNull);
 		getter.getBody().addToStatements("return " + EMBEDDED_MANY_RESULT);
 		owner.addToImports(new OJPathName("java.util.Arrays"));
@@ -161,9 +182,8 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 		result.setName(EMBEDDED_MANY_RESULT);
 		result.setType(map.javaTypePath());
 		result.setInitExp("(" + map.javaTypePath().getCollectionTypeName() + ") " + TinkerUtil.tinkerUtil
-				+ ".convertEnumsFromPersistence((String[])" + "this.vertex.getProperty(\""
-				+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\"), " + map.javaBaseTypePath().getLast()
-				+ ".class, " + map.getProperty().isOrdered() + " )");
+				+ ".convertEnumsFromPersistence(this.vertex.getProperty(\"" + TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName())
+				+ "\"), " + map.javaBaseTypePath().getLast() + ".class, " + map.getProperty().isOrdered() + " )");
 		owner.addToImports(new OJPathName("java.util.Collection"));
 		getter.getBody().addToLocals(result);
 		getter.getBody().addToStatements("return " + EMBEDDED_MANY_RESULT);
@@ -171,8 +191,7 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 
 	public static void buildGetterForToOneEnumeration(NakedStructuralFeatureMap map, OJOperation getter, INakedProperty prop) {
 		getter.getBody().addToStatements(
-				"String enumValue = (String)this.vertex.getProperty(\""
-						+ TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+				"String enumValue = (String)this.vertex.getProperty(\"" + TinkerUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement("enumValue !=null");
 		ifNotNull.addToThenPart("return " + map.javaTypePath().getLast() + ".valueOf(enumValue)");
 		ifNotNull.addToElsePart("return null");
@@ -323,10 +342,10 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 								+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
-			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", this.getClass().getName())");
+			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", " + TinkerUtil.TINKER_GET_CLASSNAME + ")");
 		} else {
 			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName())");
-			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", this.getClass().getName())");
+			ifParamNotNull.getThenPart().addToStatements("edge.setProperty(\"inClass\", " + TinkerUtil.TINKER_GET_CLASSNAME + ")");
 		}
 		setter.getBody().addToStatements(ifParamNotNull);
 	}
@@ -417,10 +436,10 @@ public class TinkerAttributeImplementorStrategy implements AttributeImplementorS
 						+ TINKER_NODE.getLast() + ")" + map.umlName() + ").getVertex(),") + "\"" + relationshipName + "\")"));
 		if (isComposite) {
 			ifStatement.addToThenPart("edge.setProperty(\"inClass\", " + map.umlName() + ".getClass().getName())");
-			ifStatement.addToThenPart("edge.setProperty(\"outClass\", this.getClass().getName())");
+			ifStatement.addToThenPart("edge.setProperty(\"outClass\", " + TinkerUtil.TINKER_GET_CLASSNAME + ")");
 		} else {
 			ifStatement.addToThenPart("edge.setProperty(\"outClass\", " + map.umlName() + ".getClass().getName())");
-			ifStatement.addToThenPart("edge.setProperty(\"inClass\", this.getClass().getName())");
+			ifStatement.addToThenPart("edge.setProperty(\"inClass\", " + TinkerUtil.TINKER_GET_CLASSNAME + ")");
 		}
 	}
 

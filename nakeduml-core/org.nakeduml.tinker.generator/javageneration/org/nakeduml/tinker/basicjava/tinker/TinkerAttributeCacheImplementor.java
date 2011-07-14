@@ -336,7 +336,11 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 	private void implementCacheGetterForEmbeddedMany(NakedStructuralFeatureMap map, OJOperation getter) {
 		OJIfStatement ifEmpty = new OJIfStatement("this." + map.umlName() + ".isEmpty()");
 		OJField result = getter.getBody().findLocal(TinkerAttributeImplementorStrategy.EMBEDDED_MANY_RESULT);
+		OJField property = getter.getBody().findLocal(TinkerAttributeImplementorStrategy.EMBEDDED_MANY_PROPERTY_RESULT);
 		ifEmpty.getThenPart().addToLocals(result);
+		if (property!=null) {
+			ifEmpty.getThenPart().addToLocals(property);
+		}
 		OJIfStatement ifNotNullEmbbedded = (OJIfStatement) getter.getBody().findStatementRecursive(TinkerAttributeImplementorStrategy.EMBEDDED_MANY_RESULT_IFNOTNULL);
 		ifEmpty.addToThenPart(ifNotNullEmbbedded);
 		getter.getBody().removeAllFromStatements();
@@ -401,10 +405,12 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 					tryForCollectionWithOwner.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 					tryForCollectionWithOwner.getCatchPart().addToStatements("new RuntimeException(e)");
 				}
-				tryForCollectionWithOwner.getTryPart().addToStatements(TinkerUtil.constructTinkerCollectionInit(owner, map));
+				OJSimpleStatement collectionInit = new OJSimpleStatement(TinkerUtil.constructTinkerCollectionInit(owner, map, false));
+				collectionInit.setName(map.fieldname());
+				tryForCollectionWithOwner.getTryPart().addToStatements(collectionInit);
 			}
 
-			OJConstructor defaultConstructor = owner.getDefaultConstructor();
+			OJConstructor defaultConstructor = owner.findConstructor(new OJPathName("java.lang.Boolean"));
 			OJConstructor vertexConstructor = owner.findConstructor(TinkerUtil.vertexPathName);
 			OJTryStatement tryForCollectionWithOwner = (OJTryStatement) defaultConstructor.getBody().findStatement("collectionInitializer");
 			if (tryForCollectionWithOwner == null) {
@@ -415,7 +421,9 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 				tryForCollectionWithOwner.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 				tryForCollectionWithOwner.getCatchPart().addToStatements("new RuntimeException(e)");
 			}
-			tryForCollectionWithOwner.getTryPart().addToStatements(TinkerUtil.constructTinkerCollectionInit(owner, map));
+			OJSimpleStatement collectionInit = new OJSimpleStatement(TinkerUtil.constructTinkerCollectionInit(owner, map, false));
+			collectionInit.setName(map.fieldname());
+			tryForCollectionWithOwner.getTryPart().addToStatements(collectionInit);
 			if (map.getProperty().getOtherEnd() != null) {
 				owner.addToImports(TinkerUtil.tinkerHashSetImpl);
 				owner.addToImports(TinkerUtil.tinkerArrayListImpl);

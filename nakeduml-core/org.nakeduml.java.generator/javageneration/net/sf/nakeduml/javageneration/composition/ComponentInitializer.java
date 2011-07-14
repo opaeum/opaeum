@@ -87,10 +87,10 @@ public class ComponentInitializer extends AbstractJavaProducingVisitor {
 								init.getBody().addToStatements(whileIter);
 							}
 						} else if (map.isOne() && (np.isComposite() && np.getNakedMultiplicity().getLower() == 1)) {
-							OJIfStatement ifNull = new OJIfStatement("get" + np.getMappingInfo().getJavaName().getCapped() + "()==null",
-									"set" + np.getMappingInfo().getJavaName().getCapped() + "(new " + type.getMappingInfo().getJavaName()
-											+ "())");
-							createComponents.getBody().addToStatements(ifNull);
+								OJIfStatement ifNull = new OJIfStatement("get" + np.getMappingInfo().getJavaName().getCapped() + "()==null",
+										"set" + np.getMappingInfo().getJavaName().getCapped() + "(new " + type.getMappingInfo().getJavaName()
+												+ "("+(config.getCompositionNodeImplementationStrategy().contains("Tinker")?"true":"")+"))");
+								createComponents.getBody().addToStatements(ifNull);
 							if (np.getOtherEnd() != null && np.getOtherEnd().isNavigable()) {
 								init.getBody().addToStatements("get" + np.getMappingInfo().getJavaName().getCapped() + "().init(this)");
 							}

@@ -14,7 +14,7 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 	@Test
 	public void testSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Angel angel1 = new Angel(god);
 		angel1.setName("angel1");
@@ -26,12 +26,12 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		universe2.setName("universe2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		universe1.setAngel(angel1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 		assertNotNull(universe1.getAngel());
 		assertEquals("angel1", universe1.getAngel().getName());
 		assertNull(universe2.getAngel());
@@ -41,7 +41,7 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		angel2.setUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(22, countEdges());
 		assertNotNull(angel2.getUniverse());
 		assertNotNull(angel1.getUniverse());
 		assertEquals("universe2", angel2.getUniverse().getName());
@@ -49,14 +49,14 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		universe1.setAngel(angel2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(18, countVertices());
-		assertEquals(27, countEdges());
+		assertEquals(28, countEdges());
 		assertNull(universe2.getAngel());
 		assertNull(angel1.getUniverse());
 		db.startTransaction();
 		angel1.setUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(32, countEdges());
 		assertNotNull(angel2.getUniverse());
 		assertNotNull(angel1.getUniverse());
 		assertEquals("universe1", angel2.getUniverse().getName());
@@ -68,7 +68,7 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 	@Test
 	public void testMarkDeleted() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Angel angel1 = new Angel(god);
 		angel1.setName("angel1");
@@ -80,12 +80,12 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		universe2.setName("universe2");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(10, countVertices());
-		assertEquals(13, countEdges());
+		assertEquals(14, countEdges());
 		db.startTransaction();
 		universe1.setAngel(angel1);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 		assertNotNull(universe1.getAngel());
 		assertEquals("angel1", universe1.getAngel().getName());
 		assertNull(universe2.getAngel());
@@ -95,7 +95,7 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		angel2.setUniverse(universe2);
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(14, countVertices());
-		assertEquals(21, countEdges());
+		assertEquals(22, countEdges());
 		assertNotNull(angel2.getUniverse());
 		assertNotNull(angel1.getUniverse());
 		assertEquals("universe2", angel2.getUniverse().getName());
@@ -103,14 +103,14 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest{
 		universe1.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(17, countVertices());
-		assertEquals(26, countEdges());
+		assertEquals(27, countEdges());
 		assertNull(angel1.getUniverse());
 		assertNotNull(angel2.getUniverse());
 		db.startTransaction();
 		angel2.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(20, countVertices());
-		assertEquals(31, countEdges());
+		assertEquals(32, countEdges());
 		assertNull(universe2.getAngel());
 	}	
 }

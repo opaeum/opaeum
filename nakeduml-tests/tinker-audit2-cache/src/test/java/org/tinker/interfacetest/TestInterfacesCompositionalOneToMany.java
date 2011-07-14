@@ -13,13 +13,13 @@ public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testSettingAndGetting() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Creature creature1 = new Creature(god);
 		creature1.setName("creature1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(4, countVertices());
-		assertEquals(4, countEdges());
+		assertEquals(5, countEdges());
 		assertEquals("creature1", god.getBeing().iterator().next().getName());
 		assertEquals("THEGOD", creature1.getGod().getName());
 		db.startTransaction();
@@ -29,7 +29,7 @@ public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 		alien.setName("alien");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(9, countVertices());
-		assertEquals(11, countEdges());
+		assertEquals(12, countEdges());
 		int countBeing = 0;
 		int countCreature = 0;
 		int countHuman = 0;
@@ -57,7 +57,7 @@ public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 	@Test
 	public void testMarkDeleted() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		Creature creature1 = new Creature(god);
 		creature1.setName("creature1");
@@ -67,11 +67,11 @@ public class TestInterfacesCompositionalOneToMany extends BaseLocalDbTest {
 		alien.setName("alien");
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(8, countVertices());
-		assertEquals(10, countEdges());
+		assertEquals(11, countEdges());
 		db.startTransaction();
 		god.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		assertEquals(12, countVertices());
-		assertEquals(17, countEdges());
+		assertEquals(18, countEdges());
 	}	
 }

@@ -42,12 +42,11 @@
 			<id>repository.central.org</id>
 			<name>Central Repository</name>
 			<url>https://repository.sonatype.org/content/repositories/central/</url>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>false</updatePolicy>
+			</snapshots>
 		</repository>
-		<repository>
-  			<id>tinkerpop-repository</id>
-  			<name>TinkerPop Maven2 Repository</name>
-  			<url>http://tinkerpop.com/maven2</url>
-		</repository> 
 	</repositories>
 	<modules>
 		<module>nakeduml-core</module>

@@ -12,6 +12,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.basicjava.IntegratedBasicJavaStep;
 
 import org.nakeduml.tinker.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 
@@ -56,6 +57,9 @@ public class Generate {
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {
 		NakedUmlConfig cfg = new NakedUmlConfig();
 		cfg.setOutputRoot(outputRoot);
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "", "src/test/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "", "src/test/generated-java");
+		
 		cfg.load(new File(modelFile.getParent(), workspace.getDirectoryName() + "-nakeduml.properties"), workspace.getName());
 		cfg.store();
 		mapOutputRoots(cfg);

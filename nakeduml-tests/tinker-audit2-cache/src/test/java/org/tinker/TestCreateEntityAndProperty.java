@@ -12,7 +12,7 @@ public class TestCreateEntityAndProperty extends BaseLocalDbTest {
 	@Test
 	public void testSetGetProperty() {
 		db.startTransaction();
-		God god = new God();
+		God god = new God(true);
 		god.setName("THEGOD");
 		assertEquals("THEGOD", god.getName());
 		db.stopTransaction(Conclusion.SUCCESS);

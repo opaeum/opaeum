@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>ViewAccessScoped Test dd</title>
+</h:head>
+<h:body>
+    <h:outputStylesheet name="style.css" library="css"/>
+    <div id="container">
+        <h1>CODI View Access Scoped Test DD</h1>
+        <h:form id="mainForm">
+            <h:panelGrid columns="3">
+                <h:outputLabel for="names" value="List of names in viewscope"/>
+                <h:selectOneMenu id="n" value="#{testViewAccessScoped.nameToAdd}" required="true">
+                	<f:selectItems var="name" itemLabel="#{name}" value="#{testViewAccessScoped.names}" itemValue="#{name}" />
+                </h:selectOneMenu>
+                <h:messages showDetail="true" showSummary="false"/>
+            </h:panelGrid>
+             <h:link value="Home" outcome="helloWorld"/>
+             <h:link value="JsfPage" outcome="/pagebeans/pageBeans"/>
+        </h:form>
+    </div>
+</h:body>
+</html>
