@@ -1,5 +1,6 @@
 package org.nakeduml.environment.adaptor;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.nakeduml.runtime.domain.ActiveObject;
 @RequestScoped
 @Stateful
 @Deprecated
-public class SignalDispatcher implements ISignalDispatcher{
+public class SignalDispatcher implements ISignalDispatcher, Serializable{
 	@Inject
 	IMessageSender sender;
 	@Inject

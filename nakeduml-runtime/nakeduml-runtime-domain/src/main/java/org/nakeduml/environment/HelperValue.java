@@ -25,8 +25,15 @@ public class HelperValue extends Value{
 		if(classOrInterfaceId == null){
 			return Environment.getInstance().getComponent(helperClass);
 		}else{
-			Class<?> class1 = Environment.getMetaInfoMap().getClass(classOrInterfaceId);
+			Class<?> class1 = getValueClass();
 			return Environment.getInstance().getComponent(class1);
+		}
+	}
+	public Class<?> getValueClass(){
+		if(helperClass == null){
+			return Environment.getMetaInfoMap().getClass(classOrInterfaceId);
+		}else{
+			return helperClass;
 		}
 	}
 }

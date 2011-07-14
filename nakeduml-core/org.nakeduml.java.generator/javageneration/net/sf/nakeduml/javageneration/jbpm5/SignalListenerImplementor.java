@@ -43,8 +43,10 @@ public class SignalListenerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotationValue pool = new OJAnnotationValue(new OJPathName("org.jboss.ejb3.annotation.Pool"));
 		if(s.getListenerPoolSize() == null){
 			pool.putAttribute("maxSize", 5);
+			addActivationProperty(activationConfig, "maxSession", "5");
 		}else{
 			pool.putAttribute("maxSize", s.getListenerPoolSize());
+			addActivationProperty(activationConfig, "maxSession", ""+s.getListenerPoolSize());
 		}
 		pool.putAttribute("value","StrictMaxPool");
 		mdb.putAnnotation(pool);

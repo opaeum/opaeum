@@ -18,4 +18,8 @@ public class CollectionValue extends Value{
 		}
 		return c;
 	}
+	@Override
+	public Class<?> getValueClass(){
+		return values.getClass();
+	}
 }

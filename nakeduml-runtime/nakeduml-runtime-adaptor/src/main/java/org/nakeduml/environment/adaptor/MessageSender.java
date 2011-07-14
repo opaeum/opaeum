@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.EJBException;
+import javax.ejb.PrePassivate;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -34,29 +35,41 @@ import org.nakeduml.runtime.domain.ExceptionAnalyser;
 @RequestScoped
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class MessageSender implements IMessageSender,SessionSynchronization{
+	private static final long serialVersionUID = 1L;
 	@Inject
 	Logger logger;
 	@Resource(mappedName = "java:/XAConnectionFactory")
 	ConnectionFactory factory;
-	Connection connection = null;
-	Map<String,MessageProducer> producers = new HashMap<String,MessageProducer>();
-	private Session session;
-	private InitialContext initialContext;
+	transient Connection connection = null;
+	transient Map<String,MessageProducer> producers = new HashMap<String,MessageProducer>();
+	transient private Session session;
+	transient private InitialContext initialContext;
+	@PrePassivate
 	@PreDestroy
 	public void release(){
 		try{
 			if(initialContext != null){
 				initialContext.close();
 			}
-			for(MessageProducer p:producers.values()){
-				p.close();
+			if(producers != null){
+				for(MessageProducer p:producers.values()){
+					p.close();
+				}
 			}
 			if(session != null){
 				session.close();
 			}
-			connection.close();
+			if(connection != null){
+				connection.close();
+			}
 		}catch(Exception e){
 			logger.debug("Error closing jms resources", e);
+		}finally{
+			connection = null;
+			producers=null;
+			session=null;
+			initialContext=null;
+			
 		}
 	}
 	@Override
@@ -66,16 +79,19 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 			try{
 				ObjectOutputStream os = new ObjectOutputStream(new ByteArrayOutputStream());
 				os.writeObject(s);
-				producer.send(session.createObjectMessage(s));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
+			producer.send(getSession().createObjectMessage(s));
 		}catch(Exception e){
 			logger.error("Error sending message", e);
 			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
 		}
 	}
 	private MessageProducer getProducer(String queue) throws JMSException,NamingException{
+		if(producers == null){
+			producers = new HashMap<String,MessageProducer>();
+		}
 		MessageProducer producer = producers.get(queue);
 		if(producer == null){
 			producer = getSession().createProducer((Queue) getInitialContext().lookup(queue));
@@ -109,6 +125,7 @@ public class MessageSender implements IMessageSender,SessionSynchronization{
 	public void afterCompletion(boolean committed) throws EJBException,RemoteException{
 		try{
 			session.commit();
+			release();
 		}catch(Exception e){
 			throw new ExceptionAnalyser(e).wrapRootCauseIfNecessary();
 		}

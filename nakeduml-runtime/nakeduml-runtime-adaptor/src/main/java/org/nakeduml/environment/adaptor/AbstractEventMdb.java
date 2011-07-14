@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -20,26 +21,24 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
-import org.nakeduml.environment.IMessageSender;
 import org.nakeduml.event.Retryable;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 public abstract class AbstractEventMdb<T extends Retryable>{
-	@Inject
 	@Resource
 	protected UserTransaction transaction;
 	@Inject
 	Logger logger;
 	@Inject
 	protected SessionFactory sessionFactory;
-	@Inject
+	@EJB(name="MessageRetryer")
 	MessageRetryer retryer;
 	protected abstract void deliverMessage(T std) throws Exception;
 	protected abstract String getQueueName();
 	protected abstract String getDlqName();
 	protected void redeliverDeadMessages(String[] args) throws Exception{
 		Hashtable<Object,Object> env = new Hashtable<Object,Object>();
-		if(args.length==0){
+		if(args.length == 0){
 			env.put(Context.PROVIDER_URL, "localhost:1099");
 		}else{
 			env.put(Context.PROVIDER_URL, args[0] + ":1099");
@@ -70,13 +69,13 @@ public abstract class AbstractEventMdb<T extends Retryable>{
 		ObjectMessage obj = (ObjectMessage) message;
 		try{
 			this.processInTryBlock((T) obj.getObject());
-		}catch(Exception e){
+		}catch(Throwable e){
 			logger.errorv("Unhandled exception in SignalMDB: {0}", e.toString());
 			logger.error(e.getMessage(), e);
 		}finally{
 			try{
 				message.acknowledge();
-			}catch(Exception e2){
+			}catch(Throwable e2){
 				logger.error(e2.getMessage(), e2);
 			}
 			logger.debug("Signal delivery took " + (System.currentTimeMillis() - start) + "ms");
@@ -85,13 +84,21 @@ public abstract class AbstractEventMdb<T extends Retryable>{
 	private void processInTryBlock(T std) throws Exception{
 		try{
 			deliverMessage(std);
-		}catch(Exception e){
+		}catch(Throwable e){
 			try{
 				transaction.rollback();
 			}catch(Exception e2){
 			}
 			ExceptionAnalyser ea = new ExceptionAnalyser(e);
-			if(ea.isStaleStateException() || ea.isDeadlockException() || ea.isResourceAllocationTimeout()){
+			if(ea.isResourceAllocationTimeout()){
+				// NB!!! it seems that when a Resource Timeout occurs in JBoss the bean's environment becomes unstable and ejb references can't
+				// acquire the necessary locks:
+				// org.nakeduml.environment.adaptor.AbstractEventMdb] (Thread-6 (group:HornetQ-client-global-threads-1274855145)) null:
+				// java.lang.InterruptedException
+				// at java.util.concurrent.locks.AbstractQueuedSynchronizer.tryAcquireSharedNanos(AbstractQueuedSynchronizer.java:1302) [:1.6.0_24]
+				//Redeliver immediately and hope for the best
+				MessageRetryer.sendMessage(getQueueName(), std);
+			}else if(ea.isStaleStateException() || ea.isDeadlockException()){
 				if(std.getRetryCount() < 20){
 					logger.debugv("Retrying {0} because of {1}", std.getDescription(), ea.getRootCause().toString());
 					retryer.retryMessage(getQueueName(), std);
@@ -111,7 +118,7 @@ public abstract class AbstractEventMdb<T extends Retryable>{
 					Throwable rootCause = ea.getRootCause();
 					logger.debug(rootCause);
 					logger.debugv("Exception {0} can not be retried", rootCause.toString());
-					retryer.sendMessage(getDlqName(), std);
+					MessageRetryer.sendMessage(getDlqName(), std);
 					ea.throwRootCause();
 				}
 			}
