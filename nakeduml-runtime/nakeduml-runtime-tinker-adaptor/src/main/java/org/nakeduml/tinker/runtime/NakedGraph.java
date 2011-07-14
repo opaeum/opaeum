@@ -22,7 +22,7 @@ public interface NakedGraph extends TransactionalGraph, IndexableGraph, Serializ
 	long countVertices();
 	long countEdges();
 	void registerListeners();
-	void createSchema(Map<Class<?>, String> classNames);
+	void createSchema(Map<String, Class<?>> classNames);
 	void clearAutoIndices();
 	List<AbstractEntity> getCompositeRoots(); 
 	<T> List<T> query(Class<?> className, int first, int pageSize);

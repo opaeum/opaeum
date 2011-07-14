@@ -247,7 +247,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 	}
 
 	@Override
-	public void createSchema(Map<Class<?>, String> classNames) {
+	public void createSchema(Map<String, Class<?>> classNames) {
 		// TODO Auto-generated method stub
 		
 	}

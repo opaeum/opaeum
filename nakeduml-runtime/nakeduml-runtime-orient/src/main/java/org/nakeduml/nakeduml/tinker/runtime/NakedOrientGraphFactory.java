@@ -20,7 +20,7 @@ public class NakedOrientGraphFactory implements NakedGraphFactory {
 	}
 	
 	@Override
-	public NakedGraph getNakedGraph(String url, boolean withSchema) {
+	public NakedGraph getNakedGraph(String url, TinkerSchemaHelper schemaHelper, boolean withSchema) {
 		OrientGraph db = new OrientGraph(url);
 		db.setTransactionMode(Mode.MANUAL);
 		NakedGraph nakedGraph = new NakedOrientGraph(db, withSchema);
@@ -30,16 +30,7 @@ public class NakedOrientGraphFactory implements NakedGraphFactory {
 //		nakedGraph.clearAutoIndices();
 		nakedGraph.registerListeners();		
 		if (withSchema) {
-			try {
-				TinkerSchemaHelper schemaHelper = (TinkerSchemaHelper) Class.forName("org.util.TinkerSchemaGenerator").newInstance();
-				nakedGraph.createSchema(schemaHelper.getClassNames());
-			} catch (InstantiationException e) {
-				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
-			}
+			nakedGraph.createSchema(schemaHelper.getClassNames());
 		}
 		return nakedGraph;
 	}

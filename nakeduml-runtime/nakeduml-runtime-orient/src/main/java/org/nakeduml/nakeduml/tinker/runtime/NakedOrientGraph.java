@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.tinker.runtime.NakedGraph;
+import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
 
 import com.orientechnologies.orient.core.id.ORecordId;
 import com.orientechnologies.orient.core.metadata.schema.OClass;
@@ -31,6 +32,7 @@ public class NakedOrientGraph implements NakedGraph {
 	private OrientGraph orientGraph;
 	private boolean withschema;
 	private Map<Class<?>, OClass> oClasses = new HashMap<Class<?>, OClass>();
+	private TinkerSchemaHelper schemaHelper;
 
 	public NakedOrientGraph(OrientGraph orientGraph, boolean withSchema) {
 		super();
@@ -200,14 +202,14 @@ public class NakedOrientGraph implements NakedGraph {
 	}
 
 	@Override
-	public void createSchema(Map<Class<?>, String> classNames) {
-		for (Class<?> clazz : classNames.keySet()) {
+	public void createSchema(Map<String, Class<?>> classNames) {
+		for (String className : classNames.keySet()) {
 			OSchema schema = orientGraph.getRawGraph().getMetadata().getSchema();
-			if (!schema.existsClass(classNames.get(clazz))) {
-				schema.createClass(classNames.get(clazz), schema.getClass("OGraphVertex"),
-						orientGraph.getRawGraph().getStorage().addCluster(classNames.get(clazz), OStorage.CLUSTER_TYPE.PHYSICAL));
+			if (!schema.existsClass(className)) {
+				schema.createClass(className, schema.getClass("OGraphVertex"),
+						orientGraph.getRawGraph().getStorage().addCluster(className, OStorage.CLUSTER_TYPE.PHYSICAL));
 			}
-			oClasses.put(clazz, schema.getClass(classNames.get(clazz)));
+			oClasses.put(classNames.get(className), schema.getClass(className));
 		}
 	}
 
@@ -246,5 +248,16 @@ public class NakedOrientGraph implements NakedGraph {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public <T> T instantiateClassifier(Long id) {
+		try {
+			Vertex v = orientGraph.getVertex(id);
+			Class<?> c =schemaHelper.getClassNames().get((String) v.getProperty("className"));
+			return (T) c.getConstructor(Vertex.class).newInstance(v);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}		
 	}
 }
