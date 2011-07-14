@@ -7,7 +7,6 @@ import java.util.Set;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
-import net.sf.nakeduml.javageneration.passbyvalue.DtoImplementationStep;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -219,46 +218,6 @@ public class OJUtil {
 		}
 	}
 	
-	public static OJPathName classifierDtoPathname(INakedClassifier classifier) {
-		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
-			return new OJPathName(classifier.getMappedImplementationType()+DtoImplementationStep.DTO);
-		} else {
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
-	}
-
-	public static OJPathName classifierAssemblerPathname(INakedClassifier classifier) {
-		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
-			return new OJPathName(classifier.getMappedImplementationType()+DtoImplementationStep.ASSEMBLER);
-		} else {
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
-	}
-
-	public static OJPathName classifierControllerPathname(INakedClassifier classifier) {
-		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
-			return new OJPathName(classifier.getMappedImplementationType()+DtoImplementationStep.CTRL);
-		} else {
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
-	}
-
-	public static OJPathName classifierWsInterfacePathname(INakedClassifier classifier) {
-		if (classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null) {
-			return new OJPathName(classifier.getMappedImplementationType()+DtoImplementationStep.WS);
-		} else {
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
-	}
-
 	public static final OJOperation addMethod(OJClass theClass, String name, String type, String expression) {
 		OJOperation get = OJUtil.findOperation(theClass, name);
 		if (get == null) {

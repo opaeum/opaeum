@@ -16,9 +16,7 @@ import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
-import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
@@ -103,7 +101,7 @@ public class DtoAssemblerImplementor extends StereotypeAnnotator {
 		assemble.setVisibility(OJVisibilityKind.PUBLIC);
 		assemble.setStatic(true);
 		assemble.addParam(param1, OJUtil.classifierPathname(c));
-		assemble.addParam(param2, OJUtil.classifierDtoPathname(c));
+		assemble.addParam(param2, PassByValueUtil.classifierDtoPathname(c));
 		myClass.addToOperations(assemble);
 		return assemble;
 	}
@@ -113,7 +111,7 @@ public class DtoAssemblerImplementor extends StereotypeAnnotator {
 		assemble.setName("assemble");
 		assemble.setVisibility(OJVisibilityKind.PUBLIC);
 		assemble.setStatic(true);
-		assemble.addParam(param1, OJUtil.classifierDtoPathname(c));
+		assemble.addParam(param1, PassByValueUtil.classifierDtoPathname(c));
 		assemble.addParam(param2, OJUtil.classifierPathname(c));
 		myClass.addToOperations(assemble);
 		return assemble;

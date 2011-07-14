@@ -29,8 +29,8 @@ public class DtoImplementor extends StereotypeAnnotator {
 			if (c instanceof INakedInterface) {
 				myClass = new OJAnnotatedInterface();
 				if (c.getSupertype()!=null) {
-					((OJAnnotatedInterface)myClass).addToSuperInterfaces(OJUtil.classifierDtoPathname(c.getSupertype()));
-					myClass.addToImports(OJUtil.classifierDtoPathname(c.getSupertype()));	
+					((OJAnnotatedInterface)myClass).addToSuperInterfaces(PassByValueUtil.classifierDtoPathname(c.getSupertype()));
+					myClass.addToImports(PassByValueUtil.classifierDtoPathname(c.getSupertype()));	
 				}
 			} else {
 				myClass = new OJAnnotatedClass();
@@ -43,10 +43,10 @@ public class DtoImplementor extends StereotypeAnnotator {
 				seri.setInitExp(c.getMappingInfo().getNakedUmlId() + "");
 				myClass.addToFields(seri);
 				for (INakedInterfaceRealization ir : c.getInterfaceRealizations()) {
-					myClass.addToImplementedInterfaces(OJUtil.classifierDtoPathname(ir.getContract()));
+					myClass.addToImplementedInterfaces(PassByValueUtil.classifierDtoPathname(ir.getContract()));
 				}
 				if (c.getSupertype()!=null) {
-					myClass.setSuperclass(OJUtil.classifierDtoPathname(c.getSupertype()));
+					myClass.setSuperclass(PassByValueUtil.classifierDtoPathname(c.getSupertype()));
 				}
 			}
 			myClass.setName(c.getName() + DtoImplementationStep.DTO);

@@ -9,6 +9,9 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import nl.klasse.octopus.model.IClassifier;
 
+import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+
 public abstract class AbstractPassByValueImplementor extends StereotypeAnnotator {
 
 	protected void findAllImplementingClassifiers(Set<INakedClassifier> implementingClassifiers, INakedClassifier c) {
@@ -34,4 +37,38 @@ public abstract class AbstractPassByValueImplementor extends StereotypeAnnotator
 			throw new RuntimeException("only INakedInterface and INakedEntity catered for, not " + c.getClass().getName());
 		}
 	}
+	
+	protected OJAnnotatedClass findDtoJavaClass(INakedClassifier classifier){
+		OJPathName path = PassByValueUtil.classifierDtoPathname(classifier);
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		if(owner == null){
+			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		}
+		return owner;
+	}
+	protected OJAnnotatedClass findAssemblerJavaClass(INakedClassifier classifier){
+		OJPathName path = PassByValueUtil.classifierAssemblerPathname(classifier);
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		if(owner == null){
+			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		}
+		return owner;
+	}
+	protected OJAnnotatedClass findControlerJavaClass(INakedClassifier classifier){
+		OJPathName path = PassByValueUtil.classifierControllerPathname(classifier);
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		if(owner == null){
+			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		}
+		return owner;
+	}
+
+	protected OJAnnotatedClass findWsInterfaceJavaClass(INakedClassifier classifier){
+		OJPathName path = PassByValueUtil.classifierWsInterfacePathname(classifier);
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		if(owner == null){
+			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		}
+		return owner;
+	}	
 }

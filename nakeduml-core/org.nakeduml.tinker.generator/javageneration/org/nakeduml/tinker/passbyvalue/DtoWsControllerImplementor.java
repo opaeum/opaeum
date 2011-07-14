@@ -49,12 +49,12 @@ public class DtoWsControllerImplementor extends AbstractPassByValueImplementor {
 
 	private void publishController(INakedClassifier c) {
 		publish.getBody().addToStatements(
-				OJUtil.classifierControllerPathname(c).getLast() + " " + NameConverter.decapitalize(c.getName() + DtoImplementationStep.CTRL) + " = new "
-						+ OJUtil.classifierControllerPathname(c).getLast() + "()");
+				PassByValueUtil.classifierControllerPathname(c).getLast() + " " + NameConverter.decapitalize(c.getName() + DtoImplementationStep.CTRL) + " = new "
+						+ PassByValueUtil.classifierControllerPathname(c).getLast() + "()");
 		publish.getBody().addToStatements(
 				"Endpoint.publish(\"/" + c.getName() + DtoImplementationStep.CTRL + DtoImplementationStep.WS + "\", "
 						+ NameConverter.decapitalize(c.getName() + DtoImplementationStep.CTRL) + ")");
-		webservicePublisher.addToImports(OJUtil.classifierControllerPathname(c));
+		webservicePublisher.addToImports(PassByValueUtil.classifierControllerPathname(c));
 		webservicePublisher.addToImports(new OJPathName("javax.xml.ws.Endpoint"));
 	}
 
@@ -79,7 +79,7 @@ public class DtoWsControllerImplementor extends AbstractPassByValueImplementor {
 		if (!subclasses.isEmpty()) {
 			OJAnnotationValue xmlSeeAlso = new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlSeeAlso"));
 			for (INakedClassifier classifier : subclasses) {
-				xmlSeeAlso.addClassValue(OJUtil.classifierDtoPathname(classifier));
+				xmlSeeAlso.addClassValue(PassByValueUtil.classifierDtoPathname(classifier));
 			}
 			myClass.addAnnotationIfNew(xmlSeeAlso);
 		}
@@ -88,7 +88,7 @@ public class DtoWsControllerImplementor extends AbstractPassByValueImplementor {
 	private void addWsAnnotationToController(INakedClassifier c) {
 		OJAnnotatedClass myClass = findControlerJavaClass(c);
 		OJAnnotationValue webService = new OJAnnotationValue(new OJPathName("javax.jws.WebService"));
-		webService.putAttribute("endpointInterface", OJUtil.classifierWsInterfacePathname(c).toJavaString());
+		webService.putAttribute("endpointInterface", PassByValueUtil.classifierWsInterfacePathname(c).toJavaString());
 		webService.putAttribute("serviceName", myClass.getName() + DtoImplementationStep.WS);
 		myClass.addAnnotationIfNew(webService);
 	}

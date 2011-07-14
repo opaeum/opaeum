@@ -121,39 +121,6 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		}
 		return owner;
 	}
-	protected OJAnnotatedClass findDtoJavaClass(INakedClassifier classifier){
-		OJPathName path = OJUtil.classifierDtoPathname(classifier);
-		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if(owner == null){
-			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		}
-		return owner;
-	}
-	protected OJAnnotatedClass findAssemblerJavaClass(INakedClassifier classifier){
-		OJPathName path = OJUtil.classifierAssemblerPathname(classifier);
-		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if(owner == null){
-			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		}
-		return owner;
-	}
-	protected OJAnnotatedClass findControlerJavaClass(INakedClassifier classifier){
-		OJPathName path = OJUtil.classifierControllerPathname(classifier);
-		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if(owner == null){
-			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		}
-		return owner;
-	}
-
-	protected OJAnnotatedClass findWsInterfaceJavaClass(INakedClassifier classifier){
-		OJPathName path = OJUtil.classifierWsInterfacePathname(classifier);
-		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if(owner == null){
-			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		}
-		return owner;
-	}
 
 	protected static OJConstructor findConstructor(OJAnnotatedClass c,OJPathName parameter1){
 		return c.findConstructor(parameter1);

@@ -13,7 +13,6 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import nl.klasse.octopus.model.IClassifier;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJField;
@@ -66,19 +65,19 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 	private void addFindToInterface(OJAnnotatedInterface wsInf, INakedClassifier c) {
 		OJAnnotatedOperation find = new OJAnnotatedOperation("find");
 		find.addParam(c.getMappingInfo().getJavaName().getDecapped() + "Id", new OJPathName("java.lang.Long"));
-		find.setReturnType(OJUtil.classifierDtoPathname(c));
+		find.setReturnType(PassByValueUtil.classifierDtoPathname(c));
 		wsInf.addToOperations(find);
 	}
 
 	private void addCreateToInterface(OJAnnotatedInterface wsInf, INakedClassifier c) {
 		OJAnnotatedOperation create = new OJAnnotatedOperation("create");
-		create.addParam("dto", OJUtil.classifierDtoPathname(c));
+		create.addParam("dto", PassByValueUtil.classifierDtoPathname(c));
 		wsInf.addToOperations(create);
 	}
 
 	private void addUpdateToInterface(OJAnnotatedInterface wsInf, INakedClassifier c) {
 		OJAnnotatedOperation update = new OJAnnotatedOperation("update");
-		update.addParam("dto", OJUtil.classifierDtoPathname(c));
+		update.addParam("dto", PassByValueUtil.classifierDtoPathname(c));
 		wsInf.addToOperations(update);
 	}
 
@@ -113,7 +112,7 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 		OJAnnotatedOperation find = new OJAnnotatedOperation("find");
 		find.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		find.addParam(c.getMappingInfo().getJavaName().getDecapped() + "Id", new OJPathName("java.lang.Long"));
-		find.setReturnType(OJUtil.classifierDtoPathname(c));
+		find.setReturnType(PassByValueUtil.classifierDtoPathname(c));
 		myClass.addToOperations(find);
 		find.getBody().addToStatements("before()");
 		OJTryStatement ojTryStatement = new OJTryStatement();
@@ -122,10 +121,10 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 				OJUtil.classifierPathname(c).getLast() + " " + c.getMappingInfo().getJavaName().getDecapped() + " = db.instantiateClassifier("
 						+ c.getMappingInfo().getJavaName().getDecapped() + "Id" + ")");
 		ojTryStatement.getTryPart().addToStatements(
-				OJUtil.classifierDtoPathname(c).getLast() + " " + c.getMappingInfo().getJavaName().getDecapped() + "Dto = new "
-						+ OJUtil.classifierDtoPathname(c).getLast() + "()");
+				PassByValueUtil.classifierDtoPathname(c).getLast() + " " + c.getMappingInfo().getJavaName().getDecapped() + "Dto = new "
+						+ PassByValueUtil.classifierDtoPathname(c).getLast() + "()");
 		ojTryStatement.getTryPart().addToStatements(
-				OJUtil.classifierAssemblerPathname(c).getLast() + ".assemble(" + c.getMappingInfo().getJavaName().getDecapped() + ", "
+				PassByValueUtil.classifierAssemblerPathname(c).getLast() + ".assemble(" + c.getMappingInfo().getJavaName().getDecapped() + ", "
 						+ c.getMappingInfo().getJavaName().getDecapped() + "Dto)");
 		ojTryStatement.getTryPart().addToStatements("db.stopTransaction(Conclusion.SUCCESS)");
 		ojTryStatement.getTryPart().addToStatements("return " + c.getMappingInfo().getJavaName().getDecapped() + "Dto");
@@ -140,7 +139,7 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 	private void addCreate(OJAnnotatedClass myClass, INakedEntity c) {
 		OJAnnotatedOperation create = new OJAnnotatedOperation("create");
 		create.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
-		create.addParam("dto", OJUtil.classifierDtoPathname(c));
+		create.addParam("dto", PassByValueUtil.classifierDtoPathname(c));
 		myClass.addToOperations(create);
 		create.getBody().addToStatements("before()");
 		OJTryStatement ojTryStatement = new OJTryStatement();
@@ -149,7 +148,7 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 				OJUtil.classifierPathname(c).getLast() + " " + c.getMappingInfo().getJavaName().getDecapped() + " = new "
 						+ OJUtil.classifierPathname(c).getLast() + "(true)");
 		ojTryStatement.getTryPart().addToStatements(
-				OJUtil.classifierAssemblerPathname(c).getLast() + ".assemble(dto, " + c.getMappingInfo().getJavaName().getDecapped() + ")");
+				PassByValueUtil.classifierAssemblerPathname(c).getLast() + ".assemble(dto, " + c.getMappingInfo().getJavaName().getDecapped() + ")");
 		ojTryStatement.getTryPart().addToStatements("db.stopTransaction(Conclusion.SUCCESS)");
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.RuntimeException")));
 		ojTryStatement.getCatchPart().addToStatements("db.stopTransaction(Conclusion.FAILURE)");
@@ -162,7 +161,7 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 	private void addUpdate(OJAnnotatedClass myClass, INakedClassifier c) {
 		OJAnnotatedOperation update = new OJAnnotatedOperation("update");
 		update.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
-		update.addParam("dto", OJUtil.classifierDtoPathname(c));
+		update.addParam("dto", PassByValueUtil.classifierDtoPathname(c));
 		myClass.addToOperations(update);
 		update.getBody().addToStatements("before()");
 		OJTryStatement ojTryStatement = new OJTryStatement();
@@ -170,7 +169,7 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 		ojTryStatement.getTryPart().addToStatements(
 				OJUtil.classifierPathname(c).getLast() + " " + c.getMappingInfo().getJavaName().getDecapped() + " = db.instantiateClassifier(dto.getId())");
 		ojTryStatement.getTryPart().addToStatements(
-				OJUtil.classifierAssemblerPathname(c).getLast() + ".assemble(dto, " + c.getMappingInfo().getJavaName().getDecapped() + ")");
+				PassByValueUtil.classifierAssemblerPathname(c).getLast() + ".assemble(dto, " + c.getMappingInfo().getJavaName().getDecapped() + ")");
 		ojTryStatement.getTryPart().addToStatements("db.stopTransaction(Conclusion.SUCCESS)");
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.RuntimeException")));
 		ojTryStatement.getCatchPart().addToStatements("db.stopTransaction(Conclusion.FAILURE)");
@@ -192,10 +191,10 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 					ojClass.addToOperations(get);
 					if (otherMap.isMany()) {
 						OJPathName resultPath = new OJPathName("java.util.List");
-						resultPath.addToElementTypes(OJUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
+						resultPath.addToElementTypes(PassByValueUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
 						get.setReturnType(resultPath);
 					} else {
-						get.setReturnType(OJUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
+						get.setReturnType(PassByValueUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
 					}
 				} else if (((p.getNakedBaseType() instanceof INakedEntity) || (p.getNakedBaseType() instanceof INakedInterface)) && map.isManyToMany()) {
 				}
@@ -230,15 +229,15 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 
 					OJField newDto = new OJField();
 					newDto.setName("dto");
-					newDto.setType(OJUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
+					newDto.setType(PassByValueUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
 					newDto.setInitExp("null");
 
 					if (otherMap.isMany()) {
 						OJPathName resultPath = new OJPathName("java.util.List");
-						resultPath.addToElementTypes(OJUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
+						resultPath.addToElementTypes(PassByValueUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
 						get.setReturnType(resultPath);
 						result.setType(resultPath);
-						result.setInitExp("new ArrayList<" + OJUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()).getLast() + ">()");
+						result.setInitExp("new ArrayList<" + PassByValueUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()).getLast() + ">()");
 						ojClass.addToImports(new OJPathName("java.util.List"));
 						ojClass.addToImports(new OJPathName("java.util.ArrayList"));
 						ojTryStatement.getTryPart().addToLocals(result);
@@ -264,7 +263,7 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 
 					} else {
 
-						get.setReturnType(OJUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
+						get.setReturnType(PassByValueUtil.classifierDtoPathname(otherMap.getProperty().getNakedBaseType()));
 						ojTryStatement.getTryPart().addToLocals(newDto);
 
 						Set<INakedClassifier> subclasses = new HashSet<INakedClassifier>();
@@ -299,10 +298,10 @@ public class DtoOutOfControllerImplementor extends AbstractPassByValueImplemento
 		String condition = otherMap.umlName() + ".getClass().isAssignableFrom(" + OJUtil.classifierPathname(implementing).getLast() + ".class) && (" + otherMap.umlName() + " instanceof " + OJUtil.classifierPathname(implementing).getLast() + ")";
 		OJIfStatement ifStatement = new OJIfStatement(condition);
 		ojClass.addToImports(OJUtil.classifierPathname(implementing));
-		ifStatement.addToThenPart("dto = new " + OJUtil.classifierDtoPathname(implementing).getLast() + "()");
-		ojClass.addToImports(OJUtil.classifierDtoPathname(implementing));
-		ifStatement.addToThenPart(OJUtil.classifierAssemblerPathname(implementing).getLast() + ".assemble(("
-				+ OJUtil.classifierPathname(implementing).getLast() + ")" + otherMap.umlName() + " ,(" + OJUtil.classifierDtoPathname(implementing).getLast()
+		ifStatement.addToThenPart("dto = new " + PassByValueUtil.classifierDtoPathname(implementing).getLast() + "()");
+		ojClass.addToImports(PassByValueUtil.classifierDtoPathname(implementing));
+		ifStatement.addToThenPart(PassByValueUtil.classifierAssemblerPathname(implementing).getLast() + ".assemble(("
+				+ OJUtil.classifierPathname(implementing).getLast() + ")" + otherMap.umlName() + " ,(" + PassByValueUtil.classifierDtoPathname(implementing).getLast()
 				+ ")dto)");
 		block.addToStatements(ifStatement);
 	}
