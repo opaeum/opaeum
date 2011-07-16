@@ -395,8 +395,8 @@ public class GraphicsBridge extends java.awt.Graphics{
 			l=((ILabelFigure) f).getLabel();
 		}
 		GraphicsBridge g2 = new GraphicsBridge(graphics);
-//		c.setForeground(convert(l.getForegroundColor()));
-//		c.setBackground(convert(l.getBackgroundColor()));
+//		c.setForeground(convert(EditPartUtil.getForegroundColor()));
+//		c.setBackground(convert(EditPartUtil.getBackgroundColor()));
 		c.setBounds(new Rectangle(f.getBounds().x + 2, f.getBounds().y + 2, f.getBounds().width - 4, f.getBounds().height - 4));
 		java.awt.Graphics create = g2.create(f.getBounds().x + 2, f.getBounds().y + 2, f.getBounds().width - 4, f.getBounds().height - 4);
 		c.setFont(convert(l.getFont()));

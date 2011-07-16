@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 
@@ -35,25 +34,26 @@ import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
 
 /**
- * Represents the concept of multiple emf models as one root workspace. Hacked to implement Element because of visitor constraints
+ * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
  * 
  */
 public class EmfWorkspace implements Element{
-	Set<Package> generatingModels = new HashSet<Package>();
-	Set<Package> primaryModels = new HashSet<Package>();
+	private Set<Package> generatingModels = new HashSet<Package>();
+	private Set<Package> primaryModels = new HashSet<Package>();
 	private WorkspaceMappingInfoImpl mappingInfo;
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
 	private UriResolver uriResolver;
 	private UmlElementMap umlElementMap;
-	//Load single model
+	private Set<Model> libraries=new HashSet<Model>();
+	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
 		addGeneratingModelOrProfile(model);
-		this.directoryUri=model.eResource().getURI().trimFileExtension().trimSegments(1);
+		this.directoryUri = model.eResource().getURI().trimFileExtension().trimSegments(1);
 	}
-	//Load entire resourceSet
+	// Load entire resourceSet
 	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String identifier){
 		this.resourceSet = rs;
 		this.mappingInfo = mappingInfo;
@@ -62,9 +62,9 @@ public class EmfWorkspace implements Element{
 				primaryModels.add((Package) pkg);
 			}
 		}
-		this.directoryUri=uri;
-		this.identifier=identifier;
-		this.umlElementMap=UmlElementMap.getInstance(rs);
+		this.directoryUri = uri;
+		this.identifier = identifier;
+		this.umlElementMap = UmlElementMap.getInstance(rs);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -108,7 +108,7 @@ public class EmfWorkspace implements Element{
 		for(Resource r:resourceSet.getResources()){
 			Package pkg = getPackageFrom(r);
 			String fileString = r.getURI().toString();
-			if((pkg!=null&& (pkg.getName()==null|| (!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore"))) && isRootObject(pkg))){
+			if((pkg != null && (pkg.getName() == null || (!fileString.contains("UML_METAMODELS") && !pkg.getName().equalsIgnoreCase("ecore"))) && isRootObject(pkg))){
 				result.add(pkg);
 			}
 		}
@@ -341,12 +341,24 @@ public class EmfWorkspace implements Element{
 		this.uriResolver = uriResolver;
 	}
 	public UriResolver getUriResolver(){
-		if(uriResolver==null){
-			uriResolver=new DefaultUriResolver();
+		if(uriResolver == null){
+			uriResolver = new DefaultUriResolver();
 		}
 		return uriResolver;
 	}
 	public void setMappingInfo(IWorkspaceMappingInfo mappingInfo2){
-		this.mappingInfo=(WorkspaceMappingInfoImpl) mappingInfo2;
+		this.mappingInfo = (WorkspaceMappingInfoImpl) mappingInfo2;
+	}
+	public void markLibraries(String...names){
+		for(Element element:this.getOwnedElements()){
+			for(String string:names){
+				if(element instanceof Model && element.eResource().getURI().toString().contains(string)){
+					this.libraries.add((Model)element);
+				}
+			}
+		}
+	}
+	public boolean isLibrary(Model p){
+		return this.libraries.contains(p);
 	}
 }

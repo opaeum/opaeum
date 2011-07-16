@@ -383,6 +383,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		java.io.Reader r = new java.io.BufferedReader(sr);
 		OclParser parser = new OclParser(r);
 		try{
+			if(workspace.getBusinessRole()!=null){
+				env.addElement("currentUser", new VariableDeclaration("currentUser", workspace.getBusinessRole()), false);
+			}
 			ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
 			IOclContext newC = transformIntoOclContext(holder, ast, localErrors);
 			IClassifier expressionType = newC.getExpression().getExpressionType();

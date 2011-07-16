@@ -83,17 +83,27 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		bpmDrawer = new PaletteDrawer("BPM", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.activitydiagram");
 		CreationFactory esctfactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOpaqueAction(), StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
-		entries.add(new ModelerCreationToolEntry("Simple Task", "Simple Task", esctfactory, ActivityImageRegistry
-				.getImageDescriptor("OPAQUEACTION"), ActivityImageRegistry.getImageDescriptor("OPAQUEACTION_LARGE")));
-		CreationFactory acceptDeadline = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAcceptEventAction(), StereotypeNames.ACCEPT_DEADLINE_ACTION);
+		entries.add(new ModelerCreationToolEntry("Simple Task", "Simple Task", esctfactory, ActivityImageRegistry.getImageDescriptor("OPAQUEACTION"),
+				ActivityImageRegistry.getImageDescriptor("OPAQUEACTION_LARGE")));
+		CreationFactory escftfactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCallBehaviorAction(), StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK);
+		entries.add(new ModelerCreationToolEntry("Screen Flow Task", "Screen Flow Task", escftfactory, ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION"),
+				ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION_LARGE")));
+		CreationFactory acceptDeadline = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAcceptEventAction(),
+				StereotypeNames.ACCEPT_DEADLINE_ACTION);
 		entries.add(new ModelerCreationToolEntry("On Deadline Reached", "On Deadline Reached", acceptDeadline, ActivityImageRegistry
-				.getImageDescriptor("ACCEPTTIMEVENTACTION"), ActivityImageRegistry.getImageDescriptor("ACCEPTTIMEEVENTACTION_LARGE")));
-		CreationFactory acceptTaskEvent = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAcceptEventAction(), StereotypeNames.ACCEPT_TASK_EVENT_ACTION);
-		entries.add(new ModelerCreationToolEntry("On Task Event", "On Task Event", acceptTaskEvent, ActivityImageRegistry
-				.getImageDescriptor("ACCEPTCALLACTION"), ActivityImageRegistry.getImageDescriptor("ACCEPTCALLACTION_LARGE")));
-		CreationFactory sendNotification= new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSendSignalAction(), StereotypeNames.SEND_NOTIFICATION_ACTION);
-		entries.add(new ModelerCreationToolEntry("Send Notification", "Send Notification", sendNotification, ActivityImageRegistry
-				.getImageDescriptor("SENDSIGNALACTION"), ActivityImageRegistry.getImageDescriptor("SENDSIGNALACTION_LARGE")));
+				.getImageDescriptor("ACCEPTTIMEEVENTACTION"), ActivityImageRegistry.getImageDescriptor("ACCEPTTIMEEVENTACTION_LARGE")));
+		CreationFactory acceptTaskEvent = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAcceptEventAction(),
+				StereotypeNames.ACCEPT_TASK_EVENT_ACTION);
+		entries.add(new ModelerCreationToolEntry("On Task Event", "On Task Event", acceptTaskEvent, ActivityImageRegistry.getImageDescriptor("ACCEPTCALLACTION"),
+				ActivityImageRegistry.getImageDescriptor("ACCEPTCALLACTION_LARGE")));
+		CreationFactory callBusinessProcess = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCallBehaviorAction(),
+				StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
+		entries.add(new ModelerCreationToolEntry("Call Business Process", "Call Business Process", callBusinessProcess,
+				ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION"), ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION_LARGE")));
+		CreationFactory sendNotification = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSendSignalAction(),
+				StereotypeNames.SEND_NOTIFICATION_ACTION);
+		entries.add(new ModelerCreationToolEntry("Send Notification", "Send Notification", sendNotification,
+				ActivityImageRegistry.getImageDescriptor("SENDSIGNALACTION"), ActivityImageRegistry.getImageDescriptor("SENDSIGNALACTION_LARGE")));
 		bpmDrawer.addAll(entries);
 		if(bpmDrawer.getChildren().size() > 0){
 			getRoot().add(bpmDrawer);
@@ -192,51 +202,36 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.activitydiagram");
 		CreationFactory factory;
 		PaletteEntry defaultPaletteEntry;
-		PaletteStack basicActionsStack = new PaletteStack("Call Behavior Action", "Call Behavior Action", ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION"));
-		// PaletteStack intermediateActionsStack = new PaletteStack("Read Link Action", "Read Link Action",
-		// ActivityImageRegistry.getImageDescriptor("READLINKACTION"));
-		PaletteStack structuralFeatureActionsStack = new PaletteStack("Read Structural Feature Action", "Read Structural Feature Action",
+		PaletteStack basicActionsStack = new PaletteStack("Call Method", "Call Method", ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION"));
+		PaletteStack structuralFeatureActionsStack = new PaletteStack("Read Property", "Read Property",
 				ActivityImageRegistry.getImageDescriptor("READSTRUCTURALFEATUREACTION"));
-		PaletteStack structuredActionsStack = new PaletteStack("Read Variable Action", "Read Variable Action",
+		PaletteStack structuredActionsStack = new PaletteStack("Read Variable", "Read Variable",
 				ActivityImageRegistry.getImageDescriptor("READVARIABLEACTION"));
-		PaletteStack completeActionsStack = new PaletteStack("Accept Event Action", "Accept Event Action", ActivityImageRegistry.getImageDescriptor("ACCEPTEVENTACTION"));
+		PaletteStack completeActionsStack = new PaletteStack("Wait for Event", "Wait for Event", ActivityImageRegistry.getImageDescriptor("ACCEPTEVENTACTION"));
 		// =================================== BasicActions ====================================
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCallBehaviorAction(), "default");
-		defaultPaletteEntry = new ModelerCreationToolEntry("Call Behavior Action", "Call Behavior Action", factory,
+		NakedElementCreationFactory cmaFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCallBehaviorAction(), StereotypeNames.CALL_METHOD_ACTION);
+		defaultPaletteEntry = new ModelerCreationToolEntry("Call Method", "Call Method", cmaFactory,
 				ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION"), ActivityImageRegistry.getImageDescriptor("CALLBEHAVIORACTION_LARGE"));
 		basicActionsStack.add(defaultPaletteEntry);
 		basicActionsStack.setActiveEntry(defaultPaletteEntry);
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCallOperationAction(), "default");
-		basicActionsStack.add(new ModelerCreationToolEntry("Call Operation Action", "Call Operation Action", factory, ActivityImageRegistry
+		basicActionsStack.add(new ModelerCreationToolEntry("Call Operation", "Call Operation", factory, ActivityImageRegistry
 				.getImageDescriptor("CALLOPERATIONACTION"), ActivityImageRegistry.getImageDescriptor("CALLOPERATIONACTION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSendObjectAction(), "default");
 		// basicActionsStack.add(new ModelerCreationToolEntry("Send Object Action", "Send Object Action", factory,
 		// ActivityImageRegistry.getImageDescriptor("SENDOBJECTACTION"),
 		// ActivityImageRegistry.getImageDescriptor("SENDOBJECTACTION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSendSignalAction(), "default");
-		basicActionsStack.add(new ModelerCreationToolEntry("Send Signal Action", "Send Signal Action", factory, ActivityImageRegistry
+		basicActionsStack.add(new ModelerCreationToolEntry("Send Signal", "Send Signal", factory, ActivityImageRegistry
 				.getImageDescriptor("SENDSIGNALACTION"), ActivityImageRegistry.getImageDescriptor("SENDSIGNALACTION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOpaqueAction(), "default");
 		basicActionsStack.add(new ModelerCreationToolEntry("Opaque Action", "Opaque Action", factory, ActivityImageRegistry.getImageDescriptor("OPAQUEACTION"),
 				ActivityImageRegistry.getImageDescriptor("OPAQUEACTION_LARGE")));
 		// =================================== IntermediateActions ====================================
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReadLinkAction(), "default");
-		// defaultPaletteEntry = new ModelerCreationToolEntry("Read Link Action", "Read Link Action", factory,
-		// ActivityImageRegistry.getImageDescriptor("READLINKACTION"),
-		// ActivityImageRegistry.getImageDescriptor("READLINKACTION_LARGE"));
-		// intermediateActionsStack.add(defaultPaletteEntry);
-		// intermediateActionsStack.setActiveEntry(defaultPaletteEntry);
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReadSelfAction(), "default");
-		// intermediateActionsStack.add(new ModelerCreationToolEntry("Read Self Action", "Read Self Action", factory,
-		// ActivityImageRegistry.getImageDescriptor("READSELFACTION"),
-		// ActivityImageRegistry.getImageDescriptor("READSELFACTION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCreateObjectAction(), "default");
-		basicActionsStack.add(new ModelerCreationToolEntry("Create Object Action", "Create Object Action", factory, ActivityImageRegistry
+		basicActionsStack.add(new ModelerCreationToolEntry("Create Object", "Create Object", factory, ActivityImageRegistry
 				.getImageDescriptor("CREATEOBJECTACTION"), ActivityImageRegistry.getImageDescriptor("CREATEOBJECTACTION_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCreateLinkAction(), "default");
-		// intermediateActionsStack.add(new ModelerCreationToolEntry("Create Link Action", "Create Link Action", factory,
-		// ActivityImageRegistry.getImageDescriptor("CREATELINKACTION"),
-		// ActivityImageRegistry.getImageDescriptor("CREATELINKACTION_LARGE")));
 		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getBroadcastSignalAction(), "default");
 		// intermediateActionsStack.add(new ModelerCreationToolEntry("Broadcast Signal Action", "Broadcast Signal Action", factory,
 		// ActivityImageRegistry.getImageDescriptor("BROADCASTSIGNALACTION"),
@@ -257,13 +252,9 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		// intermediateActionsStack.add(new ModelerCreationToolEntry("Destroy Object Action", "Destroy Object Action", factory,
 		// ActivityImageRegistry.getImageDescriptor("DESTROYOBJECTACTION"),
 		// ActivityImageRegistry.getImageDescriptor("DESTROYOBJECTACTION_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getDestroyLinkAction(), "default");
-		// intermediateActionsStack.add(new ModelerCreationToolEntry("Destroy Link Action", "Destroy Link Action", factory,
-		// ActivityImageRegistry.getImageDescriptor("DESTROYLINKACTION"),
-		// ActivityImageRegistry.getImageDescriptor("DESTROYLINKACTION_LARGE")));
 		// =================================== CompleteActions ====================================
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAcceptEventAction(), "default");
-		defaultPaletteEntry = new ModelerCreationToolEntry("Accept Event Action", "Accept Event Action", factory,
+		defaultPaletteEntry = new ModelerCreationToolEntry("Wait for Event", "Wait for Event", factory,
 				ActivityImageRegistry.getImageDescriptor("ACCEPTEVENTACTION"), ActivityImageRegistry.getImageDescriptor("ACCEPTEVENTACTION_LARGE"));
 		completeActionsStack.add(defaultPaletteEntry);
 		completeActionsStack.setActiveEntry(defaultPaletteEntry);
@@ -279,7 +270,7 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 				.getImageDescriptor("ACCEPTTIMEEVENTACTION"), ActivityImageRegistry.getImageDescriptor("ACCEPTTIMEEVENTACTION_LARGE")));
 		// EndFix #807
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAcceptCallAction(), "default");
-		completeActionsStack.add(new ModelerCreationToolEntry("Accept Call Action", "Accept Call Action", factory, ActivityImageRegistry
+		completeActionsStack.add(new ModelerCreationToolEntry("Receive Call", "Receive Call", factory, ActivityImageRegistry
 				.getImageDescriptor("ACCEPTCALLACTION"), ActivityImageRegistry.getImageDescriptor("ACCEPTCALLACTION_LARGE")));
 		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCreateLinkObjectAction(), "default");
 		// completeActionsStack.add(new ModelerCreationToolEntry("Create Link Object Action", "Create Link Object Action", factory,
@@ -325,22 +316,19 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		// ActivityImageRegistry.getImageDescriptor("UNMARSHALLACTION_LARGE")));
 		// =================================== StructuralFeatureActions ====================================
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getClearStructuralFeatureAction(), "default");
-		structuralFeatureActionsStack
-				.add(new ModelerCreationToolEntry("Clear Property Values Action", "Clear Property Values Action", factory, ActivityImageRegistry
-						.getImageDescriptor("CLEARSTRUCTURALFEATUREACTION"), ActivityImageRegistry.getImageDescriptor("CLEARSTRUCTURALFEATUREACTION_LARGE")));
+		structuralFeatureActionsStack.add(new ModelerCreationToolEntry("Clear Property Values", "Clear Property Values", factory, ActivityImageRegistry
+				.getImageDescriptor("CLEARSTRUCTURALFEATUREACTION"), ActivityImageRegistry.getImageDescriptor("CLEARSTRUCTURALFEATUREACTION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReadStructuralFeatureAction(), "default");
-		defaultPaletteEntry = new ModelerCreationToolEntry("Read Property Action", "Read Property Action", factory,
+		defaultPaletteEntry = new ModelerCreationToolEntry("Read Property", "Read Property", factory,
 				ActivityImageRegistry.getImageDescriptor("READSTRUCTURALFEATUREACTION"), ActivityImageRegistry.getImageDescriptor("READSTRUCTURALFEATUREACTION_LARGE"));
 		structuralFeatureActionsStack.add(defaultPaletteEntry);
 		structuralFeatureActionsStack.setActiveEntry(defaultPaletteEntry);
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAddStructuralFeatureValueAction(), "default");
-		structuralFeatureActionsStack.add(new ModelerCreationToolEntry("Add Property Value Action", "Add Property Value Action", factory,
-				ActivityImageRegistry.getImageDescriptor("ADDSTRUCTURALFEATUREVALUEACTION"), ActivityImageRegistry
-						.getImageDescriptor("ADDSTRUCTURALFEATUREVALUEACTION_LARGE")));
+		structuralFeatureActionsStack.add(new ModelerCreationToolEntry("Add Property Value", "Add Property Value", factory, ActivityImageRegistry
+				.getImageDescriptor("ADDSTRUCTURALFEATUREVALUEACTION"), ActivityImageRegistry.getImageDescriptor("ADDSTRUCTURALFEATUREVALUEACTION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getRemoveStructuralFeatureValueAction(), "default");
-		structuralFeatureActionsStack.add(new ModelerCreationToolEntry("Remove Property Value Action", "Remove Property Value Action", factory,
-				ActivityImageRegistry.getImageDescriptor("REMOVESTRUCTURALFEATUREVALUEACTION"), ActivityImageRegistry
-						.getImageDescriptor("REMOVESTRUCTURALFEATUREVALUEACTION_LARGE")));
+		structuralFeatureActionsStack.add(new ModelerCreationToolEntry("Remove Property Value Action", "Remove Property Value Action", factory, ActivityImageRegistry
+				.getImageDescriptor("REMOVESTRUCTURALFEATUREVALUEACTION"), ActivityImageRegistry.getImageDescriptor("REMOVESTRUCTURALFEATUREVALUEACTION_LARGE")));
 		// =================================== StructuredActions ====================================
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getReadVariableAction(), "default");
 		defaultPaletteEntry = new ModelerCreationToolEntry("Read Variable Action", "Read Variable Action", factory,
@@ -364,17 +352,11 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		entries.add(structuredActionsStack);
 		entries.add(completeActionsStack);
 		actionsDrawer.setInitialState(PaletteDrawer.INITIAL_STATE_CLOSED);
-
 		actionsDrawer.addAll(entries);
 		if(actionsDrawer.getChildren().size() > 0){
 			getRoot().add(actionsDrawer);
 		}
 	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	private void createObjectDrawer(){
 		objectDrawer = new PaletteDrawer("Object", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.activitydiagram");
@@ -390,34 +372,6 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		};
 		entries.add(new ModelerCreationToolEntry("Activity Parameter", "Activity Parameter", factory, ActivityImageRegistry.getImageDescriptor("ACTIVITYPARAMETERNODE"),
 				ActivityImageRegistry.getImageDescriptor("ACTIVITYPARAMETERNODE_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getCentralBufferNode(), "default")
-		// {
-		// public EObject getNewModelObject()
-		// {
-		// CentralBufferNode element = (CentralBufferNode) super.getNewModelObject();
-		// LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
-		// upperBound.setValue(-1);
-		// element.setUpperBound(upperBound);
-		// return element;
-		// }
-		// };
-		// entries.add(new ModelerCreationToolEntry("Central Buffer", "Central Buffer", factory,
-		// ActivityImageRegistry.getImageDescriptor("CENTRALBUFFERNODE"),
-		// ActivityImageRegistry.getImageDescriptor("CENTRALBUFFERNODE_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getDataStoreNode(), "default")
-		// {
-		// public EObject getNewModelObject()
-		// {
-		// DataStoreNode element = (DataStoreNode) super.getNewModelObject();
-		// LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
-		// upperBound.setValue(-1);
-		// element.setUpperBound(upperBound);
-		// return element;
-		// }
-		// };
-		// entries.add(new ModelerCreationToolEntry("DataStore", "DataStore", factory,
-		// ActivityImageRegistry.getImageDescriptor("DATASTORENODE"),
-		// ActivityImageRegistry.getImageDescriptor("DATASTORENODE_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getExpansionNode(), "default"){
 			public EObject getNewModelObject(){
 				ExpansionNode element = (ExpansionNode) super.getNewModelObject();
@@ -427,20 +381,9 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
-		entries.add(new ModelerCreationToolEntry("Loop Collection", "Loop Collection", factory, ActivityImageRegistry.getImageDescriptor("EXPANSIONNODE"), ActivityImageRegistry
-				.getImageDescriptor("EXPANSIONNODE_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getValuePin(), "default"){
-			public EObject getNewModelObject(){
-				InputPin element = (InputPin) super.getNewModelObject();
-				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
-				upperBound.setValue(-1);
-				element.setUpperBound(upperBound);
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Ocl Input", "Ocl Input", factory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
-				.getImageDescriptor("INPUTPIN_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInputPin(), "default"){
+		entries.add(new ModelerCreationToolEntry("Loop Collection", "Loop Collection", factory, ActivityImageRegistry.getImageDescriptor("EXPANSIONNODE"),
+				ActivityImageRegistry.getImageDescriptor("EXPANSIONNODE_LARGE")));
+		GraphElementCreationFactory vpFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getValuePin(), "default"){
 			public EObject getNewModelObject(){
 				ValuePin element = (ValuePin) super.getNewModelObject();
 				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
@@ -449,9 +392,9 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
-		entries.add(new ModelerCreationToolEntry("Object Input", "Object Input ", factory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
+		entries.add(new ModelerCreationToolEntry("Ocl Input", "Ocl Input", vpFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
 				.getImageDescriptor("INPUTPIN_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOutputPin(), "default"){
+		GraphElementCreationFactory ipFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInputPin(), "default"){
 			public EObject getNewModelObject(){
 				InputPin element = (InputPin) super.getNewModelObject();
 				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
@@ -460,9 +403,19 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
+		entries.add(new ModelerCreationToolEntry("Object Input", "Object Input ", ipFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
+				.getImageDescriptor("INPUTPIN_LARGE")));
+		GraphElementCreationFactory opFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOutputPin(), "default"){
+			public EObject getNewModelObject(){
+				OutputPin element = (OutputPin) super.getNewModelObject();
+				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
+				upperBound.setValue(-1);
+				element.setUpperBound(upperBound);
+				return element;
+			}
+		};
 		objectDrawer.setInitialState(PaletteDrawer.INITIAL_STATE_CLOSED);
-
-		entries.add(new ModelerCreationToolEntry("Object Output", "Object Output", factory, ActivityImageRegistry.getImageDescriptor("OUTPUTPIN"), ActivityImageRegistry
+		entries.add(new ModelerCreationToolEntry("Object Output", "Object Output", opFactory, ActivityImageRegistry.getImageDescriptor("OUTPUTPIN"), ActivityImageRegistry
 				.getImageDescriptor("OUTPUTPIN_LARGE")));
 		objectDrawer.addAll(entries);
 		if(objectDrawer.getChildren().size() > 0){

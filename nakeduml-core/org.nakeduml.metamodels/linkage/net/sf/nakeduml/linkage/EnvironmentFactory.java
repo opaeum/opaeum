@@ -31,6 +31,10 @@ import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IImportedElement;
+import nl.klasse.octopus.model.INameSpace;
+import nl.klasse.octopus.model.IPackage;
 
 public class EnvironmentFactory{
 	INakedModelWorkspace workspace;
@@ -44,7 +48,7 @@ public class EnvironmentFactory{
 	public Environment createClassifierEnvironment(INakedClassifier c){
 		Environment env = createSelflessEnvironment(c);
 		env.addElement("self", new VariableDeclaration("self", c), true);
-		if(c.getNestingClassifier()!=null){
+		if(c.getNestingClassifier() != null){
 			env.addElement("owningObject", new VariableDeclaration("owningObject", c.getNestingClassifier()), true);
 		}
 		env.addStates(c);
@@ -85,12 +89,12 @@ public class EnvironmentFactory{
 		Environment env = new Environment();
 		env.setParent(parent);
 		do{
-			env.addPackageContents(ns);
+			addPackageContents(ns, env);
 			ns = ns.getNameSpace();
 			// import everything up to the nearest packag
 		}while(ns.getNameSpace() instanceof INakedClassifier);
 		if(ns != null){
-			env.addPackageContents(ns);
+			addPackageContents(ns, env);
 		}
 		if(workspace.getMappedTypes().getDateType() != null){
 			env.addElement("now", new VariableDeclaration("now", workspace.getMappedTypes().getDateType()), true);
@@ -104,16 +108,34 @@ public class EnvironmentFactory{
 		}
 		return env;
 	}
+	private void addPackageContents(INakedNameSpace p,Environment env){
+		if(p == null)
+			return;
+		for(IClassifier c:p.getClassifiers()){
+			if(c instanceof INakedActivity && ((INakedActivity) c).getActivityKind().isSimpleSynchronousMethod()){
+			}else{
+				env.addElement(c.getName(), c, false);
+			}
+		}
+		for(IImportedElement imp:p.getImports()){
+			if(!imp.isReference()){
+				env.addElement(imp.getName(), imp.getElement(), false);
+			}
+		}
+		for(IPackage sub:p.getSubpackages()){
+			env.addElement(sub.getName(), sub, false);
+		}
+	}
 	private Environment createBehavioralEnvironment(IParameterOwner owningBehavior,INakedClassifier behaviorAsClassifier){
 		if(isContextObjectApplicable(owningBehavior)){
 			// Complex Activities, StateMachines, Transition Actions and
 			// State Actions
 			Environment env = null;
 			if(BehaviorUtil.hasExecutionInstance(owningBehavior)){
-				env=createClassifierEnvironment(behaviorAsClassifier);
+				env = createClassifierEnvironment(behaviorAsClassifier);
 			}else{
-				//Probably transition effects and state actions
-				env=createSimpleBehavioralContext(owningBehavior);
+				// Probably transition effects and state actions
+				env = createSimpleBehavioralContext(owningBehavior);
 			}
 			if(owningBehavior.getContext() != null){
 				env.addElement("contextObject", new VariableDeclaration("contextObject", owningBehavior.getContext()), true);
@@ -128,13 +150,13 @@ public class EnvironmentFactory{
 		// TODO Auto-generated method stub
 		return createSimpleBehavioralContext(owningBehavior.getContext(), owningBehavior);
 	}
-	private Environment createSimpleBehavioralContext(INakedClassifier context, IParameterOwner owningBehavior){
+	private Environment createSimpleBehavioralContext(INakedClassifier context,IParameterOwner owningBehavior){
 		Environment env = createClassifierEnvironment(context);
 		addTypedElementsAsVariables(env, owningBehavior.getArgumentParameters());
 		return env;
 	}
 	public void addFlowParameters(Environment env,INakedActivityEdge edge){
-		 if(edge instanceof INakedObjectFlow){
+		if(edge instanceof INakedObjectFlow){
 			INakedObjectFlow objectFlow = (INakedObjectFlow) edge;
 			INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
 			if(origin != null){

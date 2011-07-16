@@ -195,10 +195,8 @@ public class UimUtil{
 		}
 	}
 	public static Collection<Activity> getAllOwnedActivities(Class representedClass){
-		ArrayList<Behavior> behaviors = new ArrayList<Behavior>(representedClass.getOwnedBehaviors());
-		EmfBehaviorUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
 		Collection<Activity> results = new ArrayList<Activity>();
-		for(Behavior b:behaviors){
+		for(Behavior b:EmfBehaviorUtil.findBehaviorsInScope(representedClass)){
 			if(b instanceof Activity){
 				results.add((Activity) b);
 			}

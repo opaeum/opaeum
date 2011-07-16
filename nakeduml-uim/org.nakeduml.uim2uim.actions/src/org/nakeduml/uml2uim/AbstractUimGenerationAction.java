@@ -81,8 +81,12 @@ public abstract class AbstractUimGenerationAction{
 		uri = uri.trimFileExtension();
 	}
 	public void openUimDiagram(NamedElement namedElement,IAction action){
+		String fileName = getFileName(namedElement, action);
+		openEditor(namedElement, fileName);
+	}
+	public static void openEditor(NamedElement namedElement,String fileName){
 		try{
-			URI fileUri = getUimdiFileUri(namedElement, action);
+			URI fileUri = getFileUri(namedElement, fileName);
 			refreshContainingFolder(fileUri);
 			IFile diFile = getFile(fileUri);
 			if(diFile.exists()){
@@ -112,14 +116,13 @@ public abstract class AbstractUimGenerationAction{
 			e.printStackTrace();
 		}
 	}
-	protected IFile getFile(URI fileUri){
+	public static IFile getFile(URI fileUri){
 		String platformString2 = fileUri.toPlatformString(true);
 		IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
 		return diFile;
 	}
-	protected URI getUimdiFileUri(NamedElement namedElement,IAction action){
+	public static URI getFileUri(NamedElement namedElement,String fileName){
 		try{
-			String fileName = getFileName(namedElement, action);
 			URI dirUri = namedElement.eResource().getURI().trimFileExtension().trimSegments(1);
 			URI fileUri = dirUri.appendSegment("forms").appendSegment(fileName).appendFileExtension("uimdi");
 			return fileUri;
@@ -127,7 +130,7 @@ public abstract class AbstractUimGenerationAction{
 			throw new RuntimeException(ce);
 		}
 	}
-	private void refreshContainingFolder(URI dirUri) throws CoreException{
+	private static void refreshContainingFolder(URI dirUri) throws CoreException{
 		IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(new Path(dirUri.trimSegments(1).toPlatformString(true)));
 		if(folder.exists()){
 			folder.refreshLocal(100, null);
@@ -154,7 +157,7 @@ public abstract class AbstractUimGenerationAction{
 		}
 		return UmlUimLinks.getId(namedElement) + suffix;
 	}
-	private UimForm getReferencedForm(UimEditor editor,NamedElement objectToFind){
+	private static UimForm getReferencedForm(UimEditor editor,NamedElement objectToFind){
 		String uid = UmlUimLinks.getId(objectToFind);
 		ResourceSet set = editor.getEditingDomain().getResourceSet();
 		for(Resource r:set.getResources()){

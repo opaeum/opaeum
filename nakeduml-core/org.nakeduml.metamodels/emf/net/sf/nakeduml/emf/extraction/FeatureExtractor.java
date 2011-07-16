@@ -72,7 +72,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	})
 	public void visitProperty(Property p){
 		// only create properties that have not been created yet
-		if(this.workspace.getModelElement(getId(p)) == null){
+		if(this.nakedWorkspace.getModelElement(getId(p)) == null){
 			if(p.getOwner() instanceof Property){
 				// System.out.println("Qualifier found: " + p.getQualifiedName());
 			}else if(p.getAssociation() instanceof Extension){

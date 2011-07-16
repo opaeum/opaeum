@@ -82,7 +82,7 @@ public abstract class MavenProjectCodeGenerator{
 		EmfWorkspace workspace = loadDirectory();
 		NakedUmlConfig cfg = prepareConfig();
 		process.execute(cfg, workspace, getSteps());
-		System.out.println("Transforming workspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
+		System.out.println("Transforming nakedWorkspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 	protected EmfWorkspace loadDirectory() throws IOException{
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(resourceSet,modelDirectory, prepareConfig().getWorkspaceIdentifier());

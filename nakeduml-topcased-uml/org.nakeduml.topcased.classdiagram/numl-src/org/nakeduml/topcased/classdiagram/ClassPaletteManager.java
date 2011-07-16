@@ -93,6 +93,9 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		CreationFactory businessComponentFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getComponent(), StereotypeNames.BUSINESS_COMPONENT);
 		entries.add(new ModelerCreationToolEntry("BusinessComponent", "BusinessComponent", businessComponentFactory, ClassImageRegistry.getImageDescriptor("CLASS"),
 				ClassImageRegistry.getImageDescriptor("CLASS")));
+		CreationFactory processFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getActivity(), StereotypeNames.BUSINES_PROCESS);
+		entries.add(new ModelerCreationToolEntry("Business Process", "Business Process", processFactory , ClassImageRegistry.getImageDescriptor("ACTIVITY"),
+				ClassImageRegistry.getImageDescriptor("ACTIVITY")));
 		CreationFactory notificationFactory = new NakedElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getSignal(), StereotypeNames.NOTIFICATION);
 		entries.add(new ModelerCreationToolEntry("Notification", "Notification", notificationFactory , ClassImageRegistry.getImageDescriptor("SIGNAL"),
 				ClassImageRegistry.getImageDescriptor("SIGNAL")));

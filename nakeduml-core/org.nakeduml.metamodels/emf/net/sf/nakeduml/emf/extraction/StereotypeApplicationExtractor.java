@@ -51,7 +51,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		}else{
 			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the correct
 			// naked element
-			INakedContextualEvent nakedPeer = (INakedContextualEvent) workspace.getModelElement(getEventId(t));
+			INakedContextualEvent nakedPeer = (INakedContextualEvent) nakedWorkspace.getModelElement(getEventId(t));
 			if(nakedPeer != null){
 				addStereotypes(nakedPeer, t.getEvent());
 				addKeywords(nakedPeer, t.getEvent());
@@ -75,7 +75,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			// No classifier - string classifier will be assigned during linkage
 			is.initialize(nakedPeer.getId() + s, s, false);
 			nakedPeer.addStereotype(is);
-			workspace.putModelElement(is);
+			nakedWorkspace.putModelElement(is);
 		}
 	}
 	private void visitComment(Comment a){
@@ -107,7 +107,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		instanceSpec.setName(nakedStereotype.getName());
 		String stereotypeApplicationId = getId(modelElement) + "#" + stereotype.getName();
 		instanceSpec.initialize(stereotypeApplicationId, stereotype.getName(), false);
-		workspace.putModelElement(instanceSpec);
+		nakedWorkspace.putModelElement(instanceSpec);
 		EObject application = modelElement.getStereotypeApplication(stereotype);
 		Iterator<? extends INakedProperty> attributes = nakedStereotype.getEffectiveAttributes().iterator();
 		while(attributes.hasNext()){
@@ -131,7 +131,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 				}
 				slot.setOwnerElement(instanceSpec);
 				instanceSpec.addOwnedElement(slot);
-				workspace.putModelElement(slot);
+				nakedWorkspace.putModelElement(slot);
 			}
 		}
 		return instanceSpec;
@@ -142,7 +142,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			if(value instanceof EModelElement){
 				EModelElement eObjectValue = (EModelElement) value;
 				String valueId = getId(eObjectValue);
-				INakedElement nakedElementValue = workspace.getModelElement(valueId);
+				INakedElement nakedElementValue = nakedWorkspace.getModelElement(valueId);
 				if(nakedElementValue == null){
 					if(value instanceof EEnumLiteralImpl){
 						if(slot.getDefiningFeature().getNakedBaseType() instanceof INakedEnumeration){
@@ -168,7 +168,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			valueSpec.initialize(slot.getId() + index, slot.getName(), false);
 			valueSpec.setOwnerElement(slot);
 			slot.addOwnedElement(valueSpec);
-			workspace.putModelElement(valueSpec);
+			nakedWorkspace.putModelElement(valueSpec);
 		}
 	}
 }

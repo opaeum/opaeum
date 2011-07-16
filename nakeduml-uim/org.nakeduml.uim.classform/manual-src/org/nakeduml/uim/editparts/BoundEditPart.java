@@ -30,28 +30,30 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		if(uIMBinding != null){
 			IBindingFigure fig = (IBindingFigure) getFigure();
 			ILabel field = fig.getBindingLabel();
-			if(uIMBinding != null && UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) != null){
-				IFigure parent = fig.getParent();
-				while(!(parent.getParent() == null || parent instanceof UimColumnLayoutFigure)){
-					parent = parent.getParent();
-				}
-				StringBuffer s = new StringBuffer();
-				if(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) instanceof Property){
-					if(parent instanceof UimColumnLayoutFigure){
-						s.append("row.");
-					}else{
-						s.append("self.");
+			if(field != null){
+				if(uIMBinding != null && UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) != null){
+					IFigure parent = fig.getParent();
+					while(!(parent.getParent() == null || parent instanceof UimColumnLayoutFigure)){
+						parent = parent.getParent();
 					}
-					s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
-				}else{// parameter or pin
-					s.append("params[");
-					s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
-					s.append("]");
+					StringBuffer s = new StringBuffer();
+					if(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) instanceof Property){
+						if(parent instanceof UimColumnLayoutFigure){
+							s.append("row.");
+						}else{
+							s.append("self.");
+						}
+						s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
+					}else{// parameter or pin
+						s.append("params[");
+						s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
+						s.append("]");
+					}
+					addString(uIMBinding.getNext(), s);
+					field.setText(s.toString());
+				}else{
+					field.setText("select property");
 				}
-				addString(uIMBinding.getNext(), s);
-				field.setText(s.toString());
-			}else{
-				field.setText("select property");
 			}
 		}
 		super.refreshVisuals();
@@ -74,7 +76,7 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		}
 	}
 	private UserInteractionElement getUserInteractioinElement(){
-		return (UserInteractionElement)getEObject();
+		return (UserInteractionElement) getEObject();
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){

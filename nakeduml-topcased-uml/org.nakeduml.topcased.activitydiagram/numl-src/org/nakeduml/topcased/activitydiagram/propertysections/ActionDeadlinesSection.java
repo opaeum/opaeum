@@ -164,9 +164,6 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 		data.top = new FormAttachment(table, ITabbedPropertyConstants.VSPACE);
 		groupDetails.setLayoutData(data);
 	}
-	/**
-	 * @see org.eclipse.ui.views.properties.tabbed.ISection#refresh()
-	 */
 	public void refresh(){
 		super.refresh();
 		MixedEditDomain mixedEditDomain = (MixedEditDomain) getPart().getAdapter(MixedEditDomain.class);
@@ -175,15 +172,9 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 		absoluteComposite.setContext(getEditingDomain(), null, null);
 		relativeComposite.setContext(getEditingDomain(), null, null);
 	}
-	/**
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getFeature()
-	 */
 	protected EStructuralFeature getFeature(){
 		return null;
 	}
-	/**
-	 * @see org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection#getLabelText()
-	 */
 	protected String getLabelText(){
 		return null;
 	}

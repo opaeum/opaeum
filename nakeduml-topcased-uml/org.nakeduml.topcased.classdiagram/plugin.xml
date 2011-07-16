@@ -62,7 +62,7 @@
 	
 	<extension point="org.topcased.modeler.topcasedPreferenceInitializer">
 	         <preferenceInitializer
-               class="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramTopcasedPreferenceInitializer"
+               class="org.nakeduml.topcased.uml.ClassDiagramTopcasedPreferenceInitializer"
                editorId="org.topcased.modeler.uml.editor.UMLEditor"
                id="org.topcased.modeler.uml.classdiagram.preferenceInitializer">
          </preferenceInitializer>
@@ -980,6 +980,30 @@
             label="UML"
             indented="false"/>
          <propertyTab
+               id="org.topcased.modeler.modelTab.parametersTab"
+               category="model"
+               indented="true"
+               label="Parameters"
+         	   afterTab="org.nakeduml.eclipse.numlTab"/>
+         <propertyTab
+               id="org.nakeduml.eclipse.preconditionsTab"
+               category="model"
+               indented="true"
+               label="Preconditions"
+         	   afterTab="org.topcased.modeler.modelTab.parametersTab"/>
+         <propertyTab
+               id="org.nakeduml.eclipse.postconditionsTab"
+               category="model"
+               indented="true"
+               label="Postconditions"
+         	   afterTab="org.nakeduml.eclipse.preconditionsTab"/>
+         <propertyTab
+               id="org.nakeduml.eclipse.invariantsTab"
+               category="model"
+               indented="true"
+               label="Invariants"
+         	   afterTab="org.nakeduml.eclipse.numlTab"/>
+         <propertyTab
                id="org.topcased.modeler.modelTab.firstEndTab"
                category="model"
                indented="true"
@@ -991,12 +1015,6 @@
                indented="true"
                label="Second End"
                afterTab="org.topcased.modeler.modelTab.firstEndTab"/>
-         <propertyTab
-               id="org.topcased.modeler.modelTab.parametersTab"
-               category="model"
-               indented="true"
-               label="Parameters"
-         	   afterTab="org.nakeduml.eclipse.numlTab"/>
          <propertyTab
             id="org.topcased.modeler.profilesTab"
             category="modelDetails"
@@ -1031,6 +1049,13 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections
         contributorId="org.topcased.modeler.editor.Modeler">
+        
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.BehaviorParametersSection"
+				class="org.nakeduml.topcased.propertysections.BehaviorParametersSection"
+				tab="org.topcased.modeler.modelTab.parametersTab">
+         		<input type="org.eclipse.uml2.uml.Behavior"/>
+			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.propertysections.SignalTemplateSection"
 				class="org.nakeduml.topcased.propertysections.NotificationTemplateSection"
@@ -1050,6 +1075,36 @@
 				class="org.nakeduml.topcased.propertysections.OperationBodyConditionSection"
 				tab="org.nakeduml.eclipse.numlTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.constraints.OperationPostconditionsSection"
+				class="org.nakeduml.topcased.propertysections.constraints.OperationPostconditionsSection"
+				tab="org.nakeduml.eclipse.postconditionsTab">
+         		<input type="org.eclipse.uml2.uml.Operation"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.constraints.OperationPreconditionsSection"
+				class="org.nakeduml.topcased.propertysections.constraints.OperationPreconditionsSection"
+				tab="org.nakeduml.eclipse.preconditionsTab">
+         		<input type="org.eclipse.uml2.uml.Operation"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.constraints.BehaviorPostconditionsSection"
+				class="org.nakeduml.topcased.propertysections.constraints.BehaviorPostconditionsSection"
+				tab="org.nakeduml.eclipse.postconditionsTab">
+         		<input type="org.eclipse.uml2.uml.Behavior"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.constraints.BehaviorPreconditionsSection"
+				class="org.nakeduml.topcased.propertysections.constraints.BehaviorPreconditionsSection"
+				tab="org.nakeduml.eclipse.preconditionsTab">
+         		<input type="org.eclipse.uml2.uml.Behavior"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.constraints.ClassInvariantsSection"
+				class="org.nakeduml.topcased.propertysections.constraints.ClassInvariantsSection"
+				tab="org.nakeduml.eclipse.invariantsTab">
+         		<input type="org.eclipse.uml2.uml.Class"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection"

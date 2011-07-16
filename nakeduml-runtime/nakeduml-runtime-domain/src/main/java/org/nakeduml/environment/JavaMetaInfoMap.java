@@ -83,15 +83,20 @@ public abstract class JavaMetaInfoMap{
 			addSecondaryClass(SignalMarshaller.class, c, "Marshaller", true);
 			try{
 				// Try to ensure it is in allClasses
-				Class.forName("org.nakeduml.environment.adaptor.AbstractSignalMdb");
 				addSecondaryClass(Class.forName("org.nakeduml.environment.adaptor.AbstractSignalMdb"), c, "Listener", true);
 			}catch(Exception e){
 			}
 		}else if(IPersistentObject.class.isAssignableFrom(c)){
 			addSecondaryClass(Audited.class, c, "_Audit", false);
+			try{
+				// Try to ensure it is in allClasses
+				addSecondaryClass(Class.forName("org.nakeduml.adaptor.IDataGenerator"), c, "DataGenerator", true);
+			}catch(Exception e){
+			}
 		}else if(IEnum.class.isAssignableFrom(c)){
 			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
-		}else if(IProcessObject.class.isAssignableFrom(c)){
+		}
+		if(IProcessObject.class.isAssignableFrom(c)){
 			addSecondaryClass(EnumResolver.class, c, "StateResolver", true);
 		}
 		allClasses.add(c);

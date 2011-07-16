@@ -13,10 +13,12 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.AbstractStrategyFactory;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
@@ -32,6 +34,12 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	static Map<String,AbstractStrategyFactory> strategyFactories = new HashMap<String,AbstractStrategyFactory>();
 	public static void registerStrategyFactory(AbstractStrategyFactory a){
 		strategyFactories.put(a.getClass().getName(), a);
+	}
+	@VisitBefore
+	public void visitInterface(INakedInterface m){
+		if( m.getName().equals("BusinessRole")){
+			workspace.setBusinessRole(m);
+		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void setBuiltInType(INakedSimpleType simpleType){

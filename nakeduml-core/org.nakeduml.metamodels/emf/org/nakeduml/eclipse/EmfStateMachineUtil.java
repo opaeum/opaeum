@@ -22,11 +22,8 @@ import org.eclipse.uml2.uml.Vertex;
 public class EmfStateMachineUtil {
 	public static Collection<StateMachine> getAllOwnedStateMachines(
 			Class representedClass) {
-		ArrayList<Behavior> behaviors = new ArrayList<Behavior>(
-				representedClass.getOwnedBehaviors());
-		EmfBehaviorUtil.addBehaviorsRecursively(behaviors, representedClass.getGenerals());
 		Collection<StateMachine> results = new ArrayList<StateMachine>();
-		for (Behavior b : behaviors) {
+		for (Behavior b : EmfBehaviorUtil.findBehaviorsInScope(representedClass)) {
 			if (b instanceof StateMachine) {
 				results.add((StateMachine) b);
 			}

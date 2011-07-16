@@ -327,7 +327,7 @@ public class UimEditor
 	protected ISelection editorSelection = StructuredSelection.EMPTY;
 
 	/**
-	 * The MarkerHelper is responsible for creating workspace resource markers presented
+	 * The MarkerHelper is responsible for creating nakedWorkspace resource markers presented
 	 * in Eclipse's Problems View.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -468,7 +468,7 @@ public class UimEditor
 		};
 
 	/**
-	 * This listens for workspace changes.
+	 * This listens for nakedWorkspace changes.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

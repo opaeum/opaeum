@@ -31,6 +31,14 @@ public class NakedUmlFilter extends ViewerFilter{
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getRegion());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getActivityPartition());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getClass_());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getEnumeration());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getEnumerationLiteral());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getSignal());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getDataType());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getVariable());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterface());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getConstraint());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
 	}
 	public boolean select(Viewer viewer,Object parentElement,Object element){
 		if(element instanceof AdditionalResources || element instanceof Resource){

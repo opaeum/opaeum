@@ -50,8 +50,10 @@ public class StereotypeNames {
 	public static String USER_INTERACTION_SPECIFICATION = "UserInteractionSpecification";	
 	//BPM
 	public static final String BUSINES_PROCESS= "BusinessProcess";
+	public static final String BUSINES_STATE_MACHINE= "BusinessStateMachine";
 	public static final String CALL_BUSINES_PROCESS_ACTION= "CallBusinessProcessAction";
 	public static final String CALL_METHOD_ACTION= "CallMethodAction";
+	public static final String METHOD= "Method";
 	public static final String BUSINESS_ROLE = "BusinessRole";
 	public static final String DEADLINE = "Deadline";
 	public static final String EMBEDDED_SINGLE_SCREEN_TASK = "EmbeddedSingleScreenTask";
@@ -68,5 +70,6 @@ public class StereotypeNames {
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 	public static final String SCREEN_FLOW = "ScreenFlow";
+	public static final String CALL_BUSINESS_STATE_MACHINE_ACTION = "CallBusinessStateMachineAction";
 
 }

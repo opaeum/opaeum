@@ -18,19 +18,13 @@ import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.profiles.INakedProfile;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
-import net.sf.nakeduml.metamodel.usecases.INakedActor;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -245,25 +239,11 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		classes.setInitExp("new ArrayList<Class>()");
 		baseTest.addToImports(new OJPathName("java.util.ArrayList"));
 		getTestClasses.getBody().addToLocals(classes);
-		for(INakedClassifier c:collection){
-			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
-			getTestClasses.getBody().addToStatements(addClass);
-			if(!(c instanceof INakedEnumeration || c instanceof INakedActor || c.getCodeGenerationStrategy().isNone())){
-				if(!(c instanceof INakedSignal) && !(c instanceof INakedInterface) && !c.getIsAbstract() && !(c instanceof INakedStateMachine)
-						&& !(c instanceof INakedDataType)){
-					OJSimpleStatement addClassDataGenerator = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "DataGenerator.class)");
-					getTestClasses.getBody().addToStatements(addClassDataGenerator);
-				}
-				if(super.transformationContext.isAnyOfFeaturesSelected(IntegratedAuditMetaDefStep.class, AuditImplementationStep.class)){
-					OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
-					getTestClasses.getBody().addToStatements(addAuditClass);
-				}
-			}
-		}
+		getTestClasses.getBody().addToStatements("classes.addAll(Environment.getInstance().getMetaInfoMap().getAllClasses())");
 		if(isIntegrationPhase){
 			Collection<INakedRootObject> pro = workspace.getPrimaryRootObjects();
 			for(INakedRootObject r:pro){
-				if(r instanceof INakedModel){
+				if(r instanceof INakedModel &&!((INakedModel) r).isLibrary()){
 					OJPathName utilPath = calculateUtilPath(r);
 					OJSimpleStatement addPackage = new OJSimpleStatement("classes.add(" + utilPath + ".Stdlib.class)");
 					getTestClasses.getBody().addToStatements(addPackage);
@@ -275,7 +255,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 			getTestClasses.getBody().addToStatements(addPackage);
 			Collection<INakedRootObject> modelInScope = getModelInScope();
 			for(INakedRootObject iNakedRootObject:modelInScope){
-				if(iNakedRootObject instanceof INakedModel && workspace.isPrimaryModel(iNakedRootObject)){
+				if(iNakedRootObject instanceof INakedModel && workspace.isPrimaryModel(iNakedRootObject) && !((INakedModel) iNakedRootObject).isLibrary()){
 					OJPathName utilPath = calculateUtilPath(iNakedRootObject);
 					baseTest.addToImports(utilPath.append("Stdlib"));
 					getTestClasses.getBody().addToStatements("classes.add(" + utilPath.toJavaString() + ".class)");

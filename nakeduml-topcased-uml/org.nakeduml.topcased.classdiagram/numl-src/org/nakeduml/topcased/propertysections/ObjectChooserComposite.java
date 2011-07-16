@@ -55,7 +55,7 @@ public abstract class ObjectChooserComposite extends Composite{
 				AcceptEventAction action = (AcceptEventAction) trigger.getOwner();
 				action.getResults().clear();
 				for(TypedElement t:EmfParameterUtil.getArguments(getCause())){
-					NakedUmlElementLinker.addResult(t, action);
+					NakedUmlElementLinker.setOutputpin(t, action.getResults(),false);
 				}
 			}
 			@Override

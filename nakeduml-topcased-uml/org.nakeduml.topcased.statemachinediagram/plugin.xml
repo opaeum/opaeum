@@ -32,7 +32,29 @@
          </enableFor>  
          <enableFor
                class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.topcased.modeler.uml.statemachinediagram.commands.CreateSTMDiagramFromCallBehaviorAction">
+               creationCommand="org.nakeduml.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
+         </enableFor>        
+      </diagram>
+      <diagram
+            configuration="org.nakeduml.topcased.statemachinediagram.ScreenFlowDiagramConfiguration"
+            editorID="org.topcased.modeler.uml.editor.UMLEditor"
+            id="org.nakeduml.topcased.statemachinediagram.screenflow"
+            name="Screen Flow Diagram">
+         <enableFor class="org.eclipse.uml2.uml.StateMachine"/>
+         <enableFor
+               class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.nakeduml.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
+         </enableFor>        
+      </diagram>
+      <diagram
+            configuration="org.topcased.modeler.uml.statemachinediagram.STMConfiguration"
+            editorID="org.topcased.modeler.uml.editor.UMLEditor"
+            id="org.nakeduml.topcased.statemachinediagram.businessstatemachine"
+            name="Business State Machine Diagram">
+         <enableFor class="org.eclipse.uml2.uml.StateMachine"/>
+         <enableFor
+               class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.nakeduml.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
          </enableFor>        
       </diagram>
 	</extension>

@@ -5,6 +5,7 @@ import net.sf.nakeduml.metamodel.models.INakedModel;
 
 public class NakedModelImpl extends NakedRootObjectImpl implements INakedModel {
 	public static final String META_CLASS = "model";
+	private boolean isLibrary;
 	private static final long serialVersionUID = -8628461048243090233L;
 	String viewPoint;
 
@@ -19,6 +20,14 @@ public class NakedModelImpl extends NakedRootObjectImpl implements INakedModel {
 
 	public void setViewpoint(String viewPoint) {
 		this.viewPoint = viewPoint;
+	}
+
+	public void setLibrary(boolean isLibrary){
+		this.isLibrary = isLibrary;
+	}
+
+	public boolean isLibrary(){
+		return isLibrary;
 	}
 
 }

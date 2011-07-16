@@ -10,6 +10,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ClassifierTemplateParameter;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.StateMachine;
@@ -55,6 +56,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		}
 		@Override
 		public Object caseStateMachine(StateMachine object){
+			return caseClass(object);
+		}
+		@Override
+		public Object caseActivity(Activity object){
 			return caseClass(object);
 		}
 		@Override

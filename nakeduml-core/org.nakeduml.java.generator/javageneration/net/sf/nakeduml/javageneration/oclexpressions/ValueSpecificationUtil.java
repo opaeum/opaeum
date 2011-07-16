@@ -24,9 +24,9 @@ import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 
-public class ValueSpecificationUtil {
-	public static String expressValue(OJClass ojOwner, INakedValueSpecification valueSpec, boolean isStatic) {
-		if (valueSpec.isValidOclValue()) {
+public class ValueSpecificationUtil{
+	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,boolean isStatic){
+		if(valueSpec.isValidOclValue()){
 			String expression = null;
 			ExpressionCreator ec = new ExpressionCreator(ojOwner);
 			IOclContext value = (IOclContext) valueSpec.getValue();
@@ -36,23 +36,20 @@ public class ValueSpecificationUtil {
 		}
 		return expressLiterals(valueSpec);
 	}
-
-	public static String expressValue(OJOperation operationContext, INakedValueSpecification valueSpec, INakedClassifier owner,
-			IClassifier expectedType) {
-		if (valueSpec == null) {
-			if (expectedType == null) {
+	public static String expressValue(OJOperation operationContext,INakedValueSpecification valueSpec,INakedClassifier owner,IClassifier expectedType){
+		if(valueSpec == null){
+			if(expectedType == null){
 				return "could not determine type of implicit object";
-			} else {
+			}else{
 				return expressDefaultOrImplicitObject(owner, expectedType);
 			}
-		} else if (valueSpec.isOclValue()) {
+		}else if(valueSpec.isOclValue()){
 			return expressOcl(operationContext, valueSpec);
 		}
 		return expressLiterals(valueSpec);
 	}
-
 	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec){
-		if (valueSpec.isValidOclValue()) {
+		if(valueSpec.isValidOclValue()){
 			String expression = null;
 			OJClass ojOwner = (OJClass) operationContext.getOwner();
 			ExpressionCreator ec = new ExpressionCreator(ojOwner);
@@ -63,42 +60,52 @@ public class ValueSpecificationUtil {
 			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
 			expression = buildTypeCastIfNecessary(value.getExpression()) + expression;
 			return expression;
-		} else {
+		}else{
 			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
 		}
 	}
-
-	public static void buildContext(OJOperation operationContext, IOclContext value, List<OJParameter> parameters, OJBlock body) {
+	public static void buildContext(OJOperation operationContext,IOclContext value,List<OJParameter> parameters,OJBlock body){
 		addExtendedKeywords(operationContext, value);
-		for (OJField f : body.getLocals()) {
+		for(OJField f:body.getLocals()){
 			OJParameter fake = new OJParameter();
 			fake.setName(f.getName());
 			fake.setType(f.getType());
 			parameters.add(fake);
 		}
 	}
-
-	public static void addExtendedKeywords(OJOperation operationContext, IOclContext value) {
-		if (value.getExpressionString().contains("now")) {
+	public static void addExtendedKeywords(OJOperation operationContext,IOclContext value){
+		if(value.getExpressionString().contains("now") && !hasLocal(operationContext, "now")){
 			OJAnnotatedField now = new OJAnnotatedField("now", new OJPathName("java.util.Date"));
 			now.setInitExp("new Date()");
 			operationContext.getBody().addToLocals(now);
 		}
+		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
+			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.nakeduml.bpm.BusinessRole"));
+			now.setInitExp("null");
+			operationContext.getBody().addToLocals(now);
+		}
 	}
-
-	private static String expressLiterals(INakedValueSpecification valueSpec) {
+	private static boolean hasLocal(OJOperation o,String name){
+		for(OJField ojField:o.getBody().getLocals()){
+			if(ojField.getName().equals(name)){
+				return true;
+			}
+		}
+		return false;
+	}
+	private static String expressLiterals(INakedValueSpecification valueSpec){
 		String expression = null;
-		if (valueSpec.getValue() instanceof Boolean) {
+		if(valueSpec.getValue() instanceof Boolean){
 			expression = valueSpec.getValue().toString();
-		} else if (valueSpec.getValue() instanceof String) {
+		}else if(valueSpec.getValue() instanceof String){
 			expression = "\"" + valueSpec.getValue().toString() + "\"";
-		} else if (valueSpec.getValue() instanceof INakedEnumerationLiteral) {
+		}else if(valueSpec.getValue() instanceof INakedEnumerationLiteral){
 			INakedEnumerationLiteral l = (INakedEnumerationLiteral) valueSpec.getValue();
 			NakedClassifierMap map = new NakedClassifierMap(l.getEnumeration());
 			expression = map.javaType() + "." + l.getName().toUpperCase();
-		} else if (valueSpec.getValue() instanceof Number) {
+		}else if(valueSpec.getValue() instanceof Number){
 			expression = valueSpec.getValue().toString();
-		} else if (valueSpec.getValue() instanceof ParsedOclString) {
+		}else if(valueSpec.getValue() instanceof ParsedOclString){
 			return "OCL INVALID!: " + valueSpec.getValue();
 			// System.out.println(valueSpec.getValue() +
 			// "not suppported in INakedValueSpecification");
@@ -106,38 +113,36 @@ public class ValueSpecificationUtil {
 		}
 		return expression;
 	}
-
-	static String buildTypeCastIfNecessary(IOclExpression expression) {
-		if (expression.getExpressionType().isCollectionKind()) {
+	static String buildTypeCastIfNecessary(IOclExpression expression){
+		if(expression.getExpressionType().isCollectionKind()){
 			OJPathName collectionType = new ClassifierMap(expression.getExpressionType()).javaTypePath().getCopy();
 			collectionType.removeAllFromElementTypes();
 			String typeCast = "(" + collectionType.getLast() + ")";
 			return typeCast;
-		} else {
+		}else{
 			return "";
 		}
 	}
-
-	public static String expressDefaultOrImplicitObject(INakedClassifier owner, IClassifier expectedType) {
+	public static String expressDefaultOrImplicitObject(INakedClassifier owner,IClassifier expectedType){
 		String expression;
 		ClassifierMap map = new NakedClassifierMap(expectedType);
-		if (expectedType.isCollectionKind()) {
+		if(expectedType.isCollectionKind()){
 			throw new IllegalStateException("Implicit objects cannot be collections");
 		}
-		if (owner.conformsTo(expectedType)) {
+		if(owner.conformsTo(expectedType)){
 			expression = "this";
-		} else if (owner instanceof INakedBehavior) {
+		}else if(owner instanceof INakedBehavior){
 			INakedBehavior b = (INakedBehavior) owner;
-			if (b.getContext() != null && b.getContext().conformsTo(expectedType)) {
-				if (BehaviorUtil.hasExecutionInstance(b)) {
+			if(b.getContext() != null && b.getContext().conformsTo(expectedType)){
+				if(BehaviorUtil.hasExecutionInstance(b)){
 					expression = "getContextObject()";
-				} else {
+				}else{
 					expression = "this";
 				}
-			} else {
+			}else{
 				expression = map.javaDefaultValue();
 			}
-		} else {
+		}else{
 			expression = map.javaDefaultValue();
 		}
 		return expression;

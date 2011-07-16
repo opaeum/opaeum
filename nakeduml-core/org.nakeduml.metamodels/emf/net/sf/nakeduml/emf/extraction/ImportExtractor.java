@@ -13,9 +13,9 @@ import org.eclipse.uml2.uml.PackageImport;
 public class ImportExtractor extends AbstractExtractorFromEmf {
 	@VisitBefore
 	public void visitElementImport(ElementImport dependency) {
-		INakedElement referenced = this.workspace.getModelElement(getId((dependency.getImportedElement())));
+		INakedElement referenced = this.nakedWorkspace.getModelElement(getId((dependency.getImportedElement())));
 		if (referenced == null) {
-			System.out.println("dependency.getImportedElement() not in workspace: " + dependency.getImportedElement().getQualifiedName());
+			System.out.println("dependency.getImportedElement() not in nakedWorkspace: " + dependency.getImportedElement().getQualifiedName());
 		} else {
 			NakedImportedElementImpl importedElementImpl = new NakedImportedElementImpl();
 			importedElementImpl.setElement(referenced);
@@ -27,9 +27,9 @@ public class ImportExtractor extends AbstractExtractorFromEmf {
 	@VisitBefore
 	public void visitPackageImport(PackageImport dependency) {
 		if (dependency.getImportedPackage()!=null) {
-			INakedElement referenced = this.workspace.getModelElement(getId((dependency.getImportedPackage())));
+			INakedElement referenced = this.nakedWorkspace.getModelElement(getId((dependency.getImportedPackage())));
 			if (referenced == null) {
-				System.out.println("dependency.getImportedPackage() not in workspace: "
+				System.out.println("dependency.getImportedPackage() not in nakedWorkspace: "
 						+ dependency.getImportedPackage().getQualifiedName());
 			} else {
 				NakedImportedElementImpl importedElementImpl = new NakedImportedElementImpl();

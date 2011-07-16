@@ -6,12 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -26,11 +21,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
-import org.eclipse.uml2.uml.ParameterEffectKind;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.VisibilityKind;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.topcased.facilities.widgets.ComboViewer;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
@@ -47,7 +39,7 @@ public class ParameterComposite extends Composite{
 	public ParameterComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style);
 		this.widgetFactory = widgetFactory;
-		setLayout(new GridLayout(2, false));
+		setLayout(new GridLayout(4, true));
 		setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.adapt(this);
 		createContents(this);
@@ -116,6 +108,13 @@ public class ParameterComposite extends Composite{
 				if(v != parameter.isException()){
 					mixedEditDomain.getEMFEditingDomain().getCommandStack()
 							.execute(SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_IsException(), v));
+					if(v && parameter.getDirection()!=ParameterDirectionKind.OUT_LITERAL){
+						mixedEditDomain.getEMFEditingDomain().getCommandStack()
+						.execute(SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_Direction(), ParameterDirectionKind.OUT_LITERAL));
+						parameterDirectionCb.select(parameter.getDirection().ordinal());
+
+					}
+					parameterDirectionCb.setEnabled(!parameter.isException());
 				}
 			}
 			@Override
@@ -140,6 +139,7 @@ public class ParameterComposite extends Composite{
 			if(parameter.getDirection() != null){
 				parameterDirectionCb.select(parameter.getDirection().ordinal());
 			}
+			parameterDirectionCb.setEnabled(!parameter.isException());
 			isExceptionBtn.setSelection(parameter.isException());
 		}else{
 			parameterNameTxt.setText("");
@@ -150,8 +150,7 @@ public class ParameterComposite extends Composite{
 	private Object[] getChoices(){
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
-		Collection<EObject> types = TypeCacheAdapter.getExistingTypeCacheAdapter(parameter.getOperation()).getReachableObjectsOfType(parameter.getOperation(),
-				UMLPackage.eINSTANCE.getType());
+		Collection<EObject> types = TypeCacheAdapter.getExistingTypeCacheAdapter(parameter).getReachableObjectsOfType(parameter, UMLPackage.eINSTANCE.getType());
 		choices.addAll(UmlMetaTypeRemover.removeAll(types));
 		return choices.toArray();
 	}

@@ -1,4 +1,4 @@
-package net.sf.nakeduml.library.workinghours.test;
+package org.nakeduml.library.workinghours.test;
 
 import java.util.Calendar;
 

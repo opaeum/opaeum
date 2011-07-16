@@ -1,15 +1,18 @@
 package org.nakeduml.eclipse;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Parameter;
@@ -38,6 +41,16 @@ public class EmfElementFinder{
 		List<TypedElement> result = new ArrayList<TypedElement>();
 		if(behavioralElement != null){
 			Element a = behavioralElement;
+			if(a instanceof Constraint){
+				if(a.getOwner() instanceof Action){
+					Action act=(Action) a.getOwner();
+					result.addAll(act.getInputs());
+					if(act.getLocalPostconditions().contains(a)){
+						result.addAll(act.getOutputs());
+					}
+					return result;
+				}
+			}
 			while(!(a == null || a instanceof Classifier)){
 				if(a instanceof StructuredActivityNode){
 					result.addAll(((StructuredActivityNode) a).getVariables());
@@ -95,4 +108,5 @@ public class EmfElementFinder{
 		}
 		return result;
 	}
+
 }

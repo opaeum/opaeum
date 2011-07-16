@@ -3,6 +3,16 @@ Reverse engineer a profile into the workspace
 Keep a NakedUmlWorkspace in sync with the resourceset of a NakedUmlEditor instance to reduce overheads for validation
 StarterAction - automatically set maven group id as package prefix of mappedimplementationpackage of rootObjects
 
+NakedUML Topcased
+Parameters section for behaviors
+Pre and post conditions for behaviors, operations and actions
+Invariants for classifiers
+Async actions for Screenflows, Responsibilities, 
+Action to Convert methods to business processes
+Argument Pin table and composite for invocation actions 
+Action to generate screenflow, process,method or operation on call action
+For Parameter nodes, choose parameters either from activity or containing statemachine
+
 Refactoring
 Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction
 Change all visitors to become transformation steps
@@ -40,12 +50,9 @@ unmarshall the pins to allow OCL compilation for postconditions
 Statemachines
 Implement effects, entry and do-action subprocess calls
 Implement state invariants
-Call completion events of composite states
 
-STateResolver classes
 
 Classes
-ENumResolver class
 Generalizationsets
 PowerTypes
 link powerTypeInstances with generalization

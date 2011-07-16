@@ -19,67 +19,35 @@ import org.topcased.modeler.editor.palette.ModelerConnectionCreationToolEntry;
 import org.topcased.modeler.editor.palette.ModelerCreationToolEntry;
 import org.topcased.modeler.editor.palette.ModelerPaletteManager;
 import org.topcased.modeler.uml.statemachinediagram.STMImageRegistry;
-import org.topcased.modeler.uml.statemachinediagram.STMSimpleObjectConstants;
 import org.topcased.modeler.utils.CustomPaletteArrayList;
 
-/**
- * Generated Palette Manager <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
- * @generated
- */
+
 public class ScreenFlowPaletteManager extends ModelerPaletteManager{
-	// declare all the palette categories of the diagram
 	private PaletteDrawer objectsDrawer;
 	private PaletteDrawer pseudostatesDrawer;
 	private PaletteDrawer connectionsDrawer;
-	private PaletteDrawer commentDrawer;
 	private ICreationUtils creationUtils;
-	/**
-	 * The Constructor <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param utils
-	 *            the creation utils for the tools of the palette
-	 * @generated
-	 */
 	public ScreenFlowPaletteManager(ICreationUtils utils){
 		super();
 		this.creationUtils = utils;
 	}
-	/**
-	 * Creates the main categories of the palette <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
 	protected void createCategories(){
 		createObjectsDrawer();
 		createPseudostatesDrawer();
 		createConnectionsDrawer();
-		createCommentDrawer();
 	}
-	/**
-	 * Updates the main categories of the palette <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
 	protected void updateCategories(){
-		// deletion of the existing categories and creation of the updated
-		// categories
 		getRoot().remove(objectsDrawer);
 		createObjectsDrawer();
 		getRoot().remove(pseudostatesDrawer);
 		createPseudostatesDrawer();
 		getRoot().remove(connectionsDrawer);
 		createConnectionsDrawer();
-		getRoot().remove(commentDrawer);
-		createCommentDrawer();
 	}
 	private void createObjectsDrawer(){
 		objectsDrawer = new PaletteDrawer("Objects", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.nakeduml.topcased.statemachinediagram.statemachinediagram");
 		CreationFactory factory;
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getRegion(), "default");
-		entries.add(new ModelerCreationToolEntry("Region", "Region", factory, STMImageRegistry.getImageDescriptor("REGION"), STMImageRegistry
-				.getImageDescriptor("REGION_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getState(), "default");
 		entries.add(new ModelerCreationToolEntry("Screen", "Screen", factory, STMImageRegistry.getImageDescriptor("STATE"), STMImageRegistry
 				.getImageDescriptor("STATE_LARGE")));
@@ -101,11 +69,6 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
-		entries.add(new ModelerCreationToolEntry("Submachine State", "Submachine State", factory, STMImageRegistry.getImageDescriptor("SUBMACHINESTATE"),
-				STMImageRegistry.getImageDescriptor("SUBMACHINESTATE_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getConnectionPointReference(), "default");
-		entries.add(new ModelerCreationToolEntry("ConnectionPointReference", "ConnectionPointReference", factory, STMImageRegistry
-				.getImageDescriptor("CONNECTIONPOINTREFERENCE"), STMImageRegistry.getImageDescriptor("CONNECTIONPOINTREFERENCE_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getFinalState(), "default");
 		entries.add(new ModelerCreationToolEntry("FinalState", "FinalState", factory, STMImageRegistry.getImageDescriptor("FINALSTATE"), STMImageRegistry
 				.getImageDescriptor("FINALSTATE_LARGE")));
@@ -114,11 +77,6 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 			getRoot().add(objectsDrawer);
 		}
 	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	private void createPseudostatesDrawer(){
 		pseudostatesDrawer = new PaletteDrawer("Pseudostates", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.nakeduml.topcased.statemachinediagram.statemachinediagram");
@@ -153,24 +111,6 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
 			public EObject getNewModelObject(){
 				Pseudostate element = (Pseudostate) super.getNewModelObject();
-				element.setKind(PseudostateKind.JOIN_LITERAL);
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Join", "Join", factory, STMImageRegistry.getImageDescriptor("PSEUDOSTATEJOIN"), STMImageRegistry
-				.getImageDescriptor("PSEUDOSTATEJOIN_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
-			public EObject getNewModelObject(){
-				Pseudostate element = (Pseudostate) super.getNewModelObject();
-				element.setKind(PseudostateKind.FORK_LITERAL);
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Fork", "Fork", factory, STMImageRegistry.getImageDescriptor("PSEUDOSTATEFORK"), STMImageRegistry
-				.getImageDescriptor("PSEUDOSTATEFORK_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
-			public EObject getNewModelObject(){
-				Pseudostate element = (Pseudostate) super.getNewModelObject();
 				element.setKind(PseudostateKind.JUNCTION_LITERAL);
 				return element;
 			}
@@ -189,24 +129,6 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
 			public EObject getNewModelObject(){
 				Pseudostate element = (Pseudostate) super.getNewModelObject();
-				element.setKind(PseudostateKind.ENTRY_POINT_LITERAL);
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Entry Point", "Entry Point", factory, STMImageRegistry.getImageDescriptor("PSEUDOSTATEENTRYPOINT"), STMImageRegistry
-				.getImageDescriptor("PSEUDOSTATEENTRYPOINT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
-			public EObject getNewModelObject(){
-				Pseudostate element = (Pseudostate) super.getNewModelObject();
-				element.setKind(PseudostateKind.EXIT_POINT_LITERAL);
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Exit Point", "Exit Point", factory, STMImageRegistry.getImageDescriptor("PSEUDOSTATEEXITPOINT"), STMImageRegistry
-				.getImageDescriptor("PSEUDOSTATEEXITPOINT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
-			public EObject getNewModelObject(){
-				Pseudostate element = (Pseudostate) super.getNewModelObject();
 				element.setKind(PseudostateKind.TERMINATE_LITERAL);
 				return element;
 			}
@@ -218,11 +140,6 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 			getRoot().add(pseudostatesDrawer);
 		}
 	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
 	private void createConnectionsDrawer(){
 		connectionsDrawer = new PaletteDrawer("Connections", null);
 		List<PaletteEntry> entries = new CustomPaletteArrayList("org.nakeduml.topcased.statemachinediagram.statemachinediagram");
@@ -248,32 +165,6 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 		connectionsDrawer.addAll(entries);
 		if(connectionsDrawer.getChildren().size() > 0){
 			getRoot().add(connectionsDrawer);
-		}
-	}
-	/**
-	 * Creates the Palette container containing all the Palette entries for each figure. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated NOT
-	 */
-	private void createCommentDrawer(){
-		commentDrawer = new PaletteDrawer("Comment", null);
-		List<PaletteEntry> entries = new CustomPaletteArrayList("org.nakeduml.topcased.statemachinediagram.statemachinediagram");
-		CreationFactory factory;
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getComment(), "default");
-		entries.add(new ModelerCreationToolEntry("Comment", "Comment", factory, STMImageRegistry.getImageDescriptor("COMMENT"), STMImageRegistry
-				.getImageDescriptor("COMMENT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, STMSimpleObjectConstants.SIMPLE_OBJECT_COMMENTLINK, "default", false);
-		entries.add(new ModelerConnectionCreationToolEntry("Comment Link", "Comment Link", factory, STMImageRegistry.getImageDescriptor("COMMENTLINK"), STMImageRegistry
-				.getImageDescriptor("COMMENTLINK_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getConstraint(), "default");
-		entries.add(new ModelerCreationToolEntry("Constraint", "Constraint", factory, STMImageRegistry.getImageDescriptor("CONSTRAINT"), STMImageRegistry
-				.getImageDescriptor("CONSTRAINT_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, STMSimpleObjectConstants.SIMPLE_OBJECT_CONSTRAINTLINK, "default", false);
-		entries.add(new ModelerConnectionCreationToolEntry("Constraint Link", "Constraint Link", factory, STMImageRegistry.getImageDescriptor("CONSTRAINTLINK"),
-				STMImageRegistry.getImageDescriptor("CONSTRAINTLINK_LARGE")));
-		commentDrawer.addAll(entries);
-		if(commentDrawer.getChildren().size() > 0){
-			getRoot().add(commentDrawer);
 		}
 	}
 }

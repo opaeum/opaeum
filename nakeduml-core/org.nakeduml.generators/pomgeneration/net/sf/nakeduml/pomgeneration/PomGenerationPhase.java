@@ -81,7 +81,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			eclipse.setVersion("2.8");
 			PomUtil.addAnyElementWithContent(cfg.getAny(), "downloadSources", "true");
 			PomUtil.addAnyElementWithContent(cfg.getAny(), "downloadJavadocs", "true");
-			PomUtil.addAnyElementWithContent(cfg.getAny(), "workspace", "${basedir}");
+			PomUtil.addAnyElementWithContent(cfg.getAny(), "nakedWorkspace", "${basedir}");
 			PomUtil.addAnyElementWithContent(cfg.getAny(), "projectNameTemplate", "[artifactId]");
 			addPluginManagementPluginIfNew(eclipse);
 			PomUtil.addRepositoryIfNew(parentPom, "repository.jboss.org", "https://repository.jboss.org/nexus/content/groups/public", "JBoss Repository");

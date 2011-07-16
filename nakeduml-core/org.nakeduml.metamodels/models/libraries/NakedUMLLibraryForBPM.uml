@@ -58,16 +58,16 @@
         </defaultValue>
       </ownedAttribute>
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_nezb8I6SEeCrtavWRHwoHg" name="addTaskRequestParticipant" specification="_v52VoI6SEeCrtavWRHwoHg">
-        <eAnnotations xmi:id="_fRPbYaWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+        <eAnnotations xmi:id="_fRPbYaWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_AUxiYK0QEeCK48ywUpk_rg">
           <details xmi:id="_fRPbYqWNEeCv99VbPrQK_A" key="uid" value="a60d299e_0c08_40c2_a743_91c937a5165c"/>
         </eAnnotations>
         <ownedParameter xmi:id="_nezb8Y6SEeCrtavWRHwoHg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRQCcKWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRQCcKWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_AU1MwK0QEeCK48ywUpk_rg">
             <details xmi:id="_fRQCcaWNEeCv99VbPrQK_A" key="uid" value="d40fdbc4_b672_4675_a434_ac2bf92d12ce"/>
           </eAnnotations>
         </ownedParameter>
         <ownedParameter xmi:id="_nezb8o6SEeCrtavWRHwoHg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
-          <eAnnotations xmi:id="_fRQCcqWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRQCcqWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_AU1z0K0QEeCK48ywUpk_rg">
             <details xmi:id="_fRQCc6WNEeCv99VbPrQK_A" key="uid" value="cf26ec74_25dc_4598_9231_87bc71f99c2d"/>
           </eAnnotations>
         </ownedParameter>
@@ -175,16 +175,16 @@
         </edge>
       </ownedBehavior>
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_n9EsUI6SEeCrtavWRHwoHg" name="removeTaskRequestParticipant" specification="_wuzAoI6SEeCrtavWRHwoHg">
-        <eAnnotations xmi:id="_fRR3oaWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+        <eAnnotations xmi:id="_fRR3oaWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_kqpksK0PEeCK48ywUpk_rg">
           <details xmi:id="_fRR3oqWNEeCv99VbPrQK_A" key="uid" value="a99432f7_0ac0_4c75_87ca_9ecfc66b7e5e"/>
         </eAnnotations>
         <ownedParameter xmi:id="_n9EsUY6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRR3o6WNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRR3o6WNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_W0ZxIK0QEeCK48ywUpk_rg">
             <details xmi:id="_fRR3pKWNEeCv99VbPrQK_A" key="uid" value="c2051952_8685_4f55_a395_9f48c4760433"/>
           </eAnnotations>
         </ownedParameter>
-        <ownedParameter xmi:id="_n9EsUo6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRR3paWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+        <ownedParameter xmi:id="_n9EsUo6SEeCrtavWRHwoHg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
+          <eAnnotations xmi:id="_fRR3paWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_W0cNYa0QEeCK48ywUpk_rg">
             <details xmi:id="_fRSesKWNEeCv99VbPrQK_A" key="uid" value="adef91a6_76ef_4870_b717_72a8ce9d7f10"/>
           </eAnnotations>
         </ownedParameter>
@@ -206,17 +206,145 @@
             <upperBound xmi:type="uml:LiteralInteger" xmi:id="_UdawgI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
             <value xmi:type="uml:OpaqueExpression" xmi:id="_n9EsV46SEeCrtavWRHwoHg" name="ValuePin1Expression">
               <language>OCL</language>
-              <body>self.participationsInRequest->select(p|p.participant=participant and p.kind = kind)</body>
+              <body>self.participationsInTask ->select(p|p.participant=participant and p.kind = kind)</body>
             </value>
           </value>
         </node>
       </ownedBehavior>
-      <ownedOperation xmi:id="_0lAQAIoaEeCPduia_-NbFw" name="delegate">
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_yqeyEK0OEeCK48ywUpk_rg" name="delegate" specification="_0lAQAIoaEeCPduia_-NbFw">
+        <eAnnotations xmi:id="_yqeyEa0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_yqfZIK0OEeCK48ywUpk_rg" key="uid" value="ce058e5a_2ddd_4805_9a3e_d1b8140a8c87"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_2G0WEK0OEeCK48ywUpk_rg" name="delegate" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_2G0WEa0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_2G0WEq0OEeCK48ywUpk_rg" key="uid" value="b9cce954_77ec_4685_bfba_92920a7ef5bd"/>
+          </eAnnotations>
+        </ownedParameter>
+        <node xmi:type="uml:InitialNode" xmi:id="_bBxl8K0PEeCK48ywUpk_rg" name="InitialNode1" outgoing="_f620wK0PEeCK48ywUpk_rg"/>
+        <node xmi:type="uml:DecisionNode" xmi:id="_bRBi4K0PEeCK48ywUpk_rg" name="hasOwner" outgoing="_xhfUQK0PEeCK48ywUpk_rg _8KHf0K0PEeCK48ywUpk_rg" incoming="_f620wK0PEeCK48ywUpk_rg"/>
+        <node xmi:type="uml:CallBehaviorAction" xmi:id="_kqpksK0PEeCK48ywUpk_rg" name="a1" outgoing="_6GI14K0PEeCK48ywUpk_rg" incoming="_xhfUQK0PEeCK48ywUpk_rg" behavior="_n9EsUI6SEeCrtavWRHwoHg">
+          <argument xmi:type="uml:ValuePin" xmi:id="_W0ZxIK0QEeCK48ywUpk_rg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
+            <eAnnotations xmi:id="_W0aYMK0QEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+              <details xmi:id="_W0cNYK0QEeCK48ywUpk_rg" key="uid" value="5b9547e3_5259_43f3_a700_88151f1881e4"/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_W0ZxIa0QEeCK48ywUpk_rg" name="ub"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_W0ZxIq0QEeCK48ywUpk_rg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
+              <language>OCL</language>
+              <body>delegate</body>
+            </value>
+          </argument>
+          <argument xmi:type="uml:ValuePin" xmi:id="_W0cNYa0QEeCK48ywUpk_rg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
+            <eAnnotations xmi:id="_W0cNZK0QEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+              <details xmi:id="_W0eCkK0QEeCK48ywUpk_rg" key="uid" value="03b5f91a_e05c_4452_83bd_2d4df5a37473"/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_W0cNYq0QEeCK48ywUpk_rg" name="ub"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_W0cNY60QEeCK48ywUpk_rg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg">
+              <language>OCL</language>
+              <body>TaskParticipationKind::owner</body>
+            </value>
+          </argument>
+        </node>
+        <node xmi:type="uml:MergeNode" xmi:id="_5UQF8K0PEeCK48ywUpk_rg" name="MergeNode1" outgoing="_F_cmMK0QEeCK48ywUpk_rg" incoming="_6GI14K0PEeCK48ywUpk_rg _8KHf0K0PEeCK48ywUpk_rg"/>
+        <node xmi:type="uml:CallBehaviorAction" xmi:id="_AUxiYK0QEeCK48ywUpk_rg" name="a2" outgoing="_Hc6CsK0QEeCK48ywUpk_rg" incoming="_F_cmMK0QEeCK48ywUpk_rg" behavior="_nezb8I6SEeCrtavWRHwoHg">
+          <argument xmi:type="uml:ValuePin" xmi:id="_AU1MwK0QEeCK48ywUpk_rg" name="newParticipant">
+            <eAnnotations xmi:id="_AU1Mw60QEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+              <details xmi:id="_AU1MxK0QEeCK48ywUpk_rg" key="uid" value="e22dd074_92a0_4a14_8634_c37cbc372f31"/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AU1Mwa0QEeCK48ywUpk_rg" name="ub"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_AU1Mwq0QEeCK48ywUpk_rg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg">
+              <language>OCL</language>
+              <body>delegate</body>
+            </value>
+          </argument>
+          <argument xmi:type="uml:ValuePin" xmi:id="_AU1z0K0QEeCK48ywUpk_rg" name="kind">
+            <eAnnotations xmi:id="_AU1z060QEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+              <details xmi:id="_AU1z1K0QEeCK48ywUpk_rg" key="uid" value="c2170346_601c_4d71_9a4d_f8435b004ffc"/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AU1z0a0QEeCK48ywUpk_rg" name="ub"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_AU1z0q0QEeCK48ywUpk_rg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
+              <language>OCL</language>
+              <body>TaskParticipationKind::owner</body>
+            </value>
+          </argument>
+        </node>
+        <node xmi:type="uml:ActivityFinalNode" xmi:id="_G4ZAYK0QEeCK48ywUpk_rg" name="ActivityFinalNode1" incoming="_n9hYwK0REeCK48ywUpk_rg"/>
+        <node xmi:type="uml:CallOperationAction" xmi:id="_jOHDUK0REeCK48ywUpk_rg" name="onDelegated" outgoing="_n9hYwK0REeCK48ywUpk_rg" incoming="_Hc6CsK0QEeCK48ywUpk_rg" operation="_EE4B0K0OEeCK48ywUpk_rg">
+          <argument xmi:type="uml:ValuePin" xmi:id="_kPJpkK0REeCK48ywUpk_rg" name="delegatedBy">
+            <eAnnotations xmi:id="_kPKQoK0REeCK48ywUpk_rg" source="http://www.nakeduml.org">
+              <details xmi:id="_kPKQoa0REeCK48ywUpk_rg" key="uid" value="928b1cd2_93fc_43d6_bcee_ec52d5713334"/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kPJpka0REeCK48ywUpk_rg" name="ub"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_kPJpkq0REeCK48ywUpk_rg" name="delegatedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+              <language>OCL</language>
+              <body>currentUser</body>
+            </value>
+          </argument>
+          <argument xmi:type="uml:ValuePin" xmi:id="_kPK3sK0REeCK48ywUpk_rg" name="delegatedTo">
+            <eAnnotations xmi:id="_kPK3s60REeCK48ywUpk_rg" source="http://www.nakeduml.org">
+              <details xmi:id="_kPLewK0REeCK48ywUpk_rg" key="uid" value="f7949657_0593_4b45_8405_ddf9dd848d60"/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kPK3sa0REeCK48ywUpk_rg" name="ub"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_kPK3sq0REeCK48ywUpk_rg" name="delegatedTo" type="_tH0fAIoVEeCLqpffVZYAlw">
+              <language>OCL</language>
+              <body>delegate</body>
+            </value>
+          </argument>
+          <target xmi:type="uml:ValuePin" xmi:id="_HMKesK0VEeCK48ywUpk_rg" name="target">
+            <eAnnotations xmi:id="_Dwm80K0gEeCwWeEjtrrMeQ" source="http://www.nakeduml.org">
+              <details xmi:id="_DxDBsK0gEeCwWeEjtrrMeQ" key="uid" value="9b40071b_afd1_492b_b7b1_60d8bf1045d8"/>
+            </eAnnotations>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_InxhEK0VEeCK48ywUpk_rg" name="targetExpression">
+              <language>OCL</language>
+              <body>self.taskObject</body>
+            </value>
+          </target>
+        </node>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_f620wK0PEeCK48ywUpk_rg" name="ControlFlow1" source="_bBxl8K0PEeCK48ywUpk_rg" target="_bRBi4K0PEeCK48ywUpk_rg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_f620wa0PEeCK48ywUpk_rg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_f620wq0PEeCK48ywUpk_rg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_xhfUQK0PEeCK48ywUpk_rg" name="ControlFlow2" source="_bRBi4K0PEeCK48ywUpk_rg" target="_kqpksK0PEeCK48ywUpk_rg">
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_2xkt0K0PEeCK48ywUpk_rg" name="ControlFlow2Expression">
+            <language>OCL</language>
+            <body>not self.owner.oclIsUndefined()</body>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_xhfUQq0PEeCK48ywUpk_rg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_6GI14K0PEeCK48ywUpk_rg" name="ControlFlow3" source="_kqpksK0PEeCK48ywUpk_rg" target="_5UQF8K0PEeCK48ywUpk_rg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_6GI14a0PEeCK48ywUpk_rg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_6GI14q0PEeCK48ywUpk_rg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_8KHf0K0PEeCK48ywUpk_rg" name="ControlFlow4" source="_bRBi4K0PEeCK48ywUpk_rg" target="_5UQF8K0PEeCK48ywUpk_rg">
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_9hFSwK0PEeCK48ywUpk_rg" name="ControlFlow4Expression">
+            <language>OCL</language>
+            <body>owner.oclIsUndefined()</body>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_8KHf0q0PEeCK48ywUpk_rg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_F_cmMK0QEeCK48ywUpk_rg" name="ControlFlow5" source="_5UQF8K0PEeCK48ywUpk_rg" target="_AUxiYK0QEeCK48ywUpk_rg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_F_cmMa0QEeCK48ywUpk_rg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_F_cmMq0QEeCK48ywUpk_rg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_Hc6CsK0QEeCK48ywUpk_rg" name="ControlFlow6" source="_AUxiYK0QEeCK48ywUpk_rg" target="_jOHDUK0REeCK48ywUpk_rg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_Hc6Csa0QEeCK48ywUpk_rg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_Hc6Csq0QEeCK48ywUpk_rg" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_n9hYwK0REeCK48ywUpk_rg" name="ControlFlow7" source="_jOHDUK0REeCK48ywUpk_rg" target="_G4ZAYK0QEeCK48ywUpk_rg">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_n9hYwa0REeCK48ywUpk_rg" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_n9hYwq0REeCK48ywUpk_rg" value="1"/>
+        </edge>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_e0G_YK0gEeCwWeEjtrrMeQ" name="forward">
+        <eAnnotations xmi:id="_e0INgK0gEeCwWeEjtrrMeQ" source="http://www.nakeduml.org">
+          <details xmi:id="_e0INga0gEeCwWeEjtrrMeQ" key="uid" value="704939bb_89da_4b30_b7cb_37c77c10e16d"/>
+        </eAnnotations>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_0lAQAIoaEeCPduia_-NbFw" name="delegate" method="_yqeyEK0OEeCK48ywUpk_rg">
         <eAnnotations xmi:id="_fRSetaWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
           <details xmi:id="_fRSetqWNEeCv99VbPrQK_A" key="uid" value="572a308e_c2ce_4c05_b621_60cbc52ee83c"/>
         </eAnnotations>
         <ownedParameter xmi:id="_TsfTcJTyEeChgI0v02SJHQ" name="delegate" type="_tH0fAIoVEeCLqpffVZYAlw">
-          <eAnnotations xmi:id="_fRSet6WNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRSet6WNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_2G0WEK0OEeCK48ywUpk_rg">
             <details xmi:id="_fRTFwKWNEeCv99VbPrQK_A" key="uid" value="b9f38c47_37c0_42aa_a70b_f28ccc0ea724"/>
           </eAnnotations>
         </ownedParameter>
@@ -266,12 +394,12 @@
           <details xmi:id="_fRUT4KWNEeCv99VbPrQK_A" key="uid" value="262bf6e6_9c10_4118_b07f_e9e7ec4ce2ad"/>
         </eAnnotations>
         <ownedParameter xmi:id="_wuzAoY6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRUT4aWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRUT4aWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_n9EsUY6SEeCrtavWRHwoHg">
             <details xmi:id="_fRUT4qWNEeCv99VbPrQK_A" key="uid" value="4201486d_0e54_4614_b3d8_a1e234dc44f6"/>
           </eAnnotations>
         </ownedParameter>
-        <ownedParameter xmi:id="_wuzAoo6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRUT46WNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+        <ownedParameter xmi:id="_wuzAoo6SEeCrtavWRHwoHg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
+          <eAnnotations xmi:id="_fRUT46WNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_n9EsUo6SEeCrtavWRHwoHg">
             <details xmi:id="_fRUT5KWNEeCv99VbPrQK_A" key="uid" value="981d324b_d6c4_4376_b842_df301217a433"/>
           </eAnnotations>
         </ownedParameter>
@@ -577,6 +705,11 @@
         <details xmi:id="_fRaahaWNEeCv99VbPrQK_A" key="uid" value="1c186c25_d035_4dca_9f7f_93da91b9c12e"/>
       </eAnnotations>
       <generalization xmi:id="_qrxIcI3oEeCfQedkc0TCdA" general="_6MA8UI2-EeCrtavWRHwoHg"/>
+      <ownedOperation xmi:id="_4zDaYK0wEeCTTvcJZSDicw" name="abort">
+        <eAnnotations xmi:id="_4zF2oK0wEeCTTvcJZSDicw" source="http://www.nakeduml.org">
+          <details xmi:id="_4zGdsK0wEeCTTvcJZSDicw" key="uid" value="13277073_8727_409f_a413_33b739a9b5a1"/>
+        </eAnnotations>
+      </ownedOperation>
       <region xmi:id="_e2jAAI2-EeCrtavWRHwoHg" name="ProcessRequestRegion"/>
     </packagedElement>
     <packagedElement xmi:type="uml:StateMachine" xmi:id="_6MA8UI2-EeCrtavWRHwoHg" name="AbstractRequest" isAbstract="true">
@@ -802,12 +935,12 @@
           <details xmi:id="_fRer86WNEeCv99VbPrQK_A" key="uid" value="da09a6d0_abce_45fd_842a_fbf2a0fc33c2"/>
         </eAnnotations>
         <ownedParameter xmi:id="_P68JAI6SEeCrtavWRHwoHg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRer9KWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRer9KWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_n9EsUY6SEeCrtavWRHwoHg">
             <details xmi:id="_fRer9aWNEeCv99VbPrQK_A" key="uid" value="9a3a615e_bebb_4cde_b505_3c49c5dbe048"/>
           </eAnnotations>
         </ownedParameter>
         <ownedParameter xmi:id="_P8scgI6SEeCrtavWRHwoHg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg">
-          <eAnnotations xmi:id="_fRer9qWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
+          <eAnnotations xmi:id="_fRer9qWNEeCv99VbPrQK_A" source="http://www.nakeduml.org" references="_n9EsUo6SEeCrtavWRHwoHg">
             <details xmi:id="_fRer96WNEeCv99VbPrQK_A" key="uid" value="2f25b02a_c97f_4c5f_a12d_1b16093c98de"/>
           </eAnnotations>
         </ownedParameter>
@@ -824,6 +957,126 @@
         <details xmi:id="_fRfTAqWNEeCv99VbPrQK_A" key="uid" value="a09721bf_f776_4cf1_9083_62cd61c9f856"/>
       </eAnnotations>
       <generalization xmi:id="_i-H6UI53EeCfQedkc0TCdA" general="_Wd2QoI53EeCfQedkc0TCdA"/>
+      <ownedOperation xmi:id="_iBCwEK0NEeCK48ywUpk_rg" name="onStarted">
+        <eAnnotations xmi:id="_iBGacK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_iBGaca0NEeCK48ywUpk_rg" key="uid" value="b568bab0_ed66_49fd_85d0_d939d51fc869"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_mYTrQK0NEeCK48ywUpk_rg" name="startedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_mYU5YK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_mYVgcK0NEeCK48ywUpk_rg" key="uid" value="fd4ff4dd_d83c_4a96_ad39_cbfc495ecc2b"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_qTa18K0NEeCK48ywUpk_rg" name="onClaimed">
+        <eAnnotations xmi:id="_qTbdAK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_qTcEEK0NEeCK48ywUpk_rg" key="uid" value="dd2234c6_10b7_4c5f_a756_cf0f4412651a"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_roekYK0NEeCK48ywUpk_rg" name="claimedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_rofygK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_rofyga0NEeCK48ywUpk_rg" key="uid" value="fe08aa70_c6cb_46e2_9891_90a18ed1bd15"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_ug7_QK0NEeCK48ywUpk_rg" name="suspended">
+        <eAnnotations xmi:id="_ug8mUK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_ug9NYK0NEeCK48ywUpk_rg" key="uid" value="03f99379_3925_4518_8ba8_722d357f028c"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_wGUosK0NEeCK48ywUpk_rg" name="suspendedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_wGVPwK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_wGV20K0NEeCK48ywUpk_rg" key="uid" value="853ee11b_9994_44a8_886d_9c6055e8f67c"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_zwcxEK0NEeCK48ywUpk_rg" name="onStopped">
+        <eAnnotations xmi:id="_zwdYIK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_zwd_MK0NEeCK48ywUpk_rg" key="uid" value="f6a63dda_8cce_4ccf_9acd_bbf266ff0cb2"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_1Xu38K0NEeCK48ywUpk_rg" name="stoppedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_1XwGEK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_1XwGEa0NEeCK48ywUpk_rg" key="uid" value="b17ddd94_fd2a_449d_84d1_6abc12f90d29"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_8ba9IK0NEeCK48ywUpk_rg" name="onResumed">
+        <eAnnotations xmi:id="_8bbkMK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_8bcLQK0NEeCK48ywUpk_rg" key="uid" value="24740332_3243_483b_a14c_848dcb3bc78a"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_9Y_YoK0NEeCK48ywUpk_rg" name="resumedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_9Y__sK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_9Y__sa0NEeCK48ywUpk_rg" key="uid" value="aa43a503_a3ee_4d9a_b297_0d6dad07eecb"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="__imwgK0NEeCK48ywUpk_rg" name="onRevoked">
+        <eAnnotations xmi:id="__inXkK0NEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="__in-oK0NEeCK48ywUpk_rg" key="uid" value="0357e8c4_588d_4a7e_ad32_9395e52831ae"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_AhkTIK0OEeCK48ywUpk_rg" name="revokedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_AhlhQK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_AhlhQa0OEeCK48ywUpk_rg" key="uid" value="d77f32a2_6cdc_434a_9136_d2ef78d6690c"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_EE4B0K0OEeCK48ywUpk_rg" name="onDelegated">
+        <eAnnotations xmi:id="_EE4o4K0OEeCK48ywUpk_rg" source="http://www.nakeduml.org" references="_jOHDUK0REeCK48ywUpk_rg">
+          <details xmi:id="_EE5P8K0OEeCK48ywUpk_rg" key="uid" value="269735a1_cc54_47f8_af70_9990e12011e5"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_Fe698K0OEeCK48ywUpk_rg" name="delegatedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_Fe8MEK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org" references="_kPJpkK0REeCK48ywUpk_rg">
+            <details xmi:id="_Fe8zIK0OEeCK48ywUpk_rg" key="uid" value="c65684cc_bd3e_4322_939e_5a185d3116df"/>
+          </eAnnotations>
+        </ownedParameter>
+        <ownedParameter xmi:id="_GAGYYK0OEeCK48ywUpk_rg" name="delegatedTo" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_GAHmgK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org" references="_kPK3sK0REeCK48ywUpk_rg">
+            <details xmi:id="_GAHmga0OEeCK48ywUpk_rg" key="uid" value="d420a7ae_15a8_41e2_ad2d_4bc80139ee3b"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_NdLN8K0OEeCK48ywUpk_rg" name="onForwarded">
+        <eAnnotations xmi:id="_NdL1AK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_NdMcEK0OEeCK48ywUpk_rg" key="uid" value="6c15c3dd_bc98_40bf_a76d_c93f8e767e12"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_Qcqd4K0OEeCK48ywUpk_rg" name="forwardedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_QcrE8K0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_QcrE8a0OEeCK48ywUpk_rg" key="uid" value="7df9f3e6_5bfc_4d36_8d11_370182612112"/>
+          </eAnnotations>
+        </ownedParameter>
+        <ownedParameter xmi:id="_Qv0DYK0OEeCK48ywUpk_rg" name="forwardedTo" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_Qv0qcK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_Qv1RgK0OEeCK48ywUpk_rg" key="uid" value="0eda51e6_f69d_4d78_825f_1cea88b8abad"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_XbPZkK0OEeCK48ywUpk_rg" name="onActivated">
+        <eAnnotations xmi:id="_XbQAoK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_XbQnsK0OEeCK48ywUpk_rg" key="uid" value="b1576b23_8f67_45d6_8a1f_01300087ebb8"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_YslssK0OEeCK48ywUpk_rg" name="activatedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_Ysm60K0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_Ysnh4K0OEeCK48ywUpk_rg" key="uid" value="4e36463f_8c85_4466_a00d_ccd32733464a"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_a_82cK0OEeCK48ywUpk_rg" name="onCompleted">
+        <eAnnotations xmi:id="_a_9dgK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_a_9dga0OEeCK48ywUpk_rg" key="uid" value="9d5395ad_5ccf_4d87_abfa_841f9964d057"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_cHSR8K0OEeCK48ywUpk_rg" name="completedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_cHS5AK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_cHS5Aa0OEeCK48ywUpk_rg" key="uid" value="4efe338a_5b2b_48cd_9936_3e5d1ee852cc"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_fdkRQK0OEeCK48ywUpk_rg" name="onSkipped">
+        <eAnnotations xmi:id="_fdk4UK0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+          <details xmi:id="_fdlfYK0OEeCK48ywUpk_rg" key="uid" value="0561113f_5f52_47f3_8b9b_b7fc24c61586"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_hELpwK0OEeCK48ywUpk_rg" name="skippedBy" type="_tH0fAIoVEeCLqpffVZYAlw">
+          <eAnnotations xmi:id="_hEMQ0K0OEeCK48ywUpk_rg" source="http://www.nakeduml.org">
+            <details xmi:id="_hEMQ0a0OEeCK48ywUpk_rg" key="uid" value="b103d9b3_53be_42cc_91fe_9bc0097d6122"/>
+          </eAnnotations>
+        </ownedParameter>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_5DVD4I3oEeCfQedkc0TCdA" name="OperationProcessObject">
       <eAnnotations xmi:id="_fRfTA6WNEeCv99VbPrQK_A" source="http://www.nakeduml.org">

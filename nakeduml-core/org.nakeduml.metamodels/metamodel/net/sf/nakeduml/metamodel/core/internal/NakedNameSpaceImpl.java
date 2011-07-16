@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -167,6 +168,9 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 	 * @return
 	 */
 	protected boolean isNamedMember(INakedElement e) {
+		if(e instanceof INakedActivity && ((INakedActivity) e).getActivityKind().isSimpleSynchronousMethod()){
+			return false;
+		}
 		return e instanceof IClassifier || e instanceof INakedPackage || e instanceof IImportedElement || e instanceof IAssociation
 				|| e instanceof IPackageableElement;
 	}

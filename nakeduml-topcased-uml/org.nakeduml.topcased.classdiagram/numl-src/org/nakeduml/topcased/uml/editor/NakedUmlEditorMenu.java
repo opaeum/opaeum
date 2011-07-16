@@ -16,8 +16,10 @@ import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.internal.Workbench;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu;
@@ -60,12 +62,28 @@ public class NakedUmlEditorMenu extends UMLEditorMenu{
 			for(CommandParameter descriptor:(Collection<CommandParameter>) theDescriptors){
 				CreateChildAction actio = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
 						descriptor);
-				if(descriptor.getValue() instanceof Operation){
-					actio.setText("Owned Responsibility|Responsibility");
-					StereotypesHelper.getNumlAnnotation((Element) descriptor.getEValue()).getDetails().put(StereotypeNames.RESPONSIBILITY,"");
-					descriptor.getEValue();
-				}
 				actions.add(actio);
+				if(descriptor.getValue() instanceof Operation){
+					Operation responsibility = UMLFactory.eINSTANCE.createOperation();
+					CreateChildAction actio2=new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
+							new CommandParameter(descriptor.getOwner(),descriptor.getFeature(), responsibility));
+					actio2.setText("Owned Operation|Responsibility");
+					StereotypesHelper.getNumlAnnotation(responsibility).getDetails().put(StereotypeNames.RESPONSIBILITY,"");
+					actions.add(actio2);
+				}else if(descriptor.getValue() instanceof Activity && descriptor.getFeature().equals(UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior())){
+					Activity businessProcess = UMLFactory.eINSTANCE.createActivity();
+					CreateChildAction actio2=new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
+							new CommandParameter(descriptor.getOwner(),descriptor.getFeature(),businessProcess));
+					actio2.setText("Owned Behavior|Business Process");
+					StereotypesHelper.getNumlAnnotation(businessProcess).getDetails().put(StereotypeNames.BUSINES_PROCESS,"");
+					actions.add(actio2);
+					Activity method = UMLFactory.eINSTANCE.createActivity();
+					CreateChildAction actio3=new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
+							new CommandParameter(descriptor.getOwner(),descriptor.getFeature(),method));
+					actio3.setText("Owned Behavior|Method");
+					StereotypesHelper.getNumlAnnotation(method).getDetails().put(StereotypeNames.METHOD,"");
+					actions.add(actio3);
+				}
 			}
 		}
 		return actions;

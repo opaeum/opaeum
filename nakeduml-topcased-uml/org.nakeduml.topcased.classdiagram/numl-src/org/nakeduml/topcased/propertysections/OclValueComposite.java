@@ -22,9 +22,12 @@ public class OclValueComposite extends Composite{
 	public OclValueComposite(Composite parent,FormToolkit toolkit){
 		super(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(1, false);
-		layout.marginWidth=0;
+		layout.marginWidth = 0;
 		setLayout(layout);
-		viewer = new OCLSourceViewer(this, new ColorManager(), SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
+		viewer = new OCLSourceViewer(this, new ColorManager(), SWT.MULTI | SWT.V_SCROLL | SWT.BORDER){
+			{
+			}
+		};
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		document = new OCLDocument();
 		factory = new NakedUmlOclFactory();

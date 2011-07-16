@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.UMLFactory;
@@ -32,7 +33,7 @@ import org.topcased.modeler.utils.LabelHelper;
 
 public class ParametersTableComposite extends Composite{
 	private boolean isRefreshing = false;
-	private Operation operation;
+	private Element owner;
 	private MixedEditDomain mixedEditDomain;
 	private TabbedPropertySheetWidgetFactory widgetFactory;
 	private TableViewer parametersTableViewer;
@@ -42,15 +43,17 @@ public class ParametersTableComposite extends Composite{
 	};
 	private Button addButton;
 	private Button removeButton;
-	public ParametersTableComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
+	private EStructuralFeature feature;
+	public ParametersTableComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory,EStructuralFeature  feature){
 		super(parent, style);
 		this.widgetFactory = widgetFactory;
 		setLayout(new GridLayout(2, false));
 		widgetFactory.adapt(this);
 		createContents(this);
+		this.feature=feature;
 	}
-	public void setOperation(Operation operation){
-		this.operation = operation;
+	public void setOwner(Element owner){
+		this.owner=owner;
 		refresh();
 	}
 	public void setMixedEditDomain(MixedEditDomain mixedEditDomain){
@@ -92,10 +95,10 @@ public class ParametersTableComposite extends Composite{
 		});
 		addButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
-				AddCommand addCommand = (AddCommand) AddCommand.create(mixedEditDomain.getEMFEditingDomain(), operation, getFeature(), getNewChild());
+				AddCommand addCommand = (AddCommand) AddCommand.create(mixedEditDomain.getEMFEditingDomain(), owner, feature, getNewChild());
 				mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(addCommand);
 				refresh();
-				parametersTableViewer.setSelection(new StructuredSelection(operation.getOwnedParameters().get(operation.getOwnedParameters().size() - 1)));
+				parametersTableViewer.setSelection(new StructuredSelection(getOwnedParameters().get(getOwnedParameters().size() - 1)));
 			}
 		});
 		removeButton.addSelectionListener(new SelectionAdapter(){
@@ -103,8 +106,8 @@ public class ParametersTableComposite extends Composite{
 				Object object = parametersTable.getSelection()[0].getData();
 				mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(RemoveCommand.create(mixedEditDomain.getEMFEditingDomain(), object));
 				refresh();
-				if(operation.getOwnedParameters().size() > 0){
-					parametersTableViewer.setSelection(new StructuredSelection(operation.getOwnedParameters().get(0)));
+				if(getOwnedParameters().size() > 0){
+					parametersTableViewer.setSelection(new StructuredSelection(getOwnedParameters().get(0)));
 				}else{
 					parametersTableViewer.setSelection(null);
 				}
@@ -113,15 +116,15 @@ public class ParametersTableComposite extends Composite{
 	}
 	protected void refresh(){
 		isRefreshing = true;
-		parametersTableViewer.setInput(operation.getOwnedParameters());
+		parametersTableViewer.setInput(getOwnedParameters());
 		isRefreshing = false;
 	}
-	protected EStructuralFeature getFeature(){
-		return UMLPackage.eINSTANCE.getBehavioralFeature_OwnedParameter();
+	private EList<Parameter> getOwnedParameters(){
+		return (EList<Parameter>) owner.eGet(feature);
 	}
 	protected Object getNewChild(){
 		Parameter newParameter = UMLFactory.eINSTANCE.createParameter();
-		LabelHelper.INSTANCE.initName(mixedEditDomain, operation, newParameter);
+		LabelHelper.INSTANCE.initName(mixedEditDomain, owner, newParameter);
 		return newParameter;
 	}
 	public void updateSelectedParameter(Parameter newParameter){

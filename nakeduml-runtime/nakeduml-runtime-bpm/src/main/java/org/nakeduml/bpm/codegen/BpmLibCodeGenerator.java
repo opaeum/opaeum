@@ -43,6 +43,7 @@ public class BpmLibCodeGenerator{
 	protected void generateCodeForSingleModel() throws Exception,IOException,FileNotFoundException{
 		modelFile = new File("/home/ampie/workspace_sandbox/nakeduml/nakeduml-core/org.nakeduml.metamodels/models/libraries/NakedUMLLibraryForBPM.uml");
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, "nakeduml-runtime");
+		workspace.markLibraries("NakedUMLSimpleTypes.library.uml");
 		NakedUmlConfig cfg = buildConfig(workspace);
 		cfg.store();
 		process.execute(cfg, workspace, getSteps());

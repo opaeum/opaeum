@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.nakeduml.topcased.classdiagram,
  org.nakeduml.metamodels,
- org.nakeduml.eclipse
+ org.nakeduml.eclipse,
+ org.nakeduml.uim2uim.actions;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.nakeduml.topcased.activitydiagram.bpm,
  org.nakeduml.topcased.activitydiagram.filters,

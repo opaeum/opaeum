@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 
@@ -18,6 +19,10 @@ public final class NakedElementCreationFactory extends GraphElementCreationFacto
 	@Override
 	public EObject getNewModelObject(){
 		Element element = (Element) super.getNewModelObject();
+		if(element instanceof NamedElement){
+			NamedElement ne=(NamedElement) element;
+			ne.setName(keyword);
+		}
 		EAnnotation ann = element.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
 		ann.getDetails().put(keyword, "");
 		return element;

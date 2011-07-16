@@ -23,7 +23,7 @@ public class SubclassRemover extends NakedElementDetachor {
 	public void remove(INakedElement e) {
 		// INakedElementOwner owner = e;
 		// while (owner instanceof INakedElement) {
-		// if (owner.equals(workspace.getSourcePackage())) {
+		// if (owner.equals(nakedWorkspace.getSourcePackage())) {
 		workspace.removeElementById(e.getId());
 		// return;
 		// } else {

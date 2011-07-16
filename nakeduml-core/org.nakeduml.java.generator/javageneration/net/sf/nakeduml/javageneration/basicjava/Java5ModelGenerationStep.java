@@ -31,7 +31,7 @@ public class Java5ModelGenerationStep extends AbstractJavaTransformationStep{
 	public void generate(INakedModelWorkspace workspace,TransformationContext context){
 		StdlibMap.javaRealType.replaceTail("double");
 		StdlibMap.javaRealObjectType.replaceTail("Double");
-		// INakedPackage umlModel = workspace.getEntryModel();
+		// INakedPackage umlModel = nakedWorkspace.getEntryModel();
 		Java5ModelGenerator maker = new Java5ModelGenerator();
 		maker.initialize(javaModel, config, textWorkspace, context);
 		maker.startVisiting(workspace);

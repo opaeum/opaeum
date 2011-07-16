@@ -72,7 +72,7 @@ import org.eclipse.uml2.uml.UseCase;
 @StepDependency(phase = EmfExtractionPhase.class)
 public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	/**
-	 * For imported profiles. Put them at the top level of the workspace
+	 * For imported profiles. Put them at the top level of the nakedWorkspace
 	 */
 	@VisitBefore
 	public void visitProfile(Profile p){
@@ -80,7 +80,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		NakedProfileImpl np = new NakedProfileImpl();
 		np.initialize(getId(p), p.getName(), true);
 		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		this.workspace.putModelElement(np);
+		this.nakedWorkspace.putModelElement(np);
 	}
 	@VisitBefore
 	public void visitStereotype(Stereotype c){
@@ -94,7 +94,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		NakedModelImpl nm = new NakedModelImpl();
 		nm.initialize(getId(p), p.getName(), true);
 		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		this.workspace.putModelElement(nm);
+		nm.setLibrary(super.workspace.isLibrary(p));
+		this.nakedWorkspace.putModelElement(nm);
 	}
 	@VisitBefore
 	public void visitPackage(Package p,NakedPackageImpl np){

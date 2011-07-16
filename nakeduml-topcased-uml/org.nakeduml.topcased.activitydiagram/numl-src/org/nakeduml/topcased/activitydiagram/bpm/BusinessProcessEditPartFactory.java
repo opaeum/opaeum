@@ -16,10 +16,17 @@ package org.nakeduml.topcased.activitydiagram.bpm;
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.uml2.uml.CallBehaviorAction;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.util.UMLSwitch;
+import org.nakeduml.topcased.EditPartUtil;
 import org.nakeduml.topcased.activitydiagram.bpm.edit.SimpleTaskEditPart;
+import org.nakeduml.topcased.classdiagram.figure.Gradient;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
@@ -31,6 +38,7 @@ import org.topcased.modeler.edit.EListEditPart;
 import org.topcased.modeler.edit.EMFGraphEdgeEditPart;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 import org.topcased.modeler.editor.ModelerEditPartFactory;
+import org.topcased.modeler.editor.ModelerGraphicalViewer;
 import org.topcased.modeler.uml.UMLPlugin;
 import org.topcased.modeler.uml.activitydiagram.ActivitySimpleObjectConstants;
 import org.topcased.modeler.uml.activitydiagram.edit.AcceptCallActionEditPart;
@@ -96,6 +104,7 @@ import org.topcased.modeler.uml.activitydiagram.edit.StructuredActivityNodeEditP
 import org.topcased.modeler.uml.activitydiagram.edit.TestIdentityActionEditPart;
 import org.topcased.modeler.uml.activitydiagram.edit.UnmarshallActionEditPart;
 import org.topcased.modeler.uml.activitydiagram.edit.ValueSpecificationActionEditPart;
+import org.topcased.modeler.uml.activitydiagram.figures.CallBehaviorActionFigure;
 import org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.edit.BodyClauseLinkEditPart;
 import org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.edit.ClauseEditPart;
 import org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.edit.SuccessorClauseLinkEditPart;
@@ -207,7 +216,37 @@ public class BusinessProcessEditPartFactory extends ModelerEditPartFactory{
 			return new ActionEditPart(node);
 		}
 		public Object caseCallBehaviorAction(org.eclipse.uml2.uml.CallBehaviorAction object){
-			return new CallBehaviorActionEditPart(node);
+			return new CallBehaviorActionEditPart(node){
+				@Override
+				protected IFigure createFigure(){
+					return new CallBehaviorActionFigure(){
+						@Override
+						public void paintChildren(Graphics graphics){
+							Gradient.paintChildren(graphics, this);
+							super.paintChildren(graphics);
+						}
+					};
+				}
+				@Override
+				protected IAction createChangeDiagramAction(EObject object){
+					CallBehaviorAction a=(CallBehaviorAction) object;
+					if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_METHOD_ACTION)){
+						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+								"org.topcased.modeler.uml.activitydiagram.method");
+					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_BUSINES_PROCESS_ACTION)){
+						return EditPartUtil.createDiagramAction(a.getBehavior(),object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+								"org.topcased.modeler.uml.activitydiagram.bpm");
+					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
+						return EditPartUtil.createDiagramAction(a.getBehavior(),object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+								"org.nakeduml.topcased.statemachinediagram.businessstatemachine");
+					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
+						return EditPartUtil.createDiagramAction(a.getBehavior(),object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+								"org.nakeduml.topcased.statemachinediagram.screenflow");
+					}else{
+						return super.createChangeDiagramAction(object);
+					}
+				}
+			};
 		}
 		public Object caseCallOperationAction(org.eclipse.uml2.uml.CallOperationAction object){
 			return new CallOperationActionEditPart(node);

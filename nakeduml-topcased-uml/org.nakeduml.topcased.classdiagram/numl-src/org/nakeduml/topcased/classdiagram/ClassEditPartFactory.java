@@ -1,5 +1,7 @@
 package org.nakeduml.topcased.classdiagram;
 
+import java.util.ArrayList;
+
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
@@ -12,8 +14,10 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
@@ -29,10 +33,12 @@ import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.SimpleSemanticModelElement;
 import org.topcased.modeler.di.model.util.DIUtils;
+import org.topcased.modeler.dialogs.DiagramSelectionDialog;
 import org.topcased.modeler.edit.EListEditPart;
 import org.topcased.modeler.edit.EMFGraphEdgeEditPart;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 import org.topcased.modeler.editor.ModelerEditPartFactory;
+import org.topcased.modeler.extensions.DiagramDescriptor;
 import org.topcased.modeler.uml.alldiagram.AllSimpleObjectConstants;
 import org.topcased.modeler.uml.alldiagram.edit.CommentEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.CommentLinkEditPart;
@@ -128,6 +134,17 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 		public EditPart caseStateMachine(StateMachine object){
 			return caseClass(object);
 		}
+		@Override
+		public EditPart caseActivity(Activity object){
+			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
+			if(!"".equals(feature)){
+				return caseClass(object);
+			}else if(StereotypesHelper.hasKeyword(object, StereotypeNames.BUSINES_PROCESS)){
+				return new BusinessProcessEditPart(node);
+			}else{
+				return createClassEditPart();
+			}
+		}
 		private GraphNode node;
 		public NodeUMLSwitch(GraphNode node){
 			this.node = node;
@@ -187,23 +204,24 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 							}
 						};
 					}
-
 				};
 			}else{
-				return new ClassEditPart(node){
-					@Override
-					protected IFigure createFigure(){
-						return new ClassFigure(){
-							@Override
-							public void paintChildren(Graphics graphics){
-								Gradient.paintChildren(graphics, this);
-								super.paintChildren(graphics);
-							}
-						};
-					}
-
-				};
+				return createClassEditPart();
 			}
+		}
+		private EditPart createClassEditPart(){
+			return new ClassEditPart(node){
+				@Override
+				protected IFigure createFigure(){
+					return new ClassFigure(){
+						@Override
+						public void paintChildren(Graphics graphics){
+							Gradient.paintChildren(graphics, this);
+							super.paintChildren(graphics);
+						}
+					};
+				}
+			};
 		}
 		public EditPart caseInterface(org.eclipse.uml2.uml.Interface object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
@@ -288,7 +306,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 							}
 						};
 					}
-
 				};
 			}
 		}
@@ -497,12 +514,10 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 		}
 		public EditPart caseAssociationClass(org.eclipse.uml2.uml.AssociationClass object){
 			return new AssociationClassEditPart(edge){
-
 				@Override
 				protected IFigure createFigure(){
 					return new NakedAssociationFigure();
 				}
-				
 			};
 		}
 		public EditPart caseInstanceSpecification(org.eclipse.uml2.uml.InstanceSpecification object){

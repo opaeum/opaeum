@@ -83,7 +83,7 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor {
 		}
 		context.put(element.getMetaClass(), element);
 		context.put("config", this.config);
-		context.put("workspace", this.workspace);
+		context.put("nakedWorkspace", this.workspace);
 		context.put("stack1", new Stack<Object>());
 		context.put("stack2", new Stack<Object>());
 		context.put("stack3", new Stack<Object>());

@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.ObjectFlow;
+import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
@@ -191,18 +192,9 @@ public class MethodPaletteManager extends ModelerPaletteManager{
 		};
 		entries.add(new ModelerCreationToolEntry("Loop Collection", "Loop Collection", factory, ActivityImageRegistry.getImageDescriptor("EXPANSIONNODE"),
 				ActivityImageRegistry.getImageDescriptor("EXPANSIONNODE_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getValuePin(), "default"){
-			public EObject getNewModelObject(){
-				InputPin element = (InputPin) super.getNewModelObject();
-				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
-				upperBound.setValue(-1);
-				element.setUpperBound(upperBound);
-				return element;
-			}
-		};
-		entries.add(new ModelerCreationToolEntry("Ocl Input", "Ocl Input", factory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
-				.getImageDescriptor("INPUTPIN_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInputPin(), "default"){
+		
+		
+		GraphElementCreationFactory vpFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getValuePin(), "default"){
 			public EObject getNewModelObject(){
 				ValuePin element = (ValuePin) super.getNewModelObject();
 				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
@@ -211,9 +203,11 @@ public class MethodPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
-		entries.add(new ModelerCreationToolEntry("Object Input", "Object Input ", factory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
+		entries.add(new ModelerCreationToolEntry("Ocl Input", "Ocl Input", vpFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
 				.getImageDescriptor("INPUTPIN_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOutputPin(), "default"){
+		
+		
+		GraphElementCreationFactory ipFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInputPin(), "default"){
 			public EObject getNewModelObject(){
 				InputPin element = (InputPin) super.getNewModelObject();
 				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
@@ -222,8 +216,21 @@ public class MethodPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
-		entries.add(new ModelerCreationToolEntry("Object Output", "Object Output", factory, ActivityImageRegistry.getImageDescriptor("OUTPUTPIN"), ActivityImageRegistry
+		entries.add(new ModelerCreationToolEntry("Object Input", "Object Input ", ipFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
+				.getImageDescriptor("INPUTPIN_LARGE")));
+		GraphElementCreationFactory opFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOutputPin(), "default"){
+			public EObject getNewModelObject(){
+				OutputPin element = (OutputPin) super.getNewModelObject();
+				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
+				upperBound.setValue(-1);
+				element.setUpperBound(upperBound);
+				return element;
+			}
+		};
+		entries.add(new ModelerCreationToolEntry("Object Output", "Object Output", opFactory, ActivityImageRegistry.getImageDescriptor("OUTPUTPIN"), ActivityImageRegistry
 				.getImageDescriptor("OUTPUTPIN_LARGE")));
+		
+		
 		objectDrawer.addAll(entries);
 		if(objectDrawer.getChildren().size() > 0){
 			getRoot().add(objectDrawer);

@@ -14,6 +14,7 @@ import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
@@ -66,7 +67,7 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 							}
 						}
 						for(TypedElement te:EmfElementFinder.getTypedElementsInScope(context)){
-							if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter){
+							if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
 								Variable var = UMLFactory.eINSTANCE.createVariable();
 								var.setType(te.getType());
 								var.setName(te.getName());

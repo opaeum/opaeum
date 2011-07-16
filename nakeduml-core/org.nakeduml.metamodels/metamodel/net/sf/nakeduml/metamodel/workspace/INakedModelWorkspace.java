@@ -3,10 +3,13 @@ package net.sf.nakeduml.metamodel.workspace;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.uml2.uml.Model;
+
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
@@ -23,9 +26,9 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 
 	Collection<INakedElement> getAllElements();
 
-	INakedEntity getRootUserEntity();
+	INakedInterface getBusinessRole();
 
-	void setRootUserEntity(INakedEntity rootUserEntity);
+	void setBusinessRole(INakedInterface rootUserEntity);
 
 	IWorkspaceMappingInfo getWorkspaceMappingInfo();
 
@@ -64,4 +67,5 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 	String getIdentifier();
 
 	Collection<INakedRootObject> getPrimaryRootObjects();
+
 }

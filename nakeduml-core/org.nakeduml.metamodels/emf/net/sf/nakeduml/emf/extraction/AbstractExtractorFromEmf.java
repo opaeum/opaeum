@@ -53,7 +53,7 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements TransformationStep{
-	protected INakedModelWorkspace workspace;
+	protected INakedModelWorkspace nakedWorkspace;
 	private HashSet<INakedElement> existingModels;
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
@@ -61,7 +61,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			Map<String, Element> children = new HashMap<String,Element>();
 			EmfWorkspace w = (EmfWorkspace) root;
 			for(Element element:w.getOwnedElements()){
-				INakedElement nakedElement = workspace.getModelElement(getId(element));
+				INakedElement nakedElement = nakedWorkspace.getModelElement(getId(element));
 				if(nakedElement == null || !existingModels.contains(nakedElement)){
 					children.put(getId(element),element);
 				}
@@ -110,7 +110,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			wrapper.initialize(getId(modelElement), name, true);
 		}
 		getErrorMap().linkElement(wrapper, modelElement);
-		this.workspace.putModelElement(wrapper);
+		this.nakedWorkspace.putModelElement(wrapper);
 		if(modelElement.getOwnedComments().size() > 0){
 			Comment comment = modelElement.getOwnedComments().iterator().next();
 			wrapper.setDocumentation(comment.getBody());
@@ -151,7 +151,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		if(e == null || e instanceof EmfWorkspace){
 			return null;
 		}else{
-			return this.workspace.getModelElement(getId(e));
+			return this.nakedWorkspace.getModelElement(getId(e));
 		}
 	}
 	/**
@@ -286,7 +286,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return null;
 	}
 	protected IOclLibrary getOclLibrary(){
-		return this.workspace.getOclEngine().getOclLibrary();
+		return this.nakedWorkspace.getOclEngine().getOclLibrary();
 	}
 	protected void addConstraints(PreAndPostConstrained nakedOper,List preconditions,List postconditions){
 		Iterator iter = preconditions.iterator();
@@ -329,11 +329,11 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return result;
 	}
 	protected ErrorMap getErrorMap(){
-		return workspace.getErrorMap();
+		return nakedWorkspace.getErrorMap();
 	}
 	public void initialize(INakedModelWorkspace workspace2){
-		this.workspace = workspace2;
-		this.existingModels = new HashSet<INakedElement>(workspace.getOwnedElements());
+		this.nakedWorkspace = workspace2;
+		this.existingModels = new HashSet<INakedElement>(nakedWorkspace.getOwnedElements());
 	}
 	private NakedMultiplicityImpl toNakedMultiplicity(MultiplicityElement te){
 		int lower = te.getLower();

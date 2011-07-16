@@ -12,7 +12,7 @@ import org.nakeduml.uim.util.UmlUimLinks;
 public class OpenFormAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
 	@Override
 	protected void runActionRecursively(NamedElement eObject,IAction action){
-		URI uri = getUimdiFileUri(eObject, action);
+		URI uri = getFileUri(eObject, getFileName(eObject, action));
 		if(!getFile(uri).exists()){
 			SynchronizeAction.doSynchronize(eObject);
 		}
@@ -32,7 +32,7 @@ public class OpenFormAction extends AbstractUimGenerationAction implements IObje
 				suffix = "Creator";
 			}
 		}else if(namedElement instanceof Operation){
-			if(true){
+			if(action.getId().endsWith("Invoke")){
 				// Check action id;
 				suffix = "Invoker";
 			}else{
