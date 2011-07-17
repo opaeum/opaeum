@@ -188,18 +188,27 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 	public void setContext(EditingDomain domain,Element context,TimeEvent te){
 		if(context != null && context.eResource() != null){
 			trigger = context;
-			setTimeEvent(te);
 			initProfileElements(context);
+			setTimeEvent(te);
 			expressionComposite.setValueElement(context);
+		}else{
+			setTimeEvent(null);
 		}
 	}
 	public TimeEvent getTimeEvent(){
 		return event;
 	}
+	public void setEnabled(boolean b){
+		super.setEnabled(b);
+		expressionComposite.setEnabled(b);
+		nameTxt.setEnabled(b);
+	}
+
 	protected void initProfileElements(Element e){
 	}
-	private void setTimeEvent(TimeEvent timeEvent){
+	protected void setTimeEvent(TimeEvent timeEvent){
 		if(timeEvent != null){
+			setEnabled(true);
 			if(timeEvent.getWhen() == null){
 				timeEvent.createWhen("when", null);
 			}
@@ -214,6 +223,8 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			nameTxt.setText(timeEvent.getName());
 		}else{
 			nameTxt.setText("");
+			expressionComposite.getTextControl().setText("");
+			setEnabled(false);
 		}
 		this.event = timeEvent;
 	}

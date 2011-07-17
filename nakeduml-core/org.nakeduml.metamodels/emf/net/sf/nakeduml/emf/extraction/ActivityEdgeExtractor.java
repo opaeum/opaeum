@@ -35,9 +35,9 @@ import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ObjectFlow;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class
+		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,AcceptEventActionExtractor.class
 },after = {
-		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class
+		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,AcceptEventActionExtractor.class
 })
 public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
@@ -92,6 +92,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	 * @param emfNode
 	 * @return
 	 */
+	@SuppressWarnings("serial")
 	private INakedActivityNode getNode(ActivityNode emfNode){
 		INakedActivityNode node = (INakedActivityNode) getNakedPeer(emfNode);
 		if(node == null){

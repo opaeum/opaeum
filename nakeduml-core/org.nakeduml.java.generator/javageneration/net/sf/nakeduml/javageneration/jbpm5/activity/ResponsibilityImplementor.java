@@ -168,7 +168,8 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	}
 	private void addRequestForWork(OJAnnotatedClass ojClass){
 		OJAnnotatedField field = OJUtil.addProperty(ojClass, "request", ABSTRACT_REQUEST, true);
-		OJAnnotationValue manyToone = field.putAnnotation(new OJAnnotationValue(new OJPathName(ManyToOne.class.getName())));
+		OJAnnotationValue manyToone = new OJAnnotationValue(new OJPathName(ManyToOne.class.getName()));
+		field.putAnnotation(manyToone);
 		manyToone.putAttribute("cascadeType", new OJEnumValue(new OJPathName(CascadeType.class.getName()), "ALL"));
 	}
 	private OJAnnotatedOperation implementExecute(PreAndPostConstrained element,OJAnnotatedClass ojClass){

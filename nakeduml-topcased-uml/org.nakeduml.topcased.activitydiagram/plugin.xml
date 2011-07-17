@@ -113,6 +113,13 @@
 				<input type="org.eclipse.uml2.uml.CallOperationAction"/>
 			</propertySection>
 			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.propertysections.ActionPinsSection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionPinsSection"
+				tab="org.topcased.modeler.modelTab.parametersTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.DisplayPinsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.DisplayPinsSection"
 				tab="org.nakeduml.eclipse.numlTab"
@@ -212,33 +219,33 @@
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.ActionPotentialOwnersSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionPotentialOwnersSection"
-				filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+				filter="org.nakeduml.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
 				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.ActionBusinessAdministratorsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionBusinessAdministratorsSection"
-				filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+				filter="org.nakeduml.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
 				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.ActionStakeholdersSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionStakeholdersSection"
-				filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+				filter="org.nakeduml.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
 				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
 		         class="org.nakeduml.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
-		         filter="org.nakeduml.topcased.activitydiagram.filters.SimpleTaskFilter"
+		         filter="org.nakeduml.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 		         id="org.nakeduml.topcased.activitydiagram.ActionDeadlineSection"
 		         tab="org.nakeduml.topcased.activitydiagram.deadlinesTab">
-				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.AcceptDeadlineDeadlineSection"
@@ -345,22 +352,6 @@
                afterSection="org.topcased.modeler.uml.VisibilitySection">
             <input type="org.eclipse.uml2.uml.ActivityPartition"/>
         </propertySection>
-		<propertySection
-		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.PinTypeSection"
-		         id="org.topcased.modeler.uml.internal.properties.sections.PinTypeSection"
-		         tab="org.topcased.modeler.modelTab">
-		      <input
-		            type="org.eclipse.uml2.uml.Pin">
-		      </input>
-		</propertySection>
-		<propertySection
-		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.PinNameSection"
-		         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection"
-		         tab="org.topcased.modeler.modelTab">
-		      <input
-		            type="org.eclipse.uml2.uml.Pin">
-		      </input>
-		</propertySection>
 		   <propertySection
 		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection"
 		         id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection.ControlNode"

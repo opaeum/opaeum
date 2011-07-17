@@ -1,24 +1,18 @@
 package org.nakeduml.topcased.propertysections.constraints;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
-import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -26,7 +20,6 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -40,34 +33,22 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.internal.views.properties.tabbed.view.TabbedPropertyComposite;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.topcased.propertysections.OclValueComposite;
-import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
-public class OclOwnedRuleComposite extends Composite{
-	public static final int STATES_INIT = 0;
-	public static final int STATES_ONE_CONSTRAINT_SELECTED = 1;
-	public static final int CONSTRAINTS_NAME = 0;
-	public static final int CONSTRAINTS_COMMENT = 1;
-	public static final int MIN_HEIGHT_FOR_OCL_AREA = 70;
-	private static final int TABLE_HEIGHT = 60;
+public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;
-	private TableViewer constraintList;
 	private OclValueComposite oclComposite;
 	private TextDisplayingElements textElementChoosen;
-	private Group groupDetails;
 	private Element context = null;
-	private Composite compositeForConstraintList;
 	private Text textForConstraintName;
 	private OpaqueExpression selectedOpaqueExpression;
 	private Constraint selectedConstraint;
@@ -75,95 +56,24 @@ public class OclOwnedRuleComposite extends Composite{
 	private boolean reinit = false;
 	private TextChangeListener listener;
 	private EStructuralFeature feature;
-	public OclOwnedRuleComposite(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
+	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
 		super(parent, SWT.NONE);
 		this.feature = feature;
 		theFactory = factory;
-		
+		setBackground(parent.getBackground());
 		this.setLayout(new FillLayout(SWT.VERTICAL));
-		setLayout(new GridLayout(1, false));
-		createGroupConstraints(this);
+		setLayout(new GridLayout(5, false));
 		createDetailsZone(this);
-		setState(STATES_INIT);
-		Utils.layout(this);
 	}
 	private TabbedPropertySheetWidgetFactory getWidgetFactory(){
 		return theFactory;
 	}
 	private void createDetailsZone(Composite composite){
-		groupDetails = getWidgetFactory().createGroup(composite, "Details");
-		groupDetails.setLayout(new GridLayout(3, false));
-		groupDetails.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		createAreaForNameOfConstraintAndConstrainedElement(groupDetails);
-		createGroupOCLRule(groupDetails);
-	}
-	private void createGroupConstraints(Composite composite){
-		compositeForConstraintList = getWidgetFactory().createComposite(composite);
-		compositeForConstraintList.setLayout(new GridLayout(2, false));
-		compositeForConstraintList.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
-		// add the table for listing all the constraints
-		constraintList = new TableViewer(compositeForConstraintList, SWT.SINGLE | SWT.BORDER | SWT.FILL);
-		constraintList.addSelectionChangedListener(new ISelectionChangedListener(){
-			public void selectionChanged(SelectionChangedEvent event){
-				if(event.getSelection() instanceof IStructuredSelection){
-					IStructuredSelection selec = (IStructuredSelection) event.getSelection();
-					setSelectedConstraint((Constraint) selec.getFirstElement());
-				}
-			}
-		});
-		// create the columns
-		applyTableInfo(constraintList, NakedUmlPlugin.getDefault().getImageRegistry().getDescriptor("Actor").createImage(), new int[]{
-				200,200
-		}, "Name", "Expression");
-		GridData layoutDataConstraintsList = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 2);
-		layoutDataConstraintsList.heightHint = TABLE_HEIGHT;
-		constraintList.getTable().setLayoutData(layoutDataConstraintsList);
-		constraintList.setContentProvider(new ConstraintContentProvider());
-		constraintList.setLabelProvider(new ConstraintLabelProvider());
-		Button plus = getWidgetFactory().createButton(compositeForConstraintList, "Add", SWT.PUSH);
-		plus.addMouseListener(new MouseAdapter(){
-			@Override
-			public void mouseUp(MouseEvent e){
-				createConstraints();
-			}
-		});
-		plus.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false, 1, 1));
-		Button minus = getWidgetFactory().createButton(compositeForConstraintList, "Delete", SWT.PUSH);
-		minus.addMouseListener(new MouseAdapter(){
-			@Override
-			public void mouseUp(MouseEvent e){
-				deleteConstraints();
-			}
-		});
-		minus.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false, 1, 1));
+		createAreaForNameOfConstraintAndConstrainedElement(composite);
+		createGroupOCLRule(composite);
 	}
 	private EStructuralFeature getFeature(EObject e,int id){
 		return e.eClass().getEStructuralFeature(id);
-	}
-	private void deleteConstraints(){
-		if(context != null && currentEditDomain != null){
-			if(selectedConstraint != null){
-				currentEditDomain.getCommandStack().execute(DeleteCommand.create(currentEditDomain, selectedConstraint));
-				setSelectedConstraint(null);
-				constraintList.setInput(context.eGet(feature));
-				constraintList.refresh();
-				if(constraintList.getTable().getItems().length > 0){
-					setSelectedConstraint((Constraint) constraintList.getTable().getItems()[0].getData());
-				}
-			}
-		}
-	}
-	private void createConstraints(){
-		if(context != null && currentEditDomain != null){
-			Constraint newConstraint = UMLFactory.eINSTANCE.createConstraint();
-			newConstraint.setName("newConstraint");
-			OpaqueExpression oclExpression = createExpression(newConstraint);
-			newConstraint.setSpecification(oclExpression);
-			currentEditDomain.getCommandStack().execute(AddCommand.create(currentEditDomain, context, this.feature, newConstraint));
-			constraintList.setInput(context.eGet(feature));
-			constraintList.refresh();
-			setSelectedConstraint(newConstraint);
-		}
 	}
 	private OpaqueExpression createExpression(Constraint newConstraint){
 		OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
@@ -196,11 +106,14 @@ public class OclOwnedRuleComposite extends Composite{
 		ta.setHeaderVisible(true);
 		ta.setLinesVisible(true);
 	}
-	private void createAreaForNameOfConstraintAndConstrainedElement(Group group){
+	public void constraintUpdated(Constraint a){
+		
+	}
+	private void createAreaForNameOfConstraintAndConstrainedElement(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "Constraint Name : ", SWT.BOLD);
 		l.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false, 1, 1));
 		textForConstraintName = getWidgetFactory().createText(group, "", SWT.BORDER);
-		textForConstraintName.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false, 2, 1));
+		textForConstraintName.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false, 1, 1));
 		textForConstraintName.addModifyListener(new ModifyListener(){
 			public void modifyText(ModifyEvent e){
 				if(Utils.notNull(context, currentEditDomain, selectedConstraint) && !textForConstraintName.getText().equals(selectedConstraint.getName()) && !reinit){
@@ -217,8 +130,7 @@ public class OclOwnedRuleComposite extends Composite{
 					currentEditDomain.getCommandStack().execute(
 							SetCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__NAME),
 									textForConstraintName.getText() + "_body"));
-					constraintList.setInput(context.eGet(feature));
-					constraintList.refresh();
+					constraintUpdated(selectedConstraint);
 				}
 			}
 		});
@@ -239,12 +151,19 @@ public class OclOwnedRuleComposite extends Composite{
 		});
 	}
 	private List<?> getAllElements(){
-		return context.eContents();
+		List<EObject> eContents = new ArrayList<EObject>();
+		for(EObject eObject:context.eContents()){
+			if(eObject instanceof TypedElement){
+				eContents.add(eObject);
+			}
+		}
+		return eContents;
 	}
-	private void createGroupOCLRule(Group group){
+	private void createGroupOCLRule(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "OCL Rule Code : ", SWT.BOLD);
 		l.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 3, 1));
 		oclComposite = new OclValueComposite(group, getWidgetFactory());
+		oclComposite.setBackground(getBackground());
 		listener = new TextChangeListener(){
 			public void textChanged(Control control){
 				updateOcl();
@@ -255,8 +174,8 @@ public class OclOwnedRuleComposite extends Composite{
 			}
 		};
 		listener.startListeningTo(oclComposite.getTextControl());
-		GridData layoutDataComposite = new GridData(GridData.FILL, GridData.FILL, true, true, 3, 1);
-		layoutDataComposite.minimumHeight = MIN_HEIGHT_FOR_OCL_AREA;
+		GridData layoutDataComposite = new GridData(GridData.FILL, GridData.FILL, true, true, 5, 1);
+		layoutDataComposite.minimumHeight = 50;
 		layoutDataComposite.grabExcessVerticalSpace = true;
 		oclComposite.setLayoutData(layoutDataComposite);
 	}
@@ -265,64 +184,23 @@ public class OclOwnedRuleComposite extends Composite{
 	}
 	public void setContext(Element theContext){
 		context = theContext;
-		setState(STATES_INIT);
-		if(theContext != null){
-			constraintList.setInput(getConstraints());
-			if(getConstraints().size() == 1){
-				setSelectedConstraint(getConstraints().iterator().next());
-				setState(STATES_ONE_CONSTRAINT_SELECTED);
-			}
-		}
 	}
 	private EList<Constraint> getConstraints(){
 		return((EList<Constraint>) context.eGet(feature));
 	}
-	public void setState(int state){
-		switch(state){
-		case STATES_INIT:
-			reinitForm();
-			compositeForConstraintList.setEnabled(true);
-			setEnablesChildren(groupDetails, false);
-			break;
-		case STATES_ONE_CONSTRAINT_SELECTED:
-			compositeForConstraintList.setEnabled(true);
-			setEnablesChildren(groupDetails, true);
-			break;
-		default:
-			compositeForConstraintList.setEnabled(true);
-			setEnablesChildren(groupDetails, false);
-		}
-	}
-	private void reinitForm(){
-		reinit = true;
-		textForConstraintName.setText("");
-		textElementChoosen.setCollectionElements(null);
-		constraintList.setInput(null);
-		selectedConstraint = null;
-		selectedOpaqueExpression = null;
-		reinit = false;
-	}
-	private void setEnablesChildren(Composite control,boolean enable){
+	private void setEnabled(Composite control,boolean enable){
 		for(Control c:control.getChildren()){
 			c.setEnabled(enable);
 			if(c instanceof Composite){
 				Composite com = (Composite) c;
-				setEnablesChildren(com, enable);
+				setEnabled(com, enable);
 			}
 		}
-	}
-	public void setConstraints(Collection<Constraint> constraints){
-		constraintList.setInput(constraints);
-		constraintList.update(constraints, null);
 	}
 	public void setSelectedConstraint(Constraint theConstraint){
 		if(theConstraint != null){
 			oclComposite.setValueElement(theConstraint);
-
-			setState(STATES_ONE_CONSTRAINT_SELECTED);
 			selectedConstraint = theConstraint;
-			int indexForSelection = getIndex(theConstraint, constraintList);
-			constraintList.getTable().setSelection(indexForSelection);
 			String constraintName = theConstraint.getName();
 			if(constraintName == null){
 				constraintName = "";
@@ -347,19 +225,16 @@ public class OclOwnedRuleComposite extends Composite{
 					oclComposite.setCompositeValue(selectedOpaqueExpression.getBodies().get(index));
 				}
 			}
+			setEnabled(this,true);
 		}else{
-			setState(STATES_INIT);
+			reinit = true;
+			textForConstraintName.setText("");
+			textElementChoosen.setCollectionElements(null);
+			selectedConstraint = null;
+			selectedOpaqueExpression = null;
+			setEnabled(this,false);
+			reinit = false;
 		}
-	}
-	private int getIndex(Object object,TableViewer list){
-		int i = 0;
-		for(TableItem item:list.getTable().getItems()){
-			if(item.getData().equals(object)){
-				return i;
-			}
-			i++;
-		}
-		return 0;
 	}
 	public void setEditDomain(EditingDomain domain){
 		currentEditDomain = domain;
@@ -423,6 +298,7 @@ public class OclOwnedRuleComposite extends Composite{
 						AddCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__BODY),
 								bodiesCopy));
 			}
+			constraintUpdated(selectedConstraint);
 		}
 	}
 }

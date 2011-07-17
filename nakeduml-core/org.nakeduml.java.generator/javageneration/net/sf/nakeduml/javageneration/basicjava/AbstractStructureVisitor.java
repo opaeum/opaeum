@@ -10,8 +10,8 @@ import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.components.INakedComponent;
@@ -103,8 +103,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 	}
-	@VisitBefore()
-	public void visitScreenFlowTask(INakedEmbeddedScreenFlowTask node){
+	@VisitBefore(matchSubclasses=true)
+	public void visitScreenFlowTask(INakedEmbeddedTask node){
 		INakedMessageStructure msg = node.getMessageStructure(getOclEngine().getOclLibrary());
 		visitComplexStructure(msg);
 		visitFeaturesOf(msg);

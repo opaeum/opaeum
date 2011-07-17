@@ -18,6 +18,15 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
+		try{
+			Object o = org.hibernate.type.EnumType.class.newInstance();
+		}catch(InstantiationException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(IllegalAccessException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*

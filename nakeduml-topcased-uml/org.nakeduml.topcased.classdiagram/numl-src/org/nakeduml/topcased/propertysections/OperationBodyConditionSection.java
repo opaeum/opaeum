@@ -1,5 +1,6 @@
 package org.nakeduml.topcased.propertysections;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -14,6 +15,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.topcased.commands.SetOclExpressionCommand;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -88,6 +90,5 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 					SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(),
 							UMLFactory.eINSTANCE.createConstraint()));
 		}
-		forceOpaqueExpression();
 	}
 }

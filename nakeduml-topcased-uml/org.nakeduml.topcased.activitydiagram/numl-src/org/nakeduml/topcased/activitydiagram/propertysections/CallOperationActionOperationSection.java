@@ -9,36 +9,20 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.CallOperationAction;
-import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.topcased.propertysections.UmlMetaTypeRemover;
-import org.topcased.modeler.editor.MixedEditDomain;
-import org.topcased.modeler.editor.Modeler;
-import org.topcased.modeler.uml.activitydiagram.commands.update.UpdateCallOperationCommand;
-import org.topcased.modeler.uml.activitydiagram.internal.properties.sections.AbstractCallActionSection;
-import org.topcased.modeler.uml.activitydiagram.internal.properties.sections.table.AbstractPinTableComposite;
-import org.topcased.modeler.uml.activitydiagram.internal.properties.sections.table.CallOperationParameterTableComposite;
-import org.topcased.modeler.uml.activitydiagram.utils.CallActionUtils;
-import org.topcased.modeler.uml.activitydiagram.utils.CallActionUtils.CallOperationActionOperationUtils;
+import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
-public class CallOperationActionOperationSection extends AbstractCallActionSection<CallOperationAction>{
+public class CallOperationActionOperationSection extends AbstractChooserPropertySection{
 	@Override
 	protected void handleComboModified(){
-		if(!isRefreshing()){
-			super.createCommand(getFeatureValue(), super.cSingleObjectChooser.getSelection());
-		}
 		super.handleComboModified();
 	}
 	@Override
-	protected AbstractPinTableComposite<CallOperationAction> createTable(Composite parent){
-		return new CallOperationParameterTableComposite(parent, SWT.NONE);
-	}
-	@Override
-	protected String getGroupName(){
-		return "Operation";
+	protected void createWidgets(Composite composite){
+		super.createWidgets(composite);
 	}
 	@Override
 	protected Object[] getComboFeatureValues(){
@@ -58,20 +42,7 @@ public class CallOperationActionOperationSection extends AbstractCallActionSecti
 		return UMLPackage.eINSTANCE.getCallOperationAction_Operation();
 	}
 	@Override
-	protected CallOperationAction refreshTableContent(){
-		return refreshTable(getEObject() == null ? null : ((CallOperationAction) getEObject()).getOperation());
-	}
-	private CallOperationAction refreshTable(Operation op){
-		CallOperationAction callOp = (CallOperationAction) getEObject();
-		return callOp;
-	}
-	@Override
 	protected String getLabelText(){
 		return "Operation:";
-	}
-	@Override
-	protected void handleFeatureModified(){
-		Operation op = (Operation) getCSingleObjectChooser().getSelection();
-		refreshTable(op);
 	}
 }

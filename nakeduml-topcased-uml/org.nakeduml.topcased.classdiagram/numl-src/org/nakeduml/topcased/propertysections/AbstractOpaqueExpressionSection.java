@@ -16,6 +16,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.topcased.commands.SetOclExpressionCommand;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
@@ -36,24 +37,6 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	protected Element getOclContext(){
 		return getOwner();
-	}
-	protected void forceOpaqueExpression(){
-		if(!(getValueSpecification() instanceof OpaqueExpression)){
-			OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
-			oe.setName(getOwner().getName() + "Expression");
-			Command cmd = SetCommand.create(getEditingDomain(), getOwner(), getFeature(), oe);
-			if(oe.getBodies().isEmpty()){
-				oe.getBodies().add(DEFAULT_TEXT);
-				oe.getLanguages().add("OCL");
-			}
-			getEditingDomain().getCommandStack().execute(cmd);
-		}else if(getExpression(getEObject()).getBodies().size() == 0){
-			OpaqueExpression oe = getExpression(getEObject());
-			if(oe.getBodies().isEmpty()){
-				oe.getBodies().add(DEFAULT_TEXT);
-				oe.getLanguages().add("OCL");
-			}
-		}
 	}
 	protected String getFeatureAsString(){
 		OpaqueExpression expression = getExpression(getEObject());
@@ -123,8 +106,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	protected void handleTextModified(){
 		String oclText = this.oclComposite.getTextControl().getText();
 		if(oclText.trim().length() > 0 && !DEFAULT_TEXT.contains(oclText)){
-			forceOpaqueExpression();
-			Command cmd = SetCommand.create(getEditingDomain(), getExpression(getEObject()), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), oclText, 0);
+			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), oclText);
 			getEditingDomain().getCommandStack().execute(cmd);
 		}
 	}

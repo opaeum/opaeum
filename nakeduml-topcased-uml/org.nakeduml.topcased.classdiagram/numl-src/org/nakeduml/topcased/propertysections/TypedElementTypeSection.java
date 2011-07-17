@@ -12,6 +12,7 @@ import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.nakeduml.topcased.uml.editor.NakedUmlItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
@@ -36,7 +37,7 @@ public class TypedElementTypeSection extends AbstractChooserPropertySection{
 		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
 	}
 	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()){
+		return new AdapterFactoryLabelProvider(new NakedUmlItemProviderAdapterFactory()){
 			public String getText(Object object){
 				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object, IItemQualifiedTextProvider.class);
 				return itemQualifiedTextProvider != null ? itemQualifiedTextProvider.getQualifiedText(object) : super.getText(object);

@@ -10,17 +10,12 @@ import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Activity;
@@ -33,42 +28,19 @@ import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.topcased.modeler.commands.EMFtoGEFCommandWrapper;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.Modeler;
-import org.topcased.modeler.uml.activitydiagram.internal.properties.sections.AbstractCallActionSection;
-import org.topcased.modeler.uml.activitydiagram.internal.properties.sections.table.AbstractPinTableComposite;
-import org.topcased.modeler.uml.activitydiagram.internal.properties.sections.table.CallBehaviorParameterTableComposite;
 import org.topcased.modeler.widgets.CSingleObjectChooserOrDisplay;
+import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
-public class CallBehaviorActionBehaviorSection extends AbstractCallActionSection<CallBehaviorAction>{
-	private BehaviorNameListener nameListener;
-	private Group group;
-	@Override
-	protected String getGroupName(){
-		return "bla";
-	}
-	@Override
-	protected AbstractPinTableComposite<CallBehaviorAction> createTable(Composite parent){
-		this.group=(Group) parent;
-		return new CallBehaviorParameterTableComposite(parent, SWT.NONE);
-	}
-	@Override
-	protected void handleComboModified(){
-		if(!isRefreshing()){
-			super.createCommand(getFeatureValue(), super.cSingleObjectChooser.getSelection());
-		}
-		super.handleComboModified();
-	}
+public class CallBehaviorActionBehaviorSection extends AbstractChooserPropertySection{
 	public void refresh(){
 		super.refresh();
 		if(isBusinessProcessCall()){
 			super.labelCombo.setText("Select Business Process:");
-			group.setText("Business Process");
 		}else if(isScreenflowCall()){
 			super.labelCombo.setText("Select Screen Flow:");
-			group.setText("Screen Flow");
 		}else{
 			super.labelCombo.setText("Select Method:");
-			group.setText("Method");
 		}
 	}
 	@Override
@@ -93,11 +65,6 @@ public class CallBehaviorActionBehaviorSection extends AbstractCallActionSection
 						if(mixedEditDomain != null){
 							mixedEditDomain.getCommandStack().execute(new EMFtoGEFCommandWrapper(setCommmand));
 						}
-						if(nameListener == null){
-							nameListener = new BehaviorNameListener();
-						}
-						nameListener.setTarget(behavior);
-						behavior.eAdapters().add(nameListener);
 						if(getPart() instanceof Modeler){
 							Modeler modeler = (Modeler) getPart();
 							modeler.refreshActiveDiagram();
@@ -150,14 +117,6 @@ public class CallBehaviorActionBehaviorSection extends AbstractCallActionSection
 		return UMLPackage.eINSTANCE.getCallBehaviorAction_Behavior();
 	}
 	@Override
-	protected CallBehaviorAction refreshTableContent(){
-		return refreshTable(getEObject() == null ? null : getAction().getBehavior());
-	}
-	private CallBehaviorAction refreshTable(Behavior behavior){
-		CallBehaviorAction action = (CallBehaviorAction) getEObject();
-		return action;
-	}
-	@Override
 	protected String getLabelText(){
 		return "bla";
 	}
@@ -169,45 +128,5 @@ public class CallBehaviorActionBehaviorSection extends AbstractCallActionSection
 	}
 	private boolean isMethodCall(){
 		return !StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.CALL_BUSINES_PROCESS_ACTION);
-	}
-	@Override
-	protected void handleFeatureModified(){
-		Behavior behavior = (Behavior) getCSingleObjectChooser().getSelection();
-		dropListener();
-		refreshTable(behavior);
-	}
-	@Override
-	public void aboutToBeHidden(){
-		dropListener();
-		super.aboutToBeHidden();
-	}
-	private void dropListener(){
-		if(nameListener != null){
-			if(nameListener.getTarget() != null){
-				nameListener.getTarget().eAdapters().remove(nameListener);
-			}
-			nameListener.setTarget(null);
-		}
-	}
-	private class BehaviorNameListener implements Adapter{
-		private Notifier target;
-		public Notifier getTarget(){
-			return target;
-		}
-		public boolean isAdapterForType(Object type){
-			return type instanceof Behavior;
-		}
-		public void notifyChanged(Notification notification){
-			if(UMLPackage.Literals.NAMED_ELEMENT__NAME.equals(notification.getFeature())){
-				String objectClassName = ((EObject) notification.getNotifier()).eClass().getName();
-				cSingleObjectChooser.setText("<" + objectClassName + "> " + notification.getNewStringValue());
-				if(getPart() instanceof Modeler){
-					((Modeler) getPart()).refreshActiveDiagram();
-				}
-			}
-		}
-		public void setTarget(Notifier newTarget){
-			target = newTarget;
-		}
 	}
 }

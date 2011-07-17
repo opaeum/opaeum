@@ -90,6 +90,7 @@ import org.topcased.modeler.uml.classdiagram.edit.TimeEventEditPart;
 import org.topcased.modeler.uml.classdiagram.figures.AssociationFigure;
 import org.topcased.modeler.uml.classdiagram.figures.ClassFigure;
 import org.topcased.modeler.uml.classdiagram.figures.EnumerationFigure;
+import org.topcased.modeler.uml.classdiagram.figures.SignalFigure;
 import org.topcased.modeler.utils.Utils;
 
 public class ClassEditPartFactory extends ModelerEditPartFactory{
@@ -353,7 +354,19 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				int featureID = Integer.parseInt(feature);
 				return new EListEditPart(node, object.eClass().getEStructuralFeature(featureID));
 			}else{
-				return new SignalEditPart(node);
+				return new SignalEditPart(node){
+					@Override
+					protected IFigure createFigure(){
+						return new SignalFigure(){
+							@Override
+							public void paintChildren(Graphics graphics){
+								Gradient.paintChildren(graphics, this);
+								super.paintChildren(graphics);
+							}
+						};
+					}
+					
+				};
 			}
 		}
 		public EditPart caseReception(org.eclipse.uml2.uml.Reception object){

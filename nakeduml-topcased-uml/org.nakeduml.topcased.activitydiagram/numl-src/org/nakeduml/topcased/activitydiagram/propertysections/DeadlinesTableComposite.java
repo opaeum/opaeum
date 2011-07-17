@@ -8,6 +8,8 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -54,6 +56,7 @@ public class DeadlinesTableComposite extends Composite{
 	private Button addRelativeButton;
 	private Button addAbsoluteButton;
 	private Button removeButton;
+	private Stereotype taskStereotype;
 	DeadlinesTableComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style);
 		this.widgetFactory = widgetFactory;
@@ -61,9 +64,10 @@ public class DeadlinesTableComposite extends Composite{
 		widgetFactory.adapt(this);
 		createContents(this);
 	}
-	public void setAction(Action action, Stereotype s){
+	public void setAction(Action action, Stereotype s, Stereotype taskStereotype){
 		this.action = action;
 		this.deadlinesStereotype=s;
+		this.taskStereotype=taskStereotype;
 		refresh();
 	}
 	public void setMixedEditDomain(MixedEditDomain mixedEditDomain){
@@ -110,23 +114,20 @@ public class DeadlinesTableComposite extends Composite{
 		});
 		addAbsoluteButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
-				Command addCommand = AddAnnotationContentCommand.create(mixedEditDomain.getEMFEditingDomain(), action, getNewChild(false));
-				mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(addCommand);
-				refresh();
-				deadlinesTableViewer.setSelection(new StructuredSelection(getDeadlines().get(getDeadlines().size() - 1)));
+				addDeadline(getNewChild(false));
 			}
 		});
 		addRelativeButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
-				Command addCommand = AddAnnotationContentCommand.create(mixedEditDomain.getEMFEditingDomain(), action, getNewChild(true));
-				mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(addCommand);
-				refresh();
-				deadlinesTableViewer.setSelection(new StructuredSelection(getDeadlines().get(getDeadlines().size() - 1)));
+				addDeadline(getNewChild(true));
 			}
 		});
 		removeButton.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent event){
 				Object object = deadlinesTable.getSelection()[0].getData();
+				EObject sa = action.getStereotypeApplication(taskStereotype);
+				Command removeFromSteretoype = RemoveCommand.create(mixedEditDomain.getEMFEditingDomain(), sa, sa.eClass().getEStructuralFeature("deadlines"),object);
+				mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(removeFromSteretoype);
 				mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(RemoveCommand.create(mixedEditDomain.getEMFEditingDomain(), object));
 				refresh();
 				if(getDeadlines().size() > 0){
@@ -140,6 +141,7 @@ public class DeadlinesTableComposite extends Composite{
 	protected void refresh(){
 		isRefreshing = true;
 		deadlinesTableViewer.setInput(getDeadlines());
+		deadlinesTableViewer.getTable().selectAll();
 		isRefreshing = false;
 	}
 	private List<TimeEvent> getDeadlines(){
@@ -163,6 +165,15 @@ public class DeadlinesTableComposite extends Composite{
 		return newDeadline;
 	}
 	public void updateSelectedDeadlines(TimeEvent newDeadline){
+	}
+	private void addDeadline(TimeEvent newChild){
+		Command addCommand = AddCommand.create(mixedEditDomain.getEMFEditingDomain(), StereotypesHelper.getNumlAnnotation(action), EcorePackage.eINSTANCE.getEAnnotation_Contents(), newChild);
+		EObject sa = action.getStereotypeApplication(taskStereotype);
+		Command addToSteretoype = AddCommand.create(mixedEditDomain.getEMFEditingDomain(), sa, sa.eClass().getEStructuralFeature("deadlines"),newChild);
+		mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(addCommand);
+		mixedEditDomain.getEMFEditingDomain().getCommandStack().execute(addToSteretoype);
+		refresh();
+		deadlinesTableViewer.setSelection(new StructuredSelection(getDeadlines().get(getDeadlines().size() - 1)));
 	}
 	class ParameterContentProvider implements IStructuredContentProvider{
 		public Object[] getElements(Object inputElement){

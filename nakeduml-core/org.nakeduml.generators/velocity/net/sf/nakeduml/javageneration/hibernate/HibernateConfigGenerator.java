@@ -24,7 +24,6 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakedum.velocity.AbstractTextProducingVisitor;
@@ -39,9 +38,12 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 		super();
 		this.isIntegrationPhase = isIntegrationPhase;
 	}
-	public static final class MappingCollector extends AbstractJavaProducingVisitor{
+	public  final class MappingCollector extends AbstractJavaProducingVisitor{
 		private final HashSet<OJPathName> classes = new HashSet<OJPathName>();
 		private final HashSet<OJPathName> signals = new HashSet<OJPathName>();
+		public MappingCollector(INakedModelWorkspace workspace){
+			this.workspace=workspace;
+		}
 		@VisitBefore
 		public void signal(INakedSignal s){
 			signals.add(OJUtil.classifierPathname(s));
@@ -125,7 +127,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 		vars.put("config", this.config);
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
 		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class, IntegratedJbpm5EnvironmentStep.class));
-		MappingCollector collector = new MappingCollector();
+		MappingCollector collector = new MappingCollector(workspace);
 		// do all models
 		for(INakedElement element:models){
 			if(element instanceof INakedModel){

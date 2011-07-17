@@ -1,7 +1,8 @@
-package org.nakeduml.topcased.propertysections.constraints;
+package org.nakeduml.topcased.activitydiagram.propertysections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -10,29 +11,28 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
-import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.Pin;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractConstraintsPropertySection extends AbstractTabbedPropertySection{
-	private OclConstraintTable table;
-	private OclConstraintDetailsComposite details;
+public class ActionPinsSection extends AbstractTabbedPropertySection{
+	private PinTable table;
+	private PinDetailsComposite details;
 	private Group groupDetails;
 	protected void createWidgets(Composite composite){
-		table = new OclConstraintTable(getWidgetFactory(), composite, getFeature()){
+		table = new PinTable(composite, SWT.NONE){
 			@Override
-			public void setSelectedConstraint(Constraint theConstraint){
-				super.setSelectedConstraint(theConstraint);
-				details.setSelectedConstraint(theConstraint);
+			protected void setSelectedPin(Pin firstElement){
+				details.setPin(firstElement);
 			}
 		};
-		groupDetails = getWidgetFactory().createGroup(composite, "Constraint Details");
+		groupDetails = getWidgetFactory().createGroup(composite, "Pin Details");
 		groupDetails.setLayout(new GridLayout());
-		details = new OclConstraintDetailsComposite(getWidgetFactory(), groupDetails, getFeature()){
+		details = new PinDetailsComposite(groupDetails, SWT.NONE, getWidgetFactory()){
 
 			@Override
-			public void constraintUpdated(Constraint a){
-				table.refreshConstraint(a);
+			public void pinUpdated(Pin pin){
+				table.refreshPin(pin);
 			}
 			
 		};
@@ -42,12 +42,11 @@ public abstract class AbstractConstraintsPropertySection extends AbstractTabbedP
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		table.setContext((Element) getEObject());
-		details.setContext((Element) getEObject());
+		Action action = (Action) getEObject();
+		table.setAction(action);
+		table.refresh();
+		details.setEditingDomain(getEditingDomain());
 		refresh();
-		table.setEditDomain(getEditingDomain());
-		details.setEditDomain(getEditingDomain());
-
 	}
 	protected void setSectionData(Composite composite){
 		FormData data = new FormData();
@@ -60,7 +59,6 @@ public abstract class AbstractConstraintsPropertySection extends AbstractTabbedP
 		data.right = new FormAttachment(100, 0);
 		data.top = new FormAttachment(table, ITabbedPropertyConstants.VSPACE);
 		groupDetails.setLayoutData(data);
-		super.setSectionData(composite);
 	}
 	public void refresh(){
 		super.refresh();

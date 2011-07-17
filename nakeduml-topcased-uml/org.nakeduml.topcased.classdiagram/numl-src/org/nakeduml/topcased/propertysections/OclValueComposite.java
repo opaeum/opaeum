@@ -21,6 +21,8 @@ public class OclValueComposite extends Composite{
 	private NakedUmlOclFactory factory;
 	public OclValueComposite(Composite parent,FormToolkit toolkit){
 		super(parent, SWT.NONE);
+		setBackground(parent.getBackground());
+
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = 0;
 		setLayout(layout);
@@ -38,6 +40,11 @@ public class OclValueComposite extends Composite{
 	}
 	public StyledText getTextControl(){
 		return viewer.getTextWidget();
+	}
+	@Override
+	public void setEnabled(boolean enabled){
+		super.setEnabled(enabled);
+		viewer.getTextWidget().setEnabled(enabled);
 	}
 	private void manageContentAssist(){
 		viewer.enableOperation(SourceViewer.CONTENTASSIST_PROPOSALS, true);

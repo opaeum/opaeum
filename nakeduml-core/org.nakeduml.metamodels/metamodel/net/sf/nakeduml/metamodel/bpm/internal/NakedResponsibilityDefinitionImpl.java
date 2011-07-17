@@ -16,28 +16,33 @@ import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implements INakedResponsibilityDefinition{
 	INakedInstanceSpecification stereotype;
 	public NakedResponsibilityDefinitionImpl(INakedInstanceSpecification stereotype){
-		this.stereotype=stereotype;
-		
+		this.stereotype = stereotype;
+		this.id = stereotype.getId();
 	}
 	@Override
 	public INakedValueSpecification getPotentialOwners(){
-		return (INakedValueSpecification) stereotype.getFirstValueFor("potentialOwners").getValue();
+		INakedValueSpecification v = stereotype.getFirstValueFor("potentialOwners");
+		return v == null ? null : (INakedValueSpecification) v.getValue();
 	}
 	@Override
 	public INakedValueSpecification getPotentialBusinessAdministrators(){
-		return (INakedValueSpecification) stereotype.getFirstValueFor("potentialBusinessAdministrators").getValue();
+		INakedValueSpecification v = stereotype.getFirstValueFor("potentialBusinessAdministrators");
+		return v == null ? null : (INakedValueSpecification) v.getValue();
 	}
 	@Override
 	public INakedValueSpecification getPotentialStakeholders(){
-		return (INakedValueSpecification) stereotype.getFirstValueFor("potentialStakeholders").getValue();
+		INakedValueSpecification v = stereotype.getFirstValueFor("potentialStakeholders");
+		return v == null ? null : (INakedValueSpecification) v.getValue();
 	}
 	@Override
 	public Collection<INakedDeadline> getDeadlines(){
 		Collection<INakedDeadline> result = new ArrayList<INakedDeadline>();
 		INakedSlot slot = stereotype.getSlotForFeature("deadlines");
-		List<INakedValueSpecification> values = slot.getValues();
-		for(INakedValueSpecification v:values){
-			result.add((INakedDeadline) v.getValue());
+		if(slot != null){
+			List<INakedValueSpecification> values = slot.getValues();
+			for(INakedValueSpecification v:values){
+				result.add((INakedDeadline) v.getValue());
+			}
 		}
 		return result;
 	}
@@ -47,7 +52,8 @@ public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implemen
 	}
 	@Override
 	public TaskDelegation getDelegation(){
-		return (TaskDelegation) stereotype.getFirstValueFor("delegation").getValue();
+		INakedValueSpecification v = stereotype.getFirstValueFor("delegation");
+		return v==null?null:(TaskDelegation) v.getValue();
 	}
 	@Override
 	public INakedClassifier getExpressionContext(){

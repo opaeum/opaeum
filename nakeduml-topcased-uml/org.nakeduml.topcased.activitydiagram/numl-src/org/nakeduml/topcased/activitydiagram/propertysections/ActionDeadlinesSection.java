@@ -27,6 +27,7 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
@@ -44,15 +45,20 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 	private Group groupDetails;
 	private EList<EnumerationLiteral> deadlineKinds;
 	private Stereotype deadlineStereotype;
+	private Stereotype taskStereotype;
 	protected void createWidgets(Composite composite){
 		table = new DeadlinesTableComposite(composite, SWT.NONE, getWidgetFactory()){
 			public void updateSelectedDeadlines(TimeEvent event){
-				if(event.isRelative()){
-					relativeComposite.setContext(getEditingDomain(), action, event);
-					((StackLayout) details.getLayout()).topControl = relativeComposite;
+				if(event != null){
+					if(event.isRelative()){
+						relativeComposite.setContext(getEditingDomain(), action, event);
+						((StackLayout) details.getLayout()).topControl = relativeComposite;
+					}else{
+						absoluteComposite.setContext(getEditingDomain(), action, event);
+						((StackLayout) details.getLayout()).topControl = absoluteComposite;
+					}
 				}else{
-					absoluteComposite.setContext(getEditingDomain(), action, event);
-					((StackLayout) details.getLayout()).topControl = absoluteComposite;
+					((StackLayout) details.getLayout()).topControl = null;
 				}
 				details.layout();
 				refresh();
@@ -149,6 +155,8 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 		Profile p = ApplyProfileAction.applyProfile(action.getModel(), StereotypeNames.NAKEDUML_BPM_PROFILE);
 		Enumeration kind = (Enumeration) p.getOwnedType("DeadlineKind");
 		this.deadlineStereotype = p.getOwnedStereotype(StereotypeNames.DEADLINE);
+		this.taskStereotype = p.getOwnedStereotype(action instanceof OpaqueAction ? StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK
+				: StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK);
 		this.deadlineKinds = kind.getOwnedLiterals();
 		refresh();
 	}
@@ -168,7 +176,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 		super.refresh();
 		MixedEditDomain mixedEditDomain = (MixedEditDomain) getPart().getAdapter(MixedEditDomain.class);
 		table.setMixedEditDomain(mixedEditDomain);
-		table.setAction((Action) getEObject(), deadlineStereotype);
+		table.setAction((Action) getEObject(), deadlineStereotype, this.taskStereotype);
 		absoluteComposite.setContext(getEditingDomain(), null, null);
 		relativeComposite.setContext(getEditingDomain(), null, null);
 	}

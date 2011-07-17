@@ -19,7 +19,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class TaskUtil{
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
-
 	public static void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName){
 		if(td.getPotentialOwners() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialOwners", "potentialOwner");
@@ -34,17 +33,20 @@ public class TaskUtil{
 			implementAssignment(operation, block, td, taskName, td.getPotentialStakeholders(), name);
 		}
 		operation.getOwner().addToImports(TaskDelegation.class.getName());
-		block.addToStatements(taskName + ".getTaskInstance().setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
+		if(td.getDelegation() == null){
+			block.addToStatements(taskName + ".getTaskInstance().setDelegation(TaskDelegation.ANYBODY)");
+		}else{
+			block.addToStatements(taskName + ".getTaskInstance().setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
+		}
 		Collection<INakedDeadline> deadlines = td.getDeadlines();
 		for(INakedDeadline d:deadlines){
 			EventUtil.implementDeadlineRequest(operation, block, d, taskName);
 		}
 	}
-
 	private static void implementAssignment(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName,
 			INakedValueSpecification potentialOwners,PluralNameWrapper name){
 		String expr = ValueSpecificationUtil.expressValue(operation, potentialOwners, td.getExpressionContext(), null);
-		OJIfStatement ifEmpty=new OJIfStatement(taskName+".getTaskInstance().get" + name.getAsIs() + "().isEmpty()");
+		OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskInstance().get" + name.getAsIs() + "().isEmpty()");
 		block.addToStatements(ifEmpty);
 		if(potentialOwners.getOclValue().getExpression().getExpressionType() instanceof StdlibCollectionType){
 			OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
@@ -53,15 +55,15 @@ public class TaskUtil{
 			OJAnnotatedField z = new OJAnnotatedField(name.getSingular().getAsIs(), assignment);
 			forEach.getBody().addToLocals(z);
 			z.setInitExp("new " + assignment.getLast() + "()");
-			forEach.getBody().addToStatements(name.getSingular().getAsIs() +".addTo" + name.getCapped() + "(participant)");
+			forEach.getBody().addToStatements(name.getSingular().getAsIs() + ".addTo" + name.getCapped() + "(participant)");
 			forEach.getBody().addToStatements(taskName + ".getTaskInstance().addTo" + name.getCapped() + "(" + name.getSingular().getAsIs() + ")");
 		}else{
 			OJPathName assignment = new OJPathName("org.nakeduml.runtime.bpm.Assignment");
 			OJAnnotatedField z = new OJAnnotatedField(name.getSingular().getAsIs(), assignment);
 			ifEmpty.getThenPart().addToLocals(z);
 			z.setInitExp("new " + assignment.getLast() + "()");
-			ifEmpty.getThenPart().addToStatements(name.getSingular().getAsIs()+".addTo" + name.getCapped() + "(" + expr + ")");
-			ifEmpty.getThenPart().addToStatements(taskName + ".getTaskInstance().addTo" + name.getCapped() + "("+name.getSingular().getAsIs()+")");
+			ifEmpty.getThenPart().addToStatements(name.getSingular().getAsIs() + ".addTo" + name.getCapped() + "(" + expr + ")");
+			ifEmpty.getThenPart().addToStatements(taskName + ".getTaskInstance().addTo" + name.getCapped() + "(" + name.getSingular().getAsIs() + ")");
 		}
 	}
 }

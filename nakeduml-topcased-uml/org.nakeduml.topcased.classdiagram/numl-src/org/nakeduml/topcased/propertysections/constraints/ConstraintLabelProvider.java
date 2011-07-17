@@ -14,9 +14,9 @@ public class ConstraintLabelProvider implements ITableLabelProvider{
 		if(element instanceof Constraint){
 			Constraint constraint = (Constraint) element;
 			switch(columnIndex){
-			case OclOwnedRuleComposite.CONSTRAINTS_NAME:
+			case 0:
 				return getName(constraint);
-			case OclOwnedRuleComposite.CONSTRAINTS_COMMENT:
+			case 1:
 				if(constraint.getSpecification() instanceof OpaqueExpression){
 					OpaqueExpression a=(OpaqueExpression) constraint.getSpecification();
 					if(a.getBodies().size()>0){

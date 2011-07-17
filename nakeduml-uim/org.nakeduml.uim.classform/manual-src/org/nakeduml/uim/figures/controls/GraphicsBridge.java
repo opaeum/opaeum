@@ -285,9 +285,6 @@ public class GraphicsBridge extends java.awt.Graphics{
 		}catch(ImageFormatException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}catch(IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return true;
 	}

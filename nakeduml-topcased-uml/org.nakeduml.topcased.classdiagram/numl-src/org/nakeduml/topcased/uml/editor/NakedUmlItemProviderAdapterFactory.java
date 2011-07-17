@@ -1,28 +1,24 @@
 package org.nakeduml.topcased.uml.editor;
 
-import java.net.MalformedURLException;
-
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.edit.provider.ChildCreationExtenderManager;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Signal;
+import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
-import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.edit.UMLEditPlugin;
 import org.eclipse.uml2.uml.edit.providers.ActivityItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ClassItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ComponentItemProvider;
 import org.eclipse.uml2.uml.edit.providers.InterfaceItemProvider;
+import org.eclipse.uml2.uml.edit.providers.SignalItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateMachineItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
-import org.topcased.modeler.uml.UMLPlugin;
 import org.topcased.modeler.uml.editor.outline.CustomCallBehaviorActionItemProvider;
 
 public class NakedUmlItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
@@ -139,8 +135,41 @@ public class NakedUmlItemProviderAdapterFactory extends UMLItemProviderAdapterFa
 	@Override
 	public Adapter createStateAdapter(){
 		if(stateItemProvider == null){
-			stateItemProvider = new StateItemProvider(this);
+			stateItemProvider = new StateItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof State){
+						State c = (State) object;
+						if(StereotypesHelper.hasKeyword(c, StereotypeNames.SCREEN)){
+							return "<Screen> " + c.getName();
+						}else{
+							return super.getText(object);
+						}
+					}
+					return super.getText(object);
+				}
+			};
 		}
 		return stateItemProvider;
+	}
+	@Override
+	public Adapter createSignalAdapter(){
+		if(signalItemProvider == null){
+			signalItemProvider = new SignalItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof Signal){
+						Signal c = (Signal) object;
+						if(StereotypesHelper.hasKeyword(c, StereotypeNames.NOTIFICATION)){
+							return "<Notification> " + c.getName();
+						}else{
+							return super.getText(object);
+						}
+					}
+					return super.getText(object);
+				}
+			};
+		}
+		return signalItemProvider;
 	}
 }

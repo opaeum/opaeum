@@ -7,7 +7,7 @@ import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
@@ -30,8 +30,8 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 	protected NakedStructuralFeatureMap callMap;
 	protected PotentialTaskActionBuilder(IOclEngine oclEngine,A node){
 		super(oclEngine, node);
-		if(node instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedCallAction) node)){
-			callMap = OJUtil.buildStructuralFeatureMap((INakedCallAction) node, getOclEngine().getOclLibrary());
+		if(node instanceof IActionWithTargetElement && BehaviorUtil.hasMessageStructure(node)){
+			callMap = OJUtil.buildStructuralFeatureMap((IActionWithTargetElement)node, getOclEngine().getOclLibrary());
 		}
 	}
 	@Override

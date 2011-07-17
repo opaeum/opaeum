@@ -33,11 +33,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
-import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
-import org.nakeduml.runtime.domain.IEnum;
 import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.IEnum;
 
 public class Java5ModelGenerator extends AbstractStructureVisitor{
 	@Override

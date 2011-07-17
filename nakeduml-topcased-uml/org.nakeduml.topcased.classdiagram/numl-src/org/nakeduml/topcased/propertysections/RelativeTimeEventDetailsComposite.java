@@ -43,7 +43,7 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		this.stereotypeName = stereotypeName;
 	}
 	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,TimeEventListener listener){
-		super(widgetFactory, details, i,listener);
+		super(widgetFactory, details, i, listener);
 		this.stereotypeName = "RelativeTimeEvent";
 	}
 	@Override
@@ -54,18 +54,16 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 	@Override
 	protected void addChildrenAfterOclComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 		expressionLabel.setText("Number value");
-
 	}
 	@Override
 	protected void addChildrenAfterName(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 		setBackground(parent.getBackground());
 		timeUnitLabel = toolkit.createCLabel(this, "Time unit of the delay");
 		Control[] c = getChildren();
-
 		FormData data = new FormData();
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		timeUnitLabel.setLayoutData(data);
-		timeUnitCombo = toolkit.createCCombo(this,SWT.BORDER|SWT.FLAT | SWT.READ_ONLY);
+		timeUnitCombo = toolkit.createCCombo(this, SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
 		timeUnitCombo.setBackground(getBackground());
 		timeUnitCombo.addSelectionListener(new SelectionListener(){
 			public void widgetSelected(SelectionEvent e){
@@ -81,11 +79,10 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 			}
 		});
 		timeUnitCombo.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TEXT_BORDER);
-
 		data = new FormData();
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		data.left = new FormAttachment(0, standardLabelWidth);
-		data.right= new FormAttachment(100);
+		data.right = new FormAttachment(100);
 		data.height = 18;
 		timeUnitCombo.setLayoutData(data);
 	}
@@ -93,7 +90,24 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		return true;
 	}
 	public void setTrigger(EditingDomain domain,Trigger t){
-			super.setTrigger(domain, t);
+		super.setTrigger(domain, t);
+	}
+	@Override
+	protected void setTimeEvent(TimeEvent timeEvent){
+		super.setTimeEvent(timeEvent);
+		if(event != null){
+			if(!event.isStereotypeApplied(stereotype)){
+				StereotypesHelper.applyStereotype(event, stereotype);
+			}
+			EnumerationLiteral currentTImeUnitValue = (EnumerationLiteral) event.getValue(stereotype, "timeUnit");
+			timeUnitCombo.setText(currentTImeUnitValue.getName());
+		}else{
+			timeUnitCombo.setText("");
+		}
+	}
+	public void setEnabled(boolean b){
+		super.setEnabled(b);
+		timeUnitCombo.setEnabled(b);
 	}
 	protected void initProfileElements(Element e){
 		Profile p = ApplyProfileAction.applyProfile(e.getModel(), StereotypeNames.NAKEDUML_PROFILE);
@@ -103,11 +117,6 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		for(EnumerationLiteral l:timeUnit.getOwnedLiterals()){
 			result.add(l.getName());
 		}
-		if(!event.isStereotypeApplied(stereotype)){
-			StereotypesHelper.applyStereotype(event, stereotype);
-		}
-		EnumerationLiteral currentTImeUnitValue = (EnumerationLiteral) event.getValue(stereotype, "timeUnit");
 		timeUnitCombo.setItems((String[]) result.toArray(new String[result.size()]));
-		timeUnitCombo.setText(currentTImeUnitValue.getName());
 	}
 }

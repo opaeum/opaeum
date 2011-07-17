@@ -13,7 +13,7 @@ public class UmlMetaTypeRemover{
 		Collection<EObject> result =new ArrayList<EObject>();
 		for(EObject eObject:types){
 			boolean isAssociation = eObject instanceof Association && !(eObject instanceof AssociationClass);
-			if(!(eObject.eResource().getURI().toString().contains("UML.metamodel.uml")||isAssociation)){
+			if(!(eObject.eResource()  ==null || eObject.eResource().getURI().toString().contains("UML.metamodel.uml")||isAssociation)){
 				result.add(eObject);
 			}
 		}

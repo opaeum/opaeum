@@ -1134,7 +1134,6 @@
 			<propertySection
 		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 		         class="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
-		         filter="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSectionFilter"
 		         id="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
 		         tab="org.nakeduml.eclipse.numlTab">
 		      <input

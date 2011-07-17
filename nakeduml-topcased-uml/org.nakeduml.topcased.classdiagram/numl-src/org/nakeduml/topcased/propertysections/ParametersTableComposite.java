@@ -67,6 +67,7 @@ public class ParametersTableComposite extends Composite{
 		removeButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.verticalSpan = 2;
+		gridData.heightHint=60;
 		parametersTable.setLayoutData(gridData);
 		TableColumn directionColumn = new TableColumn(parametersTable, SWT.LEFT);
 		directionColumn.setText(columnNames[0]);

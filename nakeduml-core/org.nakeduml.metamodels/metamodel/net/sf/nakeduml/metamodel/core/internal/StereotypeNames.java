@@ -1,5 +1,7 @@
 package net.sf.nakeduml.metamodel.core.internal;
 
+import org.eclipse.uml2.uml.Stereotype;
+
 
 public class StereotypeNames {
 	public static final String MODELS_PATHMAP="pathmap://NAKEDUML_MODELS/";
@@ -71,5 +73,6 @@ public class StereotypeNames {
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 	public static final String SCREEN_FLOW = "ScreenFlow";
 	public static final String CALL_BUSINESS_STATE_MACHINE_ACTION = "CallBusinessStateMachineAction";
+	public static final String SCREEN = "Screen";
 
 }

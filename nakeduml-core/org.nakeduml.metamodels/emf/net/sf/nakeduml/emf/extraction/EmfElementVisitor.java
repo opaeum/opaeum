@@ -25,6 +25,10 @@ public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace> {
 		}else if (root instanceof AcceptEventAction){
 			elements.addAll(((AcceptEventAction) root).getTriggers());
 		}
+		if(StereotypesHelper.getNumlAnnotation(root).getContents().size()>0){
+			
+		}
+		elements.addAll((Collection<? extends Element>) StereotypesHelper.getNumlAnnotation(root).getContents());
 		return elements;
 	}
 }
