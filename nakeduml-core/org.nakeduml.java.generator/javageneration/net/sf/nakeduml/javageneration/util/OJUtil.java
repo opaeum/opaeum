@@ -24,8 +24,10 @@ import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -65,7 +67,7 @@ public class OJUtil{
 		BUILT_IN_ATTRIBUTES.add("today");
 	}
 	private static Map<INakedTypedElement,NakedStructuralFeatureMap> structuralFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
-	private static Map<IActionWithTargetElement,NakedStructuralFeatureMap> actionFeatureMaps=new HashMap<IActionWithTargetElement,NakedStructuralFeatureMap>();
+	private static Map<IActionWithTargetElement,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<IActionWithTargetElement,NakedStructuralFeatureMap>();
 	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
@@ -148,17 +150,16 @@ public class OJUtil{
 			return new NakedAssociationClassPropertyMap(sf, ac, ac);
 		}
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,IOclLibrary lib){
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,NakedUmlLibrary lib){
 		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
 		if(map == null){
 			ActionFeatureBridge bridge = buildActionBridge(action, lib);
-			map=new NakedStructuralFeatureMap(bridge);
+			map = new NakedStructuralFeatureMap(bridge);
 			actionFeatureMaps.put(action, map);
 		}
 		return map;
-
 	}
-	private static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,IOclLibrary lib){
+	private static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,NakedUmlLibrary lib){
 		ActionFeatureBridge bridge = new ActionFeatureBridge(action, lib);
 		return bridge;
 	}
@@ -170,7 +171,7 @@ public class OJUtil{
 	 * @return
 	 */
 	public static OJPathName packagePathname(INakedNameSpace p){
-		return new OJPathName( AbstractJavaNameGenerator.packagePathname(p));
+		return new OJPathName(AbstractJavaNameGenerator.packagePathname(p));
 	}
 	/**
 	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -258,9 +259,9 @@ public class OJUtil{
 		return null;
 	}
 	public static void addFailedConstraints(OJOperation execute){
-		String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
-		execute.getOwner().addToImports(failedConstraints);
-		execute.addToThrows(failedConstraints);
+//		String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
+		execute.getOwner().addToImports("org.nakeduml.runtime.domain.FailedConstraintsException");
+		execute.addToThrows("org.nakeduml.runtime.domain.FailedConstraintsException");
 	}
 	/**
 	 * Some classifiers in UML would not necessarily be generated as Java classes. Returns false for NakedBehaviors that have one or less
@@ -305,15 +306,15 @@ public class OJUtil{
 	public static OJPathName classifierPathname(INakedEmbeddedScreenFlowTask origin){
 		return packagePathname(origin.getActivity()).append(origin.getMappingInfo().getJavaName().getCapped().getAsIs());
 	}
-
 	public static void addMetaInfo(OJAnnotatedElement element,INakedElement property){
-		OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
-		metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
-		metaInfo.putAttribute("qualifiedPersistentName", property.getMappingInfo().getQualifiedPersistentName());
-		element.putAnnotation(metaInfo);
+		if(!(property instanceof ArtificialProperty)){
+			OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
+			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
+			metaInfo.putAttribute("qualifiedPersistentName", property.getMappingInfo().getQualifiedPersistentName());
+			element.putAnnotation(metaInfo);
+		}
 	}
-
-	public static void addField(OJEnum ojEnum, OJConstructor constr, String name, OJPathName type) {
+	public static void addField(OJEnum ojEnum,OJConstructor constr,String name,OJPathName type){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
 		getter.getBody().addToStatements("return this." + name);
 		ojEnum.addToOperations(getter);
@@ -322,8 +323,7 @@ public class OJUtil{
 		OJAnnotatedField field = new OJAnnotatedField(name, type);
 		ojEnum.addToFields(field);
 	}
-
-	public  static void addParameter(OJEnumLiteral l, String name, String value) {
+	public static void addParameter(OJEnumLiteral l,String name,String value){
 		OJAnnotatedField persistentName = new OJAnnotatedField();
 		persistentName.setName(name);
 		persistentName.setInitExp(value);

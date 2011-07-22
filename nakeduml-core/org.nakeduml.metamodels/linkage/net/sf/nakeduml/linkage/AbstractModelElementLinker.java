@@ -11,7 +11,7 @@ import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.metamodel.workspace.MappedTypes;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 public abstract class AbstractModelElementLinker extends NakedElementOwnerVisitor implements TransformationStep {
 	protected INakedModelWorkspace workspace;
@@ -22,8 +22,8 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		this.config = config;
 	}
 
-	protected MappedTypes getBuiltInTypes() {
-		return workspace.getMappedTypes();
+	protected NakedUmlLibrary getBuiltInTypes() {
+		return workspace.getNakedUmlLibrary();
 	}
 
 	protected ErrorMap getErrorMap() {

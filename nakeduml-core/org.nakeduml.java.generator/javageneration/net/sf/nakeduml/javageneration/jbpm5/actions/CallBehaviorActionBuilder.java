@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -22,7 +23,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class CallBehaviorActionBuilder extends Jbpm5ActionBuilder<INakedCallBehaviorAction>{
 	private AbstractBehaviorCaller delegate;
-	public CallBehaviorActionBuilder(IOclEngine engine,INakedCallBehaviorAction node){
+	public CallBehaviorActionBuilder(NakedUmlLibrary engine,INakedCallBehaviorAction node){
 		super(engine, node);
 		delegate = new BehaviorCaller(engine, node, new Jbpm5ObjectNodeExpressor(engine));
 	}

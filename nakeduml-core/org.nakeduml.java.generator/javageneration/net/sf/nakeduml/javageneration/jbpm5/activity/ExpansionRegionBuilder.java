@@ -7,7 +7,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJPathName;
@@ -15,7 +15,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ExpansionRegionBuilder extends Jbpm5ActionBuilder<INakedExpansionRegion> {
-	public ExpansionRegionBuilder(IOclEngine oclEngine, INakedExpansionRegion node) {
+	public ExpansionRegionBuilder(NakedUmlLibrary oclEngine, INakedExpansionRegion node) {
 		super(oclEngine, node);
 	}
 

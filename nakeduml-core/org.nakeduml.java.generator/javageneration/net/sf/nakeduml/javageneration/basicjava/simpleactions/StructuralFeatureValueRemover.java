@@ -3,13 +3,13 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class StructuralFeatureValueRemover extends SimpleNodeBuilder<INakedRemoveStructuralFeatureValueAction> {
-	public StructuralFeatureValueRemover(IOclEngine oclEngine, INakedRemoveStructuralFeatureValueAction action,
+	public StructuralFeatureValueRemover(NakedUmlLibrary oclEngine, INakedRemoveStructuralFeatureValueAction action,
 			AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

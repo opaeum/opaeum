@@ -21,6 +21,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -34,8 +35,8 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 		return true;
 	}
 
-	public Jbpm5ObjectNodeExpressor(IOclEngine oclEngine) {
-		super(oclEngine.getOclLibrary());
+	public Jbpm5ObjectNodeExpressor(NakedUmlLibrary l) {
+		super(l);
 	}
 
 	@Override
@@ -136,7 +137,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 			//
 			INakedCallAction callAction = (INakedCallAction) feedingNode.getAction();
 			if (BehaviorUtil.hasMessageStructure(callAction)) {
-				INakedMessageStructure message = callAction.getMessageStructure(oclLibrary);
+				INakedMessageStructure message = callAction.getMessageStructure(getLibrary());
 				NakedClassifierMap messageMap = new NakedClassifierMap(message);
 				NakedStructuralFeatureMap featureMap = null;
 				if (feedingNode.getLinkedTypedElement() == null) {

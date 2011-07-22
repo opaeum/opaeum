@@ -2,10 +2,9 @@ package net.sf.nakeduml.javageneration.persistence;
 
 import java.util.List;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -30,16 +29,14 @@ import org.nakeduml.runtime.domain.IPersistentObject;
  * interface. It also provides an implementation for the equals method that uses
  * the id of the instance involved
  */
-public class AbstractEntityImplementor extends AbstractJavaProducingVisitor {
+public class AbstractEntityImplementor extends AbstractStructureVisitor{
 	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(IPersistentObject.class.getName());
 
 	@VisitBefore
 	public void visitModel(INakedModel p) {
 	}
 
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c) {
-		OJPathName path = OJUtil.classifierPathname(c);
+	private void visitClass(INakedClassifier c) {
 		OJClassifier ojClassifier = super.findJavaClass(c);
 		if (ojClassifier instanceof OJAnnotatedInterface) {
 			if (c.getStereotype(StereotypeNames.HELPER) == null) {
@@ -91,5 +88,16 @@ public class AbstractEntityImplementor extends AbstractJavaProducingVisitor {
 		getName.setBody(new OJBlock());
 		getName.getBody().addToStatements("return \"" + entity.getMappingInfo().getJavaName() + "[\"+getId()+\"]\"");
 		ojClass.addToOperations(getName);
+	}
+
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		
+	}
+
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		visitClass(umlOwner);
+		
 	}
 }

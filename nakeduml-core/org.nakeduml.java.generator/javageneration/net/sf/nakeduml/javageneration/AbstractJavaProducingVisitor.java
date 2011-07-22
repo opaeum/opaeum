@@ -18,6 +18,7 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextProject;
@@ -52,6 +53,9 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		this.transformationContext=context;
 		startVisiting(workspace);
 		
+	}
+	public NakedUmlLibrary getLibrary(){
+		return workspace.getNakedUmlLibrary();
 	}
 	@Deprecated
 	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){

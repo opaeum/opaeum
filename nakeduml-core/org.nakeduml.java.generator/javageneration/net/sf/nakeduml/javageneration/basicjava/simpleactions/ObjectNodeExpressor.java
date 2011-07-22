@@ -6,14 +6,14 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import nl.klasse.octopus.stdlib.IOclLibrary;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
-	public ObjectNodeExpressor(IOclLibrary oclLibrary){
+	public ObjectNodeExpressor(NakedUmlLibrary oclLibrary){
 		super(oclLibrary);
 	}
 	public boolean pinsAvailableAsVariables(){

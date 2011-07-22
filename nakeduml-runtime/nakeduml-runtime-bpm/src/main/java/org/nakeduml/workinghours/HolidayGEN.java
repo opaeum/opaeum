@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
-import org.nakeduml.runtime.domain.CompositionNode;
-import org.nakeduml.runtime.domain.MetaIdentifiable;
 
 
 //JDK5@CompositionFromOwningObject(attribute="holiday")
-abstract public class HolidayGEN implements IPersistentObject,MetaIdentifiable{
+abstract public class HolidayGEN implements IPersistentObject{
 	private Set<Object> outgoingEvents;
 	private String f_name = "";
 	private Date f_date = null;

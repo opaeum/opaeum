@@ -22,9 +22,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class ToXmlStringBuilder extends StereotypeAnnotator {
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c) {
+public class ToXmlStringBuilder extends AbstractStructureVisitor {
+	private void visitClass(INakedClassifier c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedEnumeration) && c.getStereotype(StereotypeNames.HELPER)==null) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildToXmlString(ojClass, c);
@@ -100,5 +99,17 @@ public class ToXmlStringBuilder extends StereotypeAnnotator {
 		}
 		toString.getBody().addToStatements("return sb.toString()");
 		owner.addToOperations(toString);
+	}
+
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		visitClass(umlOwner);
+		
 	}
 }

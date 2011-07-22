@@ -11,8 +11,8 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -20,7 +20,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
-	public SignalSender(IOclEngine oclEngine, INakedSendSignalAction action, AbstractObjectNodeExpressor expressor) {
+	public SignalSender(NakedUmlLibrary oclEngine, INakedSendSignalAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
 

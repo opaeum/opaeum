@@ -36,7 +36,13 @@ public class GeneratorPomStep extends PomGenerationStep {
 		result[1].setScope("compile");
 		result[1].setVersion(PomGenerationPhase.NUML_VERSION);
 		result[1].setType("jar");
-		
+//		result[2] = POMFactory.eINSTANCE.createDependency();
+//		result[2].setGroupId("org.nakeduml");
+//		result[2].setArtifactId("nakeduml-metamodels");
+//		result[2].setScope("compile");
+//		result[2].setVersion(PomGenerationPhase.NUML_VERSION);
+//		result[2].setType("jar");
+//		
 		return result;
 	}
 

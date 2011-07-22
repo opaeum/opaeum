@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJClass;
@@ -28,10 +29,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
  */
 public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends Jbpm5ActionBuilder<A>{
 	protected NakedStructuralFeatureMap callMap;
-	protected PotentialTaskActionBuilder(IOclEngine oclEngine,A node){
+	protected PotentialTaskActionBuilder(NakedUmlLibrary oclEngine,A node){
 		super(oclEngine, node);
 		if(node instanceof IActionWithTargetElement && BehaviorUtil.hasMessageStructure(node)){
-			callMap = OJUtil.buildStructuralFeatureMap((IActionWithTargetElement)node, getOclEngine().getOclLibrary());
+			callMap = OJUtil.buildStructuralFeatureMap((IActionWithTargetElement)node, getLibrary());
 		}
 	}
 	@Override
@@ -48,9 +49,9 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 			NakedOperationMap map = new NakedOperationMap(call.getOperation());
 			activityClass.addToImplementedInterfaces(map.callbackListenerPath());
 			completeMethodName = map.callbackOperName();
-			message = call.getMessageStructure(getOclEngine().getOclLibrary());
+			message = call.getMessageStructure(getLibrary());
 		}else{
-			message = ((INakedEmbeddedTask) node).getMessageStructure(getOclEngine().getOclLibrary());
+			message = ((INakedEmbeddedTask) node).getMessageStructure(getLibrary());
 			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}
 		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);

@@ -274,18 +274,18 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
 				OJPathName pn = null;
 				if(origin instanceof INakedOperation){
-					pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure(getOclEngine().getOclLibrary()));
+					pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure(getLibrary()));
 				}else if(origin instanceof INakedEmbeddedSingleScreenTask){
-					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure(getOclEngine().getOclLibrary()));
+					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure(getLibrary()));
 				}else{
 					pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
 				}
+				listener.addParam("triggerDate", new NakedClassifierMap(workspace.getNakedUmlLibrary().getDateType()).javaTypePath());
 				listener.addParam("source", pn);
-				listener.addParam("triggerDate", new NakedClassifierMap(workspace.getMappedTypes().getDateType()).javaTypePath());
 			}else{
 				listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 				if(event instanceof INakedTimeEvent){
-					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getMappedTypes().getDateType()).javaTypePath());
+					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getNakedUmlLibrary().getDateType()).javaTypePath());
 				}
 			}
 		}
@@ -297,7 +297,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		if(event instanceof INakedDeadline){
 			OJIfStatement ifTaskTokenFound = new OJIfStatement();
 			ifProcessActive.getThenPart().addToStatements(ifTaskTokenFound);
-			ifTaskTokenFound.setCondition("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(source.getNodeInstanceUniqueId())" + "!=null");
+			ifTaskTokenFound.setCondition("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(source.getNodeInstanceUniqueId()))" + "!=null");
 			for(FromNode node:eventActions.getWaitingNodes()){
 				listener.getOwner().addToImports(NODE_INSTANCE_CONTAINER);
 				NameWrapper targetNodeName = node.getWaitingElement().getMappingInfo().getJavaName().getDecapped();
@@ -307,11 +307,11 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				listener.getOwner().addToImports(NODE_CONTAINER);
 				OJAnnotatedField nodeContainer = new OJAnnotatedField(targetNodeName + "NC", NODE_CONTAINER);
 				ifTaskTokenFound.getThenPart().addToLocals(nodeContainer);
-				nodeInstanceContainer.setInitExp("(NodeInstanceContainer) " + targetNodeName + "NIC.getNodeInstanceContainer()");
+				nodeContainer.setInitExp("(NodeContainer) " + nodeInstanceContainer.getName() + ".getNodeContainer()");
 				String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
 				listener.getOwner().addToImports(NODE);
 				ifTaskTokenFound.getThenPart().addToStatements(
-						"nodeInstanceContainer.getNodeInstance(nodeContainer.getNode(" + literalExpression + ".getId())).trigger(null, Node.CONNECTION_DEFAULT_TYPE)");
+						nodeInstanceContainer.getName()+ ".getNodeInstance("+ nodeContainer.getName()+".getNode(" + literalExpression + ".getId())).trigger(null, Node.CONNECTION_DEFAULT_TYPE)");
 				implementEventConsumption(listener, node, ifTaskTokenFound);
 			}
 		}else if(event instanceof INakedEvent){

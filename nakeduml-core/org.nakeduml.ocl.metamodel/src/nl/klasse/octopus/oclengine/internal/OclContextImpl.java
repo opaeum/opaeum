@@ -10,6 +10,7 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.types.ModelElementImpl;
@@ -44,7 +45,7 @@ public class OclContextImpl extends ModelElementImpl implements IOclContext {
 		if (Check.ENABLED) Check.pre("OclContextImpl constructor: context should not be null",
 				  cont != null);
 		if (Check.ENABLED) Check.pre("OclContextImpl constructor: context should be of type IClassifier, IOperation, IAttribute or IAssociationEnd",
-				   (cont.getModelElement() instanceof IClassifier || 
+				   (cont.getModelElement() instanceof IModelElement || 
 				    cont.getModelElement() instanceof IOperation  || 
 				    cont.getModelElement() instanceof IAttribute  || 
 				    cont.getModelElement() instanceof IAssociationEnd));

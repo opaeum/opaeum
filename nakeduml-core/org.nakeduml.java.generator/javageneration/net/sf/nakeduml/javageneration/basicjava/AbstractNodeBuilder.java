@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -17,11 +18,11 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 
 public abstract class AbstractNodeBuilder {
-	protected IOclEngine oclEngine;
+	protected NakedUmlLibrary library;
 	protected AbstractObjectNodeExpressor expressor;
 
-	protected AbstractNodeBuilder(IOclEngine oclEngine, AbstractObjectNodeExpressor expressor) {
-		this.oclEngine = oclEngine;
+	protected AbstractNodeBuilder(NakedUmlLibrary library, AbstractObjectNodeExpressor expressor) {
+		this.library=library;
 		this.expressor=expressor;
 	}
 
@@ -97,7 +98,7 @@ public abstract class AbstractNodeBuilder {
 	}
 
 	
-	protected final IOclEngine getOclEngine() {
-		return oclEngine;
+	protected final NakedUmlLibrary getLibrary() {
+		return library;
 	}
 }

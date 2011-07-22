@@ -36,7 +36,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf {
 		}
 		impl.setContract(nakedParent);
 		impl.setImplementingClassifier(nakedChild);
-		nakedChild.addInterface(impl);
+		nakedChild.addInterfaceRealization(impl);
 	}
 
 	@VisitBefore

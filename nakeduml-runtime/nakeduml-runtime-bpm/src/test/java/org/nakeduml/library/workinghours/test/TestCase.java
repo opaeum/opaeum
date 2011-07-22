@@ -6,7 +6,7 @@ import org.junit.Assert;
 
 
 
-public class TestCase {
+public abstract class TestCase {
 
 	public static void assertEquals(double expected, double found, double precision) {
 		if (Double.isInfinite(expected)) {

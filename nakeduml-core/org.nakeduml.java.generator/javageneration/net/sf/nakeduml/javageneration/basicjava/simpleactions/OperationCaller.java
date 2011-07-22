@@ -6,7 +6,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.environment.MethodInvocationHolder;
 import org.nakeduml.java.metamodel.OJBlock;
@@ -14,7 +14,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
-	public OperationCaller(IOclEngine oclEngine,INakedCallOperationAction action,AbstractObjectNodeExpressor expressor){
+	public OperationCaller(NakedUmlLibrary oclEngine,INakedCallOperationAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override
@@ -30,7 +30,7 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 				String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "(" + firstArg
 						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")";
 				if(BehaviorUtil.hasMessageStructure(node)){
-					resultMap = OJUtil.buildStructuralFeatureMap(node, oclEngine.getOclLibrary());
+					resultMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 				}else if(returnPin != null){
 					resultMap = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin);
 				}

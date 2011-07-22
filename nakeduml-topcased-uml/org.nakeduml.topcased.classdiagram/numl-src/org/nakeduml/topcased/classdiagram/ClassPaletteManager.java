@@ -224,36 +224,18 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 				property1.setUpper(1);
 				Property property2 = UMLFactory.eINSTANCE.createProperty();
 				property2.setName("target");
-				property2.setLower(1);
-				property2.setUpper(1);
+				property2.setLower(0);
+				property2.setUpper(-1);
 				property2.setAggregation(AggregationKind.COMPOSITE_LITERAL);
 				element.getOwnedEnds().add(property1);
 				element.getOwnedEnds().add(property2);
+				property1.setIsNavigable(true);
+				property2.setIsNavigable(true);
 				return element;
 			}
 		};
-		associationStack.add(new ModelerConnectionCreationToolEntry("Association (Composite)", "Association (Composite)", factory, ClassImageRegistry
+		associationStack.add(new ModelerConnectionCreationToolEntry("Composite Association", "Composite Association", factory, ClassImageRegistry
 				.getImageDescriptor("ASSOCIATION_COMPOSITE"), ClassImageRegistry.getImageDescriptor("ASSOCIATION_COMPOSITE_LARGE")));
-		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAssociation(), "default"){
-			@Override
-			public EObject getNewModelObject(){
-				Association element = (Association) super.getNewModelObject();
-				Property property1 = UMLFactory.eINSTANCE.createProperty();
-				property1.setName("source");
-				property1.setLower(1);
-				property1.setUpper(1);
-				Property property2 = UMLFactory.eINSTANCE.createProperty();
-				property2.setName("target");
-				property2.setLower(1);
-				property2.setUpper(1);
-				property2.setAggregation(AggregationKind.SHARED_LITERAL);
-				element.getOwnedEnds().add(property1);
-				element.getOwnedEnds().add(property2);
-				return element;
-			}
-		};
-		associationStack.add(new ModelerConnectionCreationToolEntry("Association (Shared)", "Association (Shared)", factory, ClassImageRegistry
-				.getImageDescriptor("ASSOCIATION_SHARED"), ClassImageRegistry.getImageDescriptor("ASSOCIATION_SHARED_LARGE")));
 		entries.add(associationStack);
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getAssociationClass(), "default"){
 			@Override

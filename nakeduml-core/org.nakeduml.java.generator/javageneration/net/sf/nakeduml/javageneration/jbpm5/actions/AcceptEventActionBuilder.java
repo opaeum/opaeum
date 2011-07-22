@@ -7,13 +7,14 @@ import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEventAction>{
-	public AcceptEventActionBuilder(IOclEngine oclEngine,INakedAcceptEventAction node){
+	public AcceptEventActionBuilder(NakedUmlLibrary oclEngine,INakedAcceptEventAction node){
 		super(oclEngine, node);
 	}
 	@Override

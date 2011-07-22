@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.nakeduml.feature.StepDependency;
@@ -20,6 +21,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -97,11 +99,18 @@ public class ActivityMessageEventHandlerInserter extends AbstractEventHandlerIns
 		return block;
 	}
 	private void storeArguments(OJIfStatement ifTokenFound,INakedAcceptEventAction aea){
-		for(INakedOutputPin argument:aea.getResult()){
+		
+		List<INakedOutputPin> result = aea.getResult();
+		for(int i = 0; i < result.size();i++){
+			INakedOutputPin argument = result.get(i);
 			NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(argument.getActivity(), argument);
 			INakedTypedElement parm = argument.getLinkedTypedElement();
 			if(parm == null){
-				ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "(unknown)");
+				String param="unknown";
+				if(aea instanceof INakedAcceptDeadlineAction){
+					param=i==1?"source.getTaskRequest()":"triggerDate";
+				}
+				ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "("+param+")");
 			}else{
 				if(pinMap.isOne()){
 					ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "(" + parm.getMappingInfo().getJavaName().toString() + ")");
@@ -136,7 +145,7 @@ public class ActivityMessageEventHandlerInserter extends AbstractEventHandlerIns
 	}
 	private Jbpm5ActionBuilder<INakedActivityNode> getActionBuilder(){
 		if(actionBuilder == null){
-			actionBuilder = new Jbpm5ActionBuilder<INakedActivityNode>(workspace.getOclEngine(), null){
+			actionBuilder = new Jbpm5ActionBuilder<INakedActivityNode>(getLibrary(), null){
 				@Override
 				public void implementActionOn(OJAnnotatedOperation oper){
 				}

@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.core.internal.emulated;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -11,6 +12,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
@@ -18,6 +20,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationClass;
 import nl.klasse.octopus.model.IAssociationEnd;
@@ -36,6 +39,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 
 	protected INakedElement element;
 	INakedClassifier owner;
+	private Collection<INakedInterfaceRealization> interfaceRealizations=new HashSet<INakedInterfaceRealization>();
 
 	protected MessageStructureImpl(INakedClassifier owner, INakedElement element) {
 		super(element);
@@ -44,7 +48,14 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 
 	public abstract List<INakedProperty> getOwnedAttributes();
+	protected void addInterface(INakedInterface in){
+		NakedInterfaceRealizationImpl t = new NakedInterfaceRealizationImpl();
+		t.setContract(in);
+		t.setImplementingClassifier(this);
+		t.initialize(getId() + in.getId(), "adsf", false);
+		addInterfaceRealization(t);
 
+	}
 	@Override
 	public INakedClassifier getNestingClassifier(){
 		return owner;
@@ -132,7 +143,11 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 
 	public List<IInterface> getInterfaces() {
-		return Collections.emptyList();
+		List<IInterface> result = new ArrayList<IInterface>();
+		for(INakedInterfaceRealization r:this.interfaceRealizations){
+			result.add(r.getContract());
+		}
+		return result;
 	}
 
 	public boolean getIsAbstract() {
@@ -194,7 +209,8 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 		return p;
 	}
 
-	public void addInterface(INakedInterfaceRealization in) {
+	public void addInterfaceRealization(INakedInterfaceRealization in) {
+		interfaceRealizations.add(in);
 	}
 
 	public void addInvariant(IOclContext string) {
@@ -208,7 +224,11 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 
 	public List<INakedOperation> getEffectiveOperations() {
-		return null;
+		ArrayList<INakedOperation> result = new ArrayList<INakedOperation>( );
+		for(INakedInterfaceRealization ir:getInterfaceRealizations()){
+			result.addAll(ir.getContract().getEffectiveOperations());
+		}
+		return result;
 	}
 
 	public INakedPackage getAsPackage() {
@@ -217,7 +237,11 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 
 
 	public List<INakedProperty> getEffectiveAttributes() {
-		return new ArrayList<INakedProperty>( getOwnedAttributes());
+		ArrayList<INakedProperty> result = new ArrayList<INakedProperty>( getOwnedAttributes());
+		for(INakedInterfaceRealization ir:getInterfaceRealizations()){
+			result.addAll(ir.getContract().getEffectiveAttributes());
+		}
+		return result;
 	}
 
 	public Collection<IImportedElement> getImports() {
@@ -284,7 +308,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 
 	@Override
 	public Collection<INakedInterfaceRealization> getInterfaceRealizations() {
-		return Collections.emptySet();
+		return this.interfaceRealizations;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.workspace.MappedTypes;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import net.sf.nakeduml.validation.AbstractValidator;
 import net.sf.nakeduml.validation.ValidationPhase;
 import nl.klasse.octopus.model.IClassifier;
@@ -38,7 +38,7 @@ public class BehaviorValidator extends AbstractValidator {
 						boolean isBuiltInType = false;
 						boolean hasBuiltInTimeType = false;
 						IClassifier type = te.getWhen().getType();
-						MappedTypes builtInTypes = workspace.getMappedTypes();
+						NakedUmlLibrary builtInTypes = workspace.getNakedUmlLibrary();
 						if (builtInTypes.getDateType() != null) {
 							hasBuiltInTimeType = true;
 							if (type.conformsTo(builtInTypes.getDateType())) {

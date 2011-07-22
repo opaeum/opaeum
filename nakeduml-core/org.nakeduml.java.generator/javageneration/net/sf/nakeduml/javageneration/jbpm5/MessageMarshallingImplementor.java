@@ -91,7 +91,7 @@ public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 		if(BehaviorUtil.hasExecutionInstance(o)){
 			OJBlock b= new OJBlock();
 			invoke.getBody().addToStatements(b);
-			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure(getOclEngine().getOclLibrary())));
+			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure(getLibrary())));
 			b.addToLocals(result);
 			for(INakedParameter p:(List<? extends INakedParameter>) o.getResultParameters()){
 				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(),p);

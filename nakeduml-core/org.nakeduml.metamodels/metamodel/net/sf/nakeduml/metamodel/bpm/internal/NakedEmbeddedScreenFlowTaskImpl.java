@@ -7,6 +7,7 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl implements INakedEmbeddedScreenFlowTask{
@@ -29,7 +30,7 @@ public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl
 		super.addStereotype(stereotype);
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
+	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
 		if(messageStructure==null){
 			this.messageStructure=new EmbeddedScreenFlowTaskMessageStructureImpl(this, lib);
 		}

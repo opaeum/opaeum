@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.propertysections.AbstractOpaqueExpressionSection;
+import org.nakeduml.topcased.propertysections.OclValueComposite;
 
 public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -22,9 +23,6 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 	@Override
 	protected Element getOclContext(){
 		return getTransition();
-	}
-	@Override
-	protected void forceOpaqueExpression(){
 	}
 	@Override
 	protected OpaqueExpression getExpression(EObject e){
@@ -56,14 +54,13 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 	@Override
 	protected void handleTextModified(){
 		String text = oclComposite.getTextControl().getText();
-		if(text.trim().length()>0 && !(text.equalsIgnoreCase(DEFAULT_TEXT))){
+		if(text.trim().length()>0 && !(text.equalsIgnoreCase(OclValueComposite.DEFAULT_TEXT))){
 			if(getTransition().getGuard()==null){
 				Constraint createConstraint = UMLFactory.eINSTANCE.createConstraint();
 				createConstraint.setName(getTransition().getName()+"Guard");
 				Command command = SetCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getTransition_Guard(), createConstraint);
 				getEditingDomain().getCommandStack().execute(command);
 			}
-			super.forceOpaqueExpression();
 		}
 		// TODO Auto-generated method stub
 		super.handleTextModified();

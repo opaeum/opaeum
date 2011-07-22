@@ -1,4 +1,4 @@
-package org.nakeduml.runtime.adaptor;
+package org.nakeduml.runtime.domain;
 
 import java.util.Collection;
 

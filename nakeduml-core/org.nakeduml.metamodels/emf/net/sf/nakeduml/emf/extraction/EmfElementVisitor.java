@@ -2,6 +2,7 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
@@ -25,10 +26,8 @@ public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace> {
 		}else if (root instanceof AcceptEventAction){
 			elements.addAll(((AcceptEventAction) root).getTriggers());
 		}
-		if(StereotypesHelper.getNumlAnnotation(root).getContents().size()>0){
-			
-		}
-		elements.addAll((Collection<? extends Element>) StereotypesHelper.getNumlAnnotation(root).getContents());
+		List  contents = StereotypesHelper.getNumlAnnotation(root).getContents();
+		elements.addAll((Collection<? extends Element>) contents);
 		return elements;
 	}
 }

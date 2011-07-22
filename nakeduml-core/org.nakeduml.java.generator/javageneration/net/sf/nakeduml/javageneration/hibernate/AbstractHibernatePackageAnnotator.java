@@ -36,13 +36,16 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	private static final String OPERATION_PROCESS_META_DEF = "OperationProcessMetaDef";
 	private static final String TASK_OBJECT_META_DEF = "TaskObjectMetaDef";
 	private boolean isIntegrationPhase;
-	public final class MetaDeflElementCollector extends AbstractJavaProducingVisitor{
+	public static final class MetaDefElementCollector extends AbstractJavaProducingVisitor{
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
 		Set<INakedBehavior> contractedProcesses = new HashSet<INakedBehavior>();
 		Set<INakedBehavior> allProcesses = new HashSet<INakedBehavior>();
 		Set<INakedMessageStructure> tasks = new HashSet<INakedMessageStructure>();
 		Set<INakedClassifier> participant = new HashSet<INakedClassifier>();
 		Set<INakedEnumeration> enumerations = new HashSet<INakedEnumeration>();
+		public MetaDefElementCollector(INakedModelWorkspace workspace){
+			super.workspace=workspace;
+		}
 		@VisitBefore
 		public void visitEnumeration(INakedEnumeration i){
 			enumerations.add(i);
@@ -70,15 +73,15 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedResponsibility b){
-			tasks.add(b.getMessageStructure(getOclEngine().getOclLibrary()));
+			tasks.add(b.getMessageStructure(getLibrary()));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOpaqueAction(INakedEmbeddedSingleScreenTask a){
-			tasks.add(a.getMessageStructure(getOclEngine().getOclLibrary()));
+			tasks.add(a.getMessageStructure(getLibrary()));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitEmbeddedScreeFlowTask(INakedEmbeddedScreenFlowTask a){
-			tasks.add(a.getMessageStructure(getOclEngine().getOclLibrary()));
+			tasks.add(a.getMessageStructure(getLibrary()));
 		}
 	}
 	public AbstractHibernatePackageAnnotator(boolean isIntegrationPhase){
@@ -92,7 +95,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			OJAnnotatedPackage pkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
 			createTextPathIfRequired(pkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
 			applyFilter(pkg);
-			MetaDeflElementCollector collector = collectElements(workspace.getOwnedElements());
+			MetaDefElementCollector collector = collectElements(workspace.getOwnedElements());
 			Set<INakedInterface> interfaces = collector.interfaces;
 			for(INakedInterface i:interfaces){
 				String metaDefName = HibernateUtil.metadefName((INakedInterface) i);
@@ -125,7 +128,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			applyFilter(adPkg);
 			applyFilter(domainPkg);
 			Collection<INakedRootObject> selfAndDependencies = getModelInScope();
-			MetaDeflElementCollector collector = collectElements(selfAndDependencies);
+			MetaDefElementCollector collector = collectElements(selfAndDependencies);
 			Set<INakedInterface> interfaces = collector.interfaces;
 			for(INakedInterface i:interfaces){
 				Collection<INakedBehavioredClassifier> generalizations = GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies);
@@ -163,8 +166,8 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		return typeDefs;
 	}
 	// TODO find another place for this
-	private MetaDeflElementCollector collectElements(Collection<? extends INakedElement> ownedElements){
-		MetaDeflElementCollector collector = new MetaDeflElementCollector();
+	private MetaDefElementCollector collectElements(Collection<? extends INakedElement> ownedElements){
+		MetaDefElementCollector collector = new MetaDefElementCollector(workspace);
 		for(INakedElement e:ownedElements){
 			if(e instanceof INakedModel){
 				INakedModel model = (INakedModel) e;

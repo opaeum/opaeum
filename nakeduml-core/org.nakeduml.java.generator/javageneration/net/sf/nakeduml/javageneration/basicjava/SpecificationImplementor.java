@@ -43,7 +43,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	@VisitAfter
 	public void visitOperation(INakedOperation o){
 		if(o.isLongRunning()){
-			INakedMessageStructure oc = o.getMessageStructure(getOclEngine().getOclLibrary());
+			INakedMessageStructure oc = o.getMessageStructure(getLibrary());
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
 			Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
 			addSetReturnInfo(ojOperationClass);

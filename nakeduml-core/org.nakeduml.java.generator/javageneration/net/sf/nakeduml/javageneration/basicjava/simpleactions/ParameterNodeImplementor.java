@@ -6,15 +6,15 @@ import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.ParameterDirectionKind;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ParameterNodeImplementor extends SimpleNodeBuilder<INakedParameterNode> {
-	public ParameterNodeImplementor(IOclEngine oclEngine, INakedParameterNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
+	public ParameterNodeImplementor(NakedUmlLibrary oclEngine, INakedParameterNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
 		super(oclEngine, action, objectNodeExpressor);
 	}
 

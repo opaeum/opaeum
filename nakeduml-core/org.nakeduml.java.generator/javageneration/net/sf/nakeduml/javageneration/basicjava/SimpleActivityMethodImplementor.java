@@ -66,6 +66,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
@@ -147,7 +148,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		maybeImplementNextNode(operation, block, node);
 	}
 	private void implementObjectNodeOrAtomicAction(OJAnnotatedOperation operation,OJBlock block,INakedActivityNode node){
-		SimpleNodeBuilder<?> builder = resolveBuilder(node, getOclEngine(), new ObjectNodeExpressor(getOclEngine().getOclLibrary()));
+		SimpleNodeBuilder<?> builder = resolveBuilder(node, getLibrary(), new ObjectNodeExpressor(getLibrary()));
 		if(builder != null){
 			builder.implementActionOn(operation, block);
 			if(builder instanceof AbstractCaller){
@@ -170,7 +171,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			operation.getOwner().addToImports(outMap.javaTypePath());
 			block.addToLocals(outField);
 		}
-		ObjectNodeExpressor expressor = new ObjectNodeExpressor(getOclEngine().getOclLibrary());
+		ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
 		OJForStatement forEach = new OJForStatement(input.getName(), map.javaBaseTypePath(), expressor.expressInputPinOrOutParamOrExpansionNode(block, input));
 		block.addToStatements(forEach);
 		addVariables(region.getActivity(), region.getVariables(), forEach.getBody(), operation.getOwner());
@@ -203,7 +204,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				// TODO the originatingOBjectNode my not have the correct type after transformations and selections
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(cn.getActivity(), ((INakedObjectFlow) incomingEdge).getOriginatingObjectNode(), false);
 				OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-				ObjectNodeExpressor expressor = new ObjectNodeExpressor(getOclEngine().getOclLibrary());
+				ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
 				decisionNodeVar.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(block, (INakedObjectFlow) incomingEdge));
 				elseBlock.addToLocals(decisionNodeVar);
 			}
@@ -229,46 +230,46 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			break;
 		}
 	}
-	public static SimpleNodeBuilder<?> resolveBuilder(INakedActivityNode node,IOclEngine oclEngine,AbstractObjectNodeExpressor expressor){
+	public static SimpleNodeBuilder<?> resolveBuilder(INakedActivityNode node,NakedUmlLibrary lib,AbstractObjectNodeExpressor expressor){
 		SimpleNodeBuilder<?> actionBuilder = null;
 		if(node instanceof INakedParameterNode){
-			actionBuilder = new ParameterNodeImplementor(oclEngine, (INakedParameterNode) node, expressor);
+			actionBuilder = new ParameterNodeImplementor(lib, (INakedParameterNode) node, expressor);
 		}else if(node instanceof INakedExpansionNode){
-			actionBuilder = new ExpansionNodeImplementor(oclEngine, (INakedExpansionNode) node, expressor);
+			actionBuilder = new ExpansionNodeImplementor(lib, (INakedExpansionNode) node, expressor);
 		}else if(node instanceof INakedAddStructuralFeatureValueAction){
-			actionBuilder = new StructuralFeatureValueAdder(oclEngine, (INakedAddStructuralFeatureValueAction) node, expressor);
+			actionBuilder = new StructuralFeatureValueAdder(lib, (INakedAddStructuralFeatureValueAction) node, expressor);
 		}else if(node instanceof INakedRemoveStructuralFeatureValueAction){
-			actionBuilder = new StructuralFeatureValueRemover(oclEngine, (INakedRemoveStructuralFeatureValueAction) node, expressor);
+			actionBuilder = new StructuralFeatureValueRemover(lib, (INakedRemoveStructuralFeatureValueAction) node, expressor);
 		}else if(node instanceof INakedClearStructuralFeatureAction){
-			actionBuilder = new StructuralFeatureClearer(oclEngine, (INakedClearStructuralFeatureAction) node, expressor);
+			actionBuilder = new StructuralFeatureClearer(lib, (INakedClearStructuralFeatureAction) node, expressor);
 		}else if(node instanceof INakedReadStructuralFeatureAction){
-			actionBuilder = new StructuralFeatureReader(oclEngine, (INakedReadStructuralFeatureAction) node, expressor);
+			actionBuilder = new StructuralFeatureReader(lib, (INakedReadStructuralFeatureAction) node, expressor);
 		}else if(node instanceof INakedAddVariableValueAction){
-			actionBuilder = new VariableValueAdder(oclEngine, (INakedAddVariableValueAction) node, expressor);
+			actionBuilder = new VariableValueAdder(lib, (INakedAddVariableValueAction) node, expressor);
 		}else if(node instanceof INakedRemoveVariableValueAction){
-			actionBuilder = new VariableValueRemover(oclEngine, (INakedRemoveVariableValueAction) node, expressor);
+			actionBuilder = new VariableValueRemover(lib, (INakedRemoveVariableValueAction) node, expressor);
 		}else if(node instanceof INakedClearVariableAction){
-			actionBuilder = new VariableClearer(oclEngine, (INakedClearVariableAction) node, expressor);
+			actionBuilder = new VariableClearer(lib, (INakedClearVariableAction) node, expressor);
 		}else if(node instanceof INakedReadVariableAction){
-			actionBuilder = new VariableReader(oclEngine, (INakedReadVariableAction) node, expressor);
+			actionBuilder = new VariableReader(lib, (INakedReadVariableAction) node, expressor);
 		}else if(node instanceof INakedOclAction){
-			actionBuilder = new OclActionCaller(oclEngine, (INakedOclAction) node, expressor);
+			actionBuilder = new OclActionCaller(lib, (INakedOclAction) node, expressor);
 		}else if(node instanceof INakedEmbeddedSingleScreenTask){
-			actionBuilder = new EmbeddedSingleScreenTaskCaller(oclEngine, (INakedEmbeddedSingleScreenTask) node, expressor);
+			actionBuilder = new EmbeddedSingleScreenTaskCaller(lib, (INakedEmbeddedSingleScreenTask) node, expressor);
 		}else if(node instanceof INakedCallOperationAction){
-			actionBuilder = new OperationCaller(oclEngine, (INakedCallOperationAction) node, expressor);
+			actionBuilder = new OperationCaller(lib, (INakedCallOperationAction) node, expressor);
 		}else if(node instanceof INakedEmbeddedScreenFlowTask){
-			actionBuilder = new EmbeddedScreenFlowTaskCaller(oclEngine, (INakedEmbeddedScreenFlowTask) node, expressor);
+			actionBuilder = new EmbeddedScreenFlowTaskCaller(lib, (INakedEmbeddedScreenFlowTask) node, expressor);
 		}else if(node instanceof INakedCallBehaviorAction){
-			actionBuilder = new BehaviorCaller(oclEngine, (INakedCallBehaviorAction) node, expressor);
+			actionBuilder = new BehaviorCaller(lib, (INakedCallBehaviorAction) node, expressor);
 		}else if(node instanceof INakedCreateObjectAction){
-			actionBuilder = new ObjectCreator(oclEngine, (INakedCreateObjectAction) node, expressor);
+			actionBuilder = new ObjectCreator(lib, (INakedCreateObjectAction) node, expressor);
 		}else if(node instanceof INakedStartClassifierBehaviorAction){
-			actionBuilder = new ClassifierBehaviorStarter(oclEngine, (INakedStartClassifierBehaviorAction) node, expressor);
+			actionBuilder = new ClassifierBehaviorStarter(lib, (INakedStartClassifierBehaviorAction) node, expressor);
 		}else if(node instanceof INakedSendSignalAction){
-			actionBuilder = new SignalSender(oclEngine, (INakedSendSignalAction) node, expressor);
+			actionBuilder = new SignalSender(lib, (INakedSendSignalAction) node, expressor);
 		}else if(node instanceof INakedRaiseExceptionAction){
-			actionBuilder = new ExceptionRaiser(oclEngine, (INakedRaiseExceptionAction) node, expressor);
+			actionBuilder = new ExceptionRaiser(lib, (INakedRaiseExceptionAction) node, expressor);
 		}
 		return actionBuilder;
 	}

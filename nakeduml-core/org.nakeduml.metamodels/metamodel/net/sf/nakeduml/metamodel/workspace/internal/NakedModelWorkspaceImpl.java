@@ -21,13 +21,13 @@ import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.metamodel.workspace.MappedTypes;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
 public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public static final String META_CLASS = "nakedWorkspace";
-	private MappedTypes builtInTypes;
+	private NakedUmlLibrary builtInTypes;
 	private static final long serialVersionUID = -825314743586339864L;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
 	private INakedInterface businessRole;
@@ -122,13 +122,13 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public void addOwnedElement(INakedElement element){
 		this.children.add((INakedRootObject) element);
 	}
-	public MappedTypes getMappedTypes(){
+	public NakedUmlLibrary getNakedUmlLibrary(){
 		if(this.builtInTypes == null){
-			this.builtInTypes = new MappedTypes();
+			this.builtInTypes = new NakedUmlLibrary(this.getOclEngine().getOclLibrary());
 		}
 		return this.builtInTypes;
 	}
-	public void setBuiltInTypes(MappedTypes builtInTypes){
+	public void setBuiltInTypes(NakedUmlLibrary builtInTypes){
 		this.builtInTypes = builtInTypes;
 	}
 	public ErrorMap getErrorMap(){

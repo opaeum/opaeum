@@ -80,7 +80,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	@VisitBefore()
 	public void visitOperation(INakedOperation o){
 		if(o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)){
-			INakedMessageStructure umlOwner = o.getMessageStructure(getOclEngine().getOclLibrary());
+			INakedMessageStructure umlOwner = o.getMessageStructure(getLibrary());
 			visitComplexStructure(umlOwner);
 			visitFeaturesOf(umlOwner);
 		}
@@ -105,7 +105,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	}
 	@VisitBefore(matchSubclasses=true)
 	public void visitScreenFlowTask(INakedEmbeddedTask node){
-		INakedMessageStructure msg = node.getMessageStructure(getOclEngine().getOclLibrary());
+		INakedMessageStructure msg = node.getMessageStructure(getLibrary());
 		visitComplexStructure(msg);
 		visitFeaturesOf(msg);
 	}
@@ -115,12 +115,12 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			// Screenflow task structures are association classes that link the calling actiivity to the called behavior
 			// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
 			// persistence
-			INakedComplexStructure umlOwner = node.getMessageStructure(getOclEngine().getOclLibrary());
+			INakedComplexStructure umlOwner = node.getMessageStructure(getLibrary());
 			visitComplexStructure(umlOwner);
 			visitFeaturesOf(umlOwner);
 		}else if((BehaviorUtil.mustBeStoredOnActivity(node))){
 			//Their classes will be built elsewhere, so just visit the output pin as an artificial association
-			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary()));
+			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
 		}
 	}
 }

@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.propertysections.AbstractOpaqueExpressionSection;
+import org.nakeduml.topcased.propertysections.OclValueComposite;
 
 public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOpaqueExpressionSection{
 	public AbstractArtificialOpaqueExpressionSection(){
@@ -37,7 +38,7 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 			ann.getContents().add(vs);
 		}
 		if(vs.getBodies().isEmpty()){
-			vs.getBodies().add(DEFAULT_TEXT);
+			vs.getBodies().add(OclValueComposite.DEFAULT_TEXT);
 			vs.getLanguages().add("OCL");
 		}
 	

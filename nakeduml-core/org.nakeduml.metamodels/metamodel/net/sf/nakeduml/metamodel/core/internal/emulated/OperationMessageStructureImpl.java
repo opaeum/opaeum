@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IClass;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
@@ -20,11 +21,11 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 public class OperationMessageStructureImpl extends EmulatedCompositionMessageStructure implements IClass{
 	List<INakedProperty> attributes;
 	private INakedOperation oper;
-	public OperationMessageStructureImpl(INakedClassifier owner,INakedOperation oper,IOclLibrary lib){
+	public OperationMessageStructureImpl(INakedClassifier owner,INakedOperation oper,NakedUmlLibrary lib){
 		super(owner, oper,lib);
 		this.oper = oper;
 	}
-	public OperationMessageStructureImpl(INakedOperation nop,IOclLibrary lib){
+	public OperationMessageStructureImpl(INakedOperation nop,NakedUmlLibrary lib){
 		this(nop.getOwner(), nop, lib);
 	}
 	@Override

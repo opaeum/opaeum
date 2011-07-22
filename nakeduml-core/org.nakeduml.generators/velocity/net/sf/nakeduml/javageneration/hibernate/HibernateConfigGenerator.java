@@ -56,12 +56,12 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOpaqueAction(INakedEmbeddedTask a){
-			classes.add(OJUtil.classifierPathname(a.getMessageStructure(getOclEngine().getOclLibrary())));
+			classes.add(OJUtil.classifierPathname(a.getMessageStructure(getLibrary())));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedOperation o){
 			if(o.isLongRunning()){
-				classes.add(OJUtil.classifierPathname(o.getMessageStructure(getOclEngine().getOclLibrary())));
+				classes.add(OJUtil.classifierPathname(o.getMessageStructure(getLibrary())));
 			}
 		}
 		@Override

@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -18,9 +19,9 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class AbstractObjectNodeExpressor{
-	protected IOclLibrary oclLibrary;
-	public AbstractObjectNodeExpressor(IOclLibrary oclLibrary){
-		this.oclLibrary = oclLibrary;
+	protected NakedUmlLibrary library;
+	public AbstractObjectNodeExpressor(NakedUmlLibrary l){
+		this.library = l;
 	}
 	abstract public boolean pinsAvailableAsVariables();
 	public final String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow){
@@ -93,7 +94,7 @@ public abstract class AbstractObjectNodeExpressor{
 				}else{
 					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode.getLinkedTypedElement());
 				}
-				NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, this.oclLibrary);
+				NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, this.library);
 				call = getterForStructuredResults(actionMap);
 				if(callAction.getTargetElement() == null || callAction.getTargetElement().getNakedMultiplicity().isSingleObject()){
 					// Only one call, so retrieve the single result
@@ -121,5 +122,8 @@ public abstract class AbstractObjectNodeExpressor{
 	public String expressExceptionInput(OJBlock block,INakedObjectNode pin){
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin);
 		return "(" + map.javaType() + ")e.getValue()";
+	}
+	protected NakedUmlLibrary getLibrary(){
+		return library;
 	}
 }

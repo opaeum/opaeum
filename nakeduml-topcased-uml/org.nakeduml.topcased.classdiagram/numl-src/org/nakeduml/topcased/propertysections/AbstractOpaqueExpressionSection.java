@@ -21,7 +21,6 @@ import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
-	protected static final String DEFAULT_TEXT = "Type expression here";
 	private TextChangeListener listener;
 	protected OclValueComposite oclComposite;
 	protected CLabel label;
@@ -93,7 +92,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		if(getValueSpecification() instanceof OpaqueExpression){
 			oclComposite.getTextControl().setText(getFeatureAsString());
 		}else{
-			oclComposite.getTextControl().setText(DEFAULT_TEXT);
+			oclComposite.getTextControl().setText(OclValueComposite.DEFAULT_TEXT);
 		}
 	}
 	@Override
@@ -105,7 +104,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	protected void handleTextModified(){
 		String oclText = this.oclComposite.getTextControl().getText();
-		if(oclText.trim().length() > 0 && !DEFAULT_TEXT.contains(oclText)){
+		if(oclText.trim().length() > 0 && !OclValueComposite.DEFAULT_TEXT.contains(oclText)){
 			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), oclText);
 			getEditingDomain().getCommandStack().execute(cmd);
 		}

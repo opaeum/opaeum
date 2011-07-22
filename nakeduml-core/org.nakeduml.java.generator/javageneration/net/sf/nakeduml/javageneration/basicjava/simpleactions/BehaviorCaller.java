@@ -5,13 +5,13 @@ import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAction>{
-	public BehaviorCaller(IOclEngine oclEngine,INakedCallBehaviorAction action,AbstractObjectNodeExpressor expressor){
+	public BehaviorCaller(NakedUmlLibrary oclEngine,INakedCallBehaviorAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	protected void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap){
@@ -24,7 +24,7 @@ public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAct
 	protected NakedStructuralFeatureMap getResultMap(){
 		NakedStructuralFeatureMap resultMap = null;
 		if(BehaviorUtil.hasExecutionInstance(node.getBehavior())){
-			resultMap = OJUtil.buildStructuralFeatureMap(node, oclEngine.getOclLibrary());
+			resultMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 		}else{
 			resultMap = OJUtil.buildStructuralFeatureMap(node.getReturnPin().getActivity(), node.getReturnPin(), true);
 		}

@@ -101,7 +101,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			if (baseType.hasStrategy(TestValueStrategy.class)) {
 				return baseType.getStrategy(TestValueStrategy.class).getDefaultValue();
-			} else if (workspace.getMappedTypes().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getDateType())) {
+			} else if (workspace.getNakedUmlLibrary().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getNakedUmlLibrary().getDateType())) {
 				String javaDate = baseType.getMappingInfo().getQualifiedJavaName();
 				if (javaDate.equals("java.util.Date")) {
 					return "new Date()";

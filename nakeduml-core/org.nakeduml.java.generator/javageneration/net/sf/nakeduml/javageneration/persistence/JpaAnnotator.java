@@ -108,10 +108,10 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	public void visitCallAction(INakedCallAction node){
 		if(node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)){
 			if(node.isLongRunning()){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 				visitProperty(node.getActivity(), map);
 			}else if(BehaviorUtil.hasExecutionInstance(node.getCalledElement())){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 				OJAnnotatedField field = (OJAnnotatedField) findJavaClass(node.getActivity()).findField(map.umlName());
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			}

@@ -100,8 +100,8 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 					}else{
 						np = buildAttribute(p);
 					}
-					np.setComposite(p.isComposite());
 				}
+				np.setComposite(p.isComposite());
 				populateProperty(np, p);
 			}
 		}
@@ -116,16 +116,21 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	// Only call this if both ends of the association are allowed
 	private NakedPropertyImpl buildAssociationEnd(Property assEnd,Property opposite){
 		NakedPropertyImpl aew = new NakedPropertyImpl();
-		if(assEnd.isNavigable()){
-			// In UML2, the classifier should be the owner of navigable ends
+		boolean navigable = assEnd.isNavigable() || assEnd.isComposite();
+		if(opposite.isComposite() && opposite.getType() instanceof org.eclipse.uml2.uml.Class){
+			//force bidirectionality for composition between two classes
+			navigable=true; 
+		}
+		if(navigable){
+			// The classifier should be the owner of navigable ends
 			initializeTypedElement(aew, assEnd, assEnd.getType(), opposite.getType());
 		}else{
-			// In UML2, the association should be the owner of
+			// The association should be the owner of
 			// non-navigable ends
 			initializeTypedElement(aew, assEnd, assEnd.getType(), assEnd.getAssociation());
 		}
 		aew.setAssociation((INakedAssociation) getNakedPeer(assEnd.getAssociation()));
-		aew.setNavigable(assEnd.isNavigable());
+		aew.setNavigable(navigable);
 		return aew;
 	}
 	private void populateProperty(NakedPropertyImpl np,Property p){

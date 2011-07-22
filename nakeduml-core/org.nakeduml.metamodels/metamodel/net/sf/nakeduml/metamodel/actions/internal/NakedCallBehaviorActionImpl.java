@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements INakedCallBehaviorAction{
@@ -25,7 +26,7 @@ public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements 
 		return getBehavior();
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
+	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
 		if(getBehavior().getContext() == null){
 			if(this.messageStructure == null){
 				this.messageStructure = new CallBehaviorMessageStructure(this, lib);

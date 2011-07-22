@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DirectedRelationship;
@@ -75,6 +76,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 		private EmfUmlElementLinker(Notification not){
 			notification = not;
 		}
+		
 		public EObject caseNamedElement(NamedElement ne){
 			switch(notification.getEventType()){
 			case Notification.SET:
@@ -574,6 +576,20 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				for(EObject e:StereotypesHelper.getNumlAnnotation(p).getReferences()){
 					if(e instanceof InputPin){
 						((InputPin) e).setName(p.getName());
+					}
+				}
+				break;
+			case UMLPackage.PROPERTY__IS_COMPOSITE:
+			case UMLPackage.PROPERTY__AGGREGATION:
+				
+				if(p.isComposite()){
+					if(p.getAssociation()!=null){
+						if(!p.isNavigable()){
+							p.setIsNavigable(true);
+						}
+						if(!p.getOtherEnd().isNavigable() && p.getOtherEnd().getType() instanceof Class){
+							p.getOtherEnd().setIsNavigable(true);
+						}
 					}
 				}
 				break;

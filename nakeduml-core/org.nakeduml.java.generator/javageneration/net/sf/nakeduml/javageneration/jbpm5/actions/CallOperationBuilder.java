@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.OperationCaller;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
@@ -18,7 +18,7 @@ public class CallOperationBuilder extends PotentialTaskActionBuilder<INakedCallO
 		delegate.implementActionOn(oper, oper.getBody());
 		
 	}
-	public CallOperationBuilder(IOclEngine oclEngine,INakedCallOperationAction node){
+	public CallOperationBuilder(NakedUmlLibrary oclEngine,INakedCallOperationAction node){
 		super(oclEngine, node);
 		delegate=new OperationCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
 	}

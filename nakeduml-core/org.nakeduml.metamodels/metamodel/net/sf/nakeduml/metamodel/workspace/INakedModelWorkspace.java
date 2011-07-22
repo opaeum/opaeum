@@ -26,17 +26,12 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 
 	Collection<INakedElement> getAllElements();
 
-	INakedInterface getBusinessRole();
-
-	void setBusinessRole(INakedInterface rootUserEntity);
-
 	IWorkspaceMappingInfo getWorkspaceMappingInfo();
 
 	void setWorkspaceMappingInfo(IWorkspaceMappingInfo vim);
 
-	MappedTypes getMappedTypes();
+	NakedUmlLibrary getNakedUmlLibrary();
 
-	void setBuiltInTypes(MappedTypes types);
 
 	public IOclEngine getOclEngine();
 

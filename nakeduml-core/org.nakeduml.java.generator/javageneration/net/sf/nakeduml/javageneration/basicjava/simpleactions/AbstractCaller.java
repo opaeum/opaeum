@@ -12,7 +12,7 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJOperation;
@@ -25,10 +25,10 @@ import org.nakeduml.runtime.domain.ExceptionHolder;
 public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleNodeBuilder<T>{
 	protected NakedStructuralFeatureMap callMap;
 
-	public AbstractCaller(IOclEngine oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
+	public AbstractCaller(NakedUmlLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 		if(BehaviorUtil.hasMessageStructure(node)){
-			callMap = OJUtil.buildStructuralFeatureMap(node, getOclEngine().getOclLibrary());
+			callMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 		}
 	}
 

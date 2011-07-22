@@ -5,13 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
-import org.nakeduml.runtime.domain.CompositionNode;
-import org.nakeduml.runtime.domain.MetaIdentifiable;
 
 //JDK5@CompositionFromOwningObject(attribute="workDay")
-abstract public class WorkDayGEN implements CompositionNode, IPersistentObject, MetaIdentifiable {
+abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	private String uid = null;
 	private WorkDayType f_type = WorkDayType.lookup(0);
 	private int f_endMinutes = 0;

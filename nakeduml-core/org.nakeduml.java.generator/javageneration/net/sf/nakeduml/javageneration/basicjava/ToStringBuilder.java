@@ -34,12 +34,12 @@ public class ToStringBuilder extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
 		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			this.visitClass(no.getMessageStructure(getOclEngine().getOclLibrary()));
+			this.visitClass(no.getMessageStructure(getLibrary()));
 		}
 	}
 	@VisitBefore()
 	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
-		this.visitClass(oa.getMessageStructure(getOclEngine().getOclLibrary()));
+		this.visitClass(oa.getMessageStructure(getLibrary()));
 	}
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = new OJAnnotatedOperation();

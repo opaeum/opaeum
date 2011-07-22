@@ -10,13 +10,14 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStructure{
 	private INakedCallBehaviorAction action;
-	public CallBehaviorMessageStructure(INakedCallBehaviorAction b, IOclLibrary lib){
+	public CallBehaviorMessageStructure(INakedCallBehaviorAction b, NakedUmlLibrary lib){
 		super(b.getActivity(), b.getBehavior(),lib);
 		this.action=b;
 	}

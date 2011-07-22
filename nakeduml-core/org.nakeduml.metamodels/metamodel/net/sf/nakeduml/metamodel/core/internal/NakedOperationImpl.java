@@ -17,6 +17,7 @@ import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.VisibilityKind;
@@ -221,7 +222,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return super.isNamedMember(e) || e instanceof INakedMultiplicityElement;
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
+	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
 		if(this.messageStructure == null){
 			this.messageStructure = new OperationMessageStructureImpl(this, lib);
 		}

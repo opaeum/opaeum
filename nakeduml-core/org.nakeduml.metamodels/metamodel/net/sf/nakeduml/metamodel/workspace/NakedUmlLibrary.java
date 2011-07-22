@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
+import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
-public class MappedTypes {
+public class NakedUmlLibrary {
 	private Map<String, MappedType> typeMap = new HashMap<String, MappedType>();
 	// Built in types
 	private INakedSimpleType emailAddressType;
@@ -17,9 +19,13 @@ public class MappedTypes {
 	private INakedSimpleType stringType;
 	private INakedSimpleType integerType;
 	private INakedSimpleType booleanType;
+	private INakedInterface businessRole;
+	private INakedInterface taskObject;
+	private IOclLibrary oclLibrary;
 
-	public MappedTypes() {
+	public NakedUmlLibrary(IOclLibrary oclLibrary) {
 		super();
+		this.setOclLibrary(oclLibrary);
 	}
 
 	public void setBooleanType(INakedSimpleType booleanType) {
@@ -96,5 +102,29 @@ public class MappedTypes {
 			return getBooleanType();
 		}
 		return null;
+	}
+
+	public void setBusinessRole(INakedInterface businessRole){
+		this.businessRole = businessRole;
+	}
+
+	public INakedInterface getBusinessRole(){
+		return businessRole;
+	}
+
+	public void setTaskObject(INakedInterface taskObject){
+		this.taskObject = taskObject;
+	}
+
+	public INakedInterface getTaskObject(){
+		return taskObject;
+	}
+
+	private void setOclLibrary(IOclLibrary oclLibrary){
+		this.oclLibrary = oclLibrary;
+	}
+
+	public IOclLibrary getOclLibrary(){
+		return oclLibrary;
 	}
 }

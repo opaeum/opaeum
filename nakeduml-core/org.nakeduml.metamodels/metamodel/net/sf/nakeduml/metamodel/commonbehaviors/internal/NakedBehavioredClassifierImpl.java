@@ -23,7 +23,7 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	private INakedBehavior classifierBehavior;
 	public INakedBehavior getClassifierBehavior() {
 		if (this.classifierBehavior == null && hasSupertype()) {
-			return ((NakedEntityImpl) getSupertype()).getClassifierBehavior();
+			return ((INakedBehavioredClassifier) getSupertype()).getClassifierBehavior();
 		} else {
 			return this.classifierBehavior;
 		}

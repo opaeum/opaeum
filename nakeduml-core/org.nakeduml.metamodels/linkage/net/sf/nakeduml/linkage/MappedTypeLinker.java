@@ -38,8 +38,11 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	@VisitBefore
 	public void visitInterface(INakedInterface m){
 		if( m.getName().equals("BusinessRole")){
-			workspace.setBusinessRole(m);
+			getBuiltInTypes().setBusinessRole(m);
+		}else if(m.getName().equals("TaskObject")){
+			getBuiltInTypes().setTaskObject(m);
 		}
+			
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void setBuiltInType(INakedSimpleType simpleType){

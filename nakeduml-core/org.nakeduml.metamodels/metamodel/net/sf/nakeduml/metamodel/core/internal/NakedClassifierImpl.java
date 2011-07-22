@@ -167,7 +167,10 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	public boolean hasComposite(){
 		return getEndToComposite() != null;
 	}
-	public void setEndToComposite(INakedProperty endToComposite){
+	public final void setEndToComposite(INakedProperty endToComposite){
+		if(this.endToComposite==null && !getOwnedAttributes().contains(endToComposite)){
+			addOwnedElement(endToComposite);
+		}
 		this.endToComposite = endToComposite;
 	}
 	@SuppressWarnings("unchecked")
@@ -277,7 +280,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	public void setPowerType(INakedPowerType powerType){
 		this.powerType = powerType;
 	}
-	public void addInterface(INakedInterfaceRealization ir){
+	public void addInterfaceRealization(INakedInterfaceRealization ir){
 		this.realization.add(ir);
 		ir.getContract().addImplementingClassifier(this);
 	}

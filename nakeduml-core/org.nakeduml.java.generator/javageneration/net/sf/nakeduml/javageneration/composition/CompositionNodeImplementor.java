@@ -5,8 +5,11 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -35,7 +38,7 @@ import org.nakeduml.runtime.domain.CompositionNode;
  * @author ampie
  * 
  */
-public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
+public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	private static OJPathName COMPOSITION_NODE = null;
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 	private CompositionNodeStrategy compositionNodeStrategy;
@@ -53,8 +56,7 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 			throw new RuntimeException(e);
 		}
 	}
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(ICompositionParticipant c){
+	private void visitClass(ICompositionParticipant c){
 		if(isPersistent(c)){
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
@@ -145,5 +147,15 @@ public class CompositionNodeImplementor extends AbstractJavaProducingVisitor{
 			getOwner.getBody().addToStatements("return null");
 		}
 		ojClass.addToOperations(getOwner);
+	}
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		// TODO Auto-generated method stub
+	}
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		if(umlOwner instanceof ICompositionParticipant){
+			visitClass((ICompositionParticipant) umlOwner);
+		}
 	}
 }

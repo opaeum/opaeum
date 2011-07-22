@@ -7,6 +7,7 @@ import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedCallOperationActionImpl extends NakedCallActionImpl implements INakedCallOperationAction{
@@ -26,7 +27,7 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 		return getOperation();
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(IOclLibrary lib){
+	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
 		if(messageStructure == null && getOperation() != null){
 			messageStructure = new OperationMessageStructureImpl(getOperation().getOwner(), getOperation(), lib);
 		}

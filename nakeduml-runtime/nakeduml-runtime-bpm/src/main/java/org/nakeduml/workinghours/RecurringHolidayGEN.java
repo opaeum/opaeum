@@ -4,13 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
-import org.nakeduml.runtime.domain.CompositionNode;
-import org.nakeduml.runtime.domain.MetaIdentifiable;
 
 //JDK5@CompositionFromOwningObject(attribute="recurringHoliday")
-abstract public class RecurringHolidayGEN implements CompositionNode, IPersistentObject, MetaIdentifiable {
+abstract public class RecurringHolidayGEN implements CompositionNode, IPersistentObject{
 	private int f_month = 0;
 	private int f_dayOfMonth = 0;
 	private String f_name = "";

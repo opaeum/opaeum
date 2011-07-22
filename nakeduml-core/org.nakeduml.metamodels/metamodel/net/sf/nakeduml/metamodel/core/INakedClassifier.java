@@ -76,7 +76,7 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	 * 
 	 * @return
 	 */
-	void addInterface(INakedInterfaceRealization in);
+	void addInterfaceRealization(INakedInterfaceRealization in);
 	Collection<IImportedElement> getImports();
 	void setVisibility(VisibilityKind public1);
 	List<? extends IOclContext> getDefinitions();

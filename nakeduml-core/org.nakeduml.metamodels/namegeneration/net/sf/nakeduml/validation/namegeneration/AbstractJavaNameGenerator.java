@@ -109,7 +109,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			// TODO support for mapping of Responsibilities, OpaqueActions or
 			// OpaqueBehavior
 			// generatedName = type.getMappedImplementationType();
-			String generatedQualifiedJavaName = generateQualifiedJavaName(action.getMessageStructure(workspace.getOclEngine().getOclLibrary()).getNameSpace());
+			String generatedQualifiedJavaName = generateQualifiedJavaName(action.getMessageStructure(workspace.getNakedUmlLibrary()).getNameSpace());
 			// Always keep packages in lowercase
 			generatedName = generatedQualifiedJavaName + "." + me.getName();
 		}else if(me instanceof INakedState){

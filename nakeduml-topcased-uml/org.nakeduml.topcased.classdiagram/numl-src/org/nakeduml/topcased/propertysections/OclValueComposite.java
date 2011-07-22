@@ -19,6 +19,7 @@ public class OclValueComposite extends Composite{
 	private OCLSourceViewer viewer;
 	private OCLDocument document;
 	private NakedUmlOclFactory factory;
+	public static final String DEFAULT_TEXT = "Type expression here";
 	public OclValueComposite(Composite parent,FormToolkit toolkit){
 		super(parent, SWT.NONE);
 		setBackground(parent.getBackground());

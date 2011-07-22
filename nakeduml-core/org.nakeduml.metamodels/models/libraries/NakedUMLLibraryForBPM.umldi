@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_HHLxMI6OEeCrtavWRHwoHg" activeDiagram="_98lwQI6VEeCne5ArYLDbiA">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_HHLxMI6OEeCrtavWRHwoHg" activeDiagram="_flRRMK0NEeCK48ywUpk_rg">
   <model href="NakedUMLLibraryForBPM.uml#_qb8akM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_AQ1LII6TEeCrtavWRHwoHg" position="0,0" size="100,100" name="AbstractRequest" viewport="0,353">
+  <diagrams xmi:id="_AQ1LII6TEeCrtavWRHwoHg" position="0,0" size="100,100" name="AbstractRequest" viewport="0,675">
     <property xmi:id="_AROMsI6TEeCrtavWRHwoHg" key="pageFormatName" value="A3"/>
     <property xmi:id="_AROMsY6TEeCrtavWRHwoHg" key="diagramWidth" value="1188"/>
     <property xmi:id="_AROMso6TEeCrtavWRHwoHg" key="diagramHeight" value="1680"/>
@@ -309,7 +309,7 @@
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_UA6DaY6TEeCne5ArYLDbiA" id="stereotypeEdgeObject" offset="0,-10"/>
     </contained>
   </diagrams>
-  <diagrams xmi:id="_ViTvQI6UEeCne5ArYLDbiA" position="0,0" size="100,100" name="TaskRequest" viewport="0,80">
+  <diagrams xmi:id="_ViTvQI6UEeCne5ArYLDbiA" position="0,0" size="100,100" name="TaskRequest" viewport="0,336">
     <property xmi:id="_Vjxu4I6UEeCne5ArYLDbiA" key="pageFormatName" value="A4"/>
     <property xmi:id="_Vjxu4Y6UEeCne5ArYLDbiA" key="diagramWidth" value="840"/>
     <property xmi:id="_Vjxu4o6UEeCne5ArYLDbiA" key="diagramHeight" value="1188"/>
@@ -601,7 +601,7 @@
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_BCEv-Y6VEeCne5ArYLDbiA" id="stereotypeEdgeObject" offset="0,-10"/>
     </contained>
   </diagrams>
-  <diagrams xmi:id="_98lwQI6VEeCne5ArYLDbiA" position="0,0" size="100,100" name="ProcessRequest" viewport="0,86">
+  <diagrams xmi:id="_98lwQI6VEeCne5ArYLDbiA" position="0,0" size="100,100" name="ProcessRequest" viewport="0,80">
     <property xmi:id="_9-P9II6VEeCne5ArYLDbiA" key="pageFormatName" value="A4"/>
     <property xmi:id="_9-P9IY6VEeCne5ArYLDbiA" key="diagramWidth" value="840"/>
     <property xmi:id="_9-P9Io6VEeCne5ArYLDbiA" key="diagramHeight" value="1188"/>
@@ -733,7 +733,7 @@
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_AjorAo6WEeCne5ArYLDbiA" id="stereotypeEdgeObject"/>
     </contained>
   </diagrams>
-  <diagrams xmi:id="_flRRMK0NEeCK48ywUpk_rg" position="0,0" size="100,100" name="TaskObject" viewport="0,5">
+  <diagrams xmi:id="_flRRMK0NEeCK48ywUpk_rg" position="0,0" size="100,100" name="TaskObject" viewport="0,0">
     <property xmi:id="_fmMeQK0NEeCK48ywUpk_rg" key="pageFormatName" value="A4"/>
     <property xmi:id="_fmMeQa0NEeCK48ywUpk_rg" key="diagramWidth" value="840"/>
     <property xmi:id="_fmMeQq0NEeCK48ywUpk_rg" key="diagramHeight" value="1188"/>

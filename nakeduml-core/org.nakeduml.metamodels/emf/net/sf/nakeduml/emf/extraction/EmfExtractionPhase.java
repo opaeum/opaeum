@@ -51,7 +51,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 				props.load(inStream);
 				Set<Entry<Object,Object>> entrySet = props.entrySet();
 				for(Entry<Object,Object> entry:entrySet){
-					modelWorkspace.getMappedTypes().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
+					modelWorkspace.getNakedUmlLibrary().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
 				}
 				System.out.println("Loaded mappings: " + mappedTypesUri);
 			}catch(IOException e1){

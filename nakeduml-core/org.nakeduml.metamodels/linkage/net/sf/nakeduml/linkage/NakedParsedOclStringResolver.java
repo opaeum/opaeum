@@ -177,7 +177,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(te.isRelative()){
 				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			}else{
-				w.setType(workspace.getMappedTypes().getDateType());
+				w.setType(workspace.getNakedUmlLibrary().getDateType());
 			}
 		}else{
 			w = ((INakedChangeEvent) ev).getChangeExpression();
@@ -200,7 +200,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		INakedClassifier owner = op.getOwner();
 		Environment env = null;
 		if(BehaviorUtil.hasExecutionInstance(op)){
-			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure(getOclLibrary()));
+			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure(workspace.getNakedUmlLibrary()));
 			replacePreAndBodyConditions(op, owner, env);
 			op.setPostConditions(replaceParsedOclConstraints(owner, op.getPostConditions(), env));
 			if(op instanceof INakedResponsibility){
@@ -298,7 +298,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(d.isRelative()){
 				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			}else{
-				w.setType(workspace.getMappedTypes().getDateType());
+				w.setType(workspace.getNakedUmlLibrary().getDateType());
 			}
 			if(w != null && w.getValue() instanceof ParsedOclString){
 				ParsedOclString value = (ParsedOclString) w.getValue();
@@ -383,8 +383,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		java.io.Reader r = new java.io.BufferedReader(sr);
 		OclParser parser = new OclParser(r);
 		try{
-			if(workspace.getBusinessRole()!=null){
-				env.addElement("currentUser", new VariableDeclaration("currentUser", workspace.getBusinessRole()), false);
+			if(getBuiltInTypes().getBusinessRole()!=null){
+				env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getBusinessRole()), false);
 			}
 			ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
 			IOclContext newC = transformIntoOclContext(holder, ast, localErrors);

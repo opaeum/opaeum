@@ -4,13 +4,13 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedRemoveVariableValueAction;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class VariableValueRemover extends SimpleNodeBuilder<INakedRemoveVariableValueAction>{
-	public VariableValueRemover(IOclEngine oclEngine,INakedRemoveVariableValueAction action, AbstractObjectNodeExpressor expressor){
+	public VariableValueRemover(NakedUmlLibrary oclEngine,INakedRemoveVariableValueAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override

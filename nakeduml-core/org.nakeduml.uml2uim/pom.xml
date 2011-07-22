@@ -169,5 +169,15 @@
 
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-uimetamodel</artifactId>
+			<version>1.0.0.6-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-generators</artifactId>
+			<version>1.0.0.6-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

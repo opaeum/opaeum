@@ -7,6 +7,7 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
@@ -101,7 +102,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), origin, false);
 		OJAnnotatedField sourceField = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);
-		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getOclEngine());
+		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -127,7 +128,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			stateClass.addToNames(activity.getMappingInfo().getJavaName() + "State");
 			implementNodeMethods(activityClass, activity);
 			doExecute(activity, activityClass);
-			Jbpm5Util.implementRelationshipWithProcess(activityClass, activity.isPersistent(), "process");
 			if(activity.getActivityKind() == ActivityKind.PROCESS){
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
 			}else{
@@ -154,23 +154,23 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void implementNodeMethod(OJClass activityClass,INakedActivityNode node){
 		Jbpm5ActionBuilder<?> implementor = null;
 		if(node instanceof INakedExpansionRegion){
-			implementor = new ExpansionRegionBuilder(getOclEngine(), (INakedExpansionRegion) node);
+			implementor = new ExpansionRegionBuilder(getLibrary(), (INakedExpansionRegion) node);
 		}else if(node instanceof INakedEmbeddedSingleScreenTask){
-			implementor = new EmbeddedSingleScreenTaskBuilder(getOclEngine(), (INakedEmbeddedSingleScreenTask) node);
+			implementor = new EmbeddedSingleScreenTaskBuilder(getLibrary(), (INakedEmbeddedSingleScreenTask) node);
 		}else if(node instanceof INakedEmbeddedScreenFlowTask){
-			implementor = new EmbeddedScreenFlowTaskBuilder(getOclEngine(), (INakedEmbeddedScreenFlowTask) node);
+			implementor = new EmbeddedScreenFlowTaskBuilder(getLibrary(), (INakedEmbeddedScreenFlowTask) node);
 		}else if(node instanceof INakedCallBehaviorAction){
-			implementor = new CallBehaviorActionBuilder(getOclEngine(), (INakedCallBehaviorAction) node);
+			implementor = new CallBehaviorActionBuilder(getLibrary(), (INakedCallBehaviorAction) node);
 		}else if(node instanceof INakedCallOperationAction){
-			implementor = new CallOperationBuilder(getOclEngine(), (INakedCallOperationAction) node);
+			implementor = new CallOperationBuilder(getLibrary(), (INakedCallOperationAction) node);
 		}else if(node instanceof INakedAcceptEventAction){
-			implementor = new AcceptEventActionBuilder(getOclEngine(), (INakedAcceptEventAction) node);
+			implementor = new AcceptEventActionBuilder(getLibrary(), (INakedAcceptEventAction) node);
 		}else if(node instanceof INakedParameterNode){
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
-			implementor = new ParameterNodeBuilder(getOclEngine(), parameterNode);
+			implementor = new ParameterNodeBuilder(getLibrary(), parameterNode);
 		}else{
-			implementor = new SimpleActionBridge(getOclEngine(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getOclEngine(), new Jbpm5ObjectNodeExpressor(
-					getOclEngine())));
+			implementor = new SimpleActionBridge(getLibrary(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(), new Jbpm5ObjectNodeExpressor(
+					getLibrary())));
 		}
 		if(implementor.hasNodeMethod()){
 			OJAnnotatedOperation operation = new OJAnnotatedOperation();

@@ -13,10 +13,7 @@ import org.nakeduml.runtime.domain.Audited;
 import org.nakeduml.runtime.domain.IEnum;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
-import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
-
-import com.sun.jmx.snmp.EnumRowStatus;
 
 //TODO extractor adaptor logic into a differnt class
 public abstract class JavaMetaInfoMap{

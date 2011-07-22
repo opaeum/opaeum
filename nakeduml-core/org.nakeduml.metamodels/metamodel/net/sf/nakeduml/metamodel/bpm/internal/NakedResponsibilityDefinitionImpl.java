@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.TaskDelegation;
+
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
-import net.sf.nakeduml.metamodel.bpm.TaskDelegation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedSlot;

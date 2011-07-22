@@ -90,7 +90,7 @@ public class TinkerAuditCreator extends AbstractJavaProducingVisitor {
 			} else if (c instanceof INakedBehavior) {
 				INakedOperation specification = ((INakedBehavior) c).getSpecification();
 				if (specification != null) {
-					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure(getOclEngine().getOclLibrary()));
+					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure(getLibrary()));
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}

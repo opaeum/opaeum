@@ -5,13 +5,13 @@ import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class StructuralFeatureReader extends SimpleNodeBuilder<INakedReadStructuralFeatureAction> {
-	public StructuralFeatureReader(IOclEngine oclEngine, INakedReadStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
+	public StructuralFeatureReader(NakedUmlLibrary oclEngine, INakedReadStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
 

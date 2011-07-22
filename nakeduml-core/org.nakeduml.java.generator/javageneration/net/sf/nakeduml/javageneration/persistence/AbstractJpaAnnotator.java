@@ -32,8 +32,8 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 	}
 
 	protected final void mapXToOneSimpleType(INakedProperty f, OJAnnotatedClass owner, OJAnnotatedField field) {
-		if (this.workspace.getMappedTypes().getDateType() != null
-				&& f.getNakedBaseType().conformsTo(this.workspace.getMappedTypes().getDateType())) {
+		if (this.workspace.getNakedUmlLibrary().getDateType() != null
+				&& f.getNakedBaseType().conformsTo(this.workspace.getNakedUmlLibrary().getDateType())) {
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "DATE"));
 			field.addAnnotationIfNew(temporal);

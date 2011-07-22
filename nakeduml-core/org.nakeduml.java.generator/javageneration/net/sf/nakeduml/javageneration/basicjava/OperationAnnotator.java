@@ -7,6 +7,8 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -42,12 +44,22 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			}
 		}
 	}
+	@VisitBefore
+	public void visitOperationMessage(INakedOperation a){
+		if(BehaviorUtil.hasExecutionInstance(a)){
+			visitClass(a.getMessageStructure(getLibrary()));
+		}
+	}
+	@VisitBefore(matchSubclasses=true)
+	public void visitTask(INakedEmbeddedTask t){
+		visitClass(t.getMessageStructure(getLibrary()));
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
 			for(INakedOperation o:c.getEffectiveOperations()){
 				if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
-					visitOperation(o);
+					createOperation(o,findJavaClass(c));
 				}
 			}
 		}

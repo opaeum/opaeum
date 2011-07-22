@@ -5,13 +5,13 @@ import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionNode> {
-	public ExpansionNodeImplementor(IOclEngine oclEngine, INakedExpansionNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
+	public ExpansionNodeImplementor(NakedUmlLibrary oclEngine, INakedExpansionNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
 		super(oclEngine, action, objectNodeExpressor);
 	}
 

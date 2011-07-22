@@ -96,8 +96,8 @@ public class EnvironmentFactory{
 		if(ns != null){
 			addPackageContents(ns, env);
 		}
-		if(workspace.getMappedTypes().getDateType() != null){
-			env.addElement("now", new VariableDeclaration("now", workspace.getMappedTypes().getDateType()), true);
+		if(workspace.getNakedUmlLibrary().getDateType() != null){
+			env.addElement("now", new VariableDeclaration("now", workspace.getNakedUmlLibrary().getDateType()), true);
 		}
 		for(INakedElement ne:workspace.getOwnedElements()){
 			if(ne.getName() != null){

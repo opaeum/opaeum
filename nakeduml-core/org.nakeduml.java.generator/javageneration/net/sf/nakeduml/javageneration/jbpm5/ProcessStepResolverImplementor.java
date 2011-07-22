@@ -16,6 +16,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 
@@ -30,7 +31,8 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 					restingNodes.add(n);
 				}				
 			}
-			createResolver((OJEnum) javaModel.findClass(new OJPathName(a.getMappingInfo().getQualifiedJavaName()+"State")), restingNodes);
+			OJClass findClass = javaModel.findClass(new OJPathName(a.getMappingInfo().getQualifiedJavaName()+"State"));
+			createResolver((OJEnum) findClass, restingNodes);
 		}
 	}
 	@VisitBefore

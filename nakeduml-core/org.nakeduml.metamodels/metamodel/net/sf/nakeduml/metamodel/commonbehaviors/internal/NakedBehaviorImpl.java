@@ -37,6 +37,7 @@ import nl.klasse.octopus.oclengine.IOclContext;
  * 
  */
 public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl implements INakedBehavior {
+	private static final long serialVersionUID = 2245169607437688948L;
 	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
 	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
 	private INakedParameter returnParameter;
@@ -44,21 +45,6 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	private List<INakedParameter> argumentParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> resultParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> exceptionParameters = new ArrayList<INakedParameter>();
-	private INakedProperty endToComponsite;
-	@Override
-	public boolean hasComposite(){
-		return endToComponsite!=null;
-	}
-
-	@Override
-	public INakedProperty getEndToComposite(){
-		return endToComponsite;
-	}
-
-
-	public void setEndToComposite(INakedProperty endToContext){
-		this.endToComponsite = endToContext;
-	}
 
 	public NakedBehaviorImpl() {
 		super();

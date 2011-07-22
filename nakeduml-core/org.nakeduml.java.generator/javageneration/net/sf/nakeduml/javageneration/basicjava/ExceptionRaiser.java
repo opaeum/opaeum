@@ -3,6 +3,7 @@ package net.sf.nakeduml.javageneration.basicjava;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.metamodel.actions.INakedRaiseExceptionAction;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -10,7 +11,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ExceptionRaiser extends SimpleNodeBuilder<INakedRaiseExceptionAction> {
 
-	public ExceptionRaiser(IOclEngine oclEngine, INakedRaiseExceptionAction action, AbstractObjectNodeExpressor objectNodeExpressor) {
+	public ExceptionRaiser(NakedUmlLibrary oclEngine, INakedRaiseExceptionAction action, AbstractObjectNodeExpressor objectNodeExpressor) {
 		super(oclEngine, action, objectNodeExpressor);
 	}
 

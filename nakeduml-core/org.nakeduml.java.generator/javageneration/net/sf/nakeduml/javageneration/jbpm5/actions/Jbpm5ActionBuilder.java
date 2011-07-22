@@ -5,6 +5,7 @@ import java.util.Collection;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractNodeBuilder;
+import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
@@ -22,6 +23,7 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
@@ -33,20 +35,20 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder{
 	protected A node;
-	protected Jbpm5ObjectNodeExpressor expressor;
+	protected AbstractObjectNodeExpressor expressor;
 	public ActivityNodeMap getMap(){
 		return map;
 	}
 	protected ActivityNodeMap map;
-	protected Jbpm5ActionBuilder(final IOclEngine oclEngine,A node){
-		super(oclEngine, new Jbpm5ObjectNodeExpressor(oclEngine));
+	protected Jbpm5ActionBuilder(final NakedUmlLibrary l,A node){
+		super(l, new Jbpm5ObjectNodeExpressor(l));
 		this.node = node;
 		if(node instanceof INakedAction){
 			this.map = new ActionMap((INakedAction) node);
 		}else{
 			this.map = new ActivityNodeMap(node);
 		}
-		this.expressor = (Jbpm5ObjectNodeExpressor) super.expressor;
+		this.expressor = (AbstractObjectNodeExpressor) super.expressor;
 	}
 	public void setupVariablesAndArgumentPins(OJAnnotatedOperation oper){
 		if(node instanceof INakedAction){
@@ -108,17 +110,17 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 	public void flowTo(OJBlock block,INakedActivityNode target){
 		if(target.isImplicitJoin()){
-			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialJoinName(target) + "\")");
+			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialJoinName(target) + "\")");
 		}else{
-			block.addToStatements("waitingNode.takeTransition(\"" + target.getMappingInfo().getPersistentName() + "\")");
+			block.addToStatements("waitingNode.flowToNode(\"" + target.getMappingInfo().getPersistentName() + "\")");
 		}
 	}
 	public void implementConditionalFlows(OJOperation operationContext,OJBlock block){
 		// TODO implement cases where there are conditions and forks
 		if(node.isImplicitFork()){
-			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
+			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
 		}else if(node.isImplicitDecision()){
-			block.addToStatements("waitingNode.takeTransition(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
+			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
 		}else if(node.getAllEffectiveOutgoing().size() > 0){
 			GuardedFlow flow = node.getAllEffectiveOutgoing().iterator().next();
 			flowTo(block, ((INakedActivityEdge) flow).getEffectiveTarget());

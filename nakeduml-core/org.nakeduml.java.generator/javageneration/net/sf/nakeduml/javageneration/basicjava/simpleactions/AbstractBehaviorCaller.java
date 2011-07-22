@@ -7,14 +7,14 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction> extends AbstractCaller<T>{
-	public AbstractBehaviorCaller(IOclEngine oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
+	public AbstractBehaviorCaller(NakedUmlLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 	}
 	protected abstract void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap);
@@ -39,7 +39,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 				}
 				fs.addToLocals(resultField);
 				if(shouldStoreMessageStructureOnProcess()){
-					INakedMessageStructure messageStructure = node.getMessageStructure(getOclEngine().getOclLibrary());
+					INakedMessageStructure messageStructure = node.getMessageStructure(getLibrary());
 					NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(messageStructure.getEndToComposite().getOtherEnd());
 					fs.addToStatements(featureMap.adder() + "(" + resultField.getName() + ")");
 				}

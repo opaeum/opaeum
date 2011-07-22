@@ -1,7 +1,6 @@
 package org.nakeduml.workinghours;
 
 import org.nakeduml.runtime.domain.IEnum;
-import org.nakeduml.runtime.domain.MetaIdentifiable;
 
 public class WorkDayType implements IEnum{
 	private static final long serialVersionUID = 5546864012892815979L;

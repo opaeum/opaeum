@@ -96,7 +96,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 		//
 		if (BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()) {
-			INakedMessageStructure messageClass = oper.getMessageStructure(getOclEngine().getOclLibrary());
+			INakedMessageStructure messageClass = oper.getMessageStructure(getLibrary());
 			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass);
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
 		}else{

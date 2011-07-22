@@ -164,7 +164,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		}
 		// TODO parameterize development mode
 		if(f.isRequired() && !f.isInverse() && !JpaAnnotator.DEVELOPMENT_MODE){
-			if(f.getNakedBaseType().conformsTo(workspace.getMappedTypes().getStringType())){
+			if(f.getNakedBaseType().conformsTo(workspace.getNakedUmlLibrary().getStringType())){
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotEmpty")));
 			}else{
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));

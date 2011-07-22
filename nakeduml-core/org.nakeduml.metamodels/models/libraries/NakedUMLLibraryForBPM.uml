@@ -24,7 +24,7 @@
         <details xmi:id="_fRONRaWNEeCv99VbPrQK_A" key="uid" value="0f74e5fe_bdcd_457d_90cb_a4f178d3baaa"/>
       </eAnnotations>
       <generalization xmi:id="_qMfygI3oEeCfQedkc0TCdA" general="_6MA8UI2-EeCrtavWRHwoHg"/>
-      <ownedAttribute xmi:id="_tog08I29EeCrtavWRHwoHg" name="subRequests" type="_6MA8UI2-EeCrtavWRHwoHg" aggregation="composite" association="_towFgI29EeCrtavWRHwoHg">
+      <ownedAttribute xmi:id="_tog08I29EeCrtavWRHwoHg" name="subRequests" type="_6MA8UI2-EeCrtavWRHwoHg" association="_towFgI29EeCrtavWRHwoHg">
         <eAnnotations xmi:id="_fRONRqWNEeCv99VbPrQK_A" source="http://www.nakeduml.org">
           <details xmi:id="_fRO0UKWNEeCv99VbPrQK_A" key="uid" value="4250bfa4_2825_4891_b0a1_7c949bf34037"/>
         </eAnnotations>

@@ -66,7 +66,7 @@ public class ConstraintGenerator {
 		failedConstraints.setName("failedConstraints");
 		failedConstraints.setInitExp("new ArrayList<String>()");
 		result.addToLocals(failedConstraints);
-		OJPathName failedConstraintsException = UtilityCreator.getUtilPathName().append("FailedConstraintsException");
+		OJPathName failedConstraintsException = new OJPathName("org.nakeduml.runtime.domain.FailedConstraintsException");
 		context.addToImports(failedConstraintsException);
 		context.addToImports("java.util.ArrayList");
 		context.addToImports("java.util.List");

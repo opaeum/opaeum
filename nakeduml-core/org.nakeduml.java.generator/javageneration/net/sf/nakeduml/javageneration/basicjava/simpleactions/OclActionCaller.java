@@ -9,14 +9,14 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
-import nl.klasse.octopus.oclengine.IOclEngine;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class OclActionCaller extends SimpleNodeBuilder<INakedOclAction> {
-	public OclActionCaller(IOclEngine oclEngine, INakedOclAction action, AbstractObjectNodeExpressor expressor) {
+	public OclActionCaller(NakedUmlLibrary oclEngine, INakedOclAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
 

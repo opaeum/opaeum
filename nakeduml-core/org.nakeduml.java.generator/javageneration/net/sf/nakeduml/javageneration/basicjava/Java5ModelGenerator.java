@@ -108,7 +108,7 @@ public class Java5ModelGenerator extends AbstractStructureVisitor{
 			}else if(c instanceof INakedBehavior){
 				INakedOperation specification = ((INakedBehavior) c).getSpecification();
 				if(specification != null){
-					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure(getOclEngine().getOclLibrary()));
+					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure(getLibrary()));
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}
@@ -128,7 +128,7 @@ public class Java5ModelGenerator extends AbstractStructureVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
 		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			INakedMessageStructure message = no.getMessageStructure(getOclEngine().getOclLibrary());
+			INakedMessageStructure message = no.getMessageStructure(getLibrary());
 			this.visitClass(message);
 			if(no.isLongRunning()){
 				NakedOperationMap map = new NakedOperationMap(no);

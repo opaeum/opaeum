@@ -36,6 +36,7 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		setReturnInfo.getBody().addToStatements("this.callingProcessInstanceId=context.getProcessInstance().getId()");
 		setReturnInfo.getBody().addToStatements("this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
 		OJUtil.addProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
+		OJUtil.addProperty(ojClass, "callingProcessInstanceId", new OJPathName("long"), true);
 		ojClass.addToImports(Jbpm5Util.getNodeInstance());
 	}
 

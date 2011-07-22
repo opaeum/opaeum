@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.util;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
@@ -7,6 +9,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
@@ -23,7 +26,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	public void setMultiplicity(NakedMultiplicityImpl multiplicity){
 		this.multiplicity = multiplicity;
 	}
-	public ActionFeatureBridge(IActionWithTargetElement action,IOclLibrary lib){
+	public ActionFeatureBridge(IActionWithTargetElement action,NakedUmlLibrary lib){
 		super(action.getActivity(), action.getTargetElement());
 		super.element = action;
 		if(action instanceof INakedCallAction){
@@ -40,7 +43,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 		if(action.getTargetElement() != null){
 			IClassifier type = action.getTargetElement().getType();
 			if(type instanceof StdlibCollectionType){
-				setType(lib.lookupCollectionType(((StdlibCollectionType) type).getMetaType(), getNakedBaseType()));
+				setType(lib.getOclLibrary(). lookupCollectionType(((StdlibCollectionType) type).getMetaType(), getNakedBaseType()));
 			}else{
 				setType(getNakedBaseType());
 			}
@@ -62,7 +65,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 		return baseType;
 	}
 	public String getName(){
-		return action.getName();
+		return NameConverter.decapitalize(action.getName());
 	}
 	public IClassifier getType(){
 		return type;

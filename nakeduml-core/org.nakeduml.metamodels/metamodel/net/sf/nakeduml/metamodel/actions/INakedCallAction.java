@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
@@ -34,7 +35,7 @@ public interface INakedCallAction extends INakedInvocationAction,IActionWithTarg
 
 	boolean isLongRunning();
 
-	INakedMessageStructure getMessageStructure(IOclLibrary lib);
+	INakedMessageStructure getMessageStructure(NakedUmlLibrary lib);
 
 	public boolean isSynchronous();
 

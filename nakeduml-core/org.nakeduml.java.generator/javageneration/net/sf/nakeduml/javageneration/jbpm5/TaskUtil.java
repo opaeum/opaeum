@@ -5,7 +5,6 @@ import java.util.Collection;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
-import net.sf.nakeduml.metamodel.bpm.TaskDelegation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.name.PluralNameWrapper;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
@@ -16,6 +15,7 @@ import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.runtime.domain.TaskDelegation;
 
 public class TaskUtil{
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
@@ -34,9 +34,9 @@ public class TaskUtil{
 		}
 		operation.getOwner().addToImports(TaskDelegation.class.getName());
 		if(td.getDelegation() == null){
-			block.addToStatements(taskName + ".getTaskInstance().setDelegation(TaskDelegation.ANYBODY)");
+			block.addToStatements(taskName + ".getTaskRequest().setDelegation(TaskDelegation.ANYBODY)");
 		}else{
-			block.addToStatements(taskName + ".getTaskInstance().setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
+			block.addToStatements(taskName + ".getTaskRequest().setDelegation(TaskDelegation." + td.getDelegation().name() + ")");
 		}
 		Collection<INakedDeadline> deadlines = td.getDeadlines();
 		for(INakedDeadline d:deadlines){

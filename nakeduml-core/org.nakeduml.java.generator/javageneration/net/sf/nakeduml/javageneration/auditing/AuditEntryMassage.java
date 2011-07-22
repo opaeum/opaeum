@@ -402,7 +402,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 						}else if(node instanceof INakedExpansionNode && BehaviorUtil.mustBeStoredOnActivity((INakedExpansionNode) node)){
 							visitProperty(new TypedElementPropertyBridge(activity, (INakedTypedElement) node));
 						}else if(node instanceof INakedCallAction && BehaviorUtil.mustBeStoredOnActivity((INakedCallAction) node)){
-							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTargetElement) node,getOclEngine().getOclLibrary());
+							ActionFeatureBridge bridge = new ActionFeatureBridge((IActionWithTargetElement) node,getLibrary());
 							TypeResolver.resolveCollection(bridge, bridge.getBaseType(), getOclEngine().getOclLibrary());
 							visitProperty(bridge);
 						}
@@ -624,7 +624,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		return null;
 	}
 	private void addCopyToAuditStatements(OJAnnotatedClass c,INakedClassifier classifier,OJBlock body,boolean deep){
-		// TODO use MappedTypes
+		// TODO use NakedUmlLibrary
 		Set<String> javaTypes = new HashSet<String>();
 		javaTypes.add("String");
 		javaTypes.add("Integer");
