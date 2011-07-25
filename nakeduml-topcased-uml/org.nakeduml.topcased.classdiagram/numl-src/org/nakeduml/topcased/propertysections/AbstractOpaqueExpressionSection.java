@@ -1,23 +1,22 @@
 package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
-import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.commands.SetOclExpressionCommand;
 import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
 	protected OclValueComposite oclComposite;
@@ -48,7 +47,14 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	protected Object getOldFeatureValue(){
 		if(getValueSpecification() instanceof OpaqueExpression){
-			return getExpression(getEObject()).getBodies().get(0);
+			OpaqueExpression oe = getExpression(getEObject());
+			EList<String> bodies = oe.getBodies();
+			for(int i = 0; i < bodies.size(); i ++){
+				if(oe.getLanguages().size()>0 && oe.getLanguages().get(i).equalsIgnoreCase("ocl")){
+					return bodies.get(i);
+				}
+			}
+			return "";
 		}else{
 			return "";
 		}
@@ -60,15 +66,17 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 			public void oclChanged(String oclText){
 				handleOclChanged(oclText);
 			}
-
 		});
 		oclComposite.setBackground(composite.getBackground());
 	}
 	protected void handleOclChanged(String oclText){
 		if(oclText.trim().length() > 0){
-			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getProperty_DefaultValue(), oclText);
+			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), getValueSpecificationFeature(), oclText);
 			getEditingDomain().getCommandStack().execute(cmd);
 		}
+	}
+	protected EReference getValueSpecificationFeature(){
+		return (EReference) getFeature();
 	}
 	protected String getExpressionLabel(){
 		return "Value expression";

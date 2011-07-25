@@ -10,6 +10,7 @@ import net.sf.nakeduml.metamodel.activities.internal.NakedActivityPartitionImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.internal.NakedExpansionRegionImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedStructuredActivityNodeImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -36,15 +37,22 @@ public class ActivityStructureExtractor extends AbstractActionExtractor {
 		}
 	}
 
-	@VisitBefore(matchSubclasses = true)
-	public void visitStructuredActivityNode(StructuredActivityNode emfNode) {
-		NakedStructuredActivityNodeImpl nakedNode = null;
-		if (emfNode instanceof ExpansionRegion) {
-			nakedNode = new NakedExpansionRegionImpl();
+	@Override
+	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
+		if (e instanceof ExpansionRegion) {
+			return new NakedExpansionRegionImpl();
 		} else {
-			nakedNode = new NakedStructuredActivityNodeImpl();
+			return super.createElementFor(e, peerClass);
 		}
-		super.initialize(nakedNode, emfNode, resolveCorrectParent(emfNode));
+	}
+
+	@VisitBefore(matchSubclasses = true)
+	public void visitStructuredActivityNode(StructuredActivityNode emfNode,NakedStructuredActivityNodeImpl nakedNode ) {
+		if(nakedNode instanceof NakedExpansionRegionImpl){
+			((NakedExpansionRegionImpl) nakedNode).getInputElement().clear();
+			((NakedExpansionRegionImpl) nakedNode).getOutputElement().clear();
+			
+		}
 		super.initAction(emfNode, nakedNode);
 		Collection<INakedInputPin> input = populatePins(emfNode.getActivity(), getInputs(emfNode));
 		nakedNode.setInput(input);
@@ -73,8 +81,4 @@ public class ActivityStructureExtractor extends AbstractActionExtractor {
 		return input;
 	}
 
-	private Element resolveCorrectParent(ActivityNode emfNode) {
-		// TODO check if this is necessary
-		return emfNode.getInStructuredNode() == null ? emfNode.getActivity() : emfNode.getInStructuredNode();
-	}
 }

@@ -38,6 +38,7 @@ public class NakedUmlFilter extends ViewerFilter{
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getVariable());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterface());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getConstraint());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getValueSpecification());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
 	}
 	public boolean select(Viewer viewer,Object parentElement,Object element){

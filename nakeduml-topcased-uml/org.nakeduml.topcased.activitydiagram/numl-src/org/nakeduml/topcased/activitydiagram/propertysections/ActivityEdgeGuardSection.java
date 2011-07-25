@@ -1,6 +1,7 @@
 package org.nakeduml.topcased.activitydiagram.propertysections;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.NamedElement;
@@ -38,5 +39,10 @@ public class ActivityEdgeGuardSection extends AbstractOpaqueExpressionSection{
 	@Override
 	protected String getLabelText(){
 		return "Guard condition";
+	}
+
+	@Override
+	protected EReference getValueSpecificationFeature(){
+		return UMLPackage.eINSTANCE.getActivityEdge_Guard();
 	}
 }

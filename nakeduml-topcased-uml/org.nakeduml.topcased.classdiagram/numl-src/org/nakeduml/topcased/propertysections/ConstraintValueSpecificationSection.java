@@ -1,6 +1,7 @@
 package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.NamedElement;
@@ -15,7 +16,7 @@ public class ConstraintValueSpecificationSection extends AbstractOpaqueExpressio
 	}
 	@Override
 	protected NamedElement getOwner(){
-		return (NamedElement) getEObject();
+		return (Constraint) getEObject();
 	}
 	@Override
 	protected ValueSpecification getValueSpecification(){
@@ -28,5 +29,9 @@ public class ConstraintValueSpecificationSection extends AbstractOpaqueExpressio
 	@Override
 	protected String getLabelText(){
 		return "Boolean value";
+	}
+	@Override
+	protected EReference getValueSpecificationFeature(){
+		return (EReference) getFeature();
 	}
 }

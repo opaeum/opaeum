@@ -1,8 +1,10 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.util.List;
+
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
+import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.internal.NakedExpansionNodeImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedObjectNodeImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedParameterNodeImpl;
@@ -32,12 +34,13 @@ public class ObjectNodeExtractor extends CommonBehaviorExtractor{
 		non.setBaseType((INakedClassifier) getNakedPeer(emfNode.getType()));
 		non.setIsOrdered(true);
 		non.setIsUnique(false);
-		if(emfNode.getRegionAsInput()!=null){
-			INakedExpansionRegion region = (INakedExpansionRegion) getNakedPeer(emfNode.getRegionAsInput());
-			region.getInputElement().add(non);
+		List<INakedExpansionNode> expansionNodes = non.getExpansionRegion().getInputElement();
+		if(emfNode.getRegionAsInput()==null){
+			expansionNodes = non.getExpansionRegion().getOutputElement();
 		}else{
-			//take a guess
-			non.getExpansionRegion().getOutputElement().add(non);
+			expansionNodes = non.getExpansionRegion().getInputElement();
 		}
+		expansionNodes.add(non);
+
 	}
 }

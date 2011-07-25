@@ -3,6 +3,7 @@ package org.nakeduml.topcased.propertysections;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -45,7 +46,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	}
 	@Override
 	protected NamedElement getOwner(){
-		return (NamedElement) getEObject();
+		return getOperation().getBodyCondition();
 	}
 	@Override
 	protected ValueSpecification getValueSpecification(){
@@ -90,5 +91,9 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 					SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(),
 							UMLFactory.eINSTANCE.createConstraint()));
 		}
+	}
+	@Override
+	protected EReference getValueSpecificationFeature(){
+		return UMLPackage.eINSTANCE.getConstraint_Specification();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.model.IModelElement;
 
 public class ErrorMap {
@@ -19,7 +20,7 @@ public class ErrorMap {
 	}
 
 	public void putError( INakedElement holder, IValidationRule rule, Object... objects) {
-		if(holder instanceof INakedEvent){
+		if(holder instanceof INakedEvent || holder instanceof INakedValueSpecification){
 			getErrorListFor((INakedElement) holder.getOwnerElement()).addMessage(rule, objects);
 		}
 		getErrorListFor(holder).addMessage(rule, objects);

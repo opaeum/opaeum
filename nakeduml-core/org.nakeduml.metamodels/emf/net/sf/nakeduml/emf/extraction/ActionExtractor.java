@@ -60,7 +60,7 @@ public class ActionExtractor extends AbstractActionExtractor{
 			Stereotype stereotype = StereotypesHelper.getStereotype(emfAction, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
 			if(stereotype != null){
 				return new NakedEmbeddedSingleScreenTaskImpl();
-			}else if(emfAction.getOutputValues().size() == 1 && emfAction.getBodies().size() > 1){
+			}else if(emfAction.getOutputValues().size() == 1 && emfAction.getBodies().size() >= 1){
 				return new NakedOclActionImpl();
 			}else{
 				return null;

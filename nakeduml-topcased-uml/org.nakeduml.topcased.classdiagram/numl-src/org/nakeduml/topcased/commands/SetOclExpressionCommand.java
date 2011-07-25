@@ -1,5 +1,6 @@
 package org.nakeduml.topcased.commands;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AbstractOverrideableCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -17,7 +18,8 @@ public class SetOclExpressionCommand extends AbstractOverrideableCommand{
 	EStructuralFeature feature;
 	private String expression;
 	public ValueSpecification getValueSpecification(){
-		return (ValueSpecification) owner.eGet(feature);
+		Object eGet = owner.eGet(feature);
+		return (ValueSpecification) eGet;
 	}
 
 	public SetOclExpressionCommand(EditingDomain domain, NamedElement owner,EStructuralFeature feature, String expression){
@@ -44,12 +46,17 @@ public class SetOclExpressionCommand extends AbstractOverrideableCommand{
 		}else {
 			//TODO look for ocl language
 			OpaqueExpression oe = (OpaqueExpression) getValueSpecification();
-			if(oe.getBodies().isEmpty()){
-				oe.getBodies().add(expression);
-				oe.getLanguages().add("OCL");
-			}else{
-				oe.getBodies().set(0,expression);
-				oe.getLanguages().set(0,"OCL");
+			EList<String> languages = oe.getLanguages();
+			if(languages.isEmpty()){
+				languages.add("OCL");
+			}
+			for(int i=0; i<languages.size(); i ++){
+				if(languages.get(i).equalsIgnoreCase("OCL")){
+					while(oe.getBodies().size()<=i){
+						oe.getBodies().add("dummy");
+					}
+					oe.getBodies().set(i,expression);
+				}
 			}
 		}
 	}

@@ -57,9 +57,12 @@ public class EnvironmentFactory{
 	public Environment createPreEnvironment(INakedClassifier c,INakedAction action){
 		Environment env = null;
 		env = createSelflessEnvironment(c);
+		// Pins will be made available for pre and post conditions on the action
 		for(INakedInputPin parm:action.getInput()){
-			// Pins will be made available for pre and post conditions on the action
-			env.addElement(parm.getName(), new VariableDeclaration(parm.getName(), parm.getType()), false);
+			if(parm.getType() != null){
+				//It could be a value pin where ocl parsing failed and the type is unknown
+				env.addElement(parm.getName(), new VariableDeclaration(parm.getName(), parm.getType()), false);
+			}
 		}
 		return env;
 	}

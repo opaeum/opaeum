@@ -40,6 +40,24 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	public void setChildren(Collection<INakedActivityNode> children) {
 		this.children = children;
 	}
+	public void removeOwnedElement(INakedElement element){
+		super.removeOwnedElement(element);
+		if (element instanceof INakedActivityNode) {
+			children.remove((INakedActivityNode) element);
+		}
+		if (element instanceof INakedActivityVariable) {
+			variables.remove((INakedActivityVariable) element);
+		}
+		if (element instanceof INakedActivityEdge) {
+			activityEdges.remove((INakedActivityEdge) element);
+		}
+		if(element instanceof INakedInputPin){
+			input.remove((INakedInputPin) element);
+		}
+		if(element instanceof INakedOutputPin){
+			output.remove((INakedOutputPin) element);
+		}
+	}
 
 	@Override
 	public void addOwnedElement(INakedElement element) {

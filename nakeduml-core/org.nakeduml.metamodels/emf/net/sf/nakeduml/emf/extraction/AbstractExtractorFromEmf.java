@@ -122,7 +122,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			Comment comment = modelElement.getOwnedComments().iterator().next();
 			nakedElement.setDocumentation(comment.getBody());
 		}
-		if(attachToOwner){
+		if(attachToOwner && nakedElement.getOwnerElement()!=null){
+			//if ownerElement=nul assume linkage will be done elsewher, i.e. state.doActivity etc.
 			nakedElement.getOwnerElement().removeOwnedElement(nakedElement);
 			nakedElement.getOwnerElement().addOwnedElement(nakedElement);
 		}
@@ -201,6 +202,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			initialize(nakedValueSpecification, value, null);
 			nakedValueSpecification.setOwnerElement(element);
 			element.addOwnedElement(nakedValueSpecification);
+			nakedValueSpecification.setOwnerElement(element);
 			if(value.getType() != null){
 				// TODO - type may not be available yet
 				nakedValueSpecification.setType((INakedClassifier) getNakedPeer(value.getType()));

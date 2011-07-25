@@ -1,24 +1,17 @@
 package net.sf.nakeduml.emf.extraction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
-import net.sf.nakeduml.metamodel.bpm.internal.NakedDeadlineImpl;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedResponsibilityImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedReceptionImpl;
-import net.sf.nakeduml.metamodel.components.internal.NakedConnectorEndImpl;
-import net.sf.nakeduml.metamodel.components.internal.NakedConnectorImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedPortImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
@@ -26,23 +19,16 @@ import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedParameterImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
-import net.sf.nakeduml.metamodel.core.internal.NakedTypedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.validation.CoreValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.ConnectorEnd;
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.ExtensionEnd;
-import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
@@ -50,9 +36,7 @@ import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
-import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfParameterUtil;
@@ -64,7 +48,7 @@ import org.nakeduml.eclipse.EmfParameterUtil;
 public class FeatureExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore(matchSubclasses = true)
 	public void visitPort(Port p,NakedPortImpl np){
-		initializeTypedElement(np, p, p.getType(), p.getOwner());
+		populateMultiplicityAndBaseType(p, p.getType(), np);
 		populateProperty(np, p);
 	}
 	@Override
@@ -94,8 +78,8 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	})
 	public void visitProperty(Property p,NakedPropertyImpl np){
 		boolean navigable = p.isNavigable() || p.isComposite()||p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
-		if(p.getOpposite() != null){
-			Property opposite = p.getOpposite();
+		if(p.getOtherEnd() != null){
+			Property opposite = p.getOtherEnd();
 			if(opposite.isComposite() && opposite.getType() instanceof org.eclipse.uml2.uml.Class){
 				// force bidirectionality for composition between two classes
 				navigable = true;
@@ -103,21 +87,25 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			if(!isAllowedAssociationEnd(p.getOpposite().getType(), p.getType())){
 				navigable = true;
 			}
+			INakedClassifier owner =null;
+			np.getOwner().removeOwnedElement(np);
 			if(navigable){
 				// The classifier should be the owner of navigable ends
-				initializeTypedElement(np, p, p.getType(), opposite.getType());
+				owner=(INakedClassifier) getNakedPeer(opposite.getType());
 			}else{
 				// The association should be the owner of
 				// non-navigable ends
-				initializeTypedElement(np, p, p.getType(), p.getAssociation());
+				owner=(INakedClassifier) getNakedPeer(p.getAssociation());
 			}
+			np.setOwnerElement(owner);
+			owner.addOwnedElement(np);
 			np.setAssociation((INakedAssociation) getNakedPeer(p.getAssociation()));
 			INakedAssociation a = (INakedAssociation) getNakedPeer(p.getAssociation());
 			int index = p.getAssociation().getMemberEnds().indexOf(p);
 			a.setEnd(index, np);
 		}
 		np.setNavigable(navigable);
-		initializeTypedElement(np, p, p.getType(), p.getOwner());
+		populateMultiplicityAndBaseType(p, p.getType(), np);
 		np.setComposite(p.isComposite());
 		populateProperty(np, p);
 	}
@@ -232,9 +220,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			}
 			nakedParameter.setDirection(nl.klasse.octopus.model.ParameterDirectionKind.OUT);
 		}
-		initializeTypedElement(nakedParameter, emfParameter, emfParameter.getType(), emfParameter.getOwner());
-	}
-	private void initializeTypedElement(NakedTypedElementImpl element,MultiplicityElement modelElement,Type type,Element nameSpace){
-		populateMultiplicityAndBaseType(modelElement, type, element);
+		populateMultiplicityAndBaseType(emfParameter, emfParameter.getType(), nakedParameter);
 	}
 }
