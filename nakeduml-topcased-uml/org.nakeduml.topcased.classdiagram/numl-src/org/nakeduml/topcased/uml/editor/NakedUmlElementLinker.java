@@ -458,6 +458,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							outputPin = aea.getResults().get(0);
 						}else{
 							outputPin = UMLFactory.eINSTANCE.createOutputPin();
+							outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 							aea.getResults().add(outputPin);
 						}
 						outputPin.setType(ImportLibraryAction.importLibrary(aea.getModel(), "NakedUMLSimpleTypes.library.uml").getOwnedType("DateTime"));
@@ -471,6 +472,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 								outputPin = aea.getResults().get(1);
 							}else{
 								outputPin = UMLFactory.eINSTANCE.createOutputPin();
+								outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 								aea.getResults().add(outputPin);
 							}
 							outputPin.setType(lib.getOwnedType("TaskRequest"));
@@ -483,6 +485,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							outputPin = aea.getResults().get(0);
 						}else{
 							outputPin = UMLFactory.eINSTANCE.createOutputPin();
+							outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 							aea.getResults().add(outputPin);
 						}
 						outputPin.setType(lib.getOwnedType("TaskRequest"));

@@ -9,8 +9,9 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
-@PhaseDependency(after=UimSynchronizationPhase.class)
-public class ModelCopyPhase implements TransformationPhase<ModelCopyStep>{
+
+@PhaseDependency(after = UimSynchronizationPhase.class)
+public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWorkspace>{
 	@InputModel
 	EmfWorkspace emfWorkspace;
 	@InputModel
@@ -23,9 +24,19 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep>{
 	@Override
 	public Object[] execute(List<ModelCopyStep> features,TransformationContext context){
 		for(ModelCopyStep step:features){
-			step.init(config,textWorkspace);
+			step.init(config, textWorkspace);
 			step.startVisiting(emfWorkspace);
 		}
-		return new Object[]{textWorkspace};
+		return new Object[]{
+			textWorkspace
+		};
+	}
+	@Override
+	public Object processSingleElement(List<ModelCopyStep> features,TransformationContext context,EmfWorkspace element){
+		for(ModelCopyStep step:features){
+			step.init(config, textWorkspace);
+			step.startVisiting(emfWorkspace);
+		}
+		return emfWorkspace;
 	}
 }

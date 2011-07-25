@@ -17,7 +17,7 @@ import net.sf.nakeduml.metamodel.name.NameWrapper;
 public interface IMappingInfo{
 	public String getJavaPath();
 	/**
-	 * Calculates whether this element should be added to the database 1. For this revision given the currently deployed revision in the
+	 * Calculates whether this originalElement should be added to the database 1. For this revision given the currently deployed revision in the
 	 * database 2. For this version, given the currently deployed version in the database
 	 * 
 	 * @param deployedVersion
@@ -38,21 +38,21 @@ public interface IMappingInfo{
 	 */
 	void updateVersionInfo(float version,int revision);
 	/**
-	 * Returns true if this model element has been added since the last revision that was deployed to the active database
+	 * Returns true if this model originalElement has been added since the last revision that was deployed to the active database
 	 */
 	boolean isNewInRevision();
 	/**
-	 * Returns true if this model element has been added since the last version that was deployed to the active database
+	 * Returns true if this model originalElement has been added since the last version that was deployed to the active database
 	 */
 	boolean isNewInVersion();
 	/**
-	 * Returns the (most likely universally unique) id used to identify this model element in the source model. Semantically equivalent to
+	 * Returns the (most likely universally unique) id used to identify this model originalElement in the source model. Semantically equivalent to
 	 * the mofId in MOF
 	 */
 	String getIdInModel();
 	void setIdInModel(String idInModel);
 	/**
-	 * The NakedUmlId is an auto-generated id that is guarranteed to be unique for each element within the model. Unique ids are also
+	 * The NakedUmlId is an auto-generated id that is guarranteed to be unique for each originalElement within the model. Unique ids are also
 	 * generated for imported models/model libraries but are guarranteed to be unique only within the importing model. Whenever meta
 	 * information needs to be persisted in the system, this id is used to allow for names to change without requiring all the references to
 	 * the name to be manually updated.
@@ -64,12 +64,12 @@ public interface IMappingInfo{
 	Integer getNakedUmlId();
 	void setNakedUmlId(Integer nakedUmlId);
 	/**
-	 * Returns the revision number during which this element was added to the model
+	 * Returns the revision number during which this originalElement was added to the model
 	 */
 	Integer getSinceRevision();
 	void setSinceRevision(Integer revision);
 	/**
-	 * Returns the version number during which this element was added to the model
+	 * Returns the version number during which this originalElement was added to the model
 	 */
 	Float getSinceVersion();
 	void setSinceVersion(Float version);

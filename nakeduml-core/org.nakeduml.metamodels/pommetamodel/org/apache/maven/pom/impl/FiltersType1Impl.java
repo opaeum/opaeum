@@ -10,9 +10,13 @@ import java.util.Collection;
 
 import org.apache.maven.pom.FiltersType1;
 import org.apache.maven.pom.POMPackage;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**

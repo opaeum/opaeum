@@ -350,7 +350,7 @@ public interface Build extends EObject {
 	 * 4.0.0
 	 * 
 	 *             The filename (excluding the extension, and with no path information) that the produced artifact
-	 *             will be called. The default value is &lt;code&gt;${artifactId}-${version}&lt;/code&gt;.
+	 *             will be called. The default value is <code>${artifactId}-${version}</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Final Name</em>' attribute.

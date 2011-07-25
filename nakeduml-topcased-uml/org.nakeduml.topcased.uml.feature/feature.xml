@@ -18,14 +18,11 @@
    </license>
 
    <requires>
-      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>
+      <import plugin="org.topcased.validation.ocl" version="3.0.0" match="compatible"/>
+      <import plugin="org.eclipse.ui" version="3.7.0" match="compatible"/>
+      <import plugin="org.topcased.modeler" version="3.1.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ocl"/>
-      <import plugin="org.eclipse.ocl.uml"/>
-      <import plugin="org.eclipse.ocl.ecore"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.topcased.validation.core"/>
-      <import plugin="org.topcased.modeler"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
@@ -38,14 +35,20 @@
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.topcased.ui"/>
+      <import plugin="org.nakeduml.eclipse"/>
+      <import plugin="org.nakeduml.metamodels"/>
+      <import plugin="org.eclipse.ocl.uml"/>
+      <import plugin="org.topcased.modeler.graphconf"/>
+      <import plugin="org.nakeduml.uim2uim.actions" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ecoretools.tabbedproperties"/>
+      <import plugin="org.topcased.tabbedproperties"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.emf.validation"/>
+      <import plugin="org.nakeduml.java.generator"/>
+      <import plugin="org.nakeduml.java.metamodel"/>
+      <import plugin="org.nakeduml.ocl.java.generator"/>
+      <import plugin="org.nakeduml.ocl.metamodel"/>
    </requires>
-
-   <plugin
-         id="org.topcased.modeler.uml.oclinterpreter"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.topcased.validation.ocl"

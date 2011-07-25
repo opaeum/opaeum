@@ -30,7 +30,7 @@ public class EditPartUtil{
 	}
 	public static IAction createNewDiagram(Modeler editor,EObject modelObject, String id){
 		if(TopcasedAdapterFactoryEditingDomain.isEObjectReadOnly(modelObject)){
-			MessageDialog.openWarning(ModelerPlugin.getActiveWorkbenchShell(), "Warning", "your element is read only you can't create diagrams");
+			MessageDialog.openWarning(ModelerPlugin.getActiveWorkbenchShell(), "Warning", "your originalElement is read only you can't create diagrams");
 		}else{
 			return new CreateDiagramAction(editor, modelObject, DiagramsManager.getInstance().find(id), true);
 		}

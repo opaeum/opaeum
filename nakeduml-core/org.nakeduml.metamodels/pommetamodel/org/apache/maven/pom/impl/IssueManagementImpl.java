@@ -8,8 +8,11 @@ package org.apache.maven.pom.impl;
 
 import org.apache.maven.pom.IssueManagement;
 import org.apache.maven.pom.POMPackage;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 

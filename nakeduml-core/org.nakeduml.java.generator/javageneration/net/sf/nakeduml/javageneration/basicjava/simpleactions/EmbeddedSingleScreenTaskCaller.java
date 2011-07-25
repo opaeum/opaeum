@@ -6,8 +6,10 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.TaskUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -25,14 +27,16 @@ public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<INakedEmbe
 		taskVar.setInitExp("new " + map.javaType() + "()");
 		block.addToLocals(taskVar);
 		List<INakedInputPin> inputValues = node.getInputValues();
+		INakedActivity activity = node.getActivity();
 		for(INakedInputPin input:inputValues){
-			NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), input, false);
+			NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(activity, input, false);
 			operation.getBody().addToStatements(taskVar.getName()+"." + propertyMap.setter() + "(" + readPin(operation, block, input) + ")");
 		}
 		block.addToStatements(taskVar.getName()+".setReturnInfo(context)");
 		TaskUtil.implementAssignmentsAndDeadlines(operation, block, node.getTaskDefinition(), taskVar.getName());
-		//Add to contaiment tree
-		block.addToStatements(map.adder()+"("+ taskVar.getName() + ")");
+		//Add to containment tree
+		INakedProperty attr = activity.findEmulatedAttribute(node);
+		block.addToStatements(OJUtil.buildStructuralFeatureMap(attr).adder()+"("+ taskVar.getName() + ")");
 		//Store invocation in process
 		block.addToStatements(expressor.setterForSingleResult(map, taskVar.getName()));
 		block.addToStatements(taskVar.getName()+".execute()");

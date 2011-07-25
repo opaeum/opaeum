@@ -21,6 +21,7 @@ import net.sf.nakeduml.metamodel.activities.internal.NakedObjectFlowImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
@@ -31,47 +32,58 @@ import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ControlFlow;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ObjectFlow;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,AcceptEventActionExtractor.class
+		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,
+		AcceptEventActionExtractor.class
 },after = {
-		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,AcceptEventActionExtractor.class
+		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,
+		AcceptEventActionExtractor.class
 })
 public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
+	@Override
+	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
+		if(e instanceof ExceptionHandler){
+			INakedExceptionHandler neh = (INakedExceptionHandler) e;
+			if(neh.getHandlerBody() != null && neh.getExceptionInput() != null){
+				return new NakedExceptionHandlerImpl();
+			}else{
+				return null;
+			}
+		}else{
+			return super.createElementFor(e, peerClass);
+		}
+	}
 	@VisitBefore
-	public void visitObjectFlow(ObjectFlow f){
+	public void visitObjectFlow(ObjectFlow f,NakedObjectFlowImpl nakedObjectFlow){
 		Activity activity = getActivity(f);
 		INakedClassifier nc = getNearestContext(activity);
-		NakedObjectFlowImpl nakedObjectFlow = new NakedObjectFlowImpl();
 		initializeEdge(f, nc, nakedObjectFlow);
 		nakedObjectFlow.setTransformation((INakedBehavior) getNakedPeer(f.getTransformation()));
 		nakedObjectFlow.setSelection((INakedBehavior) getNakedPeer(f.getSelection()));
 	}
 	@VisitBefore
-	public void visitControlFlow(ControlFlow f){
+	public void visitControlFlow(ControlFlow f,NakedActivityEdgeImpl nce){
 		Activity activity = getActivity(f);
 		INakedClassifier nc = getNearestContext(activity);
-		initializeEdge(f, nc, new NakedActivityEdgeImpl());
+		initializeEdge(f, nc, nce);
 	}
 	@VisitBefore
-	public void visitExceptionHandler(ExceptionHandler h){
-		if(h.getHandlerBody() != null && h.getExceptionInput() != null){
-			INakedExceptionHandler nakedHandler = new NakedExceptionHandlerImpl();
-			initialize(nakedHandler, h, h.getProtectedNode());
-			nakedHandler.setExceptionInput((INakedObjectNode) getNakedPeer(h.getExceptionInput()));
-			nakedHandler.setHandlerBody((INakedAction) getNakedPeer(h.getHandlerBody()));
-			EList<Classifier> types = h.getExceptionTypes();
-			Collection<INakedClassifier> nakedTypes = new ArrayList<INakedClassifier>();
-			for(Classifier classifier:types){
-				nakedTypes.add((INakedClassifier) getNakedPeer(classifier));
-			}
-			nakedHandler.setExceptionTypes(nakedTypes);
+	public void visitExceptionHandler(ExceptionHandler h,NakedExceptionHandlerImpl nakedHandler){
+		initialize(nakedHandler, h, h.getProtectedNode());
+		nakedHandler.setExceptionInput((INakedObjectNode) getNakedPeer(h.getExceptionInput()));
+		nakedHandler.setHandlerBody((INakedAction) getNakedPeer(h.getHandlerBody()));
+		EList<Classifier> types = h.getExceptionTypes();
+		Collection<INakedClassifier> nakedTypes = new ArrayList<INakedClassifier>();
+		for(Classifier classifier:types){
+			nakedTypes.add((INakedClassifier) getNakedPeer(classifier));
 		}
+		nakedHandler.setExceptionTypes(nakedTypes);
 	}
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
-		initialize(nae, ae, ae.getOwner());
 		INakedValueSpecification guard = getValueSpecification(nae, ae.getGuard(), OclUsageType.BODY);
 		if(guard != null){
 			nae.setGuard(guard);

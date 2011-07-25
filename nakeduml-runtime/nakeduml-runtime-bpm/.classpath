@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/nakeduml-runtime-domain"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.nakeduml.generators"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.nakeduml.java.generator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.nakeduml.java.metamodel"/>

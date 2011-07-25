@@ -466,7 +466,7 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		if(UMLPlugin.UML_URI.equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicUMLSwitch(presentation).doSwitch(obj);
 		}else{
-			// Use to dran'n drop custom element defined in
+			// Use to dran'n drop custom originalElement defined in
 			// the extension point org.topcased.modeler.customEditPart
 			graphElt = DynamicInstanceEditPartController.instance.createGraphElement(obj, presentation);
 		}
@@ -478,10 +478,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -491,10 +491,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated NOT
 	 */
@@ -509,10 +509,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated NOT
 	 */
@@ -527,10 +527,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated NOT
 	 */
@@ -545,10 +545,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -558,10 +558,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -620,10 +620,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -631,10 +631,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -645,10 +645,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -657,10 +657,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -669,10 +669,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -681,10 +681,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -693,10 +693,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -705,10 +705,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -717,10 +717,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -729,10 +729,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -741,10 +741,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -753,10 +753,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -765,10 +765,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -777,10 +777,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -789,10 +789,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return nodeParent;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -803,10 +803,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated NOT
 	 */
@@ -867,10 +867,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated NOT
 	 */
@@ -925,10 +925,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -942,10 +942,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return graphEdge;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -966,10 +966,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -986,10 +986,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated NOT
 	 */
@@ -1010,10 +1010,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -1033,10 +1033,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		return graphEdge;
 	}
 	/**
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -1046,10 +1046,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -1065,10 +1065,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -1084,10 +1084,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param element
-	 *            the model element
+	 * @param originalElement
+	 *            the model originalElement
 	 * @param presentation
-	 *            the presentation of the graphical element
+	 *            the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */

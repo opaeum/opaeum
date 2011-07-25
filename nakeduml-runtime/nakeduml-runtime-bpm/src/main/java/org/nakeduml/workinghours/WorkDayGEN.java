@@ -68,7 +68,7 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ type : WorkDayType'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setType(WorkDayType element) {
 		if (this.f_type != element) {
@@ -84,7 +84,7 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ endMinutes : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setEndMinutes(int element) {
 		if (this.f_endMinutes != element) {
@@ -100,7 +100,7 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ endHours : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setEndHours(int element) {
 		if (this.f_endHours != element) {
@@ -116,7 +116,7 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ startHours : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setStartHours(int element) {
 		if (this.f_startHours != element) {
@@ -132,7 +132,7 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ startMinutes : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setStartMinutes(int element) {
 		if (this.f_startMinutes != element) {
@@ -154,7 +154,7 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Implements the setter of association end workingHoursConfiguration
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setWorkingHoursConfiguration(WorkingHoursConfiguration element) {
 		if (this.f_workingHoursConfiguration != element) {
@@ -176,9 +176,9 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link
 	 * for + workingHoursConfiguration : WorkingHoursConfiguration when a single
-	 * element is added to it.
+	 * originalElement is added to it.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalAddToWorkingHoursConfiguration(WorkingHoursConfiguration element) {
 		this.f_workingHoursConfiguration = element;
@@ -186,9 +186,9 @@ abstract public class WorkDayGEN implements CompositionNode, IPersistentObject{
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link
 	 * for + workingHoursConfiguration : WorkingHoursConfiguration when a single
-	 * element is removed to it.
+	 * originalElement is removed to it.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalRemoveFromWorkingHoursConfiguration(WorkingHoursConfiguration element) {
 		this.f_workingHoursConfiguration = null;

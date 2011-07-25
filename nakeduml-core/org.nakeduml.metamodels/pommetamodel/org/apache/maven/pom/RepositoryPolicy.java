@@ -95,12 +95,12 @@ public interface RepositoryPolicy extends EObject {
 	 * 4.0.0
 	 * 
 	 *             The frequency for downloading updates - can be
-	 *             &lt;code&gt;always,&lt;/code&gt;
-	 *             &lt;code&gt;daily&lt;/code&gt;
+	 *             <code>always,</code>
+	 *             <code>daily</code>
 	 *             (default),
-	 *             &lt;code&gt;interval:XXX&lt;/code&gt;
+	 *             <code>interval:XXX</code>
 	 *             (in minutes) or
-	 *             &lt;code&gt;never&lt;/code&gt;
+	 *             <code>never</code>
 	 *             (only if it doesn't exist locally).
 	 *           
 	 * <!-- end-model-doc -->
@@ -131,11 +131,11 @@ public interface RepositoryPolicy extends EObject {
 	 * 4.0.0
 	 * 
 	 *             What to do when verification of an artifact checksum fails. Valid values are
-	 *             &lt;code&gt;ignore&lt;/code&gt;
+	 *             <code>ignore</code>
 	 *             ,
-	 *             &lt;code&gt;fail&lt;/code&gt;
+	 *             <code>fail</code>
 	 *             or
-	 *             &lt;code&gt;warn&lt;/code&gt;
+	 *             <code>warn</code>
 	 *             (the default).
 	 *           
 	 * <!-- end-model-doc -->

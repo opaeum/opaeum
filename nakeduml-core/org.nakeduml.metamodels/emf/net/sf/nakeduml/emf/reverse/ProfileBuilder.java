@@ -82,7 +82,7 @@ public class ProfileBuilder extends EmfElementCreator {
 	protected static void setStereotypePropertyValue(NamedElement namedElement, Stereotype stereotype,
 			Property property, Object value) {
 		namedElement.setValue(stereotype, property.getName(), value);
-		out("Value of stereotype property '" + property.getQualifiedName() + "' on element '"
+		out("Value of stereotype property '" + property.getQualifiedName() + "' on originalElement '"
 				+ namedElement.getQualifiedName() + "' set to " + String.valueOf(value) + ".");
 	}
 	public static void main(String[] args) {

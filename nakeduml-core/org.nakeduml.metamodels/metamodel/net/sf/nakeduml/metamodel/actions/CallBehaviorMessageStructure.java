@@ -26,10 +26,6 @@ public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStru
 		return action.getBehavior().isPersistent();
 	}
 	@Override
-	public List<? extends IOclContext> getDefinitions(){
-		return Collections.emptyList();
-	}
-	@Override
 	public List<? extends INakedConstraint> getOwnedRules(){
 		return Collections.emptyList();
 	}

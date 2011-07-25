@@ -229,18 +229,18 @@ public class BusinessProcessEditPartFactory extends ModelerEditPartFactory{
 				}
 				@Override
 				protected IAction createChangeDiagramAction(EObject object){
-					CallBehaviorAction a=(CallBehaviorAction) object;
+					CallBehaviorAction a = (CallBehaviorAction) object;
 					if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_METHOD_ACTION)){
 						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
 								"org.topcased.modeler.uml.activitydiagram.method");
 					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_BUSINES_PROCESS_ACTION)){
-						return EditPartUtil.createDiagramAction(a.getBehavior(),object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
 								"org.topcased.modeler.uml.activitydiagram.bpm");
 					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
-						return EditPartUtil.createDiagramAction(a.getBehavior(),object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
 								"org.nakeduml.topcased.statemachinediagram.businessstatemachine");
 					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
-						return EditPartUtil.createDiagramAction(a.getBehavior(),object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
+						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
 								"org.nakeduml.topcased.statemachinediagram.screenflow");
 					}else{
 						return super.createChangeDiagramAction(object);

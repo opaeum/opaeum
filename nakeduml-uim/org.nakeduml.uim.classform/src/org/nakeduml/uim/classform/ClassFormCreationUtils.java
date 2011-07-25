@@ -49,7 +49,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicUimSwitch extends UimSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -57,7 +57,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicUimSwitch(String presentation){
@@ -126,7 +126,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicLayoutSwitch extends LayoutSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -134,7 +134,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicLayoutSwitch(String presentation){
@@ -213,7 +213,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicControlSwitch extends ControlSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -221,7 +221,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicControlSwitch(String presentation){
@@ -240,7 +240,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicFolderSwitch extends FolderSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -248,7 +248,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicFolderSwitch(String presentation){
@@ -267,7 +267,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicFormSwitch extends FormSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -275,7 +275,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicFormSwitch(String presentation){
@@ -314,7 +314,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicBindingSwitch extends BindingSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -322,7 +322,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicBindingSwitch(String presentation){
@@ -341,7 +341,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicSecuritySwitch extends SecuritySwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -349,7 +349,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicSecuritySwitch(String presentation){
@@ -368,7 +368,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	private class GraphicActionSwitch extends ActionSwitch{
 		/**
-		 * The presentation of the graphical element
+		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
@@ -376,7 +376,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		/**
 		 * Constructor
 		 *
-		 * @param presentation the presentation of the graphical element
+		 * @param presentation the presentation of the graphical originalElement
 		 * @generated
 		 */
 		public GraphicActionSwitch(String presentation){
@@ -473,8 +473,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return (GraphElement) graphElt;
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -482,8 +482,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -491,8 +491,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -500,8 +500,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -509,8 +509,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -518,8 +518,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -527,8 +527,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -536,8 +536,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -545,8 +545,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -554,8 +554,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -563,8 +563,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -572,8 +572,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -581,8 +581,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -590,8 +590,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -599,8 +599,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -608,8 +608,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -617,8 +617,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */
@@ -626,8 +626,8 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 		return createGraphNode(element, presentation);
 	}
 	/**
-	 * @param element the model element
-	 * @param presentation the presentation of the graphical element
+	 * @param originalElement the model originalElement
+	 * @param presentation the presentation of the graphical originalElement
 	 * @return the complete GraphElement
 	 * @generated
 	 */

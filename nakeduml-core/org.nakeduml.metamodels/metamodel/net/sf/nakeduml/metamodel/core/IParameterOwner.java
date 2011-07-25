@@ -10,6 +10,7 @@ import nl.klasse.octopus.model.IParameter;
  * to ensure that it can be called from OCL 
  */
 public interface IParameterOwner extends PreAndPostConstrained,INakedElement/*,IOperation*/{
+	void recalculateParameterPositions();
 	INakedBehavioredClassifier getContext();
 	INakedParameter getReturnParameter();
 	/**

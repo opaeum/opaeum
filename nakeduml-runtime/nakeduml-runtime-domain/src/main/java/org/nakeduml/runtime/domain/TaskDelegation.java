@@ -1,8 +1,13 @@
 package org.nakeduml.runtime.domain;
 
-public enum TaskDelegation{
-	POTENTIAL_OWNERS,
+public enum TaskDelegation implements IEnum{
+	POTENTIALOWNERS,
 	NOBODY,
 	ANYBODY,
-	OTHER
+	OTHER;
+
+	@Override
+	public String getUuid(){
+		return "asdfasdfasdf";
+	}
 }

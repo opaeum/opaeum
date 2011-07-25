@@ -19,7 +19,7 @@ public interface INakedCallAction extends INakedInvocationAction,IActionWithTarg
 	/**
 	 * All the exceptions, returnPins, and parameters with and Out- or InOut
 	 * direction. I.e. all the pins that could possibly receive a value from the
-	 * called element
+	 * called originalElement
 	 */
 	List<INakedOutputPin> getResult();
 

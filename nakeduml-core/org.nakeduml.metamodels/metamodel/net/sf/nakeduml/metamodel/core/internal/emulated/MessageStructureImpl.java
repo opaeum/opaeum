@@ -322,10 +322,6 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 
 	@Override
-	public void setDefinitions(List<IOclContext> loopResults) {
-	}
-
-	@Override
 	public void setOwnedRules(List<INakedConstraint> loopResults) {
 	}
 

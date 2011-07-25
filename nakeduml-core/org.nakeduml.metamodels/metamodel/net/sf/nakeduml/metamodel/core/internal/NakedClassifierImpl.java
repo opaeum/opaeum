@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
@@ -191,7 +192,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		for(IStructuralFeature f:source){
 			if(f.hasClassScope() == classScope){
-				boolean isNavigation = f instanceof INakedProperty && ((INakedProperty) f).getOtherEnd() != null;
+				boolean isNavigation = f instanceof INakedProperty && ((INakedProperty) f).getAssociation() != null;
 				if(isNavigation == associationEnds){
 					results.add(f);
 				}
@@ -363,11 +364,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			this.ownedOperations.remove(oper);
 		}else if(element instanceof INakedComment){
 			comments.remove(element);
-		}
-		element.setOwnerElement(this);
-		if(element instanceof INakedProperty){
-			INakedProperty prop = (INakedProperty) element;
-			ownedAttributes.remove(prop);
+		}else if(element instanceof INakedConstraint){
+			ownedRules.remove(element);;
 		}
 	}
 	@Override

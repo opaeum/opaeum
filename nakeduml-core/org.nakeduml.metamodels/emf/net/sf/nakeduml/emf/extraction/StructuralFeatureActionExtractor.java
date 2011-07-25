@@ -16,12 +16,14 @@ import org.eclipse.uml2.uml.ClearStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {
-		FeatureExtractor.class,ActivityStructureExtractor.class})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {
+		FeatureExtractor.class,ActivityStructureExtractor.class
+},after = {
+		FeatureExtractor.class,ActivityStructureExtractor.class
+})
 public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 	@VisitBefore
-	public void visitAddStructuralFeatureValueAction(AddStructuralFeatureValueAction emfAction,
-			NakedAddStructuralFeatureValueActionImpl nakedAction){
+	public void visitAddStructuralFeatureValueAction(AddStructuralFeatureValueAction emfAction,NakedAddStructuralFeatureValueActionImpl nakedAction){
 		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
@@ -30,16 +32,14 @@ public class StructuralFeatureActionExtractor extends AbstractActionExtractor{
 		nakedAction.setReplaceAll(emfAction.isReplaceAll());
 	}
 	@VisitBefore
-	public void visitClearStructuralFeatureValueAction(ClearStructuralFeatureAction emfAction,
-			NakedClearStructuralFeatureActionImpl nakedAction){
+	public void visitClearStructuralFeatureValueAction(ClearStructuralFeatureAction emfAction,NakedClearStructuralFeatureActionImpl nakedAction){
 		initAction(emfAction, nakedAction);
-Activity emfActivity = getActivity(emfAction);
+		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));
 		nakedAction.setObject((INakedInputPin) initializePin(emfActivity, emfAction.getObject()));
 	}
 	@VisitBefore
-	public void visitRemoveStructuralFeatureValueAction(RemoveStructuralFeatureValueAction emfAction,
-			NakedRemoveStructuralFeatureValueActionImpl nakedAction){
+	public void visitRemoveStructuralFeatureValueAction(RemoveStructuralFeatureValueAction emfAction,NakedRemoveStructuralFeatureValueActionImpl nakedAction){
 		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setFeature((INakedProperty) getNakedPeer(emfAction.getStructuralFeature()));

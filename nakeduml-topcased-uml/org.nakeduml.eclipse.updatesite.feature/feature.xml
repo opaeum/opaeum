@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.nakeduml.eclipse.updatesite.feature"
-      label="NakedUML UpdateSite"
+      label="NakedUMLFeature"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -33,11 +33,15 @@
          version="0.0.0"/>
 
    <includes
-         id="org.topcased.dependencies"
+         id="org.topcased.core.feature"
          version="0.0.0"/>
 
    <includes
-         id="org.topcased.modeler.feature"
+         id="org.topcased.modeler.toolkit"
+         version="0.0.0"/>
+
+   <includes
+         id="org.topcased.ocl.feature"
          version="0.0.0"/>
 
 </feature>

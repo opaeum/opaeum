@@ -7,10 +7,11 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 @PhaseDependency()
-public class FileGenerationPhase implements TransformationPhase<AbstractTextNodeVisitor> {
+public class FileGenerationPhase implements TransformationPhase<AbstractTextNodeVisitor,TextOutputNode> {
 	@InputModel
 	private TextWorkspace textWorkspace;
 	private NakedUmlConfig config;
@@ -24,6 +25,16 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 			feature.startVisiting(textWorkspace);
 		}
 		return new Object[]{};
+		
+	}
+
+	@Override
+	public Object processSingleElement(List<AbstractTextNodeVisitor> features,TransformationContext context,TextOutputNode element){
+		for (AbstractTextNodeVisitor feature : features) {
+			feature.initialize(config);
+			feature.visitRecursively(element);
+		}
+		return element;
 		
 	}
 }

@@ -27,11 +27,16 @@ import org.drools.drools._5._0.process.StateType;
 import org.drools.drools._5._0.process.SubProcessType;
 import org.drools.drools._5._0.process.TimerNodeType;
 import org.drools.drools._5._0.process.WorkItemType;
+
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;

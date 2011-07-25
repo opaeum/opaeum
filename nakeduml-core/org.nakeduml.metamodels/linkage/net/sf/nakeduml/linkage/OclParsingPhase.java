@@ -7,11 +7,13 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.namegeneration.NameGenerationPhase;
 
 @PhaseDependency(after = { LinkagePhase.class, NameGenerationPhase.class })
-public class OclParsingPhase implements TransformationPhase<NakedParsedOclStringResolver> {
+public class OclParsingPhase implements TransformationPhase<NakedParsedOclStringResolver,INakedElement> {
 	private NakedUmlConfig config;
 	@InputModel
 	private INakedModelWorkspace workspace;
@@ -28,5 +30,14 @@ public class OclParsingPhase implements TransformationPhase<NakedParsedOclString
 			p.startVisiting(workspace);
 		}
 		return new Object[] { workspace };
+	}
+
+	@Override
+	public Object processSingleElement(List<NakedParsedOclStringResolver> features,TransformationContext context,INakedElement element){
+		for (NakedParsedOclStringResolver p : features) {
+			p.initialize(workspace, config);
+			p.visitRecursively(element);
+		}
+		return element;
 	}
 }

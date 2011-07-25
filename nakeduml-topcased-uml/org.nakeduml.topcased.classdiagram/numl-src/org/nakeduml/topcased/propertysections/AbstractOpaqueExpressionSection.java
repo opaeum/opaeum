@@ -105,7 +105,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	protected void handleTextModified(){
 		String oclText = this.oclComposite.getTextControl().getText();
 		if(oclText.trim().length() > 0 && !OclValueComposite.DEFAULT_TEXT.contains(oclText)){
-			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), oclText);
+			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getProperty_DefaultValue(), oclText);
 			getEditingDomain().getCommandStack().execute(cmd);
 		}
 	}

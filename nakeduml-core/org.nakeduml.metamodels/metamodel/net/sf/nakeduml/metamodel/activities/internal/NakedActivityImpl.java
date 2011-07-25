@@ -16,10 +16,14 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IAttribute;
 
@@ -160,6 +164,17 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 
 	public void setActivityKind(ActivityKind activityKind) {
 		this.activityKind = activityKind;
+	}
+
+	@Override
+	public INakedProperty findEmulatedAttribute(INakedAction node){
+		for(INakedProperty p:this.ownedAttributes){
+			if(p instanceof ArtificialProperty && p.getName().equalsIgnoreCase(node.getName())){
+				return p;
+			}
+		}
+		return null;
+		
 	}
 
 }

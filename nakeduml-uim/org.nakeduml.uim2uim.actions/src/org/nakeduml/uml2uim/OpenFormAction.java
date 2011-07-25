@@ -14,7 +14,7 @@ public class OpenFormAction extends AbstractUimGenerationAction implements IObje
 	protected void runActionRecursively(NamedElement eObject,IAction action){
 		URI uri = getFileUri(eObject, getFileName(eObject, action));
 		if(!getFile(uri).exists()){
-			SynchronizeAction.doSynchronize(eObject);
+			SynchronizeAction.doSynchronize(eObject,findNakedUmlEditor(eObject));
 		}
 	}
 

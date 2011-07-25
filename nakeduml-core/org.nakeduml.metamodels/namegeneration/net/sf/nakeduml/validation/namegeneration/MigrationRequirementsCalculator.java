@@ -5,7 +5,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import nl.klasse.octopus.model.IModelElement;
 /**
- * This class recursively calculates whether a specific model element is new in
+ * This class recursively calculates whether a specific model originalElement is new in
  * either the deployed version or the deployed revision. It also has
  * functionality to recursively update the version and revision information of
  * the modelelements

@@ -6,67 +6,12 @@
  */
 package org.drools.drools._5._0.process.util;
 
-import java.util.List;
+import org.drools.drools._5._0.process.*;
 
-import org.drools.drools._5._0.process.ActionNodeType;
-import org.drools.drools._5._0.process.ActionType;
-import org.drools.drools._5._0.process.CompositeType;
-import org.drools.drools._5._0.process.ConnectionType;
-import org.drools.drools._5._0.process.ConnectionsType;
-import org.drools.drools._5._0.process.ConstraintType;
-import org.drools.drools._5._0.process.ConstraintsType;
-import org.drools.drools._5._0.process.DocumentRoot;
-import org.drools.drools._5._0.process.DynamicType;
-import org.drools.drools._5._0.process.EndType;
-import org.drools.drools._5._0.process.EventFilterType;
-import org.drools.drools._5._0.process.EventFiltersType;
-import org.drools.drools._5._0.process.EventNodeType;
-import org.drools.drools._5._0.process.ExceptionHandlerType;
-import org.drools.drools._5._0.process.ExceptionHandlersType;
-import org.drools.drools._5._0.process.FaultType;
-import org.drools.drools._5._0.process.ForEachType;
-import org.drools.drools._5._0.process.FunctionImportType;
-import org.drools.drools._5._0.process.FunctionImportsType;
-import org.drools.drools._5._0.process.GlobalType;
-import org.drools.drools._5._0.process.GlobalsType;
-import org.drools.drools._5._0.process.HeaderType;
-import org.drools.drools._5._0.process.HumanTaskType;
-import org.drools.drools._5._0.process.ImportType;
-import org.drools.drools._5._0.process.ImportsType;
-import org.drools.drools._5._0.process.InPortType;
-import org.drools.drools._5._0.process.InPortsType;
-import org.drools.drools._5._0.process.JoinType;
-import org.drools.drools._5._0.process.MappingType;
-import org.drools.drools._5._0.process.MetaDataType;
-import org.drools.drools._5._0.process.MilestoneType;
-import org.drools.drools._5._0.process.NodesType;
-import org.drools.drools._5._0.process.OnEntryType;
-import org.drools.drools._5._0.process.OnExitType;
-import org.drools.drools._5._0.process.OutPortType;
-import org.drools.drools._5._0.process.OutPortsType;
-import org.drools.drools._5._0.process.ParameterType;
-import org.drools.drools._5._0.process.ProcessPackage;
-import org.drools.drools._5._0.process.ProcessType;
-import org.drools.drools._5._0.process.RuleSetType;
-import org.drools.drools._5._0.process.SplitType;
-import org.drools.drools._5._0.process.StartType;
-import org.drools.drools._5._0.process.StateType;
-import org.drools.drools._5._0.process.SubProcessType;
-import org.drools.drools._5._0.process.SwimlaneType;
-import org.drools.drools._5._0.process.SwimlanesType;
-import org.drools.drools._5._0.process.TimerNodeType;
-import org.drools.drools._5._0.process.TimerType;
-import org.drools.drools._5._0.process.TimersType;
-import org.drools.drools._5._0.process.TriggerType;
-import org.drools.drools._5._0.process.TriggersType;
-import org.drools.drools._5._0.process.TypeType;
-import org.drools.drools._5._0.process.ValueType;
-import org.drools.drools._5._0.process.VariableType;
-import org.drools.drools._5._0.process.VariablesType;
-import org.drools.drools._5._0.process.WorkItemType;
-import org.drools.drools._5._0.process.WorkType;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.drools.drools._5._0.process.ProcessPackage
  * @generated
  */
-public class ProcessSwitch<T> {
+public class ProcessSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -103,14 +48,16 @@ public class ProcessSwitch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @parameter ePackage the package in question.
+	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+		return ePackage == modelPackage;
 	}
 
 	/**
@@ -120,26 +67,7 @@ public class ProcessSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch(eSuperTypes.get(0), theEObject);
-		}
-	}
-
-	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case ProcessPackage.ACTION_NODE_TYPE: {
@@ -1333,6 +1261,7 @@ public class ProcessSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}

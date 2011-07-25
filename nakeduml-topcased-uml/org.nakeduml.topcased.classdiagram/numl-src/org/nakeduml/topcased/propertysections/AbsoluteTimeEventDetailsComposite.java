@@ -1,5 +1,7 @@
 package org.nakeduml.topcased.propertysections;
 
+import net.sf.nakeduml.emf.extraction.StereotypesHelper;
+
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -34,7 +36,6 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 	public static interface TimeEventListener{
 		void timeEventChanged(TimeEvent t);
 	}
-	private static final String EVENT_CONTEXT_SOURCE = "http://www.nakeduml.org/eventContext";
 	protected CLabel expressionLabel;
 	private OclValueComposite expressionComposite;
 	protected TimeEvent event;
@@ -109,7 +110,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		expressionComposite = new OclValueComposite(this, toolkit);
 		expData.left = new FormAttachment(0, standardLabelWidth);
 		expData.right = new FormAttachment(100, 0);
-		// data.bottom=new FormAttachment(100,0);
+		 expData.bottom=new FormAttachment(100,0);
 		expData.height = 50;
 		expressionComposite.setBackground(getBackground());
 		expressionComposite.setLayoutData(expData);
@@ -149,7 +150,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 				timeEvent.setName(((NamedElement) t.getOwner()).getName() + "TimeEvent");
 				Command cmd = AddCommand.create(domain, eventsPackage, UMLPackage.eINSTANCE.getPackage_PackagedElement(), timeEvent);
 				domain.getCommandStack().execute(cmd);
-				timeEvent.createEAnnotation(EVENT_CONTEXT_SOURCE).getReferences().add(trigger);
+				StereotypesHelper.getNumlAnnotation(timeEvent).getReferences().add(trigger);
 				timeEvent.setIsRelative(isRelative());
 			}
 			t.setEvent(timeEvent);
@@ -164,7 +165,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		outer:for(PackageableElement pe:eventsPackage.getPackagedElements()){
 			if(pe instanceof TimeEvent){
 				if(((TimeEvent) pe).isRelative() == isRelative()){
-					EAnnotation eAnnotation = pe.getEAnnotation(EVENT_CONTEXT_SOURCE);
+					EAnnotation eAnnotation = StereotypesHelper.getNumlAnnotation(pe);
 					if(eAnnotation != null){
 						for(EObject eObject:eAnnotation.getReferences()){
 							if(eObject == trigger){

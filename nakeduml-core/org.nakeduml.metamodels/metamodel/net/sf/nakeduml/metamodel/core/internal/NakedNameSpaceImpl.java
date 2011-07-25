@@ -161,7 +161,7 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 	}
 
 	/**
-	 * Utility method to determine if a specific element participates in the
+	 * Utility method to determine if a specific originalElement participates in the
 	 * ownedMember relationship with this NameSpace
 	 * 
 	 * @param e

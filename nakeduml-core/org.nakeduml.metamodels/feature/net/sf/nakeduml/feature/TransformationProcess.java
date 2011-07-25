@@ -1,6 +1,7 @@
 package net.sf.nakeduml.feature;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
  */
 public class TransformationProcess{
 	Set<Object> models = new HashSet<Object>();
+	Set<Object> elements  = new HashSet<Object>();
 	Set<Class<? extends TransformationStep>> actualClasses = new HashSet<Class<? extends TransformationStep>>();
 	@SuppressWarnings({
 			"unchecked","rawtypes"
@@ -28,11 +30,11 @@ public class TransformationProcess{
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
 		phases.initializeFromClasses(getPhaseClassesFor(actualClasses));
 		TransformationContext context = new TransformationContext(actualClasses);
-		List<TransformationPhase<? extends TransformationStep>> phaseList = phases.getExecutionUnits();
-		for(TransformationPhase<? extends TransformationStep> phase:phaseList){
+		List<TransformationPhase<? extends TransformationStep,?>> phaseList = phases.getExecutionUnits();
+		for(TransformationPhase<? extends TransformationStep,?> phase:phaseList){
 			setInputModelsFor(phase);
 			phase.initialize(config);
-			Class<? extends TransformationPhase<? extends TransformationStep>> class1 = (Class) phase.getClass();
+			Class<? extends TransformationPhase<? extends TransformationStep,?>> class1 = (Class) phase.getClass();
 			Steps steps = new Steps();
 			steps.initializeFromClasses(getStepsForPhase(class1, actualClasses));
 			List featuresFor = steps.getExecutionUnits();
@@ -44,7 +46,45 @@ public class TransformationProcess{
 			System.out.println("Executing phase " + phase.getClass() + " took " + (System.currentTimeMillis() - time) + "ms");
 		}
 	}
-	private Set<Class<? extends TransformationStep>> getStepsForPhase(Class<? extends TransformationPhase<? extends TransformationStep>> phaseClass,
+	
+	@SuppressWarnings("rawtypes")
+	public void processSingleElement(NakedUmlConfig config,Object sourceModel,Set<Class<? extends TransformationStep>> proposedStepClasses, Object element){
+		elements.clear();
+		elements.add(element);
+		actualClasses = new HashSet<Class<? extends TransformationStep>>();
+		replaceModels(sourceModel);
+		Phases phases = new Phases();
+		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
+		phases.initializeFromClasses(getPhaseClassesFor(actualClasses));
+		TransformationContext context = new TransformationContext(actualClasses);
+		List<TransformationPhase<? extends TransformationStep,?>> phaseList = phases.getExecutionUnits();
+		for(TransformationPhase phase:phaseList){
+			Class<? extends TransformationPhase> clz = phase.getClass();
+			setInputModelsFor(phase);
+			phase.initialize(config);
+			Class<? extends TransformationPhase<? extends TransformationStep,?>> class1 = (Class) phase.getClass();
+			Steps steps = new Steps();
+			steps.initializeFromClasses(getStepsForPhase(class1, actualClasses));
+			List featuresFor = steps.getExecutionUnits();
+			System.out.println("Executing phase " + phase.getClass() + " .... ");
+			long time = System.currentTimeMillis();
+			elements.add(phase.processSingleElement(featuresFor, context,findElementFor(phase)));
+			context.featuresApplied(featuresFor);
+			System.out.println("Executing phase " + phase.getClass() + " took " + (System.currentTimeMillis() - time) + "ms");
+		}
+	}
+	private Object findElementFor(TransformationPhase phase){
+		 ParameterizedType typeVariable = (ParameterizedType) phase.getClass().getGenericInterfaces()[0];
+		Class<?> arg1 = (Class<?>) typeVariable.getActualTypeArguments()[1];
+		for(Object object:elements){
+			if(arg1.isInstance(object)){
+				return object;
+			}
+		}
+		return null;
+	}
+
+	private Set<Class<? extends TransformationStep>> getStepsForPhase(Class<? extends TransformationPhase<? extends TransformationStep,?>> phaseClass,
 			Set<Class<? extends TransformationStep>> stepClasses){
 		Set<Class<? extends TransformationStep>> results = new HashSet<Class<? extends TransformationStep>>();
 		for(Class<? extends TransformationStep> stepClass:stepClasses){
@@ -54,15 +94,15 @@ public class TransformationProcess{
 		}
 		return results;
 	}
-	private Set<Class<? extends TransformationPhase<? extends TransformationStep>>> getPhaseClassesFor(Set<Class<? extends TransformationStep>> stepClasses){
-		Set<Class<? extends TransformationPhase<? extends TransformationStep>>> phaseClasses = new HashSet<Class<? extends TransformationPhase<? extends TransformationStep>>>();
+	private Set<Class<? extends TransformationPhase<? extends TransformationStep,?>>> getPhaseClassesFor(Set<Class<? extends TransformationStep>> stepClasses){
+		Set<Class<? extends TransformationPhase<? extends TransformationStep,?>>> phaseClasses = new HashSet<Class<? extends TransformationPhase<? extends TransformationStep,?>>>();
 		for(Class<? extends TransformationStep> t:stepClasses){
-			Class<? extends TransformationPhase<? extends TransformationStep>> phaseClass = t.getAnnotation(StepDependency.class).phase();
+			Class<? extends TransformationPhase<? extends TransformationStep,?>> phaseClass = t.getAnnotation(StepDependency.class).phase();
 			phaseClasses.add(phaseClass);
 		}
 		return phaseClasses;
 	}
-	private void setInputModelsFor(TransformationPhase<? extends TransformationStep> phase){
+	private void setInputModelsFor(TransformationPhase<? extends TransformationStep,?> phase){
 		Field[] fields = getFields(phase);
 		for(Field field:fields){
 			if(field.isAnnotationPresent(InputModel.class)){
@@ -81,7 +121,7 @@ public class TransformationProcess{
 			}
 		}
 	}
-	private Object createModel(TransformationPhase<? extends TransformationStep> phase,Field field) throws InstantiationException,IllegalAccessException{
+	private Object createModel(TransformationPhase<? extends TransformationStep,?> phase,Field field) throws InstantiationException,IllegalAccessException{
 		Class<?> modelClass = field.getType();
 		if(modelClass.isInterface()){
 			Class<?>[] implementationClass = field.getAnnotation(InputModel.class).implementationClass();
@@ -96,7 +136,7 @@ public class TransformationProcess{
 		this.models.add(model);
 		return model;
 	}
-	private Field[] getFields(TransformationPhase<? extends TransformationStep> phase){
+	private Field[] getFields(TransformationPhase<? extends TransformationStep,?> phase){
 		return phase.getClass().getDeclaredFields();
 	}
 	private void replaceModels(Object...models){

@@ -446,15 +446,15 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		entries.add(new ModelerConnectionCreationToolEntry("Control Flow", "Control Flow", factory, ActivityImageRegistry.getImageDescriptor("CONTROLFLOW"),
 				ActivityImageRegistry.getImageDescriptor("CONTROLFLOW_LARGE")));
 		// Fix #809
-		// Create a new element <=> ControlFlow with his "Interrupts" property set with a default value
+		// Create a new originalElement <=> ControlFlow with his "Interrupts" property set with a default value
 		// And constraint on his creation <=> his source must be in a InterruptibleActivityREgion, but not his his
 		// target
 		/*
 		 * factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getControlFlow(), "default") { public EObject
-		 * getNewModelObject() { ControlFlow element = (ControlFlow) super.getNewModelObject(); LiteralBoolean guard =
+		 * getNewModelObject() { ControlFlow originalElement = (ControlFlow) super.getNewModelObject(); LiteralBoolean guard =
 		 * UMLFactory.eINSTANCE.createLiteralBoolean(); LiteralInteger weight = UMLFactory.eINSTANCE.createLiteralInteger();
 		 * InterruptibleActivityRegion interrupts = UMLFactory.eINSTANCE.createInterruptibleActivityRegion(); guard.setValue(false);
-		 * weight.setValue(1); element.setGuard(guard); element.setWeight(weight); element.setInterrupts(interrupts); return element; } };
+		 * weight.setValue(1); originalElement.setGuard(guard); originalElement.setWeight(weight); originalElement.setInterrupts(interrupts); return originalElement; } };
 		 * entries.add(new ModelerConnectionCreationToolEntry("Interruptible Control Flow", "Interruptible Control Flow", factory,
 		 * ActivityImageRegistry.getImageDescriptor("CONTROLFLOW"), ActivityImageRegistry.getImageDescriptor("CONTROLFLOW_LARGE")));
 		 */
@@ -474,15 +474,15 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 		entries.add(new ModelerConnectionCreationToolEntry("Object Flow", "Object Flow", factory, ActivityImageRegistry.getImageDescriptor("OBJECTFLOW"),
 				ActivityImageRegistry.getImageDescriptor("OBJECTFLOW_LARGE")));
 		// Fix #809
-		// Create a new element <=> ObjectFlow with his "Interrupts" property set with a default value
+		// Create a new originalElement <=> ObjectFlow with his "Interrupts" property set with a default value
 		// And constraint on his creation <=> his source must be in a InterruptibleActivityREgion, but not his his
 		// target
 		/*
 		 * factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getObjectFlow(), "default") { public EObject
-		 * getNewModelObject() { ObjectFlow element = (ObjectFlow) super.getNewModelObject(); LiteralBoolean guard =
+		 * getNewModelObject() { ObjectFlow originalElement = (ObjectFlow) super.getNewModelObject(); LiteralBoolean guard =
 		 * UMLFactory.eINSTANCE.createLiteralBoolean(); LiteralInteger weight = UMLFactory.eINSTANCE.createLiteralInteger();
 		 * InterruptibleActivityRegion interrupts = UMLFactory.eINSTANCE.createInterruptibleActivityRegion(); guard.setValue(false);
-		 * weight.setValue(1); element.setGuard(guard); element.setWeight(weight); element.setInterrupts(interrupts); return element; } };
+		 * weight.setValue(1); originalElement.setGuard(guard); originalElement.setWeight(weight); originalElement.setInterrupts(interrupts); return originalElement; } };
 		 * entries.add(new ModelerConnectionCreationToolEntry("Interruptible Object Flow", "Interruptible Object Flow", factory,
 		 * ActivityImageRegistry.getImageDescriptor("OBJECTFLOW"), ActivityImageRegistry.getImageDescriptor("OBJECTFLOW_LARGE")));
 		 */

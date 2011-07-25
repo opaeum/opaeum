@@ -121,11 +121,11 @@ public interface Parent extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The relative path of the parent &lt;code&gt;pom.xml&lt;/code&gt; file within the check out.
-	 *             The default value is &lt;code&gt;../pom.xml&lt;/code&gt;.
+	 *             The relative path of the parent <code>pom.xml</code> file within the check out.
+	 *             The default value is <code>../pom.xml</code>.
 	 *             Maven looks for the parent pom first in the reactor of currently building projects, then in this location on
 	 *             the filesystem, then the local repository, and lastly in the remote repo.
-	 *             &lt;code&gt;relativePath&lt;/code&gt; allows you to select a different location,
+	 *             <code>relativePath</code> allows you to select a different location,
 	 *             for example when your structure is flat, or deeper without an intermediate parent pom.
 	 *             However, the group ID, artifact ID and version are still required,
 	 *             and must match the file in the location given or it will revert to the repository for the POM.

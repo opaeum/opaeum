@@ -17,6 +17,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Element;
@@ -64,6 +65,8 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		timeUnitLabel.setLayoutData(data);
 		timeUnitCombo = toolkit.createCCombo(this, SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
+		Text t= (Text) timeUnitCombo.getTabList()[0];
+		t.setData(FormToolkit.TEXT_BORDER, toolkit.getBorderStyle());
 		timeUnitCombo.setBackground(getBackground());
 		timeUnitCombo.addSelectionListener(new SelectionListener(){
 			public void widgetSelected(SelectionEvent e){
@@ -82,7 +85,7 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		data = new FormData();
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		data.left = new FormAttachment(0, standardLabelWidth);
-		data.right = new FormAttachment(100);
+//		data.right = new FormAttachment(100);
 		data.height = 18;
 		timeUnitCombo.setLayoutData(data);
 	}

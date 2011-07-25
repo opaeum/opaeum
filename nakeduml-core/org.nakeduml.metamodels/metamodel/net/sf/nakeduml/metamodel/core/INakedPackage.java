@@ -17,8 +17,5 @@ public interface INakedPackage extends INakedNameSpace, IPackage {
 
 	boolean isSchema();
 
-	void setLinked(boolean isLinked);
-
-	boolean isLinked();
 
 }

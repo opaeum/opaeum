@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="plugins/j2d4swt-2.3.0.jar" sourcepath="plugins/J2D4SWT_2.3.0.src.zip"/>
+	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml_3.0.12.nakeduml.jar"/>
+	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml.oclinterpreter_2.5.1.201107220016.jar" sourcepath="/org.topcased.modeler.uml.oclinterpreter"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="numl-src"/>
-	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml_3.0.12.nakeduml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

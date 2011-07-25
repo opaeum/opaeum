@@ -99,8 +99,8 @@ public interface Activation extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             Specifies that this profile will be activated when a matching JDK is detected. For example, &lt;code&gt;1.4&lt;/code&gt;
-	 *             only activates on JDKs versioned 1.4, while &lt;code&gt;!1.4&lt;/code&gt; matches any JDK that is not version 1.4.
+	 *             Specifies that this profile will be activated when a matching JDK is detected. For example, <code>1.4</code>
+	 *             only activates on JDKs versioned 1.4, while <code>!1.4</code> matches any JDK that is not version 1.4.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Jdk</em>' attribute.

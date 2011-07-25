@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
@@ -26,10 +27,11 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
  * @author Ampie Barnard
  */
 public abstract class NakedElementImpl implements Serializable,INakedElement{
+	String uuid;
 	private static final long serialVersionUID = -825314743586339864L;
 	/**
-	 * A The ID of this element's namespace as supplied by the modelling tool of choice The Modelelement class will resolve the links
-	 * itself. This should make it easier to populate the Modelelement from various sources
+	 * A The ID of this originalElement's namespace as supplied by the modelling tool of choice The Modelelement class will resolve the
+	 * links itself. This should make it easier to populate the Modelelement from various sources
 	 */
 	protected String id;
 	protected IMappingInfo mappingInfo;
@@ -42,6 +44,12 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	private boolean storeMappingInfo;
 	public String getDocumentation(){
 		return documentation;
+	}
+	public String getUuid(){
+		if(uuid == null){
+			uuid = UUID.randomUUID().toString();
+		}
+		return uuid;
 	}
 	public INakedRootObject getNakedRoot(){
 		return ((INakedElement) getOwnerElement()).getNakedRoot();
@@ -107,7 +115,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 			StringTokenizer st = new StringTokenizer(getMappingInfo().getQualifiedJavaName(), ".");
 			while(st.hasMoreElements()){
 				String s = (String) st.nextElement();
-				if(s.length() > 0 ){
+				if(s.length() > 0){
 					result.addString(s);
 				}
 			}
@@ -189,12 +197,11 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	public INakedClassifier getNearestClassifier(){
 		INakedElementOwner o = getOwnerElement();
 		while(!(o instanceof INakedClassifier)){
-			if(o==null||o instanceof INakedModelWorkspace){
+			if(o == null || o instanceof INakedModelWorkspace){
 				return null;
 			}
-			o=((INakedElement) o).getOwnerElement();
+			o = ((INakedElement) o).getOwnerElement();
 		}
 		return (INakedClassifier) o;
 	}
-
 }

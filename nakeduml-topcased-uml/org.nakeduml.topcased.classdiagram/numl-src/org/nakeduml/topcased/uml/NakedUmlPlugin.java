@@ -1,12 +1,55 @@
 package org.nakeduml.topcased.uml;
 
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.gmf.runtime.lite.svg.SVGFigure;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.uml2.uml.NamedElement;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.topcased.modeler.uml.UMLPlugin;
 
 public class NakedUmlPlugin extends UMLPlugin{
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg){
-		reg.put("Actor", ImageDescriptor.createFromURL(getBundle().getEntry("icons/Actor.gif")));
+		Image img = new Image(getWorkbench().getDisplay(), 32, 32);
+		GC gc = new GC(img);
+		SVGFigure svgFigure = new SVGFigure();
+		svgFigure.setOpaque(false);
+		svgFigure.setSize(32, 32);
+		svgFigure.setURI(getBundle().getEntry("icons/objsvg/Process.svg").toString());
+		SWTGraphics graphics = new SWTGraphics(gc);
+		svgFigure.paint(graphics);
+		ImageData data = img.getImageData();
+		data.transparentPixel = 16777215;
+		ImageData maskData = data.getTransparencyMask();
+		img = new Image(getWorkbench().getDisplay(), data, maskData);
+		reg.put("Actor", img);
+	}
+	public static NakedUmlEditor findNakedUmlEditor(NamedElement modelElement){
+		NakedUmlEditor e = null;
+		IWorkbench workbench = getDefault().getWorkbench();
+		IWorkbenchWindow[] workbenchWindows = workbench.getWorkbenchWindows();
+		for(IWorkbenchWindow w:workbenchWindows){
+			IWorkbenchPage[] pages = w.getPages();
+			for(IWorkbenchPage activePage:pages){
+				for(IEditorReference er:activePage.getEditorReferences()){
+					IEditorPart curEditor = er.getEditor(false);
+					if(curEditor instanceof NakedUmlEditor){
+						e = (NakedUmlEditor) curEditor;
+						if(e.getFilePath().toFile().getName().equals(modelElement.eResource().getURI().lastSegment())){
+							break;
+						}
+					}
+				}
+			}
+		}
+		return e;
 	}
 }

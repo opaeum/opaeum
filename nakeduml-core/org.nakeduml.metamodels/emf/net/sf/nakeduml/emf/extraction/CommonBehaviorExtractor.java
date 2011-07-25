@@ -95,13 +95,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 				NakedTimeEventImpl nakedTimeEvent = new NakedTimeEventImpl();
 				nakedTimeEvent.initialize(id, emfTimeEvent.getName(), true);
 				super.initialize(nakedTimeEvent, emfTimeEvent, t);
-				INakedValueSpecification when = getValueSpecification(nakedTimeEvent, emfTimeEvent.getWhen(), OclUsageType.DEF);
-				if(when != null){
-					when.setType((INakedClassifier) getNakedPeer(emfTimeEvent.getWhen().getType()));
-					nakedTimeEvent.setWhen(when);
-					when.setOwnerElement(nakedTimeEvent);
-				}
-				nakedTimeEvent.setRelative(emfTimeEvent.isRelative());
+				initTimeEvent(emfTimeEvent, nakedTimeEvent);
 				trigger.setEvent(nakedTimeEvent);
 			}
 		}

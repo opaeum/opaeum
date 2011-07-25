@@ -141,7 +141,6 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 		edcData.top = new FormAttachment(eventTypeCombo);
 		edcData.right = new FormAttachment(100, 0);
 		edcData.bottom = new FormAttachment(100, 0);
-		edcData.height = 85;
 		eventDetailsComposite.setLayoutData(edcData);
 		eventDetailsComposite.layout();
 	}

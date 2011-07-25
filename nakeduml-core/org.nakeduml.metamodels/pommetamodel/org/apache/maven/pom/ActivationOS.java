@@ -43,7 +43,7 @@ public interface ActivationOS extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * The name of the operating system to be used to activate the profile. This must be an exact match
-	 *           of the &lt;code&gt;${os.name}&lt;/code&gt; Java property, such as &lt;code&gt;Windows XP&lt;/code&gt;.
+	 *           of the <code>${os.name}</code> Java property, such as <code>Windows XP</code>.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -71,7 +71,7 @@ public interface ActivationOS extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The general family of the OS to be used to activate the profile, such as &lt;code&gt;windows&lt;/code&gt; or &lt;code&gt;unix&lt;/code&gt;.
+	 *             The general family of the OS to be used to activate the profile, such as <code>windows</code> or <code>unix</code>.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Family</em>' attribute.
 	 * @see #setFamily(String)

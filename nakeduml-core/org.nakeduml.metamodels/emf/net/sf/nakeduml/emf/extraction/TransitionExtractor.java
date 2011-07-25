@@ -12,7 +12,6 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
-import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedTransitionImpl;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
@@ -30,10 +29,8 @@ public class TransitionExtractor extends CommonBehaviorExtractor{
 		return result;
 	}
 	@VisitBefore
-	public void visitTransition(Transition emfTransition){
-		INakedTransition nakedTransition = new NakedTransitionImpl();
+	public void visitTransition(Transition emfTransition, NakedTransitionImpl nakedTransition){
 		StateMachine sm = getStateMachine(emfTransition);
-		initialize(nakedTransition, emfTransition, sm);
 		nakedTransition.setOwnerElement(getNakedPeer(sm));
 		INakedState source = (INakedState) getNakedPeer(emfTransition.getSource());
 		INakedState target = (INakedState) getNakedPeer(emfTransition.getTarget());

@@ -22,6 +22,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
+import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -78,7 +79,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		}
 	}
 	public void implementConditions(OJOperation oper,OJBlock block,PreAndPostConstrained constrained,boolean pre){
-		Collection<IOclContext> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
+		Collection<INakedConstraint> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
 		if(conditions.size() > 0){
 			if(node instanceof INakedAction){
 				if(!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isLongRunning()){

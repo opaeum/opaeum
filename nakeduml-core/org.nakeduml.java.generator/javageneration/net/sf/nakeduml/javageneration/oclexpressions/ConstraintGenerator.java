@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IModelElement;
@@ -31,7 +32,7 @@ public class ConstraintGenerator {
 		expressionCreator = new ExpressionCreator(context);
 	}
 
-	public void addConstraintChecks(OJOperation operation, Collection<IOclContext> constraints, boolean pre) {
+	public void addConstraintChecks(OJOperation operation, Collection<INakedConstraint> constraints, boolean pre) {
 		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre);
 		if (pre) {
 			operation.getBody().getStatements().add(0, block);
@@ -42,7 +43,7 @@ public class ConstraintGenerator {
 		}
 	}
 
-	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<IOclContext> constraints, boolean pre) {
+	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<INakedConstraint> constraints, boolean pre) {
 		OJBlock result = new OJBlock();
 		// Assume that there could be a last statement to return a value
 		// use all the local fields
@@ -71,10 +72,10 @@ public class ConstraintGenerator {
 		context.addToImports("java.util.ArrayList");
 		context.addToImports("java.util.List");
 		int i = 0;
-		for (IOclContext post : constraints) {
+		for (INakedConstraint post : constraints) {
 			OJIfStatement ifBroken = new OJIfStatement();
-			if (!(post instanceof OclErrContextImpl)) {
-				ifBroken.setCondition("!" + expressionCreator.makeExpression(post.getExpression(), operation.isStatic(), parameters));
+			if (!(post.getSpecification().isValidOclValue())) {
+				ifBroken.setCondition("!" + expressionCreator.makeExpression(post.getSpecification().getOclValue().getExpression(), operation.isStatic(), parameters));
 				String qname = element.getPathName() + "::" + post.getName();
 				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
 				result.addToStatements(ifBroken);

@@ -46,8 +46,8 @@ public interface Resource extends EObject {
 	 * 
 	 *             Describe the resource target path. For example, if you want that 
 	 *             resource to appear in a specific package
-	 *             (&lt;code&gt;org.apache.maven.messages&lt;/code&gt;), you must specify this 
-	 *             element with this value: &lt;code&gt;org/apache/maven/messages&lt;/code&gt;.
+	 *             (<code>org.apache.maven.messages</code>), you must specify this 
+	 *             element with this value: <code>org/apache/maven/messages</code>.
 	 *             This is not required if you simply put the resources in that directory structure at the source, however.
 	 *           
 	 * <!-- end-model-doc -->
@@ -79,8 +79,8 @@ public interface Resource extends EObject {
 	 * 3.0.0+
 	 * 
 	 *             Whether resources are filtered to replace tokens with parameterised values or not.
-	 *             The values are taken from the &lt;code&gt;properties&lt;/code&gt; element and from the properties in the files listed
-	 *             in the &lt;code&gt;filters&lt;/code&gt; element.
+	 *             The values are taken from the <code>properties</code> element and from the properties in the files listed
+	 *             in the <code>filters</code> element.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Filtering</em>' attribute.
@@ -165,7 +165,7 @@ public interface Resource extends EObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 3.0.0+
-	 * A list of patterns to include, e.g. &lt;code&gt;**&amp;#47;*.xml&lt;/code&gt;.
+	 * A list of patterns to include, e.g. <code>**&#47;*.xml</code>.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Includes</em>' containment reference.
 	 * @see #setIncludes(IncludesType)
@@ -192,7 +192,7 @@ public interface Resource extends EObject {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 3.0.0+
-	 * A list of patterns to exclude, e.g. &lt;code&gt;**&amp;#47;*.xml&lt;/code&gt;
+	 * A list of patterns to exclude, e.g. <code>**&#47;*.xml</code>
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Excludes</em>' containment reference.
 	 * @see #setExcludes(ExcludesType)

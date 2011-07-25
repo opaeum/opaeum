@@ -5,7 +5,10 @@ import java.util.List;
 
 import net.sf.nakeduml.emf.workspace.UmlElementMap;
 
+import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -19,14 +22,25 @@ import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
 
 public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	UmlElementMap umlElementMap;
+	private IPath filePath;
+	public IPath getFilePath(){
+		return filePath;
+	}
 	public UmlElementMap getUmlElementMap(){
 		return umlElementMap;
 	}
 	@Override
 	protected EObject openFile(IFile file,boolean resolve){
+		this.filePath=file.getLocation().removeFileExtension().addFileExtension("uml");
 		EObject openFile = super.openFile(file, resolve);
 		getResourceSet().eAdapters().add(new NakedUmlElementLinker());
-		umlElementMap= new UmlElementMap(getResourceSet());
+		try{
+			umlElementMap= new UmlElementMap(getResourceSet());
+			umlElementMap.startSynchronizing(filePath.toFile());
+		}catch(Exception e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         IPreferenceStore ps = getPreferenceStore(file);
         if(ps!=null){
         	String filters = ps.getString(ModelerPreferenceConstants.FILTERS_PREF);
@@ -35,7 +49,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
         	}
     		ps.setValue(ModelerPreferenceConstants.CREATE_CHILD_MENU_PREF, NakedUmlEditorMenu.class.getName());
         }
-
+        
 		return openFile;
 	}
 	@Override

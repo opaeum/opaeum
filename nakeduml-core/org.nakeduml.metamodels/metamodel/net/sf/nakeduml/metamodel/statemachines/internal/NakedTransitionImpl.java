@@ -201,6 +201,9 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		if (this.guard != null) {
 			results.add(this.guard);
 		}
+		if(this.effect!=null){
+			results.add(this.effect);
+		}
 		return results;
 	}
 

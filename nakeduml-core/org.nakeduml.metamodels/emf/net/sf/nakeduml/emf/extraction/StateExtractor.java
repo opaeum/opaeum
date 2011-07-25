@@ -7,6 +7,7 @@ import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.StateKind;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedRegionImpl;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedStateImpl;
+import net.sf.nakeduml.metamodel.statemachines.internal.NakedStateMachineImpl;
 
 import org.eclipse.uml2.uml.FinalState;
 import org.eclipse.uml2.uml.Pseudostate;
@@ -18,9 +19,8 @@ import org.eclipse.uml2.uml.StateMachine;
 @StepDependency(phase = EmfExtractionPhase.class,requires = FeatureExtractor.class,after = FeatureExtractor.class)
 public class StateExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
-	public void visitStateMachine(StateMachine esm){
+	public void visitStateMachine(StateMachine esm, NakedStateMachineImpl nsm){
 		if(esm.getContext() != null && esm.equals(esm.getContext().getClassifierBehavior())){
-			INakedStateMachine nsm = (INakedStateMachine) getNakedPeer(esm);
 			INakedEntity ctx = (INakedEntity) getNakedPeer(esm.getContext());
 			ctx.setClassifierBehavior(nsm);
 		}

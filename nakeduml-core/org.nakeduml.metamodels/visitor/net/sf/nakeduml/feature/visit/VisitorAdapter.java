@@ -53,7 +53,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	 * @param peerClass
 	 * @return
 	 */
-	protected Object resolvePeer(NODE o,Class peerClass){
+	protected Object resolvePeer(NODE o,Class<?> peerClass){
 		throw new RuntimeException("not implemented");
 	}
 	public void startVisiting(ROOT root){
@@ -75,7 +75,10 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	protected void maybeVisit(NODE o,VisitSpec v){
 		if(v.matches(o)){
 			if(v.resolvePeer()){
-				v.visit(this, o, resolvePeer(o, v.getPeerClass()));
+				Object peer = resolvePeer(o, v.getPeerClass());
+				if(peer != null){
+					v.visit(this, o, peer);
+				}
 			}else{
 				v.visit(this, o);
 			}

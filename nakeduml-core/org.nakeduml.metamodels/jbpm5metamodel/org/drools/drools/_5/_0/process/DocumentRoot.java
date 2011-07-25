@@ -7,7 +7,9 @@
 package org.drools.drools._5._0.process;
 
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**

@@ -3,6 +3,7 @@ package org.nakeduml.uml2uim;
 import java.util.Collection;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.emf.workspace.UmlElementMap;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
@@ -32,8 +33,8 @@ import org.nakeduml.uim.util.UmlUimLinks;
 public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 	public FormFolderSynchronizer(){
 	}
-	public FormFolderSynchronizer(EmfWorkspace workspace,ResourceSet uimRst,boolean regenerate){
-		super(workspace, uimRst, regenerate);
+	public FormFolderSynchronizer(EmfWorkspace workspace,ResourceSet uimRst,boolean regenerate, UmlElementMap map){
+		super(workspace, uimRst, regenerate,map);
 	}
 	@VisitBefore
 	public void visitWorkspace(EmfWorkspace w){

@@ -22,13 +22,14 @@ import net.sf.nakeduml.metamodel.workspace.MappedType;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 
 @PhaseDependency(after = DetachmentPhase.class,before = {
 	LinkagePhase.class
 })
-public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf>{
+public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf,Element>{
 	public static final String MAPPINGS_EXTENSION = "mappings";
 	@InputModel(implementationClass = NakedModelWorkspaceImpl.class)
 	private INakedModelWorkspace modelWorkspace;
@@ -79,5 +80,15 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	}
 	private static String getIdFor(Package model){
 		return AbstractExtractorFromEmf.getId(model);
+	}
+	@Override
+	public Object processSingleElement(List<AbstractExtractorFromEmf> features,TransformationContext context,Element element){
+		for(AbstractExtractorFromEmf v:features){
+			v.initialize(modelWorkspace);
+		}
+		for(AbstractExtractorFromEmf v:features){
+			v.visitRecursively((Element) element);
+		}
+		return modelWorkspace.getModelElement(AbstractExtractorFromEmf.getId((EModelElement) element));
 	}
 }

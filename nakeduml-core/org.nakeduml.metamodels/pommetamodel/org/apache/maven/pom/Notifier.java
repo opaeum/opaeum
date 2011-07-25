@@ -320,7 +320,7 @@ public interface Notifier extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             &lt;b&gt;Deprecated&lt;/b&gt;. Where to send the notification to - eg email address.
+	 *             <b>Deprecated</b>. Where to send the notification to - eg email address.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Address</em>' attribute.

@@ -99,7 +99,7 @@ public interface Repository extends EObject {
 	 * 4.0.0
 	 * 
 	 *             A unique identifier for a repository. This is used to match the repository to configuration in
-	 *             the &lt;code&gt;settings.xml&lt;/code&gt; file, for example.
+	 *             the <code>settings.xml</code> file, for example.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
@@ -157,7 +157,7 @@ public interface Repository extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *              The url of the repository, in the form &lt;code&gt;protocol://hostname/path&lt;/code&gt;.
+	 *              The url of the repository, in the form <code>protocol://hostname/path</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Url</em>' attribute.
@@ -187,8 +187,8 @@ public interface Repository extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The type of layout this repository uses for locating and storing artifacts - can be &lt;code&gt;legacy&lt;/code&gt; or
-	 *             &lt;code&gt;default&lt;/code&gt;.
+	 *             The type of layout this repository uses for locating and storing artifacts - can be <code>legacy</code> or
+	 *             <code>default</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Layout</em>' attribute.

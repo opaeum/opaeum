@@ -282,6 +282,9 @@ public class GraphicsBridge extends java.awt.Graphics{
 			encoder.encode(bi);
 			org.eclipse.swt.graphics.Image swtImage = new org.eclipse.swt.graphics.Image(Workbench.getInstance().getDisplay(), new ByteArrayInputStream(os.toByteArray()));
 			g.drawImage(swtImage, x, y);
+		}catch(IOException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}catch(ImageFormatException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();

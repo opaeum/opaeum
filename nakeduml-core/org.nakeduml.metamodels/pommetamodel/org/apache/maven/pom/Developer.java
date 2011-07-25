@@ -210,7 +210,7 @@ public interface Developer extends EObject {
 	 * 3.0.0+
 	 * 
 	 *             The roles the contributor plays in the project.  Each role is
-	 *             described by a &lt;code&gt;role&lt;/code&gt; element, the body of which is a
+	 *             described by a <code>role</code> element, the body of which is a
 	 *             role name. This can also be used to describe the contribution.
 	 *           
 	 * <!-- end-model-doc -->

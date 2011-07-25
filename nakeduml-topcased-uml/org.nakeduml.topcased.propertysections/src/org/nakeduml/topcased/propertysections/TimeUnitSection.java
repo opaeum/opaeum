@@ -49,7 +49,7 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 				UMLEditor ue = (UMLEditor) e;
 				EList<Resource> resources = ue.getResourceSet().getResources();
 				for(Resource r:resources){
-					if(r.getURI().toString().contains("NakedUMLProfile")){
+					if(r.getURI().toString().contains("NakedUMLProfile.")){
 						p = (Profile) r.getContents().get(0);
 						break;
 					}

@@ -4,6 +4,7 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public interface INakedValueSpecification extends INakedElement {
+	String getUuid();
 	boolean isLiteral();
 	boolean isOclValue();
 	boolean isValidOclValue();

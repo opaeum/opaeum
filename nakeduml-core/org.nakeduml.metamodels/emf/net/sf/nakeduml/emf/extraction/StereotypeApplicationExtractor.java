@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.internal.NakedCommentImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedInstanceSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedSlotImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
@@ -26,7 +27,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EEnumLiteralImpl;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
@@ -48,9 +48,9 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	public void visitContextualEvent(Trigger t){
 		if(t.getEvent() instanceof TimeEvent && super.isDeadline((TimeEvent) t.getEvent())){
 			// Do nothing - normal stereotype application logic will work
-		}else{
+		}else if(t.getEvent()!=null){
 			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the correct
-			// naked element
+			// naked originalElement
 			INakedContextualEvent nakedPeer = (INakedContextualEvent) nakedWorkspace.getModelElement(getEventId(t));
 			if(nakedPeer != null){
 				addStereotypes(nakedPeer, t.getEvent());
@@ -60,11 +60,12 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
-		INakedElement nakedPeer = getNakedPeer(element);
+		 NakedElementImpl nakedPeer=(NakedElementImpl) getNakedPeer(element);
 		if(element instanceof Comment){
 			visitComment((Comment) element);
 		}
 		if(nakedPeer != null){
+			//Some element may not be supported by NakedUML
 			addStereotypes(nakedPeer, element);
 			addKeywords(nakedPeer, element);
 		}
@@ -148,14 +149,14 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 						if(slot.getDefiningFeature().getNakedBaseType() instanceof INakedEnumeration){
 							INakedEnumeration ne = (INakedEnumeration) slot.getDefiningFeature().getNakedBaseType();
 							valueSpec.setValue(ne.lookupLiteral(((EEnumLiteral) value).getLiteral()));
-							// Note that it is NOT an element reference. These enum literals
+							// Note that it is NOT an originalElement reference. These enum literals
 							// come from the profile, not
 							// the model
 						}else{
 							valueSpec.setValue(((EEnumLiteral) value).getLiteral());
 						}
 					}else{
-						// resolve later to the actual element in the model that this refers
+						// resolve later to the actual originalElement in the model that this refers
 						// to
 						valueSpec.setValueId(valueId);
 					}

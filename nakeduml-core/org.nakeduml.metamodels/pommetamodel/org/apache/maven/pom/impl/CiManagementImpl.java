@@ -9,10 +9,13 @@ package org.apache.maven.pom.impl;
 import org.apache.maven.pom.CiManagement;
 import org.apache.maven.pom.NotifiersType;
 import org.apache.maven.pom.POMPackage;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 

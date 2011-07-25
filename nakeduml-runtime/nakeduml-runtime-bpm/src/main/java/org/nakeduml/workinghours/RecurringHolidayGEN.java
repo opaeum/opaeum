@@ -59,7 +59,7 @@ abstract public class RecurringHolidayGEN implements CompositionNode, IPersisten
 	/**
 	 * Implements the setter for feature '+ month : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setMonth(int element) {
 		if (this.f_month != element) {
@@ -75,7 +75,7 @@ abstract public class RecurringHolidayGEN implements CompositionNode, IPersisten
 	/**
 	 * Implements the setter for feature '+ dayOfMonth : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setDayOfMonth(int element) {
 		if (this.f_dayOfMonth != element) {
@@ -91,7 +91,7 @@ abstract public class RecurringHolidayGEN implements CompositionNode, IPersisten
 	/**
 	 * Implements the setter for feature '+ name : String'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setName(String element) {
 		if (this.f_name != element) {
@@ -113,7 +113,7 @@ abstract public class RecurringHolidayGEN implements CompositionNode, IPersisten
 	/**
 	 * Implements the setter of association end workingHoursConfiguration
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setWorkingHoursConfiguration(WorkingHoursConfiguration element) {
 		if (this.f_workingHoursConfiguration != element) {
@@ -134,18 +134,18 @@ abstract public class RecurringHolidayGEN implements CompositionNode, IPersisten
 	}
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link for + workingHoursConfiguration :
-	 * WorkingHoursConfiguration when a single element is added to it.
+	 * WorkingHoursConfiguration when a single originalElement is added to it.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalAddToWorkingHoursConfiguration(WorkingHoursConfiguration element) {
 		this.f_workingHoursConfiguration = element;
 	}
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link for + workingHoursConfiguration :
-	 * WorkingHoursConfiguration when a single element is removed to it.
+	 * WorkingHoursConfiguration when a single originalElement is removed to it.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalRemoveFromWorkingHoursConfiguration(WorkingHoursConfiguration element) {
 		this.f_workingHoursConfiguration = null;

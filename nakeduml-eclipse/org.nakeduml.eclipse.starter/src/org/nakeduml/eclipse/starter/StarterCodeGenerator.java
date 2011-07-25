@@ -11,6 +11,7 @@ import net.sf.nakeduml.emf.workspace.UriResolver;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
+import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.pomgeneration.MavenProjectCodeGenerator;
@@ -122,7 +123,7 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicSteps(){
 		return toSet(PersistenceUsingHibernateStep.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
-				BpmUsingJbpm5.class, PersistenceUsingHibernate.class, IntegrationTests.class, FormSynchronizer.class);
+				BpmUsingJbpm5.class, PersistenceUsingHibernate.class, IntegrationTests.class, FormSynchronizer.class, ProcessStepResolverImplementor.class);
 	}
 	@Override
 	protected Set<Class<? extends TransformationStep>> getIntegrationSteps(){
@@ -133,8 +134,8 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 		return basicIntegrationSteps;
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicIntegrationSteps(){
-		return toSet(ModelCopyStep.class,HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class, IntegrationTestsAcrossMultipleModels.class,
-				WarBootstrapStep.class);
+		return toSet(ModelCopyStep.class, HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class,
+				IntegrationTestsAcrossMultipleModels.class, WarBootstrapStep.class);
 	}
 	public File getOutputRoot(){
 		return cfg.getOutputRoot();

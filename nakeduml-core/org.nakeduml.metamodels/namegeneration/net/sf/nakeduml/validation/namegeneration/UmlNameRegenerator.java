@@ -36,7 +36,7 @@ import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.model.IAssociationEnd;
 
 /**
- * Regenerates and sets the (UML) name of an element. Also sets the name and
+ * Regenerates and sets the (UML) name of an originalElement. Also sets the name and
  * qualifiedUmlName on the elements mapping info
  * 
  */

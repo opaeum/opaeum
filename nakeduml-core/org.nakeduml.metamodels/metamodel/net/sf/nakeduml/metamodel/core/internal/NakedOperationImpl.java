@@ -21,7 +21,6 @@ import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.VisibilityKind;
-import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOperation{
@@ -33,8 +32,8 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private List<INakedParameter> argumentParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> resultParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> exceptionParameters = new ArrayList<INakedParameter>();
-	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
-	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
+	private Collection<INakedConstraint> preConditions = new ArrayList<INakedConstraint>();
+	private Collection<INakedConstraint> postConditions = new ArrayList<INakedConstraint>();
 	private INakedParameter returnParameter;
 	private INakedConstraint bodyCondition;
 	private boolean hasClassScope;
@@ -101,15 +100,6 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
-		if(element instanceof INakedParameter){
-			INakedParameter p = (INakedParameter) element;
-			if(p.isReturn()){
-				this.returnParameter = p;
-			}
-			ParameterUtil.addParameterTolist(p, p.getArgumentIndex(), this.argumentParameters);
-			ParameterUtil.addParameterTolist(p, p.getExceptionIndex(), this.exceptionParameters);
-			ParameterUtil.addParameterTolist(p, p.getResultIndex(), this.resultParameters);
-		}
 	}
 	public INakedParameter getReturnParameter(){
 		return this.returnParameter;
@@ -163,20 +153,17 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	public void setQuery(boolean b){
 		this.isQuery = b;
 	}
-	public Collection<IOclContext> getPostConditions(){
+	public Collection<INakedConstraint> getPostConditions(){
 		return postConditions;
 	}
-	public void setPostConditions(Collection<IOclContext> posConditions){
+	public void setPostConditions(Collection<INakedConstraint> posConditions){
 		this.postConditions = posConditions;
 	}
-	public Collection<IOclContext> getPreConditions(){
+	public Collection<INakedConstraint> getPreConditions(){
 		return preConditions;
 	}
-	public void setPreConditions(Collection<IOclContext> preConditions){
+	public void setPreConditions(Collection<INakedConstraint> preConditions){
 		this.preConditions = preConditions;
-	}
-	public IOclContext getBodyExpression(){
-		return this.getBodyCondition().getSpecification().getOclValue();
 	}
 	public void setStatic(boolean b){
 		this.hasClassScope = b;
@@ -201,10 +188,10 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	public boolean isOclDef(){
 		return this.isOclDef;
 	}
-	public void addPostCondition(IOclContext pc){
+	public void addPostCondition(INakedConstraint pc){
 		this.getPostConditions().add(pc);
 	}
-	public void addPreCondition(IOclContext pc){
+	public void addPreCondition(INakedConstraint pc){
 		this.getPreConditions().add(pc);
 	}
 	public void setIsOclDef(boolean b){
@@ -227,5 +214,24 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 			this.messageStructure = new OperationMessageStructureImpl(this, lib);
 		}
 		return messageStructure;
+	}
+	@Override
+	public void recalculateParameterPositions(){
+		this.argumentParameters.clear();
+		this.exceptionParameters.clear();
+		this.resultParameters.clear();
+		for(INakedElement e:getOwnedElements()){
+			if(e instanceof INakedParameter){
+				INakedParameter p = (INakedParameter) e;
+				if(p.isReturn()){
+					this.returnParameter = p;
+				}
+				ParameterUtil.addParameterTolist(p, p.getArgumentIndex(), this.argumentParameters);
+				ParameterUtil.addParameterTolist(p, p.getExceptionIndex(), this.exceptionParameters);
+				ParameterUtil.addParameterTolist(p, p.getResultIndex(), this.resultParameters);
+			}
+
+			
+		}
 	}
 }

@@ -38,7 +38,7 @@ public interface CiManagement extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The name of the continuous integration system, e.g. &lt;code&gt;continuum&lt;/code&gt;.
+	 *             The name of the continuous integration system, e.g. <code>continuum</code>.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>System</em>' attribute.
 	 * @see #setSystem(String)

@@ -59,7 +59,7 @@ abstract public class HolidayGEN implements IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ name : String'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setName(String element){
 		if(this.f_name != element){
@@ -75,7 +75,7 @@ abstract public class HolidayGEN implements IPersistentObject{
 	/**
 	 * Implements the setter for feature '+ date : Date'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setDate(Date element){
 		if(this.f_date != element){
@@ -97,7 +97,7 @@ abstract public class HolidayGEN implements IPersistentObject{
 	/**
 	 * Implements the setter of association end workingHoursConfiguration
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setWorkingHoursConfiguration(WorkingHoursConfiguration element){
 		if(this.f_workingHoursConfiguration != element){
@@ -118,18 +118,18 @@ abstract public class HolidayGEN implements IPersistentObject{
 	}
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link for + workingHoursConfiguration : WorkingHoursConfiguration
-	 * when a single element is added to it.
+	 * when a single originalElement is added to it.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalAddToWorkingHoursConfiguration(WorkingHoursConfiguration element){
 		this.f_workingHoursConfiguration = element;
 	}
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link for + workingHoursConfiguration : WorkingHoursConfiguration
-	 * when a single element is removed to it.
+	 * when a single originalElement is removed to it.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalRemoveFromWorkingHoursConfiguration(WorkingHoursConfiguration element){
 		this.f_workingHoursConfiguration = null;

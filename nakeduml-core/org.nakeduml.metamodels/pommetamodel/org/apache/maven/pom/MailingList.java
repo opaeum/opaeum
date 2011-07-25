@@ -74,7 +74,7 @@ public interface MailingList extends EObject {
 	 * 
 	 *             The email address or link that can be used to subscribe to the mailing list.
 	 *             If this is an email address, a
-	 *             &lt;code&gt;mailto:&lt;/code&gt; link will automatically be created when
+	 *             <code>mailto:</code> link will automatically be created when
 	 *             the documentation is created.
 	 *           
 	 * <!-- end-model-doc -->
@@ -106,7 +106,7 @@ public interface MailingList extends EObject {
 	 * 
 	 *             The email address or link that can be used to unsubscribe to
 	 *             the mailing list.  If this is an email address, a
-	 *             &lt;code&gt;mailto:&lt;/code&gt; link will automatically be created
+	 *             <code>mailto:</code> link will automatically be created
 	 *             when the documentation is created.
 	 *           
 	 * <!-- end-model-doc -->
@@ -138,7 +138,7 @@ public interface MailingList extends EObject {
 	 * 
 	 *             The email address or link that can be used to post to
 	 *             the mailing list.  If this is an email address, a
-	 *             &lt;code&gt;mailto:&lt;/code&gt; link will automatically be created
+	 *             <code>mailto:</code> link will automatically be created
 	 *             when the documentation is created.
 	 *           
 	 * <!-- end-model-doc -->

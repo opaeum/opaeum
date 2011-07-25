@@ -3,6 +3,8 @@ package net.sf.nakeduml.metamodel.validation;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.model.IModelElement;
 
 public class ErrorMap {
@@ -10,46 +12,29 @@ public class ErrorMap {
 		super();
 	}
 
-	private Map<IModelElement, Object> modelElementMap = new HashMap<IModelElement, Object>();
-	/**
-	 * Maps source objects (EMF, JMI) to their associated errors through the
-	 * BrokenElement class
-	 */
-	private Map<Object, BrokenElement> errors = new HashMap<Object, BrokenElement>();
+	private Map<String, BrokenElement> errors = new HashMap<String, BrokenElement>();
 
-	public Map<Object, BrokenElement> getErrors() {
+	public Map<String, BrokenElement> getErrors() {
 		return errors;
 	}
 
-	public void putError(IModelElement holder, IValidationRule rule, Object... objects) {
+	public void putError( INakedElement holder, IValidationRule rule, Object... objects) {
+		if(holder instanceof INakedEvent){
+			getErrorListFor((INakedElement) holder.getOwnerElement()).addMessage(rule, objects);
+		}
 		getErrorListFor(holder).addMessage(rule, objects);
 	}
 
-	private BrokenElement getErrorListFor(IModelElement holder) {
-		Object originalElement = getOriginalElement(holder);
-		BrokenElement list = this.errors.get(originalElement);
+	private BrokenElement getErrorListFor(INakedElement holder) {
+ 		BrokenElement list = this.errors.get(holder.getId());
 		if (list == null) {
 			list = new BrokenElement();
-			this.errors.put(originalElement, list);
+			this.errors.put(holder.getId(), list);
 		}
 		return list;
 	}
 
-	private Object getOriginalElement(IModelElement holder) {
-		return this.modelElementMap.get(holder);
-	}
 
-	public void attachElement(IModelElement orig, IModelElement attached) {
-		this.modelElementMap.put(attached, this.modelElementMap.get(orig));
-	}
-
-	public Object getSourceElement(IModelElement me) {
-		return modelElementMap.get(me);
-	}
-
-	public void linkElement(IModelElement attached, Object orig) {
-		this.modelElementMap.put(attached, orig);
-	}
 
 	public boolean hasBroken(IValidationRule rule, Object target) {
 		BrokenElement e = errors.get(target);
@@ -61,7 +46,6 @@ public class ErrorMap {
 	}
 
 	public void clear() {
-		this.modelElementMap.clear();
 		this.errors.clear();
 	}
 }

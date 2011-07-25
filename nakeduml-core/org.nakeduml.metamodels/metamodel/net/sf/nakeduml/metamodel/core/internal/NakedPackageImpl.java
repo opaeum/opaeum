@@ -163,9 +163,11 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 						// ((INakedClassifier) elem).addInvariant(cont);
 					} else {
 						if (type == OclUsageType.PRE) {
-							((INakedOperation) elem).addPreCondition(cont);
+							// TODO add artificial constraint to ownedRules
+//							((INakedOperation) elem).addPreCondition(cont);
 						} else if (type == OclUsageType.POST) {
-							((INakedOperation) elem).addPostCondition(cont);
+							// TODO add artificial constraint to ownedRules
+//							((INakedOperation) elem).addPostCondition(cont);
 						} else if (type == OclUsageType.BODY) {
 							// TODO set bodyExpression with artificial
 							// constraint

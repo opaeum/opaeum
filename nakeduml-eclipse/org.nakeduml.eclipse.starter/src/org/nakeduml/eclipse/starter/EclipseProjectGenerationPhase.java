@@ -8,12 +8,13 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 @PhaseDependency(before={FileGenerationPhase.class})
-public class EclipseProjectGenerationPhase implements TransformationPhase<EclipseProjectGenerationStep>{
+public class EclipseProjectGenerationPhase implements TransformationPhase<EclipseProjectGenerationStep,TextOutputNode>{
 	IWorkspaceRoot workspaceRoot;
 	@InputModel
 	TextWorkspace textWorkspace;
@@ -30,5 +31,13 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 			step.startVisiting(textWorkspace);
 		}
 		return new Object[]{workspaceRoot};
+	}
+	@Override
+	public Object processSingleElement(List<EclipseProjectGenerationStep> features,TransformationContext context,TextOutputNode element){
+		for(EclipseProjectGenerationStep step:features){
+			step.initialize(workspaceRoot, config);
+			step.visitRecursively(element);
+		}
+		return element;
 	}
 }

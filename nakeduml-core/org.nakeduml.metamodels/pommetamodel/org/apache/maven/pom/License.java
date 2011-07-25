@@ -99,12 +99,12 @@ public interface License extends EObject {
 	 * 3.0.0+
 	 * 
 	 *               The primary method by which this project may be distributed.
-	 *             &lt;dl&gt;
-	 *               &lt;dt&gt;repo&lt;/dt&gt;
-	 *               &lt;dd&gt;may be downloaded from the Maven repository&lt;/dd&gt;
-	 *               &lt;dt&gt;manual&lt;/dt&gt;
-	 *               &lt;dd&gt;user must manually download and install the dependency.&lt;/dd&gt;
-	 *             &lt;/dl&gt;
+	 *             <dl>
+	 *               <dt>repo</dt>
+	 *               <dd>may be downloaded from the Maven repository</dd>
+	 *               <dt>manual</dt>
+	 *               <dd>user must manually download and install the dependency.</dd>
+	 *             </dl>
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Distribution</em>' attribute.

@@ -52,7 +52,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 			INakedElement clash = this.allElementsByModelId.get(mw.getId());
 			String msg = mw.getMetaClass() + ":" + mw.getName() + " already exists:" + clash;
 			System.out.println(msg);
-			throw new IllegalArgumentException(msg);
+//			throw new IllegalArgumentException(msg);
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
 		IMappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());

@@ -18,7 +18,7 @@ public class ClassFormDiagramEditPart extends DiagramEditPart{
 	 * The Constructor
 	 * 
 	 * @param model
-	 *            the root model element
+	 *            the root model originalElement
 	 * @generated
 	 */
 	public ClassFormDiagramEditPart(Diagram model){

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.uml2.uml.Activity;
+
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
@@ -25,17 +28,20 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedContextualEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.IModifiableTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
@@ -54,6 +60,7 @@ import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
+import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -75,7 +82,25 @@ import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 		EnumerationValuesAttributeAdder.class
 })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
+	
 	EnvironmentFactory environmentFactory;
+	@Override
+	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
+		if(root instanceof INakedActivity){
+			System.out.println("ACtivity:"+((INakedActivity) root).getUuid());
+		}
+		Collection<? extends INakedElementOwner> children = super.getChildren(root);
+		if(root instanceof INakedTrigger){
+			INakedTrigger a=(INakedTrigger) root;
+			System.out.println("Trigger:"+a.getUuid());
+//			System.out.println("Owner:"+a.getOwnerElement().get());
+
+		}
+		if(root instanceof INakedAcceptEventAction){
+			INakedElement a=(INakedElement) root;
+		}
+		return children;
+	}
 	@Override
 	public void initialize(INakedModelWorkspace workspace,NakedUmlConfig config){
 		super.initialize(workspace, config);
@@ -91,7 +116,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(s.getValue() instanceof ParsedOclString){
 				ParsedOclString string = (ParsedOclString) s.getValue();
 				INakedClassifier context = slot.getOwningInstance().getClassifier();
-				string.setContext(context, context);
+				string.setContext(context, s);
 				Environment env = environmentFactory.createSelflessEnvironment(context);
 				s.setValue(replaceSingleParsedOclString(string, context, s.getType(), env));
 			}
@@ -101,7 +126,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	public void visitGuardedFlow(GuardedFlow edge){
 		if(edge.getGuard() != null && edge.getGuard().getValue() instanceof ParsedOclString){
 			ParsedOclString string = (ParsedOclString) edge.getGuard().getValue();
-			string.setContext(edge.getOwningBehavior(), edge.getOwningBehavior());
+			string.setContext(edge.getOwningBehavior(), edge.getGuard());
 			IClassifier booleanType = getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			INakedBehavior owningBehavior = edge.getOwningBehavior();
 			Environment env;
@@ -141,9 +166,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	public void visitProperty(INakedProperty attr){
 		INakedClassifier c = attr.getOwner();
 		INakedValueSpecification iv = attr.getInitialValue();
-		if(iv != null && iv.isOclValue()){
+		if(iv != null && iv.getValue() instanceof ParsedOclString){
 			ParsedOclString oclValue = (ParsedOclString) iv.getOclValue();
-			oclValue.setContext(c, attr);
+			oclValue.setContext(c, iv);
 			Environment env = environmentFactory.createClassifierEnvironment(c);
 			iv.setValue(replaceSingleParsedOclString(oclValue, c, attr.getType(), env));
 			if(iv.isValidOclValue()){
@@ -153,11 +178,22 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClassifier(INakedClassifier nc){
-		Environment env = environmentFactory.createClassifierEnvironment(nc);
+		if(nc instanceof INakedBehavior){
+			INakedBehavior b = (INakedBehavior) nc;
+			if(BehaviorUtil.hasExecutionInstance(b)){
+				Environment env = environmentFactory.createBehaviorEnvironment(b);
+				implementOwnedRules(nc, env);
+			}
+		}else{
+			Environment env = environmentFactory.createClassifierEnvironment(nc);
+			implementOwnedRules(nc, env);
+		}
+	}
+	private void implementOwnedRules(INakedClassifier nc,Environment env){
 		for(INakedConstraint cont:nc.getOwnedRules()){
-			if(cont.getSpecification().isOclValue() && cont.getSpecification().getOclValue() instanceof ParsedOclString){
+			if(cont.getSpecification().getOclValue() instanceof ParsedOclString){
 				ParsedOclString holder = (ParsedOclString) cont.getSpecification().getOclValue();
-				holder.setContext(nc, nc);
+				holder.setContext(nc, cont);
 				IClassifier basicType = StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName);
 				if(cont.getConstrainedElement() instanceof INakedProperty){
 					basicType = getOclLibrary().lookupCollectionType(CollectionMetaType.SET, ((INakedProperty) cont.getConstrainedElement()).getBaseType());
@@ -165,8 +201,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				cont.getSpecification().setValue(replaceSingleParsedOclString(holder, nc, basicType, env));
 			}
 		}
-		List<IOclContext> loopResults = new ArrayList<IOclContext>(replaceParsedOclConstraints(nc, nc.getDefinitions(), env));
-		nc.setDefinitions(loopResults);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitContextualEvent(INakedContextualEvent ev){
@@ -174,6 +208,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(ev instanceof INakedTimeEvent){
 			INakedTimeEvent te = (INakedTimeEvent) ev;
 			w = te.getWhen();
+			System.out.println("VS:" +w.getUuid());
 			if(te.isRelative()){
 				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			}else{
@@ -191,7 +226,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				env = environmentFactory.createActivityEnvironment(ev, (INakedActivity) ev.getBehaviorContext());
 			}
 			ParsedOclString value = (ParsedOclString) w.getValue();
-			value.setContext(ev.getBehaviorContext(), ev.getBehaviorContext());
+			value.setContext(ev.getBehaviorContext(), ev);
 			w.setValue(replaceSingleParsedOclString(value, ev.getBehaviorContext(), w.getType(), env));
 		}
 	}
@@ -202,7 +237,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(BehaviorUtil.hasExecutionInstance(op)){
 			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure(workspace.getNakedUmlLibrary()));
 			replacePreAndBodyConditions(op, owner, env);
-			op.setPostConditions(replaceParsedOclConstraints(owner, op.getPostConditions(), env));
+			replaceParsedOclConstraints(owner, op.getPostConditions(), env);
 			if(op instanceof INakedResponsibility){
 				popuateDefinedResponsibility(owner, env, (INakedDefinedResponsibility) op);
 			}
@@ -210,16 +245,16 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			env = environmentFactory.createPreEnvironment(op);
 			replacePreAndBodyConditions(op, owner, env);
 			environmentFactory.addPostEnvironment(env, op);
-			op.setPostConditions(replaceParsedOclConstraints(owner, op.getPostConditions(), env));
+			replaceParsedOclConstraints(owner, op.getPostConditions(), env);
 		}
 	}
 	private void replacePreAndBodyConditions(INakedOperation op,INakedClassifier owner,Environment env){
-		op.setPreConditions(replaceParsedOclConstraints(owner, op.getPreConditions(), env));
+		replaceParsedOclConstraints(owner, op.getPreConditions(), env);
 		if(op.getBodyCondition() != null && op.getBodyCondition().getSpecification() != null
 				&& op.getBodyCondition().getSpecification().getValue() instanceof ParsedOclString){
 			INakedValueSpecification bodyCondition = op.getBodyCondition().getSpecification();
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
-			bodyExpression.setContext(owner, op);
+			bodyExpression.setContext(owner, op.getBodyCondition());
 			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env));
 			bodyCondition.setType(op.getReturnType());
 			IOclContext ocl = replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env);
@@ -233,7 +268,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	private void replaceParticipants(INakedElement element,INakedClassifier owner,INakedValueSpecification bodyCondition,Environment env){
 		if(bodyCondition != null && bodyCondition.getOclValue() instanceof ParsedOclString){
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
-			bodyExpression.setContext(owner, element);
+			bodyExpression.setContext(owner, bodyCondition);
 			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, null, env));// TODO expect the user type
 		}
 	}
@@ -244,11 +279,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			ctx = BehaviorUtil.getNearestActualClass(b);
 		}
 		Environment env = environmentFactory.createBehaviorEnvironment(b);
-		b.setPreConditions(replaceParsedOclConstraints(ctx, b.getPreConditions(), env));
+		replaceParsedOclConstraints(ctx, b.getPreConditions(), env);
 		if(!BehaviorUtil.hasExecutionInstance(b)){
 			environmentFactory.addPostEnvironment(env, b);
 		}
-		b.setPostConditions(replaceParsedOclConstraints(ctx, b.getPostConditions(), env));
+		replaceParsedOclConstraints(ctx, b.getPostConditions(), env);
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitAction(INakedAction a){
@@ -259,7 +294,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			ctx = BehaviorUtil.getNearestActualClass(a);
 		}
 		Environment inside = environmentFactory.createPreEnvironment(ctx, a);
-		a.setPreConditions(replaceParsedOclConstraints(ctx, a.getPreConditions(), inside));
+		replaceParsedOclConstraints(ctx, a.getPreConditions(), inside);
 		if(a instanceof INakedOclAction){
 			INakedOclAction oa = (INakedOclAction) a;
 			if(oa.getReturnPin() != null && oa.getBodyExpression() != null){
@@ -286,7 +321,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			popuateDefinedResponsibility(activity, outsideAndInside, (INakedEmbeddedTask) a);
 		}
 		environmentFactory.addPostEnvironment(inside, a);
-		a.setPostConditions(replaceParsedOclConstraints(ctx, a.getPostConditions(), inside));
+		replaceParsedOclConstraints(ctx, a.getPostConditions(), inside);
 	}
 	private void popuateDefinedResponsibility(INakedClassifier owner,Environment outside,INakedDefinedResponsibility e){
 		INakedResponsibilityDefinition taskDefinition = e.getTaskDefinition();
@@ -302,7 +337,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			}
 			if(w != null && w.getValue() instanceof ParsedOclString){
 				ParsedOclString value = (ParsedOclString) w.getValue();
-				value.setContext(owner, owner);
+				value.setContext(owner, d);
 				w.setValue(replaceSingleParsedOclString(value, owner, w.getType(), outside));
 			}
 		}
@@ -344,13 +379,14 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
 		}else if(type instanceof ICollectionType){
 			ICollectionType collectionType = (ICollectionType) type;
-			if(collectionType.getElementType() instanceof INakedClassifier && (pin.getNakedBaseType()==null || !collectionType.getElementType().conformsTo(pin.getNakedBaseType()))){
+			if(collectionType.getElementType() instanceof INakedClassifier
+					&& (pin.getNakedBaseType() == null || !collectionType.getElementType().conformsTo(pin.getNakedBaseType()))){
 				pin.setBaseType((INakedClassifier) collectionType.getElementType());
 			}
 			pin.setType(getOclLibrary().lookupCollectionType(collectionType.getMetaType(), pin.getNakedBaseType()));
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), Integer.MAX_VALUE));
-			pin.setIsOrdered(collectionType.getMetaType()==CollectionMetaType.SEQUENCE||collectionType.getMetaType()==CollectionMetaType.ORDEREDSET);
-			pin.setIsUnique(collectionType.getMetaType()==CollectionMetaType.SET||collectionType.getMetaType()==CollectionMetaType.ORDEREDSET);
+			pin.setIsOrdered(collectionType.getMetaType() == CollectionMetaType.SEQUENCE || collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
+			pin.setIsUnique(collectionType.getMetaType() == CollectionMetaType.SET || collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
 		}else if(type instanceof StdlibPrimitiveType){
 			StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
 			pin.setBaseType(getBuiltInTypes().lookupStandardType(standardType));
@@ -358,19 +394,19 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	private void resolvePinOcl(INakedValuePin pin){
 		ParsedOclString string = (ParsedOclString) pin.getValue().getValue();
-		string.setContext(pin.getActivity(), pin.getActivity());
+		string.setContext(pin.getActivity(), pin.getValue());
 		Environment env = environmentFactory.createActivityEnvironment(pin, pin.getActivity());
 		pin.getValue().setValue(replaceSingleParsedOclString(string, pin.getActivity(), pin.getType(), env));
 	}
-	private Collection<IOclContext> replaceParsedOclConstraints(INakedClassifier c,Collection<? extends IOclContext> invs,Environment env){
-		Collection<IOclContext> loopResults = new ArrayList<IOclContext>();
-		for(IOclContext cont:invs){
-			if(cont instanceof ParsedOclString){
-				ParsedOclString holder = (ParsedOclString) cont;
-				loopResults.add(replaceSingleParsedOclString(holder, c, StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName), env));
+	private void replaceParsedOclConstraints(INakedClassifier c,Collection<? extends INakedConstraint> invs,Environment env){
+		for(INakedConstraint cont:invs){
+			
+			INakedValueSpecification spec = cont.getSpecification();
+			if(spec.getValue() instanceof ParsedOclString){
+				ParsedOclString holder = (ParsedOclString) spec.getValue();
+				spec.setValue(replaceSingleParsedOclString(holder, c, StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName), env));
 			}
 		}
-		return loopResults;
 	}
 	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
 		INakedNameSpace ns = c.getNameSpace();
@@ -383,7 +419,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		java.io.Reader r = new java.io.BufferedReader(sr);
 		OclParser parser = new OclParser(r);
 		try{
-			if(getBuiltInTypes().getBusinessRole()!=null){
+			if(getBuiltInTypes().getBusinessRole() != null){
 				env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getBusinessRole()), false);
 			}
 			ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
@@ -399,7 +435,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 					// be lenient with multiplicity - will likely be corrected automatically
 				}
 				if(!expressionType.conformsTo(expectedType)){
-					this.getErrorMap().putError(holder, CoreValidationRule.OCL,
+					this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
 							"Return value of type " + expectedType.getName() + " expected, but the expression returns a value of type " + expressionType.getName());
 				}
 			}
@@ -407,7 +443,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}catch(AnalysisException e){
 			System.out.println(holder.getExpressionString());
 			e.printStackTrace(System.out);
-			this.getErrorMap().putError(holder, CoreValidationRule.OCL, e.getError().getErrorMessage());
+			this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, e.getError().getErrorMessage());
 			OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 			errCtx.setExpressionString(holder.getExpressionString());
 			return errCtx;
@@ -427,7 +463,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}
 	}
 	private void putError(ParsedOclString holder,Exception e){
-		this.getErrorMap().putError(holder, CoreValidationRule.OCL, e.toString());
+		this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, e.toString());
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();
@@ -459,7 +495,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	private void putErrors(ParsedOclString holder,List<IOclError> localErrors){
 		for(IOclError oe:localErrors){
-			this.getErrorMap().putError(holder, CoreValidationRule.OCL, oe.getErrorMessage());
+			this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, oe.getErrorMessage());
 		}
 	}
 }

@@ -15,9 +15,7 @@ import org.eclipse.uml2.uml.Connector;
 @StepDependency(phase = EmfExtractionPhase.class,requires = ConnectorEndExtractor.class,after = ConnectorEndExtractor.class)
 public class ConnectorExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore(matchSubclasses = true)
-	public void visitConnector(Connector c){
-		NakedConnectorImpl nce = new NakedConnectorImpl();
-		initialize(nce, c, c.getOwner());
+	public void visitConnector(Connector c,NakedConnectorImpl nce ){
 		nce.setEnd1((INakedConnectorEnd) getNakedPeer(c.getEnds().get(0)));
 		nce.setEnd2((INakedConnectorEnd) getNakedPeer(c.getEnds().get(1)));
 		switch(c.getKind()){

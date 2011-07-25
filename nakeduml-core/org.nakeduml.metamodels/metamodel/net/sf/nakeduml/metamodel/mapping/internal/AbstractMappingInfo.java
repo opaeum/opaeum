@@ -35,7 +35,7 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 	private transient NameWrapper javaName;
 	private transient NameWrapper sqlName;
 	/**
-	 * Calculates whether this element should be added to the database 1. For this revision given the currently deployed revision in the
+	 * Calculates whether this originalElement should be added to the database 1. For this revision given the currently deployed revision in the
 	 * database 2. For this version, given the currently deployed version in the database
 	 * 
 	 * @param deployedVersion

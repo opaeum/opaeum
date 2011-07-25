@@ -45,7 +45,6 @@ public class EmfWorkspace implements Element{
 	private URI directoryUri;
 	private String identifier;
 	private UriResolver uriResolver;
-	private UmlElementMap umlElementMap;
 	private Set<Model> libraries=new HashSet<Model>();
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String identifier){
@@ -64,7 +63,6 @@ public class EmfWorkspace implements Element{
 		}
 		this.directoryUri = uri;
 		this.identifier = identifier;
-		this.umlElementMap = UmlElementMap.getInstance(rs);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -333,9 +331,6 @@ public class EmfWorkspace implements Element{
 			}
 		}
 		return result;
-	}
-	public UmlElementMap getUmlElementMap(){
-		return umlElementMap;
 	}
 	public void setUriResolver(UriResolver uriResolver){
 		this.uriResolver = uriResolver;

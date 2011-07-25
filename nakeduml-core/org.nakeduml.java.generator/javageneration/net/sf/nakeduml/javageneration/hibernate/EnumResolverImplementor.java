@@ -13,6 +13,8 @@ import org.nakeduml.java.metamodel.annotation.OJEnum;
 public class EnumResolverImplementor extends AbstractEnumResolverImplementor{
 	@VisitBefore
 	public void visitEnumeration(INakedEnumeration e){
-		createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals());
+		if(!e.getCodeGenerationStrategy().isNone()){
+			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals());
+		}
 	}
 }

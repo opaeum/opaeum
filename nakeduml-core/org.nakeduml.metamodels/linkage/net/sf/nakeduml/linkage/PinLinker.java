@@ -23,8 +23,12 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
+import net.sf.nakeduml.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -77,8 +81,10 @@ public class PinLinker extends AbstractModelElementLinker{
 	private void linkTypedElement(INakedPin pin,INakedTypedElement typedElement){
 		if(pin != null && typedElement != null){
 			pin.setLinkedTypedElement(typedElement);
-			if(pin.getNakedMultiplicity().getUpper() < typedElement.getNakedMultiplicity().getUpper()){
-				pin.setMultiplicity(typedElement.getNakedMultiplicity());
+			INakedMultiplicity nakedMultiplicity = pin.getNakedMultiplicity();
+			INakedMultiplicity nakedMultiplicity2 = typedElement.getNakedMultiplicity();
+			if(nakedMultiplicity.getUpper() < nakedMultiplicity2.getUpper()){
+				pin.setMultiplicity(nakedMultiplicity2);
 				pin.setIsUnique(typedElement.isUnique());
 				pin.setIsOrdered(typedElement.isOrdered());
 			}
@@ -86,9 +92,58 @@ public class PinLinker extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkAcceptEvent(INakedAcceptEventAction action){
-		if(action.getTrigger() != null && action.getTrigger().getEvent() instanceof INakedSignal){
-			INakedSignal signal = (INakedSignal) action.getTrigger().getEvent();
-			linkByNameIfRequired(signal, signal.getArgumentParameters(), action.getResult());
+		if(action.getTrigger() != null){
+			if(action.getTrigger().getEvent() instanceof INakedSignal){
+				INakedSignal signal = (INakedSignal) action.getTrigger().getEvent();
+				linkByNameIfRequired(signal, signal.getArgumentParameters(), action.getResult());
+			}else if(action.getTrigger().getEvent() instanceof INakedTimeEvent && action.getResult().size() == 1){
+				INakedOutputPin time = action.getResult().get(0);
+				if(time.getNakedBaseType() == null){
+					time.setBaseType(workspace.getNakedUmlLibrary().getDateType());
+				}
+				time.setType(time.getNakedBaseType());
+			}else if(action instanceof NakedAcceptTaskEventActionImpl && action.getResult().size() >= 1){
+				INakedOutputPin by = action.getResult().get(0);
+				if(by.getNakedBaseType() == null){
+					by.setBaseType(workspace.getNakedUmlLibrary().getBusinessRole());
+					by.setType(workspace.getNakedUmlLibrary().getBusinessRole());
+				}
+				if(action.getResult().size() >= 2){
+					INakedOutputPin to = action.getResult().get(1);
+					if(by.getNakedBaseType() == null){
+						to.setBaseType(workspace.getNakedUmlLibrary().getBusinessRole());
+						to.setType(workspace.getNakedUmlLibrary().getBusinessRole());
+					}
+					if(action.getResult().size() >= 3){
+						INakedOutputPin task = action.getResult().get(2);
+						if(by.getNakedBaseType() == null){
+							throw new IllegalStateException("Implement getTaskRequest()");
+							// task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
+							// task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
+						}
+					}
+				}
+			}else if(action instanceof INakedAcceptDeadlineAction && action.getResult().size() >= 1){
+				INakedOutputPin by = action.getResult().get(0);
+				if(by.getNakedBaseType() == null){
+					by.setBaseType(workspace.getNakedUmlLibrary().getDateType());
+					by.setType(workspace.getNakedUmlLibrary().getDateType());
+				}
+				if(action.getResult().size() >= 2){
+					INakedOutputPin task = action.getResult().get(2);
+					if(by.getNakedBaseType() == null){
+						throw new IllegalStateException("Implement getTaskRequest()");
+						// task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
+						// task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
+					}
+				}
+			}else if(action.getTrigger().getEvent() instanceof INakedTimeEvent && action.getResult().size() == 1){
+				INakedOutputPin time = action.getResult().get(0);
+				if(time.getNakedBaseType() == null){
+					time.setBaseType(workspace.getNakedUmlLibrary().getDateType());
+					time.setType(workspace.getNakedUmlLibrary().getDateType());
+				}
+			}
 		}else{
 			List<INakedTypedElement> args = action.getParameters();
 			for(int i = 0;i < args.size();i++){

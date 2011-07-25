@@ -8,6 +8,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.uml2.uml.NamedElement;
+import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.uml2uim.AbstractUimGenerationAction;
 import org.nakeduml.uml2uim.SynchronizeAction;
 import org.topcased.draw2d.figures.ComposedLabel;
@@ -25,7 +26,7 @@ public class SimpleTaskEditPart extends OpaqueActionEditPart{
 			String uuid = UmlElementMap.getId(e);
 			URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
 			if(!AbstractUimGenerationAction.getFile(uri).exists()){
-				SynchronizeAction.doSynchronize(e);
+				SynchronizeAction.doSynchronize(e,NakedUmlPlugin.findNakedUmlEditor(e) );
 			}
 			AbstractUimGenerationAction.openEditor(e, uuid);
 		}else{

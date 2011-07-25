@@ -10,15 +10,15 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction {
 
 	private static final long serialVersionUID = 2697132216413111920L;
 	public static final String META_CLASS = "action";
-	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
-	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
+	private Collection<INakedConstraint> preConditions = new ArrayList<INakedConstraint>();
+	private Collection<INakedConstraint> postConditions = new ArrayList<INakedConstraint>();
 	@Override
 	public boolean isLongRunning(){
 		return false;
@@ -96,19 +96,19 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 		return result;
 	}
 
-	public Collection<IOclContext> getPostConditions() {
+	public Collection<INakedConstraint> getPostConditions() {
 		return this.postConditions;
 	}
 
-	public Collection<IOclContext> getPreConditions() {
+	public Collection<INakedConstraint> getPreConditions() {
 		return this.preConditions;
 	}
 
-	public void addPostCondition(IOclContext postCondition) {
+	public void addPostCondition(INakedConstraint postCondition) {
 		this.postConditions.add(postCondition);
 	}
 
-	public void addPreCondition(IOclContext preCondition) {
+	public void addPreCondition(INakedConstraint preCondition) {
 		this.preConditions.add(preCondition);
 	}
 
@@ -120,11 +120,11 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 		}
 	}
 
-	public void setPostConditions(Collection<IOclContext> postConditions) {
+	public void setPostConditions(Collection<INakedConstraint> postConditions) {
 		this.postConditions = postConditions;
 	}
 
-	public void setPreConditions(Collection<IOclContext> preConditions) {
+	public void setPreConditions(Collection<INakedConstraint> preConditions) {
 		this.preConditions = preConditions;
 	}
 }

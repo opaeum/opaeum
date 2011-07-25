@@ -249,7 +249,7 @@ public class AssociationClassCreator {
 		method9.addToParameters(param10);
 		param10.setType(NAV_OTHER.javaBaseFacadeTypePath());
 		param10.setName("assocClass");
-		param10.setComment("the element to be added");
+		param10.setComment("the originalElement to be added");
 		OJBlock body11 = new OJBlock();
 		method9.setBody(body11);
 		OJSimpleStatement exp28 = new OJSimpleStatement("this." + NAV_OTHER.umlName() + ".add(assocClass)");
@@ -264,7 +264,7 @@ public class AssociationClassCreator {
 		method10.addToParameters(param11);
 		param11.setType(NAV_OTHER.javaBaseFacadeTypePath());
 		param11.setName("assocClass");
-		param11.setComment("the element to be removed");
+		param11.setComment("the originalElement to be removed");
 		OJBlock body12 = new OJBlock();
 		method10.setBody(body12);
 		OJSimpleStatement exp29 = new OJSimpleStatement("this." + NAV_OTHER.umlName() + ".remove(assocClass)");
@@ -321,7 +321,7 @@ public class AssociationClassCreator {
 		endCls.addToOperations(method13);
 		method13.setReturnType(JavaPathNames.Void);
 		method13.setName(END.adder());
-		method13.setComment("implements the add element method for '" + END.umlName() + "'");
+		method13.setComment("implements the add originalElement method for '" + END.umlName() + "'");
 		OJParameter param13 = new OJParameter();
 		method13.addToParameters(param13);
 		param13.setType(END.javaBaseFacadeTypePath());
@@ -346,26 +346,26 @@ public class AssociationClassCreator {
 		endCls.addToOperations(method14);
 		method14.setReturnType(JavaPathNames.Void);
 		method14.setName(END.remover());
-		method14.setComment("implements the remove element method for '" + END.umlName() + "'");
+		method14.setComment("implements the remove originalElement method for '" + END.umlName() + "'");
 		OJParameter param14 = new OJParameter();
 		method14.addToParameters(param14);
 		param14.setType(END.javaBaseFacadeTypePath());
-		param14.setName("element");
+		param14.setName("originalElement");
 		OJBlock body18 = new OJBlock();
 		method14.setBody(body18);
-		OJSimpleStatement exp38 = new OJSimpleStatement("this." + NAV_OTHER.umlName() + ".remove(element)");
+		OJSimpleStatement exp38 = new OJSimpleStatement("this." + NAV_OTHER.umlName() + ".remove(originalElement)");
 		body18.addToStatements(exp38);
 		OJIfStatement if11 = new OJIfStatement();
-		if11.setCondition("element != null");
+		if11.setCondition("originalElement != null");
 		body18.addToStatements(if11);
 		OJBlock then11 = new OJBlock();
 		if11.setThenPart(then11);
 		OJIfStatement if12 = new OJIfStatement();
-		if12.setCondition("element." + NAV.getter() + "() != null");
+		if12.setCondition("originalElement." + NAV.getter() + "() != null");
 		then11.addToStatements(if12);
 		OJBlock then12 = new OJBlock();
 		if12.setThenPart(then12);
-		OJSimpleStatement exp40 = new OJSimpleStatement("element." + NAV.getter() + "().clean()");
+		OJSimpleStatement exp40 = new OJSimpleStatement("originalElement." + NAV.getter() + "().clean()");
 		then12.addToStatements(exp40);
 		generateExtraCollOpers(endCls, END, END.javaBaseFacadeTypePath());
 	}
@@ -380,7 +380,7 @@ public class AssociationClassCreator {
 		otherAdder.setReturnType(JavaPathNames.Void);
 		otherAdder.setName(mapToOtherEnd.adder());
 		otherAdder.setComment("Should be used from " + mapToOtherEnd.umlName() + " only! Implements \n" + "			the addition of an "
-				+ mapToOtherEnd.umlName() + " instance because an element\n" + "			was added to the association.");
+				+ mapToOtherEnd.umlName() + " instance because an originalElement\n" + "			was added to the association.");
 		otherAdder.addParam("assocClass", mapToOtherEnd.javaBaseFacadeTypePath());
 		otherAdder.getBody().addToStatements("this." + mapToThisEnd.umlName() + ".add(assocClass)");
 		OJAnnotatedOperation otherRemover = new OJAnnotatedOperation();
@@ -388,7 +388,7 @@ public class AssociationClassCreator {
 		otherRemover.setReturnType(JavaPathNames.Void);
 		otherRemover.setName(mapToOtherEnd.remover());
 		otherRemover.setComment("Should be used from " + mapToOtherEnd.umlName() + " only! Implements \n" + "			the removal of an "
-				+ mapToOtherEnd.umlName() + " instance because an element\n" + "			was removed from the association.");
+				+ mapToOtherEnd.umlName() + " instance because an originalElement\n" + "			was removed from the association.");
 		otherRemover.addParam("assocClass", mapToOtherEnd.javaBaseFacadeTypePath());
 		otherRemover.getBody().addToStatements("this." + mapToThisEnd.umlName() + ".remove(assocClass)");
 		OJAnnotatedOperation thisGetter = new OJAnnotatedOperation();
@@ -449,7 +449,7 @@ public class AssociationClassCreator {
 		endCls.addToOperations(thisAdder);
 		thisAdder.setReturnType(JavaPathNames.Void);
 		thisAdder.setName(featureMapToThisEnd.adder());
-		thisAdder.setComment("Implements the addition of an element to '" + featureMapToThisEnd.umlName() + "'");
+		thisAdder.setComment("Implements the addition of an originalElement to '" + featureMapToThisEnd.umlName() + "'");
 		OJParameter param19 = new OJParameter();
 		thisAdder.addToParameters(param19);
 		param19.setType(featureMapToThisEnd.javaBaseFacadeTypePath());
@@ -479,7 +479,7 @@ public class AssociationClassCreator {
 		endCls.addToOperations(thisRemover);
 		thisRemover.setReturnType(JavaPathNames.Void);
 		thisRemover.setName(featureMapToThisEnd.remover());
-		thisRemover.setComment("Implements the removal of an element from '" + featureMapToThisEnd.umlName() + "'");
+		thisRemover.setComment("Implements the removal of an originalElement from '" + featureMapToThisEnd.umlName() + "'");
 		OJParameter param20 = new OJParameter();
 		thisRemover.addToParameters(param20);
 		param20.setType(featureMapToThisEnd.javaBaseFacadeTypePath());

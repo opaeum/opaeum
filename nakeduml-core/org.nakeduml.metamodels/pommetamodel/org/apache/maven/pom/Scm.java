@@ -42,8 +42,8 @@ public interface Scm extends EObject {
 	 *               The source control management system URL
 	 *               that describes the repository and how to connect to the
 	 *               repository. For more information, see the
-	 *               &lt;a href="http://maven.apache.org/scm/scm-url-format.html"&gt;URL format&lt;/a&gt;
-	 *               and &lt;a href="http://maven.apache.org/scm/scms-overview.html"&gt;list of supported SCMs&lt;/a&gt;.
+	 *               <a href="http://maven.apache.org/scm/scm-url-format.html">URL format</a>
+	 *               and <a href="http://maven.apache.org/scm/scms-overview.html">list of supported SCMs</a>.
 	 *               This connection is read-only.
 	 *           
 	 * <!-- end-model-doc -->
@@ -73,7 +73,7 @@ public interface Scm extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             Just like &lt;code&gt;connection&lt;/code&gt;, but for developers, i.e. this scm connection
+	 *             Just like <code>connection</code>, but for developers, i.e. this scm connection
 	 *             will not be read only.
 	 *           
 	 * <!-- end-model-doc -->

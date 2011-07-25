@@ -19,6 +19,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.nakeduml.topcased.classdiagram.figure.Gradient;
+import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.uml2uim.AbstractUimGenerationAction;
 import org.nakeduml.uml2uim.SynchronizeAction;
 import org.topcased.modeler.ModelerPropertyConstants;
@@ -99,7 +100,7 @@ public class ScreenFlowEditPartFactory extends STMEditPartFactory{
 								String uuid = UmlElementMap.getId(e);
 								URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
 								if(!AbstractUimGenerationAction.getFile(uri).exists()){
-									SynchronizeAction.doSynchronize(e);
+									SynchronizeAction.doSynchronize(e,NakedUmlPlugin.findNakedUmlEditor(e) );
 								}
 								AbstractUimGenerationAction.openEditor(e, uuid);
 							}else{

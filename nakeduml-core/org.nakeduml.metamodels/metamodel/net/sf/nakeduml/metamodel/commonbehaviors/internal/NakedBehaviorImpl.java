@@ -25,7 +25,6 @@ import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 /**
  * Defines a common superclass for elements that: 1. Can be called as a
@@ -38,8 +37,8 @@ import nl.klasse.octopus.oclengine.IOclContext;
  */
 public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl implements INakedBehavior {
 	private static final long serialVersionUID = 2245169607437688948L;
-	private Collection<IOclContext> preConditions = new ArrayList<IOclContext>();
-	private Collection<IOclContext> postConditions = new ArrayList<IOclContext>();
+	private Collection<INakedConstraint> preConditions = new ArrayList<INakedConstraint>();
+	private Collection<INakedConstraint> postConditions = new ArrayList<INakedConstraint>();
 	private INakedParameter returnParameter;
 	private INakedOperation specification;
 	private List<INakedParameter> argumentParameters = new ArrayList<INakedParameter>();
@@ -58,9 +57,6 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		return isProcess();
 	}
 
-	public INakedConstraint getBodyCondition() {
-		return null;
-	}
 
 	@Override
 	public List<INakedProperty> getEffectiveAttributes() {
@@ -115,11 +111,11 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		return this.exceptionParameters;
 	}
 
-	public void addPostCondition(IOclContext post) {
+	public void addPostCondition(INakedConstraint post) {
 		this.postConditions.add(post);
 	}
 
-	public void addPreCondition(IOclContext pre) {
+	public void addPreCondition(INakedConstraint pre) {
 		this.preConditions.add(pre);
 	}
 
@@ -131,34 +127,25 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		}
 	}
 
-	public Collection<IOclContext> getPostConditions() {
+	public Collection<INakedConstraint> getPostConditions() {
 		return this.postConditions;
 	}
 
-	public void setPostConditions(Collection<IOclContext> postConditions) {
+	public void setPostConditions(Collection<INakedConstraint> postConditions) {
 		this.postConditions = postConditions;
 	}
 
-	public Collection<IOclContext> getPreConditions() {
+	public Collection<INakedConstraint> getPreConditions() {
 		return this.preConditions;
 	}
 
-	public void setPreConditions(Collection<IOclContext> preConditions) {
+	public void setPreConditions(Collection<INakedConstraint> preConditions) {
 		this.preConditions = preConditions;
 	}
 
 	@Override
 	public void addOwnedElement(INakedElement element) {
 		super.addOwnedElement(element);
-		if (element instanceof INakedParameter) {
-			INakedParameter p = (INakedParameter) element;
-			if (p.isReturn()) {
-				this.returnParameter = p;
-			}
-			ParameterUtil.addParameterTolist(p, p.getArgumentIndex(), this.argumentParameters);
-			ParameterUtil.addParameterTolist(p, p.getResultIndex(), this.resultParameters);
-			ParameterUtil.addParameterTolist(p, p.getExceptionIndex(), this.exceptionParameters);
-		}
 	}
 
 	@Override
@@ -251,21 +238,23 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		}
 		return false;
 	}
-	/*
-	 * @Override public List<IClassifier> getParamTypes() { return
-	 * ParameterUtil.parameterTypes(getArgumentParameters()); }
-	 * 
-	 * @Override public String getSignature() { return
-	 * ParameterUtil.signature(this); }
-	 * 
-	 * @Override public boolean hasClassScope() { return false; }
-	 * 
-	 * @Override public boolean isAbstract() { return false; }
-	 * 
-	 * @Override public boolean isInfix() { return false; }
-	 * 
-	 * @Override public boolean isOclDef() { return false; }
-	 * 
-	 * @Override public boolean isPrefix() { return false; }
-	 */
+	@Override
+	public void recalculateParameterPositions(){
+		this.argumentParameters.clear();
+		this.exceptionParameters.clear();
+		this.resultParameters.clear();
+		for(INakedElement e:getOwnedElements()){
+			if(e instanceof INakedParameter){
+				INakedParameter p = (INakedParameter) e;
+				if(p.isReturn()){
+					this.returnParameter = p;
+				}
+				ParameterUtil.addParameterTolist(p, p.getArgumentIndex(), this.argumentParameters);
+				ParameterUtil.addParameterTolist(p, p.getExceptionIndex(), this.exceptionParameters);
+				ParameterUtil.addParameterTolist(p, p.getResultIndex(), this.resultParameters);
+			}
+
+			
+		}
+	}
 }

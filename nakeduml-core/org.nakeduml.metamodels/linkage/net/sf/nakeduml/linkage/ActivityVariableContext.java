@@ -33,10 +33,6 @@ public final class ActivityVariableContext extends MessageStructureImpl{
 		return Collections.emptyList();
 	}
 	@Override
-	public List<? extends IOclContext> getDefinitions(){
-		return Collections.emptyList();
-	}
-	@Override
 	public boolean isPersistent(){
 		return false;
 	}

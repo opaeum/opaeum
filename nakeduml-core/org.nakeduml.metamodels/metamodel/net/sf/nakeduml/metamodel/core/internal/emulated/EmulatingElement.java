@@ -22,21 +22,24 @@ public class EmulatingElement implements INakedElement{
 	public void setDocumentation(String documentation){
 		this.documentation = documentation;
 	}
-	protected INakedElement element;
+	protected INakedElement originalElement;
+	public INakedElement getOriginalElement(){
+		return originalElement;
+	}
 	private List<INakedComment> comments = new ArrayList<INakedComment>();
 	public EmulatingElement(INakedElement element){
 		super();
-		this.element = element;
+		this.originalElement = element;
 	}
 	public int hashCode(){
-		return element.hashCode();
+		return originalElement.hashCode();
 	}
 	public boolean equals(Object other){
 		if(other instanceof EmulatingElement){
 			if(other == this){
 				return true;
 			}else{
-				return this.element.equals(((EmulatingElement) other).element);
+				return this.originalElement.equals(((EmulatingElement) other).originalElement);
 			}
 		}else{
 			return false;
@@ -48,16 +51,16 @@ public class EmulatingElement implements INakedElement{
 	public void addStereotype(INakedInstanceSpecification stereotype){
 	}
 	public String getId(){
-		return element.getId();
+		return originalElement.getId();
 	}
 	public IMappingInfo getMappingInfo(){
-		return element.getMappingInfo();
+		return originalElement.getMappingInfo();
 	}
 	public String getMetaClass(){
-		return element.getMetaClass();
+		return originalElement.getMetaClass();
 	}
 	public INakedNameSpace getNameSpace(){
-		return element.getNameSpace();
+		return originalElement.getNameSpace();
 	}
 	public INakedRootObject getNakedRoot(){
 		return ((INakedElement) getOwnerElement()).getNakedRoot();
@@ -66,23 +69,23 @@ public class EmulatingElement implements INakedElement{
 		return getNakedRoot();
 	}
 	public INakedElementOwner getOwnerElement(){
-		return element.getOwnerElement();
+		return originalElement.getOwnerElement();
 	}
 	public INakedInstanceSpecification getStereotype(String name){
-		return element.getStereotype(name);
+		return originalElement.getStereotype(name);
 	}
 	public Collection<? extends INakedInstanceSpecification> getStereotypes(){
-		return element.getStereotypes();
+		return originalElement.getStereotypes();
 	}
 	public <T>T getTaggedValue(String stereotype,String tag){
-		Object o = element.getTaggedValue(stereotype, tag);
+		Object o = originalElement.getTaggedValue(stereotype, tag);
 		return (T) o;
 	}
 	public boolean hasStereotype(String name){
-		return element.hasStereotype(name);
+		return originalElement.hasStereotype(name);
 	}
 	public boolean hasTaggedValue(String stereotype,String tag){
-		return element.hasTaggedValue(stereotype, tag);
+		return originalElement.hasTaggedValue(stereotype, tag);
 	}
 	public void initialize(String id,String name,boolean b){
 	}
@@ -93,13 +96,13 @@ public class EmulatingElement implements INakedElement{
 	public void setOwnerElement(INakedElementOwner element){
 	}
 	public String getName(){
-		return element.getName();
+		return originalElement.getName();
 	}
 	public PathName getPathName(){
-		return element.getPathName();
+		return originalElement.getPathName();
 	}
 	public Collection<? extends INakedElement> getOwnedElements(){
-		return element.getOwnedElements();
+		return originalElement.getOwnedElements();
 	}
 	public void addOwnedElement(INakedElement element){
 	}

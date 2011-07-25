@@ -124,7 +124,7 @@ public class DiagramCleanup {
 		} else if (bridge.getElement() == null) {
 			System.out.println(padding + eObject.eContainer().getClass().getName());
 			System.out.println(padding + "  " + eObject.getClass().getName());
-			System.out.println(padding + "element null ");
+			System.out.println(padding + "originalElement null ");
 		}
 	}
 }

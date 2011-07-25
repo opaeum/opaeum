@@ -12,7 +12,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
  * A visitor the is invoked when (incremental) model updates require certain
  * elements that were linked before to be detached from each other
  */
-// TODO go through all the model element linkers and make sure that the linked
+// TODO go through all the model originalElement linkers and make sure that the linked
 // elements are detached
 public abstract class NakedElementDetachor extends VisitorAdapter<INakedElement, INakedPackage> implements TransformationStep {
 	protected INakedModelWorkspace workspace;

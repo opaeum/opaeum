@@ -224,8 +224,8 @@ public interface Profile extends EObject {
 	 *               These dependencies are used to construct a classpath for your 
 	 *               project during the build process. They are automatically downloaded from the
 	 *               repositories defined in this project.
-	 *               See &lt;a href="http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html"&gt;the
-	 *               dependency mechanism&lt;/a&gt; for more information.
+	 *               See <a href="http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html">the
+	 *               dependency mechanism</a> for more information.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Dependencies</em>' containment reference.
@@ -254,7 +254,7 @@ public interface Profile extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             &lt;b&gt;Deprecated&lt;/b&gt;. Now ignored by Maven.
+	 *             <b>Deprecated</b>. Now ignored by Maven.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Reports</em>' containment reference.
@@ -284,7 +284,7 @@ public interface Profile extends EObject {
 	 * 4.0.0
 	 * 
 	 *             This element includes the specification of report plugins to use to generate the reports on the
-	 *             Maven-generated site.  These reports will be run when a user executes &lt;code&gt;mvn site&lt;/code&gt;.  All of the
+	 *             Maven-generated site.  These reports will be run when a user executes <code>mvn site</code>.  All of the
 	 *             reports will be included in the navigation bar for browsing.
 	 *           
 	 * <!-- end-model-doc -->
@@ -376,7 +376,7 @@ public interface Profile extends EObject {
 	 * 4.0.0
 	 * 
 	 *              Properties that can be used throughout the POM as a substitution, and are used as filters in resources
-	 *              if enabled. The format is &lt;code&gt;&amp;lt;name&amp;gt;value&amp;lt;/name&amp;gt;&lt;/code&gt;.
+	 *              if enabled. The format is <code>&lt;name&gt;value&lt;/name&gt;</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Properties</em>' containment reference.

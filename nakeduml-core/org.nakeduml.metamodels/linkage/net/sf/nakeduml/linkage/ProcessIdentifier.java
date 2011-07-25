@@ -42,6 +42,9 @@ public class ProcessIdentifier extends AbstractModelElementLinker{
 	}
 	@VisitBefore
 	public void visitBehavior(INakedActivity a){
+		if(behaviorUtil==null){
+			behaviorUtil=new BehaviorUtil(new HashMap<INakedOperation,Collection<INakedAcceptCallAction>>());
+		}
 		if(behaviorUtil.requiresExternalInput(a)){
 			a.setActivityKind(ActivityKind.PROCESS);
 		}else if(a.hasMultipleConcurrentResults() || BehaviorUtil.hasParallelFlows(a) || BehaviorUtil.getNearestActualClass(a)==null||BehaviorUtil.hasLoopBack(a)){

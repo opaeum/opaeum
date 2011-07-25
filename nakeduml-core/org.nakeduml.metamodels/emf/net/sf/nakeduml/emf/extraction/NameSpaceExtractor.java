@@ -12,14 +12,11 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedSignalImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaborationImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
-import net.sf.nakeduml.metamodel.core.INakedValueType;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedHelperImpl;
@@ -53,6 +50,7 @@ import org.eclipse.uml2.uml.Collaboration;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
@@ -75,27 +73,18 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	 * For imported profiles. Put them at the top level of the nakedWorkspace
 	 */
 	@VisitBefore
-	public void visitProfile(Profile p){
+	public void visitProfile(Profile p,NakedProfileImpl np){
 		// Different versions of the same profile may occur
-		NakedProfileImpl np = new NakedProfileImpl();
-		np.initialize(getId(p), p.getName(), true);
 		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		this.nakedWorkspace.putModelElement(np);
 	}
 	@VisitBefore
-	public void visitStereotype(Stereotype c){
-		if(getNakedPeer(c) == null){
-			INakedStereotype ns = new NakedStereotypeImpl();
-			initialize(ns, c, c.getNamespace());
-		}
+	public void visitStereotype(Stereotype c,NakedStereotypeImpl ns){
+		initializeClassifier(ns, c);
 	}
 	@VisitBefore
-	public void visitModel(Model p){
-		NakedModelImpl nm = new NakedModelImpl();
-		nm.initialize(getId(p), p.getName(), true);
+	public void visitModel(Model p,NakedModelImpl nm){
 		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
 		nm.setLibrary(super.workspace.isLibrary(p));
-		this.nakedWorkspace.putModelElement(nm);
 	}
 	@VisitBefore
 	public void visitPackage(Package p,NakedPackageImpl np){
@@ -117,26 +106,51 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(nc, c);
 	}
 	@VisitBefore
-	public void visitPrimitiveType(PrimitiveType p){
-		INakedPrimitiveType npt = new NakedPrimitiveType();
-		initialize(npt, p, p.getNamespace());
+	public void visitPrimitiveType(PrimitiveType p,NakedPrimitiveType npt){
 		initializeClassifier(npt, p);
 	}
-	@VisitBefore
-	public void visitClass(Class c){
-		if(StereotypesHelper.hasStereotype(c, "Helper")){
-			NakedHelperImpl ne = new NakedHelperImpl();
-			initialize(ne, c, c.getNamespace());
-			initializeClassifier(ne, c);
-		}else if(isBusinessService(c)){
-			NakedUserInRoleImpl ne = new NakedUserInRoleImpl();
-			initialize(ne, c, c.getNamespace());
-			initializeClassifier(ne, c);
+	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
+		if(e instanceof Stereotype || e instanceof Component || e instanceof Behavior || e instanceof Collaboration || e instanceof PrimitiveType){
+			return super.createElementFor(e, peerClass);
+		}else if(e instanceof Class){
+			Class c = (Class) e;
+			if(StereotypesHelper.hasStereotype(c, "Helper")){
+				return new NakedHelperImpl();
+			}else if(isBusinessService(c)){
+				return new NakedUserInRoleImpl();
+			}else{
+				return new NakedEntityImpl();
+			}
+		}else if(e instanceof Interface){
+			Interface i = (Interface) e;
+			if(isBusinessService(i)){
+				return new NakedBusinessServiceImpl();
+			}else if(StereotypesHelper.hasStereotype(i, "Helper")){
+				return new NakedHelperImpl();
+			}else{
+				return new NakedInterfaceImpl();
+			}
+		}else if(e instanceof Enumeration){
+			Enumeration en = (Enumeration) e;
+			if(StereotypesHelper.hasStereotype(en, "powertype") || en.getPowertypeExtents().size() > 0){
+				return new NakedPowerTypeImpl();
+			}else{
+				return new NakedEnumerationImpl();
+			}
+		}else if(e instanceof DataType){
+			DataType dt = (DataType) e;
+			if(StereotypesHelper.hasStereotype(dt, StereotypeNames.VALUE_TYPE)){
+				return new NakedValueTypeImpl();
+			}else{
+				return new NakedStructuredDataType();
+			}
 		}else{
-			INakedEntity ne = new NakedEntityImpl();
-			initialize(ne, c, c.getNamespace());
-			initializeClassifier(ne, c);
+			return super.createElementFor(e, peerClass);
 		}
+	}
+	@VisitBefore
+	public void visitClass(Class c,NakedClassifierImpl ne){
+		initializeClassifier(ne, c);
 	}
 	private boolean isBusinessService(Classifier c){
 		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{
@@ -165,28 +179,12 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		return representsUser;
 	}
 	@VisitBefore
-	public void visitInterface(Interface i){
-		NakedInterfaceImpl ni;
-		if(isBusinessService(i)){
-			ni = new NakedBusinessServiceImpl();
-		}else if(StereotypesHelper.hasStereotype(i, "Helper")){
-			ni=new NakedHelperImpl();
-		}else{	ni = new NakedInterfaceImpl();
-		}
-		initialize(ni, i, i.getNamespace());
+	public void visitInterface(Interface i,NakedInterfaceImpl ni){
 		initializeClassifier(ni, i);
 	}
 	@VisitBefore
-	public void visitEnumeration(Enumeration e){
-		if(StereotypesHelper.hasStereotype(e, "powertype") || e.getPowertypeExtents().size() > 0){
-			INakedPowerType npt = new NakedPowerTypeImpl();
-			initialize(npt, e, e.getNamespace());
-			initializeClassifier(npt, e);
-		}else{
-			INakedEnumeration ne = new NakedEnumerationImpl();
-			initialize(ne, e, e.getNamespace());
-			initializeClassifier(ne, e);
-		}
+	public void visitEnumeration(Enumeration e,NakedEnumerationImpl npt){
+		initializeClassifier(npt, e);
 	}
 	@VisitBefore
 	public void visitActivity(Activity a,NakedActivityImpl na){
@@ -229,16 +227,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(ns, s);
 	}
 	@VisitBefore
-	public void visitDataType(DataType dt){
-		if(StereotypesHelper.hasStereotype(dt, StereotypeNames.VALUE_TYPE)){
-			INakedValueType nvt = new NakedValueTypeImpl();
-			initialize(nvt, dt, dt.getNamespace());
-			initializeClassifier(nvt, dt);
-		}else{
-			INakedStructuredDataType nsdt = new NakedStructuredDataType();
-			initialize(nsdt, dt, dt.getNamespace());
-			initializeClassifier(nsdt, dt);
-		}
+	public void visitDataType(DataType dt,NakedClassifierImpl nsdt){
+		initializeClassifier(nsdt, dt);
 	}
 	@VisitBefore
 	public void visitAssociation(Association a,NakedAssociationImpl na){

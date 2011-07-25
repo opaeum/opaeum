@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-model-doc -->
  * 3.0.0+
  * 
- *          The &lt;code&gt;&amp;lt;project&amp;gt;&lt;/code&gt; element is the root of the descriptor.
+ *          The <code>&lt;project&gt;</code> element is the root of the descriptor.
  *          The following table lists all of the possible child elements.
  *       
  * <!-- end-model-doc -->
@@ -129,7 +129,7 @@ public interface Model extends EObject {
 	 * 
 	 *             A universally unique identifier for a project. It is normal to
 	 *             use a fully-qualified package name to distinguish it from other projects with a similar name
-	 *             (eg. &lt;code&gt;org.apache.maven&lt;/code&gt;).
+	 *             (eg. <code>org.apache.maven</code>).
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Group Id</em>' attribute.
@@ -190,10 +190,10 @@ public interface Model extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The type of artifact this project produces, for example &lt;code&gt;jar&lt;/code&gt;
-	 *               &lt;code&gt;war&lt;/code&gt;
-	 *               &lt;code&gt;ear&lt;/code&gt;
-	 *               &lt;code&gt;pom&lt;/code&gt;.
+	 *             The type of artifact this project produces, for example <code>jar</code>
+	 *               <code>war</code>
+	 *               <code>ear</code>
+	 *               <code>pom</code>.
 	 *             Plugins can create their own packaging, and
 	 *             therefore their own packaging types,
 	 *             so this list does not contain all possible types.
@@ -573,7 +573,7 @@ public interface Model extends EObject {
 	 * 3.0.0+
 	 * 
 	 *             This element describes all of the licenses for this project.  
-	 *             Each license is described by a &lt;code&gt;license&lt;/code&gt; element, which 
+	 *             Each license is described by a <code>license</code> element, which 
 	 *             is then described by additional elements.
 	 *             Projects should only list the license(s) that applies to the project 
 	 *             and not the licenses that apply to dependencies.
@@ -813,8 +813,8 @@ public interface Model extends EObject {
 	 *               These dependencies are used to construct a classpath for your 
 	 *               project during the build process. They are automatically downloaded from the
 	 *               repositories defined in this project.
-	 *               See &lt;a href="http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html"&gt;the
-	 *               dependency mechanism&lt;/a&gt; for more information.
+	 *               See <a href="http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html">the
+	 *               dependency mechanism</a> for more information.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Dependencies</em>' containment reference.
@@ -843,7 +843,7 @@ public interface Model extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             &lt;b&gt;Deprecated&lt;/b&gt;. Now ignored by Maven.
+	 *             <b>Deprecated</b>. Now ignored by Maven.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Reports</em>' containment reference.
@@ -873,7 +873,7 @@ public interface Model extends EObject {
 	 * 4.0.0
 	 * 
 	 *             This element includes the specification of report plugins to use to generate the reports on the
-	 *             Maven-generated site.  These reports will be run when a user executes &lt;code&gt;mvn site&lt;/code&gt;.  All of the
+	 *             Maven-generated site.  These reports will be run when a user executes <code>mvn site</code>.  All of the
 	 *             reports will be included in the navigation bar for browsing.
 	 *           
 	 * <!-- end-model-doc -->
@@ -965,7 +965,7 @@ public interface Model extends EObject {
 	 * 4.0.0
 	 * 
 	 *              Properties that can be used throughout the POM as a substitution, and are used as filters in resources
-	 *              if enabled. The format is &lt;code&gt;&amp;lt;name&amp;gt;value&amp;lt;/name&amp;gt;&lt;/code&gt;.
+	 *              if enabled. The format is <code>&lt;name&gt;value&lt;/name&gt;</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Properties</em>' containment reference.

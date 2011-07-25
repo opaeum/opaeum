@@ -22,6 +22,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedParameterImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
@@ -62,76 +63,63 @@ import org.nakeduml.eclipse.EmfParameterUtil;
 @StepDependency(phase = EmfExtractionPhase.class,requires = GeneralizationExtractor.class,after = GeneralizationExtractor.class)
 public class FeatureExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore(matchSubclasses = true)
-	public void visitPort(Port p){
-		NakedPortImpl np = new NakedPortImpl();
+	public void visitPort(Port p,NakedPortImpl np){
 		initializeTypedElement(np, p, p.getType(), p.getOwner());
 		populateProperty(np, p);
+	}
+	@Override
+	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
+		if(e instanceof Port){
+			return new NakedPortImpl();
+		}else if(e instanceof Property){
+			Property p = (Property) e;
+			if(p.getOwner() instanceof Property || p.getAssociation() instanceof Extension){
+				return null;
+			}else{
+				return new NakedPropertyImpl();
+			}
+		}else if(e instanceof Operation){
+			Stereotype responsibility = StereotypesHelper.getStereotype(e, StereotypeNames.RESPONSIBILITY);
+			if(responsibility != null){
+				return new NakedResponsibilityImpl();
+			}else{
+				return new NakedOperationImpl();
+			}
+		}else{
+			return super.createElementFor(e, peerClass);
+		}
 	}
 	@VisitBefore(matchSubclasses = false,match = {
 			Property.class,ExtensionEnd.class
 	})
-	public void visitProperty(Property p){
-		// only create properties that have not been created yet
-		if(this.nakedWorkspace.getModelElement(getId(p)) == null){
-			if(p.getOwner() instanceof Property){
-				// System.out.println("Qualifier found: " + p.getQualifiedName());
-			}else if(p.getAssociation() instanceof Extension){
-				// TODO convert these to some enum property that
-				// can map to target type in Java
-			}else{
-				NakedPropertyImpl np = null;
-				if(p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2){
-					np = buildAttribute(p);
-				}else{
-					int otherIndex = p.getAssociation().getMemberEnds().indexOf(p);
-					otherIndex = otherIndex == 1 ? 0 : 1;
-					Property opposite = p.getAssociation().getMemberEnds().get(otherIndex);
-					// Octopus doesn't like associations on enums, primitives or
-					// dataTypes, or stereotypes
-					// Some relationships should not be represented as associations,
-					// but
-					// rather as ordinary attributes.
-					if(isAllowedAssociationEnd(opposite.getType(), p.getType())){
-						// Is Other End Also allowed?
-						np = buildAssociationEnd(p, opposite);
-						INakedAssociation a = (INakedAssociation) getNakedPeer(p.getAssociation());
-						int index = p.getAssociation().getMemberEnds().indexOf(p);
-						a.setEnd(index, np);
-					}else{
-						np = buildAttribute(p);
-					}
-				}
-				np.setComposite(p.isComposite());
-				populateProperty(np, p);
+	public void visitProperty(Property p,NakedPropertyImpl np){
+		boolean navigable = p.isNavigable() || p.isComposite()||p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
+		if(p.getOpposite() != null){
+			Property opposite = p.getOpposite();
+			if(opposite.isComposite() && opposite.getType() instanceof org.eclipse.uml2.uml.Class){
+				// force bidirectionality for composition between two classes
+				navigable = true;
 			}
+			if(!isAllowedAssociationEnd(p.getOpposite().getType(), p.getType())){
+				navigable = true;
+			}
+			if(navigable){
+				// The classifier should be the owner of navigable ends
+				initializeTypedElement(np, p, p.getType(), opposite.getType());
+			}else{
+				// The association should be the owner of
+				// non-navigable ends
+				initializeTypedElement(np, p, p.getType(), p.getAssociation());
+			}
+			np.setAssociation((INakedAssociation) getNakedPeer(p.getAssociation()));
+			INakedAssociation a = (INakedAssociation) getNakedPeer(p.getAssociation());
+			int index = p.getAssociation().getMemberEnds().indexOf(p);
+			a.setEnd(index, np);
 		}
-	}
-	private NakedPropertyImpl buildAttribute(Property thisEnd){
-		// Represent this associationEnd as an Attribute in Octopus
-		NakedPropertyImpl aew = new NakedPropertyImpl();
-		initializeTypedElement(aew, thisEnd, thisEnd.getType(), thisEnd.getOwner());
-		aew.setNavigable(true);
-		return aew;
-	}
-	// Only call this if both ends of the association are allowed
-	private NakedPropertyImpl buildAssociationEnd(Property assEnd,Property opposite){
-		NakedPropertyImpl aew = new NakedPropertyImpl();
-		boolean navigable = assEnd.isNavigable() || assEnd.isComposite();
-		if(opposite.isComposite() && opposite.getType() instanceof org.eclipse.uml2.uml.Class){
-			//force bidirectionality for composition between two classes
-			navigable=true; 
-		}
-		if(navigable){
-			// The classifier should be the owner of navigable ends
-			initializeTypedElement(aew, assEnd, assEnd.getType(), opposite.getType());
-		}else{
-			// The association should be the owner of
-			// non-navigable ends
-			initializeTypedElement(aew, assEnd, assEnd.getType(), assEnd.getAssociation());
-		}
-		aew.setAssociation((INakedAssociation) getNakedPeer(assEnd.getAssociation()));
-		aew.setNavigable(navigable);
-		return aew;
+		np.setNavigable(navigable);
+		initializeTypedElement(np, p, p.getType(), p.getOwner());
+		np.setComposite(p.isComposite());
+		populateProperty(np, p);
 	}
 	private void populateProperty(NakedPropertyImpl np,Property p){
 		np.setReadOnly(p.isReadOnly());
@@ -140,12 +128,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		np.setIsOrdered(p.isOrdered());
 		np.setIsUnique(p.isUnique());
 		setOwnedAttributeIndexIfNecessary(p, np);
-		for(Property sp:p.getSubsettedProperties()){
-			np.getSubsettedProperties().add(getProperty(sp));
-		}
-		for(Property sp:p.getRedefinedProperties()){
-			np.getRedefinedProperties().add(getProperty(sp));
-		}
 		if(p.getDefaultValue() != null){
 			OclUsageType ut = p.isDerived() ? OclUsageType.DERIVE : OclUsageType.INIT;
 			INakedValueSpecification vs = getValueSpecification(np, p.getDefaultValue(), ut);
@@ -167,14 +149,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			aew.setOwnedAttributeIndex(indexOf);
 		}
 	}
-	private INakedProperty getProperty(Property p){
-		INakedProperty np = (INakedProperty) getNakedPeer(p);
-		if(np == null){
-			visitProperty(p);
-			np = (INakedProperty) getNakedPeer(p);
-		}
-		return np;
-	}
 	private boolean isAllowedAssociationEnd(Type owner,Type thisEndType){
 		// Theoretically ends owned by primitives and enumerations
 		// cannot navigable, and Octopus does not like such an
@@ -185,22 +159,14 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		return !(owner instanceof PrimitiveType || owner instanceof Enumeration || thisEndType instanceof Stereotype);
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitReception(Reception emfRec){
-		INakedReception nakedRec = new NakedReceptionImpl();
-		initialize(nakedRec, emfRec, emfRec.getOwner());
+	public void visitReception(Reception emfRec,NakedReceptionImpl nakedRec){
 		nakedRec.setSignal((INakedSignal) getNakedPeer(emfRec.getSignal()));
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(Operation emfOper){
-		NakedOperationImpl nakedOper;
+	public void visitOperation(Operation emfOper,NakedOperationImpl nakedOper){
 		Stereotype responsibility = StereotypesHelper.getStereotype(emfOper, StereotypeNames.RESPONSIBILITY);
 		if(responsibility != null){
-			nakedOper = new NakedResponsibilityImpl();
-			initialize(nakedOper, emfOper, emfOper.getOwner());
 			initializeDeadlines(responsibility, emfOper);
-		}else{
-			nakedOper = new NakedOperationImpl();
-			initialize(nakedOper, emfOper, emfOper.getOwner());
 		}
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
@@ -225,8 +191,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		addConstraints(nakedOper, preconditions, postconditions);
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitParameter(Parameter emfParameter){
-		NakedParameterImpl nakedParameter = new NakedParameterImpl();
+	public void visitParameter(Parameter emfParameter,NakedParameterImpl nakedParameter){
 		if(emfParameter.getDirection().equals(ParameterDirectionKind.IN_LITERAL)){
 			nakedParameter.setArgumentIndex(EmfParameterUtil.calculateIndex(emfParameter, EmfParameterUtil.ARGUMENT));
 			nakedParameter.setResultIndex(-1);
@@ -270,7 +235,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		initializeTypedElement(nakedParameter, emfParameter, emfParameter.getType(), emfParameter.getOwner());
 	}
 	private void initializeTypedElement(NakedTypedElementImpl element,MultiplicityElement modelElement,Type type,Element nameSpace){
-		initialize(element, modelElement, nameSpace);
 		populateMultiplicityAndBaseType(modelElement, type, element);
 	}
 }

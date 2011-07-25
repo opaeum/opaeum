@@ -28,7 +28,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	}
 	public ActionFeatureBridge(IActionWithTargetElement action,NakedUmlLibrary lib){
 		super(action.getActivity(), action.getTargetElement());
-		super.element = action;
+		super.originalElement = action;
 		if(action instanceof INakedCallAction){
 			baseType = ((INakedCallAction) action).getMessageStructure(lib);
 		}else if(action instanceof INakedEmbeddedTask){
@@ -65,7 +65,7 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 		return baseType;
 	}
 	public String getName(){
-		return NameConverter.decapitalize(action.getName());
+		return "invoked" + NameConverter.capitalize(action.getName()) ;
 	}
 	public IClassifier getType(){
 		return type;

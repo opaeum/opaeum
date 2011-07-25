@@ -8,10 +8,12 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 @PhaseDependency(after={LinkagePhase.class})
-public class NameGenerationPhase implements TransformationPhase<AbstractNameGenerator>{
+public class NameGenerationPhase implements TransformationPhase<AbstractNameGenerator,INakedElement>{
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	public void initialize(NakedUmlConfig config){
@@ -21,5 +23,12 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 			ng.startVisiting(modelWorkspace);
 		}
 		return new Object[0];
+	}
+	@Override
+	public Object processSingleElement(List<AbstractNameGenerator> features,TransformationContext context,INakedElement element){
+		for(AbstractNameGenerator ng:features){
+			ng.visitRecursively((INakedElementOwner) element);
+		}
+		return element;
 	}
 }

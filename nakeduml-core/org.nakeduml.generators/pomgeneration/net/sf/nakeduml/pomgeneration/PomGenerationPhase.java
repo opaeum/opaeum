@@ -22,6 +22,7 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
@@ -45,7 +46,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.nakeduml.bootstrap.BootstrapGenerationPhase;
 
 @PhaseDependency(after = {JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class},before = {FileGenerationPhase.class})
-public class PomGenerationPhase implements TransformationPhase<PomGenerationStep>{
+public class PomGenerationPhase implements TransformationPhase<PomGenerationStep,INakedElement>{
 	@InputModel
 	private INakedModelWorkspace workspace;
 	@InputModel
@@ -349,5 +350,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			parentPom.getProject().getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
 		}
 		parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
+	}
+	@Override
+	public Object processSingleElement(List<PomGenerationStep> features,TransformationContext context,INakedElement element){
+		// TODO regenerate poms only if dependencies have changed
+		return parentPom;
 	}
 }

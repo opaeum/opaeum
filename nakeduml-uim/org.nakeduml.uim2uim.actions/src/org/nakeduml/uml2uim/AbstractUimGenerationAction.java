@@ -34,6 +34,8 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
+import org.nakeduml.topcased.uml.NakedUmlPlugin;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.topcased.uml.editor.NakedUmlElementLinker;
 import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.modeleditor.UimPlugin;
@@ -169,5 +171,8 @@ public abstract class AbstractUimGenerationAction{
 			}
 		}
 		return null;
+	}
+	protected static NakedUmlEditor findNakedUmlEditor(NamedElement modelElement){
+		return NakedUmlPlugin.findNakedUmlEditor(modelElement);
 	}
 }

@@ -96,7 +96,7 @@ public interface Reporting extends EObject {
 	 * 4.0.0
 	 * 
 	 *             Where to store all of the generated reports. The default is
-	 *             &lt;code&gt;${project.build.directory}/site&lt;/code&gt;
+	 *             <code>${project.build.directory}/site</code>
 	 *             .
 	 *           
 	 * <!-- end-model-doc -->

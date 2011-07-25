@@ -86,7 +86,7 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 	/**
 	 * Implements the setter for feature '+ businessDaysPerMonth : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setBusinessDaysPerMonth(int element) {
 		if (this.f_businessDaysPerMonth != element) {
@@ -102,7 +102,7 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 	/**
 	 * Implements the setter for feature '+ businessHoursPerWeek : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setBusinessHoursPerWeek(int element) {
 		if (this.f_businessHoursPerWeek != element) {
@@ -118,7 +118,7 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 	/**
 	 * Implements the setter for feature '+ businessHoursPerDay : Integer'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void setBusinessHoursPerDay(int element) {
 		if (this.f_businessHoursPerDay != element) {
@@ -160,9 +160,9 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		}
 	}
 	/**
-	 * Implements addition of a single element to feature '+ holiday : Set(Holiday)'
+	 * Implements addition of a single originalElement to feature '+ holiday : Set(Holiday)'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void addToHoliday(Holiday element) {
 		if (element == null) {
@@ -178,9 +178,9 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		element.z_internalAddToWorkingHoursConfiguration((WorkingHoursConfiguration) this);
 	}
 	/**
-	 * Implements removal of a single element from feature '+ holiday : Set(Holiday)'
+	 * Implements removal of a single originalElement from feature '+ holiday : Set(Holiday)'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void removeFromHoliday(Holiday element) {
 		if (element == null) {
@@ -201,17 +201,17 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		}
 	}
 	/**
-	 * This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+	 * This operation should NOT be used by clients. It implements the correct addition of an originalElement in an association.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalAddToHoliday(Holiday element) {
 		this.f_holiday.add(element);
 	}
 	/**
-	 * This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+	 * This operation should NOT be used by clients. It implements the correct removal of an originalElement in an association.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalRemoveFromHoliday(Holiday element) {
 		this.f_holiday.remove(element);
@@ -282,9 +282,9 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		}
 	}
 	/**
-	 * Implements addition of a single element to feature '+ workDay : Set(WorkDay)'
+	 * Implements addition of a single originalElement to feature '+ workDay : Set(WorkDay)'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void addToWorkDay(WorkDay element) {
 		if (element == null) {
@@ -300,9 +300,9 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		element.z_internalAddToWorkingHoursConfiguration((WorkingHoursConfiguration) this);
 	}
 	/**
-	 * Implements removal of a single element from feature '+ workDay : Set(WorkDay)'
+	 * Implements removal of a single originalElement from feature '+ workDay : Set(WorkDay)'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void removeFromWorkDay(WorkDay element) {
 		if (element == null) {
@@ -323,17 +323,17 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		}
 	}
 	/**
-	 * This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+	 * This operation should NOT be used by clients. It implements the correct addition of an originalElement in an association.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalAddToWorkDay(WorkDay element) {
 		this.f_workDay.add(element);
 	}
 	/**
-	 * This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+	 * This operation should NOT be used by clients. It implements the correct removal of an originalElement in an association.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalRemoveFromWorkDay(WorkDay element) {
 		this.f_workDay.remove(element);
@@ -404,9 +404,9 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		}
 	}
 	/**
-	 * Implements addition of a single element to feature '+ recurringHoliday : Set(RecurringHoliday)'
+	 * Implements addition of a single originalElement to feature '+ recurringHoliday : Set(RecurringHoliday)'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void addToRecurringHoliday(RecurringHoliday element) {
 		if (element == null) {
@@ -422,9 +422,9 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		element.z_internalAddToWorkingHoursConfiguration((WorkingHoursConfiguration) this);
 	}
 	/**
-	 * Implements removal of a single element from feature '+ recurringHoliday : Set(RecurringHoliday)'
+	 * Implements removal of a single originalElement from feature '+ recurringHoliday : Set(RecurringHoliday)'
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void removeFromRecurringHoliday(RecurringHoliday element) {
 		if (element == null) {
@@ -445,17 +445,17 @@ abstract public class WorkingHoursConfigurationGEN implements  IPersistentObject
 		}
 	}
 	/**
-	 * This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+	 * This operation should NOT be used by clients. It implements the correct addition of an originalElement in an association.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalAddToRecurringHoliday(RecurringHoliday element) {
 		this.f_recurringHoliday.add(element);
 	}
 	/**
-	 * This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+	 * This operation should NOT be used by clients. It implements the correct removal of an originalElement in an association.
 	 * 
-	 * @param element
+	 * @param originalElement
 	 */
 	public void z_internalRemoveFromRecurringHoliday(RecurringHoliday element) {
 		this.f_recurringHoliday.remove(element);

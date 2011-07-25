@@ -5,7 +5,7 @@
          point="org.topcased.validation.core.validators">
       <validator
             class="org.nakeduml.topcased.validation.NakedValidator"
-            id="org.nakeduml.topcased.validation.validator"
+            id="org.nakeduml.topcased.validation"
             name="name">
          <description>
             Validates the UML model against Naked UML constraints

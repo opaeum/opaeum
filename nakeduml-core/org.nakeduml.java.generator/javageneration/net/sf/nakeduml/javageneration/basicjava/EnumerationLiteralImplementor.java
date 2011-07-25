@@ -33,34 +33,36 @@ import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void generateExtraConstructor(INakedEnumeration c){
-		OJEnum myClass = (OJEnum) findJavaClass(c);
-		OJOperation values = OJUtil.findOperation(myClass, "getValues");
-		if(values != null){
-			OJPathName results = new OJPathName("java.util.Set");
-			results.addToElementTypes(OJUtil.classifierPathname(c));
-			values.setReturnType(results);
-			values.getBody().removeAllFromStatements();
-			myClass.addToImports("java.util.HashSet");
-			values.getBody().addToStatements("return new HashSet<" + c.getName() + ">(java.util.Arrays.asList(values()))");
-		}
-		OJConstructor constr = new OJConstructor();
-		myClass.addToConstructors(constr);
-		constr.setVisibility(OJVisibilityKindGEN.PRIVATE);
-		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
-		boolean hasDuplicates = hasDuplicates(allAttributes);
-		if(!hasDuplicates){
-			for(INakedProperty attr:allAttributes){
-				if(!(attr.isDerived() || attr.isOclDef())){
-					addToConstructor(constr, myClass, attr, c);
+		if(!(c.getCodeGenerationStrategy().isNone())){
+			OJEnum myClass = (OJEnum) findJavaClass(c);
+			OJOperation values = OJUtil.findOperation(myClass, "getValues");
+			if(values != null){
+				OJPathName results = new OJPathName("java.util.Set");
+				results.addToElementTypes(OJUtil.classifierPathname(c));
+				values.setReturnType(results);
+				values.getBody().removeAllFromStatements();
+				myClass.addToImports("java.util.HashSet");
+				values.getBody().addToStatements("return new HashSet<" + c.getName() + ">(java.util.Arrays.asList(values()))");
+			}
+			OJConstructor constr = new OJConstructor();
+			myClass.addToConstructors(constr);
+			constr.setVisibility(OJVisibilityKindGEN.PRIVATE);
+			List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
+			boolean hasDuplicates = hasDuplicates(allAttributes);
+			if(!hasDuplicates){
+				for(INakedProperty attr:allAttributes){
+					if(!(attr.isDerived() || attr.isOclDef())){
+						addToConstructor(constr, myClass, attr, c);
+					}
 				}
-			}
-			OJUtil.addField(myClass, constr, "uuid", new OJPathName("String"));
-			for(IEnumLiteral el:c.getLiterals()){
-				INakedEnumerationLiteral nl=(INakedEnumerationLiteral) el;
-				OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()) , "uuid", "\"" + nl.getMappingInfo().getIdInModel()+"\"" );
-			}
-			if(!constr.getParameters().isEmpty()){
-				myClass.addToConstructors(constr);
+				OJUtil.addField(myClass, constr, "uuid", new OJPathName("String"));
+				for(IEnumLiteral el:c.getLiterals()){
+					INakedEnumerationLiteral nl = (INakedEnumerationLiteral) el;
+					OJUtil.addParameter(myClass.findLiteral(el.getName().toUpperCase()), "uuid", "\"" + nl.getMappingInfo().getIdInModel() + "\"");
+				}
+				if(!constr.getParameters().isEmpty()){
+					myClass.addToConstructors(constr);
+				}
 			}
 		}
 	}
@@ -70,8 +72,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		// Does lookups on arbitrary string properties
 		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
 		for(INakedProperty iNakedProperty:allAttributes){
-			if(iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne()
-					&& !iNakedProperty.isDerived()){
+			if(iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne() && !iNakedProperty.isDerived()){
 				// TODO support for other types??
 				OJAnnotatedOperation staticOp = new OJAnnotatedOperation();
 				staticOp.setStatic(true);
@@ -89,8 +90,8 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					List<INakedSlot> slots = nakedLiteral.getSlots();
 					for(INakedSlot iNakedSlot:slots){
 						if(iNakedSlot.getDefiningFeature().equals(iNakedProperty)){
-							ifSPS.setCondition(iNakedProperty.getName() + ".equals("
-									+ ValueSpecificationUtil.expressValue(myClass, iNakedSlot.getFirstValue(), true) + ")");
+							ifSPS.setCondition(iNakedProperty.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, iNakedSlot.getFirstValue(), true)
+									+ ")");
 							ifSPS.addToThenPart("return " + iEnumLiteral.getName());
 							break;
 						}

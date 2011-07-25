@@ -73,7 +73,8 @@ final class ConstraintAdapter extends AbstractConstraintDescriptor implements IM
 					messageParams.add(ctx.getTarget());
 					for(Object o:be.getMessageParameters(rule)){
 						if(o instanceof IModelElement){
-							messageParams.add(validator.getSourceElement((IModelElement) o));
+							//TODO fix this
+//							messageParams.add(validator.getSourceElement((IModelElement) o));
 						}else{
 							messageParams.add(o);
 						}

@@ -124,7 +124,8 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 				if(strategyFactories.containsKey(factoryName)){
 					simpleType.setStrategyFactory(strategyFactories.get(factoryName));
 				}else{
-					throw new RuntimeException(e);
+					
+//					throw new RuntimeException(e);
 				}
 			}catch(InstantiationException e){
 				throw new RuntimeException(e);

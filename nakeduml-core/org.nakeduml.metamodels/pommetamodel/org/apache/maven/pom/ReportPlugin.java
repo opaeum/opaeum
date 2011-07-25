@@ -205,7 +205,7 @@ public interface ReportPlugin extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * Multiple specifications of a set of reports, each having (possibly) different
-	 *             configuration. This is the reporting parallel to an &lt;code&gt;execution&lt;/code&gt; in the build.
+	 *             configuration. This is the reporting parallel to an <code>execution</code> in the build.
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Report Sets</em>' containment reference.
 	 * @see #setReportSets(ReportSetsType)

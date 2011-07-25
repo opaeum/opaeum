@@ -9,10 +9,11 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 @PhaseDependency(after=JavaTransformationPhase.class, before=FileGenerationPhase.class)
-public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep> {
+public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep,INakedElement> {
 	@InputModel
 	INakedModelWorkspace workspace;
 	@InputModel
@@ -31,5 +32,14 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 			step.startVisiting(workspace);
 		}
 		return new Object[]{textWorkspace};
+	}
+
+	@Override
+	public Object processSingleElement(List<AbstractFlowStep> features,TransformationContext context,INakedElement element){
+		for (AbstractFlowStep step : features) {
+			step.initialize(config,textWorkspace, workspace);
+			step.visitRecursively(element);
+		}
+		return element;//ProcessFlow not used anywhere
 	}
 }

@@ -266,7 +266,7 @@ public interface Plugin extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             &lt;b&gt;Deprecated&lt;/b&gt;. Unused by Maven.
+	 *             <b>Deprecated</b>. Unused by Maven.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Goals</em>' containment reference.

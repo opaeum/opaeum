@@ -42,7 +42,7 @@ public interface Site extends EObject {
 	 * 4.0.0
 	 * 
 	 *             A unique identifier for a deployment locataion. This is used to match the site to configuration in
-	 *             the &lt;code&gt;settings.xml&lt;/code&gt; file, for example.
+	 *             the <code>settings.xml</code> file, for example.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
@@ -100,7 +100,7 @@ public interface Site extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *              The url of the location where website is deployed, in the form &lt;code&gt;protocol://hostname/path&lt;/code&gt;.
+	 *              The url of the location where website is deployed, in the form <code>protocol://hostname/path</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Url</em>' attribute.

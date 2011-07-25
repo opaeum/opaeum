@@ -7,7 +7,9 @@
 package org.apache.maven.pom;
 
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**
@@ -90,7 +92,7 @@ public interface DocumentRoot extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 3.0.0+
 	 * 
-	 *          The &lt;code&gt;&amp;lt;project&amp;gt;&lt;/code&gt; element is the root of the descriptor.
+	 *          The <code>&lt;project&gt;</code> element is the root of the descriptor.
 	 *          The following table lists all of the possible child elements.
 	 *       
 	 * <!-- end-model-doc -->

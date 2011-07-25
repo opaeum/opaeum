@@ -45,7 +45,7 @@ public interface Dependency extends EObject {
 	 * 3.0.0+
 	 * 
 	 *             The project group that produced the dependency, e.g.
-	 *             &lt;code&gt;org.apache.maven&lt;/code&gt;.
+	 *             <code>org.apache.maven</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Group Id</em>' attribute.
@@ -75,7 +75,7 @@ public interface Dependency extends EObject {
 	 * 3.0.0+
 	 * 
 	 *             The unique id for an artifact produced by the project group, e.g.
-	 *             &lt;code&gt;maven-artifact&lt;/code&gt;.
+	 *             <code>maven-artifact</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Artifact Id</em>' attribute.
@@ -104,7 +104,7 @@ public interface Dependency extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 3.0.0+
 	 * 
-	 *             The version of the dependency, e.g. &lt;code&gt;3.2.1&lt;/code&gt;. In Maven 2, this can also be
+	 *             The version of the dependency, e.g. <code>3.2.1</code>. In Maven 2, this can also be
 	 *             specified as a range of versions.
 	 *           
 	 * <!-- end-model-doc -->
@@ -135,13 +135,13 @@ public interface Dependency extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The type of dependency. This defaults to &lt;code&gt;jar&lt;/code&gt;. While it usually represents the extension on
+	 *             The type of dependency. This defaults to <code>jar</code>. While it usually represents the extension on
 	 *             the filename of the dependency, that is not always the case. A type can be mapped to a different
 	 *             extension and a classifier.
 	 *             The type often correspongs to the packaging used, though this is also not always the case.
-	 *             Some examples are &lt;code&gt;jar&lt;/code&gt;, &lt;code&gt;war&lt;/code&gt;, &lt;code&gt;ejb-client&lt;/code&gt; and &lt;code&gt;test-jar&lt;/code&gt;.
+	 *             Some examples are <code>jar</code>, <code>war</code>, <code>ejb-client</code> and <code>test-jar</code>.
 	 *             New types can be defined by plugins that set
-	 *             &lt;code&gt;extensions&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;, so this is not a complete list.
+	 *             <code>extensions</code> to <code>true</code>, so this is not a complete list.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
@@ -199,7 +199,7 @@ public interface Dependency extends EObject {
 	 * 
 	 *             The classifier of the dependency. This allows distinguishing two artifacts that belong to the same POM but
 	 *             were built differently, and is appended to the filename after the version. For example,
-	 *             &lt;code&gt;jdk14&lt;/code&gt; and &lt;code&gt;jdk15&lt;/code&gt;.
+	 *             <code>jdk14</code> and <code>jdk15</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Classifier</em>' attribute.
@@ -228,12 +228,12 @@ public interface Dependency extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             The scope of the dependency - &lt;code&gt;compile&lt;/code&gt;, &lt;code&gt;runtime&lt;/code&gt;, &lt;code&gt;test&lt;/code&gt;,
-	 *             &lt;code&gt;system&lt;/code&gt;, and &lt;code&gt;provided&lt;/code&gt;. Used to
+	 *             The scope of the dependency - <code>compile</code>, <code>runtime</code>, <code>test</code>,
+	 *             <code>system</code>, and <code>provided</code>. Used to
 	 *             calculate the various classpaths used for compilation, testing, and so on. It also assists in determining
 	 *             which artifacts to include in a distribution of this project. For more information, see
-	 *             &lt;a href="http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html"&gt;the
-	 *             dependency mechanism&lt;/a&gt;.
+	 *             <a href="http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html">the
+	 *             dependency mechanism</a>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Scope</em>' attribute.
@@ -262,11 +262,11 @@ public interface Dependency extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             FOR SYSTEM SCOPE ONLY. Note that use of this property is &lt;b&gt;discouraged&lt;/b&gt; and may be replaced in later
+	 *             FOR SYSTEM SCOPE ONLY. Note that use of this property is <b>discouraged</b> and may be replaced in later
 	 *             versions. This specifies the path on the filesystem for this dependency.
 	 *             Requires an absolute path for the value, not relative.
 	 *             Use a property that gives the machine specific absolute path,
-	 *             e.g. &lt;code&gt;${java.home}&lt;/code&gt;.
+	 *             e.g. <code>${java.home}</code>.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>System Path</em>' attribute.

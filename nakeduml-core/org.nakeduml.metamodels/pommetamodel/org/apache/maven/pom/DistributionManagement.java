@@ -75,7 +75,7 @@ public interface DistributionManagement extends EObject {
 	 * <!-- begin-model-doc -->
 	 * 4.0.0
 	 * 
-	 *             Where to deploy snapshots of artifacts to. If not given, it defaults to the &lt;code&gt;repository&lt;/code&gt; element.
+	 *             Where to deploy snapshots of artifacts to. If not given, it defaults to the <code>repository</code> element.
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Snapshot Repository</em>' containment reference.
@@ -134,7 +134,7 @@ public interface DistributionManagement extends EObject {
 	 * 4.0.0+
 	 * 
 	 *             The URL of the project's download page. If not given users will be referred to the homepage given by
-	 *             &lt;code&gt;url&lt;/code&gt;. This is given to assist in locating artifacts that are not in the repository due to
+	 *             <code>url</code>. This is given to assist in locating artifacts that are not in the repository due to
 	 *             licensing restrictions.
 	 *           
 	 * <!-- end-model-doc -->
@@ -194,10 +194,10 @@ public interface DistributionManagement extends EObject {
 	 * 4.0.0
 	 * 
 	 *             Gives the status of this artifact in the remote repository. This must not be set in your local
-	 *             project, as it is updated by tools placing it in the reposiory. Valid values are: &lt;code&gt;none&lt;/code&gt; (default),
-	 *             &lt;code&gt;converted&lt;/code&gt; (repository manager converted this from an Maven 1 POM), &lt;code&gt;partner&lt;/code&gt;
-	 *             (directly synced from a partner Maven 2 repository), &lt;code&gt;deployed&lt;/code&gt; (was deployed from a Maven 2
-	 *             instance), &lt;code&gt;verified&lt;/code&gt; (has been hand verified as correct and final).
+	 *             project, as it is updated by tools placing it in the reposiory. Valid values are: <code>none</code> (default),
+	 *             <code>converted</code> (repository manager converted this from an Maven 1 POM), <code>partner</code>
+	 *             (directly synced from a partner Maven 2 repository), <code>deployed</code> (was deployed from a Maven 2
+	 *             instance), <code>verified</code> (has been hand verified as correct and final).
 	 *           
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Status</em>' attribute.

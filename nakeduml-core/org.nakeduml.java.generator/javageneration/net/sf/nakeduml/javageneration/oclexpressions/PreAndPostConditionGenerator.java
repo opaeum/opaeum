@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
@@ -104,7 +105,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			addLocalConditions(owner, mapper, oper.getPostConditions(), false);
 		}
 	}
-	public void addLocalConditions(INakedClassifier owner,NakedOperationMap mapper,Collection<IOclContext> conditions,boolean pre){
+	public void addLocalConditions(INakedClassifier owner,NakedOperationMap mapper,Collection<INakedConstraint> conditions,boolean pre){
 		OJClass myOwner = findJavaClass(owner);
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getOperation());
@@ -112,7 +113,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			cg.addConstraintChecks(myOper1, conditions, pre);
 		}
 	}
-	public void addEvaluationMethod(Collection<IOclContext> conditions,String evaluationMethodName,INakedClassifier messageClass){
+	public void addEvaluationMethod(Collection<INakedConstraint> conditions,String evaluationMethodName,INakedClassifier messageClass){
 		if(conditions.size() > 0){
 			OJClass myOwner = findJavaClass(messageClass);
 			OJOperation myOper1 = new OJAnnotatedOperation();
