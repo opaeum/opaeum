@@ -29,9 +29,7 @@ public class AcceptEventActionExtractor extends AbstractActionExtractor{
 		if(!emfAction.getTriggers().isEmpty()){
 			// we only support one trigger
 			nakedAction.setTrigger(buildTrigger(emfActivity, emfAction.getTriggers().iterator().next()));
-			System.out.println("TRigger:"+nakedAction.getTrigger().getUuid());
 		}
-		System.out.println("Owner:"+nakedAction.getActivity().getUuid());
 		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
 		nakedAction.setResult(result);
 	}

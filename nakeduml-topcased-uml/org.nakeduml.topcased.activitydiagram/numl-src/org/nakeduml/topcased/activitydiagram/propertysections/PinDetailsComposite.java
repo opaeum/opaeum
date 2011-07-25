@@ -3,7 +3,7 @@ package org.nakeduml.topcased.activitydiagram.propertysections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import static org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -32,7 +32,6 @@ import org.topcased.tabbedproperties.utils.TextChangeListener;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
 public class PinDetailsComposite extends Composite{
-	private TextChangeListener listener;
 	private Pin pin;
 	private EditingDomain editingDomain;
 	private TabbedPropertySheetWidgetFactory widgetFactory;
@@ -69,7 +68,15 @@ public class PinDetailsComposite extends Composite{
 		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()));
 		parameterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Value : ");
-		this.oclValue = new OclValueComposite(parent, widgetFactory);
+		this.oclValue = new OclValueComposite(parent, widgetFactory,new OclChangeListener(){
+			@Override
+			public void oclChanged(String value){
+				StyledText textControl = oclValue.getTextControl();
+				SetOclExpressionCommand cmd = SetOclExpressionCommand.create(editingDomain, pin, UMLPackage.eINSTANCE.getValuePin_Value(), textControl.getText());
+				editingDomain.getCommandStack().execute(cmd);
+				pinUpdated(pin);
+			}
+		});
 		oclValue.setLayoutData(new GridData(GridData.FILL, GridData.FILL,true,true,1,3));
 		GridData layoutDataComposite = new GridData(GridData.FILL, GridData.FILL, true, true, 4, 1);
 		layoutDataComposite.minimumHeight = 50;
@@ -102,22 +109,6 @@ public class PinDetailsComposite extends Composite{
 				}
 			}
 		});
-		listener=new TextChangeListener(){
-			@Override
-			public void textChanged(Control control){
-				StyledText textControl = oclValue.getTextControl();
-				SetOclExpressionCommand cmd = SetOclExpressionCommand.create(editingDomain, pin, UMLPackage.eINSTANCE.getValuePin_Value(), textControl.getText());
-				editingDomain.getCommandStack().execute(cmd);
-				pinUpdated(pin);
-			}
-			@Override
-			public void focusOut(Control control){
-			}
-			@Override
-			public void focusIn(Control control){
-			}
-		};
-		listener.startListeningTo(oclValue.getTextControl());
 	}
 	public void pinUpdated(Pin pin){
 		

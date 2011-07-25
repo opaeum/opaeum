@@ -29,7 +29,7 @@ import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.topcased.propertysections.AbsoluteTimeEventDetailsComposite.TimeEventListener;
+import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{
@@ -65,7 +65,6 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 				maybeFire();
 			}
 			public void focusGained(FocusEvent e){
-				// TODO Auto-generated method stub
 			}
 		});
 		TextChangeListener textChangeListener = new TextChangeListener(){
@@ -107,30 +106,21 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			expData.top = new FormAttachment(c[c.length - 2], 4, 0);
 		}
 		expressionLabel.setLayoutData(labelData);
-		expressionComposite = new OclValueComposite(this, toolkit);
+		expressionComposite = new OclValueComposite(this, toolkit, new OclChangeListener(){
+			@Override
+			public void oclChanged(String value){
+				OpaqueExpression oe = getOpaqueExpression();
+				//TODO do in command
+				oe.getBodies().set(0, value);
+				maybeFire();
+			}
+		});
 		expData.left = new FormAttachment(0, standardLabelWidth);
 		expData.right = new FormAttachment(100, 0);
 		 expData.bottom=new FormAttachment(100,0);
 		expData.height = 50;
 		expressionComposite.setBackground(getBackground());
 		expressionComposite.setLayoutData(expData);
-		TextChangeListener listener = new TextChangeListener(){
-			public void textChanged(Control control){
-				handleTextModified();
-				
-			}
-			public void focusIn(Control control){
-			}
-			public void focusOut(Control control){
-			}
-		};
-		listener.startListeningTo(expressionComposite.getTextControl());
-	}
-	protected void handleTextModified(){
-		OpaqueExpression oe = getOpaqueExpression();
-		oe.getBodies().set(0, expressionComposite.getTextControl().getText());
-		maybeFire();
-
 	}
 	protected OpaqueExpression getOpaqueExpression(){
 		return (OpaqueExpression) event.getWhen().getExpr();

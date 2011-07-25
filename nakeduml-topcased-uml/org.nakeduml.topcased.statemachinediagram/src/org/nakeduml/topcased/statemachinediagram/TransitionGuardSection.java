@@ -52,9 +52,8 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 		}
 	}
 	@Override
-	protected void handleTextModified(){
-		String text = oclComposite.getTextControl().getText();
-		if(text.trim().length()>0 && !(text.equalsIgnoreCase(OclValueComposite.DEFAULT_TEXT))){
+	protected void handleOclChanged(String text){
+		if(text.trim().length()>0){
 			if(getTransition().getGuard()==null){
 				Constraint createConstraint = UMLFactory.eINSTANCE.createConstraint();
 				createConstraint.setName(getTransition().getName()+"Guard");
@@ -62,8 +61,7 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 				getEditingDomain().getCommandStack().execute(command);
 			}
 		}
-		// TODO Auto-generated method stub
-		super.handleTextModified();
+		super.handleOclChanged(text);
 	}
 	@Override
 	protected EStructuralFeature getFeature(){

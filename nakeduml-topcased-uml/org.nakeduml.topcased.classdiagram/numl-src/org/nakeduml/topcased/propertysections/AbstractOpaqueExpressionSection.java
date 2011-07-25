@@ -2,7 +2,6 @@ package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
@@ -13,15 +12,14 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.commands.SetOclExpressionCommand;
+import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
-	private TextChangeListener listener;
 	protected OclValueComposite oclComposite;
 	protected CLabel label;
 	public AbstractOpaqueExpressionSection(){
@@ -57,8 +55,20 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	protected void createWidgets(Composite composite){
 		label = getWidgetFactory().createCLabel(composite, getLabelText());
-		oclComposite = new OclValueComposite(composite, getWidgetFactory());
+		oclComposite = new OclValueComposite(composite, getWidgetFactory(), new OclChangeListener(){
+			@Override
+			public void oclChanged(String oclText){
+				handleOclChanged(oclText);
+			}
+
+		});
 		oclComposite.setBackground(composite.getBackground());
+	}
+	protected void handleOclChanged(String oclText){
+		if(oclText.trim().length() > 0){
+			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getProperty_DefaultValue(), oclText);
+			getEditingDomain().getCommandStack().execute(cmd);
+		}
 	}
 	protected String getExpressionLabel(){
 		return "Value expression";
@@ -75,18 +85,6 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		fd.height = 50;
 		this.oclComposite.setLayoutData(fd);
 	}
-	protected void hookListeners(){
-		listener = new TextChangeListener(){
-			public void textChanged(Control control){
-				handleTextModified();
-			}
-			public void focusIn(Control control){
-			}
-			public void focusOut(Control control){
-			}
-		};
-		listener.startListeningTo(oclComposite.getTextControl());
-	}
 	public void refresh(){
 		super.refresh();
 		if(getValueSpecification() instanceof OpaqueExpression){
@@ -101,15 +99,5 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		if(oclComposite.getTextControl() != null){
 			oclComposite.getTextControl().setEnabled(enabled);
 		}
-	}
-	protected void handleTextModified(){
-		String oclText = this.oclComposite.getTextControl().getText();
-		if(oclText.trim().length() > 0 && !OclValueComposite.DEFAULT_TEXT.contains(oclText)){
-			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), UMLPackage.eINSTANCE.getProperty_DefaultValue(), oclText);
-			getEditingDomain().getCommandStack().execute(cmd);
-		}
-	}
-	protected TextChangeListener getListener(){
-		return listener;
 	}
 }

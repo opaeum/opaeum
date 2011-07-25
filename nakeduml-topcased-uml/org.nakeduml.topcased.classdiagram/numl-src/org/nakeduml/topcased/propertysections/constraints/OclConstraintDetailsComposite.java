@@ -27,11 +27,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Constraint;
@@ -42,7 +40,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.topcased.propertysections.OclValueComposite;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
+import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
 
 public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;
@@ -54,7 +52,6 @@ public class OclConstraintDetailsComposite extends Composite{
 	private Constraint selectedConstraint;
 	private EditingDomain currentEditDomain = null;
 	private boolean reinit = false;
-	private TextChangeListener listener;
 	private EStructuralFeature feature;
 	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
 		super(parent, SWT.NONE);
@@ -162,18 +159,13 @@ public class OclConstraintDetailsComposite extends Composite{
 	private void createGroupOCLRule(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "OCL Rule Code : ", SWT.BOLD);
 		l.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 3, 1));
-		oclComposite = new OclValueComposite(group, getWidgetFactory());
-		oclComposite.setBackground(getBackground());
-		listener = new TextChangeListener(){
-			public void textChanged(Control control){
+		oclComposite = new OclValueComposite(group, getWidgetFactory(), new OclChangeListener(){
+			@Override
+			public void oclChanged(String value){
 				updateOcl();
 			}
-			public void focusIn(Control control){
-			}
-			public void focusOut(Control control){
-			}
-		};
-		listener.startListeningTo(oclComposite.getTextControl());
+		});
+		oclComposite.setBackground(getBackground());
 		GridData layoutDataComposite = new GridData(GridData.FILL, GridData.FILL, true, true, 5, 1);
 		layoutDataComposite.minimumHeight = 50;
 		layoutDataComposite.grabExcessVerticalSpace = true;

@@ -86,19 +86,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	EnvironmentFactory environmentFactory;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
-		if(root instanceof INakedActivity){
-			System.out.println("ACtivity:"+((INakedActivity) root).getUuid());
-		}
 		Collection<? extends INakedElementOwner> children = super.getChildren(root);
-		if(root instanceof INakedTrigger){
-			INakedTrigger a=(INakedTrigger) root;
-			System.out.println("Trigger:"+a.getUuid());
-//			System.out.println("Owner:"+a.getOwnerElement().get());
-
-		}
-		if(root instanceof INakedAcceptEventAction){
-			INakedElement a=(INakedElement) root;
-		}
 		return children;
 	}
 	@Override
@@ -208,7 +196,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(ev instanceof INakedTimeEvent){
 			INakedTimeEvent te = (INakedTimeEvent) ev;
 			w = te.getWhen();
-			System.out.println("VS:" +w.getUuid());
 			if(te.isRelative()){
 				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			}else{

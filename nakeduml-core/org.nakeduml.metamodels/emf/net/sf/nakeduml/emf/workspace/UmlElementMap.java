@@ -48,7 +48,7 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 
 public class UmlElementMap extends EContentAdapter{
-	ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
+	private static ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
 	public static interface Selector{
 		boolean select(Object o);
 	}
@@ -187,5 +187,8 @@ public class UmlElementMap extends EContentAdapter{
 	}
 	public EmfWorkspace getEmfWorkspace(){
 		return emfWorkspace;
+	}
+	public static void sheduleTask(Runnable r, long l){
+		ex.schedule(r, l, TimeUnit.MILLISECONDS);
 	}
 }

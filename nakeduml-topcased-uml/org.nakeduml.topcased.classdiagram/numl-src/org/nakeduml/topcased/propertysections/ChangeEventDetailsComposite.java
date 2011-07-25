@@ -10,14 +10,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
-import org.topcased.tabbedproperties.utils.TextChangeListener;
+import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
 
 public class ChangeEventDetailsComposite extends Composite{
 	protected OclValueComposite changeComposite;
@@ -28,16 +27,9 @@ public class ChangeEventDetailsComposite extends Composite{
 		setLayout(new FormLayout());
 		Label l = toolkit.createLabel(this, "Condition");
 		setBackground(parent.getBackground());
-		changeComposite = new OclValueComposite(this, toolkit);
-		changeComposite.setBackground(getBackground());
-		FormData layoutData = new FormData();
-		layoutData.left=new FormAttachment(0,labelWidth);
-		layoutData.right=new FormAttachment(100);
-		layoutData.top=new FormAttachment();
-		layoutData.bottom=new FormAttachment(100);
-		changeComposite.setLayoutData(layoutData);
-		TextChangeListener listener = new TextChangeListener(){
-			public void textChanged(Control control){
+		changeComposite = new OclValueComposite(this, toolkit,new OclChangeListener(){
+			@Override
+			public void oclChanged(String value){
 				ChangeEvent event = null;
 				if(!(trigger.getEvent() instanceof ChangeEvent)){
 					EAnnotation ann = StereotypesHelper.getNumlAnnotation(trigger);
@@ -60,12 +52,14 @@ public class ChangeEventDetailsComposite extends Composite{
 				expr.getBodies().add(changeComposite.getTextControl().getText());
 				expr.getLanguages().add("ocl");
 			}
-			public void focusIn(Control control){
-			}
-			public void focusOut(Control control){
-			}
-		};
-		listener.startListeningTo(changeComposite.getTextControl());
+		});
+		changeComposite.setBackground(getBackground());
+		FormData layoutData = new FormData();
+		layoutData.left=new FormAttachment(0,labelWidth);
+		layoutData.right=new FormAttachment(100);
+		layoutData.top=new FormAttachment();
+		layoutData.bottom=new FormAttachment(100);
+		changeComposite.setLayoutData(layoutData);
 
 	}
 	public void setTrigger(Trigger t){
