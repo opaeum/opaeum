@@ -16,8 +16,15 @@
 			<url>http://repository.prime.com.tr</url>
 			<layout>default</layout>
 		</repository>
+<!--		<repository>-->
+<!--			<id>org.openfaces</id>-->
+<!--			<url>http://repository.openfaces.org/repository</url>-->
+<!--		</repository>-->
+<!--		<repository>-->
+<!--			<id>jfree</id>-->
+<!--			<url>http://www.ibiblio.org/maven/jfree/</url>-->
+<!--		</repository>-->
 	</repositories>
-
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,6 +34,7 @@
 		<codi.version>1.0.0-SNAPSHOT</codi.version>
 		<maven.jetty.plugin.version>7.4.2.v20110526</maven.jetty.plugin.version>
 		<cxf.version>2.4.1</cxf.version>
+		<extval.version>2.0.4</extval.version>
 	</properties>
 
 	<build>
@@ -144,6 +152,13 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-validation_1.0_spec</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
@@ -192,6 +207,51 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- myfaces extval -->
+		<dependency>
+			<groupId>org.apache.myfaces.extensions.validator</groupId>
+			<artifactId>myfaces-extval-core</artifactId>
+			<version>${extval.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.myfaces.extensions.validator.validation-modules</groupId>
+			<artifactId>myfaces-extval-property-validation</artifactId>
+			<version>${extval.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.persistence</groupId>
+					<artifactId>persistence-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.myfaces.extensions.validator.validation-modules</groupId>
+			<artifactId>myfaces-extval-bean-validation</artifactId>
+			<version>${extval.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.validation</groupId>
+					<artifactId>validation-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- bean-validation -->
+		<dependency>
+			<groupId>org.apache.bval</groupId>
+			<artifactId>bval-core</artifactId>
+			<version>0.2-incubating</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.bval</groupId>
+			<artifactId>bval-jsr303</artifactId>
+			<version>0.2-incubating</version>
+		</dependency>
+
+
 		<!-- Tinker -->
 		<dependency>
 			<groupId>org.nakeduml</groupId>
@@ -222,11 +282,35 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- OpenFaces -->
+<!--		<dependency>-->
+<!--			<groupId>org.openfaces</groupId>-->
+<!--			<artifactId>openfaces</artifactId>-->
+<!--			<version>3.0</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>commons-collections</groupId>-->
+<!--			<artifactId>commons-collections</artifactId>-->
+<!--			<version>3.1</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>jfree</groupId>-->
+<!--			<artifactId>jcommon</artifactId>-->
+<!--			<version>1.0.16</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>jfree</groupId>-->
+<!--			<artifactId>jfreechart</artifactId>-->
+<!--			<version>1.0.13</version>-->
+<!--		</dependency>-->
+
+
 		<!-- PrimeFaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>2.2</version>
+			<version>3.0.M2</version>
 		</dependency>
 
 		<dependency>
@@ -399,7 +483,7 @@
 			<artifactId>stax2-api</artifactId>
 			<version>3.1.1</version>
 		</dependency>
-				
+
 		<!-- Jetty is needed if you're are not using the CXFServlet -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

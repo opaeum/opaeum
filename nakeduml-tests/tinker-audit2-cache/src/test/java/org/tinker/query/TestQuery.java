@@ -15,6 +15,7 @@ import org.nakeduml.environment.Environment;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.nakeduml.tinker.runtime.NakedGraph;
 import org.nakeduml.tinker.runtime.NakedGraphFactory;
+import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
 import org.tinker.God;
 import org.tinker.Universe;
 
@@ -50,7 +51,10 @@ public class TestQuery {
 			Class<NakedGraphFactory> factory = (Class<NakedGraphFactory>) Class.forName(properties.getProperty("nakedgraph.factory"));
 			Method m = factory.getDeclaredMethod("getInstance", new Class[0]);
 			NakedGraphFactory nakedGraphFactory = (NakedGraphFactory) m.invoke(null);
-			return nakedGraphFactory.getNakedGraph(properties.getProperty("tinkerdb"), true);
+			TinkerSchemaHelper schemaHelper = (TinkerSchemaHelper) Class.forName(properties.getProperty("schema.generator")).newInstance();
+			String dbPath = properties.getProperty("tinkerdb");
+			String dbWithSchemata = properties.getProperty("tinkerdb.withschema", "false");
+			return nakedGraphFactory.getNakedGraph(dbPath, schemaHelper, new Boolean(dbWithSchemata));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

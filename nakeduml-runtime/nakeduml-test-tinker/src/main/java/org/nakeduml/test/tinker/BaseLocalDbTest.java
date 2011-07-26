@@ -31,7 +31,12 @@ public class BaseLocalDbTest {
 	
 	protected NakedGraph createNakedGraph() {
 		Properties properties = Environment.loadProperties();
-		File dir = new File(properties.getProperty("tinkerdb"));
+		String dbUrl = properties.getProperty("tinkerdb");
+		String parsedUrl = dbUrl;
+		if (dbUrl.startsWith("local:")) {
+			parsedUrl = dbUrl.replace("local:", "");
+		}
+		File dir = new File(parsedUrl);
 		if (dir.exists()) {
 			try {
 				FileUtils.deleteDirectory(dir);
@@ -45,9 +50,8 @@ public class BaseLocalDbTest {
 			Method m = factory.getDeclaredMethod("getInstance", new Class[0]);
 			NakedGraphFactory nakedGraphFactory = (NakedGraphFactory) m.invoke(null);
 			TinkerSchemaHelper schemaHelper = (TinkerSchemaHelper) Class.forName(properties.getProperty("schema.generator")).newInstance();
-			String dbPath = properties.getProperty("tinkerdb");
 			String dbWithSchemata = properties.getProperty("tinkerdb.withschema", "false");
-			return nakedGraphFactory.getNakedGraph(dbPath, schemaHelper, new Boolean(dbWithSchemata));
+			return nakedGraphFactory.getNakedGraph(dbUrl, schemaHelper, new Boolean(dbWithSchemata));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:s="http://jboss.org/seam/faces"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui" template="../template/template.xhtml">
+
+	<ui:define name="left">
+		<p:growl id="messages" showDetail="true" />
+		<p:tree binding="#{treeController.tree}" />
+	</ui:define>
+	<ui:define name="body">
+		<p:ajaxStatus>
+			<f:facet name="start">
+				<h:outputText value="Loading..." />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="Done!" />
+			</f:facet>
+		</p:ajaxStatus>
+		<h:panelGrid id="display" columns="3">
+			<h:outputLabel for="name" value="Please enter context root name" />
+			<h:inputText id="name" value="#{contextController.contextObject.name}" />
+			<h:message for="name" showSummary="true" showDetail="false" />
+		</h:panelGrid>
+		<p:commandButton value="Update" action="#{contextController.update}" async="true" update="display" />
+
+		<p:dataTable var="blackHole" value="#{contextController.contextObject.blackHole}" paginator="true" rows="10" dynamic="true"
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,15">
+
+			<f:facet name="header">
+				<h:outputText value="Displaying Black Holes" />
+			</f:facet>
+			<p:column headerText="Model">
+				<h:outputText value="#{blackHole.name}" />
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+</ui:composition>

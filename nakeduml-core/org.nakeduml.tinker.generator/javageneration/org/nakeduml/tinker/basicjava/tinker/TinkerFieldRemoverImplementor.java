@@ -1,6 +1,7 @@
 package org.nakeduml.tinker.basicjava.tinker;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -14,9 +15,11 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 
-import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 public class TinkerFieldRemoverImplementor extends AbstractJavaProducingVisitor {
 
@@ -64,8 +67,12 @@ public class TinkerFieldRemoverImplementor extends AbstractJavaProducingVisitor 
 	}
 	
 	private void removeField(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
-		OJField field = owner.findField(map.umlName());
+		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.umlName());
 		if (field!=null) {
+			for (OJAnnotationValue an : field.getAnnotations()) {
+				OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
+				getter.addAnnotationIfNew(an);
+			}
 			owner.removeFromFields(field);
 		}
 	}

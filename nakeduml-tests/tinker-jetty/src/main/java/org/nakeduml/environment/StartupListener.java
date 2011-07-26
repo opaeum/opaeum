@@ -50,6 +50,8 @@ public class StartupListener {
 
 	private void createDefaultData() {
 		GraphDb.setDb(db);
+		StopWatch totalStopWatch = new StopWatch();
+		totalStopWatch.start();
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		db.startTransaction();
@@ -58,7 +60,7 @@ public class StartupListener {
 			god.setName("didthiswork");
 			StopWatch stopWatch1 = new StopWatch();
 			stopWatch1.start();
-			for (int i = 0; i < 50; i++) {
+			for (int i = 0; i < 2; i++) {
 				Universe universe1 = new Universe(god);
 				universe1.setName("universe" + i);
 				Angel angel1 = new Angel(god);
@@ -66,21 +68,21 @@ public class StartupListener {
 				universe1.setAngel(angel1);
 				SpaceTime spaceTime = new SpaceTime(universe1);
 				spaceTime.setName("largerThanThis" + i);
-				BlackHole blackHole1 = new BlackHole(universe1);
-				blackHole1.setName("blackHole1" + i);
-				BlackHole blackHole2 = new BlackHole(universe1);
-				blackHole2.setName("blackHole2" + i);
-				BlackHole blackHole3 = new BlackHole(universe1);
-				blackHole3.setName("blackHole3" + i);
-				if (i % 5 == 0) {
-					System.out.println(i);
-					db.stopTransaction(Conclusion.SUCCESS);
-					stopWatch1.stop();
-					System.out.println(stopWatch1.toString());
-					db.startTransaction();
-					stopWatch1.reset();
-					stopWatch1.start();
+				
+				for (int j = 0; j < 100000; j++) {
+					BlackHole blackHole1 = new BlackHole(universe1);
+					blackHole1.setName("blackHole" + i + "_" + j);
+					if (j % 500 == 0) {
+						System.out.println(j);
+						db.stopTransaction(Conclusion.SUCCESS);
+						stopWatch1.stop();
+						System.out.println(stopWatch1.toString());
+						db.startTransaction();
+						stopWatch1.reset();
+						stopWatch1.start();
+					}
 				}
+				
 			}
 
 			Creature creature = new Creature(god);
@@ -122,6 +124,8 @@ public class StartupListener {
 		db.stopTransaction(Conclusion.SUCCESS);
 		stopWatch.stop();
 		System.out.println(stopWatch.toString());
+		totalStopWatch.stop();
+		System.out.println(totalStopWatch.toString());
 
 		GraphDb.remove();
 	}

@@ -24,6 +24,11 @@ import java.util.jar.JarFile;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Enumeration;
@@ -39,6 +44,7 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 public class AbstractUmlGenerator {
@@ -49,6 +55,8 @@ public class AbstractUmlGenerator {
 	private static Map<Class, org.eclipse.uml2.uml.Classifier> primitiveTypes = new HashMap<Class, org.eclipse.uml2.uml.Classifier>();
 	private static Map<Class, org.eclipse.uml2.uml.Classifier> classMap = new HashMap<Class, org.eclipse.uml2.uml.Classifier>();
 	private static Set<Class> selectedClasses = new HashSet<Class>();
+
+	protected static final ResourceSet RESOURCE_SET = new ResourceSetImpl();
 
 	protected static void selectClasses(JarFile jarFile) {
 		java.util.Enumeration<JarEntry> entries = jarFile.entries();
@@ -88,7 +96,7 @@ public class AbstractUmlGenerator {
 		primitiveTypes.put(Byte.class, integerPrimitiveType);
 		primitiveTypes.put(byte.class, integerPrimitiveType);
 
-		Package ecoreLibrary =getImportedPackage(modelOrProfile, UMLResource.JAVA_PRIMITIVE_TYPES_LIBRARY_URI);
+		Package ecoreLibrary = getImportedPackage(modelOrProfile, UMLResource.JAVA_PRIMITIVE_TYPES_LIBRARY_URI);
 		primitiveTypes.put(BigDecimal.class, (Classifier) ecoreLibrary.getOwnedMember("double"));
 		primitiveTypes.put(Double.class, (Classifier) ecoreLibrary.getOwnedMember("double"));
 		primitiveTypes.put(double.class, (Classifier) ecoreLibrary.getOwnedMember("double"));
@@ -98,15 +106,38 @@ public class AbstractUmlGenerator {
 	}
 
 	public static Model getImportedPackage(Package ecoreProfile, String uriString) {
-		URI uri = URI.createURI(uriString);
-		for (PackageImport pi : ecoreProfile.getPackageImports()) {
-			if (pi.getImportedPackage().eResource().getURI().equals(uri)) {
-				return (Model) pi.getImportedPackage();
-			}
+		
+		org.eclipse.uml2.uml.Package package_ = load(URI.createURI(uriString));
+		return (Model)package_;
+		
+//		URI uri = URI.createURI(uriString);
+//		for (PackageImport pi : ecoreProfile.getPackageImports()) {
+//			if (pi.getImportedPackage().eResource().getURI().equals(uri)) {
+//				return (Model) pi.getImportedPackage();
+//			}
+//		}
+//		Model umlLibrary = (Model) ecoreProfile.eResource().getResourceSet().getResource(uri, true).getContents().get(0);
+//		ecoreProfile.createPackageImport(umlLibrary);
+//		return umlLibrary;
+	}
+
+	protected static PrimitiveType importPrimitiveType(org.eclipse.uml2.uml.Package package_, String name) {
+		Model umlLibrary = (Model) load(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI));
+		PrimitiveType primitiveType = (PrimitiveType) umlLibrary.getOwnedType(name);
+		package_.createElementImport(primitiveType);
+		return primitiveType;
+	}
+
+	protected static org.eclipse.uml2.uml.Package load(URI uri) {
+		org.eclipse.uml2.uml.Package package_ = null;
+		try {
+			Resource resource = RESOURCE_SET.getResource(uri, true);
+			package_ = (org.eclipse.uml2.uml.Package) EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE);
+		} catch (WrappedException we) {
+			we.printStackTrace();
+			System.exit(1);
 		}
-		Model umlLibrary = (Model) ecoreProfile.eResource().getResourceSet().getResource(uri, true).getContents().get(0);
-		ecoreProfile.createPackageImport(umlLibrary);
-		return umlLibrary;
+		return package_;
 	}
 
 	protected static Classifier getClassifierFor(Package modelOrProfile, Class<?> returnType) {
@@ -154,8 +185,7 @@ public class AbstractUmlGenerator {
 		} else if (primitiveTypes.containsKey(returnType)) {
 			classifier = getPackageFor(returnType, modelOrProfile).createOwnedPrimitiveType(returnType.getSimpleName());
 		} else {
-			org.eclipse.uml2.uml.Class umlClass = getPackageFor(returnType, modelOrProfile).createOwnedClass(returnType.getSimpleName(),
-					false);
+			org.eclipse.uml2.uml.Class umlClass = getPackageFor(returnType, modelOrProfile).createOwnedClass(returnType.getSimpleName(), false);
 			Class<?>[] interfaces = returnType.getInterfaces();
 			for (Class<?> intfce : interfaces) {
 				umlClass.createInterfaceRealization(intfce.getSimpleName(), (Interface) getClassifierFor(modelOrProfile, intfce));
@@ -196,8 +226,8 @@ public class AbstractUmlGenerator {
 					if (parameterTypes[0].isArray() || Collection.class.isAssignableFrom(parameterTypes[0])) {
 						Parameter umlParameter = oper.getOwnedParameters().get(i);
 						umlParameter.setUpper(LiteralUnlimitedNatural.UNLIMITED);
-						umlParameter.setName("parm"+i);
-						
+						umlParameter.setName("parm" + i);
+
 					}
 				}
 			}
@@ -206,8 +236,8 @@ public class AbstractUmlGenerator {
 
 	private static boolean isAccessor(MethodDescriptor md) {
 		// TODO Auto-generated method stub
-		boolean returnsVoid = md.getMethod().getReturnType()==null || md.getMethod().getReturnType()==void.class;
-		boolean setter = md.getName().startsWith("set") && md.getMethod().getParameterTypes().length==1 && returnsVoid;
+		boolean returnsVoid = md.getMethod().getReturnType() == null || md.getMethod().getReturnType() == void.class;
+		boolean setter = md.getName().startsWith("set") && md.getMethod().getParameterTypes().length == 1 && returnsVoid;
 		boolean getter = md.getName().startsWith("get") && !returnsVoid;
 		return setter || getter;
 	}
@@ -259,8 +289,7 @@ public class AbstractUmlGenerator {
 		} else if (intfce instanceof DataType) {
 			oper = ((DataType) intfce).createOwnedOperation(md.getName(), getArgumentNames(md), getArgumentTypes(modelOrProfile, md));
 		} else if (intfce instanceof org.eclipse.uml2.uml.Class) {
-			oper = ((org.eclipse.uml2.uml.Class) intfce).createOwnedOperation(md.getName(), getArgumentNames(md),
-					getArgumentTypes(modelOrProfile, md));
+			oper = ((org.eclipse.uml2.uml.Class) intfce).createOwnedOperation(md.getName(), getArgumentNames(md), getArgumentTypes(modelOrProfile, md));
 		}
 		return oper;
 	}
@@ -270,8 +299,7 @@ public class AbstractUmlGenerator {
 		if (intfce instanceof Interface) {
 			attr = ((Interface) intfce).createOwnedAttribute(pd.getName(), getClassifierFor(modelOrProfile, pd.getPropertyType()));
 		} else if (intfce instanceof org.eclipse.uml2.uml.Class) {
-			attr = ((org.eclipse.uml2.uml.Class) intfce).createOwnedAttribute(pd.getName(),
-					getClassifierFor(modelOrProfile, pd.getPropertyType()));
+			attr = ((org.eclipse.uml2.uml.Class) intfce).createOwnedAttribute(pd.getName(), getClassifierFor(modelOrProfile, pd.getPropertyType()));
 		} else if (intfce instanceof DataType) {
 			attr = ((DataType) intfce).createOwnedAttribute(pd.getName(), getClassifierFor(modelOrProfile, pd.getPropertyType()));
 		}
@@ -280,9 +308,9 @@ public class AbstractUmlGenerator {
 
 	private static EList<String> getArgumentNames(MethodDescriptor md) {
 		BasicEList<String> results = new BasicEList<String>();
-			for (int i=0; i <md.getMethod().getParameterTypes().length; i++) {
-				results.add("parm" + i);
-			}
+		for (int i = 0; i < md.getMethod().getParameterTypes().length; i++) {
+			results.add("parm" + i);
+		}
 		return results;
 	}
 

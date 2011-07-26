@@ -1016,7 +1016,7 @@
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_la404WetEeC_85FOnhMg7Q" presentation="org.topcased.modeler.uml.classdiagram">
           <element href="tinker.uml#_jSx44GetEeC_85FOnhMg7Q"/>
         </semanticModel>
-        <contained xsi:type="di:GraphNode" xmi:id="_u-H74GhAEeC_85FOnhMg7Q" position="474,20" size="119,-1">
+        <contained xsi:type="di:GraphNode" xmi:id="_u-H74GhAEeC_85FOnhMg7Q" position="474,20" size="277,-1">
           <anchorage xmi:id="_h_qPcGhCEeC_85FOnhMg7Q" graphEdge="_h_ug4GhCEeC_85FOnhMg7Q _ia75YGhGEeC_85FOnhMg7Q _9NUnsGhPEeC_85FOnhMg7Q"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_u-H74WhAEeC_85FOnhMg7Q" presentation="default">
             <element href="tinker.uml#_z3Yp0GRvEeCWwpEEhhedIw"/>
@@ -1069,6 +1069,11 @@
             <contained xsi:type="di:GraphNode" xmi:id="_vJvWBmhAEeC_85FOnhMg7Q" position="0,0" size="-1,-1">
               <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_vJvWB2hAEeC_85FOnhMg7Q" presentation="default">
                 <element href="tinker.uml#_eBh0sGg8EeC_85FOnhMg7Q"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" xmi:id="_omeswLeyEeCh2d9ROFemfQ" position="0,0" size="-1,-1">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_omfT0LeyEeCh2d9ROFemfQ" presentation="default">
+                <element href="tinker.uml#_omvLcLeyEeCh2d9ROFemfQ"/>
               </semanticModel>
             </contained>
           </contained>
@@ -1476,6 +1481,23 @@
             <element href="tinker.uml#_KERsAGhQEeC_85FOnhMg7Q"/>
           </semanticModel>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_KECbcWhQEeC_85FOnhMg7Q" id="stereotypeEdgeObject"/>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_XQPAQLbOEeCCretc49vdgg" position="110,20" size="318,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XQPAQbbOEeCCretc49vdgg" presentation="default">
+            <element href="tinker.uml#_XRN3sLbOEeCCretc49vdgg"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_XQPAQrbOEeCCretc49vdgg">
+            <property xmi:id="_XQPAQ7bOEeCCretc49vdgg" key="eStructuralFeatureID" value="37"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XQPARLbOEeCCretc49vdgg" presentation="default">
+              <element href="tinker.uml#_XRN3sLbOEeCCretc49vdgg"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_XQPARbbOEeCCretc49vdgg">
+            <property xmi:id="_XQPARrbOEeCCretc49vdgg" key="eStructuralFeatureID" value="38"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XQPAR7bOEeCCretc49vdgg" presentation="default">
+              <element href="tinker.uml#_XRN3sLbOEeCCretc49vdgg"/>
+            </semanticModel>
+          </contained>
         </contained>
       </diagrams>
     </subdiagrams>

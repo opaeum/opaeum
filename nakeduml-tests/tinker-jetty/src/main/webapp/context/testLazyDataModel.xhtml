@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui">
+		<html>
+	<h:head>
+	</h:head>
+	<h:body>
+<h:form>  
+  
+    <p:dataTable var="car" value="#{tableBean.lazyModel}" paginator="true" rows="10" lazy="true"  
+                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"  
+                 rowsPerPageTemplate="5,10,15"  
+                 selection="#{tableBean.selectedCar}" selectionMode="single"  
+                 onRowSelectComplete="carDialog.show()" onRowSelectUpdate="display">  
+  
+        <f:facet name="header">  
+            Displaying 100,000,000 Cars  
+        </f:facet>  
+  
+        <p:column headerText="Model">  
+            <h:outputText value="#{car.model}" />  
+        </p:column>  
+  
+        <p:column headerText="Year">  
+            <h:outputText value="#{car.year}" />  
+        </p:column>  
+  
+        <p:column headerText="Manufacturer">  
+            <h:outputText value="#{car.manufacturer}" />  
+        </p:column>  
+  
+        <p:column headerText="Color">  
+            <h:outputText value="#{car.color}" />  
+        </p:column>  
+    </p:dataTable>  
+
+  
+</h:form>  
+
+	</h:body>
+	</html>
+</f:view>
+           

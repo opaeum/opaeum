@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import java.util.Collections;
+
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;

@@ -4,6 +4,7 @@ import org.nakeduml.tinker.runtime.NakedGraph;
 import org.nakeduml.tinker.runtime.NakedGraphFactory;
 import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
 
+import com.orientechnologies.orient.core.intent.OIntentMassiveInsert;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Mode;
 import com.tinkerpop.blueprints.pgm.impls.orientdb.OrientGraph;
@@ -23,6 +24,7 @@ public class NakedOrientGraphFactory implements NakedGraphFactory {
 	public NakedGraph getNakedGraph(String url, TinkerSchemaHelper schemaHelper, boolean withSchema) {
 		OrientGraph db = new OrientGraph(url);
 		db.setTransactionMode(Mode.MANUAL);
+		db.getRawGraph().declareIntent(new OIntentMassiveInsert());
 		NakedGraph nakedGraph = new NakedOrientGraph(db, withSchema);
 		nakedGraph.startTransaction();
 		nakedGraph.addRoot();

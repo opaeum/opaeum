@@ -3,27 +3,56 @@
 <f:view contentType="text/html" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.prime.com.tr/ui">
 	<html>
-<h:head>
-</h:head>
-<h:body>
-	<p:layout fullPage="true">
-		<p:layoutUnit resizable="true" position="top" height="50" zindex="10" style="padding:0;overflow:visible;" scrollable="null">
-			<ui:include src="../menu/menu.xhtml" />
-		</p:layoutUnit>
-		<p:layoutUnit resizable="true" position="bottom" header="BOTTOM" height="100">
-			<h:outputText value="Bottom content." />
-		</p:layoutUnit>
-		<p:layoutUnit resizable="true" position="left" header="LEFT" width="300">
-			<h:outputText value="Left content" />
-		</p:layoutUnit>
-		<p:layoutUnit resizable="true" position="right" header="RIGHT" width="200">
-			<h:outputText value="Right Content" />
-		</p:layoutUnit>
-		<p:layoutUnit resizable="true" position="center" header="CENTER">
-			<ui:insert name="body" />
-		</p:layoutUnit>
-	</p:layout>
+	<h:head>
+		<title>
+                <ui:insert name="title">NUML</ui:insert>
+        </title>
+	
+		<style type="text/css">
+.ui-widget {
+	font-size: 75%;
+}
 
-</h:body>
+.themeMenu {
+	overflow: auto;
+	height: 300px;
+	width: 200px;
+}
+
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible;
+}
+</style>
+	</h:head>
+	<h:body>
+		<p:layout fullPage="true">
+			<p:layoutUnit position="north" size="50">
+				<ui:include src="../menu/menu.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit position="south" size="100" header="Bottom" resizable="true" closable="true" collapsible="true">
+				<h:outputText value="South unit content." />
+			</p:layoutUnit>
+			<p:layoutUnit position="west" size="329" header="Left" resizable="true" closable="true" collapsible="true">
+				<h:form>
+					<ui:insert name="left" />
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit position="east" size="200" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
+				<h:outputText value="Right unit content." />
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<h:form id="centerform">
+					<h:panelGroup id="contextDataTablePanelGroupId" layout="block">
+						<ui:insert name="body" />
+					</h:panelGroup>
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
 	</html>
 </f:view>

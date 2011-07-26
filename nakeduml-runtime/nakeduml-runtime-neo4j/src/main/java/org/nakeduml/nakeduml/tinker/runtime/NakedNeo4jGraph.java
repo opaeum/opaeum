@@ -151,7 +151,9 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public Vertex addVertex(String className) {
 		Vertex v = neo4jGraph.addVertex(null);
-		v.setProperty("className", className);
+		if (className!=null) {
+			v.setProperty("className", className);
+		}
 		return v;
 	}
 

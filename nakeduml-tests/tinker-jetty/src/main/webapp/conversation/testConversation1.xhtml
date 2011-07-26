@@ -12,29 +12,10 @@
 	<h:form id="mainForm">
 		<h:panelGrid columns="2">
 			<h:outputLabel for="rootLabel" value="Context Root" />
-			<h:inputText id="rootLabel" value="#{contextRoot.name}" />
-			<h:outputLabel for="names" value="Some conversation scoped names" />
-			<h:selectOneMenu id="names" value="#{testConversation1.name}" required="true">
-				<f:selectItems var="name" itemLabel="#{name}" value="#{testConversation1.names}" itemValue="#{name}" />
-			</h:selectOneMenu>
+			<h:inputText id="rootLabel" value="#{contextController.contextObject}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:panelGrid>
 
-		<p:dataTable var="blackHole" value="#{contextRoot.universe}" paginator="true" rows="10"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
-			<f:facet name="header">  
-            Ajax Pagination  
-        </f:facet>
-
-			<f:facet name="header">  
-            Displaying 100,000,000 BlackHoles  
-        	</f:facet>
-
-			<p:column headerText="Model">
-				<h:outputText value="#{blackHole.name}" />
-			</p:column>
-
-		</p:dataTable>
 		<h:commandButton value="Update" action="#{updateContextRoot.update}" />
 	</h:form></div>
 </h:body>
