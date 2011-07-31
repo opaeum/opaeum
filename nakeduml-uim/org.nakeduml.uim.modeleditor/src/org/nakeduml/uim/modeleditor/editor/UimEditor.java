@@ -6,7 +6,7 @@ package org.nakeduml.uim.modeleditor.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -43,7 +43,7 @@ public class UimEditor extends Modeler{
 			for(IEditorReference r:activePage.getEditorReferences()){
 				IEditorPart editor = r.getEditor(false);
 				if(editor instanceof NakedUmlEditor){
-					UmlElementMap umlElementMap = ((NakedUmlEditor) editor).getUmlElementMap();
+					UmlElementCache umlElementMap = ((NakedUmlEditor) editor).getUmlElementCache();
 					UmlUimLinks.associate(getResourceSet(),umlElementMap);
 				}
 			}

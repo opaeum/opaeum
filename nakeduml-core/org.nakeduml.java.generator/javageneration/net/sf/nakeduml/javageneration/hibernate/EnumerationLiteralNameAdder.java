@@ -23,9 +23,7 @@ public class EnumerationLiteralNameAdder extends AbstractJavaProducingVisitor {
 			addSqlNameInitialization(je);
 			List<INakedEnumerationLiteral> literals = (ArrayList)ne.getLiterals();
 			for (INakedEnumerationLiteral l : literals) {
-				OJAnnotatedField field = new OJAnnotatedField();
-				field.setType(new OJPathName("String"));
-				field.setName("sqlName");
+				OJAnnotatedField field = new OJAnnotatedField("sqlName",new OJPathName("String"));
 				field.setInitExp("\"" + l.getMappingInfo().getPersistentName() + "\"");
 				OJEnumLiteral jl = je.findLiteral(l.getMappingInfo().getJavaName().getAsIs());
 				jl.addToAttributeValues(field);
@@ -43,10 +41,8 @@ public class EnumerationLiteralNameAdder extends AbstractJavaProducingVisitor {
 			constr.getBody().addToStatements("this.sqlName=sqlName");
 		}
 		OJUtil.addMethod(je, "getSqlName", "String", "this.sqlName");
-		OJAnnotatedField field = new OJAnnotatedField();
-		field.setName("sqlName");
+		OJAnnotatedField field = new OJAnnotatedField("sqlName",new OJPathName("String"));
 		field.setComment("This field will be used as values for the column where this enum is stored");
-		field.setType(new OJPathName("String"));
 		je.addToFields(field);
 	}
 

@@ -68,6 +68,7 @@ import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.nakeduml.eclipse.ApplyProfileAction;
 import org.nakeduml.eclipse.EmfParameterUtil;
+import org.nakeduml.eclipse.EmfValidationUtil;
 import org.nakeduml.eclipse.ImportLibraryAction;
 
 public class NakedUmlElementLinker extends EContentAdapter{
@@ -723,7 +724,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			Slot slot = newValue.createSlot();
 			slot.setDefiningFeature(a);
 			OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
-			oclExpression.getBodies().add("Type value here");
+			oclExpression.getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
 			oclExpression.getLanguages().add("ocl");
 			slot.getValues().add(oclExpression);
 		}

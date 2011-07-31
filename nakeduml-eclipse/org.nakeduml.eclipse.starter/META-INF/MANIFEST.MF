@@ -18,7 +18,9 @@ Require-Bundle: org.nakeduml.eclipse,
  org.nakeduml.uim,
  org.nakeduml.uim.uml2uim,
  org.nakeduml.topcased.classdiagram;bundle-version="1.0.0",
- org.topcased.modeler;bundle-version="3.1.14"
+ org.topcased.modeler,
+ org.eclipse.jdt.ui;bundle-version="3.7.0",
+ org.eclipse.jdt.core.manipulation;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.nakeduml.eclipse.starter

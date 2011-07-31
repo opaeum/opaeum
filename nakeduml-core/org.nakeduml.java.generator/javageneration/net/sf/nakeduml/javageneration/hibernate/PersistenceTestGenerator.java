@@ -2,9 +2,11 @@ package net.sf.nakeduml.javageneration.hibernate;
 
 import java.util.Collection;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
 import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
@@ -23,26 +25,24 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
+@StepDependency(phase = JavaTransformationPhase.class, requires = {HibernateAnnotator.class}, after = { HibernateAnnotator.class })
 public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c) {
 		if ((isPersistent(c) /* || c instanceof INakedInterface */) && OJUtil.hasOJClass(c)) {
-			OJAnnotatedClass test = new OJAnnotatedClass();
-			test.addToImports(UtilityCreator.getUtilPathName() + ".HibernateConfigurator");
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			String name = ojClass.getName();
 			String testName = name + "PersistenceTest";
-			test.setName(testName);
+			OJAnnotatedClass test = new OJAnnotatedClass(testName);
+			test.addToImports(UtilityCreator.getUtilPathName() + ".HibernateConfigurator");
 			OJPackage testPackage = ojClass.getMyPackage();
 			testPackage.addToClasses(test);
 			super.createTextPath(test, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
 			INakedClassifier nc = c;
 			addPopulate(ojClass, test, nc);
-			OJAnnotatedField instance = new OJAnnotatedField();
+			OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());
 			instance.setStatic(true);
-			instance.setName("instance");
-			instance.setType(ojClass.getPathName());
 			test.addToFields(instance);
 			addGetInstance(ojClass, test, nc);
 			addCreateNew(ojClass, test, nc);
@@ -58,11 +58,10 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	}
 
 	protected void addPopulate(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
-		OJOperation populate = new OJAnnotatedOperation();
+		OJOperation populate = new OJAnnotatedOperation("populate");
 		populate.addToThrows("Exception");
 		test.addToOperations(populate);
 		populate.setStatic(true);
-		populate.setName("populate");
 		populate.addParam("instance", ojClass.getPathName());
 		if (c.getNakedGeneralizations().size() > 0) {
 			OJPathName superType = getTestDataPath(c.getSupertype());
@@ -84,11 +83,10 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	}
 
 	protected void addGetInstance(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
-		OJOperation getInstance = new OJAnnotatedOperation();
+		OJOperation getInstance = new OJAnnotatedOperation("getInstance");
 		test.addToOperations(getInstance);
 		getInstance.addToThrows("Exception");
 		getInstance.setStatic(true);
-		getInstance.setName("getInstance");
 		getInstance.setReturnType(ojClass.getPathName());
 		test.addToOperations(getInstance);
 		OJIfStatement ifNull = new OJIfStatement();
@@ -106,10 +104,8 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 		} else {
 			ifNull.getThenPart().addToStatements("instance=new " + ojClass.getName() + "()");
 			ifNull.getThenPart().addToStatements("populate(instance)");
-			OJAnnotatedField entityManager = new OJAnnotatedField();
+			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
 			entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
-			entityManager.setName("entityManager");
-			entityManager.setType(new OJPathName("javax.persistence.EntityManager"));
 			ifNull.getThenPart().addToLocals(entityManager);
 			ifNull.getThenPart().addToStatements("entityManager.persist(instance)");
 		}
@@ -120,11 +116,10 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	}
 
 	protected void addCreateNew(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
-		OJOperation createNew = new OJAnnotatedOperation();
+		OJOperation createNew = new OJAnnotatedOperation("createNew");
 		createNew.addToThrows("Exception");
 		test.addToOperations(createNew);
 		createNew.setStatic(true);
-		createNew.setName("createNew");
 		createNew.setReturnType(ojClass.getPathName());
 		test.addToOperations(createNew);
 		Collection<? extends INakedClassifier> subClasses = GeneralizationUtil.getAllSubClassifiers(c,getModelInScope());
@@ -138,16 +133,12 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 				createNew.getBody().addToStatements("throw new RuntimeException(\"Entity "+ c.getName() +" has no concrete implementations\")");
 			}
 		} else {
-			OJAnnotatedField newInstance = new OJAnnotatedField();
-			newInstance.setName("newInstance");
+			OJAnnotatedField newInstance = new OJAnnotatedField("newInstance", ojClass.getPathName());
 			newInstance.setInitExp("new " + ojClass.getName() + "()");
-			newInstance.setType(ojClass.getPathName());
 			createNew.getBody().addToLocals(newInstance);
 			createNew.getBody().addToStatements("populate(newInstance)");
-			OJAnnotatedField entityManager = new OJAnnotatedField();
+			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
 			entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
-			entityManager.setName("entityManager");
-			entityManager.setType(new OJPathName("javax.persistence.EntityManager"));
 			createNew.getBody().addToLocals(entityManager);
 			createNew.getBody().addToStatements("entityManager.persist(newInstance)");
 			createNew.getBody().addToStatements("return newInstance");
@@ -155,20 +146,17 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	}
 
 	protected void addReset(OJAnnotatedClass test, INakedClassifier c) {
-		OJAnnotatedField isResetting = new OJAnnotatedField();
-		isResetting.setName("isResetting");
+		OJAnnotatedField isResetting = new OJAnnotatedField("isResetting",new OJPathName("boolean"));
 		isResetting.setInitExp("false");
 		isResetting.setStatic(true);
-		isResetting.setType(new OJPathName("boolean"));
 		test.addToFields(isResetting);
-		OJAnnotatedOperation reset = new OJAnnotatedOperation();
+		OJAnnotatedOperation reset = new OJAnnotatedOperation("reset");
 		test.addToOperations(reset);
 		reset.setStatic(true);
 		OJAnnotationValue afterTest = new OJAnnotationValue(new OJPathName("org.testng.annotations.AfterMethod"));
 		afterTest.putAttribute(new OJAnnotationAttributeValue("groups", "persistence"));
 		afterTest.putAttribute(new OJAnnotationAttributeValue("alwaysRun", true));
 		reset.putAnnotation(afterTest);
-		reset.setName("reset");
 		test.addToOperations(reset);
 		OJIfStatement ifResetting = new OJIfStatement("isResetting==false", "isResetting=true");
 		ifResetting.getThenPart().addToStatements("instance=null");
@@ -196,22 +184,17 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 
 	protected void addTestInsert(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
 		if (!(c.getIsAbstract())) {
-			OJAnnotatedOperation testInsert = new OJAnnotatedOperation();
+			OJAnnotatedOperation testInsert = new OJAnnotatedOperation("testInsert");
 			test.addToOperations(testInsert);
-			testInsert.setName("testInsert");
 			testInsert.addToThrows("Exception");
 			OJAnnotationValue atTest = new OJAnnotationValue(new OJPathName("org.testng.annotations.Test"));
 			atTest.putAttribute(new OJAnnotationAttributeValue("groups", "persistence"));
 			testInsert.putAnnotation(atTest);
-			OJAnnotatedField entityManager = new OJAnnotatedField();
+			OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
 			entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
-			entityManager.setName("entityManager");
-			entityManager.setType(new OJPathName("javax.persistence.EntityManager"));
 			test.addToImports(entityManager.getType());
 			testInsert.getBody().addToLocals(entityManager);
-			OJAnnotatedField instance = new OJAnnotatedField();
-			instance.setName("instance");
-			instance.setType(ojClass.getPathName());
+			OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());
 			instance.setInitExp("new " + ojClass.getName() + "()");
 			testInsert.getBody().addToLocals(instance);
 			testInsert.getBody().addToStatements("entityManager.getTransaction().begin()");
@@ -222,22 +205,17 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	}
 
 	protected void addTestOptionalFields(OJAnnotatedClass ojClass, OJAnnotatedClass test, INakedClassifier c) {
-		OJAnnotatedOperation testOptionalFields = new OJAnnotatedOperation();
+		OJAnnotatedOperation testOptionalFields = new OJAnnotatedOperation("testOptionalFields");
 		test.addToOperations(testOptionalFields);
-		testOptionalFields.setName("testOptionalFields");
 		testOptionalFields.addToThrows("Exception");
 		OJAnnotationValue atTest = new OJAnnotationValue(new OJPathName("org.testng.annotations.Test"));
 		atTest.putAttribute(new OJAnnotationAttributeValue("groups", "persistence"));
 		testOptionalFields.putAnnotation(atTest);
-		OJAnnotatedField entityManager = new OJAnnotatedField();
+		OJAnnotatedField entityManager = new OJAnnotatedField("entityManager",new OJPathName("javax.persistence.EntityManager"));
 		entityManager.setInitExp("HibernateConfigurator.getInstance().getEntityManager()");
-		entityManager.setName("entityManager");
-		entityManager.setType(new OJPathName("javax.persistence.EntityManager"));
 		test.addToImports(entityManager.getType());
 		testOptionalFields.getBody().addToLocals(entityManager);
-		OJAnnotatedField instance = new OJAnnotatedField();
-		instance.setName("instance");
-		instance.setType(ojClass.getPathName());
+		OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());
 		instance.setInitExp("null");
 		testOptionalFields.getBody().addToLocals(instance);
 		testOptionalFields.getBody().addToStatements("entityManager.getTransaction().begin()");

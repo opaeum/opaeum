@@ -5,7 +5,6 @@ import java.util.Set;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public interface INakedOperation extends IOperation,INakedPackageableElement,IParameterOwner{
 	boolean isQuery();
@@ -22,5 +21,6 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	void setIsLongRunning(boolean b);
 	void setBodyCondition(INakedConstraint specification);
 	INakedConstraint getBodyCondition();
-	INakedMessageStructure getMessageStructure(NakedUmlLibrary lib);
+	void initMessageStructure(NakedUmlLibrary lib);
+	INakedMessageStructure getMessageStructure();
 }

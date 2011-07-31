@@ -15,7 +15,8 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.commands.SetOclExpressionCommand;
-import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
@@ -37,7 +38,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	protected String getFeatureAsString(){
 		OpaqueExpression expression = getExpression(getEObject());
 		if(expression == null || expression.getBodies().size() == 0){
-			return "Type expression here";
+			return OclValueComposite.DEFAULT_TEXT;
 		}else{
 			return expression.getBodies().get(0);
 		}

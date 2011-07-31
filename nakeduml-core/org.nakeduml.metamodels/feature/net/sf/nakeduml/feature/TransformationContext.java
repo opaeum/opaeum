@@ -5,16 +5,24 @@ import java.util.List;
 import java.util.Set;
 
 public class TransformationContext {
+	boolean isIntegrationPhase;
 	Set<Class<? extends TransformationStep>> selectedFeatures = new HashSet<Class<? extends TransformationStep>>();
 	Set<Class<? extends TransformationStep>> appliedFeatures = new HashSet<Class<? extends TransformationStep>>();
 
-	public TransformationContext(Set<Class<? extends TransformationStep>> selectedFeatures) {
+	public TransformationContext(Set<Class<? extends TransformationStep>> selectedFeatures,boolean isIntegrationPhase) {
 		super();
 		this.selectedFeatures = selectedFeatures;
+		this.isIntegrationPhase=isIntegrationPhase;
 	}
 
 	public TransformationContext() {
 	}
+	
+
+	public boolean isIntegrationPhase(){
+		return isIntegrationPhase;
+	}
+
 
 	public boolean hasFeatureBeenApplied(Class<? extends TransformationStep> feature) {
 		return this.appliedFeatures.contains(feature);

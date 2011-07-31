@@ -72,8 +72,7 @@ public class OJUtil{
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
 	public static OJAnnotatedOperation buildMain(OJAnnotatedClass ojClass){
-		OJAnnotatedOperation main = new OJAnnotatedOperation();
-		main.setName("main");
+		OJAnnotatedOperation main = new OJAnnotatedOperation("main");
 		main.setStatic(true);
 		main.addParam("args", new OJPathName("String[]"));
 		ojClass.addToOperations(main);
@@ -195,7 +194,7 @@ public class OJUtil{
 	public static final OJOperation addMethod(OJClass theClass,String name,String type,String expression){
 		OJOperation get = OJUtil.findOperation(theClass, name);
 		if(get == null){
-			get = new OJAnnotatedOperation();
+			get = new OJAnnotatedOperation(name);
 			theClass.addToOperations(get);
 		}else{
 			get.setBody(new OJBlock());
@@ -216,23 +215,19 @@ public class OJUtil{
 	}
 	public static OJAnnotatedField addProperty(OJClassifier ojClass,String name,OJPathName type,boolean withBody){
 		ojClass.addToImports(type);
-		OJOperation set = new OJAnnotatedOperation();
 		String capped = NameConverter.capitalize(name);
-		set.setName("set" + capped);
+		OJOperation set = new OJAnnotatedOperation("set" + capped);
 		set.addParam(name, type);
 		set.setBody(new OJBlock());
 		ojClass.addToOperations(set);
-		OJOperation get = new OJAnnotatedOperation();
-		get.setName("get" + capped);
+		OJOperation get = new OJAnnotatedOperation("get" + capped);
 		get.setReturnType(type);
 		get.setBody(new OJBlock());
 		ojClass.addToOperations(get);
 		if(withBody){
 			set.getBody().addToStatements("this." + name + "=" + name);
 			get.getBody().addToStatements("return " + name);
-			OJAnnotatedField field = new OJAnnotatedField();
-			field.setName(name);
-			field.setType(type);
+			OJAnnotatedField field = new OJAnnotatedField(name,type);
 			((OJClass) ojClass).addToFields(field);
 			return field;
 		}
@@ -249,7 +244,7 @@ public class OJUtil{
 		// }
 		// System.out.println("called " + sb.toString());
 		// }
-		Iterator iter = theClass.getOperations().iterator();
+		Iterator<OJOperation> iter = theClass.getOperations().iterator();
 		while(iter.hasNext()){
 			OJOperation o = (OJOperation) iter.next();
 			if(o.getName().equals(name)){
@@ -315,7 +310,7 @@ public class OJUtil{
 		}
 	}
 	public static void addField(OJEnum ojEnum,OJConstructor constr,String name,OJPathName type){
-		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
+		OJAnnotatedOperation getter = new OJAnnotatedOperation( "get" + NameConverter.capitalize(name), type);
 		getter.getBody().addToStatements("return this." + name);
 		ojEnum.addToOperations(getter);
 		constr.addParam(name, type);
@@ -324,7 +319,7 @@ public class OJUtil{
 		ojEnum.addToFields(field);
 	}
 	public static void addParameter(OJEnumLiteral l,String name,String value){
-		OJAnnotatedField persistentName = new OJAnnotatedField();
+		OJAnnotatedField persistentName = new OJAnnotatedField(name,null);
 		persistentName.setName(name);
 		persistentName.setInitExp(value);
 		l.addToAttributeValues(persistentName);

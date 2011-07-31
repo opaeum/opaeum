@@ -11,6 +11,9 @@ import org.nakeduml.java.metamodel.utilities.JavaUtil;
 
 public class OJEnum extends OJAnnotatedClass{
 	List<OJEnumLiteral> f_literals = new ArrayList<OJEnumLiteral>();
+	public OJEnum(String string){
+		super(string);
+	}
 	public void addToLiterals(OJEnumLiteral literal){
 		this.f_literals.add(literal);
 	}

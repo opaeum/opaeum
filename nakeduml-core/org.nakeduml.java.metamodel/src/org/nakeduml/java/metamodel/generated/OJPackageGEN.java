@@ -138,7 +138,7 @@ abstract public class OJPackageGEN extends OJElement {
 			return;
 		}
 		if (this.f_classes.contains(element)) {
-			return;
+			this.f_classes.remove(element);
 		}
 		this.f_classes.add(element);
 		if (element.getMyPackage() != null) {
@@ -273,7 +273,7 @@ abstract public class OJPackageGEN extends OJElement {
 			return;
 		}
 		if (this.f_interfaces.contains(element)) {
-			return;
+			this.f_interfaces.remove(element);
 		}
 		this.f_interfaces.add(element);
 		if (element.getMyPackage() != null) {

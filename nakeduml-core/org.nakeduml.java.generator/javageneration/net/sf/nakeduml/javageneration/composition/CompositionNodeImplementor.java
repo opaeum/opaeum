@@ -1,12 +1,15 @@
 package net.sf.nakeduml.javageneration.composition;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
+import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.CompositionEmulator;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -34,10 +37,12 @@ import org.nakeduml.runtime.domain.CompositionNode;
 /**
  * This class implements the CompositionNode semantics which enriches the Java model with ideas on how compositions should ideally be
  * implemented.
- * 
- * @author ampie
- * 
  */
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+		CompositionEmulator.class,OperationAnnotator.class
+},after = {
+	OperationAnnotator.class
+})
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	private static OJPathName COMPOSITION_NODE = null;
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
@@ -104,8 +109,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void addRemoveFromOwner(OJClass ojClass){
-		OJAnnotatedOperation remove = new OJAnnotatedOperation();
-		remove.setName("removeFromOwningObject");
+		OJAnnotatedOperation remove = new OJAnnotatedOperation("removeFromOwningObject");
 		remove.getBody().addToStatements("this.markDeleted()");
 		ojClass.addToOperations(remove);
 	}
@@ -113,9 +117,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	 * Removes initialization logic from the default constructor and adds it to the init method which takes the
 	 */
 	protected void addInit(ICompositionParticipant c,OJClass ojClass){
-		OJOperation init = new OJAnnotatedOperation();
+		OJOperation init = new OJAnnotatedOperation("init");
 		init.addParam("owner", COMPOSITION_NODE);
-		init.setName("init");
 		init.setBody(ojClass.getDefaultConstructor().getBody());
 		ojClass.getDefaultConstructor().setBody(new OJBlock());
 		int start = 0;
@@ -136,8 +139,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(init);
 	}
 	protected void addGetOwningObject(ICompositionParticipant bc,OJClass ojClass){
-		OJOperation getOwner = new OJAnnotatedOperation();
-		getOwner.setName(GET_OWNING_OBJECT);
+		OJOperation getOwner = new OJAnnotatedOperation(GET_OWNING_OBJECT);
 		getOwner.setReturnType(COMPOSITION_NODE);
 		getOwner.setBody(new OJBlock());
 		if(bc.hasComposite()){

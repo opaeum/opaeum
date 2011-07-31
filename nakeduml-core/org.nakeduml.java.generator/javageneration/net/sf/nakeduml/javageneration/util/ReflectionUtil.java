@@ -33,8 +33,7 @@ public class ReflectionUtil {
 		mappedTypes = mappedTypes == null ? new HashMap<Class, OJPathName>() : mappedTypes;
 		Method[] methods = delegate == null ? collectionInterface.getDeclaredMethods() : collectionInterface.getMethods();
 		for (Method m : methods) {
-			OJAnnotatedOperation oper = new OJAnnotatedOperation();
-			oper.setName(m.getName());
+			OJAnnotatedOperation oper = new OJAnnotatedOperation(m.getName());
 			TypeVariable<Method>[] typeParameters = m.getTypeParameters();
 			for (TypeVariable<Method> tv : typeParameters) {
 				oper.setGenericTypeParam(ReflectionUtil.getTypePath(tv, mappedTypes));
@@ -119,8 +118,7 @@ public class ReflectionUtil {
 
 	public static OJAnnotatedInterface duplicateInterface(Class clazz, Map<Class, OJPathName> mappedTypes) {
 		mappedTypes.put(clazz, getUtilInterface(clazz));
-		OJAnnotatedInterface ojinterface = new OJAnnotatedInterface();
-		ojinterface.setName(clazz.getSimpleName() + "Interface");
+		OJAnnotatedInterface ojinterface = new OJAnnotatedInterface(clazz.getSimpleName() + "Interface");
 		UtilityCreator.getUtilPack().addToClasses(ojinterface);
 		addOperationsFromJava(clazz, ojinterface, null, mappedTypes);
 		for (Class intf : clazz.getInterfaces()) {

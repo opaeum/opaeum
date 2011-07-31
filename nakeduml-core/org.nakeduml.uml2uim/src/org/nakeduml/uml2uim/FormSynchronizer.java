@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
@@ -41,7 +41,7 @@ import org.nakeduml.uim.util.UmlUimLinks;
 public class FormSynchronizer extends AbstractUimSynchronizer{
 	public FormSynchronizer(){
 	}
-	public FormSynchronizer(EmfWorkspace workspace, ResourceSet resourceSet,boolean regenerate,UmlElementMap map){
+	public FormSynchronizer(EmfWorkspace workspace, ResourceSet resourceSet,boolean regenerate,UmlElementCache map){
 		super(workspace,resourceSet, regenerate,map);
 	}
 	@VisitBefore(matchSubclasses = false)

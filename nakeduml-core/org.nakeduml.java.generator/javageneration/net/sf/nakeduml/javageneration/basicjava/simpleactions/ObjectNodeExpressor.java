@@ -32,9 +32,7 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		return surroundWithSelectionAndTransformation(call, edge);
 	}
 	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map){
-		OJAnnotatedField field = new OJAnnotatedField();
-		field.setName(map.umlName());
-		field.setType(map.javaTypePath());
+		OJAnnotatedField field = new OJAnnotatedField(map.umlName(),map.javaTypePath());
 		field.setInitExp(map.javaDefaultValue());
 		block.addToLocals(field);
 		operation.getOwner().addToImports(map.javaBaseTypePath());

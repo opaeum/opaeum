@@ -7,49 +7,39 @@ import java.util.Iterator;
 
 import org.nakeduml.java.metamodel.OJElement;
 
-
-
-
-/** @author  Jos Warmer
- * @version $Id: JavaUtil.java,v 1.1 2006/03/15 13:47:41 jwarmer Exp $
- */
-public class JavaUtil {
-
-    /** Creates a new instance of Util
-      */
-    public JavaUtil() {
-    }
-
-	static public String collectionToJavaString(Collection coll, String separator)
-	{
-//		Check.pre("Util.collectionToJavaString: coll should hold OJElements", 
-//				  Check.elementsOfType(coll, OJElement.class));
-		if( coll == null ) { return ""; }
+public class JavaUtil{
+	public JavaUtil(){
+	}
+	static public String collectionToJavaString(Collection<? extends OJElement> coll,String separator){
+		if(coll == null){
+			return "";
+		}
 		String result = "";
-		if( coll != null ){
-			Iterator i = coll.iterator();
-			while( i.hasNext() ){
-				OJElement o = (OJElement) i.next();
+		if(coll != null){
+			Iterator<? extends OJElement> i = coll.iterator();
+			while(i.hasNext()){
+				OJElement o = i.next();
 				result = result + (o == null ? "<null>" : o.toJavaString());
-				if( i.hasNext() ) result = result + separator;
+				if(i.hasNext())
+					result = result + separator;
 			}
 		}
 		return result;
 	}
-	static public String collectionToString(Collection coll, String separator)
-	{
-		if( coll == null ) { return ""; }
+	static public String collectionToString(Collection<? extends Object> coll,String separator){
+		if(coll == null){
+			return "";
+		}
 		String result = "";
-		if( coll != null ){
-			Iterator i = coll.iterator();
-			while( i.hasNext() ){
+		if(coll != null){
+			Iterator<? extends Object> i = coll.iterator();
+			while(i.hasNext()){
 				Object o = i.next();
 				result = result + (o == null ? "<null>" : o.toString());
-				if( i.hasNext() ) result = result + separator;
+				if(i.hasNext())
+					result = result + separator;
 			}
 		}
 		return result;
 	}
-
-
 }

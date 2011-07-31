@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
@@ -14,15 +13,8 @@ public abstract class AbstractJavaTransformationStep implements JavaTransformati
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 
-	@Override
-	public void initialize(OJAnnotatedPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace) {
-		this.javaModel = pac;
-		this.config = config;
-		this.textWorkspace = textWorkspace;
-	}
+	
 
-	@Override
-	public abstract void generate(INakedModelWorkspace workspace, TransformationContext context);
 
 
 }

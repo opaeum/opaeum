@@ -8,7 +8,6 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepEnumerationImplementor;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -36,6 +35,9 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	public void visitClass(INakedStateMachine c){
 		boolean hasStateComposition = hasStateComposition(c);
 		buildOJEnum(c, hasStateComposition);
+		for(INakedState s:c.getAllStates()){
+			state(s);
+		}
 	}
 	private boolean hasStateComposition(INakedStateMachine sm){
 		for(INakedState s:sm.getAllStates()){
@@ -45,8 +47,7 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 		}
 		return false;
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void state(INakedState state){
+	private void state(INakedState state){
 		INakedStateMachine sm = state.getStateMachine();
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(sm.getParent()));
 		OJEnum e = (OJEnum) p.findClass(new OJPathName(sm.getMappingInfo().getJavaName().getAsIs() + "State"));

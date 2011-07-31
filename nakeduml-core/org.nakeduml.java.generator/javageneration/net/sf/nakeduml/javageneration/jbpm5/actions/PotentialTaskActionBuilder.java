@@ -49,16 +49,15 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 			NakedOperationMap map = new NakedOperationMap(call.getOperation());
 			activityClass.addToImplementedInterfaces(map.callbackListenerPath());
 			completeMethodName = map.callbackOperName();
-			message = call.getMessageStructure(getLibrary());
+			message = call.getMessageStructure();
 		}else{
-			message = ((INakedEmbeddedTask) node).getMessageStructure(getLibrary());
+			message = ((INakedEmbeddedTask) node).getMessageStructure();
 			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}
 		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);
 		activityClass.addToImports(AbstractEventHandlerInserter.UML_NODE_INSTANCE);
 		if(complete == null){
-			complete = new OJAnnotatedOperation();
-			complete.setName(completeMethodName);
+			complete = new OJAnnotatedOperation(completeMethodName);
 			activityClass.addToOperations(complete);
 			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", AbstractEventHandlerInserter.UML_NODE_INSTANCE));
 			complete.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());

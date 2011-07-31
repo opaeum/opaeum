@@ -2,8 +2,10 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.UUID;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -22,6 +24,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	Java6ModelGenerator.class
+},after = {
+	Java6ModelGenerator.class
+})
 public class HashcodeBuilder extends StereotypeAnnotator{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
@@ -33,12 +40,12 @@ public class HashcodeBuilder extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
 		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			this.visitClass(no.getMessageStructure(getLibrary()));
+			this.visitClass(no.getMessageStructure());
 		}
 	}
 	@VisitBefore()
 	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
-		this.visitClass(oa.getMessageStructure(getLibrary()));
+		this.visitClass(oa.getMessageStructure());
 	}
 	private void buildHashcode(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJField uid = owner.findField("uid");

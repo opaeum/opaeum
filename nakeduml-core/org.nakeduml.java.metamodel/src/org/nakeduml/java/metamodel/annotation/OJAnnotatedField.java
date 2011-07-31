@@ -20,10 +20,6 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement {
 	public void setTransient(boolean a){
 		this.isTransient=a;
 	}
-	public OJAnnotatedField() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public Set<OJAnnotationValue> getAnnotations() {
 		return f_annotations;
 	}
@@ -73,7 +69,7 @@ public class OJAnnotatedField extends OJField implements OJAnnotatedElement {
 	}
 
 	public OJAnnotatedField getDeepCopy() {
-		OJAnnotatedField copy = new OJAnnotatedField();
+		OJAnnotatedField copy = new OJAnnotatedField(getName(),getType());
 		copyDeepInfoInto(copy);
 		return copy;
 	}

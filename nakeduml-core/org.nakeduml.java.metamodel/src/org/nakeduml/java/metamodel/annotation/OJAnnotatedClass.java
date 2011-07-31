@@ -10,20 +10,19 @@ import java.util.Set;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
+import org.nakeduml.java.metamodel.OJElement;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 import org.nakeduml.java.metamodel.utilities.JavaUtil;
+import org.nakeduml.java.metamodel.utilities.OJOperationComparator;
 
 
 public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
 	private List<String> genericTypeParams = new ArrayList<String>();
-
-	public OJAnnotatedClass() {
-	}
 
 	public OJAnnotatedClass(String string) {
 		setName(string);
@@ -128,34 +127,26 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 		classInfo.append("\n}");
 		return classInfo.toString();
 	}
+	public StringBuilder operations() {
+		List<OJOperation> temp = new ArrayList<OJOperation>(this.getOperations());
+		Collections.sort(temp, new OJOperationComparator());
+		StringBuilder result = new StringBuilder();
+		result.append(JavaUtil.collectionToJavaString(temp, "\n"));
+		return result;
+	}
 
-	/**
-	 * Plagiarised due to visibility constraint
-	 * 
-	 * @return
-	 */
 	protected StringBuilder constructors() {
 		StringBuilder result = new StringBuilder();
-		result.append(JavaUtil.collectionToJavaString(this.getConstructors(), "\n"));
+		result.append(JavaUtil.collectionToJavaString(new HashSet<OJElement>(this.getConstructors()), "\n"));
 		return result;
 	}
 
-	/**
-	 * Plagiarised due to visibility constraint
-	 * 
-	 * @return
-	 */
 	public StringBuilder fields() {
 		StringBuilder result = new StringBuilder();
-		result.append(JavaUtil.collectionToJavaString(this.getFields(), "\n"));
+		result.append(JavaUtil.collectionToJavaString(new HashSet<OJElement>(this.getFields()), "\n"));
 		return result;
 	}
 
-	/**
-	 * Plagiarised due to visibility constraint
-	 * 
-	 * @return
-	 */
 	protected StringBuilder implementedInterfaces() {
 		StringBuilder result = new StringBuilder();
 		if (!this.getImplementedInterfaces().isEmpty())
@@ -193,7 +184,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 	}
 
 	public OJAnnotatedClass getDeepCopy(OJPackage owner) {
-		OJAnnotatedClass copy = new OJAnnotatedClass();
+		OJAnnotatedClass copy = new OJAnnotatedClass(getName());
 		copy.setMyPackage(owner);
 		copyDeepInfoInto(copy);
 		return copy;
@@ -241,11 +232,11 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 		for (OJPathName ojPathName : implementedInterfaces) {
 			ojPathName.renameAll(renamePathNames, newName);
 		}
-		List<OJField> fields = getFields();
+		Set<OJField> fields = getFields();
 		for (OJField ojField : fields) {
 			ojField.renameAll(renamePathNames, newName);
 		}
-		List<OJOperation> operations = getOperations();
+		Set<OJOperation> operations = getOperations();
 		for (OJOperation ojOperation : operations) {
 			ojOperation.renameAll(renamePathNames, newName);
 		}

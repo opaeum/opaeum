@@ -227,8 +227,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			String signalReception = EventUtil.getEventHandlerName(signal);
 			OJAnnotatedOperation ojOperation = (OJAnnotatedOperation) OJUtil.findOperation(myOwner, signalReception);
 			if(ojOperation == null){
-				ojOperation = new OJAnnotatedOperation();
-				ojOperation.setName(signalReception);
+				ojOperation = new OJAnnotatedOperation(signalReception);
 				myOwner.addToOperations(ojOperation);
 				for(INakedProperty p:signal.getArgumentParameters()){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
@@ -250,17 +249,10 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 		// TODO split this up for NakedEvents, Deadlines and MessageEvents
 		INakedElement event = eventActions.getEvent();
 		String methodName = EventUtil.getEventHandlerName(event);
-		OJAnnotatedOperation listener = new OJAnnotatedOperation();
-		// OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
-		// listener.putAnnotation(metaInfo);
-		// metaInfo.putAttribute("qualifiedPersistentName",event.getMappingInfo().getQualifiedPersistentName());
-		// metaInfo.putAttribute("uuid",event.getMappingInfo().getIdInModel());
-		listener.setName(methodName);
+		OJAnnotatedOperation listener = new OJAnnotatedOperation(methodName);
 		activityClass.addToOperations(listener);
 		listener.setReturnType(new OJPathName("boolean"));
-		OJAnnotatedField processed = new OJAnnotatedField();
-		processed.setName("consumed");
-		processed.setType(new OJPathName("boolean"));
+		OJAnnotatedField processed = new OJAnnotatedField("consumed",new OJPathName("boolean"));
 		processed.setInitExp("false");
 		listener.getBody().addToLocals(processed);
 		OJIfStatement ifProcessActive = new OJIfStatement("getProcessInstance()!=null");
@@ -274,9 +266,9 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
 				OJPathName pn = null;
 				if(origin instanceof INakedOperation){
-					pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure(getLibrary()));
+					pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure());
 				}else if(origin instanceof INakedEmbeddedSingleScreenTask){
-					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure(getLibrary()));
+					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
 				}else{
 					pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
 				}
@@ -289,10 +281,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				}
 			}
 		}
-		OJAnnotatedField nodes = new OJAnnotatedField();
-		nodes.setName("waitingNode");
+		OJAnnotatedField nodes = new OJAnnotatedField("waitingNode",UML_NODE_INSTANCE);
 		activityClass.addToImports(UML_NODE_INSTANCE);
-		nodes.setType(UML_NODE_INSTANCE);
 		ifProcessActive.getThenPart().addToLocals(nodes);
 		if(event instanceof INakedDeadline){
 			OJIfStatement ifTaskTokenFound = new OJIfStatement();
@@ -328,9 +318,7 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	private void addConsumedFieldIfNecessary(OJAnnotatedOperation listener){
 		OJField consumedField = listener.getBody().findLocal("consumed");
 		if(consumedField == null){
-			consumedField = new OJAnnotatedField();
-			consumedField.setName("consumed");
-			consumedField.setType(new OJPathName("boolean"));
+			consumedField = new OJAnnotatedField("consumed",new OJPathName("boolean"));
 			consumedField.setInitExp("false");
 			listener.getBody().addToLocals(consumedField);
 		}
@@ -344,9 +332,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	}
 	private void addFindWaitingNode(OJClass activityClass){
 		activityClass.addToImports(Jbpm5Util.getNodeInstance());
-		OJOperation findWaitingNodeByNodeId = new OJAnnotatedOperation();
+		OJOperation findWaitingNodeByNodeId = new OJAnnotatedOperation("findWaitingNodeByNodeId");
 		activityClass.addToOperations(findWaitingNodeByNodeId);
-		findWaitingNodeByNodeId.setName("findWaitingNodeByNodeId");
 		findWaitingNodeByNodeId.addParam("step", new OJPathName("long"));
 		findWaitingNodeByNodeId.setReturnType(Jbpm5Util.getNodeInstance());
 		OJForStatement forNodeInstances = new OJForStatement();

@@ -1,11 +1,12 @@
 package org.nakeduml.uml2uim;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
@@ -32,13 +33,15 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	@InputModel
 	EmfWorkspace workspace;
 	private NakedUmlConfig config;
+	private List<AbstractUimSynchronizer> features;
 	@Override
 	public void initialize(NakedUmlConfig config){
 		this.config = config;
 	}
 	@Override
 	public Object[] execute(List<AbstractUimSynchronizer> features,TransformationContext context){
-		UmlElementMap map = buildUmlMap();
+		this.features=features;
+		UmlElementCache map = buildUmlMap();
 		map.loadContents();
 
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -57,8 +60,8 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 			workspace
 		};
 	}
-	protected UmlElementMap buildUmlMap(){
-		UmlElementMap map = new UmlElementMap(workspace, new UmlElementMap.Selector(){
+	protected UmlElementCache buildUmlMap(){
+		UmlElementCache map = new UmlElementCache(workspace, new UmlElementCache.Selector(){
 			public boolean select(Object eObject){
 				return eObject instanceof Property || eObject instanceof Operation || eObject instanceof Parameter || eObject instanceof OpaqueAction
 						|| eObject instanceof Pin || eObject instanceof State || eObject instanceof Transition || eObject instanceof org.eclipse.uml2.uml.Package
@@ -80,22 +83,23 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 		return rootDir.isFile() ? rootDir.toFileString() : rootDir.toPlatformString(true);
 	}
 	@Override
-	public Object processSingleElement(List<AbstractUimSynchronizer> features,TransformationContext context,Element element){
-		ResourceSet resourceSet = new ResourceSetImpl();
-		UmlElementMap map = buildUmlMap();
-		//TODO when to load contents?
-		UmlUimLinks.associate(resourceSet, map);
-		for(AbstractUimSynchronizer s:features){
-			s.init(workspace, resourceSet, false,map);
-			s.visitUpThenDown((Element) element);
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+		for(Element element:elements){
+			ResourceSet resourceSet = new ResourceSetImpl();
+			UmlElementCache map = buildUmlMap();
+			//TODO when to load contents?
+			UmlUimLinks.associate(resourceSet, map);
+			for(AbstractUimSynchronizer s:features){
+				s.init(workspace, resourceSet, false,map);
+				s.visitUpThenDown((Element) element);
+			}
+			try{
+				save(workspace.getDirectoryUri(), resourceSet);
+			}catch(IOException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try{
-			save(workspace.getDirectoryUri(), resourceSet);
-		}catch(IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// TODO find appropriate form
-		return null;
+		return elements;
 	}
 }

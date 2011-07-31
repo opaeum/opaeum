@@ -1,5 +1,6 @@
 package org.nakeduml.bootstrap;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.InputModel;
@@ -38,8 +39,8 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 	}
 
 	@Override
-	public Object processSingleElement(List<AbstractBootstrapStep> features,TransformationContext context,INakedElement element){
-		return element;
+	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+		return elements;
 	}
 
 }

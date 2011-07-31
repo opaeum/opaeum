@@ -13,9 +13,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 	public OJAnnotatedPackage(String string) {
 		setName(string);
 	}
-	public OJAnnotatedPackage() {
-	}
-	
+
 	@Override
 	public void addToSubpackages(OJPackage element) {
 		for (OJPackage pkg : getSubpackages()) {
@@ -70,7 +68,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 		return results;
 	}
 	public OJAnnotatedPackage getDeepCopy(OJPackage owner) {
-		OJAnnotatedPackage copy = new OJAnnotatedPackage();
+		OJAnnotatedPackage copy = new OJAnnotatedPackage(getName());
 		copyDeepInfoInto(owner, copy);
 		return copy;
 	}

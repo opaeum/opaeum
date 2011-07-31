@@ -2,8 +2,10 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -36,33 +38,26 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
+	protected boolean isIntegrationPhase = false;
+
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 	protected TransformationContext transformationContext;
+
+	private Set<TextFile> textFiles;
 	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace){
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, TransformationContext context){
+		textFiles=new HashSet<TextFile>();
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
-		
-	}
-	@Override
-	public void generate(INakedModelWorkspace workspace,TransformationContext context){
 		this.transformationContext=context;
-		startVisiting(workspace);
 		
 	}
 	public NakedUmlLibrary getLibrary(){
 		return workspace.getNakedUmlLibrary();
-	}
-	@Deprecated
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
-		this.javaModel = javaModel;
-		this.config = config;
-		this.textWorkspace = textWorkspace;
-		this.transformationContext = context;
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
@@ -93,6 +88,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		List<String> names = c.getPathName().getHead().getNames();
 		names.add(c.getName() + ".java");
 		TextFile file = or.findOrCreateTextFile(names, new JavaTextSource(c), outputRoot.overwriteFiles());
+		this.textFiles.add(file);
 		return file;
 	}
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot){
@@ -116,8 +112,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 			String name = iter.next();
 			child = (OJAnnotatedPackage) parent.findPackage(new OJPathName(name));
 			if(child == null){
-				child = new OJAnnotatedPackage();
-				child.setName(name);
+				child = new OJAnnotatedPackage(name);
 				parent.addToSubpackages(child);
 			}
 			parent = child;

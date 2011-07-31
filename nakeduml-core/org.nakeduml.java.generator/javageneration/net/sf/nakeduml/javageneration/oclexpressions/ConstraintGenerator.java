@@ -62,9 +62,7 @@ public class ConstraintGenerator {
 				parameters.add(parameter);
 			}
 		}
-		OJAnnotatedField failedConstraints = new OJAnnotatedField();
-		failedConstraints.setType(new OJPathName("List<String>"));
-		failedConstraints.setName("failedConstraints");
+		OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints",new OJPathName("List<String>"));
 		failedConstraints.setInitExp("new ArrayList<String>()");
 		result.addToLocals(failedConstraints);
 		OJPathName failedConstraintsException = new OJPathName("org.nakeduml.runtime.domain.FailedConstraintsException");

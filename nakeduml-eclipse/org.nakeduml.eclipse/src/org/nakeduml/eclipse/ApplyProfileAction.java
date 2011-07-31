@@ -20,8 +20,11 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 			Object element = it.next();
 			if(element instanceof Model){
 				Model model = (Model) element;
-				applyNakedUmlProfile(model);
-				// model.eResource().save(null);
+				if(arg0.getId().equals("org.nakeduml.eclipse.ApplyNakedUMLProfileForBPMAction")){
+					applyProfile(model, "NakedUMLProfileForBPM.uml");
+				}else{
+					applyNakedUmlProfile(model);
+				}
 			}
 		}
 	}
@@ -30,7 +33,7 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 		return applyProfile(model, profileName);
 	}
 	public static Profile applyProfile(Model model,String profileName){
-		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP  + "profiles/"+profileName), true);
+		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP + "profiles/" + profileName), true);
 		Profile library = (Profile) resource.getContents().get(0);
 		if(!model.isProfileApplied(library)){
 			model.applyProfile(library);

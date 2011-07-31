@@ -15,7 +15,6 @@ Bundle-ClassPath:
  .,
  lib/hibernate-core-3.6.0.Final.jar
 Export-Package: net.sf.nakeduml,
- net.sf.nakeduml.detachment,
  net.sf.nakeduml.domainmetamodel,
  net.sf.nakeduml.emf.extraction,
  net.sf.nakeduml.emf.load,

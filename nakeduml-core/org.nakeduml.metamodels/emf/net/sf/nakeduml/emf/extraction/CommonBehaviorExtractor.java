@@ -49,7 +49,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 	protected INakedTrigger buildTrigger(Behavior behaviour,Trigger t){
 		Event event = t.getEvent();
 		INakedTrigger trigger = new NakedTriggerImpl();
-		initialize(trigger, t, behaviour);
+		initialize(trigger, t, t.getOwner());
 		if(event instanceof SignalEvent){
 			SignalEvent se = (SignalEvent) event;
 			trigger.setEvent(getNakedPeer(se.getSignal()));

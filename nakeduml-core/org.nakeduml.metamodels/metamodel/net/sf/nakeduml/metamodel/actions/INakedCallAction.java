@@ -35,7 +35,8 @@ public interface INakedCallAction extends INakedInvocationAction,IActionWithTarg
 
 	boolean isLongRunning();
 
-	INakedMessageStructure getMessageStructure(NakedUmlLibrary lib);
+	void initMessageStructure(NakedUmlLibrary lib);
+	INakedMessageStructure getMessageStructure();
 
 	public boolean isSynchronous();
 

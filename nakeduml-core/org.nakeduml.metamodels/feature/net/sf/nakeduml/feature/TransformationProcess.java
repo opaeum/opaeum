@@ -12,24 +12,23 @@ import java.util.Set;
 /**
  * This class will become the entry point for the entire transformation process
  * 
- * 
- * @author abarnard
- * 
  */
 public class TransformationProcess{
 	Set<Object> models = new HashSet<Object>();
-	Set<Object> elements  = new HashSet<Object>();
+	Set<Object> elements = new HashSet<Object>();
 	Set<Class<? extends TransformationStep>> actualClasses = new HashSet<Class<? extends TransformationStep>>();
+	private boolean isIntegrationPhase;
+	private Phases phases;
 	@SuppressWarnings({
 			"unchecked","rawtypes"
 	})
 	public void execute(NakedUmlConfig config,Object sourceModel,Set<Class<? extends TransformationStep>> proposedStepClasses){
-		actualClasses = new HashSet<Class<? extends TransformationStep>>();
+		this.actualClasses = new HashSet<Class<? extends TransformationStep>>();
 		replaceModels(sourceModel);
-		Phases phases = new Phases();
+		this.phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
 		phases.initializeFromClasses(getPhaseClassesFor(actualClasses));
-		TransformationContext context = new TransformationContext(actualClasses);
+		TransformationContext context = new TransformationContext(actualClasses, isIntegrationPhase);
 		List<TransformationPhase<? extends TransformationStep,?>> phaseList = phases.getExecutionUnits();
 		for(TransformationPhase<? extends TransformationStep,?> phase:phaseList){
 			setInputModelsFor(phase);
@@ -46,44 +45,36 @@ public class TransformationProcess{
 			System.out.println("Executing phase " + phase.getClass() + " took " + (System.currentTimeMillis() - time) + "ms");
 		}
 	}
-	
 	@SuppressWarnings("rawtypes")
-	public void processSingleElement(NakedUmlConfig config,Object sourceModel,Set<Class<? extends TransformationStep>> proposedStepClasses, Object element){
-		elements.clear();
-		elements.add(element);
-		actualClasses = new HashSet<Class<? extends TransformationStep>>();
-		replaceModels(sourceModel);
-		Phases phases = new Phases();
-		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
-		phases.initializeFromClasses(getPhaseClassesFor(actualClasses));
-		TransformationContext context = new TransformationContext(actualClasses);
+	public Collection<?> processElements(Collection changes,Class<?> fromPhase){
+		this.elements.clear();
+		this.elements.addAll(changes);
+		TransformationContext context = new TransformationContext(actualClasses, isIntegrationPhase);
 		List<TransformationPhase<? extends TransformationStep,?>> phaseList = phases.getExecutionUnits();
 		for(TransformationPhase phase:phaseList){
-			Class<? extends TransformationPhase> clz = phase.getClass();
-			setInputModelsFor(phase);
-			phase.initialize(config);
-			Class<? extends TransformationPhase<? extends TransformationStep,?>> class1 = (Class) phase.getClass();
-			Steps steps = new Steps();
-			steps.initializeFromClasses(getStepsForPhase(class1, actualClasses));
-			List featuresFor = steps.getExecutionUnits();
-			System.out.println("Executing phase " + phase.getClass() + " .... ");
-			long time = System.currentTimeMillis();
-			elements.add(phase.processSingleElement(featuresFor, context,findElementFor(phase)));
-			context.featuresApplied(featuresFor);
-			System.out.println("Executing phase " + phase.getClass() + " took " + (System.currentTimeMillis() - time) + "ms");
+			if(fromPhase.isInstance(phase)){
+				Class<? extends TransformationPhase> clz = phase.getClass();
+				setInputModelsFor(phase);
+				Class<? extends TransformationPhase<? extends TransformationStep,?>> class1 = (Class) phase.getClass();
+				System.out.println("Executing phase " + phase.getClass() + " .... ");
+				long time = System.currentTimeMillis();
+				this.elements.addAll(phase.processElements(context, findElementsFor(phase)));
+				System.out.println("Executing phase " + phase.getClass() + " took " + (System.currentTimeMillis() - time) + "ms");
+			}
 		}
+		return this.elements;
 	}
-	private Object findElementFor(TransformationPhase phase){
-		 ParameterizedType typeVariable = (ParameterizedType) phase.getClass().getGenericInterfaces()[0];
+	private Collection findElementsFor(TransformationPhase phase){
+		Collection result = new ArrayList();
+		ParameterizedType typeVariable = (ParameterizedType) phase.getClass().getGenericInterfaces()[0];
 		Class<?> arg1 = (Class<?>) typeVariable.getActualTypeArguments()[1];
 		for(Object object:elements){
 			if(arg1.isInstance(object)){
-				return object;
+				result.add(object);
 			}
 		}
-		return null;
+		return result;
 	}
-
 	private Set<Class<? extends TransformationStep>> getStepsForPhase(Class<? extends TransformationPhase<? extends TransformationStep,?>> phaseClass,
 			Set<Class<? extends TransformationStep>> stepClasses){
 		Set<Class<? extends TransformationStep>> results = new HashSet<Class<? extends TransformationStep>>();
@@ -184,7 +175,7 @@ public class TransformationProcess{
 			actualClasses.add(stepClass);
 			stepClass.newInstance();// force static inits
 			StepDependency annotation = stepClass.getAnnotation(StepDependency.class);
-			if(annotation==null){
+			if(annotation == null){
 				throw new IllegalStateException(stepClass.getName() + " does not have a StepDependency annotation");
 			}
 			Class<? extends TransformationStep>[] requires = annotation.requires();
@@ -200,5 +191,8 @@ public class TransformationProcess{
 				this.models.remove(object);
 			}
 		}
+	}
+	public void setIntegrationPhase(boolean b){
+		this.isIntegrationPhase = b;
 	}
 }

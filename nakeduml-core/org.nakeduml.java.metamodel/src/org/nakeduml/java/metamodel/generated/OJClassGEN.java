@@ -24,7 +24,7 @@ import org.nakeduml.java.metamodel.utilities.InvariantError;
  */
 abstract public class OJClassGEN extends OJClassifier {
 	private boolean f_needsSuppress = false;
-	private List<OJField> f_fields = new ArrayList<OJField>();
+	private Set<OJField> f_fields = new HashSet<OJField>();
 	private OJPackage f_myPackage = null;
 	private Set<OJConstructor> f_constructors = new HashSet<OJConstructor>();
 	private Set<OJPathName> f_implementedInterfaces = new HashSet<OJPathName>();
@@ -103,7 +103,7 @@ abstract public class OJClassGEN extends OJClassifier {
 	 * 
 	 * @param elements 
 	 */
-	public void setFields(List<OJField> elements) {
+	public void setFields(Set<OJField> elements) {
 		if ( this.f_fields != elements ) {
 			for ( OJField _internal : this.f_fields ) {
 				_internal.z_internalRemoveFromOwner(((OJClass)this));
@@ -126,7 +126,7 @@ abstract public class OJClassGEN extends OJClassifier {
 			return;
 		}
 		if ( this.f_fields.contains(element) ) {
-			return;
+			this.f_fields.remove(element);
 		}
 		this.f_fields.add(element);
 		if ( element.getOwner() != null ) {
@@ -149,9 +149,9 @@ abstract public class OJClassGEN extends OJClassifier {
 	
 	/** Implements the getter for association end '+ fields : OrderedSet(OJField)'
 	 */
-	public List<OJField> getFields() {
+	public Set<OJField> getFields() {
 		if ( f_fields != null ) {
-			return Collections.unmodifiableList(f_fields);
+			return Collections.unmodifiableSet(f_fields);
 		} else {
 			return null;
 		}
@@ -269,6 +269,7 @@ abstract public class OJClassGEN extends OJClassifier {
 			return;
 		}
 		if ( this.f_constructors.contains(element) ) {
+			this.f_constructors.remove(element);
 			return;
 		}
 		this.f_constructors.add(element);

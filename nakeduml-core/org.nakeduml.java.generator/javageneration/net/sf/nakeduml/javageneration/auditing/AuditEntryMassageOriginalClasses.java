@@ -38,8 +38,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 
 	private void addMakeAuditCopyIdOnly(INakedClassifier entity, OJAnnotatedClass ojClass) {
 		ojClass.addToImports(new OJPathName(AuditId.class.getName()));
-		OJAnnotatedOperation makeAuditCopyIdOnly = new OJAnnotatedOperation();
-		makeAuditCopyIdOnly.setName("makeAuditCopyIdOnly");
+		OJAnnotatedOperation makeAuditCopyIdOnly = new OJAnnotatedOperation("makeAuditCopyIdOnly");
 		OJPathName pathName = ojClass.getPathName();
 		String remove = pathName.getNames().remove(pathName.getNames().size() - 1);
 		pathName.getNames().add(remove + "_Audit");
@@ -47,9 +46,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		makeAuditCopyIdOnly.setAbstract(ojClass.isAbstract());
 		if (!ojClass.isAbstract()) {
 			OJBlock body = makeAuditCopyIdOnly.getBody();
-			OJAnnotatedField result = new OJAnnotatedField();
-			result.setName("result");
-			result.setType(pathName);
+			OJAnnotatedField result = new OJAnnotatedField("result",pathName);
 			result.setInitExp("new " + pathName + "()");
 			body.addToLocals(result);
 			String rootClassName = entity.getMappingInfo().getJavaName().toString();
@@ -63,8 +60,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 	}
 
 	private void addMakeAuditCopyMethod(INakedClassifier entity, OJAnnotatedClass ojClass) {
-		OJOperation operation = new OJAnnotatedOperation();
-		operation.setName("makeAuditCopy");
+		OJOperation operation = new OJAnnotatedOperation("makeAuditCopy");
 		OJPathName pathName = ojClass.getPathName();
 		String remove = pathName.getNames().remove(pathName.getNames().size() - 1);
 		pathName.getNames().add(remove + "_Audit");
@@ -73,9 +69,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		operation.setAbstract(ojClass.isAbstract());
 		if (!ojClass.isAbstract()) {
 			OJBlock body = operation.getBody();
-			OJAnnotatedField result = new OJAnnotatedField();
-			result.setName("result");
-			result.setType(pathName);
+			OJAnnotatedField result = new OJAnnotatedField("result",pathName);
 			result.setInitExp("makeAuditCopyWithoutParent()");
 			body.addToLocals(result);
 			List<? extends INakedProperty> attributes = entity.getEffectiveAttributes();
@@ -103,8 +97,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 
 
 	private void addMakeAuditCopyWithoutParentMethod(OJAnnotatedClass c) {
-		OJOperation operation = new OJAnnotatedOperation();
-		operation.setName("makeAuditCopyWithoutParent");
+		OJOperation operation = new OJAnnotatedOperation("makeAuditCopyWithoutParent");
 		OJPathName pathName = c.getPathName();
 		String remove = pathName.getNames().remove(pathName.getNames().size() - 1);
 		pathName.getNames().add(remove + "_Audit");
@@ -114,9 +107,7 @@ public class AuditEntryMassageOriginalClasses extends AbstractJavaProducingVisit
 		operation.setAbstract(c.isAbstract());
 		if (!c.isAbstract()) {
 			OJBlock body = operation.getBody();
-			OJAnnotatedField result = new OJAnnotatedField();
-			result.setName("result");
-			result.setType(pathName);
+			OJAnnotatedField result = new OJAnnotatedField("result",pathName);
 			result.setInitExp("new " + pathName + "()");
 			body.addToLocals(result);
 			// body.addToStatements("result.set"+c.getName()+"(this)");

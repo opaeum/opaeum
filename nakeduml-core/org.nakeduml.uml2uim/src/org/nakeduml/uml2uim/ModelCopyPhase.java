@@ -1,5 +1,6 @@
 package org.nakeduml.uml2uim;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
@@ -17,12 +18,14 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 	@InputModel
 	TextWorkspace textWorkspace;
 	private NakedUmlConfig config;
+	private List<ModelCopyStep> features;
 	@Override
 	public void initialize(NakedUmlConfig config){
 		this.config = config;
 	}
 	@Override
 	public Object[] execute(List<ModelCopyStep> features,TransformationContext context){
+		this.features=features;
 		for(ModelCopyStep step:features){
 			step.init(config, textWorkspace);
 			step.startVisiting(emfWorkspace);
@@ -32,11 +35,13 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 		};
 	}
 	@Override
-	public Object processSingleElement(List<ModelCopyStep> features,TransformationContext context,EmfWorkspace element){
-		for(ModelCopyStep step:features){
-			step.init(config, textWorkspace);
-			step.startVisiting(emfWorkspace);
+	public Collection<?> processElements(TransformationContext context,Collection<EmfWorkspace> elements){
+		for(EmfWorkspace element:elements){
+			for(ModelCopyStep step:features){
+				step.init(config, textWorkspace);
+				step.visitOnly(element);
+			}
 		}
-		return emfWorkspace;
+		return elements;
 	}
 }

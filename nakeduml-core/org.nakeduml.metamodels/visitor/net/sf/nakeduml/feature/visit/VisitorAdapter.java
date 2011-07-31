@@ -60,6 +60,14 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		this.workspace = root;
 		visitRecursively(root);
 	}
+	public void visitOnly(NODE o){
+		for(VisitSpec v:beforeMethods){
+			maybeVisit(o, v);
+		}
+		for(VisitSpec v:afterMethods){
+			maybeVisit(o, v);
+		}
+	}
 	public void visitRecursively(NODE o){
 		for(VisitSpec v:beforeMethods){
 			maybeVisit(o, v);

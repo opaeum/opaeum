@@ -1,5 +1,6 @@
 package net.sf.nakeduml.validation.namegeneration;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.InputModel;
@@ -16,19 +17,23 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 public class NameGenerationPhase implements TransformationPhase<AbstractNameGenerator,INakedElement>{
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
+	private List<AbstractNameGenerator> nameGenerators;
 	public void initialize(NakedUmlConfig config){
 	}
-	public Object[] execute(List<AbstractNameGenerator> validators,TransformationContext context){
-		for(AbstractNameGenerator ng:validators){
+	public Object[] execute(List<AbstractNameGenerator> nameGenerators,TransformationContext context){
+		this.nameGenerators=nameGenerators;
+		for(AbstractNameGenerator ng:nameGenerators){
 			ng.startVisiting(modelWorkspace);
 		}
 		return new Object[0];
 	}
 	@Override
-	public Object processSingleElement(List<AbstractNameGenerator> features,TransformationContext context,INakedElement element){
-		for(AbstractNameGenerator ng:features){
-			ng.visitRecursively((INakedElementOwner) element);
+	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+		for(INakedElement element:elements){
+			for(AbstractNameGenerator ng:nameGenerators){
+				ng.visitRecursively((INakedElementOwner) element);
+			}
 		}
-		return element;
+		return elements;
 	}
 }

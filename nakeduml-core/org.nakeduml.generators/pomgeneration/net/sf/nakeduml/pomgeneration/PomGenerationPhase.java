@@ -352,8 +352,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
 	}
 	@Override
-	public Object processSingleElement(List<PomGenerationStep> features,TransformationContext context,INakedElement element){
-		// TODO regenerate poms only if dependencies have changed
-		return parentPom;
+	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+		// TODO Auto-generated method stub
+		return elements;
 	}
 }

@@ -2,12 +2,16 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 
 import java.util.Collection;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
+import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
+import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
+import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -20,7 +24,6 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJField;
@@ -32,6 +35,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples
 //or in the finally block
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+		OperationAnnotator.class,SpecificationImplementor.class,NakedParsedOclStringResolver.class
+},after = {
+		OperationAnnotator.class,SpecificationImplementor.class
+})
 public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior behavior){
@@ -60,8 +68,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				NakedOperationMap map = new NakedOperationMap(behavior);
 				this.addBody(execute, behavior.getContext(), map, behavior.getBody());
 			}
-		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier
-				&& behavior.getBodyExpression() != null){
+		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression() != null){
 			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
 			NakedOperationMap map = new NakedOperationMap(behavior);
 			OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
@@ -79,8 +86,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitDataType(INakedDataType owner) {
-		for (IOperation oper : owner.getOperations()) {
+	public void visitDataType(INakedDataType owner){
+		for(IOperation oper:owner.getOperations()){
 			processOperation((INakedOperation) oper, owner);
 		}
 	}
@@ -96,8 +103,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			}
 		}
 		//
-		if (BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()) {
-			INakedMessageStructure messageClass = oper.getMessageStructure(getLibrary());
+		if(BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
+			INakedMessageStructure messageClass = oper.getMessageStructure();
 			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass);
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
 		}else{
@@ -116,8 +123,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	public void addEvaluationMethod(Collection<INakedConstraint> conditions,String evaluationMethodName,INakedClassifier messageClass){
 		if(conditions.size() > 0){
 			OJClass myOwner = findJavaClass(messageClass);
-			OJOperation myOper1 = new OJAnnotatedOperation();
-			myOper1.setName(evaluationMethodName);
+			OJOperation myOper1 = new OJAnnotatedOperation(evaluationMethodName);
 			myOwner.addToOperations(myOper1);
 			ConstraintGenerator cg = new ConstraintGenerator(myOwner, messageClass);
 			if(conditions.size() > 0){

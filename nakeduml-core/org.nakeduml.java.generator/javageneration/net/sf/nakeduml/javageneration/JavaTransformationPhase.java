@@ -1,8 +1,7 @@
 package net.sf.nakeduml.javageneration;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.nakeduml.feature.InputModel;
@@ -14,7 +13,6 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.LinkagePhase;
-import net.sf.nakeduml.linkage.OclParsingPhase;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
@@ -28,7 +26,7 @@ import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 @PhaseDependency(after = {
-		LinkagePhase.class,NameGenerationPhase.class,OclParsingPhase.class
+		LinkagePhase.class,NameGenerationPhase.class
 },before = {
 	FileGenerationPhase.class
 })
@@ -41,18 +39,21 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@OutputModel
 	OJAnnotatedPackage javaModel;
 	private NakedUmlConfig config;
+	private List<JavaTransformationStep> features;
 	public static final boolean IS_RUNTIME_AVAILABLE = false;
 	public void initialize(NakedUmlConfig config){
 		this.config = config;
 	}
-	public static void main(String[] args){
-	}
 	public Object[] execute(List<JavaTransformationStep> features,TransformationContext context){
 		OJUtil.clearCache();
-		javaModel = new OJAnnotatedPackage();
+		this.features=features;
+		javaModel = new OJAnnotatedPackage("");
 		for(JavaTransformationStep f:features){
-			f.initialize(javaModel, config, textWorkspace);
-			f.generate(modelWorkspace, context);
+			if( f instanceof AbstractJavaProducingVisitor){
+				AbstractJavaProducingVisitor v = (AbstractJavaProducingVisitor) f;
+				v.initialize(javaModel, config, textWorkspace,context);
+				v.startVisiting(this.modelWorkspace);
+			}
 			context.featureApplied(f.getClass());
 		}
 		return new Object[]{
@@ -66,30 +67,18 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		return INSTANCE.getTextWorkspaceInternal();
 	}
 	@Override
-	public Object processSingleElement(List<JavaTransformationStep> features,TransformationContext context,INakedElement element){
+	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
 		OJUtil.clearCache();
-		javaModel = new OJAnnotatedPackage();
-		for(JavaTransformationStep f:features){
-			if(f instanceof NakedElementOwnerVisitor){
-				f.initialize(javaModel, config, textWorkspace);
-				((NakedElementOwnerVisitor) f).visitRecursively(element);
+		textWorkspace=new TextWorkspace();
+		for(INakedElement element:elements){
+			for(JavaTransformationStep f:features){
+				if(f instanceof NakedElementOwnerVisitor){
+					f.initialize(javaModel, config, textWorkspace,context);
+					((NakedElementOwnerVisitor) f).visitRecursively(element);
+				}
+				context.featureApplied(f.getClass());
 			}
-			context.featureApplied(f.getClass());
 		}
-		while(!(element instanceof INakedClassifier || element instanceof INakedPackage)){
-			element = (INakedElement) element.getOwnerElement();
-		}
-		if(element instanceof INakedClassifier){
-			OJPackage pkg = javaModel.findPackage(OJUtil.packagePathname((INakedNameSpace) element));
-			if(pkg != null){
-				return pkg;
-			}else{
-				return javaModel.findClass(OJUtil.classifierPathname((INakedClassifier) element));
-			}
-		}else if(element instanceof INakedPackage){
-			return javaModel.findPackage(OJUtil.packagePathname((INakedNameSpace) element));
-		}else{
-			return javaModel;
-		}
+		return Collections.singleton(textWorkspace);
 	}
 }

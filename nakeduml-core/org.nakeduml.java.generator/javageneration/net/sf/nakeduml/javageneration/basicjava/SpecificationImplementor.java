@@ -2,8 +2,10 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
@@ -14,11 +16,15 @@ import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
+import nl.klasse.octopus.model.IOperation;
 
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
@@ -28,6 +34,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.IActiveEntity;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	OperationAnnotator.class
+},after = {
+	OperationAnnotator.class
+})
 public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
 	public void visitBehavior(INakedBehavior ob){
@@ -40,10 +51,18 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			}
 		}
 	}
-	@VisitAfter
-	public void visitOperation(INakedOperation o){
+	@VisitAfter(matchSubclasses=true)
+	public void visitClassifier(INakedBehavioredClassifier  c){
+		List<IOperation> operations = c.getOperations();
+		for(IOperation o:operations){
+			if(o.getOwner()==c || o.getOwner() instanceof INakedInterface){
+				visitOperation(c, (INakedOperation) o);
+			}
+		}
+	}
+	private void visitOperation(INakedClassifier owner, INakedOperation o){
 		if(o.isLongRunning()){
-			INakedMessageStructure oc = o.getMessageStructure(getLibrary());
+			INakedMessageStructure oc = o.getMessageStructure();
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
 			Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
 			addSetReturnInfo(ojOperationClass);
@@ -67,9 +86,8 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			}
 			ojOper.getBody().addToStatements("return _" + o.getName());
 			ojOper.setReturnType(behaviorClass);
-			OJAnnotatedOperation complete = new OJAnnotatedOperation();
+			OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
 			ojOperationClass.addToOperations(complete);
-			complete.setName("completed");
 			if(o.getPostConditions().size() > 0){
 				complete.getBody().addToStatements("evaluatePostConditions()");
 				OJUtil.addFailedConstraints(complete);
@@ -82,7 +100,6 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			addGetCallingProcessObject(ojOperationClass, map.callbackListenerPath());
 		}
 	}
-	
 	private boolean requiresOperationForInvocation(INakedBehavior behavior){
 		return behavior.getContext() != null && !behavior.isClassifierBehavior();
 	}
@@ -122,7 +139,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			populateBehavior(behavior, javaMethod);
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ArtificialProperty(behavior, getOclEngine().getOclLibrary()));
 			javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
-			if(behavior.getSpecification()!=null){
+			if(behavior.getSpecification() != null){
 				javaMethod.getBody().addToStatements("_behavior.execute()");
 			}
 			javaMethod.getBody().addToStatements("return _behavior");
@@ -134,8 +151,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	private void implementStartClassifierBehavior(INakedBehavior behavior){
 		OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
 		ojContext.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(IActiveEntity.class));
-		OJAnnotatedOperation start = new OJAnnotatedOperation();
-		start.setName("startClassifierBehavior");
+		OJAnnotatedOperation start = new OJAnnotatedOperation("startClassifierBehavior");
 		ojContext.addToOperations(start);
 		OJPathName behaviorClass = OJUtil.classifierPathname(behavior);
 		ojContext.addToImports(behaviorClass);
@@ -144,7 +160,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		behaviorField.setInitExp("new " + behaviorClass.getLast() + "(this)");
 		populateBehavior(behavior, start);
 		start.getBody().addToStatements("_behavior.execute()");
-		start.getBody().addToStatements("set" + behavior.getMappingInfo().getJavaName().getCapped() +"(_behavior)");
+		start.getBody().addToStatements("set" + behavior.getMappingInfo().getJavaName().getCapped() + "(_behavior)");
 		OJOperation addToOwner = OJUtil.findOperation(ojContext, "addToOwningObject");
 		if(addToOwner != null){
 			addToOwner.getBody().addToStatements("startClassifierBehavior()");

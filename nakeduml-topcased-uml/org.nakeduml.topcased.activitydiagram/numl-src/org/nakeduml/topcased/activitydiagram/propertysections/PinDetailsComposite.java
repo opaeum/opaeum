@@ -3,7 +3,9 @@ package org.nakeduml.topcased.activitydiagram.propertysections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import static org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
+
+import static org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -24,8 +26,8 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.topcased.commands.SetOclExpressionCommand;
-import org.nakeduml.topcased.propertysections.OclValueComposite;
 import org.nakeduml.topcased.propertysections.UmlMetaTypeRemover;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 import org.topcased.tabbedproperties.utils.TextChangeListener;

@@ -1,5 +1,6 @@
 package org.nakeduml.eclipse.starter;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.InputModel;
@@ -33,11 +34,7 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 		return new Object[]{workspaceRoot};
 	}
 	@Override
-	public Object processSingleElement(List<EclipseProjectGenerationStep> features,TransformationContext context,TextOutputNode element){
-		for(EclipseProjectGenerationStep step:features){
-			step.initialize(workspaceRoot, config);
-			step.visitRecursively(element);
-		}
-		return element;
+	public Collection<?> processElements(TransformationContext context,Collection<TextOutputNode> elements){
+		return elements;
 	}
 }

@@ -2,12 +2,13 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import net.sf.nakeduml.detachment.DetachmentPhase;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -15,6 +16,7 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -26,7 +28,7 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 
-@PhaseDependency(after = DetachmentPhase.class,before = {
+@PhaseDependency(before = {
 	LinkagePhase.class
 })
 public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf,Element>{
@@ -36,10 +38,12 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	@InputModel
 	private EmfWorkspace emfWorkspace;
 	private NakedUmlConfig config;
+	private List<AbstractExtractorFromEmf> extractors;
 	public void initialize(NakedUmlConfig config){
 		this.config = config;
 	}
 	public Object[] execute(List<AbstractExtractorFromEmf> features,TransformationContext context){
+		this.extractors = features;
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		modelWorkspace.setName(emfWorkspace.getName());
@@ -82,13 +86,17 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return AbstractExtractorFromEmf.getId(model);
 	}
 	@Override
-	public Object processSingleElement(List<AbstractExtractorFromEmf> features,TransformationContext context,Element element){
-		for(AbstractExtractorFromEmf v:features){
-			v.initialize(modelWorkspace);
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+		Collection<INakedElement> result = new HashSet<INakedElement>();
+		for(Element element:elements){
+			for(AbstractExtractorFromEmf v:extractors){
+				v.initialize(modelWorkspace);
+			}
+			for(AbstractExtractorFromEmf v:extractors){
+				v.visitRecursively((Element) element);
+			}
+			result.add(modelWorkspace.getModelElement(AbstractExtractorFromEmf.getId((EModelElement) element)));
 		}
-		for(AbstractExtractorFromEmf v:features){
-			v.visitRecursively((Element) element);
-		}
-		return modelWorkspace.getModelElement(AbstractExtractorFromEmf.getId((EModelElement) element));
+		return result;
 	}
 }

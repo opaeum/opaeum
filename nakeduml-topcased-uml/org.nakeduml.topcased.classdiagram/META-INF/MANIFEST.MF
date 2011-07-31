@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: NakedUML Classi Diagram
+Bundle-Name: NakedUML Class Diagram
 Bundle-SymbolicName: org.nakeduml.topcased.classdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.nakeduml.topcased.uml.NakedUmlPlugin
@@ -31,7 +31,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gmf.runtime.draw2d.ui.render;bundle-version="1.4.1",
  org.eclipse.gmf.runtime.lite.svg;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Export-Package: org.nakeduml.topcased,
+Export-Package: org.holongate.svg.dynamic.events,
+ org.nakeduml.topcased,
  org.nakeduml.topcased.classdiagram,
  org.nakeduml.topcased.classdiagram.edit,
  org.nakeduml.topcased.classdiagram.figure,
@@ -39,6 +40,7 @@ Export-Package: org.nakeduml.topcased,
  org.nakeduml.topcased.propertysections,
  org.nakeduml.topcased.propertysections.constraints,
  org.nakeduml.topcased.propertysections.filters,
+ org.nakeduml.topcased.propertysections.ocl,
  org.nakeduml.topcased.uml,
  org.nakeduml.topcased.uml.editor,
  org.topcased.modeler.uml,

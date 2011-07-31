@@ -4,26 +4,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
+import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-@StepDependency(phase = AuditGenerationPhase.class, requires = {AuditMetadefAnnotationStep.class})
-public class AuditImplementationStep extends AbstractJavaTransformationStep {
+@StepDependency(phase = AuditGenerationPhase.class, requires = {AuditHibernatePackageAnnotator.class})
+public class AuditImplementationStep extends AbstractJavaProducingVisitor{
 	
 	public static String AUDIT = "Audit";
 	
-	@Override
-	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
+	@VisitBefore
+	public void generate(INakedModelWorkspace workspace) {
 		TimestampAdder timestampAdder = new TimestampAdder();
-		timestampAdder.initialize(javaModel, config, textWorkspace, context);
+		timestampAdder.initialize(javaModel, config, textWorkspace, transformationContext);
 		timestampAdder.startVisiting(workspace);
 		// Make copies of the root packages just below the model package
-		OJAnnotatedPackage newRoot = new OJAnnotatedPackage();
+		OJAnnotatedPackage newRoot = new OJAnnotatedPackage("");
 		Set<OJPackage> packages = this.javaModel.getSubpackages();
 		for (OJPackage ojPackage : packages) {
 			OJPackage deepCopy = ojPackage.getDeepCopy(null);
@@ -33,14 +33,14 @@ public class AuditImplementationStep extends AbstractJavaTransformationStep {
 		// It adds in a makeAuditCopy method. This method must only be on the
 		// original class
 		AuditEntryMassageOriginalClasses anotherAuditEntryOriginalClassesGenerator = new AuditEntryMassageOriginalClasses();
-		anotherAuditEntryOriginalClassesGenerator.initialize(this.javaModel, config, textWorkspace, context);
+		anotherAuditEntryOriginalClassesGenerator.initialize(this.javaModel, config, textWorkspace, transformationContext);
 		anotherAuditEntryOriginalClassesGenerator.startVisiting(workspace);
 		// Visit copy classes
 		AuditEntryMassage aeg = new AuditEntryMassage();
-		aeg.initialize(newRoot, config, textWorkspace, context);
+		aeg.initialize(newRoot, config, textWorkspace, transformationContext);
 		aeg.startVisiting(workspace);
 		AuditFixAnnotations auditFixAnnotations = new AuditFixAnnotations();
-		auditFixAnnotations.initialize(newRoot, config, textWorkspace, context);
+		auditFixAnnotations.initialize(newRoot, config, textWorkspace, transformationContext);
 		auditFixAnnotations.startVisiting(workspace);
 		mergePackages(newRoot.getSubpackages());
 	}

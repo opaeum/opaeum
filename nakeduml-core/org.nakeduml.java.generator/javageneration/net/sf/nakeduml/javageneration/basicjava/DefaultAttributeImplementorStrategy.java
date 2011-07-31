@@ -24,8 +24,7 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault) {
-		OJAnnotatedOperation getter = new OJAnnotatedOperation();
-		getter.setName(map.getter());
+		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
 		if (owner instanceof OJAnnotatedInterface) {
@@ -60,9 +59,7 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public void buildOneToOneSetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		OJAnnotatedField oldValue = new OJAnnotatedField();
-		oldValue.setName("oldValue");
-		oldValue.setType(map.javaTypePath());
+		OJAnnotatedField oldValue = new OJAnnotatedField("oldValue",map.javaTypePath());
 		oldValue.setInitExp("this." + map.umlName());
 		setter.getBody().addToLocals(oldValue);
 		// If oldValue==null then set the new Value unconditionally

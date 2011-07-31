@@ -222,7 +222,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		INakedClassifier owner = op.getOwner();
 		Environment env = null;
 		if(BehaviorUtil.hasExecutionInstance(op)){
-			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure(workspace.getNakedUmlLibrary()));
+			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure());
 			replacePreAndBodyConditions(op, owner, env);
 			replaceParsedOclConstraints(owner, op.getPostConditions(), env);
 			if(op instanceof INakedResponsibility){
@@ -430,7 +430,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}catch(AnalysisException e){
 			System.out.println(holder.getExpressionString());
 			e.printStackTrace(System.out);
-			this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, e.getError().getErrorMessage());
+			putOclError(holder, e);
 			OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 			errCtx.setExpressionString(holder.getExpressionString());
 			return errCtx;
@@ -448,6 +448,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			errCtx.setExpressionString(holder.getExpressionString());
 			return errCtx;
 		}
+	}
+	protected void putOclError(ParsedOclString holder,AnalysisException e){
+		INakedElement ne = (INakedElement)holder.getOwningModelElement().getModelElement();
+		String msg = e.getError().getErrorMessage();
+		Integer column=e.getError().getColumnNumber();
+		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg,column);
 	}
 	private void putError(ParsedOclString holder,Exception e){
 		this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, e.toString());

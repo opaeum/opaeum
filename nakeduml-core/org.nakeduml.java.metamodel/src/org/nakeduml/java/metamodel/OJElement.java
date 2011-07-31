@@ -24,4 +24,17 @@ public class OJElement extends OJElementGEN {
 	public void copyDeepInfoInto(OJElement copy) {
 		super.copyInfoInto(copy);
 	}	
+	public int hashCode(){
+		return getName().hashCode();
+		
+	}
+	public boolean equals(Object other){
+		if(getClass().isInstance(other)){
+			OJElement e=(OJElement) other;
+			if(e.getName().equals(getName())){
+				return true;
+			}
+		}
+		return false;
+	}
 }

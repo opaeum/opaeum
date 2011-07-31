@@ -224,8 +224,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		resultPath.getElementTypes().get(0).replaceTail(resultPath.getElementTypes().get(0).getLast() + "_Audit");
 		List<OJPathName> elementTypes = new ArrayList<OJPathName>();
 		elementTypes.add(resultPath.getElementTypes().get(0));
-		OJAnnotatedOperation oper = new OJAnnotatedOperation();
-		oper.setName(map.getter());
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(map.getter());
 		OJParameter param = new OJParameter();
 		param.setType(new OJPathName("javax.persistence.EntityManager"));
 		param.setName("entityManager");
@@ -433,7 +432,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 				}
 			}
 			if(BehaviorUtil.hasExecutionInstance(b)){
-				List<OJOperation> operations = auditClass.getOperations();
+				Set<OJOperation> operations = auditClass.getOperations();
 				for(OJOperation oper:operations){
 					if((oper.getName().startsWith("do") || oper.getName().startsWith("requestEventsFor") || oper.getName().startsWith("cancelEventsFor"))
 							&& oper.getReturnType().getLast().equals("void")){
@@ -468,10 +467,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		oneToManyNamedQueryAttr.addAnnotationValue(oneToManyNamedQuery);
 	}
 	private void addPreviousVersionField(OJAnnotatedClass c,INakedClassifier umlClass){
-		OJAnnotatedField previousVersion = new OJAnnotatedField();
+		OJAnnotatedField previousVersion = new OJAnnotatedField("previousVersion",c.getPathName());
 		OJPathName previousVersionPath = c.getPathName();
-		previousVersion.setType(c.getPathName());
-		previousVersion.setName("previousVersion");
 		previousVersion.setOwner(c);
 		OJAnnotationValue joinColumns = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumns"));
 		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
@@ -496,33 +493,28 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
 		JpaUtil.fetchLazy(toOne);
 		previousVersion.addAnnotationIfNew(toOne);
-		OJOperation getter = new OJAnnotatedOperation();
-		getter.setName("getPreviousVesion");
+		OJOperation getter = new OJAnnotatedOperation("getPreviousVesion");
 		getter.setReturnType(previousVersionPath);
 		getter.getBody().addToStatements("return previousVersion");
 		getter.setStatic(false);
 		c.addToOperations(getter);
-		OJOperation setter = new OJAnnotatedOperation();
-		setter.setName("setPreviousVersion");
+		OJOperation setter = new OJAnnotatedOperation("setPreviousVersion");
 		setter.addParam("previousVersion", previousVersionPath);
 		setter.getBody().addToStatements("this.previousVersion = previousVersion");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-		setter = new OJAnnotatedOperation();
-		setter.setName("setPreviousVersion");
+		setter = new OJAnnotatedOperation("setPreviousVersion");
 		OJPathName auditedPathName = new OJPathName(Audited.class.getName());
 		setter.addParam("previousVersion", auditedPathName);
 		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-		setter = new OJAnnotatedOperation();
-		setter.setName("setPreviousVersionWithoutCheck");
+		setter = new OJAnnotatedOperation("setPreviousVersionWithoutCheck");
 		setter.addParam("previousVersion", auditedPathName);
 		setter.getBody().addToStatements("setPreviousVersion((" + previousVersionPath.getLast() + ") previousVersion)");
 		setter.setStatic(false);
 		c.addToOperations(setter);
-		getter = new OJAnnotatedOperation();
-		getter.setName("getPreviousVersion");
+		getter = new OJAnnotatedOperation("getPreviousVersion");
 		getter.setReturnType(auditedPathName);
 		getter.getBody().addToStatements("return previousVersion");
 		getter.setStatic(false);
@@ -585,7 +577,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		auditClass.removeFromImports(toRemove);
 	}
 	private void removeDeletedOnFilter(OJAnnotatedClass ojClass){
-		List<OJField> fields = ojClass.getFields();
+		Set<OJField> fields = ojClass.getFields();
 		for(OJField ojField:fields){
 			OJAnnotatedField field = (OJAnnotatedField) ojField;
 			List<OJAnnotationValue> remove = new ArrayList<OJAnnotationValue>();
@@ -599,9 +591,8 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 	}
 	private void addShallowCopy(INakedClassifier classifier,OJAnnotatedClass c){
 		c.addToImports(new OJPathName(AuditId.class.getName()));
-		OJOperation oper = new OJAnnotatedOperation();
+		OJOperation oper = new OJAnnotatedOperation("copyShallowState");
 		oper.setVisibility(OJVisibilityKindGEN.PUBLIC);
-		oper.setName("copyShallowState");
 		oper.addParam("from", OJUtil.classifierPathname(classifier));
 		oper.addParam("to", c.getPathName());
 		c.addToOperations(oper);
@@ -615,7 +606,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		addCopyToAuditStatements(c, classifier, oper.getBody(), false);
 	}
 	private OJOperation findMethodIgnorecase(OJClass c,String name){
-		List<OJOperation> operations = c.getOperations();
+		Set<OJOperation> operations = c.getOperations();
 		for(OJOperation ojOperation:operations){
 			if(ojOperation.getName().equalsIgnoreCase(name)){
 				return ojOperation;
@@ -633,7 +624,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		javaTypes.add("Boolean");
 		javaTypes.add("boolean");
 		javaTypes.add("Date");
-		List<OJField> fields = c.getFields();
+		Set<OJField> fields = c.getFields();
 		for(OJField ojField:fields){
 			boolean foundMap = false;
 			NakedStructuralFeatureMap map = null;
@@ -653,14 +644,12 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addOriginalField(INakedClassifier umlClass,OJAnnotatedClass javaClass){
-		OJAnnotatedField original = new OJAnnotatedField();
 		String auditClassPath = javaClass.getPathName().toJavaString();
-		OJPathName originalPathName = new OJPathName(auditClassPath.substring(0, auditClassPath.length() - 6));
-		original.setType(originalPathName);
 		String auditClassName = javaClass.getPathName().getNames().get(javaClass.getPathName().getNames().size() - 1);
 		auditClassName = auditClassName.substring(0, auditClassName.length() - 6);
+		OJPathName originalPathName = new OJPathName(auditClassPath.substring(0, auditClassPath.length() - 6));
+		OJAnnotatedField original = new OJAnnotatedField("_original",originalPathName);
 		// original.setName(umlClass.getMappingInfo().getJavaName().getDecapped().toString());
-		original.setName("_original");
 		original.setOwner(javaClass);
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
 		JpaUtil.fetchLazy(toOne);
@@ -670,16 +659,14 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		column.putAttribute(new OJAnnotationAttributeValue("updatable", false));
 		column.putAttribute(new OJAnnotationAttributeValue("unique", false));
 		original.addAnnotationIfNew(column);
-		OJOperation getter = new OJAnnotatedOperation();
-		getter.setName("getOriginal");
+		OJOperation getter = new OJAnnotatedOperation("getOriginal");
 		getter.setReturnType(originalPathName);
 		// getter.getBody().addToStatements("return " +
 		// umlClass.getMappingInfo().getJavaName().getDecapped());
 		getter.getBody().addToStatements("return this._original");
 		getter.setStatic(false);
 		javaClass.addToOperations(getter);
-		OJOperation setter = new OJAnnotatedOperation();
-		setter.setName("setOriginal");
+		OJOperation setter = new OJAnnotatedOperation("setOriginal");
 		setter.addParam(NameConverter.decapitalize(auditClassName), originalPathName);
 		// setter.getBody().addToStatements("this." +
 		// umlClass.getMappingInfo().getJavaName().getDecapped() + "= " +
@@ -690,51 +677,42 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 			setter.getBody().addToStatements("super.setOriginal( " + NameConverter.decapitalize(auditClassName) + ")");
 		}
 		javaClass.addToOperations(setter);
-		OJAnnotatedOperation originalForAbstractEntity = new OJAnnotatedOperation();
-		originalForAbstractEntity.setName("setOriginal");
+		OJAnnotatedOperation originalForAbstractEntity = new OJAnnotatedOperation("setOriginal");
 		originalForAbstractEntity.addParam(NameConverter.decapitalize(auditClassName), new OJPathName(IPersistentObject.class.getName()));
 		originalForAbstractEntity.getBody().addToStatements(
 				"setOriginal((" + umlClass.getMappingInfo().getJavaName() + ") " + NameConverter.decapitalize(auditClassName) + ")");
 		javaClass.addToOperations(originalForAbstractEntity);
 	}
 	private void addRevisionField(OJAnnotatedClass c){
-		OJAnnotatedField revision = new OJAnnotatedField();
 		OJPathName revisionPath = new OJPathName(RevisionEntity.class.getName());
-		revision.setType(revisionPath);
-		revision.setName("revision");
+		OJAnnotatedField revision = new OJAnnotatedField("revision",revisionPath);
 		revision.setOwner(c);
 		OJAnnotationValue toOne = new OJAnnotationValue(new OJPathName("javax.persistence.ManyToOne"));
 		JpaUtil.fetchLazy(toOne);
 		revision.addAnnotationIfNew(toOne);
 		OJAnnotationValue column = JpaUtil.addJoinColumn(revision, revision.getName() + "_id", true);
 		revision.addAnnotationIfNew(column);
-		OJOperation getter = new OJAnnotatedOperation();
-		getter.setName("getRevision");
+		OJOperation getter = new OJAnnotatedOperation("getRevision");
 		getter.setReturnType(revisionPath);
 		getter.getBody().addToStatements("return revision");
 		getter.setStatic(false);
 		c.addToOperations(getter);
-		OJOperation setter = new OJAnnotatedOperation();
-		setter.setName("setRevision");
+		OJOperation setter = new OJAnnotatedOperation("setRevision");
 		setter.addParam("revision", revisionPath);
 		setter.getBody().addToStatements("this.revision = revision");
 		setter.setStatic(false);
 		c.addToOperations(setter);
 	}
 	private void addRevisionTypeField(OJAnnotatedClass c){
-		OJAnnotatedField revisionType = new OJAnnotatedField();
 		OJPathName revisionPath = new OJPathName(RevisionType.class.getName());
-		revisionType.setType(revisionPath);
-		revisionType.setName("revisionType");
+		OJAnnotatedField revisionType = new OJAnnotatedField("revisionType",revisionPath);
 		revisionType.setOwner(c);
-		OJOperation getter = new OJAnnotatedOperation();
-		getter.setName("getRevisionType");
+		OJOperation getter = new OJAnnotatedOperation("getRevisionType");
 		getter.setReturnType(revisionPath);
 		getter.getBody().addToStatements("return revisionType");
 		getter.setStatic(false);
 		c.addToOperations(getter);
-		OJOperation setter = new OJAnnotatedOperation();
-		setter.setName("setRevisionType");
+		OJOperation setter = new OJAnnotatedOperation("setRevisionType");
 		setter.addParam("revisionType", revisionPath);
 		setter.getBody().addToStatements("this.revisionType = revisionType");
 		setter.setStatic(false);

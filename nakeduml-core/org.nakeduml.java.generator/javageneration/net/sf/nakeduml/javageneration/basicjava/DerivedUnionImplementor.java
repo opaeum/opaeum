@@ -2,10 +2,10 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.List;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
@@ -14,7 +14,6 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
-import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -23,13 +22,11 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
+@StepDependency(phase = JavaTransformationPhase.class,after = {
+		OperationAnnotator.class,AttributeImplementor.class
+})
 public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
-	@Override
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
-		super.initialize(javaModel, config, textWorkspace, context);
-	}
 	@VisitBefore(matchSubclasses = true)
 	public void property(INakedProperty p){
 		visitProperty(p.getOwner(), p);
@@ -93,17 +90,15 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 		OJOperation getter = OJUtil.findOperation(c, subsettedMap.getter());
 		// TODO check this logic - only execute if another propert has not yet
 		// built this getter
-		if (getter.getBody() == null || (getter.getBody().getStatements().size() == 1) || (getter.getBody().getStatements().size() == 0)) {
-			if (subsettedMap.isOne()) {
+		if(getter.getBody() == null || (getter.getBody().getStatements().size() == 1) || (getter.getBody().getStatements().size() == 0)){
+			if(subsettedMap.isOne()){
 				getter.setBody(new OJBlock());
 				c.addToImports(subsettedMap.javaDefaultTypePath());
 				getter.getBody().addToStatements("return " + subsettedMap.javaDefaultValue());
 			}else{
 				OJPathName type = subsettedMap.javaTypePath();
-				OJAnnotatedField sinit = new OJAnnotatedField();
 				String returnParameterName = subsettedMap.umlName() + "Subsetting";
-				sinit.setName(returnParameterName);
-				sinit.setType(type);
+				OJAnnotatedField sinit = new OJAnnotatedField(returnParameterName, type);
 				getter.setBody(new OJBlock());
 				getter.getBody().addToLocals(sinit);
 				sinit.setInitExp(subsettedMap.javaDefaultValue());
@@ -118,8 +113,8 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 		OJOperation sgetter = OJUtil.findOperation(c, derivedUnionMap.getter());
 		String returnParameterName = derivedUnionMap.umlName() + "Subsetting";
 		if(!isNormalPropertyOverride(subsettingMap, derivedUnionMap)){
-			//TODO when property override occurs on a many property, the getter needs to be changed
-			//This would require us to us z_internalAdd again as the derived set would  
+			// TODO when property override occurs on a many property, the getter needs to be changed
+			// This would require us to us z_internalAdd again as the derived set would
 			if(sgetter == null){
 				sgetter = buildGetterForDerivedUnion(c, type, derivedUnionMap, returnParameterName);
 			}else{
@@ -129,9 +124,7 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 					sgetter.getBody().getStatements().remove(sgetter.getBody().getStatements().size() - 1);
 				}
 			}
-			OJAnnotatedField returnParameter = getReturnParameter(sgetter);
-			returnParameter.setName(returnParameterName);
-			returnParameter.setType(type);
+			OJAnnotatedField returnParameter = getReturnParameter(sgetter, returnParameterName, type);
 			if(returnParameter.getInitExp() == null){
 				// retain the possible derivation rule initialization
 				returnParameter.setInitExp(derivedUnionMap.javaDefaultValue());
@@ -144,29 +137,30 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 					// TODO this could be problematic if multiple subsetting
 					// properties are not null
 					// TODO logic of one subsetting not understood
-//					if(!isTinker){
-						OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
-						sgetter.getBody().addToStatements(ifNotNull);
-//					}else{
-//						OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatementRecursive(
-//								TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
-//						if(ifStatement == null){
-//							OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
-//							sgetter.getBody().addToStatements(ifNotNull);
-//						}else{
-//							OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
-//									TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
-//							OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
-//							String tinkerToOneExpression = ojSimpleStatement.getExpression();
-//							tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
-//							if(isAudit){
-//								tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(), derivedUnionMap.javaBaseTypePath()
-//										.getLast() + TinkerAuditCreator.AUDIT);
-//							}
-//							ojSimpleStatement.setExpression(tinkerToOneExpression);
-//							ojTryStatement.getTryPart().addToStatements("this." + derivedUnionMap.umlName() + " = " + returnParameterName);
-//						}
-//					}
+					// if(!isTinker){
+					OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
+					sgetter.getBody().addToStatements(ifNotNull);
+					// }else{
+					// OJIfStatement ifStatement = (OJIfStatement) sgetter.getBody().findStatementRecursive(
+					// TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_IF);
+					// if(ifStatement == null){
+					// OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + "=" + expression);
+					// sgetter.getBody().addToStatements(ifNotNull);
+					// }else{
+					// OJTryStatement ojTryStatement = (OJTryStatement) ifStatement.getThenPart().findStatement(
+					// TinkerAttributeImplementorStrategy.POLYMORPHIC_GETTER_FOR_TO_ONE_TRY);
+					// OJSimpleStatement ojSimpleStatement = (OJSimpleStatement) ojTryStatement.getTryPart().getStatements().get(1);
+					// String tinkerToOneExpression = ojSimpleStatement.getExpression();
+					// tinkerToOneExpression = tinkerToOneExpression.replace("return ", returnParameterName + " = ");
+					// if(isAudit){
+					// tinkerToOneExpression = tinkerToOneExpression.replace(derivedUnionMap.javaBaseTypePath().getLast(),
+					// derivedUnionMap.javaBaseTypePath()
+					// .getLast() + TinkerAuditCreator.AUDIT);
+					// }
+					// ojSimpleStatement.setExpression(tinkerToOneExpression);
+					// ojTryStatement.getTryPart().addToStatements("this." + derivedUnionMap.umlName() + " = " + returnParameterName);
+					// }
+					// }
 				}else{
 					OJIfStatement ifNotNull = new OJIfStatement(expression + "!=null", returnParameterName + ".add(" + expression + ")");
 					sgetter.getBody().addToStatements(ifNotNull);
@@ -182,14 +176,13 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	protected boolean isNormalPropertyOverride(NakedStructuralFeatureMap subsettingMap,NakedStructuralFeatureMap derivedUnionMap){
-		return (subsettingMap.getter().equals(derivedUnionMap.getter()) && subsettingMap.isOne() && derivedUnionMap.isOne());
+		return(subsettingMap.getter().equals(derivedUnionMap.getter()) && subsettingMap.isOne() && derivedUnionMap.isOne());
 	}
 	private OJOperation buildGetterForDerivedUnion(OJClass c,OJPathName type,NakedStructuralFeatureMap derivedUnionMap,String returnParameterName){
 		OJOperation sgetter;
 		// we typically end up here when the subsetted property is not
 		// defined in this class, but in a superclass or interface
-		sgetter = new OJAnnotatedOperation();
-		sgetter.setName(derivedUnionMap.getter());
+		sgetter = new OJAnnotatedOperation(derivedUnionMap.getter());
 		sgetter.setReturnType(type);
 		c.addToOperations(sgetter);
 		// retrieve the potentially subsetting superclass implementation of
@@ -217,12 +210,12 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 		}
 		return expression;
 	}
-	private OJAnnotatedField getReturnParameter(OJOperation sgetter){
+	private OJAnnotatedField getReturnParameter(OJOperation sgetter,String name,OJPathName type){
 		OJAnnotatedField init = null;
 		if(sgetter.getBody().getLocals().size() == 1){
 			init = (OJAnnotatedField) sgetter.getBody().getLocals().get(0);
 		}else{
-			OJAnnotatedField sinit = new OJAnnotatedField();
+			OJAnnotatedField sinit = new OJAnnotatedField(name, type);
 			sgetter.getBody().addToLocals(sinit);
 			init = sinit;
 		}

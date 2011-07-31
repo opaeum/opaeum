@@ -1,6 +1,6 @@
 package org.nakeduml.topcased.activitydiagram.bpm.edit;
 
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -23,7 +23,7 @@ public class SimpleTaskEditPart extends OpaqueActionEditPart{
 	public void performRequest(Request request){
 		if(request.getType() == RequestConstants.REQ_OPEN){
 			NamedElement e = (NamedElement) getEObject();
-			String uuid = UmlElementMap.getId(e);
+			String uuid = UmlElementCache.getId(e);
 			URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
 			if(!AbstractUimGenerationAction.getFile(uri).exists()){
 				SynchronizeAction.doSynchronize(e,NakedUmlPlugin.findNakedUmlEditor(e) );

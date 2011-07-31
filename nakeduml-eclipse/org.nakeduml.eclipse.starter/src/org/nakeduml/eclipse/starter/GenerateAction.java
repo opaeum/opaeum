@@ -17,10 +17,12 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
+import org.nakeduml.eclipse.NakedUmlConfigDialog;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
@@ -36,11 +38,13 @@ public class GenerateAction implements IObjectActionDelegate{
 			Object element = it.next();
 			if(element instanceof Model){
 				try{
-					model = (Model) element;
 					int noOfProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects().length;
+					model = (Model) element;
 					File modelFile = getModeFile(model);
 					NakedUmlConfig cfg = new NakedUmlConfig();
 					cfg.load(new File(modelFile.getParentFile(), "nakeduml.properties"), "dummy");
+		
+					File outputRoot = new File(ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile(), cfg.getWorkspaceIdentifier());
 					if(cfg.getWorkspaceIdentifier().equals("dummy")){
 						this.dlg = new NakedUmlConfigDialog(this.workbenchPart.getSite().getShell());
 						dlg.open();
@@ -60,13 +64,13 @@ public class GenerateAction implements IObjectActionDelegate{
 						cfg.setMavenGroupId(mavenGroup.toString());
 						model = (Model) element;
 						cfg.setWorkspaceIdentifier(dlg.getWorkspaceIdentifier());
-						cfg.setOutputRoot(new File(ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile(), cfg.getWorkspaceIdentifier()));
+						cfg.setOutputRoot(outputRoot);
 						// TODO add nakeduml libraries and profile
 						// TODO automaticall prefix domain to model qualified names
 						StarterCodeGenerator codeGen = new StarterCodeGenerator(model.eResource().getResourceSet(), cfg, modelFile.getParentFile());
 						generateCode(codeGen);
 					}else{
-						cfg.setOutputRoot(new File(ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile(), cfg.getWorkspaceIdentifier()));
+						cfg.setOutputRoot(outputRoot);
 						// TODO add nakeduml libraries and profile
 						// TODO automaticall prefix domain to model qualified names
 						StarterCodeGenerator codeGen = new StarterCodeGenerator(model.eResource().getResourceSet(), cfg, modelFile.getParentFile());
@@ -109,6 +113,8 @@ public class GenerateAction implements IObjectActionDelegate{
 	}
 	@Override
 	public void setActivePart(IAction arg0,IWorkbenchPart workbenchPart){
+		new JavaSourceSynchronizer(Display.getCurrent());
+
 		this.workbenchPart = workbenchPart;
 	}
 }

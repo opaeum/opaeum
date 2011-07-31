@@ -13,13 +13,8 @@ import org.nakeduml.java.metamodel.utilities.JavaUtil;
 
 public class OJAnnotatedInterface extends OJAnnotatedClass {
 	private Set<OJPathName> superInterfaces = new HashSet<OJPathName>();
-	public OJAnnotatedInterface() {
-		super();
-	}
-
-
 	public OJAnnotatedInterface(String string) {
-		setName(string);
+		super(string);
 	}
 
 	@Override
@@ -65,7 +60,7 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 	}
 
 	@Override
-	protected StringBuilder operations() {
+	public StringBuilder operations() {
 		return super.operations();
 	}
 
@@ -83,7 +78,7 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 		addToImports(getSuperInterfaces());
 	}
 	public OJAnnotatedInterface getDeepCopy(OJPackage owner) {
-		OJAnnotatedInterface copy = new OJAnnotatedInterface();
+		OJAnnotatedInterface copy = new OJAnnotatedInterface(getName());
 		copy.setMyPackage(owner);
 		copyDeepInfoInto(copy);
 		return copy;

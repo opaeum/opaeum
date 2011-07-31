@@ -37,7 +37,6 @@ public class MultCheckGenerator extends DefaultPackageVisitor {
 		this.javamodel = javamodel;
 		OclUtilityCreator helper = new OclUtilityCreator(javamodel);
 		helper.makeInvHelperClasses();
-//		helper.addGetIdStrOper();
 	}
 
 	/* (non-Javadoc)

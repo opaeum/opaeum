@@ -39,7 +39,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 				}
 				fs.addToLocals(resultField);
 				if(shouldStoreMessageStructureOnProcess()){
-					INakedMessageStructure messageStructure = node.getMessageStructure(getLibrary());
+					INakedMessageStructure messageStructure = node.getMessageStructure();
 					NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(messageStructure.getEndToComposite().getOtherEnd());
 					fs.addToStatements(featureMap.adder() + "(" + resultField.getName() + ")");
 				}

@@ -1,25 +1,51 @@
 package net.sf.nakeduml.javageneration.oclexpressions;
 
+import java.util.Iterator;
+
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
+import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.othergenerators.visitors.MultCheckGenerator;
+import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.othergenerators.creators.MultCheckCreator;
+import nl.klasse.octopus.model.IAssociationEnd;
+import nl.klasse.octopus.model.IAttribute;
+import nl.klasse.octopus.model.IEnumerationType;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { BasicJavaModelStep.class }, after = { BasicJavaModelStep.class })
-public class MultiplicityChecking extends AbstractJavaTransformationStep {
-	private MultiplicityChecking() {
-		super();
-	}
+import org.nakeduml.java.metamodel.OJClass;
+import org.nakeduml.java.metamodel.OJClassifier;
+import org.nakeduml.java.metamodel.OJPathName;
 
-	@Override
-	public void generate(INakedModelWorkspace workspace, TransformationContext context) {
-		MultCheckGenerator maker = new MultCheckGenerator(javaModel);
-		for (INakedPackage p : workspace.getGeneratingModelsOrProfiles()) {
-			p.accept(maker);
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	AttributeImplementor.class
+},after = {
+	AttributeImplementor.class
+})
+public class MultiplicityChecking extends AbstractJavaProducingVisitor{
+	@VisitBefore(matchSubclasses = true)
+	public void visitClass(INakedClassifier in){
+		if(!(in instanceof IEnumerationType)){
+			OJPathName path = new ClassifierMap(in).javaTypePath();
+			OJClassifier myOwner = javaModel.findIntfOrCls(path);
+			if(myOwner != null){
+				MultCheckCreator maker = new MultCheckCreator();
+				maker.createCheckOper(myOwner);
+				if(myOwner instanceof OJClass){
+					Iterator it = in.getAttributes().iterator();
+					while(it.hasNext()){
+						IAttribute attr = (IAttribute) it.next();
+						maker.structuralfeature(attr);
+					}
+					it = in.getNavigations().iterator();
+					while(it.hasNext()){
+						IAssociationEnd attr = (IAssociationEnd) it.next();
+						maker.structuralfeature(attr);
+					}
+					maker.finishCheckOper();
+				}
+			}
 		}
 	}
 }

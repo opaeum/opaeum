@@ -54,7 +54,7 @@ public class OJClass extends OJClassGEN {
 			OJPathName superClassCopy = getSuperclass().getDeepCopy();
 			copy.setSuperclass(superClassCopy);
 		}
-		List<OJField> fields = getFields();
+		Set<OJField> fields = getFields();
 		for (OJField ojField : fields) {
 			OJField ojFieldCopy = (OJField)ojField.getDeepCopy();
 			ojFieldCopy.setOwner(copy);

@@ -92,9 +92,8 @@ public class Jbpm5Util{
 			getter.getBody().addToStatements(ifNull);
 			getter.getBody().addToStatements("return this." + propertyPrefix+"Instance");
 		}
-		OJOperation getProcessDefinition = new OJAnnotatedOperation();
+		OJOperation getProcessDefinition = new OJAnnotatedOperation("get" + name.getCapped() + "Definition");
 		OJPathName processDefinition = new OJPathName("org.jbpm.workflow.core.WorkflowProcess");
-		getProcessDefinition.setName("get" + name.getCapped() + "Definition");
 		getProcessDefinition.setReturnType(processDefinition);
 		ojBehavior.addToOperations(getProcessDefinition);
 		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");

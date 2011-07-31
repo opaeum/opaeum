@@ -9,7 +9,7 @@ import org.nakeduml.java.metamodel.utilities.JavaUtil;
 
 
 public class OJAnnonymousInnerClass extends OJAnnotatedField {
-	private OJAnnotatedClass classDeclaration = new OJAnnotatedClass();
+	private OJAnnotatedClass classDeclaration = new OJAnnotatedClass("");
 	private OJPathName outer;
 
 	public OJAnnonymousInnerClass(OJPathName outer, String string, OJPathName ojPathName) {
@@ -24,10 +24,6 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		super.renameAll(renamePathNames, newName);
 		outer.renameAll(renamePathNames, newName);
 		classDeclaration.renameAll(renamePathNames, newName);
-	}
-
-	public OJAnnonymousInnerClass() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public OJAnnotatedClass getClassDeclaration() {
@@ -71,7 +67,7 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 	}
 
 	public OJAnnotatedField getDeepCopy() {
-		OJAnnonymousInnerClass copy = new OJAnnonymousInnerClass();
+		OJAnnonymousInnerClass copy = new OJAnnonymousInnerClass(outer, getName(),getType());
 		copyDeepInto(copy);
 		return copy;
 	}

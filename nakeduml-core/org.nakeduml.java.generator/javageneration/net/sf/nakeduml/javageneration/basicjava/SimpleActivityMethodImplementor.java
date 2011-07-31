@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractCaller;
@@ -82,6 +84,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	OperationAnnotator.class
+},after = {
+	OperationAnnotator.class
+})
 public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void implementActivity(INakedActivity a){

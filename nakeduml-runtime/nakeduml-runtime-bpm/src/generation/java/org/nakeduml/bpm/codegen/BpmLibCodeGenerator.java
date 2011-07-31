@@ -18,13 +18,13 @@ import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.jbpm5.MessageMarshallingImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
-import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
-import net.sf.nakeduml.javageneration.oclexpressions.OclTestsStep;
+import net.sf.nakeduml.javageneration.oclexpressions.OclTestGenerator;
+import net.sf.nakeduml.javageneration.testgeneration.ArquillianTestJavaGenerator;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
-import org.nakeduml.generation.features.IntegrationTests;
+import org.nakeduml.generation.features.OclExpressionExecution;
 import org.nakeduml.generation.features.PersistenceUsingHibernate;
 
 public class BpmLibCodeGenerator{
@@ -67,10 +67,10 @@ public class BpmLibCodeGenerator{
 		steps.add(OclExpressionExecution.class);
 		steps.add(MessageMarshallingImplementor.class);
 		steps.add(StereotypeApplicationExtractor.class);
-		steps.add(OclTestsStep.class);
+		steps.add(OclTestGenerator.class);
 		steps.add(ExtendedCompositionSemantics.class);
 		steps.add(BpmUsingJbpm5.class);
-		steps.add(IntegrationTests.class);
+		steps.add(ArquillianTestJavaGenerator.class);
 		steps.add(ProcessStepResolverImplementor.class);
 		return steps;
 	}

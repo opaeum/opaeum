@@ -1,7 +1,9 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -21,6 +23,11 @@ import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	Java6ModelGenerator.class,AttributeImplementor.class
+},after = {
+	Java6ModelGenerator.class
+})
 
 public class ToStringBuilder extends StereotypeAnnotator{
 	public static String HASHCODE_IN_TO_STRING = "HASHCODE_IN_TO_STRING";
@@ -34,20 +41,17 @@ public class ToStringBuilder extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
 		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			this.visitClass(no.getMessageStructure(getLibrary()));
+			this.visitClass(no.getMessageStructure());
 		}
 	}
 	@VisitBefore()
 	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
-		this.visitClass(oa.getMessageStructure(getLibrary()));
+		this.visitClass(oa.getMessageStructure());
 	}
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
-		OJOperation toString = new OJAnnotatedOperation();
+		OJOperation toString = new OJAnnotatedOperation("toString");
 		toString.setReturnType(new OJPathName("String"));
-		toString.setName("toString");
-		OJAnnotatedField sb = new OJAnnotatedField();
-		sb.setName("sb");
-		sb.setType(new OJPathName("StringBuilder"));
+		OJAnnotatedField sb = new OJAnnotatedField("sb",new OJPathName("StringBuilder"));
 		sb.setInitExp("new StringBuilder()");
 		toString.getBody().addToLocals(sb);
 		toString.getBody().addToStatements("sb.append(super.toString())");

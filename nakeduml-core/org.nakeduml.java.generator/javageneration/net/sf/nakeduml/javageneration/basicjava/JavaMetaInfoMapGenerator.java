@@ -2,11 +2,12 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -16,6 +17,8 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.validation.namegeneration.JavaNameRegenerator;
+import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IOperation;
 
@@ -27,12 +30,10 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.runtime.domain.IPersistentObject;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	JavaNameRegenerator.class
+},after = {})
 public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
-	private boolean isIntegrationPhase;
-	public JavaMetaInfoMapGenerator(boolean isIntegrationPhase){
-		super();
-		this.isIntegrationPhase = isIntegrationPhase;
-	}
 	public class ClassCollector extends AbstractJavaProducingVisitor{
 		Collection<INakedClassifier> classes = new HashSet<INakedClassifier>();
 		@VisitBefore(matchSubclasses = true)
@@ -64,7 +65,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("adaptor"), OutputRootId.ADAPTOR_GEN_TEST_SRC, collector.classes);
 		}
 	}
-	protected void createMapClass(OJPathName metaInfoPackage ,OutputRootId output, Collection<INakedClassifier> cls){
+	protected void createMapClass(OJPathName metaInfoPackage,OutputRootId output,Collection<INakedClassifier> cls){
 		String javaMetaInfoMapName = javaMetaInfoMapName();
 		OJClass mapClass = new OJAnnotatedClass(javaMetaInfoMapName);
 		mapClass.setSuperclass(new OJPathName(JavaMetaInfoMap.class.getName()));
@@ -76,10 +77,10 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor{
 		OJBlock initBlock = constr.getBody();
 		for(INakedClassifier c:cls){
 			IMappingInfo ci = c.getMappingInfo();
-			initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\""+ci.getIdInModel()+"\"," + ci.getNakedUmlId()+")");
+			initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\"" + ci.getIdInModel() + "\"," + ci.getNakedUmlId() + ")");
 			for(IOperation o:c.getOperations()){
-				IMappingInfo mi = ((INakedOperation)o).getMappingInfo();
-				initBlock.addToStatements("putMethod("+ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() +"\"," + mi.getNakedUmlId() + ")");
+				IMappingInfo mi = ((INakedOperation) o).getMappingInfo();
+				initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getNakedUmlId() + ")");
 			}
 		}
 	}

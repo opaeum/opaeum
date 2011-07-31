@@ -8,14 +8,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
-import net.sf.nakeduml.javageneration.auditing.IntegratedAuditMetaDefStep;
+import net.sf.nakeduml.javageneration.hibernate.HibernateAnnotator;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -45,11 +49,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedParameter;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {ProcessIdentifier.class,TextFileGenerator.class} ,after={})
 public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
-	boolean isIntegrationPhase = false;
-	public ArquillianTestJavaGenerator(boolean isIntegrationPhase){
+	public ArquillianTestJavaGenerator(){
 		super();
-		this.isIntegrationPhase = isIntegrationPhase;
 	}
 	public class PackageAndProcessCollector extends NakedElementOwnerVisitor{
 		private Map<INakedNameSpace,INakedClassifier> packages = new HashMap<INakedNameSpace,INakedClassifier>();
@@ -111,9 +114,8 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 	}
 	private void createExampleTestClass(String hibernatePrefix,INakedEntity root,OJPathName pkg,OutputRootId outputRootId){
 		if(root != null){
-			OJAnnotatedClass dummyTest = new OJAnnotatedClass();
+			OJAnnotatedClass dummyTest = new OJAnnotatedClass("ExampleIntegrationTest");
 			dummyTest.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.junit.runner.RunWith"), new OJPathName("org.jboss.arquillian.junit.Arquillian")));
-			dummyTest.setName("ExampleIntegrationTest");
 			OJAnnotatedPackage owner = findOrCreatePackage(pkg);
 			owner.addToClasses(dummyTest);
 			super.createTextPath(dummyTest, outputRootId);
@@ -175,8 +177,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		return createTestArchive;
 	}
 	private OJAnnotatedClass createTestUtilClass(PackageAndProcessCollector collector,OJPathName packageName,OutputRootId outputRootId,String hibernatePrefix){
-		OJAnnotatedClass testUtil = new OJAnnotatedClass();
-		testUtil.setName("NakedUmlTestUtil");
+		OJAnnotatedClass testUtil = new OJAnnotatedClass("NakedUmlTestUtil");
 		OJAnnotatedPackage owner = findOrCreatePackage(packageName);
 		owner.addToClasses(testUtil);
 		addCreateTestArchive(hibernatePrefix, testUtil, collector.processes);
@@ -207,7 +208,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		for(INakedBehavior c:processes){
 			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
 			getTestProcessClasses.getBody().addToStatements(addClass);
-			if(super.transformationContext.isAnyOfFeaturesSelected(IntegratedAuditMetaDefStep.class, AuditImplementationStep.class)){
+			if(super.transformationContext.isAnyOfFeaturesSelected(AuditImplementationStep.class)){
 				OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
 				getTestProcessClasses.getBody().addToStatements(addAuditClass);
 			}else{
@@ -270,8 +271,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 	}
 	private void createExampleStartup(PackageAndProcessCollector collector,OJPathName utilPkg,OutputRootId outputRootId){
 		if(collector.rootEntity != null){
-			OJAnnotatedClass startUp = new OJAnnotatedClass();
-			startUp.setName("ExampleStartUp");
+			OJAnnotatedClass startUp = new OJAnnotatedClass("ExampleStartUp");
 			OJAnnotatedPackage owner = findOrCreatePackage(utilPkg);
 			owner.addToClasses(startUp);
 			super.createTextPath(startUp, outputRootId);

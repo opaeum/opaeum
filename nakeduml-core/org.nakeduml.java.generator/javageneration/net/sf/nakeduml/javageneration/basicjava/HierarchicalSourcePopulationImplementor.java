@@ -3,7 +3,9 @@ package net.sf.nakeduml.javageneration.basicjava;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -20,6 +22,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.name.NameConverter;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	Java6ModelGenerator.class
+},after = {
+	Java6ModelGenerator.class
+})
 
 public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator {
 	@VisitAfter(matchSubclasses = true)
@@ -31,13 +38,12 @@ public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator
 			INakedProperty endToComposite = entityOwner.getEndToComposite();
 			
 			OJAnnotatedClass owner = findJavaClass(p.getOwner());
-			OJOperation sourcePopulation = new OJAnnotatedOperation();
-			sourcePopulation.setName("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
+			OJOperation sourcePopulation = new OJAnnotatedOperation("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
 			sourcePopulation.getBody().addToStatements("return " + endToComposite.getName()+"."+"get" + NameConverter.capitalize(p.getName()) + "SourcePopulation()");
 			owner.addToOperations(sourcePopulation);
 
 			OJAnnotatedClass abstractOwner = findJavaClass(endToComposite.getNakedBaseType());
-			OJOperation abstractSourcePopulation = new OJAnnotatedOperation();
+			OJOperation abstractSourcePopulation = new OJAnnotatedOperation("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
 			OJPathName pathName = new OJPathName("java.util.Set");
 			
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
@@ -49,7 +55,6 @@ public class HierarchicalSourcePopulationImplementor extends StereotypeAnnotator
 			sourcePopulation.setReturnType(pathName);
 			
 			abstractSourcePopulation.setReturnType(pathName);
-			abstractSourcePopulation.setName("get" + NameConverter.capitalize(p.getName()) + "SourcePopulation");
 			abstractSourcePopulation.setAbstract(true);
 			abstractOwner.addToOperations(abstractSourcePopulation);
 		}

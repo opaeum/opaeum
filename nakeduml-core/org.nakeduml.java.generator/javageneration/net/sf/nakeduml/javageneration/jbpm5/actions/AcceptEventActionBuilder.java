@@ -8,7 +8,6 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
@@ -24,15 +23,13 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 			if(node.getTrigger().getEvent() instanceof INakedTimeEvent){
 				ActionMap map = new ActionMap(node);
 				EventUtil.implementTimeEventRequest(operation, operation.getBody(),(INakedTimeEvent) node.getTrigger().getEvent());
-				OJOperation cancel = new OJAnnotatedOperation();
-				cancel.setName(map.getCancelEventsMethod());
+				OJOperation cancel = new OJAnnotatedOperation(map.getCancelEventsMethod());
 				operation.getOwner().addToOperations(cancel);
 				EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) node.getTrigger().getEvent(),"this");
 			}else if(node.getTrigger().getEvent() instanceof INakedEvent){
-				EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) node.getTrigger().getEvent());
-				OJOperation cancel = new OJAnnotatedOperation();
 				ActionMap map = new ActionMap(node);
-				cancel.setName(map.getCancelEventsMethod());
+				EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) node.getTrigger().getEvent());
+				OJOperation cancel = new OJAnnotatedOperation(map.getCancelEventsMethod());
 				operation.getOwner().addToOperations(cancel);
 				EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) node.getTrigger().getEvent());
 			}

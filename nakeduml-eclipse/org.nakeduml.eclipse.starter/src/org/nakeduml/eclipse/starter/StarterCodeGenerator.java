@@ -10,33 +10,31 @@ import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.emf.workspace.UriResolver;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
-import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
+import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
+import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
+import net.sf.nakeduml.javageneration.hibernate.HibernatePackageAnnotator;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
-import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
+import net.sf.nakeduml.javageneration.testgeneration.ArquillianTestJavaGenerator;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.pomgeneration.MavenProjectCodeGenerator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
+import org.nakeduml.bootstrap.IntegratedArquillianBootstrapStep;
 import org.nakeduml.bootstrap.WarBootstrapStep;
 import org.nakeduml.eclipse.ApplyProfileAction;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
-import org.nakeduml.generation.features.HibernateIntegratedAcrossMultipleProjects;
-import org.nakeduml.generation.features.IntegrationTests;
-import org.nakeduml.generation.features.IntegrationTestsAcrossMultipleModels;
-import org.nakeduml.generation.features.Jbpm5IntegratedAcrossMultipleProjects;
+import org.nakeduml.generation.features.OclExpressionExecution;
 import org.nakeduml.generation.features.PersistenceUsingHibernate;
 import org.nakeduml.uml2uim.FormSynchronizer;
 import org.nakeduml.uml2uim.ModelCopyStep;
@@ -122,20 +120,20 @@ public class StarterCodeGenerator extends MavenProjectCodeGenerator{
 		return basicSteps;
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicSteps(){
-		return toSet(PersistenceUsingHibernateStep.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
-				BpmUsingJbpm5.class, PersistenceUsingHibernate.class, IntegrationTests.class, FormSynchronizer.class, ProcessStepResolverImplementor.class);
+		return toSet(PersistenceUsingHibernate.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
+				BpmUsingJbpm5.class, ArquillianTestJavaGenerator.class, FormSynchronizer.class, ProcessStepResolverImplementor.class);
 	}
 	@Override
 	protected Set<Class<? extends TransformationStep>> getIntegrationSteps(){
 		Set<Class<? extends TransformationStep>> basicIntegrationSteps = getBasicIntegrationSteps();
 		basicIntegrationSteps.add(EclipseProjectGenerationStep.class);
-		basicIntegrationSteps.add(GeneratorGenerationStep.class);
+		basicIntegrationSteps.add(GeneratorGenerator.class);
 		basicIntegrationSteps.add(GeneratorPomStep.class);
 		return basicIntegrationSteps;
 	}
 	public static Set<Class<? extends TransformationStep>> getBasicIntegrationSteps(){
-		return toSet(ModelCopyStep.class, HibernateIntegratedAcrossMultipleProjects.class, Jbpm5IntegratedAcrossMultipleProjects.class,
-				IntegrationTestsAcrossMultipleModels.class, WarBootstrapStep.class);
+		return toSet(ModelCopyStep.class, HibernateConfigGenerator.class, HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class,
+				ArquillianTestJavaGenerator.class, IntegratedArquillianBootstrapStep.class, WarBootstrapStep.class);
 	}
 	public File getOutputRoot(){
 		return cfg.getOutputRoot();

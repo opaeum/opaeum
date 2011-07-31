@@ -31,4 +31,5 @@ public class EmfValidationUtil{
 		}
 		return object.toString();
 	}
+	public static final String TYPE_EXPRESSION_HERE = "Type expression here";
 }

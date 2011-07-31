@@ -11,9 +11,8 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
-import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
+import net.sf.nakeduml.javageneration.oclexpressions.UtilCreator;
 import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
-import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.InverseCalculator;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
@@ -27,6 +26,7 @@ import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
+import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.StdLibCreator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.hibernate.annotations.CascadeType;
@@ -46,8 +46,11 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.HibernateEntity;
 
-@StepDependency(phase = JavaTransformationPhase.class, requires = { PersistenceStep.class, InverseCalculator.class,
-	PersistentNameGenerator.class }, after = { OclExpressionExecution.class, PersistenceStep.class }, before = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
+},after = {
+	JpaAnnotator.class,UtilCreator.class
+},before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true,match = {
 		INakedAssociationClass.class
@@ -222,12 +225,10 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitBefore
 	public void visitModel(INakedModel p){
 		OJClass stdLib = UtilityCreator.getUtilPack().findClass(new OJPathName("Stdlib"));
-		OJAnnotatedField future = new OJAnnotatedField();
-		future.setName("FUTURE");
+		OJAnnotatedField future = new OJAnnotatedField("FUTURE", new OJPathName("java.sql.Timestamp"));
 		future.setStatic(true);
 		future.setFinal(true);
 		future.setVisibility(OJVisibilityKindGEN.PUBLIC);
-		future.setType(new OJPathName("java.sql.Timestamp"));
 		future.setInitExp("new Timestamp(1000L*60*60*24*365*1000)");
 		stdLib.addToFields(future);
 	}

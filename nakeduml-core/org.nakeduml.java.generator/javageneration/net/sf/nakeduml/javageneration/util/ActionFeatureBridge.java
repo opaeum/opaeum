@@ -26,13 +26,13 @@ public class ActionFeatureBridge extends TypedElementPropertyBridge{
 	public void setMultiplicity(NakedMultiplicityImpl multiplicity){
 		this.multiplicity = multiplicity;
 	}
-	public ActionFeatureBridge(IActionWithTargetElement action,NakedUmlLibrary lib){
+	public ActionFeatureBridge(IActionWithTargetElement action, NakedUmlLibrary lib){
 		super(action.getActivity(), action.getTargetElement());
 		super.originalElement = action;
 		if(action instanceof INakedCallAction){
-			baseType = ((INakedCallAction) action).getMessageStructure(lib);
+			baseType = ((INakedCallAction) action).getMessageStructure();
 		}else if(action instanceof INakedEmbeddedTask){
-			baseType = ((INakedEmbeddedTask) action).getMessageStructure(lib);
+			baseType = ((INakedEmbeddedTask) action).getMessageStructure();
 		}
 		if(action.getTargetElement() == null){
 			this.multiplicity = new NakedMultiplicityImpl(0, 1);

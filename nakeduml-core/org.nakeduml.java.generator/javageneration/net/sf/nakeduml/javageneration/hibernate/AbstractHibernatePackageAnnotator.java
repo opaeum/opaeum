@@ -35,7 +35,6 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	private static final String PARTICIPANT_META_DEF = "ParticipantMetaDef";
 	private static final String OPERATION_PROCESS_META_DEF = "OperationProcessMetaDef";
 	private static final String TASK_OBJECT_META_DEF = "TaskObjectMetaDef";
-	private boolean isIntegrationPhase;
 	public static final class MetaDefElementCollector extends AbstractJavaProducingVisitor{
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
 		Set<INakedBehavior> contractedProcesses = new HashSet<INakedBehavior>();
@@ -73,20 +72,16 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedResponsibility b){
-			tasks.add(b.getMessageStructure(getLibrary()));
+			tasks.add(b.getMessageStructure());
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOpaqueAction(INakedEmbeddedSingleScreenTask a){
-			tasks.add(a.getMessageStructure(getLibrary()));
+			tasks.add(a.getMessageStructure());
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitEmbeddedScreeFlowTask(INakedEmbeddedScreenFlowTask a){
-			tasks.add(a.getMessageStructure(getLibrary()));
+			tasks.add(a.getMessageStructure());
 		}
-	}
-	public AbstractHibernatePackageAnnotator(boolean isIntegrationPhase){
-		super();
-		this.isIntegrationPhase = isIntegrationPhase;
 	}
 	public abstract void visitWorkspace(INakedModelWorkspace root);
 	public abstract void visitModel(INakedModel model);

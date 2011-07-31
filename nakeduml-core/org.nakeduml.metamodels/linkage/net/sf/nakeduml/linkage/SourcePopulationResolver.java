@@ -19,23 +19,19 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.CompositionSiblingsFinder;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
-@StepDependency(phase = LinkagePhase.class,after = {MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,
-		ValueSpecificationTypeResolver.class},requires = {MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,
-		ValueSpecificationTypeResolver.class},before = NakedParsedOclStringResolver.class)
+@StepDependency(phase = LinkagePhase.class,after = {
+		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class,ValueSpecificationTypeResolver.class
+},requires = {
+		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class,CompositionEmulator.class
+},before = NakedParsedOclStringResolver.class)
 public class SourcePopulationResolver extends AbstractModelElementLinker{
 	private Map<INakedClassifier,Collection<INakedClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier,Collection<INakedClassifier>>();
-	private INakedRootObject currentRootObject;
-	@VisitBefore(matchSubclasses = true)
-	public void visitRootObject(INakedRootObject r){
-		this.currentRootObject = r;
-	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedEntity c){
 		if(c.getStereotype(HIERARCHY) != null){
@@ -54,6 +50,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(INakedProperty p){
 		if(p.getOwner() instanceof INakedEntity){
+			super.getAffectedElements().add(p.getOwner());
 			buildSourcePopulationConstraint((ICompositionParticipant) p.getOwner(), p);
 		}
 	}
@@ -140,7 +137,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 		return ocl;
 	}
 	private String buildOcl(ICompositionParticipant owner,INakedProperty p,ICompositionParticipant baseType){
-		String ocl=null;
+		String ocl = null;
 		StringBuilder pathToCommonComposite = new StringBuilder("self");
 		ICompositionParticipant commonComposite = p.getTaggedValue("SourcePopulationCommonComposite", "commonComposite");
 		if(commonComposite != null){

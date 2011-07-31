@@ -2,8 +2,12 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 
 import java.util.Collections;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityProcessImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.models.INakedModel;
@@ -20,26 +24,27 @@ import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.OJStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class CodeCleanup extends AbstractJavaProducingVisitor{
 	@VisitAfter
 	public void visitModel(INakedModel p){
 		OJPackage util = javaModel.findPackage(UtilityCreator.getUtilPathName());
-		util=javaModel.findPackage(UtilityCreator.getUtilPathName());
+		util = javaModel.findPackage(UtilityCreator.getUtilPathName());
 		for(OJClassifier c:util.getClasses()){
-			if(c.getName().equals("Stdlib")){ 
+			if(c.getName().equals("Stdlib")){
 				for(OJOperation op:c.getOperations()){
 					if(op.getName().startsWith("objectAs")){
 						OJPathName element = new OJPathName("E");
 						op.setGenericTypeParam(element);
 						op.getReturnType().setElementTypes(Collections.singletonList(element));
 						op.getParameters().get(0).setType(element);
-						op.getBody().getStatements().set(2, new OJSimpleStatement("return (" + op.getReturnType().getCollectionTypeName() + ")result"));
+//						op.getBody().getStatements().set(op.getBody().getStatements().size()-1, new OJSimpleStatement("return (" + op.getReturnType().getCollectionTypeName() + ")result"));
 					}
 				}
 			}else if(c.getName().startsWith("Comp") && c.getName().indexOf("On") > 0){
-				//TODO find a workaround for the associated bug in Octopus
-				//TODO support string compares too
-				OJOperation oper = c.getOperations().get(0);
+				// TODO find a workaround for the associated bug in Octopus
+				// TODO support string compares too
+				OJOperation oper = c.getOperations().iterator().next();
 				for(OJStatement s:oper.getBody().getStatements()){
 					if(s instanceof OJIfStatement){
 						OJIfStatement is = (OJIfStatement) s;
@@ -52,8 +57,7 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 				}
 			}
 		}
-		OJAnnotatedClass failedConstraintsException = new OJAnnotatedClass();
-		failedConstraintsException.setName("FailedConstraintsException");
+		OJAnnotatedClass failedConstraintsException = new OJAnnotatedClass("FailedConstraintsException");
 		failedConstraintsException.setSuperclass(new OJPathName("RuntimeException"));
 		failedConstraintsException.addToImports("java.util.Collection");
 		OJUtil.addProperty(failedConstraintsException, "pre", new OJPathName("Boolean"), true);
@@ -73,7 +77,7 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 			ojClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
 			OJOperation o = OJUtil.findOperation(ojClass, "hashCode");
 			if(o != null){
-//				ojClass.removeFromOperations(o);
+				// ojClass.removeFromOperations(o);
 			}
 		}
 	}

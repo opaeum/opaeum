@@ -4,11 +4,15 @@ import java.security.acl.Owner;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
+import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.CompositionEmulator;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -31,6 +35,12 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
  * @author ampie
  * 
  */
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	CompositionEmulator.class,OperationAnnotator.class
+},after = {
+OperationAnnotator.class
+})
+
 public class FactoryMethodCreator extends AbstractStructureVisitor{
 	private void createFactoryMethod(INakedProperty pw,OJClass owner){
 		INakedClassifier type = pw.getNakedBaseType();
@@ -45,9 +55,8 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 			}
 		}
 		if(creator == null){
-			creator = new OJAnnotatedOperation();
+			creator = new OJAnnotatedOperation(createOperName);
 			owner.addToOperations(creator);
-			creator.setName(createOperName);
 		}
 		creator.setReturnType(new OJPathName(type.getMappingInfo().getQualifiedJavaName()));
 		OJBlock body = new OJBlock();

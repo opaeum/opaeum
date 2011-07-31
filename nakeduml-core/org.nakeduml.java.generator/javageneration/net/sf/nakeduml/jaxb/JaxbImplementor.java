@@ -3,10 +3,13 @@ package net.sf.nakeduml.jaxb;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -21,6 +24,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
+@StepDependency(phase = JavaTransformationPhase.class, after={Jbpm5JavaStep.class})
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c){

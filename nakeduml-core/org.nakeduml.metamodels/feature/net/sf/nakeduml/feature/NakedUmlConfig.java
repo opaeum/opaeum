@@ -116,6 +116,15 @@ public class NakedUmlConfig {
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
+		File t=file;
+		while(t.getParentFile()!=null){
+			//Ensure that the output root does not coincide with the model directory
+			if(t.equals(outputRoot)){
+				outputRoot=new File(outputRoot.getParent(),outputRoot.getName() + "-project");
+				break;
+			}
+			t=t.getParentFile();
+		}
 	}
 	public File getMappedDestination(String name){
 		return this.outputRootMap.get(name);

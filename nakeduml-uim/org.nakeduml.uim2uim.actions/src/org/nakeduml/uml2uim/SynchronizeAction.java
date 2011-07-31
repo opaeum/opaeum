@@ -20,16 +20,16 @@ public class SynchronizeAction extends AbstractUimGenerationAction implements IO
 
 	public static void doSynchronize(NamedElement modelElement, NakedUmlEditor e){
 		try{
-			EmfWorkspace workspace = e.getUmlElementMap().getEmfWorkspace();
+			EmfWorkspace workspace = e.getUmlElementCache().getEmfWorkspace();
 			ResourceSet uimResourceSet = new ResourceSetImpl();
-			UmlUimLinks.associate(uimResourceSet, e.getUmlElementMap());
-			FormFolderSynchronizer ffs = new FormFolderSynchronizer(workspace, uimResourceSet, true,e.getUmlElementMap());
+			UmlUimLinks.associate(uimResourceSet, e.getUmlElementCache());
+			FormFolderSynchronizer ffs = new FormFolderSynchronizer(workspace, uimResourceSet, true,e.getUmlElementCache());
 			ffs.visitWorkspace(workspace);// load existing folder model
 			// build required parent folders
 			ffs.visitUpThenDown(modelElement);
-			FormSynchronizer fs = new FormSynchronizer(workspace, uimResourceSet, false,e.getUmlElementMap());
+			FormSynchronizer fs = new FormSynchronizer(workspace, uimResourceSet, false,e.getUmlElementCache());
 			fs.visitRecursively(modelElement);
-			DiagramSynchronizer ds = new DiagramSynchronizer(workspace, uimResourceSet, false,e.getUmlElementMap());
+			DiagramSynchronizer ds = new DiagramSynchronizer(workspace, uimResourceSet, false,e.getUmlElementCache());
 			ds.visitRecursively(modelElement);
 			UimSynchronizationPhase.save(workspace.getDirectoryUri(), workspace.getResourceSet());
 			UimSynchronizationPhase.save(workspace.getDirectoryUri(), uimResourceSet);

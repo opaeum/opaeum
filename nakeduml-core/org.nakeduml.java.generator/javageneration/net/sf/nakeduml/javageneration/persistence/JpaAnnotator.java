@@ -4,8 +4,12 @@ import java.util.List;
 
 import javax.persistence.GenerationType;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
+import net.sf.nakeduml.javageneration.basicjava.ToStringBuilder;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -18,6 +22,7 @@ import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
+import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -32,6 +37,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+		AttributeImplementor.class,PersistentNameGenerator.class,ToStringBuilder.class
+},after = {
+	AttributeImplementor.class,ToStringBuilder.class
+})
 public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static boolean DEVELOPMENT_MODE = true;
 	protected void visitComplexStructure(INakedComplexStructure complexType){
@@ -166,7 +176,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
-			if (p.isComposite() || p.getAssociation() instanceof INakedAssociationClass || p.getBaseType() instanceof INakedDataType) {
+			if(p.isComposite() || p.getAssociation() instanceof INakedAssociationClass || p.getBaseType() instanceof INakedDataType){
 				JpaUtil.cascadeAll(toMany);
 			}
 			field.addAnnotationIfNew(toMany);
@@ -179,9 +189,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		toString.setBody(new OJBlock());
 		toString.setReturnType(new OJPathName("String"));
 		toString.setName("toString");
-		OJAnnotatedField sb = new OJAnnotatedField();
-		sb.setName("sb");
-		sb.setType(new OJPathName("StringBuilder"));
+		OJAnnotatedField sb = new OJAnnotatedField("sb", new OJPathName("StringBuilder"));
 		sb.setInitExp("new StringBuilder()");
 		toString.getBody().addToLocals(sb);
 		List<? extends INakedProperty> features = umlClass.getEffectiveAttributes();
@@ -212,9 +220,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static void addEquals(OJClass ojClass){
 		OJOperation equals = OJUtil.findOperation(ojClass, "equals");
 		if(equals == null){
-			equals = new OJAnnotatedOperation();
+			equals = new OJAnnotatedOperation("equals");
 			ojClass.addToOperations(equals);
-			equals.setName("equals");
 		}else{
 			equals.removeAllFromParameters();
 			equals.setBody(new OJBlock());
@@ -224,9 +231,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		OJIfStatement ifThis = new OJIfStatement("this==o", "return true");
 		OJIfStatement ifNotInstance = new OJIfStatement("!(o instanceof " + ojClass.getName() + ")", "return false");
 		ifThis.addToElsePart(ifNotInstance);
-		OJAnnotatedField other = new OJAnnotatedField();
-		other.setName("other");
-		other.setType(ojClass.getPathName());
+		OJAnnotatedField other = new OJAnnotatedField("other", ojClass.getPathName());
 		other.setInitExp("(" + ojClass.getName() + ")o");
 		ifNotInstance.setElsePart(new OJBlock());
 		ifNotInstance.getElsePart().addToLocals(other);

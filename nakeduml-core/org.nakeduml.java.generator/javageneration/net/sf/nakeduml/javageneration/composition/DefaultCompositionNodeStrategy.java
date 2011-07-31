@@ -64,8 +64,7 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 
 	@Override
 	public void addMarkDeleted(ICompositionParticipant sc, OJClass ojClass) {
-		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation();
-		markDeleted.setName("markDeleted");
+		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation("markDeleted");
 		ojClass.addToOperations(markDeleted);
 		if (sc.hasSupertype()) {
 			markDeleted.getBody().addToStatements("super.markDeleted()");
@@ -83,9 +82,8 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 
 	@Override
 	public void addAddToOwningObject(ICompositionParticipant c, OJAnnotatedClass ojClass) {
-		OJOperation addToOwningObject = new OJAnnotatedOperation();
+		OJOperation addToOwningObject = new OJAnnotatedOperation("addToOwningObject");
 		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
-		addToOwningObject.setName("addToOwningObject");
 		if (c instanceof INakedEntity) {
 			INakedEntity entity = (INakedEntity) c;
 			if (entity.hasComposite()) {

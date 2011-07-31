@@ -29,7 +29,8 @@ import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{
@@ -208,7 +209,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			}
 			EList<String> bodies = ((OpaqueExpression) timeEvent.getWhen().getExpr()).getBodies();
 			if(bodies.size() == 0){
-				bodies.add("Type OCL");
+				bodies.add(OclValueComposite.DEFAULT_TEXT);
 			}
 			expressionComposite.getTextControl().setText(bodies.get(0));
 			nameTxt.setText(timeEvent.getName());

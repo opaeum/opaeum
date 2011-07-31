@@ -1,5 +1,6 @@
 package net.sf.nakeduml.filegeneration;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.InputModel;
@@ -15,11 +16,13 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 	@InputModel
 	private TextWorkspace textWorkspace;
 	private NakedUmlConfig config;
+	private List<AbstractTextNodeVisitor> features;
 	public void initialize(NakedUmlConfig config) {
 		this.config=config;
 	}
 
 	public Object[] execute(List<AbstractTextNodeVisitor> features,TransformationContext context) {
+		this.features=features;
 		for (AbstractTextNodeVisitor feature : features) {
 			feature.initialize(config);
 			feature.startVisiting(textWorkspace);
@@ -29,12 +32,13 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 	}
 
 	@Override
-	public Object processSingleElement(List<AbstractTextNodeVisitor> features,TransformationContext context,TextOutputNode element){
-		for (AbstractTextNodeVisitor feature : features) {
-			feature.initialize(config);
-			feature.visitRecursively(element);
+	public Collection<?> processElements(TransformationContext context,Collection<TextOutputNode> elements){
+		for(TextOutputNode element:elements){
+			for (AbstractTextNodeVisitor feature : features) {
+				feature.initialize(config);
+				feature.visitRecursively(element);
+			}
 		}
-		return element;
-		
+		return elements;
 	}
 }

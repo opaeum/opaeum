@@ -1,35 +1,32 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Iterator;
-import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 
-import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.java.metamodel.OJParameter;
-import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
+
+@StepDependency(phase = JavaTransformationPhase.class, requires = { AttributeImplementor.class,SuperTypeGenerator.class }, after = { AttributeImplementor.class,SuperTypeGenerator.class })
 public class OperationAnnotator extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior o){
@@ -43,46 +40,39 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				createOperation(o, findJavaClass(o.getContext()));
 			}
 		}
-	}
-	@VisitBefore
-	public void visitOperationMessage(INakedOperation a){
-		if(BehaviorUtil.hasExecutionInstance(a)){
-			visitClass(a.getMessageStructure(getLibrary()));
+		if(o instanceof INakedActivity){
+			INakedActivity a=(INakedActivity) o;
+			for(INakedActivityNode n:a.getActivityNodesRecursively()){
+				if(n instanceof INakedEmbeddedTask){
+					visitClass(((INakedEmbeddedTask) n).getMessageStructure());
+				}
+			}
 		}
-	}
-	@VisitBefore(matchSubclasses=true)
-	public void visitTask(INakedEmbeddedTask t){
-		visitClass(t.getMessageStructure(getLibrary()));
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
 			for(INakedOperation o:c.getEffectiveOperations()){
+				if(o.getOwner() == c ){
+					if(BehaviorUtil.hasExecutionInstance(o)){
+						visitClass(o.getMessageStructure());
+					}
+				}
 				if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
 					createOperation(o,findJavaClass(c));
 				}
 			}
 		}
 	}
-	private void visitOperation(INakedOperation o){
-		INakedClassifier umlOwner = o.getOwner();
-		OJAnnotatedClass myOwner = findJavaClass(umlOwner);
-		OJAnnotatedOperation oper = createOperation(o, myOwner);
-		if(o.hasClassScope()){
-			oper.setStatic(true);
-		}
-		oper.setAbstract(o.isAbstract());
-	}
 	private OJAnnotatedOperation createOperation(IParameterOwner o,OJAnnotatedClass owner){
 		NakedOperationMap operationMap = new NakedOperationMap(o);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(operationMap.javaOperName(), operationMap.javaParamTypePaths());
 		if(oper == null){
-			oper = new OJAnnotatedOperation();
+			oper = new OJAnnotatedOperation(operationMap.javaOperName());
 			if(o.getReturnParameter() != null){
 				oper.setReturnType(operationMap.javaReturnTypePath());
 				owner.addToImports(operationMap.javaReturnTypePath());
 			}
-			oper.setName(operationMap.javaOperName());
 			Iterator<IParameter> it = o.getParameters().iterator();
 			while(it.hasNext()){
 				IParameter elem = it.next();

@@ -39,8 +39,8 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.topcased.propertysections.OclValueComposite;
-import org.nakeduml.topcased.propertysections.OclValueComposite.OclChangeListener;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
 
 public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;

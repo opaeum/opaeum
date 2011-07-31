@@ -209,11 +209,13 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return super.isNamedMember(e) || e instanceof INakedMultiplicityElement;
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
+	public INakedMessageStructure getMessageStructure(){
+		return messageStructure;
+	}
+	public void initMessageStructure(NakedUmlLibrary lib){
 		if(this.messageStructure == null){
 			this.messageStructure = new OperationMessageStructureImpl(this, lib);
 		}
-		return messageStructure;
 	}
 	@Override
 	public void recalculateParameterPositions(){
@@ -230,8 +232,6 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 				ParameterUtil.addParameterTolist(p, p.getExceptionIndex(), this.exceptionParameters);
 				ParameterUtil.addParameterTolist(p, p.getResultIndex(), this.resultParameters);
 			}
-
-			
 		}
 	}
 }

@@ -84,7 +84,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 				// force bidirectionality for composition between two classes
 				navigable = true;
 			}
-			if(!isAllowedAssociationEnd(p.getOpposite().getType(), p.getType())){
+			if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
 				navigable = true;
 			}
 			INakedClassifier owner =null;

@@ -3,7 +3,7 @@ package org.nakeduml.topcased.validation;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.validation.IValidationRule;
@@ -28,7 +28,7 @@ public class NakedValidator implements org.topcased.validation.core.IValidator{
 			Model model = (Model) rootEObject;
 			NakedUmlConfig cfg = new NakedUmlConfig();
 			cfg.loadDefaults("test");
-			UmlElementMap cache = NakedUmlPlugin.findNakedUmlEditor(model).getUmlElementMap();
+			UmlElementCache cache = NakedUmlPlugin.findNakedUmlEditor(model).getUmlElementCache();
 			INakedModelWorkspace workspace = cache.getTransformationProcess().findModel(INakedModelWorkspace.class);
 			Set<Entry<String,BrokenElement>> errors = workspace.getErrorMap().getErrors().entrySet();
 			int i = 999;

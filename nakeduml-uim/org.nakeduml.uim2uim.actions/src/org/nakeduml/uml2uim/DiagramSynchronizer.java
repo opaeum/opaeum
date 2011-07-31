@@ -1,7 +1,7 @@
 package org.nakeduml.uml2uim;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
@@ -29,7 +29,7 @@ import org.topcased.modeler.diagrams.model.DiagramsFactory;
 public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	public DiagramSynchronizer(){
 	}
-	public DiagramSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate, UmlElementMap map){
+	public DiagramSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate, UmlElementCache map){
 		super(workspace, resourceSet, regenerate,map);
 	}
 	@VisitBefore(matchSubclasses = false)

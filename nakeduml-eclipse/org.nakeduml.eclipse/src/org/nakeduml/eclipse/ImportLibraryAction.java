@@ -30,6 +30,12 @@ public class ImportLibraryAction  implements IObjectActionDelegate {
 	}
 
 	public static Model importLibrary(Model model,String librName){
+		Model library = findLibrary(model, librName);
+		model.createPackageImport(library);
+		return library;
+	}
+
+	public static Model findLibrary(Model model,String librName){
 		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP +"libraries/"+librName), true);
 		Model library=(Model) resource.getContents().get(0);
 		EList<PackageImport> packageImports = model.getPackageImports();
@@ -38,7 +44,6 @@ public class ImportLibraryAction  implements IObjectActionDelegate {
 				return library;
 			}
 		}
-		model.createPackageImport(library);
 		return library;
 	}
 

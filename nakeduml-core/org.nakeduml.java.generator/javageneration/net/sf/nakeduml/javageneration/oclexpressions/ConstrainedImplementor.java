@@ -1,10 +1,13 @@
 package net.sf.nakeduml.javageneration.oclexpressions;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
@@ -20,6 +23,11 @@ import org.nakeduml.runtime.domain.IInvariantError;
 /**
  * This class implements the Constrained interface on classes that have invariants.
  */
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	OperationAnnotator.class,NakedParsedOclStringResolver.class
+},after = {
+	OperationAnnotator.class
+},before = CodeCleanup.class)
 public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 	private static final OJPathName CONSTRAINED = new OJPathName(IConstrained.class.getName());
 	@VisitBefore()

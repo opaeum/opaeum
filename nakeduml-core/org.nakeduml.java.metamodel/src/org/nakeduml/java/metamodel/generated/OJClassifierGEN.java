@@ -28,7 +28,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 	private int f_uniqueNumber = 0;
 	private boolean f_isDerived = false;
 	private boolean f_isAbstract = false;
-	private List<OJOperation> f_operations = new ArrayList<OJOperation>();
+	private Set<OJOperation> f_operations = new HashSet<OJOperation>();
 	private Set<OJPathName> f_imports = new HashSet<OJPathName>();
 	private OJPackage f_myPackage = null;
 	static protected boolean usesAllInstances = false;
@@ -150,7 +150,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 	 * 
 	 * @param elements 
 	 */
-	public void setOperations(List<OJOperation> elements) {
+	public void setOperations(Set<OJOperation> elements) {
 		if ( this.f_operations != elements ) {
 			Iterator it = this.f_operations.iterator();
 			while ( it.hasNext() ) {
@@ -177,7 +177,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 			return;
 		}
 		if ( this.f_operations.contains(element) ) {
-			return;
+			this.f_operations.remove(element);
 		}
 		this.f_operations.add(element);
 		if ( element.getOwner() != null ) {
@@ -200,9 +200,9 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 	
 	/** Implements the getter for + operations : OrderedSet(OJOperation)
 	 */
-	public List<OJOperation> getOperations() {
+	public Set<OJOperation> getOperations() {
 		if ( f_operations != null ) {
-			return Collections.unmodifiableList(f_operations);
+			return Collections.unmodifiableSet(f_operations);
 		} else {
 			return null;
 		}

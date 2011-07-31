@@ -1,8 +1,8 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
+import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -22,6 +22,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	Java6ModelGenerator.class
+},after = {
+	Java6ModelGenerator.class
+})
 public class ToXmlStringBuilder extends AbstractStructureVisitor {
 	private void visitClass(INakedClassifier c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedEnumeration) && c.getStereotype(StereotypeNames.HELPER)==null) {
@@ -31,12 +36,9 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor {
 	}
 
 	private void buildToXmlString(OJAnnotatedClass owner, INakedClassifier umlClass) {
-		OJOperation toString = new OJAnnotatedOperation();
+		OJOperation toString = new OJAnnotatedOperation("toXmlString");
 		toString.setReturnType(new OJPathName("String"));
-		toString.setName("toXmlString");
-		OJAnnotatedField sb = new OJAnnotatedField();
-		sb.setName("sb");
-		sb.setType(new OJPathName("StringBuilder"));
+		OJAnnotatedField sb = new OJAnnotatedField("sb",new OJPathName("StringBuilder"));
 		sb.setInitExp("new StringBuilder()");
 		toString.getBody().addToLocals(sb);
 		for (INakedProperty f : umlClass.getEffectiveAttributes()) {

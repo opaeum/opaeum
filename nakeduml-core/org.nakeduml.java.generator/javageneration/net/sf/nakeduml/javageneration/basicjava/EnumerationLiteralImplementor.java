@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -29,6 +31,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	Java6ModelGenerator.class
+},after = {
+	Java6ModelGenerator.class
+})
 
 public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
@@ -74,9 +81,8 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		for(INakedProperty iNakedProperty:allAttributes){
 			if(iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne() && !iNakedProperty.isDerived()){
 				// TODO support for other types??
-				OJAnnotatedOperation staticOp = new OJAnnotatedOperation();
+				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + iNakedProperty.getMappingInfo().getJavaName().getCapped());
 				staticOp.setStatic(true);
-				staticOp.setName("from" + iNakedProperty.getMappingInfo().getJavaName().getCapped());
 				OJPathName path = OJUtil.classifierPathname(c);
 				staticOp.setReturnType(path);
 				OJParameter ojParameter = new OJParameter();

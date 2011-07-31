@@ -8,6 +8,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
@@ -21,11 +22,12 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
-import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;
+import net.sf.nakeduml.javageneration.oclexpressions.CodeCleanup;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
-import net.sf.nakeduml.javageneration.persistence.PersistenceStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.linkage.CompositionEmulator;
+import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
 import net.sf.nakeduml.linkage.PinLinker;
 import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
@@ -33,6 +35,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.ActivityNodeContainer;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
@@ -44,6 +47,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -62,17 +66,16 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.IActiveObject;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		PersistenceStep.class,OclExpressionExecution.class,PinLinker.class,ProcessIdentifier.class
+		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
 },after = {
-		PersistenceStep.class,OclExpressionExecution.class
-})
+	OperationAnnotator.class
+},before=CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
-	@VisitBefore(matchSubclasses = true)
-	public void activityEdge(INakedActivityEdge edge){
+	private void activityEdge(INakedActivityEdge edge){
 		if(edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())){
 			INakedActivityNode node = edge.getEffectiveSource();
 			OJAnnotatedClass c = findJavaClass(edge.getActivity());
-			OJAnnotatedOperation oper = new OJAnnotatedOperation();
+			OJAnnotatedOperation oper = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(edge));
 			c.addToOperations(oper);
 			oper.setReturnType(new OJPathName("boolean"));
 			ActivityUtil.setupVariables(oper, node);
@@ -91,7 +94,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			}
 			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			oper.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(oper, edge.getGuard(), node.getActivity(), booleanType));
-			oper.setName(Jbpm5Util.getGuardMethod(edge));
 			oper.addParam("context", Jbpm5Util.getProcessContext());
 		}
 	}
@@ -105,8 +107,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitSendSignalAction(INakedSendSignalAction a){
+	private void visitSendSignalAction(INakedSendSignalAction a){
 		if(a.getTargetElement() != null){
 			OJAnnotatedClass ojClass = findJavaClass(a.getTargetElement().getNakedBaseType());
 			if(ojClass instanceof OJAnnotatedInterface){
@@ -148,7 +149,18 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode || node instanceof INakedExpansionRegion
 					|| node instanceof INakedExpansionNode){
 				this.implementNodeMethod(activityClass, node);
+				if(node instanceof INakedSendSignalAction){
+					visitSendSignalAction((INakedSendSignalAction) node);
+				}else if(node instanceof ActivityNodeContainer){
+					visitEdges(((ActivityNodeContainer) node).getActivityEdges());
+				}
 			}
+		}
+		visitEdges(activity.getActivityEdges());
+	}
+	protected void visitEdges(Collection<INakedActivityEdge> activityEdges){
+		for(INakedActivityEdge edge:activityEdges){
+			activityEdge(edge);
 		}
 	}
 	private void implementNodeMethod(OJClass activityClass,INakedActivityNode node){
@@ -173,9 +185,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					getLibrary())));
 		}
 		if(implementor.hasNodeMethod()){
-			OJAnnotatedOperation operation = new OJAnnotatedOperation();
+			OJAnnotatedOperation operation = new OJAnnotatedOperation(implementor.getMap().doActionMethod());
 			OJUtil.addMetaInfo(operation, node);
-			operation.setName(implementor.getMap().doActionMethod());
 			activityClass.addToOperations(operation);
 			operation.addParam("context", Jbpm5Util.getProcessContext());
 			if(implementor.isEffectiveFinalNode()){

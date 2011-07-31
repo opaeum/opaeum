@@ -137,7 +137,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 			//
 			INakedCallAction callAction = (INakedCallAction) feedingNode.getAction();
 			if (BehaviorUtil.hasMessageStructure(callAction)) {
-				INakedMessageStructure message = callAction.getMessageStructure(getLibrary());
+				INakedMessageStructure message = callAction.getMessageStructure();
 				NakedClassifierMap messageMap = new NakedClassifierMap(message);
 				NakedStructuralFeatureMap featureMap = null;
 				if (feedingNode.getLinkedTypedElement() == null) {

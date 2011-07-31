@@ -5,14 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SortedProperties;
+import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationStep;
 import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
-import net.sf.nakeduml.javageneration.auditing.IntegratedAuditMetaDefStep;
 import net.sf.nakeduml.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import net.sf.nakeduml.javageneration.jbpm5.IntegratedJbpm5EnvironmentStep;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
@@ -24,19 +27,25 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakedum.velocity.AbstractTextProducingVisitor;
 import org.nakeduml.environment.Environment;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
-public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
+@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
+public class HibernateConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep{
 	private static final String CDI_ENVIRONMENT = "org.nakeduml.environment.adaptor.CdiEnvironment";
 	private static final String DOMAIN_ENVIRONMENT = "org.nakeduml.environment.domain.DomainEnvironment";
-	boolean isIntegrationPhase = true;
-	public HibernateConfigGenerator(boolean isIntegrationPhase){
+	@Override
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
+		super.initialize(config, textWorkspace, context);
+		
+	}
+	public HibernateConfigGenerator(){
 		super();
-		this.isIntegrationPhase = isIntegrationPhase;
 	}
 	public  final class MappingCollector extends AbstractJavaProducingVisitor{
 		private final HashSet<OJPathName> classes = new HashSet<OJPathName>();
@@ -56,12 +65,12 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOpaqueAction(INakedEmbeddedTask a){
-			classes.add(OJUtil.classifierPathname(a.getMessageStructure(getLibrary())));
+			classes.add(OJUtil.classifierPathname(a.getMessageStructure()));
 		}
 		@VisitBefore(matchSubclasses = true)
 		public void visitOperation(INakedOperation o){
 			if(o.isLongRunning()){
-				classes.add(OJUtil.classifierPathname(o.getMessageStructure(getLibrary())));
+				classes.add(OJUtil.classifierPathname(o.getMessageStructure()));
 			}
 		}
 		@Override
@@ -71,7 +80,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 	}
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationPhase){
+		if(transformationContext.isIntegrationPhase()){
 			Collection<INakedRootObject> rootObjects = (Collection<INakedRootObject>) workspace.getOwnedElements();
 			String hibernateConfigName = workspace.getIdentifier() + "-hibernate.cfg.xml";
 			generateConfigAndEnvironment(rootObjects, hibernateConfigName, OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
@@ -83,7 +92,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 	}
 	@VisitBefore
 	public void visitModel(INakedModel model){
-		if(!isIntegrationPhase){
+		if(!transformationContext.isIntegrationPhase()){
 			String hibernateConfigName = model.getIdentifier() + "-hibernate.cfg.xml";
 			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getDependencies());
 			selfAndDependencies.add(model);
@@ -122,11 +131,11 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor{
 	}
 	private HashMap<String,Object> buildVars(Collection<? extends INakedElement> models,boolean isAdaptorEnvironment){
 		HashMap<String,Object> vars = new HashMap<String,Object>();
-		boolean requiresAudit = transformationContext.isAnyOfFeaturesSelected(AuditImplementationStep.class, IntegratedAuditMetaDefStep.class);
+		boolean requiresAudit = transformationContext.isAnyOfFeaturesSelected(AuditImplementationStep.class);
 		vars.put("requiresAuditing", requiresAudit);
 		vars.put("config", this.config);
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
-		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class, IntegratedJbpm5EnvironmentStep.class));
+		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class));
 		MappingCollector collector = new MappingCollector(workspace);
 		// do all models
 		for(INakedElement element:models){

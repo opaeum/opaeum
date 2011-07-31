@@ -27,11 +27,16 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 		return getOperation();
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
-		if(messageStructure == null && getOperation() != null){
-			messageStructure = new OperationMessageStructureImpl(getOperation().getOwner(), getOperation(), lib);
-		}
+	public INakedMessageStructure getMessageStructure(){
 		return messageStructure;
+	}
+	public void initMessageStructure(NakedUmlLibrary lib){
+		if(messageStructure == null && getOperation() != null){
+			if(getOperation().getMessageStructure()==null){
+				getOperation().initMessageStructure(lib);
+			}
+			messageStructure = getOperation().getMessageStructure();
+		}
 	}
 	@Override
 	public INakedClassifier getExpectedTargetType(){

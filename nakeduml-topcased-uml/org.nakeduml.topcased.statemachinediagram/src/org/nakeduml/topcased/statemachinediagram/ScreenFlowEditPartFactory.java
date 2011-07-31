@@ -1,7 +1,7 @@
 package org.nakeduml.topcased.statemachinediagram;
 
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
@@ -97,7 +97,7 @@ public class ScreenFlowEditPartFactory extends STMEditPartFactory{
 						public void performRequest(Request request){
 							if(request.getType() == RequestConstants.REQ_OPEN){
 								NamedElement e = (NamedElement) getEObject();
-								String uuid = UmlElementMap.getId(e);
+								String uuid = UmlElementCache.getId(e);
 								URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
 								if(!AbstractUimGenerationAction.getFile(uri).exists()){
 									SynchronizeAction.doSynchronize(e,NakedUmlPlugin.findNakedUmlEditor(e) );

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -35,8 +35,8 @@ import org.nakeduml.uim.form.StateForm;
 
 public class UmlUimLinks{
 	private static Map<ResourceSet,UmlUimLinks> instances = new HashMap<ResourceSet,UmlUimLinks>();
-	Collection<UmlElementMap> maps = new ArrayList<UmlElementMap>();
-	public UmlUimLinks(UmlElementMap map){
+	Collection<UmlElementCache> maps = new ArrayList<UmlElementCache>();
+	public UmlUimLinks(UmlElementCache map){
 		maps.add(map);
 	}
 	public Element getUmlElement(UmlReference uIMBinding){
@@ -49,7 +49,7 @@ public class UmlUimLinks{
 		return (Property) getLink(uIMBinding);
 	}
 	private Element getLink(UmlReference uIMBinding){
-		for(UmlElementMap map:maps){
+		for(UmlElementCache map:maps){
 			Element element = map.getElement(uIMBinding.getUmlElementUid());
 			if(element != null){
 				return element;
@@ -85,9 +85,9 @@ public class UmlUimLinks{
 		return (Collection) EmfElementFinder.getPropertiesInScope(class1);
 	}
 	public static String getId(Element e){
-		return UmlElementMap.getId(e);
+		return UmlElementCache.getId(e);
 	}
-	public static void associate(ResourceSet uimRst,UmlElementMap umlElementMap){
+	public static void associate(ResourceSet uimRst,UmlElementCache umlElementMap){
 		UmlUimLinks col = instances.get(uimRst);
 		if(col == null){
 			col = new UmlUimLinks(umlElementMap);

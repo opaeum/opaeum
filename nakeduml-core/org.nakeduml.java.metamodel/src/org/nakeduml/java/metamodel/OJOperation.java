@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.generated.OJOperationGEN;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 
@@ -242,4 +243,22 @@ public class OJOperation extends OJOperationGEN {
 		}
 		getBody().renameAll(renamePathNames, newName);
 	}
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof OJOperation ){
+			OJOperation o=(OJOperation) other;
+			List<OJPathName> oParamTypes = o.getParamTypes();
+			List<OJPathName> paramTypes = getParamTypes();
+			if(o.getOwner().equals(getOwner()) && o.getName().equals(getName()) && oParamTypes.size()==paramTypes.size()){
+				for(int i= 0; i < paramTypes.size();i++){
+					if(!paramTypes.get(i).equals(oParamTypes.get(i))){
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

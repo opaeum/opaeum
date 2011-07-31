@@ -1,7 +1,10 @@
 package net.sf.nakeduml.javageneration.accesscontrol;
 
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.composition.CompositionNodeImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -16,6 +19,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.CompositionNode;
 
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	CompositionNodeImplementor.class
+},after = {
+	CompositionNodeImplementor.class
+})
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
 	private static final OJPathName NUML_USER = new OJPathName("org.nakeduml.bpm.NakedUmlUser");
@@ -32,8 +40,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	}
 	// TODO Come up with a new solution to overriding user ownership
 	private void addIsUserOwnershipValid(OJAnnotatedClass ojClass){
-		OJAnnotatedOperation isUserOwnershipValid = new OJAnnotatedOperation();
-		isUserOwnershipValid.setName("isUserOwnershipValid");
+		OJAnnotatedOperation isUserOwnershipValid = new OJAnnotatedOperation("isUserOwnershipValid");
 		isUserOwnershipValid.addParam("user", NUML_USER);
 		isUserOwnershipValid.setBody(new OJBlock());
 		ojClass.addToOperations(isUserOwnershipValid);
@@ -46,8 +53,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addCanBeOwnedByUser(OJClass owner,INakedEntity entity){
 		OJOperation canBeOwnedByUser = OJUtil.findOperation(owner, "canBeOwnedByUser");
 		if(canBeOwnedByUser == null || canBeOwnedByUser.getParameters().size() > 1){
-			canBeOwnedByUser = new OJAnnotatedOperation();
-			canBeOwnedByUser.setName("canBeOwnedByUser");
+			canBeOwnedByUser = new OJAnnotatedOperation("canBeOwnedByUser");
 			canBeOwnedByUser.addParam("user", NUML_USER);
 			canBeOwnedByUser.setBody(new OJBlock());
 			canBeOwnedByUser.setReturnType(new OJPathName("boolean"));
@@ -68,8 +74,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addIsOwnedByUser(OJClass owner,INakedEntity entity){
 		OJOperation isOwnedByUser = OJUtil.findOperation(owner, "isOwnedByUser");
 		if(isOwnedByUser == null || isOwnedByUser.getParameters().size() > 1){
-			isOwnedByUser = new OJAnnotatedOperation();
-			isOwnedByUser.setName("isOwnedByUser");
+			isOwnedByUser = new OJAnnotatedOperation("isOwnedByUser");
 			isOwnedByUser.addParam("user", NUML_USER);
 			isOwnedByUser.setBody(new OJBlock());
 			isOwnedByUser.setReturnType(new OJPathName("boolean"));
@@ -90,8 +95,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private void addIsGroupOwnershipValid(OJClass owner,INakedEntity entity){
 		OJOperation isGroupOwnershipValid = OJUtil.findOperation(owner, "isGroupOwnershipValid");
 		if(isGroupOwnershipValid == null || isGroupOwnershipValid.getParameters().size() > 0){
-			isGroupOwnershipValid = new OJAnnotatedOperation();
-			isGroupOwnershipValid.setName("isGroupOwnershipValid");
+			isGroupOwnershipValid = new OJAnnotatedOperation("isGroupOwnershipValid");
 			isGroupOwnershipValid.addParam("user", NUML_USER);
 			OJForStatement forRoles = new OJForStatement("", "", "role", "user.getRoles()");
 			forRoles.setBody(new OJBlock());

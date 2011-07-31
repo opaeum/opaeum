@@ -40,8 +40,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 	}
 	protected abstract Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior);
 	protected OJOperation implementExecute(OJAnnotatedClass ojClass,INakedBehavior oc){
-		OJOperation execute = new OJAnnotatedOperation();
-		execute.setName("execute");
+		OJOperation execute = new OJAnnotatedOperation("execute");
 		ojClass.addToOperations(execute);
 		// add executedOn property for sorting purposes
 		OJAnnotatedField f = OJUtil.addProperty(ojClass, "executedOn", new OJPathName(Date.class.getName()), true);
@@ -99,12 +98,9 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		addInit(ojBehavior);
 	}
 	private void doForceToStep(OJClass ojBehavior,OJPathName stepEnumeration,INakedBehavior umlBehavior){
-		OJOperation forceStateChange = new OJAnnotatedOperation();
-		forceStateChange.setName("forceToStep");
+		OJOperation forceStateChange = new OJAnnotatedOperation("forceToStep");
 		forceStateChange.addParam("step", ABSTRACT_PROCESS_STEP);
-		OJAnnotatedField nextStep = new OJAnnotatedField();
-		nextStep.setName("nextStep");
-		nextStep.setType(stepEnumeration);
+		OJAnnotatedField nextStep = new OJAnnotatedField("nextStep",stepEnumeration);
 		nextStep.setInitExp("(" + stepEnumeration.getLast() + ")step");
 		OJBlock body = forceStateChange.getBody();
 		body.addToLocals(nextStep);
@@ -175,14 +171,11 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		recursivelyFindNode.getBody().addToStatements("return null");
 	}
 	private void doGetActiveLeafSteps(OJClass ojBehavior,INakedBehavior umlBehavior){
-		OJAnnotatedOperation getActiveLeafStates = new OJAnnotatedOperation();
+		OJAnnotatedOperation getActiveLeafStates = new OJAnnotatedOperation("getActiveLeafSteps");
 		OJPathName set = new OJPathName("java.util.Set");
 		set.addToElementTypes(ABSTRACT_PROCESS_STEP);
 		getActiveLeafStates.setReturnType(set);
-		getActiveLeafStates.setName("getActiveLeafSteps");
-		OJAnnotatedField results = new OJAnnotatedField();
-		results.setName("results");
-		results.setType(new OJPathName("Set"));
+		OJAnnotatedField results = new OJAnnotatedField("results",new OJPathName("Set"));
 		ojBehavior.addToImports("java.util.Set");
 		ojBehavior.addToImports("java.util.HashSet");
 		results.setInitExp("new HashSet<" + ABSTRACT_PROCESS_STEP.getLast() + ">()");
@@ -193,8 +186,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		ojBehavior.addToOperations(getActiveLeafStates);
 	}
 	protected void doIsStepActive(OJClass ojBehavior,INakedBehavior umlBehavior){
-		OJOperation isStepActive = new OJAnnotatedOperation();
-		isStepActive.setName("isStepActive");
+		OJOperation isStepActive = new OJAnnotatedOperation("isStepActive");
 		isStepActive.addParam("step", ABSTRACT_PROCESS_STEP);
 		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
 		for(INakedElement flow:topLevelFlows){
@@ -237,8 +229,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		ojBehavior.addToOperations(getNodeInstancesRecursively);
 	}
 	private void doGetInnermostNonParallelStep(OJClass ojBehavior,INakedBehavior umlBehavior){
-		OJOperation getInnermostNonParallelStep = new OJAnnotatedOperation();
-		getInnermostNonParallelStep.setName("getInnermostNonParallelStep");
+		OJOperation getInnermostNonParallelStep = new OJAnnotatedOperation("getInnermostNonParallelStep");
 		getInnermostNonParallelStep.setReturnType(ABSTRACT_PROCESS_STEP);
 		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
 		ojBehavior.addToOperations(getInnermostNonParallelStep);
@@ -251,9 +242,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 			ifEnded.setElsePart(new OJBlock());
 			OJIfStatement ifMany = new OJIfStatement("getProcessInstance().getNodeInstances().size()>1", "return null");
 			ifEnded.getElsePart().addToStatements(ifMany);
-			OJAnnotatedField token = new OJAnnotatedField();
-			token.setName("nodeInstance");
-			token.setType(Jbpm5Util.getNodeInstance());
+			OJAnnotatedField token = new OJAnnotatedField("nodeInstance",Jbpm5Util.getNodeInstance());
 			token.setInitExp("(" + Jbpm5Util.getNodeInstance().getLast() + ")getProcessInstance().getNodeInstances().iterator().next()");
 			ifEnded.getElsePart().addToLocals(token);
 			OJWhileStatement whileOneChild = new OJWhileStatement();

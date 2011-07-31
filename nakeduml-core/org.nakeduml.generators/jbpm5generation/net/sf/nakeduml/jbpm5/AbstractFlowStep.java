@@ -3,6 +3,7 @@ package net.sf.nakeduml.jbpm5;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
@@ -62,6 +64,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 	protected Map<INakedElement, Integer> sourceIdMap;
 	protected NakedUmlConfig config;
 	private INakedRootObject currentModelOrProfile;
+	private HashSet<TextFile> textFiles;
 
 
 	@Override
@@ -73,6 +76,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 	}
 
 	public void initialize(NakedUmlConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
+		textFiles=new HashSet<TextFile>();
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
 		this.config = config;
@@ -106,7 +110,8 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getNames();
 		names.add(behavior.getMappingInfo().getJavaName() + ".rf");
-		or.findOrCreateTextFile(names, new EmfTextSource(r, "process"), outputRoot.overwriteFiles());
+		TextFile textFile = or.findOrCreateTextFile(names, new EmfTextSource(r, "process"), outputRoot.overwriteFiles());
+		this.textFiles.add(textFile);
 		return root;
 	}
 	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
@@ -310,5 +315,9 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		String string = passContext ? "context" : "";
 		entryAction.setValue("processObject." + methodName + "(" + string + ")");
 		return entryAction;
+	}
+
+	public Collection<? extends TextFile> getTextFiles(){
+		return textFiles;
 	}
 }

@@ -1,8 +1,10 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
@@ -27,6 +29,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
+@StepDependency(phase = JavaTransformationPhase.class, requires = { Java6ModelGenerator.class}, after = { Java6ModelGenerator.class })
 public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
@@ -113,9 +116,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJAnnotatedField field = new OJAnnotatedField();
-		field.setType(map.javaTypePath());
-		field.setName(map.umlName());
+		OJAnnotatedField field = new OJAnnotatedField(map.umlName(),map.javaTypePath());
 		if(map.isJavaPrimitive() || map.isCollection()){
 			field.setInitExp(map.javaDefaultValue());
 		}
@@ -132,16 +133,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void buildInternalAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
-		adder.setName(map.internalAdder());
+		OJOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
 		adder.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
 		owner.addToOperations(adder);
 	}
 	private void buildInternalRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
-		adder.setName(map.internalRemover());
+		OJOperation adder = new OJAnnotatedOperation(map.internalRemover());
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
 		String remove;
@@ -156,8 +155,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		field.setInitExp("new " + defaultValue.getCollectionTypeName() + "()");
 	}
 	private OJOperation buildAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
-		adder.setName(map.adder());
+		OJOperation adder = new OJAnnotatedOperation(map.adder());
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
 		INakedProperty p = map.getProperty();
@@ -179,8 +177,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return adder;
 	}
 	private OJOperation buildRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
-		adder.setName(map.remover());
+		OJOperation adder = new OJAnnotatedOperation(map.remover());
 		adder.addParam(map.umlName(), map.javaBaseTypePath());
 		adder.setStatic(map.isStatic());
 		INakedProperty p = map.getProperty();
@@ -198,13 +195,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return adder;
 	}
 	private OJOperation buildRemoveAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
-		adder.setName(map.removeAll());
+		OJOperation adder = new OJAnnotatedOperation(map.removeAll());
 		adder.addParam(map.umlName(), map.javaTypePath());
 		adder.setStatic(map.isStatic());
-		OJAnnotatedField tmpList = new OJAnnotatedField();
-		tmpList.setName("tmp");
-		tmpList.setType(map.javaTypePath());
+		OJAnnotatedField tmpList = new OJAnnotatedField("tmp",map.javaTypePath());
 		tmpList.setInitExp(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 1) + map.umlName() + ")");
 		adder.getBody().addToLocals(tmpList);
 		OJForStatement forAll = new OJForStatement();
@@ -218,17 +212,15 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return adder;
 	}
 	private OJOperation buildClear(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
-		adder.setName(map.clearer());
+		OJOperation adder = new OJAnnotatedOperation(map.clearer());
 		adder.setStatic(map.isStatic());
 		adder.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 		owner.addToOperations(adder);
 		return adder;
 	}
 	private OJOperation buildAddAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation();
+		OJOperation adder = new OJAnnotatedOperation(map.allAdder());
 		// TODO put in NakedUmlSFMap
-		adder.setName(map.allAdder());
 		adder.addParam(map.umlName(), map.javaTypePath());
 		adder.setStatic(map.isStatic());
 		OJForStatement forAll = new OJForStatement();
@@ -242,8 +234,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		return adder;
 	}
 	protected OJOperation buildSetter(INakedClassifier umlOwner,OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation setter = new OJAnnotatedOperation();
-		setter.setName(map.setter());
+		OJOperation setter = new OJAnnotatedOperation(map.setter());
 		setter.addParam(map.umlName(), map.javaTypePath());
 		setter.setStatic(map.isStatic());
 		owner.addToOperations(setter);

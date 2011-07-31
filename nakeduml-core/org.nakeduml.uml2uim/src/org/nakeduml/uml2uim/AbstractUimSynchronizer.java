@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
@@ -24,11 +24,11 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements Transf
 	protected UmlUimLinks links;
 	public AbstractUimSynchronizer(){
 	}
-	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate,UmlElementMap map){
+	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate,UmlElementCache map){
 		super.workspace = workspace;
 		init(workspace,resourceSet,  regenerate,map);
 	}
-	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b, UmlElementMap map){
+	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b, UmlElementCache map){
 		super.workspace=workspace;
 		this.regenerate = b;
 		this.uimRst = uimRst;

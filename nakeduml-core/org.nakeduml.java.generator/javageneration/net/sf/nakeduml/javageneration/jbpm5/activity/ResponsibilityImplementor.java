@@ -13,7 +13,6 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.Java5ModelGenerationStep;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
@@ -99,13 +98,13 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	}
 	@VisitBefore
 	public void visitEmbeddedSingleScreenTask(INakedEmbeddedSingleScreenTask oa){
-		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure(getLibrary()));
+		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
 		ojClass.addToImplementedInterfaces(TASK_OBJECT);
 		implementEmbeddedTask(oa, ojClass);
 	}
 	@VisitBefore
 	public void visitResponsibility(INakedResponsibility oa){
-		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure(getLibrary()));
+		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
 		ojClass.addToImplementedInterfaces(RESPONSIBILITY_OBJECT);
 		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
 		TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "self");
@@ -170,15 +169,8 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 			callingProcessObject.setInitExp("getProcessObject()");
 		}
 	}
-	private void addRequestForWork(OJAnnotatedClass ojClass){
-		OJAnnotatedField field = OJUtil.addProperty(ojClass, "request", ABSTRACT_REQUEST, true);
-		OJAnnotationValue manyToone = new OJAnnotationValue(new OJPathName(ManyToOne.class.getName()));
-		field.putAnnotation(manyToone);
-		manyToone.putAttribute("cascade", new OJEnumValue(new OJPathName(CascadeType.class.getName()), "ALL"));
-	}
 	private OJAnnotatedOperation implementExecute(PreAndPostConstrained element,OJAnnotatedClass ojClass){
-		OJAnnotatedOperation execute = new OJAnnotatedOperation();
-		execute.setName("execute");
+		OJAnnotatedOperation execute = new OJAnnotatedOperation("execute");
 		ojClass.addToOperations(execute);
 		if(element instanceof INakedOperation && element.getPreConditions().size() > 0){
 			OJUtil.addFailedConstraints(execute);
@@ -199,8 +191,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	private void addGetName(INakedElement c,OJAnnotatedClass ojOperationClass){
 		OJOperation getName = OJUtil.findOperation(ojOperationClass, "getName");
 		if(getName == null){
-			getName = new OJAnnotatedOperation();
-			getName.setName("getName");
+			getName = new OJAnnotatedOperation("getName");
 			getName.setReturnType(new OJPathName("String"));
 			ojOperationClass.addToOperations(getName);
 		}else{

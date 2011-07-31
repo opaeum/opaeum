@@ -14,7 +14,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.propertysections.AbstractOpaqueExpressionSection;
-import org.nakeduml.topcased.propertysections.OclValueComposite;
+import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
 
 public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 	@Override

@@ -26,14 +26,18 @@ public class NakedCallBehaviorActionImpl extends NakedCallActionImpl implements 
 		return getBehavior();
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
+	public INakedMessageStructure getMessageStructure(){
+		if(getBehavior().getContext() == null){
+			return messageStructure;
+		}else{
+			return getBehavior();
+		}
+	}
+	public void initMessageStructure(NakedUmlLibrary lib){
 		if(getBehavior().getContext() == null){
 			if(this.messageStructure == null){
 				this.messageStructure = new CallBehaviorMessageStructure(this, lib);
 			}
-			return this.messageStructure;
-		}else{
-			return getBehavior();
 		}
 	}
 	@Override

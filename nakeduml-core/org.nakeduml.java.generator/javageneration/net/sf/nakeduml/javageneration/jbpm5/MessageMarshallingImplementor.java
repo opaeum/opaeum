@@ -9,7 +9,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.Java5ModelGenerationStep;
+import net.sf.nakeduml.javageneration.basicjava.Java6ModelGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
@@ -39,7 +39,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.runtime.domain.AbstractSignal;
 
-@StepDependency(after = Java5ModelGenerationStep.class,phase = JavaTransformationPhase.class)
+@StepDependency(after = Java6ModelGenerator.class,phase = JavaTransformationPhase.class)
 public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void visitSignal(INakedSignal s){
@@ -91,7 +91,7 @@ public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 		if(BehaviorUtil.hasExecutionInstance(o)){
 			OJBlock b= new OJBlock();
 			invoke.getBody().addToStatements(b);
-			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure(getLibrary())));
+			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure()));
 			b.addToLocals(result);
 			for(INakedParameter p:(List<? extends INakedParameter>) o.getResultParameters()){
 				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(),p);

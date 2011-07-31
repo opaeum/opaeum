@@ -6,12 +6,13 @@ import java.util.Collection;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.basicjava.Java5ModelGenerationStep;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
+import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.models.INakedModel;
@@ -24,7 +25,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-@StepDependency(phase=JavaTransformationPhase.class, requires=Java5ModelGenerationStep.class,after=Java5ModelGenerationStep.class)
+@StepDependency(phase = JavaTransformationPhase.class, requires = {ProcessIdentifier.class,TextFileGenerator.class}, after = {})
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 	public static class ProcessCollector extends VisitorAdapter<INakedElement,INakedModel>{
 		private Collection<INakedBehavior> processes = new ArrayList<INakedBehavior>();
@@ -49,7 +50,6 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 			return this.processes;
 		}
 	}
-	boolean isIntegrationPhase = true;
 	public Jbpm5EnvironmentBuilder(){
 		this(false);//default non-integration phase
 	}
@@ -84,16 +84,14 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 		return visitor;
 	}
 	private void createJbpmKnowledgeBase(OJPathName utilPathName,Enum<?> outputRootId,Collection<INakedBehavior> processes){
-		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass();
-		jbpmKnowledgeBase.setName("JbpmKnowledgeBase");
+		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass("JbpmKnowledgeBase");
 		OJPackage utilPack = findOrCreatePackage(utilPathName);
 		utilPack.addToClasses(jbpmKnowledgeBase);
 		super.createTextPath(jbpmKnowledgeBase, outputRootId);
 		addCommonImports(jbpmKnowledgeBase);
 		jbpmKnowledgeBase.setSuperclass(new OJPathName("org.nakeduml.environment.AbstractJbpmKnowledgeBase"));
-		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation();
+		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation("prepareKnowledgeBuilder");
 		jbpmKnowledgeBase.addToOperations(prepareKnowledgeBase);
-		prepareKnowledgeBase.setName("prepareKnowledgeBuilder");
 		prepareKnowledgeBase.addParam("kbuilder", new OJPathName("KnowledgeBuilder"));
 		OJBlock prepareKnowledgeBaseBody;
 		prepareKnowledgeBaseBody = prepareKnowledgeBase.getBody();

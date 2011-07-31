@@ -4,29 +4,27 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJInterface;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 import org.nakeduml.java.metamodel.utilities.JavaUtil;
-
+import sun.misc.MetaIndex;
 
 public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElement{
-	public OJAnnotatedOperation(String string, OJPathName ojPathName) {
+	public OJAnnotatedOperation(String string,OJPathName ojPathName){
 		this(string);
 		setReturnType(ojPathName);
 	}
-	public OJAnnotatedOperation(String string) {
+	public OJAnnotatedOperation(String string){
 		super();
 		setName(string);
 	}
-	public OJAnnotatedOperation() {
-		super();
-	}
 	@Override
 	public OJAnnotatedOperation getCopy(){
-		OJAnnotatedOperation oper = new OJAnnotatedOperation();
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(getName());
 		super.copyValues(oper);
 		oper.removeAllFromParameters();
 		for(OJParameter f:getParameters()){
@@ -43,7 +41,7 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		return AnnotationHelper.maybeAddAnnotation(value, this);
 	}
 	public OJAnnotationValue removeAnnotation(OJPathName type){
-		return AnnotationHelper.removeAnnotation(this,type);
+		return AnnotationHelper.removeAnnotation(this, type);
 	}
 	public Set<OJAnnotationValue> getAnnotations(){
 		return f_annotations;
@@ -95,20 +93,18 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		}
 		return result.toString();
 	}
-	
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Map<String,OJPathName> renamePathNames,String newName){
 		super.renameAll(renamePathNames, newName);
-		for(OJAnnotationValue annotation: getAnnotations()) {
+		for(OJAnnotationValue annotation:getAnnotations()){
 			annotation.renameAll(renamePathNames, newName);
 		}
 	}
-	
-	public OJOperation getDeepCopy() {
-		OJAnnotatedOperation result = new OJAnnotatedOperation();
+	public OJOperation getDeepCopy(){
+		OJAnnotatedOperation result = new OJAnnotatedOperation(getName());
 		copyValuesDeep(result);
 		return result;
 	}
-	public OJAnnotationValue findAnnotation(OJPathName ojPathName) {
+	public OJAnnotationValue findAnnotation(OJPathName ojPathName){
 		return AnnotationHelper.getAnnotation(this, ojPathName);
-	}		
+	}
 }

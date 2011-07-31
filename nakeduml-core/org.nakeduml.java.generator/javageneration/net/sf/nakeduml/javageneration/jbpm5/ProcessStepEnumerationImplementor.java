@@ -36,10 +36,9 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		
 	}
 	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
-		OJEnum e = new OJEnum();
+		OJEnum e = new OJEnum(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
 		e.addToImplementedInterfaces(abstractProcessStep);
-		e.setName(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
 		super.createTextPath(e, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
@@ -55,8 +54,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		// ifParentNull.setElsePart(new OJBlock());
 		// ifParentNull.getElsePart().addToStatements("return parent.getQualifiedName()+ \"/\" + persistentName");
 		// getQualifiedName.getBody().addToStatements(ifParentNull);
-		OJOperation resolve = new OJAnnotatedOperation();
-		resolve.setName("resolveById");
+		OJOperation resolve = new OJAnnotatedOperation("resolveById");
 		resolve.setStatic(true);
 		resolve.setReturnType(e.getPathName());
 		resolve.addParam("id", "long");

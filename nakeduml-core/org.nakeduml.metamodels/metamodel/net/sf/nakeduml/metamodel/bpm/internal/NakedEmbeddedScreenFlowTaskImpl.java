@@ -30,10 +30,10 @@ public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl
 		super.addStereotype(stereotype);
 	}
 	@Override
-	public INakedMessageStructure getMessageStructure(NakedUmlLibrary lib){
-		if(messageStructure==null){
-			this.messageStructure=new EmbeddedScreenFlowTaskMessageStructureImpl(this, lib);
-		}
+	public INakedMessageStructure getMessageStructure(){
 		return this.messageStructure;
+	}
+	public void initMessageStructure(NakedUmlLibrary lib){
+		this.messageStructure=new EmbeddedScreenFlowTaskMessageStructureImpl(this, lib);
 	}
 }

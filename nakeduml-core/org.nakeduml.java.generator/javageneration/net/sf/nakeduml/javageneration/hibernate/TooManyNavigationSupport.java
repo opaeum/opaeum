@@ -7,7 +7,7 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep;
+import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -18,8 +18,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {ExtendedCompositionSemanticsJavaStep.class},after = {ExtendedCompositionSemanticsJavaStep.class})
-public class TooManyNavigationSupport extends AbstractJavaProducingVisitor {
+@StepDependency(phase = JavaTransformationPhase.class,requires = JpaAnnotator.class)
+public class TooManyNavigationSupport extends AbstractJavaProducingVisitor{
 
 	@VisitBefore(matchSubclasses = true)
 	public void visitPropertyBefore(INakedProperty property) {

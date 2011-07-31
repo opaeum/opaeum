@@ -57,6 +57,7 @@ import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.eclipse.EmfValidationUtil;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements TransformationStep{
 	protected INakedModelWorkspace nakedWorkspace;
@@ -279,7 +280,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			body = bodies.get(0);
 		}
 		// TODO Extract constant here
-		if(body != null && body.trim().length() > 0 && !(body.equals("Type expression here"))){
+		if(body != null && body.trim().length() > 0 && !(body.equals(EmfValidationUtil.TYPE_EXPRESSION_HERE))){
 			ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usageType);
 			string.setExpressionString(body);
 			return string;
@@ -366,7 +367,6 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	protected void initTimeEvent(TimeEvent emfTimeEvent,AbstractTimeEventImpl nakedTimeEvent){
 		INakedValueSpecification when = getValueSpecification(nakedTimeEvent, emfTimeEvent.getWhen(), OclUsageType.DEF);
 		if(when != null){
-			System.out.println("VS:"+when.getUuid());
 			when.setType((INakedClassifier) getNakedPeer(emfTimeEvent.getWhen().getType()));
 			nakedTimeEvent.setWhen(when);
 			when.setOwnerElement(nakedTimeEvent);

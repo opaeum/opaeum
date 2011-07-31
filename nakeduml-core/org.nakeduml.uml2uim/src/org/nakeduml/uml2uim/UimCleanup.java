@@ -1,6 +1,6 @@
 package org.nakeduml.uml2uim;
 
-import net.sf.nakeduml.emf.workspace.UmlElementMap;
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.StepDependency;
 
 import org.eclipse.emf.common.notify.Notifier;
@@ -17,7 +17,7 @@ import org.nakeduml.uim.layout.UimLayout;
 
 @StepDependency(phase = UimSynchronizationPhase.class)
 public class UimCleanup extends AbstractUimSynchronizer{
-	UmlElementMap map;
+	UmlElementCache map;
 	public void putFormElements(ResourceSet rst){
 		TreeIterator<Notifier> allContents = rst.getAllContents();
 		while(allContents.hasNext()){

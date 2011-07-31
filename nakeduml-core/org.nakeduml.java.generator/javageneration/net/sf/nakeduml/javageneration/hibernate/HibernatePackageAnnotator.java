@@ -2,24 +2,15 @@ package net.sf.nakeduml.javageneration.hibernate;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.nakeduml.java.metamodel.OJPathName;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	HibernateAnnotator.class
-},after = {
-	HibernateAnnotator.class
-},before = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {TextFileGenerator.class},after = {},before = {})
 public class HibernatePackageAnnotator extends AbstractHibernatePackageAnnotator{
-	public HibernatePackageAnnotator(){
-		this(false);
-	}
-	public HibernatePackageAnnotator(boolean isIntegrationPhase){
-		super(isIntegrationPhase);
-	}
 	protected String getIdType(){
 		return "long";
 	}
