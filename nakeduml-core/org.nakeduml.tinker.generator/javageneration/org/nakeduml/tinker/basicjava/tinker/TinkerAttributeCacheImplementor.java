@@ -10,6 +10,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -48,19 +49,27 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		}
 	}
 
-	@VisitBefore(matchSubclasses = true, match = { INakedEntity.class, INakedStructuredDataType.class, INakedAssociationClass.class })
-	public void visitEntity(INakedEntity entity) {
-		if (OJUtil.hasOJClass(entity) && !(entity instanceof INakedSimpleType)) {
-			OJAnnotatedClass owner = findJavaClass(entity);
-			
-			if (entity.getEndToComposite()!=null && !entity.getEndToComposite().isDerived()) {
-				NakedStructuralFeatureMap endToCompositeMap = new NakedStructuralFeatureMap(entity.getEndToComposite());
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(entity.getEndToComposite().getOtherEnd());
-				addToParentCache(owner, entity, endToCompositeMap, otherMap);
+	@VisitBefore(matchSubclasses = true, match = { INakedActivity.class, INakedEntity.class, INakedStructuredDataType.class, INakedAssociationClass.class })
+	public void visitEntity(INakedBehavioredClassifier c) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
+			OJAnnotatedClass owner = findJavaClass(c);
+			NakedStructuralFeatureMap endToCompositeMap;
+			NakedStructuralFeatureMap otherMap;
+			if (c instanceof INakedEntity) {
+				INakedEntity entity = (INakedEntity)c;
+				if (entity.getEndToComposite()!=null && !entity.getEndToComposite().isDerived()) {
+					endToCompositeMap = new NakedStructuralFeatureMap(entity.getEndToComposite());
+					otherMap = new NakedStructuralFeatureMap(entity.getEndToComposite().getOtherEnd());
+					addToParentCache(owner, c, endToCompositeMap, otherMap);
+				}
+			} else {
+//				OJOperation initVertex = owner.findOperation(TinkerTransformation.INIT_VERTEX, Arrays.asList(OJUtil.classifierPathname((INakedClassifier)c.getOwnerElement())));
+//				//TODO c.getName is wrong like dude
+//				initVertex.getBody().addToStatements("this." + c.getName() + "=owningObject");		
 			}
 			
 			OJAnnotatedOperation markDeleted = (OJAnnotatedOperation) owner.findOperation("markDeleted", Collections.EMPTY_LIST);
-			removeFromCache(entity, owner, markDeleted);
+			removeFromCache(c, owner, markDeleted);
 		}
 		
 	}
@@ -288,7 +297,7 @@ public class TinkerAttributeCacheImplementor extends AbstractJavaProducingVisito
 		setter.getBody().addToStatements(ifVarNotNull);
 	}
 
-	private void addToParentCache(OJAnnotatedClass originalClass, INakedEntity c, NakedStructuralFeatureMap endToCompositeMap,
+	private void addToParentCache(OJAnnotatedClass originalClass, INakedClassifier c, NakedStructuralFeatureMap endToCompositeMap,
 			NakedStructuralFeatureMap map) {
 		OJOperation initVertex = originalClass.findOperation(TinkerTransformation.INIT_VERTEX, Arrays.asList(endToCompositeMap.javaBaseTypePath()));
 		initVertex.getBody().addToStatements("owningObject." + map.internalAdder() + "(this)");		

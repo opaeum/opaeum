@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationScoped;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.event.StartConversationEvent;
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.tinker.runtime.ApplicationScopedDb;
 import org.nakeduml.tinker.runtime.NakedGraph;
@@ -20,6 +22,10 @@ public class TestConversation1 implements Serializable {
 	@ApplicationScopedDb
 	@Inject
 	NakedGraph db;
+	
+//	public void onConversationStart(@Observes StartConversationEvent event) {
+//		System.out.println("");
+//	}
 	
 	public String getName() {
 		return name;

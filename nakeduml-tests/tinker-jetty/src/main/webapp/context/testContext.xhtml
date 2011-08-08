@@ -19,7 +19,8 @@
 			<h:inputText id="name" value="#{contextController.contextObject.name}" />
 			<h:message for="name" showSummary="true" showDetail="false" />
 		</h:panelGrid>
-		<p:commandButton value="Update" action="#{contextController.update}" async="true" update="display" />
+		<p:commandButton value="Update" action="#{contextController.update}" async="true" update=":leftForm:contextTreePanelGroupId" />
+		<p:commandButton value="Test Async" action="#{requestScopedAsyncTestBean.doAsync}" async="true" />
 
 		<p:dataTable var="blackHole" value="#{contextController.contextObject.blackHole}" paginator="true" rows="10" dynamic="true"
 			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,15">

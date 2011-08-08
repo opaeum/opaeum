@@ -56,9 +56,7 @@ public class GenerateTinkerAuditWithCache {
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
 				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class,
 				TinkerAuditImplementationStep.class,
-				TinkerImplementAttributeCacheStep.class,
-				DtoImplementationStep.class,
-				TinkerPassByValueImplementationStep.class);
+				TinkerImplementAttributeCacheStep.class);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {

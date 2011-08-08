@@ -7,16 +7,11 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.transport.servlet.CXFNonSpringServlet;
-import org.apache.webbeans.servlet.WebBeansConfigurationListener;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.util.WebservicePublisher;
 
 public class StartJetty {
 	private static Server server;
@@ -38,18 +33,18 @@ public class StartJetty {
 			contexts.addHandler(webapp);
 			server.setStopAtShutdown(true);
 
-			CXFNonSpringServlet cxf = new CXFNonSpringServlet();
-			ServletHolder servlet = new ServletHolder(cxf);
-			servlet.setName("soap");
-			servlet.setForcedPath("soap");
-			webapp.addServlet(servlet, "/soap/*");
-			webapp.addEventListener(new WebBeansConfigurationListener());
+//			CXFNonSpringServlet cxf = new CXFNonSpringServlet();
+//			ServletHolder servlet = new ServletHolder(cxf);
+//			servlet.setName("soap");
+//			servlet.setForcedPath("soap");
+//			webapp.addServlet(servlet, "/soap/*");
+//			webapp.addEventListener(new WebBeansConfigurationListener());
 			
 			server.start();
 
-			Bus bus = cxf.getBus();
-			BusFactory.setDefaultBus(bus);
-			WebservicePublisher.publish();
+//			Bus bus = cxf.getBus();
+//			BusFactory.setDefaultBus(bus);
+//			WebservicePublisher.publish();
 
 			Thread monitor = new MonitorThread();
 			monitor.start();

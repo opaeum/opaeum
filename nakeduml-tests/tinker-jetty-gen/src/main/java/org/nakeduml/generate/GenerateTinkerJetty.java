@@ -57,8 +57,9 @@ public class GenerateTinkerJetty {
 		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class,
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
 				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class, TinkerExtendedCompositionSemanticsJavaStep.class,
-				TinkerSoftDeleteImplementationStep.class, TinkerImplementAttributeCacheStep.class, TinkerJsfImplementationStep.class,
-				DtoImplementationStep.class, TinkerPassByValueImplementationStep.class);
+				TinkerSoftDeleteImplementationStep.class, TinkerImplementAttributeCacheStep.class, TinkerJsfImplementationStep.class
+//				,DtoImplementationStep.class, TinkerPassByValueImplementationStep.class
+				);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {

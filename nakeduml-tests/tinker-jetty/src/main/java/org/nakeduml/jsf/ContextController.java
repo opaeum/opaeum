@@ -2,23 +2,29 @@ package org.nakeduml.jsf;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.myfaces.extensions.cdi.core.api.logging.Logger;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationScoped;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.WindowContext;
+import org.nakeduml.async.DispatchSignal;
+import org.nakeduml.environment.TransactionConversationGroup;
 import org.nakeduml.runtime.domain.AbstractEntity;
 
 @Named("contextController")
 @ConversationScoped
 public class ContextController implements Serializable {
 
+	@Inject
+	DispatchSignal dispatchSignal;
 	AbstractEntity contextObject;
 	AbstractEntity selectedContextObject;
-
-	@PostConstruct
-	public void init() {
-	}
-
+	@Inject
+	WindowContext windowContext;
+	@Inject
+	Logger logger;
+	
 	public AbstractEntity getSelectedContextObject() {
 		return selectedContextObject;
 	}
@@ -36,7 +42,10 @@ public class ContextController implements Serializable {
 	} 
 	
 	public void update() {
-		System.out.println("");
+		logger.info("update");
+		windowContext.closeConversationGroup(TransactionConversationGroup.class);
+		windowContext.closeConversationGroup(TreeController.class);
+		throw new RuntimeException();
 	}
 	
 }

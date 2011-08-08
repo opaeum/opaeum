@@ -49,7 +49,7 @@ public class TestLargeSet2 extends BaseLocalDbTest {
 		totalStopWatch.start();
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-//		db.startTransaction();
+		db.startTransaction();
 		Vertex god = db.addVertex(null);
 		god.setProperty("name", "didthiswork");
 		Vertex auditGod = db.addVertex(null);
@@ -114,7 +114,7 @@ public class TestLargeSet2 extends BaseLocalDbTest {
 			auditBlackHoleEdge3.setProperty("inClass", "BlackHole");
 			
 		}
-//		db.stopTransaction(Conclusion.SUCCESS);
+		db.stopTransaction(Conclusion.SUCCESS);
 		stopWatch.stop();
 		System.out.println(stopWatch.toString());
 		totalStopWatch.stop();

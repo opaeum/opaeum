@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:validation="http:///schemas/validation/_m2-lYLevEeCq1u5O0O3d-g/0" xmlns:validation_codi="http:///schemas/validation_codi/_OQ2nYLezEeCUHajfXzOudA/0" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1 file:/home/pieter/workspace-neoaspect/nakeduml/nakeduml-eclipse/org.nakeduml.eclipse/profiles/NakedUMLProfile.uml#_byqKsIaLEeC_IImVVrqPCQ http:///schemas/validation/_m2-lYLevEeCq1u5O0O3d-g/0 validation.profile.uml#_m3N18revEeCq1u5O0O3d-g http:///schemas/validation_codi/_OQ2nYLezEeCUHajfXzOudA/0 validation_codi.profile.uml#_ORFQ4bezEeCUHajfXzOudA">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:validation="http:///schemas/validation/_m2-lYLevEeCq1u5O0O3d-g/0" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1 file:/home/pieter/workspace-neoaspect/nakeduml/nakeduml-eclipse/org.nakeduml.eclipse/profiles/NakedUMLProfile.uml#_byqKsIaLEeC_IImVVrqPCQ http:///schemas/validation/_m2-lYLevEeCq1u5O0O3d-g/0 validation.profile.uml#_m3N18revEeCq1u5O0O3d-g">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="org">
     <elementImport xmi:id="_3e48AGRvEeCWwpEEhhedIw">
       <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
@@ -116,6 +116,10 @@
         </ownedAttribute>
         <ownedAttribute xmi:id="_omvLcLeyEeCh2d9ROFemfQ" name="age">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_XRp9gLn4EeCroMyrh-N-UQ" name="testConstraint" type="_Rj37ULn4EeCroMyrh-N-UQ" aggregation="composite" association="_XSK64Ln4EeCroMyrh-N-UQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XRp9gbn4EeCroMyrh-N-UQ" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XRp9grn4EeCroMyrh-N-UQ"/>
         </ownedAttribute>
         <interfaceRealization xmi:id="_0CRVEKjUEeCPQM68TW8_XQ" name="InterfaceRealization1" supplier="_qfWNUKjUEeCPQM68TW8_XQ" client="_z3Yp0GRvEeCWwpEEhhedIw" contract="_qfWNUKjUEeCPQM68TW8_XQ"/>
       </packagedElement>
@@ -736,6 +740,30 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_VqqZaKTiEeCeU7Ck1QDYRg" value="1"/>
         </ownedEnd>
       </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_O5G-MLn4EeCroMyrh-N-UQ" name="constraint">
+        <packagedElement xmi:type="uml:Class" xmi:id="_Rj37ULn4EeCroMyrh-N-UQ" name="TestConstraint">
+          <ownedRule xmi:id="_xYXAoLn4EeCroMyrh-N-UQ" name="Constraint1">
+            <specification xmi:type="uml:OpaqueExpression" xmi:id="_yQUjYLn4EeCroMyrh-N-UQ" name="OpaqueExpression1">
+              <body>if ((name='god') and (age&lt;50))&#xA;then false&#xA;else true&#xA;endif</body>
+            </specification>
+          </ownedRule>
+          <ownedAttribute xmi:id="_ZpCEkLn4EeCroMyrh-N-UQ" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_fFcp8Ln4EeCroMyrh-N-UQ" name="length">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_k-HtgLn4EeCroMyrh-N-UQ" name="age">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_XSK64Ln4EeCroMyrh-N-UQ" name="A_&lt;god>_&lt;testConstraint>" memberEnd="_XSK64bn4EeCroMyrh-N-UQ _XRp9gLn4EeCroMyrh-N-UQ" navigableOwnedEnd="_XSK64bn4EeCroMyrh-N-UQ">
+        <ownedEnd xmi:id="_XSK64bn4EeCroMyrh-N-UQ" name="god" type="_z3Yp0GRvEeCWwpEEhhedIw" association="_XSK64Ln4EeCroMyrh-N-UQ">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XSK64rn4EeCroMyrh-N-UQ" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XSK647n4EeCroMyrh-N-UQ" value="1"/>
+        </ownedEnd>
+      </packagedElement>
     </packagedElement>
     <profileApplication xmi:id="_Zg6CYLbOEeCCretc49vdgg">
       <eAnnotations xmi:id="_Zg8eoLbOEeCCretc49vdgg" source="http://www.eclipse.org/uml2/2.0.0/UML">
@@ -757,6 +785,7 @@
     </profileApplication>
   </uml:Model>
   <NakedUMLProfile:PrimitiveType xmi:id="_Z8a5sLbOEeCCretc49vdgg" base_PrimitiveType="_XRN3sLbOEeCCretc49vdgg"/>
-  <validation:NotNull xmi:id="_zYQUoLevEeCh2d9ROFemfQ" base_Property="_1L3JcGRvEeCWwpEEhhedIw"/>
-  <validation_codi:Length xmi:id="_T9rAQLezEeCh2d9ROFemfQ" base_Property="_omvLcLeyEeCh2d9ROFemfQ" minimum="1000"/>
+  <validation:NotNull xmi:id="_cNTYILn4EeCroMyrh-N-UQ" base_Property="_ZpCEkLn4EeCroMyrh-N-UQ"/>
+  <validation:Min xmi:id="_oI1WALn4EeCroMyrh-N-UQ" base_Property="_k-HtgLn4EeCroMyrh-N-UQ" value="10"/>
+  <validation:Max xmi:id="_oSV3ULn4EeCroMyrh-N-UQ" base_Property="_k-HtgLn4EeCroMyrh-N-UQ" value="100"/>
 </xmi:XMI>

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
@@ -19,10 +18,8 @@ import org.nakeduml.tinker.runtime.NakedGraph;
 import org.primefaces.component.behavior.ajax.AjaxBehavior;
 import org.primefaces.component.tree.Tree;
 import org.primefaces.component.tree.UITreeNode;
-import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import org.tinker.Angel;
-import org.tinker.BlackHole;
 import org.tinker.Demon;
 import org.tinker.God;
 import org.tinker.Universe;
@@ -108,7 +105,7 @@ public class TreeController implements Serializable {
 		
 		AjaxBehavior ajaxBehavior = new AjaxBehavior();
 		ajaxBehavior.setListener(f.createMethodExpression(FacesContext.getCurrentInstance().getELContext(), "#{treeController.onNodeSelect}", null, new Class<?>[]{}));
-		ajaxBehavior.setUpdate("messages,:centerform:contextDataTablePanelGroupId");
+		ajaxBehavior.setUpdate("messages,:centerForm:contextDataTablePanelGroupId");
 		tree.addClientBehavior("select", ajaxBehavior);
 		
 		HtmlOutputText outputText = new HtmlOutputText();

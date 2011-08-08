@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.tinker.runtime.NakedGraph;
 import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
@@ -14,7 +20,9 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.event.TransactionEventHandler;
+import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.kernel.TopLevelTransaction;
 
 import com.tinkerpop.blueprints.pgm.AutomaticIndex;
 import com.tinkerpop.blueprints.pgm.Edge;
@@ -28,8 +36,7 @@ import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jVertex;
 public class NakedNeo4jGraph implements NakedGraph {
 
 	private Neo4jGraph neo4jGraph;
-	private TransactionEventHandler transactionEventHandler;
-	private boolean withschema;
+	private TransactionEventHandler<AbstractEntity> transactionEventHandler;
 	private TinkerSchemaHelper schemaHelper;
 
 	public NakedNeo4jGraph(Neo4jGraph orientGraph, TinkerSchemaHelper schemaHelper) {
@@ -40,7 +47,6 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	public NakedNeo4jGraph(Neo4jGraph orientGraph, TinkerSchemaHelper schemaHelper, boolean withSchema) {
 		this(orientGraph, schemaHelper);
-		this.withschema = withSchema;
 	}
 
 	@Override
@@ -55,7 +61,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void setTransactionMode(Mode mode) {
-		neo4jGraph.setTransactionMode(mode);
+		neo4jGraph.setTransactionModeCustom(mode);
 	}
 
 	@Override
@@ -151,7 +157,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public Vertex addVertex(String className) {
 		Vertex v = neo4jGraph.addVertex(null);
-		if (className!=null) {
+		if (className != null) {
 			v.setProperty("className", className);
 		}
 		return v;
@@ -186,11 +192,11 @@ public class NakedNeo4jGraph implements NakedGraph {
 			root.setProperty("transactionCount", 1);
 		}
 	}
-	
+
 	@Override
 	public Vertex getRoot() {
 		return new Neo4jVertex(neo4jGraph.getRawGraph().getNodeById(1), neo4jGraph);
-	}	
+	}
 
 	@Override
 	public long countVertices() {
@@ -205,7 +211,9 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public void registerListeners() {
 		if (transactionEventHandler == null) {
-			transactionEventHandler = new NakedTransactionEventHandler();
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			transactionEventHandler = new NakedTransactionEventHandler<AbstractEntity>(validator);
 			neo4jGraph.getRawGraph().registerTransactionEventHandler(transactionEventHandler);
 		}
 	}
@@ -235,11 +243,11 @@ public class NakedNeo4jGraph implements NakedGraph {
 	public <T> T instantiateClassifier(Long id) {
 		try {
 			Vertex v = neo4jGraph.getVertex(id);
-			Class<?> c =schemaHelper.getClassNames().get((String) v.getProperty("className"));
+			Class<?> c = schemaHelper.getClassNames().get((String) v.getProperty("className"));
 			return (T) c.getConstructor(Vertex.class).newInstance(v);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}		
+		}
 	}
 
 	@Override
@@ -251,6 +259,40 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public void createSchema(Map<String, Class<?>> classNames) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public TransactionManager getTransactionManager() {
+		return ((AbstractGraphDatabase) neo4jGraph.getRawGraph()).getConfig().getTxModule().getTxManager();
+	}
+
+	@Override
+	public void resume(Transaction t) {
+		try {
+			getTransactionManager().resume(t);
+			neo4jGraph.resume(new TopLevelTransaction(getTransactionManager()));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Transaction suspend() {
+		try {
+			neo4jGraph.suspend();
+			return getTransactionManager().suspend();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Transaction getTransaction() {
+		try {
+			return getTransactionManager().getTransaction();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

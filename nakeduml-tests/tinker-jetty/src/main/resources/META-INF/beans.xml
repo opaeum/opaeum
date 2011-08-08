@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-<!--	<interceptors>-->
-<!--		<class>org.nakeduml.environment.TinkerpopInterceptor</class>-->
-<!--	</interceptors>-->
+	<!-- <interceptors> -->
+	<!-- <class>org.nakeduml.environment.TinkerpopInterceptor</class> -->
+	<!-- </interceptors> -->
+	<alternatives>
+		<class>org.nakeduml.environment.NakedUmlConversationConfig</class>
+	</alternatives>
+	<interceptors>
+		<class>org.nakeduml.async.AsynchronousInterceptor</class>
+	</interceptors>
 </beans>
 

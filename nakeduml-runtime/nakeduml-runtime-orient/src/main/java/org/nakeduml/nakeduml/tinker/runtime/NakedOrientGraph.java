@@ -1,12 +1,14 @@
 package org.nakeduml.nakeduml.tinker.runtime;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
 
 import org.nakeduml.runtime.domain.AbstractEntity;
 import org.nakeduml.tinker.runtime.NakedGraph;
@@ -259,5 +261,29 @@ public class NakedOrientGraph implements NakedGraph {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}		
+	}
+
+	@Override
+	public TransactionManager getTransactionManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resume(Transaction tobj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Transaction suspend() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Transaction getTransaction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

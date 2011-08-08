@@ -146,5 +146,10 @@
             org.apache.myfaces.webapp.StartupServletContextListener
         </listener-class>
     </listener>
+	<error-page>
+	    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+	    <location>/error.xhtml</location>
+	</error-page>
+
 
 </web-app>

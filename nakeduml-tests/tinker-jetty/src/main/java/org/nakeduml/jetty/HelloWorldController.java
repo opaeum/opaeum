@@ -24,20 +24,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.myfaces.extensions.cdi.core.api.config.view.ViewConfig;
-import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
-import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.WindowScoped;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationScoped;
 import org.nakeduml.jsf.pagebeans.Pagebeans;
 
 /**
  * A typical simple backing bean, that is backed to <code>helloWorld.xhtml</code>
  */
 @Named("helloWorld")
-@WindowScoped
+@ConversationScoped
 public class HelloWorldController implements Serializable
 {
 
-	@Inject Conversation conversation;
-	
     //properties
     private String name;
     @Inject private GreetingService greetingService;
@@ -48,7 +45,7 @@ public class HelloWorldController implements Serializable
     public HelloWorldController()
     {
     }
-
+    
     /**
      * Method that is backed to a submit button of a form.
      */
