@@ -18,17 +18,6 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	private List<AbstractValidator> validators;
-	public void initialize(NakedUmlConfig config){
-		this.config = config;
-	}
-	public Object[] execute(List<AbstractValidator> validators,TransformationContext context){
-		this.validators=validators;
-		for(AbstractValidator v:validators){
-			v.initialize(modelWorkspace, config);
-			v.startVisiting(modelWorkspace);
-		}
-		return new Object[]{};
-	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
 		for(INakedElement element:elements){
@@ -38,5 +27,25 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 			}
 		}
 		return elements;
+	}
+	@Override
+	public void execute(TransformationContext context){
+		for(AbstractValidator v:validators){
+			v.startVisiting(modelWorkspace);
+		}
+	}
+	@Override
+	public void initialize(NakedUmlConfig config,List<AbstractValidator> features){
+		this.validators=features;
+		this.config=config;
+		for(AbstractValidator v:validators){
+			v.initialize(modelWorkspace, config);
+			v.startVisiting(modelWorkspace);
+		}
+		
+	}
+	@Override
+	public Collection<AbstractValidator> getSteps(){
+		return validators;
 	}
 }

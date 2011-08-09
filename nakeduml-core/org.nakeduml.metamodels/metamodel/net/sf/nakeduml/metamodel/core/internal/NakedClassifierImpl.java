@@ -131,7 +131,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	 * @param results
 	 * @param attributes
 	 */
-	public void addEffectiveAttributes(List<INakedProperty> results,List<? extends INakedProperty> attributes){
+	public static void addEffectiveAttributes(List<INakedProperty> results,List<? extends INakedProperty> attributes){
 		Iterator<INakedProperty> iter = results.iterator();
 		while(iter.hasNext()){
 			INakedProperty presentProperty = (INakedProperty) iter.next();
@@ -310,6 +310,9 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 				return ((INakedPackage) getNameSpace()).getCodeGenerationStrategy();
 			}else if(getNameSpace() instanceof INakedClassifier){
 				return ((INakedClassifier) getNameSpace()).getCodeGenerationStrategy();
+			}else{
+				//Owner probably null;
+				return CodeGenerationStrategy.all;
 			}
 		}
 		return this.codeGenerationStrategy;

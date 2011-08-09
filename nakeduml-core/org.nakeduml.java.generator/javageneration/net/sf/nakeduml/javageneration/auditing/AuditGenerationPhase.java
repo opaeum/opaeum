@@ -32,25 +32,32 @@ public class AuditGenerationPhase implements TransformationPhase<AbstractJavaTra
 	INakedModelWorkspace workspace;
 	@InputModel
 	OJAnnotatedPackage javaModel;
+	private Collection<AbstractJavaTransformationStep> features;
 	@Override
-	public void initialize(NakedUmlConfig config){
-		this.config = config;
-	}
-	@Override
-	public Object[] execute(List<AbstractJavaTransformationStep> features,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(JavaTransformationStep a:features){
 			if(a instanceof AbstractJavaProducingVisitor){
-				a.initialize(javaModel, config, textWorkspace, context);
 				((AbstractJavaProducingVisitor) a).startVisiting(workspace);
 			}
 		}
-		return new Object[]{
-			javaModel
-		};
 	}
 	@Override
 	public Collection<Object> processElements(TransformationContext context,Collection<INakedElement> element){
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void initialize(NakedUmlConfig config,List<AbstractJavaTransformationStep> features){
+		this.features=features;
+		this.config=config;
+		for(JavaTransformationStep a:features){
+			if(a instanceof AbstractJavaProducingVisitor){
+				a.initialize(javaModel, config, textWorkspace,workspace);
+			}
+		}
+	}
+	@Override
+	public Collection<AbstractJavaTransformationStep> getSteps(){
+		return this.features;
 	}
 }

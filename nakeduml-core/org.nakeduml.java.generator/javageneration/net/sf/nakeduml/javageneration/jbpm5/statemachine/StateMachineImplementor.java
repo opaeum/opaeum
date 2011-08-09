@@ -64,12 +64,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	public void visitStateMachine(INakedStateMachine umlStateMachine){
 		javaStateMachine = findJavaClass(umlStateMachine);
 		addImports(javaStateMachine);
-		javaStateMachine.setName(umlStateMachine.getMappingInfo().getJavaName().toString());
-		OJPackage statePackage = findOrCreatePackage(javaStateMachine.getPathName().getHead());
-		statePackage.addToClasses(javaStateMachine);
-		OJPathName stateClass = statePackage.getPathName();
-		stateClass.addToNames(umlStateMachine.getMappingInfo().getJavaName() + "State");
-		implementProcessInterfaceOperations(javaStateMachine, stateClass, umlStateMachine);
+		implementProcessInterfaceOperations(javaStateMachine, new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"), umlStateMachine);
 		OJOperation execute = implementExecute(javaStateMachine, umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		visitRegions(umlStateMachine.getRegions());
@@ -177,7 +172,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	private void implementBehaviorOn(INakedState state,INakedBehavior behavior,OJAnnotatedOperation onEntry){
 		if(behavior instanceof INakedActivity){
 			SimpleActivityMethodImplementor impl = new SimpleActivityMethodImplementor();
-			impl.initialize(javaModel, config, textWorkspace, super.transformationContext);
+			impl.initialize(javaModel, config, textWorkspace,workspace);
 			impl.setWorkspace(workspace);
 			impl.implementActivityOn((INakedActivity) behavior, onEntry);
 		}else if(behavior instanceof INakedOpaqueBehavior){

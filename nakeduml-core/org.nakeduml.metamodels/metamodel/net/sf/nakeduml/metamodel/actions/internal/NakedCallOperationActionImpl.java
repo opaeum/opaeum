@@ -30,10 +30,10 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 	public INakedMessageStructure getMessageStructure(){
 		return messageStructure;
 	}
-	public void initMessageStructure(NakedUmlLibrary lib){
+	public void initMessageStructure(){
 		if(messageStructure == null && getOperation() != null){
 			if(getOperation().getMessageStructure()==null){
-				getOperation().initMessageStructure(lib);
+				getOperation().initMessageStructure();
 			}
 			messageStructure = getOperation().getMessageStructure();
 		}

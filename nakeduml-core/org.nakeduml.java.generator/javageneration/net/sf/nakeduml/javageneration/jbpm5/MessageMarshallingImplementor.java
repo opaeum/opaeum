@@ -6,7 +6,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.Java6ModelGenerator;
@@ -49,9 +49,16 @@ public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void visitOperation(INakedOperation o){
 		OJAnnotatedClass i = implementInvoker(o);
+		if(o.getMappingInfo().requiresJavaRename()){
+			deleteClass(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, new OJPathName(o.getOwner().getMappingInfo().getOldQualifiedJavaName().toLowerCase() + "." + getOldInvokerName(o)+ "Mdb") );
+		}
+
 		implementListener(o, i.getPathName(), new OJPathName("org.nakeduml.environment.adaptor.AbstractAsyncInvoker"));
 	}
 	private OJAnnotatedClass implementInvoker(INakedOperation o){
+		if(o.getMappingInfo().requiresJavaRename()){
+			deleteClass(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, new OJPathName(o.getOwner().getMappingInfo().getOldQualifiedJavaName().toLowerCase() + "." + getOldInvokerName(o)));
+		}
 		OJAnnotatedClass invoker = new OJAnnotatedClass(getInvokerName(o));
 		invoker.addToImplementedInterfaces(new OJPathName(MethodInvoker.class.getName()));
 		findOrCreatePackage(OJUtil.packagePathname(o.getOwner())).addToClasses(invoker);
@@ -70,7 +77,7 @@ public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 				argConstr.getBody().addToStatements(m.setter() + "(" + m.umlName() + ")");
 			}
 		}
-		createTextPath(invoker, JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
+		createTextPath(invoker, JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 		addMarshallingImports(invoker);
 		invoker.addToOperations(buildMarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters()));
 		invoker.addToOperations(buildUnmarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters()));
@@ -122,12 +129,18 @@ public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 	private String getInvokerName(INakedOperation o){
 		return o.getOwner().getMappingInfo().getJavaName().getAsIs() + o.getMappingInfo().getJavaName().getCapped() + o.getMappingInfo().getNakedUmlId() + "Invoker";
 	}
+	private String getOldInvokerName(INakedOperation o){
+		return o.getOwner().getMappingInfo().getOldJavaName().getAsIs() + o.getMappingInfo().getOldJavaName().getCapped() + o.getMappingInfo().getNakedUmlId() + "Invoker";
+	}
 	private void implementMarshaller(INakedSignal s){
+		if(s.getMappingInfo().requiresJavaRename()){
+			deleteClass(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, new OJPathName(s.getMappingInfo().getOldQualifiedJavaName()+"Marshaller"));
+		}
 		List<? extends INakedTypedElement> effectiveAttributes = s.getEffectiveAttributes();
 		OJAnnotatedClass marshaller = new OJAnnotatedClass(s.getMappingInfo().getJavaName() + "Marshaller");
 		marshaller.addToImplementedInterfaces(new OJPathName(SignalMarshaller.class.getName()));
 		findOrCreatePackage(OJUtil.packagePathname(s.getNameSpace())).addToClasses(marshaller);
-		createTextPath(marshaller, JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
+		createTextPath(marshaller, JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 		addMarshallingImports(marshaller);
 		OJPathName c = OJUtil.classifierPathname(s);
 		OJAnnotatedOperation marshall = buildMarshall(s, "signal", effectiveAttributes);
@@ -195,13 +208,16 @@ public class MessageMarshallingImplementor extends AbstractJavaProducingVisitor{
 		INakedElement e = ss;
 		OJPathName classifierPathname = OJUtil.classifierPathname(ss);
 		OJPathName superclass = new OJPathName("org.nakeduml.environment.adaptor.AbstractSignalMdb");
+		if(ss.getMappingInfo().requiresJavaRename()){
+			deleteClass(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, new OJPathName(ss.getMappingInfo().getOldQualifiedJavaName() + "Mdb"));
+		}
 		implementListener(e, classifierPathname, superclass);
 	}
 	private void implementListener(INakedElement e,OJPathName classifierPathname,OJPathName superclass){
 		OJAnnotatedClass mdb = new OJAnnotatedClass(classifierPathname.getLast() + "Mdb");
 		mdb.setSuperclass(superclass);
 		findOrCreatePackage(OJUtil.packagePathname(e.getNameSpace())).addToClasses(mdb);
-		createTextPath(mdb, JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
+		createTextPath(mdb, JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 		mdb.addToImplementedInterfaces(new OJPathName("javax.jms.MessageListener"));
 		OJAnnotatedOperation onMessage = new OJAnnotatedOperation("onMessage");
 		onMessage.addToParameters(new OJAnnotatedParameter("msg", new OJPathName("javax.jms.Message")));

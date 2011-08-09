@@ -46,14 +46,14 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		String resourceUri = UmlUimLinks.getId(a);
+		String resourceUri = workspace.getId(a);
 		UimForm form = getFormFor(resourceUri, "uim");
 		ActionTaskForm atf = null;
 		if(regenerate || form.getPanel() == null){
 			atf = FormFactory.eINSTANCE.createActionTaskForm();
 			initForm(form, a, atf);
 			// TODO make input entities editable through inputs tab per entity
-			FormCreator fc = new FormCreator(atf);
+			FormCreator fc = new FormCreator(umlCache, atf);
 			ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 			pins.addAll(a.getOutputs());
 			fc.prepareFormPanel("Task: " + NameConverter.separateWords(a.getName()), pins);
@@ -75,14 +75,14 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	private void createClassForm(Class c,EntityFolder folder,ActionKind...actionKinds){
 		String suffix = actionKinds[0] == ActionKind.UPDATE ? "Editor" : "Creator";
-		String resourceUri = UmlUimLinks.getId(c) + suffix;
+		String resourceUri = workspace.getId(c) + suffix;
 		UimForm form = getFormFor(resourceUri, "uim");
 		ClassForm panel;
 		if(regenerate || form.getPanel() == null){
 			panel = FormFactory.eINSTANCE.createClassForm();
 			initForm(form, c, panel);
 			panel.setName(c.getName() + suffix);
-			FormCreator fc = new FormCreator(panel);
+			FormCreator fc = new FormCreator(umlCache,panel);
 			Collection<Property> allAttributes = UmlUimLinks.getInstance(form).getOwnedAttributes(c);
 			fc.prepareFormPanel((actionKinds[0] == ActionKind.UPDATE ? "Edit " : "Create") + NameConverter.separateWords(c.getName()), allAttributes);
 			fc.addButtonBar(actionKinds);
@@ -95,14 +95,14 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	public void beforeOperation(Operation o){
 		EntityFolder ef = (EntityFolder) getFolderFor(o.getClass_());
 		if(UimUtil.isTask(o)){
-			String resourceUri = UmlUimLinks.getId(o) + "Task";
+			String resourceUri = workspace.getId(o) + "Task";
 			UimForm form = getFormFor(resourceUri, "uim");
 			OperationTaskForm otf;
 			if(regenerate || form.getPanel() == null){
 				otf = FormFactory.eINSTANCE.createOperationTaskForm();
 				initForm(form, o, otf);
 				// TODO make input entities editable through inputs tab per entity
-				FormCreator fc = new FormCreator(otf);
+				FormCreator fc = new FormCreator(umlCache,otf);
 				fc.prepareFormPanel("Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 				fc.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.SUSPEND_TASK);
 				otf.setFolder(ef);
@@ -112,14 +112,14 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			}
 		}
 		// TODO generate table Panels for multi output parameters and detail panels for single output parameters
-		String resourceUri = UmlUimLinks.getId(o) + "Invoker";
+		String resourceUri = workspace.getId(o) + "Invoker";
 		UimForm form = getFormFor(resourceUri, "uim");
 		OperationInvocationForm oif;
 		if(regenerate || form.getPanel() == null){
 			oif = FormFactory.eINSTANCE.createOperationInvocationForm();
 			initForm(form, o, oif);
 			// TODO make input entities editable through inputs tab per entity
-			FormCreator fc = new FormCreator(oif);
+			FormCreator fc = new FormCreator(umlCache,oif);
 			fc.prepareFormPanel("Invoke: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 			fc.addButtonBar(ActionKind.EXECUTE_OPERATION, ActionKind.BACK);
 			oif.setFolder(ef);
@@ -130,7 +130,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeState(State s){
-		String resourceUri = UmlUimLinks.getId(s);
+		String resourceUri = workspace.getId(s);
 		StateMachine sm = EmfStateMachineUtil.getStateMachine(s);
 		StateMachineFolder smf = (StateMachineFolder) getFolderFor(sm);
 		UimForm form = getFormFor(resourceUri, "uim");
@@ -139,7 +139,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			sf = FormFactory.eINSTANCE.createStateForm();
 			initForm(form, s, sf);
 			// TODO make input entities editable through inputs tab per entity
-			FormCreator fc = new FormCreator(sf);
+			FormCreator fc = new FormCreator(umlCache,sf);
 			EList<Property> allAttributes;
 			if(sm.getContext() != null && sm.getContext().getClassifierBehavior() == sm){
 				allAttributes = sm.getContext().getAllAttributes();
@@ -156,7 +156,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	private void initForm(UimForm form,NamedElement a,FormPanel sf){
 		form.setPanel(sf);
-		sf.setUmlElementUid(UmlUimLinks.getId(a));
+		sf.setUmlElementUid(workspace.getId(a));
 		sf.setName(a.getName());
 	}
 	private UimForm getFormFor(String id,String extenstion){

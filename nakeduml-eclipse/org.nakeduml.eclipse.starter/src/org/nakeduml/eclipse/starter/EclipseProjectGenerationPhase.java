@@ -20,21 +20,29 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 	@InputModel
 	TextWorkspace textWorkspace;
 	private NakedUmlConfig config;
+	private List<EclipseProjectGenerationStep> features;
 	@Override
-	public void initialize(NakedUmlConfig config){
+	public void initialize(NakedUmlConfig config, List<EclipseProjectGenerationStep> features){
 		this.config = config;
+		this.features=features;
 		workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		for(EclipseProjectGenerationStep step:features){
+			step.initialize(workspaceRoot, config);
+		}
 	}
 	@Override
-	public Object[] execute(List<EclipseProjectGenerationStep> features,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(EclipseProjectGenerationStep step:features){
 			step.initialize(workspaceRoot, config);
 			step.startVisiting(textWorkspace);
 		}
-		return new Object[]{workspaceRoot};
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<TextOutputNode> elements){
 		return elements;
+	}
+	@Override
+	public Collection<EclipseProjectGenerationStep> getSteps(){
+		return features;
 	}
 }

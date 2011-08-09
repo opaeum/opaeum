@@ -3,7 +3,7 @@ package net.sf.nakeduml.tests;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
 import net.sf.nakeduml.javageneration.testgeneration.ArquillianTestJavaGenerator;
 
@@ -18,8 +18,8 @@ public class AbstractTestCodeGenerator extends MavenProjectCodeGenerator{
 		super(outputRoot, modelDirectory);
 	}
 	@Override
-	protected Set<Class<? extends TransformationStep>> getSteps(){
+	protected Set<Class<? extends ITransformationStep>> getSteps(){
 		return toSet(PersistenceUsingHibernate.class, ExtendedCompositionSemantics.class, OclExpressionExecution.class, StereotypeApplicationExtractor.class,
-				BpmUsingJbpm5.class, ArquillianTestJavaGenerator.class, WarBootstrapStep.class);
+				BpmUsingJbpm5.class, WarBootstrapStep.class);
 	}
 }

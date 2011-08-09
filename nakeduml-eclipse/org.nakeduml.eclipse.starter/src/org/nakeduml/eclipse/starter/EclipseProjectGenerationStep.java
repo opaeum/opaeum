@@ -1,5 +1,7 @@
 package org.nakeduml.eclipse.starter;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,15 +12,22 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.filegeneration.AbstractTextNodeVisitor;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextDirectory;
+import net.sf.nakeduml.textmetamodel.TextFile;
+import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
 
+import org.eclipse.core.internal.resources.Folder;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
@@ -29,12 +38,13 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.LibraryLocation;
+import org.eclipse.uml2.uml.Element;
 
 @StepDependency(phase = EclipseProjectGenerationPhase.class)
-public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implements TransformationStep{
+public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implements ITransformationStep{
 	IWorkspaceRoot root;
 	NakedUmlConfig config;
-	private boolean isNewProject=false;
+	boolean isTopToBottom = false;
 	public IWorkspaceRoot getRoot(){
 		return root;
 	}
@@ -42,7 +52,8 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 		this.root = root;
 	}
 	@VisitBefore()
-	public void visitProject(TextProject tp){
+	public IProject visitProject(TextProject tp){
+		this.isTopToBottom = true;
 		try{
 			IProject project = root.getProject(tp.getName());
 			if(!project.exists()){
@@ -51,23 +62,13 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 				description.setLocation(path);
 				project.create(description, null);
 				project.open(null);
-				Set<String> natureSet = new HashSet<String>(Arrays.asList(description.getNatureIds()));
-				natureSet.add(JavaCore.NATURE_ID);
-//				natureSet.add("org.maven.ide.eclipse.maven2Nature");
-				description.setNatureIds((String[]) natureSet.toArray(new String[natureSet.size()]));
-				project.setDescription(description, null);
-				IJavaProject javaProject = JavaCore.create(project);
-//				IFolder binFolder = createFolder(project, "target", "classes");
-//				javaProject.setOutputLocation(binFolder.getFullPath(), null);
-//				List<IClasspathEntry> entries = new ArrayList<IClasspathEntry>();
-//				IVMInstall vmInstall = JavaRuntime.getDefaultVMInstall();
-//				LibraryLocation[] locations = JavaRuntime.getLibraryLocations(vmInstall);
-//				for(LibraryLocation location:locations){
-//					entries.add(JavaCore.newLibraryEntry(location.getSystemLibraryPath(), null, null));
-//				}
-//				// add libs to project class path
-//				javaProject.setRawClasspath(entries.toArray(new IClasspathEntry[entries.size()]), null);
+				// Set<String> natureSet = new HashSet<String>(Arrays.asList(description.getNatureIds()));
+				// natureSet.add(JavaCore.NATURE_ID);
+				// description.setNatureIds((String[]) natureSet.toArray(new String[natureSet.size()]));
+				// project.setDescription(description, null);
+				// IJavaProject javaProject = JavaCore.create(project);
 			}
+			return project;
 		}catch(RuntimeException e){
 			throw e;
 		}catch(CoreException e){
@@ -75,31 +76,30 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 		}
 	}
 	@VisitBefore()
-	public void visitSourceFolder(SourceFolder sf){
-		if(isNewProject){
-			try{
-				// TODO this is useless - figure out how to do this with Maven plugin
-				IProject project = root.getProject(sf.getParent().getName());
-				IJavaProject javaProject = JavaCore.create(project);
-				List<IClasspathEntry> asList = Arrays.asList(javaProject.getRawClasspath());
-				Map<String,IClasspathEntry> map = new HashMap<String,IClasspathEntry>();
-				for(IClasspathEntry e:asList){
-					map.put(e.getPath().toString(), e);
+	public void visitTextDir(TextDirectory td) throws CoreException{
+		IProject project = root.getProject(td.getSourceFolder().getParent().getName());
+		IFolder folder = project.getFolder(td.getRelativePath());
+		if(td.shouldDelete() && folder.exists()){
+			folder.delete(true, null);
+		}else if(!folder.exists() && td.hasContent()){
+			folder.create(true, true, null);
+		}else if(folder.exists()){
+			deleteUnkownMembers(td, folder);
+		}
+	}
+	private void deleteUnkownMembers(TextDirectory td,IFolder folder) throws CoreException{
+		if(td.getSourceFolder().shouldClean() && isTopToBottom){
+			for(IResource child:folder.members()){
+				if(td.getSourceFolder().shouldClean() && !td.hasChild(child.getName())){
+					child.delete(true, null);
 				}
-				IFolder srcMainJava = createFolder(project, sf.getRelativePath().split("/"));
-				IClasspathEntry nred = JavaCore.newSourceEntry(javaProject.getPackageFragmentRoot(srcMainJava).getPath());
-				map.put(nred.getPath().toString(), nred);
-				javaProject.setRawClasspath((IClasspathEntry[]) map.values().toArray(new IClasspathEntry[map.size()]), null);
-			}catch(RuntimeException e){
-				throw e;
-			}catch(JavaModelException e){
-				throw new RuntimeException(e);
-			}catch(CoreException e){
-				throw new RuntimeException(e);
 			}
 		}
 	}
-	private IFolder createFolder(IProject project,String...string) throws CoreException{
+	@VisitBefore()
+	public void visitSourceFolder(SourceFolder sf) throws CoreException{
+		IProject project = root.getProject(sf.getSourceFolder().getParent().getName());
+		String[] string = sf.getRelativePath().replace('/', '~').split("~");
 		IFolder sourceFolder = project.getFolder(string[0]);
 		if(!sourceFolder.exists()){
 			sourceFolder.create(false, true, null);
@@ -110,10 +110,41 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 				sourceFolder.create(false, true, null);
 			}
 		}
-		return sourceFolder;
+		deleteUnkownMembers(sf, sourceFolder);
+	}
+	@VisitBefore()
+	public void visitTextFile(TextFile tf) throws CoreException{
+		IProject project = root.getProject(tf.getParent().getSourceFolder().getParent().getName());
+		IFolder folder = project.getFolder(tf.getParent().getRelativePath());
+		IFile file = folder.getFile(tf.getName());
+		if(file.exists()){
+			if(tf.hasContent()){
+				file.setContents(getContents(tf), true, false, null);
+			}else{
+				file.delete(true, false, null);
+			}
+		}else if(tf.hasContent()){
+			file.create(getContents(tf), true, null);
+		}
+	}
+	public ByteArrayInputStream getContents(TextFile tf){
+		return new ByteArrayInputStream(new String(tf.getTextSource().toCharArray()).getBytes());
 	}
 	public void initialize(IWorkspaceRoot workspaceRoot,NakedUmlConfig config){
 		this.root = workspaceRoot;
 		this.config = config;
+	}
+	protected void visitParentsRecursively(TextOutputNode node){
+		if(node != null){
+			visitParentsRecursively(node.getParent());
+			for(VisitSpec v:beforeMethods){
+				maybeVisit(node, v);
+			}
+		}
+	}
+	public void visitUpFirst(TextOutputNode element){
+		this.isTopToBottom = false;
+		visitParentsRecursively(element.getParent());
+		visitOnly(element);
 	}
 }

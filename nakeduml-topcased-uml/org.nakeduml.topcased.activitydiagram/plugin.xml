@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
+ 	<extension
+          point="org.eclipse.ui.popupMenus">
+        <objectContribution
+             id="org.nakeduml.topcased.activitydiagram.actions.action"
+             objectClass="org.topcased.modeler.uml.activitydiagram.edit.ActionEditPart">
+          <action
+                class="org.nakeduml.topcased.activitydiagram.actions.DisplayPins"
+                enablesFor="*"
+                id="org.nakeduml.topcased.activitydiagram.actions.DisplayPins"
+                label="Display Pins"
+                menubarPath="org.nakeduml.outline.menu">
+          </action>         
+       </objectContribution>
+    </extension>
 
 	<extension point="org.topcased.modeler.diagrams">
 		<diagram 
@@ -93,6 +107,15 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
 			<propertySection
+				id="org.nakeduml.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
+				class="org.nakeduml.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
+				tab="org.nakeduml.eclipse.numlTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+				filter="org.nakeduml.topcased.activitydiagram.filters.OclOpaqueActionFilter">
+				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+			</propertySection>
+		
+			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
 				tab="org.nakeduml.eclipse.postconditionsTab">
@@ -119,13 +142,13 @@
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
-			<propertySection
+			<!--propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.DisplayPinsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.DisplayPinsSection"
 				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
 				<input type="org.eclipse.uml2.uml.Action"/>
-			</propertySection>
+			</propertySection-->
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
@@ -1566,7 +1589,7 @@ The graphic parent is the ActivityPartitionEditPart whose representation area co
 	               name="Lowest">
 	         </Priority>
 	         <object
-	               class="org.eclipse.uml2.uml.CallBehaviorAction(org.eclipse.uml2.uml)"
+	               class="org.eclipse.uml2.uml.CallBehaviorAction"
 	               id="CallBehaviorAction">
 	         </object>
 	         <context
@@ -1645,7 +1668,6 @@ The graphic parent is the ActivityPartitionEditPart whose representation area co
           point="org.topcased.modeler.orderSerialization">
        <OrderAlgorithm
              algorithm="org.topcased.modeler.uml.activitydiagram.utils.ActivityOrderingAlgorithm"
-             eclassMatched="org.eclipse.uml2.uml.Activity"
              name="Order Activity contents"
              priority="MIDDLE">
        </OrderAlgorithm>

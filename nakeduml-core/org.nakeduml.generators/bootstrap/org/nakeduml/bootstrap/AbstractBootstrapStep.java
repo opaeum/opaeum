@@ -6,28 +6,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import net.sf.nakeduml.feature.TransformationStep;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
-import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
+import net.sf.nakeduml.feature.ISourceFolderIdentifier;
+import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 
 import org.nakedum.velocity.AbstractTextProducingVisitor;
 
-public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements TransformationStep {
+public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements ITransformationStep {
 	protected INakedModel currentModel;
 
 
-	protected void createConfig(String name, OutputRootId outputRootId) {
+	protected void createConfig(String name, TextSourceFolderIdentifier outputRootId) {
 		CharArrayWriter outputBuilder = copyResource(name);
 		findOrCreateTextFile(outputBuilder, outputRootId, name);
 	}
 
 	protected void createDefaultHtmlPages(String name) {
 		final CharArrayWriter outputBuilder = copyResource(name);
-		findOrCreateTextFile(outputBuilder, CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, name);
+		findOrCreateTextFile(outputBuilder, TextSourceFolderIdentifier.WEBAPP_RESOURCE, name);
 	}
 
-	protected void createConfig(String name, Enum<?> outputRootId, String dir) {
+	protected void createConfig(String name, ISourceFolderIdentifier outputRootId, String dir) {
 		CharArrayWriter outputBuilder = copyResource(name);
 		findOrCreateTextFile(outputBuilder, outputRootId, dir, name);
 	}
@@ -48,4 +49,5 @@ public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor
 		}
 		return outputBuilder;
 	}
+
 }

@@ -3,6 +3,8 @@ package net.sf.nakeduml.metamodel.mapping.internal;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
+
 public class MappingInfoImpl extends AbstractMappingInfo{
 	private static final long serialVersionUID = -3340080927536252411L;
 	private static final String DEL = "~";
@@ -10,7 +12,6 @@ public class MappingInfoImpl extends AbstractMappingInfo{
 	private Integer sinceRevision;
 	private Float sinceVersion;
 	private Integer nakedUmlId;
-	private String persitentNameString;
 	private String qualifiedPersistentName;
 	public String getIdInModel(){
 		return idInModel;
@@ -36,25 +37,19 @@ public class MappingInfoImpl extends AbstractMappingInfo{
 	public void setNakedUmlId(Integer nakedUmlId){
 		this.nakedUmlId = nakedUmlId;
 	}
-	public String getSqlNameString(){
-		return persitentNameString;
-	}
-	public void setSqlNameString(String sqlNameString){
-		this.persitentNameString = sqlNameString;
-	}
 	public MappingInfoImpl(String idInModel,String values){
 		this.idInModel = idInModel;
 		Scanner scanner = new Scanner(values).useDelimiter(DEL);
 		this.sinceRevision = scanner.nextInt();
 		this.sinceVersion = scanner.nextFloat();
 		this.nakedUmlId = scanner.nextInt();
-		this.persitentNameString = scanner.next();
+		super.setPersistentName(new SingularNameWrapper(scanner.next(),null));
 		this.qualifiedPersistentName = scanner.next();
 	}
 	public MappingInfoImpl(){
 	}
 	public String toString(){
-		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + persitentNameString + DEL 
+		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL 
 				+ qualifiedPersistentName+DEL;
 	}
 	public static void main(String[] args){

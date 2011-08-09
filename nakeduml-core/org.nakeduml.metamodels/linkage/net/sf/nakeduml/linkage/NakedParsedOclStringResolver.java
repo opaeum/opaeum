@@ -71,6 +71,7 @@ import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.oclengine.internal.OclErrContextImpl;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
+import nl.klasse.octopus.stdlib.internal.types.OclLibraryImpl;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
@@ -284,7 +285,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		replaceParsedOclConstraints(ctx, a.getPreConditions(), inside);
 		if(a instanceof INakedOclAction){
 			INakedOclAction oa = (INakedOclAction) a;
-			if(oa.getReturnPin() != null && oa.getBodyExpression() != null){
+			if(oa.getBodyExpression() != null){
 				Collection<INakedInputPin> input = oa.getInput();
 				// FIrst do value pins to calculate type
 				for(INakedInputPin pin:input){
@@ -294,9 +295,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				}
 				ParsedOclString expression = (ParsedOclString) oa.getBodyExpression();
 				expression.setContext(ctx, oa);
-				IOclContext newExpression = replaceSingleParsedOclString(expression, ctx, oa.getReturnPin().getType(), inside);
+				IClassifier type = oa.getReturnPin()==null?getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName): oa.getReturnPin().getType();
+				IOclContext newExpression = replaceSingleParsedOclString(expression, ctx, type, inside);
 				oa.setBodyExpression(newExpression);
-				if(newExpression instanceof OclContextImpl){
+				if(newExpression instanceof OclContextImpl && oa.getReturnPin()!=null){
 					overridePinType(oa.getReturnPin(), newExpression.getExpression().getExpressionType());
 				}
 			}
@@ -434,7 +436,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 			errCtx.setExpressionString(holder.getExpressionString());
 			return errCtx;
-		}catch(Exception e){
+		}catch(Throwable e){
 			System.out.println(holder.getExpressionString());
 			if(localErrors.size() > 0){
 				for(IOclError oe:localErrors){
@@ -455,8 +457,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		Integer column=e.getError().getColumnNumber();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg,column);
 	}
-	private void putError(ParsedOclString holder,Exception e){
-		this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, e.toString());
+	private void putError(ParsedOclString holder,Throwable e){
+		INakedElement ne = (INakedElement)holder.getOwningModelElement().getModelElement();
+		String msg = e.getMessage();
+		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg,1);
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();

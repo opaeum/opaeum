@@ -7,7 +7,7 @@ import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 
 import org.eclipse.emf.common.util.URI;
@@ -18,21 +18,25 @@ import org.eclipse.uml2.uml.Namespace;
 import org.nakeduml.uim.folder.AbstractFolder;
 import org.nakeduml.uim.util.UmlUimLinks;
 
-public class AbstractUimSynchronizer extends EmfElementVisitor implements TransformationStep{
-	ResourceSet uimRst;
+public class AbstractUimSynchronizer extends EmfElementVisitor implements ITransformationStep{
+	protected ResourceSet uimRst;
 	protected boolean regenerate;
 	protected UmlUimLinks links;
+	protected UmlElementCache umlCache;
+	protected EmfWorkspace workspace;
+
 	public AbstractUimSynchronizer(){
 	}
 	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate,UmlElementCache map){
-		super.workspace = workspace;
+		this.workspace = workspace;
 		init(workspace,resourceSet,  regenerate,map);
 	}
 	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b, UmlElementCache map){
-		super.workspace=workspace;
+		this.workspace=workspace;
 		this.regenerate = b;
 		this.uimRst = uimRst;
 		links=new UmlUimLinks(map);
+		this.umlCache=map;
 	}
 	protected void visitParentsRecursively(Element parent){
 		if(parent != null){

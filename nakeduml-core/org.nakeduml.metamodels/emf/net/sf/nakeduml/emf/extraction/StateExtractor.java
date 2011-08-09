@@ -2,6 +2,7 @@ package net.sf.nakeduml.emf.extraction;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.StateKind;
@@ -21,7 +22,7 @@ public class StateExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
 	public void visitStateMachine(StateMachine esm, NakedStateMachineImpl nsm){
 		if(esm.getContext() != null && esm.equals(esm.getContext().getClassifierBehavior())){
-			INakedEntity ctx = (INakedEntity) getNakedPeer(esm.getContext());
+			INakedBehavioredClassifier ctx = (INakedBehavioredClassifier) getNakedPeer(esm.getContext());
 			ctx.setClassifierBehavior(nsm);
 		}
 	}

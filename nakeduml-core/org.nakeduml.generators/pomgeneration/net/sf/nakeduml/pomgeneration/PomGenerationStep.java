@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
+import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.OutputRoot;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.model.IImportedElement;
@@ -22,12 +23,15 @@ import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
-public abstract class PomGenerationStep implements TransformationStep{
+public abstract class PomGenerationStep implements ITransformationStep{
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected NakedUmlConfig config;
 	protected INakedModelWorkspace workspace;
 	protected INakedRootObject model;
-	protected abstract OutputRoot getExampleTargetDir();
+	protected abstract SourceFolderDefinition getExampleTargetDir();
+	public boolean isIntegrationStep(){
+		return false;
+	}
 	public void initialize(NakedUmlConfig config,INakedModelWorkspace workspace){
 		this.config = config;
 		this.workspace = workspace;
@@ -138,7 +142,7 @@ public abstract class PomGenerationStep implements TransformationStep{
 		dependency.setScope("test");
 		dependencies.add(dependency);
 	}
-	// TODO move to WarPomStep when we have figured out how to do integreation
+	// TODO move to BasicWarPomStep when we have figured out how to do integreation
 	// tests from an ejb
 	protected void addSeamServlet(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
@@ -232,31 +236,42 @@ public abstract class PomGenerationStep implements TransformationStep{
 		result.add(testNg);
 		return result;
 	}
-	protected Collection<Dependency> getBasicDependencies(String projectSuffix){
+	protected Collection<Dependency> getBasicDependencies(ISourceFolderIdentifier identifier){
 		Collection<Dependency> result = getTestDepedencies();
 		if(getExampleTargetDir().useWorkspaceName()){
 		}else{
 			Collection<IImportedElement> imports = this.model.getImports();
 			for(IImportedElement imp:imports){
 				if(imp.getElement() instanceof INakedRootObject){
-					addDependencyToRootObject(projectSuffix, (INakedRootObject) imp.getElement(), result);
+					addDependencyToRootObject(identifier, (INakedRootObject) imp.getElement(), result);
 				}
 			}
 		}
 		return result;
 	}
-	protected void addDependencyToRootObject(String projectSuffix,INakedRootObject rootObject,Collection<Dependency> result){
-		if(workspace.isPrimaryModel(rootObject)){
+	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,INakedRootObject rootObject,Collection<Dependency> result){
+		SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
+		if(sourceFolderDefinition.useWorkspaceName()){
 			Dependency d = POMFactory.eINSTANCE.createDependency();
 			d.setGroupId(config.getMavenGroupId());
-			d.setArtifactId(rootObject.getIdentifier() + projectSuffix);
 			d.setVersion(getVersionVariable());
 			d.setScope("compile");
 			d.setType("jar");
+			d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
 			result.add(d);
 		}else{
-			// TODO Model level stereotype, or numlconfig.properties get group
-			// id and version artifactid=filename
+			if(workspace.isPrimaryModel(rootObject)){
+				Dependency d = POMFactory.eINSTANCE.createDependency();
+				d.setGroupId(config.getMavenGroupId());
+				d.setVersion(getVersionVariable());
+				d.setScope("compile");
+				d.setType("jar");
+				d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
+				result.add(d);
+			}else{
+				// TODO Model level stereotype, or numlconfig.properties get group
+				// id and version artifactid=filename
+			}
 		}
 	}
 	public Profile createArquillianProfile(){

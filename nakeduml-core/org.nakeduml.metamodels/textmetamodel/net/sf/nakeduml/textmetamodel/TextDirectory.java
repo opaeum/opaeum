@@ -9,6 +9,10 @@ public class TextDirectory extends TextOutputNode{
 	public TextDirectory(TextOutputNode parent,String name){
 		super(parent, name);
 	}
+	public TextDirectory(TextOutputNode parent,String name,boolean delete){
+		super(parent, name);
+		super.shouldDelete = delete;
+	}
 	public TextDirectory(){
 		super(null, "root");
 	}
@@ -18,21 +22,47 @@ public class TextDirectory extends TextOutputNode{
 	public SourceFolder getSourceFolder(){
 		return ((TextDirectory) getParent()).getSourceFolder();
 	}
-	public TextFile findOrCreateTextFile(List<String> path,TextSource source,  boolean overwrite){
+	public TextFile findOrCreateTextFile(List<String> path,TextSource source,boolean overwrite){
 		TextOutputNode root = findNode(path.get(0));
 		if(path.size() == 1){
 			if(root == null){
-				root = new TextFile(this, path.get(0), source,overwrite);
+				root = new TextFile(this, path.get(0), source, overwrite);
 				children.add(root);
+			}else{
+				root.restore();
 			}
 			return (TextFile) root;
 		}else{
 			if(root == null){
 				root = new TextDirectory(this, path.get(0));
 				children.add(root);
+			}else{
+				root.restore();
 			}
-			return ((TextDirectory) root).findOrCreateTextFile(path.subList(1, path.size()), source,overwrite);
+			return ((TextDirectory) root).findOrCreateTextFile(path.subList(1, path.size()), source, overwrite);
 		}
+	}
+	public TextOutputNode markNodeForDeletion(List<String> path,boolean targetIsFile){
+		TextOutputNode root = findNode(path.get(0));
+		if(path.size() == 1){
+			if(root == null){
+				if(targetIsFile){
+					root = new TextFile(this, path.get(0));
+				}else{
+					root = new TextDirectory(this, path.get(0), true);
+				}
+				children.add(root);
+			}else{
+				root.markForDeletion();
+			}
+		}else{
+			if(root == null){
+				root = new TextDirectory(this, path.get(0), false);
+				children.add(root);
+			}
+			root = ((TextDirectory) root).markNodeForDeletion(path.subList(1, path.size()), targetIsFile);
+		}
+		return root;
 	}
 	private TextOutputNode findNode(String name){
 		for(TextOutputNode n:children){

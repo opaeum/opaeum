@@ -7,7 +7,6 @@ import java.util.Map;
 
 import net.sf.nakeduml.emf.workspace.UmlElementCache;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -34,10 +33,17 @@ import org.nakeduml.uim.form.OperationTaskForm;
 import org.nakeduml.uim.form.StateForm;
 
 public class UmlUimLinks{
+	public static UmlUimLinks getCurrentLinks(){
+		return currentLinks;
+	}
+	private static UmlUimLinks currentLinks;
+
 	private static Map<ResourceSet,UmlUimLinks> instances = new HashMap<ResourceSet,UmlUimLinks>();
 	Collection<UmlElementCache> maps = new ArrayList<UmlElementCache>();
+	private UmlElementCache primaryUmlElementCache;
 	public UmlUimLinks(UmlElementCache map){
 		maps.add(map);
+		this.primaryUmlElementCache=map;
 	}
 	public Element getUmlElement(UmlReference uIMBinding){
 		return getLink(uIMBinding);
@@ -84,8 +90,8 @@ public class UmlUimLinks{
 	public Collection<Property> getOwnedAttributes(Classifier class1){
 		return (Collection) EmfElementFinder.getPropertiesInScope(class1);
 	}
-	public static String getId(Element e){
-		return UmlElementCache.getId(e);
+	public String getId(Element e){
+		return primaryUmlElementCache.getId(e);
 	}
 	public static void associate(ResourceSet uimRst,UmlElementCache umlElementMap){
 		UmlUimLinks col = instances.get(uimRst);
@@ -95,6 +101,8 @@ public class UmlUimLinks{
 		}else{
 			col.maps.add(umlElementMap);
 		}
+		currentLinks=col;
+
 	}
 	public static UmlUimLinks getInstance(UserInteractionElement eObject){
 		return instances.get(eObject.eResource().getResourceSet());

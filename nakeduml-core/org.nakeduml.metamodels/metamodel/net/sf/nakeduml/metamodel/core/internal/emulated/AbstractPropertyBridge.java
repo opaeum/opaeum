@@ -17,6 +17,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 
 public abstract class AbstractPropertyBridge extends EmulatingElement implements INakedProperty{
 	protected INakedClassifier owner;
+	protected boolean isComposite;
 
 	public AbstractPropertyBridge(INakedClassifier owner, INakedElement element){
 		super(element);
@@ -66,7 +67,7 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 	}
 
 	public boolean isComposite(){
-		return false;
+		return this.isComposite;
 	}
 
 	public boolean isDerived(){

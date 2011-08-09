@@ -212,9 +212,9 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	public INakedMessageStructure getMessageStructure(){
 		return messageStructure;
 	}
-	public void initMessageStructure(NakedUmlLibrary lib){
+	public void initMessageStructure(){
 		if(this.messageStructure == null){
-			this.messageStructure = new OperationMessageStructureImpl(this, lib);
+			this.messageStructure = new OperationMessageStructureImpl(this);
 		}
 	}
 	@Override

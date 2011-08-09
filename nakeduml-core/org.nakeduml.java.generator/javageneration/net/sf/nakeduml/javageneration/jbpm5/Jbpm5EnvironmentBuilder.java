@@ -3,12 +3,13 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
-import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
@@ -25,8 +26,8 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-@StepDependency(phase = JavaTransformationPhase.class, requires = {ProcessIdentifier.class,TextFileGenerator.class}, after = {})
-public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
+@StepDependency(phase = JavaTransformationPhase.class, requires = {ProcessIdentifier.class}, after = {})
+public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static class ProcessCollector extends VisitorAdapter<INakedElement,INakedModel>{
 		private Collection<INakedBehavior> processes = new ArrayList<INakedBehavior>();
 		public ProcessCollector(Collection<? extends INakedElement> roots){
@@ -51,28 +52,24 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 		}
 	}
 	public Jbpm5EnvironmentBuilder(){
-		this(false);//default non-integration phase
-	}
-	public Jbpm5EnvironmentBuilder(boolean isIntegrationPhase){
-		this.isIntegrationPhase = isIntegrationPhase;
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationPhase){
+		if(isIntegrationPhase()){
 			OJPathName pn = new OJPathName(config.getMavenGroupId() + ".util.jbpm.adaptor");
-			createJbpmKnowledgeBase(pn, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC, visitModels(workspace.getOwnedElements()).getProcesses());
+			createJbpmKnowledgeBase(pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, visitModels(workspace.getOwnedElements()).getProcesses());
 			JpaUtil.addNamedQueries(findOrCreatePackage(HibernateUtil.getHibernatePackage(true)), "ProcessInstancesWaitingForEvent",
 					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model){
-		if(!isIntegrationPhase){
+		if(!isIntegrationPhase()){
 			OJPathName adaptorUtilPathname = UtilityCreator.getUtilPathName().append("jbpm").append("adaptor");
 			ProcessCollector visitor = visitModels(getModelInScope());
-			createJbpmKnowledgeBase(adaptorUtilPathname, OutputRootId.ADAPTOR_GEN_TEST_SRC, visitor.getProcesses());
+			createJbpmKnowledgeBase(adaptorUtilPathname, JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, visitor.getProcesses());
 			OJPathName domainUtilPathname = UtilityCreator.getUtilPathName().append("jbpm").append("domain");
-			createJbpmKnowledgeBase(domainUtilPathname, OutputRootId.DOMAIN_GEN_TEST_SRC, visitor.getProcesses());
+			createJbpmKnowledgeBase(domainUtilPathname, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, visitor.getProcesses());
 			JpaUtil.addNamedQueries(findOrCreatePackage(HibernateUtil.getHibernatePackage(true)), "ProcessInstancesWaitingForEvent",
 					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 			JpaUtil.addNamedQueries(findOrCreatePackage(HibernateUtil.getHibernatePackage(false)), "ProcessInstancesWaitingForEvent",
@@ -83,7 +80,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor{
 		ProcessCollector visitor = new ProcessCollector(roots);
 		return visitor;
 	}
-	private void createJbpmKnowledgeBase(OJPathName utilPathName,Enum<?> outputRootId,Collection<INakedBehavior> processes){
+	private void createJbpmKnowledgeBase(OJPathName utilPathName,ISourceFolderIdentifier outputRootId,Collection<INakedBehavior> processes){
 		OJAnnotatedClass jbpmKnowledgeBase = new OJAnnotatedClass("JbpmKnowledgeBase");
 		OJPackage utilPack = findOrCreatePackage(utilPathName);
 		utilPack.addToClasses(jbpmKnowledgeBase);

@@ -3,6 +3,7 @@ package net.sf.nakeduml.textmetamodel;
 public abstract class TextOutputNode{
 	protected TextOutputNode parent;
 	protected String name;
+	boolean shouldDelete;
 	protected TextOutputNode(TextOutputNode parent,String name){
 		this(name);
 		this.parent = parent;
@@ -18,4 +19,13 @@ public abstract class TextOutputNode{
 		return name;
 	}
 	public abstract boolean hasContent();
+	public void markForDeletion(){
+		shouldDelete = true;
+	}
+	public boolean shouldDelete(){
+		return shouldDelete;
+	}
+	public void restore(){
+		shouldDelete=false;
+	}
 }

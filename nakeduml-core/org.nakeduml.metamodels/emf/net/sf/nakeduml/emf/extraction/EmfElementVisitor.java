@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.Transition;
 
 public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace> {
 
+
 	@Override
 	public Collection<? extends Element> getChildren(Element root) {
 		Collection<Element> elements  = new HashSet<Element>(root.getOwnedElements());

@@ -14,7 +14,7 @@ public class EnumResolverImplementor extends AbstractEnumResolverImplementor{
 	@VisitBefore
 	public void visitEnumeration(INakedEnumeration e){
 		if(!e.getCodeGenerationStrategy().isNone()){
-			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals());
+			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals(),e.getMappingInfo().requiresJavaRename()?e.getMappingInfo().getOldQualifiedJavaName():null);
 		}
 	}
 }

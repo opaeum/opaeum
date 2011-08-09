@@ -452,7 +452,7 @@ abstract public class OJPackageGEN extends OJElement {
 			return;
 		}
 		if (this.f_subpackages.contains(element)) {
-			return;
+			this.f_subpackages.remove(element);
 		}
 		this.f_subpackages.add(element);
 		if (element.getParent() != null) {

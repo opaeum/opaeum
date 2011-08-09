@@ -113,4 +113,14 @@ public class EmulatingElement implements INakedElement{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public void markForDeletion(){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean isMarkedForDeletion(){
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

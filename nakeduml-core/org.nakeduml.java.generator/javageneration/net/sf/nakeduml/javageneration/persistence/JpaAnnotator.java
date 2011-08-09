@@ -186,6 +186,11 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	}
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = owner.findToString();
+		if(toString==null){
+			toString = new OJAnnotatedOperation("toString");
+			owner.addToOperations(toString);
+			toString.setReturnType(new OJPathName("String"));
+		}
 		toString.setBody(new OJBlock());
 		toString.setReturnType(new OJPathName("String"));
 		toString.setName("toString");

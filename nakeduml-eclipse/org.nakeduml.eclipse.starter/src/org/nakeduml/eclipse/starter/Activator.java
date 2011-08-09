@@ -2,6 +2,7 @@ package org.nakeduml.eclipse.starter;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.LoggerFactory;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -20,6 +21,7 @@ public class Activator extends AbstractUIPlugin {
 	public Activator() {
 		
 		try{
+			LoggerFactory.getLogger("asdf");
 			Object o = org.hibernate.type.EnumType.class.newInstance();
 		}catch(InstantiationException e){
 			// TODO Auto-generated catch block

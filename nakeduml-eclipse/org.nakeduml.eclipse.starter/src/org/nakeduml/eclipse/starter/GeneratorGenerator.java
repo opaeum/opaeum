@@ -4,10 +4,11 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
+import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -24,9 +25,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.name.NameConverter;
+import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
-public class GeneratorGenerator extends AbstractJavaProducingVisitor{
+public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
 		OJAnnotatedPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
@@ -41,24 +44,24 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor{
 		constr.addParam("modelFile", new OJPathName("String"));
 		c.addToConstructors(constr);
 		constr.getBody().addToStatements("super(outputRoot,modelFile)");
-		super.createTextPath(c, StarterCodeGenerator.OutputRootId.GENERATOR_SRC);
+		super.createTextPath(c, GeneratorSourceFolderIdentifier.GENERATOR_SRC);
 		c.setSuperclass(new OJPathName(MavenProjectCodeGenerator.class.getName()));
 		addMainOperation(c);
 		OJPathName setOfSteps = new OJPathName("java.util.Set");
 		OJPathName clazzPathName = new OJPathName("java.lang.Class");
-		OJPathName transStepPathName = new OJPathName(TransformationStep.class.getName());
+		OJPathName transStepPathName = new OJPathName(ITransformationStep.class.getName());
 		c.addToImports(transStepPathName);
-		clazzPathName.addToElementTypes(new OJPathName("? extends TransformationStep"));
+		clazzPathName.addToElementTypes(new OJPathName("? extends ITransformationStep"));
 		setOfSteps.addToElementTypes(clazzPathName);
-		addGetSteps(c, setOfSteps, StarterCodeGenerator.getBasicSteps(), "getSteps");
-		addGetSteps(c, setOfSteps, StarterCodeGenerator.getBasicIntegrationSteps(), "getIntegrationSteps");
+		addGetSteps(c, setOfSteps, JavaSourceSynchronizer.getBasicSteps(), "getSteps");
+		addGetSteps(c, setOfSteps, JavaSourceSynchronizer.getBasicIntegrationSteps(), "getIntegrationSteps");
 		return c;
 	}
-	private void addGetSteps(OJAnnotatedClass c,OJPathName setOfSteps,Set<Class<? extends TransformationStep>> set,String operNAme){
+	private void addGetSteps(OJAnnotatedClass c,OJPathName setOfSteps,Set<Class<? extends ITransformationStep>> set,String operNAme){
 		OJAnnotatedOperation getSteps = new OJAnnotatedOperation(operNAme, setOfSteps);
 		c.addToOperations(getSteps);
 		StringBuffer sb = new StringBuffer("return toSet(");
-		for(Class<? extends TransformationStep> class1:set){
+		for(Class<? extends ITransformationStep> class1:set){
 			sb.append(class1.getName() + ".class,");
 		}
 		sb.setCharAt(sb.length() - 1, ')');
@@ -84,7 +87,7 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor{
 		str.append("workspaceFile.getAbsolutePath() +\"/");
 		str.append(workspace.getIdentifier());
 		str.append("\",workspaceFile.getAbsolutePath()+\"");
-		str.append(GenerateAction.model.eResource().getURI().trimSegments(1).toPlatformString(true));
+		str.append(NakedUmlEditor.getCurrentContext().getUmlElementCache().getEmfWorkspace().getDirectoryUri().toPlatformString(true));
 		str.append("\")");
 		instance.setInitExp(str.toString());
 		block2.addToLocals(instance);

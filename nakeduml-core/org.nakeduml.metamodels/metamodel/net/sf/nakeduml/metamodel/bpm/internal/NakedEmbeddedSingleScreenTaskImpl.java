@@ -60,8 +60,9 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 	public INakedMessageStructure getMessageStructure(){
 		return asClass;
 	}
-	public void initMessageStructure(NakedUmlLibrary lib){
-		asClass=new EmbeddedSingleScreenTaskMessageStructureImpl(this,lib);
+	@Override
+	public void initMessageStructure(){
+		asClass=new EmbeddedSingleScreenTaskMessageStructureImpl(this);
 	}
 	public boolean isSynchronous(){
 		return isSynchronous;

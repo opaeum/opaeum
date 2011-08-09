@@ -27,6 +27,7 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
  * @author Ampie Barnard
  */
 public abstract class NakedElementImpl implements Serializable,INakedElement{
+	private boolean markedForDeletion;
 	String uuid;
 	private static final long serialVersionUID = -825314743586339864L;
 	/**
@@ -67,6 +68,9 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		return ownedElements;
 	}
 	public void addOwnedElement(INakedElement element){
+		if(ownedElements.contains(element)){
+			ownedElements.remove(element);
+		}
 		ownedElements.add(element);
 		if(element instanceof INakedComment){
 			comments.add((INakedComment) element);
@@ -203,5 +207,13 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 			o = ((INakedElement) o).getOwnerElement();
 		}
 		return (INakedClassifier) o;
+	}
+	@Override
+	public boolean isMarkedForDeletion(){
+		return markedForDeletion;
+	}
+	@Override
+	public void markForDeletion(){
+		this.markedForDeletion = true;
 	}
 }

@@ -6,7 +6,8 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessComponent;
@@ -31,7 +32,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
-public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor{
+public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	private static final String PARTICIPANT_META_DEF = "ParticipantMetaDef";
 	private static final String OPERATION_PROCESS_META_DEF = "OperationProcessMetaDef";
 	private static final String TASK_OBJECT_META_DEF = "TaskObjectMetaDef";
@@ -86,9 +87,9 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	public abstract void visitWorkspace(INakedModelWorkspace root);
 	public abstract void visitModel(INakedModel model);
 	protected void doWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationPhase){
+		if(isIntegrationPhase()){
 			OJAnnotatedPackage pkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
-			createTextPathIfRequired(pkg, OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
+			createTextPathIfRequired(pkg, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			applyFilter(pkg);
 			MetaDefElementCollector collector = collectElements(workspace.getOwnedElements());
 			Set<INakedInterface> interfaces = collector.interfaces;
@@ -115,11 +116,11 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		return dialect.getCurrentTimestampSQLFunctionName();
 	}
 	protected void doModel(INakedModel model){
-		if(!isIntegrationPhase){
+		if(!isIntegrationPhase()){
 			OJAnnotatedPackage adPkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
-			createTextPathIfRequired(adPkg, OutputRootId.ADAPTOR_GEN_TEST_SRC);
+			createTextPathIfRequired(adPkg, JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC);
 			OJAnnotatedPackage domainPkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(false));
-			createTextPathIfRequired(domainPkg, OutputRootId.DOMAIN_GEN_TEST_SRC);
+			createTextPathIfRequired(domainPkg, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC);
 			applyFilter(adPkg);
 			applyFilter(domainPkg);
 			Collection<INakedRootObject> selfAndDependencies = getModelInScope();

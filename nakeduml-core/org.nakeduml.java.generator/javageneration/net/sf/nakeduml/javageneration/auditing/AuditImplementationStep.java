@@ -20,7 +20,7 @@ public class AuditImplementationStep extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void generate(INakedModelWorkspace workspace) {
 		TimestampAdder timestampAdder = new TimestampAdder();
-		timestampAdder.initialize(javaModel, config, textWorkspace, transformationContext);
+		timestampAdder.initialize(javaModel, config, textWorkspace,workspace);
 		timestampAdder.startVisiting(workspace);
 		// Make copies of the root packages just below the model package
 		OJAnnotatedPackage newRoot = new OJAnnotatedPackage("");
@@ -33,14 +33,14 @@ public class AuditImplementationStep extends AbstractJavaProducingVisitor{
 		// It adds in a makeAuditCopy method. This method must only be on the
 		// original class
 		AuditEntryMassageOriginalClasses anotherAuditEntryOriginalClassesGenerator = new AuditEntryMassageOriginalClasses();
-		anotherAuditEntryOriginalClassesGenerator.initialize(this.javaModel, config, textWorkspace, transformationContext);
+		anotherAuditEntryOriginalClassesGenerator.initialize(this.javaModel, config, textWorkspace,workspace);
 		anotherAuditEntryOriginalClassesGenerator.startVisiting(workspace);
 		// Visit copy classes
 		AuditEntryMassage aeg = new AuditEntryMassage();
-		aeg.initialize(newRoot, config, textWorkspace, transformationContext);
+		aeg.initialize(newRoot, config, textWorkspace,workspace);
 		aeg.startVisiting(workspace);
 		AuditFixAnnotations auditFixAnnotations = new AuditFixAnnotations();
-		auditFixAnnotations.initialize(newRoot, config, textWorkspace, transformationContext);
+		auditFixAnnotations.initialize(newRoot, config, textWorkspace,workspace);
 		auditFixAnnotations.startVisiting(workspace);
 		mergePackages(newRoot.getSubpackages());
 	}

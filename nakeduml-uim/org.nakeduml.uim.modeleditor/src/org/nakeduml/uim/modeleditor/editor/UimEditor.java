@@ -14,6 +14,7 @@ import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
@@ -36,18 +37,17 @@ import org.topcased.modeler.editor.Modeler;
  */
 public class UimEditor extends Modeler{
 	@Override
+	protected void setInput(IEditorInput input){
+		// TODO Auto-generated method stub
+		super.setInput(input);
+		if(NakedUmlEditor.getCurrentContext() != null){
+			UmlElementCache umlElementMap = NakedUmlEditor.getCurrentContext().getUmlElementCache();
+			UmlUimLinks.associate(getResourceSet(),umlElementMap);
+		}
+	}
+	@Override
 	protected EObject openFile(IFile file,boolean b){
 		EObject openFile = super.openFile(file, b);
-		IWorkbenchPage activePage = UimPlugin.getActivePage();
-		if(activePage != null){
-			for(IEditorReference r:activePage.getEditorReferences()){
-				IEditorPart editor = r.getEditor(false);
-				if(editor instanceof NakedUmlEditor){
-					UmlElementCache umlElementMap = ((NakedUmlEditor) editor).getUmlElementCache();
-					UmlUimLinks.associate(getResourceSet(),umlElementMap);
-				}
-			}
-		}
 		return openFile;
 	}
 	public static final String EDITOR_ID = "org.nakeduml.uim.modeleditor.editor.UimEditor";

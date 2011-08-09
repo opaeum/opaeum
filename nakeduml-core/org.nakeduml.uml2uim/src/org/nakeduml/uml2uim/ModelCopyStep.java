@@ -11,11 +11,13 @@ import java.util.List;
 
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -23,16 +25,17 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.nakedum.velocity.AbstractTextProducingVisitor;
 
 @StepDependency(phase = ModelCopyPhase.class)
-public class ModelCopyStep extends EmfElementVisitor implements TransformationStep{
+public class ModelCopyStep extends EmfElementVisitor implements ITransformationStep{
 	private NakedUmlConfig config;
 	private TextWorkspace textWorkspace;
+	private EmfWorkspace workspace;
 	public void init(NakedUmlConfig config,TextWorkspace textWorkspace){
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 	}
 	public void startVisiting(EmfWorkspace emfWorkspace){
 		this.workspace =emfWorkspace;
-		File dir = emfWorkspace.getUriResolver().resolve(emfWorkspace.getDirectoryUri());
+		File dir = emfWorkspace.getResourceHelper().resolveUri(emfWorkspace.getDirectoryUri());
 		List<String> path = new ArrayList<String>();
 		path.add("uml");
 		copyContent(dir, path);
@@ -69,19 +72,19 @@ public class ModelCopyStep extends EmfElementVisitor implements TransformationSt
 				}
 				List<String> filePath = new ArrayList<String>(dirPath);
 				filePath.add(file.getName());
-				findOrCreateTextFile(writer, CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE, filePath.toArray(new String[filePath.size()]));
+				findOrCreateTextFile(writer, TextSourceFolderIdentifier.WEBAPP_RESOURCE, filePath.toArray(new String[filePath.size()]));
 			}
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
 	}
-	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot) {
 		TextProject textProject = textWorkspace.findOrCreateTextProject(workspace.getIdentifier() + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
 	}
-	protected void findOrCreateTextFile(CharArrayWriter outputBuilder, Enum<?> outputRootId, String... names) {
-		OutputRoot outputRoot = config.getOutputRoot(outputRootId);
+	protected void findOrCreateTextFile(CharArrayWriter outputBuilder, ISourceFolderIdentifier outputRootId, String... names) {
+		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(outputRootId);
 		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
 		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new CharArrayTextSource(outputBuilder), outputRoot.overwriteFiles());
 	}

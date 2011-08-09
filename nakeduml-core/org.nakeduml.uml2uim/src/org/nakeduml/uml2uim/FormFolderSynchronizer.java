@@ -94,7 +94,7 @@ public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 		if(parentFolder != pf.getParent()){
 			parentFolder.getChildren().add(pf);
 		}
-		pf.setUmlElementUid(UmlUimLinks.getId(p));
+		pf.setUmlElementUid(workspace.getId(p));
 		pf.setName(p.getName());
 	}
 }

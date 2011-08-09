@@ -56,24 +56,23 @@ public class ActionExtractor extends AbstractActionExtractor{
 	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
 		if(e instanceof OpaqueAction){
-			OpaqueAction emfAction=(OpaqueAction) e;
+			OpaqueAction emfAction = (OpaqueAction) e;
 			Stereotype stereotype = StereotypesHelper.getStereotype(emfAction, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
 			if(stereotype != null){
 				return new NakedEmbeddedSingleScreenTaskImpl();
-			}else if(emfAction.getOutputValues().size() == 1 && emfAction.getBodies().size() >= 1){
+			}else if(emfAction.getBodies().size() >= 1){
 				return new NakedOclActionImpl();
 			}else{
 				return null;
 			}
 		}else if(e instanceof CallBehaviorAction){
-			CallBehaviorAction emfAction=(CallBehaviorAction) e;
+			CallBehaviorAction emfAction = (CallBehaviorAction) e;
 			Stereotype stereotype = StereotypesHelper.getStereotype(emfAction, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK);
 			if(stereotype != null && emfAction.getBehavior() instanceof StateMachine){
 				return new NakedEmbeddedScreenFlowTaskImpl();
 			}else{
-				return  new NakedCallBehaviorActionImpl();
+				return new NakedCallBehaviorActionImpl();
 			}
-
 		}else{
 			return super.createElementFor(e, peerClass);
 		}
@@ -100,7 +99,7 @@ public class ActionExtractor extends AbstractActionExtractor{
 		// nakedAction.set(arguments);
 	}
 	@VisitBefore
-	public void visitCallBehaviorAction(CallBehaviorAction emfAction, NakedCallBehaviorActionImpl nakedAction){
+	public void visitCallBehaviorAction(CallBehaviorAction emfAction,NakedCallBehaviorActionImpl nakedAction){
 		Activity emfActivity = getActivity(emfAction);
 		Stereotype stereotype = StereotypesHelper.getStereotype(emfAction, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK);
 		if(stereotype != null){
@@ -116,17 +115,19 @@ public class ActionExtractor extends AbstractActionExtractor{
 		nakedAction.setResult(result);
 	}
 	@VisitBefore
-	public void visitOpaqueAction(OpaqueAction emfAction, NakedOpaqueActionImpl action){
+	public void visitOpaqueAction(OpaqueAction emfAction,NakedOpaqueActionImpl action){
 		Activity emfActivity = getActivity(emfAction);
 		Stereotype stereotype = StereotypesHelper.getStereotype(emfAction, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
 		initAction(emfAction, action);
 		if(stereotype != null){
 			initializeDeadlines(stereotype, emfAction);
-			((NakedEmbeddedSingleScreenTaskImpl)action).setOutputValues(this.<INakedOutputPin>populatePins(emfActivity, emfAction.getOutputValues()));
-		}else if(emfAction.getOutputValues().size() == 1 && emfAction.getBodies().size() > 1){
+			((NakedEmbeddedSingleScreenTaskImpl) action).setOutputValues(this.<INakedOutputPin>populatePins(emfActivity, emfAction.getOutputValues()));
+		}else if(emfAction.getBodies().size() >= 1){
 			ParsedOclString bodyExpression = super.buildParsedOclString(emfAction, OclUsageType.BODY, emfAction.getLanguages(), emfAction.getBodies());
-			((NakedOclActionImpl)action).setBodyExpression(bodyExpression);
-			((NakedOclActionImpl)action).setReturnPin((INakedOutputPin) initializePin(emfActivity, emfAction.getOutputValues().get(0)));
+			((NakedOclActionImpl) action).setBodyExpression(bodyExpression);
+			if(emfAction.getOutputValues().size() == 1){
+				((NakedOclActionImpl) action).setReturnPin((INakedOutputPin) initializePin(emfActivity, emfAction.getOutputValues().get(0)));
+			}
 		}
 		List<InputPin> inputs = new ArrayList<InputPin>(emfAction.getInputValues());
 		action.setInputValues(this.<INakedInputPin>populatePins(emfActivity, inputs));

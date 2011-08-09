@@ -1,13 +1,13 @@
 package net.sf.nakeduml.feature;
 
-public class OutputRoot {
+public class SourceFolderDefinition {
 	boolean overwriteFiles=true;
 	boolean cleanDirectories=true;
 	boolean userWorkspaceName;
 	String sourceFolder;
 	String projectSuffix;
 	
-	public OutputRoot(boolean useWorkspaceName, String projectSuffix, String sourceFolder) {
+	public SourceFolderDefinition(boolean useWorkspaceName, String projectSuffix, String sourceFolder) {
 		super();
 		this.userWorkspaceName = useWorkspaceName;
 		this.projectSuffix = projectSuffix;

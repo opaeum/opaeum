@@ -44,10 +44,9 @@ public class SetOclExpressionCommand extends AbstractOverrideableCommand{
 			}
 			owner.eSet(feature, oe);
 		}else {
-			//TODO look for ocl language
 			OpaqueExpression oe = (OpaqueExpression) getValueSpecification();
 			EList<String> languages = oe.getLanguages();
-			if(languages.isEmpty()){
+			if(languages.isEmpty() || !(languages.contains("OCL") || languages.contains("ocl"))){
 				languages.add("OCL");
 			}
 			for(int i=0; i<languages.size(); i ++){

@@ -9,6 +9,7 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.model.IModelElement;
 
 public class ErrorMap {
+	private boolean inCodeGeneratingModel=false;
 	public ErrorMap() {
 		super();
 	}
@@ -18,7 +19,12 @@ public class ErrorMap {
 	public Map<String, BrokenElement> getErrors() {
 		return errors;
 	}
-
+	public void enterCodeGeneratingModel(){
+		inCodeGeneratingModel=false;
+	}
+	public void exitCodeGeneratingModel(){
+		inCodeGeneratingModel=false;
+	}
 	public void putError( INakedElement holder, IValidationRule rule, Object... objects) {
 		if(holder instanceof INakedEvent || holder instanceof INakedValueSpecification){
 			getErrorListFor((INakedElement) holder.getOwnerElement()).addMessage(rule, objects);

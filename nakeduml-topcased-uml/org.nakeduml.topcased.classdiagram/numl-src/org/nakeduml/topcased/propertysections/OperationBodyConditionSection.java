@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CreateChildCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateCommand;
 import org.eclipse.jface.viewers.ISelection;
@@ -83,13 +84,15 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	}
 	private void removeBodyCondition(){
 		getEditingDomain().getCommandStack().execute(
-				SetCommand.create(getEditingDomain(), getValueSpecification(), UMLPackage.eINSTANCE.getOperation_BodyCondition(), null));
+				RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(), getOwner()));
+		oclComposite.setValueElement(null);
 	}
 	private void createBodyCondition(){
 		if(getOperation().getBodyCondition() == null){
 			getEditingDomain().getCommandStack().execute(
 					SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(),
 							UMLFactory.eINSTANCE.createConstraint()));
+			oclComposite.setValueElement(getOwner());
 		}
 	}
 	@Override

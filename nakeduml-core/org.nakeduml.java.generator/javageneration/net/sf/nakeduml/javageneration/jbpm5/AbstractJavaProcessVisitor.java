@@ -233,7 +233,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		getInnermostNonParallelStep.setReturnType(ABSTRACT_PROCESS_STEP);
 		Collection<? extends INakedElement> topLevelFlows = getTopLevelFlows(umlBehavior);
 		ojBehavior.addToOperations(getInnermostNonParallelStep);
-		if(topLevelFlows.size() > 1){
+		if(topLevelFlows.isEmpty() || topLevelFlows.size() > 1){
 			getInnermostNonParallelStep.getBody().addToStatements("return null");
 		}else{
 			String fieldName = Jbpm5Util.endNodeFieldNameFor(topLevelFlows.iterator().next());

@@ -170,7 +170,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			if(emfOper.getReturnResult() != null){
 				INakedConstraint constraint = new NakedConstraintImpl();
 				initialize(constraint, emfOper.getBodyCondition(), emfOper);
-				constraint.setSpecification(getValueSpecification(nakedOper, body, OclUsageType.BODY));
+				constraint.setSpecification(getValueSpecification(constraint, body, OclUsageType.BODY));
 				nakedOper.setBodyCondition(constraint);
 			}else{
 				getErrorMap().putError(nakedOper, CoreValidationRule.OCL, "Operation has a bodyCondition, but no return parameter");

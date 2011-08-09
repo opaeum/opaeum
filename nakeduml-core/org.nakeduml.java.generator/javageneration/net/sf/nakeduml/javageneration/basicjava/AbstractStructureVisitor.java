@@ -22,6 +22,7 @@ import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -41,8 +42,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	})
 	public void visitFeaturesOf(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
-			for(INakedInterfaceRealization ir:c.getInterfaceRealizations()){
-				for(INakedProperty p:ir.getContract().getEffectiveAttributes()){
+			for(INakedProperty p:c.getEffectiveAttributes()){
+				if(p.getOwner() == c || p.getOwner() instanceof INakedInterface){
 					if(p.getAssociation() instanceof INakedAssociationClass){
 						visitProperty(c, OJUtil.buildAssociationClassMap(p, getOclEngine().getOclLibrary()));
 					}else{
@@ -50,15 +51,10 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					}
 				}
 			}
-			for(INakedProperty p:c.getOwnedAttributes()){
-				if(p.getAssociation() instanceof INakedAssociationClass){
-					visitProperty(c, OJUtil.buildAssociationClassMap(p, getOclEngine().getOclLibrary()));
-				}else{
-					visitProperty(c, OJUtil.buildStructuralFeatureMap(p));
+			for(INakedOperation o:c.getEffectiveOperations()){
+				if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
+					visitOperation(o);
 				}
-			}
-			for(IOperation o:c.getOperations()){
-				visitOperation((INakedOperation) o);
 			}
 		}
 	}
@@ -74,7 +70,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 		if(umlOwner instanceof INakedActivity){
-			INakedActivity a=(INakedActivity) umlOwner;
+			INakedActivity a = (INakedActivity) umlOwner;
 			visitVariables(a.getVariables());
 			for(INakedActivityNode n:a.getActivityNodesRecursively()){
 				if(n instanceof INakedOutputPin){
@@ -87,11 +83,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					visitCallAction((INakedCallAction) n);
 				}
 			}
-			
-			
 		}
 	}
-
 	private void visitVariables(Collection<INakedActivityVariable> vars){
 		for(INakedActivityVariable var:vars){
 			if(BehaviorUtil.mustBeStoredOnActivity(var)){
@@ -111,7 +104,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
 		}
 	}
-	
 	private void visitOperation(INakedOperation o){
 		if(o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)){
 			INakedMessageStructure umlOwner = o.getMessageStructure();

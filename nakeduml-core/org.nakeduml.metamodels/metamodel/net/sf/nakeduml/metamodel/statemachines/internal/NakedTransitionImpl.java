@@ -179,6 +179,7 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 
 	@Override
 	public void setTrigger(INakedTrigger trigger) {
+		addOwnedElement(trigger);
 		this.trigger = trigger;
 	}
 
@@ -198,12 +199,6 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	@Override
 	public Collection<INakedElement> getOwnedElements() {
 		Collection<INakedElement> results = new HashSet<INakedElement>(super.getOwnedElements());
-		if (this.guard != null) {
-			results.add(this.guard);
-		}
-		if(this.effect!=null){
-			results.add(this.effect);
-		}
 		return results;
 	}
 
@@ -224,7 +219,7 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	}
 
 	public void setGuardConstraint(INakedConstraint guard) {
-		addOwnedElement(effect);
+		addOwnedElement(guard);
 	}
 
 	@Override

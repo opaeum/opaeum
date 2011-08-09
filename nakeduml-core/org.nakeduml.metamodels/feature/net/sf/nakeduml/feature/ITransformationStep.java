@@ -1,5 +1,5 @@
 package net.sf.nakeduml.feature;
 
 
-public interface TransformationStep {
+public interface ITransformationStep {
 }

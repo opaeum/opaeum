@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -56,8 +56,8 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			}
 		}
 		if(test.getOperations().size() > 0){
-			createTextPath(testInterface, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
-			createTextPath(test, JavaTextSource.OutputRootId.DOMAIN_TEST_SRC);
+			createTextPath(testInterface, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC);
+			createTextPath(test, JavaSourceFolderIdentifier.DOMAIN_TEST_SRC);
 		}
 	}
 	private void addTestMEthod(INakedEntity entity,OJPathName pn,OJAnnotatedClass test,OJAnnotatedInterface testInterface,String name){

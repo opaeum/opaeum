@@ -25,6 +25,8 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.nakeduml.eclipse.EmfValidationUtil;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
+import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
@@ -120,20 +122,31 @@ public class OclValueComposite extends Composite{
 			factory.setContext(vp);
 			document.setOCLContext(EmfBehaviorUtil.getSelf((Element) vp));
 			manageContentAssist();
-			highlightError(vp);
+			Runnable runnable2 = new Runnable(){
+				public void run(){
+					highlightError(element);
+				}
+			};
+			Display.getDefault().timerExec(100, runnable2);
 		}
 	}
 	protected void highlightError(final Element vp){
 		StyledText t = viewer.getTextWidget();
-		if(!t.isDisposed()){
-			UmlElementCache map = NakedUmlPlugin.findNakedUmlEditor((NamedElement) vp).getUmlElementCache();
+		if(!(vp == null || t == null || t.isDisposed())){
+			UmlElementCache map = NakedUmlEditor.getCurrentContext().getUmlElementCache();
 			INakedModelWorkspace ws = map.getTransformationProcess().findModel(INakedModelWorkspace.class);
 			ErrorMap errors = ws.getErrorMap();
-			BrokenElement be = errors.getErrors().get(AbstractExtractorFromEmf.getId(vp));
+			String id = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(vp);
+			BrokenElement be = errors.getErrors().get(id);
 			if(be != null && be.hasBroken(CoreValidationRule.OCL)){
 				Object[] objects = be.getBrokenRules().get(CoreValidationRule.OCL);
-				Integer i = objects.length == 2 ? (Integer)objects[1] : 0;
+				Integer i = objects.length == 2 ? ((Integer) objects[1])-1: 0;
 				StyleRange[] srs = t.getStyleRanges();
+				if(srs.length <= 0){
+					srs = new StyleRange[]{
+						new StyleRange(0, t.getText().length(), null, null, SWT.NORMAL)
+					};
+				}
 				for(StyleRange sr:srs){
 					if(sr.start <= i && sr.start + sr.length > i){
 						sr.underline = true;

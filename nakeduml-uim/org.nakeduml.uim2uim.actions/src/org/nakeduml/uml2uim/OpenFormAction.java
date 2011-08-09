@@ -7,6 +7,7 @@ import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uim.util.UmlUimLinks;
 
 public class OpenFormAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
@@ -14,7 +15,7 @@ public class OpenFormAction extends AbstractUimGenerationAction implements IObje
 	protected void runActionRecursively(NamedElement eObject,IAction action){
 		URI uri = getFileUri(eObject, getFileName(eObject, action));
 		if(!getFile(uri).exists()){
-			SynchronizeAction.doSynchronize(eObject,findNakedUmlEditor(eObject));
+			SynchronizeAction.doSynchronize(eObject,NakedUmlEditor.getCurrentContext().getUmlElementCache());
 		}
 	}
 
@@ -39,6 +40,6 @@ public class OpenFormAction extends AbstractUimGenerationAction implements IObje
 				suffix = "Task";
 			}
 		}
-		return UmlUimLinks.getId(namedElement) + suffix;
+		return NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(namedElement) + suffix;
 	}
 }

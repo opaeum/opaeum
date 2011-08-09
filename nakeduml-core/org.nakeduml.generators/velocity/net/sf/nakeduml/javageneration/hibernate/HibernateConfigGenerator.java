@@ -12,8 +12,8 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationStep;
-import net.sf.nakeduml.javageneration.CharArrayTextSource.OutputRootId;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
@@ -40,8 +40,8 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 	private static final String CDI_ENVIRONMENT = "org.nakeduml.environment.adaptor.CdiEnvironment";
 	private static final String DOMAIN_ENVIRONMENT = "org.nakeduml.environment.domain.DomainEnvironment";
 	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
-		super.initialize(config, textWorkspace, context);
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+		super.initialize(config, textWorkspace,workspace);
 		
 	}
 	public HibernateConfigGenerator(){
@@ -83,11 +83,11 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 		if(transformationContext.isIntegrationPhase()){
 			Collection<INakedRootObject> rootObjects = (Collection<INakedRootObject>) workspace.getOwnedElements();
 			String hibernateConfigName = workspace.getIdentifier() + "-hibernate.cfg.xml";
-			generateConfigAndEnvironment(rootObjects, hibernateConfigName, OutputRootId.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
+			generateConfigAndEnvironment(rootObjects, hibernateConfigName, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true);
 			HashMap<String,Object> vars = buildVars(rootObjects, false);
 			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
 			processTemplate(workspace, "templates/Model/Jbpm5HibernateConfig.vsl", "standalone-" + hibernateConfigName,
-					OutputRootId.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, vars);
+					TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, vars);
 		}
 	}
 	@VisitBefore
@@ -96,15 +96,15 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 			String hibernateConfigName = model.getIdentifier() + "-hibernate.cfg.xml";
 			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getDependencies());
 			selfAndDependencies.add(model);
-			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.DOMAIN_GEN_TEST_RESOURCE, false);
-			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, true);
+			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE, false);
+			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, TextSourceFolderIdentifier.ADAPTOR_GEN_TEST_RESOURCE, true);
 			HashMap<String,Object> vars = buildVars(selfAndDependencies, false);
 			vars.put("pkg", HibernateUtil.getHibernatePackage(true));
 			processTemplate(workspace, "templates/Model/Jbpm5HibernateConfig.vsl", "standalone-" + hibernateConfigName,
-					OutputRootId.ADAPTOR_GEN_TEST_RESOURCE, vars);
+					TextSourceFolderIdentifier.ADAPTOR_GEN_TEST_RESOURCE, vars);
 		}
 	}
-	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,String hibernateConfigName,OutputRootId outputRootId,
+	private void generateConfigAndEnvironment(Collection<INakedRootObject> models,String hibernateConfigName,TextSourceFolderIdentifier outputRootId,
 			boolean isAdaptorEnvironment){
 		SortedProperties properties = new SortedProperties();
 		HashMap<String,Object> vars = buildVars(models, isAdaptorEnvironment);

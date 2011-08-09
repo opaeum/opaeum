@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.Java6ModelGenerator;
 import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
@@ -24,7 +24,7 @@ public class UtilCreator extends AbstractJavaProducingVisitor{
 		OclUtilityCreator ouc = new OclUtilityCreator(javaModel);
 		ouc.makeOclUtilities(null, workspace.getOclEngine().getOclLibrary());
 		for(OJClassifier c:UtilityCreator.getUtilPack().getClasses()){
-			createTextPath(c, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+			createTextPath(c, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		}
 	}
 }

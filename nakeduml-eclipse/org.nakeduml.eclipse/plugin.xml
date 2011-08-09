@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="org.nakeduml.eclipse.transformationStep" name="TransformationStep" schema="schema/transformationStep.exsd"/>
+   <extension-point id="org.nakeduml.eclipse.sourceFolderStrategy" name="SourceFolderStrategy" schema="schema/sourceFolderStrategy.exsd"/>
  <extension
           point="org.eclipse.ui.popupMenus">
        <objectContribution

@@ -93,9 +93,8 @@ public class EnvironmentFactory{
 		env.setParent(parent);
 		do{
 			addPackageContents(ns, env);
-			ns = ns.getNameSpace();
 			// import everything up to the nearest packag
-		}while(ns.getNameSpace() instanceof INakedClassifier);
+		}while((ns=ns.getNameSpace()) instanceof INakedClassifier);
 		if(ns != null){
 			addPackageContents(ns, env);
 		}

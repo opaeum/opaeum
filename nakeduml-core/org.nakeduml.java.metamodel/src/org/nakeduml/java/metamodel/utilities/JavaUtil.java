@@ -14,17 +14,17 @@ public class JavaUtil{
 		if(coll == null){
 			return "";
 		}
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		if(coll != null){
 			Iterator<? extends OJElement> i = coll.iterator();
 			while(i.hasNext()){
 				OJElement o = i.next();
-				result = result + (o == null ? "<null>" : o.toJavaString());
+				result = result.append(o == null ? "<null>" : o.toJavaString());
 				if(i.hasNext())
-					result = result + separator;
+					result = result.append(separator);
 			}
 		}
-		return result;
+		return result.toString();
 	}
 	static public String collectionToString(Collection<? extends Object> coll,String separator){
 		if(coll == null){

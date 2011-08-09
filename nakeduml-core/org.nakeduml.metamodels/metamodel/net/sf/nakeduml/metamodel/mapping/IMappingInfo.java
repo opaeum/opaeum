@@ -93,4 +93,8 @@ public interface IMappingInfo{
 	public boolean shouldStore();
 	public String getQualifiedPersistentName();
 	public void setQualifiedPersistentName(String string);
+	boolean requiresJavaRename();
+	public String getOldQualifiedJavaName();
+	public NameWrapper getOldJavaName();
+
 }

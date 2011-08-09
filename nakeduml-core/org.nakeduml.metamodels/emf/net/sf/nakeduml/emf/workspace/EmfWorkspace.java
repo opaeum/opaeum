@@ -2,6 +2,7 @@ package net.sf.nakeduml.emf.workspace;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
@@ -38,14 +40,18 @@ import org.eclipse.uml2.uml.Stereotype;
  * 
  */
 public class EmfWorkspace implements Element{
+	public Map<String,Element> getElementMap(){
+		return elementMap;
+	}
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
 	private WorkspaceMappingInfoImpl mappingInfo;
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
-	private UriResolver uriResolver;
+	private EmfResourceHelper uriResolver;
 	private Set<Model> libraries=new HashSet<Model>();
+	private Map<String,Element> elementMap =new HashMap<String,Element>();
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
@@ -63,6 +69,9 @@ public class EmfWorkspace implements Element{
 		}
 		this.directoryUri = uri;
 		this.identifier = identifier;
+	}
+	public final void putElement(String id,Element e){
+		elementMap.put(id, e);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -332,10 +341,10 @@ public class EmfWorkspace implements Element{
 		}
 		return result;
 	}
-	public void setUriResolver(UriResolver uriResolver){
+	public void setResourceHelper(EmfResourceHelper uriResolver){
 		this.uriResolver = uriResolver;
 	}
-	public UriResolver getUriResolver(){
+	public EmfResourceHelper getResourceHelper(){
 		if(uriResolver == null){
 			uriResolver = new DefaultUriResolver();
 		}
@@ -355,5 +364,8 @@ public class EmfWorkspace implements Element{
 	}
 	public boolean isLibrary(Model p){
 		return this.libraries.contains(p);
+	}
+	public String getId(EModelElement model){
+		return getResourceHelper().getId(model);
 	}
 }

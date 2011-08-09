@@ -2,6 +2,8 @@ package org.nakeduml.uml2uim;
 
 import java.util.Collection;
 
+import net.sf.nakeduml.emf.workspace.UmlElementCache;
+
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
@@ -33,8 +35,10 @@ public class FormCreator{
 	private UimGridLayout mainTabLayout;
 	private UimTabPanel tabPanel;
 	private FormPanel formPanel;
-	public FormCreator(FormPanel cf){
+	private UmlElementCache umlCache;
+	public FormCreator(UmlElementCache links, FormPanel cf){
 		this.formPanel = cf;
+		this.umlCache=links;
 	}
 	public void prepareFormPanel(String title,Collection<? extends TypedElement> typedElements){
 		UimFullLayout formLayout = LayoutFactory.eINSTANCE.createUimFullLayout();
@@ -90,7 +94,7 @@ public class FormCreator{
 		UimDataTable table = UimFactory.eINSTANCE.createUimDataTable();
 		TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
 		table.setBinding(binding);
-		binding.setUmlElementUid(UmlUimLinks.getId(e));
+		binding.setUmlElementUid(umlCache.getId(e));
 		tabLayout.getChildren().add(table);
 		table.setLayout(LayoutFactory.eINSTANCE.createUimColumnLayout());
 		Collection<Property> attrs = UmlUimLinks.getInstance(this.tabPanel).getOwnedAttributes((Classifier) e.getType());
@@ -118,14 +122,14 @@ public class FormCreator{
 		uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
 		FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
 		uf.setBinding(binding);
-		binding.setUmlElementUid(UmlUimLinks.getId(properties[0]));
+		binding.setUmlElementUid(umlCache.getId(properties[0]));
 		if(properties.length > 1){
 			PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
-			prev.setUmlElementUid(UmlUimLinks.getId(properties[1]));
+			prev.setUmlElementUid(umlCache.getId(properties[1]));
 			binding.setNext(prev);
 			for(int i = 2;i < properties.length;i++){
 				PropertyRef next = BindingFactory.eINSTANCE.createPropertyRef();
-				next.setUmlElementUid(UmlUimLinks.getId(properties[i]));
+				next.setUmlElementUid(umlCache.getId(properties[i]));
 				prev.setNext(next);
 				prev = next;
 			}

@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  org.nakeduml.java.generator,
  org.nakeduml.java.metamodel,
  org.nakeduml.ocl.java.generator,
- org.nakeduml.ocl.metamodel
+ org.nakeduml.ocl.metamodel,
+ org.nakeduml.eclipse.hibernate;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

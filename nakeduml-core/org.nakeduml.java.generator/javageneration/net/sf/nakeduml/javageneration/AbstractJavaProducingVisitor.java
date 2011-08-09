@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -23,6 +24,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextFile;
+import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
@@ -30,6 +32,7 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
+import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJPackage;
@@ -38,23 +41,27 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
-	protected boolean isIntegrationPhase = false;
-
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 	protected TransformationContext transformationContext;
-
-	private Set<TextFile> textFiles;
+	private Set<TextOutputNode> textFiles;
+	protected INakedModelWorkspace workspace;
+	public Set<TextOutputNode> getTextFiles(){
+		return textFiles;
+	}
+	
+	public void setTransformationContext(TransformationContext context){
+		this.transformationContext=context;
+	}
 	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, TransformationContext context){
-		textFiles=new HashSet<TextFile>();
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
-		this.transformationContext=context;
-		
+		this.workspace=workspace;
 	}
 	public NakedUmlLibrary getLibrary(){
 		return workspace.getNakedUmlLibrary();
@@ -76,33 +83,36 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		}
 		super.visitRecursively(o);
 	}
-	protected OJPathName calculateUtilPath(INakedRootObject pkg) {
+	protected OJPathName calculateUtilPath(INakedRootObject pkg){
 		String qualifiedJavaName = OJUtil.packagePathname(pkg).toJavaString();
-		
 		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 		return utilPath;
 	}
-	public TextFile createTextPath(OJClassifier c,Enum<?> id){
-		OutputRoot outputRoot = config.getOutputRoot(id);
+	public TextFile createTextPath(OJClassifier c,ISourceFolderIdentifier id){
+		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = c.getPathName().getHead().getNames();
 		names.add(c.getName() + ".java");
-		TextFile file = or.findOrCreateTextFile(names, new JavaTextSource(c), outputRoot.overwriteFiles());
+		JavaTextSource jts = new JavaTextSource(c);
+		TextFile file = or.findOrCreateTextFile(names, jts, outputRoot.overwriteFiles());
+		file.setTextSource(jts);
 		this.textFiles.add(file);
 		return file;
 	}
-	protected SourceFolder getSourceFolder(OutputRoot outputRoot){
+	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
 		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentRootObject.getIdentifier();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
 	}
-	protected void createTextPathIfRequired(OJAnnotatedPackage p,JavaTextSource.OutputRootId id){
-		OutputRoot outputRoot = config.getOutputRoot(id);
-		SourceFolder or = getSourceFolder(outputRoot);
+	protected void createTextPathIfRequired(OJAnnotatedPackage p,JavaSourceFolderIdentifier id){
+		SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(id);
+		SourceFolder or = getSourceFolder(sourceFolderDefinition);
 		List<String> names = p.getPathName().getNames();
 		names.add("package-info.java");
-		or.findOrCreateTextFile(names, new JavaTextSource(p), outputRoot.overwriteFiles());
+		JavaTextSource source = new JavaTextSource(p);
+		TextFile txt = or.findOrCreateTextFile(names, source, sourceFolderDefinition.overwriteFiles());
+		txt.setTextSource(source);
 	}
 	protected final OJAnnotatedPackage findOrCreatePackage(OJPathName packageName){
 		OJAnnotatedPackage parent = this.javaModel;
@@ -135,7 +145,29 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		}
 		return owner;
 	}
-	
+	protected void deleteClass(JavaSourceFolderIdentifier id,OJPathName ojPathName){
+		deleteTextNode(id, ojPathName,true);
+		OJClass pkg = javaModel.findClass(ojPathName);
+		if(pkg!=null){
+			pkg.setMyPackage(null);
+		}
+	}
+	private void deleteTextNode(JavaSourceFolderIdentifier id,OJPathName ojPathName, boolean targetIsFile){
+		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
+		SourceFolder or = getSourceFolder(outputRoot);
+		List<String> names = ojPathName.getNames();
+		if(targetIsFile){
+			names.set(names.size()-1, names.get(names.size()-1)+".java");
+		}
+		getTextFiles().add(or.markNodeForDeletion(names,targetIsFile));
+	}
+	protected void deletePackage(JavaSourceFolderIdentifier id,OJPathName ojPathName){
+		deleteTextNode(id, ojPathName,false);
+		OJPackage pkg = javaModel.findPackage(ojPathName);
+		if(pkg!=null){
+			pkg.setParent(null);
+		}
+	}
 	protected static OJConstructor findConstructor(OJAnnotatedClass c,OJPathName parameter1){
 		return c.findConstructor(parameter1);
 	}
@@ -207,4 +239,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		return workspace.getOclEngine();
 	}
 
+	protected boolean isIntegrationPhase(){
+		return transformationContext.isIntegrationPhase();
+	}
 }

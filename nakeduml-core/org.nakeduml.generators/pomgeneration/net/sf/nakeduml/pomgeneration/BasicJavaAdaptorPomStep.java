@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
@@ -19,8 +19,8 @@ import org.nakeduml.generation.features.JavaPersistence;
 public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	@Override
 	public Dependency[] getDependencies() {
-		Collection<Dependency> result = getBasicDependencies("-adaptor");
-		addDependencyToRootObject("-domain", model, result);
+		Collection<Dependency> result = getBasicDependencies(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
+		addDependencyToRootObject(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, model, result);
 		addNumlAdaptor(result);
 		addNumlTestAdaptor(result);
 		//Provided dependencies from above projects
@@ -72,8 +72,8 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	}
 
 	@Override
-	protected OutputRoot getExampleTargetDir() {
-		return config.getOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
+	protected SourceFolderDefinition getExampleTargetDir() {
+		return config.getSourceFolderDefinition(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 	}
 	
 	

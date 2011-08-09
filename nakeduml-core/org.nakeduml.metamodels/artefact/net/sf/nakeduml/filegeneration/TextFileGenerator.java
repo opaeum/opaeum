@@ -5,14 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.textmetamodel.TextDirectory;
 import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextProject;
 
 @StepDependency(phase = FileGenerationPhase.class)
-public class TextFileGenerator extends AbstractTextNodeVisitor implements TransformationStep {
+public class TextFileGenerator extends AbstractTextNodeVisitor implements ITransformationStep {
 
 	public TextFileGenerator() {
 	}

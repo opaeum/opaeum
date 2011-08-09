@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface StepDependency{
-	Class<? extends TransformationPhase<? extends TransformationStep,?>> phase();
-	Class<? extends TransformationStep>[] before() default {};
-	Class<? extends TransformationStep>[] replaces() default {};
-	Class<? extends TransformationStep>[] after() default {};
-	Class<? extends TransformationStep>[] requires() default {};
+	Class<? extends TransformationPhase<? extends ITransformationStep,?>> phase();
+	Class<? extends ITransformationStep>[] before() default {};
+	Class<? extends ITransformationStep>[] replaces() default {};
+	Class<? extends ITransformationStep>[] after() default {};
+	Class<? extends ITransformationStep>[] requires() default {};
 }

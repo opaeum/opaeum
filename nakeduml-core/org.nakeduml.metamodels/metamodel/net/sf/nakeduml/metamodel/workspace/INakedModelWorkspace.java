@@ -2,9 +2,11 @@ package net.sf.nakeduml.metamodel.workspace;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.uml2.uml.Model;
 
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -17,7 +19,8 @@ import nl.klasse.octopus.oclengine.IOclEngine;
 
 public interface INakedModelWorkspace extends INakedElementOwner {
 	ErrorMap getErrorMap();
-
+	void markDependency(INakedClassifier from, INakedClassifier to);
+		
 	void putModelElement(INakedElement mw);
 
 	INakedElement getModelElement(Object id);
@@ -62,5 +65,6 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 	String getIdentifier();
 
 	Collection<INakedRootObject> getPrimaryRootObjects();
+	Set<INakedClassifier> getDependentClassifiers(INakedClassifier e);
 
 }

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemantics;
 import net.sf.nakeduml.javageneration.hibernate.PersistenceUsingHibernateStep;
 import net.sf.nakeduml.javageneration.oclexpressions.OclExpressionExecution;

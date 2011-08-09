@@ -61,6 +61,7 @@ public class OclConstraintDetailsComposite extends Composite{
 		this.setLayout(new FillLayout(SWT.VERTICAL));
 		setLayout(new GridLayout(5, false));
 		createDetailsZone(this);
+		setEnabled(this,false);
 	}
 	private TabbedPropertySheetWidgetFactory getWidgetFactory(){
 		return theFactory;

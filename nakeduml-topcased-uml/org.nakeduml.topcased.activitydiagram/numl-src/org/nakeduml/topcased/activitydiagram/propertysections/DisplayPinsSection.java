@@ -41,50 +41,6 @@ public class DisplayPinsSection extends AbstractTabbedPropertySection{
 		button.addSelectionListener(new SelectionListener(){
 			@Override
 			public void widgetSelected(SelectionEvent e){
-				MixedEditDomain mixedEditDomain = (MixedEditDomain) getPart().getAdapter(MixedEditDomain.class);
-				Modeler editor = (Modeler) mixedEditDomain.getEditorPart();
-				ICreationUtils creationUtils = editor.getActiveConfiguration().getCreationUtils();
-				GraphNode actionNode = (GraphNode) Utils.getGraphElement(editor.getActiveDiagram(), getEObject(), true);
-				int width = actionNode.getSize().width - 16;
-				int height = actionNode.getSize().height - 16;
-				if(actionNode != null){
-					int ai=0;
-					for(InputPin pin:getAction().getInputs()){
-						
-						Point location = new Point();
-						int position;
-						location.x = 16+ai*80;
-						location.y = 16;
-						position = PositionConstants.TOP;
-						createOrChange(mixedEditDomain, creationUtils, actionNode, location, pin, position);
-						ai++;
-					}
-					int ri=0;
-					for(OutputPin pin:getAction().getOutputs()){
-						Point location = new Point();
-						int position;
-						location.x = 16+ri*80;
-						location.y = Math.round(height - 16);
-						position = PositionConstants.BOTTOM;
-						createOrChange(mixedEditDomain, creationUtils, actionNode, location, pin, position);
-						ri++;
-					}
-					width =Math.max(ai,ri)*80+32;
-					Point location = actionNode.getPosition().getCopy();
-					execute(new ChangeBoundsCommand(actionNode, new Rectangle(location.x, location.y, Math.max(actionNode.getSize().width, width), actionNode
-							.getSize().height)));
-				}
-			}
-			private GraphNode createOrChange(MixedEditDomain mixedEditDomain,ICreationUtils creationUtils,GraphNode actionNode,Point location,Pin pin,int position){
-				GraphNode inputGraph = (GraphNode) Utils.getGraphElement(actionNode, pin, true);
-				if(inputGraph == null){
-					inputGraph = (GraphNode) creationUtils.createGraphElement(pin);
-					execute(new CreateGraphNodeCommand(mixedEditDomain, inputGraph, actionNode, getAction(), location, new Dimension(20, 20), position, null, false));
-					execute(new ChangeGraphElementPresentationCommand(inputGraph, "default"));
-				}else{
-					execute(new ChangeBoundsCommand(inputGraph, new Rectangle(location.x, location.y, inputGraph.getSize().width, inputGraph.getSize().height)));
-				}
-				return inputGraph;
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e){
@@ -98,9 +54,6 @@ public class DisplayPinsSection extends AbstractTabbedPropertySection{
 		fData.left = new FormAttachment(0);
 		fData.right = new FormAttachment(100);
 		button.setLayoutData(fData);
-	}
-	private void execute(Command createGraphNodeCommand){
-		getEditingDomain().getCommandStack().execute(new GEFtoEMFCommandWrapper(createGraphNodeCommand));
 	}
 	@Override
 	protected EStructuralFeature getFeature(){

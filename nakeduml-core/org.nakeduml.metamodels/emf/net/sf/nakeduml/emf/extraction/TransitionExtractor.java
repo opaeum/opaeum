@@ -48,7 +48,7 @@ public class TransitionExtractor extends CommonBehaviorExtractor{
 			INakedConstraint constraint = new NakedConstraintImpl();
 			initialize(constraint, emfGuard, emfTransition);
 			INakedBehavior nakedStateMachine = (INakedBehavior) getNakedPeer(getStateMachine(emfTransition));
-			INakedValueSpecification vs = getValueSpecification(nakedTransition, emfGuard.getSpecification(), OclUsageType.PRE);
+			INakedValueSpecification vs = getValueSpecification(constraint, emfGuard.getSpecification(), OclUsageType.PRE);
 			if(vs != null){
 				if(vs.getValue() instanceof ParsedOclString){
 					((ParsedOclString) vs.getValue()).setContext(nakedStateMachine, nakedTransition);

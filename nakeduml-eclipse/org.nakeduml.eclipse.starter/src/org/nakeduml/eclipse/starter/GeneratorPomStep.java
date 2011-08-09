@@ -1,6 +1,6 @@
 package org.nakeduml.eclipse.starter;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.pomgeneration.PomGenerationStep;
@@ -15,8 +15,8 @@ import org.apache.maven.pom.Plugin;
 public class GeneratorPomStep extends PomGenerationStep {
 
 	@Override
-	public OutputRoot getExampleTargetDir() {
-		return config.getOutputRoot(StarterCodeGenerator.OutputRootId.GENERATOR_SRC);
+	public SourceFolderDefinition getExampleTargetDir() {
+		return config.getSourceFolderDefinition(GeneratorSourceFolderIdentifier.GENERATOR_SRC);
 	}
 	//TODO add to parent pom - creates a bootstrap problem maybe not
 	//TODO add code generation 

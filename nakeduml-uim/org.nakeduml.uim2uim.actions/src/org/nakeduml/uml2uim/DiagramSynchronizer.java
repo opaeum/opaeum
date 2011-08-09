@@ -13,12 +13,12 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uim.action.ActionKind;
 import org.nakeduml.uim.folder.EntityFolder;
 import org.nakeduml.uim.form.FormPanel;
 import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramInterchangeFactory;
 import org.topcased.modeler.di.model.EMFSemanticModelBridge;
@@ -34,7 +34,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		String resourceUri = UmlUimLinks.getId(a);
+		String resourceUri = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(a);
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -72,7 +72,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	private void createClassForm(Class c,EntityFolder folder,ActionKind...actionKinds){
 		String suffix = actionKinds[0] == ActionKind.UPDATE ? "Editor" : "Creator";
-		String resourceUri = UmlUimLinks.getId(c) + suffix;
+		String resourceUri = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(c) + suffix;
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -84,7 +84,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	@VisitBefore(matchSubclasses = false)
 	public void beforeOperation(Operation o){
 		if(UimUtil.isTask(o)){
-			String resourceUri = UmlUimLinks.getId(o) + "Task";
+			String resourceUri = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(o) + "Task";
 			UimForm form = getFormFor(resourceUri, "uim");
 			if(form != null){
 				Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -94,7 +94,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 			}
 		}
 		// TODO generate table Panels for multi output parameters and detail panels for single output parameters
-		String resourceUri = UmlUimLinks.getId(o) + "Invoker";
+		String resourceUri = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(o) + "Invoker";
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -105,7 +105,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeState(State s){
-		String resourceUri = UmlUimLinks.getId(s);
+		String resourceUri = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(s);
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());

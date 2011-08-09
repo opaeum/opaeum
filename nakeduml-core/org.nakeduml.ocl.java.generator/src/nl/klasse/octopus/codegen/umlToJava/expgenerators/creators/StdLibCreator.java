@@ -1311,40 +1311,40 @@ body7.addToStatements( exp32 );
 		OJPathName myType = StdlibMap.javaBagType;
 		OJPathName myImplType = StdlibMap.javaBagImplType;
 		makeAsCollectionOper("myString", "stringAsBag", StdlibMap.javaStringType, myType, myImplType);
-		makeAsCollectionOper("myInt", "intAsBag", StdlibMap.javaIntegerType, myType, myImplType);
-		makeAsCollectionOper("myReal", "realAsBag", StdlibMap.javaRealType, myType, myImplType);
-		makeAsCollectionOper("myBool", "boolAsBag", StdlibMap.javaBooleanType, myType, myImplType);
-		makeAsCollectionOper("myObject", "objectAsBag", JavaPathNames.Object, myType, myImplType);
+		makeAsCollectionOper("myInt", "intAsBag", StdlibMap.javaIntegerObjectType, myType, myImplType);
+		makeAsCollectionOper("myReal", "realAsBag", StdlibMap.javaRealObjectType, myType, myImplType);
+		makeAsCollectionOper("myBool", "boolAsBag", StdlibMap.javaBooleanObjectType, myType, myImplType);
+		makeAsCollectionOper("myObject", "objectAsBag", new OJPathName("T"), myType, myImplType);
 		makeCollAsXOper("myCollection", "collectionAsBag", StdlibMap.javaCollectionType, myType, myImplType);
 	}
 	private void addAsOrdOpers() {
 		OJPathName myType = StdlibMap.javaOrderedSetType;
 		OJPathName myImplType = StdlibMap.javaOrderedSetImplType;
 		makeAsCollectionOper("myString", "stringAsOrderedSet", StdlibMap.javaStringType, myType, myImplType);
-		makeAsCollectionOper("myInt", "intAsOrderedSet", StdlibMap.javaIntegerType, myType, myImplType);
-		makeAsCollectionOper("myReal", "realAsOrderedSet", StdlibMap.javaRealType, myType, myImplType);
-		makeAsCollectionOper("myBool", "boolAsOrderedSet", StdlibMap.javaBooleanType, myType, myImplType);
-		makeAsCollectionOper("myObject", "objectAsOrderedSet", JavaPathNames.Object, myType, myImplType);
+		makeAsCollectionOper("myInt", "intAsOrderedSet", StdlibMap.javaIntegerObjectType, myType, myImplType);
+		makeAsCollectionOper("myReal", "realAsOrderedSet", StdlibMap.javaRealObjectType, myType, myImplType);
+		makeAsCollectionOper("myBool", "boolAsOrderedSet", StdlibMap.javaBooleanObjectType, myType, myImplType);
+		makeAsCollectionOper("myObject", "objectAsOrderedSet", new OJPathName("T"), myType, myImplType);
 		makeCollAsXOper("myCollection", "collectionAsOrderedSet", StdlibMap.javaCollectionType, myType, myImplType);
 	}
 	private void addAsSeqOpers() {
 		OJPathName myType = StdlibMap.javaSequenceType;
 		OJPathName myImplType = StdlibMap.javaSequenceImplType;
 		makeAsCollectionOper("myString", "stringAsSequence", StdlibMap.javaStringType, myType, myImplType);
-		makeAsCollectionOper("myInt", "intAsSequence", StdlibMap.javaIntegerType, myType, myImplType);
-		makeAsCollectionOper("myReal", "realAsSequence", StdlibMap.javaRealType, myType, myImplType);
-		makeAsCollectionOper("myBool", "boolAsSequence", StdlibMap.javaBooleanType, myType, myImplType);
-		makeAsCollectionOper("myObject", "objectAsSequence", JavaPathNames.Object, myType, myImplType);
+		makeAsCollectionOper("myInt", "intAsSequence", StdlibMap.javaIntegerObjectType, myType, myImplType);
+		makeAsCollectionOper("myReal", "realAsSequence", StdlibMap.javaRealObjectType, myType, myImplType);
+		makeAsCollectionOper("myBool", "boolAsSequence", StdlibMap.javaBooleanObjectType, myType, myImplType);
+		makeAsCollectionOper("myObject", "objectAsSequence", new OJPathName("T"), myType, myImplType);
 		makeCollAsXOper("myCollection", "collectionAsSequence", StdlibMap.javaCollectionType, myType, myImplType);
 	}
 	private void addAsSetOpers() {
 		OJPathName myType = StdlibMap.javaSetType;
 		OJPathName myImplType = StdlibMap.javaSetImplType;
 		makeAsCollectionOper("myString", "stringAsSet", StdlibMap.javaStringType, myType, myImplType);
-		makeAsCollectionOper("myInt", "intAsSet", StdlibMap.javaIntegerType, myType, myImplType);
-		makeAsCollectionOper("myReal", "realAsSet", StdlibMap.javaRealType, myType, myImplType);
-		makeAsCollectionOper("myBool", "boolAsSet", StdlibMap.javaBooleanType, myType, myImplType);
-		makeAsCollectionOper("myObject", "objectAsSet", JavaPathNames.Object, myType, myImplType);
+		makeAsCollectionOper("myInt", "intAsSet", StdlibMap.javaIntegerObjectType, myType, myImplType);
+		makeAsCollectionOper("myReal", "realAsSet", StdlibMap.javaRealObjectType, myType, myImplType);
+		makeAsCollectionOper("myBool", "boolAsSet", StdlibMap.javaBooleanObjectType, myType, myImplType);
+		makeAsCollectionOper("myObject", "objectAsSet", new OJPathName("T"), myType, myImplType);
 		makeCollAsXOper("myCollection", "collectionAsSet", StdlibMap.javaCollectionType, myType, myImplType);
 	}
 

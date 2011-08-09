@@ -44,8 +44,20 @@ public class ParameterComposite extends Composite{
 		widgetFactory.adapt(this);
 		createContents(this);
 		hookListeners();
+		setEnabled(this,false);
 	}
+	private void setEnabled(Composite control,boolean enable){
+		for(Control c:control.getChildren()){
+			c.setEnabled(enable);
+			if(c instanceof Composite){
+				Composite com = (Composite) c;
+				setEnabled(com, enable);
+			}
+		}
+	}
+
 	public void setParameter(Parameter parameter){
+		setEnabled(this, parameter!=null);
 		this.parameter = parameter;
 		loadData();
 	}

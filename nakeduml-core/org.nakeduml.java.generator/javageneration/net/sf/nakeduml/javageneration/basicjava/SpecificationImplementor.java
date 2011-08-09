@@ -137,7 +137,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			javaMethod.getBody().addToLocals(behaviorField);
 			behaviorField.setInitExp("new " + ojBehavior.getLast() + "(this)");
 			populateBehavior(behavior, javaMethod);
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ArtificialProperty(behavior, getOclEngine().getOclLibrary()));
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
 			javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
 			if(behavior.getSpecification() != null){
 				javaMethod.getBody().addToStatements("_behavior.execute()");

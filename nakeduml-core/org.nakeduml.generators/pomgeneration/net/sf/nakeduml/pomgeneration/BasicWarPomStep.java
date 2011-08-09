@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
@@ -17,9 +17,9 @@ import org.apache.maven.pom.Profile;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class,requires = {
-	IntegratedSeam3PomStep.class
+	BasicIntegratedAdaptorPomStep.class
 })
-public class WarPomStep extends PomGenerationStep{
+public class BasicWarPomStep extends PomGenerationStep{
 	@Override
 	public Plugin[] getPlugins(){
 		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));
@@ -40,7 +40,6 @@ public class WarPomStep extends PomGenerationStep{
 		addSeamServlet(dependencies);
 		addSeamServletImpl(dependencies);
 		addSeamConfig(dependencies);
-		addArquillian(dependencies);
 		addNumlTestAdaptor(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
@@ -50,7 +49,6 @@ public class WarPomStep extends PomGenerationStep{
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
 		p.put("seam.servlet.version", "3.0.0.Final");
-		p.put("arquillian.version", ARQUILLIAN_VERSION);
 		return p;
 	}
 	@Override
@@ -62,8 +60,8 @@ public class WarPomStep extends PomGenerationStep{
 		return "war";
 	}
 	@Override
-	public OutputRoot getExampleTargetDir(){
-		return config.getOutputRoot(CharArrayTextSource.OutputRootId.WEBAPP_RESOURCE);
+	public SourceFolderDefinition getExampleTargetDir(){
+		return config.getSourceFolderDefinition(TextSourceFolderIdentifier.WEBAPP_RESOURCE);
 	}
 	@Override
 	public Profile[] getProfiles(){
@@ -92,5 +90,9 @@ public class WarPomStep extends PomGenerationStep{
 		PomUtil.addAnyAttribute(anyType, "name", "**/*");
 		profiles[1] = profile;
 		return profiles;
+	}
+	@Override
+	public boolean isIntegrationStep(){
+		return true;
 	}
 }

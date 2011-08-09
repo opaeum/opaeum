@@ -6,17 +6,28 @@ import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
-public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
+public abstract class AbstractMappingInfo implements IMappingInfo{
 	//TODO simplify
-	private transient boolean isNewInVersion = false;
-	private transient boolean isNewInRevision = false;
-	private transient boolean requiresSqlRename = false;
-	private transient boolean shouldStore;
-	private transient String qualifiedJavaName;
-	private transient String javaNameString;
-	private transient String singularHumanName;
-	private transient String pluralHumanName;
-	private transient String qualifiedUmlName;
+	private boolean isNewInVersion = false;
+	private boolean isNewInRevision = false;
+	private boolean requiresSqlRename = false;
+	private boolean shouldStore;
+	private String qualifiedJavaName;
+	private String oldQualifiedJavaName;
+	private String singularHumanName;
+	private String pluralHumanName;
+	private String qualifiedUmlName;
+	/**
+	 * 
+	 * A Human readable version of name, generated from the "humanName" and "plural" taggedValues to generate user instructions. In most
+	 * cases, except for elements with a multiplicity, this would be a singular name. The plural of this NameWrapper would come from the
+	 * taggedValue "plural".
+	 */
+	protected NameWrapper humanName;
+	private NameWrapper javaName;
+	private NameWrapper oldPersistentName;
+	private NameWrapper persistentName;
+	private NameWrapper oldJavaName;
 	@Override
 	public void setStore(boolean store){
 		this.shouldStore = store;
@@ -25,15 +36,6 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 	public boolean shouldStore(){
 		return shouldStore;
 	}
-	/**
-	 * 
-	 * A Human readable version of name, generated from the "humanName" and "plural" taggedValues to generate user instructions. In most
-	 * cases, except for elements with a multiplicity, this would be a singular name. The plural of this NameWrapper would come from the
-	 * taggedValue "plural".
-	 */
-	protected transient NameWrapper humanName;
-	private transient NameWrapper javaName;
-	private transient NameWrapper sqlName;
 	/**
 	 * Calculates whether this originalElement should be added to the database 1. For this revision given the currently deployed revision in the
 	 * database 2. For this version, given the currently deployed version in the database
@@ -91,31 +93,31 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 	protected boolean hasSinceVersion(){
 		return getSinceVersion() != null;
 	}
+	public boolean requiresJavaRename(){
+		return oldQualifiedJavaName!=null && !oldQualifiedJavaName.equals(qualifiedJavaName);
+	}
+	public boolean requiresPersistentRename(){
+		return oldPersistentName!=null && !oldPersistentName.equals(oldPersistentName);
+	}
 	public boolean hasMappingInfo(){
 		return hasSinceVersion();
 	}
 	public boolean hasPersistentName(){
-		return getSqlNameString() != null &&getSqlNameString().trim().length()>0;
+		return getPersistentName()!=null && getPersistentName().getAsIs()!=null && getPersistentName().getAsIs().trim().length()>0;
 	}
 	public NameWrapper getJavaName(){
-		if(this.javaName == null){
-			this.javaName = new SingularNameWrapper(getJavaNameString(), null);
-		}
 		return this.javaName;
 	}
 	public void setJavaName(NameWrapper javaName){
+		this.oldJavaName=this.javaName;
 		this.javaName = javaName;
-		setJavaNameString(javaName.getAsIs());
 	}
 	public NameWrapper getPersistentName(){
-		if(this.sqlName == null){
-			this.sqlName = new SingularNameWrapper(getSqlNameString(), null);
-		}
-		return this.sqlName;
+		return this.persistentName;
 	}
 	public void setPersistentName(NameWrapper sqlName){
-		this.sqlName = sqlName;
-		setSqlNameString(sqlName.getAsIs());
+		this.oldPersistentName=this.persistentName;
+		this.persistentName = sqlName;
 	}
 	public NameWrapper getHumanName(){
 		if(this.humanName == null){
@@ -141,16 +143,12 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 		result.setSinceVersion(getSinceVersion());
 		return result;
 	}
-	protected abstract void setSqlNameString(String name);
-	protected abstract String getSqlNameString();
 	public String getQualifiedJavaName(){
 		return qualifiedJavaName;
 	}
 	public void setQualifiedJavaName(String qualifiedJavaName){
+		this.oldQualifiedJavaName=this.qualifiedJavaName;
 		this.qualifiedJavaName = qualifiedJavaName;
-	}
-	public String getJavaNameString(){
-		return javaNameString;
 	}
 	public String getSingularHumanName(){
 		return singularHumanName;
@@ -170,8 +168,14 @@ public abstract class AbstractMappingInfo implements IMappingInfo,Serializable{
 	public void setQualifiedUmlName(String qualifiedUmlName){
 		this.qualifiedUmlName = qualifiedUmlName;
 	}
-	public void setJavaNameString(String javaNameString){
-		this.javaNameString = javaNameString;
+	public String getOldQualifiedJavaName(){
+		return oldQualifiedJavaName;
+	}
+	public NameWrapper getOldPersistentName(){
+		return oldPersistentName;
+	}
+	public NameWrapper getOldJavaName(){
+		return oldJavaName;
 	}
 	protected abstract AbstractMappingInfo createCopy();
 }

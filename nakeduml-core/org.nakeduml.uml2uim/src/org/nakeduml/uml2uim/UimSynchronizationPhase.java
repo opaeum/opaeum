@@ -34,40 +34,8 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	EmfWorkspace workspace;
 	private NakedUmlConfig config;
 	private List<AbstractUimSynchronizer> features;
-	@Override
-	public void initialize(NakedUmlConfig config){
-		this.config = config;
-	}
-	@Override
-	public Object[] execute(List<AbstractUimSynchronizer> features,TransformationContext context){
-		this.features=features;
-		UmlElementCache map = buildUmlMap();
-		map.loadContents();
-
-		ResourceSet resourceSet = new ResourceSetImpl();
-		UmlUimLinks.associate(resourceSet, map);
-		for(AbstractUimSynchronizer s:features){
-			s.init(workspace, resourceSet, false, map);
-			s.startVisiting(workspace);
-		}
-		try{
-			save(workspace.getDirectoryUri(), resourceSet);
-		}catch(IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return new Object[]{
-			workspace
-		};
-	}
 	protected UmlElementCache buildUmlMap(){
-		UmlElementCache map = new UmlElementCache(workspace, new UmlElementCache.Selector(){
-			public boolean select(Object eObject){
-				return eObject instanceof Property || eObject instanceof Operation || eObject instanceof Parameter || eObject instanceof OpaqueAction
-						|| eObject instanceof Pin || eObject instanceof State || eObject instanceof Transition || eObject instanceof org.eclipse.uml2.uml.Package
-						|| eObject instanceof Classifier;
-			}
-		});
+		UmlElementCache map = new UmlElementCache(workspace);
 		return map;
 	}
 	public static void save(URI rootDir,ResourceSet r) throws IOException{
@@ -84,10 +52,11 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+		UmlElementCache map = buildUmlMap();
 		for(Element element:elements){
 			ResourceSet resourceSet = new ResourceSetImpl();
-			UmlElementCache map = buildUmlMap();
 			//TODO when to load contents?
+
 			UmlUimLinks.associate(resourceSet, map);
 			for(AbstractUimSynchronizer s:features){
 				s.init(workspace, resourceSet, false,map);
@@ -101,5 +70,32 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 			}
 		}
 		return elements;
+	}
+	@Override
+	public void execute(TransformationContext context){
+		ResourceSet resourceSet = new ResourceSetImpl();
+		for(AbstractUimSynchronizer s:features){
+			s.startVisiting(workspace);
+		}
+		try{
+			save(workspace.getDirectoryUri(), resourceSet);
+		}catch(IOException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void initialize(NakedUmlConfig config,List<AbstractUimSynchronizer> features){
+		this.config=config;
+		ResourceSet resourceSet = new ResourceSetImpl();
+		UmlElementCache map = buildUmlMap();
+		UmlUimLinks.associate(resourceSet, map);
+		for(AbstractUimSynchronizer s:features){
+			s.init(workspace, resourceSet, false, map);
+		}
+	}
+	@Override
+	public Collection<AbstractUimSynchronizer> getSteps(){
+		return features;
 	}
 }

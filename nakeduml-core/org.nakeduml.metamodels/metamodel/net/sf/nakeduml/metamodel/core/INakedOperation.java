@@ -21,6 +21,6 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	void setIsLongRunning(boolean b);
 	void setBodyCondition(INakedConstraint specification);
 	INakedConstraint getBodyCondition();
-	void initMessageStructure(NakedUmlLibrary lib);
+	void initMessageStructure();
 	INakedMessageStructure getMessageStructure();
 }

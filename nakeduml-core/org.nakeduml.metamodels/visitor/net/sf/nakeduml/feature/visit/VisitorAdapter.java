@@ -1,9 +1,25 @@
 package net.sf.nakeduml.feature.visit;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.eclipse.uml2.uml.Element;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
+
+import javassist.ClassPath;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.CtNewMethod;
+import javassist.NotFoundException;
 
 /**
  * VisitorAdapter is an abstract adapter class that traverses a tree starting with the root. Subclasses have to annotate methods that serve
@@ -22,21 +38,97 @@ import java.util.List;
  *            This it the class of the root node of the tree.
  */
 public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
+	private static final class EclipseClassPath implements ClassPath{
+		Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
+		@Override
+		public InputStream openClassfile(String classname) throws NotFoundException{
+			try{
+				URL url = find(classname);
+				return url.openStream();
+			}catch(IOException e){
+				throw new NotFoundException(e.getMessage());
+			}
+		}
+		@Override
+		public URL find(String classname){
+			Class<?> asdf = classes.get(classname);
+			String jarname = "/" + classname.replace('.', '/') + ".class";
+			if(asdf != null){
+				URL resource = asdf.getResource(jarname);
+				return resource;
+			}else{
+				URL resource = Thread.currentThread().getContextClassLoader().getResource(jarname);
+				return resource;
+			}
+		}
+		@Override
+		public void close(){
+		}
+		public void addClass(Class<?> class1){
+			classes.put(class1.getName(), class1);
+			if(class1.getSuperclass() != Object.class && class1.getSuperclass() != null){
+				addClass(class1.getSuperclass());
+			}
+		}
+	}
+	static int classCount = 0;
 	protected List<VisitSpec> beforeMethods = new ArrayList<VisitSpec>();
 	protected List<VisitSpec> afterMethods = new ArrayList<VisitSpec>();
-	protected ROOT workspace;
+	ClassPool pool = new ClassPool(null){
+		@Override
+		public ClassLoader getClassLoader(){
+			return VisitorAdapter.this.getClass().getClassLoader();
+		}
+	};
+	private static EclipseClassPath cp = new EclipseClassPath();
 	protected VisitorAdapter(){
+		pool.appendSystemPath();
+		pool.appendClassPath(cp);
 		loadMethodsFromClass((Class<? extends VisitorAdapter<NODE,ROOT>>) getClass());
 	}
 	protected void loadMethodsFromClass(Class<? extends VisitorAdapter<NODE,ROOT>> class1){
 		Method[] methods = class1.getMethods();
 		for(Method m:methods){
 			if(m.isAnnotationPresent(VisitBefore.class)){
-				beforeMethods.add(new VisitSpec(m, true));
+				VisitSpec newInstance = buildVisitSpec(m, true);
+				beforeMethods.add(newInstance);
 			}
 			if(m.isAnnotationPresent(VisitAfter.class)){
-				afterMethods.add(new VisitSpec(m, false));
+				VisitSpec newInstance = buildVisitSpec(m, false);
+				afterMethods.add(newInstance);
 			}
+		}
+	}
+	public VisitSpec buildVisitSpec(Method m,boolean before){
+		// return new VisitSpec(m,before);
+		try{
+			cp.addClass(getClass());
+			cp.addClass(m.getParameterTypes()[0]);
+			if(m.getParameterTypes().length > 1){
+				cp.addClass(m.getParameterTypes()[1]);
+			}
+			CtClass ctClass = pool.makeClass(VisitSpec.class.getName() + (++classCount), pool.get(VisitSpec.class.getName()));
+			StringBuilder sb = new StringBuilder("public void visit(" + VisitorAdapter.class.getName() + " vi, Object[] o) {((");
+			sb.append(getClass().getName());
+			sb.append(")vi).");
+			sb.append(m.getName());
+			sb.append("((");
+			sb.append(m.getParameterTypes()[0].getName());
+			sb.append(")o[0]");
+			if(m.getParameterTypes().length > 1){
+				sb.append(",(");
+				sb.append(m.getParameterTypes()[1].getName());
+				sb.append(")o[1]");
+			}
+			sb.append(");}");
+			CtMethod ctm = CtNewMethod.make(sb.toString(), ctClass);
+			ctClass.addMethod(ctm);
+			Class class1 = ctClass.toClass();
+			VisitSpec newInstance = (VisitSpec) class1.newInstance();
+			newInstance.init(m, before);
+			return newInstance;
+		}catch(Exception e){
+			throw new RuntimeException(e);
 		}
 	}
 	/**
@@ -57,7 +149,6 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		throw new RuntimeException("not implemented");
 	}
 	public void startVisiting(ROOT root){
-		this.workspace = root;
 		visitRecursively(root);
 	}
 	public void visitOnly(NODE o){
@@ -85,10 +176,14 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			if(v.resolvePeer()){
 				Object peer = resolvePeer(o, v.getPeerClass());
 				if(peer != null){
-					v.visit(this, o, peer);
+					v.visit(this, new Object[]{
+							o,peer
+					});
 				}
 			}else{
-				v.visit(this, o);
+				v.visit(this, new Object[]{
+					o
+				});
 			}
 		}
 	}

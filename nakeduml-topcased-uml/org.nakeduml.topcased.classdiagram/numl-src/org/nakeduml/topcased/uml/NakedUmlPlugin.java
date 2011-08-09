@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -36,15 +37,17 @@ public class NakedUmlPlugin extends UMLPlugin{
 		NakedUmlEditor e = null;
 		IWorkbench workbench = getDefault().getWorkbench();
 		IWorkbenchWindow[] workbenchWindows = workbench.getWorkbenchWindows();
-		for(IWorkbenchWindow w:workbenchWindows){
+		outer:for(IWorkbenchWindow w:workbenchWindows){
 			IWorkbenchPage[] pages = w.getPages();
 			for(IWorkbenchPage activePage:pages){
 				for(IEditorReference er:activePage.getEditorReferences()){
 					IEditorPart curEditor = er.getEditor(false);
 					if(curEditor instanceof NakedUmlEditor){
+						IFileEditorInput input= (IFileEditorInput) curEditor.getEditorInput();
+						String lastSegment = input.getFile().getLocation().removeFileExtension().lastSegment();
 						e = (NakedUmlEditor) curEditor;
-						if(e.getFilePath().toFile().getName().equals(modelElement.eResource().getURI().lastSegment())){
-							break;
+						if(lastSegment.equals(modelElement.eResource().getURI().trimFileExtension().lastSegment())){
+							break outer;
 						}
 					}
 				}

@@ -23,10 +23,9 @@ public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompos
 
 	private List<INakedProperty> attributes;
 
-	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action,NakedUmlLibrary lib) {
-		super(action.getActivity(), action,lib);
+	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action) {
+		super(action.getActivity(), action);
 		this.action = action;
-		addInterface(lib.getTaskObject());
 		
 	}
 

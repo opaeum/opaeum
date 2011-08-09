@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.OutputRoot;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -56,7 +56,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements TransformationStep {
+public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements ITransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";
 	protected TextWorkspace textWorkspace;
 	protected INakedModelWorkspace workspace;
@@ -106,7 +106,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getCurrentVersion());
 		root.getProcess().setType("RuleFlow");
 		
-		OutputRoot outputRoot = config.getOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE);
+		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getNames();
 		names.add(behavior.getMappingInfo().getJavaName() + ".rf");
@@ -114,7 +114,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		this.textFiles.add(textFile);
 		return root;
 	}
-	protected SourceFolder getSourceFolder(OutputRoot outputRoot) {
+	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot) {
 		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentModelOrProfile
 				.getIdentifier();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());

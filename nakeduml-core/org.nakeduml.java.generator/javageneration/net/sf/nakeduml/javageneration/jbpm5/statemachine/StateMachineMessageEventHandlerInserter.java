@@ -137,7 +137,7 @@ public class StateMachineMessageEventHandlerInserter extends AbstractEventHandle
 				p.setFinal(true);
 			}
 			SimpleActivityMethodImplementor ai = new SimpleActivityMethodImplementor();
-			ai.initialize(javaModel, config, textWorkspace, this.transformationContext);
+			ai.initialize(javaModel, config, textWorkspace,workspace);
 			ai.setWorkspace(workspace);
 			ai.implementActivityOn((INakedActivity) transition.getEffect(), onTransition);
 			operationContext.getOwner().addToImports(listener.getClassDeclaration().getImports());

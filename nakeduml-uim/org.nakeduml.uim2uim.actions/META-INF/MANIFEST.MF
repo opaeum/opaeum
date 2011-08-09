@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.nakeduml.uim.uml2uim;visibility:=reexport,
  org.nakeduml.uim.classform;visibility:=reexport,
- org.topcased.modeler.diagrams;visibility:=reexport
+ org.topcased.modeler.diagrams;visibility:=reexport,
+ org.nakeduml.eclipse.hibernate;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.nakeduml.uim2uim.actions,

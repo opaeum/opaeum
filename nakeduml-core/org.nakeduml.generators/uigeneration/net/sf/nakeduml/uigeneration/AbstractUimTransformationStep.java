@@ -9,7 +9,7 @@ import net.sf.nakeduml.domainmetamodel.DomainClassifier;
 import net.sf.nakeduml.domainmetamodel.DomainPackage;
 import net.sf.nakeduml.domainmetamodel.SecurityOnUserAction;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;

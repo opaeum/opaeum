@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationStep;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.pomgeneration.PomGenerationStep;
 
@@ -36,8 +36,8 @@ public class JbpmTest extends AbstractTestCodeGenerator {
 	@StepDependency(phase = PomGenerationPhase.class, requires = { })
 	public static class AddRipDependencies extends PomGenerationStep {
 		@Override
-		protected OutputRoot getExampleTargetDir() {
-			return config.getOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC);
+		protected SourceFolderDefinition getExampleTargetDir() {
+			return config.getSourceFolderDefinition(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 		}
 
 		@Override
@@ -77,8 +77,8 @@ public class JbpmTest extends AbstractTestCodeGenerator {
 	}
 
 	@Override
-	protected Set<Class<? extends TransformationStep>> getSteps() {
-		Set<Class<? extends TransformationStep>> steps = super.getSteps();
+	protected Set<Class<? extends ITransformationStep>> getSteps() {
+		Set<Class<? extends ITransformationStep>> steps = super.getSteps();
 		steps.add(AddRipDependencies.class);
 		return steps;
 	}

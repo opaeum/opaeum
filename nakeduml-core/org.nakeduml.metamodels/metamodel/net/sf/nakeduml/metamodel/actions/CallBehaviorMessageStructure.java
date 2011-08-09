@@ -17,8 +17,8 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStructure{
 	private INakedCallBehaviorAction action;
-	public CallBehaviorMessageStructure(INakedCallBehaviorAction b, NakedUmlLibrary lib){
-		super(b.getActivity(), b.getBehavior(),lib);
+	public CallBehaviorMessageStructure(INakedCallBehaviorAction b){
+		super(b.getActivity(), b.getBehavior());
 		this.action=b;
 	}
 	@Override

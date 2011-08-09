@@ -1,3 +1,10 @@
+CM1
+Environment implementation for Seam2
+Persistence implementation
+Remove old auditing
+Do data restoration with an XML document
+
+
 Eclipse
 Reverse engineer a profile into the workspace
 Keep a NakedUmlWorkspace in sync with the resourceset of a NakedUmlEditor instance to reduce overheads for validation
@@ -46,6 +53,8 @@ Calculate which operations are long running
 All long-running operations should provide a second method providing the calling context
 AcceptCallAction - store operation structure
 unmarshall the pins to allow OCL compilation for postconditions
+Consider all operations that have triggers associated with them to be long -running - remember the event occurrence queue ide
+
 
 Statemachines
 Implement effects, entry and do-action subprocess calls
@@ -60,12 +69,14 @@ link powerTypeInstances with generalization
 Activities
 Implement real asynchronous actions, i.e. call the action in another physical thread
 Log all events as well as asynchronous actions and signals directly in database and deliver them asynchronously
-Provide button to display actions' pins
+For event occurrences, put them in the queue of the object
+For all activities that start with an event, instantiate the activity in the context's event handler
+For all events implement correlation logic in the context;s event handler
+For time events and change events, request the events when the context is created. Assume that relative time events need to be repeated.
+
 
 Maven
 put MavenArtefatId in profile
-default MAvenArtifactIdPrefix to worskpaceidentifier-modelName
-programmaticallyset m2_repo
 
 Validation
 ModelNameUniqueness

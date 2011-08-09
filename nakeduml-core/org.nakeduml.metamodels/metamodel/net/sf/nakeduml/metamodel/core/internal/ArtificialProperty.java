@@ -15,14 +15,12 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.mapping.internal.MappingInfoImpl;
-import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
-import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.nakeduml.name.NameConverter;
 
 public class ArtificialProperty extends AbstractPropertyBridge {
+
 	private static final long serialVersionUID = 1L;
 	private INakedClassifier baseType;
 	private NakedMultiplicityImpl multiplicity;
@@ -31,86 +29,70 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 	private IClassifier type;
 	private INakedProperty otherEnd;
 	private boolean isInverse;
-	private IOclLibrary lib;
 	private MappingInfoImpl mappingInfo;
 
-	public ArtificialProperty(INakedClassifier type, IOclLibrary lib) {
+	public ArtificialProperty(INakedClassifier type) {
 		this(type.getNestingClassifier(), type);
-		initialiseNestedClasifier(type, lib);
+		initialiseNestedClasifier(type);
 	}
 
-	private void initialiseNestedClasifier(INakedClassifier type,
-			IOclLibrary lib) {
-		this.lib = lib;
+	private void initialiseNestedClasifier(INakedClassifier type) {
 		this.isInverse = true;
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.name = NameConverter.decapitalize(type.getName());
-		setMappingInfo(type);
+		this.mappingInfo = (MappingInfoImpl) type.getMappingInfo().getCopy();
 		this.isOrdered = false;
 		this.baseType = type;
-		this.type = lib.lookupCollectionType(CollectionMetaType.SET, type);
+		super.isComposite=true;
 	}
 
-	private void setMappingInfo(INakedClassifier type) {
-		this.mappingInfo = (MappingInfoImpl) type.getMappingInfo().getCopy();
-		this.mappingInfo.setJavaName(new SingularNameWrapper(this.name,null));
-		SingularNameWrapper persistentName;
-		if (multiplicity.getUpper() > 1) {
-			persistentName = new SingularNameWrapper(NameConverter
-					.toUnderscoreStyle(name),null);
-		} else {
-			persistentName = new SingularNameWrapper(NameConverter
-					.toUnderscoreStyle(name)+"_id",null);
-		}
-		this.mappingInfo.setPersistentName(persistentName);
+	@Override
+	public void setName(String umlName){
+		this.name=umlName;
 	}
 
 	public MappingInfoImpl getMappingInfo() {
 		return mappingInfo;
 	}
 
-	public ArtificialProperty(INakedBehavior behavior, IOclLibrary lib) {
+	public ArtificialProperty(INakedBehavior behavior) {
 		this(behavior.getContext(), behavior);
-		initializeOwnedBehavior(behavior, lib);
+		initializeOwnedBehavior(behavior);
 	}
 
-	private void initializeOwnedBehavior(INakedBehavior behavior,
-			IOclLibrary lib) {
-		this.lib = lib;
+	private void initializeOwnedBehavior(INakedBehavior behavior) {
 		if (behavior == behavior.getContext().getClassifierBehavior()) {
 			this.multiplicity = new NakedMultiplicityImpl(1, 1);
 			this.isInverse = true;
 			this.type = baseType;
 			this.name = "classifierBehavior";
-			setMappingInfo(behavior);
+			this.mappingInfo = (MappingInfoImpl) behavior.getMappingInfo().getCopy();
 		} else {
-			initSequence(behavior, lib);
+			initSequence(behavior);
 		}
+		super.isComposite=true;
+
 	}
 
-	public ArtificialProperty(MessageStructureImpl msg, IOclLibrary lib) {
+	public ArtificialProperty(MessageStructureImpl msg) {
 		super(getOwner(msg), msg);
-		initializeMessageStructure(msg, lib);
+		initializeMessageStructure(msg);
 	}
 
-	private void initializeMessageStructure(MessageStructureImpl msg,
-			IOclLibrary lib) {
-		this.lib = lib;
-		initSequence(msg, lib);
+	private void initializeMessageStructure(MessageStructureImpl msg) {
+		initSequence(msg);
 	}
 
-	private ArtificialProperty(ArtificialProperty otherEnd, String name,
-			IOclLibrary lib) {
+	private ArtificialProperty(ArtificialProperty otherEnd, String name) {
 		super(otherEnd.getBaseType(), otherEnd.getOwner());
 		this.otherEnd = otherEnd;
 		this.isInverse = false;
-		this.lib = lib;
 		this.multiplicity = new NakedMultiplicityImpl(1, 1);
 		this.name = name;
 		this.mappingInfo = new MappingInfoImpl();
 		this.type = otherEnd.getOwner();
 		this.baseType = otherEnd.getOwner();
-		setMappingInfo(otherEnd.getOwner());
+		this.mappingInfo = (MappingInfoImpl) otherEnd.getOwner().getMappingInfo().getCopy();
 	}
 
 	private ArtificialProperty(INakedClassifier nestingClassifier,
@@ -119,20 +101,20 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.baseType = type2;
 	}
 
-	private ArtificialProperty(ArtificialProperty otherEnd, IOclLibrary lib) {
+	private ArtificialProperty(ArtificialProperty otherEnd) {
 		super(otherEnd.getBaseType(), otherEnd.getOwner());
 		this.otherEnd = otherEnd;
 		if (otherEnd.getOwner() instanceof MessageStructureImpl) {
 			initializeMessageStructure(
-					(MessageStructureImpl) otherEnd.getOwner(), lib);
+					(MessageStructureImpl) otherEnd.getOwner());
 		} else if (otherEnd.getOwner() instanceof INakedBehavior) {
-			initializeOwnedBehavior((INakedBehavior) otherEnd.getOwner(), lib);
+			initializeOwnedBehavior((INakedBehavior) otherEnd.getOwner());
 		} else {
-			initialiseNestedClasifier(otherEnd.getOwner(), lib);
+			initialiseNestedClasifier(otherEnd.getOwner());
 		}
 	}
 
-	public ArtificialProperty(INakedProperty opposite, IOclLibrary oclLibrary) {
+	public ArtificialProperty(INakedProperty opposite) {
 		super(opposite.getNakedBaseType(), opposite.getOwner());
 		this.otherEnd = opposite;
 		this.multiplicity = new NakedMultiplicityImpl(1, 1);
@@ -140,19 +122,17 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.type = this.baseType;
 		this.isInverse = false;
 		this.name=baseType.getName();
-		setMappingInfo(opposite.getOwner());
+		this.mappingInfo = (MappingInfoImpl) opposite.getOwner().getMappingInfo().getCopy();
 
 	}
 
-	private void initSequence(INakedClassifier behavior, IOclLibrary lib) {
+	private void initSequence(INakedClassifier behavior) {
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.baseType = behavior;
 		this.name = NameConverter.decapitalize(behavior.getName());
 		this.isOrdered = true;
-		this.type = lib.lookupCollectionType(CollectionMetaType.SEQUENCE,
-				baseType);
 		this.isInverse = true;
-		setMappingInfo(behavior);
+		this.mappingInfo = (MappingInfoImpl) behavior.getMappingInfo().getCopy();
 	}
 
 	private static INakedClassifier getOwner(MessageStructureImpl task) {
@@ -216,14 +196,14 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		if (otherEnd == null) {
 			if (baseType instanceof IParameterOwner
 					&& ((IParameterOwner) baseType).getContext() == owner) {
-				otherEnd = new ArtificialProperty(this, "contextObject", lib);
+				otherEnd = new ArtificialProperty(this, "contextObject");
 			} else if (baseType instanceof EmbeddedSingleScreenTaskMessageStructureImpl) {
-				otherEnd = new ArtificialProperty(this, "processObject", lib);
+				otherEnd = new ArtificialProperty(this, "processObject");
 			} else if (baseType instanceof INakedClassifier
 					&& baseType.getNestingClassifier() == owner) {
-				otherEnd = new ArtificialProperty(this, "ownerObject", lib);
+				otherEnd = new ArtificialProperty(this, "ownerObject");
 			} else {
-				otherEnd = new ArtificialProperty(this, lib);
+				otherEnd = new ArtificialProperty(this);
 			}
 		}
 		return otherEnd;
@@ -245,5 +225,9 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		} else {
 			return super.equals(other);
 		}
+	}
+	@Override
+	public void setType(IClassifier type){
+		this.type=type;
 	}
 }

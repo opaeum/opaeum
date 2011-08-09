@@ -7,12 +7,24 @@
              id="org.nakeduml.eclipse.starter.actions.generate"
              objectClass="org.eclipse.uml2.uml.Model">
           <action
-                class="org.nakeduml.eclipse.starter.GenerateAction"
+                class="org.nakeduml.eclipse.starter.RecompileModelAction"
                 enablesFor="*"
-                id="org.nakeduml.eclipse.starter.GenerateAction"
-                label="Generate NakedUML projects"
+                id="org.nakeduml.eclipse.starter.RecompileModelAction"
+                label="Recompile model"
                 menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
     </extension>
+ <extension
+       point="org.eclipse.ui.startup">
+    <startup
+          class="org.nakeduml.eclipse.starter.JavaSourceSynchronizer"></startup>
+ </extension>
+ <extension
+       id="lkjl"
+       point="org.nakeduml.eclipse.sourceFolderStrategy">
+    <sourceFolderStrategy
+          className="org.nakeduml.eclipse.starter.MavenSourceFolderStrategy">
+    </sourceFolderStrategy>
+ </extension>
 </plugin>

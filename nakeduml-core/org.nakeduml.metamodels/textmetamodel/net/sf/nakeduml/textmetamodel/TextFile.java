@@ -5,14 +5,26 @@ public class TextFile extends TextOutputNode {
 	private char[] content;
 	private boolean overwrite;
 
-	public TextSource getTextSource() {
-		return this.textSource;
-	}
-
 	public TextFile(TextDirectory parent, String name, TextSource source, boolean overwrite) {
 		super(parent, name);
 		this.textSource = source;
 		this.overwrite = overwrite;
+	}
+	/**
+	 * No content constructor, so delete the file
+	 * @param textDirectory
+	 * @param string
+	 */
+	public TextFile(TextDirectory parent,String name){
+		super(parent,name);
+		super.shouldDelete=true;
+	}
+	public TextSource getTextSource() {
+		return this.textSource;
+	}
+	public void setTextSource(TextSource t){
+		content=null;
+		this.textSource=t;
 	}
 
 	public boolean overwrite() {
@@ -46,6 +58,6 @@ public class TextFile extends TextOutputNode {
 
 	@Override
 	public boolean hasContent() {
-		return textSource.hasContent();
+		return !shouldDelete() && textSource.hasContent();
 	}
 }

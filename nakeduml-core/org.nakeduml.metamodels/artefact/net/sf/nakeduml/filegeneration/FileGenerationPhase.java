@@ -21,16 +21,6 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 		this.config=config;
 	}
 
-	public Object[] execute(List<AbstractTextNodeVisitor> features,TransformationContext context) {
-		this.features=features;
-		for (AbstractTextNodeVisitor feature : features) {
-			feature.initialize(config);
-			feature.startVisiting(textWorkspace);
-		}
-		return new Object[]{};
-		
-	}
-
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<TextOutputNode> elements){
 		for(TextOutputNode element:elements){
@@ -40,5 +30,25 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 			}
 		}
 		return elements;
+	}
+
+	@Override
+	public void execute(TransformationContext context){
+		for (AbstractTextNodeVisitor feature : features) {
+			feature.startVisiting(textWorkspace);
+		}
+	}
+
+	@Override
+	public void initialize(NakedUmlConfig config,List<AbstractTextNodeVisitor> features){
+		this.features=features;
+		for (AbstractTextNodeVisitor feature : features) {
+			feature.initialize(config);
+		}
+	}
+
+	@Override
+	public Collection<AbstractTextNodeVisitor> getSteps(){
+		return features;
 	}
 }

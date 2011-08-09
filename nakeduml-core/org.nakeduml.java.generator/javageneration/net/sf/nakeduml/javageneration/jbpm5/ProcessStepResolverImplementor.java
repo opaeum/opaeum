@@ -32,7 +32,7 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 				}				
 			}
 			OJClass findClass = javaModel.findClass(new OJPathName(a.getMappingInfo().getQualifiedJavaName()+"State"));
-			createResolver((OJEnum) findClass, restingNodes);
+			createResolver((OJEnum) findClass, restingNodes, a.getMappingInfo().requiresJavaRename()?a.getMappingInfo().getOldQualifiedJavaName()+"State":null );
 		}
 	}
 	@VisitBefore
@@ -45,6 +45,6 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 			}
 		}
 		OJEnum e = (OJEnum) javaModel.findClass(new OJPathName(sm.getMappingInfo().getQualifiedJavaName() + "State"));
-		createResolver(e, restingStates);
+		createResolver(e, restingStates,sm.getMappingInfo().requiresJavaRename()?sm.getMappingInfo().getOldQualifiedJavaName() + "State":null);
 	}
 }

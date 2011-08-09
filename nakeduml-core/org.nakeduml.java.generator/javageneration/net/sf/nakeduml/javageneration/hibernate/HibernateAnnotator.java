@@ -174,7 +174,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 		OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
-		if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isManyToOne() && field.findAnnotation(indexPathName) == null){
+		if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse() && field.findAnnotation(indexPathName) == null){
 			OJAnnotationValue index = new OJAnnotationValue(indexPathName);
 			index.putAttribute("name", "idx_" + owner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName());
 			index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());

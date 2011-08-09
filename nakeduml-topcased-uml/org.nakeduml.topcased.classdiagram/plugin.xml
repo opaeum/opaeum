@@ -1201,6 +1201,13 @@
 				<input type="org.eclipse.uml2.uml.OpaqueExpression"/>
 			</propertySection>
 			<propertySection
+				id="org.nakeduml.topcased.propertysections.OpaqueBehaviorBodySection"
+				class="org.nakeduml.topcased.propertysections.OpaqueBehaviorBodySection"
+				tab="org.nakeduml.eclipse.numlTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
+				<input type="org.eclipse.uml2.uml.OpaqueBehavior"/>
+			</propertySection>
+			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
 				tab="org.nakeduml.eclipse.numlTab"

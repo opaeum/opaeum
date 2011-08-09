@@ -84,7 +84,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitModel(Model p,NakedModelImpl nm){
 		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		nm.setLibrary(super.workspace.isLibrary(p));
+		nm.setLibrary(emfWorkspace.isLibrary(p));
 	}
 	@VisitBefore
 	public void visitPackage(Package p,NakedPackageImpl np){

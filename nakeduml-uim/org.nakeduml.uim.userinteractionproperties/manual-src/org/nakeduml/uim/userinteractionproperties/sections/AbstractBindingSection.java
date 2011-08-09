@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.eclipse.EmfElementFinder;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.binding.BindingFactory;
 import org.nakeduml.uim.binding.PropertyRef;
@@ -64,14 +65,14 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 			TypedElement te = getTypedElement(teName);
 			if(te != null){
 				UimBinding fb = (UimBinding) BindingFactory.eINSTANCE.create(getFeatureEClass());
-				fb.setUmlElementUid(UmlUimLinks.getId(te));
+				fb.setUmlElementUid(NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(te));
 				PropertyRef prev = null;
 				while(st.hasMoreTokens()){
 					Classifier cl = (Classifier) te.getType();
 					Property p = getProperty(cl, st.nextToken());
 					if(p != null){
 						PropertyRef pr2 = BindingFactory.eINSTANCE.createPropertyRef();
-						pr2.setUmlElementUid(UmlUimLinks.getId(p));
+						pr2.setUmlElementUid(NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(p));
 						if(fb.getNext() == null){
 							fb.setNext(pr2);
 						}else{

@@ -15,7 +15,7 @@ import net.sf.nakeduml.emf.load.UML2ModelLoader;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;

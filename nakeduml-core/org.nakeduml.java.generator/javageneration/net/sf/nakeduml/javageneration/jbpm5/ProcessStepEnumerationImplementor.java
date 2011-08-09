@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
@@ -41,7 +41,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.addToImplementedInterfaces(abstractProcessStep);
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
-		super.createTextPath(e, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
 		OJUtil.addField(e, constructor, "parentState", abstractProcessStep);

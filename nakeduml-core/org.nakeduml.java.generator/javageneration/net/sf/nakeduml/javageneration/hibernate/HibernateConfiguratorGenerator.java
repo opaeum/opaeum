@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.hibernate;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -27,7 +27,7 @@ public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor
 		OJPackage util = javaModel.findPackage(UtilityCreator.getUtilPathName());
 		OJAnnotatedClass hibernateConfigurator = new OJAnnotatedClass("HibernateConfigurator");
 		util.addToClasses(hibernateConfigurator);
-		super.createTextPath(hibernateConfigurator, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
+		super.createTextPath(hibernateConfigurator, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC);
 		OJAnnotatedField instance = new OJAnnotatedField("INSTANCE",hibernateConfigurator.getPathName());
 		instance.setStatic(true);
 		instance.setVisibility(OJVisibilityKindGEN.PUBLIC);

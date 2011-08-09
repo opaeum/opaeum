@@ -4,7 +4,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.UmlElementCache;
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.validation.IValidationRule;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -14,21 +13,16 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Model;
 import org.nakeduml.eclipse.EmfValidationUtil;
-import org.nakeduml.topcased.uml.NakedUmlPlugin;
+import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 public class NakedValidator implements org.topcased.validation.core.IValidator{
 	@Override
 	public boolean validate(EObject rootEObject,DiagnosticChain arg1,IProgressMonitor arg2) throws CoreException{
 		if(rootEObject instanceof Model){
-			Model model = (Model) rootEObject;
-			NakedUmlConfig cfg = new NakedUmlConfig();
-			cfg.loadDefaults("test");
-			UmlElementCache cache = NakedUmlPlugin.findNakedUmlEditor(model).getUmlElementCache();
+			UmlElementCache cache = NakedUmlEditor.getCurrentContext().getUmlElementCache();
 			INakedModelWorkspace workspace = cache.getTransformationProcess().findModel(INakedModelWorkspace.class);
 			Set<Entry<String,BrokenElement>> errors = workspace.getErrorMap().getErrors().entrySet();
 			int i = 999;

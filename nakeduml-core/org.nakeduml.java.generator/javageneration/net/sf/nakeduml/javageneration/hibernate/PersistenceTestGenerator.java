@@ -5,7 +5,7 @@ import java.util.Collection;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractTestDataGenerator;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -31,6 +31,9 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c) {
 		if ((isPersistent(c) /* || c instanceof INakedInterface */) && OJUtil.hasOJClass(c)) {
+			if(c.getMappingInfo().requiresJavaRename()){
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, new OJPathName(c.getMappingInfo().getQualifiedJavaName() + "PersistenceTest"));
+			}
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			String name = ojClass.getName();
 			String testName = name + "PersistenceTest";
@@ -38,7 +41,7 @@ public class PersistenceTestGenerator extends AbstractTestDataGenerator {
 			test.addToImports(UtilityCreator.getUtilPathName() + ".HibernateConfigurator");
 			OJPackage testPackage = ojClass.getMyPackage();
 			testPackage.addToClasses(test);
-			super.createTextPath(test, JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC);
+			super.createTextPath(test, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC);
 			INakedClassifier nc = c;
 			addPopulate(ojClass, test, nc);
 			OJAnnotatedField instance = new OJAnnotatedField("instance",ojClass.getPathName());

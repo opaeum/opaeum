@@ -33,7 +33,8 @@ public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl
 	public INakedMessageStructure getMessageStructure(){
 		return this.messageStructure;
 	}
-	public void initMessageStructure(NakedUmlLibrary lib){
-		this.messageStructure=new EmbeddedScreenFlowTaskMessageStructureImpl(this, lib);
+	@Override
+	public void initMessageStructure(){
+		this.messageStructure=new EmbeddedScreenFlowTaskMessageStructureImpl(this);
 	}
 }

@@ -21,20 +21,21 @@ public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedComposit
 	public INakedEmbeddedScreenFlowTask getAction(){
 		return action;
 	}
-	public EmbeddedScreenFlowTaskMessageStructureImpl(INakedEmbeddedScreenFlowTask action,NakedUmlLibrary lib){
-		super(action.getActivity(), action,lib);
+	public EmbeddedScreenFlowTaskMessageStructureImpl(INakedEmbeddedScreenFlowTask action){
+		super(action.getActivity(), action);
 		this.action = action;
-		if(getOpaqueAction().getBehavior().getContext() != null){
-			endToStateMachine=new ArtificialProperty(getOpaqueAction().getBehavior(), lib.getOclLibrary());
+		if(action.getBehavior().getContext() == null){
+			addSuperclass(action.getBehavior());
+		}else{
+			endToStateMachine=new ArtificialProperty(action.getBehavior());
 		}
-		addInterface(lib.getTaskObject());
 
 	}
 	@Override
 	public List<INakedProperty> getOwnedAttributes(){
 		List<INakedProperty> list = new ArrayList<INakedProperty>();
 		list.add(getEndToComposite());
-		if(getOpaqueAction().getBehavior().getContext() != null){
+		if(getCallBehaviorAction().getBehavior().getContext() != null){
 			list.add(endToStateMachine);
 		}
 		return list;
@@ -48,7 +49,7 @@ public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedComposit
 	public boolean isPersistent(){
 		return true;
 	}
-	public INakedEmbeddedScreenFlowTask getOpaqueAction(){
+	public INakedEmbeddedScreenFlowTask getCallBehaviorAction(){
 		return action;
 	}
 	@Override
@@ -57,8 +58,8 @@ public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedComposit
 	}
 	@Override
 	public List<IClassifier> getGeneralizations(){
-		if(getOpaqueAction().getBehavior().getContext() == null){
-			return Collections.singletonList((IClassifier) getOpaqueAction().getBehavior());
+		if(getCallBehaviorAction().getBehavior().getContext() == null){
+			return Collections.singletonList((IClassifier) getCallBehaviorAction().getBehavior());
 		}else{
 			return Collections.emptyList();
 		}
@@ -70,15 +71,7 @@ public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedComposit
 		return result;
 	}
 	@Override
-	public INakedClassifier getSupertype(){
-		if(getOpaqueAction().getBehavior().getContext() == null){
-			return getOpaqueAction().getBehavior();
-		}else{
-			return null;
-		}
-	}
-	@Override
 	public IPackage getRoot(){
-		return getOpaqueAction().getActivity().getNakedRoot();
+		return getCallBehaviorAction().getActivity().getNakedRoot();
 	}
 }

@@ -114,14 +114,15 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	}
 	private OJStatement buildCallFromContextToEventHandlerOnBehavior(INakedBehavior behavior,INakedElement nakedOperation,OJAnnotatedOperation ojOperation){
 		OJStatement statement;
-		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new ArtificialProperty(behavior, getOclEngine().getOclLibrary()));
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
 		if(behavior.isClassifierBehavior()){
 			statement = new OJSimpleStatement("getClassifierBehavior()." + callToEventHandler(nakedOperation, ojOperation));
 		}else{
 			addConsumedFieldIfNecessary(ojOperation);
 			OJIfStatement ifNotConsumed = new OJIfStatement("!consumed");
-			OJForStatement forEach = new OJForStatement("behavior", map.javaBaseTypePath(), map.umlName());
+			OJForStatement forEach = new OJForStatement("behavior", map.javaBaseTypePath(), map.getter() + "()");
 			ifNotConsumed.getThenPart().addToStatements(forEach);
+			//TODO resolve correllation properties here
 			forEach.getBody().addToStatements("consumed=behavior." + callToEventHandler(nakedOperation, ojOperation));
 			OJIfStatement ifConsumedNow = new OJIfStatement("consumed");
 			forEach.getBody().addToStatements(ifConsumedNow);

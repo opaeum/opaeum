@@ -27,6 +27,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
@@ -47,6 +48,12 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 		IMappingInfo mappingInfo = nakedElement.getMappingInfo();
 		nakedElement.setName(generateUmlName(nakedElement).toString());
 		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
+		if(nakedElement instanceof ArtificialProperty){
+			ArtificialProperty ap=(ArtificialProperty) nakedElement;
+			if(ap.getMultiplicity().isMany()){
+				ap.setName(NameConverter.decapitalize(ap.getNakedBaseType().getName()));
+			}
+		}
 	}
 
 	protected NameWrapper generateUmlName(INakedElement mew) {

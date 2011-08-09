@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.TransformationStep;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import net.sf.nakeduml.userinteractionmetamodel.AbstractUserInteractionFolder;

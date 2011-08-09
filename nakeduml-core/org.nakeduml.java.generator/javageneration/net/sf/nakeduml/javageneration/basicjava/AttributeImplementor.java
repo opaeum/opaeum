@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
@@ -16,6 +15,7 @@ import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -35,8 +35,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	protected AttributeImplementorStrategy attributeImplementorStrategy;
 	@Override
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
-		super.initialize(javaModel, config, textWorkspace, context);
+	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+		super.initialize(javaModel, config, textWorkspace,workspace);
 		try{
 			attributeImplementorStrategy = (AttributeImplementorStrategy) Class.forName(config.getAttributeImplementationStrategy()).newInstance();
 		}catch(Exception e){

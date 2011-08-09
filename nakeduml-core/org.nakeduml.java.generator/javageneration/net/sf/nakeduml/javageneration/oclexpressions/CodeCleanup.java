@@ -31,17 +31,17 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 		OJPackage util = javaModel.findPackage(UtilityCreator.getUtilPathName());
 		util = javaModel.findPackage(UtilityCreator.getUtilPathName());
 		for(OJClassifier c:util.getClasses()){
-			if(c.getName().equals("Stdlib")){
-				for(OJOperation op:c.getOperations()){
-					if(op.getName().startsWith("objectAs")){
-						OJPathName element = new OJPathName("E");
-						op.setGenericTypeParam(element);
-						op.getReturnType().setElementTypes(Collections.singletonList(element));
-						op.getParameters().get(0).setType(element);
-//						op.getBody().getStatements().set(op.getBody().getStatements().size()-1, new OJSimpleStatement("return (" + op.getReturnType().getCollectionTypeName() + ")result"));
+				if(c.getName().equals("Stdlib")){
+					for(OJOperation op:c.getOperations()){
+						if(op.getName().startsWith("objectAs")){
+							OJPathName element = new OJPathName("T");
+							op.setGenericTypeParam(element);
+							op.getReturnType().setElementTypes(Collections.singletonList(element));
+							op.getParameters().get(0).setType(element);
+	//						op.getBody().getStatements().set(op.getBody().getStatements().size()-1, new OJSimpleStatement("return (" + op.getReturnType().getCollectionTypeName() + ")result"));
+						}
 					}
-				}
-			}else if(c.getName().startsWith("Comp") && c.getName().indexOf("On") > 0){
+				}else if(c.getName().startsWith("Comp") && c.getName().indexOf("On") > 0){
 				// TODO find a workaround for the associated bug in Octopus
 				// TODO support string compares too
 				OJOperation oper = c.getOperations().iterator().next();

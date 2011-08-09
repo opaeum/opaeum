@@ -6,7 +6,7 @@ import java.util.List;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
@@ -54,9 +54,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		MappedTypeLinker.registerStrategyFactory(new IdStrategyFactory());
 		StdlibMap.javaRealType.replaceTail("double");
 		StdlibMap.javaRealObjectType.replaceTail("Double");
-
 	}
-
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 		visitClass(umlOwner);
@@ -68,78 +66,90 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)){
-			ClassifierMap classifierMap = new NakedClassifierMap(c);
-			OJAnnotatedClass myClass;
-			if(c instanceof INakedEnumeration){
-				myClass = new OJEnum(c.getName());
-				// In case it needs to be sent by jms or serialized as session state
-				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
-				myClass.addToImplementedInterfaces(new OJPathName(IEnum.class.getName()));
-				OJUtil.addMetaInfo(myClass, c);
-			}else if(c instanceof INakedInterface){
-				myClass = new OJAnnotatedInterface(c.getName());
-				// In case it needs to be sent by jms or serialized as session state
-				((OJAnnotatedInterface) myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
-				OJUtil.addMetaInfo(myClass, c);
+			if(c.isMarkedForDeletion()){
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
+				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
 			}else{
-				myClass = new OJAnnotatedClass(c.getName());
-				// Create default constructor for inits
-				myClass.getDefaultConstructor();
-				// In case it needs to be sent by jms or serialized as session state
-				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
-				OJUtil.addMetaInfo(myClass, c);
-				OJAnnotatedField seri = new OJAnnotatedField("serialVersionUID", new OJPathName("long"));
-				seri.setStatic(true);
-				seri.setFinal(true);
-				seri.setVisibility(OJVisibilityKind.PRIVATE);
-				seri.setInitExp(c.getMappingInfo().getNakedUmlId() + "");
-				myClass.addToFields(seri);
-			}
-			// TODO find another place
-			if(c instanceof INakedSignal){
-				myClass.setSuperclass(new OJPathName(AbstractSignal.class.getName()));
-			}
-			myClass.setVisibility(classifierMap.javaVisibility());
-			myClass.setAbstract(c.getIsAbstract());
-			myClass.setComment(c.getDocumentation());
-			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
-			OJPackage pack = findOrCreatePackage(path);
-			myClass.setMyPackage(pack);
-			super.createTextPath(myClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
-			if(c instanceof INakedEnumeration){
-				OJEnum oje = (OJEnum) myClass;
-				INakedEnumeration e = (INakedEnumeration) c;
-				List<INakedEnumerationLiteral> literals = (List) e.getLiterals();
-				for(INakedEnumerationLiteral l:literals){
-					OJEnumLiteral ojLiteral = new OJEnumLiteral(l.getName().toUpperCase());
-					ojLiteral.setComment(l.getDocumentation());
-					applyStereotypesAsAnnotations((l), ojLiteral);
-					oje.addToLiterals(ojLiteral);
+				if(c.getMappingInfo().requiresJavaRename()){
+					deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
+					deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
 				}
-			}else if(c instanceof INakedDataType){
-				// Create default constructor for inits
-				myClass.getDefaultConstructor();
-				// Signals and StructuredDataTypes
-				// TODO implement hashCode and Equals methods
-			}else if(c instanceof INakedBehavior){
-				INakedOperation specification = ((INakedBehavior) c).getSpecification();
-				if(specification != null){
-					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure());
-					myClass.setSuperclass(map.javaTypePath());
+				ClassifierMap classifierMap = new NakedClassifierMap(c);
+				OJAnnotatedClass myClass;
+				if(c instanceof INakedEnumeration){
+					myClass = new OJEnum(c.getName());
+					// In case it needs to be sent by jms or serialized as session state
+					myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
+					myClass.addToImplementedInterfaces(new OJPathName(IEnum.class.getName()));
+					OJUtil.addMetaInfo(myClass, c);
+				}else if(c instanceof INakedInterface){
+					myClass = new OJAnnotatedInterface(c.getName());
+					// In case it needs to be sent by jms or serialized as session state
+					((OJAnnotatedInterface) myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
+					OJUtil.addMetaInfo(myClass, c);
+				}else{
+					myClass = new OJAnnotatedClass(c.getName());
+					// Create default constructor for inits
+					myClass.getDefaultConstructor();
+					// In case it needs to be sent by jms or serialized as session state
+					myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
+					OJUtil.addMetaInfo(myClass, c);
+					OJAnnotatedField seri = new OJAnnotatedField("serialVersionUID", new OJPathName("long"));
+					seri.setStatic(true);
+					seri.setFinal(true);
+					seri.setVisibility(OJVisibilityKind.PRIVATE);
+					seri.setInitExp(c.getMappingInfo().getNakedUmlId() + "");
+					myClass.addToFields(seri);
 				}
+				// TODO find another place
+				if(c instanceof INakedSignal){
+					myClass.setSuperclass(new OJPathName(AbstractSignal.class.getName()));
+				}
+				myClass.setVisibility(classifierMap.javaVisibility());
+				myClass.setAbstract(c.getIsAbstract());
+				myClass.setComment(c.getDocumentation());
+				OJPathName path = OJUtil.packagePathname(c.getNameSpace());
+				OJPackage pack = findOrCreatePackage(path);
+				pack.addToClasses(myClass);
+				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+				if(c instanceof INakedEnumeration){
+					OJEnum oje = (OJEnum) myClass;
+					INakedEnumeration e = (INakedEnumeration) c;
+					List<INakedEnumerationLiteral> literals = (List) e.getLiterals();
+					for(INakedEnumerationLiteral l:literals){
+						OJEnumLiteral ojLiteral = new OJEnumLiteral(l.getName().toUpperCase());
+						ojLiteral.setComment(l.getDocumentation());
+						applyStereotypesAsAnnotations((l), ojLiteral);
+						oje.addToLiterals(ojLiteral);
+					}
+				}else if(c instanceof INakedDataType){
+					// Create default constructor for inits
+					myClass.getDefaultConstructor();
+					// Signals and StructuredDataTypes
+					// TODO implement hashCode and Equals methods
+				}else if(c instanceof INakedBehavior){
+					INakedOperation specification = ((INakedBehavior) c).getSpecification();
+					if(specification != null){
+						NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure());
+						myClass.setSuperclass(map.javaTypePath());
+					}
+				}
+				applyStereotypesAsAnnotations((c), myClass);
 			}
-			applyStereotypesAsAnnotations((c), myClass);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPackage(INakedPackage p){
+		if(p.getMappingInfo().requiresJavaRename()){
+			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(p.getMappingInfo().getOldQualifiedJavaName()));
+		}
 		OJAnnotatedPackage currentPack = findOrCreatePackage(OJUtil.packagePathname(p));
 		currentPack.setName(p.getName().toLowerCase());
 		if(p.getDocumentation() != null){
 			currentPack.setComment(p.getDocumentation());
 		}
 		super.applyStereotypesAsAnnotations(p, currentPack);
-		super.createTextPathIfRequired(currentPack, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+		super.createTextPathIfRequired(currentPack, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
@@ -155,7 +165,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				callBackOper.addParam("nodeInstance", new OJPathName("int"));
 				callBackOper.addParam("completedOperation", new NakedClassifierMap(message).javaTypePath());
 				listener.addToOperations(callBackOper);
-				super.createTextPath(listener, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+				super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			}
 		}
 	}

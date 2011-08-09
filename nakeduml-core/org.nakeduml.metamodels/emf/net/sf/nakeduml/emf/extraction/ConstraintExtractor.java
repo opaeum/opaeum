@@ -22,7 +22,7 @@ public class ConstraintExtractor extends AbstractExtractorFromEmf{
 			for(Constraint c:ownedRules){
 				NakedConstraintImpl nc = new NakedConstraintImpl();
 				initialize(nc, c, emfClassifier);
-				nc.setSpecification(getValueSpecification(classifier, c.getSpecification(), OclUsageType.INV));
+				nc.setSpecification(getValueSpecification(nc, c.getSpecification(), OclUsageType.INV));
 				if(c.getConstrainedElements().size() == 1){
 					Element constrained = c.getConstrainedElements().get(0);
 					nc.setConstrainedElement(getNakedPeer(constrained));

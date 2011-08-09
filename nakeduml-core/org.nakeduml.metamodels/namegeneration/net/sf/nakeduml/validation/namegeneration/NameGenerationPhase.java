@@ -20,13 +20,6 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	private List<AbstractNameGenerator> nameGenerators;
 	public void initialize(NakedUmlConfig config){
 	}
-	public Object[] execute(List<AbstractNameGenerator> nameGenerators,TransformationContext context){
-		this.nameGenerators=nameGenerators;
-		for(AbstractNameGenerator ng:nameGenerators){
-			ng.startVisiting(modelWorkspace);
-		}
-		return new Object[0];
-	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
 		for(INakedElement element:elements){
@@ -35,5 +28,20 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 			}
 		}
 		return elements;
+	}
+	@Override
+	public void execute(TransformationContext context){
+		for(AbstractNameGenerator ng:nameGenerators){
+			ng.startVisiting(modelWorkspace);
+		}
+	}
+	@Override
+	public void initialize(NakedUmlConfig config,List<AbstractNameGenerator> features){
+		this.nameGenerators=features;
+		
+	}
+	@Override
+	public Collection<AbstractNameGenerator> getSteps(){
+		return this.nameGenerators;
 	}
 }

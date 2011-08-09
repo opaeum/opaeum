@@ -3,14 +3,14 @@ package net.sf.nakeduml.pomgeneration;
 import java.util.Collection;
 import java.util.HashSet;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Profile;
 
-@StepDependency(requires = {BasicJavaIntegratedAdaptorPomStep.class},before = {},after = {},phase = PomGenerationPhase.class)
+@StepDependency(requires = {BasicIntegratedAdaptorPomStep.class},before = {},after = {},phase = PomGenerationPhase.class)
 public class IntegratedArquillianPomStep extends PomGenerationStep{
 	@Override
 	public Profile[] getProfiles() {
@@ -28,8 +28,8 @@ public class IntegratedArquillianPomStep extends PomGenerationStep{
 	}
 
 	@Override
-	protected OutputRoot getExampleTargetDir(){
-		return config.getOutputRoot(OutputRootId.INTEGRATED_ADAPTOR_GEN_SRC);
+	protected SourceFolderDefinition getExampleTargetDir(){
+		return config.getSourceFolderDefinition(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 	}
 	
 	

@@ -33,5 +33,8 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	String getDocumentation();
 	void setDocumentation(String d);
 	 INakedRootObject getNakedRoot();
-	public boolean isStoreMappingInfo();
+	boolean isStoreMappingInfo();
+	void markForDeletion();
+	boolean isMarkedForDeletion();
+	
 }

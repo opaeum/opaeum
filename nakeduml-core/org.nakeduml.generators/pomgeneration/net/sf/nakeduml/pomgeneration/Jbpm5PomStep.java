@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.javageneration.CharArrayTextSource;
+import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
@@ -148,7 +148,7 @@ public class Jbpm5PomStep extends PomGenerationStep {
 	}
 
 	@Override
-	public OutputRoot getExampleTargetDir() {
-		return config.getOutputRoot(CharArrayTextSource.OutputRootId.DOMAIN_GEN_RESOURCE);
+	public SourceFolderDefinition getExampleTargetDir() {
+		return config.getSourceFolderDefinition(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE);
 	}
 }

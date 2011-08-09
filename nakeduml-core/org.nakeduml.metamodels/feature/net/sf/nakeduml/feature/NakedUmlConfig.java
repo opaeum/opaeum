@@ -2,18 +2,15 @@ package net.sf.nakeduml.feature;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-import org.nakeduml.environment.Environment;
-
-
-public class NakedUmlConfig {
+public class NakedUmlConfig{
 	private static final String DB_USER = "nakeduml.database.user";
 	private static final String JDBC_DIALECT = "nakeduml.jdbc.dialect";
 	private static final String DATA_SOURCE_NAME = "nakeduml.hibernate.ds.name";
@@ -35,23 +32,53 @@ public class NakedUmlConfig {
 	private static final String ATTRIBUTE_IMPLEMENTATION_STRATEGY = "attribute.implementation.strategy";
 	private static final String COMPOSITION_NODE_IMPLEMENTATION_STRATEGY = "composition.node.implementation.strategy";
 	private static final String WORKSPACE_IDENTIFIER = "nakeduml.workspace.identifier";
+	private static final String ADDITIONAL_TRANSFORMATION_STEPS = "nakeduml.additional.transformation.steps";
+	private static final String SOURCE_FOLDER_STRATEGY = "nakeduml.source.folder.strategy";
+	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
-	private Map<String,File> outputRootMap = new HashMap<String,File>();
 	private File outputRoot;
-	private Map<Enum<?>,OutputRoot> outputRoots = new HashMap<Enum<?>,OutputRoot>();
+	private Map<ISourceFolderIdentifier,SourceFolderDefinition> sourceFolderDefinitions = new HashMap<ISourceFolderIdentifier,SourceFolderDefinition>();
 	private File file;
-	public NakedUmlConfig(){
-	}
-	public void load(File file,String workspaceIdentifier) throws IOException{
+	public NakedUmlConfig(File file){
 		this.file = file;
 		if(file.exists()){
-			FileInputStream stream = new FileInputStream(file);
-			if(stream != null){
-				this.props.load(stream);
+			FileInputStream stream;
+			try{
+				stream = new FileInputStream(file);
+				if(stream != null){
+					this.props.load(stream);
+					getSourceFolderStrategy().defineSourceFolders(this);
+				}
+			}catch(IOException e){
+				throw new RuntimeException(e);
 			}
 		}
-		loadDefaults(workspaceIdentifier);
-		this.props.store(new FileOutputStream(file), "NakedUml properties");
+	}
+	public ISourceFolderStrategy getSourceFolderStrategy(){
+		try{
+			String name = props.getProperty(SOURCE_FOLDER_STRATEGY);
+			Class<?> c = getClass(name);
+			return (ISourceFolderStrategy) c.newInstance();
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+	}
+	public static Class<?> getClass(String name){
+		Class<?> c;
+		if(classRegistry.containsKey(name)){
+			c = classRegistry.get(name);
+		}else{
+			try{
+				c = Thread.currentThread().getContextClassLoader().loadClass(name);
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
+		}
+		return c;
+	}
+	// A workaround for the Eclipse restriction that upstream plugins do not have access to downstream plugin classes
+	public static void registerClass(Class<?> c){
+		classRegistry.put(c.getName(), c);
 	}
 	public void loadDefaults(String projectName){
 		if(getWorkspaceIdentifier() == null){
@@ -98,9 +125,15 @@ public class NakedUmlConfig {
 		if(!this.props.containsKey(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY)){
 			this.props.setProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY, "net.sf.nakeduml.javageneration.composition.DefaultCompositionNodeStrategy");
 		}
+		if(!this.props.containsKey(SOURCE_FOLDER_STRATEGY)){
+			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "org.nakeduml.eclipse.starter.MavenSourceFolderStrategy");
+		}
 	}
 	public String getJdbcDialect(){
 		return this.props.getProperty(JDBC_DIALECT);
+	}
+	public void setGenerateMavenPoms(boolean b){
+		this.props.setProperty(GENERATE_MAVEN_POMS, String.valueOf(b));
 	}
 	public boolean generateMavenPoms(){
 		return "true".equals(this.props.getProperty(GENERATE_MAVEN_POMS, "true"));
@@ -116,18 +149,15 @@ public class NakedUmlConfig {
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
-		File t=file;
-		while(t.getParentFile()!=null){
-			//Ensure that the output root does not coincide with the model directory
+		File t = file;
+		while(t.getParentFile() != null){
+			// Ensure that the output root does not coincide with the model directory
 			if(t.equals(outputRoot)){
-				outputRoot=new File(outputRoot.getParent(),outputRoot.getName() + "-project");
+				outputRoot = new File(outputRoot.getParent(), outputRoot.getName() + "-project");
 				break;
 			}
-			t=t.getParentFile();
+			t = t.getParentFile();
 		}
-	}
-	public File getMappedDestination(String name){
-		return this.outputRootMap.get(name);
 	}
 	public int getNumberOfColumns(){
 		return new Integer(this.props.getProperty(LIST_COLUMNS));
@@ -148,7 +178,7 @@ public class NakedUmlConfig {
 		return this.props.getProperty(DATA_SOURCE_NAME);
 	}
 	public String getMavenGroupId(){
-		return this.props.getProperty(MAVEN_GROUPID);
+		return this.props.getProperty(MAVEN_GROUPID, "");
 	}
 	public String getIdGeneratorStrategy(){
 		return this.props.getProperty(ID_GENERATOR_STRATEGY, "AUTO");
@@ -161,14 +191,7 @@ public class NakedUmlConfig {
 	}
 	public void store(){
 		try{
-			store(new FileWriter(file));
-		}catch(IOException e){
-			throw new RuntimeException(e);
-		}
-	}
-	public void store(Writer writer){
-		try{
-			props.store(writer, "NakedUML");
+			props.store(new FileWriter(file), "NakedUML");
 		}catch(IOException e){
 			throw new RuntimeException(e);
 		}
@@ -176,12 +199,12 @@ public class NakedUmlConfig {
 	public File getOutputRoot(){
 		return outputRoot;
 	}
-	public OutputRoot getOutputRoot(Enum<?> id){
-		return outputRoots.get(id);
+	public SourceFolderDefinition getSourceFolderDefinition(ISourceFolderIdentifier id){
+		return sourceFolderDefinitions.get(id);
 	}
-	public OutputRoot mapOutputRoot(Enum<?> id,boolean useWorkspaceName,String projectSuffix,String relativeSourceFolder){
-		OutputRoot value = new OutputRoot(useWorkspaceName, projectSuffix, relativeSourceFolder);
-		outputRoots.put(id, value);
+	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,boolean useWorkspaceName,String projectSuffix,String relativeSourceFolder){
+		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName, projectSuffix, relativeSourceFolder);
+		sourceFolderDefinitions.put(id, value);
 		return value;
 	}
 	public String getMavenGroupVersion(){
@@ -199,14 +222,40 @@ public class NakedUmlConfig {
 	public String getDbUser(){
 		return this.props.getProperty(DB_USER);
 	}
-
 	public void setMavenGroupId(String string){
 		this.props.setProperty(MAVEN_GROUPID, string);
+		store();
 	}
 	public String getWorkspaceIdentifier(){
-		return this.props.getProperty(WORKSPACE_IDENTIFIER);
+		return this.props.getProperty(WORKSPACE_IDENTIFIER, "");
 	}
 	public void setWorkspaceIdentifier(String workspaceIdentifier){
 		this.props.setProperty(WORKSPACE_IDENTIFIER, workspaceIdentifier);
+		store();
+	}
+	public Map<ISourceFolderIdentifier,SourceFolderDefinition> getSourceFolderDefinitions(){
+		return sourceFolderDefinitions;
+	}
+	public void setSourceFolderStrategy(String b){
+		this.props.setProperty(SOURCE_FOLDER_STRATEGY, b);
+	}
+	public Set<Class<? extends ITransformationStep>> getAdditionalTransformationSteps(){
+		String property = this.props.getProperty(ADDITIONAL_TRANSFORMATION_STEPS, "");
+		Set<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>();
+		if(property.trim().length() > 0){
+			String[] split = property.split(";");
+			for(String string:split){
+				result.add((Class<? extends ITransformationStep>) getClass(string));
+			}
+		}
+		return result;
+	}
+	public void setAdditionalTransformationSteps(Set<String> s){
+		StringBuilder sb = new StringBuilder();
+		for(String string:s){
+			sb.append(string);
+			sb.append(";");
+		}
+		this.props.setProperty(ADDITIONAL_TRANSFORMATION_STEPS, sb.toString());
 	}
 }

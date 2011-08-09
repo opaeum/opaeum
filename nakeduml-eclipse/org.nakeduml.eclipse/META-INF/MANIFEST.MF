@@ -8,7 +8,9 @@ Bundle-Activator:
 Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.uml2.uml;visibility:=reexport,
- org.eclipse.uml2.uml.resources;visibility:=reexport
+ org.eclipse.uml2.uml.resources;visibility:=reexport,
+ org.nakeduml.metamodels;bundle-version="1.0.0",
+ org.nakeduml.eclipse.hibernate;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Bundle-ClassPath: .

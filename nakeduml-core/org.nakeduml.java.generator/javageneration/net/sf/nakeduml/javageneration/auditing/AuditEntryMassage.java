@@ -12,7 +12,7 @@ import java.util.Set;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
@@ -343,7 +343,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 					// fixToOneJoinColumns(c, auditClass);
 					addShallowCopy(c, auditClass);
 				}
-				super.createTextPath(auditClass, JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+				super.createTextPath(auditClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			}
 		}
 		massageBehaviorLogic(c, auditClass);

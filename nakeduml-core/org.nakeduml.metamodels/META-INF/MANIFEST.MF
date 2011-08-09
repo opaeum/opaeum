@@ -8,12 +8,11 @@ Require-Bundle: org.eclipse.uml2.uml;bundle-version="3.1.1";visibility:=reexport
  org.nakeduml.java.metamodel,
  org.eclipse.uml2.uml.resources;bundle-version="3.1.1";visibility:=reexport,
  org.nakeduml.ocl.metamodel,
- org.junit4;bundle-version="4.8.1"
+ org.junit4;bundle-version="4.8.1",
+ org.nakeduml.eclipse.hibernate;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: 
- lib/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT.jar,
- .,
- lib/hibernate-core-3.6.0.Final.jar
+ .
 Export-Package: net.sf.nakeduml,
  net.sf.nakeduml.domainmetamodel,
  net.sf.nakeduml.emf.extraction,
@@ -68,15 +67,5 @@ Export-Package: net.sf.nakeduml,
  org.drools.drools._5._0.process,
  org.drools.drools._5._0.process.impl,
  org.drools.drools._5._0.process.util,
- org.nakeduml.annotation,
  org.nakeduml.eclipse,
- org.nakeduml.environment,
- org.nakeduml.environment.domain,
- org.nakeduml.environment.marshall,
- org.nakeduml.event,
- org.nakeduml.hibernate.domain,
- org.nakeduml.jbpm.domain,
- org.nakeduml.name,
- org.nakeduml.runtime.domain,
- org.nakeduml.workinghours,
  util

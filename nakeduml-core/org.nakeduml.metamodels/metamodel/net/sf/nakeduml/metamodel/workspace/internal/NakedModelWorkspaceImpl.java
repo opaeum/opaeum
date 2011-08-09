@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -39,7 +40,22 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
 	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
 	private String directoryName;
+	private Map<INakedClassifier, Set<INakedClassifier>> classDependencies=new HashMap<INakedClassifier,Set<INakedClassifier>>();
 	public NakedModelWorkspaceImpl(){
+	}
+
+	public void markDependency(INakedClassifier from, INakedClassifier to){
+		Set<INakedClassifier> set = getDependentClassifiers(to);
+		set.add(from);
+	}
+
+	public Set<INakedClassifier> getDependentClassifiers(INakedClassifier to){
+		Set<INakedClassifier> set = this.classDependencies.get(to);
+		if(set==null){
+			set=new HashSet<INakedClassifier>();
+			this.classDependencies.put(to, set);
+		}
+		return set;
 	}
 	public IOclEngine getOclEngine(){
 		return this.oclEngine;

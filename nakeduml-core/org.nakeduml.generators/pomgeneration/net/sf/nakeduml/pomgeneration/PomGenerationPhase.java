@@ -6,15 +6,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.sf.nakeduml.feature.InputModel;
+import net.sf.nakeduml.feature.IntegrationPhase;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
@@ -38,6 +43,7 @@ import org.apache.maven.pom.POMPackage;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.util.POMResourceFactoryImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -45,8 +51,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.nakeduml.bootstrap.BootstrapGenerationPhase;
 
-@PhaseDependency(after = {JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class},before = {FileGenerationPhase.class})
-public class PomGenerationPhase implements TransformationPhase<PomGenerationStep,INakedElement>{
+@PhaseDependency(after = {
+		JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class
+},before = {
+	FileGenerationPhase.class
+})
+public class PomGenerationPhase implements TransformationPhase<PomGenerationStep,INakedElement>,IntegrationPhase{
 	@InputModel
 	private INakedModelWorkspace workspace;
 	@InputModel
@@ -55,9 +65,11 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private Map<String,DocumentRoot> rootMap = new HashMap<String,DocumentRoot>();
 	DocumentRoot parentPom;
 	private SortedSet<String> ignores = new TreeSet<String>();
+	private Collection<PomGenerationStep> features;
 	public static final String NUML_VERSION = "1.0.0.6-SNAPSHOT";
 	@Override
-	public void initialize(NakedUmlConfig config){
+	public void initialize(NakedUmlConfig config,List<PomGenerationStep> features){
+		this.features = features;
 		this.config = config;
 		if(config.generateMavenPoms()){
 			parentPom = buildPomRoot(config.getOutputRoot(), workspace.getIdentifier(), "pom", true);
@@ -108,30 +120,38 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		return ignoreFile;
 	}
 	@Override
-	public Object[] execute(List<PomGenerationStep> features,TransformationContext context){
+	public void execute(TransformationContext context){
 		if(config.generateMavenPoms()){
 			for(PomGenerationStep step:features){
-				step.initialize(config, workspace);
-				if(step.getExampleTargetDir().useWorkspaceName()){
-					String prefix = workspace.getIdentifier();
-					DocumentRoot root = getRoot(step, prefix);
-					updatePom(step, root);
-				}else{
-					List<INakedRootObject> models = workspace.getGeneratingModelsOrProfiles();
-					for(INakedRootObject model:models){
-						step.setModel(model);
-						DocumentRoot root = getRoot(step, model.getIdentifier());
+				if(step.isIntegrationStep() == context.isIntegrationPhase()){
+					step.initialize(config, workspace);
+					if(step.getExampleTargetDir().useWorkspaceName()){
+						String prefix = workspace.getIdentifier();
+						DocumentRoot root = getRoot(step, prefix);
 						updatePom(step, root);
+					}else{
+						List<INakedRootObject> models = workspace.getGeneratingModelsOrProfiles();
+						for(INakedRootObject model:models){
+							step.setModel(model);
+							DocumentRoot root = getRoot(step, model.getIdentifier());
+							updatePom(step, root);
+						}
 					}
 				}
 			}
 			for(DocumentRoot documentRoot:this.rootMap.values()){
 				outputToFile(documentRoot);
 			}
+			
+			Set<String> list = new HashSet<String>(Arrays.asList(config.getOutputRoot().list()));
+			for(String m:new ArrayList<String>( parentPom.getProject().getModules().getModule())){
+				if(!list.contains(m)){
+					parentPom.getProject().getModules().getModule().remove(m);
+				}
+			}
 			outputToFile(parentPom);
 			saveIgnoreFile();
 		}
-		return new Object[0];
 	}
 	private void saveIgnoreFile(){
 		PrintWriter fw;
@@ -319,7 +339,6 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				}
 				childDependency.setClassifier(newDep.getClassifier());
 				root.getProject().getDependencies().getDependency().add(childDependency);
-
 			}
 			Dependency oldParentDependency = PomUtil.getExisitingDependencyInDepedencyManagement(parentPom, newDep);
 			if(oldParentDependency == null){
@@ -333,27 +352,29 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		if(oldParentDependency.getScope() == null){
 			childDependency.setScope(newDep.getScope());
 		}else if(!oldParentDependency.getScope().equals(newDep.getScope())){
-			//Override scope in the child pom
+			// Override scope in the child pom
 			childDependency.setScope(newDep.getScope());
 		}
 		oldParentDependency.setVersion(newDep.getVersion());
-		if(newDep.getExclusions()!=null){
-			PomUtil.addNewExclusionsOnly(oldParentDependency,newDep.getExclusions().getExclusion());
+		if(newDep.getExclusions() != null){
+			PomUtil.addNewExclusionsOnly(oldParentDependency, newDep.getExclusions().getExclusion());
 		}
-
 	}
 	private void addNewDependencyToParentPom(Dependency newDep){
-		if(parentPom.getProject().getDependencyManagement()==null){
+		if(parentPom.getProject().getDependencyManagement() == null){
 			parentPom.getProject().setDependencyManagement(POMFactory.eINSTANCE.createDependencyManagement());
 		}
-		if(parentPom.getProject().getDependencyManagement().getDependencies()==null){
+		if(parentPom.getProject().getDependencyManagement().getDependencies() == null){
 			parentPom.getProject().getDependencyManagement().setDependencies(POMFactory.eINSTANCE.createDependenciesType1());
 		}
 		parentPom.getProject().getDependencyManagement().getDependencies().getDependency().add(newDep);
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
-		// TODO Auto-generated method stub
 		return elements;
+	}
+	@Override
+	public Collection<PomGenerationStep> getSteps(){
+		return features;
 	}
 }

@@ -16,6 +16,7 @@ import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
@@ -48,8 +49,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 	private CompositionNodeStrategy compositionNodeStrategy;
 	@Override
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,TransformationContext context){
-		super.initialize(javaModel, config, textWorkspace, context);
+	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+		super.initialize(javaModel, config, textWorkspace,workspace);
 		try{
 			compositionNodeStrategy = (CompositionNodeStrategy) Class.forName(config.getCompositionNodeImplementationStrategy()).newInstance();
 			if(config.getCompositionNodeImplementationStrategy().contains("Tinker")){

@@ -157,10 +157,10 @@ public abstract class AbstractUimGenerationAction{
 				suffix = "Task";
 			}
 		}
-		return UmlUimLinks.getId(namedElement) + suffix;
+		return NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(namedElement) + suffix;
 	}
 	private static UimForm getReferencedForm(UimEditor editor,NamedElement objectToFind){
-		String uid = UmlUimLinks.getId(objectToFind);
+		String uid = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(objectToFind);
 		ResourceSet set = editor.getEditingDomain().getResourceSet();
 		for(Resource r:set.getResources()){
 			EList<EObject> contents = r.getContents();

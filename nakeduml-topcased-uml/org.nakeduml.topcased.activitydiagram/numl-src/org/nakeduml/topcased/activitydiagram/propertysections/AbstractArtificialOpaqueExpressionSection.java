@@ -6,6 +6,7 @@ import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -14,21 +15,27 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.topcased.propertysections.AbstractOpaqueBodySection;
 import org.nakeduml.topcased.propertysections.OpaqueExpressionBodySection;
 
-public abstract class AbstractArtificialOpaqueExpressionSection extends OpaqueExpressionBodySection{
+public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOpaqueBodySection{
+	@Override
+	protected NamedElement getOclContext(){
+		return findOpaqueExpression(getExpressionName(), getAnnotation());
+	}
 	public AbstractArtificialOpaqueExpressionSection(){
 		super();
 	}
+	@Override
+	public EAttribute getLanguagesFeature(){
+		return UMLPackage.eINSTANCE.getOpaqueExpression_Language();
+	}
 
 	@Override
-	protected OpaqueExpression getExpression(EObject eo){
-		return findOpaqueExpression(getExpressionName(), getAnnotation());
-	}
-	@Override
-	protected Element getOclContext(){
-		return (Element) getEObject();
+	public EAttribute getBodiesFeature(){
+		return UMLPackage.eINSTANCE.getOpaqueExpression_Body();
 	}
 
 	protected EAnnotation getAnnotation(){
@@ -63,21 +70,6 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends OpaqueEx
 		return vs;
 	}
 
-
-	@Override
-	protected NamedElement getOwner(){
-		throw new IllegalStateException("EAnnotation not a namedElement");
-	}
-
-	@Override
-	protected ValueSpecification getValueSpecification(){
-		return getExpression(getEObject());
-	}
-
-	@Override
-	protected EStructuralFeature getFeature(){
-		return null;
-	}
 
 	@Override
 	protected String getLabelText(){

@@ -92,7 +92,7 @@ final class ConstraintAdapter extends AbstractConstraintDescriptor implements IM
 		if(this.cfg == null){
 			// TODO replace this dummy with the config associated with the
 			// current project
-			this.cfg = new NakedUmlConfig();
+			this.cfg = null;
 		}
 		return cfg;
 	}

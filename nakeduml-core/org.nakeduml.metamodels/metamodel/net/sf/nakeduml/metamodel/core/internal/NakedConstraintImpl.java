@@ -16,9 +16,15 @@ public class NakedConstraintImpl extends NakedElementImpl implements INakedConst
 	public INakedValueSpecification getSpecification(){
 		return specification;
 	}
+	@Override
+	public void addOwnedElement(INakedElement element){
+		super.addOwnedElement(element);
+		if(element instanceof INakedValueSpecification){
+			this.specification=(INakedValueSpecification) element;
+		}
+	}
 	public void setSpecification(INakedValueSpecification specification){
-		super.addOwnedElement(specification);
-		this.specification = specification;
+		addOwnedElement(specification);
 	}
 	@Override
 	public String getMetaClass(){

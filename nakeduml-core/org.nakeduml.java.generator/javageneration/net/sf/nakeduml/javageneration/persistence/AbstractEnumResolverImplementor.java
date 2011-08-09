@@ -14,7 +14,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.runtime.domain.IEnum;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
 public abstract class AbstractEnumResolverImplementor extends AbstractJavaProducingVisitor{
@@ -22,10 +22,13 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		super();
 	}
 
-	protected void createResolver(OJEnum ojEnum,Collection<? extends INakedElement> els){
+	protected void createResolver(OJEnum ojEnum,Collection<? extends INakedElement> els, String oldQualifiedName){
+		if(oldQualifiedName!=null){
+			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(oldQualifiedName+"Resolver"));
+		}
 		OJAnnotatedClass resolver = new OJAnnotatedClass(ojEnum.getName() + "Resolver");
 		ojEnum.getMyPackage().addToClasses(resolver);
-		createTextPath(resolver, OutputRootId.DOMAIN_GEN_SRC);
+		createTextPath(resolver, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		resolver.addToImplementedInterfaces(new OJPathName(EnumResolver.class.getName()));
 		resolver.addToOperations(buildToNakedUmlId(ojEnum,els));
 		resolver.addToOperations(buildFromNakedUmlId(ojEnum,els));

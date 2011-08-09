@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.JavaTextSource.OutputRootId;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
@@ -75,10 +75,13 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	public void visitScreenFlowTask(INakedEmbeddedScreenFlowTask a){
 		INakedStateMachine sm = (INakedStateMachine) a.getBehavior();
 		NakedClassifierMap map = new NakedClassifierMap(sm);
+		if(a.getMappingInfo().requiresJavaRename()){
+			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(a.getActivity().getMappingInfo().getOldQualifiedJavaName() + "." +a.getMappingInfo().getOldJavaName().getCapped()));
+		}
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(a.getMappingInfo().getJavaName().getCapped().getAsIs());
 		OJAnnotatedPackage pkg = findOrCreatePackage(OJUtil.packagePathname(a.getActivity()));
 		pkg.addToClasses(ojClass);
-		createTextPath(ojClass, OutputRootId.DOMAIN_GEN_SRC);
+		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		JpaUtil.addEntity(ojClass);
 		JpaUtil.buildTableAnnotation(ojClass, a.getMappingInfo().getPersistentName().getAsIs(), super.config, a.getActivity());
 		OJAnnotatedField field = OJUtil.addProperty(ojClass, sm.getMappingInfo().getJavaName().getDecapped().getAsIs(), map.javaTypePath(), true);

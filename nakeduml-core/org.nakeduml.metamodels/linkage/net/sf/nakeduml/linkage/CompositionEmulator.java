@@ -12,11 +12,14 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
+import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 
 @StepDependency(phase = LinkagePhase.class,after = {
-		ProcessIdentifier.class,MappedTypeLinker.class
-},before = {},requires = {
-		ProcessIdentifier.class,MappedTypeLinker.class
+	ProcessIdentifier.class
+},before = {
+	TypeResolver.class
+},requires = {
+	ProcessIdentifier.class
 })
 public class CompositionEmulator extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
@@ -26,7 +29,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			if(cp instanceof INakedBehavior){
 				INakedBehavior b = (INakedBehavior) cp;
 				if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
-					ArtificialProperty artificialProperty = new ArtificialProperty((INakedBehavior) cp, workspace.getOclEngine().getOclLibrary());
+					ArtificialProperty artificialProperty = new ArtificialProperty((INakedBehavior) cp);
 					b.getContext().addOwnedElement(artificialProperty);
 					cp.setEndToComposite(artificialProperty.getOtherEnd());
 				}
@@ -40,38 +43,43 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 					}
 				}
 				if(endFromComposite != null){
-					ArtificialProperty artificialProperty = new ArtificialProperty(endFromComposite, workspace.getOclEngine().getOclLibrary());
+					ArtificialProperty artificialProperty = new ArtificialProperty(endFromComposite);
 					cp.setEndToComposite(artificialProperty);
 				}else{
-					ArtificialProperty artificialProperty = new ArtificialProperty(cp, workspace.getOclEngine().getOclLibrary());
+					ArtificialProperty artificialProperty = new ArtificialProperty(cp);
 					cp.getNestingClassifier().addOwnedElement(artificialProperty);
 					cp.setEndToComposite(artificialProperty.getOtherEnd());
 				}
 			}
 			if(cp.getEndToComposite() != null){
 				getAffectedElements().add(cp.getEndToComposite().getNakedBaseType());
+				getAffectedElements().add(cp);
 			}
+		}else if(endToComposite instanceof ArtificialProperty || endToComposite.getOtherEnd() instanceof ArtificialProperty){
+			getAffectedElements().add(endToComposite);
+			getAffectedElements().add(endToComposite.getOtherEnd());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation o){
 		if(BehaviorUtil.hasExecutionInstance(o)){
-			o.initMessageStructure(workspace.getNakedUmlLibrary());
+			o.initMessageStructure();
 			ICompositionParticipant b = o.getMessageStructure();
-			ArtificialProperty artificialProperty = new ArtificialProperty((EmulatedCompositionMessageStructure) b, workspace.getOclEngine().getOclLibrary());
+			((MessageStructureImpl) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
+			ArtificialProperty artificialProperty = new ArtificialProperty((EmulatedCompositionMessageStructure) b);
 			b.setEndToComposite(artificialProperty.getOtherEnd());
 			b.getEndToComposite().getNakedBaseType().addOwnedElement(artificialProperty);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction o){
-		o.initMessageStructure(workspace.getNakedUmlLibrary());
+		o.initMessageStructure();
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEmbeddedTask(INakedEmbeddedTask o){
-		o.initMessageStructure(workspace.getNakedUmlLibrary());
+		o.initMessageStructure();
 		ICompositionParticipant b = o.getMessageStructure();
-		ArtificialProperty artificialProperty = new ArtificialProperty((EmulatedCompositionMessageStructure) b, workspace.getOclEngine().getOclLibrary());
+		ArtificialProperty artificialProperty = new ArtificialProperty((EmulatedCompositionMessageStructure) b);
 		b.setEndToComposite(artificialProperty.getOtherEnd());
 		artificialProperty.getOtherEnd().getNakedBaseType().addOwnedElement(artificialProperty);
 	}

@@ -11,6 +11,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
+import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uim.modeleditor.UimPlugin;
 import org.nakeduml.uim.modeleditor.editor.UimEditor;
@@ -23,7 +24,7 @@ public class RegenerateAction extends AbstractUimGenerationAction implements IOb
 
 	public static void doGenerate(NamedElement modelElement){
 		try{
-			NakedUmlEditor e = findNakedUmlEditor(modelElement);
+			NakedUmlEclipseContext e = NakedUmlEditor.getCurrentContext();
 			EmfWorkspace workspace = e.getUmlElementCache().getEmfWorkspace();
 			
 			ResourceSet uimResourceSet=new ResourceSetImpl();

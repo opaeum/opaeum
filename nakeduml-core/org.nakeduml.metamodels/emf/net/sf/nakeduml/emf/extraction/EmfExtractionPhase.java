@@ -15,6 +15,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -39,10 +40,47 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	private EmfWorkspace emfWorkspace;
 	private NakedUmlConfig config;
 	private List<AbstractExtractorFromEmf> extractors;
-	public void initialize(NakedUmlConfig config){
-		this.config = config;
+	private INakedPackage getNakedPackage(Package emfModel){
+		return (INakedPackage) modelWorkspace.getModelElement(emfWorkspace.getId(emfModel));
 	}
-	public Object[] execute(List<AbstractExtractorFromEmf> features,TransformationContext context){
+	@Override
+	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+		Collection<INakedElement> result = new HashSet<INakedElement>();
+		Set<Element> elementsToProcess = new HashSet<Element>();
+		outer:for(Element element1:elements){
+			for(Element element2:elements){
+				if(element2.eContents().contains(element1)){
+					continue outer;
+				}
+			}
+			elementsToProcess.add(element1);
+		}
+		for(Element element:elementsToProcess){
+			for(AbstractExtractorFromEmf v:extractors){
+				v.initialize(emfWorkspace, modelWorkspace);
+			}
+			for(AbstractExtractorFromEmf v:extractors){
+				v.visitRecursively((Element) element);
+			}
+			result.add(modelWorkspace.getModelElement(emfWorkspace.getId((Element) element)));
+		}
+		return result;
+	}
+	@Override
+	public void execute(TransformationContext context){
+		for(AbstractExtractorFromEmf v:extractors){
+			v.startVisiting(emfWorkspace);
+		}
+		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
+			modelWorkspace.addGeneratingRootObject((INakedRootObject) getNakedPackage(gp));
+		}
+		for(Package gp:emfWorkspace.getPrimaryModels()){
+			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
+		}
+	}
+	@Override
+	public void initialize(NakedUmlConfig config,List<AbstractExtractorFromEmf> features){
+		this.config=config;
 		this.extractors = features;
 		modelWorkspace.setWorkspaceMappingInfo(emfWorkspace.getMappingInfo());
 		modelWorkspace.clearGeneratingModelOrProfiles();
@@ -66,37 +104,12 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		}
 		// FIrst initialize to allow extractors to determine previously extracted models
 		for(AbstractExtractorFromEmf v:features){
-			v.initialize(modelWorkspace);
+			v.initialize(emfWorkspace, modelWorkspace);
 		}
-		for(AbstractExtractorFromEmf v:features){
-			v.startVisiting(emfWorkspace);
-		}
-		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
-			modelWorkspace.addGeneratingRootObject((INakedRootObject) getNakedPackage(gp));
-		}
-		for(Package gp:emfWorkspace.getPrimaryModels()){
-			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
-		}
-		return new Object[]{};
-	}
-	private INakedPackage getNakedPackage(Package emfModel){
-		return (INakedPackage) modelWorkspace.getModelElement(getIdFor(emfModel));
-	}
-	private static String getIdFor(Package model){
-		return AbstractExtractorFromEmf.getId(model);
+		
 	}
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
-		Collection<INakedElement> result = new HashSet<INakedElement>();
-		for(Element element:elements){
-			for(AbstractExtractorFromEmf v:extractors){
-				v.initialize(modelWorkspace);
-			}
-			for(AbstractExtractorFromEmf v:extractors){
-				v.visitRecursively((Element) element);
-			}
-			result.add(modelWorkspace.getModelElement(AbstractExtractorFromEmf.getId((EModelElement) element)));
-		}
-		return result;
+	public Collection<AbstractExtractorFromEmf> getSteps(){
+		return this.extractors;
 	}
 }

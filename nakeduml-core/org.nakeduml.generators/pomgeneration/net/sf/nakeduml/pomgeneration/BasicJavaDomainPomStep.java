@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import net.sf.nakeduml.feature.OutputRoot;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.javageneration.JavaTextSource;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
@@ -17,7 +17,7 @@ import org.apache.maven.pom.Plugin;
 public class BasicJavaDomainPomStep extends PomGenerationStep{
 	@Override
 	public Dependency[] getDependencies(){
-		Collection<Dependency> result = getBasicDependencies("-domain");
+		Collection<Dependency> result = getBasicDependencies(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addNakedumlDomain(result);
 		// add provided dependencies from above
 		addHibernate(result);
@@ -51,8 +51,8 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 		return (Plugin[]) result.toArray(new Plugin[result.size()]);
 	}
 	@Override
-	protected OutputRoot getExampleTargetDir(){
-		return config.getOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC);
+	protected SourceFolderDefinition getExampleTargetDir(){
+		return config.getSourceFolderDefinition(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 	@Override
 	public Properties getParentPomProperties(){
