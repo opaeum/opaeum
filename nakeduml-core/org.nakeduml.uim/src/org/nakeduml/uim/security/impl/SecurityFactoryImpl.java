@@ -9,12 +9,15 @@ package org.nakeduml.uim.security.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.security.*;
+import org.nakeduml.uim.security.EditableSecureObject;
+import org.nakeduml.uim.security.RequiredRole;
+import org.nakeduml.uim.security.SecureObject;
+import org.nakeduml.uim.security.SecurityConstraint;
+import org.nakeduml.uim.security.SecurityFactory;
+import org.nakeduml.uim.security.SecurityPackage;
+import org.nakeduml.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->

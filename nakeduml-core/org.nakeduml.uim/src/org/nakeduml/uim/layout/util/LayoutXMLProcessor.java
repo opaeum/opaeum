@@ -9,11 +9,8 @@ package org.nakeduml.uim.layout.util;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
-
 import org.nakeduml.uim.layout.LayoutPackage;
 
 /**

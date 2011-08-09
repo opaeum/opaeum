@@ -9,12 +9,18 @@ package org.nakeduml.uim.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.*;
+import org.nakeduml.uim.ObjectSelectorTree;
+import org.nakeduml.uim.UimContainer;
+import org.nakeduml.uim.UimDataTable;
+import org.nakeduml.uim.UimFactory;
+import org.nakeduml.uim.UimField;
+import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UimPanel;
+import org.nakeduml.uim.UimTab;
+import org.nakeduml.uim.UimTabPanel;
+import org.nakeduml.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->

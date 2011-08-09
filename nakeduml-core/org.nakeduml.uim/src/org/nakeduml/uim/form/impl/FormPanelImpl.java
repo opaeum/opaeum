@@ -8,29 +8,21 @@ package org.nakeduml.uim.form.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimContainer;
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionElement;
-
 import org.nakeduml.uim.form.FormPackage;
 import org.nakeduml.uim.form.FormPanel;
 import org.nakeduml.uim.form.UimForm;
-
 import org.nakeduml.uim.impl.UmlReferenceImpl;
-
 import org.nakeduml.uim.layout.LayoutContainer;
 import org.nakeduml.uim.layout.LayoutPackage;
 import org.nakeduml.uim.layout.UimLayout;
-
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 import org.nakeduml.uim.security.SecurityConstraint;

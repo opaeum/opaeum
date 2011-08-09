@@ -13,9 +13,9 @@ import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.binding.BindingPackage;
 import org.nakeduml.uim.binding.UimBinding;
 import org.nakeduml.uim.control.ControlKind;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.nakeduml.uim.util.ControlUtil;
-import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
@@ -74,7 +74,7 @@ public class UimFieldBindingSection extends AbstractBindingSection{
 		if(newValue instanceof UimBinding && newValue != oldValue){
 			switch(msg.getFeatureID(UimField.class)){
 			case UimPackage.UIM_FIELD__BINDING:
-				ControlKind[] cks = ControlUtil.getAllowedControlKinds(UimUtil.getNearestForm(getEObject()), UimUtil.getResultingType((UimBinding) newValue));
+				ControlKind[] cks = ControlUtil.getAllowedControlKinds(UimEditor.getCurrentUmlLinks().getNearestForm(getEObject()), UimEditor.getCurrentUmlLinks().getResultingType((UimBinding) newValue));
 				UimField uimField = (UimField) getEObject();
 				if(cks[0] != uimField.getControlKind()){
 					uimField.setControlKind(cks[0]);

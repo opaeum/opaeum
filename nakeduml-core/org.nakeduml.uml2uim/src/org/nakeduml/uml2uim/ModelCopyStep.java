@@ -12,17 +12,15 @@ import java.util.List;
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.ISourceFolderIdentifier;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
-
-import org.nakedum.velocity.AbstractTextProducingVisitor;
 
 @StepDependency(phase = ModelCopyPhase.class)
 public class ModelCopyStep extends EmfElementVisitor implements ITransformationStep{

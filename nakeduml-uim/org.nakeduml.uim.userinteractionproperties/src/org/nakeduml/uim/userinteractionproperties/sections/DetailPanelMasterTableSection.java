@@ -10,11 +10,10 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.nakeduml.uim.MasterComponent;
 import org.nakeduml.uim.UimComponent;
-import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.form.DetailPanel;
 import org.nakeduml.uim.form.FormPackage;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
-import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -75,7 +74,7 @@ public class DetailPanelMasterTableSection extends
 				FormPackage.eINSTANCE.getDetailPanel_MasterComponent().getEType()));
 		ListIterator<MasterComponent> li = choices.listIterator();
 		while (li.hasNext()) {
-			if (UimUtil.getNearestForm((UimComponent) li.next()) != UimUtil
+			if (UimEditor.getCurrentUmlLinks().getNearestForm((UimComponent) li.next()) != UimEditor.getCurrentUmlLinks()
 					.getNearestForm((UimComponent) getEObject())) {
 				li.remove();
 			}

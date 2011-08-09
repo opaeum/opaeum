@@ -7,7 +7,6 @@
 package org.nakeduml.uim.form;
 
 import org.nakeduml.uim.UmlReference;
-
 import org.nakeduml.uim.layout.LayoutContainer;
 
 /**

@@ -7,7 +7,6 @@
 package org.nakeduml.uim.control.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.nakeduml.uim.control.ControlPackage;
 import org.nakeduml.uim.control.UimMultiSelectListBox;
 

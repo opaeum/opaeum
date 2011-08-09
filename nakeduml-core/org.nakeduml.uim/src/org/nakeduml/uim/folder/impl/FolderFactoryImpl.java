@@ -9,12 +9,16 @@ package org.nakeduml.uim.folder.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.folder.*;
+import org.nakeduml.uim.folder.ActivityFolder;
+import org.nakeduml.uim.folder.EntityFolder;
+import org.nakeduml.uim.folder.FolderFactory;
+import org.nakeduml.uim.folder.FolderPackage;
+import org.nakeduml.uim.folder.PackageFolder;
+import org.nakeduml.uim.folder.StateMachineFolder;
+import org.nakeduml.uim.folder.UserInteractionModel;
+import org.nakeduml.uim.folder.UserInteractionWorkspace;
 
 /**
  * <!-- begin-user-doc -->

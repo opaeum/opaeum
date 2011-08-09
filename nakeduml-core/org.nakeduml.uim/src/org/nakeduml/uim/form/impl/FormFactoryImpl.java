@@ -9,12 +9,18 @@ package org.nakeduml.uim.form.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.form.*;
+import org.nakeduml.uim.form.ActionTaskForm;
+import org.nakeduml.uim.form.ClassForm;
+import org.nakeduml.uim.form.DetailPanel;
+import org.nakeduml.uim.form.FormFactory;
+import org.nakeduml.uim.form.FormPackage;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
+import org.nakeduml.uim.form.OperationTaskForm;
+import org.nakeduml.uim.form.StateForm;
+import org.nakeduml.uim.form.UimForm;
 
 /**
  * <!-- begin-user-doc -->

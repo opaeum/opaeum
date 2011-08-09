@@ -7,11 +7,8 @@
 package org.nakeduml.uim.layout.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.layout.LayoutPackage;
 import org.nakeduml.uim.layout.UimGridLayout;
 

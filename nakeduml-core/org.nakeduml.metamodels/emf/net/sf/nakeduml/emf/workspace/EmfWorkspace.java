@@ -1,5 +1,6 @@
 package net.sf.nakeduml.emf.workspace;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -70,8 +71,8 @@ public class EmfWorkspace implements Element{
 		this.directoryUri = uri;
 		this.identifier = identifier;
 	}
-	public final void putElement(String id,Element e){
-		elementMap.put(id, e);
+	public final void putElement(Element e){
+		elementMap.put(getId(e), e);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();

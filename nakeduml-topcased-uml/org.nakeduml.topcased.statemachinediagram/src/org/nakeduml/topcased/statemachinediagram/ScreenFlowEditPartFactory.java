@@ -98,10 +98,10 @@ public class ScreenFlowEditPartFactory extends STMEditPartFactory{
 						public void performRequest(Request request){
 							if(request.getType() == RequestConstants.REQ_OPEN){
 								NamedElement e = (NamedElement) getEObject();
-								String uuid = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(e);
+								String uuid = NakedUmlEditor.getCurrentContext().getId(e);
 								URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
 								if(!AbstractUimGenerationAction.getFile(uri).exists()){
-									SynchronizeAction.doSynchronize(e,NakedUmlEditor.getCurrentContext().getUmlElementCache() );
+									SynchronizeAction.doSynchronize(e);
 								}
 								AbstractUimGenerationAction.openEditor(e, uuid);
 							}else{

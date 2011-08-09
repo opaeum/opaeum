@@ -7,8 +7,8 @@ Do data restoration with an XML document
 
 Eclipse
 Reverse engineer a profile into the workspace
-Keep a NakedUmlWorkspace in sync with the resourceset of a NakedUmlEditor instance to reduce overheads for validation
 StarterAction - automatically set maven group id as package prefix of mappedimplementationpackage of rootObjects
+GEneratorGenerator - make this an eclipse plugin too
 
 NakedUML Topcased
 Parameters section for behaviors

@@ -8,13 +8,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Classifier;
-import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.NavigationToEntity;
 import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;
 import org.nakeduml.uim.form.ClassForm;
-import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -65,16 +63,16 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	 */
 	protected Object[] getComboFeatureValues(){
 		NavigationToEntity nte = (NavigationToEntity) getEObject();
-		Classifier toClass = UimUtil.getType(nte.getBinding());
+		Classifier toClass = UimEditor.getCurrentUmlLinks().getType(nte.getBinding());
 		if(toClass == null){
-			toClass = UimUtil.getNearestClass(nte);
+			toClass = UimEditor.getCurrentUmlLinks().getNearestClass(nte);
 		}
 		List<ClassForm> choices = new ArrayList<ClassForm>();
 		ITypeCacheAdapter tca = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
 		Collection<? extends ClassForm> source = (Collection<? extends ClassForm>) tca.getReachableObjectsOfType(getEObject(), ActionPackage.eINSTANCE
 				.getNavigationToEntity_ToForm().getEType());
 		for(ClassForm classForm:source){
-			if(UmlUimLinks.getInstance(classForm).getRepresentedClass(classForm.getFolder()) == toClass){
+			if(UimEditor.getCurrentUmlLinks().getRepresentedClass(classForm.getFolder()) == toClass){
 				choices.add(classForm);
 			}
 		}

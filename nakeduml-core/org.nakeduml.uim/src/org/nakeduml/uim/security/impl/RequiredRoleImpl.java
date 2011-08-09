@@ -7,9 +7,7 @@
 package org.nakeduml.uim.security.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.nakeduml.uim.impl.UmlReferenceImpl;
-
 import org.nakeduml.uim.security.RequiredRole;
 import org.nakeduml.uim.security.SecurityPackage;
 

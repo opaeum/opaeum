@@ -9,12 +9,15 @@ package org.nakeduml.uim.binding.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.binding.*;
+import org.nakeduml.uim.binding.BindingFactory;
+import org.nakeduml.uim.binding.BindingPackage;
+import org.nakeduml.uim.binding.FieldBinding;
+import org.nakeduml.uim.binding.LookupBinding;
+import org.nakeduml.uim.binding.NavigationBinding;
+import org.nakeduml.uim.binding.PropertyRef;
+import org.nakeduml.uim.binding.TableBinding;
 
 /**
  * <!-- begin-user-doc -->

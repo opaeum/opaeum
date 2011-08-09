@@ -7,14 +7,10 @@
 package org.nakeduml.uim.form.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.folder.ActivityFolder;
-
 import org.nakeduml.uim.form.ActionTaskForm;
 import org.nakeduml.uim.form.FormPackage;
 

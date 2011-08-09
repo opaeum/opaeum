@@ -10,15 +10,18 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.UserInteractionElement;
-
-import org.nakeduml.uim.action.*;
-
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.BuiltInAction;
+import org.nakeduml.uim.action.NavigationToEntity;
+import org.nakeduml.uim.action.NavigationToOperation;
+import org.nakeduml.uim.action.OperationAction;
+import org.nakeduml.uim.action.TransitionAction;
+import org.nakeduml.uim.action.UimAction;
+import org.nakeduml.uim.action.UimNavigation;
 import org.nakeduml.uim.layout.OutlayableComponent;
-
 import org.nakeduml.uim.security.SecureObject;
 
 /**

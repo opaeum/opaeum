@@ -36,6 +36,8 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		this.config = new NakedUmlConfig(file2);
 		if(!file2.exists()){
 			config.loadDefaults("ProjectXYZ");
+		}else{
+			config.loadDefaults(config.getWorkspaceIdentifier());
 		}
 	}
 	protected Control createContents(Composite parent){
@@ -84,7 +86,7 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 			String[] split = config.getMavenGroupId().split(".");
 			for(int i = split.length - 1;i >= 1;i--){
 				sb.append(split[i]);
-				if(i != 0){
+				if(i != 1){
 					sb.append(".");
 				}
 			}

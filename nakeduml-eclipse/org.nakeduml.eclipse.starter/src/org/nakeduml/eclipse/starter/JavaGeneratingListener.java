@@ -39,11 +39,8 @@ public final class JavaGeneratingListener implements NakedUmlContextListener{
 	NakedUmlEclipseContext context;
 	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
 	private TransformationProcess process;
-	private Map<NakedUmlEclipseContext,TransformationProcess> processes;
 	private IJavaModel javaWorkspace;
-	public JavaGeneratingListener(NakedUmlEclipseContext ne,IWorkspaceRoot workspace,TransformationProcess process,
-			Map<NakedUmlEclipseContext,TransformationProcess> processes){
-		this.processes = processes;
+	public JavaGeneratingListener(NakedUmlEclipseContext ne,IWorkspaceRoot workspace,TransformationProcess process){
 		this.process = process;
 		this.eclipseGenerator.initialize(workspace, ne.getUmlElementCache().getConfig());
 		this.workspace = workspace;
@@ -168,6 +165,5 @@ public final class JavaGeneratingListener implements NakedUmlContextListener{
 	}
 	@Override
 	public void onClose(boolean save){
-		processes.remove(context);
 	}
 }

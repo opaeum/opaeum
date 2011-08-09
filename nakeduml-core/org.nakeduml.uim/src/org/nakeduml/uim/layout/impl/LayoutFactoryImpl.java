@@ -9,12 +9,17 @@ package org.nakeduml.uim.layout.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.layout.*;
+import org.nakeduml.uim.layout.LayoutFactory;
+import org.nakeduml.uim.layout.LayoutPackage;
+import org.nakeduml.uim.layout.UimBorderLayout;
+import org.nakeduml.uim.layout.UimColumnLayout;
+import org.nakeduml.uim.layout.UimFullLayout;
+import org.nakeduml.uim.layout.UimGridLayout;
+import org.nakeduml.uim.layout.UimLayout;
+import org.nakeduml.uim.layout.UimToolbarLayout;
+import org.nakeduml.uim.layout.UimXYLayout;
 
 /**
  * <!-- begin-user-doc -->

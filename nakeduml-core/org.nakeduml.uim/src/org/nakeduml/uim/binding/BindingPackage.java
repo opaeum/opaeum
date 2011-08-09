@@ -9,7 +9,6 @@ package org.nakeduml.uim.binding;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.nakeduml.uim.UimPackage;
 
 /**

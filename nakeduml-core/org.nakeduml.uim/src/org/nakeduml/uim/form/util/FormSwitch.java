@@ -10,16 +10,20 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimContainer;
 import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.UserInteractionElement;
-
-import org.nakeduml.uim.form.*;
-
+import org.nakeduml.uim.form.ActionTaskForm;
+import org.nakeduml.uim.form.ClassForm;
+import org.nakeduml.uim.form.DetailPanel;
+import org.nakeduml.uim.form.FormPackage;
+import org.nakeduml.uim.form.FormPanel;
+import org.nakeduml.uim.form.OperationInvocationForm;
+import org.nakeduml.uim.form.OperationTaskForm;
+import org.nakeduml.uim.form.StateForm;
+import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.layout.LayoutContainer;
-
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 

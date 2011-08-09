@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecurityPackage;

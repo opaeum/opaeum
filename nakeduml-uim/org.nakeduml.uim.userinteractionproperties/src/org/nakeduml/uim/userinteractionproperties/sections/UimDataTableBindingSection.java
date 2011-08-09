@@ -13,7 +13,6 @@ import org.nakeduml.uim.binding.BindingPackage;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 /**
  * A section featuring a combo box with a seach button. This section<br>

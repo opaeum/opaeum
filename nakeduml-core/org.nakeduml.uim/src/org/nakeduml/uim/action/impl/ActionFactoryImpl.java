@@ -10,12 +10,16 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.nakeduml.uim.action.*;
+import org.nakeduml.uim.action.ActionFactory;
+import org.nakeduml.uim.action.ActionKind;
+import org.nakeduml.uim.action.ActionPackage;
+import org.nakeduml.uim.action.BuiltInAction;
+import org.nakeduml.uim.action.NavigationToEntity;
+import org.nakeduml.uim.action.NavigationToOperation;
+import org.nakeduml.uim.action.OperationAction;
+import org.nakeduml.uim.action.TransitionAction;
 
 /**
  * <!-- begin-user-doc -->

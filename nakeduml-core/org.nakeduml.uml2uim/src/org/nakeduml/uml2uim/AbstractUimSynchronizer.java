@@ -5,8 +5,6 @@ import java.util.HashMap;
 
 import net.sf.nakeduml.emf.extraction.EmfElementVisitor;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 
@@ -22,21 +20,19 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	protected ResourceSet uimRst;
 	protected boolean regenerate;
 	protected UmlUimLinks links;
-	protected UmlElementCache umlCache;
 	protected EmfWorkspace workspace;
 
 	public AbstractUimSynchronizer(){
 	}
-	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate,UmlElementCache map){
+	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate){
 		this.workspace = workspace;
-		init(workspace,resourceSet,  regenerate,map);
+		init(workspace,resourceSet,  regenerate);
 	}
-	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b, UmlElementCache map){
+	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b){
 		this.workspace=workspace;
 		this.regenerate = b;
 		this.uimRst = uimRst;
-		links=new UmlUimLinks(map);
-		this.umlCache=map;
+		links=new UmlUimLinks(workspace);
 	}
 	protected void visitParentsRecursively(Element parent){
 		if(parent != null){

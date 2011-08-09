@@ -11,13 +11,11 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.UimDataTable;
-import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.OperationAction;
 import org.nakeduml.uim.form.FormPanel;
 import org.nakeduml.uim.form.StateForm;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.nakeduml.uim.provider.UimItemProviderAdapterFactory;
-import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -56,7 +54,7 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
-		return UmlUimLinks.getInstance((UmlReference)getEObject()).getOperation((OperationAction) getEObject());
+		return UimEditor.getCurrentUmlLinks().getOperation((OperationAction) getEObject());
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -68,18 +66,18 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 		Collection<Operation> results = new ArrayList<Operation>();
 		if(getEObject() instanceof OperationAction){
 			OperationAction oa = (OperationAction) getEObject();
-			UimDataTable nearestTable = UimUtil.getNearestTable(oa);
-			FormPanel ui = UimUtil.getNearestForm(oa);
+			UimDataTable nearestTable = UimEditor.getCurrentUmlLinks().getNearestTable(oa);
+			FormPanel ui = UimEditor.getCurrentUmlLinks().getNearestForm(oa);
 			if(nearestTable == null && ui instanceof StateForm){
 				// get valid methods for state only
 				StateForm sui = (StateForm) ui;
-				State state = UmlUimLinks.getInstance((UmlReference)getEObject()).getState(sui);
+				State state = UimEditor.getCurrentUmlLinks().getState(sui);
 				if(state != null){
 					results.addAll(EmfStateMachineUtil.getTriggerOperations(state));
 					results.addAll(EmfStateMachineUtil.getNonTriggerOperations(EmfStateMachineUtil.getStateMachine(state)));
 				}
 			}else{
-				results.addAll(UimUtil.getNearestClass(oa).getAllOperations());
+				results.addAll(UimEditor.getCurrentUmlLinks().getNearestClass(oa).getAllOperations());
 			}
 		}
 		return getParameterlessOperations(results);

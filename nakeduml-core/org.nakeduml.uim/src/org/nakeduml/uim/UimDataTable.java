@@ -7,7 +7,6 @@
 package org.nakeduml.uim;
 
 import org.nakeduml.uim.binding.TableBinding;
-
 import org.nakeduml.uim.layout.LayoutContainer;
 import org.nakeduml.uim.layout.OutlayableComponent;
 

@@ -15,7 +15,7 @@ import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.binding.UimBinding;
 import org.nakeduml.uim.figures.IBindingFigure;
 import org.nakeduml.uim.figures.UimColumnLayoutFigure;
-import org.nakeduml.uim.util.UmlUimLinks;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
@@ -31,22 +31,22 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 			IBindingFigure fig = (IBindingFigure) getFigure();
 			ILabel field = fig.getBindingLabel();
 			if(field != null){
-				if(uIMBinding != null && UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) != null){
+				if(uIMBinding != null && UimEditor.getCurrentUmlLinks().getTypedElement(uIMBinding) != null){
 					IFigure parent = fig.getParent();
 					while(!(parent.getParent() == null || parent instanceof UimColumnLayoutFigure)){
 						parent = parent.getParent();
 					}
 					StringBuffer s = new StringBuffer();
-					if(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding) instanceof Property){
+					if(UimEditor.getCurrentUmlLinks().getTypedElement(uIMBinding) instanceof Property){
 						if(parent instanceof UimColumnLayoutFigure){
 							s.append("row.");
 						}else{
 							s.append("self.");
 						}
-						s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
+						s.append(UimEditor.getCurrentUmlLinks().getTypedElement(uIMBinding).getName());
 					}else{// parameter or pin
 						s.append("params[");
-						s.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getTypedElement(uIMBinding).getName());
+						s.append(UimEditor.getCurrentUmlLinks().getTypedElement(uIMBinding).getName());
 						s.append("]");
 					}
 					addString(uIMBinding.getNext(), s);
@@ -69,9 +69,9 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 		return null;
 	}
 	void addString(PropertyRef pr,StringBuffer sb){
-		if(pr != null && UmlUimLinks.getInstance(getUserInteractioinElement()).getProperty(pr) != null){
+		if(pr != null && UimEditor.getCurrentUmlLinks().getProperty(pr) != null){
 			sb.append(".");
-			sb.append(UmlUimLinks.getInstance(getUserInteractioinElement()).getProperty(pr).getName());
+			sb.append(UimEditor.getCurrentUmlLinks().getProperty(pr).getName());
 			addString(pr.getNext(), sb);
 		}
 	}

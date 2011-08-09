@@ -136,7 +136,7 @@ public class OclValueComposite extends Composite{
 			UmlElementCache map = NakedUmlEditor.getCurrentContext().getUmlElementCache();
 			INakedModelWorkspace ws = map.getTransformationProcess().findModel(INakedModelWorkspace.class);
 			ErrorMap errors = ws.getErrorMap();
-			String id = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(vp);
+			String id = NakedUmlEditor.getCurrentContext().getId(vp);
 			BrokenElement be = errors.getErrors().get(id);
 			if(be != null && be.hasBroken(CoreValidationRule.OCL)){
 				Object[] objects = be.getBrokenRules().get(CoreValidationRule.OCL);

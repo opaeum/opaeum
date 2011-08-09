@@ -7,7 +7,6 @@
 package org.nakeduml.uim.form;
 
 import org.nakeduml.uim.UserInteractionElement;
-
 import org.nakeduml.uim.folder.AbstractFormFolder;
 
 /**

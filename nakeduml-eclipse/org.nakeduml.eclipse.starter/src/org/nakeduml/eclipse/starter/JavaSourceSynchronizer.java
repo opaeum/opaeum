@@ -21,7 +21,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
-import org.nakeduml.bootstrap.WarBootstrapStep;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
@@ -69,11 +68,11 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 			NakedUmlConfig cfg = ne.getUmlElementCache().getConfig();
 			IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
 			cfg.setOutputRoot(new File(workspace.getLocation().toFile(), cfg.getWorkspaceIdentifier()));
-			ne.addContextListener(new JavaGeneratingListener(ne, workspace, process, processes));
-			mapOutputRoots(cfg);
+			ne.addContextListener(new JavaGeneratingListener(ne, workspace, process));
+			mapAdditionalOutputRoots(cfg);
 			Set<Class<? extends ITransformationStep>> steps = getAllSteps();
 			steps.addAll(cfg.getAdditionalTransformationSteps());
-			process.initialize(cfg, steps, ne.getUmlElementCache().getNakedWorkspace(),ne.getUmlElementCache().getEmfWorkspace());
+			process.initialize(cfg, steps, ne.getUmlElementCache().getNakedWorkspace(),ne.getUmlElementCache().getCurrentEmfWorkspace());
 		}
 		currentTransformationProcess=process;
 		return process;
@@ -85,7 +84,7 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 		basicIntegrationSteps.addAll(getBasicSteps());
 		return basicIntegrationSteps;
 	}
-	public void mapOutputRoots(NakedUmlConfig cfg){
+	public void mapAdditionalOutputRoots(NakedUmlConfig cfg){
 		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
 		if(cfg.getOutputRoot().exists()){
 			for(File file:cfg.getOutputRoot().listFiles()){

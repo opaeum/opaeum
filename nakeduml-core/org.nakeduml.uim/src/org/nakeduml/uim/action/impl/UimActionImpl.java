@@ -7,10 +7,8 @@
 package org.nakeduml.uim.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.UimAction;
-
 import org.nakeduml.uim.layout.impl.OutlayableComponentImpl;
 
 /**

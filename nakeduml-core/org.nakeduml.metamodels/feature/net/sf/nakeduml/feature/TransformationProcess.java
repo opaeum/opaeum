@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+
 /**
  * This class will become the entry point for the entire transformation process
  * 
@@ -72,10 +74,10 @@ public class TransformationProcess{
 		initialize(config, proposedStepClasses, sourceModel);
 		execute();
 	}
-	public TransformationPhase<?,?> getPhase(Class<TransformationPhase<?,?>> c){
+	public <T extends TransformationPhase> T getPhase(Class<T> c){
 		for(TransformationPhase<? extends ITransformationStep,?> p:getPhases()){
 			if(c.isInstance(p)){
-				return p;
+				return (T) p;
 			}
 		}
 		return null;
@@ -237,5 +239,10 @@ public class TransformationProcess{
 				this.models.remove(object);
 			}
 		}
+	}
+	public void replaceModel(Object model){
+		removeModel(model.getClass());
+		this.models.add(model);
+		
 	}
 }

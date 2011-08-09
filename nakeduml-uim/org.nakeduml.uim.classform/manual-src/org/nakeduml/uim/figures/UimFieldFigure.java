@@ -4,8 +4,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.LayoutListener;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Font;
 import org.nakeduml.uim.figures.controls.IControlFigure;

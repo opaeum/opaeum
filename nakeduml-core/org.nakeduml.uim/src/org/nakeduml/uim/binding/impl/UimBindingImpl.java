@@ -8,16 +8,12 @@ package org.nakeduml.uim.binding.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.binding.BindingPackage;
 import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.binding.UimBinding;
-
 import org.nakeduml.uim.impl.UmlReferenceImpl;
 
 /**

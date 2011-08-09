@@ -7,7 +7,6 @@
 package org.nakeduml.uim.action;
 
 import org.nakeduml.uim.UmlReference;
-
 import org.nakeduml.uim.form.OperationInvocationForm;
 
 /**

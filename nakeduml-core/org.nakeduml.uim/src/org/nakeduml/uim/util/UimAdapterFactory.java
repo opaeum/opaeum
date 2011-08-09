@@ -8,16 +8,22 @@ package org.nakeduml.uim.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.nakeduml.uim.*;
-
+import org.nakeduml.uim.MasterComponent;
+import org.nakeduml.uim.ObjectSelectorTree;
+import org.nakeduml.uim.UimComponent;
+import org.nakeduml.uim.UimContainer;
+import org.nakeduml.uim.UimDataTable;
+import org.nakeduml.uim.UimField;
+import org.nakeduml.uim.UimPackage;
+import org.nakeduml.uim.UimPanel;
+import org.nakeduml.uim.UimTab;
+import org.nakeduml.uim.UimTabPanel;
+import org.nakeduml.uim.UmlReference;
+import org.nakeduml.uim.UserInteractionElement;
 import org.nakeduml.uim.layout.LayoutContainer;
 import org.nakeduml.uim.layout.OutlayableComponent;
-
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 

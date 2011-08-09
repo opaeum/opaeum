@@ -7,11 +7,8 @@
 package org.nakeduml.uim.security.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.security.SecurityConstraint;
 import org.nakeduml.uim.security.SecurityPackage;
 

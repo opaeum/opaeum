@@ -1,8 +1,11 @@
 package org.nakeduml.eclipse;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.AcceptEventAction;
@@ -135,5 +138,17 @@ public class EmfBehaviorUtil{
 		HashSet<Behavior> operations = new HashSet<Behavior>();
 		addBehaviors(operations, context);
 		return operations;
+	}
+	public static boolean isTask(Operation op){
+		return StereotypesHelper.hasStereotype(op, "userresponsibility", "task", "responsibility");
+	}
+	public static Collection<Activity> getAllOwnedActivities(Class representedClass){
+		Collection<Activity> results = new ArrayList<Activity>();
+		for(Behavior b:findBehaviorsInScope(representedClass)){
+			if(b instanceof Activity){
+				results.add((Activity) b);
+			}
+		}
+		return results;
 	}
 }

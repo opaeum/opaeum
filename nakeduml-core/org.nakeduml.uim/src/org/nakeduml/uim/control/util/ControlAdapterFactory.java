@@ -8,12 +8,24 @@ package org.nakeduml.uim.control.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.nakeduml.uim.control.*;
+import org.nakeduml.uim.control.ControlPackage;
+import org.nakeduml.uim.control.UimCheckBox;
+import org.nakeduml.uim.control.UimControl;
+import org.nakeduml.uim.control.UimDatePopup;
+import org.nakeduml.uim.control.UimDropdown;
+import org.nakeduml.uim.control.UimLookup;
+import org.nakeduml.uim.control.UimMultiSelectListBox;
+import org.nakeduml.uim.control.UimMultiSelectPopupSearch;
+import org.nakeduml.uim.control.UimMultiSelectTreeView;
+import org.nakeduml.uim.control.UimNumberScroller;
+import org.nakeduml.uim.control.UimSingleSelectListBox;
+import org.nakeduml.uim.control.UimSingleSelectPopupSearch;
+import org.nakeduml.uim.control.UimSingleSelectTreeView;
+import org.nakeduml.uim.control.UimText;
+import org.nakeduml.uim.control.UimTextArea;
+import org.nakeduml.uim.control.UimToggleButton;
 
 /**
  * <!-- begin-user-doc -->

@@ -4,11 +4,8 @@ import java.util.Collection;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.bindings.keys.ParseException;
-import org.eclipse.jface.bindings.keys.SWTKeySupport;
 import org.eclipse.jface.fieldassist.ContentProposalAdapter;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;

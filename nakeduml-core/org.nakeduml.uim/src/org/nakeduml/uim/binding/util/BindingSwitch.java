@@ -10,10 +10,14 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UmlReference;
-
-import org.nakeduml.uim.binding.*;
+import org.nakeduml.uim.binding.BindingPackage;
+import org.nakeduml.uim.binding.FieldBinding;
+import org.nakeduml.uim.binding.LookupBinding;
+import org.nakeduml.uim.binding.NavigationBinding;
+import org.nakeduml.uim.binding.PropertyRef;
+import org.nakeduml.uim.binding.TableBinding;
+import org.nakeduml.uim.binding.UimBinding;
 
 /**
  * <!-- begin-user-doc -->

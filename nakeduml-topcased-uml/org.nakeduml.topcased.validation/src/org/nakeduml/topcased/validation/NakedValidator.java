@@ -28,7 +28,7 @@ public class NakedValidator implements org.topcased.validation.core.IValidator{
 			int i = 999;
 			for(Entry<String,BrokenElement> brokenElement:errors){
 				String key = brokenElement.getKey();
-				EObject obj = cache.getElement(key);
+				EObject obj = NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace().getElementMap().get(key);
 				if(obj != null){//Could be an artificial element
 					if(obj.eResource().getURI().isPlatformResource()){
 						Set<Entry<IValidationRule,Object[]>> brokenRules = brokenElement.getValue().getBrokenRules().entrySet();

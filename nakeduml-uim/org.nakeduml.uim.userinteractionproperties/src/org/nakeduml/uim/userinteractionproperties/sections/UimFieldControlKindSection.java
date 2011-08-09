@@ -11,8 +11,8 @@ import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.binding.FieldBinding;
 import org.nakeduml.uim.control.ControlKind;
 import org.nakeduml.uim.control.UimControl;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.nakeduml.uim.util.ControlUtil;
-import org.nakeduml.uim.util.UimUtil;
 import org.topcased.tabbedproperties.internal.utils.Messages;
 import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 
@@ -54,9 +54,9 @@ public class UimFieldControlKindSection extends AbstractEnumerationPropertySecti
 		FieldBinding binding = ((UimField) getEObject()).getBinding();
 		ControlKind[] cks = ControlKind.values();
 		if(binding != null){
-			TypedElement typedElement = UimUtil.getResultingType(binding);
+			TypedElement typedElement = UimEditor.getCurrentUmlLinks().getResultingType(binding);
 			if(typedElement != null && typedElement.getType() != null){
-				cks = ControlUtil.getAllowedControlKinds(UimUtil.getNearestForm(binding.getField()), typedElement);
+				cks = ControlUtil.getAllowedControlKinds(UimEditor.getCurrentUmlLinks().getNearestForm(binding.getField()), typedElement);
 			}
 		}
 		String[] result = new String[cks.length];

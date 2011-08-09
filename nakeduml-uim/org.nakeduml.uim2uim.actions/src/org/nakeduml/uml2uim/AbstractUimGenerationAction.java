@@ -1,14 +1,11 @@
 package org.nakeduml.uml2uim;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
@@ -23,7 +20,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
@@ -36,11 +32,9 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
-import org.nakeduml.topcased.uml.editor.NakedUmlElementLinker;
 import org.nakeduml.uim.form.UimForm;
 import org.nakeduml.uim.modeleditor.UimPlugin;
 import org.nakeduml.uim.modeleditor.editor.UimEditor;
-import org.nakeduml.uim.util.UmlUimLinks;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 
 public abstract class AbstractUimGenerationAction{
@@ -157,10 +151,10 @@ public abstract class AbstractUimGenerationAction{
 				suffix = "Task";
 			}
 		}
-		return NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(namedElement) + suffix;
+		return NakedUmlEditor.getCurrentContext().getId(namedElement) + suffix;
 	}
 	private static UimForm getReferencedForm(UimEditor editor,NamedElement objectToFind){
-		String uid = NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(objectToFind);
+		String uid = NakedUmlEditor.getCurrentContext().getId(objectToFind);
 		ResourceSet set = editor.getEditingDomain().getResourceSet();
 		for(Resource r:set.getResources()){
 			EList<EObject> contents = r.getContents();

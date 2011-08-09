@@ -2,14 +2,10 @@ package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;

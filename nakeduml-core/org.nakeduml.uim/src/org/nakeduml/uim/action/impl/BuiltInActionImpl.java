@@ -7,11 +7,8 @@
 package org.nakeduml.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.action.ActionKind;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.BuiltInAction;

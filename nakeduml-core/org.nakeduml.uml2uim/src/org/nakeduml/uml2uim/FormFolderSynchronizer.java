@@ -1,9 +1,6 @@
 package org.nakeduml.uml2uim;
 
-import java.util.Collection;
-
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 
@@ -16,8 +13,6 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.StateMachine;
-import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.folder.AbstractFolder;
 import org.nakeduml.uim.folder.AbstractFormFolder;
 import org.nakeduml.uim.folder.ActivityFolder;
@@ -28,13 +23,12 @@ import org.nakeduml.uim.folder.PackageFolder;
 import org.nakeduml.uim.folder.StateMachineFolder;
 import org.nakeduml.uim.folder.UserInteractionModel;
 import org.nakeduml.uim.folder.UserInteractionWorkspace;
-import org.nakeduml.uim.util.UmlUimLinks;
 @StepDependency(phase=UimSynchronizationPhase.class)
 public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 	public FormFolderSynchronizer(){
 	}
-	public FormFolderSynchronizer(EmfWorkspace workspace,ResourceSet uimRst,boolean regenerate, UmlElementCache map){
-		super(workspace, uimRst, regenerate,map);
+	public FormFolderSynchronizer(EmfWorkspace workspace,ResourceSet uimRst,boolean regenerate){
+		super(workspace, uimRst, regenerate);
 	}
 	@VisitBefore
 	public void visitWorkspace(EmfWorkspace w){

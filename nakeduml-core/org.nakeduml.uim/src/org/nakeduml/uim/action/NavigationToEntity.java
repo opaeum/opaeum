@@ -7,9 +7,7 @@
 package org.nakeduml.uim.action;
 
 import org.nakeduml.uim.UmlReference;
-
 import org.nakeduml.uim.binding.NavigationBinding;
-
 import org.nakeduml.uim.form.ClassForm;
 
 /**

@@ -6,7 +6,7 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.uim.UimFactory;
+import org.nakeduml.eclipse.EmfPropertyUtil;
 import org.nakeduml.uim.control.ControlFactory;
 import org.nakeduml.uim.control.ControlKind;
 import org.nakeduml.uim.control.UimControl;
@@ -52,12 +52,12 @@ public class ControlUtil{
 		if(typedElement instanceof Property){
 			Property p = (Property) typedElement;
 			if(p.getOtherEnd() != null){
-				return UimUtil.isMany(typedElement) && UimUtil.isMany(p.getOtherEnd());
+				return EmfPropertyUtil.isMany(typedElement) && EmfPropertyUtil.isMany(p.getOtherEnd());
 			}else{
-				return UimUtil.isMany(typedElement);
+				return EmfPropertyUtil.isMany(typedElement);
 			}
 		}else{
-			return UimUtil.isMany(typedElement) && requiresUserInput(form, typedElement);
+			return EmfPropertyUtil.isMany(typedElement) && requiresUserInput(form, typedElement);
 		}
 	}
 	public static boolean requiresUserInput(FormPanel form,TypedElement te){

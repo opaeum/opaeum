@@ -8,16 +8,20 @@ package org.nakeduml.uim.folder.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.UserInteractionElement;
-
-import org.nakeduml.uim.folder.*;
-
+import org.nakeduml.uim.folder.AbstractFolder;
+import org.nakeduml.uim.folder.AbstractFormFolder;
+import org.nakeduml.uim.folder.ActivityFolder;
+import org.nakeduml.uim.folder.EntityFolder;
+import org.nakeduml.uim.folder.FolderPackage;
+import org.nakeduml.uim.folder.OperationContainingFolder;
+import org.nakeduml.uim.folder.PackageFolder;
+import org.nakeduml.uim.folder.StateMachineFolder;
+import org.nakeduml.uim.folder.UserInteractionModel;
+import org.nakeduml.uim.folder.UserInteractionWorkspace;
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 

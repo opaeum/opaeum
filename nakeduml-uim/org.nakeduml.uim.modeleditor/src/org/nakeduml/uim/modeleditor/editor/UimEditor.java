@@ -6,8 +6,6 @@ package org.nakeduml.uim.modeleditor.editor;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
@@ -15,10 +13,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uim.modeleditor.UimPlugin;
@@ -36,13 +31,15 @@ import org.topcased.modeler.editor.Modeler;
  * @generated
  */
 public class UimEditor extends Modeler{
+	public static UmlUimLinks getCurrentUmlLinks(){
+		return currentUmlLinks;
+	}
+	private static UmlUimLinks currentUmlLinks;
 	@Override
 	protected void setInput(IEditorInput input){
-		// TODO Auto-generated method stub
 		super.setInput(input);
 		if(NakedUmlEditor.getCurrentContext() != null){
-			UmlElementCache umlElementMap = NakedUmlEditor.getCurrentContext().getUmlElementCache();
-			UmlUimLinks.associate(getResourceSet(),umlElementMap);
+			currentUmlLinks=new UmlUimLinks(NakedUmlEditor.getCurrentContext().getUmlElementCache().getCurrentEmfWorkspace());
 		}
 	}
 	@Override

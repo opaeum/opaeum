@@ -10,28 +10,20 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UserInteractionElement;
-
 import org.nakeduml.uim.folder.AbstractFolder;
 import org.nakeduml.uim.folder.AbstractFormFolder;
 import org.nakeduml.uim.folder.FolderPackage;
 import org.nakeduml.uim.folder.UserInteractionModel;
-
 import org.nakeduml.uim.impl.UmlReferenceImpl;
-
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 import org.nakeduml.uim.security.SecurityConstraint;

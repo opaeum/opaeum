@@ -8,14 +8,10 @@ package org.nakeduml.uim.layout.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.impl.UimContainerImpl;
-
 import org.nakeduml.uim.layout.LayoutContainer;
 import org.nakeduml.uim.layout.LayoutPackage;
 import org.nakeduml.uim.layout.UimLayout;

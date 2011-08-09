@@ -12,11 +12,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.nakeduml.uim.UimPackage;
-
 import org.nakeduml.uim.action.ActionFactory;
 import org.nakeduml.uim.action.ActionKind;
 import org.nakeduml.uim.action.ActionPackage;
@@ -27,31 +24,18 @@ import org.nakeduml.uim.action.OperationAction;
 import org.nakeduml.uim.action.TransitionAction;
 import org.nakeduml.uim.action.UimAction;
 import org.nakeduml.uim.action.UimNavigation;
-
 import org.nakeduml.uim.binding.BindingPackage;
-
 import org.nakeduml.uim.binding.impl.BindingPackageImpl;
-
 import org.nakeduml.uim.control.ControlPackage;
-
 import org.nakeduml.uim.control.impl.ControlPackageImpl;
-
 import org.nakeduml.uim.folder.FolderPackage;
-
 import org.nakeduml.uim.folder.impl.FolderPackageImpl;
-
 import org.nakeduml.uim.form.FormPackage;
-
 import org.nakeduml.uim.form.impl.FormPackageImpl;
-
 import org.nakeduml.uim.impl.UimPackageImpl;
-
 import org.nakeduml.uim.layout.LayoutPackage;
-
 import org.nakeduml.uim.layout.impl.LayoutPackageImpl;
-
 import org.nakeduml.uim.security.SecurityPackage;
-
 import org.nakeduml.uim.security.impl.SecurityPackageImpl;
 
 /**

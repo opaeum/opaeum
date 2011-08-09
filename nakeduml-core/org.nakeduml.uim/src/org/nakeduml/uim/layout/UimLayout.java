@@ -7,7 +7,6 @@
 package org.nakeduml.uim.layout;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.nakeduml.uim.UimContainer;
 
 /**

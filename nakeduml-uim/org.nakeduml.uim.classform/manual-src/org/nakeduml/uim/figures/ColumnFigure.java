@@ -1,10 +1,8 @@
 package org.nakeduml.uim.figures;
 
-import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SimpleLoweredBorder;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 

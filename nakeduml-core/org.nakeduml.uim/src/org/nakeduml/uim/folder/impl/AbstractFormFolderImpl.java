@@ -8,18 +8,13 @@ package org.nakeduml.uim.folder.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.nakeduml.uim.folder.AbstractFolder;
 import org.nakeduml.uim.folder.AbstractFormFolder;
 import org.nakeduml.uim.folder.FolderPackage;
-
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 import org.nakeduml.uim.security.SecurityConstraint;

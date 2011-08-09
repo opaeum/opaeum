@@ -1,7 +1,6 @@
 package org.nakeduml.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.action.ActionKind;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.BuiltInAction;
@@ -11,7 +10,7 @@ import org.nakeduml.uim.form.FormPanel;
 import org.nakeduml.uim.form.OperationInvocationForm;
 import org.nakeduml.uim.form.OperationTaskForm;
 import org.nakeduml.uim.form.StateForm;
-import org.nakeduml.uim.util.UimUtil;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 
 /**
@@ -50,7 +49,7 @@ public class BuiltInActionKindSection extends AbstractEnumerationPropertySection
 	 */
 	protected String[] getEnumerationFeatureValues(){
 		BuiltInAction action = (BuiltInAction) getEObject();
-		FormPanel uf = UimUtil.getNearestForm(action);
+		FormPanel uf = UimEditor.getCurrentUmlLinks().getNearestForm(action);
 		if(uf instanceof OperationInvocationForm){
 			return new String[]{
 					ActionKind.BACK.getName(),ActionKind.EXECUTE_OPERATION.getName()

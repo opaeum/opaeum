@@ -7,7 +7,6 @@
 package org.nakeduml.uim.control;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UimField;
 
 /**

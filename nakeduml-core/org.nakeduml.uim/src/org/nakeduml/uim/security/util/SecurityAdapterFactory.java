@@ -8,14 +8,15 @@ package org.nakeduml.uim.security.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UmlReference;
-
-import org.nakeduml.uim.security.*;
+import org.nakeduml.uim.security.EditableSecureObject;
+import org.nakeduml.uim.security.RequiredRole;
+import org.nakeduml.uim.security.SecureObject;
+import org.nakeduml.uim.security.SecurityConstraint;
+import org.nakeduml.uim.security.SecurityPackage;
+import org.nakeduml.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->

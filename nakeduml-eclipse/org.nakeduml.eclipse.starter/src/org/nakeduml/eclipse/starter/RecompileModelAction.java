@@ -50,7 +50,6 @@ public class RecompileModelAction implements IObjectActionDelegate{
 								monitor.beginTask("Generating Java Code", p.getPhases().size());
 								p.setLog(new ProgressMonitorTransformationLog(monitor));
 								p.execute();
-								p.integrate();
 								new JavaProjectGenerator(NakedUmlEditor.getCurrentContext().getUmlElementCache().getConfig(), p, ResourcesPlugin.getWorkspace()
 										.getRoot(), true).schedule();
 								ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IProject.DEPTH_INFINITE, null);

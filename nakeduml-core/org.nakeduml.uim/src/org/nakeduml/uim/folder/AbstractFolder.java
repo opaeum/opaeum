@@ -7,7 +7,6 @@
 package org.nakeduml.uim.folder;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.UserInteractionElement;
 

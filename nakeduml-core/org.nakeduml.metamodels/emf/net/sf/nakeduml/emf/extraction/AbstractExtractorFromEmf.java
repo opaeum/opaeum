@@ -83,7 +83,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	@Override
 	protected final void maybeVisit(Element o,VisitSpec v){
 		super.maybeVisit(o, v);
-		emfWorkspace.putElement(getId(o), o);
+		emfWorkspace.putElement(o);
 	}
 	@Override
 	protected Object resolvePeer(Element o,Class<?> peerClass){

@@ -7,12 +7,9 @@
 package org.nakeduml.uim;
 
 import org.nakeduml.uim.binding.FieldBinding;
-
 import org.nakeduml.uim.control.ControlKind;
 import org.nakeduml.uim.control.UimControl;
-
 import org.nakeduml.uim.layout.OutlayableComponent;
-
 import org.nakeduml.uim.security.EditableSecureObject;
 
 /**

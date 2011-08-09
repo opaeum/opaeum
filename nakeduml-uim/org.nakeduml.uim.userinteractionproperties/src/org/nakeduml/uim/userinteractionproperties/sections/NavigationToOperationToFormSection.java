@@ -9,15 +9,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Operation;
-import org.nakeduml.uim.UimPackage;
-import org.nakeduml.uim.UmlReference;
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.NavigationToOperation;
 import org.nakeduml.uim.action.provider.ActionItemProviderAdapterFactory;
 import org.nakeduml.uim.form.FormPanel;
 import org.nakeduml.uim.form.OperationInvocationForm;
-import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -68,15 +65,15 @@ public class NavigationToOperationToFormSection extends AbstractChooserPropertyS
 	 */
 	protected Object[] getComboFeatureValues(){
 		NavigationToOperation on = (NavigationToOperation) getEObject();
-		FormPanel ui = UimUtil.getNearestForm(on);
+		FormPanel ui = UimEditor.getCurrentUmlLinks().getNearestForm(on);
 		//TODO check if parent is table first
 		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
 		Collection<EObject> population = typeCacheAdapter.getReachableObjectsOfType(getEObject(), ActionPackage.eINSTANCE.getNavigationToOperation_ToForm().getEType());
-		List<Operation> validOperations = UimUtil.getValidOperationsFor(ui);
+		List<Operation> validOperations = UimEditor.getCurrentUmlLinks().getValidOperationsFor(ui);
 		List<OperationInvocationForm> results = new ArrayList<OperationInvocationForm>();
 		for(EObject eObject:population){
 			OperationInvocationForm form = (OperationInvocationForm) eObject;
-			if(validOperations.contains(UmlUimLinks.getInstance(form).getOperation(form))){
+			if(validOperations.contains(UimEditor.getCurrentUmlLinks().getOperation(form))){
 				results.add(form);
 			}
 		}

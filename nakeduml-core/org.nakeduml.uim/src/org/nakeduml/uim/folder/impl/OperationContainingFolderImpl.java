@@ -7,7 +7,6 @@
 package org.nakeduml.uim.folder.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.nakeduml.uim.folder.FolderPackage;
 import org.nakeduml.uim.folder.OperationContainingFolder;
 

@@ -3,16 +3,12 @@ package org.nakeduml.uim.figures;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.draw2d.ButtonBorder;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SimpleLoweredBorder;
 import org.eclipse.draw2d.SimpleRaisedBorder;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.OneLineBorder;
-import org.eclipse.swt.layout.GridData;
-import org.nakeduml.uim.layouts.GridLayout;
 import org.nakeduml.uim.layouts.UimColumnLayoutManager;
 
 

@@ -2,11 +2,13 @@ package org.nakeduml.uml2uim;
 
 import java.util.Collection;
 
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
+import org.nakeduml.eclipse.EmfElementFinder;
+import org.nakeduml.eclipse.EmfPropertyUtil;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.uim.UimDataTable;
 import org.nakeduml.uim.UimFactory;
@@ -28,17 +30,18 @@ import org.nakeduml.uim.layout.UimFullLayout;
 import org.nakeduml.uim.layout.UimGridLayout;
 import org.nakeduml.uim.layout.UimLayout;
 import org.nakeduml.uim.util.ControlUtil;
-import org.nakeduml.uim.util.UimUtil;
 import org.nakeduml.uim.util.UmlUimLinks;
 
 public class FormCreator{
 	private UimGridLayout mainTabLayout;
 	private UimTabPanel tabPanel;
 	private FormPanel formPanel;
-	private UmlElementCache umlCache;
-	public FormCreator(UmlElementCache links, FormPanel cf){
+	private EmfWorkspace workspace;
+	private UmlUimLinks links;
+	public FormCreator(EmfWorkspace w, FormPanel cf){
 		this.formPanel = cf;
-		this.umlCache=links;
+		this.workspace=w;
+		this.links=new UmlUimLinks(w);
 	}
 	public void prepareFormPanel(String title,Collection<? extends TypedElement> typedElements){
 		UimFullLayout formLayout = LayoutFactory.eINSTANCE.createUimFullLayout();
@@ -74,7 +77,7 @@ public class FormCreator{
 		UimGridLayout tabLayout = LayoutFactory.eINSTANCE.createUimGridLayout();
 		tabLayout.setNumberOfColumns(1);
 		tab.setLayout(tabLayout);
-		for(Property property:UmlUimLinks.getInstance(this.tabPanel).getOwnedAttributes(c)){
+		for(Property property:(Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c)){
 			if(requiresTableTab(property)){
 				// No further details
 			}else if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
@@ -94,10 +97,10 @@ public class FormCreator{
 		UimDataTable table = UimFactory.eINSTANCE.createUimDataTable();
 		TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
 		table.setBinding(binding);
-		binding.setUmlElementUid(umlCache.getId(e));
+		binding.setUmlElementUid(workspace.getId(e));
 		tabLayout.getChildren().add(table);
 		table.setLayout(LayoutFactory.eINSTANCE.createUimColumnLayout());
-		Collection<Property> attrs = UmlUimLinks.getInstance(this.tabPanel).getOwnedAttributes((Classifier) e.getType());
+		Collection<Property> attrs = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope((Classifier) e.getType());
 		for(Property property:attrs){
 			if(property.getOtherEnd() == null || !property.getOtherEnd().isComposite()){
 				addUserField(table.getLayout(), 0, property);
@@ -106,11 +109,11 @@ public class FormCreator{
 		// create fields
 	}
 	private boolean requiresTableTab(TypedElement property){
-		return property.getType() instanceof org.eclipse.uml2.uml.Class && UimUtil.isMany(property) && !ControlUtil.requiresManySelection(formPanel, property);
+		return property.getType() instanceof org.eclipse.uml2.uml.Class && EmfPropertyUtil.isMany(property) && !ControlUtil.requiresManySelection(formPanel, property);
 	}
 	private boolean requiresDetailsTab(TypedElement property){
-		return property.getType() instanceof org.eclipse.uml2.uml.Class && !UimUtil.isMany(property)
-				&& (!ControlUtil.requiresUserInput(formPanel, property) || UimUtil.isComposite(property));
+		return property.getType() instanceof org.eclipse.uml2.uml.Class && !EmfPropertyUtil.isMany(property)
+				&& (!ControlUtil.requiresUserInput(formPanel, property) || EmfPropertyUtil.isComposite(property));
 	}
 	private int addUserField(UimLayout layout,int labelWidth,TypedElement...properties){
 		TypedElement property = properties[properties.length - 1];
@@ -122,14 +125,14 @@ public class FormCreator{
 		uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
 		FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
 		uf.setBinding(binding);
-		binding.setUmlElementUid(umlCache.getId(properties[0]));
+		binding.setUmlElementUid(workspace.getId(properties[0]));
 		if(properties.length > 1){
 			PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
-			prev.setUmlElementUid(umlCache.getId(properties[1]));
+			prev.setUmlElementUid(workspace.getId(properties[1]));
 			binding.setNext(prev);
 			for(int i = 2;i < properties.length;i++){
 				PropertyRef next = BindingFactory.eINSTANCE.createPropertyRef();
-				next.setUmlElementUid(umlCache.getId(properties[i]));
+				next.setUmlElementUid(workspace.getId(properties[i]));
 				prev.setNext(next);
 				prev = next;
 			}

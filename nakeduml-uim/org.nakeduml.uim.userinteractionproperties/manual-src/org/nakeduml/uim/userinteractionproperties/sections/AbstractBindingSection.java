@@ -14,8 +14,7 @@ import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.binding.BindingFactory;
 import org.nakeduml.uim.binding.PropertyRef;
 import org.nakeduml.uim.binding.UimBinding;
-import org.nakeduml.uim.util.UimUtil;
-import org.nakeduml.uim.util.UmlUimLinks;
+import org.nakeduml.uim.modeleditor.editor.UimEditor;
 
 public abstract class AbstractBindingSection extends TypedElementCodeCompletingSection{
 	protected abstract Object getFeatureValue();
@@ -24,7 +23,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		return (UimBinding) getFeatureValue();
 	}
 	protected Collection<TypedElement> getTypedElements(){
-		return EmfElementFinder.getTypedElementsInScope(UimUtil.getNearestClass((UimComponent) getEObject()));
+		return EmfElementFinder.getTypedElementsInScope(UimEditor.getCurrentUmlLinks().getNearestClass((UimComponent) getEObject()));
 	}
 	@Override
 	protected String getFeatureAsString(){
@@ -42,7 +41,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		return sb.toString();
 	}
 	private String getName(PropertyRef next){
-		Property typedElement = UmlUimLinks.getInstance(getBinding()).getProperty(next);
+		Property typedElement = UimEditor.getCurrentUmlLinks().getProperty(next);
 		if(typedElement == null){
 			return "NOTFOUND";
 		}else{
@@ -50,7 +49,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		}
 	}
 	private String getName(UimBinding binding){
-		TypedElement typedElement = UmlUimLinks.getInstance(getBinding()).getTypedElement(binding);
+		TypedElement typedElement = UimEditor.getCurrentUmlLinks().getTypedElement(binding);
 		if(typedElement == null){
 			return "NOTFOUND";
 		}else{
@@ -65,14 +64,14 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 			TypedElement te = getTypedElement(teName);
 			if(te != null){
 				UimBinding fb = (UimBinding) BindingFactory.eINSTANCE.create(getFeatureEClass());
-				fb.setUmlElementUid(NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(te));
+				fb.setUmlElementUid(NakedUmlEditor.getCurrentContext().getId(te));
 				PropertyRef prev = null;
 				while(st.hasMoreTokens()){
 					Classifier cl = (Classifier) te.getType();
 					Property p = getProperty(cl, st.nextToken());
 					if(p != null){
 						PropertyRef pr2 = BindingFactory.eINSTANCE.createPropertyRef();
-						pr2.setUmlElementUid(NakedUmlEditor.getCurrentContext().getUmlElementCache().getId(p));
+						pr2.setUmlElementUid(NakedUmlEditor.getCurrentContext().getId(p));
 						if(fb.getNext() == null){
 							fb.setNext(pr2);
 						}else{

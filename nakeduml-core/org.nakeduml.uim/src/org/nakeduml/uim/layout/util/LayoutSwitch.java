@@ -10,13 +10,19 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.nakeduml.uim.UimComponent;
 import org.nakeduml.uim.UimContainer;
 import org.nakeduml.uim.UserInteractionElement;
-
-import org.nakeduml.uim.layout.*;
-
+import org.nakeduml.uim.layout.LayoutContainer;
+import org.nakeduml.uim.layout.LayoutPackage;
+import org.nakeduml.uim.layout.OutlayableComponent;
+import org.nakeduml.uim.layout.UimBorderLayout;
+import org.nakeduml.uim.layout.UimColumnLayout;
+import org.nakeduml.uim.layout.UimFullLayout;
+import org.nakeduml.uim.layout.UimGridLayout;
+import org.nakeduml.uim.layout.UimLayout;
+import org.nakeduml.uim.layout.UimToolbarLayout;
+import org.nakeduml.uim.layout.UimXYLayout;
 import org.nakeduml.uim.security.EditableSecureObject;
 import org.nakeduml.uim.security.SecureObject;
 

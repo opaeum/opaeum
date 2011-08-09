@@ -7,18 +7,13 @@
 package org.nakeduml.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.nakeduml.uim.UimPackage;
 import org.nakeduml.uim.UmlReference;
-
 import org.nakeduml.uim.action.ActionPackage;
 import org.nakeduml.uim.action.NavigationToOperation;
-
 import org.nakeduml.uim.form.OperationInvocationForm;
 
 /**
