@@ -21,6 +21,9 @@ import org.eclipse.uml2.uml.Element;
 public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 	@Override
 	public File resolveUri(URI uri){
+		if(uri.isFile()){
+			return new File(uri.toFileString());
+		}
 		String platformString2 = uri.toPlatformString(true);
 		try{
 			IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
@@ -35,7 +38,6 @@ public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 			}
 		}
 	}
-
 	@Override
 	public String getId(EModelElement umlElement){
 		if(umlElement instanceof EmfWorkspace){
@@ -44,7 +46,7 @@ public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 			String uid = null;
 			EAnnotation ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
 			if(ann == null && umlElement instanceof Element){
-				ann = ((Element)umlElement).createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+				ann = ((Element) umlElement).createEAnnotation(StereotypeNames.NUML_ANNOTATION);
 			}
 			if(ann == null){
 				// not in editable resource,but the filename and fragment would be stable and unique

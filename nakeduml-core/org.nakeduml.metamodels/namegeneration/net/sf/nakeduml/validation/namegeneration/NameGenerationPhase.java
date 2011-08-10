@@ -44,4 +44,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	public Collection<AbstractNameGenerator> getSteps(){
 		return this.nameGenerators;
 	}
+	@Override
+	public void initializeSteps(){
+	}
 }

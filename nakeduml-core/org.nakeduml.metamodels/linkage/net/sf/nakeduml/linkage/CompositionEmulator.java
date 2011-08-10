@@ -8,8 +8,10 @@ import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
@@ -22,6 +24,12 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 	ProcessIdentifier.class
 })
 public class CompositionEmulator extends AbstractModelElementLinker{
+	@Override
+	public void visitRecursively(INakedElementOwner o){
+		System.out.println("AbstractModelElementLinker.visitRecursively()" + o.getName());
+		super.visitRecursively(o);
+	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitParticipant(ICompositionParticipant cp){
 		INakedProperty endToComposite = cp.getEndToComposite();

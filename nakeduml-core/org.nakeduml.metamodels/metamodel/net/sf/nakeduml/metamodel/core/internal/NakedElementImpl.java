@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -18,7 +19,6 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import nl.klasse.octopus.expressions.internal.types.PathName;
@@ -35,7 +35,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	 * links itself. This should make it easier to populate the Modelelement from various sources
 	 */
 	protected String id;
-	protected IMappingInfo mappingInfo;
+	protected MappingInfo mappingInfo;
 	private Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
 	private INakedElementOwner ownerElement;
 	private Collection<INakedElement> ownedElements = new HashSet<INakedElement>();
@@ -145,10 +145,10 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	public boolean isStoreMappingInfo(){
 		return storeMappingInfo;
 	}
-	public void setMappingInfo(IMappingInfo vi){
+	public void setMappingInfo(MappingInfo vi){
 		this.mappingInfo = vi;
 	}
-	public IMappingInfo getMappingInfo(){
+	public MappingInfo getMappingInfo(){
 		return this.mappingInfo;
 	}
 	@Override

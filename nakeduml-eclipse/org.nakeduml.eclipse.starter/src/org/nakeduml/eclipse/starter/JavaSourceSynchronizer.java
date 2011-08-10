@@ -17,6 +17,7 @@ import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
 import net.sf.nakeduml.javageneration.hibernate.HibernatePackageAnnotator;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.widgets.Display;
@@ -34,7 +35,7 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 	public static TransformationProcess getCurrentTransformationProcess(){
 		return currentTransformationProcess;
 	}
-	private Map<NakedUmlEclipseContext,TransformationProcess> processes = Collections.synchronizedMap(new WeakHashMap<NakedUmlEclipseContext,TransformationProcess>());
+	private static Map<NakedUmlEclipseContext,TransformationProcess> processes = Collections.synchronizedMap(new WeakHashMap<NakedUmlEclipseContext,TransformationProcess>());
 	private static TransformationProcess currentTransformationProcess;
 	public JavaSourceSynchronizer(){
 	}
@@ -58,11 +59,10 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 			}
 		}
 	}
-	public TransformationProcess getTransformationProcess(final NakedUmlEclipseContext ne){
+	private static TransformationProcess getTransformationProcess(final NakedUmlEclipseContext ne){
 		TransformationProcess process = processes.get(ne);
 		if(process == null){
 			process = new TransformationProcess();
-			processes.put(ne, process);
 			//Load classes for config
 			NakedUmlEclipsePlugin.getDefault();
 			NakedUmlConfig cfg = ne.getUmlElementCache().getConfig();
@@ -72,19 +72,22 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 			mapAdditionalOutputRoots(cfg);
 			Set<Class<? extends ITransformationStep>> steps = getAllSteps();
 			steps.addAll(cfg.getAdditionalTransformationSteps());
-			process.initialize(cfg, steps, ne.getUmlElementCache().getNakedWorkspace(),ne.getUmlElementCache().getCurrentEmfWorkspace());
+			process.initialize(cfg, steps);
+			process.replaceModel(ne.getUmlElementCache().getNakedWorkspace());
+			process.replaceModel(ne.getUmlElementCache().getCurrentEmfWorkspace());
+			processes.put(ne, process);
 		}
 		currentTransformationProcess=process;
 		return process;
 	}
-	private Set<Class<? extends ITransformationStep>> getAllSteps(){
+	private static Set<Class<? extends ITransformationStep>> getAllSteps(){
 		Set<Class<? extends ITransformationStep>> basicIntegrationSteps = getBasicIntegrationSteps();
-		basicIntegrationSteps.add(GeneratorGenerator.class);
-		basicIntegrationSteps.add(GeneratorPomStep.class);
+//		basicIntegrationSteps.add(GeneratorGenerator.class);
+//		basicIntegrationSteps.add(GeneratorPomStep.class);
 		basicIntegrationSteps.addAll(getBasicSteps());
 		return basicIntegrationSteps;
 	}
-	public void mapAdditionalOutputRoots(NakedUmlConfig cfg){
+	private static void mapAdditionalOutputRoots(NakedUmlConfig cfg){
 		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
 		if(cfg.getOutputRoot().exists()){
 			for(File file:cfg.getOutputRoot().listFiles()){
@@ -94,8 +97,6 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 			}
 		}
 		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
-	}
-	protected void setMappedImplementationPackage(EmfWorkspace result,NakedUmlConfig cfg){
 	}
 	protected static Set<Class<? extends ITransformationStep>> toSet(Class<? extends ITransformationStep>...classes){
 		return new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(classes));
@@ -115,6 +116,9 @@ public class JavaSourceSynchronizer implements IStartup,Runnable{
 		}, 5000);
 	}
 	public static Set<Class<? extends ITransformationStep>> getBasicIntegrationSteps(){
-		return toSet(ModelCopyStep.class, HibernateConfigGenerator.class, HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class);
+		return toSet(HibernateConfigGenerator.class, HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class);
+	}
+	public static TransformationProcess getTransformationProcessFor(IContainer folder){
+		return getTransformationProcess(NakedUmlEditor.getNakedUmlEclipseContextFor(folder));
 	}
 }

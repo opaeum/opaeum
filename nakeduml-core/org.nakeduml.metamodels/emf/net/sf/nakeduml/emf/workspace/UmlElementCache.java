@@ -3,13 +3,11 @@ package net.sf.nakeduml.emf.workspace;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +33,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import net.sf.nakeduml.validation.ValidationPhase;
 import net.sf.nakeduml.validation.namegeneration.JavaNameRegenerator;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
@@ -61,7 +60,6 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.resource.UMLResource;
 
 public class UmlElementCache extends EContentAdapter{
 	public static class RenamedNamespace{
@@ -83,20 +81,22 @@ public class UmlElementCache extends EContentAdapter{
 	private Map<String,RenamedNamespace> renamedNamespacesByNewName = new HashMap<String,RenamedNamespace>();
 	private static ScheduledThreadPoolExecutor threadPool = new ScheduledThreadPoolExecutor(1);
 	protected TransformationProcess transformationProcess;
-	public TransformationProcess getTransformationProcess(){
-		return transformationProcess;
-	}
 	protected NakedUmlConfig cfg;
 	private Set<NamedElement> changes = Collections.synchronizedSet(new HashSet<NamedElement>());
 	private boolean loadingNewResource;
 	private INakedModelWorkspace nakedModelWorspace;
 	protected EmfResourceHelper resourceHelper;
 	protected EmfWorkspace currentEmfWorkspace;
-	private UmlElementCache(){
+	public UmlElementCache(EmfResourceHelper helper,NakedUmlConfig cfg){
+		this.cfg = cfg;
+		this.resourceHelper = helper;
 		this.transformationProcess = new TransformationProcess();
+		this.transformationProcess.initialize(cfg, getTransformationSteps());
+		this.nakedModelWorspace=new NakedModelWorkspaceImpl();
+		this.transformationProcess.replaceModel(nakedModelWorspace);
 	}
 	public EmfWorkspace buildWorkspaces(ResourceSet resourceSet,File modelFile) throws Exception,IOException{
-		EmfWorkspace emfWorkspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg.getWorkspaceIdentifier());
+		EmfWorkspace emfWorkspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
 		emfWorkspaceLoaded(emfWorkspace);
 		emfWorkspace.setResourceHelper(this.resourceHelper);
 		this.currentEmfWorkspace = emfWorkspace;
@@ -117,11 +117,6 @@ public class UmlElementCache extends EContentAdapter{
 			}
 		}
 		return result;
-	}
-	public UmlElementCache(EmfResourceHelper helper,NakedUmlConfig cfg){
-		this();
-		this.cfg = cfg;
-		this.resourceHelper = helper;
 	}
 	public void emfWorkspaceLoaded(EmfWorkspace w){
 	}
@@ -258,5 +253,8 @@ public class UmlElementCache extends EContentAdapter{
 	}
 	public void clearRenamedNamespaces(){
 		this.renamedNamespacesByNewName.clear();
+	}
+	public TransformationProcess getTransformationProcess(){
+		return transformationProcess;
 	}
 }

@@ -8,8 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
-import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
+import net.sf.nakeduml.feature.WorkspaceMappingInfo;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -46,7 +45,7 @@ public class EmfWorkspace implements Element{
 	}
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
-	private WorkspaceMappingInfoImpl mappingInfo;
+	private WorkspaceMappingInfo mappingInfo;
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
@@ -54,13 +53,13 @@ public class EmfWorkspace implements Element{
 	private Set<Model> libraries=new HashSet<Model>();
 	private Map<String,Element> elementMap =new HashMap<String,Element>();
 	// Load single model
-	public EmfWorkspace(Package model,WorkspaceMappingInfoImpl mappingInfo,String identifier){
+	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
 		addGeneratingModelOrProfile(model);
 		this.directoryUri = model.eResource().getURI().trimFileExtension().trimSegments(1);
 	}
 	// Load entire resourceSet
-	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfoImpl mappingInfo,String identifier){
+	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier){
 		this.resourceSet = rs;
 		this.mappingInfo = mappingInfo;
 		for(Element pkg:getOwnedElements()){
@@ -85,7 +84,7 @@ public class EmfWorkspace implements Element{
 	public Set<Package> getPrimaryModels(){
 		return primaryModels;
 	}
-	public WorkspaceMappingInfoImpl getMappingInfo(){
+	public WorkspaceMappingInfo getMappingInfo(){
 		return mappingInfo;
 	}
 	public Set<Package> getGeneratingModelsOrProfiles(){
@@ -351,8 +350,8 @@ public class EmfWorkspace implements Element{
 		}
 		return uriResolver;
 	}
-	public void setMappingInfo(IWorkspaceMappingInfo mappingInfo2){
-		this.mappingInfo = (WorkspaceMappingInfoImpl) mappingInfo2;
+	public void setMappingInfo(WorkspaceMappingInfo mappingInfo2){
+		this.mappingInfo = (WorkspaceMappingInfo) mappingInfo2;
 	}
 	public void markLibraries(String...names){
 		for(Element element:this.getOwnedElements()){

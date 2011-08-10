@@ -1,5 +1,11 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
@@ -35,10 +41,12 @@ import net.sf.nakeduml.metamodel.statemachines.StateMachineKind;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedStateMachineImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedActorImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
+import net.sf.nakeduml.metamodel.workspace.MappedType;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
@@ -69,6 +77,8 @@ import org.eclipse.uml2.uml.UseCase;
  */
 @StepDependency(phase = EmfExtractionPhase.class)
 public class NameSpaceExtractor extends AbstractExtractorFromEmf{
+	public static final String MAPPINGS_EXTENSION = "mappings";
+
 	/**
 	 * For imported profiles. Put them at the top level of the nakedWorkspace
 	 */
@@ -76,6 +86,23 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitProfile(Profile p,NakedProfileImpl np){
 		// Different versions of the same profile may occur
 		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
+		populateTypesMappedIn(p);
+	}
+	private void populateTypesMappedIn(Package p){
+		URI mappedTypesUri = p.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
+		try{
+			InputStream inStream = p.eResource().getResourceSet().getURIConverter().createInputStream(mappedTypesUri);
+			Properties props = new Properties();
+			props.load(inStream);
+			Set<Entry<Object,Object>> entrySet = props.entrySet();
+			for(Entry<Object,Object> entry:entrySet){
+				super.nakedWorkspace.getNakedUmlLibrary().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
+			}
+			System.out.println("Loaded mappings: " + mappedTypesUri);
+		}catch(IOException e1){
+			// System.out.println("Could not load mappedTypes in " + mappedTypesUri);
+			// System.out.println(e);
+		}
 	}
 	@VisitBefore
 	public void visitStereotype(Stereotype c,NakedStereotypeImpl ns){
@@ -85,6 +112,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitModel(Model p,NakedModelImpl nm){
 		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
 		nm.setLibrary(emfWorkspace.isLibrary(p));
+		this.populateTypesMappedIn(p);
 	}
 	@VisitBefore
 	public void visitPackage(Package p,NakedPackageImpl np){

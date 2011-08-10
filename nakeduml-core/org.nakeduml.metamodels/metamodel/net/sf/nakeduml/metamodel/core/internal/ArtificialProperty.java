@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.Collection;
 import java.util.Collections;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
@@ -14,7 +15,6 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import net.sf.nakeduml.metamodel.mapping.internal.MappingInfoImpl;
 import nl.klasse.octopus.model.IClassifier;
 
 import org.nakeduml.name.NameConverter;
@@ -29,7 +29,7 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 	private IClassifier type;
 	private INakedProperty otherEnd;
 	private boolean isInverse;
-	private MappingInfoImpl mappingInfo;
+	private MappingInfo mappingInfo;
 
 	public ArtificialProperty(INakedClassifier type) {
 		this(type.getNestingClassifier(), type);
@@ -40,7 +40,7 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.isInverse = true;
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.name = NameConverter.decapitalize(type.getName());
-		this.mappingInfo = (MappingInfoImpl) type.getMappingInfo().getCopy();
+		this.mappingInfo = (MappingInfo) type.getMappingInfo().getCopy();
 		this.isOrdered = false;
 		this.baseType = type;
 		super.isComposite=true;
@@ -51,7 +51,7 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.name=umlName;
 	}
 
-	public MappingInfoImpl getMappingInfo() {
+	public MappingInfo getMappingInfo() {
 		return mappingInfo;
 	}
 
@@ -66,7 +66,7 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 			this.isInverse = true;
 			this.type = baseType;
 			this.name = "classifierBehavior";
-			this.mappingInfo = (MappingInfoImpl) behavior.getMappingInfo().getCopy();
+			this.mappingInfo = (MappingInfo) behavior.getMappingInfo().getCopy();
 		} else {
 			initSequence(behavior);
 		}
@@ -89,10 +89,10 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.isInverse = false;
 		this.multiplicity = new NakedMultiplicityImpl(1, 1);
 		this.name = name;
-		this.mappingInfo = new MappingInfoImpl();
+		this.mappingInfo = new MappingInfo();
 		this.type = otherEnd.getOwner();
 		this.baseType = otherEnd.getOwner();
-		this.mappingInfo = (MappingInfoImpl) otherEnd.getOwner().getMappingInfo().getCopy();
+		this.mappingInfo = (MappingInfo) otherEnd.getOwner().getMappingInfo().getCopy();
 	}
 
 	private ArtificialProperty(INakedClassifier nestingClassifier,
@@ -122,7 +122,7 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.type = this.baseType;
 		this.isInverse = false;
 		this.name=baseType.getName();
-		this.mappingInfo = (MappingInfoImpl) opposite.getOwner().getMappingInfo().getCopy();
+		this.mappingInfo = (MappingInfo) opposite.getOwner().getMappingInfo().getCopy();
 
 	}
 
@@ -132,7 +132,7 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.name = NameConverter.decapitalize(behavior.getName());
 		this.isOrdered = true;
 		this.isInverse = true;
-		this.mappingInfo = (MappingInfoImpl) behavior.getMappingInfo().getCopy();
+		this.mappingInfo = (MappingInfo) behavior.getMappingInfo().getCopy();
 	}
 
 	private static INakedClassifier getOwner(MessageStructureImpl task) {

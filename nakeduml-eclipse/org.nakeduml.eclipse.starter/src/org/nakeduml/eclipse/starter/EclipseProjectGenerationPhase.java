@@ -26,14 +26,15 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 		this.config = config;
 		this.features=features;
 		workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		for(EclipseProjectGenerationStep step:features){
-			step.initialize(workspaceRoot, config);
+	}
+	public void initializeSteps(){
+		for(EclipseProjectGenerationStep step:this.features){
+			step.initialize(workspaceRoot, this.config);
 		}
 	}
 	@Override
 	public void execute(TransformationContext context){
 		for(EclipseProjectGenerationStep step:features){
-			step.initialize(workspaceRoot, config);
 			step.startVisiting(textWorkspace);
 		}
 	}

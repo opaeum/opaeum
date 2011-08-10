@@ -50,6 +50,7 @@ public final class JavaGeneratingListener implements NakedUmlContextListener{
 	@Override
 	public void onSave(IProgressMonitor monitor){
 		if(context.isOpen()){
+			process.replaceModel(context.getCurrentEmfWorkspace());
 			renamePackages(monitor);
 			synchronizeClasses(monitor);
 		}

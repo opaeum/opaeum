@@ -1,4 +1,4 @@
-package org.nakeduml.eclipse.starter;
+package net.sf.nakeduml.pomgeneration;
 
 import net.sf.nakeduml.feature.ISourceFolderStrategy;
 import net.sf.nakeduml.feature.NakedUmlConfig;

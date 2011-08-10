@@ -2,6 +2,7 @@ package net.sf.nakeduml.validation.namegeneration;
 
 import org.nakeduml.name.NameConverter;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
@@ -28,7 +29,6 @@ import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
@@ -45,7 +45,7 @@ import nl.klasse.octopus.model.IAssociationEnd;
 public class UmlNameRegenerator extends AbstractNameGenerator {
 	@VisitBefore(matchSubclasses = true)
 	public void updateUmlName(INakedElement nakedElement) {
-		IMappingInfo mappingInfo = nakedElement.getMappingInfo();
+		MappingInfo mappingInfo = nakedElement.getMappingInfo();
 		nakedElement.setName(generateUmlName(nakedElement).toString());
 		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
 		if(nakedElement instanceof ArtificialProperty){

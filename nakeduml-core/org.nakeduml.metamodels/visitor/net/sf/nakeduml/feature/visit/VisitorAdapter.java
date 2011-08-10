@@ -160,12 +160,18 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		}
 	}
 	public void visitRecursively(NODE o){
+//		System.out.println(getClass().getSimpleName()+ ".visitRecursively()" + o);
 		for(VisitSpec v:beforeMethods){
 			maybeVisit(o, v);
 		}
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
 		for(NODE child:children){
+			long start = System.currentTimeMillis();
 			visitRecursively(child);
+			long dur = System.currentTimeMillis()-start;
+			if(dur>500){
+				System.out.println(child);
+			}
 		}
 		for(VisitSpec v:afterMethods){
 			maybeVisit(o, v);
@@ -181,9 +187,13 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 					});
 				}
 			}else{
+				long start = System.currentTimeMillis();
 				v.visit(this, new Object[]{
 					o
 				});
+				if(System.currentTimeMillis()-start>10){
+					System.out.println();
+				}
 			}
 		}
 	}

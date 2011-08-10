@@ -1,6 +1,7 @@
 package net.sf.nakeduml.validation.namegeneration;
 import org.nakeduml.name.NameConverter;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
@@ -10,7 +11,6 @@ import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
@@ -34,10 +34,10 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 				return node.getMappingInfo().getPersistentName().getAsIs();
 			}
 		}else{
-			IMappingInfo mappingInfo2 = nme.getMappingInfo();
+			MappingInfo mappingInfo2 = nme.getMappingInfo();
 			if (nme.getOwnerElement() instanceof INakedElement) {
 				INakedElement owner = (INakedElement) nme.getOwnerElement();
-				IMappingInfo mappingInfo = owner.getMappingInfo();
+				MappingInfo mappingInfo = owner.getMappingInfo();
 				NameWrapper persistentName = mappingInfo.getPersistentName();
 				return persistentName.getAsIs() + "."
 						+ mappingInfo2.getPersistentName().getAsIs();

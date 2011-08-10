@@ -6,8 +6,8 @@ import java.net.URLClassLoader;
 import java.util.Map;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -26,11 +26,7 @@ public class EmfWorkspaceLoader{
 	protected static void registerResourceFactories(){
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
-	@Deprecated
-	public static EmfWorkspace loadDirectory(File dir,String workspaceName,String extension) throws Exception{
-		return loadDirectory(getResourceSetSingleton(), dir, workspaceName);
-	}
-	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,String workspaceName){
+	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,NakedUmlConfig cfg){
 		System.out.println("UML2ModelLoader.loadDirectory()");
 		String ext = UMLResource.FILE_EXTENSION;
 		long time = System.currentTimeMillis();
@@ -44,8 +40,7 @@ public class EmfWorkspaceLoader{
 		}
 		EcoreUtil.resolveAll(resourceSet);
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
-		WorkspaceMappingInfoImpl mappingInfo = getMappingInfo(dir, workspaceName);
-		EmfWorkspace emfWorkspace = new EmfWorkspace(dirUri, resourceSet, mappingInfo, workspaceName);
+		EmfWorkspace emfWorkspace = new EmfWorkspace(dirUri, resourceSet, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 		emfWorkspace.guessGeneratingModelsAndProfiles(dirUri);
 		return emfWorkspace;
 	}
@@ -65,17 +60,12 @@ public class EmfWorkspaceLoader{
 		}
 		return dirUri;
 	}
-	@Deprecated
-	public static EmfWorkspace loadSingleModelWorkspace(File modelFile,String workspaceIdentifier) throws Exception{
-		ResourceSet resourceSetSingleton = getResourceSetSingleton();
-		return loadSingleModelWorkspace(resourceSetSingleton, modelFile, workspaceIdentifier);
-	}
-	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet,File modelFile,String workspaceName) throws Exception{
+	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet,File modelFile,NakedUmlConfig cfg) throws Exception{
 		String ext = modelFile.getName().substring(modelFile.getName().lastIndexOf(".") + 1);
 		File dir = modelFile.getParentFile();
 		URI dirUri = findDirUri(resourceSet, dir, ext);
 		Model model = loadModel(resourceSet, dirUri.appendSegment(modelFile.getName()));
-		EmfWorkspace result = new EmfWorkspace(model, getMappingInfo(dir, workspaceName), workspaceName);
+		EmfWorkspace result = new EmfWorkspace(model, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 		return result;
 	}
 	@Deprecated
@@ -90,9 +80,6 @@ public class EmfWorkspaceLoader{
 		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		System.out.println("UML2ModelLoader.loadModel() took " + (System.currentTimeMillis() - time) + "ms");
 		return model;
-	}
-	private static WorkspaceMappingInfoImpl getMappingInfo(File dir,String workspaceIdentifier){
-		return new WorkspaceMappingInfoImpl(new File(dir, workspaceIdentifier + ".mappinginfo"));
 	}
 	@Deprecated
 	private static ResourceSet getResourceSetSingleton() throws Exception{

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class NakedUmlConfig{
 	private File outputRoot;
 	private Map<ISourceFolderIdentifier,SourceFolderDefinition> sourceFolderDefinitions = new HashMap<ISourceFolderIdentifier,SourceFolderDefinition>();
 	private File file;
+	private WorkspaceMappingInfo workspaceMappingInfo;
 	public NakedUmlConfig(File file){
 		this.file = file;
 		if(file.exists()){
@@ -47,7 +49,10 @@ public class NakedUmlConfig{
 				stream = new FileInputStream(file);
 				if(stream != null){
 					this.props.load(stream);
-					getSourceFolderStrategy().defineSourceFolders(this);
+					ISourceFolderStrategy sfs = getSourceFolderStrategy();
+					if(sfs != null){
+						sfs.defineSourceFolders(this);
+					}
 				}
 			}catch(IOException e){
 				throw new RuntimeException(e);
@@ -60,7 +65,7 @@ public class NakedUmlConfig{
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
-			throw new RuntimeException(e);
+			return null;
 		}
 	}
 	public static Class<?> getClass(String name){
@@ -257,5 +262,11 @@ public class NakedUmlConfig{
 			sb.append(";");
 		}
 		this.props.setProperty(ADDITIONAL_TRANSFORMATION_STEPS, sb.toString());
+	}
+	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
+		if(this.workspaceMappingInfo==null){
+			this.workspaceMappingInfo=new WorkspaceMappingInfo(new File(file.getParent(), getWorkspaceIdentifier() + ".mappinginfo"));
+		}
+		return this.workspaceMappingInfo;
 	}
 }

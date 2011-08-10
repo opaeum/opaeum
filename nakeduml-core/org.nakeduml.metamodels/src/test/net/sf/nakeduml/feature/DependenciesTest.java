@@ -21,26 +21,25 @@ public class DependenciesTest {
 
 		@Override
 		public void execute(TransformationContext context){
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public Collection<?> processElements(TransformationContext context,Collection<Object> elements){
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public void initialize(NakedUmlConfig config,List<SomeStep> features){
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public Collection<SomeStep> getSteps(){
-			// TODO Auto-generated method stub
 			return null;
+		}
+
+		@Override
+		public void initializeSteps(){
+			
 		}
 	}
 

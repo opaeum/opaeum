@@ -1,17 +1,17 @@
 package net.sf.nakeduml.linkage;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
 public class ConstraintUtil{
 	public static NakedConstraintImpl buildArtificialConstraint(INakedProperty p,String ocl,String constraintName){
 		NakedConstraintImpl constraint = new NakedConstraintImpl();
-		IMappingInfo mi = p.getMappingInfo().getCopy();
+		MappingInfo mi = p.getMappingInfo().getCopy();
 		constraint.setMappingInfo(mi);
 		mi.setIdInModel(mi.getIdInModel() + constraintName);
 		NakedValueSpecificationImpl vs = new NakedValueSpecificationImpl();
@@ -32,13 +32,13 @@ public class ConstraintUtil{
 	
 	public static NakedConstraintImpl buildArtificialConstraint(INakedClassifier owner, INakedProperty p,String ocl,String constraintName){
 		NakedConstraintImpl constraint = new NakedConstraintImpl();
-		IMappingInfo constraintMappingInfo = p.getMappingInfo().getCopy();
+		MappingInfo constraintMappingInfo = p.getMappingInfo().getCopy();
 		constraint.setMappingInfo(constraintMappingInfo);
 		constraintMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel() + constraintName);
 		constraint.initialize(constraintMappingInfo.getIdInModel(), constraintName, false);
 		NakedValueSpecificationImpl vs = new NakedValueSpecificationImpl();
 		vs.setOwnerElement(constraint);
-		IMappingInfo vsMappingInfo = constraintMappingInfo.getCopy();
+		MappingInfo vsMappingInfo = constraintMappingInfo.getCopy();
 		vs.setMappingInfo(vsMappingInfo);
 		vsMappingInfo.setIdInModel(constraintMappingInfo.getIdInModel()+"VS");
 		vs.initialize(vsMappingInfo.getIdInModel(), constraintName, false);

@@ -43,8 +43,11 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 	public void initialize(NakedUmlConfig config,List<AbstractBootstrapStep> features){
 		this.config = config;
 		this.features = features;
-		for(AbstractBootstrapStep step:features){
-			step.initialize(config, textWorkspace,workspace);
+
+	}
+	public void initializeSteps(){
+		for(AbstractBootstrapStep step:this.features){
+			step.initialize(this.config, textWorkspace,workspace);
 		}
 	}
 	@Override

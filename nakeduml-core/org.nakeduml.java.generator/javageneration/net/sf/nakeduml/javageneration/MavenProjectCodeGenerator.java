@@ -58,7 +58,7 @@ public abstract class MavenProjectCodeGenerator{
 		System.out.println("Generating code for model '" + modelFileName + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 	protected EmfWorkspace loadSingleModel(File modelFile) throws Exception{
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, prepareConfig().getWorkspaceIdentifier());
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, prepareConfig());
 		return workspace;
 	}
 	protected NakedUmlConfig prepareConfig() throws IOException{
@@ -79,7 +79,7 @@ public abstract class MavenProjectCodeGenerator{
 		System.out.println("Transforming nakedWorkspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 	protected EmfWorkspace loadDirectory() throws IOException{
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(resourceSet, modelDirectory, prepareConfig().getWorkspaceIdentifier());
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(resourceSet, modelDirectory, prepareConfig());
 		return workspace;
 	}
 	protected abstract Set<Class<? extends ITransformationStep>> getSteps();

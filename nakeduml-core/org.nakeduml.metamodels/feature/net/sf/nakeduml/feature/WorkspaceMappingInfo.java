@@ -1,4 +1,4 @@
-package net.sf.nakeduml.metamodel.mapping.internal;
+package net.sf.nakeduml.feature;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,23 +16,20 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
-import net.sf.nakeduml.feature.SortedProperties;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
-import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 
-public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
+public class WorkspaceMappingInfo {
 	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.000000");
 	private Properties properties;
-	private Map<String,IMappingInfo> mappingInfoMap = new HashMap<String,IMappingInfo>();
+	private Map<String,MappingInfo> mappingInfoMap = new HashMap<String,MappingInfo>();
 	private File file;
 	private int currentRevision;
 	private float currentVersion;
 	private int nakedUmlIdMaxValue;
 	Random random = new Random();
-	private WorkspaceMappingInfoImpl(){
+	private WorkspaceMappingInfo(){
 		this.properties = new SortedProperties();
 	}
-	public WorkspaceMappingInfoImpl(File file){
+	public WorkspaceMappingInfo(File file){
 		this();
 		this.file = file;
 		if(file.exists()){
@@ -43,7 +40,7 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
 			}
 		}
 	}
-	public WorkspaceMappingInfoImpl(Reader reader){
+	public WorkspaceMappingInfo(Reader reader){
 		this();
 		if(reader != null){
 			load(reader);
@@ -67,7 +64,7 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
 				for(Entry<Object,Object> entry:entrySet){
 					String id = (String) entry.getKey();
 					if(!knownProperties.contains(id)){
-						mappingInfoMap.put(id, new MappingInfoImpl(id, (String) entry.getValue()));
+						mappingInfoMap.put(id, new MappingInfo(id, (String) entry.getValue()));
 					}
 				}
 			}
@@ -77,11 +74,10 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
 			throw new RuntimeException(e);
 		}
 	}
-	@Override
-	public IMappingInfo getMappingInfo(String modelId,boolean store){
-		IMappingInfo mappingInfo = (IMappingInfo) this.mappingInfoMap.get(modelId);
+	public MappingInfo getMappingInfo(String modelId,boolean store){
+		MappingInfo mappingInfo = (MappingInfo) this.mappingInfoMap.get(modelId);
 		if(mappingInfo == null){
-			mappingInfo = new MappingInfoImpl();
+			mappingInfo = new MappingInfo();
 			if(store){
 				this.nakedUmlIdMaxValue++;
 				mappingInfo.setNakedUmlId(this.nakedUmlIdMaxValue);
@@ -96,7 +92,6 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
 		}
 		return mappingInfo;
 	}
-	@Override
 	public void store(){
 		Writer writer;
 		try{
@@ -111,8 +106,8 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
 			properties.put(getClass().getName() + ".currentVersion", DECIMAL_FORMAT.format(currentVersion));
 			properties.put(getClass().getName() + ".nakedUmlIdMaxValue", "" + nakedUmlIdMaxValue);
 			properties.put(getClass().getName() + ".currentRevision", "" + currentRevision);
-			Set<Entry<String,IMappingInfo>> entrySet = mappingInfoMap.entrySet();
-			for(Entry<String,IMappingInfo> entry:entrySet){
+			Set<Entry<String,MappingInfo>> entrySet = mappingInfoMap.entrySet();
+			for(Entry<String,MappingInfo> entry:entrySet){
 				String id = (String) entry.getKey();
 				if(entry.getValue().shouldStore()){
 					properties.put(id, entry.getValue().toString());
@@ -125,7 +120,6 @@ public class WorkspaceMappingInfoImpl implements IWorkspaceMappingInfo{
 			throw new RuntimeException(e);
 		}
 	}
-	@Override
 	public void incrementRevision(){
 		currentRevision++;
 	}

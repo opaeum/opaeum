@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
+import net.sf.nakeduml.feature.MappingInfo;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
 public interface INakedElement extends IModelElement,INakedElementOwner, Serializable {
@@ -20,8 +20,8 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	INakedElementOwner getOwnerElement();
 	void setOwnerElement(INakedElementOwner element);
 	void initialize(String id, String name,boolean storeMappingInfo);
-	void setMappingInfo(IMappingInfo vi);
-	IMappingInfo getMappingInfo();
+	void setMappingInfo(MappingInfo vi);
+	MappingInfo getMappingInfo();
 	INakedNameSpace getNameSpace();
 	void setName(String umlName);
 	boolean hasStereotype(String name);

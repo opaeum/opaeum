@@ -24,6 +24,7 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	EmfWorkspace workspace;
 	private NakedUmlConfig config;
 	private List<AbstractUimSynchronizer> features;
+	private ResourceSetImpl uimResourceSet;
 	public static void save(URI rootDir,ResourceSet r) throws IOException{
 		String rootString = toString(rootDir);
 		for(Resource resource:r.getResources()){
@@ -71,9 +72,12 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractUimSynchronizer> features){
 		this.config=config;
-		ResourceSet resourceSet = new ResourceSetImpl();
-		for(AbstractUimSynchronizer s:features){
-			s.init(workspace, resourceSet, false);
+		this.uimResourceSet = new ResourceSetImpl();
+		this.features=features;
+	}
+	public void initializeSteps(){
+		for(AbstractUimSynchronizer s:this.features){
+			s.init(workspace, uimResourceSet, false);
 		}
 	}
 	@Override

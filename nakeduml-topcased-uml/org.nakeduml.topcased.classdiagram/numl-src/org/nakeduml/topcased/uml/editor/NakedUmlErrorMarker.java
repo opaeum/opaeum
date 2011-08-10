@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.uml2.uml.Element;
 import org.nakeduml.eclipse.EmfValidationUtil;
@@ -26,10 +27,8 @@ public class NakedUmlErrorMarker implements Runnable{
 	private NakedUmlEclipseContext context;
 	private long lastMarked;
 	private int noOfErrors;
-	private Shell shell;
-	public NakedUmlErrorMarker(Shell shell,NakedUmlEclipseContext context){
+	public NakedUmlErrorMarker(NakedUmlEclipseContext context){
 		this.context = context;
-		this.shell = shell;
 	}
 	@Override
 	public void run(){
@@ -64,8 +63,8 @@ public class NakedUmlErrorMarker implements Runnable{
 			}
 			lastMarked = System.currentTimeMillis();
 		}
-		if(!(shell.isDisposed() || shell.getDisplay().isDisposed())){
-			shell.getDisplay().timerExec(2000, this);
+		if(!(Display.getDefault().isDisposed() || Display.getDefault().isDisposed())){
+			Display.getDefault().timerExec(2000, this);
 		}
 	}
 	public IFile findIFile(EObject o){

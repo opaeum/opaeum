@@ -20,6 +20,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.IPageSite;
@@ -83,13 +84,24 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	}
 	private NakedUmlEclipseContext getContext(final IFileEditorInput fe){
 		IContainer umlDir = fe.getFile().getParent();
-		NakedUmlEclipseContext result = contexts.get(umlDir);
 		IFile umlFile = getUmlFile(fe);
+		NakedUmlEclipseContext result = getNakedUmlEclipseContextFor(umlDir);
+		if(result != null){
+			if(result.isSyncronizingWith(getResourceSet())){
+				result.setCurrentResourceSet(getResourceSet(), umlFile);
+			}else{
+				result.startSynch(getResourceSet(), umlFile);
+			}
+		}
+		return result;
+	}
+	public static NakedUmlEclipseContext getNakedUmlEclipseContextFor(IContainer umlDir){
+		NakedUmlEclipseContext result = contexts.get(umlDir);
 		if(result == null){
 			NakedUmlConfig cfg = null;
-			final IFile propsFile = (IFile) umlFile.getParent().findMember("nakeduml.properties");
+			final IFile propsFile = (IFile) umlDir.findMember("nakeduml.properties");
 			if(propsFile == null){
-				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(getSite().getShell(), propsFile.getLocation().toFile());
+				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getDefault().getActiveShell(), propsFile.getLocation().toFile());
 				if(dlg.open() == SWT.OK){
 					cfg = dlg.getConfig();
 				}
@@ -99,18 +111,13 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 				cfg = new NakedUmlConfig(propsFile.getLocation().toFile());
 			}
 			if(cfg != null){
-				final NakedUmlEclipseContext newOne = result = new NakedUmlEclipseContext(cfg);
-				contexts.put(umlDir, result);
-				getSite().getShell().getDisplay().timerExec(1000, new NakedUmlErrorMarker(getSite().getShell(), newOne));
+				final NakedUmlEclipseContext newOne = new NakedUmlEclipseContext(cfg,umlDir);
+				contexts.put(umlDir, newOne);
+				Display.getDefault().timerExec(1000, new NakedUmlErrorMarker(newOne));
+				result=newOne;
 			}
 		}
-		if(result != null){
-			if(result.isSyncronizingWith(umlFile)){
-				result.setCurrentResourceSet(getResourceSet(), umlFile);
-			}else{
-				result.startSynch(getResourceSet(), umlFile);
-			}
-		}
+		currentContext=result;
 		return result;
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){

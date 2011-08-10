@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -12,7 +13,6 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.model.IAssociationEnd;
@@ -29,7 +29,7 @@ public class DefaultBundleGenerator extends VisitorAdapter<INakedElement,INakedP
 	}
 	private void putHumanName(IModelElement a){
 		if(a instanceof INakedElement){
-			IMappingInfo mi = ((INakedElement) a).getMappingInfo();
+			MappingInfo mi = ((INakedElement) a).getMappingInfo();
 			if(mi.getNakedUmlId() != null){
 				this.defaultBundle.put(mi.getQualifiedJavaName(), mi.getHumanName().toString());
 				int nakedUmlId = mi.getNakedUmlId().intValue();

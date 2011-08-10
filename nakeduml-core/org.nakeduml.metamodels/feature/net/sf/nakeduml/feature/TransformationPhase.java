@@ -22,4 +22,5 @@ public interface TransformationPhase<FEATURE extends ITransformationStep,ELEMENT
 	Collection<?> processElements(TransformationContext context,Collection<ELEMENT> elements);
 	void initialize(NakedUmlConfig config,List<FEATURE> features);
 	Collection<FEATURE> getSteps();
+	public void initializeSteps();
 }

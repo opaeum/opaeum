@@ -9,6 +9,7 @@ import java.util.Map;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedDeadlineImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
@@ -28,6 +29,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.OclUsageType;
@@ -61,21 +63,23 @@ import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfValidationUtil;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements ITransformationStep{
+	@InputModel(implementationClass=NakedModelWorkspaceImpl.class)
 	protected INakedModelWorkspace nakedWorkspace;
+	@InputModel
 	protected EmfWorkspace emfWorkspace;
-	private HashSet<INakedElement> existingModels;
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
-			Map<String,Element> children = new HashMap<String,Element>();
-			EmfWorkspace w = (EmfWorkspace) root;
-			for(Element element:w.getOwnedElements()){
-				INakedElement nakedElement = nakedWorkspace.getModelElement(getId(element));
-				if(nakedElement == null || !existingModels.contains(nakedElement)){
-					children.put(getId(element), element);
-				}
-			}
-			return children.values();
+			return ((EmfWorkspace) root).getOwnedElements();
+//			Map<String,Element> children = new HashMap<String,Element>();
+//			EmfWorkspace w = (EmfWorkspace) root;
+//			for(Element element:w.getOwnedElements()){
+//				INakedElement nakedElement = nakedWorkspace.getModelElement(getId(element));
+//				if(nakedElement == null || !existingModels.contains(nakedElement)){
+//					children.put(getId(element), element);
+//				}
+//			}
+//			return children.values();
 		}else{
 			return super.getChildren(root);
 		}
@@ -347,7 +351,6 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	public void initialize(EmfWorkspace emfWorkspace,INakedModelWorkspace workspace2){
 		this.nakedWorkspace = workspace2;
 		this.emfWorkspace = emfWorkspace;
-		this.existingModels = new HashSet<INakedElement>(nakedWorkspace.getOwnedElements());
 	}
 	private NakedMultiplicityImpl toNakedMultiplicity(MultiplicityElement te){
 		int lower = te.getLower();

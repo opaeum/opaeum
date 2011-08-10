@@ -90,13 +90,15 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<JavaTransformationStep> features){
-		OJUtil.clearCache();
 		this.config = config;
 		this.features = features;
-		for(JavaTransformationStep f:features){
+	}
+	public void initializeSteps(){
+		OJUtil.clearCache();
+		for(JavaTransformationStep f:this.features){
 			if(f instanceof AbstractJavaProducingVisitor){
 				AbstractJavaProducingVisitor v = (AbstractJavaProducingVisitor) f;
-				v.initialize(javaModel, config, textWorkspace, modelWorkspace);
+				v.initialize(javaModel, this.config, textWorkspace, modelWorkspace);
 			}
 		}
 	}

@@ -248,4 +248,14 @@
           </action>
        </objectContribution>
     </extension>
+ <extension
+       id="sfads.asf.asf..dfs.adf."
+       point="org.nakeduml.eclipse.transformationStep">
+    <transformationStep
+          className="org.nakeduml.uml2uim.FormSynchronizer">
+    </transformationStep>
+    <transformationStep
+          className="org.nakeduml.uml2uim.ModelCopyStep">
+    </transformationStep>
+ </extension>
 </plugin>

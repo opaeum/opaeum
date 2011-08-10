@@ -24,17 +24,20 @@ public class DefaultUriResolver implements EmfResourceHelper{
 			}
 		}
 	}
-
 	@Override
 	public String getId(EModelElement e){
-		EAnnotation eAnnotation = e.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
-		if(eAnnotation != null){
-			String string = eAnnotation.getDetails().get("uuid");
-			if(string != null){
-				return string;
+		if(e instanceof EmfWorkspace){
+			return ((EmfWorkspace) e).getIdentifier();
+		}else{
+			EAnnotation eAnnotation = e.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+			if(eAnnotation != null){
+				String string = eAnnotation.getDetails().get("uuid");
+				if(string != null){
+					return string;
+				}
 			}
+			Resource eResource = e.eResource();
+			return eResource.getURI().lastSegment() + "@" + eResource.getURIFragment(e);
 		}
-		Resource eResource = e.eResource();
-		return eResource.getURI().lastSegment() + "@" + eResource.getURIFragment(e);
 	}
 }

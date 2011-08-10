@@ -47,9 +47,11 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	public void initialize(NakedUmlConfig config,List<AbstractFlowStep> features){
 		this.flowSteps = features;
 		this.config=config;
-		for(AbstractFlowStep step:features){
-			step.initialize(config, textWorkspace, workspace);
-			step.startVisiting(workspace);
+		initializeSteps();
+	}
+	public void initializeSteps(){
+		for(AbstractFlowStep step:this.flowSteps){
+			step.initialize(this.config, textWorkspace, workspace);
 		}
 	}
 	@Override

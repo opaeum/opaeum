@@ -42,8 +42,11 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractTextNodeVisitor> features){
 		this.features=features;
-		for (AbstractTextNodeVisitor feature : features) {
-			feature.initialize(config);
+	}
+
+	public void initializeSteps(){
+		for (AbstractTextNodeVisitor feature : this.features) {
+			feature.initialize(this.config);
 		}
 	}
 

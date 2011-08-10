@@ -22,7 +22,6 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
 		for(INakedElement element:elements){
 			for(AbstractValidator v:validators){
-				v.initialize(modelWorkspace, config);
 				v.visitRecursively((INakedElement) element);
 			}
 		}
@@ -38,11 +37,12 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 	public void initialize(NakedUmlConfig config,List<AbstractValidator> features){
 		this.validators=features;
 		this.config=config;
-		for(AbstractValidator v:validators){
-			v.initialize(modelWorkspace, config);
-			v.startVisiting(modelWorkspace);
-		}
 		
+	}
+	public void initializeSteps(){
+		for(AbstractValidator v:validators){
+			v.initialize(modelWorkspace, this.config);
+		}
 	}
 	@Override
 	public Collection<AbstractValidator> getSteps(){

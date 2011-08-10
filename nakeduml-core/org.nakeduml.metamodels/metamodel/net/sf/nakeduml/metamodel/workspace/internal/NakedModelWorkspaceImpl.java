@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.nakeduml.feature.MappingInfo;
+import net.sf.nakeduml.feature.WorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -18,8 +20,6 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.ClassifierDependencyComparator;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
-import net.sf.nakeduml.metamodel.mapping.IWorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
@@ -32,7 +32,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	private static final long serialVersionUID = -825314743586339864L;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
 	private INakedInterface businessRole;
-	private IWorkspaceMappingInfo modelMappingInfo;
+	private WorkspaceMappingInfo modelMappingInfo;
 	private Collection<INakedRootObject> children = new ArrayList<INakedRootObject>();
 	private String name;
 	private IOclEngine oclEngine = new OclEngine();
@@ -60,7 +60,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public IOclEngine getOclEngine(){
 		return this.oclEngine;
 	}
-	public void setWorkspaceMappingInfo(IWorkspaceMappingInfo modelMappingInfo){
+	public void setWorkspaceMappingInfo(WorkspaceMappingInfo modelMappingInfo){
 		this.modelMappingInfo = modelMappingInfo;
 	}
 	public void putModelElement(INakedElement mw){
@@ -71,7 +71,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 //			throw new IllegalArgumentException(msg);
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
-		IMappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
+		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
 		if(mw instanceof INakedRootObject){
 			this.children.add((INakedRootObject) mw);
@@ -115,13 +115,13 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public void setBusinessRole(INakedInterface rootUserEntity){
 		this.businessRole = rootUserEntity;
 	}
-	public IWorkspaceMappingInfo getWorkspaceMappingInfo(){
+	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
 		return this.modelMappingInfo;
 	}
-	public void setModelMappingInfo(IWorkspaceMappingInfo modelMappingInfo){
+	public void setModelMappingInfo(WorkspaceMappingInfo modelMappingInfo){
 		this.modelMappingInfo = modelMappingInfo;
 	}
-	public IMappingInfo getMappingInfo(){
+	public MappingInfo getMappingInfo(){
 		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation", false);
 	}
 	public Collection getOwnedElements(){

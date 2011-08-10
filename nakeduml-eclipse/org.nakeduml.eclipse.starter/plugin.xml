@@ -56,7 +56,7 @@
        id="lkjl"
        point="org.nakeduml.eclipse.sourceFolderStrategy">
     <sourceFolderStrategy
-          className="org.nakeduml.eclipse.starter.MavenSourceFolderStrategy">
+          className="net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
 </plugin>

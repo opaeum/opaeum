@@ -51,9 +51,12 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	public void setRoot(IWorkspaceRoot root){
 		this.root = root;
 	}
+	public IProject visitProjectTopToBottom(TextProject tp){
+		this.isTopToBottom = true;
+		return visitProject(tp);
+	}
 	@VisitBefore()
 	public IProject visitProject(TextProject tp){
-		this.isTopToBottom = true;
 		try{
 			IProject project = root.getProject(tp.getName());
 			if(!project.exists()){

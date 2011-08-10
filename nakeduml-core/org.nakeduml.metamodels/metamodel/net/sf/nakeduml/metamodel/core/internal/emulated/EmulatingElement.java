@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IPackage;
 
@@ -53,7 +53,7 @@ public class EmulatingElement implements INakedElement{
 	public String getId(){
 		return originalElement.getId();
 	}
-	public IMappingInfo getMappingInfo(){
+	public MappingInfo getMappingInfo(){
 		return originalElement.getMappingInfo();
 	}
 	public String getMetaClass(){
@@ -89,7 +89,7 @@ public class EmulatingElement implements INakedElement{
 	}
 	public void initialize(String id,String name,boolean b){
 	}
-	public void setMappingInfo(IMappingInfo vi){
+	public void setMappingInfo(MappingInfo vi){
 	}
 	public void setName(String umlName){
 	}

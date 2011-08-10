@@ -1,12 +1,20 @@
-package net.sf.nakeduml.metamodel.mapping.internal;
+package net.sf.nakeduml.feature;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.Scanner;
 
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
-public abstract class AbstractMappingInfo implements IMappingInfo{
+public class MappingInfo {
+	private static final long serialVersionUID = -3340080927536252411L;
+	protected static final String DEL = "~";
+	public static void main(String[] args){
+		String values = "12~1.3213~1~qualifiedJavaName~javaNameString~sqlNameString~SingularHumanName~pluralHumanName~qualifiedUmlName~qualifiedPersistentName";
+		MappingInfo m1 = new MappingInfo("", values);
+		System.out.println(new MappingInfo("", m1.toString()).toString().equals(m1.toString()));
+	}
 	//TODO simplify
 	private boolean isNewInVersion = false;
 	private boolean isNewInRevision = false;
@@ -27,12 +35,26 @@ public abstract class AbstractMappingInfo implements IMappingInfo{
 	private NameWrapper javaName;
 	private NameWrapper oldPersistentName;
 	private NameWrapper persistentName;
+	protected String idInModel;
+	protected Integer sinceRevision;
+	protected Float sinceVersion;
+	protected Integer nakedUmlId;
+	protected String qualifiedPersistentName;
 	private NameWrapper oldJavaName;
-	@Override
+	public MappingInfo(String idInModel,String values){
+		this.idInModel = idInModel;
+		Scanner scanner = new Scanner(values).useDelimiter(DEL);
+		this.sinceRevision = scanner.nextInt();
+		this.sinceVersion = scanner.nextFloat();
+		this.nakedUmlId = scanner.nextInt();
+		setPersistentName(new SingularNameWrapper(scanner.next(),null));
+		this.qualifiedPersistentName = scanner.next();
+	}
+	public MappingInfo(){
+	}
 	public void setStore(boolean store){
 		this.shouldStore = store;
 	}
-	@Override
 	public boolean shouldStore(){
 		return shouldStore;
 	}
@@ -130,8 +152,8 @@ public abstract class AbstractMappingInfo implements IMappingInfo{
 		setSingularHumanName(humanName.getSingular().getAsIs());
 		setPluralHumanName(humanName.getPlural().getAsIs());
 	}
-	public IMappingInfo getCopy(){
-		IMappingInfo result = createCopy();
+	public MappingInfo getCopy(){
+		MappingInfo result = createCopy();
 		result.setHumanName(getHumanName());
 		result.setIdInModel(getIdInModel());
 		result.setJavaName(getJavaName());
@@ -177,5 +199,41 @@ public abstract class AbstractMappingInfo implements IMappingInfo{
 	public NameWrapper getOldJavaName(){
 		return oldJavaName;
 	}
-	protected abstract AbstractMappingInfo createCopy();
+	public String getIdInModel(){
+		return idInModel;
+	}
+	public void setIdInModel(String idInModel){
+		this.idInModel = idInModel;
+	}
+	public Integer getSinceRevision(){
+		return sinceRevision;
+	}
+	public void setSinceRevision(Integer sinceRevision){
+		this.sinceRevision = sinceRevision;
+	}
+	public Float getSinceVersion(){
+		return sinceVersion;
+	}
+	public void setSinceVersion(Float sinceVersion){
+		this.sinceVersion = sinceVersion;
+	}
+	public Integer getNakedUmlId(){
+		return nakedUmlId;
+	}
+	public void setNakedUmlId(Integer nakedUmlId){
+		this.nakedUmlId = nakedUmlId;
+	}
+	public String toString(){
+		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL 
+				+ qualifiedPersistentName+DEL;
+	}
+	protected MappingInfo createCopy(){
+		return new MappingInfo(idInModel,toString());
+	}
+	public String getQualifiedPersistentName(){
+		return qualifiedPersistentName;
+	}
+	public void setQualifiedPersistentName(String string){
+		this.qualifiedPersistentName = string;
+	}
 }

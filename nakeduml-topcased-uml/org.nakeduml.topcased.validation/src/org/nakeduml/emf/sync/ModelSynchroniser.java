@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
+import net.sf.nakeduml.feature.WorkspaceMappingInfo;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
@@ -38,7 +38,7 @@ public class ModelSynchroniser implements ResourceSetListener {
 			result = outOfSyncWorkspaces.remove(model);
 			if (result == null) {
 				result = new NakedModelWorkspaceImpl();
-				WorkspaceMappingInfoImpl mi = new WorkspaceMappingInfoImpl(new File("c:/temp/model.vim"));
+				WorkspaceMappingInfo mi = new WorkspaceMappingInfo(new File("c:/temp/model.vim"));
 				result.setWorkspaceMappingInfo(mi);
 			}
 			//Do stuf here

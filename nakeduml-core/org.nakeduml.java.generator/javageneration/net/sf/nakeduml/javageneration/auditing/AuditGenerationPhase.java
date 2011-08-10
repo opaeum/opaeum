@@ -50,9 +50,11 @@ public class AuditGenerationPhase implements TransformationPhase<AbstractJavaTra
 	public void initialize(NakedUmlConfig config,List<AbstractJavaTransformationStep> features){
 		this.features=features;
 		this.config=config;
-		for(JavaTransformationStep a:features){
+	}
+	public void initializeSteps(){
+		for(JavaTransformationStep a:this.features){
 			if(a instanceof AbstractJavaProducingVisitor){
-				a.initialize(javaModel, config, textWorkspace,workspace);
+				a.initialize(javaModel, this.config, textWorkspace,workspace);
 			}
 		}
 	}

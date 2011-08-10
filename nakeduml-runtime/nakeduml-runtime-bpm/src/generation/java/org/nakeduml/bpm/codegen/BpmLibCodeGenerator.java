@@ -42,16 +42,15 @@ public class BpmLibCodeGenerator{
 	}
 	protected void generateCodeForSingleModel() throws Exception,IOException,FileNotFoundException{
 		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/nakeduml/nakeduml-core/org.nakeduml.metamodels/models/libraries/NakedUMLLibraryForBPM.uml");
-		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, "nakeduml-runtime");
+		NakedUmlConfig cfg = buildConfig();
+		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
 		workspace.markLibraries("NakedUMLSimpleTypes.library.uml");
-		NakedUmlConfig cfg = buildConfig(workspace);
-		cfg.store();
 		process.execute(cfg, workspace, getSteps());
 		workspace.getMappingInfo().store();
 	}
-	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException{
+	protected NakedUmlConfig buildConfig() throws IOException{
 		NakedUmlConfig cfg = new NakedUmlConfig(new File(modelFile.getParentFile(), "bpm-nakeduml.properties"));
-		cfg.loadDefaults(workspace.getName());
+		cfg.loadDefaults("nakeduml-runtime");
 		cfg.setOutputRoot(outputRoot);
 		mapOutputRoots(cfg);
 		return cfg;

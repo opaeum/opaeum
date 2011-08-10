@@ -24,7 +24,6 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 	public Collection<?> processElements(TransformationContext context,Collection<EmfWorkspace> elements){
 		for(EmfWorkspace element:elements){
 			for(ModelCopyStep step:features){
-				step.init(config, textWorkspace);
 				step.visitOnly(element);
 			}
 		}
@@ -40,8 +39,10 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 	public void initialize(NakedUmlConfig config,List<ModelCopyStep> features){
 		this.config=config;
 		this.features=features;
-		for(ModelCopyStep step:features){
-			step.init(config, textWorkspace);
+	}
+	public void initializeSteps(){
+		for(ModelCopyStep step:this.features){
+			step.init(this.config, textWorkspace);
 		}
 	}
 	@Override

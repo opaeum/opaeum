@@ -3,6 +3,7 @@ package net.sf.nakeduml.javageneration.basicjava;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -15,7 +16,6 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.mapping.IMappingInfo;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.namegeneration.JavaNameRegenerator;
@@ -77,10 +77,10 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		mapClass.addToConstructors(constr);
 		OJBlock initBlock = constr.getBody();
 		for(INakedClassifier c:cls){
-			IMappingInfo ci = c.getMappingInfo();
+			MappingInfo ci = c.getMappingInfo();
 			initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\"" + ci.getIdInModel() + "\"," + ci.getNakedUmlId() + ")");
 			for(IOperation o:c.getOperations()){
-				IMappingInfo mi = ((INakedOperation) o).getMappingInfo();
+				MappingInfo mi = ((INakedOperation) o).getMappingInfo();
 				initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getNakedUmlId() + ")");
 			}
 		}

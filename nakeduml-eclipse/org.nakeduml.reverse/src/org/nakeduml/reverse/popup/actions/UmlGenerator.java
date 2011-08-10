@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.nakeduml.emf.extraction.EmfExtractionPhase;
+import net.sf.nakeduml.emf.extraction.NameSpaceExtractor;
 import net.sf.nakeduml.emf.reverse.EmfElementCreator;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -25,14 +25,12 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.UMLPackage;
 
 public class UmlGenerator {
 	private ClassifierFactory factory;
@@ -48,7 +46,7 @@ public class UmlGenerator {
 			Resource resource = RESOURCE_SET.getResource(uri, true);
 			library =  getRootPackage(resource);
 			EcoreUtil.resolveAll(library);
-			File mappedTypesFile = new File(absolutePath.substring(0,absolutePath.length()-3) + EmfExtractionPhase.MAPPINGS_EXTENSION);
+			File mappedTypesFile = new File(absolutePath.substring(0,absolutePath.length()-3) + NameSpaceExtractor.MAPPINGS_EXTENSION);
 			factory = new ClassifierFactory(library);
 			if (mappedTypesFile.exists()) {
 				factory.getMappedTypes().load(new FileInputStream(mappedTypesFile));

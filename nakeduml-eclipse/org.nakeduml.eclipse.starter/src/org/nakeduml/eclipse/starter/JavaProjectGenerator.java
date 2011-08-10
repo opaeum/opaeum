@@ -50,7 +50,7 @@ public final class JavaProjectGenerator extends Job{
 				List<SourceFolder> sourceFolders = new ArrayList<SourceFolder>();
 				List<IProject> eclipseProjects = new ArrayList<IProject>();
 				for(TextProject tp:tws.getTextProjects()){
-					eclipseProjects.add(eclipseGen.visitProject(tp));
+					eclipseProjects.add(eclipseGen.visitProjectTopToBottom(tp));
 					for(SourceFolder sourceFolder:tp.getSourceFolders()){
 						sourceFolders.add(sourceFolder);
 					}

@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.uml2.uml;bundle-version="3.1.1";visibility:=reexport
  org.nakeduml.eclipse.hibernate;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: 
- .
+ .,
+ lib/javassist-3.12.0.GA.jar
 Export-Package: net.sf.nakeduml,
  net.sf.nakeduml.domainmetamodel,
  net.sf.nakeduml.emf.extraction,
@@ -38,8 +39,6 @@ Export-Package: net.sf.nakeduml,
  net.sf.nakeduml.metamodel.core,
  net.sf.nakeduml.metamodel.core.internal,
  net.sf.nakeduml.metamodel.core.internal.emulated,
- net.sf.nakeduml.metamodel.mapping,
- net.sf.nakeduml.metamodel.mapping.internal,
  net.sf.nakeduml.metamodel.models,
  net.sf.nakeduml.metamodel.models.internal,
  net.sf.nakeduml.metamodel.name,

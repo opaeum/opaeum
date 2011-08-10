@@ -10,11 +10,11 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.feature.WorkspaceMappingInfo;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.mapping.internal.WorkspaceMappingInfoImpl;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.stdlib.internal.types.OclLibraryImpl;
@@ -38,7 +38,6 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 			new ErrorRemover().visitRecursively(element);
 			modelWorkspace.getOclEngine().setOclLibrary(new OclLibraryImpl());
 			for(AbstractModelElementLinker d:linkers){
-				d.initialize(modelWorkspace, config);
 				d.visitRecursively((INakedElementOwner) element);
 				if(!modelWorkspace.getErrorMap().getErrors().containsKey(element.getId())){
 					affectedElements.addAll(d.getAffectedElements());
@@ -50,6 +49,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	@Override
 	public void execute(TransformationContext context){
 		for(AbstractModelElementLinker d:linkers){
+			System.out.println("LinkagePhase.execute()");
 			d.startVisiting(modelWorkspace);
 		}
 	}
@@ -57,9 +57,10 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	public void initialize(NakedUmlConfig config,List<AbstractModelElementLinker> features){
 		this.config=config;
 		this.linkers = features;
-		modelWorkspace.getOclEngine().setOclLibrary(new OclLibraryImpl());
+	}
+	public void initializeSteps(){
 		for(AbstractModelElementLinker d:linkers){
-			d.initialize(modelWorkspace, config);
+			d.initialize(modelWorkspace, this.config);
 		}
 	}
 	@Override

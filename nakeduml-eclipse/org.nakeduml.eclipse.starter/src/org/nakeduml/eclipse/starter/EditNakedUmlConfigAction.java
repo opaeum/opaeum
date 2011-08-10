@@ -2,7 +2,10 @@ package org.nakeduml.eclipse.starter;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -18,6 +21,12 @@ public class EditNakedUmlConfigAction implements IObjectActionDelegate{
 	public void run(IAction action){
 		File file2 = getCfgFile();
 		new NakedUmlConfigDialog(activePart.getSite().getShell(), file2).open();
+		try{
+			((IContainer)selection.getFirstElement()).refreshLocal(IResource.DEPTH_INFINITE, null);
+		}catch(CoreException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private File getCfgFile(){
 		return getConfigFile(selection);
