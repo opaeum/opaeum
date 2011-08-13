@@ -53,8 +53,8 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 		c.addToImports(transStepPathName);
 		clazzPathName.addToElementTypes(new OJPathName("? extends ITransformationStep"));
 		setOfSteps.addToElementTypes(clazzPathName);
-		addGetSteps(c, setOfSteps, JavaSourceSynchronizer.getBasicSteps(), "getSteps");
-		addGetSteps(c, setOfSteps, JavaSourceSynchronizer.getBasicIntegrationSteps(), "getIntegrationSteps");
+		addGetSteps(c, setOfSteps, JavaTransformationProcessManager.getBasicSteps(), "getSteps");
+		addGetSteps(c, setOfSteps, JavaTransformationProcessManager.getBasicIntegrationSteps(), "getIntegrationSteps");
 		return c;
 	}
 	private void addGetSteps(OJAnnotatedClass c,OJPathName setOfSteps,Set<Class<? extends ITransformationStep>> set,String operNAme){

@@ -20,8 +20,27 @@ public class NakedAssociationImpl extends NakedClassifierImpl implements INakedA
 		this.ends.add(null);
 		this.ends.add(null);
 	}
+	private INakedProperty propertyToEnd2;
 	public NakedAssociationImpl(){
 		super();
+	}
+	private INakedProperty propertyToEnd1;
+	public INakedProperty getPropertyToEnd1(){
+		return propertyToEnd1;
+	}
+	public INakedProperty getPropertyToEnd(INakedProperty np){
+		return np==getEnd1()?getPropertyToEnd1():getPropertyToEnd2();
+	}
+	public void setPropertyToEnd1(INakedProperty propertyToEnd1){
+		super.addOwnedElement(propertyToEnd1);
+		this.propertyToEnd1 = propertyToEnd1;
+	}
+	public INakedProperty getPropertyToEnd2(){
+		return propertyToEnd2;
+	}
+	public void setPropertyToEnd2(INakedProperty propertyToEnd2){
+		super.addOwnedElement(propertyToEnd2);
+		this.propertyToEnd2 = propertyToEnd2;
 	}
 	@Override
 	public PathName getPathName(){

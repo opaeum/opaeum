@@ -43,7 +43,7 @@ public class RecalculateDependenciesAction implements IObjectActionDelegate{
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
 						try{
-							TransformationProcess p = JavaSourceSynchronizer.getCurrentTransformationProcess();
+							TransformationProcess p = JavaTransformationProcessManager.getCurrentTransformationProcess();
 							if(p == null){
 								Shell shell = workbenchPart.getSite().getShell();
 								MessageDialog.openError(shell, "NakedUML still initializing","The NakedUML tooling is still initializing. Please try again shortly.");

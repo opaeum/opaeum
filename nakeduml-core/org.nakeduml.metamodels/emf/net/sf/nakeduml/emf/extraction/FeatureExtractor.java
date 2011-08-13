@@ -23,12 +23,15 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.validation.CoreValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.ExtensionEnd;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
@@ -46,6 +49,10 @@ import org.nakeduml.eclipse.EmfParameterUtil;
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = GeneralizationExtractor.class,after = GeneralizationExtractor.class)
 public class FeatureExtractor extends AbstractExtractorFromEmf{
+	@Override
+	public void visitRecursively(Element o){
+	super.visitRecursively(o);
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPort(Port p,NakedPortImpl np){
 		populateMultiplicityAndBaseType(p, p.getType(), np);
@@ -77,6 +84,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			Property.class,ExtensionEnd.class
 	})
 	public void visitProperty(Property p,NakedPropertyImpl np){
+		if(np.getName().equals("participant")){// && np.getOwner().getName().equals("ParticipationInTask")){
+			System.out.println();
+		}
 		boolean navigable = p.isNavigable() || p.isComposite()||p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
 		if(p.getOtherEnd() != null){
 			Property opposite = p.getOtherEnd();
@@ -99,10 +109,19 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			}
 			np.setOwnerElement(owner);
 			owner.addOwnedElement(np);
-			np.setAssociation((INakedAssociation) getNakedPeer(p.getAssociation()));
-			INakedAssociation a = (INakedAssociation) getNakedPeer(p.getAssociation());
+			INakedAssociation nakedAss = (INakedAssociation) getNakedPeer(p.getAssociation());
+			np.setAssociation(nakedAss);
+			if(nakedAss.isMarkedForDeletion()){
+				np.markForDeletion();
+			}
+
 			int index = p.getAssociation().getMemberEnds().indexOf(p);
-			a.setEnd(index, np);
+			nakedAss.setEnd(index, np);
+			EList<Type> endTypes = p.getAssociation().getEndTypes();
+			for(Type type:endTypes){
+				getAffectedElements().add(getNakedPeer(type));
+			}
+			
 		}
 		np.setNavigable(navigable);
 		populateMultiplicityAndBaseType(p, p.getType(), np);
@@ -111,6 +130,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 	}
 	private void populateProperty(NakedPropertyImpl np,Property p){
 		np.setReadOnly(p.isReadOnly());
+		np.setStatic(p.isStatic());
 		np.setDerived(p.isDerived());
 		np.setDerivedUnion(p.isDerivedUnion());
 		np.setIsOrdered(p.isOrdered());

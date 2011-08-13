@@ -54,15 +54,15 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		Collection<TextOutputNode> files = new HashSet<TextOutputNode>();
 		for(INakedElement e:elements){
 			if(e instanceof INakedClassifier && e.getMappingInfo().requiresJavaRename()){
-				realChanges.addAll(modelWorkspace.getDependentClassifiers((INakedClassifier)e));
+				realChanges.addAll(modelWorkspace.getDependentElements((INakedClassifier) e));
 			}
 		}
-
 		for(JavaTransformationStep f:features){
 			if(f instanceof NakedElementOwnerVisitor){
 				f.setTransformationContext(context);
 				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
 				f.getTextFiles().clear();
+				f.setTransformationContext(context);
 				if(v instanceof IntegrationCodeGenerator){
 					v.startVisiting(modelWorkspace);
 				}else{
@@ -80,8 +80,9 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	public void execute(TransformationContext context){
 		OJUtil.clearCache();
 		for(JavaTransformationStep f:features){
-			if(f instanceof AbstractJavaProducingVisitor && (context.isIntegrationPhase() == (f instanceof IntegrationCodeGenerator))){
-				AbstractJavaProducingVisitor v = (AbstractJavaProducingVisitor) f;
+			if(f instanceof NakedElementOwnerVisitor){
+				//Remember HibernateConfigGenerator
+				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
 				f.setTransformationContext(context);
 				v.startVisiting(this.modelWorkspace);
 			}
@@ -96,10 +97,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	public void initializeSteps(){
 		OJUtil.clearCache();
 		for(JavaTransformationStep f:this.features){
-			if(f instanceof AbstractJavaProducingVisitor){
-				AbstractJavaProducingVisitor v = (AbstractJavaProducingVisitor) f;
-				v.initialize(javaModel, this.config, textWorkspace, modelWorkspace);
-			}
+			f.initialize(javaModel, this.config, textWorkspace, modelWorkspace);
 		}
 	}
 	@Override

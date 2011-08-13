@@ -43,7 +43,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
 	public void visitBehavior(INakedBehavior ob){
 		if(BehaviorUtil.hasExecutionInstance(ob)){
-			// Most like a long running
+			// Most likely long running
 			if(ob.isClassifierBehavior()){
 				implementStartClassifierBehavior(ob);
 			}else if(requiresOperationForInvocation(ob)){

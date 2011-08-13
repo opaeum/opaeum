@@ -1,19 +1,16 @@
 package net.sf.nakeduml.emf.extraction;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.ITransformationStep;
-import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedDeadlineImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -29,19 +26,14 @@ import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
@@ -63,23 +55,22 @@ import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfValidationUtil;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements ITransformationStep{
-	@InputModel(implementationClass=NakedModelWorkspaceImpl.class)
 	protected INakedModelWorkspace nakedWorkspace;
-	@InputModel
 	protected EmfWorkspace emfWorkspace;
+	private Set<INakedElement> affectedElements = new HashSet<INakedElement>();
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
 			return ((EmfWorkspace) root).getOwnedElements();
-//			Map<String,Element> children = new HashMap<String,Element>();
-//			EmfWorkspace w = (EmfWorkspace) root;
-//			for(Element element:w.getOwnedElements()){
-//				INakedElement nakedElement = nakedWorkspace.getModelElement(getId(element));
-//				if(nakedElement == null || !existingModels.contains(nakedElement)){
-//					children.put(getId(element), element);
-//				}
-//			}
-//			return children.values();
+			// Map<String,Element> children = new HashMap<String,Element>();
+			// EmfWorkspace w = (EmfWorkspace) root;
+			// for(Element element:w.getOwnedElements()){
+			// INakedElement nakedElement = nakedWorkspace.getModelElement(getId(element));
+			// if(nakedElement == null || !existingModels.contains(nakedElement)){
+			// children.put(getId(element), element);
+			// }
+			// }
+			// return children.values();
 		}else{
 			return super.getChildren(root);
 		}
@@ -99,7 +90,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				initialize(ne, e, e.getOwner());
 			}
 		}else if(o instanceof NamedElement){
-			if(e.getOwner()==null && ne.getOwnerElement()!=null){
+			if(e.getOwner() == null && ne.getOwnerElement() != null){
 				ne.getOwnerElement().removeOwnedElement(ne);
 				ne.markForDeletion();
 			}
@@ -203,7 +194,10 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		ParsedOclString bodyExpression = buildParsedOclString(oe, usage, oe.getLanguages(), oe.getBodies());
 		NakedValueSpecificationImpl nakedValueSpecification = null;
 		if(bodyExpression != null){
-			nakedValueSpecification = new NakedValueSpecificationImpl();
+			nakedValueSpecification = (NakedValueSpecificationImpl) getNakedPeer(value);
+			if(nakedValueSpecification == null){
+				nakedValueSpecification = new NakedValueSpecificationImpl();
+			}
 			nakedValueSpecification.setValue(bodyExpression);
 			initialize(nakedValueSpecification, value, null);
 			nakedValueSpecification.setOwnerElement(element);
@@ -349,6 +343,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return nakedWorkspace.getErrorMap();
 	}
 	public void initialize(EmfWorkspace emfWorkspace,INakedModelWorkspace workspace2){
+		this.affectedElements.clear();
 		this.nakedWorkspace = workspace2;
 		this.emfWorkspace = emfWorkspace;
 	}
@@ -402,5 +397,11 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		}catch(InstantiationException e1){
 			throw new RuntimeException(e1);
 		}
+	}
+	protected Set<INakedElement> getAffectedElements(){
+		return affectedElements;
+	}
+	protected boolean ignoreDeletedElements(){
+		return true;
 	}
 }

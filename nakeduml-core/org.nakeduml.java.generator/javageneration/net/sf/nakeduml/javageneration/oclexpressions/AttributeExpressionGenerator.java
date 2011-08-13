@@ -75,7 +75,7 @@ public class AttributeExpressionGenerator extends AbstractJavaProducingVisitor{
 			return;
 		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, true);
 		if(initStr.length() > 0){
-			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.fieldname());
+			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.umlName());
 			if(myField != null){
 				myField.setInitExp(initStr);
 			}

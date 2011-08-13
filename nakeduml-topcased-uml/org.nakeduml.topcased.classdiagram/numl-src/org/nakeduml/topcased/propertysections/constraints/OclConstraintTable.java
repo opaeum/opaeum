@@ -63,7 +63,7 @@ public class OclConstraintTable extends Composite{
 			}
 		});
 		// create the columns
-		applyTableInfo(constraintTableViewer, NakedUmlPlugin.getDefault().getImageRegistry().getDescriptor("Actor").createImage(), new int[]{
+		applyTableInfo(constraintTableViewer, null /* NakedUmlPlugin.getDefault().getImageRegistry().getDescriptor("Actor").createImage()*/, new int[]{
 				200,200
 		}, "Name", "Expression");
 		GridData layoutDataConstraintsList = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 2);

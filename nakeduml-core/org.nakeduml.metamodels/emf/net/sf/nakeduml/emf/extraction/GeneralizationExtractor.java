@@ -40,7 +40,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf {
 	}
 
 	@VisitBefore
-	public void visitGeneralization(Generalization g) {
+	public void visitGeneralization(Generalization g, NakedGeneralizationImpl ng) {
 		Classifier parent = g.getGeneral();
 		Classifier child = g.getSpecific();
 		INakedClassifier nakedParent = (INakedClassifier) getNakedPeer(parent);
@@ -53,19 +53,17 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf {
 			System.out.println("Specific is not in model:" + child);
 			return;
 		}
-		INakedGeneralization nakedGeneralization = new NakedGeneralizationImpl();
-		initialize(nakedGeneralization, g, g.getOwner());
-		nakedGeneralization.setParentAndChild(nakedParent, nakedChild);
+		ng.setParentAndChild(nakedParent, nakedChild);
 		if (!g.getGeneralizationSets().isEmpty()) {
 			GeneralizationSet generalizationSet = g.getGeneralizationSets().get(0);
 			if (generalizationSet.getPowertype() instanceof Enumeration) {
-				// TODO do this during analysis
+				// TODO do this during linkage
 				Enumeration powerType = (Enumeration) generalizationSet.getPowertype();
 				INakedPowerTypeInstance ptl = new NakedPowerTypeInstanceImpl();
 				SingularNameWrapper nameWrapper = new SingularNameWrapper(child.getName(), null);
 				ptl.initialize(getId(g) + "EnumerationLiteral", nameWrapper.getDecapped().toString(),false);
 				this.nakedWorkspace.putModelElement(ptl);
-				nakedGeneralization.setPowerTypeLiteral(ptl);
+				ng.setPowerTypeLiteral(ptl);
 				INakedPowerType ptw = (INakedPowerType) getNakedPeer(powerType);
 				ptl.setOwnerElement(ptw);
 				INakedClassifier representedSupertype = (INakedClassifier) getNakedPeer(parent);

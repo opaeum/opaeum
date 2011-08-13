@@ -66,9 +66,16 @@ public class OclValueComposite extends Composite{
 			public void keyPressed(KeyEvent e){
 				lastKeyChange = System.currentTimeMillis();
 				Display.getDefault().timerExec(500, new Runnable(){
+					String lastVal = "";
 					public void run(){
-						if(System.currentTimeMillis() - lastKeyChange >= 400){
-							fireOclChanged();
+						if(System.currentTimeMillis() - lastKeyChange >= 400 && viewer != null){
+							if(viewer != null && viewer.getTextWidget() != null){
+								String text = viewer.getTextWidget().getText();
+								if(text != null && !text.equals(lastVal)){
+									lastVal = text;
+									fireOclChanged(text);
+								}
+							}
 						}
 					}
 				});
@@ -77,7 +84,7 @@ public class OclValueComposite extends Composite{
 		TextChangeListener textListener = new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){
-				fireOclChanged();
+				fireOclChanged(((StyledText) control).getText());
 			}
 			@Override
 			public void focusOut(Control control){
@@ -89,9 +96,9 @@ public class OclValueComposite extends Composite{
 		textListener.startListeningTo(viewer.getTextWidget());
 		manageContentAssist();
 	}
-	protected void fireOclChanged(){
-		if(!getTextControl().getText().equals(OclValueComposite.DEFAULT_TEXT)){
-			listener.oclChanged(getTextControl().getText());
+	protected void fireOclChanged(String text){
+		if(text != null && !text.equals(OclValueComposite.DEFAULT_TEXT)){
+			listener.oclChanged(text);
 			Runnable runnable2 = new Runnable(){
 				public void run(){
 					highlightError(element);
@@ -140,7 +147,7 @@ public class OclValueComposite extends Composite{
 			BrokenElement be = errors.getErrors().get(id);
 			if(be != null && be.hasBroken(CoreValidationRule.OCL)){
 				Object[] objects = be.getBrokenRules().get(CoreValidationRule.OCL);
-				Integer i = objects.length == 2 ? ((Integer) objects[1])-1: 0;
+				Integer i = objects.length == 2 ? ((Integer) objects[1]) - 1 : 0;
 				StyleRange[] srs = t.getStyleRanges();
 				if(srs.length <= 0){
 					srs = new StyleRange[]{

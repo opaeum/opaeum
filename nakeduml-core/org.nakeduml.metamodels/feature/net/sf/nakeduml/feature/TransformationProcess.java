@@ -73,8 +73,8 @@ public class TransformationProcess{
 		log.endTask();
 	}
 	public void execute(NakedUmlConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses){
-		models.add(sourceModel);
 		initialize(config, proposedStepClasses);
+		models.add(sourceModel);
 		execute();
 	}
 	public <T extends TransformationPhase>T getPhase(Class<T> c){
@@ -96,6 +96,7 @@ public class TransformationProcess{
 		}
 	}
 	public void initialize(NakedUmlConfig config,Set<Class<? extends ITransformationStep>> proposedStepClasses){
+		this.models.clear();
 		this.config = config;
 		this.actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 		this.phases = new Phases();
@@ -112,17 +113,19 @@ public class TransformationProcess{
 	}
 	public Collection<?> processElements(Collection changes,Class<?> fromPhase){
 		this.changedElements.clear();
-		this.changedElements.addAll(changes);
-		TransformationContext context = new TransformationContext(actualClasses, false);
-		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
-		boolean start = false;
-		for(TransformationPhase phase:phaseList){
-			if(start || (start = fromPhase.isInstance(phase))){
-				setInputModelsFor(phase);
-				phase.initializeSteps();
-				log.startTask("Executing phase " + phase.getClass() + " .... ");
-				this.changedElements.addAll(phase.processElements(context, findElementsFor(phase)));
-				log.endTask();
+		if(changes.size() > 0){
+			this.changedElements.addAll(changes);
+			TransformationContext context = new TransformationContext(actualClasses, false);
+			List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
+			boolean start = false;
+			for(TransformationPhase phase:phaseList){
+				if(start || (start = fromPhase.isInstance(phase))){
+					setInputModelsFor(phase);
+					phase.initializeSteps();
+					log.startTask("Executing phase " + phase.getClass() + " .... ");
+					this.changedElements.addAll(phase.processElements(context, findElementsFor(phase)));
+					log.endTask();
+				}
 			}
 		}
 		return this.changedElements;
@@ -199,7 +202,7 @@ public class TransformationProcess{
 		Class<?> cls = phase.getClass();
 		while(cls != Object.class){
 			result.addAll(Arrays.asList(cls.getDeclaredFields()));
-			cls=cls.getSuperclass();
+			cls = cls.getSuperclass();
 		}
 		return result;
 	}

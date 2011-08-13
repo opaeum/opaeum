@@ -20,6 +20,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -42,16 +43,21 @@ public class RecompileModelAction implements IObjectActionDelegate{
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
 						try{
-							TransformationProcess p = JavaSourceSynchronizer.getCurrentTransformationProcess();
+							TransformationProcess p = JavaTransformationProcessManager.getCurrentTransformationProcess();
 							if(p == null){
-								Shell shell = workbenchPart.getSite().getShell();
-								MessageDialog.openError(shell, "NakedUML still initializing","The NakedUML tooling is still initializing. Please try again shortly.");
+								final Shell shell = workbenchPart.getSite().getShell();
+								Display.getDefault().syncExec(new Runnable(){
+									public void run(){
+										MessageDialog.openError(shell, "NakedUML still initializing",
+												"The NakedUML tooling is still initializing. Please try again shortly.");
+									}
+								});
 							}else{
 								monitor.beginTask("Generating Java Code", p.getPhases().size());
 								p.setLog(new ProgressMonitorTransformationLog(monitor));
 								p.execute();
-								new JavaProjectGenerator(NakedUmlEditor.getCurrentContext().getUmlElementCache().getConfig(), p, ResourcesPlugin.getWorkspace()
-										.getRoot(), true).schedule();
+								new JavaProjectGenerator(NakedUmlEditor.getCurrentContext().getUmlElementCache().getConfig(), p,
+										ResourcesPlugin.getWorkspace().getRoot(), true).schedule();
 								ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IProject.DEPTH_INFINITE, null);
 							}
 						}catch(Exception e){

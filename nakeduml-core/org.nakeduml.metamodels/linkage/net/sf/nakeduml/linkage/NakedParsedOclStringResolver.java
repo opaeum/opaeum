@@ -38,6 +38,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
@@ -422,6 +423,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				if(expressionType instanceof StdlibCollectionType && !(expectedType instanceof StdlibCollectionType)){
 					expressionType = ((StdlibCollectionType) expressionType).getElementType();
 					// be lenient with multiplicity - will likely be corrected automatically
+				}
+				if(expressionType instanceof INakedPrimitiveType){
+					expectedType=((INakedPrimitiveType)expressionType).getOclType();
+				}
+				if(expectedType instanceof INakedPrimitiveType){
+					expectedType =((INakedPrimitiveType)expectedType ).getOclType();
 				}
 				if(!expressionType.conformsTo(expectedType)){
 					this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,

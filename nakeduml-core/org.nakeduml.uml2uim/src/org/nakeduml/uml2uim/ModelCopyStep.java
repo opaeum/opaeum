@@ -18,11 +18,12 @@ import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
+import net.sf.nakeduml.pomgeneration.BasicWarPomStep;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-@StepDependency(phase = ModelCopyPhase.class)
+@StepDependency(phase = ModelCopyPhase.class,requires={BasicWarPomStep.class})
 public class ModelCopyStep extends EmfElementVisitor implements ITransformationStep{
 	private NakedUmlConfig config;
 	private TextWorkspace textWorkspace;

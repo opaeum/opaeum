@@ -92,8 +92,6 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 		if(me instanceof INakedPackage){
 			INakedPackage nakedPackage = ((INakedPackage) me);
 			generatedName = packagePathname(nakedPackage);
-		}else if(me instanceof INakedAssociation){
-			generatedName = pathname(me.getPathName());
 		}else if(me instanceof INakedClassifier){
 			INakedClassifier nakedClassifier = (INakedClassifier) me;
 			generatedName = classifierPathname(nakedClassifier);

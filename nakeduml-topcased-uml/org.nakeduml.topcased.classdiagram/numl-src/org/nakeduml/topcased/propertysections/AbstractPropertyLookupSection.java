@@ -1,7 +1,6 @@
 package org.nakeduml.topcased.propertysections;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,7 +42,10 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferencePro
 				Iterator<EObject> iter = choiceOfValues.iterator();
 				while(iter.hasNext()){
 					Property rsp = (Property) iter.next();
-					if(rsp==p || (rsp.getType() != null && !p.getType().conformsTo(rsp.getType()))){
+					boolean typeConforms = rsp.getType() != null && p.getType().conformsTo(rsp.getType());
+					boolean multiplicityConforms=(rsp.getUpper()>1 || rsp.getUpper()==-1)==(p.getUpper()>1 || p.getUpper()==-1);
+					boolean staticConforms=rsp.isStatic()==p.isStatic();
+					if(rsp == p || !(typeConforms && multiplicityConforms && staticConforms)){
 						iter.remove();
 					}
 				}
@@ -68,6 +70,14 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferencePro
 		}
 		return null;
 	}
+	public void refresh(){
+		getTable().setInput(getProperty(), getFeature());
+		getTable().setEditingDomain(getEditingDomain());
+		getTable().refresh();
+	}
+	protected Property getProperty(){
+		return (Property) getEObject();
+	}
 	protected void createWidgets(Composite composite){
 		setTable(new ReferenceViewerComposite(composite, new String[]{
 			getLabelText()
@@ -81,7 +91,7 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferencePro
 			}
 			public void setInput(EObject eObject,EStructuralFeature feature){
 				super.setInput(eObject, feature);
-				if(objectManager==null ||objectManager.getInputEObject().equals(eObject)){
+				if(objectManager == null || !objectManager.getInputEObject().equals(eObject)){
 					objectManager = new SpecialObjectManager(eObject, feature);
 					objectManager.setLabelProvider((ILabelProvider) getLabelProvider());
 					getTableViewer().setInput(objectManager);

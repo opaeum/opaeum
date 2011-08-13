@@ -50,8 +50,8 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		if(getValueSpecification() instanceof OpaqueExpression){
 			OpaqueExpression oe = getExpression(getEObject());
 			EList<String> bodies = oe.getBodies();
-			for(int i = 0; i < bodies.size(); i ++){
-				if(oe.getLanguages().size()>0 && oe.getLanguages().get(i).equalsIgnoreCase("ocl")){
+			for(int i = 0;i < bodies.size();i++){
+				if(oe.getLanguages().size() > 0 && oe.getLanguages().get(i).equalsIgnoreCase("ocl")){
 					return bodies.get(i);
 				}
 			}
@@ -71,10 +71,8 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		oclComposite.setBackground(composite.getBackground());
 	}
 	protected void handleOclChanged(String oclText){
-		if(oclText.trim().length() > 0){
-			Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), getValueSpecificationFeature(), oclText);
-			getEditingDomain().getCommandStack().execute(cmd);
-		}
+		Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), getValueSpecificationFeature(), oclText);
+		getEditingDomain().getCommandStack().execute(cmd);
 	}
 	protected EReference getValueSpecificationFeature(){
 		return (EReference) getFeature();

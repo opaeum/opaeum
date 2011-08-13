@@ -40,20 +40,20 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
 	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
 	private String directoryName;
-	private Map<INakedClassifier, Set<INakedClassifier>> classDependencies=new HashMap<INakedClassifier,Set<INakedClassifier>>();
+	private Map<INakedElement, Set<INakedElement>> dependencies=new HashMap<INakedElement,Set<INakedElement>>();
 	public NakedModelWorkspaceImpl(){
 	}
 
-	public void markDependency(INakedClassifier from, INakedClassifier to){
-		Set<INakedClassifier> set = getDependentClassifiers(to);
+	public void markDependency(INakedElement from, INakedElement to){
+		Set<INakedElement> set = getDependentElements(to);
 		set.add(from);
 	}
 
-	public Set<INakedClassifier> getDependentClassifiers(INakedClassifier to){
-		Set<INakedClassifier> set = this.classDependencies.get(to);
+	public Set<INakedElement > getDependentElements(INakedElement to){
+		Set<INakedElement> set = this.dependencies.get(to);
 		if(set==null){
-			set=new HashSet<INakedClassifier>();
-			this.classDependencies.put(to, set);
+			set=new HashSet<INakedElement>();
+			this.dependencies.put(to, set);
 		}
 		return set;
 	}
@@ -175,7 +175,10 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	}
 	@Override
 	public void removeOwnedElement(INakedElement element){
+		//TODO remove all recursively from allElementsByModelId
 		this.children.remove(element);
+		this.generatingRootObjects.remove(element);
+		this.primaryRootObjects.remove(element);
 	}
 	@Override
 	public List<INakedRootObject> getGeneratingModelsOrProfiles(){

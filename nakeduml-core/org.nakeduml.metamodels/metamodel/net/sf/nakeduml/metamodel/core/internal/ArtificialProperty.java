@@ -26,10 +26,8 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 	private NakedMultiplicityImpl multiplicity;
 	private String name;
 	private boolean isOrdered;
-	private IClassifier type;
 	private INakedProperty otherEnd;
 	private boolean isInverse;
-	private MappingInfo mappingInfo;
 
 	public ArtificialProperty(INakedClassifier type) {
 		this(type.getNestingClassifier(), type);
@@ -51,9 +49,6 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		this.name=umlName;
 	}
 
-	public MappingInfo getMappingInfo() {
-		return mappingInfo;
-	}
 
 	public ArtificialProperty(INakedBehavior behavior) {
 		this(behavior.getContext(), behavior);
@@ -174,10 +169,6 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		return !isOrdered;
 	}
 
-	@Override
-	public IClassifier getType() {
-		return type;
-	}
 
 	@Override
 	public Collection<INakedConnectorEnd> getConnectorEnd() {
@@ -225,9 +216,5 @@ public class ArtificialProperty extends AbstractPropertyBridge {
 		} else {
 			return super.equals(other);
 		}
-	}
-	@Override
-	public void setType(IClassifier type){
-		this.type=type;
 	}
 }

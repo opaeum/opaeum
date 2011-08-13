@@ -11,22 +11,22 @@ import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode, TextWorkspace> implements ITransformationStep {
+public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode,TextWorkspace> implements ITransformationStep{
 	NakedUmlConfig config;
-
-	public void initialize(NakedUmlConfig config2) {
+	public void initialize(NakedUmlConfig config2){
 		this.config = config2;
 	}
-
 	@Override
-	public Collection<? extends TextOutputNode> getChildren(TextOutputNode root) {
-		if (root instanceof TextWorkspace) {
+	public Collection<? extends TextOutputNode> getChildren(TextOutputNode root){
+		if(root.shouldDelete()){
+			return Collections.emptySet();
+		}else if(root instanceof TextWorkspace){
 			return ((TextWorkspace) root).getTextProjects();
-		} else if (root instanceof TextProject) {
+		}else if(root instanceof TextProject){
 			return ((TextProject) root).getSourceFolders();
-		} else if (root instanceof TextDirectory) {
+		}else if(root instanceof TextDirectory){
 			return ((TextDirectory) root).getChildren();
-		} else {
+		}else{
 			return Collections.emptySet();
 		}
 	}

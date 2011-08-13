@@ -126,7 +126,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 			if(a instanceof INakedProperty){
 				INakedProperty np = (INakedProperty) a;
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-				if(!(np.isDerived() || np.isReadOnly() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
+				if(!(np.isDerived() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))){
 					if(np.getNakedBaseType() instanceof INakedSimpleType || np.getNakedBaseType() instanceof INakedEnumeration){
 						if(map.isMany()){
 							body.addToStatements("to." + map.getter() + "().addAll(from." + map.getter() + "())");

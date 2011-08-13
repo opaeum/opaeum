@@ -7,6 +7,7 @@ import net.sf.nakeduml.feature.MappingInfo;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
 public interface INakedElement extends IModelElement,INakedElementOwner, Serializable {
+	INakedRootObject getRootObject();
 	@Deprecated
 	//Should only be used in Octopus
 	

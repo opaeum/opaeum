@@ -1049,7 +1049,167 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections
         contributorId="org.topcased.modeler.editor.Modeler">
-        
+   			<propertySection
+		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+		         class="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
+		         id="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
+		         tab="org.nakeduml.eclipse.numlTab">
+		      <input
+		            type="org.eclipse.uml2.uml.TypedElement">
+		      </input>
+		   </propertySection>
+   			
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
+				class="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
+				tab="org.nakeduml.eclipse.numlTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
+         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
+			</propertySection>
+			<!--Property PropertySections --> 
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
+				class="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
+				tab="org.nakeduml.eclipse.numlTab"
+				afterSection="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection">
+         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
+         			class="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
+         			id="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.Property">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
+         			class="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
+         			id="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.Property">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
+         			class="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
+         			id="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.Property">
+      			</input>
+			</propertySection>
+			<!-- The Association First and Second End Property Sections  -->
+			<propertySection
+				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
+				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
+				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
+				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
+				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				class="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				class="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.FirstEndBooleanPropertiesSection"
+				class="org.nakeduml.topcased.propertysections.FirstEndBooleanPropertiesSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab"
+				afterSection="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.SecondEndBooleanPropertiesSection"
+				class="org.nakeduml.topcased.propertysections.SecondEndBooleanPropertiesSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab"
+				afterSection="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
+				<input type="org.eclipse.uml2.uml.Association"/>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.FirstEndBooleanPropertiesSection"
+         			class="org.nakeduml.topcased.propertysections.FirstEndDefaultValueSection"
+         			id="org.nakeduml.topcased.propertysections.FirstEndDefaultValueSection"
+         			tab="org.topcased.modeler.modelTab.firstEndTab">
+      			<input type="org.eclipse.uml2.uml.Association">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.SecondEndBooleanPropertiesSection"
+         			class="org.nakeduml.topcased.propertysections.SecondEndDefaultValueSection"
+         			id="org.nakeduml.topcased.propertysections.SecondEndDefaultValueSection"
+         			tab="org.topcased.modeler.modelTab.secondEndTab">
+      			<input type="org.eclipse.uml2.uml.Association">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.FirstEndDefaultValueSection"
+         			class="org.nakeduml.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			id="org.nakeduml.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			tab="org.topcased.modeler.modelTab.firstEndTab">
+      			<input type="org.eclipse.uml2.uml.Association">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.SecondEndDefaultValueSection"
+         			class="org.nakeduml.topcased.propertysections.SecondEndRedefinedPropertySection"
+         			id="org.nakeduml.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			tab="org.topcased.modeler.modelTab.secondEndTab">
+      			<input type="org.eclipse.uml2.uml.Association">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			class="org.nakeduml.topcased.propertysections.FirstEndSubsettedPropertiesSection"
+         			id="org.nakeduml.topcased.propertysections.FirstEndSubsettedPropertiesSection"
+         			tab="org.topcased.modeler.modelTab.firstEndTab">
+      			<input type="org.eclipse.uml2.uml.Association">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.nakeduml.topcased.propertysections.SecondEndRedefinedPropertySection"
+         			class="org.nakeduml.topcased.propertysections.SecondEndSubsettedPropertiesSection"
+         			id="org.nakeduml.topcased.propertysections.SecondEndSubsettedPropertiesSection"
+         			tab="org.topcased.modeler.modelTab.secondEndTab">
+      			<input type="org.eclipse.uml2.uml.Association">
+      			</input>
+			</propertySection>
+			
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
+         			id="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.Constraint">
+      			</input>
+			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.propertysections.BehaviorParametersSection"
 				class="org.nakeduml.topcased.propertysections.BehaviorParametersSection"
@@ -1132,30 +1292,12 @@
 				<input type="org.eclipse.uml2.uml.NamedElement"/>
 			</propertySection>
 			<propertySection
-		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-		         class="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
-		         id="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
-		         tab="org.nakeduml.eclipse.numlTab">
-		      <input
-		            type="org.eclipse.uml2.uml.TypedElement">
-		      </input>
-		   </propertySection>
-			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
 				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.InstanceSpecification"/>
 			</propertySection>
-   <!--propertySection
-         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationSpecificationSection"
-         id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationSpecificationSection"
-         tab="org.topcased.modeler.modelTab.specification">
-      <input
-            type="org.eclipse.uml2.uml.InstanceSpecification">
-      </input>
-   </propertySection-->
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
@@ -1169,13 +1311,6 @@
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
 				<input type="org.eclipse.uml2.uml.Slot"/>
 			</propertySection>
-			<!--propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection"
-				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-				<input type="org.eclipse.uml2.uml.NamedElement"/>
-			</propertySection-->	
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
@@ -1258,214 +1393,6 @@
 			</propertySection>
 
 
-			<!-- The Association First End Property -->
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsNavigableSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsNavigableSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndAggregationSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndAggregationSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsNavigableSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndVisibilitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndVisibilitySection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndAggregationSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndVisibilitySection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRedefinedPropertySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRedefinedPropertySection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndSubsettedPropertySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndSubsettedPropertySection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsDerivedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsDerivedSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsDerivedUnionSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsDerivedUnionSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsOrderedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsOrderedSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsUniqueSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsUniqueSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsReadOnlySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsReadOnlySection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsStaticSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndIsStaticSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-
-
-			<!-- The Association Second End Property -->
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsNavigableSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsNavigableSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndAggregationSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndAggregationSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsNavigableSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndVisibilitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndVisibilitySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndAggregationSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndVisibilitySection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRedefinedPropertySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRedefinedPropertySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndSubsettedPropertySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndSubsettedPropertySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsDerivedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsDerivedSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsDerivedUnionSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsDerivedUnionSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsOrderedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsOrderedSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsUniqueSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsUniqueSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsReadOnlySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsReadOnlySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsStaticSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndIsStaticSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndCardinalitySection">
-         		<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
-
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.AssociationIsDerivedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.AssociationIsDerivedSection"
-				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
-			</propertySection>
 			
 			<!-- The connector First end Property-->
 		
@@ -1565,59 +1492,6 @@
             type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
       </input>
    </propertySection>
-		   <propertySection
-			         afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
-			         class="org.topcased.modeler.uml.internal.properties.sections.expression.ExpressionSymbolSection"
-			         id="org.topcased.modeler.uml.internal.properties.sections.expression.ExpressionSymbolSection"
-			         tab="org.nakeduml.eclipse.numlTab">
-			    <input
-			        type="org.eclipse.uml2.uml.Expression">
-			    </input>
-   			</propertySection>
-			<propertySection
-         				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         				class="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
-         				id="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
-         				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.Property"/>
-			</propertySection>	
-		   	<propertySection
-         				afterSection="org.nakeduml.topcased.propertysections.PropertySubsettedPropertySection"
-         				class="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
-         				id="org.nakeduml.topcased.propertysections.PropertyRedefinedPropertySection"
-         				tab="org.nakeduml.eclipse.numlTab">
-				<input type="org.eclipse.uml2.uml.Property"/>
-			</propertySection>	
-			<propertySection
-				id="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
-				class="org.nakeduml.topcased.propertysections.PropertyBooleanFeaturesSection"
-				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
-         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
-			</propertySection>
-			<propertySection
-				id="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
-				class="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
-				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
-         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
-         			id="org.nakeduml.topcased.propertysections.PropertyDefaultValueSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Property">
-      			</input>
-			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
-         			class="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
-         			id="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
-         			tab="org.nakeduml.eclipse.numlTab">
-      			<input type="org.eclipse.uml2.uml.Constraint">
-      			</input>
-			</propertySection>
 		</propertySections>
 	</extension>
    

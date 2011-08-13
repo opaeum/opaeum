@@ -227,7 +227,7 @@ public class OJUtil{
 		if(withBody){
 			set.getBody().addToStatements("this." + name + "=" + name);
 			get.getBody().addToStatements("return " + name);
-			OJAnnotatedField field = new OJAnnotatedField(name,type);
+			OJAnnotatedField field = new OJAnnotatedField(name, type);
 			((OJClass) ojClass).addToFields(field);
 			return field;
 		}
@@ -254,7 +254,7 @@ public class OJUtil{
 		return null;
 	}
 	public static void addFailedConstraints(OJOperation execute){
-//		String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
+		// String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
 		execute.getOwner().addToImports("org.nakeduml.runtime.domain.FailedConstraintsException");
 		execute.addToThrows("org.nakeduml.runtime.domain.FailedConstraintsException");
 	}
@@ -264,21 +264,18 @@ public class OJUtil{
 	 * 
 	 */
 	public static boolean hasOJClass(INakedClassifier c){
-		if(c instanceof INakedClassifier){
-			INakedClassifier nc = c;
-			if(nc.getCodeGenerationStrategy().isNone()){
-				return false;
-			}else if(c instanceof INakedBehavior){
-				return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
-			}else if(c instanceof INakedAssociation){
-				return ((INakedAssociation) c).isClass();
-			}else if(c instanceof MessageStructureImpl){
-				return true;
-			}else{
-				return true;
-			}
-		}else{
+		if(c == null){
 			return false;
+		}else if(c.isMarkedForDeletion() || c.getCodeGenerationStrategy().isNone()){
+			return false;
+		}else if(c instanceof INakedBehavior){
+			return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
+		}else if(c instanceof INakedAssociation){
+			return ((INakedAssociation) c).isClass();
+		}else if(c instanceof MessageStructureImpl){
+			return true;
+		}else{
+			return true;
 		}
 	}
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniqueness){
@@ -310,7 +307,7 @@ public class OJUtil{
 		}
 	}
 	public static void addField(OJEnum ojEnum,OJConstructor constr,String name,OJPathName type){
-		OJAnnotatedOperation getter = new OJAnnotatedOperation( "get" + NameConverter.capitalize(name), type);
+		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
 		getter.getBody().addToStatements("return this." + name);
 		ojEnum.addToOperations(getter);
 		constr.addParam(name, type);
@@ -319,7 +316,7 @@ public class OJUtil{
 		ojEnum.addToFields(field);
 	}
 	public static void addParameter(OJEnumLiteral l,String name,String value){
-		OJAnnotatedField persistentName = new OJAnnotatedField(name,null);
+		OJAnnotatedField persistentName = new OJAnnotatedField(name, null);
 		persistentName.setName(name);
 		persistentName.setInitExp(value);
 		l.addToAttributeValues(persistentName);

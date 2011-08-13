@@ -90,8 +90,7 @@ public class Conformance {
         	return true;
         }
         
-        
-        if( actualType == formalType ){
+        if( actualType.equals(formalType )){
             return true; 
         } else {
             Iterator it = actualType.getGeneralizations().iterator();

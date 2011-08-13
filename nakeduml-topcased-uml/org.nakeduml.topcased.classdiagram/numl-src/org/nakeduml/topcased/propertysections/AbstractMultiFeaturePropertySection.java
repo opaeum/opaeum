@@ -1,8 +1,10 @@
 package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ocl.ecore.UnlimitedNaturalLiteralExp;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
@@ -10,6 +12,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -25,23 +28,41 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		}
 		public void widgetSelected(SelectionEvent e){
 			feature = myFeature;
-			createCommand(getEObject().eGet(myFeature), Boolean.valueOf(((Button) e.getSource()).getSelection()));
+			createCommand(getFeatureOwner().eGet(myFeature), Boolean.valueOf(((Button) e.getSource()).getSelection()));
 		}
 		public void widgetDefaultSelected(SelectionEvent e){
 		}
 	}
 	public class LiteralIntegerTextChangeListener extends TextChangeHelper{
 		private EAttribute myFeature;
+		private Text control;
 		public LiteralIntegerTextChangeListener(EAttribute feature_IsStatic){
 			this.myFeature = feature_IsStatic;
 		}
+		
+		@Override
+		public void finishNonUserChange(){
+			super.finishNonUserChange();
+		}
+		public void startListeningTo(Control control) {
+			super.startListeningForEnter(control);
+			this.control=(Text)control;
+		}
+
+
 		public void textChanged(Control control){
 			feature = myFeature;
 			try{
-				int parseInt = Integer.parseInt(((Text) control).getText());
-				createCommand(getEObject().eGet(myFeature), parseInt);
+				String text = ((Text) control).getText();
+				int parseInt;
+				if(text.contains("*")){
+					parseInt = -1;
+				}else{
+					parseInt = Integer.parseInt(text);
+				}
+				createCommand(getFeatureOwner().eGet(myFeature), parseInt);
 			}catch(Exception e){
-				createCommand(getEObject().eGet(myFeature), 0);
+				createCommand(getFeatureOwner().eGet(myFeature), 0);
 			}
 		}
 	}
@@ -60,5 +81,8 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		readOnlyData.width = width;
 		readOnlyData.top = new FormAttachment(0, 0);
 		cur.setLayoutData(readOnlyData);
+	}
+	protected Element getFeatureOwner(){
+		return (Element) getEObject();
 	}
 }

@@ -61,7 +61,7 @@ public class NakedUmlConfig{
 	}
 	public ISourceFolderStrategy getSourceFolderStrategy(){
 		try{
-			String name = props.getProperty(SOURCE_FOLDER_STRATEGY);
+			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy");
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
@@ -131,7 +131,7 @@ public class NakedUmlConfig{
 			this.props.setProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY, "net.sf.nakeduml.javageneration.composition.DefaultCompositionNodeStrategy");
 		}
 		if(!this.props.containsKey(SOURCE_FOLDER_STRATEGY)){
-			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "org.nakeduml.eclipse.starter.MavenSourceFolderStrategy");
+			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy");
 		}
 	}
 	public String getJdbcDialect(){
@@ -197,6 +197,7 @@ public class NakedUmlConfig{
 	public void store(){
 		try{
 			props.store(new FileWriter(file), "NakedUML");
+			getSourceFolderStrategy().defineSourceFolders(this);
 		}catch(IOException e){
 			throw new RuntimeException(e);
 		}

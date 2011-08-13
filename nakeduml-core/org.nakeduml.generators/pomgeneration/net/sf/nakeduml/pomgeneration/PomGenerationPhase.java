@@ -63,7 +63,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private TextWorkspace textWorkspace;
 	private NakedUmlConfig config;
 	private Map<String,DocumentRoot> rootMap = new HashMap<String,DocumentRoot>();
-	DocumentRoot parentPom;
+	private DocumentRoot parentPom;
 	private SortedSet<String> ignores = new TreeSet<String>();
 	private Collection<PomGenerationStep> features;
 	public static final String NUML_VERSION = "1.0.0.6-SNAPSHOT";
@@ -280,7 +280,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		root.getProject().getParent().setArtifactId(workspace.getIdentifier());
 		root.getProject().getParent().setVersion(config.getMavenGroupVersion());
 	}
-	private void outputToFile(DocumentRoot root){
+	public void outputToFile(DocumentRoot root){
 		try{
 			File pomFile = new File(root.eResource().getURI().toFileString());
 			if(pomFile.exists()){
@@ -376,6 +376,9 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	@Override
 	public Collection<PomGenerationStep> getSteps(){
 		return features;
+	}
+	public DocumentRoot getParentPom(){
+		return parentPom;
 	}
 	public void initializeSteps(){}
 }

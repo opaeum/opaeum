@@ -4,10 +4,7 @@ import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedProperty;
 
-import org.nakeduml.java.metamodel.OJBlock;
-import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
@@ -19,7 +16,6 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter) {
-		setter.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
 	}
 
 	@Override
@@ -41,20 +37,6 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public void buildManyToOneSetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		// remove "this" from existing reference
-		OJIfStatement ifNotNull = new OJIfStatement();
-		ifNotNull.setCondition("this." + map.umlName() + "!=null");
-		ifNotNull.getThenPart().addToStatements("this." + map.umlName() + "." + otherMap.getter() + "().remove((" + owner.getName() + ")this)");
-		setter.getBody().addToStatements(ifNotNull);
-		// add "this" to new reference
-		OJIfStatement ifParamNotNull = new OJIfStatement();
-		ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
-		ifParamNotNull.setCondition(map.umlName() + "!=null");
-		ifParamNotNull.getThenPart().addToStatements(map.umlName() + "." + otherMap.getter() + "().add((" + owner.getName() + ")this)");
-		ifParamNotNull.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
-		ifParamNotNull.setElsePart(new OJBlock());
-		ifParamNotNull.getElsePart().addToStatements("this." + map.umlName() + "=null");
-		setter.getBody().addToStatements(ifParamNotNull);
 	}
 
 	@Override
@@ -97,43 +79,10 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 	public void buildOneToManySetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
 		// Delegate to the setter of the non-inverse end which will do all
 		// the work
-		OJForStatement forEachOld = new OJForStatement();
-		forEachOld.setCollection("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">(this." + map.umlName() + ")");
-		forEachOld.setElemName("o");
-		forEachOld.setElemType(map.javaBaseTypePath());
-		forEachOld.setBody(new OJBlock());
-		forEachOld.getBody().addToStatements("o." + otherMap.setter() + "(null)");
-		setter.getBody().addToStatements(forEachOld);
-		OJForStatement forEachNew = new OJForStatement();
-		forEachNew.setCollection(map.umlName());
-		forEachNew.setElemName("o");
-		forEachNew.setElemType(map.javaBaseTypePath());
-		forEachNew.setBody(new OJBlock());
-		forEachNew.getBody().addToStatements("o." + otherMap.setter() + "((" + owner.getName() + ")this)");
-		setter.getBody().addToStatements(forEachNew);
 	}
 
 	@Override
 	public void buildManyToManySetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		// remove from existing references and at
-		OJForStatement forEach = new OJForStatement();
-		forEach.setCollection("this." + map.umlName());
-		forEach.setElemName("o");
-		forEach.setElemType(map.javaBaseTypePath());
-		OJBlock body = new OJBlock();
-		forEach.setBody(body);
-		body.addToStatements("o." + otherMap.getter() + "().remove((" + owner.getName() + ")this)");
-		setter.getBody().addToStatements(forEach);
-		OJForStatement forEachParam = new OJForStatement();
-		forEachParam.setCollection(map.umlName());
-		forEachParam.setElemName("o");
-		forEachParam.setElemType(map.javaBaseTypePath());
-		OJBlock forEachParamBody = new OJBlock();
-		forEachParam.setBody(forEachParamBody);
-		forEachParamBody.addToStatements("o." + otherMap.getter() + "().add((" + owner.getName() + ")this)");
-		setter.getBody().addToStatements(forEachParam);
-		setter.getBody().addToStatements("this." + map.umlName() + ".clear()");
-		setter.getBody().addToStatements("this." + map.umlName() + ".addAll(" + map.umlName() + ")");
 	}
 
 	@Override

@@ -35,10 +35,15 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		if(o instanceof INakedRootObject && workspace.getGeneratingModelsOrProfiles().contains(o)){
-			getErrorMap().enterCodeGeneratingModel();
+		if(!(o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements())){
+			if(o instanceof INakedRootObject && workspace.getGeneratingModelsOrProfiles().contains(o)){
+				getErrorMap().enterCodeGeneratingModel();
+			}
+			super.visitRecursively(o);
 		}
-		super.visitRecursively(o);
 		getErrorMap().exitCodeGeneratingModel();
+	}
+	protected boolean ignoreDeletedElements(){
+		return true;
 	}
 }

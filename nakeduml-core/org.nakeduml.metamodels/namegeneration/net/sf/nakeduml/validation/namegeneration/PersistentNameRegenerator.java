@@ -15,9 +15,12 @@ import net.sf.nakeduml.metamodel.name.NameWrapper;
 @StepDependency(phase = NameGenerationPhase.class, requires = { UmlNameRegenerator.class }, after = { UmlNameRegenerator.class })
 public class PersistentNameRegenerator extends AbstractPersistentNameGenerator {
 	@VisitBefore(matchSubclasses = true)
-	public void regenerateName(INakedElement me) {
-		NameWrapper pname = generateSqlName(me);
-		me.getMappingInfo().setPersistentName(pname);
-		me.getMappingInfo().setQualifiedPersistentName(generateQualifiedPersistentName(me));
+	public void regenerateName(INakedElement nakedElement) {
+		NameWrapper pname = generateSqlName(nakedElement);
+		nakedElement.getMappingInfo().setPersistentName(pname);
+		nakedElement.getMappingInfo().setQualifiedPersistentName(generateQualifiedPersistentName(nakedElement));
+		if(nakedElement.getMappingInfo().requiresPersistentRename()){
+			getAffectedElements().add(nakedElement);
+		}
 	}
 }

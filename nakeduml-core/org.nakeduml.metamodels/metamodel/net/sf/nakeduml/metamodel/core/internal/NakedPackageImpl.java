@@ -30,7 +30,6 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 	private boolean isRootPackage;
 	private List<INakedPackage> subpackages = new ArrayList<INakedPackage>();
 	private boolean isSchema;
-	private boolean isLinked;
 
 	public NakedPackageImpl() {
 		super();
@@ -48,12 +47,6 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 		} else {
 			return (INakedNameSpace) getOwnerElement();
 		}
-	}
-	public void setLinked(boolean isLinked) {
-		this.isLinked = isLinked;
-	}
-	public boolean isLinked() {
-		return isLinked;
 	}
 
 	/**

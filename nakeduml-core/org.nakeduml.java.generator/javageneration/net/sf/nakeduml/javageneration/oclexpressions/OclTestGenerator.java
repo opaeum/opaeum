@@ -21,9 +21,11 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-	AttributeExpressionGenerator.class,ConstrainedImplementor.class, InvariantsGenerator.class
+		AttributeExpressionGenerator.class,ConstrainedImplementor.class,AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,InvariantsGenerator.class,
+		ConstrainedImplementor.class
 },after = {
-	AttributeExpressionGenerator.class,ConstrainedImplementor.class, InvariantsGenerator.class
+		AttributeExpressionGenerator.class,ConstrainedImplementor.class,AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,InvariantsGenerator.class,
+		ConstrainedImplementor.class
 })
 public class OclTestGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore

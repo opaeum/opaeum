@@ -64,5 +64,8 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 		result.add(currentRootObject);
 		return result;
 	}
+	public final void setTransformationContext(TransformationContext c){
+		this.transformationContext = c;
+	}
 	
 }

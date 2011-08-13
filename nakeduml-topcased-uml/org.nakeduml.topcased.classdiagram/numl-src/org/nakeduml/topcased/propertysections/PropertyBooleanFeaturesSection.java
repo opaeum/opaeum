@@ -3,6 +3,7 @@ package org.nakeduml.topcased.propertysections;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.nakeduml.topcased.propertysections.AbstractMultiFeaturePropertySection.BooleanSelectionListener;
@@ -18,7 +19,10 @@ public class PropertyBooleanFeaturesSection extends AbstractMultiFeatureProperty
 		layout(isStatic, isDerived, 120);
 		layout(isDerived, isDerivedUnion, 120);
 	}
-	private Property getProperty(){
+	protected Element getFeatureOwner(){
+		return getProperty();
+	}
+	protected Property getProperty(){
 		return (Property) getEObject();
 	}
 	@Override

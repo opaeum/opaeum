@@ -26,6 +26,8 @@ import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.nakeduml.topcased.classdiagram.edit.BusinessComponentEditPart;
 import org.nakeduml.topcased.classdiagram.edit.BusinessRoleEditPart;
 import org.nakeduml.topcased.classdiagram.edit.BusinessServiceEditPart;
+import org.nakeduml.topcased.classdiagram.edit.FixedAssociationClassEdgeCreationEditPolicy;
+import org.nakeduml.topcased.classdiagram.edit.FixedAssociationEdgeCreationEditPolicy;
 import org.nakeduml.topcased.classdiagram.figure.Gradient;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
@@ -50,6 +52,7 @@ import org.topcased.modeler.uml.alldiagram.edit.PackageImportEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.PackageMergeEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.UsageEditPart;
 import org.topcased.modeler.uml.alldiagram.figures.PackageFigure;
+import org.topcased.modeler.uml.classdiagram.ClassEditPolicyConstants;
 import org.topcased.modeler.uml.classdiagram.ClassSimpleObjectConstants;
 import org.topcased.modeler.uml.classdiagram.edit.AnyReceiveEventEditPart;
 import org.topcased.modeler.uml.classdiagram.edit.AssociationClassEditPart;
@@ -194,18 +197,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				}
 				return new EListEditPart(node, features);
 			}else if(StereotypesHelper.hasKeyword(object, StereotypeNames.BUSINESS_ROLE)){
-				return new BusinessRoleEditPart(node){
-					@Override
-					protected IFigure createFigure(){
-						return new ClassFigure(){
-							@Override
-							public void paintChildren(Graphics graphics){
-								Gradient.paintChildren(graphics, this);
-								super.paintChildren(graphics);
-							}
-						};
-					}
-				};
+				return new BusinessRoleEditPart(node);
 			}else{
 				return createClassEditPart();
 			}
@@ -222,6 +214,11 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 						}
 					};
 				}
+				protected void createEditPolicies(){
+					super.createEditPolicies();
+					installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
+					installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+				}
 			};
 		}
 		public EditPart caseInterface(org.eclipse.uml2.uml.Interface object){
@@ -232,7 +229,13 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				if(StereotypesHelper.hasKeyword(object, StereotypeNames.BUSINESS_SERVICE)){
 					return new BusinessServiceEditPart(node);
 				}else{
-					return new InterfaceEditPart(node);
+					return new InterfaceEditPart(node){
+						protected void createEditPolicies(){
+							super.createEditPolicies();
+							installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
+							installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+						}
+					};
 				}
 			}
 		}
@@ -242,7 +245,13 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				int featureID = Integer.parseInt(feature);
 				return new EListEditPart(node, object.eClass().getEStructuralFeature(featureID));
 			}else{
-				return new DataTypeEditPart(node);
+				return new DataTypeEditPart(node){
+					protected void createEditPolicies(){
+						super.createEditPolicies();
+						installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
+						installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+					}
+				};
 			}
 		}
 		public EditPart caseOperation(org.eclipse.uml2.uml.Operation object){
@@ -293,8 +302,16 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 		public EditPart caseEnumeration(org.eclipse.uml2.uml.Enumeration object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
-				int featureID = Integer.parseInt(feature);
-				return new EListEditPart(node, object.eClass().getEStructuralFeature(featureID));
+				EStructuralFeature[] features = Utils.getEStructuralFeatures(feature, object.eClass());
+				if(features.length == 1){
+					// add a customized PropertyEListEditPart to display
+					// Properties and filtering those associated with an
+					// Association
+					if(UMLPackage.DATA_TYPE__OWNED_ATTRIBUTE == features[0].getFeatureID()){
+						return new PropertyEListEditPart(node, features[0]);
+					}
+				}
+				return new EListEditPart(node, features);
 			}else{
 				return new EnumerationEditPart(node){
 					@Override
@@ -306,6 +323,11 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 								super.paintChildren(graphics);
 							}
 						};
+					}
+					protected void createEditPolicies(){
+						super.createEditPolicies();
+						installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
+						installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
 					}
 				};
 			}
@@ -336,7 +358,13 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				}
 				return new EListEditPart(node, features);
 			}else{
-				return new ClassFromAssociationClassEditPart(node);
+				return new ClassFromAssociationClassEditPart(node){
+					protected void createEditPolicies(){
+						super.createEditPolicies();
+						installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
+						installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+					}
+				};
 			}
 		}
 		public EditPart caseConstraint(org.eclipse.uml2.uml.Constraint object){
@@ -365,7 +393,6 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 							}
 						};
 					}
-					
 				};
 			}
 		}
@@ -530,6 +557,11 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				@Override
 				protected IFigure createFigure(){
 					return new NakedAssociationFigure();
+				}
+				protected void createEditPolicies(){
+					super.createEditPolicies();
+					installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
+					installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
 				}
 			};
 		}

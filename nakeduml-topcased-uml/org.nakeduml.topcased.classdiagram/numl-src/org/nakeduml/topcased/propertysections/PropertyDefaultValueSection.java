@@ -15,8 +15,8 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	protected void handleModelChanged(Notification msg){
 		super.handleModelChanged(msg);
 		Object notifier = msg.getNotifier();
-		if(notifier.equals(getEObject())){
-			if(msg.getFeatureID(getEObject().getClass()) == UMLPackage.eINSTANCE.getProperty_IsDerived().getFeatureID()){
+		if(notifier.equals(getProperty())){
+			if(msg.getFeatureID(getProperty().getClass()) == UMLPackage.eINSTANCE.getProperty_IsDerived().getFeatureID()){
 				label.setText(getLabelText());
 			}
 		}
@@ -30,10 +30,13 @@ public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection
 	}
 	
 	public Property getProperty(){
-		return (Property) getEObject();
+		return getProperty(getEObject());
 	}
 	protected OpaqueExpression getExpression(EObject e){
-		return (OpaqueExpression) ((Property) e).getDefaultValue();
+		return (OpaqueExpression) getProperty(e).getDefaultValue();
+	}
+	protected Property getProperty(EObject e){
+		return (Property) e;
 	}
 	@Override
 	protected NamedElement getOwner(){

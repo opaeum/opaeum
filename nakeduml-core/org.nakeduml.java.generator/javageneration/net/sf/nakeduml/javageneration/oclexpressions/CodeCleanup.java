@@ -24,7 +24,7 @@ import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.OJStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {UtilCreator.class})
 public class CodeCleanup extends AbstractJavaProducingVisitor{
 	@VisitAfter
 	public void visitModel(INakedModel p){

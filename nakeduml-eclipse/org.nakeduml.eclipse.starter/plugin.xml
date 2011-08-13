@@ -50,7 +50,7 @@
  <extension
        point="org.eclipse.ui.startup">
     <startup
-          class="org.nakeduml.eclipse.starter.JavaSourceSynchronizer"></startup>
+          class="org.nakeduml.eclipse.starter.JavaTransformationProcessManager"></startup>
  </extension>
  <extension
        id="lkjl"

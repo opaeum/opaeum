@@ -35,9 +35,6 @@ public class MessageRetryer{
 		long delay = Math.round(Math.random() * 20000);// Randomly spread delay to minimise risk of concurrency
 		timerService.createTimer(new Date(System.currentTimeMillis() + delay), new PayloadToResend(destination, payload));
 	}
-	public static void main(String[] args){
-		System.out.println(Math.random());
-	}
 	@Timeout
 	public void redeliver(Timer t){
 		PayloadToResend p = (PayloadToResend) t.getInfo();

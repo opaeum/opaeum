@@ -49,7 +49,7 @@ import org.nakeduml.runtime.domain.HibernateEntity;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
 },after = {
-	JpaAnnotator.class,UtilCreator.class
+		JpaAnnotator.class,UtilCreator.class
 },before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true,match = {
@@ -114,7 +114,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
 		INakedProperty f = map.getProperty();
-		if(isPersistent(owner) && !f.isDerived() && !(f.getAssociation() instanceof INakedAssociationClass)){
+		if(isPersistent(owner) && !f.isDerived() && !map.isStatic()){
 			if(map.isOne()){
 				mapXToOne(owner, map);
 			}else{
@@ -130,9 +130,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 				if(f.getNakedBaseType() instanceof INakedEnumeration){
 					HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
-					implementManyForValueTypes(f, map, field);
-				}else if(f.getNakedBaseType() instanceof INakedSimpleType){
-					implementManyForValueTypes(f, map, field);
 				}else if(isPersistent(f.getNakedBaseType())){
 					HibernateUtil.applyFilter(field, HibernateUtil.getHibernateDialect(this.config));
 				}else{
@@ -204,24 +201,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		// OJAnnotatedClass ojType=findJavaClass(f.getBaseType());
 		// ojType.addAnnotation(>???);
 	}
-	private void implementManyForValueTypes(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
-		OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
-		OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement", OJUtil.classifierPathname(f.getNakedBaseType()));
-		collectionOfElements.putAttribute(targetElement);
-		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
-		collectionOfElements.putAttribute(lazy);
-		field.addAnnotationIfNew(collectionOfElements);
-		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
-		INakedElement umlOwner = f.getOwner();
-		String tableName = umlOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
-		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
-		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
-		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", new Boolean(map.isOneToOne())));
-		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", umlOwner.getMappingInfo().getPersistentName().toString() + "_id"));
-		joinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
-		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
-		field.addAnnotationIfNew(joinTable);
-	}
 	@VisitBefore
 	public void visitModel(INakedModel p){
 		OJClass stdLib = UtilityCreator.getUtilPack().findClass(new OJPathName("Stdlib"));
@@ -282,7 +261,14 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 						OJIfStatement ifParamNotNull = (OJIfStatement) s;
 						ifParamNotNull.getThenPart().addToStatements("setDeletedOn(Stdlib.FUTURE)");
 						ifParamNotNull.setElsePart(new OJBlock());
-						ifParamNotNull.getElsePart().addToStatements("setDeletedOn(new Date())");
+						OJOperation markDeleted = OJUtil.findOperation(ojOwner, "markDeleted");
+						if(markDeleted != null){
+							ifParamNotNull.getElsePart().addToStatements("markDeleted()");
+						}else{
+							ifParamNotNull.getElsePart().addToStatements("setDeletedOn(new Date())");
+							
+						}
+
 					}
 				}
 			}

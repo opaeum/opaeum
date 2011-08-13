@@ -1,12 +1,9 @@
 package org.nakeduml.eclipse.starter;
 
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -14,15 +11,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -44,7 +40,9 @@ public class RecompileModelDirectoryAction implements IObjectActionDelegate{
 						currentContext.loadDirectory(new SubProgressMonitor(monitor, 10));
 					}
 					currentContext.prepareDirectoryTransformation();
-					TransformationProcess p = JavaSourceSynchronizer.getTransformationProcessFor(folder);
+					TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
+					p.removeModel(OJPackage.class);
+					p.removeModel(TextWorkspace.class);
 					monitor.subTask("Generating Java Code");
 					SubProgressMonitor monitor2 = new SubProgressMonitor(monitor, 20);
 					monitor2.beginTask("", p.getPhases().size()+4);//TODO get actual number of Integration Phases

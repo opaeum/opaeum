@@ -216,4 +216,10 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	public void markForDeletion(){
 		this.markedForDeletion = true;
 	}
+	public INakedRootObject getRootObject(){
+		if(getOwnerElement() instanceof INakedElement){
+			return ((INakedElement)getOwnerElement()).getRootObject();
+		}
+		return null;
+	}
 }

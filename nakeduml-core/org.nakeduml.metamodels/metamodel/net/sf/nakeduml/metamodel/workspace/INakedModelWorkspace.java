@@ -19,7 +19,7 @@ import nl.klasse.octopus.oclengine.IOclEngine;
 
 public interface INakedModelWorkspace extends INakedElementOwner {
 	ErrorMap getErrorMap();
-	void markDependency(INakedClassifier from, INakedClassifier to);
+	void markDependency(INakedElement from, INakedElement to);
 		
 	void putModelElement(INakedElement mw);
 
@@ -65,6 +65,6 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 	String getIdentifier();
 
 	Collection<INakedRootObject> getPrimaryRootObjects();
-	Set<INakedClassifier> getDependentClassifiers(INakedClassifier e);
+	Set<INakedElement> getDependentElements(INakedElement e);
 
 }

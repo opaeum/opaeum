@@ -25,9 +25,6 @@ public class NameConverter{
 		}
 		return sb.toString();
 	}
-	public static void main(String[] args){
-		System.out.println(toUnderscoreStyle("_name"));
-	}
 	public static String toUnderscoreStyle(String name){
 		if(name == null){
 			return null;

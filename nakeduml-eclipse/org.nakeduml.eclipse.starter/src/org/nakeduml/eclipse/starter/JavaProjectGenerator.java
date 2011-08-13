@@ -1,13 +1,18 @@
 package org.nakeduml.eclipse.starter;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
+import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -69,7 +74,11 @@ public final class JavaProjectGenerator extends Job{
 					createSourceFolders.worked(1);
 				}
 				createSourceFolders.done();
-				if(JavaGeneratingListener.hasNewJavaSourceFolders(workspace, tws)){
+				if(JavaSourceSynchronizer.hasNewJavaSourceFolders(workspace, tws)){
+					PomGenerationPhase pgp=process.getPhase(PomGenerationPhase.class);
+					pgp.getParentPom().getProject().getModules().getModule().clear();
+					pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
+					pgp.outputToFile(pgp.getParentPom());
 					SubProgressMonitor mvn = new SubProgressMonitor(monitor, 50);
 					mvn.beginTask("", 5);
 					monitor.subTask("Setting up Maven Dependencies");
@@ -96,5 +105,21 @@ public final class JavaProjectGenerator extends Job{
 			monitor.done();
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
+	}
+	private Collection<? extends String> determineMavenModules(){
+		Collection<String> result=new ArrayList<String>();
+		for(IProject iProject:workspace.getProjects()){
+			File dir = iProject.getLocation().toFile();
+			try{
+				if(this.cfg.getOutputRoot().getCanonicalPath().equals(dir.getParentFile().getCanonicalPath())){
+					if(Arrays.asList(dir.list()).contains("pom.xml")){
+						result.add(dir.getName());
+					}
+				}
+			}catch(IOException e){
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
 	}
 }

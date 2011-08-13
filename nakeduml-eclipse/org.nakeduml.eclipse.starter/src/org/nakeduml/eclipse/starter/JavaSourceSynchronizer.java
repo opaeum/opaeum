@@ -1,124 +1,181 @@
 package org.nakeduml.eclipse.starter;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
-import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
-import net.sf.nakeduml.feature.ITransformationStep;
-import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.emf.workspace.UmlElementCache.NamespaceRenameRequest;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
-import net.sf.nakeduml.javageneration.hibernate.HibernatePackageAnnotator;
-import net.sf.nakeduml.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
+import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextOutputNode;
+import net.sf.nakeduml.textmetamodel.TextProject;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.ui.refactoring.RenameSupport;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IStartup;
-import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
-import org.nakeduml.generation.features.BpmUsingJbpm5;
-import org.nakeduml.generation.features.ExtendedCompositionSemantics;
-import org.nakeduml.generation.features.OclExpressionExecution;
-import org.nakeduml.generation.features.PersistenceUsingHibernate;
+import org.eclipse.swt.widgets.Shell;
+import org.nakeduml.topcased.uml.editor.NakedUmlContextListener;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
-import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
-import org.nakeduml.uml2uim.ModelCopyStep;
 
-public class JavaSourceSynchronizer implements IStartup,Runnable{
-	public static TransformationProcess getCurrentTransformationProcess(){
-		return currentTransformationProcess;
-	}
-	private static Map<NakedUmlEclipseContext,TransformationProcess> processes = Collections.synchronizedMap(new WeakHashMap<NakedUmlEclipseContext,TransformationProcess>());
-	private static TransformationProcess currentTransformationProcess;
-	public JavaSourceSynchronizer(){
+public final class JavaSourceSynchronizer implements NakedUmlContextListener{
+	private final IWorkspaceRoot workspace;
+	NakedUmlEclipseContext context;
+	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
+	private TransformationProcess process;
+	private IJavaModel javaWorkspace;
+	public JavaSourceSynchronizer(NakedUmlEclipseContext ne,TransformationProcess process){
+		this.process = process;
+		this.workspace = ResourcesPlugin.getWorkspace().getRoot();
+		this.eclipseGenerator.initialize(workspace, ne.getUmlElementCache().getConfig());
+		javaWorkspace = JavaCore.create(workspace);
+		this.context = ne;
 	}
 	@Override
-	public void run(){
+	public void onSave(IProgressMonitor monitor){
+		if(context.isOpen()){
+			process.replaceModel(context.getCurrentEmfWorkspace());
+			renamePackages(monitor);
+			synchronizeClasses(monitor);
+		}
+	}
+	public static boolean hasNewJavaSourceFolders(IWorkspaceRoot workspace,TextWorkspace tws){
 		try{
-			// Continuously associate new contexts with transformation processes
-			NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
-			if(currentContext != null && currentContext.getUmlElementCache()!=null && currentContext.getUmlElementCache().getNakedWorkspace()!=null){
-				getTransformationProcess(currentContext);
+			boolean result = false;
+			for(TextProject textProject:tws.getTextProjects()){
+				IProject project = workspace.getProject(textProject.getName());
+				if(!project.exists() || !project.hasNature(JavaCore.NATURE_ID)){
+					result = true;
+					break;
+				}else{
+					if(hasNewSourceFolder(workspace, textProject)){
+						result = true;
+						break;
+					}
+				}
 			}
-		}catch(Throwable e){
+			return result;
+		}catch(Exception e){
 			e.printStackTrace();
-//			Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
-		}finally{
-			try{
-				Display.getDefault().timerExec(1000, this);
-			}catch(Throwable e){
-				e.printStackTrace();
-//				Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
+			return false;
+		}
+	}
+	public static boolean hasNewSourceFolder(IWorkspaceRoot workspace,TextProject textProject) throws JavaModelException{
+		boolean result = false;
+		IJavaModel javaModel = JavaCore.create(workspace);
+		IJavaProject javaProject = javaModel.getJavaProject(textProject.getName());
+		for(SourceFolder sourceFolder:textProject.getSourceFolders()){
+			if(!sourceFolderExistsIn(javaProject, sourceFolder)){
+				result = true;
+				break;
 			}
 		}
+		return result;
 	}
-	private static TransformationProcess getTransformationProcess(final NakedUmlEclipseContext ne){
-		TransformationProcess process = processes.get(ne);
-		if(process == null){
-			process = new TransformationProcess();
-			//Load classes for config
-			NakedUmlEclipsePlugin.getDefault();
-			NakedUmlConfig cfg = ne.getUmlElementCache().getConfig();
-			IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
-			cfg.setOutputRoot(new File(workspace.getLocation().toFile(), cfg.getWorkspaceIdentifier()));
-			ne.addContextListener(new JavaGeneratingListener(ne, workspace, process));
-			mapAdditionalOutputRoots(cfg);
-			Set<Class<? extends ITransformationStep>> steps = getAllSteps();
-			steps.addAll(cfg.getAdditionalTransformationSteps());
-			process.initialize(cfg, steps);
-			process.replaceModel(ne.getUmlElementCache().getNakedWorkspace());
-			process.replaceModel(ne.getUmlElementCache().getCurrentEmfWorkspace());
-			processes.put(ne, process);
-		}
-		currentTransformationProcess=process;
-		return process;
-	}
-	private static Set<Class<? extends ITransformationStep>> getAllSteps(){
-		Set<Class<? extends ITransformationStep>> basicIntegrationSteps = getBasicIntegrationSteps();
-//		basicIntegrationSteps.add(GeneratorGenerator.class);
-//		basicIntegrationSteps.add(GeneratorPomStep.class);
-		basicIntegrationSteps.addAll(getBasicSteps());
-		return basicIntegrationSteps;
-	}
-	private static void mapAdditionalOutputRoots(NakedUmlConfig cfg){
-		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
-		if(cfg.getOutputRoot().exists()){
-			for(File file:cfg.getOutputRoot().listFiles()){
-				if(file.getName().equals(".project") || file.getName().equals(".classpath")){
-					file.delete();
+	private static boolean sourceFolderExistsIn(IJavaProject javaProject,SourceFolder sourceFolder) throws JavaModelException{
+		boolean hasSourceFolder = false;
+		for(IPackageFragmentRoot pfr:javaProject.getPackageFragmentRoots()){
+			IResource resource = pfr.getResource();
+			if(resource != null){
+				IPath projectRelativePath = resource.getProjectRelativePath();
+				String path1 = projectRelativePath.toString();
+				String path2 = sourceFolder.getRelativePath();
+				if(!pfr.isArchive() && path1.equals(path2)){
+					hasSourceFolder = true;
 				}
 			}
 		}
-		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
+		return hasSourceFolder;
 	}
-	protected static Set<Class<? extends ITransformationStep>> toSet(Class<? extends ITransformationStep>...classes){
-		return new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(classes));
+	private void renamePackages(IProgressMonitor monitor){
+		monitor = new SubProgressMonitor(monitor, 10);
+		Set<NamespaceRenameRequest> renamedNamespaces2 = context.getUmlElementCache().getRenamedNamespaces();
+		monitor.beginTask("Renaming Packages", renamedNamespaces2.size());
+		for(NamespaceRenameRequest rn:renamedNamespaces2){
+			renamePackages(rn, monitor);
+			monitor.worked(1);
+		}
+		context.getUmlElementCache().clearRenamedNamespaces();
+		monitor.done();
 	}
-	public static Set<Class<? extends ITransformationStep>> getBasicSteps(){
-		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmUsingJbpm5.class, PersistenceUsingHibernate.class);
-		result.addAll(NakedUmlEclipsePlugin.getDefault().getTransformationSteps());
-		return result;
+	private void synchronizeClasses(IProgressMonitor monitor){
+		try{
+			Set<INakedNameSpace> clss = context.getUmlElementCache().getModifiedClasses();
+			if(clss.size() > 0){
+				SubProgressMonitor childMonitor = new SubProgressMonitor(monitor, 10);
+				childMonitor.beginTask("Generating Java", 1);
+				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class);
+				childMonitor.done();
+				childMonitor = new SubProgressMonitor(monitor, 10);
+				childMonitor.beginTask("Writing files", processElements.size());
+				TextWorkspace tws = process.findModel(TextWorkspace.class);
+				if(hasNewJavaSourceFolders(workspace, tws)){
+					process.executePhase(PomGenerationPhase.class, false);
+					new JavaProjectGenerator(context.getUmlElementCache().getConfig(), process, workspace, false).schedule();
+				}
+				for(Object object:processElements){
+					childMonitor.worked(1);
+					if(object instanceof TextOutputNode){
+						TextOutputNode txt = (TextOutputNode) object;
+						eclipseGenerator.visitUpFirst(txt);
+					}
+				}
+				childMonitor.done();
+				context.getUmlElementCache().clearModifiedClass();
+			}
+		}finally{
+			monitor.done();
+		}
+	}
+	private void renamePackages(NamespaceRenameRequest rn,IProgressMonitor monitor){
+		try{
+			for(IJavaProject jp:javaWorkspace.getJavaProjects()){
+				for(IPackageFragmentRoot pfr:jp.getPackageFragmentRoots()){
+					for(IJavaElement iJavaElement:pfr.getChildren()){
+						if(iJavaElement instanceof IPackageFragment){
+							IPackageFragment childPf = (IPackageFragment) iJavaElement;
+							if(childPf.getElementName().contains(rn.getOldName())){
+								String newName = childPf.getElementName().replaceAll(rn.getOldName(), rn.getNewName());
+								rename(childPf, newName);
+							}
+						}
+					}
+				}
+			}
+		}catch(JavaModelException e){
+			Activator.getDefault().getLog().log(new Status(Status.ERROR, Activator.PLUGIN_ID, e.getMessage(), e));
+		}
+	}
+	private void rename(IPackageFragment childPf,String newName){
+		try{
+			RenameSupport rs = RenameSupport.create(childPf, newName, RenameSupport.UPDATE_REFERENCES);
+			Shell shell = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+			rs.perform(shell, Activator.getDefault().getWorkbench().getActiveWorkbenchWindow());
+			// childPf.rename(newName, true, null);
+		}catch(Exception e){
+			Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
+		}
 	}
 	@Override
-	public void earlyStartup(){
-		UmlElementCache.schedule(new Runnable(){
-			@Override
-			public void run(){
-				Display.getDefault().syncExec(JavaSourceSynchronizer.this);
-			}
-		}, 5000);
-	}
-	public static Set<Class<? extends ITransformationStep>> getBasicIntegrationSteps(){
-		return toSet(HibernateConfigGenerator.class, HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class);
-	}
-	public static TransformationProcess getTransformationProcessFor(IContainer folder){
-		return getTransformationProcess(NakedUmlEditor.getNakedUmlEclipseContextFor(folder));
+	public void onClose(boolean save){
 	}
 }

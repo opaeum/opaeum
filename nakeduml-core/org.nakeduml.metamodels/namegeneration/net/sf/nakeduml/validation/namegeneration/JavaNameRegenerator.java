@@ -26,6 +26,9 @@ public class JavaNameRegenerator extends AbstractJavaNameGenerator{
 		}else if(nakedElement instanceof INakedEmbeddedTask && ((INakedEmbeddedTask) nakedElement).getMessageStructure() != null){
 			updateMessageStructureJavaName(((INakedEmbeddedTask) nakedElement).getMessageStructure());
 		}
+		if(nakedElement.getMappingInfo().requiresJavaRename()){
+			getAffectedElements().add(nakedElement);
+		}
 	}
 	private  void updateMessageStructureJavaName(INakedMessageStructure msg){
 		if(!(msg instanceof INakedBehavior)){

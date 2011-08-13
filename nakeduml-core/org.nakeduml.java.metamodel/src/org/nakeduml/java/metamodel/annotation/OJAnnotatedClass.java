@@ -240,5 +240,9 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 		for (OJOperation ojOperation : operations) {
 			ojOperation.renameAll(renamePathNames, newName);
 		}
+	
+	}
+	public String toString(){
+		return getPathName().toString();
 	}
 }

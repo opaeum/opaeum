@@ -18,13 +18,23 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.Transition;
+import org.eclipse.uml2.uml.Trigger;
 
 @PhaseDependency(before = {
 	LinkagePhase.class
 })
-public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf,Element>{
+public class EmfExtractionPhase implements TransformationPhase<AbstractExtractorFromEmf,EObject>{
 	@InputModel(implementationClass = NakedModelWorkspaceImpl.class)
 	private INakedModelWorkspace modelWorkspace;
 	@InputModel
@@ -35,31 +45,21 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return (INakedPackage) modelWorkspace.getModelElement(emfWorkspace.getId(emfModel));
 	}
 	@Override
-	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
+	public Collection<?> processElements(TransformationContext context,Collection<EObject> elements){
 		Collection<INakedElement> result = new HashSet<INakedElement>();
-		Set<Element> elementsToProcess = filterChildrenOut(elements);
-		for(Element element:elementsToProcess){
-			for(AbstractExtractorFromEmf v:extractors){
+		for(AbstractExtractorFromEmf v:extractors){
+			for(Element element:filterChildrenOut(elements)){
 				v.visitRecursively((Element) element);
+				result.add(modelWorkspace.getModelElement(emfWorkspace.getId((Element) element)));
 			}
-			result.add(modelWorkspace.getModelElement(emfWorkspace.getId((Element) element)));
+			Set<INakedElement> affectedElements = v.getAffectedElements();
+			result.addAll(affectedElements);
 		}
 		return result;
 	}
-	private Set<Element> filterChildrenOut(Collection<Element> elements){
-		Set<Element> elementsToProcess = new HashSet<Element>();
-		outer:for(Element element1:elements){
-			for(Element element2:elements){
-				if(element2.eContents().contains(element1)){
-					continue outer;
-				}
-			}
-			elementsToProcess.add(element1);
-		}
-		return elementsToProcess;
-	}
 	@Override
 	public void execute(TransformationContext context){
+		modelWorkspace.clearGeneratingModelOrProfiles();
 		for(AbstractExtractorFromEmf v:extractors){
 			v.startVisiting(emfWorkspace);
 		}
@@ -72,14 +72,12 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractExtractorFromEmf> features){
-		this.config=config;
+		this.config = config;
 		this.extractors = features;
-		
 	}
 	public void initializeSteps(){
 		emfWorkspace.setMappingInfo(config.getWorkspaceMappingInfo());
 		modelWorkspace.setWorkspaceMappingInfo(config.getWorkspaceMappingInfo());
-		modelWorkspace.clearGeneratingModelOrProfiles();
 		modelWorkspace.setName(emfWorkspace.getName());
 		modelWorkspace.setIdentifier(emfWorkspace.getIdentifier());
 		for(AbstractExtractorFromEmf v:extractors){
@@ -89,5 +87,47 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	@Override
 	public Collection<AbstractExtractorFromEmf> getSteps(){
 		return this.extractors;
+	}
+	private Set<Element> filterChildrenOut(Collection<EObject> elements){
+		Set<Element> elementsToProcess = new HashSet<Element>();
+		outer:for(EObject element1:elements){
+			EObject o = element1;
+			while(!(canBeProcessedIndividually(o) || o == null)){
+				o = getContainer(o);
+			}
+			if(o != null){
+				for(EObject element2:elements){
+					if(contains(element2, o)){
+						// skip - parent will be processed
+						continue outer;
+					}
+				}
+				elementsToProcess.add((Element) o);
+			}
+		}
+		return elementsToProcess;
+	}
+	private boolean contains(EObject arg0,EObject arg1){
+		if(arg1.eContainer() == null){
+			return false;
+		}else if(arg0.equals(arg1.eContainer())){
+			return true;
+		}else{
+			return contains(arg0, arg1.eContainer());
+		}
+	}
+	protected EObject getContainer(EObject o){
+		if(o instanceof Event && o.eContainer() instanceof org.eclipse.uml2.uml.Package){
+			for(EObject eObject:StereotypesHelper.getNumlAnnotation((Element) o).getReferences()){
+				if(eObject instanceof Trigger){
+					return eObject;
+				}
+			}
+		}
+		return o.eContainer();
+	}
+	private boolean canBeProcessedIndividually(EObject e){
+		return e instanceof Action || e instanceof Property || e instanceof Operation || e instanceof Classifier || e instanceof State || e instanceof Transition
+				|| e instanceof ActivityEdge || e instanceof Package;
 	}
 }

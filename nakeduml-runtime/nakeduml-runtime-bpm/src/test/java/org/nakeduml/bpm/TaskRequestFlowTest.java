@@ -47,6 +47,5 @@ public class TaskRequestFlowTest{
 		Assert.assertTrue(tr.getActive_InProgress());
 		tr.complete();
 		Assert.assertTrue(tr.getCompleted());
-		System.out.println(tr.getInnermostNonParallelStep());
 	}
 }

@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import nl.klasse.octopus.model.IImportedElement;
 
 public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootObject {
+
 	private String fileName;
 
 
@@ -43,5 +44,9 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 				}
 			}
 		}
+	}
+	@Override
+	public INakedRootObject getRootObject(){
+		return this;
 	}
 }

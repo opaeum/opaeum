@@ -21,10 +21,6 @@ public enum TimeUnit implements Serializable, IEnum {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(BUSINESS_DAY);
-	}
-
 	public String getName() {
 		return this.name;
 	}

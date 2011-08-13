@@ -72,7 +72,7 @@ public class InverseCalculator extends AbstractModelElementLinker {
 						inverse = p.getTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE);
 						inverse=!inverse;
 					} else {
-						getErrorMap().putError(p, CoreValidationRule.INVERSE, "Could not determine if " + p.getPathName() + "::" + " is inverse");
+//						getErrorMap().putError(p, CoreValidationRule.INVERSE, "Could not determine if " + p.getPathName() + "::" + " is inverse");
 						inverse = p.getAssociation().getEnd2().equals(p);
 					}
 				} else {

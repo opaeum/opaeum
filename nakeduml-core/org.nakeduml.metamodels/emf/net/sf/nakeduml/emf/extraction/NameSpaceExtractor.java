@@ -84,6 +84,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	 */
 	@VisitBefore
 	public void visitProfile(Profile p,NakedProfileImpl np){
+		p.getName();
+		
 		// Different versions of the same profile may occur
 		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
 		populateTypesMappedIn(p);
@@ -138,7 +140,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(npt, p);
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
-		if(e instanceof Stereotype || e instanceof Component || e instanceof Behavior || e instanceof Collaboration || e instanceof PrimitiveType){
+		if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior || e instanceof Collaboration || e instanceof PrimitiveType){
 			return super.createElementFor(e, peerClass);
 		}else if(e instanceof Class){
 			Class c = (Class) e;

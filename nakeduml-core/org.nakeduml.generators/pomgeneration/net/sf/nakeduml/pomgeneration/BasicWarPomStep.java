@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
@@ -29,12 +30,7 @@ public class BasicWarPomStep extends PomGenerationStep{
 	@Override
 	public Dependency[] getDependencies(){
 		List<Dependency> dependencies = new ArrayList<Dependency>();
-		Dependency integrated = POMFactory.eINSTANCE.createDependency();
-		integrated.setGroupId(config.getMavenGroupId());
-		integrated.setArtifactId(workspace.getIdentifier() + "-integrated");
-		integrated.setVersion(config.getMavenGroupVersion());
-		integrated.setScope("compile");
-		dependencies.add(integrated);
+		super.addDependencyToRootObject(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, model, dependencies);
 		addJbossJeeSpec(dependencies);
 		addCdi(dependencies);
 		addSeamServlet(dependencies);

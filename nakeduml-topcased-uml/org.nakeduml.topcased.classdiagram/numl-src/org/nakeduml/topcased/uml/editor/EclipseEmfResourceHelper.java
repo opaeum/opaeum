@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Element;
+import org.topcased.modeler.utils.ResourceUtils;
 
 public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 	@Override
@@ -44,9 +45,12 @@ public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 			return ((EmfWorkspace) umlElement).getName();
 		}else{
 			String uid = null;
-			EAnnotation ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
-			if(ann == null && umlElement instanceof Element){
-				ann = ((Element) umlElement).createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+			EAnnotation ann = null;
+			if(!ResourceUtils.isReadOnly(umlElement.eResource())){
+				ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+				if(ann == null && umlElement instanceof Element){
+					ann = ((Element) umlElement).createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+				}
 			}
 			if(ann == null){
 				// not in editable resource,but the filename and fragment would be stable and unique

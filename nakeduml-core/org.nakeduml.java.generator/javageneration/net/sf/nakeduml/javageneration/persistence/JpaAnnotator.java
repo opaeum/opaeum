@@ -10,6 +10,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.basicjava.ToStringBuilder;
+import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -18,6 +19,7 @@ import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -111,8 +113,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	}
 	@VisitBefore
 	public void visitAssociationClass(INakedAssociationClass ac){
-		mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd1()));
-		mapXToOne(ac, new NakedStructuralFeatureMap(ac.getEnd2()));
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node){
@@ -129,7 +129,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		if(isPersistent(umlOwner) && OJUtil.hasOJClass(umlOwner)){
-			if(!map.getProperty().isDerived()){
+			if(!(map.getProperty().isDerived() || map.isStatic())){
 				if(map.isOne()){
 					mapXToOne(umlOwner, map);
 				}else{
@@ -144,9 +144,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.umlName());
 		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
 		if(p.getNakedBaseType() instanceof INakedEnumeration){
-			// Not supported
+			implementManyForValueTypes(p, map, field);
 		}else if(p.getNakedBaseType() instanceof INakedSimpleType){
-			// Not supported
+			implementManyForValueTypes(p, map, field);
 		}else if(isPersistent(p.getNakedBaseType())){
 			// Entities and behaviors, emulated entities
 			OJAnnotationValue toMany = null;
@@ -176,7 +176,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			}
 			toMany.putAttribute(lazy);
 			toMany.putAttribute(targetEntity);
-			if(p.isComposite() || p.getAssociation() instanceof INakedAssociationClass || p.getBaseType() instanceof INakedDataType){
+			if(p.isComposite() || p.getBaseType() instanceof INakedDataType){
 				JpaUtil.cascadeAll(toMany);
 			}
 			field.addAnnotationIfNew(toMany);
@@ -184,6 +184,25 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
 	}
+	private void implementManyForValueTypes(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
+		OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
+		OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetClass", OJUtil.classifierPathname(f.getNakedBaseType()));
+		collectionOfElements.putAttribute(targetElement);
+		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
+		collectionOfElements.putAttribute(lazy);
+		field.addAnnotationIfNew(collectionOfElements);
+		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
+		INakedElement umlOwner = f.getOwner();
+		String tableName = umlOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
+		joinTable.putAttribute(new OJAnnotationAttributeValue("name", tableName));
+		OJAnnotationValue joinColumn = new OJAnnotationValue(new OJPathName("javax.persistence.JoinColumn"));
+		joinColumn.putAttribute(new OJAnnotationAttributeValue("unique", new Boolean(map.isOneToOne())));
+		joinColumn.putAttribute(new OJAnnotationAttributeValue("name", umlOwner.getMappingInfo().getPersistentName().toString() + "_id"));
+		joinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
+		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
+		field.addAnnotationIfNew(joinTable);
+	}
+
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = owner.findToString();
 		if(toString==null){

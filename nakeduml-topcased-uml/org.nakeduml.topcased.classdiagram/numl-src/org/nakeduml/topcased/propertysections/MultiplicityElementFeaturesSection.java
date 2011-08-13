@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 
@@ -15,26 +16,28 @@ public class MultiplicityElementFeaturesSection extends AbstractMultiFeatureProp
 	private Button isOrdered;
 	private Label label;
 	private Label toLabel;
-	
 	protected void setSectionData(Composite composite){
-		layout(null,label,143);
-		layout(label, from,30);
-		layout(from, toLabel,10);
-		layout(toLabel, to,30);
-		layout(to	, isUnique,140);
-		layout(isUnique,isOrdered,140);
+		layout(null, label, 143);
+		layout(label, from, 30);
+		layout(from, toLabel, 10);
+		layout(toLabel, to, 30);
+		layout(to, isUnique, 140);
+		layout(isUnique, isOrdered, 140);
 	}
-	private Property getProperty(){
+	@Override
+	protected Element getFeatureOwner(){
+		return this.getProperty();
+	}
+	protected Property getProperty(){
 		return (Property) getEObject();
 	}
-
 	@Override
 	protected void createWidgets(Composite composite){
 		super.createWidgets(composite);
-		label=getWidgetFactory().createLabel(composite, "Number of values:");
-		toLabel=getWidgetFactory().createLabel(composite, "to");
+		label = getWidgetFactory().createLabel(composite, "Number of values:");
+		toLabel = getWidgetFactory().createLabel(composite, "to");
 		from = getWidgetFactory().createText(composite, "", SWT.SINGLE);
-		to= getWidgetFactory().createText(composite, "", SWT.SINGLE);
+		to = getWidgetFactory().createText(composite, "", SWT.SINGLE);
 		isUnique = getWidgetFactory().createButton(composite, "Every value is unique", SWT.CHECK);
 		isOrdered = getWidgetFactory().createButton(composite, "Values are ordered", SWT.CHECK);
 	}
@@ -50,8 +53,8 @@ public class MultiplicityElementFeaturesSection extends AbstractMultiFeatureProp
 	}
 	@Override
 	public void refresh(){
-		from.setText(getProperty().getLower()+"");
-		to.setText(getProperty().getUpper()+"");
+		from.setText(getProperty().getLower() == -1 ? "*" : getProperty().getLower() + "");
+		to.setText(getProperty().getUpper() == -1 ? "*" : getProperty().getUpper() + "");
 		isUnique.setSelection(getProperty().isUnique());
 		isOrdered.setSelection(getProperty().isOrdered());
 	}

@@ -30,7 +30,6 @@ public class BpmnIntermediateEventEditPart extends ActionEditPart{
 		figure.addFigureListener(new FigureListener(){
 			@Override
 			public void figureMoved(IFigure source){
-				System.out.println();
 				GraphNode gn= (GraphNode) getModel();
 				System.out.println(gn.getSize());
 			}

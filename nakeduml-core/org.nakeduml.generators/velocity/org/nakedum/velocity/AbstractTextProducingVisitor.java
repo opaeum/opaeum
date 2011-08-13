@@ -56,7 +56,6 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		}
 		super.visitRecursively(o);
 	}
-	protected TransformationContext transformationContext;
 	public void initialize(NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
 		this.workspace=workspace;
 		this.config = config;
@@ -134,8 +133,5 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(outputRootId);
 		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
 		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new PropertiesSource(outputBuilder), outputRoot.overwriteFiles());
-	}
-	public void setTransformationContext(TransformationContext c){
-		super.transformationContext = c;
 	}
 }

@@ -29,7 +29,8 @@ public class ErrorMap {
 		if(holder instanceof INakedEvent || holder instanceof INakedValueSpecification){
 			getErrorListFor((INakedElement) holder.getOwnerElement()).addMessage(rule, objects);
 		}
-		getErrorListFor(holder).addMessage(rule, objects);
+		BrokenElement errorListFor = getErrorListFor(holder);
+		errorListFor.addMessage(rule, objects);
 	}
 
 	private BrokenElement getErrorListFor(INakedElement holder) {

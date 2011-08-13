@@ -42,38 +42,43 @@ public class NakedUmlErrorMarker implements Runnable{
 			for(Entry<String,BrokenElement> entry:context.getUmlElementCache().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
 				EObject o = findElement(entry.getKey());
 				if(o != null){
-					IFile file = findIFile(o);
-					if(file != null){
-						for(Entry<IValidationRule,Object[]> brokenRule:entry.getValue().getBrokenRules().entrySet()){
-							String messagePattern = brokenRule.getKey().getMessagePattern();
-							String message = EmfValidationUtil.replaceArguments(o, brokenRule, messagePattern);
-							try{
-								IMarker marker = file.createMarker(VALIDATION_MARKER_TYPE);
-								marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-								marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
-								marker.setAttribute(IMarker.MESSAGE, message);
-								marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(o).toString());
-							}catch(CoreException e){
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
+					markFile(entry, o, findUmlFile(o,"uml"));
+					markFile(entry, o, findUmlFile(o,"umldi"));
 				}
 			}
 			lastMarked = System.currentTimeMillis();
 		}
 		if(!(Display.getDefault().isDisposed() || Display.getDefault().isDisposed())){
-			Display.getDefault().timerExec(2000, this);
+			Display.getDefault().timerExec(3000, this);
 		}
 	}
-	public IFile findIFile(EObject o){
+	protected void markFile(Entry<String,BrokenElement> entry,EObject o,IFile file){
+		if(file != null){
+			for(Entry<IValidationRule,Object[]> brokenRule:entry.getValue().getBrokenRules().entrySet()){
+				String messagePattern = brokenRule.getKey().getMessagePattern();
+				String message = EmfValidationUtil.replaceArguments(o, brokenRule, messagePattern);
+				try{
+					IMarker marker = file.createMarker(VALIDATION_MARKER_TYPE);
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+					marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+					marker.setAttribute(IMarker.MESSAGE, message);
+					marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(o).toString());
+				}catch(CoreException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	public IFile findUmlFile(EObject o,String extension){
 		IFile file = null;
 		try{
 			for(IResource r:context.getUmlDirectory().members()){
-				if(r.getName().equals(o.eResource().getURI().lastSegment())){
-					file = (IFile) r;
-					break;
+				if(r.getFileExtension().equals(extension)){
+					if(r.getLocation().removeFileExtension().lastSegment().equals(o.eResource().getURI().trimFileExtension().lastSegment())){
+						file = (IFile) r;
+						break;
+					}
 				}
 			}
 		}catch(CoreException e1){
@@ -97,8 +102,9 @@ public class NakedUmlErrorMarker implements Runnable{
 		if(context == null || context.getUmlElementCache() == null || context.getUmlElementCache().getNakedWorkspace() == null){
 			return false;
 		}else{
-			boolean errorsChanged = noOfErrors != context.getUmlElementCache().getNakedWorkspace().getErrorMap().getErrors().size();
-			boolean timeForMarking = lastMarked + 30000 < System.currentTimeMillis() && noOfErrors > 0;
+			int size = context.getUmlElementCache().getNakedWorkspace().getErrorMap().getErrors().size();
+			boolean errorsChanged = noOfErrors != size;
+			boolean timeForMarking = lastMarked + 10000 < System.currentTimeMillis() && noOfErrors > 0;
 			return context.isOpen() && (errorsChanged || timeForMarking);
 		}
 	}

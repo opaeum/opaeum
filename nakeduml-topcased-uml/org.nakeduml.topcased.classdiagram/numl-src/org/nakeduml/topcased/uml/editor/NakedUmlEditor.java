@@ -1,7 +1,6 @@
 package org.nakeduml.topcased.uml.editor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -41,12 +40,21 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		return currentContext;
 	}
 	@Override
+	public void close(boolean save){
+		super.close(save);
+		if(save==false && currentContext != null){
+			currentContext.removeNakedModel(getResourceSet());
+		}
+		
+	}
+	@Override
 	public void doSave(IProgressMonitor monitor){
 		super.doSave(monitor);
 		if(currentContext != null){
-			currentContext.onSave(monitor);
+			currentContext.onSave(monitor,getEditingDomain().getResourceSet());
 		}
 	}
+	
 	@Override
 	protected IContentOutlinePage createOutlinePage(){
 		return new UMLOutlinePage(this){
@@ -70,10 +78,11 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		};
 	}
 	public void dispose(){
-		super.dispose();
 		if(currentContext != null){
-			currentContext.onClose(true);
+			currentContext.onClose(true,getEditingDomain().getResourceSet());
 		}
+		contexts.remove(getEditingDomain().getResourceSet());
+		super.dispose();
 		currentContext = null;
 	}
 	@Override
@@ -88,9 +97,9 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		NakedUmlEclipseContext result = getNakedUmlEclipseContextFor(umlDir);
 		if(result != null){
 			if(result.isSyncronizingWith(getResourceSet())){
-				result.setCurrentResourceSet(getResourceSet(), umlFile);
+				result.setCurrentEditContext(getEditingDomain(), umlFile);
 			}else{
-				result.startSynch(getResourceSet(), umlFile);
+				result.startSynch(getEditingDomain(), umlFile);
 			}
 		}
 		return result;
@@ -126,7 +135,6 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	@Override
 	protected EObject openFile(final IFile file,boolean resolve){
 		EObject openFile = super.openFile(file, resolve);
-		getResourceSet().eAdapters().add(new NakedUmlElementLinker());
 		IPreferenceStore ps = getPreferenceStore(file);
 		if(ps != null){
 			String filters = ps.getString(ModelerPreferenceConstants.FILTERS_PREF);

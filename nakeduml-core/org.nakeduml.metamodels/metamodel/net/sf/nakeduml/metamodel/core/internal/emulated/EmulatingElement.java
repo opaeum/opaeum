@@ -123,4 +123,11 @@ public class EmulatingElement implements INakedElement{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public INakedRootObject getRootObject(){
+		if(getOwnerElement() instanceof INakedElement){
+			return ((INakedElement)getOwnerElement()).getRootObject();
+		}
+		return null;
+	}
+
 }

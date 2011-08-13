@@ -26,6 +26,13 @@ public abstract class TextOutputNode{
 		return shouldDelete;
 	}
 	public void restore(){
-		shouldDelete=false;
+		shouldDelete = false;
+	}
+	public String toString(){
+		if(parent != null){
+			return getParent().toString() + "/" + getName();
+		}else{
+			return getName();
+		}
 	}
 }

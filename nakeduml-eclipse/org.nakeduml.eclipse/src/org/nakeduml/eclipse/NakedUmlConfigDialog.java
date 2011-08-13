@@ -2,6 +2,7 @@ package org.nakeduml.eclipse;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
@@ -41,7 +42,7 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 	protected Control createContents(Composite parent){
 		Control contents = super.createContents(parent);
 		setTitle("NakedUml Model Compiler");
-		setMessage("Please provide input", IMessageProvider.INFORMATION);
+		setMessage("Please provide input", IMessageProvider.NONE);
 		// Set the image
 		return contents;
 	}
@@ -50,11 +51,11 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
 		new Label(panel, 0).setText("Identifier for project");
-		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE);
+		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE|SWT.BORDER);
 		txtWorkspaceIdentifier.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtWorkspaceIdentifier.setText(config.getWorkspaceIdentifier());
 		new Label(panel, 0).setText("Company domain name");
-		txtCompanyDomain = new Text(panel, SWT.SINGLE);
+		txtCompanyDomain = new Text(panel, SWT.SINGLE|SWT.BORDER);
 		txtCompanyDomain.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtCompanyDomain.setText(getDomainName());
 		new Label(panel, 0).setText("Generate Maven POMS");
@@ -69,10 +70,18 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		}
 		cboSourceFolderStrategy.setText(config.getSourceFolderStrategy().getClass().getName());
 		new Label(panel, 0).setText("Additional Transformation Steps");
-		lstTransformationSteps = new List(panel, SWT.MULTI);
+		lstTransformationSteps = new List(panel, SWT.MULTI|SWT.BORDER);
 		lstTransformationSteps.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		
 		for(Class<? extends ITransformationStep> t:NakedUmlEclipsePlugin.getDefault().getTransformationSteps()){
 			lstTransformationSteps.add(t.getName());
+		}
+		String[] items = lstTransformationSteps.getItems();
+		for(int i = 0;i < items.length;i++){
+			if(config.getAdditionalTransformationSteps().contains(config.getClass(items[i]))){
+				lstTransformationSteps.select(i);
+			}
+			
 		}
 		return composite;
 	}

@@ -15,6 +15,7 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -45,29 +46,28 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected OJAnnotatedPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
-	protected TransformationContext transformationContext;
 	private Set<TextOutputNode> textFiles;
 	protected INakedModelWorkspace workspace;
 	public Set<TextOutputNode> getTextFiles(){
 		return textFiles;
 	}
-	
-	public void setTransformationContext(TransformationContext context){
-		this.transformationContext=context;
-	}
 	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
-		this.workspace=workspace;
+		this.workspace = workspace;
 	}
 	public NakedUmlLibrary getLibrary(){
 		return workspace.getNakedUmlLibrary();
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
+		recalculateUtilityPackage(o);
+		super.visitRecursively(o);
+	}
+	private void recalculateUtilityPackage(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.currentRootObject = pkg;
@@ -81,7 +81,15 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
 			}
 		}
-		super.visitRecursively(o);
+	}
+	@Override
+	public void visitOnly(INakedElementOwner o){
+		if(o instanceof INakedModelWorkspace){
+			recalculateUtilityPackage(o);
+		}else{
+			recalculateUtilityPackage(((INakedElement)o).getRootObject());
+		}
+		super.visitOnly(o);
 	}
 	protected OJPathName calculateUtilPath(INakedRootObject pkg){
 		String qualifiedJavaName = OJUtil.packagePathname(pkg).toJavaString();
@@ -146,30 +154,27 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		return owner;
 	}
 	protected void deleteClass(JavaSourceFolderIdentifier id,OJPathName ojPathName){
-		deleteTextNode(id, ojPathName,true);
+		deleteTextNode(id, ojPathName, true);
 		OJClass pkg = javaModel.findClass(ojPathName);
-		if(pkg!=null){
+		if(pkg != null){
 			pkg.setMyPackage(null);
 		}
 	}
-	private void deleteTextNode(JavaSourceFolderIdentifier id,OJPathName ojPathName, boolean targetIsFile){
+	private void deleteTextNode(JavaSourceFolderIdentifier id,OJPathName ojPathName,boolean targetIsFile){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = ojPathName.getNames();
 		if(targetIsFile){
-			names.set(names.size()-1, names.get(names.size()-1)+".java");
+			names.set(names.size() - 1, names.get(names.size() - 1) + ".java");
 		}
-		getTextFiles().add(or.markNodeForDeletion(names,targetIsFile));
+		getTextFiles().add(or.markNodeForDeletion(names, targetIsFile));
 	}
 	protected void deletePackage(JavaSourceFolderIdentifier id,OJPathName ojPathName){
-		deleteTextNode(id, ojPathName,false);
+		deleteTextNode(id, ojPathName, false);
 		OJPackage pkg = javaModel.findPackage(ojPathName);
-		if(pkg!=null){
+		if(pkg != null){
 			pkg.setParent(null);
 		}
-	}
-	protected static OJConstructor findConstructor(OJAnnotatedClass c,OJPathName parameter1){
-		return c.findConstructor(parameter1);
 	}
 	public static boolean isPersistent(INakedClassifier c){
 		// what about interfaces implemented by persistent classifiers??????
@@ -238,7 +243,6 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
 	}
-
 	protected boolean isIntegrationPhase(){
 		return transformationContext.isIntegrationPhase();
 	}

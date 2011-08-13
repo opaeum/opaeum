@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -18,12 +19,39 @@ import nl.klasse.octopus.model.VisibilityKind;
 public abstract class AbstractPropertyBridge extends EmulatingElement implements INakedProperty{
 	protected INakedClassifier owner;
 	protected boolean isComposite;
+	protected String id;
+	protected MappingInfo mappingInfo;
+	protected IClassifier type;
+	private INakedProperty otherEnd;
 
 	public AbstractPropertyBridge(INakedClassifier owner, INakedElement element){
 		super(element);
+		this.id=owner.getId() + element.getId();
 		this.owner=owner;
+		this.mappingInfo=element.getMappingInfo().getCopy();
+		this.mappingInfo.setIdInModel(id);
+
 	}
 
+	@Override
+	public final int hashCode(){
+		return id.hashCode();
+	}
+
+	@Override
+	public final String getId(){
+		return id;
+	}
+
+	@Override
+	public final MappingInfo getMappingInfo(){
+		return mappingInfo;
+	}
+
+	@Override
+	public String toString(){
+		return getName();
+	}
 	public IMultiplicityKind getMultiplicity(){
 		return getNakedMultiplicity();
 	}
@@ -96,8 +124,13 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 
 	public void setMultiplicity(INakedMultiplicity nakedMultiplicityImpl){
 	}
+	@Override
+	public IClassifier getType() {
+		return type;
+	}
 
 	public void setType(IClassifier type){
+		this.type=type;
 	}
 
 	public INakedValueSpecification getInitialValue(){
@@ -105,7 +138,7 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 	}
 
 	public INakedProperty getOtherEnd(){
-		return null;
+		return otherEnd;
 	}
 
 	public int getOwnedAttributeIndex(){
@@ -184,6 +217,10 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 	}
 
 	public void setOtherEnd(INakedProperty end2){
+		this.otherEnd=end2;
+		if(end2.getOtherEnd()!=this){
+			end2.setOtherEnd(this);
+		}
 	}
 
 	public void setOwnedAttributeIndex(int elementIndex){

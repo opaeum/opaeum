@@ -22,7 +22,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
-		for(INakedElement element:elements){
+		for(INakedElement element:LinkagePhase.filterChildrenOut(elements)){
 			for(AbstractNameGenerator ng:nameGenerators){
 				ng.visitRecursively((INakedElementOwner) element);
 			}
@@ -46,5 +46,9 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	}
 	@Override
 	public void initializeSteps(){
+		for(AbstractNameGenerator ng:nameGenerators){
+			ng.initialize();
+		}
 	}
+
 }

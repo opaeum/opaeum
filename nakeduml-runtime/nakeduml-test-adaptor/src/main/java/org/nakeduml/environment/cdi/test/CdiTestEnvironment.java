@@ -156,7 +156,6 @@ public class CdiTestEnvironment extends Environment{
 				SchemaExport se = new SchemaExport(hibernateConfiguration);
 				se.create(false, true);
 				sessionFactory = hibernateConfiguration.buildSessionFactory();
-				System.out.println("Building session factory took " + (System.currentTimeMillis() - start) + "ms");
 			}catch(Throwable e){
 				e.printStackTrace();
 				throw new RuntimeException(e);

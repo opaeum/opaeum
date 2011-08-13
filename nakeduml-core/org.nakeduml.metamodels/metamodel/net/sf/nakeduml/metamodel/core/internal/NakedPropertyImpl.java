@@ -166,4 +166,8 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		}
 		return result;
 	}
+	public void setStatic(boolean static1){
+		this.setHasClassScope(static1);
+		
+	}
 }

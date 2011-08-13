@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Collection;
+import java.util.List;
 
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -23,13 +24,11 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
-import nl.klasse.octopus.model.IOperation;
 
 public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	public AbstractStructureVisitor(){
@@ -42,10 +41,11 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	})
 	public void visitFeaturesOf(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
-			for(INakedProperty p:c.getEffectiveAttributes()){
-				if(p.getOwner() == c || p.getOwner() instanceof INakedInterface){
-					if(p.getAssociation() instanceof INakedAssociationClass){
-						visitProperty(c, OJUtil.buildAssociationClassMap(p, getOclEngine().getOclLibrary()));
+			List<? extends INakedProperty> effectiveAttributes = c.getEffectiveAttributes();
+			for(INakedProperty p:effectiveAttributes){
+				if(p.isNavigable() && (p.getOwner() == c || p.getOwner() instanceof INakedInterface)){
+					if( OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
+						visitAssociationClassProperty(c, new AssociationClassEndMap(p));
 					}else{
 						visitProperty(c, OJUtil.buildStructuralFeatureMap(p));
 					}
@@ -57,6 +57,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 				}
 			}
 		}
+	}
+	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap map){
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior umlOwner){
@@ -112,7 +114,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		}
 	}
 	@VisitBefore(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class,INakedComponent.class
+			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class,INakedComponent.class,INakedAssociationClass.class
 	})
 	public void visitClassifier(INakedClassifier umlOwner){
 		visitComplexStructure((INakedComplexStructure) umlOwner);

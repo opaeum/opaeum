@@ -1,9 +1,12 @@
 package net.sf.nakeduml.metamodel.core.internal;
 
+import java.util.List;
+
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public class NakedAssociationClassImpl extends NakedAssociationImpl implements INakedAssociationClass {
+
 	@Override
 	public boolean isClass() {
 		return true;
@@ -21,7 +24,13 @@ public class NakedAssociationClassImpl extends NakedAssociationImpl implements I
 
 	@Override
 	public INakedProperty getEndToComposite() {
-		return getEnd1();
+		return getPropertyToEnd1();
+	}
+	@Override
+	public List<INakedProperty> getEffectiveAttributes(){
+		List<INakedProperty> effectiveAttributes = super.getEffectiveAttributes();
+		effectiveAttributes.removeAll(getEnds());
+		return effectiveAttributes;
 	}
 
 }
