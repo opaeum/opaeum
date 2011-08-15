@@ -1133,8 +1133,8 @@
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
 			<propertySection
-				id="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
-				class="org.nakeduml.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				id="org.nakeduml.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
+				class="org.nakeduml.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
 				tab="org.topcased.modeler.modelTab.secondEndTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection">
 				<input type="org.eclipse.uml2.uml.Association"/>
@@ -1210,6 +1210,15 @@
       			<input type="org.eclipse.uml2.uml.Constraint">
       			</input>
 			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			class="org.nakeduml.topcased.propertysections.InstanceSpecificationSlotsSection"
+         			id="org.nakeduml.topcased.propertysections.InstanceSpecificationSlotsSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.InstanceSpecification">
+      			</input>
+			</propertySection>
+			
 			<propertySection
 				id="org.nakeduml.topcased.propertysections.BehaviorParametersSection"
 				class="org.nakeduml.topcased.propertysections.BehaviorParametersSection"

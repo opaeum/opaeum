@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 /**
  * This class will become the entry point for the entire transformation process

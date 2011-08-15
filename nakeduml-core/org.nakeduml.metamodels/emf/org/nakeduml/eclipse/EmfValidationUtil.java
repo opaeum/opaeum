@@ -1,19 +1,18 @@
 package org.nakeduml.eclipse;
 
-import java.util.Map.Entry;
-
-import net.sf.nakeduml.metamodel.validation.IValidationRule;
+import net.sf.nakeduml.metamodel.validation.BrokenRule;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class EmfValidationUtil{
-	public static String replaceArguments(EObject object,Entry<IValidationRule,Object[]> brokenRule,String messagePattern){
+	public static String replaceArguments(EObject object,BrokenRule brokenRule,String messagePattern){
 		String simpleName = object.getClass().getSimpleName();
 		String message = messagePattern.replace("{0}", simpleName + "[" + getNameFor(object) + "]");
-		for(int i = 0;i < brokenRule.getValue().length;i++){
-			message = message.replace("{" + (i + 1) + "}", brokenRule.getValue()[i].toString());
+		Object[] value = brokenRule.getParameters();
+		for(int i = 0;i < value.length;i++){
+			message = message.replace("{" + (i + 1) + "}", value[i].toString());
 		}
 		return message;
 	}

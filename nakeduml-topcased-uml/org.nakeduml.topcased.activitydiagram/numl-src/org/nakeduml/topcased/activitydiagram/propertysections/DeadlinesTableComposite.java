@@ -39,7 +39,7 @@ import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.nakeduml.topcased.commands.AddAnnotationContentCommand;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.utils.LabelHelper;
 
@@ -158,7 +158,7 @@ public class DeadlinesTableComposite extends Composite{
 		TimeEvent newDeadline = UMLFactory.eINSTANCE.createTimeEvent();
 		TimeExpression createWhen = newDeadline.createWhen("when", null);
 		OpaqueExpression oa = (OpaqueExpression) createWhen.createExpr("expr", null, UMLPackage.eINSTANCE.getOpaqueExpression());
-		oa.getBodies().add(OclValueComposite.DEFAULT_TEXT);
+		oa.getBodies().add(OclBodyComposite.DEFAULT_TEXT);
 		oa.getLanguages().add("ocl");
 		newDeadline.setIsRelative(b);
 		StereotypesHelper.getNumlAnnotation(newDeadline).getDetails().put(StereotypeNames.DEADLINE, "");

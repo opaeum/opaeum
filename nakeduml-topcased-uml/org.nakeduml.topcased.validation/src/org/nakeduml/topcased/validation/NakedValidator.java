@@ -31,15 +31,15 @@ public class NakedValidator implements org.topcased.validation.core.IValidator{
 				EObject obj = NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace().getElementMap().get(key);
 				if(obj != null){//Could be an artificial element
 					if(obj.eResource().getURI().isPlatformResource()){
-						Set<Entry<IValidationRule,Object[]>> brokenRules = brokenElement.getValue().getBrokenRules().entrySet();
-						for(Entry<IValidationRule,Object[]> brokenRule:brokenRules){
-							String messagePattern = brokenRule.getKey().getMessagePattern();
-							String message = EmfValidationUtil.replaceArguments(obj, brokenRule, messagePattern);
-							BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.nakeduml.topcased.validation", i++, message, new Object[]{
-								obj
-							});
-							arg1.add(diagnostic);
-						}
+//						Set<Entry<IValidationRule,Object[]>> brokenRules = brokenElement.getValue().getBrokenRules().entrySet();
+//						for(Entry<IValidationRule,Object[]> brokenRule:brokenRules){
+//							String messagePattern = brokenRule.getKey().getMessagePattern();
+//							String message = EmfValidationUtil.replaceArguments(obj, brokenRule, messagePattern);
+//							BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.nakeduml.topcased.validation", i++, message, new Object[]{
+//								obj
+//							});
+//							arg1.add(diagnostic);
+//						}
 					}
 				}
 			}

@@ -22,12 +22,13 @@ import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
-public class RecompileModelDirectoryAction implements IObjectActionDelegate{
-	private IStructuredSelection selection;
-	private IWorkbenchPart workbenchPart;
-	static Model model;
+public class RecompileModelDirectoryAction extends AbstractOpiumAction{
+	public RecompileModelDirectoryAction(IStructuredSelection selection2){
+		super(selection2, "Recompile Model Directory");
+		// TODO Auto-generated constructor stub
+	}
 	@Override
-	public void run(IAction action){
+	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
 		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getNakedUmlEclipseContextFor(folder);
 		new Job("Recompiling model directory"){
@@ -64,14 +65,5 @@ public class RecompileModelDirectoryAction implements IObjectActionDelegate{
 				return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 			}
 		}.schedule();
-	}
-	@Override
-	public void selectionChanged(IAction action,ISelection selection){
-		this.selection = (IStructuredSelection) selection;
-		action.setEnabled(EditNakedUmlConfigAction.hasConfigFile((IStructuredSelection) selection));
-	}
-	@Override
-	public void setActivePart(IAction arg0,IWorkbenchPart workbenchPart){
-		this.workbenchPart = workbenchPart;
 	}
 }

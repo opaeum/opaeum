@@ -5,7 +5,6 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -24,9 +23,9 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Action;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
@@ -51,10 +50,10 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 			public void updateSelectedDeadlines(TimeEvent event){
 				if(event != null){
 					if(event.isRelative()){
-						relativeComposite.setContext(getEditingDomain(), action, event);
+						relativeComposite.setContext(action, event);
 						((StackLayout) details.getLayout()).topControl = relativeComposite;
 					}else{
-						absoluteComposite.setContext(getEditingDomain(), action, event);
+						absoluteComposite.setContext(action, event);
 						((StackLayout) details.getLayout()).topControl = absoluteComposite;
 					}
 				}else{
@@ -75,11 +74,11 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 				table.refresh();
 			}
 		};
-		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
+		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getEditingDomain(), getWidgetFactory(), details, 200, listener){
 			CCombo deadlineKindsCombo;
 			@Override
-			public void setContext(EditingDomain domain,Element context,TimeEvent te){
-				super.setContext(domain, context, te);
+			public void setContext(NamedElement context,TimeEvent te){
+				super.setContext(context, te);
 				updateCombo(te, deadlineKindsCombo);
 			}
 			@Override
@@ -88,11 +87,11 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 				super.addChildrenAfterName(toolkit, parent, standardLabelWidth);
 			}
 		};
-		relativeComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
+		relativeComposite = new RelativeTimeEventDetailsComposite(getEditingDomain(),getWidgetFactory(), details, 200, listener){
 			CCombo deadlineKindsCombo;
 			@Override
-			public void setContext(EditingDomain domain,Element context,TimeEvent te){
-				super.setContext(domain, context, te);
+			public void setContext(NamedElement context,TimeEvent te){
+				super.setContext(context, te);
 				updateCombo(te, deadlineKindsCombo);
 			}
 			@Override
@@ -177,8 +176,8 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 		MixedEditDomain mixedEditDomain = (MixedEditDomain) getPart().getAdapter(MixedEditDomain.class);
 		table.setMixedEditDomain(mixedEditDomain);
 		table.setAction((Action) getEObject(), deadlineStereotype, this.taskStereotype);
-		absoluteComposite.setContext(getEditingDomain(), null, null);
-		relativeComposite.setContext(getEditingDomain(), null, null);
+		absoluteComposite.setContext(null, null);
+		relativeComposite.setContext(null, null);
 	}
 	protected EStructuralFeature getFeature(){
 		return null;

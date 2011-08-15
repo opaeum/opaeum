@@ -23,6 +23,7 @@ import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -37,7 +38,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	protected abstract void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap);
 	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
 	@VisitAfter(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class,INakedSignal.class,INakedComponent.class
+			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class,INakedSignal.class,INakedComponent.class,INakedEnumeration.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){

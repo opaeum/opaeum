@@ -109,6 +109,7 @@ public class UmlElementCache extends EContentAdapter{
 		this.transformationProcess.initialize(cfg, getTransformationSteps());
 		this.nakedModelWorspace = new NakedModelWorkspaceImpl();
 		this.transformationProcess.replaceModel(nakedModelWorspace);
+		this.nakedUmlChanges.clear();
 	}
 	public EmfWorkspace buildWorkspaces(ResourceSet resourceSet,File modelFile) throws Exception,IOException{
 		EmfWorkspace emfWorkspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);

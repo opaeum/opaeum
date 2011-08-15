@@ -128,10 +128,10 @@ abstract public class OJClassGEN extends OJClassifier {
 		if ( this.f_fields.contains(element) ) {
 			this.f_fields.remove(element);
 		}
-		this.f_fields.add(element);
 		if ( element.getOwner() != null ) {
 			element.getOwner().z_internalRemoveFromFields(element);
 		}
+		this.f_fields.add(element);
 		element.z_internalAddToOwner(((OJClass)this));
 	}
 	
@@ -270,12 +270,11 @@ abstract public class OJClassGEN extends OJClassifier {
 		}
 		if ( this.f_constructors.contains(element) ) {
 			this.f_constructors.remove(element);
-			return;
 		}
-		this.f_constructors.add(element);
 		if ( element.getOwningClass() != null ) {
 			element.getOwningClass().z_internalRemoveFromConstructors(element);
 		}
+		this.f_constructors.add(element);
 		element.z_internalAddToOwningClass(((OJClass)this));
 	}
 	

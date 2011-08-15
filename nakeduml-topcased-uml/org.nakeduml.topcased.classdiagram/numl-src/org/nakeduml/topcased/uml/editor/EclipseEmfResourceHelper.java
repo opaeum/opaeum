@@ -44,6 +44,9 @@ public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 		if(umlElement instanceof EmfWorkspace){
 			return ((EmfWorkspace) umlElement).getName();
 		}else{
+			if(umlElement.eResource() == null){
+				return umlElement.hashCode() + "";
+			} 
 			String uid = null;
 			EAnnotation ann = null;
 			if(!ResourceUtils.isReadOnly(umlElement.eResource())){

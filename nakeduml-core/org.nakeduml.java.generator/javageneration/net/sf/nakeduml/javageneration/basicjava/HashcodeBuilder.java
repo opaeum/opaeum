@@ -12,6 +12,7 @@ import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 
@@ -49,7 +50,7 @@ public class HashcodeBuilder extends StereotypeAnnotator{
 	}
 	private void buildHashcode(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJField uid = owner.findField("uid");
-		if(umlClass.getGeneralizations().isEmpty()){
+		if(umlClass.getGeneralizations().isEmpty() && !(umlClass instanceof INakedEnumeration)){
 			if(uid == null){
 				owner.addToFields(new OJAnnotatedField("uid", new OJPathName("String")));
 				// TODO build validation that a derived or read only uuid

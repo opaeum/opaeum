@@ -197,11 +197,11 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			nakedValueSpecification = (NakedValueSpecificationImpl) getNakedPeer(value);
 			if(nakedValueSpecification == null){
 				nakedValueSpecification = new NakedValueSpecificationImpl();
+				initialize(nakedValueSpecification, value, null);
+				element.addOwnedElement(nakedValueSpecification);
 			}
 			nakedValueSpecification.setValue(bodyExpression);
-			initialize(nakedValueSpecification, value, null);
 			nakedValueSpecification.setOwnerElement(element);
-			element.addOwnedElement(nakedValueSpecification);
 			nakedValueSpecification.setOwnerElement(element);
 			if(value.getType() != null){
 				// TODO - type may not be available yet
@@ -278,13 +278,12 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			// Need something here
 			body = bodies.get(0);
 		}
+		ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usageType);
 		// TODO Extract constant here
-		if(body != null && body.trim().length() > 0 && !(body.equals(EmfValidationUtil.TYPE_EXPRESSION_HERE))){
-			ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usageType);
+		if(body != null &&  body.trim().length() > 0 && !body.equals(EmfValidationUtil.TYPE_EXPRESSION_HERE)){
 			string.setExpressionString(body);
-			return string;
 		}
-		return null;
+		return string;
 	}
 	protected IOclLibrary getOclLibrary(){
 		return this.nakedWorkspace.getOclEngine().getOclLibrary();

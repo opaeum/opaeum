@@ -11,53 +11,70 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.ValueSpecification;
-import org.nakeduml.topcased.propertysections.AbstractOpaqueBodySection;
-import org.nakeduml.topcased.propertysections.OpaqueExpressionBodySection;
+import org.nakeduml.topcased.propertysections.AbstractOclBodyBodySection;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
-public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOpaqueBodySection{
+public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOclBodyBodySection{
+	private final class ArtificialOclBodyComposite extends OclBodyComposite{
+		private ArtificialOclBodyComposite(Composite parent,FormToolkit toolkit){
+			super(parent, toolkit);
+		}
+		@Override
+		public EAttribute getLanguagesFeature(){
+			return UMLPackage.eINSTANCE.getOpaqueExpression_Language();
+		}
+		@Override
+		public EAttribute getBodiesFeature(){
+			return UMLPackage.eINSTANCE.getOpaqueExpression_Body();
+		}
+		public void setOclContext(NamedElement eObject,OpaqueExpression findOpaqueExpression){
+			super.setOclContextImpl(eObject, findOpaqueExpression);
+		}
+		@Override
+		protected void fireOclChanged(String text){
+			EAnnotation ann = getAnnotation();
+			OpaqueExpression vs = findOpaqueExpression(getExpressionName(), ann);
+			if((text.trim().length() == 0 || text.equals(OclBodyComposite.DEFAULT_TEXT) && vs != null)){
+				Command cmd = RemoveCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs);
+				getEditingDomain().getCommandStack().execute(cmd);
+			}else{
+				vs = UMLFactory.eINSTANCE.createOpaqueExpression();
+				vs.setName(getExpressionName());
+				Command cmd = AddCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs);
+				getEditingDomain().getCommandStack().execute(cmd);
+				super.oclBodyOwner=vs;
+				super.fireOclChanged(text);
+			}
+		}
+		@Override
+		protected EditingDomain getEditingDomain(){
+			return AbstractArtificialOpaqueExpressionSection.this.getEditingDomain();
+		}
+	}
 	@Override
-	protected NamedElement getOclContext(){
-		return findOpaqueExpression(getExpressionName(), getAnnotation());
+	protected OclBodyComposite createOclBodyComposite(Composite parent){
+		return new ArtificialOclBodyComposite(parent, getWidgetFactory());
 	}
 	public AbstractArtificialOpaqueExpressionSection(){
 		super();
 	}
 	@Override
-	public EAttribute getLanguagesFeature(){
-		return UMLPackage.eINSTANCE.getOpaqueExpression_Language();
+	protected void setOclContext(OclBodyComposite c){
+		((ArtificialOclBodyComposite) c).setOclContext((NamedElement) getEObject(), findOpaqueExpression(getExpressionName(), getAnnotation()));
 	}
-
-	@Override
-	public EAttribute getBodiesFeature(){
-		return UMLPackage.eINSTANCE.getOpaqueExpression_Body();
-	}
-
 	protected EAnnotation getAnnotation(){
 		return StereotypesHelper.getNumlAnnotation((Element) getEObject());
 	}
-	protected void handleOclChanged(String oclText){
-		if(oclText.trim().length() > 0){
-			EAnnotation ann = getAnnotation();
-			OpaqueExpression vs = findOpaqueExpression(getExpressionName(), ann);
-			if(vs == null){
-				vs = UMLFactory.eINSTANCE.createOpaqueExpression();
-				vs.setName(getExpressionName());
-				Command cmd = AddCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs);
-				getEditingDomain().getCommandStack().execute(cmd);
-			}
-			super.handleOclChanged(oclText);
-		}
-	}
-
 	protected abstract String getExpressionName();
-
-
 	protected OpaqueExpression findOpaqueExpression(String vsName,EAnnotation ann){
 		EList<EObject> contents = ann.getContents();
 		OpaqueExpression vs = null;
@@ -69,10 +86,8 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 		}
 		return vs;
 	}
-
-
 	@Override
 	protected String getLabelText(){
-		return new SingularNameWrapper(getExpressionName(),null).getCapped().getSeparateWords().getAsIs();
+		return new SingularNameWrapper(getExpressionName(), null).getCapped().getSeparateWords().getAsIs();
 	}
 }

@@ -1,11 +1,11 @@
 package org.nakeduml.topcased.propertysections.constraints;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -39,12 +39,11 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
 
 public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;
-	private OclValueComposite oclComposite;
+	private OpaqueExpressionBodyComposite oclComposite;
 	private TextDisplayingElements textElementChoosen;
 	private Element context = null;
 	private Text textForConstraintName;
@@ -53,7 +52,7 @@ public class OclConstraintDetailsComposite extends Composite{
 	private EditingDomain currentEditDomain = null;
 	private boolean reinit = false;
 	private EStructuralFeature feature;
-	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
+	public OclConstraintDetailsComposite(EditingDomain d,TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
 		super(parent, SWT.NONE);
 		this.feature = feature;
 		theFactory = factory;
@@ -61,7 +60,8 @@ public class OclConstraintDetailsComposite extends Composite{
 		this.setLayout(new FillLayout(SWT.VERTICAL));
 		setLayout(new GridLayout(5, false));
 		createDetailsZone(this);
-		setEnabled(this,false);
+		setEnabled(this, false);
+		currentEditDomain = d;
 	}
 	private TabbedPropertySheetWidgetFactory getWidgetFactory(){
 		return theFactory;
@@ -78,11 +78,10 @@ public class OclConstraintDetailsComposite extends Composite{
 		if(selectedConstraint != null){
 			oclExpression.setName(selectedConstraint.getName() + "_body");
 		}else{
-			oclExpression.setName("newConstraint_body");
+			oclExpression.setName("newConstraintBody");
 		}
 		oclExpression.getLanguages().add("OCL");
-		String body = "";
-		oclExpression.getBodies().add(body);
+		oclExpression.getBodies().add("");
 		return oclExpression;
 	}
 	void applyTableInfo(TableViewer t,Image colImage,int[] sizes,String...columnNames){
@@ -105,7 +104,6 @@ public class OclConstraintDetailsComposite extends Composite{
 		ta.setLinesVisible(true);
 	}
 	public void constraintUpdated(Constraint a){
-		
 	}
 	private void createAreaForNameOfConstraintAndConstrainedElement(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "Constraint Name : ", SWT.BOLD);
@@ -156,16 +154,32 @@ public class OclConstraintDetailsComposite extends Composite{
 			}
 		}
 		return eContents;
+		
 	}
+	
 	private void createGroupOCLRule(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "OCL Rule Code : ", SWT.BOLD);
 		l.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 3, 1));
-		oclComposite = new OclValueComposite(group, getWidgetFactory(), new OclChangeListener(){
+		oclComposite = new OpaqueExpressionBodyComposite(group, getWidgetFactory()){
 			@Override
-			public void oclChanged(String value){
-				updateOcl();
+			public void fireOclChanged(String value){
+				if(context != null && currentEditDomain != null && selectedConstraint != null && !reinit){
+					super.valueSpecificationOwner=selectedConstraint;
+					super.fireOclChanged(value);
+					constraintUpdated(selectedConstraint);
+				}
 			}
-		});
+
+			@Override
+			public EReference getValueSpecificationFeature(){
+				return UMLPackage.eINSTANCE.getConstraint_Specification();
+			}
+
+			@Override
+			protected EditingDomain getEditingDomain(){
+				return currentEditDomain;
+			}
+		};
 		oclComposite.setBackground(getBackground());
 		GridData layoutDataComposite = new GridData(GridData.FILL, GridData.FILL, true, true, 5, 1);
 		layoutDataComposite.minimumHeight = 50;
@@ -192,7 +206,7 @@ public class OclConstraintDetailsComposite extends Composite{
 	}
 	public void setSelectedConstraint(Constraint theConstraint){
 		if(theConstraint != null){
-			oclComposite.setValueElement(theConstraint);
+			oclComposite.setOclContext(theConstraint,theConstraint, (OpaqueExpression) theConstraint.getSpecification());
 			selectedConstraint = theConstraint;
 			String constraintName = theConstraint.getName();
 			if(constraintName == null){
@@ -200,37 +214,16 @@ public class OclConstraintDetailsComposite extends Composite{
 			}
 			textForConstraintName.setText(constraintName);
 			textElementChoosen.setCollectionElements(theConstraint.getConstrainedElements());
-			if(theConstraint.getSpecification() instanceof OpaqueExpression){
-				selectedOpaqueExpression = (OpaqueExpression) theConstraint.getSpecification();
-				int index = 0;
-				boolean found = false;
-				for(String s:selectedOpaqueExpression.getLanguages()){
-					if(s != null && "ocl".equals(s.toLowerCase().trim())){
-						found = true;
-						break;
-					}
-					index++;
-				}
-				if(found){
-					if(selectedOpaqueExpression.getBodies().size() == 0){
-						selectedOpaqueExpression.getBodies().add("");
-					}
-					oclComposite.setCompositeValue(selectedOpaqueExpression.getBodies().get(index));
-				}
-			}
-			setEnabled(this,true);
+			setEnabled(this, true);
 		}else{
 			reinit = true;
 			textForConstraintName.setText("");
 			textElementChoosen.setCollectionElements(null);
 			selectedConstraint = null;
 			selectedOpaqueExpression = null;
-			setEnabled(this,false);
+			setEnabled(this, false);
 			reinit = false;
 		}
-	}
-	public void setEditDomain(EditingDomain domain){
-		currentEditDomain = domain;
 	}
 	private void askForConstrainedElements(){
 		if(selectedConstraint != null){
@@ -250,48 +243,6 @@ public class OclConstraintDetailsComposite extends Composite{
 					textElementChoosen.setCollectionElements(elements);
 				}
 			}
-		}
-	}
-	private void updateOcl(){
-		if(context != null && currentEditDomain != null && selectedConstraint != null && !reinit){
-			if(selectedOpaqueExpression == null){
-				OpaqueExpression expression = createExpression(selectedConstraint);
-				currentEditDomain.getCommandStack().execute(
-						SetCommand.create(currentEditDomain, selectedConstraint, getFeature(selectedConstraint, UMLPackage.CONSTRAINT__SPECIFICATION), expression));
-				selectedOpaqueExpression = expression;
-			}
-			EList<String> bodies = selectedOpaqueExpression.getBodies();
-			LinkedList<String> bodiesCopy = new LinkedList<String>(bodies);
-			int index = 0;
-			boolean found = false;
-			for(String s:selectedOpaqueExpression.getLanguages()){
-				if("ocl".equals(s.toLowerCase().trim())){
-					found = true;
-					break;
-				}
-				index++;
-			}
-			if(!found){
-				currentEditDomain.getCommandStack().execute(
-						AddCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__LANGUAGE),
-								"OCL"));
-				currentEditDomain.getCommandStack().execute(
-						AddCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__BODY),
-								oclComposite.getCompositeValue()));
-			}else if(found && bodiesCopy.isEmpty()){
-				currentEditDomain.getCommandStack().execute(
-						AddCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__BODY),
-								oclComposite.getCompositeValue()));
-			}else if(found && !bodiesCopy.get(index).equals(oclComposite.getCompositeValue())){
-				bodiesCopy.set(index, oclComposite.getCompositeValue());
-				currentEditDomain.getCommandStack().execute(
-						RemoveCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__BODY),
-								bodies));
-				currentEditDomain.getCommandStack().execute(
-						AddCommand.create(currentEditDomain, selectedOpaqueExpression, getFeature(selectedOpaqueExpression, UMLPackage.OPAQUE_EXPRESSION__BODY),
-								bodiesCopy));
-			}
-			constraintUpdated(selectedConstraint);
 		}
 	}
 }

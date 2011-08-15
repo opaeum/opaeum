@@ -36,6 +36,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		pkg.addToClasses(test);
 		OJAnnotatedInterface testInterface = new OJAnnotatedInterface(pn.getLast() + "TestContract");
 		pkg.addToClasses(testInterface);
+		test.addToImports(testInterface.getPathName());
 		test.addToImplementedInterfaces(testInterface.getPathName());
 		for(INakedProperty p:entity.getOwnedAttributes()){
 			if(p.getInitialValue() != null && p.getInitialValue().isOclValue()){

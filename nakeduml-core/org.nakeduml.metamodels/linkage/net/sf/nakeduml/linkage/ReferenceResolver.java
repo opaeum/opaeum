@@ -49,7 +49,7 @@ public class ReferenceResolver extends AbstractModelElementLinker {
 		if (owner == null) {
 			if (!(property.getOwnerElement() instanceof INakedProperty)) {
 				getErrorMap().putError(property, CoreValidationRule.OWNER_FOR_PROPERTY,
-						"Property  " + property.getName() + ":" + property.getNakedBaseType().getName() + " has no owner");
+						"Property  " + property.getName() + " has no known owner");
 			}
 		} else {
 			List<? extends INakedProperty> peers = owner.getOwnedAttributes();

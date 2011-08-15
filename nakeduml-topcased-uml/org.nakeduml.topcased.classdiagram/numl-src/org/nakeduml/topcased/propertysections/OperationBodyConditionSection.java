@@ -1,57 +1,51 @@
 package org.nakeduml.topcased.propertysections;
 
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.gmf.runtime.diagram.ui.commands.CreateCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.ValueSpecification;
-import org.nakeduml.topcased.commands.SetOclExpressionCommand;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{
 	@Override
-	protected EStructuralFeature getFeature(){
-		return UMLPackage.eINSTANCE.getOperation_BodyCondition();
+	protected NamedElement getOclContext(){
+		return getOperation();
+	}
+	@Override
+	protected NamedElement beforeOclChanged(String text){
+		if(!OclBodyComposite.containsExpression(text)){
+			removeBodyCondition();
+			return null;
+		}else if(getOperation().getBodyCondition()==null){
+			createBodyCondition();
+		}
+		return getOperation().getBodyCondition();
 	}
 	@Override
 	protected String getLabelText(){
 		return "Query expression";
 	}
 	@Override
-	protected OpaqueExpression getExpression(EObject e){
-		Operation oper = (Operation) e;
-		if(oper.getBodyCondition() == null){
-			return null;
-		}
-		return (OpaqueExpression) oper.getBodyCondition().getSpecification();
+	protected NamedElement getValueSpecificationOwner(){
+		return getOperation().getBodyCondition();
 	}
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
+		oclComposite.setOclContext(getOperation(),null,null);
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
-		super.oclComposite.getTextControl().setEnabled(getOperation().isQuery());
-	}
-	@Override
-	protected NamedElement getOwner(){
-		return getOperation().getBodyCondition();
-	}
-	@Override
-	protected ValueSpecification getValueSpecification(){
-		return getExpression(getEObject());
+		super.oclComposite.getTextControl().setEnabled(getOperation().isQuery() && !getOperation().isAbstract());
 	}
 	private Operation getOperation(){
 		return (Operation) getEObject();
@@ -64,7 +58,6 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 			case UMLPackage.OPERATION__IS_QUERY:
 				if(msg.getNewBooleanValue()){
 					oclComposite.getTextControl().setEnabled(true && !getOperation().isAbstract());
-					createBodyCondition();
 				}else{
 					oclComposite.getTextControl().setEnabled(false);
 					removeBodyCondition();
@@ -73,7 +66,6 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 			case UMLPackage.OPERATION__IS_ABSTRACT:
 				if(msg.getNewBooleanValue()){
 					oclComposite.getTextControl().setEnabled(false);
-					createBodyCondition();
 				}else{
 					oclComposite.getTextControl().setEnabled(true && getOperation().isQuery());
 					removeBodyCondition();
@@ -84,15 +76,15 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	}
 	private void removeBodyCondition(){
 		getEditingDomain().getCommandStack().execute(
-				RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(), getOwner()));
-		oclComposite.setValueElement(null);
+				RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(), getOperation().getBodyCondition()));
 	}
 	private void createBodyCondition(){
 		if(getOperation().getBodyCondition() == null){
+			Constraint cnstr = UMLFactory.eINSTANCE.createConstraint();
+			OpaqueExpression oe = (OpaqueExpression) cnstr.createSpecification("body", null, UMLPackage.eINSTANCE.getOpaqueExpression());
 			getEditingDomain().getCommandStack().execute(
 					SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(),
-							UMLFactory.eINSTANCE.createConstraint()));
-			oclComposite.setValueElement(getOwner());
+							cnstr));
 		}
 	}
 	@Override

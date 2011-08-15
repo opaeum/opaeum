@@ -55,6 +55,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 			Set<INakedElement> affectedElements = v.getAffectedElements();
 			result.addAll(affectedElements);
 		}
+		result.remove(null);
 		return result;
 	}
 	@Override

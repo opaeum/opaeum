@@ -84,7 +84,6 @@ import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 		EnumerationValuesAttributeAdder.class
 })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
-	
 	EnvironmentFactory environmentFactory;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
@@ -108,7 +107,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				INakedClassifier context = slot.getOwningInstance().getClassifier();
 				string.setContext(context, s);
 				Environment env = environmentFactory.createSelflessEnvironment(context);
-				s.setValue(replaceSingleParsedOclString(string, context, s.getType(), env));
+				s.setValue(replaceSingleParsedOclString(string, context, slot.getDefiningFeature().getType(), env));
 			}
 		}
 	}
@@ -183,7 +182,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		for(INakedConstraint cont:nc.getOwnedRules()){
 			if(cont.getSpecification().getOclValue() instanceof ParsedOclString){
 				ParsedOclString holder = (ParsedOclString) cont.getSpecification().getOclValue();
-				holder.setContext(nc, cont);
+				holder.setContext(nc, cont.getSpecification());
 				IClassifier basicType = StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName);
 				if(cont.getConstrainedElement() instanceof INakedProperty){
 					basicType = getOclLibrary().lookupCollectionType(CollectionMetaType.SET, ((INakedProperty) cont.getConstrainedElement()).getBaseType());
@@ -215,7 +214,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				env = environmentFactory.createActivityEnvironment(ev, (INakedActivity) ev.getBehaviorContext());
 			}
 			ParsedOclString value = (ParsedOclString) w.getValue();
-			value.setContext(ev.getBehaviorContext(), ev);
+			value.setContext(ev.getBehaviorContext(), w);
 			w.setValue(replaceSingleParsedOclString(value, ev.getBehaviorContext(), w.getType(), env));
 		}
 	}
@@ -243,7 +242,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				&& op.getBodyCondition().getSpecification().getValue() instanceof ParsedOclString){
 			INakedValueSpecification bodyCondition = op.getBodyCondition().getSpecification();
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
-			bodyExpression.setContext(owner, op.getBodyCondition());
+			bodyExpression.setContext(owner, op.getBodyCondition().getSpecification());
 			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env));
 			bodyCondition.setType(op.getReturnType());
 			IOclContext ocl = replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env);
@@ -296,10 +295,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				}
 				ParsedOclString expression = (ParsedOclString) oa.getBodyExpression();
 				expression.setContext(ctx, oa);
-				IClassifier type = oa.getReturnPin()==null?getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName): oa.getReturnPin().getType();
+				IClassifier type = oa.getReturnPin() == null ? getOclLibrary().lookupStandardType(IOclLibrary.OclVoidTypeName) : oa.getReturnPin().getType();
 				IOclContext newExpression = replaceSingleParsedOclString(expression, ctx, type, inside);
 				oa.setBodyExpression(newExpression);
-				if(newExpression instanceof OclContextImpl && oa.getReturnPin()!=null){
+				if(newExpression instanceof OclContextImpl && oa.getReturnPin() != null){
 					overridePinType(oa.getReturnPin(), newExpression.getExpression().getExpressionType());
 				}
 			}
@@ -390,84 +389,91 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	private void replaceParsedOclConstraints(INakedClassifier c,Collection<? extends INakedConstraint> invs,Environment env){
 		for(INakedConstraint cont:invs){
-			
 			INakedValueSpecification spec = cont.getSpecification();
 			if(spec.getValue() instanceof ParsedOclString){
 				ParsedOclString holder = (ParsedOclString) spec.getValue();
+				holder.setContext(c, spec);
 				spec.setValue(replaceSingleParsedOclString(holder, c, StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName), env));
 			}
 		}
 	}
 	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
-		INakedNameSpace ns = c.getNameSpace();
-		OclEngine engine = new OclEngine();
-		engine.setOclLibrary(getOclLibrary());
-		List<IOclError> localErrors = new ArrayList<IOclError>();
-		IOclExpression ast = null;
-		ExpressionAnalyzer ea = new ExpressionAnalyzer("model", localErrors);
-		java.io.StringReader sr = new java.io.StringReader(holder.getExpressionString());
-		java.io.Reader r = new java.io.BufferedReader(sr);
-		OclParser parser = new OclParser(r);
-		try{
-			if(getBuiltInTypes().getBusinessRole() != null){
-				env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getBusinessRole()), false);
-			}
-			ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
-			IOclContext newC = transformIntoOclContext(holder, ast, localErrors);
-			IClassifier expressionType = newC.getExpression().getExpressionType();
-			if(expectedType != null){
-				if(expectedType instanceof StdlibCollectionType && !(expressionType instanceof StdlibCollectionType)){
-					expectedType = ((StdlibCollectionType) expectedType).getElementType();
-					// be lenient with multiplicity - will likely be corrected automatically
-				}
-				if(expressionType instanceof StdlibCollectionType && !(expectedType instanceof StdlibCollectionType)){
-					expressionType = ((StdlibCollectionType) expressionType).getElementType();
-					// be lenient with multiplicity - will likely be corrected automatically
-				}
-				if(expressionType instanceof INakedPrimitiveType){
-					expectedType=((INakedPrimitiveType)expressionType).getOclType();
-				}
-				if(expectedType instanceof INakedPrimitiveType){
-					expectedType =((INakedPrimitiveType)expectedType ).getOclType();
-				}
-				if(!expressionType.conformsTo(expectedType)){
-					this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
-							"Return value of type " + expectedType.getName() + " expected, but the expression returns a value of type " + expressionType.getName());
-				}
-			}
-			return newC;
-		}catch(AnalysisException e){
-			System.out.println(holder.getExpressionString());
-			e.printStackTrace(System.out);
-			putOclError(holder, e);
+		if(holder.getExpressionString() == null){
+			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, "No expression provided");
 			OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
-			errCtx.setExpressionString(holder.getExpressionString());
+			errCtx.setExpressionString("No expression provided");
 			return errCtx;
-		}catch(Throwable e){
-			System.out.println(holder.getExpressionString());
-			if(localErrors.size() > 0){
-				for(IOclError oe:localErrors){
-					System.out.println(oe);
+		}else{
+			INakedNameSpace ns = c.getNameSpace();
+			OclEngine engine = new OclEngine();
+			engine.setOclLibrary(getOclLibrary());
+			List<IOclError> localErrors = new ArrayList<IOclError>();
+			IOclExpression ast = null;
+			ExpressionAnalyzer ea = new ExpressionAnalyzer("model", localErrors);
+			java.io.StringReader sr = new java.io.StringReader(holder.getExpressionString());
+			java.io.Reader r = new java.io.BufferedReader(sr);
+			OclParser parser = new OclParser(r);
+			try{
+				if(getBuiltInTypes().getBusinessRole() != null){
+					env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getBusinessRole()), false);
 				}
-				putErrors(holder, localErrors);
+				ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
+				IOclContext newC = transformIntoOclContext(holder, ast, localErrors);
+				IClassifier expressionType = newC.getExpression().getExpressionType();
+				if(expectedType != null){
+					if(expectedType instanceof StdlibCollectionType && !(expressionType instanceof StdlibCollectionType)){
+						expectedType = ((StdlibCollectionType) expectedType).getElementType();
+						// be lenient with multiplicity - will likely be corrected automatically
+					}
+					if(expressionType instanceof StdlibCollectionType && !(expectedType instanceof StdlibCollectionType)){
+						expressionType = ((StdlibCollectionType) expressionType).getElementType();
+						// be lenient with multiplicity - will likely be corrected automatically
+					}
+					if(expressionType instanceof INakedPrimitiveType){
+						expectedType = ((INakedPrimitiveType) expressionType).getOclType();
+					}
+					if(expectedType instanceof INakedPrimitiveType){
+						expectedType = ((INakedPrimitiveType) expectedType).getOclType();
+					}
+					if(!expressionType.conformsTo(expectedType)){
+						this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
+								"Return value of type " + expectedType.getName() + " expected, but the expression returns a value of type " + expressionType.getName());
+					}
+				}
+				return newC;
+			}catch(AnalysisException e){
+				System.out.println(holder.getExpressionString());
+				e.printStackTrace(System.out);
+				putOclError(holder, e);
+				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
+				errCtx.setExpressionString(holder.getExpressionString());
+				return errCtx;
+			}catch(Throwable e){
+				System.out.println(holder.getExpressionString());
+				if(localErrors.size() > 0){
+					for(IOclError oe:localErrors){
+						System.out.println(oe);
+					}
+					putErrors(holder, localErrors);
+				}
+				e.printStackTrace();
+				putError(holder, e);
+				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
+				errCtx.setExpressionString(holder.getExpressionString());
+				return errCtx;
 			}
-			e.printStackTrace();
-			putError(holder, e);
-			OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
-			errCtx.setExpressionString(holder.getExpressionString());
-			return errCtx;
 		}
 	}
 	protected void putOclError(ParsedOclString holder,AnalysisException e){
-		INakedElement ne = (INakedElement)holder.getOwningModelElement().getModelElement();
+		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
 		String msg = e.getError().getErrorMessage();
-		Integer column=e.getError().getColumnNumber();
-		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg,column);
+		Integer column = e.getError().getColumnNumber();
+		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
 	}
 	private void putError(ParsedOclString holder,Throwable e){
-		INakedElement ne = (INakedElement)holder.getOwningModelElement().getModelElement();
+		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
 		String msg = e.getMessage();
-		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg,1);
+		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, 1);
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();
@@ -499,7 +505,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	private void putErrors(ParsedOclString holder,List<IOclError> localErrors){
 		for(IOclError oe:localErrors){
-			this.getErrorMap().putError((INakedElement)holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, oe.getErrorMessage());
+			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, oe.getErrorMessage());
 		}
 	}
 }

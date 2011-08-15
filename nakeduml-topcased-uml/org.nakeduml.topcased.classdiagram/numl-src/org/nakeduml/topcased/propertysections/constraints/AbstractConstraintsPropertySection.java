@@ -28,7 +28,7 @@ public abstract class AbstractConstraintsPropertySection extends AbstractTabbedP
 		};
 		groupDetails = getWidgetFactory().createGroup(composite, "Constraint Details");
 		groupDetails.setLayout(new GridLayout());
-		details = new OclConstraintDetailsComposite(getWidgetFactory(), groupDetails, getFeature()){
+		details = new OclConstraintDetailsComposite(getEditingDomain(), getWidgetFactory(), groupDetails, getFeature()){
 
 			@Override
 			public void constraintUpdated(Constraint a){
@@ -46,7 +46,6 @@ public abstract class AbstractConstraintsPropertySection extends AbstractTabbedP
 		details.setContext((Element) getEObject());
 		refresh();
 		table.setEditDomain(getEditingDomain());
-		details.setEditDomain(getEditingDomain());
 
 	}
 	protected void setSectionData(Composite composite){

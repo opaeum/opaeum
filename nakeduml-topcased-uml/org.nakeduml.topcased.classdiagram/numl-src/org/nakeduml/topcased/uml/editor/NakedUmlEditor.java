@@ -122,7 +122,6 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 			if(cfg != null){
 				final NakedUmlEclipseContext newOne = new NakedUmlEclipseContext(cfg,umlDir);
 				contexts.put(umlDir, newOne);
-				Display.getDefault().timerExec(1000, new NakedUmlErrorMarker(newOne));
 				result=newOne;
 			}
 		}

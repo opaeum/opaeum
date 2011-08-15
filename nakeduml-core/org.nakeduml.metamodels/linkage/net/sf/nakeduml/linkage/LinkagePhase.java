@@ -65,6 +65,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		return this.linkers;
 	}
 	public static Set<INakedElement> filterChildrenOut(Collection<INakedElement> elements){
+		elements.remove(null);
 		Set<INakedElement> elementsToProcess = new HashSet<INakedElement>();
 		outer:for(INakedElement element1:elements){
 			for(INakedElement element2:elements){

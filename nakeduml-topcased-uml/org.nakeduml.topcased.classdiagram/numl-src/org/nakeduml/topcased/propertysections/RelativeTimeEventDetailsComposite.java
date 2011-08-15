@@ -35,21 +35,21 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 	private Enumeration timeUnit;
 	private Stereotype stereotype;
 	private String stereotypeName;
-	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
-		super(toolkit, parent, standardLabelWidth);
+	public RelativeTimeEventDetailsComposite(EditingDomain d, TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
+		super(d,toolkit, parent, standardLabelWidth);
 		this.stereotypeName = "RelativeTimeEvent";
 	}
-	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,String stereotypeName){
-		super(toolkit, parent, standardLabelWidth);
+	public RelativeTimeEventDetailsComposite(EditingDomain d,TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,String stereotypeName){
+		super(d,toolkit, parent, standardLabelWidth);
 		this.stereotypeName = stereotypeName;
 	}
-	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,TimeEventListener listener){
-		super(widgetFactory, details, i, listener);
+	public RelativeTimeEventDetailsComposite(EditingDomain d,TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,TimeEventListener listener){
+		super(d,widgetFactory, details, i, listener);
 		this.stereotypeName = "RelativeTimeEvent";
 	}
 	@Override
-	protected TimeEvent findOrCreateTimeEvent(EditingDomain domain,Trigger t){
-		TimeEvent te = super.findOrCreateTimeEvent(domain, t);
+	protected TimeEvent findOrCreateTimeEvent(Trigger t){
+		TimeEvent te = super.findOrCreateTimeEvent(t);
 		return te;
 	}
 	@Override
@@ -92,8 +92,8 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 	protected boolean isRelative(){
 		return true;
 	}
-	public void setTrigger(EditingDomain domain,Trigger t){
-		super.setTrigger(domain, t);
+	public void setTrigger(Trigger t){
+		super.setTrigger(t);
 	}
 	@Override
 	protected void setTimeEvent(TimeEvent timeEvent){

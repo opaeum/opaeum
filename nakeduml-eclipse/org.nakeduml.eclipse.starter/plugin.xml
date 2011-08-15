@@ -14,38 +14,6 @@
                 menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
-        <objectContribution
-             id="org.nakeduml.eclipse.starter.actions.dir.generate"
-             objectClass="org.eclipse.core.resources.IFolder">
-          <action
-                class="org.nakeduml.eclipse.starter.RecompileModelDirectoryAction"
-                enablesFor="1"
-                id="org.nakeduml.eclipse.starter.RecompileModelDirectoryAction"
-                label="Recompile models in directory"
-                menubarPath="org.nakeduml.eclipse.starter.dir.menu/numlActionsGroup">
-          </action>         
-          <action
-                class="org.nakeduml.eclipse.starter.RecalculateDependenciesAction"
-                enablesFor="1"
-                id="org.nakeduml.eclipse.starter.RecalculateDependenciesAction"
-                label="Recalculate dependencies"
-                menubarPath="org.nakeduml.eclipse.starter.dir.menu/numlActionsGroup">
-          </action>         
-          <action
-                class="org.nakeduml.eclipse.starter.EditNakedUmlConfigAction"
-                enablesFor="1"
-                id="org.nakeduml.eclipse.starter.EditNakedUmlConfigAction"
-                label="Edit NakedUML settings"
-                menubarPath="org.nakeduml.eclipse.starter.dir.menu/numlActionsGroup">
-          </action>
-          <menu
-                id="org.nakeduml.eclipse.starter.dir.menu"
-                label="Naked UML">
-             <groupMarker
-                   name="numlActionsGroup">
-             </groupMarker>
-          </menu>         
-       </objectContribution>
     </extension>
  <extension
        point="org.eclipse.ui.startup">
@@ -58,5 +26,13 @@
     <sourceFolderStrategy
           className="net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy">
     </sourceFolderStrategy>
+ </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          allPopups="false"
+          class="org.nakeduml.eclipse.starter.OpiumContributionFactory"
+          locationURI="popup:org.eclipse.ui.popup.any?before=additions">
+    </menuContribution>
  </extension>
 </plugin>

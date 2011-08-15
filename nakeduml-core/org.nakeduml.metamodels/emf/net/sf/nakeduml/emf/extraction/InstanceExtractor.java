@@ -68,6 +68,7 @@ public class InstanceExtractor extends AbstractExtractorFromEmf{
 					// nakedSlot is the parent, addOwnedElement will resolve
 					getValueSpecification(nakedSlot, emfValueSpec, OclUsageType.INIT);
 				}
+				
 			}
 		}
 	}

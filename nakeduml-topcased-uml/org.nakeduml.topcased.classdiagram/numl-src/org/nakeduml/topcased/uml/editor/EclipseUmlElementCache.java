@@ -44,10 +44,10 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		private INakedModelWorkspace nakedModelWorspace;
 		private Set<INakedNameSpace> nakedUmlChanges;
 		private Map<String,NamespaceRenameRequest> renamedRequestsByNewName;
-		private IUmlModelUpdator updater;
+		private UmlCacheListener updater;
 		
 		public EmfToNakedUmlSynchronizer(Set<EObject> emfChanges,INakedModelWorkspace nakedModelWorspace,Set<INakedNameSpace> nakedUmlChanges2,
-				Map<String,NamespaceRenameRequest> renamedRequestsByNewName,IUmlModelUpdator umlModelUpdator){
+				Map<String,NamespaceRenameRequest> renamedRequestsByNewName,UmlCacheListener umlModelUpdator){
 			super();
 			this.emfChanges = emfChanges;
 			this.nakedModelWorspace = nakedModelWorspace;
@@ -66,9 +66,9 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 						if(object instanceof INakedElement){
 							INakedElement ne = (INakedElement) object;
 							if(isLocalJavaRename(ne) && couldBeReferencedFromOcl(ne)){
-								updateOclReferencesTo(ne);
+								updater.updateOclReferencesTo(ne);
 							}
-							while(!(ne instanceof INakedClassifier || ne instanceof INakedRootObject)){
+							while(!(ne instanceof INakedClassifier || ne instanceof INakedRootObject || ne ==null)){
 								ne = (INakedElement) ne.getOwnerElement();
 							}
 							if(ne instanceof INakedNameSpace){
@@ -87,6 +87,7 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 							nakedUmlChanges.add(iNakedNameSpace);
 						}
 					}
+					updater.synchronizationComplete(asdf, nakedUmlChanges);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -98,20 +99,6 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		}
 		private boolean isLocalJavaRename(INakedElement ne){
 			return ne.getMappingInfo().getJavaName() != null && !ne.getMappingInfo().getJavaName().equals(ne.getMappingInfo().getOldJavaName());
-		}
-		private void updateOclReferencesTo(INakedElement ne){
-			for(INakedElement de:getNakedWorkspace().getDependentElements(ne)){
-				if(de instanceof INakedValueSpecification && ((INakedValueSpecification) de).isValidOclValue()){
-					final INakedValueSpecification vs = (INakedValueSpecification) de;
-					updater.updateOclBody(de, vs.getOclValue(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), UMLPackage.eINSTANCE.getOpaqueExpression_Language());
-				}else if(de instanceof INakedOpaqueBehavior && ((INakedOpaqueBehavior) ne).getBodyExpression() instanceof OclContextImpl){
-					final INakedOpaqueBehavior vs = (INakedOpaqueBehavior) de;
-					updater.updateOclBody(de, vs.getBodyExpression(), UMLPackage.eINSTANCE.getOpaqueBehavior_Body(), UMLPackage.eINSTANCE.getOpaqueBehavior_Language());
-				}else if(de instanceof INakedOclAction && ((INakedOclAction) ne).getBodyExpression() instanceof OclContextImpl){
-					final INakedOclAction vs = (INakedOclAction) de;
-					updater.updateOclBody(de, vs.getBodyExpression(), UMLPackage.eINSTANCE.getOpaqueAction_Body(), UMLPackage.eINSTANCE.getOpaqueAction_Language());
-				}
-			}
 		}
 		private void maybeAddRenameRequest(INakedNameSpace ne){
 			// NB!!! this has to be done here in case multiple renames occurred before synchronization with java source
@@ -145,16 +132,16 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		}
 	}
 	private IProgressMonitor monitor;
-	private IUmlModelUpdator umlModelUpdator;
+	private UmlCacheListener umlModelUpdator;
 	NakedUmlElementLinker linker=new NakedUmlElementLinker();
-	EclipseUmlElementCache(NakedUmlConfig cfg,IUmlModelUpdator umlModelUpdator){
+	EclipseUmlElementCache(NakedUmlConfig cfg,UmlCacheListener umlModelUpdator){
 		super(new EclipseEmfResourceHelper(), cfg);
 		this.umlModelUpdator = umlModelUpdator;
 	}
 	@Override
 	public void notifyChanged(Notification notification){
-		super.notifyChanged(notification);
 		linker.notifyChanged(notification);
+		super.notifyChanged(notification);
 	}
 	public void setMonitor(IProgressMonitor monitor){
 		getTransformationProcess().setLog(new ProgressMonitorTransformationLog(monitor));

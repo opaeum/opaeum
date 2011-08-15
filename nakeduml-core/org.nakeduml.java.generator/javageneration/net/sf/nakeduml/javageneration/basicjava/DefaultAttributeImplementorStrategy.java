@@ -21,17 +21,6 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 	@Override
 	public OJOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean returnDefault) {
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
-		getter.setReturnType(map.javaTypePath());
-		owner.addToOperations(getter);
-		if (owner instanceof OJAnnotatedInterface) {
-		} else if (returnDefault) {
-			getter.getBody().addToStatements("return " + map.javaDefaultValue());
-		} else {
-			getter.getBody().addToStatements("return " + map.umlName());
-		}
-		getter.setStatic(map.isStatic());
-		INakedElement property = map.getProperty();
-		OJUtil.addMetaInfo(getter, property);
 		return getter;
 	}
 
@@ -41,27 +30,6 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public void buildOneToOneSetter(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		OJAnnotatedField oldValue = new OJAnnotatedField("oldValue",map.javaTypePath());
-		oldValue.setInitExp("this." + map.umlName());
-		setter.getBody().addToLocals(oldValue);
-		// If oldValue==null then set the new Value unconditionally
-		OJIfStatement ifNull = new OJIfStatement();
-		ifNull.setName(AttributeImplementor.IF_OLD_VALUE_NULL);
-		ifNull.setCondition("oldValue==null");// && );
-		ifNull.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
-		setter.getBody().addToStatements(ifNull);
-		OJIfStatement ifNotSame = new OJIfStatement();
-		ifNotSame.setCondition("!oldValue.equals(" + map.umlName() + ")");
-		ifNull.addToElsePart(ifNotSame);
-		ifNotSame.getThenPart().addToStatements("this." + map.umlName() + "=" + map.umlName());
-		// remove "this" from existing reference
-		ifNotSame.getThenPart().addToStatements("oldValue." + otherMap.internalRemover() + "(this)");
-		// add "this" to new reference\
-		OJIfStatement ifParamNotNull = new OJIfStatement();
-		ifParamNotNull.setCondition(map.umlName() + "!=null");
-		ifParamNotNull.getThenPart().addToStatements(map.umlName() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
-		ifNotSame.getThenPart().addToStatements(ifParamNotNull);
-		ifNull.getThenPart().addToStatements(ifParamNotNull);
 	}
 
 

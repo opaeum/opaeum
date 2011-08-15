@@ -1,81 +1,79 @@
 package org.nakeduml.topcased.propertysections;
 
-import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.nakeduml.topcased.commands.SetOclExpressionCommand;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
-	protected OclValueComposite oclComposite;
+	protected OpaqueExpressionBodyComposite oclComposite;
 	protected CLabel label;
 	public AbstractOpaqueExpressionSection(){
 		super();
 	}
-	protected abstract OpaqueExpression getExpression(EObject e);
-	protected abstract NamedElement getOwner();
-	protected abstract ValueSpecification getValueSpecification();
+	protected abstract NamedElement getValueSpecificationOwner();
+	protected abstract EReference getValueSpecificationFeature();
+	/**
+	 * Must NEVER return null
+	 * 
+	 * @return
+	 */
+	protected NamedElement getOclContext(){
+		return getValueSpecificationOwner();
+	}
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		oclComposite.setValueElement(getOclContext());
+		oclComposite.setOclContext(getOclContext(), getValueSpecificationOwner(), getOpaqueExpression());
 	}
-	protected Element getOclContext(){
-		return getOwner();
+	private OpaqueExpression getOpaqueExpression(){
+		ValueSpecification vs = getValueSpecification();
+		return (OpaqueExpression) (vs instanceof OpaqueExpression ? vs : null);
 	}
-	protected String getFeatureAsString(){
-		OpaqueExpression expression = getExpression(getEObject());
-		if(expression == null || expression.getBodies().size() == 0){
-			return OclValueComposite.DEFAULT_TEXT;
+	private ValueSpecification getValueSpecification(){
+		NamedElement owner = getValueSpecificationOwner();
+		if(owner == null){
+			return null;
 		}else{
-			return expression.getBodies().get(0);
-		}
-	}
-	protected Object getNewFeatureValue(String newText){
-		return newText;
-	}
-	protected Object getOldFeatureValue(){
-		if(getValueSpecification() instanceof OpaqueExpression){
-			OpaqueExpression oe = getExpression(getEObject());
-			EList<String> bodies = oe.getBodies();
-			for(int i = 0;i < bodies.size();i++){
-				if(oe.getLanguages().size() > 0 && oe.getLanguages().get(i).equalsIgnoreCase("ocl")){
-					return bodies.get(i);
-				}
-			}
-			return "";
-		}else{
-			return "";
+			return (ValueSpecification) owner.eGet(getValueSpecificationFeature());
 		}
 	}
 	protected void createWidgets(Composite composite){
 		label = getWidgetFactory().createCLabel(composite, getLabelText());
-		oclComposite = new OclValueComposite(composite, getWidgetFactory(), new OclChangeListener(){
+		oclComposite = new OpaqueExpressionBodyComposite(composite, getWidgetFactory()){
 			@Override
-			public void oclChanged(String oclText){
-				handleOclChanged(oclText);
+			public EReference getValueSpecificationFeature(){
+				return AbstractOpaqueExpressionSection.this.getValueSpecificationFeature();
 			}
-		});
+			@Override
+			protected void fireOclChanged(String text){
+				super.valueSpecificationOwner = beforeOclChanged(text);
+				if(valueSpecificationOwner != null){
+					super.fireOclChanged(text);
+				}
+			}
+			@Override
+			protected EditingDomain getEditingDomain(){
+				return AbstractOpaqueExpressionSection.this.getEditingDomain();
+			}
+		};
 		oclComposite.setBackground(composite.getBackground());
 	}
-	protected void handleOclChanged(String oclText){
-		Command cmd = SetOclExpressionCommand.create(getEditingDomain(), getOwner(), getValueSpecificationFeature(), oclText);
-		getEditingDomain().getCommandStack().execute(cmd);
-	}
-	protected EReference getValueSpecificationFeature(){
-		return (EReference) getFeature();
+	/**
+	 * Populate the valueSpecificationOwner late here if required
+	 */
+	protected NamedElement beforeOclChanged(String text){
+		return getValueSpecificationOwner();
 	}
 	protected String getExpressionLabel(){
 		return "Value expression";
@@ -94,17 +92,14 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	public void refresh(){
 		super.refresh();
-		if(getValueSpecification() instanceof OpaqueExpression){
-			oclComposite.getTextControl().setText(getFeatureAsString());
-		}else{
-			oclComposite.getTextControl().setText(OclValueComposite.DEFAULT_TEXT);
-		}
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
 		super.setEnabled(enabled);
-		if(oclComposite.getTextControl() != null){
-			oclComposite.getTextControl().setEnabled(enabled);
-		}
+		oclComposite.setEnabled(enabled);
+	}
+	@Override
+	protected final EStructuralFeature getFeature(){
+		return getValueSpecificationFeature();
 	}
 }

@@ -9,6 +9,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessComponent;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
@@ -44,7 +45,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		Set<INakedClassifier> participant = new HashSet<INakedClassifier>();
 		Set<INakedEnumeration> enumerations = new HashSet<INakedEnumeration>();
 		public MetaDefElementCollector(INakedModelWorkspace workspace){
-			super.workspace=workspace;
+			super.workspace = workspace;
 		}
 		@VisitBefore
 		public void visitEnumeration(INakedEnumeration i){
@@ -100,9 +101,12 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, pkg);
 			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, pkg);
 			doMetaDef(collector.participant, PARTICIPANT_META_DEF, pkg);
-			doTypeDefs(collector.enumerations, "Resolver",pkg);
-			doTypeDefs(collector.allProcesses, "StateResolver",pkg);
-
+			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+				doTypeDefs(collector.enumerations, "Resolver", pkg);
+			}
+			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
+				doTypeDefs(collector.allProcesses, "StateResolver", pkg);
+			}
 		}
 	}
 	private void applyFilter(OJAnnotatedPackage ap){
@@ -131,10 +135,20 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), adPkg);
 				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), domainPkg);
 			}
-			doTypeDefs(collector.enumerations, "Resolver",domainPkg);
-			doTypeDefs(collector.allProcesses, "StateResolver",domainPkg);
-			doTypeDefs(collector.enumerations, "Resolver",adPkg);
-			doTypeDefs(collector.allProcesses, "StateResolver",adPkg);
+			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+				doTypeDefs(collector.enumerations, "Resolver", domainPkg);
+			}
+			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
+				doTypeDefs(collector.allProcesses, "StateResolver", domainPkg);
+			}
+
+			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+				doTypeDefs(collector.enumerations, "Resolver", adPkg);
+			}
+			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
+				doTypeDefs(collector.allProcesses, "StateResolver", adPkg);
+			}
+
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, adPkg);
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, domainPkg);
 			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, adPkg);
@@ -144,7 +158,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 	}
 	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackage p){
-		OJAnnotationValue typeDefs=getTypeDefs(p);
+		OJAnnotationValue typeDefs = getTypeDefs(p);
 		for(INakedClassifier a:processes){
 			OJAnnotationValue typeDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDef"));
 			typeDefs.addAnnotationValue(typeDef);
@@ -155,8 +169,8 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	}
 	private OJAnnotationValue getTypeDefs(OJAnnotatedPackage p){
 		OJAnnotationValue typeDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.TypeDefs"));
-		if(typeDefs==null){
-			typeDefs=new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDefs"));
+		if(typeDefs == null){
+			typeDefs = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDefs"));
 			p.putAnnotation(typeDefs);
 		}
 		return typeDefs;

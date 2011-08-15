@@ -6,7 +6,9 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -26,11 +28,12 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{
@@ -38,27 +41,29 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		void timeEventChanged(TimeEvent t);
 	}
 	protected CLabel expressionLabel;
-	private OclValueComposite expressionComposite;
+	private OpaqueExpressionBodyComposite expressionComposite;
 	protected TimeEvent event;
 	Element trigger;
 	protected Text nameTxt;
 	private TimeEventListener listener;
-	public AbsoluteTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth, TimeEventListener listener){
-		this(toolkit, parent, standardLabelWidth);
-		this.listener=listener;
+	private EditingDomain editingDomain;
+	public AbsoluteTimeEventDetailsComposite(EditingDomain editingDomain,TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,
+			TimeEventListener listener){
+		this(editingDomain, toolkit, parent, standardLabelWidth);
+		this.listener = listener;
 	}
-	public AbsoluteTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
+	public AbsoluteTimeEventDetailsComposite(EditingDomain editingDomain,TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 		super(parent, SWT.NONE);
+		this.editingDomain = editingDomain;
 		setBackground(parent.getBackground());
 		super.setLayout(new FormLayout());
 		Label createLabel = toolkit.createLabel(this, "Timer Name");
 		createLabel.setLayoutData(new FormData());
 		this.nameTxt = toolkit.createText(this, "", SWT.BORDER);
-		
 		FormData nameData = new FormData();
 		nameData.left = new FormAttachment(0, standardLabelWidth);
 		nameData.right = new FormAttachment(100, 0);
-		nameData.height=12;
+		nameData.height = 12;
 		nameTxt.setLayoutData(nameData);
 		nameTxt.addFocusListener(new FocusListener(){
 			public void focusLost(FocusEvent e){
@@ -85,7 +90,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		toolkit.adapt(this);
 	}
 	public void maybeFire(){
-		if(listener!=null){
+		if(listener != null){
 			listener.timeEventChanged(event);
 		}
 	}
@@ -107,18 +112,26 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			expData.top = new FormAttachment(c[c.length - 2], 4, 0);
 		}
 		expressionLabel.setLayoutData(labelData);
-		expressionComposite = new OclValueComposite(this, toolkit, new OclChangeListener(){
+		expressionComposite = new OpaqueExpressionBodyComposite(this, toolkit){
 			@Override
-			public void oclChanged(String value){
-				OpaqueExpression oe = getOpaqueExpression();
-				//TODO do in command
-				oe.getBodies().set(0, value);
+			public void fireOclChanged(String value){
+				super.fireOclChanged(value);
 				maybeFire();
 			}
-		});
+
+			@Override
+			public EReference getValueSpecificationFeature(){
+				return UMLPackage.eINSTANCE.getTimeExpression_Expr();
+			}
+
+			@Override
+			protected EditingDomain getEditingDomain(){
+				return editingDomain;
+			}
+		};
 		expData.left = new FormAttachment(0, standardLabelWidth);
 		expData.right = new FormAttachment(100, 0);
-		 expData.bottom=new FormAttachment(100,0);
+		expData.bottom = new FormAttachment(100, 0);
 		expData.height = 50;
 		expressionComposite.setBackground(getBackground());
 		expressionComposite.setLayoutData(expData);
@@ -126,7 +139,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 	protected OpaqueExpression getOpaqueExpression(){
 		return (OpaqueExpression) event.getWhen().getExpr();
 	}
-	protected TimeEvent findOrCreateTimeEvent(EditingDomain domain,Trigger t){
+	protected TimeEvent findOrCreateTimeEvent(Trigger t){
 		TimeEvent timeEvent = null;
 		if(t.getEvent() instanceof TimeEvent){
 			if(((TimeEvent) t.getEvent()).isRelative() == isRelative()){
@@ -139,8 +152,8 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			if(timeEvent == null){
 				timeEvent = UMLFactory.eINSTANCE.createTimeEvent();
 				timeEvent.setName(((NamedElement) t.getOwner()).getName() + "TimeEvent");
-				Command cmd = AddCommand.create(domain, eventsPackage, UMLPackage.eINSTANCE.getPackage_PackagedElement(), timeEvent);
-				domain.getCommandStack().execute(cmd);
+				Command cmd = AddCommand.create(editingDomain, eventsPackage, UMLPackage.eINSTANCE.getPackage_PackagedElement(), timeEvent);
+				editingDomain.getCommandStack().execute(cmd);
 				StereotypesHelper.getNumlAnnotation(timeEvent).getReferences().add(trigger);
 				timeEvent.setIsRelative(isRelative());
 			}
@@ -170,19 +183,19 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		}
 		return timeEvent;
 	}
-	public void setTrigger(EditingDomain domain,Trigger t){
+	public void setTrigger(Trigger t){
 		if(t.eResource() != null){
 			trigger = t;
-			TimeEvent timeEvent = findOrCreateTimeEvent(domain, t);
-			setContext(domain, t, timeEvent);
+			TimeEvent timeEvent = findOrCreateTimeEvent(t);
+			setContext(t, timeEvent);
 		}
 	}
-	public void setContext(EditingDomain domain,Element context,TimeEvent te){
+	public void setContext(NamedElement context,TimeEvent te){
 		if(context != null && context.eResource() != null){
 			trigger = context;
 			initProfileElements(context);
 			setTimeEvent(te);
-			expressionComposite.setValueElement(context);
+			expressionComposite.setOclContext(context, te.getWhen(), getOpaqueExpression());
 		}else{
 			setTimeEvent(null);
 		}
@@ -195,21 +208,24 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		expressionComposite.setEnabled(b);
 		nameTxt.setEnabled(b);
 	}
-
 	protected void initProfileElements(Element e){
 	}
 	protected void setTimeEvent(TimeEvent timeEvent){
 		if(timeEvent != null){
 			setEnabled(true);
 			if(timeEvent.getWhen() == null){
-				timeEvent.createWhen("when", null);
+				TimeExpression when = UMLFactory.eINSTANCE.createTimeExpression();
+				when.setName("when");
+				editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, timeEvent, UMLPackage.eINSTANCE.getTimeEvent_When(), when));
 			}
 			if(timeEvent.getWhen().getExpr() == null){
-				timeEvent.getWhen().createExpr("expr", null, UMLPackage.eINSTANCE.getOpaqueExpression());
+				OpaqueExpression expr = UMLFactory.eINSTANCE.createOpaqueExpression();
+				expr.setName("expr");
+				editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, timeEvent.getWhen(), UMLPackage.eINSTANCE.getTimeExpression_Expr(), expr));
 			}
 			EList<String> bodies = ((OpaqueExpression) timeEvent.getWhen().getExpr()).getBodies();
 			if(bodies.size() == 0){
-				bodies.add(OclValueComposite.DEFAULT_TEXT);
+				bodies.add(OclBodyComposite.DEFAULT_TEXT);
 			}
 			expressionComposite.getTextControl().setText(bodies.get(0));
 			nameTxt.setText(timeEvent.getName());

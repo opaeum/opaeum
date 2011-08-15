@@ -1,8 +1,10 @@
 package org.nakeduml.topcased.propertysections;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.ocl.ecore.UnlimitedNaturalLiteralExp;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,7 +30,8 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		}
 		public void widgetSelected(SelectionEvent e){
 			feature = myFeature;
-			createCommand(getFeatureOwner().eGet(myFeature), Boolean.valueOf(((Button) e.getSource()).getSelection()));
+			Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), ((Button) e.getSource()).getSelection());
+			getEditingDomain().getCommandStack().execute(cmd);
 		}
 		public void widgetDefaultSelected(SelectionEvent e){
 		}
@@ -60,9 +63,11 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 				}else{
 					parseInt = Integer.parseInt(text);
 				}
-				createCommand(getFeatureOwner().eGet(myFeature), parseInt);
+				Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), parseInt);
+				getEditingDomain().getCommandStack().execute(cmd);
 			}catch(Exception e){
-				createCommand(getFeatureOwner().eGet(myFeature), 0);
+				Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), 0);
+				getEditingDomain().getCommandStack().execute(cmd);
 			}
 		}
 	}

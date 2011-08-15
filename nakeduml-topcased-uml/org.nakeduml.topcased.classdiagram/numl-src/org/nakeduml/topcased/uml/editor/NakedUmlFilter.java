@@ -17,6 +17,8 @@ public class NakedUmlFilter extends ViewerFilter{
 	public static Set<EClassifier> ALLOWED_ELEMENTS = new HashSet<EClassifier>();
 	static{
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getAssociation());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getTransition());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getActivityEdge());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getActivity());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getStateMachine());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getPackage());
@@ -39,6 +41,9 @@ public class NakedUmlFilter extends ViewerFilter{
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterface());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getConstraint());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getOpaqueExpression());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInstanceSpecification());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInstanceValue());
+		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getSlot());
 		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
 	}
 	public boolean select(Viewer viewer,Object parentElement,Object element){

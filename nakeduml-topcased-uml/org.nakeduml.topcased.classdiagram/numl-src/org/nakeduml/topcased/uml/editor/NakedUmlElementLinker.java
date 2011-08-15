@@ -13,7 +13,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
@@ -67,17 +66,46 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.nakeduml.eclipse.ApplyProfileAction;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfParameterUtil;
 import org.nakeduml.eclipse.EmfValidationUtil;
 import org.nakeduml.eclipse.ImportLibraryAction;
 
-public class NakedUmlElementLinker extends EContentAdapter{
+public class NakedUmlElementLinker{
 	private final class EmfUmlElementLinker extends UMLSwitch<EObject>{
 		private Notification notification;
 		private EmfUmlElementLinker(Notification not){
 			notification = not;
 		}
-		
+		public EObject caseAssociation(Association a){
+			switch(this.notification.getFeatureID(Association.class)){
+			case UMLPackage.ASSOCIATION__NAVIGABLE_OWNED_END:
+				Property p = null;
+				switch(notification.getEventType()){
+				case Notification.ADD:
+					p = (Property) notification.getNewValue();
+					if(p.getOtherEnd().getType() instanceof Enumeration){
+						Enumeration e = (Enumeration) p.getOtherEnd().getType();
+						for(EnumerationLiteral enumerationLiteral:e.getOwnedLiterals()){
+							ensureSlotsPresence(enumerationLiteral, p);
+						}
+					}else if(p.getOtherEnd().getType() instanceof Signal){
+						addPinForSignalActions(p, (Signal) p.getOtherEnd().getType());
+					}
+					break;
+				case Notification.REMOVE:
+					p = (Property) notification.getOldValue();
+					if(p.getOtherEnd().getType() instanceof Enumeration){
+						Enumeration e = (Enumeration) p.getOtherEnd().getType();
+						synchronizeSlotsOnLiterals(e);
+					}else if(p.getOtherEnd().getType() instanceof Signal){
+						removeReferencingPins(p);
+					}
+				}
+				break;
+			}
+			return null;
+		}
 		public EObject caseNamedElement(NamedElement ne){
 			switch(notification.getEventType()){
 			case Notification.SET:
@@ -212,8 +240,11 @@ public class NakedUmlElementLinker extends EContentAdapter{
 						references.add(bp);
 					}
 				}else{
-					Parameter bp = behavior.createOwnedParameter(p.getName(), p.getType());
+					Parameter bp = UMLFactory.eINSTANCE.createParameter();
+					bp.setName(p.getName());
+					bp.setType(p.getType());
 					bp.setDirection(p.getDirection());
+					behavior.getOwnedParameters().add(bp);
 					references.add(bp);
 				}
 			}
@@ -230,7 +261,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 					for(Property property:ass.getMemberEnds()){
 						if(property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
 							for(EnumerationLiteral e:((Enumeration) property.getType()).getOwnedLiterals()){
-								createSlot(e, property.getOtherEnd());
+								ensureSlotsPresence(e, property.getOtherEnd());
 							}
 						}
 					}
@@ -311,26 +342,14 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case UMLPackage.DATA_TYPE__OWNED_ATTRIBUTE:
 				switch(notification.getEventType()){
 				case Notification.ADD:
-					for(EnumerationLiteral e:en.getOwnedLiterals()){
-						createSlot((InstanceSpecification) e, (Property) notification.getNewValue());
-					}
+				case Notification.REMOVE:
+					synchronizeSlotsOnLiterals(en);
 				}
 				break;
 			case UMLPackage.ENUMERATION__OWNED_LITERAL:
 				switch(notification.getEventType()){
 				case Notification.ADD:
-					EnumerationLiteral newValue = (EnumerationLiteral) notification.getNewValue();
-					newValue.getClassifiers().add(en);
-					for(Property a:en.getAllAttributes()){
-						createSlot(newValue, a);
-					}
-					for(Association a:en.getAssociations()){
-						for(Property p:a.getMemberEnds()){
-							if(p.getOtherEnd().getType() == en && p.isNavigable()){
-								createSlot(newValue, p);
-							}
-						}
-					}
+					synchronizeSlots(en, (EnumerationLiteral) notification.getNewValue());
 					break;
 				case Notification.ADD_MANY:
 					break;
@@ -339,6 +358,26 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				break;
 			}
 			return null;
+		}
+		private void synchronizeSlotsOnLiterals(Enumeration en){
+			for(EnumerationLiteral e:en.getOwnedLiterals()){
+				synchronizeSlots(en, e);
+			}
+		}
+		private void synchronizeSlots(Classifier en,InstanceSpecification newValue){
+			newValue.getClassifiers().add(en);
+			List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
+			outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
+				for(Property a:propertiesInScope){
+					if(a.equals(slot.getDefiningFeature())){
+						continue outer;
+					}
+				}
+				newValue.getSlots().remove(slot);
+			}
+			for(Property a:propertiesInScope){
+				ensureSlotsPresence(newValue, a);
+			}
 		}
 		public EObject caseOperation(Operation oper){
 			switch(notification.getFeatureID(Operation.class)){
@@ -585,9 +624,8 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				break;
 			case UMLPackage.PROPERTY__IS_COMPOSITE:
 			case UMLPackage.PROPERTY__AGGREGATION:
-				
 				if(p.isComposite()){
-					if(p.getAssociation()!=null){
+					if(p.getAssociation() != null){
 						if(!p.isNavigable()){
 							p.setIsNavigable(true);
 						}
@@ -720,16 +758,24 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				}
 			}
 		}
-		public void createSlot(InstanceSpecification newValue,Property a){
-			Slot slot = newValue.createSlot();
-			slot.setDefiningFeature(a);
-			OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
-			oclExpression.getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
-			oclExpression.getLanguages().add("ocl");
-			slot.getValues().add(oclExpression);
+		public void ensureSlotsPresence(InstanceSpecification is,Property a){
+			Slot found = null;
+			for(Slot slot:new ArrayList<Slot>(is.getSlots())){
+				if(slot.getDefiningFeature() != null && slot.getDefiningFeature().equals(a)){
+					found = slot;
+				}
+			}
+			if(found == null){
+				found = UMLFactory.eINSTANCE.createSlot();
+				found.setDefiningFeature(a);
+				OpaqueExpression oclExpression = UMLFactory.eINSTANCE.createOpaqueExpression();
+				oclExpression.getBodies().add(EmfValidationUtil.TYPE_EXPRESSION_HERE);
+				oclExpression.getLanguages().add("ocl");
+				found.getValues().add(oclExpression);
+				is.getSlots().add(found);
+			}
 		}
 	}
-	@Override
 	public void notifyChanged(final Notification not){
 		if(not.getNotifier() instanceof Element){
 			EmfUmlElementLinker emfUmlElementLinker = new EmfUmlElementLinker(not);
@@ -749,7 +795,6 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				break;
 			}
 		}
-		super.notifyChanged(not);
 	}
 	private void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
 		if(te.isRelative()){
@@ -823,7 +868,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 		}
 	}
 	public static void main(String[] args){
-		List l = new ArrayList<Object>();
+		List l = new ArrayList<Object>(5);
 		l.add("Stirng");
 		l.add(3, "asdf");
 	}

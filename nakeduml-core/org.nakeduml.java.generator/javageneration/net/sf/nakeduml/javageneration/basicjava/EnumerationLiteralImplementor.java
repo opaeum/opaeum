@@ -31,12 +31,12 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
+
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class
 },after = {
 	Java6ModelGenerator.class
 })
-
 public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void generateExtraConstructor(INakedEnumeration c){
@@ -94,11 +94,11 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					OJIfStatement ifSPS = new OJIfStatement();
 					NakedEnumerationLiteralImpl nakedLiteral = (NakedEnumerationLiteralImpl) iEnumLiteral;
 					List<INakedSlot> slots = nakedLiteral.getSlots();
-					for(INakedSlot iNakedSlot:slots){
-						if(iNakedSlot.getDefiningFeature().equals(iNakedProperty)){
-							ifSPS.setCondition(iNakedProperty.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, iNakedSlot.getFirstValue(), true)
+					for(INakedSlot nakedSlot:slots){
+						if(nakedSlot.getDefiningFeature().equals(iNakedProperty)){
+							ifSPS.setCondition(iNakedProperty.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), true)
 									+ ")");
-							ifSPS.addToThenPart("return " + iEnumLiteral.getName());
+							ifSPS.addToThenPart("return " + iEnumLiteral.getName().toUpperCase());
 							break;
 						}
 					}

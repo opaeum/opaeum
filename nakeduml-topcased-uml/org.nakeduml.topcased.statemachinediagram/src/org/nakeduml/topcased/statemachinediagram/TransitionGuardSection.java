@@ -1,20 +1,16 @@
 package org.nakeduml.topcased.statemachinediagram;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.propertysections.AbstractOpaqueExpressionSection;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
 public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -22,50 +18,33 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 		return "Guard condition expression";
 	}
 	@Override
-	protected Element getOclContext(){
+	protected NamedElement getOclContext(){
 		return getTransition();
-	}
-	@Override
-	protected OpaqueExpression getExpression(EObject e){
-		Constraint guard = getGuard(e);
-		if(guard != null){
-			return (OpaqueExpression) guard.getSpecification();
-		}else{
-			return null;
-		}
-	}
-	private Constraint getGuard(EObject e){
-		return ((Transition) e).getGuard();
 	}
 	private Transition getTransition(){
 		return (Transition) getEObject();
 	}
 	@Override
-	protected NamedElement getOwner(){
+	protected NamedElement getValueSpecificationOwner(){
 		return getTransition().getGuard();
 	}
 	@Override
-	protected ValueSpecification getValueSpecification(){
-		if(getTransition().getGuard() != null){
-			return getTransition().getGuard().getSpecification();
-		}else{
-			return null;
-		}
-	}
-	@Override
-	protected void handleOclChanged(String text){
-		if(text.trim().length()>0){
-			if(getTransition().getGuard()==null){
+	protected NamedElement beforeOclChanged(String text){
+		if(OclBodyComposite.containsExpression(text)){
+			if(getTransition().getGuard() == null){
 				Constraint createConstraint = UMLFactory.eINSTANCE.createConstraint();
-				createConstraint.setName(getTransition().getName()+"Guard");
+				createConstraint.setName(getTransition().getName() + "Guard");
 				Command command = SetCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getTransition_Guard(), createConstraint);
 				getEditingDomain().getCommandStack().execute(command);
 			}
+		}else if(getTransition().getGuard() != null){
+			Command command = RemoveCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getTransition_Guard(), getTransition().getGuard());
+			getEditingDomain().getCommandStack().execute(command);
 		}
-		super.handleOclChanged(text);
+		return getTransition().getGuard();
 	}
 	@Override
-	protected EStructuralFeature getFeature(){
+	protected EReference getValueSpecificationFeature(){
 		return UMLPackage.eINSTANCE.getConstraint_Specification();
 	}
 	@Override

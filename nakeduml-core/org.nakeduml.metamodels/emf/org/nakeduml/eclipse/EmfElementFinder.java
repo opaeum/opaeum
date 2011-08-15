@@ -1,11 +1,9 @@
 package org.nakeduml.eclipse;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
@@ -27,7 +25,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
-		List<TypedElement> result = getPropertiesInScope(c);
+		List<TypedElement> result =  new ArrayList<TypedElement>( getPropertiesInScope(c));
 		if(c instanceof Behavior){
 			Behavior b = (Behavior) c;
 			result.addAll(b.getOwnedParameters());
@@ -97,8 +95,8 @@ public class EmfElementFinder{
 			}
 		}
 	}
-	public static List<TypedElement> getPropertiesInScope(Classifier c){
-		List<TypedElement> result = new ArrayList<TypedElement>(c.getAllAttributes());
+	public static List<Property> getPropertiesInScope(Classifier c){
+		List<Property> result = new ArrayList<Property>(c.getAllAttributes());
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getNavigableOwnedEnds()){
 				if(end.getOtherEnd().getType().equals(c)){

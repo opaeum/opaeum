@@ -5,6 +5,11 @@ import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -16,21 +21,26 @@ import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite;
-import org.nakeduml.topcased.propertysections.ocl.OclValueComposite.OclChangeListener;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
 
 public class ChangeEventDetailsComposite extends Composite{
-	protected OclValueComposite changeComposite;
+	protected OpaqueExpressionBodyComposite changeComposite;
 	Trigger trigger;
 
-	public ChangeEventDetailsComposite(Composite parent,int labelWidth, FormToolkit toolkit){
+	public ChangeEventDetailsComposite(final EditingDomain domain, Composite parent,int labelWidth, FormToolkit toolkit){
 		super(parent, SWT.NONE);
 		setLayout(new FormLayout());
 		Label l = toolkit.createLabel(this, "Condition");
 		setBackground(parent.getBackground());
-		changeComposite = new OclValueComposite(this, toolkit,new OclChangeListener(){
+		changeComposite = new OpaqueExpressionBodyComposite(this, toolkit){
 			@Override
-			public void oclChanged(String value){
+			protected EditingDomain getEditingDomain(){
+				return domain;
+			}
+
+			@Override
+			public void fireOclChanged(String value){
 				ChangeEvent event = null;
 				if(!(trigger.getEvent() instanceof ChangeEvent)){
 					EAnnotation ann = StereotypesHelper.getNumlAnnotation(trigger);
@@ -42,18 +52,23 @@ public class ChangeEventDetailsComposite extends Composite{
 					}
 					if(event == null){
 						event = UMLFactory.eINSTANCE.createChangeEvent();
+						event.createChangeExpression("changeExpression", null, UMLPackage.eINSTANCE.getOpaqueExpression());
 						ann.getContents().add(event);
+						domain.getCommandStack().execute(AddCommand.create(domain, ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), event));
 					}
-					trigger.setEvent(event);
+					domain.getCommandStack().execute(SetCommand.create(domain, trigger, UMLPackage.eINSTANCE.getTrigger_Event(), event));
 				}else{
 					event = (ChangeEvent) trigger.getEvent();
 				}
-				OpaqueExpression expr = UMLFactory.eINSTANCE.createOpaqueExpression();
-				event.setChangeExpression(expr);
-				expr.getBodies().add(changeComposite.getTextControl().getText());
-				expr.getLanguages().add("ocl");
+				super.valueSpecificationOwner=trigger.getEvent();
+				super.fireOclChanged(value);
 			}
-		});
+
+			@Override
+			public EReference getValueSpecificationFeature(){
+				return UMLPackage.eINSTANCE.getChangeEvent_ChangeExpression();
+			}
+		};
 		changeComposite.setBackground(getBackground());
 		FormData layoutData = new FormData();
 		layoutData.left=new FormAttachment(0,labelWidth);
@@ -69,12 +84,9 @@ public class ChangeEventDetailsComposite extends Composite{
 			ChangeEvent ce = (ChangeEvent) trigger.getEvent();
 			if(ce.getChangeExpression() instanceof OpaqueExpression){
 				OpaqueExpression expr = (OpaqueExpression) ce.getChangeExpression();
-				if(expr.getBodies().size() > 0){
-					changeComposite.getTextControl().setText(expr.getBodies().get(0));
-				}
+				changeComposite.setOclContext(trigger,ce,expr);
 			}
 		}
-		changeComposite.setValueElement(trigger);
 		layout();
 		
 	}

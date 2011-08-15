@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.emf.workspace.EmfResourceHelper;
@@ -14,6 +15,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -68,14 +70,16 @@ public class NakedUmlEclipseContext{
 	private ResourceSet currentResourceSet;
 	private EmfWorkspace directoryEmfWorkspace;
 	protected EmfResourceHelper resourceHelper = new EclipseEmfResourceHelper();
+	private NakedUmlErrorMarker errorMarker;
 	public NakedUmlEclipseContext(NakedUmlConfig cfg,IContainer umlDirectory){
 		super();
 		isOpen = true;
 		umlElementCache = new EclipseUmlElementCache(cfg, new UmlModelUpdator());
 		this.umlDirectory = umlDirectory;
+		this.errorMarker = new NakedUmlErrorMarker(this);
 	}
 	public void reinitialize(NakedUmlConfig cfg){
-		directoryEmfWorkspace=null;
+		directoryEmfWorkspace = null;
 		umlElementCache.reinitializeProcess(cfg);
 		ArrayList<EditingContext> arrayList = new ArrayList<EditingContext>(emfWorkspaces.values());
 		this.emfWorkspaces.clear();
@@ -85,6 +89,7 @@ public class NakedUmlEclipseContext{
 		for(EditingContext editingContext:arrayList){
 			startSynch(editingContext.editingDomain, editingContext.file);
 		}
+		Display.getDefault().syncExec(errorMarker);
 	}
 	public String getId(Element umlElement){
 		return resourceHelper.getId(umlElement);
@@ -112,6 +117,7 @@ public class NakedUmlEclipseContext{
 					Package model = findRootObjectInFile(file, emfWorkspace);
 					emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
 					domain.getResourceSet().eAdapters().add(umlElementCache);
+					errorMarker.run();
 				}catch(Exception e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -247,8 +253,22 @@ public class NakedUmlEclipseContext{
 	public boolean isSyncronizingWith(ResourceSet resourceSet){
 		return emfWorkspaces.containsKey(resourceSet);
 	}
-	private class UmlModelUpdator implements IUmlModelUpdator{
-		public void updateOclBody(INakedElement de,final IOclContext oclValue,final EAttribute body,final EAttribute language){
+	private class UmlModelUpdator implements UmlCacheListener{
+		public void updateOclReferencesTo(INakedElement ne){
+			for(INakedElement de:umlElementCache.getNakedWorkspace().getDependentElements(ne)){
+				if(de instanceof INakedValueSpecification && ((INakedValueSpecification) de).isValidOclValue()){
+					final INakedValueSpecification vs = (INakedValueSpecification) de;
+					updateOclBody(de, vs.getOclValue(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), UMLPackage.eINSTANCE.getOpaqueExpression_Language());
+				}else if(de instanceof INakedOpaqueBehavior && ((INakedOpaqueBehavior) ne).getBodyExpression() instanceof OclContextImpl){
+					final INakedOpaqueBehavior vs = (INakedOpaqueBehavior) de;
+					updateOclBody(de, vs.getBodyExpression(), UMLPackage.eINSTANCE.getOpaqueBehavior_Body(), UMLPackage.eINSTANCE.getOpaqueBehavior_Language());
+				}else if(de instanceof INakedOclAction && ((INakedOclAction) ne).getBodyExpression() instanceof OclContextImpl){
+					final INakedOclAction vs = (INakedOclAction) de;
+					updateOclBody(de, vs.getBodyExpression(), UMLPackage.eINSTANCE.getOpaqueAction_Body(), UMLPackage.eINSTANCE.getOpaqueAction_Language());
+				}
+			}
+		}
+		private void updateOclBody(INakedElement de,final IOclContext oclValue,final EAttribute body,final EAttribute language){
 			for(final EditingContext ew:emfWorkspaces.values()){
 				final NamedElement oe = (NamedElement) ew.emfWorkspace.getElementMap().get(de.getId());
 				if(!ew.editingDomain.isReadOnly(oe.eResource())){
@@ -262,6 +282,10 @@ public class NakedUmlEclipseContext{
 					break;
 				}
 			}
+		}
+		@Override
+		public void synchronizationComplete(Set<EObject> asdf,Set<INakedNameSpace> nakedUmlChanges){
+			errorMarker.run();
 		}
 	}
 	public void removeNakedModel(ResourceSet resourceSet){

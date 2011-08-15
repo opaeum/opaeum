@@ -84,9 +84,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			Property.class,ExtensionEnd.class
 	})
 	public void visitProperty(Property p,NakedPropertyImpl np){
-		if(np.getName().equals("participant")){// && np.getOwner().getName().equals("ParticipationInTask")){
-			System.out.println();
-		}
 		boolean navigable = p.isNavigable() || p.isComposite()||p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
 		if(p.getOtherEnd() != null){
 			Property opposite = p.getOtherEnd();
@@ -95,7 +92,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 				navigable = true;
 			}
 			if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
-				navigable = true;
+				navigable = false;
 			}
 			INakedClassifier owner =null;
 			np.getOwner().removeOwnedElement(np);

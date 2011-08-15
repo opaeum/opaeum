@@ -18,7 +18,6 @@ import net.sf.nakeduml.linkage.InverseCalculator;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -26,8 +25,8 @@ import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
-import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.StdLibCreator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import nl.klasse.octopus.model.IClassifier;
 
 import org.hibernate.annotations.CascadeType;
 import org.nakeduml.java.metamodel.OJBlock;
@@ -84,7 +83,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 			}
 			owner.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AccessType"), "field"));
-			List g = complexType.getGeneralizations();
+			List<IClassifier> g = complexType.getGeneralizations();
 			if(!isInSingleTableInheritance(complexType)){
 				OJAnnotatedField deletedOn = OJUtil.addProperty(owner, "deletedOn", new OJPathName(Date.class.getName()), true);
 				deletedOn.setComment("Initialise to 1000 from 1970");
@@ -129,7 +128,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					implementCollectionId(field);
 				}
 				if(f.getNakedBaseType() instanceof INakedEnumeration){
-					HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+					if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+						HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+					}
 				}else if(isPersistent(f.getNakedBaseType())){
 					HibernateUtil.applyFilter(field, HibernateUtil.getHibernateDialect(this.config));
 				}else{
@@ -151,7 +152,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
 		INakedProperty f = map.getProperty();
 		if(f.getNakedBaseType() instanceof INakedEnumeration){
-			HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+				HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+			}
 		}else if(f.getNakedBaseType() instanceof INakedSimpleType){
 			// TODO use strategies
 		}else if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -266,9 +269,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 							ifParamNotNull.getElsePart().addToStatements("markDeleted()");
 						}else{
 							ifParamNotNull.getElsePart().addToStatements("setDeletedOn(new Date())");
-							
 						}
-
 					}
 				}
 			}
