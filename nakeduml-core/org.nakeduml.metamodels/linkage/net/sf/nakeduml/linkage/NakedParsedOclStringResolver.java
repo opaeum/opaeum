@@ -36,6 +36,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
@@ -190,6 +191,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				cont.getSpecification().setValue(replaceSingleParsedOclString(holder, nc, basicType, env));
 			}
 		}
+		if(nc.getOwnedRules().size() > 0){
+			maybeAddAffectedImplementations(nc);
+		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitContextualEvent(INakedContextualEvent ev){
@@ -235,6 +239,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			environmentFactory.addPostEnvironment(env, op);
 			replaceParsedOclConstraints(owner, op.getPostConditions(), env);
 		}
+		if(op.getBodyCondition() != null || op.getPostConditions().size() > 0 || op.getPreConditions().size() > 0){
+			maybeAddAffectedImplementations(op.getOwner());
+			// TODO Auto-generated method stub
+		}
 	}
 	private void replacePreAndBodyConditions(INakedOperation op,INakedClassifier owner,Environment env){
 		replaceParsedOclConstraints(owner, op.getPreConditions(), env);
@@ -250,7 +258,14 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(bodyCondition.isValidOclValue()){
 				overridePinType(op.getReturnParameter(), ocl.getExpression().getExpressionType());
 			}
-			// TODO support OpaqueBehavior for effects.
+		}
+	}
+	private void maybeAddAffectedImplementations(INakedClassifier owner){
+		if(owner instanceof INakedInterface){
+			INakedInterface intf = (INakedInterface) owner;
+			for(INakedClassifier c:intf.getImplementingClassifiers()){
+				getAffectedElements().add(c);
+			}
 		}
 	}
 	private void replaceParticipants(INakedElement element,INakedClassifier owner,INakedValueSpecification bodyCondition,Environment env){

@@ -110,7 +110,12 @@ public class SlotComposite extends Composite{
 		oclText.opaqueExpression = oe;
 		oclText.setOclContext(slot.getOwningInstance(), slot, oe);
 		oclText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
-		oclText.getTextControl().setText(OclBodyComposite.getOclText(oe.getBodies(), oe.getLanguages()));
+		String t = OclBodyComposite.getOclText(oe.getBodies(), oe.getLanguages());
+		if(t.endsWith(OclBodyComposite.DEFAULT_TEXT)){
+			oclText.getTextControl().setText(OclBodyComposite.REQUIRED_TEXT);
+		}else{
+			oclText.getTextControl().setText(t);
+		}
 		oclText.getTextControl().addFocusListener(new FocusListener(){
 			@Override
 			public void focusLost(FocusEvent e){
@@ -120,7 +125,7 @@ public class SlotComposite extends Composite{
 				setCurrentOclText(oclText);
 			}
 		});
-		if(getCurrentOclText()!=null){
+		if(getCurrentOclText() != null){
 			getCurrentOclText().setTabTo(oclText.getTextControl());
 		}
 		setCurrentOclText(oclText);

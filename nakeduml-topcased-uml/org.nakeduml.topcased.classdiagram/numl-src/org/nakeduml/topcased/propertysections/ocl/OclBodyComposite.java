@@ -29,16 +29,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.OpaqueAction;
-import org.eclipse.uml2.uml.OpaqueBehavior;
-import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValuePin;
@@ -52,13 +47,78 @@ import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
 
 public abstract class OclBodyComposite extends Composite{
+	private final class ErrorHighlighter implements Runnable{
+		private boolean stopped;
+		private boolean onceOff=false;
+		public void run(){
+			if(!stopped){
+				highlightError();
+				StyledText t = viewer.getTextWidget();
+
+				if(!(onceOff ||t==null||t.isDisposed())){
+					Display.getDefault().timerExec(5000, this);
+				}
+				onceOff=false;
+			}
+		}
+		public void onceOff(){
+			onceOff=true;
+		}
+		public void stop(){
+			this.stopped = true;
+		}
+	}
+	private final class KeyListener implements Listener{
+		String lastVal = null;
+		@Override
+		public void handleEvent(Event event){
+			if(lastVal == null){
+				lastVal = viewer.getTextWidget().getText();
+			}
+			if(event.type == SWT.KeyDown)
+				if(event.keyCode == SWT.TAB && tabTo != null){
+					event.keyCode = SWT.None;
+					event.type = SWT.None;
+					event.doit = false;
+					viewer.getTextWidget().setSelectionRange(0, 0);
+					tabTo.forceFocus();
+					if(tabTo instanceof Text){
+						((Text) tabTo).selectAll();
+					}else if(tabTo instanceof StyledText){
+						((StyledText) tabTo).selectAll();
+					}
+					maybeFireOclChanged();
+				}else{
+					lastKeyChange = System.currentTimeMillis();
+					Display.getDefault().timerExec(400, new Runnable(){
+						public void run(){
+							if(System.currentTimeMillis() - lastKeyChange >= 300 && viewer != null){
+								maybeFireOclChanged();
+							}
+						}
+					});
+				}
+		}
+		private void maybeFireOclChanged(){
+			if(viewer != null && viewer.getTextWidget() != null){
+				String text = viewer.getTextWidget().getText();
+				if(text != null && !text.trim().equals(lastVal.trim())){
+					lastVal = text;
+					fireOclChanged(text);
+				}
+			}
+		}
+	}
 	protected NakedOclViewer viewer;
 	private NakedUmlOclFactory factory;
 	protected NamedElement oclBodyOwner;
 	public static final String DEFAULT_TEXT = EmfValidationUtil.TYPE_EXPRESSION_HERE;
+	public static final String REQUIRED_TEXT = "Ocl Expression Required";
 	private long lastKeyChange = System.currentTimeMillis();
 	private OCLDocument document;
 	private Control tabTo;
+	private KeyListener keyListener;
+	private ErrorHighlighter highlighter;
 	public OclBodyComposite(Composite parent,FormToolkit toolkit){
 		super(parent, SWT.NONE);
 		setBackground(parent.getBackground());
@@ -73,47 +133,7 @@ public abstract class OclBodyComposite extends Composite{
 		document.setOCLFactory(factory);
 		document.setModelingLevel(ModelingLevel.M1);
 		viewer.setInput(document);
-		Listener keyListener = new Listener(){
-			String lastVal = null;
-			@Override
-			public void handleEvent(Event event){
-				if(lastVal == null){
-					lastVal = viewer.getTextWidget().getText();
-				}
-				if(event.type == SWT.KeyDown)
-					if(event.keyCode == SWT.TAB && tabTo != null){
-						event.keyCode = SWT.None;
-						event.type = SWT.None;
-						event.doit = false;
-						viewer.getTextWidget().setSelectionRange(0, 0);
-						tabTo.forceFocus();
-						if(tabTo instanceof Text){
-							((Text) tabTo).selectAll();
-						}else if(tabTo instanceof StyledText){
-							((StyledText) tabTo).selectAll();
-						}
-						maybeFireOclChanged();
-					}else{
-						lastKeyChange = System.currentTimeMillis();
-						Display.getDefault().timerExec(400, new Runnable(){
-							public void run(){
-								if(System.currentTimeMillis() - lastKeyChange >= 300 && viewer != null){
-									maybeFireOclChanged();
-								}
-							}
-						});
-					}
-			}
-			private void maybeFireOclChanged(){
-				if(viewer != null && viewer.getTextWidget() != null){
-					String text = viewer.getTextWidget().getText();
-					if(text != null && !text.trim().equals(lastVal.trim())){
-						lastVal = text;
-						fireOclChanged(text);
-					}
-				}
-			}
-		};
+		this.keyListener = new KeyListener();
 		Listener[] listeners = viewer.getTextWidget().getListeners(SWT.KeyDown);
 		for(Listener listener:listeners){
 			viewer.getTextWidget().removeListener(SWT.KeyDown, listener);
@@ -123,16 +143,22 @@ public abstract class OclBodyComposite extends Composite{
 			viewer.getTextWidget().addListener(SWT.KeyDown, listener);
 		}
 		manageContentAssist();
+		this.highlighter = new ErrorHighlighter();
+		Display.getDefault().timerExec(500, highlighter);
+
+
 	}
 	protected abstract EditingDomain getEditingDomain();
 	protected void fireOclChanged(String text){
+		if(!containsExpression(text)){
+			//Assume that if we got here, an OclExpression would be required
+			text=REQUIRED_TEXT;
+			viewer.getTextWidget().setText(text);
+			keyListener.lastVal=text;
+		}
+		NakedUmlEditor.getCurrentContext().runOnSynchronization(highlighter);
 		getEditingDomain().getCommandStack().execute(SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
-		Runnable runnable2 = new Runnable(){
-			public void run(){
-				highlightError();
-			}
-		};
-		Display.getDefault().timerExec(600, runnable2);
+		highlighter.onceOff();
 	}
 	public StyledText getTextControl(){
 		return viewer.getTextWidget();
@@ -158,16 +184,15 @@ public abstract class OclBodyComposite extends Composite{
 			}else{
 				viewer.getTextWidget().setText(DEFAULT_TEXT);
 			}
+			keyListener.lastVal = viewer.getTextWidget().getText();
 			factory.setContext(context);
 			document.setOCLContext(EmfBehaviorUtil.getSelf(context));
 			manageContentAssist();
-			Runnable runnable2 = new Runnable(){
-				public void run(){
-					highlightError();
-				}
-			};
-			Display.getDefault().timerExec(100, runnable2);
+			highlightError();
 		}
+	}
+	public void dispose(){
+		this.highlighter.stop();
 	}
 	public EList<String> getLanguages(){
 		return (EList<String>) oclBodyOwner.eGet(getLanguagesFeature());
@@ -175,7 +200,7 @@ public abstract class OclBodyComposite extends Composite{
 	public EList<String> getBodies(){
 		return (EList<String>) oclBodyOwner.eGet(getBodiesFeature());
 	}
-	protected void highlightError(){
+	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
 			UmlElementCache map = NakedUmlEditor.getCurrentContext().getUmlElementCache();

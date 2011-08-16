@@ -1,5 +1,7 @@
 package org.nakeduml.topcased.propertysections.ocl;
 
+import java.applet.AudioClip;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -17,6 +19,7 @@ import org.nakeduml.topcased.commands.SetOclBodyCommand;
 
 public abstract class OpaqueExpressionBodyComposite extends OclBodyComposite{
 	protected EObject valueSpecificationOwner;
+	private boolean autoDeleteOpaqueExpression;
 	public OpaqueExpressionBodyComposite(Composite parent,FormToolkit toolkit){
 		super(parent, toolkit);
 	}
@@ -24,7 +27,7 @@ public abstract class OpaqueExpressionBodyComposite extends OclBodyComposite{
 	@Override
 	protected void fireOclChanged(String text){
 		boolean hasOclExpression = containsExpression(text);
-		if(valueSpecificationOwner != null && !hasOclExpression){
+		if(valueSpecificationOwner != null && !hasOclExpression && autoDeleteOpaqueExpression){
 			Object vs = valueSpecificationOwner.eGet(getValueSpecificationFeature());
 			if(vs != null && getValueSpecificationFeature().getUpperBound() == 1){
 				// Remove valueSpecification
@@ -47,7 +50,7 @@ public abstract class OpaqueExpressionBodyComposite extends OclBodyComposite{
 						"Please override 'fireOclChanged(String text)' to populate the appropriate valueSpecificationOwner before the ocl is changed on the opaqueExpression");
 			}
 		}
-		if(hasOclExpression){
+		if(hasOclExpression || !autoDeleteOpaqueExpression){
 			super.fireOclChanged(text);
 		}
 	}
@@ -67,5 +70,9 @@ public abstract class OpaqueExpressionBodyComposite extends OclBodyComposite{
 		while(!(isOclContext(container = getContainer(s)))){
 		}
 		setOclContextImpl((NamedElement) container, vp);
+	}
+	public void setAutoDeleteOpaqueExpression(boolean b){
+		this.autoDeleteOpaqueExpression=b;
+		
 	}
 }

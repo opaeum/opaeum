@@ -369,14 +369,16 @@ public class NakedUmlElementLinker{
 			List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
 			outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
 				for(Property a:propertiesInScope){
-					if(a.equals(slot.getDefiningFeature())){
+					if(a.equals(slot.getDefiningFeature()) && !(a.isDerived() || a.isDerivedUnion())){
 						continue outer;
 					}
 				}
 				newValue.getSlots().remove(slot);
 			}
 			for(Property a:propertiesInScope){
-				ensureSlotsPresence(newValue, a);
+				if(!(a.isDerived() || a.isDerivedUnion())){
+					ensureSlotsPresence(newValue, a);
+				}
 			}
 		}
 		public EObject caseOperation(Operation oper){
@@ -635,6 +637,12 @@ public class NakedUmlElementLinker{
 					}
 				}
 				break;
+			case UMLPackage.PROPERTY__IS_DERIVED:
+			case UMLPackage.PROPERTY__IS_DERIVED_UNION:
+				Classifier context = (Classifier) (p.getOtherEnd() != null ? p.getOtherEnd().getType() : p.getOwner());
+				if(context instanceof Enumeration){
+					synchronizeSlotsOnLiterals((Enumeration) context);
+				}
 			}
 			return null;
 		}

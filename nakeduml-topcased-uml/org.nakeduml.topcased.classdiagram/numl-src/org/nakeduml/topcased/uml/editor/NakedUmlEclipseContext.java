@@ -71,6 +71,7 @@ public class NakedUmlEclipseContext{
 	private EmfWorkspace directoryEmfWorkspace;
 	protected EmfResourceHelper resourceHelper = new EclipseEmfResourceHelper();
 	private NakedUmlErrorMarker errorMarker;
+	private List<Runnable> synchronizationListeners=new ArrayList<Runnable>();
 	public NakedUmlEclipseContext(NakedUmlConfig cfg,IContainer umlDirectory){
 		super();
 		isOpen = true;
@@ -285,11 +286,20 @@ public class NakedUmlEclipseContext{
 		}
 		@Override
 		public void synchronizationComplete(Set<EObject> asdf,Set<INakedNameSpace> nakedUmlChanges){
-			errorMarker.run();
+			Display.getDefault().asyncExec(errorMarker);
+			for(Runnable r:synchronizationListeners){
+				Display.getDefault().asyncExec(r);
+			}
+			synchronizationListeners.clear();
+			
 		}
 	}
 	public void removeNakedModel(ResourceSet resourceSet){
 		INakedModelWorkspace nws = getUmlElementCache().getNakedWorkspace();
 		nws.removeOwnedElement(nws.getModelElement(getId(emfWorkspaces.get(resourceSet).model)));
+	}
+	public void runOnSynchronization(Runnable highlighter){
+		
+		synchronizationListeners.add(highlighter);
 	}
 }

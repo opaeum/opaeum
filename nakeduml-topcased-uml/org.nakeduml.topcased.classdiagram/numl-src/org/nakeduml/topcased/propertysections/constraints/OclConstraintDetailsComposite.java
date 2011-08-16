@@ -52,7 +52,7 @@ public class OclConstraintDetailsComposite extends Composite{
 	private EditingDomain currentEditDomain = null;
 	private boolean reinit = false;
 	private EStructuralFeature feature;
-	public OclConstraintDetailsComposite(EditingDomain d,TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
+	public OclConstraintDetailsComposite(TabbedPropertySheetWidgetFactory factory,Composite parent,EStructuralFeature feature){
 		super(parent, SWT.NONE);
 		this.feature = feature;
 		theFactory = factory;
@@ -61,7 +61,6 @@ public class OclConstraintDetailsComposite extends Composite{
 		setLayout(new GridLayout(5, false));
 		createDetailsZone(this);
 		setEnabled(this, false);
-		currentEditDomain = d;
 	}
 	private TabbedPropertySheetWidgetFactory getWidgetFactory(){
 		return theFactory;
@@ -244,5 +243,10 @@ public class OclConstraintDetailsComposite extends Composite{
 				}
 			}
 		}
+	}
+	
+	public void setEditDomain(EditingDomain editingDomain){
+		currentEditDomain=editingDomain;
+		
 	}
 }

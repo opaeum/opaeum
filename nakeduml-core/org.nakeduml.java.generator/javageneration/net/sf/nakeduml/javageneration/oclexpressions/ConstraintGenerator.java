@@ -62,17 +62,20 @@ public class ConstraintGenerator {
 				parameters.add(parameter);
 			}
 		}
-		OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints",new OJPathName("List<String>"));
-		failedConstraints.setInitExp("new ArrayList<String>()");
-		result.addToLocals(failedConstraints);
 		OJPathName failedConstraintsException = new OJPathName("org.nakeduml.runtime.domain.FailedConstraintsException");
-		context.addToImports(failedConstraintsException);
-		context.addToImports("java.util.ArrayList");
-		context.addToImports("java.util.List");
+		if(!operation.getThrows().contains(failedConstraintsException)){
+			context.addToImports(failedConstraintsException);
+			operation.addToThrows(failedConstraintsException);
+			OJAnnotatedField failedConstraints = new OJAnnotatedField("failedConstraints",new OJPathName("List<String>"));
+			failedConstraints.setInitExp("new ArrayList<String>()");
+			operation.getBody().addToLocals(failedConstraints);
+			context.addToImports("java.util.ArrayList");
+			context.addToImports("java.util.List");
+		}
 		int i = 0;
 		for (INakedConstraint post : constraints) {
 			OJIfStatement ifBroken = new OJIfStatement();
-			if (!(post.getSpecification().isValidOclValue())) {
+			if (post.getSpecification().isValidOclValue()) {
 				ifBroken.setCondition("!" + expressionCreator.makeExpression(post.getSpecification().getOclValue().getExpression(), operation.isStatic(), parameters));
 				String qname = element.getPathName() + "::" + post.getName();
 				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
@@ -80,7 +83,6 @@ public class ConstraintGenerator {
 			}
 			i++;
 		}
-		operation.addToThrows(failedConstraintsException);
 		OJIfStatement ifFailed = new OJIfStatement();
 		ifFailed.setCondition("failedConstraints.size()>0");
 		ifFailed.getThenPart().addToStatements("throw new FailedConstraintsException(" + pre + "," + "failedConstraints)");

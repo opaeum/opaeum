@@ -144,7 +144,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	@VisitAfter
+	@VisitAfter(matchSubclasses=true)
 	public void visitInterface(INakedInterface i){
 		if(!i.hasStereotype(StereotypeNames.HELPER) && OJUtil.hasOJClass(i)){
 			OJPathName path = OJUtil.classifierPathname(i);

@@ -5,6 +5,9 @@ import org.eclipse.draw2d.IFigure;
 import org.nakeduml.topcased.classdiagram.figure.Gradient;
 import org.topcased.draw2d.figures.ClassFigure;
 import org.topcased.draw2d.figures.ComposedLabel;
+import org.topcased.draw2d.figures.EditableLabel;
+import org.topcased.draw2d.figures.ILabel;
+import org.topcased.draw2d.figures.Label;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.uml.classdiagram.ClassEditPolicyConstants;
 import org.topcased.modeler.uml.classdiagram.edit.ClassEditPart;
@@ -21,12 +24,18 @@ public class BusinessRoleEditPart extends ClassEditPart{
 	}
 	@Override
 	protected IFigure createFigure(){
-		return new ClassFigure(){
+		return new org.topcased.modeler.uml.classdiagram.figures.ClassFigure(){
 			@Override
 			public void paintChildren(Graphics graphics){
 				Gradient.paintChildren(graphics, this);
 				super.paintChildren(graphics);
 			}
+
+			@Override
+			protected ILabel createLabel(){
+		        return new ComposedLabel(new Label(), new EditableLabel(), new Label(), false);
+			}
+			
 		};
 	}
 

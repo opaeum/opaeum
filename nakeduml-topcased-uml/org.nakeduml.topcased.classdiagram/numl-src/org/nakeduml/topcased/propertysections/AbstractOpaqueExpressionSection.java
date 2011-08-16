@@ -34,7 +34,6 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		oclComposite.setOclContext(getOclContext(), getValueSpecificationOwner(), getOpaqueExpression());
 	}
 	private OpaqueExpression getOpaqueExpression(){
 		ValueSpecification vs = getValueSpecification();
@@ -92,6 +91,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	public void refresh(){
 		super.refresh();
+		oclComposite.setOclContext(getOclContext(), getValueSpecificationOwner(), getOpaqueExpression());
 	}
 	@Override
 	protected void setEnabled(boolean enabled){
