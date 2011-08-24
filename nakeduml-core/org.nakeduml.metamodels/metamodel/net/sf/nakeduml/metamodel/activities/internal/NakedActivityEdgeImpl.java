@@ -23,7 +23,15 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	public INakedValueSpecification getGuard() {
 		return this.guardExpression;
 	}
-
+	@Override
+	public void removeOwnedElement(INakedElement element) {
+		super.removeOwnedElement(element);
+		if(element==guardExpression){
+			guardExpression=null;
+		}else if(element==weight){
+			weight=null;
+		}
+	};
 	public void setGuard(INakedValueSpecification guardExpression) {
 		this.guardExpression = guardExpression;
 	}
@@ -33,8 +41,13 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	}
 
 	public void setSource(INakedActivityNode source) {
+		if(this.source!=null){
+			this.source.removeOutgoing(this);
+		}
+		if(source!=null){
+			source.addOutgoing(this);
+		}
 		this.source = source;
-		source.getOutgoing().add(this);
 	}
 
 	public INakedActivityNode getTarget() {
@@ -42,9 +55,13 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	}
 
 	public void setTarget(INakedActivityNode target) {
+		if(this.target!=null){
+			this.target.removeIncoming(this);
+		}
+		if(target!=null){
+			target.addIncoming(this);
+		}
 		this.target = target;
-		Set<INakedActivityEdge> incoming = target.getIncoming();
-		incoming.add(this);
 	}
 
 	@Override

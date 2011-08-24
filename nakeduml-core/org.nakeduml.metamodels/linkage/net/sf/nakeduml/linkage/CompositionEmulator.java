@@ -22,11 +22,11 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessa
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 
 @StepDependency(phase = LinkagePhase.class,after = {
-	ProcessIdentifier.class
+		ProcessIdentifier.class,MappedTypeLinker.class
 },before = {
 	TypeResolver.class
 },requires = {
-	ProcessIdentifier.class
+		ProcessIdentifier.class,MappedTypeLinker.class
 })
 public class CompositionEmulator extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
@@ -40,20 +40,20 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		// TODO qualifiers
 		if(ass instanceof INakedAssociationClass){
 			if(ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() == null){
-				//add the implied property
+				// add the implied property
 				ass.getPropertyToEnd1().setOtherEnd(new EndToAssociationClass(ass.getEnd1()));
 				ass.getPropertyToEnd1().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd1().getOtherEnd());
-			}else if(!ass.getEnd1().isNavigable()&& ass.getPropertyToEnd1().getOtherEnd() != null){
-				//must have changed - remove the implied property
+			}else if(!ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() != null){
+				// must have changed - remove the implied property
 				ass.getPropertyToEnd1().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd1().getOtherEnd());
 				ass.getPropertyToEnd1().setOtherEnd(null);
 			}
 			if(ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() == null){
-				//add the implied property
+				// add the implied property
 				ass.getPropertyToEnd2().setOtherEnd(new EndToAssociationClass(ass.getEnd2()));
 				ass.getPropertyToEnd2().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd2().getOtherEnd());
-			}else if(!ass.getEnd2().isNavigable()&& ass.getPropertyToEnd2().getOtherEnd() != null){
-				//must have changed - remove the implied property
+			}else if(!ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() != null){
+				// must have changed - remove the implied property
 				ass.getPropertyToEnd2().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd2().getOtherEnd());
 				ass.getPropertyToEnd2().setOtherEnd(null);
 			}
@@ -110,8 +110,10 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			if(b == null){
 				o.initMessageStructure();
 				b = o.getMessageStructure();
-				((MessageStructureImpl) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
+				((EmulatedCompositionMessageStructure) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
 				getAffectedElements().add(b);
+			}else{
+				((EmulatedCompositionMessageStructure) b).reinitialize();
 			}
 			setEndToComposite(b);
 		}
@@ -127,7 +129,12 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction o){
-		o.initMessageStructure();
+		if(BehaviorUtil.hasMessageStructure(o)){
+			INakedMessageStructure b = o.getMessageStructure();
+			if(b == null){
+				o.initMessageStructure();
+			}
+		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEmbeddedTask(INakedEmbeddedTask o){
@@ -135,8 +142,10 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		if(b == null){
 			o.initMessageStructure();
 			b = o.getMessageStructure();
-			((MessageStructureImpl) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
+			((EmulatedCompositionMessageStructure) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
 			getAffectedElements().add(b);
+		}else{
+			((EmulatedCompositionMessageStructure) b).reinitialize();
 		}
 		setEndToComposite(b);
 	}

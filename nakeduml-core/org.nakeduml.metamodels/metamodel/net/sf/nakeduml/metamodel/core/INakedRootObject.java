@@ -9,5 +9,5 @@ public interface INakedRootObject extends INakedPackage{
 	 */
 	
 	String getIdentifier();
-	Collection<INakedRootObject> getDependencies();
+	Collection<INakedRootObject> getAllDependencies();
 }

@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.OclUsageType;
 
@@ -23,6 +24,7 @@ import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ReceiveOperationEvent;
 import org.eclipse.uml2.uml.ReceiveSignalEvent;
@@ -48,8 +50,11 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 	// Precondition: the behaviour must have been populated
 	protected INakedTrigger buildTrigger(Behavior behaviour,Trigger t){
 		Event event = t.getEvent();
-		INakedTrigger trigger = new NakedTriggerImpl();
-		initialize(trigger, t, t.getOwner());
+		INakedTrigger trigger = (INakedTrigger) getNakedPeer(t);
+		if(trigger==null){
+			trigger=new NakedTriggerImpl();
+			initialize(trigger, t, t.getOwner());
+		}
 		if(event instanceof SignalEvent){
 			SignalEvent se = (SignalEvent) event;
 			trigger.setEvent(getNakedPeer(se.getSignal()));
@@ -68,17 +73,19 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 			// effectively duplicating it in each trigger it is used.
 			// The action/transition owning the trigger thus provides the behvioral context of the change expression
 			String id = getEventId(t);
-			NakedChangeEventImpl nakedTimeEvent = new NakedChangeEventImpl();
+			NakedChangeEventImpl nakedChangeEvent = new NakedChangeEventImpl();
 			ChangeEvent ce = (ChangeEvent) event;
-			nakedTimeEvent.initialize(id, ce.getName(), true);
-			super.initialize(nakedTimeEvent, ce, t);
-			INakedValueSpecification change = getValueSpecification(nakedTimeEvent, ce.getChangeExpression(), OclUsageType.DEF);
-			if(change != null){
-				change.setType(getOclLibrary().lookupStandardType("Boolean"));
-				nakedTimeEvent.setChangeExpression(change);
-				change.setOwnerElement(nakedTimeEvent);
+			nakedChangeEvent.initialize(id, ce.getName(), true);
+			super.initialize(nakedChangeEvent, ce, t);
+			if(ce.getChangeExpression() instanceof OpaqueExpression){
+				OpaqueExpression oe = (OpaqueExpression) ce.getChangeExpression();
+				// What else could it be?
+				INakedValueSpecification nvs = new NakedValueSpecificationImpl(buildParsedOclString(((ChangeEvent) event).getChangeExpression(), oe.getLanguages(),
+						oe.getBodies(), OclUsageType.DEF));
+				nvs.initialize(id+getId(oe), oe.getName(), false);
+				nakedChangeEvent.setChangeExpression(nvs);
 			}
-			trigger.setEvent(nakedTimeEvent);
+			trigger.setEvent(nakedChangeEvent);
 		}else if(event instanceof TimeEvent){
 			TimeEvent emfTimeEvent = ((TimeEvent) event);
 			String id = null;
@@ -92,9 +99,11 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 				// effectively duplicating it in each trigger it is used.
 				// The action/transition owning the trigger thus provides the behavioral context of the when expression
 				id = getEventId(t);
-				NakedTimeEventImpl nakedTimeEvent = new NakedTimeEventImpl();
+				NakedTimeEventImpl nakedTimeEvent=(NakedTimeEventImpl) nakedWorkspace.getModelElement(id);
+				if(nakedTimeEvent==null){
+					nakedTimeEvent = new NakedTimeEventImpl();
 				nakedTimeEvent.initialize(id, emfTimeEvent.getName(), true);
-				super.initialize(nakedTimeEvent, emfTimeEvent, t);
+				super.initialize(nakedTimeEvent, emfTimeEvent, t);}
 				initTimeEvent(emfTimeEvent, nakedTimeEvent);
 				trigger.setEvent(nakedTimeEvent);
 			}

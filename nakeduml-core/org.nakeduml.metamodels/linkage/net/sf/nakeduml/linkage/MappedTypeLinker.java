@@ -93,6 +93,29 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 				updateDefaultType(primitiveType, "java.lang.Double");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
 			}
+		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("javaprimitivetypes")){
+			INakedPrimitiveType primitiveType = (INakedPrimitiveType) simpleType;
+			if(primitiveType.getName().equals("char")){
+				updateDefaultType(primitiveType, "java.lang.String");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("boolean")){
+				updateDefaultType(primitiveType, "java.lang.Boolean");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("double")){
+				updateDefaultType(primitiveType, "java.lang.Double");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("long")){
+				updateDefaultType(primitiveType, "java.lang.Integer");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("short")){
+				updateDefaultType(primitiveType, "java.lang.Integer");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("byte")){
+				updateDefaultType(primitiveType, "java.lang.Integer");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+			}else{
+				System.out.println("WARNING: No semantics declared for PrimitiveType:" + simpleType.getPathName());
+			}
 		}
 		// Check for steretypes with strategyFactory properties
 		if(simpleType.hasStereotype(StereotypeNames.VALUE_TYPE)){

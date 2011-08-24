@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedPowerTypeInstanceImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedSlotImpl;
 import nl.klasse.octopus.model.OclUsageType;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.ExtensionEnd;
@@ -58,17 +59,9 @@ public class InstanceExtractor extends AbstractExtractorFromEmf{
 	public void visitSlot(Slot emfSlot,NakedSlotImpl nakedSlot){
 		InstanceSpecification owningInstance = emfSlot.getOwningInstance();
 		if(owningInstance.getClassifiers().size() == 1){
-			INakedClassifier context = (INakedClassifier) getNakedPeer(owningInstance.getClassifiers().get(0));
 			if(!(emfSlot.getDefiningFeature() == null || emfSlot.getDefiningFeature() instanceof ExtensionEnd)){
 				INakedProperty definingFeature = (INakedProperty) getNakedPeer(emfSlot.getDefiningFeature());
 				nakedSlot.setDefiningFeature(definingFeature);
-				Iterator iter = emfSlot.getValues().iterator();
-				while(iter.hasNext()){
-					ValueSpecification emfValueSpec = (ValueSpecification) iter.next();
-					// nakedSlot is the parent, addOwnedElement will resolve
-					getValueSpecification(nakedSlot, emfValueSpec, OclUsageType.INIT);
-				}
-				
 			}
 		}
 	}

@@ -19,10 +19,15 @@ For Parameter nodes, choose parameters either from activity or containing statem
 Qualifier section for properties - expose only name and type
 For output pins, create a shortcut UI to create addVariable and addStructuralFeature actions to flow from the pins
 For Structural Feature and Calloperation actions, calculate available feature based on the type of the target pin
+Transformation and selection behavior sections of object flows
+EmbeddedScreenflowtasks should force a single relationship to a single STateMAchine (include deletion? or not?). At least create it.
+Custom ProblemView
 
 
 Refactoring
-Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction, OR port eclipse code to use NakedUMLWorkspace instead
+Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction, 
+OR port eclipse code to use NakedUMLWorkspace instead
+Introduce a new construct @TransformationFeature that ONLY specifies requirements and not positioning
 
 UIM
 Menu and tree -  Introduce ActionItem and Action Group group operations and properties, display tree/menu in Swing
@@ -48,7 +53,7 @@ to a process (ownedBehaviour of the component)
 Swimlanes WITHOUT property "represents" and task definitions specify potentialOwners, Swimlanes WITH property "represents" and Target pins specify actual owners.
 Swimlanes with Classifier Represents and no potential Owners will use ClassifierX.allInstance() for POTENTIAL owners 
 Create one task per value in targetElement expression
-Remember that Responsibilities implemented as STateMachines are TaskObjects, not OperationProcessObjects
+Remember that Responsibilities implemented as StateMachines are TaskObjects, not OperationProcessObjects
 
 Operations
 Calculate which operations are long running
@@ -59,8 +64,10 @@ Consider all operations that have triggers associated with them to be long -runn
 
 
 Statemachines
+include full state path in state name
 Implement effects, entry and do-action subprocess calls
 Implement state invariants
+
 
 
 Classes
@@ -76,6 +83,11 @@ For all activities that start with an event, instantiate the activity in the con
 For all events implement correlation logic in the context;s event handler
 For time events and change events, request the events when the context is created. Assume that relative time events need to be repeated.
 Implement link actions, specifically for qualifiers
+InstanceValuepins
+RelativeTimeEvents should have instancespecifications of type DurationSpecification, with repeats flag
+ABsoluteTimeEvents should have instancespecifications of type DatTimeSpecification (1st day of week) with repeats flag
+
+
 
 Maven
 put MavenArtefatId in profile

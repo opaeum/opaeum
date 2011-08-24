@@ -69,6 +69,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	protected void visitComplexStructure(INakedComplexStructure complexType){
 		if(OJUtil.hasOJClass(complexType)){
+			if(complexType.getName().equals("Cell_ericsson_gsm")){
+				System.out.println();
+			}
 			OJAnnotatedClass owner = findJavaClass(complexType);
 			addAllInstances(complexType, owner);
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));

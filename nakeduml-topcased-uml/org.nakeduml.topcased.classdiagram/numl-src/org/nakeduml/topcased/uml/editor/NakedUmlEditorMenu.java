@@ -37,7 +37,7 @@ public class NakedUmlEditorMenu extends UMLEditorMenu{
 		structurlFeatures.add(UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior());
 		for(Object o:domain.getEMFEditingDomain().getNewChildDescriptors(selectedObject, null)){
 			CommandParameter cp = (CommandParameter) o;
-			if(NakedUmlFilter.isAllowedElement(cp.getValue())){
+			if(NakedUmlFilter.isAllowedElement((EObject) cp.getValue())){
 				this.descriptors.add(cp);
 			}
 		}

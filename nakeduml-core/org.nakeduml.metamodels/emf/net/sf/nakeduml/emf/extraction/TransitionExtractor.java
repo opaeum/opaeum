@@ -31,7 +31,6 @@ public class TransitionExtractor extends CommonBehaviorExtractor{
 	@VisitBefore
 	public void visitTransition(Transition emfTransition, NakedTransitionImpl nakedTransition){
 		StateMachine sm = getStateMachine(emfTransition);
-		nakedTransition.setOwnerElement(getNakedPeer(sm));
 		INakedState source = (INakedState) getNakedPeer(emfTransition.getSource());
 		INakedState target = (INakedState) getNakedPeer(emfTransition.getTarget());
 		nakedTransition.setSource(source);
@@ -40,23 +39,6 @@ public class TransitionExtractor extends CommonBehaviorExtractor{
 		if(!emfTransition.getTriggers().isEmpty()){
 			nakedTransition.setTrigger(buildTrigger(sm, emfTransition.getTriggers().iterator().next()));
 			env.addAll(nakedTransition.getParameters());
-		}
-		// TODO think of how to make the environment available to guards
-		// ---Add as parameters to operation
-		Constraint emfGuard = emfTransition.getGuard();
-		if(emfGuard != null && emfGuard.getSpecification() != null){
-			INakedConstraint constraint = new NakedConstraintImpl();
-			initialize(constraint, emfGuard, emfTransition);
-			INakedBehavior nakedStateMachine = (INakedBehavior) getNakedPeer(getStateMachine(emfTransition));
-			INakedValueSpecification vs = getValueSpecification(constraint, emfGuard.getSpecification(), OclUsageType.PRE);
-			if(vs != null){
-				if(vs.getValue() instanceof ParsedOclString){
-					((ParsedOclString) vs.getValue()).setContext(nakedStateMachine, nakedTransition);
-				}
-				constraint.setSpecification(vs);
-				nakedTransition.setGuardConstraint(constraint);
-				vs.setType(getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
-			}
 		}
 		nakedTransition.setEffect(getOwnedBehavior(nakedTransition, emfTransition.getEffect()));
 	}

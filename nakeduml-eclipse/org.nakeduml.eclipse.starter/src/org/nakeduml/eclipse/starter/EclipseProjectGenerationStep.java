@@ -70,6 +70,8 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 				// description.setNatureIds((String[]) natureSet.toArray(new String[natureSet.size()]));
 				// project.setDescription(description, null);
 				// IJavaProject javaProject = JavaCore.create(project);
+			}else{
+				project.refreshLocal(IResource.DEPTH_INFINITE, null);
 			}
 			return project;
 		}catch(RuntimeException e){
@@ -140,7 +142,7 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	protected void visitParentsRecursively(TextOutputNode node){
 		if(node != null){
 			visitParentsRecursively(node.getParent());
-			for(VisitSpec v:beforeMethods){
+			for(VisitSpec v:methodInvokers. beforeMethods){
 				maybeVisit(node, v);
 			}
 		}

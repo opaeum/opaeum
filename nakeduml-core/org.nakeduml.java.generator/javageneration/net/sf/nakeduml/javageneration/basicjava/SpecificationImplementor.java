@@ -6,6 +6,7 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
@@ -26,6 +27,7 @@ import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.model.IOperation;
 
+import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
@@ -51,16 +53,16 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			}
 		}
 	}
-	@VisitAfter(matchSubclasses=true)
-	public void visitClassifier(INakedBehavioredClassifier  c){
+	@VisitAfter(matchSubclasses = true)
+	public void visitClassifier(INakedBehavioredClassifier c){
 		List<IOperation> operations = c.getOperations();
 		for(IOperation o:operations){
-			if(o.getOwner()==c || o.getOwner() instanceof INakedInterface){
+			if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
 				visitOperation(c, (INakedOperation) o);
 			}
 		}
 	}
-	private void visitOperation(INakedClassifier owner, INakedOperation o){
+	private void visitOperation(INakedClassifier owner,INakedOperation o){
 		if(o.isLongRunning()){
 			INakedMessageStructure oc = o.getMessageStructure();
 			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
@@ -108,8 +110,10 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			// remove "Return" statements
 			javaMethod.getBody().removeFromStatements(javaMethod.getBody().getStatements().get(javaMethod.getBody().getStatements().size() - 1));
 		}
-		javaMethod.getBody().addToStatements(activityClass.getLast() + " _behavior=new " + activityClass.getLast() + "(this)");
+		javaMethod.getBody().addToStatements(activityClass.getLast() + " _behavior=new " + activityClass.getLast() + "()");
 		populateBehavior(behavior, javaMethod);
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
+		javaMethod.getBody().addToStatements("this." + map.adder() + "(_behavior)");
 		javaMethod.getBody().addToStatements("_behavior.execute()");
 		if(behavior.hasMultipleConcurrentResults()){
 			// TODO such behaviours should always be called from an activity
@@ -120,32 +124,31 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			javaMethod.getBody().addToStatements("return _behavior.get" + behavior.getReturnParameter().getMappingInfo().getJavaName().getCapped() + "()");
 		}
 	}
-	private void implementSpecification(INakedBehavior behavior){
-		OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
-		NameWrapper methodName = behavior.getSpecification() == null ? behavior.getMappingInfo().getJavaName() : behavior.getSpecification().getMappingInfo()
-				.getJavaName();
-		OJPathName ojBehavior = OJUtil.classifierPathname(behavior);
-		// Method implemented by Octopus because behaviours without
+	private void implementSpecification(INakedBehavior o){
+		OJAnnotatedClass ojContext = findJavaClass(o.getContext());
+		NameWrapper methodName = o.getSpecification() == null ? o.getMappingInfo().getJavaName() : o.getSpecification().getMappingInfo().getJavaName();
+		OJPathName ojBehavior = OJUtil.classifierPathname(o);
+		// Behaviours without
 		// specifications are given an emulated specification
 		OJOperation javaMethod = OJUtil.findOperation(ojContext, methodName.toString());
 		javaMethod.getOwner().addToImports(ojBehavior);
-		if(behavior.isProcess()){
+		if(o.isProcess()){
 			// Leave preconditions in tact
 			OJUtil.removeReturnStatement(javaMethod);
 			ojContext.addToImports(ojBehavior);
 			OJAnnotatedField behaviorField = new OJAnnotatedField("_behavior", ojBehavior);
 			javaMethod.getBody().addToLocals(behaviorField);
-			behaviorField.setInitExp("new " + ojBehavior.getLast() + "(this)");
-			populateBehavior(behavior, javaMethod);
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
-			javaMethod.getBody().addToStatements(map.adder() + "(_behavior)");
-			if(behavior.getSpecification() != null){
+			behaviorField.setInitExp("new " + ojBehavior.getLast() + "()");
+			populateBehavior(o, javaMethod);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(o.getEndToComposite().getOtherEnd());
+			javaMethod.getBody().addToStatements("this." + map.adder() + "(_behavior)");
+			if(o.getSpecification() != null){
 				javaMethod.getBody().addToStatements("_behavior.execute()");
 			}
 			javaMethod.getBody().addToStatements("return _behavior");
 			javaMethod.setReturnType(ojBehavior);
 		}else{
-			invokeSimpleBehavior(behavior, ojBehavior, javaMethod);
+			invokeSimpleBehavior(o, ojBehavior, javaMethod);
 		}
 	}
 	private void implementStartClassifierBehavior(INakedBehavior behavior){
@@ -160,7 +163,8 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		behaviorField.setInitExp("new " + behaviorClass.getLast() + "(this)");
 		populateBehavior(behavior, start);
 		start.getBody().addToStatements("_behavior.execute()");
-		start.getBody().addToStatements("set" + behavior.getMappingInfo().getJavaName().getCapped() + "(_behavior)");
+		NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
+		start.getBody().addToStatements(otherMap.setter() + "(_behavior)");
 		OJOperation addToOwner = OJUtil.findOperation(ojContext, "addToOwningObject");
 		if(addToOwner != null){
 			addToOwner.getBody().addToStatements("startClassifierBehavior()");

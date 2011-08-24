@@ -1,5 +1,9 @@
 package org.nakeduml.name;
-public class NameConverterTest{ 
+
+import org.junit.Test;
+
+public class NameConverterTest{
+	@Test
 	public void testIt() throws Exception {
 		assertEquals("abc_dfg", NameConverter.toUnderscoreStyle("abcDfg"));
 		assertEquals("abc_dfg", NameConverter.toUnderscoreStyle("ABCDfg"));

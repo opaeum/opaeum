@@ -7,6 +7,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.ocl.ecore.UnlimitedNaturalLiteralExp;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
@@ -36,7 +38,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		public void widgetDefaultSelected(SelectionEvent e){
 		}
 	}
-	public class LiteralIntegerTextChangeListener extends TextChangeHelper{
+	public class LiteralIntegerTextChangeListener extends TextChangeHelper implements FocusListener{
 		private EAttribute myFeature;
 		private Text control;
 		public LiteralIntegerTextChangeListener(EAttribute feature_IsStatic){
@@ -50,6 +52,7 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		public void startListeningTo(Control control) {
 			super.startListeningForEnter(control);
 			this.control=(Text)control;
+			this.control.addFocusListener(this);
 		}
 
 
@@ -69,6 +72,16 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 				Command cmd = SetCommand.create(getEditingDomain(), getFeatureOwner(), getFeature(), 0);
 				getEditingDomain().getCommandStack().execute(cmd);
 			}
+		}
+
+		@Override
+		public void focusGained(FocusEvent e){
+			
+		}
+
+		@Override
+		public void focusLost(FocusEvent e){
+			textChanged(control);
 		}
 	}
 	public abstract void refresh();

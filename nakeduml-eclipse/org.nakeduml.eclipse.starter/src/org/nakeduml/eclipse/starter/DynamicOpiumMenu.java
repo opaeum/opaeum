@@ -31,6 +31,8 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 				actions.add(new ActionContributionItem(clc));
 				RecompileModelDirectoryAction rmda = new RecompileModelDirectoryAction(selection);
 				actions.add(new ActionContributionItem(rmda));
+				ToggleAutomaticSynchronization t= new ToggleAutomaticSynchronization(selection);
+				actions.add(new ActionContributionItem(t));
 			}else{
 				action.setText("Convert to  Opium Model Directory");
 			}

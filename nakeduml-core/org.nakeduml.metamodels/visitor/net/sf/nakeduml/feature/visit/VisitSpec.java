@@ -2,11 +2,15 @@ package net.sf.nakeduml.feature.visit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 //TODO figure out why we still get those funny exceptions after code modifications when debugging a VisitAdapter.
 public class VisitSpec{
 	private Class[] match;
 	private boolean matchSubclasses;
+	public boolean isMatchSubclasses(){
+		return matchSubclasses;
+	}
 	private Method m;
 	public VisitSpec(){
 	}
@@ -88,5 +92,8 @@ public class VisitSpec{
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
+	}
+	public Class<?>[] getClassesToMatch(){
+		return match;
 	}
 }

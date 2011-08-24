@@ -1,6 +1,8 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
@@ -39,17 +41,18 @@ import org.eclipse.uml2.uml.Trigger;
  * 
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		ConstraintExtractor.class,ConnectorExtractor.class
+		ValueSpecificationExtractor.class,ConnectorExtractor.class
 },after = {
-		ConnectorExtractor.class,ConstraintExtractor.class
+		ConnectorExtractor.class,ValueSpecificationExtractor.class
 })
 public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	@VisitAfter
 	public void visitContextualEvent(Trigger t){
 		if(t.getEvent() instanceof TimeEvent && super.isDeadline((TimeEvent) t.getEvent())){
 			// Do nothing - normal stereotype application logic will work
-		}else if(t.getEvent()!=null){
-			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the correct
+		}else if(t.getEvent() != null){
+			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the
+			// correct
 			// naked originalElement
 			INakedContextualEvent nakedPeer = (INakedContextualEvent) nakedWorkspace.getModelElement(getEventId(t));
 			if(nakedPeer != null){
@@ -60,30 +63,43 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
-		 NakedElementImpl nakedPeer=(NakedElementImpl) getNakedPeer(element);
+		NakedElementImpl nakedPeer = (NakedElementImpl) getNakedPeer(element);
 		if(element instanceof Comment){
 			visitComment((Comment) element);
 		}
 		if(nakedPeer != null){
-			//Some element may not be supported by NakedUML
+			// Some element may not be supported by NakedUML
 			addStereotypes(nakedPeer, element);
 			addKeywords(nakedPeer, element);
 		}
 	}
 	private void addKeywords(INakedElement nakedPeer,Element e){
-		for(String s:e.getKeywords()){
-			INakedInstanceSpecification is = new NakedInstanceSpecificationImpl();
-			// No classifier - string classifier will be assigned during linkage
-			is.initialize(nakedPeer.getId() + s, s, false);
-			nakedPeer.addStereotype(is);
-			nakedWorkspace.putModelElement(is);
+		addKeywords(nakedPeer, e.getKeywords());
+		addKeywords(nakedPeer, StereotypesHelper.getNumlAnnotation(e).getDetails().keySet());
+	}
+	public void addKeywords(INakedElement nakedPeer,Collection<String> keywords){
+		for(String s:keywords){
+			if(!nakedPeer.hasStereotype(s)){
+				String id = nakedPeer.getId() + s;
+				INakedInstanceSpecification is = (INakedInstanceSpecification) nakedWorkspace.getModelElement(id);
+				if(is == null){
+					is = new NakedInstanceSpecificationImpl();
+					// No classifier - string classifier will be assigned during linkage
+					is.initialize(id, s, false);
+					nakedPeer.addStereotype(is);
+					nakedWorkspace.putModelElement(is);
+				}
+			}
 		}
 	}
 	private void visitComment(Comment a){
 		INakedElement e = super.getNakedPeer(a.getOwner());
 		if(e != null){
-			INakedComment nakedComment = new NakedCommentImpl();
-			initialize(nakedComment, a, a.getOwner());
+			INakedComment nakedComment = (INakedComment) getNakedPeer(a);
+			if(nakedComment == null){
+				nakedComment = new NakedCommentImpl();
+				initialize(nakedComment, a, a.getOwner());
+			}
 			nakedComment.setBody(a.getBody());
 			e.getComments().add(nakedComment);
 		}
@@ -103,23 +119,33 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	private INakedInstanceSpecification buildStereotypeApplication(Element modelElement,Stereotype stereotype,INakedStereotype nakedStereotype){
-		INakedInstanceSpecification instanceSpec = new NakedInstanceSpecificationImpl();
-		instanceSpec.setClassifier(nakedStereotype);
-		instanceSpec.setName(nakedStereotype.getName());
 		String stereotypeApplicationId = getId(modelElement) + "#" + stereotype.getName();
-		instanceSpec.initialize(stereotypeApplicationId, stereotype.getName(), false);
-		nakedWorkspace.putModelElement(instanceSpec);
+		INakedInstanceSpecification instanceSpec = (INakedInstanceSpecification) nakedWorkspace.getModelElement(stereotypeApplicationId);
+		if(instanceSpec == null){
+			instanceSpec = new NakedInstanceSpecificationImpl();
+			instanceSpec.initialize(stereotypeApplicationId, stereotype.getName(), false);
+			nakedWorkspace.putModelElement(instanceSpec);
+			instanceSpec.setClassifier(nakedStereotype);
+		}
 		EObject application = modelElement.getStereotypeApplication(stereotype);
-		Iterator<? extends INakedProperty> attributes = nakedStereotype.getEffectiveAttributes().iterator();
+		List<? extends INakedProperty> effectiveAttributes = nakedStereotype.getEffectiveAttributes();
+		Iterator<? extends INakedProperty> attributes = effectiveAttributes.iterator();
 		while(attributes.hasNext()){
 			INakedProperty attribute = (INakedProperty) attributes.next();
 			EStructuralFeature structuralFeature = application.eClass().getEStructuralFeature(attribute.getName());
 			if(structuralFeature != null){
 				// might be an "artificial" feature introduced by NakedUml
 				Object value = application.eGet(structuralFeature);
-				INakedSlot slot = new NakedSlotImpl();
+				String id = attribute.getId() + "#" + stereotypeApplicationId;
+				INakedSlot slot = (INakedSlot) nakedWorkspace.getModelElement(id);
+				if(slot == null){
+					slot = new NakedSlotImpl();
+					slot.initialize(id, attribute.getName(), false);
+					slot.setOwnerElement(instanceSpec);
+					instanceSpec.addOwnedElement(slot);
+					nakedWorkspace.putModelElement(slot);
+				}
 				slot.setDefiningFeature(attribute);
-				slot.initialize(attribute.getId() + "#" + stereotypeApplicationId, attribute.getName(), false);
 				if(value instanceof EList){
 					Iterator<? extends EObject> iter = ((EList<? extends EObject>) value).iterator();
 					int i = 0;
@@ -130,16 +156,21 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 				}else{
 					putValue(0, value, slot);
 				}
-				slot.setOwnerElement(instanceSpec);
-				instanceSpec.addOwnedElement(slot);
-				nakedWorkspace.putModelElement(slot);
 			}
 		}
 		return instanceSpec;
 	}
 	private void putValue(int index,Object value,INakedSlot slot){
-		if(value != null){
-			NakedValueSpecificationImpl valueSpec = new NakedValueSpecificationImpl();
+		if(value != null && value.toString().trim().length()>0){
+			String id = slot.getId() + index;
+			NakedValueSpecificationImpl valueSpec = (NakedValueSpecificationImpl) nakedWorkspace.getModelElement(id);
+			if(valueSpec == null){
+				valueSpec = new NakedValueSpecificationImpl();
+				valueSpec.initialize(id, slot.getName(), false);
+				valueSpec.setOwnerElement(slot);
+				slot.addOwnedElement(valueSpec);
+				nakedWorkspace.putModelElement(valueSpec);
+			}
 			if(value instanceof EModelElement){
 				EModelElement eObjectValue = (EModelElement) value;
 				String valueId = getId(eObjectValue);
@@ -166,10 +197,6 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			}else{
 				valueSpec.setValue(value);
 			}
-			valueSpec.initialize(slot.getId() + index, slot.getName(), false);
-			valueSpec.setOwnerElement(slot);
-			slot.addOwnedElement(valueSpec);
-			nakedWorkspace.putModelElement(valueSpec);
 		}
 	}
 }

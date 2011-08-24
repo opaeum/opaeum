@@ -25,7 +25,7 @@ public interface INakedModelWorkspace extends INakedElementOwner {
 
 	INakedElement getModelElement(Object id);
 
-	Collection<? extends INakedElement> getElementsOfType(String metaClass);
+	<T extends INakedElement> Set<T> getElementsOfType(Class<T> c);
 
 	Collection<INakedElement> getAllElements();
 

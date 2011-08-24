@@ -1,7 +1,5 @@
 package org.nakeduml.topcased.classdiagram;
 
-import java.util.ArrayList;
-
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
@@ -14,8 +12,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.window.Window;
-import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Component;
@@ -26,6 +22,7 @@ import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.nakeduml.topcased.classdiagram.edit.BusinessComponentEditPart;
 import org.nakeduml.topcased.classdiagram.edit.BusinessRoleEditPart;
 import org.nakeduml.topcased.classdiagram.edit.BusinessServiceEditPart;
+import org.nakeduml.topcased.classdiagram.edit.EditPartUtil;
 import org.nakeduml.topcased.classdiagram.edit.FixedAssociationClassEdgeCreationEditPolicy;
 import org.nakeduml.topcased.classdiagram.edit.FixedAssociationEdgeCreationEditPolicy;
 import org.nakeduml.topcased.classdiagram.figure.Gradient;
@@ -35,12 +32,10 @@ import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.SimpleSemanticModelElement;
 import org.topcased.modeler.di.model.util.DIUtils;
-import org.topcased.modeler.dialogs.DiagramSelectionDialog;
 import org.topcased.modeler.edit.EListEditPart;
 import org.topcased.modeler.edit.EMFGraphEdgeEditPart;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 import org.topcased.modeler.editor.ModelerEditPartFactory;
-import org.topcased.modeler.extensions.DiagramDescriptor;
 import org.topcased.modeler.uml.alldiagram.AllSimpleObjectConstants;
 import org.topcased.modeler.uml.alldiagram.edit.CommentEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.CommentLinkEditPart;
@@ -216,8 +211,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				}
 				protected void createEditPolicies(){
 					super.createEditPolicies();
-					installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-					installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+					EditPartUtil.installEditPolicies(this);
 				}
 			};
 		}
@@ -232,8 +226,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 					return new InterfaceEditPart(node){
 						protected void createEditPolicies(){
 							super.createEditPolicies();
-							installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-							installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+							EditPartUtil.installEditPolicies(this);
 						}
 					};
 				}
@@ -248,8 +241,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new DataTypeEditPart(node){
 					protected void createEditPolicies(){
 						super.createEditPolicies();
-						installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-						installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+						EditPartUtil.installEditPolicies(this);
 					}
 				};
 			}
@@ -326,8 +318,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 					}
 					protected void createEditPolicies(){
 						super.createEditPolicies();
-						installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-						installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+						EditPartUtil.installEditPolicies(this);
 					}
 				};
 			}
@@ -361,8 +352,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				return new ClassFromAssociationClassEditPart(node){
 					protected void createEditPolicies(){
 						super.createEditPolicies();
-						installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-						installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+						EditPartUtil.installEditPolicies(this);
 					}
 				};
 			}
@@ -392,6 +382,10 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 								super.paintChildren(graphics);
 							}
 						};
+					}
+					protected void createEditPolicies(){
+						super.createEditPolicies();
+						EditPartUtil.installEditPolicies(this);
 					}
 				};
 			}
@@ -549,6 +543,9 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 		public EditPart casePackageImport(org.eclipse.uml2.uml.PackageImport object){
 			return new PackageImportEditPart(edge);
 		}
+		public EditPart caseElementImport(org.eclipse.uml2.uml.ElementImport object){
+			return new org.nakeduml.topcased.classdiagram.ElementImportEditPart(edge);
+		}
 		public EditPart casePackageMerge(org.eclipse.uml2.uml.PackageMerge object){
 			return new PackageMergeEditPart(edge);
 		}
@@ -560,8 +557,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 				}
 				protected void createEditPolicies(){
 					super.createEditPolicies();
-					installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-					installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+					EditPartUtil.installEditPolicies(this);
 				}
 			};
 		}

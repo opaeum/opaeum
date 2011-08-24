@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nakeduml.name.NameConverter;
+
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -96,7 +98,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	private INakedConstraint buildOclConstraint(INakedProperty p,INakedConstraint constr,ICompositionParticipant e){
 		String ocl = buildOcl(e, p);
 		if(ocl != null){
-			NakedConstraintImpl constraint = ConstraintUtil.buildArtificialConstraint(e, p, ocl, "SourcePopulation");
+			NakedConstraintImpl constraint = ConstraintUtil.buildArtificialConstraint(e, p, ocl, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
 			constraint.setConstrainedElement(p);
 			constr = constraint;
 		}

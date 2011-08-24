@@ -1,7 +1,6 @@
 package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -23,21 +22,25 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public class SlotComposite extends Composite{
-	public final class SlotOclComposite extends OpaqueExpressionBodyComposite{
+	public final class SlotOclComposite extends OpaqueExpressionComposite{
 		private OpaqueExpression opaqueExpression;
 		private SlotOclComposite(Composite parent,FormToolkit toolkit){
 			super(parent, toolkit);
-		}
-		@Override
-		public EReference getValueSpecificationFeature(){
-			return UMLPackage.eINSTANCE.getSlot_Value();
+			GridLayout layout = new GridLayout(1, false);
+			layout.marginHeight = 0;
+			layout.marginWidth = 0;
+			setLayout(layout);
 		}
 		@Override
 		protected EditingDomain getEditingDomain(){
 			return editingDomain;
+		}
+		public void setOpaqueExpression(OpaqueExpression oe){
+			this.oclBodyOwner=oe;
+			this.opaqueExpression=oe;
 		}
 	}
 	private FormToolkit toolkit;
@@ -59,7 +62,9 @@ public class SlotComposite extends Composite{
 			control.dispose();
 		}
 		values = toolkit.createComposite(this);
-		values.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		layoutData.heightHint=25;
+		values.setLayoutData(layoutData);
 		GridLayout layout = new GridLayout(1, false);
 		values.setLayout(layout);
 		layout.marginHeight = 0;
@@ -107,9 +112,11 @@ public class SlotComposite extends Composite{
 	}
 	protected void createRow(final Slot slot,final OpaqueExpression oe){
 		final SlotOclComposite oclText = new SlotOclComposite(values, this.toolkit);
-		oclText.opaqueExpression = oe;
-		oclText.setOclContext(slot.getOwningInstance(), slot, oe);
-		oclText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+		oclText.setOpaqueExpression(oe);
+		oclText.setOclContext(slot.getOwningInstance(), oe);
+		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		layoutData.minimumHeight=25;
+		oclText.setLayoutData(layoutData);
 		String t = OclBodyComposite.getOclText(oe.getBodies(), oe.getLanguages());
 		if(t.endsWith(OclBodyComposite.DEFAULT_TEXT)){
 			oclText.getTextControl().setText(OclBodyComposite.REQUIRED_TEXT);

@@ -89,6 +89,9 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			this.activityNodes.remove((INakedActivityNode) element);
 		}
 		if(element instanceof INakedActivityEdge){
+			INakedActivityEdge e = (INakedActivityEdge) element;
+			e.setSource(null);
+			e.setTarget(null);
 			this.activityEdges.remove((INakedActivityEdge) element);
 		}
 		if(element instanceof INakedActivityVariable){

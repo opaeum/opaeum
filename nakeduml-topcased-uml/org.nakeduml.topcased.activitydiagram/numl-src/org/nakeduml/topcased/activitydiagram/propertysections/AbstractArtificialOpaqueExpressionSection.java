@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -47,11 +48,23 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 				Command cmd = RemoveCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs);
 				getEditingDomain().getCommandStack().execute(cmd);
 			}else{
-				vs = UMLFactory.eINSTANCE.createOpaqueExpression();
-				vs.setName(getExpressionName());
-				Command cmd = AddCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs);
-				getEditingDomain().getCommandStack().execute(cmd);
-				super.oclBodyOwner=vs;
+				if(vs == null){
+					vs = UMLFactory.eINSTANCE.createOpaqueExpression();
+					vs.setName(getExpressionName());
+					Command cmd = AddCommand.create(getEditingDomain(), ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), vs);
+					getEditingDomain().getCommandStack().execute(cmd);
+					Element e = (Element) getEObject();
+					for(EObject eObject:e.getStereotypeApplications()){
+						if(eObject.eClass().getName().equals(getStereotypeName())){
+							for(EStructuralFeature sf:eObject.eClass().getEAllStructuralFeatures()){
+								if(sf.getName().equals(getExpressionName())){
+									getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), eObject, sf, vs));
+								}
+							}
+						}
+					}
+				}
+				super.oclBodyOwner = vs;
 				super.fireOclChanged(text);
 			}
 		}
@@ -90,4 +103,5 @@ public abstract class AbstractArtificialOpaqueExpressionSection extends Abstract
 	protected String getLabelText(){
 		return new SingularNameWrapper(getExpressionName(), null).getCapped().getSeparateWords().getAsIs();
 	}
+	public abstract String getStereotypeName();
 }

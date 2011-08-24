@@ -11,7 +11,7 @@
              objectClass="org.topcased.modeler.uml.alldiagram.edit.ElementEditPart">
           <menu
                 id="org.nakeduml.graphic.menu"
-                label="NakedUML">
+                label="Opium">
              <groupMarker
                    name="numlActionsGroup">
              </groupMarker>
@@ -23,7 +23,7 @@
              objectClass="org.eclipse.uml2.uml.NamedElement">
           <menu
                 id="org.nakeduml.outline.menu"
-                label="NakedUML">
+                label="Opium">
              <groupMarker
                    name="numlActionsGroup">
              </groupMarker>
@@ -39,7 +39,7 @@
                 class="org.nakeduml.eclipse.ImportLibraryAction"
                 enablesFor="*"
                 id="org.nakeduml.eclipse.ImportSimpleTypesAction"
-                label="Import NakedUML Simple Types"
+                label="Import Opium Simple Types"
                 menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>         
        </objectContribution>
@@ -53,14 +53,14 @@
                 class="org.nakeduml.eclipse.ApplyProfileAction"
                 enablesFor="*"
                 id="org.nakeduml.eclipse.ApplyNakedUMLProfileAction"
-                label="Apply NakedUML Profile"
+                label="Apply Opium Profile"
                 menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
           <action
                 class="org.nakeduml.eclipse.ApplyProfileAction"
                 enablesFor="*"
                 id="org.nakeduml.eclipse.ApplyNakedUMLProfileForBPMAction"
-                label="Apply BPM Profile"
+                label="Apply Opium BPM Profile"
                 menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
           </action>
        </objectContribution>

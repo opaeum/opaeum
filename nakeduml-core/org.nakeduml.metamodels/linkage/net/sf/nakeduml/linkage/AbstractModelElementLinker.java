@@ -33,9 +33,13 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 	public Collection<INakedElement> getAffectedElements(){
 		return this.affectedElements;
 	}
+	public void setCurrentRootObject(INakedRootObject a){
+		this.currentRootObject=a;
+	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		if(!(o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements())){
+		boolean shouldIgnoreBecauseItIsDeleted = o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements();
+		if(!shouldIgnoreBecauseItIsDeleted){
 			if(o instanceof INakedRootObject && workspace.getGeneratingModelsOrProfiles().contains(o)){
 			}
 			super.visitRecursively(o);

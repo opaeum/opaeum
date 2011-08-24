@@ -8,6 +8,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
@@ -34,7 +35,7 @@ public class AuditGenerationPhase implements TransformationPhase<AbstractJavaTra
 	OJAnnotatedPackage javaModel;
 	private Collection<AbstractJavaTransformationStep> features;
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProgressLog log,TransformationContext context){
 		for(JavaTransformationStep a:features){
 			if(a instanceof AbstractJavaProducingVisitor){
 				((AbstractJavaProducingVisitor) a).startVisiting(workspace);

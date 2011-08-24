@@ -9,4 +9,9 @@ public class ActionBusinessAdministratorsSection extends AbstractArtificialOpaqu
 		return "businessAdministrators";
 	}
 
+	@Override
+	public String getStereotypeName(){
+		return "EmbeddedSingleScreenTask";
+	}
+
 }

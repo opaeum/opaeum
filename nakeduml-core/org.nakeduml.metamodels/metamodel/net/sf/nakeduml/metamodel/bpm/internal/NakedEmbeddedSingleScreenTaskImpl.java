@@ -14,6 +14,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
@@ -25,7 +26,8 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
-		if(stereotype.getName().equalsIgnoreCase(StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
+		if(stereotype.getName().equalsIgnoreCase(StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK) && stereotype.getClassifier() instanceof INakedStereotype){
+			removeOwnedElement(this.taskDefinition);
 			this.taskDefinition=new NakedResponsibilityDefinitionImpl(stereotype);
 			addOwnedElement(this.taskDefinition);
 		}
@@ -34,13 +36,11 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 		return outputValues;
 	}
 	public void setOutputValues(List<INakedOutputPin> outputValues){
+		removePins(this.outputValues);
 		this.outputValues = outputValues;
 	}
 	public INakedResponsibilityDefinition getTaskDefinition(){
 		return taskDefinition;
-	}
-	public void setTaskDefinition(INakedResponsibilityDefinition taskDefinition){
-		this.taskDefinition = taskDefinition;
 	}
 	@Override
 	public Collection<INakedOutputPin> getOutput(){

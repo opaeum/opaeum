@@ -1,5 +1,6 @@
 package net.sf.nakeduml.linkage;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +16,6 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import nl.klasse.octopus.stdlib.internal.types.OclLibraryImpl;
 
 @PhaseDependency()
 public class LinkagePhase implements TransformationPhase<AbstractModelElementLinker,INakedElement>{
@@ -37,7 +37,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		Collection<INakedElement> affectedElements = new HashSet<INakedElement>(elements);
 		for(AbstractModelElementLinker d:linkers){
 			for(INakedElement element:filterChildrenOut(affectedElements)){
-				modelWorkspace.getOclEngine().setOclLibrary(new OclLibraryImpl());
+				d.setCurrentRootObject(element.getRootObject());
 				d.visitRecursively((INakedElementOwner) element);
 			}
 			affectedElements.addAll(d.getAffectedElements());
@@ -45,10 +45,15 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		return affectedElements;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
+		log.startTask("Linking uml elements",linkers.size());
 		for(AbstractModelElementLinker d:linkers){
-			d.startVisiting(modelWorkspace);
+			if(!log.isCanceled()){
+				log.workOnStep("Executing " + d.getClass().getSimpleName()); 
+				d.startVisiting(modelWorkspace);
+			}
 		}
+		log.endTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractModelElementLinker> features){
@@ -86,5 +91,10 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		}else{
 			return contains(arg0, (INakedElement) arg1.getOwnerElement());
 		}
+	}
+	public static Set<Class<? extends AbstractModelElementLinker>> getAllSteps(){
+		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class, ProcessIdentifier.class, MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, RootEntityLinker.class,
+				CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class, ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class,
+				EnumerationValuesAttributeAdder.class,TypeResolver.class, SourcePopulationResolver.class));
 	}
 }

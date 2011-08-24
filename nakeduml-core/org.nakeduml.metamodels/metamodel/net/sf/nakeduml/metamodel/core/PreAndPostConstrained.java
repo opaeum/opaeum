@@ -6,12 +6,8 @@ import java.util.Collection;
  *
  */
 public interface PreAndPostConstrained extends INakedElement{
-	void addPreCondition(INakedConstraint precondtions);
-	void addPostCondition(INakedConstraint precondtions);
 	Collection<INakedConstraint> getPostConditions();
-	void setPostConditions(Collection<INakedConstraint> list);
 	Collection<INakedConstraint> getPreConditions();
-	void setPreConditions(Collection<INakedConstraint> list);
 	INakedClassifier getContext();
 
 }

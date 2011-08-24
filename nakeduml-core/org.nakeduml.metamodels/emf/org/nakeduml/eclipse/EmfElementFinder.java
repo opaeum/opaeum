@@ -3,16 +3,23 @@ package org.nakeduml.eclipse;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
@@ -104,7 +111,41 @@ public class EmfElementFinder{
 				}
 			}
 		}
+		for(Generalization ir:c.getGeneralizations()){
+			result.addAll(getPropertiesInScope(ir.getGeneral()));
+		}
+		if(c instanceof org.eclipse.uml2.uml.Class){
+			org.eclipse.uml2.uml.Class cls=(Class) c;
+			for(InterfaceRealization ir:cls.getInterfaceRealizations()){
+				result.addAll(getPropertiesInScope(ir.getContract()));
+			}
+		}
 		return result;
+	}
+	public static EObject getContainer(EObject s){
+		if(s.eContainer() instanceof Event){
+			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s.eContainer();
+			// Contained by an annotation inside another element?
+			if(event.eContainer() instanceof EAnnotation){
+				// Skip event AND annotation straight to the containing element
+				EAnnotation ea = (EAnnotation) event.eContainer();
+				return ea.getEModelElement();
+			}else{
+				// Old strategy - could be problematic if the event is referenced from multiple triggers
+				EAnnotation ann = event.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+				if(ann != null){
+					for(EObject eObject:ann.getReferences()){
+						if(eObject instanceof Trigger){
+							return eObject;
+						}
+					}
+				}
+			}
+			throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
+		}else if(s.eContainer() instanceof EAnnotation){
+			return ((EAnnotation)s.eContainer()).getEModelElement();
+		}
+		return s.eContainer();
 	}
 
 }

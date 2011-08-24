@@ -29,6 +29,7 @@ import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.strategies.DateTimeStrategyFactory;
 import net.sf.nakeduml.strategies.IdStrategyFactory;
 import net.sf.nakeduml.strategies.TextStrategyFactory;
+import net.sf.nakeduml.validation.NameUniquenessValidation;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
@@ -45,7 +46,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
 import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IEnum;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {NameUniquenessValidation.class},after = {})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
 	static{
 		// Because of eclipse classloading issues
@@ -66,8 +67,8 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(c.isMarkedForDeletion()){
-			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
-			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
+			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getQualifiedJavaName()));
+			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getQualifiedJavaName().toLowerCase()));
 		}else if(OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)){
 			if(c.getMappingInfo().requiresJavaRename()){
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));

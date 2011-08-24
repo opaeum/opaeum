@@ -1,5 +1,6 @@
 package org.nakeduml.topcased.classdiagram;
 
+import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EAnnotation;
@@ -23,7 +24,7 @@ public final class NakedElementCreationFactory extends GraphElementCreationFacto
 			NamedElement ne=(NamedElement) element;
 			ne.setName(keyword);
 		}
-		EAnnotation ann = element.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		EAnnotation ann = StereotypesHelper.getNumlAnnotation(element);
 		ann.getDetails().put(keyword, "");
 		return element;
 	}

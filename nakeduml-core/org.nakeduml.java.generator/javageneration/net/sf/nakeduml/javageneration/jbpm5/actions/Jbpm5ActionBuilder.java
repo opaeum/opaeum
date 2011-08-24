@@ -52,17 +52,19 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		this.expressor = (AbstractObjectNodeExpressor) super.expressor;
 	}
 	public void setupVariablesAndArgumentPins(OJAnnotatedOperation oper){
+		ActivityUtil.setupVariables(oper, node);
+		
 		if(node instanceof INakedAction){
 			for(INakedPin pin:((INakedAction) node).getInput()){
 				OJBlock block = oper.getBody();
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
 				oper.getOwner().addToImports(map.javaTypePath());
-				OJAnnotatedField field = new OJAnnotatedField(pin.getMappingInfo().getJavaName().toString(), map.javaTypePath());
+				OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+				
 				field.setInitExp(expressPin(oper, block, pin));
 				block.addToLocals(field);
 			}
 		}
-		ActivityUtil.setupVariables(oper, node);
 	}
 	public void implementFinalStep(OJBlock block){
 		if(node.getActivity().getSpecification()!=null){
@@ -87,7 +89,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 					// message structure T
 					// TODO support other output pins
 					for(INakedPin pin:((INakedAction) node).getOutput()){
-						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
+						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
 						oper.getOwner().addToImports(map.javaTypePath());
 						OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 						field.setInitExp("completedTask." + map.getter() + "()");

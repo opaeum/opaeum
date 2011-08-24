@@ -25,6 +25,8 @@ public interface INakedActivityNode extends INakedElement {
 	boolean isImplicitFork();
 	boolean isImplicitDecision();
 	boolean isImplicitJoin();
-	INakedStructuredActivityNode getInStructuredNode();	
+	INakedStructuredActivityNode getInStructuredNode();
+	public abstract void removeOutgoing(INakedActivityEdge edge);
+	public abstract void removeIncoming(INakedActivityEdge edge);	
 	
 }

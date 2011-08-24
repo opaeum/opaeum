@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
@@ -25,9 +26,12 @@ import org.eclipse.uml2.uml.CallAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
@@ -35,12 +39,15 @@ import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.InvocationAction;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
@@ -70,12 +77,103 @@ import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfParameterUtil;
 import org.nakeduml.eclipse.EmfValidationUtil;
 import org.nakeduml.eclipse.ImportLibraryAction;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
 public class NakedUmlElementLinker{
 	private final class EmfUmlElementLinker extends UMLSwitch<EObject>{
 		private Notification notification;
 		private EmfUmlElementLinker(Notification not){
 			notification = not;
+		}
+		@Override
+		public EObject caseInstanceSpecification(InstanceSpecification object){
+			switch(this.notification.getFeatureID(InstanceSpecification.class)){
+			case UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER:
+				if(notification.getNewValue() == null){
+					if(notification.getOldValue() instanceof Classifier){
+						StereotypesHelper.getNumlAnnotation((Element) notification.getOldValue()).getReferences().remove(object);
+					}else if(notification.getOldValue() instanceof List){
+						List<Classifier> oldValue = (List<Classifier>) notification.getOldValue();
+						if(oldValue.size() > 0){
+							StereotypesHelper.getNumlAnnotation(oldValue.get(0)).getReferences().remove(object);
+						}
+					}
+					object.getSlots().clear();
+				}else{
+					Classifier newValue = (Classifier) notification.getNewValue();
+					StereotypesHelper.getNumlAnnotation(newValue).getReferences().add(object);
+					this.synchronizeSlots(newValue, object);
+				}
+				break;
+			}
+			return null;
+		}
+		@Override
+		public EObject caseValuePin(ValuePin vp){
+			switch(this.notification.getFeatureID(Namespace.class)){
+			case UMLPackage.VALUE_PIN__VALUE:
+				if(notification.getNewValue() == null){
+					// No cigar!
+					if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
+						vp.setValue(createInstanceValue(vp.getName()));
+					}else{
+						vp.setValue(createOclExpression(vp.getName()));
+					}
+				}
+				break;
+			case UMLPackage.VALUE_PIN__TYPE:
+				if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT) && notification.getNewValue() != null){
+					InstanceValue value = (InstanceValue) vp.getValue();
+					value.getInstance().getClassifiers().clear();
+					value.getInstance().getClassifiers().add((Classifier) notification.getNewValue());
+				}
+				break;
+			}
+			return null;
+		};
+		@Override
+		public EObject caseConstraint(Constraint c){
+			switch(this.notification.getFeatureID(Namespace.class)){
+			case UMLPackage.CONSTRAINT__SPECIFICATION:
+				if(notification.getNewValue() == null){
+					// No cigar!
+					c.setSpecification(createOclExpression(c.getName()));
+				}
+				break;
+			}
+			return null;
+		}
+		@Override
+		public EObject caseNamespace(Namespace n){
+			switch(this.notification.getFeatureID(Namespace.class)){
+			case UMLPackage.NAMESPACE__OWNED_RULE:
+				Constraint p = null;
+				switch(notification.getEventType()){
+				case Notification.ADD:
+					p = (Constraint) notification.getNewValue();
+					if(p.getSpecification() == null){
+						p.setSpecification(createOclExpression(p.getName()));
+					}
+					break;
+				}
+				break;
+			}
+			return null;
+		}
+		private OpaqueExpression createOclExpression(String ownerName){
+			OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+			oe.setName(ownerName + "Specification");
+			oe.getLanguages().add("OCL");
+			oe.getBodies().add(OclBodyComposite.REQUIRED_TEXT);
+			return oe;
+		}
+		private InstanceValue createInstanceValue(String ownerName){
+			InstanceValue oe = UMLFactory.eINSTANCE.createInstanceValue();
+			oe.setName(ownerName + "Specification");
+			InstanceSpecification is = UMLFactory.eINSTANCE.createInstanceSpecification();
+			StereotypesHelper.getNumlAnnotation(oe).getContents().add(is);
+			oe.setInstance(is);
+			return oe;
 		}
 		public EObject caseAssociation(Association a){
 			switch(this.notification.getFeatureID(Association.class)){
@@ -84,6 +182,7 @@ public class NakedUmlElementLinker{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					p = (Property) notification.getNewValue();
+					synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
 					if(p.getOtherEnd().getType() instanceof Enumeration){
 						Enumeration e = (Enumeration) p.getOtherEnd().getType();
 						for(EnumerationLiteral enumerationLiteral:e.getOwnedLiterals()){
@@ -95,10 +194,8 @@ public class NakedUmlElementLinker{
 					break;
 				case Notification.REMOVE:
 					p = (Property) notification.getOldValue();
-					if(p.getOtherEnd().getType() instanceof Enumeration){
-						Enumeration e = (Enumeration) p.getOtherEnd().getType();
-						synchronizeSlotsOnLiterals(e);
-					}else if(p.getOtherEnd().getType() instanceof Signal){
+					synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
+					if(p.getOtherEnd().getType() instanceof Signal){
 						removeReferencingPins(p);
 					}
 				}
@@ -155,23 +252,24 @@ public class NakedUmlElementLinker{
 			return null;
 		}
 		public EObject caseAction(Action a){
-			switch(notification.getFeatureID(Action.class)){
-			case UMLPackage.ACTION__INPUT:
-				InputPin inputPin = (InputPin) notification.getNewValue();
-				if(inputPin.getUpperBound() == null){
-					LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
-					upperBound.setValue(-1);
-					inputPin.setUpperBound(upperBound);
+			if(notification.getEventType() == Notification.SET || notification.getEventType() == Notification.ADD){
+				if(notification.getNewValue() instanceof ObjectNode){
+					ObjectNode inputPin = (ObjectNode) notification.getNewValue();
+					inputPin.setName(((EStructuralFeature) notification.getFeature()).getName());
+					if(inputPin.getUpperBound() == null){
+						LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
+						upperBound.setValue(-1);
+						inputPin.setUpperBound(upperBound);
+					}
+					if(notification.getNewValue() instanceof ValuePin){
+						ValuePin vp = (ValuePin) notification.getNewValue();
+						if(StereotypesHelper.hasKeyword(vp, StereotypeNames.OCL_INPUT)){
+							vp.setValue(createOclExpression(vp.getName()));
+						}else if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
+							vp.setValue(createInstanceValue(vp.getName()));
+						}
+					}
 				}
-				break;
-			case UMLPackage.ACTION__OUTPUT:
-				OutputPin outputPin = (OutputPin) notification.getNewValue();
-				if(outputPin.getUpperBound() == null){
-					LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
-					upperBound.setValue(-1);
-					outputPin.setUpperBound(upperBound);
-				}
-				break;
 			}
 			return null;
 		}
@@ -252,39 +350,69 @@ public class NakedUmlElementLinker{
 				behavior.getOwnedParameters().remove(behavior.getOwnedParameters().size() - 1);
 			}
 		}
-		public EObject casePackage(Package p){
-			p.getName();
+		public EObject casePackage(Package o){
+			Namespace p = o;
 			switch(notification.getEventType()){
 			case Notification.ADD:
-				if(notification.getNewValue() instanceof Association){
-					Association ass = (Association) notification.getNewValue();
-					for(Property property:ass.getMemberEnds()){
-						if(property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
-							for(EnumerationLiteral e:((Enumeration) property.getType()).getOwnedLiterals()){
-								ensureSlotsPresence(e, property.getOtherEnd());
-							}
+				processNewPackageableElement(p);
+			}
+			return null;
+		}
+		public EObject caseComponent(Component o){
+			Namespace p = o;
+			switch(notification.getEventType()){
+			case Notification.ADD:
+				processNewPackageableElement(p);
+			}
+			return null;
+		}
+		public void processNewPackageableElement(Namespace p){
+			if(notification.getNewValue() instanceof Association){
+				Association ass = (Association) notification.getNewValue();
+				for(Property property:ass.getMemberEnds()){
+					if(property.getOtherEnd().isNavigable() && property.getType() instanceof Enumeration){
+						for(EnumerationLiteral e:((Enumeration) property.getType()).getOwnedLiterals()){
+							ensureSlotsPresence(e, property.getOtherEnd());
 						}
 					}
 				}
-				if(notification.getNewValue() instanceof Signal){
-					applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.NOTIFICATION, StereotypeNames.NAKEDUML_BPM_PROFILE);
+			}
+			if(notification.getNewValue() instanceof Signal){
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.NOTIFICATION, StereotypeNames.NAKEDUML_BPM_PROFILE);
+			}
+			if(notification.getNewValue() instanceof Interface){
+				Interface intf = (Interface) notification.getNewValue();
+				applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.NAKEDUML_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, intf, StereotypeNames.HELPER, StereotypeNames.NAKEDUML_PROFILE);
+			}
+			if(notification.getNewValue() instanceof Component){
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.NAKEDUML_BPM_PROFILE);
+			}
+			if(notification.getNewValue() instanceof org.eclipse.uml2.uml.Class){
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE, StereotypeNames.NAKEDUML_BPM_PROFILE);
+			}
+			if(notification.getNewValue() instanceof TimeEvent){
+				applyRelativeTimeEventStereotype((TimeEvent) notification.getNewValue(), p);
+				TimeEvent te = (TimeEvent) notification.getNewValue();
+				if(te.getWhen() == null){
+					te.setWhen(UMLFactory.eINSTANCE.createTimeExpression());
 				}
-				if(notification.getNewValue() instanceof Interface){
-					Interface intf = (Interface) notification.getNewValue();
-					applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.NAKEDUML_BPM_PROFILE);
-					applyStereotypeIfNecessary(p, intf, StereotypeNames.HELPER, StereotypeNames.NAKEDUML_PROFILE);
-				}
-				if(notification.getNewValue() instanceof Component){
-					applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.NAKEDUML_BPM_PROFILE);
-				}
-				if(notification.getNewValue() instanceof org.eclipse.uml2.uml.Class){
-					applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE, StereotypeNames.NAKEDUML_BPM_PROFILE);
-				}
-				if(notification.getNewValue() instanceof TimeEvent){
-					applyRelativeTimeEventStereotype((TimeEvent) notification.getNewValue(), p);
+				if(te.getWhen().getExpr() == null){
+					OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+					te.getWhen().setExpr(oe);
+					oe.getLanguages().add("OCL");
+					oe.getBodies().add(OclBodyComposite.REQUIRED_TEXT);
 				}
 			}
-			return null;
+			if(notification.getNewValue() instanceof ChangeEvent){
+				ChangeEvent ce = (ChangeEvent) notification.getNewValue();
+				if(ce.getChangeExpression() == null){
+					OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+					ce.setChangeExpression(oe);
+					oe.getLanguages().add("OCL");
+					oe.getBodies().add(OclBodyComposite.REQUIRED_TEXT);
+				}
+			}
 		}
 		public EObject caseSlot(Slot v){
 			switch(notification.getFeatureID(Slot.class)){
@@ -333,23 +461,39 @@ public class NakedUmlElementLinker{
 					Property oldProp = (Property) notification.getOldValue();
 					removeReferencingPins(oldProp);
 				}
+				synchronizeSlotsOnReferringInstances(s);
 				break;
 			}
 			return null;
 		}
+		@Override
+		public EObject caseDataType(DataType object){
+			switch(notification.getFeatureID(DataType.class)){
+			case UMLPackage.CLASSIFIER__GENERALIZATION:
+			case UMLPackage.DATA_TYPE__OWNED_ATTRIBUTE:
+				synchronizeSlotsOnReferringInstances(object);
+				break;
+			}
+			return null;
+		};
+		@Override
+		public EObject caseClass(Class object){
+			switch(notification.getFeatureID(Class.class)){
+			case UMLPackage.CLASSIFIER__GENERALIZATION:
+			case UMLPackage.CLASS__OWNED_ATTRIBUTE:
+				synchronizeSlotsOnReferringInstances(object);
+				break;
+			}
+			return null;
+		};
+		@Override
 		public EObject caseEnumeration(Enumeration en){
 			switch(notification.getFeatureID(Enumeration.class)){
-			case UMLPackage.DATA_TYPE__OWNED_ATTRIBUTE:
-				switch(notification.getEventType()){
-				case Notification.ADD:
-				case Notification.REMOVE:
-					synchronizeSlotsOnLiterals(en);
-				}
-				break;
 			case UMLPackage.ENUMERATION__OWNED_LITERAL:
 				switch(notification.getEventType()){
 				case Notification.ADD:
-					synchronizeSlots(en, (EnumerationLiteral) notification.getNewValue());
+					((EnumerationLiteral) notification.getNewValue()).getClassifiers().add(en);
+					// This would trigger normal Slot synchronization logic
 					break;
 				case Notification.ADD_MANY:
 					break;
@@ -359,13 +503,14 @@ public class NakedUmlElementLinker{
 			}
 			return null;
 		}
-		private void synchronizeSlotsOnLiterals(Enumeration en){
-			for(EnumerationLiteral e:en.getOwnedLiterals()){
-				synchronizeSlots(en, e);
+		private void synchronizeSlotsOnReferringInstances(Classifier en){
+			for(EObject eObject:StereotypesHelper.getNumlAnnotation(en).getReferences()){
+				if(eObject instanceof InstanceSpecification){
+					synchronizeSlots(en, (InstanceSpecification) eObject);
+				}
 			}
 		}
 		private void synchronizeSlots(Classifier en,InstanceSpecification newValue){
-			newValue.getClassifiers().add(en);
 			List<Property> propertiesInScope = EmfElementFinder.getPropertiesInScope(en);
 			outer:for(Slot slot:new ArrayList<Slot>(newValue.getSlots())){
 				for(Property a:propertiesInScope){
@@ -640,9 +785,7 @@ public class NakedUmlElementLinker{
 			case UMLPackage.PROPERTY__IS_DERIVED:
 			case UMLPackage.PROPERTY__IS_DERIVED_UNION:
 				Classifier context = (Classifier) (p.getOtherEnd() != null ? p.getOtherEnd().getType() : p.getOwner());
-				if(context instanceof Enumeration){
-					synchronizeSlotsOnLiterals((Enumeration) context);
-				}
+				synchronizeSlotsOnReferringInstances(context);
 			}
 			return null;
 		}

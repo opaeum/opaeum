@@ -22,6 +22,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.internal.OclContextImpl;
 
+import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -45,6 +46,7 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.topcased.commands.SetOclBodyCommand;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
 
@@ -71,7 +73,8 @@ public class NakedUmlEclipseContext{
 	private EmfWorkspace directoryEmfWorkspace;
 	protected EmfResourceHelper resourceHelper = new EclipseEmfResourceHelper();
 	private NakedUmlErrorMarker errorMarker;
-	private List<Runnable> synchronizationListeners=new ArrayList<Runnable>();
+	private List<Runnable> synchronizationListeners = new ArrayList<Runnable>();
+	private boolean autoSync;
 	public NakedUmlEclipseContext(NakedUmlConfig cfg,IContainer umlDirectory){
 		super();
 		isOpen = true;
@@ -90,7 +93,7 @@ public class NakedUmlEclipseContext{
 		for(EditingContext editingContext:arrayList){
 			startSynch(editingContext.editingDomain, editingContext.file);
 		}
-		Display.getDefault().syncExec(errorMarker);
+		errorMarker.maybeSchedule();
 	}
 	public String getId(Element umlElement){
 		return resourceHelper.getId(umlElement);
@@ -107,25 +110,25 @@ public class NakedUmlEclipseContext{
 	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
 		currentResourceSet = domain.getResourceSet();
-		new Job("Loading NakedUML Model"){
+		new Job("Loading Opium Metadata"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
-				monitor.beginTask("Loading NakedUML Metadata", 30);
+				monitor.beginTask("Loading Opium  Metadata", 30);
 				try{
 					monitor.subTask("Loading EMF Resources");
-					umlElementCache.setMonitor(monitor);
+					umlElementCache.setMonitor(monitor,30);
 					EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(domain.getResourceSet(), file.getLocation().toFile());
 					Package model = findRootObjectInFile(file, emfWorkspace);
 					emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
 					domain.getResourceSet().eAdapters().add(umlElementCache);
-					errorMarker.run();
+					errorMarker.maybeSchedule();
 				}catch(Exception e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}finally{
 					monitor.done();
 				}
-				return new Status(IStatus.OK, NakedUmlPlugin.getId(), "NakedUML Model loaded");
+				return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
 			}
 		}.schedule();
 		return true;
@@ -186,6 +189,14 @@ public class NakedUmlEclipseContext{
 		Resource r = currentResourceSet.getResource(URI.createPlatformResourceURI(f.getFullPath().toString(), true), true);
 		// The UMLElementCache will synchronously update the INAkedModelWorkspace with all loaded elements
 	}
+	public Package getCurrentModelOrProfile(){
+		EditingContext editingContext = this.emfWorkspaces.get(currentResourceSet);
+		if(editingContext != null){
+			return editingContext.model;
+		}else{
+			return null;
+		}
+	}
 	public EmfWorkspace getCurrentEmfWorkspace(){
 		if(currentResourceSet == null || !emfWorkspaces.containsKey(currentResourceSet) || emfWorkspaces.isEmpty()){
 			return directoryEmfWorkspace;
@@ -194,29 +205,32 @@ public class NakedUmlEclipseContext{
 		}
 	}
 	public void loadDirectory(IProgressMonitor monitor){
-		ResourceSet resourceSet = new ResourceSetImpl();
-		monitor.beginTask("Loading EMF resources", 2);
-		directoryEmfWorkspace = EmfWorkspaceLoader.loadDirectory(resourceSet, umlDirectory.getLocation().toFile(), umlElementCache.getConfig());
-		directoryEmfWorkspace.setResourceHelper(new EclipseEmfResourceHelper());
-		// NB!!! we don't put this resourceset - it is transient
-		// this.emfWorkspaces.put(currentResourceSet, w);
-		monitor.worked(1);
-		getUmlElementCache().getTransformationProcess().replaceModel(directoryEmfWorkspace);
-		getUmlElementCache().getTransformationProcess().execute();
-		monitor.worked(2);
-		monitor.done();
-	}
-	public void prepareDirectoryTransformation() throws CoreException{
-		INakedModelWorkspace nmws = getUmlElementCache().getNakedWorkspace();
-		nmws.clearGeneratingModelOrProfiles();
-		for(IResource r:umlDirectory.members()){
-			if(r instanceof IFile && r.getFileExtension().equals("uml")){
-				if(!isNakedRootObjectLoaded((IFile) r)){
-					loadFile((IFile) r);
+		monitor.beginTask("Loading EMF resources", 90);
+		try{
+			if(directoryEmfWorkspace == null){
+				currentResourceSet = new ResourceSetImpl();
+				directoryEmfWorkspace = EmfWorkspaceLoader.loadDirectory(currentResourceSet, umlDirectory.getLocation().toFile(), umlElementCache.getConfig());
+				directoryEmfWorkspace.setResourceHelper(new EclipseEmfResourceHelper());
+				currentResourceSet.eAdapters().add(getUmlElementCache());
+				monitor.worked(20);
+				INakedModelWorkspace nmws = getUmlElementCache().getNakedWorkspace();
+				nmws.clearGeneratingModelOrProfiles();
+				getUmlElementCache().getTransformationProcess().replaceModel(directoryEmfWorkspace);
+				getUmlElementCache().getTransformationProcess().setLog(new ProgressMonitorTransformationLog(monitor,50));
+				getUmlElementCache().getTransformationProcess().execute();
+				for(IResource r:umlDirectory.members()){
+					if(r instanceof IFile && r.getFileExtension().equals("uml")){
+						if(!isNakedRootObjectLoaded((IFile) r)){
+							loadFile((IFile) r);
+						}
+					}
 				}
-				INakedRootObject rootObjectFor = getRootObjectFor(r);
-				nmws.addGeneratingRootObject(rootObjectFor);
+				monitor.worked(20);
 			}
+		}catch(CoreException e){
+			throw new RuntimeException(e);
+		}finally{
+			monitor.done();
 		}
 	}
 	private INakedRootObject getRootObjectFor(IResource r){
@@ -286,12 +300,12 @@ public class NakedUmlEclipseContext{
 		}
 		@Override
 		public void synchronizationComplete(Set<EObject> asdf,Set<INakedNameSpace> nakedUmlChanges){
-			Display.getDefault().asyncExec(errorMarker);
+			errorMarker.maybeSchedule();
 			for(Runnable r:synchronizationListeners){
+				System.out.println("NakedUmlEclipseContext.UmlModelUpdator.synchronizationComplete()" + System.currentTimeMillis());
 				Display.getDefault().asyncExec(r);
 			}
 			synchronizationListeners.clear();
-			
 		}
 	}
 	public void removeNakedModel(ResourceSet resourceSet){
@@ -299,7 +313,12 @@ public class NakedUmlEclipseContext{
 		nws.removeOwnedElement(nws.getModelElement(getId(emfWorkspaces.get(resourceSet).model)));
 	}
 	public void runOnSynchronization(Runnable highlighter){
-		
 		synchronizationListeners.add(highlighter);
+	}
+	public boolean getAutoSync(){
+		return this.autoSync;
+	}
+	public void setAutoSync(boolean b){
+		this.autoSync=b;
 	}
 }

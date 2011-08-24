@@ -15,7 +15,6 @@ import nl.klasse.octopus.model.IClass;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public class OperationMessageStructureImpl extends EmulatedCompositionMessageStructure implements IClass{
-	List<INakedProperty> attributes;
 	private INakedOperation oper;
 	public OperationMessageStructureImpl(INakedClassifier owner,INakedOperation oper){
 		super(owner, oper);

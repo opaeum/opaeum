@@ -1,17 +1,1086 @@
-2011-07-22 13:24:23,582 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2011-07-22 13:24:23,582 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2011-07-22 13:24:23,583 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2011-07-22 13:24:23,583 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
-2011-07-22 13:24:23,583 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2011-07-22 13:24:23,585 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2011-07-22 13:24:23,585 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2011-07-22 13:24:23,585 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2011-07-22 13:24:23,586 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2011-07-22 13:24:23,586 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2011-07-22 13:24:23,590 - Created '20' parsers.
-2011-07-22 13:24:23,591 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2011-07-22 13:24:23,592 - Velocimacro : Default library not found.
-2011-07-22 13:24:23,592 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2011-07-22 13:24:23,592 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2011-07-22 13:24:23,592 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2011-07-22 13:24:23,592 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 11:40:24,605 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:40:24,625 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:40:24,652 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:40:24,652 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 11:47:21,534 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 11:47:21,534 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 11:47:21,534 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 11:47:21,534 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 11:47:21,536 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 11:47:21,537 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 11:47:21,537 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 11:47:21,540 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 11:47:21,542 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 11:47:21,556 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 11:47:21,558 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 11:47:21,559 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 11:47:21,562 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 11:47:21,565 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 11:47:21,566 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 11:47:21,599 - Created '20' parsers.
+2011-08-17 11:47:21,608 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 11:47:21,609 - Velocimacro : Default library not found.
+2011-08-17 11:47:21,609 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 11:47:21,609 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 11:47:21,609 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 11:47:21,609 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 11:47:21,950 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:47:21,954 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 11:47:21,961 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:47:21,967 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:47:21,973 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:47:21,992 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:47:21,992 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 11:50:29,642 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 11:50:29,643 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 11:50:29,643 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 11:50:29,643 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 11:50:29,644 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 11:50:29,646 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 11:50:29,646 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 11:50:29,649 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 11:50:29,650 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 11:50:29,665 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 11:50:29,668 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 11:50:29,669 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 11:50:29,671 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 11:50:29,673 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 11:50:29,674 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 11:50:29,706 - Created '20' parsers.
+2011-08-17 11:50:29,715 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 11:50:29,716 - Velocimacro : Default library not found.
+2011-08-17 11:50:29,716 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 11:50:29,716 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 11:50:29,716 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 11:50:29,716 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 11:50:29,986 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:50:29,993 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 11:50:30,008 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:50:30,025 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:50:30,038 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:50:30,057 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 11:50:30,057 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 12:01:06,083 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 12:01:06,084 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 12:01:06,084 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 12:01:06,084 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 12:01:06,085 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 12:01:06,086 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 12:01:06,086 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 12:01:06,090 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 12:01:06,091 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 12:01:06,107 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 12:01:06,108 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 12:01:06,110 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 12:01:06,112 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 12:01:06,114 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 12:01:06,115 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 12:01:06,144 - Created '20' parsers.
+2011-08-17 12:01:06,154 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 12:01:06,155 - Velocimacro : Default library not found.
+2011-08-17 12:01:06,155 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 12:01:06,155 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 12:01:06,155 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 12:01:06,155 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 12:01:06,652 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:01:06,659 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 12:01:06,672 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:01:06,686 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:01:06,708 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:01:06,733 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:01:06,734 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 12:23:28,373 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 12:23:28,374 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 12:23:28,374 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 12:23:28,374 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 12:23:28,375 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 12:23:28,377 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 12:23:28,377 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 12:23:28,380 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 12:23:28,381 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 12:23:28,395 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 12:23:28,397 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 12:23:28,398 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 12:23:28,401 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 12:23:28,404 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 12:23:28,406 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 12:23:28,440 - Created '20' parsers.
+2011-08-17 12:23:28,448 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 12:23:28,449 - Velocimacro : Default library not found.
+2011-08-17 12:23:28,449 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 12:23:28,449 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 12:23:28,449 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 12:23:28,450 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 12:23:28,837 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:23:28,842 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 12:23:28,851 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:23:28,858 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:23:28,863 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:23:28,882 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 12:23:28,882 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:36:07,323 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 15:36:07,324 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 15:36:07,324 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 15:36:07,324 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 15:36:07,325 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 15:36:07,326 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:36:07,326 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:36:07,329 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 15:36:07,330 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 15:36:07,345 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 15:36:07,346 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 15:36:07,348 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 15:36:07,350 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 15:36:07,351 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 15:36:07,352 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 15:36:07,380 - Created '20' parsers.
+2011-08-17 15:36:07,389 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 15:36:07,390 - Velocimacro : Default library not found.
+2011-08-17 15:36:07,390 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 15:36:07,390 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 15:36:07,390 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 15:36:07,390 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 15:36:07,751 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:36:07,755 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:36:07,763 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:36:07,770 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:36:07,776 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:36:07,795 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:36:07,796 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:38:19,560 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 15:38:19,561 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 15:38:19,561 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 15:38:19,561 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 15:38:19,562 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 15:38:19,564 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:38:19,564 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:38:19,566 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 15:38:19,568 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 15:38:19,582 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 15:38:19,584 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 15:38:19,586 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 15:38:19,588 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 15:38:19,590 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 15:38:19,591 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 15:38:19,619 - Created '20' parsers.
+2011-08-17 15:38:19,628 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 15:38:19,629 - Velocimacro : Default library not found.
+2011-08-17 15:38:19,629 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 15:38:19,629 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 15:38:19,629 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 15:38:19,629 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 15:38:19,996 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:38:19,999 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:38:20,009 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:38:20,020 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:38:20,027 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:38:20,047 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:38:20,047 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:39:49,380 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 15:39:49,380 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 15:39:49,380 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 15:39:49,380 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 15:39:49,382 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 15:39:49,383 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:39:49,383 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:39:49,386 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 15:39:49,387 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 15:39:49,401 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 15:39:49,403 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 15:39:49,404 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 15:39:49,407 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 15:39:49,409 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 15:39:49,410 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 15:39:49,444 - Created '20' parsers.
+2011-08-17 15:39:49,453 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 15:39:49,454 - Velocimacro : Default library not found.
+2011-08-17 15:39:49,454 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 15:39:49,454 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 15:39:49,454 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 15:39:49,454 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 15:39:49,803 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:39:49,807 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:39:49,814 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:39:49,821 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:39:49,827 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:39:49,872 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:39:49,872 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:48:53,165 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 15:48:53,165 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 15:48:53,165 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 15:48:53,165 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 15:48:53,167 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 15:48:53,168 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:48:53,168 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 15:48:53,171 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 15:48:53,172 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 15:48:53,189 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 15:48:53,191 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 15:48:53,193 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 15:48:53,195 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 15:48:53,197 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 15:48:53,198 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 15:48:53,229 - Created '20' parsers.
+2011-08-17 15:48:53,239 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 15:48:53,240 - Velocimacro : Default library not found.
+2011-08-17 15:48:53,240 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 15:48:53,240 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 15:48:53,240 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 15:48:53,240 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 15:48:53,656 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:48:53,661 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 15:48:53,673 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:48:53,692 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:48:53,705 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:48:53,724 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 15:48:53,724 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:08:34,568 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:08:34,569 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:08:34,569 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:08:34,569 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:08:34,570 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:08:34,572 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:08:34,572 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:08:34,575 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:08:34,576 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:08:34,593 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:08:34,595 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:08:34,597 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:08:34,599 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:08:34,601 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:08:34,602 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:08:34,634 - Created '20' parsers.
+2011-08-17 16:08:34,644 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:08:34,645 - Velocimacro : Default library not found.
+2011-08-17 16:08:34,645 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:08:34,645 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:08:34,645 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:08:34,645 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:08:34,865 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:08:34,871 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:08:34,885 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:08:34,895 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:08:34,905 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:08:34,925 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:08:34,925 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:14:43,765 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:14:43,765 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:14:43,766 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:14:43,766 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:14:43,768 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:14:43,769 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:14:43,769 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:14:43,772 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:14:43,774 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:14:43,796 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:14:43,798 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:14:43,800 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:14:43,802 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:14:43,804 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:14:43,805 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:14:43,835 - Created '20' parsers.
+2011-08-17 16:14:43,846 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:14:43,847 - Velocimacro : Default library not found.
+2011-08-17 16:14:43,847 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:14:43,847 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:14:43,847 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:14:43,847 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:14:43,900 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:14:43,904 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:14:43,915 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:14:43,932 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:14:43,951 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:14:43,972 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:14:43,972 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:40:35,671 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:40:35,672 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:40:35,672 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:40:35,672 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:40:35,676 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:40:35,680 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:40:35,680 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:40:35,686 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:40:35,689 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:40:35,719 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:40:35,722 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:40:35,726 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:40:35,730 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:40:35,734 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:40:35,736 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:40:35,797 - Created '20' parsers.
+2011-08-17 16:40:35,815 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:40:35,817 - Velocimacro : Default library not found.
+2011-08-17 16:40:35,817 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:40:35,817 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:40:35,817 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:40:35,817 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:40:38,507 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:40:38,514 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:40:38,526 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:40:38,542 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:40:38,580 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:40:38,617 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:40:38,617 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:41:39,029 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:41:39,029 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:41:39,030 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:41:39,030 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:41:39,031 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:41:39,032 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:41:39,032 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:41:39,035 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:41:39,037 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:41:39,052 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:41:39,054 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:41:39,056 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:41:39,058 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:41:39,060 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:41:39,061 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:41:39,090 - Created '20' parsers.
+2011-08-17 16:41:39,100 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:41:39,101 - Velocimacro : Default library not found.
+2011-08-17 16:41:39,101 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:41:39,101 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:41:39,101 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:41:39,101 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:41:40,993 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:41:40,999 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:41:41,012 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:41:41,026 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:41:41,043 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:41:41,070 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:41:41,070 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:43:10,677 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:43:10,677 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:43:10,678 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:43:10,678 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:43:10,679 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:43:10,681 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:43:10,681 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:43:10,685 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:43:10,686 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:43:10,704 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:43:10,705 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:43:10,707 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:43:10,710 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:43:10,712 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:43:10,713 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:43:10,748 - Created '20' parsers.
+2011-08-17 16:43:10,760 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:43:10,761 - Velocimacro : Default library not found.
+2011-08-17 16:43:10,761 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:43:10,761 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:43:10,761 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:43:10,761 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:46:30,487 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:46:30,487 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:46:30,487 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:46:30,487 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:46:30,489 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:46:30,490 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:46:30,490 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:46:30,493 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:46:30,494 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:46:30,510 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:46:30,511 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:46:30,513 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:46:30,515 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:46:30,517 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:46:30,518 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:46:30,547 - Created '20' parsers.
+2011-08-17 16:46:30,556 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:46:30,557 - Velocimacro : Default library not found.
+2011-08-17 16:46:30,557 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:46:30,557 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:46:30,557 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:46:30,558 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:49:19,079 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 16:49:19,080 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 16:49:19,080 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 16:49:19,080 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 16:49:19,082 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 16:49:19,083 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:49:19,083 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 16:49:19,087 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 16:49:19,088 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 16:49:19,106 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 16:49:19,107 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 16:49:19,109 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 16:49:19,112 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 16:49:19,114 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 16:49:19,115 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 16:49:19,148 - Created '20' parsers.
+2011-08-17 16:49:19,159 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 16:49:19,160 - Velocimacro : Default library not found.
+2011-08-17 16:49:19,160 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 16:49:19,160 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 16:49:19,160 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 16:49:19,161 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 16:49:56,553 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:49:56,561 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 16:49:56,574 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:49:56,592 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:49:56,614 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:49:56,634 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 16:49:56,634 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:28:45,152 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 17:28:45,179 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 17:28:45,179 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 17:28:45,179 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 17:28:45,182 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 17:28:45,185 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:28:45,185 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:28:45,205 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 17:28:45,208 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 17:28:45,238 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 17:28:45,241 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 17:28:45,244 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 17:28:45,247 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 17:28:45,259 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 17:28:45,261 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 17:28:45,299 - Created '20' parsers.
+2011-08-17 17:28:45,309 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 17:28:45,310 - Velocimacro : Default library not found.
+2011-08-17 17:28:45,310 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 17:28:45,310 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 17:28:45,310 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 17:28:45,310 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 17:28:45,809 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:28:45,815 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:28:45,827 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:28:45,846 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:28:45,863 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:28:45,885 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:28:45,885 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:34:09,469 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 17:34:09,469 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 17:34:09,469 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 17:34:09,469 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 17:34:09,471 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 17:34:09,472 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:34:09,472 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:34:09,475 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 17:34:09,477 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:09,494 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 17:34:09,495 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 17:34:09,497 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 17:34:09,500 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 17:34:09,502 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 17:34:09,503 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 17:34:09,536 - Created '20' parsers.
+2011-08-17 17:34:09,546 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 17:34:09,547 - Velocimacro : Default library not found.
+2011-08-17 17:34:09,547 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 17:34:09,547 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 17:34:09,548 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 17:34:09,548 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 17:34:35,474 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:35,481 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:34:35,496 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:35,516 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:35,545 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:35,579 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:35,579 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:34:56,505 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 17:34:56,505 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 17:34:56,505 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 17:34:56,505 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 17:34:56,507 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 17:34:56,509 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:34:56,509 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:34:56,512 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 17:34:56,513 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 17:34:56,530 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 17:34:56,531 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 17:34:56,533 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 17:34:56,535 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 17:34:56,537 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 17:34:56,538 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 17:34:56,568 - Created '20' parsers.
+2011-08-17 17:34:56,578 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 17:34:56,579 - Velocimacro : Default library not found.
+2011-08-17 17:34:56,579 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 17:34:56,579 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 17:34:56,579 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 17:34:56,579 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 17:36:04,944 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:36:04,950 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:36:04,964 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:36:04,993 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:36:05,027 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:36:05,048 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:36:05,048 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:38:06,819 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 17:38:06,819 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 17:38:06,819 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 17:38:06,819 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 17:38:06,821 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more
+2011-08-17 17:38:06,822 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:38:06,822 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2011-08-17 17:38:06,825 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2011-08-17 17:38:06,827 - ResourceLoader instantiated: org.nakedum.velocity.ResourceLoader
+2011-08-17 17:38:06,844 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2011-08-17 17:38:06,845 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2011-08-17 17:38:06,847 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2011-08-17 17:38:06,849 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2011-08-17 17:38:06,851 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2011-08-17 17:38:06,852 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2011-08-17 17:38:06,883 - Created '20' parsers.
+2011-08-17 17:38:06,893 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2011-08-17 17:38:06,894 - Velocimacro : Default library not found.
+2011-08-17 17:38:06,894 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2011-08-17 17:38:06,894 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2011-08-17 17:38:06,894 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2011-08-17 17:38:06,894 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2011-08-17 17:38:12,542 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:38:12,547 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:38:12,560 - ResourceManager : found templates/Model/HornetQJms.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:38:12,583 - ResourceManager : found templates/Model/HornetQConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:38:12,599 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:38:12,627 - ResourceManager : found templates/Model/Jbpm5HibernateConfig.vsl with loader org.nakedum.velocity.ResourceLoader
+2011-08-17 17:38:12,627 - Null reference [template 'templates/Model/Jbpm5HibernateConfig.vsl', line 19, column 75] : ${workspace.name} cannot be resolved.
+2011-08-17 17:41:37,815 - Log4JLogChute initialized using file 'velocity.log'
+2011-08-17 17:41:37,816 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2011-08-17 17:41:37,816 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2011-08-17 17:41:37,816 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2011-08-17 17:41:37,818 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:247)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.nakedum.velocity.AbstractTextProducingVisitor.initialize(AbstractTextProducingVisitor.java:68)
+	at net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator.initialize(HibernateConfigGenerator.java:44)
+	at net.sf.nakeduml.javageneration.JavaTransformationPhase.initializeSteps(JavaTransformationPhase.java:100)
+	at net.sf.nakeduml.feature.TransformationProcess.executePhase(TransformationProcess.java:71)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:96)
+	at net.sf.nakeduml.feature.TransformationProcess.execute(TransformationProcess.java:79)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.generateCodeForSingleModel(BpmLibCodeGenerator.java:50)
+	at org.nakeduml.bpm.codegen.BpmLibCodeGenerator.main(BpmLibCodeGenerator.java:38)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+	... 18 more

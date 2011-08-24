@@ -6,4 +6,9 @@ public class ActionStakeholdersSection extends AbstractArtificialOpaqueExpressio
 	public String getExpressionName(){
 		return "stakeholders";
 	}
+	@Override
+	public String getStereotypeName(){
+		return "EmbeddedSingleScreenTask";
+	}
+
 }

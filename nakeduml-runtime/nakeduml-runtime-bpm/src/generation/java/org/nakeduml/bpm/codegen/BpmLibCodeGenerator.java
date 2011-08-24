@@ -14,6 +14,8 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.jbpm5.MessageMarshallingImplementor;
@@ -69,6 +71,7 @@ public class BpmLibCodeGenerator{
 		steps.add(ExtendedCompositionSemantics.class);
 		steps.add(BpmUsingJbpm5.class);
 		steps.add(ProcessStepResolverImplementor.class);
+		steps.add(TextFileGenerator.class);
 		return steps;
 	}
 	private void mapDomainProjects(NakedUmlConfig cfg){

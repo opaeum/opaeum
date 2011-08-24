@@ -24,6 +24,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
@@ -43,7 +44,6 @@ import org.apache.maven.pom.POMPackage;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.util.POMResourceFactoryImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -120,10 +120,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		return ignoreFile;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProgressLog log,TransformationContext context){
 		if(config.generateMavenPoms()){
 			for(PomGenerationStep step:features){
-				if(step.isIntegrationStep() == context.isIntegrationPhase()){
+				if(step.isIntegrationStep() == context.isIntegrationPhase() && !log.isCanceled()){
 					step.initialize(config, workspace);
 					if(step.getExampleTargetDir().useWorkspaceName()){
 						String prefix = workspace.getIdentifier();

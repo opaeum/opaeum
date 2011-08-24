@@ -70,6 +70,7 @@ public abstract class NakedCallActionImpl extends NakedInvocationActionImpl impl
 	}
 
 	public void setResult(List<INakedOutputPin> arguments) {
+		super.removePins(this.result);
 		this.result = arguments;
 	}
 

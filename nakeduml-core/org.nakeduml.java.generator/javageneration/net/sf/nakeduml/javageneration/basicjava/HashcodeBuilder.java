@@ -6,13 +6,16 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
+import net.sf.nakeduml.metamodel.core.INakedHelper;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 
@@ -30,23 +33,20 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 },after = {
 	Java6ModelGenerator.class
 })
-public class HashcodeBuilder extends StereotypeAnnotator{
+public class HashcodeBuilder extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c){
+	protected void visitComplexStructure(INakedComplexStructure c){
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			this.buildHashcode(ojClass, c);
 		}
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(INakedOperation no){
-		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
-			this.visitClass(no.getMessageStructure());
+	@VisitBefore
+	public void visitInterface(INakedInterface i){
+		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
+			OJAnnotatedClass ojClass = findJavaClass(i);
+			ojClass.addToOperations(new OJAnnotatedOperation("getUid", new OJPathName("String")));
 		}
-	}
-	@VisitBefore()
-	public void visitOpaqueAction(INakedEmbeddedSingleScreenTask oa){
-		this.visitClass(oa.getMessageStructure());
 	}
 	private void buildHashcode(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJField uid = owner.findField("uid");
@@ -86,5 +86,9 @@ public class HashcodeBuilder extends StereotypeAnnotator{
 			owner.addToOperations(hashCode);
 		}
 		// TODO DataTypes!!!!
+	}
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		
 	}
 }

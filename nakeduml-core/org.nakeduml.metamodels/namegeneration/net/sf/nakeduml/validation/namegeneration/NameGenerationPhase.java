@@ -30,7 +30,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 		return elements;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log, TransformationContext context){
 		for(AbstractNameGenerator ng:nameGenerators){
 			ng.startVisiting(modelWorkspace);
 		}

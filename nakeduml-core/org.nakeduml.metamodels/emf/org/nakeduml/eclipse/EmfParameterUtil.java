@@ -85,7 +85,7 @@ public class EmfParameterUtil{
 		}
 		for(Association a:((Classifier) owner).getAssociations()){
 			for(Property p:a.getMemberEnds()){
-				if(p.isNavigable() && p.getOtherEnd().getType() == owner){
+				if(p.isNavigable() &&  p.getOtherEnd().getType() == owner){
 					ownedAttributes.add(p);
 				}
 			}

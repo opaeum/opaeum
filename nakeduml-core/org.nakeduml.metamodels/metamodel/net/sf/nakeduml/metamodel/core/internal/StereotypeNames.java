@@ -74,5 +74,8 @@ public class StereotypeNames {
 	public static final String SCREEN_FLOW = "ScreenFlow";
 	public static final String CALL_BUSINESS_STATE_MACHINE_ACTION = "CallBusinessStateMachineAction";
 	public static final String SCREEN = "Screen";
+	public static final String OCL_INPUT = "OclInput";
+	public static final String NEW_OBJECT_INPUT = "NewObjectInput";
+	
 
 }

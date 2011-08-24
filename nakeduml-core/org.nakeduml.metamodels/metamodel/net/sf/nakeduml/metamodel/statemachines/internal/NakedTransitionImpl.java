@@ -24,7 +24,7 @@ import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
 import net.sf.nakeduml.metamodel.statemachines.TransitionKind;
 
-public class NakedTransitionImpl extends NakedElementImpl implements INakedElement, INakedTransition {
+public class NakedTransitionImpl extends NakedElementImpl implements INakedElement,INakedTransition{
 	private static final long serialVersionUID = 133077616488879831L;
 	protected INakedState source;
 	protected INakedState target;
@@ -32,196 +32,187 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	INakedTrigger trigger;
 	private INakedConstraint guard;
 	private String[] parameterNames;
-
-	public NakedTransitionImpl() {
+	public NakedTransitionImpl(){
 	}
-
-	public INakedState getMainSource() {
-		if (getKind().isLocal() || getKind().isInternal()) {
+	@Override
+	public void removeOwnedElement(INakedElement element){
+		super.removeOwnedElement(element);
+		if(element == effect){
+			effect = null;
+		}else if(element == guard){
+			guard = null;
+		}
+	}
+	public INakedState getMainSource(){
+		if(getKind().isLocal() || getKind().isInternal()){
 			// Do not invoke any exit behavior
 			return null;
-		} else {
+		}else{
 			return getTopMostStateAffected(this.source);
 		}
 	}
-
-	public INakedRegion getMainRegion() {
+	public INakedRegion getMainRegion(){
 		return getMainTarget().getTopMostRegionContaining(getTarget());
 	}
-
-	public INakedState getMainTarget() {
+	public INakedState getMainTarget(){
 		return getTopMostStateAffected(this.target);
 	}
-
-	private INakedState getTopMostStateAffected(INakedState s) {
+	private INakedState getTopMostStateAffected(INakedState s){
 		INakedState parent = s;
 		IRegionOwner commonParent = this.source.getLeastCommonAncestor(this.target);
-		if (!parent.equals(commonParent)) {
+		if(!parent.equals(commonParent)){
 			// Find the topmost parent of state 's' that is NOT the LCA
 			// Could very well be 's' itself
-			while (!(commonParent.equals(parent.getContainer().getRegionOwner()))) {
+			while(!(commonParent.equals(parent.getContainer().getRegionOwner()))){
 				parent = (INakedState) parent.getContainer().getRegionOwner();
 			}
 		}
 		return parent;
 	}
-
-	public void setSource(INakedState source) {
+	public void setSource(INakedState source){
+		if(this.source != null){
+			this.source.removeFromOutgoing(this);
+		}
+		if(source != null){
+			source.addToOutgoing(this);
+		}
 		this.source = source;
 	}
-
-	public void setTarget(INakedState target) {
+	public void setTarget(INakedState target){
+		if(this.target != null){
+			this.target.removeFromIncoming(this);
+		}
+		if(target != null){
+			target.addToIncoming(this);
+		}
 		this.target = target;
 	}
-
-	public List<? extends INakedTypedElement> getParameters() {
-		if (getTrigger() == null) {
+	public List<? extends INakedTypedElement> getParameters(){
+		if(getTrigger() == null){
 			return Collections.EMPTY_LIST;
-		} else {
-			if (getTrigger().getEvent() instanceof INakedSignal) {
+		}else{
+			if(getTrigger().getEvent() instanceof INakedSignal){
 				return ((INakedSignal) getTrigger().getEvent()).getArgumentParameters();
-			} else if (getTrigger().getEvent() instanceof INakedOperation) {
+			}else if(getTrigger().getEvent() instanceof INakedOperation){
 				return ((INakedOperation) getTrigger().getEvent()).getArgumentParameters();
-			} else {
+			}else{
 				return Collections.EMPTY_LIST;
 			}
 		}
 	}
-
-	public String[] getParameterNames() {
-		if (this.parameterNames == null) {
+	public String[] getParameterNames(){
+		if(this.parameterNames == null){
 			List params = getParameters();
 			this.parameterNames = new String[params.size()];
-			for (int i = 0; i < params.size(); i++) {
+			for(int i = 0;i < params.size();i++){
 				INakedTypedElement pw = (INakedTypedElement) params.get(i);
 				this.parameterNames[i] = pw.getName();
 			}
 		}
 		return this.parameterNames;
 	}
-
-	public TransitionKind getKind() {
-		if (getTarget() == null || getSource().equals(getTarget())) {
+	public TransitionKind getKind(){
+		if(getTarget() == null || getSource().equals(getTarget())){
 			return TransitionKind.INTERNAL;
-		} else if (getSource().isAncestorOf(getTarget())) {
+		}else if(getSource().isAncestorOf(getTarget())){
 			return TransitionKind.LOCAL;
-		} else {
+		}else{
 			return TransitionKind.EXTERNAL;
 		}
 	}
-
-	public INakedState getSource() {
+	public INakedState getSource(){
 		return this.source;
 	}
-
-	public INakedState getTarget() {
+	public INakedState getTarget(){
 		return this.target;
 	}
-
-	public INakedRegion getContainer() {
+	public INakedRegion getContainer(){
 		return (INakedRegion) getNameSpace();
 	}
-
-	public INakedStateMachine getStateMachine() {
+	public INakedStateMachine getStateMachine(){
 		INakedNameSpace parent = getNameSpace();
-		while (!(parent == null || parent instanceof NakedStateMachineImpl)) {
+		while(!(parent == null || parent instanceof NakedStateMachineImpl)){
 			parent = parent.getNameSpace();
 		}
 		return (INakedStateMachine) parent;
 	}
-
 	@Override
-	public String getMetaClass() {
+	public String getMetaClass(){
 		return "Transition";
 	}
-
-	public PreAndPostConstrained getEffect() {
+	public PreAndPostConstrained getEffect(){
 		return this.effect;
 	}
-
-	public INakedTrigger getTrigger() {
+	public INakedTrigger getTrigger(){
 		return this.trigger;
 	}
-
-	public INakedValueSpecification getGuard() {
-		if (this.guard != null) {
+	public INakedValueSpecification getGuard(){
+		if(this.guard != null){
 			return this.guard.getSpecification();
-		} else {
+		}else{
 			return null;
 		}
 	}
-
-	public boolean hasEffect() {
+	public boolean hasEffect(){
 		return getEffect() != null;
 	}
-
-	public void setEffect(INakedBehavior effect) {
+	public void setEffect(INakedBehavior effect){
 		addOwnedElement(effect);
 	}
-
-	public boolean hasTrigger() {
-		if (!(getSource().getKind().isSimple() || getSource().getKind().isOrthogonal() || getSource().getKind().isComposite())) {
+	public boolean hasTrigger(){
+		if(!(getSource().getKind().isSimple() || getSource().getKind().isOrthogonal() || getSource().getKind().isComposite())){
 			return false;
-		} else if (getTarget().getKind().isJoin()) {
+		}else if(getTarget().getKind().isJoin()){
 			return false;
-		} else {
+		}else{
 			return getTrigger() != null;
 		}
 	}
-
-	public boolean hasGuard() {
-		if (getTarget().getKind().isJoin() || getSource().getKind().isFork()) {
+	public boolean hasGuard(){
+		if(getTarget().getKind().isJoin() || getSource().getKind().isFork()){
 			return false;
-		} else {
+		}else{
 			return this.getGuard() != null;
 		}
 	}
-
 	@Override
-	public void setTrigger(INakedTrigger trigger) {
+	public void setTrigger(INakedTrigger trigger){
 		addOwnedElement(trigger);
 		this.trigger = trigger;
 	}
-
 	@Override
-	public void addOwnedElement(INakedElement element) {
-		if (element != null) {
+	public void addOwnedElement(INakedElement element){
+		if(element != null){
 			super.addOwnedElement(element);
-			if (element instanceof INakedBehavior) {
+			if(element instanceof INakedBehavior){
 				this.effect = (INakedBehavior) element;
 			}
-			if (element instanceof INakedConstraint) {
+			if(element instanceof INakedConstraint){
 				this.guard = (INakedConstraint) element;
 			}
 		}
 	}
-
 	@Override
-	public Collection<INakedElement> getOwnedElements() {
+	public Collection<INakedElement> getOwnedElements(){
 		Collection<INakedElement> results = new HashSet<INakedElement>(super.getOwnedElements());
 		return results;
 	}
-
-	public INakedClassifier getContext() {
-		if (getStateMachine().getContext() == null) {
+	public INakedClassifier getContext(){
+		if(getStateMachine().getContext() == null){
 			return getStateMachine();
-		} else {
+		}else{
 			return getStateMachine().getContext();
 		}
 	}
-
-	public INakedStateMachine getOwningBehavior() {
+	public INakedStateMachine getOwningBehavior(){
 		return getStateMachine();
 	}
-
-	public INakedConstraint getGuardConstraint() {
+	public INakedConstraint getGuardConstraint(){
 		return this.guard;
 	}
-
-	public void setGuardConstraint(INakedConstraint guard) {
+	public void setGuardConstraint(INakedConstraint guard){
 		addOwnedElement(guard);
 	}
-
 	@Override
 	public INakedElement getEffectiveTarget(){
 		return getTarget();

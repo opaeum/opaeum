@@ -1,5 +1,8 @@
 package org.nakeduml.bpm;
 
+import java.util.Collection;
+
+import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Assert;
@@ -11,6 +14,11 @@ public class TaskRequestFlowTest{
 		Mockery mockery = new Mockery();
 		TaskRequest tr= new TaskRequest();
 		tr.execute();
+		System.out.println(tr.getInnermostNonParallelStep());
+		Collection<NodeInstanceImpl> nodeInstancesRecursively = tr.getNodeInstancesRecursively();
+		for(NodeInstanceImpl nodeInstanceImpl:nodeInstancesRecursively){
+			System.out.println(nodeInstanceImpl.getNodeName());
+		}
 		Assert.assertTrue(tr.getCreated());
 		ParticipationInTask p1 = new ParticipationInTask(tr);
 		p1.setKind(TaskParticipationKind.POTENTIALOWNER);

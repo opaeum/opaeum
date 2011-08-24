@@ -284,6 +284,9 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPackageMerge(), "default");
 		entries.add(new ModelerConnectionCreationToolEntry("Package Merge", "Package Merge", factory, ClassImageRegistry.getImageDescriptor("PACKAGEMERGE"),
 				ClassImageRegistry.getImageDescriptor("PACKAGEMERGE_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getElementImport(), "default");
+		entries.add(new ModelerConnectionCreationToolEntry("Element Import", "Element Import", factory, ClassImageRegistry.getImageDescriptor("DEPENDENCY"),
+				ClassImageRegistry.getImageDescriptor("DEPENDENCY_LARGE")));
 		connectionsDrawer.addAll(entries);
 		if(connectionsDrawer.getChildren().size() > 0){
 			getRoot().add(connectionsDrawer);

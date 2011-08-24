@@ -7,6 +7,8 @@ import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.components.INakedConnector;
+import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -56,6 +58,11 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 				// testInitialValue.getBody().addToStatements("assert object."
 				// + map.getter() + "().equals(" + map.javaDefaultValue()
 				// +")");
+			}
+		}
+		for(INakedConstraint nc:entity.getOwnedRules()){
+			if(!nc.getName().startsWith("uniqueIn") || nc.getName().startsWith("SourcePopulationFor")){
+				addTestMEthod(entity, pn, test, testInterface, "test" + nc.getMappingInfo().getJavaName().getCapped());
 			}
 		}
 		if(test.getOperations().size() > 0){

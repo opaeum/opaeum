@@ -2,12 +2,14 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
@@ -74,7 +76,7 @@ public abstract class AbstractNodeBuilder {
 	}
 	protected final String readPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
 		if(expressor.pinsAvailableAsVariables()){
-			return pin.getMappingInfo().getJavaName().getAsIs();
+			return TypedElementPropertyBridge.locallyUniqueName(pin);
 		}else{
 			return expressPin(operationContext, block, pin);
 		}

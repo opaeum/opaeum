@@ -3,13 +3,21 @@ package org.nakeduml.eclipse.starter;
 import java.io.File;
 import java.util.Iterator;
 
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.TransformationProcess;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -27,6 +35,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
+import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 public class RecompileModelAction implements IObjectActionDelegate{
@@ -53,12 +62,13 @@ public class RecompileModelAction implements IObjectActionDelegate{
 									}
 								});
 							}else{
-								monitor.beginTask("Generating Java Code", p.getPhases().size());
-								p.setLog(new ProgressMonitorTransformationLog(monitor));
-								p.execute();
-								new JavaProjectGenerator(NakedUmlEditor.getCurrentContext().getUmlElementCache().getConfig(), p,
-										ResourcesPlugin.getWorkspace().getRoot(), true).schedule();
-								ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IProject.DEPTH_INFINITE, null);
+								monitor.beginTask("Generating Java Model", 90);
+								NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+								p.setLog(new ProgressMonitorTransformationLog(monitor,30));
+								p.executeFrom(JavaTransformationPhase.class);
+								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 60), p, currentContext);
+								p.findModel(EmfWorkspace.class).saveAll();
+								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 							}
 						}catch(Exception e){
 							NakedUmlEclipsePlugin.getDefault().getLog().log(new Status(Status.INFO, NakedUmlEclipsePlugin.getPluginId(), Status.OK, e.getMessage(), e));
@@ -69,6 +79,7 @@ public class RecompileModelAction implements IObjectActionDelegate{
 						}
 						return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 					}
+
 				}.schedule();
 				break;
 			}

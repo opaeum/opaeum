@@ -114,12 +114,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseEnumeration(org.eclipse.uml2.uml.Enumeration)
-		 * @generated
-		 */
 		@Override
 		public Object caseEnumeration(org.eclipse.uml2.uml.Enumeration object){
 			if("default".equals(presentation)){
@@ -127,12 +121,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseEnumerationLiteral(org.eclipse.uml2.uml.EnumerationLiteral)
-		 * @generated
-		 */
 		@Override
 		public Object caseEnumerationLiteral(org.eclipse.uml2.uml.EnumerationLiteral object){
 			if("default".equals(presentation)){
@@ -140,12 +128,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#casePrimitiveType(org.eclipse.uml2.uml.PrimitiveType)
-		 * @generated
-		 */
 		@Override
 		public Object casePrimitiveType(org.eclipse.uml2.uml.PrimitiveType object){
 			if("default".equals(presentation)){
@@ -153,12 +135,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseAssociation(org.eclipse.uml2.uml.Association)
-		 * @generated
-		 */
 		@Override
 		public Object caseAssociation(org.eclipse.uml2.uml.Association object){
 			if("default".equals(presentation)){
@@ -166,12 +142,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseAssociationClass(org.eclipse.uml2.uml.AssociationClass)
-		 * @generated
-		 */
 		@Override
 		public Object caseAssociationClass(org.eclipse.uml2.uml.AssociationClass object){
 			if("default".equals(presentation)){
@@ -179,12 +149,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseGeneralization(org.eclipse.uml2.uml.Generalization)
-		 * @generated
-		 */
 		@Override
 		public Object caseGeneralization(org.eclipse.uml2.uml.Generalization object){
 			if("default".equals(presentation)){
@@ -192,12 +156,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseInterfaceRealization(org.eclipse.uml2.uml.InterfaceRealization)
-		 * @generated
-		 */
 		@Override
 		public Object caseInterfaceRealization(org.eclipse.uml2.uml.InterfaceRealization object){
 			if("default".equals(presentation)){
@@ -205,39 +163,21 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * @see org.topcased.modeler.uml.alldiagram.ExactUMLSwitch#caseTemplateBinding(org.eclipse.uml2.uml.TemplateBinding)
-		 */
 		public Object caseTemplateBinding(org.eclipse.uml2.uml.TemplateBinding object){
 			if("default".equals(presentation)){
 				return createGraphElementTemplateBinding(object, presentation);
 			}
 			return null;
 		}
-		/**
-		 * @see org.topcased.modeler.uml.alldiagram.ExactUMLSwitch#caseRedefinableTemplateSignature(org.eclipse.uml2.uml.RedefinableTemplateSignature)
-		 */
 		public Object caseTemplateSignature(org.eclipse.uml2.uml.TemplateSignature object){
 			return createGraphElementTemplateSignature(object, presentation);
 		}
-		/**
-		 * @see org.topcased.modeler.uml.alldiagram.ExactUMLSwitch#caseRedefinableTemplateSignature(org.eclipse.uml2.uml.RedefinableTemplateSignature)
-		 */
 		public Object caseRedefinableTemplateSignature(org.eclipse.uml2.uml.RedefinableTemplateSignature object){
 			return createGraphElementRedefinableTemplateSignature(object, presentation);
 		}
-		/**
-		 * @see org.topcased.modeler.uml.alldiagram.ExactUMLSwitch#caseClassifierTemplateParameter(org.eclipse.uml2.uml.ClassifierTemplateParameter)
-		 */
 		public Object caseClassifierTemplateParameter(ClassifierTemplateParameter object){
 			return createGraphElementClassifierTemplateParameter(object, presentation);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseDependency(org.eclipse.uml2.uml.Dependency)
-		 * @generated
-		 */
 		@Override
 		public Object caseDependency(org.eclipse.uml2.uml.Dependency object){
 			if("default".equals(presentation)){
@@ -245,12 +185,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseUsage(org.eclipse.uml2.uml.Usage)
-		 * @generated
-		 */
 		@Override
 		public Object caseUsage(org.eclipse.uml2.uml.Usage object){
 			if("default".equals(presentation)){
@@ -258,12 +192,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#casePackageImport(org.eclipse.uml2.uml.PackageImport)
-		 * @generated
-		 */
 		@Override
 		public Object casePackageImport(org.eclipse.uml2.uml.PackageImport object){
 			if("default".equals(presentation)){
@@ -271,12 +199,13 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#casePackageMerge(org.eclipse.uml2.uml.PackageMerge)
-		 * @generated
-		 */
+		@Override
+		public Object caseElementImport(org.eclipse.uml2.uml.ElementImport object){
+			if("default".equals(presentation)){
+				return createGraphElementElementImport(object, presentation);
+			}
+			return null;
+		}
 		@Override
 		public Object casePackageMerge(org.eclipse.uml2.uml.PackageMerge object){
 			if("default".equals(presentation)){
@@ -284,12 +213,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 			}
 			return null;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseComment(org.eclipse.uml2.uml.Comment)
-		 * @generated
-		 */
 		@Override
 		public Object caseComment(org.eclipse.uml2.uml.Comment object){
 			if("default".equals(presentation)){
@@ -524,16 +447,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		operations.setContainer(nodeDataType);
 		return nodeDataType;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated NOT
-	 */
 	protected GraphElement createGraphElementInterface(org.eclipse.uml2.uml.Interface element,String presentation){
 		GraphNode nodeInterface = createGraphNode(element, presentation);
 		GraphNode attributes = createGraphNode(element, UMLPackage.INTERFACE__OWNED_ATTRIBUTE);
@@ -542,29 +455,9 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		operations.setContainer(nodeInterface);
 		return nodeInterface;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementOperation(org.eclipse.uml2.uml.Operation element,String presentation){
 		return createGraphNode(element, presentation);
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementProperty(org.eclipse.uml2.uml.Property element,String presentation){
 		return createGraphNode(element, presentation);
 	}
@@ -597,6 +490,10 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		GraphNode nodeParent = createGraphNode(element, presentation);
 		GraphNode enumerationliteral = createGraphNode(element, UMLPackage.ENUMERATION__OWNED_LITERAL, presentation);
 		enumerationliteral.setContainer(nodeParent);
+		GraphNode attributes = createGraphNode(element, UMLPackage.DATA_TYPE__OWNED_ATTRIBUTE,presentation);
+		GraphNode operations = createGraphNode(element, UMLPackage.DATA_TYPE__OWNED_OPERATION,presentation);
+		attributes.setContainer(nodeParent);
+		operations.setContainer(nodeParent);
 		return nodeParent;
 	}
 	protected GraphElement createGraphElementEnumerationLiteral(org.eclipse.uml2.uml.EnumerationLiteral element,String presentation){
@@ -864,16 +761,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(stereotypeEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated NOT
-	 */
 	protected GraphElement createGraphElementAssociationClass(org.eclipse.uml2.uml.AssociationClass element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		IPreferenceStore preferenceStore = getPreferenceStore();
@@ -922,16 +809,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(nodeClass);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementGeneralization(org.eclipse.uml2.uml.Generalization element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		EdgeObjectOffset stereotypeEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
@@ -941,14 +818,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(stereotypeEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementTemplateBinding(org.eclipse.uml2.uml.TemplateBinding element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		EdgeObjectOffset middlenameEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
@@ -963,16 +832,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(stereotypeEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementInterfaceRealization(org.eclipse.uml2.uml.InterfaceRealization element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		EdgeObjectOffset stereotypeEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
@@ -983,16 +842,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(stereotypeEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated NOT
-	 */
 	protected GraphElement createGraphElementDependency(org.eclipse.uml2.uml.Dependency element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		EdgeObjectOffset stereotypeEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
@@ -1007,16 +856,6 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(dependencynameEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementUsage(org.eclipse.uml2.uml.Usage element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		IPreferenceStore preferenceStore = getPreferenceStore();
@@ -1032,27 +871,9 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(middlenameEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementConstraint(org.eclipse.uml2.uml.Constraint element,String presentation){
 		return createGraphNode(element, presentation);
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementPackageImport(org.eclipse.uml2.uml.PackageImport element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		EdgeObjectOffset visibilityEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
@@ -1062,16 +883,15 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(visibilityEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
+	protected GraphElement createGraphElementElementImport(org.eclipse.uml2.uml.ElementImport element,String presentation){
+		GraphEdge graphEdge = createGraphEdge(element, presentation);
+		EdgeObjectOffset visibilityEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
+		visibilityEdgeObjectOffset.setId(AllEdgeObjectConstants.VISIBILITY_EDGE_OBJECT_ID);
+		visibilityEdgeObjectOffset.setOffset(new Dimension(0, 0));
+		visibilityEdgeObjectOffset.setVisible(getPreferenceStore().getBoolean(AllDiagramPreferenceConstants.PACKAGEIMPORT_VISIBILITY_EDGE_OBJECT_DEFAULT_VISIBILITY));
+		graphEdge.getContained().add(visibilityEdgeObjectOffset);
+		return graphEdge;
+	}
 	protected GraphElement createGraphElementPackageMerge(org.eclipse.uml2.uml.PackageMerge element,String presentation){
 		GraphEdge graphEdge = createGraphEdge(element, presentation);
 		EdgeObjectOffset mergeEdgeObjectOffset = DiagramInterchangeFactory.eINSTANCE.createEdgeObjectOffset();
@@ -1081,27 +901,9 @@ public class ClassCreationUtils extends AbstractCreationUtils{
 		graphEdge.getContained().add(mergeEdgeObjectOffset);
 		return graphEdge;
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param originalElement
-	 *            the model originalElement
-	 * @param presentation
-	 *            the presentation of the graphical originalElement
-	 * @return the complete GraphElement
-	 * @generated
-	 */
 	protected GraphElement createGraphElementComment(org.eclipse.uml2.uml.Comment element,String presentation){
 		return createGraphNode(element, presentation);
 	}
-	/**
-	 * Create the ModelObject with its initial children <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param obj
-	 *            the model object
-	 * @return the model object with its children
-	 * @generated
-	 */
 	public EObject createModelObject(EObject obj){
 		return obj;
 	}

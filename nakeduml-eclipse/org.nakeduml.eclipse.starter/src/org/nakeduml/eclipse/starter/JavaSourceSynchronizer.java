@@ -52,7 +52,7 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 	}
 	@Override
 	public void onSave(IProgressMonitor monitor){
-		if(context.isOpen()){
+		if(context.isOpen() && context.getAutoSync()){
 			process.replaceModel(context.getCurrentEmfWorkspace());
 			renamePackages(monitor);
 			synchronizeClasses(monitor);
@@ -167,9 +167,19 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 	}
 	private void rename(IPackageFragment childPf,String newName){
 		try{
-			RenameSupport rs = RenameSupport.create(childPf, newName, RenameSupport.UPDATE_REFERENCES);
-			Shell shell = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
-			rs.perform(shell, Activator.getDefault().getWorkbench().getActiveWorkbenchWindow());
+			boolean isValid = Character.isJavaIdentifierStart(newName.charAt(0));
+			if(isValid){
+				for(int i = 0;i < newName.length();i++){
+					if(!Character.isJavaIdentifierPart(newName.charAt(i))){
+						isValid = false;
+					}
+				}
+			}
+			if(isValid){
+				RenameSupport rs = RenameSupport.create(childPf, newName, RenameSupport.UPDATE_REFERENCES);
+				Shell shell = Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+				rs.perform(shell, Activator.getDefault().getWorkbench().getActiveWorkbenchWindow());
+			}
 			// childPf.rename(newName, true, null);
 		}catch(Exception e){
 			Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));

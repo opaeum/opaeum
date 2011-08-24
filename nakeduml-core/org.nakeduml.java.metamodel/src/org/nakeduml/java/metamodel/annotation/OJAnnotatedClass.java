@@ -1,6 +1,7 @@
 package org.nakeduml.java.metamodel.annotation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -143,7 +144,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 
 	public StringBuilder fields() {
 		StringBuilder result = new StringBuilder();
-		result.append(JavaUtil.collectionToJavaString(new HashSet<OJElement>(this.getFields()), "\n"));
+		result.append(JavaUtil.collectionToJavaString(this.getFields(), "\n"));
 		return result;
 	}
 
@@ -206,37 +207,37 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement {
 
 	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
 		setName(getName() + newName);
-		Set<OJConstructor> constructors = getConstructors();
+		Collection<OJConstructor> constructors = getConstructors();
 		for (OJConstructor ojConstructor : constructors) {
 			ojConstructor.renameAll(renamePathNames, newName);
 		}
 		// This is a jipo to make sure imports are correct.
 		// renaming OJForStatement does not seem to add the renamed paths to the
 		// imports
-		Set<OJPathName> newImports = new HashSet<OJPathName>();
-		Set<OJPathName> imports = getImports();
+		Collection<OJPathName> newImports = new HashSet<OJPathName>();
+		Collection<OJPathName> imports = getImports();
 		for (OJPathName ojPathName : imports) {
 			OJPathName newImport = ojPathName.getDeepCopy();
 			newImport.renameAll(renamePathNames, newName);
 			newImports.add(newImport);
 		}
 		addToImports(newImports);
-		Set<OJAnnotationValue> annotations = getAnnotations();
+		Collection<OJAnnotationValue> annotations = getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {
 			ojAnnotationValue.renameAll(renamePathNames, newName);
 		}
 		if (getSuperclass() != null) {
 			getSuperclass().renameAll(renamePathNames, newName);
 		}
-		Set<OJPathName> implementedInterfaces = getImplementedInterfaces();
+		Collection<OJPathName> implementedInterfaces = getImplementedInterfaces();
 		for (OJPathName ojPathName : implementedInterfaces) {
 			ojPathName.renameAll(renamePathNames, newName);
 		}
-		Set<OJField> fields = getFields();
+		Collection<OJField> fields = getFields();
 		for (OJField ojField : fields) {
 			ojField.renameAll(renamePathNames, newName);
 		}
-		Set<OJOperation> operations = getOperations();
+		Collection<OJOperation> operations = getOperations();
 		for (OJOperation ojOperation : operations) {
 			ojOperation.renameAll(renamePathNames, newName);
 		}

@@ -32,6 +32,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
@@ -54,10 +55,14 @@ public class BehaviorUtil{
 		return requiresExternalInput(a, a);
 	}
 	private boolean requiresExternalInput(INakedActivity a,INakedActivity origin){
-		List<INakedActivityNode> nodes = a.getActivityNodesRecursively();
-		for(INakedActivityNode node:nodes){
-			if(requiresExternalInput(origin, node)){
-				return true;
+		if(a.hasStereotype(StereotypeNames.BUSINES_PROCESS)){
+			return true;
+		}else{
+			List<INakedActivityNode> nodes = a.getActivityNodesRecursively();
+			for(INakedActivityNode node:nodes){
+				if(requiresExternalInput(origin, node)){
+					return true;
+				}
 			}
 		}
 		return false;

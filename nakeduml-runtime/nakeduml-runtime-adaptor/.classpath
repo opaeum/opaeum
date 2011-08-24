@@ -50,7 +50,7 @@
 	<classpathentry kind="var" path="M2_REPO/org/jboss/metadata/jboss-metadata/1.0.0.CR16/jboss-metadata-1.0.0.CR16.jar" sourcepath="M2_REPO/org/jboss/metadata/jboss-metadata/1.0.0.CR16/jboss-metadata-1.0.0.CR16-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/javaee/jboss-transaction-api/1.0.1.CR1/jboss-transaction-api-1.0.1.CR1.jar" sourcepath="M2_REPO/org/jboss/javaee/jboss-transaction-api/1.0.1.CR1/jboss-transaction-api-1.0.1.CR1-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/transaction/jboss-transaction-api_1.1_spec/1.0.0.Beta1/jboss-transaction-api_1.1_spec-1.0.0.Beta1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-flow/5.0.0/jbpm-flow-5.0.0.jar" sourcepath="/M2_REPO/org/jbpm/jbpm-flow/5.0.0"/>
+	<classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-flow/5.0.0/jbpm-flow-5.0.0.jar" sourcepath="/M2_REPO/org/jbpm/jbpm-flow/5.0.0/jbpm-flow-5.0.0-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-flow-builder/5.0.0/jbpm-flow-builder-5.0.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jbpm/jbpm-persistence-jpa/5.0.0/jbpm-persistence-jpa-5.0.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/mvel/mvel2/2.1.RC1/mvel2-2.1.RC1.jar" sourcepath="M2_REPO/org/mvel/mvel2/2.1.RC1/mvel2-2.1.RC1-sources.jar">

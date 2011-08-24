@@ -14,11 +14,13 @@ public class ConstraintUtil{
 		MappingInfo mi = p.getMappingInfo().getCopy();
 		constraint.setMappingInfo(mi);
 		mi.setIdInModel(mi.getIdInModel() + constraintName);
+		constraint.initialize(mi.getIdInModel(), "art", false);
 		NakedValueSpecificationImpl vs = new NakedValueSpecificationImpl();
 		vs.setOwnerElement(constraint);
 		mi = mi.getCopy();
 		vs.setMappingInfo(mi);
 		mi.setIdInModel(mi.getIdInModel() + constraintName);
+		vs.initialize(mi.getIdInModel(), "art", false);
 		ParsedOclString parsedOclContext = new ParsedOclString(p.getName() + constraintName, OclUsageType.INV);
 		parsedOclContext.setContext(p.getOwner(), p);
 		vs.setValue(parsedOclContext);

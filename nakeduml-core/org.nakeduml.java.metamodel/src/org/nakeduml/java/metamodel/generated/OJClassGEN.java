@@ -24,7 +24,7 @@ import org.nakeduml.java.metamodel.utilities.InvariantError;
  */
 abstract public class OJClassGEN extends OJClassifier {
 	private boolean f_needsSuppress = false;
-	private Set<OJField> f_fields = new HashSet<OJField>();
+	private List<OJField> f_fields = new ArrayList<OJField>();
 	private OJPackage f_myPackage = null;
 	private Set<OJConstructor> f_constructors = new HashSet<OJConstructor>();
 	private Set<OJPathName> f_implementedInterfaces = new HashSet<OJPathName>();
@@ -103,7 +103,7 @@ abstract public class OJClassGEN extends OJClassifier {
 	 * 
 	 * @param elements 
 	 */
-	public void setFields(Set<OJField> elements) {
+	public void setFields(List<OJField> elements) {
 		if ( this.f_fields != elements ) {
 			for ( OJField _internal : this.f_fields ) {
 				_internal.z_internalRemoveFromOwner(((OJClass)this));
@@ -149,9 +149,9 @@ abstract public class OJClassGEN extends OJClassifier {
 	
 	/** Implements the getter for association end '+ fields : OrderedSet(OJField)'
 	 */
-	public Set<OJField> getFields() {
+	public List<OJField> getFields() {
 		if ( f_fields != null ) {
-			return Collections.unmodifiableSet(f_fields);
+			return Collections.unmodifiableList(f_fields);
 		} else {
 			return null;
 		}

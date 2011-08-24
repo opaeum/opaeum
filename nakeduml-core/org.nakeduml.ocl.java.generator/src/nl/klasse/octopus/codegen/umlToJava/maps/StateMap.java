@@ -25,7 +25,7 @@ public class StateMap extends PackageableElementMap {
 	}
 
 	public String javaFieldName(){
-		return StringHelpers.replaceAllSubstrings(myState.getName(), "::", "_");
+		return StringHelpers.replaceAllSubstrings(myState.getStatePath().toString(), "::", "_");
 	}
 
 	public String getter(){

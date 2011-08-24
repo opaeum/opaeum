@@ -110,7 +110,7 @@
 				id="org.nakeduml.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
 				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 				filter="org.nakeduml.topcased.activitydiagram.filters.OclOpaqueActionFilter">
 				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
 			</propertySection>
@@ -132,32 +132,32 @@
 				id="org.nakeduml.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
 				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.CallOperationAction"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.ActionPinsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionPinsSection"
 				tab="org.topcased.modeler.modelTab.parametersTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<!--propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.DisplayPinsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.DisplayPinsSection"
 				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection-->
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
 				tab="org.nakeduml.eclipse.numlTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl">
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Behavior"/>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
          			filter="org.nakeduml.topcased.activitydiagram.filters.AcceptEventActionTriggerSectionFilter"
@@ -166,7 +166,7 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -174,7 +174,7 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -182,7 +182,7 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.VariableActionVariableSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.VariableActionVariableSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -197,16 +197,27 @@
       			</input>
    			</propertySection>
 		   <propertySection
-		   		afterSection="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.numl"
-		         class="org.nakeduml.topcased.activitydiagram.propertysections.ValuePinValueSection"
-		         id="org.nakeduml.topcased.activitydiagram.propertysections.ValuePinValueSection"
+		   		afterSection="org.nakeduml.topcased.propertysections.TypedElementTypeSectionl"
+		         class="org.nakeduml.topcased.activitydiagram.propertysections.OclPinValueSection"
+		         id="org.nakeduml.topcased.activitydiagram.propertysections.OclPinValueSection"
+		         filter="org.nakeduml.topcased.activitydiagram.filters.OclPinFilter"
+		         tab="org.nakeduml.eclipse.numlTab">
+		      <input
+		            type="org.eclipse.uml2.uml.ValuePin">
+		      </input>
+		   </propertySection>		
+		   <propertySection
+		   		afterSection="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
+		         class="org.nakeduml.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
+		         id="org.nakeduml.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
+		         filter="org.nakeduml.topcased.activitydiagram.filters.NewObjectPinFilter"
 		         tab="org.nakeduml.eclipse.numlTab">
 		      <input
 		            type="org.eclipse.uml2.uml.ValuePin">
 		      </input>
 		   </propertySection>		
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -214,7 +225,15 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			class="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
+         			id="org.nakeduml.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
+         			tab="org.nakeduml.eclipse.numlTab">
+      			<input type="org.eclipse.uml2.uml.ActivityEdge">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
          			filter="org.nakeduml.topcased.activitydiagram.filters.SendSignalActionSignalFilter"
@@ -223,7 +242,7 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
          			id="org.nakeduml.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
          			filter="org.nakeduml.topcased.activitydiagram.filters.SendNotificationActionFilter"
@@ -232,7 +251,7 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 				id="org.nakeduml.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
 				tab="org.nakeduml.eclipse.numlTab">

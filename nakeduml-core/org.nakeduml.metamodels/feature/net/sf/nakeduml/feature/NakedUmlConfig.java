@@ -154,15 +154,16 @@ public class NakedUmlConfig{
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
-		File t = file;
-		while(t.getParentFile() != null){
-			// Ensure that the output root does not coincide with the model directory
-			if(t.equals(outputRoot)){
-				outputRoot = new File(outputRoot.getParent(), outputRoot.getName() + "-project");
-				break;
-			}
-			t = t.getParentFile();
-		}
+//		File t = file;
+//		t.c
+//		while(t.getParentFile() != null){
+//			// Ensure that the output root does not coincide with the model directory
+//			if(t.equals(outputRoot)){
+//				outputRoot = new File(outputRoot.getParent(), outputRoot.getName() + "-project");
+//				break;
+//			}
+//			t = t.getParentFile();
+//		}
 	}
 	public int getNumberOfColumns(){
 		return new Integer(this.props.getProperty(LIST_COLUMNS));

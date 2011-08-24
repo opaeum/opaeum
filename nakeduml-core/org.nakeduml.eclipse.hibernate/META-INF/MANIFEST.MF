@@ -16,7 +16,8 @@ Bundle-ClassPath: lib/collections-3.2.0.jar,
  lib/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT.jar,
  lib/slf4j-api-1.5.10.jar,
  lib/slf4j-jdk14-1.5.10.jar,
- .
+ .,
+ lib/jbpm-flow-5.1-SNAPSHOT.jar
 Export-Package: javassist,
  javassist.bytecode,
  javassist.bytecode.analysis,

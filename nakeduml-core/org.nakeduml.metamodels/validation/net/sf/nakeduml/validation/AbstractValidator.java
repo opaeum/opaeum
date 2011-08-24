@@ -30,8 +30,4 @@ public abstract class AbstractValidator extends NakedElementOwnerVisitor impleme
 	protected ErrorMap getErrorMap(){
 		return workspace.getErrorMap();
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void remove(INakedModel e){
-		workspace.removeOwnedElement(e);
-	}
 }

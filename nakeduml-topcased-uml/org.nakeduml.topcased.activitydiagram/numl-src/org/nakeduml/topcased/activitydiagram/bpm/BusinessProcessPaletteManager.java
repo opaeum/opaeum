@@ -2,8 +2,10 @@ package org.nakeduml.topcased.activitydiagram.bpm;
 
 import java.util.List;
 
+import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -389,10 +391,24 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
 				upperBound.setValue(-1);
 				element.setUpperBound(upperBound);
+				StereotypesHelper.getNumlAnnotation(element).getDetails().put(StereotypeNames.OCL_INPUT, "");
 				return element;
 			}
 		};
 		entries.add(new ModelerCreationToolEntry("Ocl Input", "Ocl Input", vpFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
+				.getImageDescriptor("INPUTPIN_LARGE")));
+		GraphElementCreationFactory vpFactory2 = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getValuePin(), "default"){
+			public EObject getNewModelObject(){
+				ValuePin element = (ValuePin) super.getNewModelObject();
+				LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
+				upperBound.setValue(-1);
+				element.setUpperBound(upperBound);
+				EAnnotation ann = StereotypesHelper.getNumlAnnotation(element);
+				ann.getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
+				return element;
+			}
+		};
+		entries.add(new ModelerCreationToolEntry("New Object Instance", "New Object Instance", vpFactory2, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
 				.getImageDescriptor("INPUTPIN_LARGE")));
 		GraphElementCreationFactory ipFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getInputPin(), "default"){
 			public EObject getNewModelObject(){
@@ -403,7 +419,7 @@ public class BusinessProcessPaletteManager extends ModelerPaletteManager{
 				return element;
 			}
 		};
-		entries.add(new ModelerCreationToolEntry("Object Input", "Object Input ", ipFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
+		entries.add(new ModelerCreationToolEntry("Object Flow Input", "Object Flow Input ", ipFactory, ActivityImageRegistry.getImageDescriptor("INPUTPIN"), ActivityImageRegistry
 				.getImageDescriptor("INPUTPIN_LARGE")));
 		GraphElementCreationFactory opFactory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getOutputPin(), "default"){
 			public EObject getNewModelObject(){

@@ -34,4 +34,9 @@ public class BusinessComponentEditPart extends ClassEditPart{
 		BusinessComponentFigure f = new BusinessComponentFigure();
 		return f;
 	}
+	protected void createEditPolicies(){
+		super.createEditPolicies();
+		EditPartUtil.installEditPolicies(this);
+	}
+
 }

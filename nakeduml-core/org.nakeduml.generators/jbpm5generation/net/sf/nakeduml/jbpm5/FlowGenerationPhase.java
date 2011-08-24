@@ -10,6 +10,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -38,15 +39,17 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 		return result;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProgressLog log,TransformationContext context){
 		for(AbstractFlowStep step:flowSteps){
-			step.startVisiting(workspace);
+			if(!log.isCanceled()){
+				step.startVisiting(workspace);
+			}
 		}
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractFlowStep> features){
 		this.flowSteps = features;
-		this.config=config;
+		this.config = config;
 		initializeSteps();
 	}
 	public void initializeSteps(){

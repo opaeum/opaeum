@@ -1060,6 +1060,14 @@
 		   </propertySection>
    			
 			<propertySection
+				id="org.nakeduml.topcased.propertysections.EObjectErrorSection"
+				class="org.nakeduml.topcased.propertysections.EObjectErrorSection"
+				filter="org.nakeduml.topcased.propertysections.filters.ProblemElementFilter"
+				tab="org.nakeduml.eclipse.numlTab"
+				>
+         		<input type="org.eclipse.uml2.uml.Element"/>
+			</propertySection>
+			<propertySection
 				id="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
 				class="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
 				tab="org.nakeduml.eclipse.numlTab"
@@ -1203,7 +1211,7 @@
 			</propertySection>
 			
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
          			id="org.nakeduml.topcased.propertysections.ConstraintValueSpecificationSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -1211,7 +1219,7 @@
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection.numl"
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
          			class="org.nakeduml.topcased.propertysections.InstanceSpecificationSlotsSection"
          			id="org.nakeduml.topcased.propertysections.InstanceSpecificationSlotsSection"
          			tab="org.nakeduml.eclipse.numlTab">
@@ -1294,6 +1302,7 @@
          		<input type="org.eclipse.uml2.uml.Element"/>
 			</propertySection>
 			<propertySection
+				afterSection="org.nakeduml.topcased.propertysections.EObjectErrorSection"
 		         class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 		         filter="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSectionFilter"
 		         id="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"

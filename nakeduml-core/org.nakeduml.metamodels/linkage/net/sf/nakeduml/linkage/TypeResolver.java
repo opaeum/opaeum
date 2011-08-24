@@ -14,7 +14,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
  */
-@StepDependency(phase = LinkagePhase.class, requires = { PinLinker.class }, after = { PinLinker.class })
+@StepDependency(phase = LinkagePhase.class, requires = { PinLinker.class ,MappedTypeLinker.class }, after = { PinLinker.class ,MappedTypeLinker.class})
 public class TypeResolver extends AbstractModelElementLinker {
 	@VisitBefore
 	public void resolveClassifier(INakedInstanceSpecification is) {

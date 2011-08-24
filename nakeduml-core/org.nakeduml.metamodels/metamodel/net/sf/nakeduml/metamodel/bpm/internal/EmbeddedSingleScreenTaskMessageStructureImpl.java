@@ -21,8 +21,6 @@ public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompos
 		return action;
 	}
 
-	private List<INakedProperty> attributes;
-
 	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action) {
 		super(action.getActivity(), action);
 		this.action = action;

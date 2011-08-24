@@ -11,17 +11,16 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
+import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
-import nl.klasse.octopus.stdlib.IOclLibrary;
+import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOperation{
 	private static final long serialVersionUID = 6979135768898034683L;
@@ -32,8 +31,8 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private List<INakedParameter> argumentParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> resultParameters = new ArrayList<INakedParameter>();
 	private List<INakedParameter> exceptionParameters = new ArrayList<INakedParameter>();
-	private Collection<INakedConstraint> preConditions = new ArrayList<INakedConstraint>();
-	private Collection<INakedConstraint> postConditions = new ArrayList<INakedConstraint>();
+	private Collection<INakedConstraint> preConditions = new HashSet<INakedConstraint>();
+	private Collection<INakedConstraint> postConditions = new HashSet<INakedConstraint>();
 	private INakedParameter returnParameter;
 	private INakedConstraint bodyCondition;
 	private boolean hasClassScope;
@@ -100,6 +99,19 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
+		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification()!=null){
+			INakedConstraint cnstr = (INakedConstraint) element;
+			IOclContext oc=cnstr.getSpecification().getOclValue();
+			if(oc.getType().equals(OclUsageType.PRE)){
+				preConditions.remove(cnstr);
+				preConditions.add(cnstr);
+			}else if(oc.getType().equals(OclUsageType.POST)){
+				postConditions.remove(cnstr);
+				postConditions.add(cnstr);
+			}else{
+				bodyCondition=cnstr;
+			}
+		}
 	}
 	public INakedParameter getReturnParameter(){
 		return this.returnParameter;
@@ -188,21 +200,11 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	public boolean isOclDef(){
 		return this.isOclDef;
 	}
-	public void addPostCondition(INakedConstraint pc){
-		this.getPostConditions().add(pc);
-	}
-	public void addPreCondition(INakedConstraint pc){
-		this.getPreConditions().add(pc);
-	}
 	public void setIsOclDef(boolean b){
 		this.isOclDef = b;
 	}
 	public INakedConstraint getBodyCondition(){
 		return bodyCondition;
-	}
-	public void setBodyCondition(INakedConstraint bodyCondition){
-		this.bodyCondition = bodyCondition;
-		super.addOwnedElement(bodyCondition);
 	}
 	@Override
 	protected boolean isNamedMember(INakedElement e){

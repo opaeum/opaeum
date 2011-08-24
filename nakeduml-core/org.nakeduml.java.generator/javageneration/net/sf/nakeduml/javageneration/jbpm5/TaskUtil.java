@@ -20,17 +20,19 @@ import org.nakeduml.runtime.domain.TaskDelegation;
 public class TaskUtil{
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
 	public static void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName){
+		operation.getOwner().addToImports(new OJPathName("org.nakeduml.bpm.TaskParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.nakeduml.bpm.RequestParticipationKind"));
 		if(td.getPotentialOwners() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialOwners", "potentialOwner");
-			implementAssignment(operation, block, td, taskName, td.getPotentialOwners(), name);
+			implementTaskRequestAssignment(operation, block, td, taskName, td.getPotentialOwners(), name,"POTENTIALOWNER");
 		}
 		if(td.getPotentialBusinessAdministrators() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialBusinessAdministrators", "potentialBusinessAdministrator");
-			implementAssignment(operation, block, td, taskName, td.getPotentialBusinessAdministrators(), name);
+			implementRequestAssignment(operation, block, td, taskName, td.getPotentialBusinessAdministrators(), name,"BUSINESSOWNER");
 		}
 		if(td.getPotentialBusinessAdministrators() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialStakeholders", "potentialStakeholders");
-			implementAssignment(operation, block, td, taskName, td.getPotentialStakeholders(), name);
+			implementRequestAssignment(operation, block, td, taskName, td.getPotentialStakeholders(), name,"STAKEHOLDER");
 		}
 		operation.getOwner().addToImports(TaskDelegation.class.getName());
 		if(td.getDelegation() == null){
@@ -43,27 +45,32 @@ public class TaskUtil{
 			EventUtil.implementDeadlineRequest(operation, block, d, taskName);
 		}
 	}
-	private static void implementAssignment(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName,
-			INakedValueSpecification potentialOwners,PluralNameWrapper name){
+	private static void implementTaskRequestAssignment(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName,
+			INakedValueSpecification potentialOwners,PluralNameWrapper name, String kind){
 		String expr = ValueSpecificationUtil.expressValue(operation, potentialOwners, td.getExpressionContext(), null);
-		OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskInstance().get" + name.getAsIs() + "().isEmpty()");
+		OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");
 		block.addToStatements(ifEmpty);
 		if(potentialOwners.getOclValue().getExpression().getExpressionType() instanceof StdlibCollectionType){
+			operation.getOwner().addToImports(BUSINESS_ROLE);
 			OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
 			ifEmpty.getThenPart().addToStatements(forEach);
-			OJPathName assignment = new OJPathName("org.nakeduml.runtime.bpm.Assignment");
-			OJAnnotatedField z = new OJAnnotatedField(name.getSingular().getAsIs(), assignment);
-			forEach.getBody().addToLocals(z);
-			z.setInitExp("new " + assignment.getLast() + "()");
-			forEach.getBody().addToStatements(name.getSingular().getAsIs() + ".addTo" + name.getCapped() + "(participant)");
-			forEach.getBody().addToStatements(taskName + ".getTaskInstance().addTo" + name.getCapped() + "(" + name.getSingular().getAsIs() + ")");
+			forEach.getBody().addToStatements(taskName + ".getTaskRequest().addTaskRequestParticipant(participant,TaskParticipationKind."+ kind+")");
 		}else{
-			OJPathName assignment = new OJPathName("org.nakeduml.runtime.bpm.Assignment");
-			OJAnnotatedField z = new OJAnnotatedField(name.getSingular().getAsIs(), assignment);
-			ifEmpty.getThenPart().addToLocals(z);
-			z.setInitExp("new " + assignment.getLast() + "()");
-			ifEmpty.getThenPart().addToStatements(name.getSingular().getAsIs() + ".addTo" + name.getCapped() + "(" + expr + ")");
-			ifEmpty.getThenPart().addToStatements(taskName + ".getTaskInstance().addTo" + name.getCapped() + "(" + name.getSingular().getAsIs() + ")");
+			ifEmpty.getThenPart().addToStatements(taskName + ".getTaskRequest().addTaskRequestParticipant("+expr+",TaskParticipationKind."+ kind+")");
+		}
+	}
+	private static void implementRequestAssignment(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName,
+			INakedValueSpecification potentialOwners,PluralNameWrapper name, String kind){
+		String expr = ValueSpecificationUtil.expressValue(operation, potentialOwners, td.getExpressionContext(), null);
+		OJIfStatement ifEmpty = new OJIfStatement(taskName + ".getTaskRequest().get" + name.getCapped() + "().isEmpty()");
+		block.addToStatements(ifEmpty);
+		if(potentialOwners.getOclValue().getExpression().getExpressionType() instanceof StdlibCollectionType){
+			operation.getOwner().addToImports(BUSINESS_ROLE);
+			OJForStatement forEach = new OJForStatement("participant", BUSINESS_ROLE, expr);
+			ifEmpty.getThenPart().addToStatements(forEach);
+			forEach.getBody().addToStatements(taskName + ".getTaskRequest().addRequestParticipant(participant,RequestParticipationKind."+ kind+")");
+		}else{
+			ifEmpty.getThenPart().addToStatements(taskName + ".getTaskRequest().addRequestParticipant("+expr+",RequestParticipationKind."+ kind+")");
 		}
 	}
 }

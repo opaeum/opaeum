@@ -12,12 +12,13 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{
-	protected OpaqueExpressionBodyComposite oclComposite;
+	protected OpaqueExpressionComposite oclComposite;
 	protected CLabel label;
 	public AbstractOpaqueExpressionSection(){
 		super();
@@ -49,15 +50,13 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	protected void createWidgets(Composite composite){
 		label = getWidgetFactory().createCLabel(composite, getLabelText());
-		oclComposite = new OpaqueExpressionBodyComposite(composite, getWidgetFactory()){
-			@Override
-			public EReference getValueSpecificationFeature(){
-				return AbstractOpaqueExpressionSection.this.getValueSpecificationFeature();
-			}
+		oclComposite = new OpaqueExpressionComposite(composite, getWidgetFactory()){
 			@Override
 			protected void fireOclChanged(String text){
-				super.valueSpecificationOwner = beforeOclChanged(text);
-				if(valueSpecificationOwner != null){
+				oclBodyOwner = beforeOclChanged(text);
+				if(oclBodyOwner == null){
+					oclComposite.getTextControl().setText(OclBodyComposite.DEFAULT_TEXT);
+				}else{
 					super.fireOclChanged(text);
 				}
 			}
@@ -71,9 +70,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	/**
 	 * Populate the valueSpecificationOwner late here if required
 	 */
-	protected NamedElement beforeOclChanged(String text){
-		return getValueSpecificationOwner();
-	}
+	protected abstract OpaqueExpression beforeOclChanged(String text);
 	protected String getExpressionLabel(){
 		return "Value expression";
 	}
@@ -91,7 +88,7 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 	}
 	public void refresh(){
 		super.refresh();
-		oclComposite.setOclContext(getOclContext(), getValueSpecificationOwner(), getOpaqueExpression());
+		oclComposite.setOclContext(getOclContext(), getOpaqueExpression());
 	}
 	@Override
 	protected void setEnabled(boolean enabled){

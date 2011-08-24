@@ -22,7 +22,9 @@ public class ImportExtractor extends AbstractExtractorFromEmf{
 		if(e instanceof ElementImport){
 			ElementImport dependency = (ElementImport) e;
 			if(this.nakedWorkspace.getModelElement(getId(dependency.getImportedElement())) == null){
-				System.out.println("dependency.getImportedElement() not in nakedWorkspace: " + dependency.getImportedElement().getQualifiedName());
+				if(dependency.eResource().getURI().toString().contains("UML_METAMODELS")){
+					System.out.println("dependency.getImportedElement() not in nakedWorkspace: " + dependency.getImportedElement().getQualifiedName());
+				}
 			}else{
 				return new NakedImportedElementImpl();
 			}
@@ -31,7 +33,9 @@ public class ImportExtractor extends AbstractExtractorFromEmf{
 			if(dependency.getImportedPackage() != null){
 				INakedElement referenced = this.nakedWorkspace.getModelElement(getId((dependency.getImportedPackage())));
 				if(referenced == null){
-					System.out.println("dependency.getImportedPackage() not in nakedWorkspace: " + dependency.getImportedPackage().getQualifiedName());
+					if(dependency.eResource().getURI().toString().contains("UML_METAMODELS")){
+						System.out.println("dependency.getImportedPackage() not in nakedWorkspace: " + dependency.getImportedPackage().getQualifiedName());
+					}
 				}else{
 					return new NakedImportedElementImpl();
 				}

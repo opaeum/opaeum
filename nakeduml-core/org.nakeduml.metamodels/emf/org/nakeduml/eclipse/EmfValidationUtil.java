@@ -12,7 +12,7 @@ public class EmfValidationUtil{
 		String message = messagePattern.replace("{0}", simpleName + "[" + getNameFor(object) + "]");
 		Object[] value = brokenRule.getParameters();
 		for(int i = 0;i < value.length;i++){
-			message = message.replace("{" + (i + 1) + "}", value[i].toString());
+			message = message.replace("{" + (i + 1) + "}", value[i]==null?"Exception":value[i].toString());
 		}
 		return message;
 	}
@@ -31,4 +31,5 @@ public class EmfValidationUtil{
 		return object.toString();
 	}
 	public static final String TYPE_EXPRESSION_HERE = "Type expression here";
+	public static final String OCL_EXPRESSION_REQUIRED = "Ocl expression required";
 }

@@ -100,9 +100,9 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 		
 		eventDetailsComposite.setLayout(stack);
 		int labelWidth = getStandardLabelWidth(composite)-5;
-		changeComposite=new ChangeEventDetailsComposite(getEditingDomain(), eventDetailsComposite, labelWidth, getWidgetFactory());
-		relativeTimeEventDetailsComposite = new RelativeTimeEventDetailsComposite(getEditingDomain(), getWidgetFactory(), eventDetailsComposite, labelWidth);
-		absoluteTimeEventDetailsComposite = new AbsoluteTimeEventDetailsComposite(getEditingDomain(),getWidgetFactory(), eventDetailsComposite, labelWidth);
+		changeComposite=new ChangeEventDetailsComposite(eventDetailsComposite, labelWidth, getWidgetFactory());
+		relativeTimeEventDetailsComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), eventDetailsComposite, labelWidth);
+		absoluteTimeEventDetailsComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), eventDetailsComposite, labelWidth);
 		signalChooserComposite = new SignalChooserForEvent(eventDetailsComposite, labelWidth,getWidgetFactory());
 		operationChooserComposite = new OperationChooserForEvent(eventDetailsComposite, labelWidth,getWidgetFactory());
 	}
@@ -161,13 +161,16 @@ public abstract class AbstractTriggerSection extends AbstractTabbedPropertySecti
 	private void selectChangeSignalState(){
 		stack.topControl = changeComposite;
 		changeComposite.setTrigger(getTriggers().get(0));
+		changeComposite.setEditingDomain(getEditingDomain());
 	}
 	private void selectAbsoluteTimeEventState(){
 		stack.topControl = absoluteTimeEventDetailsComposite;
+		absoluteTimeEventDetailsComposite.setEditingDomain(getEditingDomain());
 		absoluteTimeEventDetailsComposite.setTrigger(getTriggers().get(0));
 	}
 	private void selectRelativeTimeEventState(){
 		stack.topControl = relativeTimeEventDetailsComposite;
+		relativeTimeEventDetailsComposite.setEditingDomain(getEditingDomain());
 		relativeTimeEventDetailsComposite.setTrigger(getTriggers().get(0));
 	}
 	private void selectOperationState(){

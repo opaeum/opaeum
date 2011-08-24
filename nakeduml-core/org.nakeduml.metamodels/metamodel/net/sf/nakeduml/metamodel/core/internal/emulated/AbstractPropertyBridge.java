@@ -8,6 +8,7 @@ import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
@@ -31,6 +32,10 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 		this.mappingInfo=element.getMappingInfo().getCopy();
 		this.mappingInfo.setIdInModel(id);
 
+	}
+	@Override
+	public INakedElementOwner getOwnerElement() {
+		return owner;
 	}
 
 	@Override

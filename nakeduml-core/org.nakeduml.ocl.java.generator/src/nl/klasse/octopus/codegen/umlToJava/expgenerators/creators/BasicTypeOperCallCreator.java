@@ -173,7 +173,7 @@ public class BasicTypeOperCallCreator {
 				argStr = StringHelpers.addBrackets(argStr);
 			}
 			if (referedOp.getName().equals("div")) {
-				result = source + " / " + argStr;
+				result = source + "d / " + argStr;
 			} else if (referedOp.getName().equals("mod")) {
 				result = source + " % " + argStr;
 			} else if (referedOp.getName().equals("abs")) {
@@ -211,7 +211,7 @@ public class BasicTypeOperCallCreator {
 				result = result + source + " * " + argStr;
 			} else if (referedOp.getName().equals("/")) {
 				source = StringHelpers.addBrackets(source);
-				result = result + source + " / " + argStr;
+				result = result + source + "d / " + argStr;
 			} else if (referedOp.getName().equals("-") ){
 				if (referedOp.isPrefix() ) {
 					String sourceStr = source;

@@ -121,6 +121,7 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		this.initialValue = initialValue;
 		super.addOwnedElement(initialValue);
 	}
+
 	public INakedProperty getOtherEnd(){
 		return this.otherEnd;
 	}
@@ -140,6 +141,9 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		super.addOwnedElement(element);
 		if(element instanceof INakedConnectorEnd){
 			connectorEnds.add((INakedConnectorEnd) element);
+		}
+		if(element instanceof INakedValueSpecification){
+			this.initialValue=(INakedValueSpecification) element;
 		}
 	}
 	@Override

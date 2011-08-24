@@ -17,6 +17,7 @@ import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.Steps;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.linkage.CompositionEmulator;
@@ -35,26 +36,16 @@ import net.sf.nakeduml.linkage.ReferenceResolver;
 import net.sf.nakeduml.linkage.RootEntityLinker;
 import net.sf.nakeduml.linkage.SourcePopulationResolver;
 import net.sf.nakeduml.linkage.TypeResolver;
-import net.sf.nakeduml.metamodel.actions.INakedOclAction;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
-import net.sf.nakeduml.metamodel.core.INakedParameter;
-import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
+import net.sf.nakeduml.validation.NameUniquenessValidation;
 import net.sf.nakeduml.validation.ValidationPhase;
 import net.sf.nakeduml.validation.namegeneration.JavaNameRegenerator;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
-import nl.klasse.octopus.oclengine.internal.OclContextImpl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -63,13 +54,27 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Action;
+import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Pseudostate;
+import org.eclipse.uml2.uml.Region;
+import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.nakeduml.eclipse.EmfElementFinder;
 
 //TODO refactor out of existence
 public class UmlElementCache extends EContentAdapter{
@@ -97,8 +102,10 @@ public class UmlElementCache extends EContentAdapter{
 	protected INakedModelWorkspace nakedModelWorspace;
 	protected EmfResourceHelper resourceHelper;
 	protected EmfWorkspace currentEmfWorkspace;
-	private UMLResource newResourceBeingLoaded;
-	private Set<EObject> resourceChanges = new HashSet<EObject>();
+	private Set<UMLResource> resourcesBeingLoaded = new HashSet<UMLResource>();
+	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
+	// private Set<EObject> resourceChanges = new HashSet<EObject>();
+	protected Runnable synchronizer;
 	public UmlElementCache(EmfResourceHelper helper,NakedUmlConfig cfg){
 		this.resourceHelper = helper;
 		reinitializeProcess(cfg);
@@ -122,11 +129,13 @@ public class UmlElementCache extends EContentAdapter{
 	}
 	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
 		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(StereotypeApplicationExtractor.class,
-				NakedParsedOclStringResolver.class, ProcessIdentifier.class, MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, RootEntityLinker.class,
-				CompositionEmulator.class, JavaNameRegenerator.class, PersistentNameGenerator.class, TypeResolver.class, SourcePopulationResolver.class,
-				ReferenceResolver.class, QualifierLogicCalculator.class, ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class,
-				EnumerationValuesAttributeAdder.class));
-		for(Class<? extends ITransformationStep> stepClass:cfg.getAdditionalTransformationSteps()){
+				JavaNameRegenerator.class, PersistentNameGenerator.class));
+		result.addAll(LinkagePhase.getAllSteps());
+		result.addAll(ValidationPhase.getAllValidationSteps());
+		Set<Class<? extends ITransformationStep>> additionalTransformationSteps = cfg.getAdditionalTransformationSteps();
+		Steps steps = new Steps();
+		steps.initializeFromClasses(additionalTransformationSteps);
+		for(Class<? extends ITransformationStep> stepClass:steps.getExecutionUnitClasses()){
 			if(stepClass.isAnnotationPresent(StepDependency.class)){
 				Class<? extends TransformationPhase<? extends ITransformationStep,?>> phase = stepClass.getAnnotation(StepDependency.class).phase();
 				if(phase == LinkagePhase.class || phase == ValidationPhase.class || phase == EmfExtractionPhase.class){
@@ -151,13 +160,11 @@ public class UmlElementCache extends EContentAdapter{
 			if(notification.getFeatureID(EAnnotation.class) != EcorePackage.EMODEL_ELEMENT__EANNOTATIONS){
 				if(notification.getNotifier() instanceof UMLResource){
 					manageResourceEvent(notification);
-				}else if(newResourceBeingLoaded != null && notification.getNewValue() instanceof EObject){
+				}else if(resourcesBeingLoaded.isEmpty() && notification.getNewValue() instanceof EObject){
 					EObject newValue = (EObject) notification.getNewValue();
 					if(newValue.eIsProxy()){
-						EcoreUtil.resolve(newValue, newResourceBeingLoaded);
+						EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
 						// broken references
-					}else{
-						this.resourceChanges.add(newValue);
 					}
 				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
 					DynamicEObjectImpl sa = (DynamicEObjectImpl) notification.getNotifier();
@@ -165,7 +172,7 @@ public class UmlElementCache extends EContentAdapter{
 						if(eReference.getEType().eContainer() instanceof UMLPackage){
 							// Reference to UML element - check if it is a stereotype for this one
 							Element e = (Element) sa.eGet(eReference);
-							if(e.getStereotypeApplications().contains(sa)){
+							if(e != null && e.getStereotypeApplications().contains(sa)){
 								scheduleSynchronization(e);
 							}
 						}
@@ -183,21 +190,31 @@ public class UmlElementCache extends EContentAdapter{
 							o = (EObject) notification.getNotifier();
 						}
 						if(o != null && o instanceof Element && o.eContainer() != null){
-							scheduleSynchronization((Element) o);
+							if(notification.getFeatureID(OpaqueExpression.class) == UMLPackage.OPAQUE_EXPRESSION__BODY){
+							}
+							Element syncronizableElement = getSyncronizableElement((Element) o);
+							scheduleSynchronization(syncronizableElement);
 						}
 					}
 				}
 			}
 		}else if(notification.getEventType() == Notification.REMOVE){
 			if(notification.getOldValue() instanceof NamedElement){
-				NamedElement ne = (NamedElement)notification.getOldValue();
-//				if(this.emfChanges.contains(ne)){
-//					;
-//				}
+				NamedElement ne = (NamedElement) notification.getOldValue();
+				// if(this.emfChanges.contains(ne)){
+				// ;
+				// }
+				if(!isSynchronizableElement(ne)){
+					EObject e = (EObject) notification.getNotifier();
+					while(!isSynchronizableElement(e)){
+						e = EmfElementFinder.getContainer(e);
+					}
+					ne = (NamedElement) e;
+				}
 				scheduleSynchronization(ne);
 			}
 		}
-		if(notification.getEventType() == Notification.ADD && notification.getNewValue() instanceof EObject){
+		if(resourcesBeingLoaded.isEmpty() && notification.getEventType() == Notification.ADD && notification.getNewValue() instanceof EObject){
 			maybePut((EObject) notification.getNewValue());
 		}
 	}
@@ -205,26 +222,48 @@ public class UmlElementCache extends EContentAdapter{
 	}
 	public void manageResourceEvent(final Notification notification){
 		if(notification.getNewValue() instanceof Package && notification.getFeatureID(UMLResource.class) == UMLResource.RESOURCE__CONTENTS){
-			this.newResourceBeingLoaded = (UMLResource) notification.getNotifier();
-			resourceChanges.add((EObject) notification.getNewValue());
+			this.resourcesBeingLoaded.add((UMLResource) notification.getNotifier());
 		}else if(notification.getFeatureID(UMLResource.class) == UMLResource.RESOURCE__IS_LOADED && notification.getNewBooleanValue() == true){
 			// Do this synchronously
-			Set<EObject> asdf = new HashSet<EObject>(resourceChanges);
-			resourceChanges.clear();
-			getTransformationProcess().processElements(asdf, EmfExtractionPhase.class);
-			this.newResourceBeingLoaded = null;
+			this.resourcesLoaded.add((UMLResource) notification.getNotifier());
+			if(resourcesLoaded.containsAll(resourcesBeingLoaded)){
+				Set<Package> newObjects = new HashSet<Package>();
+				for(UMLResource umlResource:resourcesLoaded){
+					for(EObject eObject:umlResource.getContents()){
+						if(eObject instanceof Model || eObject instanceof Profile){
+							newObjects.add((Package) eObject);
+						}
+					}
+				}
+				getTransformationProcess().processElements(newObjects, EmfExtractionPhase.class);
+				this.resourcesBeingLoaded.clear();
+				this.resourcesLoaded.clear();
+			}
 		}
 	}
 	protected void scheduleSynchronization(Element o){
-		this.emfChanges.add((Element) o);
-		threadPool.schedule(newNakedUmlSynchronizer(), 400, TimeUnit.MILLISECONDS);
-	}
-	protected Runnable newNakedUmlSynchronizer(){
-		return new Runnable(){
-			@Override
-			public void run(){
+		synchronized(nakedModelWorspace){
+			this.emfChanges.add(o);
+			if(this.synchronizer != null){
+				threadPool.schedule(synchronizer, 100, TimeUnit.MILLISECONDS);
 			}
-		};
+		}
+	}
+	private Element getSyncronizableElement(Element o){
+		EObject e = o;
+		while(e != null){
+			if(isSynchronizableElement(e)){
+				return (Element) e;
+			}else{
+				e = e.eContainer();
+			}
+		}
+		return (Element) e;
+	}
+	private boolean isSynchronizableElement(EObject e){
+		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
+				|| e instanceof Region || e instanceof Operation || e instanceof Property || e instanceof Classifier || e instanceof Transition
+				|| e instanceof ActivityEdge;
 	}
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);

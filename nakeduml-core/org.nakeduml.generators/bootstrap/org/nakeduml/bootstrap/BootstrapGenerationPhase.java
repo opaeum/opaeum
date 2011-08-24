@@ -9,6 +9,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -33,21 +34,22 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 		return elements;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProgressLog log,TransformationContext context){
 		for(AbstractBootstrapStep step:features){
-			step.setTransformationContext(context);
-			step.startVisiting(workspace);
+			if(!log.isCanceled()){
+				step.setTransformationContext(context);
+				step.startVisiting(workspace);
+			}
 		}
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractBootstrapStep> features){
 		this.config = config;
 		this.features = features;
-
 	}
 	public void initializeSteps(){
 		for(AbstractBootstrapStep step:this.features){
-			step.initialize(this.config, textWorkspace,workspace);
+			step.initialize(this.config, textWorkspace, workspace);
 		}
 	}
 	@Override

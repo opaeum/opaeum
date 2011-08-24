@@ -1,7 +1,6 @@
 package org.nakeduml.topcased.propertysections.ocl;
 
 import net.sf.nakeduml.emf.workspace.UmlElementCache;
-import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -9,7 +8,6 @@ import net.sf.nakeduml.validation.CoreValidationRule;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -17,6 +15,7 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -35,7 +34,6 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Transition;
-import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValuePin;
 import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.nakeduml.eclipse.EmfValidationUtil;
@@ -46,23 +44,22 @@ import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
 
+import com.sun.org.apache.xerces.internal.impl.dv.DVFactoryException;
+
 public abstract class OclBodyComposite extends Composite{
 	private final class ErrorHighlighter implements Runnable{
 		private boolean stopped;
-		private boolean onceOff=false;
+		private long nextRun=0;
 		public void run(){
 			if(!stopped){
 				highlightError();
+				System.out.println("OclBodyComposite.ErrorHighlighter.run()" +System.currentTimeMillis());
 				StyledText t = viewer.getTextWidget();
-
-				if(!(onceOff ||t==null||t.isDisposed())){
-					Display.getDefault().timerExec(5000, this);
+				if(!(t == null || t.isDisposed()) && (nextRun==0 || System.currentTimeMillis()>=nextRun)){
+					nextRun=System.currentTimeMillis() + 14999;
+					Display.getDefault().timerExec(15000, this);
 				}
-				onceOff=false;
 			}
-		}
-		public void onceOff(){
-			onceOff=true;
 		}
 		public void stop(){
 			this.stopped = true;
@@ -70,12 +67,14 @@ public abstract class OclBodyComposite extends Composite{
 	}
 	private final class KeyListener implements Listener{
 		String lastVal = null;
+		private long lastTextEmpty = 0;
+		private long lastKeyChange = System.currentTimeMillis();
 		@Override
 		public void handleEvent(Event event){
 			if(lastVal == null){
 				lastVal = viewer.getTextWidget().getText();
 			}
-			if(event.type == SWT.KeyDown)
+			if(event.type == SWT.KeyDown){
 				if(event.keyCode == SWT.TAB && tabTo != null){
 					event.keyCode = SWT.None;
 					event.type = SWT.None;
@@ -88,16 +87,32 @@ public abstract class OclBodyComposite extends Composite{
 						((StyledText) tabTo).selectAll();
 					}
 					maybeFireOclChanged();
-				}else{
-					lastKeyChange = System.currentTimeMillis();
-					Display.getDefault().timerExec(400, new Runnable(){
-						public void run(){
-							if(System.currentTimeMillis() - lastKeyChange >= 300 && viewer != null){
-								maybeFireOclChanged();
-							}
-						}
-					});
 				}
+			}else{
+				if(event.type == SWT.KeyUp){
+					if(viewer != null && viewer.getTextWidget() != null){
+						lastKeyChange = System.currentTimeMillis();
+						int delay = 400;
+						if(viewer.getTextWidget().getText().isEmpty()){
+							lastTextEmpty = System.currentTimeMillis();
+							delay = 2000;
+						}
+						Display.getDefault().timerExec(delay, new Runnable(){
+							public void run(){
+								if(System.currentTimeMillis() - lastKeyChange >= 350 && viewer != null){
+									if(viewer.getTextWidget().getText().isEmpty()){
+										if(System.currentTimeMillis() - lastTextEmpty >= 1700){
+											maybeFireOclChanged();
+										}
+									}else{
+										maybeFireOclChanged();
+									}
+								}
+							}
+						});
+					}
+				}
+			}
 		}
 		private void maybeFireOclChanged(){
 			if(viewer != null && viewer.getTextWidget() != null){
@@ -114,7 +129,6 @@ public abstract class OclBodyComposite extends Composite{
 	protected NamedElement oclBodyOwner;
 	public static final String DEFAULT_TEXT = EmfValidationUtil.TYPE_EXPRESSION_HERE;
 	public static final String REQUIRED_TEXT = "Ocl Expression Required";
-	private long lastKeyChange = System.currentTimeMillis();
 	private OCLDocument document;
 	private Control tabTo;
 	private KeyListener keyListener;
@@ -142,23 +156,20 @@ public abstract class OclBodyComposite extends Composite{
 		for(Listener listener:listeners){
 			viewer.getTextWidget().addListener(SWT.KeyDown, listener);
 		}
+		viewer.getTextWidget().addListener(SWT.KeyUp, keyListener);
 		manageContentAssist();
 		this.highlighter = new ErrorHighlighter();
-		Display.getDefault().timerExec(500, highlighter);
-
-
 	}
 	protected abstract EditingDomain getEditingDomain();
 	protected void fireOclChanged(String text){
 		if(!containsExpression(text)){
-			//Assume that if we got here, an OclExpression would be required
-			text=REQUIRED_TEXT;
-			viewer.getTextWidget().setText(text);
-			keyListener.lastVal=text;
+			// Assume that if we got here, an OclExpression would be required
+			text = REQUIRED_TEXT;
+			keyListener.lastVal = text;
+			getTextControl().setText(text);
 		}
-		NakedUmlEditor.getCurrentContext().runOnSynchronization(highlighter);
 		getEditingDomain().getCommandStack().execute(SetOclBodyCommand.create(getEditingDomain(), oclBodyOwner, getBodiesFeature(), getLanguagesFeature(), text));
-		highlighter.onceOff();
+		Display.getDefault().timerExec(1000, highlighter);
 	}
 	public StyledText getTextControl(){
 		return viewer.getTextWidget();
@@ -188,7 +199,7 @@ public abstract class OclBodyComposite extends Composite{
 			factory.setContext(context);
 			document.setOCLContext(EmfBehaviorUtil.getSelf(context));
 			manageContentAssist();
-			highlightError();
+			Display.getDefault().timerExec(1000,this.highlighter);
 		}
 	}
 	public void dispose(){
@@ -218,7 +229,7 @@ public abstract class OclBodyComposite extends Composite{
 					};
 				}
 				for(StyleRange sr:srs){
-					if(sr.start <= i && sr.start + sr.length > i){
+					if(i==0 || ( sr.start <= i && sr.start + sr.length > i)){
 						sr.underline = true;
 						sr.underlineStyle = SWT.UNDERLINE_ERROR;
 						sr.underlineColor = ColorConstants.red;
@@ -249,6 +260,9 @@ public abstract class OclBodyComposite extends Composite{
 				}
 			}
 		}
+		if(bodies.size() == 1){
+			return bodies.get(0);
+		}
 		return DEFAULT_TEXT;
 	}
 	public Control getTabTo(){
@@ -260,29 +274,6 @@ public abstract class OclBodyComposite extends Composite{
 	protected boolean isOclContext(EObject container){
 		return(container instanceof Operation || container instanceof Property || container instanceof Classifier || container instanceof Action
 				|| container instanceof InstanceSpecification || container instanceof ValuePin || container instanceof Transition || container instanceof ActivityEdge || container instanceof JoinNode);
-	}
-	protected EObject getContainer(EObject s){
-		if(s.eContainer() instanceof Event){
-			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s.eContainer();
-			// Contained by an annotation inside another element?
-			if(event.eContainer() instanceof EAnnotation){
-				// Skip event AND annotation straight to the containing element
-				EAnnotation ea = (EAnnotation) event.eContainer();
-				return ea.getEModelElement();
-			}else{
-				// Old strategy - could be problematic if the event is referenced from multiple triggers
-				EAnnotation ann = event.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
-				if(ann != null){
-					for(EObject eObject:ann.getReferences()){
-						if(eObject instanceof Trigger){
-							return eObject;
-						}
-					}
-				}
-			}
-			throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
-		}
-		return s.eContainer();
 	}
 	public abstract EStructuralFeature getBodiesFeature();
 	public abstract EStructuralFeature getLanguagesFeature();

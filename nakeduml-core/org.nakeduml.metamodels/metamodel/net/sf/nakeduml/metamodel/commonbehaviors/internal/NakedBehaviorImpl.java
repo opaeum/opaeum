@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
@@ -25,6 +26,8 @@ import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.oclengine.IOclContext;
 
 /**
  * Defines a common superclass for elements that: 1. Can be called as a
@@ -37,8 +40,8 @@ import nl.klasse.octopus.model.IParameter;
  */
 public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl implements INakedBehavior {
 	private static final long serialVersionUID = 2245169607437688948L;
-	private Collection<INakedConstraint> preConditions = new ArrayList<INakedConstraint>();
-	private Collection<INakedConstraint> postConditions = new ArrayList<INakedConstraint>();
+	private Collection<INakedConstraint> preConditions = new HashSet<INakedConstraint>();
+	private Collection<INakedConstraint> postConditions = new HashSet<INakedConstraint>();
 	private INakedParameter returnParameter;
 	private INakedOperation specification;
 	private List<INakedParameter> argumentParameters = new ArrayList<INakedParameter>();
@@ -111,14 +114,6 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		return this.exceptionParameters;
 	}
 
-	public void addPostCondition(INakedConstraint post) {
-		this.postConditions.add(post);
-	}
-
-	public void addPreCondition(INakedConstraint pre) {
-		this.preConditions.add(pre);
-	}
-
 	public IClassifier getReturnType() {
 		if (getReturnParameter() == null) {
 			return null;
@@ -146,6 +141,17 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	@Override
 	public void addOwnedElement(INakedElement element) {
 		super.addOwnedElement(element);
+		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification()!=null){
+			INakedConstraint cnstr = (INakedConstraint) element;
+			IOclContext oc = cnstr.getSpecification().getOclValue();
+			if(oc.getType().equals(OclUsageType.PRE)){
+				preConditions.remove(cnstr);
+				preConditions.add(cnstr);
+			}else{
+				preConditions.remove(cnstr);
+				preConditions.add(cnstr);
+			}
+		}
 	}
 
 	@Override

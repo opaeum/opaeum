@@ -1,15 +1,28 @@
 package org.nakeduml.eclipse.starter;
 
+import java.util.Collection;
+import java.util.HashMap;
+
+import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationProcess;
+import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
+import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,6 +34,7 @@ import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
+import org.topcased.modeler.utils.ResourceUtils;
 
 public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){
@@ -35,26 +49,25 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
-					monitor.beginTask("Generating Java Code", 30);
+					monitor.beginTask("Generating Java Code", 90);
 					monitor.subTask("Loading EMF Resources");
-					if(currentContext.getEmfWorkspaces().isEmpty()){
-						currentContext.loadDirectory(new SubProgressMonitor(monitor, 10));
-					}
-					currentContext.prepareDirectoryTransformation();
+					currentContext.loadDirectory(new SubProgressMonitor(monitor, 30));
 					TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
 					p.removeModel(OJPackage.class);
 					p.removeModel(TextWorkspace.class);
 					monitor.subTask("Generating Java Code");
-					SubProgressMonitor monitor2 = new SubProgressMonitor(monitor, 20);
-					monitor2.beginTask("", p.getPhases().size()+4);//TODO get actual number of Integration Phases
-					p.setLog(new ProgressMonitorTransformationLog(monitor2));
-					//TODO this is for UimSynchronizationPhase which should perhaps now take a NakedModelWorkspace as input
+					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor,30);
+					p.setLog(log);
+					// TODO this is for UimSynchronizationPhase which should perhaps now take a NakedModelWorkspace as input
 					p.replaceModel(currentContext.getCurrentEmfWorkspace());
-					p.execute();
-					p.integrate();
-					monitor2.done();
-					monitor.done();
-					new JavaProjectGenerator(currentContext.getUmlElementCache().getConfig(), p, ResourcesPlugin.getWorkspace().getRoot(), true).schedule();
+					p.executeFrom(JavaTransformationPhase.class);
+					if(!monitor.isCanceled()){
+						p.integrate();
+					}
+					p.findModel(EmfWorkspace.class).saveAll();
+					monitor.subTask("Generating text files");
+					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
+					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext);
 				}catch(Exception e){
 					NakedUmlEclipsePlugin.getDefault().getLog().log(new Status(Status.INFO, NakedUmlEclipsePlugin.getPluginId(), Status.OK, e.getMessage(), e));
 					// TODO Auto-generated catch block

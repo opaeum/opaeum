@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.eclipse.EmfElementFinder;
@@ -31,12 +32,12 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferencePro
 			super(eObject, structuralFeature);
 		}
 		public List<?> chooseObjectsFromDialog(){
-			Property p = (Property) getEObject();
+			Property p = (Property) getProperty();
 			List<EObject> choiceOfValues = new ArrayList<EObject>();
 			if(p.getClass_() != null){
 				choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope(p.getClass_()));
 			}else if(p.getAssociation() != null){
-				choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope(p.getAssociation()));
+				choiceOfValues.addAll(EmfElementFinder.getPropertiesInScope((Classifier) p.getOtherEnd().getType()));
 			}
 			if(p.getType() != null){
 				Iterator<EObject> iter = choiceOfValues.iterator();

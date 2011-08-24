@@ -36,7 +36,6 @@ public class VariableActionExtractor extends AbstractActionExtractor {
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setVariable((INakedActivityVariable) getNakedPeer(emfAction.getVariable()));
 		nakedAction.setResult((INakedOutputPin) initializePin(emfActivity, emfAction.getResult()));
-		this.addLocalPreAndPostConditions(nakedAction, emfAction);
 		assignPartition(nakedAction, emfAction);
 	}
 

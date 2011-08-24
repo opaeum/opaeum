@@ -14,16 +14,20 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedValuePin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -48,11 +52,28 @@ public class EnvironmentFactory{
 	public Environment createClassifierEnvironment(INakedClassifier c){
 		Environment env = createSelflessEnvironment(c);
 		env.addElement("self", new VariableDeclaration("self", c), true);
-		if(c.getNestingClassifier() != null){
+		if(!(c.getNestingClassifier() == null || c instanceof INakedBehavior)){
 			env.addElement("owningObject", new VariableDeclaration("owningObject", c.getNestingClassifier()), true);
 		}
 		env.addStates(c);
 		return env;
+	}
+	public Environment createInstanceValueEnvironment(INakedValueSpecification instanceValue){
+		INakedElementOwner owner= instanceValue.getOwnerElement();
+		while(owner!=null){
+			if(owner instanceof INakedValuePin || owner instanceof INakedAction){
+				return createActivityEnvironment((INakedElement) owner, ((INakedValuePin) owner).getActivity());
+			}else if(owner instanceof INakedTransition){
+				INakedTransition t = (INakedTransition) owner;
+				Environment env = createStateMachineEnvironment(t.getStateMachine());
+				addFlowParameters(env, t);
+				return env;
+			}else{
+				owner=((INakedElement) owner).getOwnerElement();
+			}
+		}
+		return createSelflessEnvironment(instanceValue.getNakedRoot());
+		
 	}
 	public Environment createPreEnvironment(INakedClassifier c,INakedAction action){
 		Environment env = null;
@@ -150,7 +171,11 @@ public class EnvironmentFactory{
 	}
 	private Environment createSimpleBehavioralContext(IParameterOwner owningBehavior){
 		// TODO Auto-generated method stub
-		return createSimpleBehavioralContext(owningBehavior.getContext(), owningBehavior);
+		INakedElementOwner owner = owningBehavior.getOwnerElement();
+		while(!(owner instanceof INakedClassifier)){
+			owner=((INakedElement) owner).getOwnerElement();
+		}
+		return createSimpleBehavioralContext( (INakedClassifier) owner, owningBehavior);
 	}
 	private Environment createSimpleBehavioralContext(INakedClassifier context,IParameterOwner owningBehavior){
 		Environment env = createClassifierEnvironment(context);

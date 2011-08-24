@@ -5,6 +5,8 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.hibernate.HibernateAnnotator;
+import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -24,8 +26,9 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
-		DerivedUnionImplementor.class
+		DerivedUnionImplementor.class,JpaAnnotator.class,HibernateAnnotator.class
 })
+//NB!!! needs to execute after all Steps that expect the OJField's presence since it removes the redefined field
 public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void property(INakedProperty p){

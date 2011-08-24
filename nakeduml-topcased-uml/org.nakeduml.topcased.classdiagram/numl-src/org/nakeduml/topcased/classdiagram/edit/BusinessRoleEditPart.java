@@ -41,7 +41,6 @@ public class BusinessRoleEditPart extends ClassEditPart{
 
 	protected void createEditPolicies(){
 		super.createEditPolicies();
-		installEditPolicy(ClassEditPolicyConstants.ASSOCIATION_EDITPOLICY, new FixedAssociationEdgeCreationEditPolicy());
-		installEditPolicy(ClassEditPolicyConstants.ASSOCIATIONCLASS_EDITPOLICY, new FixedAssociationClassEdgeCreationEditPolicy());
+		EditPartUtil.installEditPolicies(this);
 	}
 }

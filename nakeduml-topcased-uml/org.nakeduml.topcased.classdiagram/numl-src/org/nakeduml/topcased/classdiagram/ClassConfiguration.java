@@ -33,19 +33,7 @@ public class ClassConfiguration extends org.topcased.modeler.uml.classdiagram.Cl
 	}
 	public ICreationUtils getCreationUtils(){
 		if(creationUtils == null){
-			creationUtils = new ClassCreationUtils(getDiagramGraphConf()){
-				protected GraphElement createGraphElementEnumeration(org.eclipse.uml2.uml.Enumeration element,String presentation){
-					GraphNode nodeParent = createGraphNode(element, presentation);
-					GraphNode enumerationliteral = createGraphNode(element, UMLPackage.ENUMERATION__OWNED_LITERAL, presentation);
-					enumerationliteral.setContainer(nodeParent);
-					GraphNode attributes = createGraphNode(element, UMLPackage.DATA_TYPE__OWNED_ATTRIBUTE,presentation);
-					GraphNode operations = createGraphNode(element, UMLPackage.DATA_TYPE__OWNED_OPERATION,presentation);
-					attributes.setContainer(nodeParent);
-					operations.setContainer(nodeParent);
-					return nodeParent;
-				}
-
-			};
+			creationUtils = new ClassCreationUtils(getDiagramGraphConf());
 		}
 		return creationUtils;
 	}

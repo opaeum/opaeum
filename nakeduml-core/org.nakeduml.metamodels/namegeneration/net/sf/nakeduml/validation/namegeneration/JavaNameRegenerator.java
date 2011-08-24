@@ -19,13 +19,6 @@ public class JavaNameRegenerator extends AbstractJavaNameGenerator{
 	public void updateJavaName(INakedElement nakedElement){
 		nakedElement.getMappingInfo().setJavaName(generateJavaName(nakedElement));
 		nakedElement.getMappingInfo().setQualifiedJavaName(generateQualifiedJavaName(nakedElement));
-		if(nakedElement instanceof INakedOperation && ((INakedOperation) nakedElement).getMessageStructure() != null){
-			updateMessageStructureJavaName(((INakedOperation) nakedElement).getMessageStructure());
-		}else if(nakedElement instanceof INakedCallAction && ((INakedCallAction) nakedElement).getMessageStructure() != null){
-			updateMessageStructureJavaName(((INakedCallAction) nakedElement).getMessageStructure());
-		}else if(nakedElement instanceof INakedEmbeddedTask && ((INakedEmbeddedTask) nakedElement).getMessageStructure() != null){
-			updateMessageStructureJavaName(((INakedEmbeddedTask) nakedElement).getMessageStructure());
-		}
 		if(nakedElement.getMappingInfo().requiresJavaRename()){
 			getAffectedElements().add(nakedElement);
 		}

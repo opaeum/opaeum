@@ -31,6 +31,8 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private INakedBehavior doActivity;
 	private INakedBehavior exit;
 	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
+	private List<INakedTransition> outgoing=new ArrayList<INakedTransition>();
+	private List<INakedTransition> incoming=new ArrayList<INakedTransition>();
 	public NakedStateImpl(){
 	}
 	public IRegionOwner getLeastCommonAncestor(IRegionOwner two){
@@ -67,10 +69,10 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 		return RegionOwnerUtil.getTopmostRegionContaining(this, state);
 	}
 	public List<INakedTransition> getIncoming(){
-		return getStateMachine().getTransitionsTo(this);
+		return this.incoming;
 	}
 	public List<INakedTransition> getOutgoing(){
-		return getStateMachine().getTransitionsFrom(this);
+		return this.outgoing;
 	}
 	public List<INakedBehavior> getActions(){
 		List<INakedBehavior> results = new ArrayList<INakedBehavior>();
@@ -184,5 +186,25 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 		Collection<INakedElement> children = new HashSet<INakedElement>(super.getOwnedElements());
 		children.addAll(getActions());
 		return children;
+	}
+	@Override
+	public void removeFromOutgoing(INakedTransition nakedTransitionImpl){
+		this.outgoing.remove(nakedTransitionImpl);
+		
+	}
+	@Override
+	public void addToOutgoing(INakedTransition nakedTransitionImpl){
+		this.outgoing.add(nakedTransitionImpl);
+		
+	}
+	@Override
+	public void removeFromIncoming(INakedTransition nakedTransitionImpl){
+		this.incoming.remove(nakedTransitionImpl);
+		
+	}
+	@Override
+	public void addToIncoming(INakedTransition nakedTransitionImpl){
+		this.incoming.add(nakedTransitionImpl);
+		
 	}
 }

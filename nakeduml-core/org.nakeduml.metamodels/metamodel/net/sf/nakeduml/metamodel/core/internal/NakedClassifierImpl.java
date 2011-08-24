@@ -113,7 +113,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	 */
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();
-		if(hasSupertype()){
+		for(IClassifier s:getGeneralizations()){
 			List<? extends INakedProperty> superAttributes = (getSupertype()).getEffectiveAttributes();
 			addEffectiveAttributes(results, superAttributes);
 		}
@@ -169,7 +169,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return getEndToComposite() != null;
 	}
 	public final void setEndToComposite(INakedProperty endToComposite){
-		if(this.endToComposite==null && !getOwnedAttributes().contains(endToComposite)){
+		if(this.endToComposite == null && !getOwnedAttributes().contains(endToComposite)){
 			addOwnedElement(endToComposite);
 		}
 		this.endToComposite = endToComposite;
@@ -311,7 +311,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			}else if(getNameSpace() instanceof INakedClassifier){
 				return ((INakedClassifier) getNameSpace()).getCodeGenerationStrategy();
 			}else{
-				//Owner probably null;
+				// Owner probably null;
 				return CodeGenerationStrategy.all;
 			}
 		}
@@ -368,7 +368,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}else if(element instanceof INakedComment){
 			comments.remove(element);
 		}else if(element instanceof INakedConstraint){
-			ownedRules.remove(element);;
+			ownedRules.remove(element);
+			;
 		}
 	}
 	@Override
@@ -383,6 +384,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}else if(element instanceof INakedComment){
 			comments.add((INakedComment) element);
 		}else if(element instanceof INakedConstraint){
+			ownedRules.remove((INakedConstraint) element);
 			ownedRules.add((INakedConstraint) element);
 		}else if(element instanceof INakedGeneralization){
 			INakedGeneralization generalization = (INakedGeneralization) element;

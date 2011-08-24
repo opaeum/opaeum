@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0">
   <parent>
     <artifactId>nakeduml-runtime</artifactId>
     <groupId>org.nakeduml</groupId>
@@ -16,22 +16,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration/>
+        <configuration>
+          <excludes><exclude>**/*IntegrationTest.java</exclude></excludes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
-          <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/main/generated-resources</directory></resource><resource><directory>src/main/resources</directory></resource></resources>
-            </configuration>
-          </execution>
           <execution>
             <id>add-test-source</id>
             <phase>generate-sources</phase>
@@ -40,16 +32,6 @@
             </goals>
             <configuration>
               <sources><source>src/test/generated-java</source></sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-test-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/test/generated-resources</directory></resource><resource><directory>src/test/jboss-resources</directory></resource><resource><directory>src/test/resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -62,96 +44,30 @@
               <sources><source>src/main/generated-java</source></sources>
             </configuration>
           </execution>
+          <execution>
+            <id>add-test-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-resource</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>add-resource</goal>
+            </goals>
+            <configuration>
+              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>jbossas-managed-6</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <testResources>
-          <testResource>
-            <directory>src/test/resources</directory>
-          </testResource>
-          <testResource>
-            <directory>src/test/resources-jbossas</directory>
-          </testResource>
-        </testResources>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>1.0</version>
-            <executions>
-              <execution>
-                <id>enforce-property</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules><requireProperty><property>jboss.home</property></requireProperty></rules>
-                  <fail>true</fail>
-                  <skip>true</skip>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.7.1</version>
-            <executions>
-              <execution>
-                <id>surefire-it</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-                <configuration>
-                  <excludes/>
-                  <includes><include>**/*IntegrationTest.java</include></includes>
-                </configuration>
-              </execution>
-            </executions>
-            <configuration/>
-          </plugin>
-        </plugins>
-      </build>
-      <dependencies>
-        <dependency>
-          <groupId>org.jboss.arquillian.container</groupId>
-          <artifactId>arquillian-jbossas-managed-6</artifactId>
-          <version>${arquillian.version}</version>
-          <type>jar</type>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-server-manager</artifactId>
-          <version>1.0.3.GA</version>
-          <type>jar</type>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.jboss.jbossas</groupId>
-          <artifactId>jboss-as-client</artifactId>
-          <version>6.0.0.20101110-CR1</version>
-          <type>pom</type>
-          <scope>test</scope>
-          <exclusions>
-            <exclusion>
-              <artifactId>cglib</artifactId>
-              <groupId>cglib</groupId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.jmock</groupId>
@@ -168,27 +84,6 @@
     <dependency>
       <groupId>org.nakeduml</groupId>
       <artifactId>nakeduml-runtime-bpm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-runtime-domain</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.arquillian</groupId>
-      <artifactId>arquillian-junit</artifactId>
     </dependency>
     <dependency>
       <groupId>org.nakeduml</groupId>
@@ -213,8 +108,25 @@
       <type>pom</type>
     </dependency>
     <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>nakeduml-runtime-domain</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

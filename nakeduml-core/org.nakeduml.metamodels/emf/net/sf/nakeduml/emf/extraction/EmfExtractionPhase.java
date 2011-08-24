@@ -11,6 +11,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -41,6 +42,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	private EmfWorkspace emfWorkspace;
 	private NakedUmlConfig config;
 	private List<AbstractExtractorFromEmf> extractors;
+	private boolean cancelled;
 	private INakedPackage getNakedPackage(Package emfModel){
 		return (INakedPackage) modelWorkspace.getModelElement(emfWorkspace.getId(emfModel));
 	}
@@ -59,9 +61,11 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return result;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProgressLog log,TransformationContext context){
+		log.startTask("Extracting Uml Elements from EMF", extractors.size());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		for(AbstractExtractorFromEmf v:extractors){
+			log.workOnStep("Executing EmfExtractor " + v.getClass().getSimpleName());
 			v.startVisiting(emfWorkspace);
 		}
 		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
@@ -70,6 +74,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		for(Package gp:emfWorkspace.getPrimaryModels()){
 			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
 		}
+		log.endTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractExtractorFromEmf> features){

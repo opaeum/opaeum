@@ -15,6 +15,7 @@ import nl.klasse.octopus.expressions.IOclExpression;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
+import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -25,13 +26,13 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 
 public class ValueSpecificationUtil{
-	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,boolean isStatic){
+	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType, boolean isStatic){
 		if(valueSpec.isValidOclValue()){
 			String expression = null;
 			ExpressionCreator ec = new ExpressionCreator(ojOwner);
 			IOclContext value = (IOclContext) valueSpec.getValue();
 			expression = ec.makeExpression(value.getExpression(), isStatic, new ArrayList<OJParameter>());
-			expression = buildTypeCastIfNecessary(value.getExpression()) + expression;
+			expression = buildTypeCastIfNecessary(expression,value.getExpression(),expectedType);
 			return expression;
 		}
 		return expressLiterals(valueSpec);
@@ -44,11 +45,11 @@ public class ValueSpecificationUtil{
 				return expressDefaultOrImplicitObject(owner, expectedType);
 			}
 		}else if(valueSpec.isOclValue()){
-			return expressOcl(operationContext, valueSpec);
+			return expressOcl(operationContext, valueSpec, expectedType);
 		}
 		return expressLiterals(valueSpec);
 	}
-	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec){
+	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec,IClassifier expectedType){
 		if(valueSpec.isValidOclValue()){
 			String expression = null;
 			OJClass ojOwner = (OJClass) operationContext.getOwner();
@@ -58,7 +59,7 @@ public class ValueSpecificationUtil{
 			OJBlock body = operationContext.getBody();
 			buildContext(operationContext, value, parameters, body);
 			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
-			expression = buildTypeCastIfNecessary(value.getExpression()) + expression;
+			expression = buildTypeCastIfNecessary( expression,value.getExpression(), expectedType);
 			return expression;
 		}else{
 			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
@@ -113,14 +114,20 @@ public class ValueSpecificationUtil{
 		}
 		return expression;
 	}
-	static String buildTypeCastIfNecessary(IOclExpression expression){
-		if(expression.getExpressionType().isCollectionKind()){
-			OJPathName collectionType = new ClassifierMap(expression.getExpressionType()).javaTypePath().getCopy();
-			collectionType.removeAllFromElementTypes();
-			String typeCast = "(" + collectionType.getLast() + ")";
-			return typeCast;
+	static String buildTypeCastIfNecessary(String java,IOclExpression expression,IClassifier expectedType){
+		if(expression.getExpressionType().isCollectionKind() && expectedType.isCollectionKind()){
+			StdlibCollectionType is = (StdlibCollectionType) expression.getExpressionType();
+			StdlibCollectionType shouldBe = (StdlibCollectionType) expectedType;
+			if(!is.getElementType().equals(shouldBe.getElementType())){
+				ClassifierMap classifierMap = new ClassifierMap(shouldBe);
+				String defaultValue = classifierMap.javaDefaultValue();
+				String typeCast = defaultValue.substring(0, defaultValue.length() - 1) + java + ")";
+				return typeCast;
+			}else{
+				return java;
+			}
 		}else{
-			return "";
+			return java;
 		}
 	}
 	public static String expressDefaultOrImplicitObject(INakedClassifier owner,IClassifier expectedType){

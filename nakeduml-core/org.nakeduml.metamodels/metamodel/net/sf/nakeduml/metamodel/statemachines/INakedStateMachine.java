@@ -10,8 +10,6 @@ public interface INakedStateMachine extends IRegionOwner, INakedTriggerContainer
 	boolean hasTriggerFor(INakedOperation o);
 	boolean hasEntityContext();
 	INakedEntity getContext();
-	List<INakedTransition> getTransitionsFrom(INakedState fromState);
-	List<INakedTransition> getTransitionsTo(INakedState fromState);
 	List<INakedTransition> getTransitions();
 	StateMachineKind getStateMachineKind();
 	void setStateMachineKind(StateMachineKind k);

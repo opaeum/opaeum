@@ -15,46 +15,66 @@ import net.sf.nakeduml.metamodel.validation.IValidationRule;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
 import org.nakeduml.eclipse.EmfValidationUtil;
+import org.nakeduml.topcased.uml.NakedUmlPlugin;
+import org.topcased.validation.core.MarkerUtil;
 
-public class NakedUmlErrorMarker implements Runnable{
+public class NakedUmlErrorMarker{
 	public static final String VALIDATION_MARKER_TYPE = "org.eclipse.emf.validation.problem"; //$NON-NLS-1$
 	public static final String RULE_ATTRIBUTE = "rule"; //$NON-NLS-1$
 	private NakedUmlEclipseContext context;
-	private long lastMarked = System.currentTimeMillis() - 10000;
+	private long nextMarked = 0;
+	private long lastMarked = 0;
 	private Map<EObject,BrokenElement> brokenElements;
 	private HashMap<String,IMarker> existingMarkers;
 	public NakedUmlErrorMarker(NakedUmlEclipseContext context){
+		super();
 		this.context = context;
 	}
-	@Override
-	public void run(){
-		this.existingMarkers = new HashMap<String,IMarker>();
-		this.brokenElements = new HashMap<EObject,BrokenElement>();
-		Set<String> brokenUris = calcBrokenElements();
-		try{
-			calcExistingMarkers(brokenUris);
-			markFiles();
-			lastMarked = System.currentTimeMillis();
-		}catch(CoreException e){
-			e.printStackTrace();
-		}finally{
+	public void maybeSchedule(){
+		if(lastMarked == 0 || lastMarked > System.currentTimeMillis() + 3000){
+			Display.getDefault().syncExec(new Runnable(){
+				@Override
+				public void run(){
+							
+					existingMarkers = new HashMap<String,IMarker>();
+					brokenElements = new HashMap<EObject,BrokenElement>();
+					Set<String> brokenUris = calcBrokenElements();
+					try{
+						calcExistingMarkers(brokenUris);
+						markFiles();
+						lastMarked = System.currentTimeMillis();
+					}catch(CoreException e){
+						e.printStackTrace();
+					}finally{
+						if(System.currentTimeMillis() + 10000 >= nextMarked){
+							nextMarked = System.currentTimeMillis() + 10000;
+							Display.getDefault().timerExec(10001,this);
+						}
+					}
+				}
+			});
 		}
 	}
 	public void markFiles(){
 		Set<Entry<EObject,BrokenElement>> entrySet = brokenElements.entrySet();
 		for(Entry<EObject,BrokenElement> entry:entrySet){
 			markFile(entry.getValue(), entry.getKey(), findUmlFile(entry.getKey(), "uml"));
-			markFile(entry.getValue(), entry.getKey(), findUmlFile(entry.getKey(), "umldi"));
+//			markFile(entry.getValue(), entry.getKey(), findUmlFile(entry.getKey(), "umldi"));
 		}
 	}
 	public void calcExistingMarkers(Set<String> brokenUris) throws CoreException{
-		IMarker[] mrks = context.getUmlDirectory().findMarkers(VALIDATION_MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+		IMarker[] mrks = context.getUmlDirectory().findMarkers(EValidator.MARKER, true, IResource.DEPTH_INFINITE);
 		for(IMarker marker:mrks){
 			String markerKey = markerKey(marker);
 			if(brokenUris.contains(markerKey)){
@@ -88,13 +108,15 @@ public class NakedUmlErrorMarker implements Runnable{
 	private String markerKey(IFile file,EObject o,IValidationRule key){
 		return file.getName() + ":" + EcoreUtil.getURI(o).toString() + ":" + key.name();
 	}
-	protected void markFile(BrokenElement entry,EObject o,IFile file){
+	protected void markFile(BrokenElement entry,final EObject o,final IFile file){
 		if(file != null){
-			for(BrokenRule brokenRule:entry.getRulesBrokenSince(new Date(lastMarked))){
+			for(final BrokenRule brokenRule:entry.getRulesBrokenSince(new Date(lastMarked))){
 				try{
+					
+					long start=System.currentTimeMillis();
 					IMarker marker = existingMarkers.get(markerKey(file, o, brokenRule.getRule()));
 					if(marker == null){
-						marker = file.createMarker(VALIDATION_MARKER_TYPE);
+						marker = file.createMarker(EValidator.MARKER);
 						marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 						marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
 						marker.setAttribute(RULE_ATTRIBUTE, brokenRule.getRule().name());
@@ -103,6 +125,8 @@ public class NakedUmlErrorMarker implements Runnable{
 					String messagePattern = brokenRule.getRule().getMessagePattern();
 					String message = EmfValidationUtil.replaceArguments(o, brokenRule, messagePattern);
 					marker.setAttribute(IMarker.MESSAGE, message);
+					System.out.println("Adding marker took " +(System.currentTimeMillis()-start));
+
 				}catch(CoreException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -112,10 +136,12 @@ public class NakedUmlErrorMarker implements Runnable{
 	}
 	public IFile findUmlFile(EObject o,String extension){
 		IFile file = null;
+		String expectedFileName = o.eResource().getURI().trimFileExtension().lastSegment();
 		try{
-			for(IResource r:context.getUmlDirectory().members()){
-				if(r.getFileExtension().equals(extension)){
-					if(r.getLocation().removeFileExtension().lastSegment().equals(o.eResource().getURI().trimFileExtension().lastSegment())){
+			IResource[] members = context.getUmlDirectory().members();
+			for(IResource r:members){
+				if(r instanceof IFile && r.getFileExtension().equals(extension)){
+					if(r.getLocation().removeFileExtension().lastSegment().equals(expectedFileName)){
 						file = (IFile) r;
 						break;
 					}

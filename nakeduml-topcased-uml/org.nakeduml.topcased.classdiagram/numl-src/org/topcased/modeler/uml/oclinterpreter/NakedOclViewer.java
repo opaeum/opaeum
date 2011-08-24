@@ -29,7 +29,7 @@ public class NakedOclViewer extends SourceViewer{
 		});
 	}
 	public boolean isContentAssistActive(){
-		return System.currentTimeMillis() - contentAssistLastActive < 400L;
+		return System.currentTimeMillis() - contentAssistLastActive < 200L;
 	}
 	public IContentAssistant getContentAssistant(){
 		return fContentAssistant;

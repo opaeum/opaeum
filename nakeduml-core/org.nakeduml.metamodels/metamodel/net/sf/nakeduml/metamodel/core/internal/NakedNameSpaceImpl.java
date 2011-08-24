@@ -10,7 +10,9 @@ import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import nl.klasse.octopus.expressions.internal.types.PathName;
@@ -65,6 +67,13 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 		}
 		if (element instanceof INakedClassifier) {
 			this.nestedClassifiers.remove(element);
+			INakedClassifier cls = (INakedClassifier) element;
+			for(INakedInterfaceRealization ir:cls.getInterfaceRealizations()){
+				ir.getContract().removeImplementingClassifier(cls);
+			}
+			for(INakedGeneralization g:cls.getNakedGeneralizations()){
+				g.getGeneral().removeSubClass(cls);
+			}
 		}
 	}
 

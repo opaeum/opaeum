@@ -45,6 +45,7 @@ public class NakedCreateObjectActionimpl extends NakedActionImpl implements INak
 		return this.result;
 	}
 	public void setResult(INakedOutputPin result) {
+		removeOwnedElement(result);
 		this.result = result;
 	}
 }

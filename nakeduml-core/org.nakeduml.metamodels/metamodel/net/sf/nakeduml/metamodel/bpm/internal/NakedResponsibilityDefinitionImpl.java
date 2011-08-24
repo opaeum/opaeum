@@ -2,23 +2,28 @@ package net.sf.nakeduml.metamodel.bpm.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-
-import org.nakeduml.runtime.domain.TaskDelegation;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
+
+import org.nakeduml.runtime.domain.TaskDelegation;
 
 public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implements INakedResponsibilityDefinition{
 	INakedInstanceSpecification stereotype;
 	public NakedResponsibilityDefinitionImpl(INakedInstanceSpecification stereotype){
 		this.stereotype = stereotype;
 		this.id = stereotype.getId();
+		super.mappingInfo = stereotype.getMappingInfo().getCopy();
 	}
 	@Override
 	public INakedValueSpecification getPotentialOwners(){
@@ -29,6 +34,16 @@ public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implemen
 	public INakedValueSpecification getPotentialBusinessAdministrators(){
 		INakedValueSpecification v = stereotype.getFirstValueFor("potentialBusinessAdministrators");
 		return v == null ? null : (INakedValueSpecification) v.getValue();
+	}
+	@Override
+	public Collection<INakedElement> getOwnedElements(){
+		Set<INakedElement> result = new HashSet<INakedElement>();
+		result.add(getPotentialBusinessAdministrators());
+		result.add(getPotentialOwners());
+		result.add(getPotentialStakeholders());
+		result.addAll(getDeadlines());
+		result.remove(null);
+		return result;
 	}
 	@Override
 	public INakedValueSpecification getPotentialStakeholders(){
@@ -54,7 +69,7 @@ public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implemen
 	@Override
 	public TaskDelegation getDelegation(){
 		INakedValueSpecification v = stereotype.getFirstValueFor("delegation");
-		return v==null?null:(TaskDelegation) v.getValue();
+		return v == null ? null : (TaskDelegation) v.getValue();
 	}
 	@Override
 	public INakedClassifier getExpressionContext(){

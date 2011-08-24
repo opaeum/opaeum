@@ -18,6 +18,7 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 	private static final long serialVersionUID = 7711042727363444332L;
 	private static final String META_CLASS = "region";
 	private List<INakedState> states = new ArrayList<INakedState>();
+	private List<INakedTransition> transitions= new ArrayList<INakedTransition>();
 	private INakedState initial;
 	public NakedRegionImpl(){
 		super();
@@ -90,6 +91,8 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 		element.setOwnerElement(this);
 		if(element instanceof INakedState){
 			this.states.add((INakedState) element);
+		}else if(element instanceof INakedTransition){
+			this.transitions.add((INakedTransition) element);
 		}
 	}
 	public IRegionOwner getRegionOwner(){
@@ -116,16 +119,22 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 		}
 		return false;
 	}
-
+	@Override
+	public void removeOwnedElement(INakedElement element) {
+		super.removeOwnedElement(element);
+		if(element instanceof INakedState){
+			this.states.remove((INakedState) element);
+		}else if(element instanceof INakedTransition){
+			INakedTransition t = (INakedTransition) element;
+			t.setSource(null);
+			t.setTarget(null);
+			this.transitions.remove(t);
+			
+		}
+	};
 	@Override
 	public List<INakedTransition> getTransitions() {
-		List<INakedTransition> result=new ArrayList<INakedTransition>();
-		for(INakedTransition t:getStateMachine().getTransitions()){
-			if(t.getSource().getContainer()==this && t.getTarget().getContainer()==this){
-				result.add(t);
-			}
-		}
-		return result;
+		return transitions;
 	}
 	
 }

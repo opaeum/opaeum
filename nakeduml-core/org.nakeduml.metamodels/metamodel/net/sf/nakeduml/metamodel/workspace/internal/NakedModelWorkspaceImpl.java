@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.WorkspaceMappingInfo;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -27,32 +23,32 @@ import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
 public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
+	private static final long serialVersionUID = -825314743586339864L;
 	public static final String META_CLASS = "nakedWorkspace";
 	private NakedUmlLibrary builtInTypes;
-	private static final long serialVersionUID = -825314743586339864L;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
+	private Map<Class<? extends INakedElement>,Set<INakedElement>> elementsByMetaClass = new HashMap<Class<? extends INakedElement>,Set<INakedElement>>();
 	private INakedInterface businessRole;
 	private WorkspaceMappingInfo modelMappingInfo;
-	private Collection<INakedRootObject> children = new ArrayList<INakedRootObject>();
+	
+	private Set<INakedRootObject> children = new HashSet<INakedRootObject>();
 	private String name;
 	private IOclEngine oclEngine = new OclEngine();
 	private ErrorMap validator = new ErrorMap();
 	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
 	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
 	private String directoryName;
-	private Map<INakedElement, Set<INakedElement>> dependencies=new HashMap<INakedElement,Set<INakedElement>>();
+	private Map<INakedElement,Set<INakedElement>> dependencies = new HashMap<INakedElement,Set<INakedElement>>();
 	public NakedModelWorkspaceImpl(){
 	}
-
-	public void markDependency(INakedElement from, INakedElement to){
+	public void markDependency(INakedElement from,INakedElement to){
 		Set<INakedElement> set = getDependentElements(to);
 		set.add(from);
 	}
-
-	public Set<INakedElement > getDependentElements(INakedElement to){
+	public Set<INakedElement> getDependentElements(INakedElement to){
 		Set<INakedElement> set = this.dependencies.get(to);
-		if(set==null){
-			set=new HashSet<INakedElement>();
+		if(set == null){
+			set = new HashSet<INakedElement>();
 			this.dependencies.put(to, set);
 		}
 		return set;
@@ -64,46 +60,41 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		this.modelMappingInfo = modelMappingInfo;
 	}
 	public void putModelElement(INakedElement mw){
+		String metaClass = mw.getMetaClass();
 		if(this.allElementsByModelId.containsKey(mw.getId())){
 			INakedElement clash = this.allElementsByModelId.get(mw.getId());
-			String msg = mw.getMetaClass() + ":" + mw.getName() + " already exists:" + clash;
+			String msg = metaClass + ":" + mw.getName() + " already exists:" + clash;
 			System.out.println(msg);
-//			throw new IllegalArgumentException(msg);
+		}
+		Class<?> startClass = mw.getClass();
+		while(INakedElement.class.isAssignableFrom(startClass)){
+			for(Class<?> intf:startClass.getInterfaces()){
+				if(INakedElement.class.isAssignableFrom(intf)){
+					Set<INakedElement> set = (Set<INakedElement>) getElementsOfType((Class<? extends INakedElement>) intf);
+					set.add(mw);
+				}
+			}
+			startClass = startClass.getSuperclass();
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
 		if(mw instanceof INakedRootObject){
-			this.children.add((INakedRootObject) mw);
+			addOwnedElement((INakedRootObject) mw);
 		}
+	}
+	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> c){
+		Set<INakedElement> set = elementsByMetaClass.get(c);
+		if(set == null){
+			elementsByMetaClass.put(c, set = new HashSet<INakedElement>());
+		}
+		return (Set<T>) set;
 	}
 	public INakedElement getModelElement(Object id){
 		if(id == null){
 			return null;
 		}else{
 			return this.allElementsByModelId.get(id);
-		}
-	}
-	public Collection<? extends INakedElement> getElementsOfType(String metaClass){
-		List<INakedElement> results = new ArrayList<INakedElement>();
-		for(INakedPackage np:getGeneratingModelsOrProfiles()){
-			if(np.getMetaClass().equalsIgnoreCase(metaClass)){
-				results.add(np);
-			}
-			addAllElementsTo(metaClass, np, results);
-		}
-		return results;
-	}
-	private void addAllElementsTo(String metaClass,INakedElementOwner np,List results){
-		Iterator iter = np.getOwnedElements().iterator();
-		while(iter.hasNext()){
-			INakedElement element = (INakedElement) iter.next();
-			if(element.getMetaClass().equalsIgnoreCase(metaClass)){
-				results.add(element);
-			}
-			if(element instanceof INakedElementOwner){
-				addAllElementsTo(metaClass, element, results);
-			}
 		}
 	}
 	public Collection<INakedElement> getAllElements(){
@@ -136,6 +127,9 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		return this.name;
 	}
 	public void addOwnedElement(INakedElement element){
+		if(this.children.contains(element)){
+			this.children.remove(element);
+		}
 		this.children.add((INakedRootObject) element);
 	}
 	public NakedUmlLibrary getNakedUmlLibrary(){
@@ -175,7 +169,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	}
 	@Override
 	public void removeOwnedElement(INakedElement element){
-		//TODO remove all recursively from allElementsByModelId
+		// TODO remove all recursively from allElementsByModelId
 		this.children.remove(element);
 		this.generatingRootObjects.remove(element);
 		this.primaryRootObjects.remove(element);

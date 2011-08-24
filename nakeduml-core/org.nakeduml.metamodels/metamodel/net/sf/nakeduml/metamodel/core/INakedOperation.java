@@ -19,7 +19,6 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	boolean shouldEmulateClass();
 	boolean isLongRunning();
 	void setIsLongRunning(boolean b);
-	void setBodyCondition(INakedConstraint specification);
 	INakedConstraint getBodyCondition();
 	void initMessageStructure();
 	INakedMessageStructure getMessageStructure();

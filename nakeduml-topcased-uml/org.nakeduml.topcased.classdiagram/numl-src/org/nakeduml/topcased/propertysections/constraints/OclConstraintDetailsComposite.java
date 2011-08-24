@@ -39,11 +39,12 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;
-	private OpaqueExpressionBodyComposite oclComposite;
+	private OpaqueExpressionComposite oclComposite;
 	private TextDisplayingElements textElementChoosen;
 	private Element context = null;
 	private Text textForConstraintName;
@@ -159,19 +160,13 @@ public class OclConstraintDetailsComposite extends Composite{
 	private void createGroupOCLRule(Composite group){
 		Label l = getWidgetFactory().createLabel(group, "OCL Rule Code : ", SWT.BOLD);
 		l.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false, 3, 1));
-		oclComposite = new OpaqueExpressionBodyComposite(group, getWidgetFactory()){
+		oclComposite = new OpaqueExpressionComposite(group, getWidgetFactory()){
 			@Override
 			public void fireOclChanged(String value){
 				if(context != null && currentEditDomain != null && selectedConstraint != null && !reinit){
-					super.valueSpecificationOwner=selectedConstraint;
 					super.fireOclChanged(value);
 					constraintUpdated(selectedConstraint);
 				}
-			}
-
-			@Override
-			public EReference getValueSpecificationFeature(){
-				return UMLPackage.eINSTANCE.getConstraint_Specification();
 			}
 
 			@Override
@@ -205,7 +200,7 @@ public class OclConstraintDetailsComposite extends Composite{
 	}
 	public void setSelectedConstraint(Constraint theConstraint){
 		if(theConstraint != null){
-			oclComposite.setOclContext(theConstraint,theConstraint, (OpaqueExpression) theConstraint.getSpecification());
+			oclComposite.setOclContext(theConstraint,(OpaqueExpression) theConstraint.getSpecification());
 			selectedConstraint = theConstraint;
 			String constraintName = theConstraint.getName();
 			if(constraintName == null){

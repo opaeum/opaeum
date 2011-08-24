@@ -84,18 +84,8 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		nakedHandler.setExceptionTypes(nakedTypes);
 	}
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
-		INakedValueSpecification guard = getValueSpecification(nae, ae.getGuard(), OclUsageType.BODY);
-		if(guard != null){
-			nae.setGuard(guard);
-			guard.setType(getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
-		}
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
-		INakedValueSpecification weight = getValueSpecification(nae, ae.getWeight(), OclUsageType.BODY);
-		if(weight != null){
-			weight.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
-			nae.setWeight(weight);
-		}
 	}
 	/**
 	 * Interim solution to ensure that a node is always guarranteed. If none is found to be built yet, this method creates an opaqy action

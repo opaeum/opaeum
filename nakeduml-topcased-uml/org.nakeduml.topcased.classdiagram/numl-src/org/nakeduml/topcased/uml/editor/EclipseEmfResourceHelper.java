@@ -3,6 +3,7 @@ package org.nakeduml.topcased.uml.editor;
 import java.io.File;
 import java.util.UUID;
 
+import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.emf.workspace.EmfResourceHelper;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -44,33 +45,41 @@ public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 		if(umlElement instanceof EmfWorkspace){
 			return ((EmfWorkspace) umlElement).getName();
 		}else{
-			if(umlElement.eResource() == null){
-				return umlElement.hashCode() + "";
-			} 
 			String uid = null;
-			EAnnotation ann = null;
-			if(!ResourceUtils.isReadOnly(umlElement.eResource())){
-				ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
-				if(ann == null && umlElement instanceof Element){
-					ann = ((Element) umlElement).createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+			if(umlElement.eResource() != null && ResourceUtils.isReadOnly(umlElement.eResource())){
+				EAnnotation ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+				if(ann != null && ann.getDetails().containsKey("uuid")){
+					uid = ann.getDetails().get("uuid");
+				}else{
+					Resource eResource = umlElement.eResource();
+					URI uri = eResource.getURI();
+					uid = uri.lastSegment() + eResource.getURIFragment(umlElement);
 				}
-			}
-			if(ann == null){
-				// not in editable resource,but the filename and fragment would be stable and unique
-				Resource eResource = umlElement.eResource();
-				URI uri = eResource.getURI();
-				uid = uri.lastSegment() + eResource.getURIFragment(umlElement);
 			}else{
-				uid = ann.getDetails().get("uuid");
-				if(uid == null){
-					char[] a = UUID.randomUUID().toString().toCharArray();
-					for(int i = 0;i < a.length;i++){
-						if(!Character.isJavaIdentifierPart(a[i])){
-							a[i] = '_';
-						}
+				EAnnotation ann = umlElement.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+				if(ann == null){
+					if(umlElement.eResource() == null){
+						uid = umlElement.hashCode() + "";
+					}else if(umlElement instanceof Element){
+						ann = StereotypesHelper.getNumlAnnotation((Element) umlElement);
+					}else{
+						Resource eResource = umlElement.eResource();
+						URI uri = eResource.getURI();
+						uid = uri.lastSegment() + eResource.getURIFragment(umlElement);
 					}
-					uid = new String(a);
-					ann.getDetails().put("uuid", uid);
+				}
+				if(uid == null){
+					uid = ann.getDetails().get("uuid");
+					if(uid == null){
+						char[] a = UUID.randomUUID().toString().toCharArray();
+						for(int i = 0;i < a.length;i++){
+							if(!Character.isJavaIdentifierPart(a[i])){
+								a[i] = '_';
+							}
+						}
+						uid = new String(a);
+						ann.getDetails().put("uuid", uid);
+					}
 				}
 			}
 			return uid;

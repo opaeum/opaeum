@@ -9,4 +9,7 @@ import net.sf.nakeduml.metamodel.core.INakedValueType;
  */
 public class NakedValueTypeImpl extends NakedSimpleDataTypeImpl implements INakedValueType{
 	private static final long serialVersionUID = -7145152831022832129L;
+	public String getMetaClass(){
+		return INakedValueType.META_CLASS;
+	}
 }

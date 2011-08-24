@@ -109,7 +109,7 @@ public class OperationCallCreator {
 				result = source + " /* no implementation of oclIsNew available */ ";
 			} else if (referedOp.getName().equals("oclIsUndefined")) {	// on OclAny
 				result = buildIsUndefined(exp, source, args);
-			} else if (referedOp.getName().equals("oclInState")){		// on OclAny
+			} else if (referedOp.getName().equals("oclInState") || referedOp.getName().equals("oclIsInState")){		// on OclAny
 				result = buildOclInState(exp, source, args);
 			} else if (referedOp.getName().equals("oclIsKindOf")) {		// on OclAny
 				result = buildIsKindOf(exp, source, args);

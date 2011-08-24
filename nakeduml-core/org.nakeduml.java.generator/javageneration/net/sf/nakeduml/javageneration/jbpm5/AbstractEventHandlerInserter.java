@@ -42,6 +42,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.AbstractSignal;
+import org.nakeduml.runtime.domain.IActiveObject;
 
 public abstract class AbstractEventHandlerInserter extends AbstractJavaProducingVisitor{
 	private static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
@@ -158,6 +159,15 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 	 */
 	private void insertEventHandlerCalls(OJAnnotatedClass behaviorClass,INakedTriggerContainer behavior){
 		OJAnnotatedOperation processSignal = ensureProcessSignalPresent(behaviorClass);
+		List<OJStatement> statements = processSignal.getBody().getStatements();
+		if(statements.size()>0 && statements.get(statements.size()-1) instanceof OJSimpleStatement){
+			//Append event handling. Remember this behavior could ba context for another thus resulting in 
+			// the presence of a populated processSignal
+			OJSimpleStatement ojSimpleStatement = (OJSimpleStatement)statements.get(statements.size()-1);
+			if(ojSimpleStatement.getExpression().equals("return false")){
+				processSignal.getBody().removeFromStatements(ojSimpleStatement);
+			}
+		}
 		for(INakedElement element:behavior.getAllMessageTriggers()){
 			if(element instanceof INakedSignal){
 				INakedSignal signal = (INakedSignal) element;
@@ -175,9 +185,10 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 				OJOperation copy = processSignal.getDeepCopy();
 				context.addToOperations(copy);
 				copy.getBody().addToStatements("return false");
+				context.addToImplementedInterfaces(new OJPathName(IActiveObject.class.getName()));
 			}else{
 				List<OJStatement> toStatements = parentProcessSignal.getBody().getStatements();
-				List<OJStatement> fromStatements = processSignal.getBody().getStatements();
+				List<OJStatement> fromStatements = statements;
 				for(OJStatement ojStatement:fromStatements){
 					toStatements.add(toStatements.size() - 1, ojStatement);
 				}
@@ -191,8 +202,8 @@ public abstract class AbstractEventHandlerInserter extends AbstractJavaProducing
 			processSignal = new OJAnnotatedOperation("processSignal", new OJPathName("boolean"));
 			processSignal.addParam("signal", new OJPathName(AbstractSignal.class.getName()));
 			behaviorClass.addToOperations(processSignal);
+			behaviorClass.addToImplementedInterfaces(new OJPathName(IActiveObject.class.getName()));
 		}
-		processSignal.setBody(new OJBlock());
 		return processSignal;
 	}
 	private void insertSignalCallInProcessSignal(OJAnnotatedOperation processSignal,INakedSignal signal){

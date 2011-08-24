@@ -12,14 +12,17 @@ import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
+import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
+import net.sf.nakeduml.metamodel.core.INakedValueType;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
@@ -65,7 +68,26 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	@Override
 	public void visitRecursively(INakedElementOwner o){
 		recalculateUtilityPackage(o);
-		super.visitRecursively(o);
+		if(o instanceof INakedModelWorkspace){
+			super.visitRecursively(o);
+		}else if(o instanceof INakedRootObject){
+			visitOnly(currentRootObject);
+			visit(methodInvokers.beforeMethods);
+			visit(methodInvokers.afterMethods);
+		}
+	}
+	protected void visit(List<VisitSpec> visitBefore){
+		for(VisitSpec v:visitBefore){
+			for(Class<?> class1:v.getClassesToMatch()){
+				for(INakedElement iNakedElement:(Set<? extends INakedElement>) this.workspace.getElementsOfType((Class<? extends INakedElement>) class1)){
+					if(currentRootObject.equals(iNakedElement.getRootObject())){
+						v.visit(this, new Object[]{
+							iNakedElement
+						});
+					}
+				}
+			}
+		}
 	}
 	private void recalculateUtilityPackage(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
@@ -87,7 +109,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		if(o instanceof INakedModelWorkspace){
 			recalculateUtilityPackage(o);
 		}else{
-			recalculateUtilityPackage(((INakedElement)o).getRootObject());
+			recalculateUtilityPackage(((INakedElement) o).getRootObject());
 		}
 		super.visitOnly(o);
 	}
@@ -245,5 +267,20 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	}
 	protected boolean isIntegrationPhase(){
 		return transformationContext.isIntegrationPhase();
+	}
+	protected <T extends INakedElement>Set<T> getElementsOfTypeInScope(Class<T> c){
+		if(isIntegrationPhase()){
+			return new HashSet<T>((Collection<? extends T>) workspace.getElementsOfType(c));
+		}else{
+			Collection<INakedRootObject> deps = currentRootObject.getAllDependencies();
+			Collection<T> elements = (Collection<T>) workspace.getElementsOfType(c);
+			HashSet<T> result = new HashSet<T>(elements);
+			for(INakedElement st:elements){
+				if(!deps.contains(st.getNakedRoot())){
+					result.remove(st);
+				}
+			}
+			return result;
+		}
 	}
 }

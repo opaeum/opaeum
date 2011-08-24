@@ -12,6 +12,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
@@ -35,8 +36,16 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	public void visitClass(INakedStateMachine c){
 		boolean hasStateComposition = hasStateComposition(c);
 		buildOJEnum(c, hasStateComposition);
-		for(INakedState s:c.getAllStates()){
-			state(s);
+		List<INakedRegion> regions = c.getRegions();
+		regions(regions);
+	}
+	private void regions(List<INakedRegion> regions){
+		for(INakedRegion r:regions){
+			List<INakedState> states = r.getStates();
+			for(INakedState s:states){
+				state(s);
+				regions(s.getRegions());
+			}
 		}
 	}
 	private boolean hasStateComposition(INakedStateMachine sm){

@@ -54,6 +54,7 @@ public class NakedAcceptEventActionImpl extends NakedActionImpl implements INake
 		return new ArrayList<INakedOutputPin>(this.getResult());
 	}
 	public void setResult(List<INakedOutputPin> result){
+		removePins(this.result);
 		this.result = result;
 	}
 	public List getParameters(){

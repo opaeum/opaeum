@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -16,8 +15,8 @@ import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.compositestructures.INakedCollaboration;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
@@ -27,15 +26,11 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
+import net.sf.nakeduml.metamodel.usecases.INakedActor;
+import net.sf.nakeduml.metamodel.usecases.INakedUseCase;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import net.sf.nakeduml.validation.namegeneration.AbstractJavaNameGenerator;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-import nl.klasse.octopus.model.IAssociationClass;
-import nl.klasse.octopus.model.IAssociationEnd;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.ICollectionType;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-import nl.klasse.tools.common.StringHelpers;
 
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.java.metamodel.OJBlock;
@@ -66,6 +61,7 @@ public class OJUtil{
 		BUILT_IN_ATTRIBUTES.add("currentUser");
 		BUILT_IN_ATTRIBUTES.add("today");
 	}
+	private static Map<INakedTypedElement,NakedStructuralFeatureMap> locallyUniqueFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
 	private static Map<INakedTypedElement,NakedStructuralFeatureMap> structuralFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
 	private static Map<IActionWithTargetElement,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<IActionWithTargetElement,NakedStructuralFeatureMap>();
 	public static boolean isBuiltIn(INakedTypedElement f){
@@ -99,55 +95,6 @@ public class OJUtil{
 			structuralFeatureMaps.put(sf, map);
 		}
 		return map;
-	}
-	public static NakedStructuralFeatureMap buildAssociationClassMap(INakedProperty sf,IOclLibrary l){
-		INakedAssociationClass ac = (INakedAssociationClass) sf.getAssociation();
-		class NakedAssociationClassPropertyMap extends NakedStructuralFeatureMap{
-			private INakedAssociationClass assocClass;
-			public NakedAssociationClassPropertyMap(INakedProperty sf,INakedAssociationClass baseType,IClassifier type){
-				super(sf);
-				this.assocClass = baseType;
-				baseTypeMap = new NakedClassifierMap(baseType);
-				featureTypeMap = new NakedClassifierMap(type);
-			}
-			public String umlName(){
-				return buildAssocEndName(assocClass, getProperty());
-			}
-			protected boolean otherEndIsOne(){
-				return true;
-			}
-			public String getter(){
-				String name = buildAssocEndName(assocClass, getProperty());
-				return "get" + StringHelpers.firstCharToUpper(name);
-			}
-			public String setter(){
-				String name = buildAssocEndName(assocClass, getProperty());
-				return "set" + StringHelpers.firstCharToUpper(name);
-			}
-			public String adder(){
-				String name = buildAssocEndName(assocClass, getProperty());
-				return "z_internalAddTo" + StringHelpers.firstCharToUpper(name);
-			}
-			public String remover(){
-				String name = buildAssocEndName(assocClass, getProperty());
-				return "z_internalRemoveFrom" + StringHelpers.firstCharToUpper(name);
-			}
-			public String buildAssocEndName(IAssociationClass assoc,INakedProperty end){
-				String name = assoc.getName();
-				IAssociationEnd otherEnd = assoc.getOtherEnd(end);
-				boolean useNameExtension = (end.getNakedBaseType() == otherEnd.getBaseType());
-				if(useNameExtension){
-					name = assoc.getName() + "_" + otherEnd.getName();
-				}
-				return name;
-			}
-		}
-		;
-		if(sf.getType() instanceof ICollectionType){
-			return new NakedAssociationClassPropertyMap(sf, ac, l.lookupCollectionType(((ICollectionType) sf.getType()).getMetaType(), ac));
-		}else{
-			return new NakedAssociationClassPropertyMap(sf, ac, ac);
-		}
 	}
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,NakedUmlLibrary lib){
 		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
@@ -226,7 +173,7 @@ public class OJUtil{
 		ojClass.addToOperations(get);
 		if(withBody){
 			set.getBody().addToStatements("this." + name + "=" + name);
-			get.getBody().addToStatements("return " + name);
+			get.getBody().addToStatements("return this." + name);
 			OJAnnotatedField field = new OJAnnotatedField(name, type);
 			((OJClass) ojClass).addToFields(field);
 			return field;
@@ -264,7 +211,7 @@ public class OJUtil{
 	 * 
 	 */
 	public static boolean hasOJClass(INakedClassifier c){
-		if(c == null){
+		if(c == null || c instanceof INakedStereotype || c instanceof INakedActor || c instanceof INakedCollaboration || c instanceof INakedUseCase){
 			return false;
 		}else if(c.isMarkedForDeletion() || c.getCodeGenerationStrategy().isNone()){
 			return false;
@@ -278,13 +225,14 @@ public class OJUtil{
 			return true;
 		}
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniqueness){
-		NakedStructuralFeatureMap map = structuralFeatureMaps.get(pin);
-		if(map == null){
-			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin));
-			structuralFeatureMaps.put(pin, map);
-		}
-		return map;
+	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniquenes){
+			Map<INakedTypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes?locallyUniqueFeatureMaps: structuralFeatureMaps;
+			NakedStructuralFeatureMap map = maps.get(pin);
+			if(map == null){
+				map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin,ensureUniquenes));
+				maps.put(pin, map);
+			}
+			return map;
 	}
 	public static void removeReturnStatement(OJOperation javaMethod){
 		Collection<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());

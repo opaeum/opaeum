@@ -35,6 +35,9 @@ public class ToStringBuilder extends StereotypeAnnotator{
 	public void visitClass(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
+			if(ojClass ==null){
+				System.out.println(c.getClass().getSimpleName() + ":" + c.getName());
+			}
 			this.buildToString(ojClass, c);
 		}
 	}

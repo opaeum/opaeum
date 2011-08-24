@@ -35,6 +35,16 @@ public class NakedActivityNodeImpl extends NakedElementImpl implements INakedAct
 	}
 
 	@Override
+	public void removeIncoming(INakedActivityEdge edge) {
+		this.incoming.remove(edge);
+	}
+
+	@Override
+	public void removeOutgoing(INakedActivityEdge edge) {
+		this.outgoing.remove(edge);
+	}
+
+	@Override
 	public String getMetaClass() {
 		return "activityNode";
 	}

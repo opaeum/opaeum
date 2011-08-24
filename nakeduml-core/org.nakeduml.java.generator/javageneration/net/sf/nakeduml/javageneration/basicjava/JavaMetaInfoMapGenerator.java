@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.StepDependency;
@@ -47,23 +48,16 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace ws){
 		if(isIntegrationPhase()){
-			ClassCollector classCollector = new ClassCollector();
-			classCollector.startVisiting(ws);
-			createMapClass(UtilityCreator.getUtilPathName().append("metainfo"), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, classCollector.classes);
+			Set<INakedClassifier> classifiers = getElementsOfTypeInScope(INakedClassifier.class);
+			createMapClass(UtilityCreator.getUtilPathName().append("metainfo"), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, classifiers);
 		}
 	}
 	@VisitBefore
 	public void visitModel(INakedModel m){
 		if(!isIntegrationPhase()){
-			ClassCollector collector = new ClassCollector();
-			for(INakedElement e:getModelInScope()){
-				if(e instanceof INakedModel){
-					INakedModel model = (INakedModel) e;
-					collector.visitRecursively(model);
-				}
-			}
-			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("domain"), JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, collector.classes);
-			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("adaptor"), JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, collector.classes);
+			Set<INakedClassifier> classifiers = getElementsOfTypeInScope(INakedClassifier.class);
+			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("domain"), JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, classifiers);
+			createMapClass(UtilityCreator.getUtilPathName().append("metainfo").append("adaptor"), JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, classifiers);
 		}
 	}
 	protected void createMapClass(OJPathName metaInfoPackage,JavaSourceFolderIdentifier output,Collection<INakedClassifier> cls){
@@ -77,11 +71,13 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		mapClass.addToConstructors(constr);
 		OJBlock initBlock = constr.getBody();
 		for(INakedClassifier c:cls){
-			MappingInfo ci = c.getMappingInfo();
-			initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\"" + ci.getIdInModel() + "\"," + ci.getNakedUmlId() + ")");
-			for(IOperation o:c.getOperations()){
-				MappingInfo mi = ((INakedOperation) o).getMappingInfo();
-				initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getNakedUmlId() + ")");
+			if(isPersistent(c) || c instanceof INakedEnumeration || c instanceof INakedSignal || c instanceof INakedInterface){
+				MappingInfo ci = c.getMappingInfo();
+				initBlock.addToStatements("putClass(" + ci.getQualifiedJavaName() + ".class,\"" + ci.getIdInModel() + "\"," + ci.getNakedUmlId() + ")");
+				for(IOperation o:c.getOperations()){
+					MappingInfo mi = ((INakedOperation) o).getMappingInfo();
+					initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getNakedUmlId() + ")");
+				}
 			}
 		}
 	}

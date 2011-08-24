@@ -52,13 +52,17 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 		NakedInterfaceRealizationImpl t = new NakedInterfaceRealizationImpl();
 		t.setContract(in);
 		t.setImplementingClassifier(this);
-		t.initialize(getId() + in.getId(), "adsf", false);
+		t.setMappingInfo(in.getMappingInfo().getCopy());
+		t.getMappingInfo().setIdInModel(getId() + in.getId());
+		t.initialize(getId() + in.getId(), "artificalRealization", false);
 		addInterfaceRealization(t);
 	}
 	protected void addSuperclass(INakedClassifier in){
 		NakedGeneralizationImpl t = new NakedGeneralizationImpl();
 		t.setParentAndChild(in, this);
-		t.initialize(getId() + in.getId(), "adsf", false);
+		t.setMappingInfo(in.getMappingInfo().getCopy());
+		t.getMappingInfo().setIdInModel(getId() + in.getId());
+		t.initialize(getId() + in.getId(), "artificalGeneralization", false);
 		generalizations.add(t);
 	}
 	public List<IClassifier> getGeneralizations(){

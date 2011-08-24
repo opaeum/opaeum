@@ -309,7 +309,7 @@
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_UA6DaY6TEeCne5ArYLDbiA" id="stereotypeEdgeObject" offset="0,-10"/>
     </contained>
   </diagrams>
-  <diagrams xmi:id="_ViTvQI6UEeCne5ArYLDbiA" position="0,0" size="100,100" name="TaskRequest" viewport="0,15">
+  <diagrams xmi:id="_ViTvQI6UEeCne5ArYLDbiA" position="0,0" size="100,100" name="TaskRequest" viewport="0,42">
     <property xmi:id="_Vjxu4I6UEeCne5ArYLDbiA" key="pageFormatName" value="A4"/>
     <property xmi:id="_Vjxu4Y6UEeCne5ArYLDbiA" key="diagramWidth" value="840"/>
     <property xmi:id="_Vjxu4o6UEeCne5ArYLDbiA" key="diagramHeight" value="1188"/>

@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -68,11 +69,12 @@ public class StereotypesHelper {
 	}
 
 	public static EAnnotation getNumlAnnotation(Element v){
-		EAnnotation ann = v.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
-		if(ann==null){
-			ann=v.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		for(EAnnotation eAnnotation:v.getEAnnotations()){
+			if(eAnnotation.getSource()!=null && eAnnotation.getSource().equals(StereotypeNames.NUML_ANNOTATION)){
+				return eAnnotation;
+			}
 		}
-		return ann;
+			return v.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
 	}
 
 	public static void applyStereotype(Element e1,Stereotype s){

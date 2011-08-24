@@ -43,7 +43,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.TransitionListener;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
-public class StateMachineMessageEventHandlerInserter extends AbstractEventHandlerInserter{
+public class StateMachineEventHandlerInserter extends AbstractEventHandlerInserter{
 	private OJAnnotatedClass javaStateMachine;
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(INakedStateMachine umlStateMachine){
@@ -59,6 +59,8 @@ public class StateMachineMessageEventHandlerInserter extends AbstractEventHandle
 					OJOperation fire = OJUtil.findOperation(javaStateMachine, map.getOnEntryMethod());
 					EventUtil.implementTimeEventRequest(fire, fire.getBody(), (INakedTimeEvent) wfe.getEvent());
 					OJOperation cancel = OJUtil.findOperation(javaStateMachine, map.getOnExitMethod());
+					cancel.addParam("context", Jbpm5Util.getProcessContext());
+
 					EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) wfe.getEvent(), "this");
 				}
 			}else if(wfe.getEvent() instanceof INakedEvent){
@@ -67,6 +69,7 @@ public class StateMachineMessageEventHandlerInserter extends AbstractEventHandle
 					OJOperation fire = OJUtil.findOperation(javaStateMachine, map.getOnEntryMethod());
 					EventUtil.implementChangeEventRequest(fire, (INakedChangeEvent) wfe.getEvent());
 					OJOperation cancel = OJUtil.findOperation(javaStateMachine, map.getOnExitMethod());
+					cancel.addParam("context", Jbpm5Util.getProcessContext());
 					EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) wfe.getEvent());
 				}
 			}

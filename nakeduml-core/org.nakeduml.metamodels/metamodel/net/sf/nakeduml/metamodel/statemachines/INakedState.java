@@ -21,7 +21,6 @@ public interface INakedState extends IRegionOwner,IState{
 	boolean hasEnclosingState();
 	INakedState getEnclosingState();
 	INakedClassifier getOwner();
-	PathName getStatePath();
 	void setKind(StateKind kind);
 	INakedBehavior getDoActivity();
 	void setDoActivity(INakedBehavior doActivity);
@@ -40,4 +39,8 @@ public interface INakedState extends IRegionOwner,IState{
 	 * @return
 	 */
 	Collection<INakedTransition> getTimeTriggerTransitions();
+	void removeFromOutgoing(INakedTransition nakedTransitionImpl);
+	void addToOutgoing(INakedTransition nakedTransitionImpl);
+	void removeFromIncoming(INakedTransition nakedTransitionImpl);
+	void addToIncoming(INakedTransition nakedTransitionImpl);
 }

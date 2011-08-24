@@ -76,19 +76,13 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavioredClassifier(INakedBehavioredClassifier owner){
-		if(OJUtil.hasOJClass(owner)){
+	public void visitClassifier(INakedClassifier owner){
+		if(OJUtil.hasOJClass(owner) && !(owner instanceof INakedInterface)){
 			for(INakedOperation oper:owner.getEffectiveOperations()){
 				if(oper.getOwner() instanceof INakedInterface || oper.getOwner() == owner){
 					processOperation(oper, owner);
 				}
 			}
-		}
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitDataType(INakedDataType owner){
-		for(IOperation oper:owner.getOperations()){
-			processOperation((INakedOperation) oper, owner);
 		}
 	}
 	private void processOperation(INakedOperation oper,INakedClassifier owner){

@@ -6,6 +6,7 @@ import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -29,19 +30,23 @@ public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 		return getTransition().getGuard();
 	}
 	@Override
-	protected NamedElement beforeOclChanged(String text){
+	protected OpaqueExpression beforeOclChanged(String text){
 		if(OclBodyComposite.containsExpression(text)){
 			if(getTransition().getGuard() == null){
-				Constraint createConstraint = UMLFactory.eINSTANCE.createConstraint();
-				createConstraint.setName(getTransition().getName() + "Guard");
-				Command command = SetCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getTransition_Guard(), createConstraint);
+				Constraint guard = UMLFactory.eINSTANCE.createConstraint();
+				guard.setName(getTransition().getName() + "Guard");
+				OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+				guard.setSpecification(oe);
+				oe.setName(guard.getName()+"Specification");
+				Command command = SetCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getTransition_Guard(), guard);
 				getEditingDomain().getCommandStack().execute(command);
 			}
 		}else if(getTransition().getGuard() != null){
-			Command command = RemoveCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getTransition_Guard(), getTransition().getGuard());
+			Command command = RemoveCommand.create(getEditingDomain(), getTransition(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(), getTransition().getGuard());
 			getEditingDomain().getCommandStack().execute(command);
+			return null;
 		}
-		return getTransition().getGuard();
+		return (OpaqueExpression) getTransition().getGuard().getSpecification();
 	}
 	@Override
 	protected EReference getValueSpecificationFeature(){

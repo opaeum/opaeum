@@ -26,6 +26,7 @@ public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implem
 		return returnInfo;
 	}
 	public void setReturnInfo(INakedOutputPin r){
+		removeOwnedElement(this.returnInfo);
 		this.returnInfo = r;
 	}
 	@Override

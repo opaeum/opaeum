@@ -42,15 +42,21 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 	public void generateExtraConstructor(INakedEnumeration c){
 		if(!(c.getCodeGenerationStrategy().isNone())){
 			OJEnum myClass = (OJEnum) findJavaClass(c);
+			IAttribute valuesAttr = c.findClassAttribute("values");
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedProperty) valuesAttr);
 			OJOperation values = OJUtil.findOperation(myClass, "getValues");
-			if(values != null){
-				OJPathName results = new OJPathName("java.util.Set");
-				results.addToElementTypes(OJUtil.classifierPathname(c));
-				values.setReturnType(results);
-				values.getBody().removeAllFromStatements();
-				myClass.addToImports("java.util.HashSet");
-				values.getBody().addToStatements("return new HashSet<" + c.getName() + ">(java.util.Arrays.asList(values()))");
+			//TODO find out why the getter is not generated
+			if(values == null){
+				values = new OJAnnotatedOperation("getValues", map.javaTypePath());
+				myClass.addToOperations(values);
 			}
+			values.setStatic(true);
+			OJPathName results = new OJPathName("java.util.Set");
+			results.addToElementTypes(OJUtil.classifierPathname(c));
+			values.setReturnType(results);
+			values.getBody().removeAllFromStatements();
+			myClass.addToImports("java.util.HashSet");
+			values.getBody().addToStatements("return new HashSet<" + c.getName() + ">(java.util.Arrays.asList(values()))");
 			OJConstructor constr = new OJConstructor();
 			myClass.addToConstructors(constr);
 			constr.setVisibility(OJVisibilityKindGEN.PRIVATE);
@@ -78,16 +84,16 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		OJEnum myClass = (OJEnum) findJavaClass(c);
 		// Does lookups on arbitrary string properties
 		List<? extends INakedProperty> allAttributes = c.getEffectiveAttributes();
-		for(INakedProperty iNakedProperty:allAttributes){
-			if(iNakedProperty.getType().getName().equals("String") && iNakedProperty.getNakedMultiplicity().isOne() && !iNakedProperty.isDerived()){
+		for(INakedProperty prop:allAttributes){
+			if(prop.getType().getName().equals("String") && prop.getNakedMultiplicity().isOne() && !prop.isDerived()){
 				// TODO support for other types??
-				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + iNakedProperty.getMappingInfo().getJavaName().getCapped());
+				OJAnnotatedOperation staticOp = new OJAnnotatedOperation("from" + prop.getMappingInfo().getJavaName().getCapped());
 				staticOp.setStatic(true);
 				OJPathName path = OJUtil.classifierPathname(c);
 				staticOp.setReturnType(path);
 				OJParameter ojParameter = new OJParameter();
-				ojParameter.setName(iNakedProperty.getName());
-				ojParameter.setType(OJUtil.classifierPathname(iNakedProperty.getNakedBaseType()));
+				ojParameter.setName(prop.getName());
+				ojParameter.setType(OJUtil.classifierPathname(prop.getNakedBaseType()));
 				staticOp.addToParameters(ojParameter);
 				List<IEnumLiteral> literals = c.getLiterals();
 				for(IEnumLiteral iEnumLiteral:literals){
@@ -95,8 +101,8 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					NakedEnumerationLiteralImpl nakedLiteral = (NakedEnumerationLiteralImpl) iEnumLiteral;
 					List<INakedSlot> slots = nakedLiteral.getSlots();
 					for(INakedSlot nakedSlot:slots){
-						if(nakedSlot.getDefiningFeature().equals(iNakedProperty)){
-							ifSPS.setCondition(iNakedProperty.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), true)
+						if(nakedSlot.getDefiningFeature().equals(prop)){
+							ifSPS.setCondition(prop.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), prop.getType(),true)
 									+ ")");
 							ifSPS.addToThenPart("return " + iEnumLiteral.getName().toUpperCase());
 							break;

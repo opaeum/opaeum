@@ -38,6 +38,7 @@ import javassist.NotFoundException;
  *            This it the class of the root node of the tree.
  */
 public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
+	static Map<Class<?>,MethodInvokers> metaInfoMap = new HashMap<Class<?>,VisitorAdapter.MethodInvokers>();
 	private static final class EclipseClassPath implements ClassPath{
 		Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
 		@Override
@@ -72,8 +73,10 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		}
 	}
 	static volatile int classCount = 0;
-	protected List<VisitSpec> beforeMethods = new ArrayList<VisitSpec>();
-	protected List<VisitSpec> afterMethods = new ArrayList<VisitSpec>();
+	protected static class MethodInvokers{
+		public List<VisitSpec> beforeMethods = new ArrayList<VisitSpec>();
+		public List<VisitSpec> afterMethods = new ArrayList<VisitSpec>();
+	}
 	ClassPool pool = new ClassPool(null){
 		@Override
 		public ClassLoader getClassLoader(){
@@ -81,26 +84,32 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		}
 	};
 	private static EclipseClassPath cp = new EclipseClassPath();
+	protected MethodInvokers methodInvokers;
 	protected VisitorAdapter(){
 		pool.appendSystemPath();
 		pool.appendClassPath(cp);
-		loadMethodsFromClass((Class<? extends VisitorAdapter<NODE,ROOT>>) getClass());
+		methodInvokers = loadMethodsFromClass((Class<? extends VisitorAdapter<NODE,ROOT>>) getClass());
 	}
-	protected void loadMethodsFromClass(Class<? extends VisitorAdapter<NODE,ROOT>> class1){
-		Method[] methods = class1.getMethods();
-		for(Method m:methods){
-			if(m.isAnnotationPresent(VisitBefore.class)){
-				VisitSpec newInstance = buildVisitSpec(m, true);
-				beforeMethods.add(newInstance);
+	protected MethodInvokers loadMethodsFromClass(Class<? extends VisitorAdapter<NODE,ROOT>> class1){
+		MethodInvokers result = metaInfoMap.get(getClass());
+		if(result == null){
+			result = new MethodInvokers();
+			Method[] methods = class1.getMethods();
+			for(Method m:methods){
+				if(m.isAnnotationPresent(VisitBefore.class)){
+					VisitSpec newInstance = buildVisitSpec(m, true);
+					result.beforeMethods.add(newInstance);
+				}
+				if(m.isAnnotationPresent(VisitAfter.class)){
+					VisitSpec newInstance = buildVisitSpec(m, false);
+					result.afterMethods.add(newInstance);
+				}
 			}
-			if(m.isAnnotationPresent(VisitAfter.class)){
-				VisitSpec newInstance = buildVisitSpec(m, false);
-				afterMethods.add(newInstance);
-			}
+			metaInfoMap.put(getClass(), result);
 		}
+		return result;
 	}
-	public VisitSpec buildVisitSpec(Method m,boolean before){
-		// return new VisitSpec(m,before);
+	private VisitSpec buildVisitSpec(Method m,boolean before){
 		try{
 			cp.addClass(getClass());
 			cp.addClass(m.getParameterTypes()[0]);
@@ -152,22 +161,22 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		visitRecursively(root);
 	}
 	public void visitOnly(NODE o){
-		for(VisitSpec v:beforeMethods){
+		for(VisitSpec v:methodInvokers. beforeMethods){
 			maybeVisit(o, v);
 		}
-		for(VisitSpec v:afterMethods){
+		for(VisitSpec v:methodInvokers.afterMethods){
 			maybeVisit(o, v);
 		}
 	}
 	public void visitRecursively(NODE o){
-		for(VisitSpec v:beforeMethods){
+		for(VisitSpec v:methodInvokers.beforeMethods){
 			maybeVisit(o, v);
 		}
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
 		for(NODE child:children){
 			visitRecursively(child);
 		}
-		for(VisitSpec v:afterMethods){
+		for(VisitSpec v:methodInvokers.afterMethods){
 			maybeVisit(o, v);
 		}
 	}

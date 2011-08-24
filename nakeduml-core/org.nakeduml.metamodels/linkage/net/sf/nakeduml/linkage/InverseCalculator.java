@@ -15,7 +15,7 @@ public class InverseCalculator extends AbstractModelElementLinker {
 	public void calculateInverse(INakedProperty p) {
 		//TODO remove dependency on NakedStructuralFeatureMap here
 		Boolean inverse = false;
-		if (p.getOtherEnd() == null) {
+		if (p.getOtherEnd() == null || !p.getOtherEnd().isNavigable()) {
 			inverse = false;
 		} else {
 			if (PropertyUtil.isManyToOne(p)) {

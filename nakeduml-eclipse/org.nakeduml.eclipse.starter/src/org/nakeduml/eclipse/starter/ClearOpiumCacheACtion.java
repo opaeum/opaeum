@@ -30,6 +30,7 @@ public class ClearOpiumCacheACtion extends AbstractOpiumAction{
 		NakedUmlEclipseContext ne = NakedUmlEditor.getNakedUmlEclipseContextFor(umlDir);
 		ne.reinitialize(cfg);
 		TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);
+		System.gc();
 		if(process != null){
 			JavaTransformationProcessManager.reinitializeProcess(process, cfg, ne);
 		}

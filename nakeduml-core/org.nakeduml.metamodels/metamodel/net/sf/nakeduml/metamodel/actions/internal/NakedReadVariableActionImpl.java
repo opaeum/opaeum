@@ -28,6 +28,7 @@ public class NakedReadVariableActionImpl extends NakedVariableActionImpl impleme
 	}
 
 	public void setResult(INakedOutputPin result) {
+		removeOwnedElement(this.result);
 		this.result = result;
 	}
 }

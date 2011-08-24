@@ -94,7 +94,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 	public void visitModel(INakedModel model){
 		if(!transformationContext.isIntegrationPhase()){
 			String hibernateConfigName = model.getIdentifier() + "-hibernate.cfg.xml";
-			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getDependencies());
+			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getAllDependencies());
 			selfAndDependencies.add(model);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE, false);
 			generateConfigAndEnvironment(selfAndDependencies, hibernateConfigName, TextSourceFolderIdentifier.ADAPTOR_GEN_TEST_RESOURCE, true);

@@ -8,10 +8,13 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
+import net.sf.nakeduml.metamodel.core.INakedHelper;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -41,6 +44,13 @@ public class AbstractEntityImplementor extends AbstractStructureVisitor{
 	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(IPersistentObject.class.getName());
 	@VisitBefore
 	public void visitModel(INakedModel p){
+	}
+	@VisitBefore(matchSubclasses = false)
+	public void visitInterface(INakedInterface a){
+		if(OJUtil.hasOJClass(a) && !(a instanceof INakedHelper || a.hasStereotype(StereotypeNames.HELPER))){
+			OJAnnotatedInterface asdf = (OJAnnotatedInterface) findJavaClass(a);
+			asdf.addToSuperInterfaces(new OJPathName(IPersistentObject.class.getName()));
+		}
 	}
 	private void visitClass(INakedClassifier c){
 		OJClassifier ojClassifier = super.findJavaClass(c);

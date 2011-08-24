@@ -1,8 +1,7 @@
 package org.nakeduml.java.metamodel;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 import org.nakeduml.java.metamodel.generated.OJClassGEN;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
@@ -44,7 +43,7 @@ public class OJClass extends OJClassGEN {
 	
 	protected void copyDeepInfoInto(OJClass copy) {
 		super.copyDeepInfoInto(copy);
-		Set<OJConstructor> constructors = getConstructors();
+		Collection<OJConstructor> constructors = getConstructors();
 		for (OJConstructor ojConstructor : constructors) {
 			OJConstructor copyConstructor = ojConstructor.getDeepConstructorCopy();
 			copyConstructor.setReturnType(copy.getPathName());
@@ -54,7 +53,7 @@ public class OJClass extends OJClassGEN {
 			OJPathName superClassCopy = getSuperclass().getDeepCopy();
 			copy.setSuperclass(superClassCopy);
 		}
-		Set<OJField> fields = getFields();
+		Collection<OJField> fields = getFields();
 		for (OJField ojField : fields) {
 			OJField ojFieldCopy = (OJField)ojField.getDeepCopy();
 			ojFieldCopy.setOwner(copy);

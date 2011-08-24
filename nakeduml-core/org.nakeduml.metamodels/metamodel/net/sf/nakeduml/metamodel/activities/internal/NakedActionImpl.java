@@ -1,30 +1,45 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.oclengine.IOclContext;
 
-public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction {
-
+public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction{
 	private static final long serialVersionUID = 2697132216413111920L;
 	public static final String META_CLASS = "action";
-	private Collection<INakedConstraint> preConditions = new ArrayList<INakedConstraint>();
-	private Collection<INakedConstraint> postConditions = new ArrayList<INakedConstraint>();
+	private Collection<INakedConstraint> preConditions = new HashSet<INakedConstraint>();
+	private Collection<INakedConstraint> postConditions = new HashSet<INakedConstraint>();
 	@Override
 	public boolean isLongRunning(){
 		return false;
 	}
-
-
+	@Override
+	public void addOwnedElement(INakedElement element){
+		super.addOwnedElement(element);
+		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification()!=null){
+			INakedConstraint cnstr = (INakedConstraint) element;
+			IOclContext oc = cnstr.getSpecification().getOclValue();
+			if(oc.getType().equals(OclUsageType.PRE)){
+				preConditions.remove(cnstr);
+				preConditions.add(cnstr);
+			}else{
+				preConditions.remove(cnstr);
+				preConditions.add(cnstr);
+			}
+		}
+	};
 	@Override
 	public Collection<INakedElement> getOwnedElements(){
 		Collection<INakedElement> ownedElements = super.getOwnedElements();
@@ -33,28 +48,28 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 		return ownedElements;
 	}
 	@Override
-	public String getMetaClass() {
+	public String getMetaClass(){
 		return "action";
 	}
 	public boolean handlesException(){
-		for (INakedInputPin pin : getInput()) {
-			if(pin.getIncomingExceptionHandler()!=null){
+		for(INakedInputPin pin:getInput()){
+			if(pin.getIncomingExceptionHandler() != null){
 				return true;
 			}
 		}
 		return false;
 	}
 	@Override
-	public boolean isImplicitFork() {
-		if (super.isImplicitFork()) {
+	public boolean isImplicitFork(){
+		if(super.isImplicitFork()){
 			return true;
-		} else {
+		}else{
 			int pinOutputCount = 0;
-			for (INakedOutputPin outputPin : getOutput()) {
+			for(INakedOutputPin outputPin:getOutput()){
 				// exceptions are not implicit forks
-				if (!outputPin.isException() && outputPin.getOutgoing().size() > 0) {
+				if(!outputPin.isException() && outputPin.getOutgoing().size() > 0){
 					pinOutputCount++;
-					if (pinOutputCount > 1) {
+					if(pinOutputCount > 1){
 						return true;
 					}
 				}
@@ -62,69 +77,55 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 			return false;
 		}
 	}
-
-	public boolean hasExceptions() {
-		if (super.hasExceptions()) {
+	public boolean hasExceptions(){
+		if(super.hasExceptions()){
 			return true;
 		}
 		Collection<INakedOutputPin> output = getOutput();
-		for (INakedOutputPin pin : output) {
-			if (pin.isException() && pin.getOutgoing().size() > 0) {
+		for(INakedOutputPin pin:output){
+			if(pin.isException() && pin.getOutgoing().size() > 0){
 				return true;
 			}
 		}
 		return false;
 	}
-
 	@Override
-	public Set<INakedActivityEdge> getAllEffectiveOutgoing() {
+	public Set<INakedActivityEdge> getAllEffectiveOutgoing(){
 		Set<INakedActivityEdge> result = new HashSet<INakedActivityEdge>(super.getOutgoing());
 		Collection<INakedOutputPin> output = getOutput();
-		for (INakedOutputPin out : output) {
+		for(INakedOutputPin out:output){
 			result.addAll(out.getAllEffectiveOutgoing());
 		}
 		return result;
 	}
-
 	@Override
-	public Set<INakedActivityEdge> getAllEffectiveIncoming() {
+	public Set<INakedActivityEdge> getAllEffectiveIncoming(){
 		Set<INakedActivityEdge> result = new HashSet<INakedActivityEdge>(super.getIncoming());
 		Collection<INakedInputPin> input = getInput();
-		for (INakedInputPin in : input) {
+		for(INakedInputPin in:input){
 			result.addAll(in.getAllEffectiveIncoming());
 		}
 		return result;
 	}
-
-	public Collection<INakedConstraint> getPostConditions() {
+	public Collection<INakedConstraint> getPostConditions(){
 		return this.postConditions;
 	}
-
-	public Collection<INakedConstraint> getPreConditions() {
+	public Collection<INakedConstraint> getPreConditions(){
 		return this.preConditions;
 	}
-
-	public void addPostCondition(INakedConstraint postCondition) {
-		this.postConditions.add(postCondition);
-	}
-
-	public void addPreCondition(INakedConstraint preCondition) {
-		this.preConditions.add(preCondition);
-	}
-
-	public INakedClassifier getContext() {
-		if (getActivity().getActivityKind().isSimpleSynchronousMethod()) {
+	public INakedClassifier getContext(){
+		if(getActivity().getActivityKind().isSimpleSynchronousMethod()){
 			return getActivity().getContext();
-		} else {
+		}else{
 			return getActivity();
 		}
 	}
-
-	public void setPostConditions(Collection<INakedConstraint> postConditions) {
-		this.postConditions = postConditions;
+	protected void removePins(List<? extends INakedPin> inputValues2){
+		if(inputValues2 != null){
+			for(INakedPin iNakedInputPin:inputValues2){
+				removeOwnedElement(iNakedInputPin);
+			}
+		}
 	}
 
-	public void setPreConditions(Collection<INakedConstraint> preConditions) {
-		this.preConditions = preConditions;
-	}
 }

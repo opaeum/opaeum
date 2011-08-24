@@ -14,37 +14,45 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.topcased.modeler.editor.outline.AdditionalResources;
 
 public class NakedUmlFilter extends ViewerFilter{
-	public static Set<EClassifier> ALLOWED_ELEMENTS = new HashSet<EClassifier>();
+	public static Set<EClassifier> DISALLOWED_CLASSES = new HashSet<EClassifier>();
+	public static Set<EClassifier> ALLOWED_CLASSES = new HashSet<EClassifier>();
 	static{
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getAssociation());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getTransition());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getActivityEdge());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getActivity());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getStateMachine());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getPackage());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getComponent());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getProperty());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getOperation());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getParameter());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getState());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getAction());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getPin());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getPort());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getRegion());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getActivityPartition());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getClass_());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getEnumeration());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getEnumerationLiteral());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getSignal());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getDataType());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getVariable());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterface());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getConstraint());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getOpaqueExpression());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInstanceSpecification());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInstanceValue());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getSlot());
-		ALLOWED_ELEMENTS.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeConstraint());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDurationConstraint());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getIntervalConstraint());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getAssociation());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTransition());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPseudostate());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getActivityEdge());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getActivity());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getStateMachine());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPackage());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getComponent());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getConnector());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getConnectorEnd());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getProperty());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getOperation());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getParameter());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getState());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getAction());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getControlNode());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPin());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPort());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getRegion());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getActivityPartition());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getClass_());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getEnumeration());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getEnumerationLiteral());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getSignal());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDataType());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getVariable());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterface());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getConstraint());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getOpaqueExpression());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInstanceSpecification());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInstanceValue());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getSlot());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
 	}
 	public boolean select(Viewer viewer,Object parentElement,Object element){
 		if(element instanceof AdditionalResources || element instanceof Resource){
@@ -53,16 +61,21 @@ public class NakedUmlFilter extends ViewerFilter{
 			if(element instanceof EAnnotation){
 				return false;
 			}else if(element instanceof Element){
-				return isAllowedElement(element);
+				return isAllowedElement((Element) element);
 			}else{
 				return true;
 			}
 		}
 		return false;
 	}
-	public static boolean isAllowedElement(Object element){
-		for(EClassifier e:ALLOWED_ELEMENTS){
+	public static boolean isAllowedElement(EObject element){
+		for(EClassifier e:ALLOWED_CLASSES){
 			if(e.isInstance(element)){
+				for(EClassifier e2:DISALLOWED_CLASSES){
+					if(e2.isInstance(element)){
+						return false;
+					}
+				}
 				return true;
 			}
 		}

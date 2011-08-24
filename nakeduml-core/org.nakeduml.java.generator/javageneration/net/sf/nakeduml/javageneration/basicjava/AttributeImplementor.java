@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
+import net.sf.nakeduml.metamodel.core.INakedHelper;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -87,11 +88,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(INakedInterface i){
-		for(INakedProperty p:i.getOwnedAttributes()){
-			visitProperty(i, OJUtil.buildStructuralFeatureMap(p));
+		if(OJUtil.hasOJClass(i)){
+			for(INakedProperty p:i.getOwnedAttributes()){
+				visitProperty(i, OJUtil.buildStructuralFeatureMap(p));
+			}
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+		if(map.umlName().toLowerCase().contains("group") && umlOwner.getName().equals("CmApplication")){
+			System.out.println();
+		}
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -205,6 +211,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = null;
 		field = buildField(owner, map);
+		if(owner.getName().equals("Neighbour_ericsson_gsm") && map.umlName().equals("representedCell")){
+			System.out.println("Here : " + owner.findField("representedCell"));
+		}
 		buildInternalAdder(owner, map);
 		if(!p.isReadOnly()){
 			buildInternalRemover(owner, map);
@@ -391,7 +400,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
+			if(map.getProperty().getNakedBaseType() instanceof INakedHelper){
+				setter.getBody().addToStatements("this." + map.umlName() + "=" + map.umlName());
+			}else if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
 				if(map.isManyToOne()){
 					// remove "this" from existing reference
@@ -406,8 +417,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					ifParamNotNull.setCondition(map.umlName() + "!=null");
 					ifParamNotNull.getThenPart().addToStatements(map.umlName() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
 					ifParamNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.umlName() + ")");
-					ifParamNotNull.setElsePart(new OJBlock());
-					ifParamNotNull.getElsePart().addToStatements(getReferencePrefix(owner, map) + map.internalRemover() + "(this)");
 					setter.getBody().addToStatements(ifParamNotNull);
 				}else if(map.isMany()){
 					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.clearer() + "()");

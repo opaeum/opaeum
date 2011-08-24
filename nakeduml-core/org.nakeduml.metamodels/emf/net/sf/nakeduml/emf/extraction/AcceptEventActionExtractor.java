@@ -23,7 +23,6 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 public class AcceptEventActionExtractor extends AbstractActionExtractor{
 	@VisitBefore
 	public void visitAcceptEventAction(AcceptEventAction emfAction, NakedAcceptEventActionImpl nakedAction){
-		super.initialize(nakedAction, emfAction, emfAction.getOwner());
 		initAction(emfAction, nakedAction);
 		Activity emfActivity = getActivity(emfAction);
 		if(!emfAction.getTriggers().isEmpty()){

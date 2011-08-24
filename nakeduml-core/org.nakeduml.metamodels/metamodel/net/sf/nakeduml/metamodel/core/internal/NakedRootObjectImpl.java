@@ -25,7 +25,7 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 		return fileName;
 	}
 
-	public Collection<INakedRootObject> getDependencies() {
+	public Collection<INakedRootObject> getAllDependencies() {
 		Set<INakedRootObject> result = new HashSet<INakedRootObject>();
 		addImports(result, this);
 		return result;

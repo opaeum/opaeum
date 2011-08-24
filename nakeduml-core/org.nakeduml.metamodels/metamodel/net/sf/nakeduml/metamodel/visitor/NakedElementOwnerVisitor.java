@@ -6,7 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.uml2.uml.Element;
+
 import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.feature.WorkspaceMappingInfo;
+import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -38,6 +42,18 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 		}
 		return pn;
 	}
+	protected void visitParentsRecursively(INakedElement parent){
+		if(parent.getOwnerElement() instanceof INakedElement){
+			visitParentsRecursively((INakedElement) parent.getOwnerElement());
+			for(VisitSpec v:methodInvokers.beforeMethods){
+				maybeVisit(parent, v);
+			}
+		}
+	}
+	public void visitUpThenDown(INakedElement e){
+		visitParentsRecursively(e);
+		visitRecursively(e);
+	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
@@ -50,22 +66,21 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 	public void visitOnly(INakedElementOwner o){
 		INakedElementOwner parent = o;
 		while(parent instanceof INakedElement){
-			if(parent instanceof INakedRootObject ){
-				currentRootObject=(INakedRootObject) parent;
+			if(parent instanceof INakedRootObject){
+				currentRootObject = (INakedRootObject) parent;
 				break;
 			}else{
-				parent=((INakedElement) parent).getOwnerElement();
+				parent = ((INakedElement) parent).getOwnerElement();
 			}
 		}
 		super.visitOnly(o);
 	}
 	protected Collection<INakedRootObject> getModelInScope(){
-		Set<INakedRootObject> result = new HashSet<INakedRootObject>(currentRootObject.getDependencies());
+		Set<INakedRootObject> result = new HashSet<INakedRootObject>(currentRootObject.getAllDependencies());
 		result.add(currentRootObject);
 		return result;
 	}
 	public final void setTransformationContext(TransformationContext c){
 		this.transformationContext = c;
 	}
-	
 }

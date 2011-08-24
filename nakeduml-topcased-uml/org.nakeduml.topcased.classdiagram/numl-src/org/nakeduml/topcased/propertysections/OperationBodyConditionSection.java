@@ -12,7 +12,10 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.topcased.commands.SetOclBodyCommand;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.getopt.GetOpt;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -20,14 +23,18 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 		return getOperation();
 	}
 	@Override
-	protected NamedElement beforeOclChanged(String text){
-		if(!OclBodyComposite.containsExpression(text)){
-			removeBodyCondition();
-			return null;
-		}else if(getOperation().getBodyCondition()==null){
+	protected OpaqueExpression beforeOclChanged(String text){
+		if(OclBodyComposite.containsExpression(text) && getOperation().getBodyCondition() == null){
 			createBodyCondition();
 		}
-		return getOperation().getBodyCondition();
+		return getSpecification();
+	}
+	protected OpaqueExpression getSpecification(){
+		if(getOperation().getBodyCondition() == null){
+			return null;
+		}else{
+			return (OpaqueExpression) getOperation().getBodyCondition().getSpecification();
+		}
 	}
 	@Override
 	protected String getLabelText(){
@@ -40,12 +47,15 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		oclComposite.setOclContext(getOperation(),null,null);
+		oclComposite.setOclContext(getOperation(), getSpecification());
 	}
 	@Override
 	public void refresh(){
 		super.refresh();
-		super.oclComposite.getTextControl().setEnabled(getOperation().isQuery() && !getOperation().isAbstract());
+		super.oclComposite.getTextControl().setEnabled(requiresBody());
+	}
+	private boolean requiresBody(){
+		return getOperation().isQuery() && !getOperation().isAbstract();
 	}
 	private Operation getOperation(){
 		return (Operation) getEObject();
@@ -60,6 +70,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 					oclComposite.getTextControl().setEnabled(true && !getOperation().isAbstract());
 				}else{
 					oclComposite.getTextControl().setEnabled(false);
+					// TODO do in NakedUMLModelElementLinker
 					removeBodyCondition();
 				}
 				break;
@@ -68,6 +79,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 					oclComposite.getTextControl().setEnabled(false);
 				}else{
 					oclComposite.getTextControl().setEnabled(true && getOperation().isQuery());
+					// TODO do in NakedUMLModelElementLinker
 					removeBodyCondition();
 				}
 				break;
@@ -75,16 +87,16 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 		}
 	}
 	private void removeBodyCondition(){
-		getEditingDomain().getCommandStack().execute(
-				RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(), getOperation().getBodyCondition()));
+		// getEditingDomain().getCommandStack().execute(
+		// RemoveCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getNamespace_OwnedRule(),
+		// getOperation().getBodyCondition()));
 	}
 	private void createBodyCondition(){
 		if(getOperation().getBodyCondition() == null){
 			Constraint cnstr = UMLFactory.eINSTANCE.createConstraint();
-			OpaqueExpression oe = (OpaqueExpression) cnstr.createSpecification("body", null, UMLPackage.eINSTANCE.getOpaqueExpression());
-			getEditingDomain().getCommandStack().execute(
-					SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(),
-							cnstr));
+			// Specification created by NakedUmlElementLinker
+			cnstr.setName(getOperation().getName() + "Body");
+			getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(), cnstr));
 		}
 	}
 	@Override

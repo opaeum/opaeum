@@ -5,6 +5,8 @@ import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
@@ -24,7 +26,11 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 		if(node.getCalledElement() == null){
 			block.addToStatements("no behavior to call!");
 		}else{
+			
 			if(node.getReturnPin() != null || BehaviorUtil.hasExecutionInstance(node.getBehavior())){
+				if(node.getBehavior() instanceof INakedActivity && ((INakedActivity)node.getBehavior()).getActivityKind()==ActivityKind.COMPLEX_SYNCHRONOUS_METHOD){
+					//TODO store the results in the output pins
+				}
 				NakedStructuralFeatureMap resultMap = getResultMap();
 				OJAnnotatedField resultField = expressor.buildResultVariable(operation, block, resultMap);
 				OJBlock fs = block;
@@ -35,7 +41,10 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 						fs.addToStatements(resultField.getName() + "." + paramMap.setter() + "(" + readPin(operation, fs, p) + ")");
 					}
 				}else{
-					fs = callBehavior(operation, block);
+					ActionMap actionMap = new ActionMap(node);
+					fs = buildLoopThroughTarget(operation, block, actionMap);
+					resultField.setInitExp(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
+							+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
 				}
 				fs.addToLocals(resultField);
 				if(shouldStoreMessageStructureOnProcess()){
@@ -61,7 +70,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 	protected abstract boolean shouldStoreMessageStructureOnProcess();
 	private boolean resultIsMany(NakedStructuralFeatureMap resultMap){
 		boolean many = resultMap.isMany();
-		if(BehaviorUtil.hasMessageStructure(node) && node.getTargetElement()!=null){
+		if(BehaviorUtil.hasMessageStructure(node) && node.getTargetElement() != null){
 			many = node.getTargetElement().getNakedMultiplicity().isMany();
 		}else if(!(node.getReturnPin() == null || node.getReturnPin().getLinkedTypedElement() == null)){
 			many = node.getReturnPin().getNakedMultiplicity().isMany();

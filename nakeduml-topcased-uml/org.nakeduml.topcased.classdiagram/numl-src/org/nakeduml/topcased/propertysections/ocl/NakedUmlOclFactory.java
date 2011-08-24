@@ -2,7 +2,10 @@ package org.nakeduml.topcased.propertysections.ocl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.ocl.Environment;
 import org.eclipse.ocl.OCL;
 import org.eclipse.ocl.options.EvaluationOptions;
 import org.eclipse.ocl.uml.UMLEnvironment;
@@ -11,12 +14,20 @@ import org.eclipse.ocl.uml.UMLFactory;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.options.EvaluationMode;
 import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
+import org.eclipse.uml2.uml.CallOperationAction;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.SendSignalAction;
+import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.eclipse.EmfBehaviorUtil;
@@ -27,6 +38,76 @@ import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.UMLOCLFactory;
 
 public final class NakedUmlOclFactory extends UMLOCLFactory{
+	private final class NakedUmlEnvironmentFactory extends UMLEnvironmentFactory{
+		private NakedUmlEnvironmentFactory(Registry registry,ResourceSet rset){
+			super(registry, rset);
+		}
+		@Override
+		public Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> createEnvironment(
+				Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> parent){
+			if(!(parent instanceof UMLEnvironment)){
+				throw new IllegalArgumentException("Parent environment must be a UML environment: " + parent); //$NON-NLS-1$
+			}
+			NakedUmlEnvironment result = new NakedUmlEnvironment(parent);
+			result.setFactory(this);
+			return result;
+		}
+		@Override
+		public UMLEnvironment createEnvironment(){
+			NakedUmlEnvironment result = new NakedUmlEnvironment(getResourceSet().getPackageRegistry(), getResourceSet());
+			result.setFactory(this);
+			if(context instanceof Property && context.getOwner() instanceof Classifier){
+				Element owningObject = context.getOwner().getOwner();
+				// TODO check if there is an end to composite first
+				while(!(owningObject instanceof Classifier || owningObject == null)){
+					owningObject = owningObject.getOwner();
+				}
+				if(owningObject instanceof Classifier){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType((Type) owningObject);
+					var.setName("owningObject");
+					result.addElement(var.getName(), var, true);
+				}
+			}else{
+				Classifier contextObject = EmfBehaviorUtil.getContext(context);
+				if(contextObject != null){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType(contextObject);
+					var.setName("contextObject");
+					result.addElement(var.getName(), var, true);
+				}
+			}
+			for(TypedElement te:EmfElementFinder.getTypedElementsInScope(context)){
+				if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType(te.getType());
+					var.setName(te.getName());
+					result.addElement(var.getName(), var, true);
+				}
+			}
+			Model bpmLib = ImportLibraryAction.findLibrary(context.getModel(), "NakedUMLLibraryForBPM.uml");
+			if(bpmLib != null){
+				Type br = bpmLib.getOwnedType("BusinessRole");
+				if(br != null){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType(br);
+					var.setName("currentUser");
+					result.addElement(var.getName(), var, true);
+				}
+			}
+			Model simpleTypes = ImportLibraryAction.findLibrary(context.getModel(), "NakedUMLSimpleTypes.library.uml");
+			if(simpleTypes != null){
+				Type br = simpleTypes.getOwnedType("DateTime");
+				if(br != null){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType(br);
+					var.setName("now");
+					result.addElement(var.getName(), var, true);
+				}
+			}
+			return result;
+		}
+	}
 	private Element context;
 	@Override
 	public void setContext(EObject context){
@@ -39,64 +120,8 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 	}
 	@Override
 	public OCL<?,?,?,?,?,?,?,?,?,?,?,?> createOCL(ModelingLevel level){
-		UMLEnvironmentFactory factory = new UMLEnvironmentFactory(new DelegatingPackageRegistry(getContext().eResource().getResourceSet().getPackageRegistry(),
-				EPackage.Registry.INSTANCE), getContext().eResource().getResourceSet()){
-			@Override
-			public UMLEnvironment createEnvironment(){
-				NakedUmlEnvironment result = new NakedUmlEnvironment(getResourceSet().getPackageRegistry(), getResourceSet());
-				result.setFactory(this);
-				if(context instanceof Property && context.getOwner() instanceof Classifier){
-					Element owningObject = context.getOwner().getOwner();
-					// TODO check if there is an end to composite first
-					while(!(owningObject instanceof Classifier || owningObject == null)){
-						owningObject = owningObject.getOwner();
-					}
-					if(owningObject instanceof Classifier){
-						Variable var = UMLFactory.eINSTANCE.createVariable();
-						var.setType((Type) owningObject);
-						var.setName("owningObject");
-						result.addElement(var.getName(), var, true);
-					}
-				}else{
-					Classifier contextObject = EmfBehaviorUtil.getContext(context);
-					if(contextObject != null){
-						Variable var = UMLFactory.eINSTANCE.createVariable();
-						var.setType(contextObject);
-						var.setName("contextObject");
-						result.addElement(var.getName(), var, true);
-					}
-				}
-				for(TypedElement te:EmfElementFinder.getTypedElementsInScope(context)){
-					if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
-						Variable var = UMLFactory.eINSTANCE.createVariable();
-						var.setType(te.getType());
-						var.setName(te.getName());
-						result.addElement(var.getName(), var, true);
-					}
-				}
-				Model bpmLib = ImportLibraryAction.findLibrary(context.getModel(), "NakedUMLLibraryForBPM.uml");
-				if(bpmLib != null){
-					Type br = bpmLib.getOwnedType("BusinessRole");
-					if(br!=null){
-						Variable var = UMLFactory.eINSTANCE.createVariable();
-						var.setType(br);
-						var.setName("currentUser");
-						result.addElement(var.getName(), var, true);
-					}
-				}
-				Model simpleTypes= ImportLibraryAction.findLibrary(context.getModel(), "NakedUMLSimpleTypes.library.uml");
-				if(simpleTypes != null){
-					Type br = simpleTypes.getOwnedType("DateTime");
-					if(br!=null){
-						Variable var = UMLFactory.eINSTANCE.createVariable();
-						var.setType(br);
-						var.setName("now");
-						result.addElement(var.getName(), var, true);
-					}
-				}
-				return result;
-			}
-		};
+		UMLEnvironmentFactory factory = new NakedUmlEnvironmentFactory(new DelegatingPackageRegistry(getContext().eResource().getResourceSet().getPackageRegistry(),
+				EPackage.Registry.INSTANCE), getContext().eResource().getResourceSet());
 		OCL<?,?,?,?,?,?,?,?,?,?,?,?> result = OCL.newInstance(factory);
 		switch(level){
 		case M2:

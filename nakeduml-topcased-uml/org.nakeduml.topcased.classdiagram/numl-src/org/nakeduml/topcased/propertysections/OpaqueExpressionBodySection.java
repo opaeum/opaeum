@@ -8,27 +8,25 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
-
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
+/**
+ * Preconditions: OpaqueExpression ALWAYS available
+ * @author ampie
+ *
+ */
 public class OpaqueExpressionBodySection extends AbstractOclBodyBodySection{
-	private final class OclComposite extends OclBodyComposite{
+	
+	private final class OclComposite extends OpaqueExpressionComposite{
 		private OclComposite(Composite parent,FormToolkit toolkit){
 			super(parent, toolkit);
 		}
 		public void setOclContext(OpaqueExpression eObject){
-			EObject s = eObject;
-			EObject container = null;
-			while(!(isOclContext(container = getContainer(s)))){
+			EObject container = eObject;
+			while(!(isOclContext(container = EmfElementFinder.getContainer(container)))){
 			}
 			setOclContextImpl((NamedElement) container, eObject);
-		}
-		@Override
-		public EStructuralFeature getBodiesFeature(){
-			return UMLPackage.eINSTANCE.getOpaqueExpression_Body();
-		}
-		@Override
-		public EStructuralFeature getLanguagesFeature(){
-			return UMLPackage.eINSTANCE.getOpaqueExpression_Language();
 		}
 		@Override
 		protected EditingDomain getEditingDomain(){

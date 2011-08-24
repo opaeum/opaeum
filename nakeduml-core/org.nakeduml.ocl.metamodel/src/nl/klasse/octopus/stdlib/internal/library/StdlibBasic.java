@@ -89,6 +89,7 @@ public class StdlibBasic {
 		OCL_Any.addOperation(new StdlibOperation("oclIsNew", OCL_Boolean));
 		OCL_Any.addOperation(new StdlibOperation("oclIsUndefined", OCL_Boolean));
 		OCL_Any.addOperation(new StdlibOperation("oclInState", "object2", OCL_State, OCL_Boolean));
+		OCL_Any.addOperation(new StdlibOperation("oclIsInState", "object2", OCL_State, OCL_Boolean));
 		OCL_Any.addOperation(new StdlibOperation("oclIsKindOf", "object2", OCL_Type, OCL_Boolean));
 		OCL_Any.addOperation(new StdlibOperation("oclIsTypeOf", "object2", OCL_Type, OCL_Boolean));
 		OCL_Any.addOperation(new StdlibOperation("oclAsType", "object2", OCL_Type, DependsOnArgumentType));

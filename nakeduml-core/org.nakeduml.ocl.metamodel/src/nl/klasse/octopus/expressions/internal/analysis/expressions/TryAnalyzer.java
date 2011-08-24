@@ -453,7 +453,7 @@ public class TryAnalyzer extends Analyzer {
 		OclStateLiteralExp result = null;
 		PathName name = tree.getPropertyName().toPathName();
 
-		if( name.isSingleName() && name.getLast().equals("oclInState")){
+		if( name.isSingleName() && (name.getLast().equals("oclInState") || name.getLast().equals("oclIsInState"))){
 			if( tree.getArguments().size() == 1 ) {
 				// CHECK FOR STATE !
 				ParsedOclExpression arg = tree.getArgument(0);
@@ -833,7 +833,7 @@ public class TryAnalyzer extends Analyzer {
 		}
         
 		// Check whether this is a propertycall where only a IState is allowed as parameter
-		if( basename.equals("oclInState")){
+		if( basename.equals("oclInState") || basename.equals("oclIsInState")){
 			argExp = tryToMatchState(tree, sourceType, env);
 			if( argExp != null) {
 				result.add(argExp);

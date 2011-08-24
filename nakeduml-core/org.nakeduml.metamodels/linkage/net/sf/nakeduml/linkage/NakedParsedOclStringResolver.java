@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.uml2.uml.Activity;
+import org.nakeduml.eclipse.EmfValidationUtil;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
@@ -36,6 +37,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -85,6 +87,7 @@ import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 		EnumerationValuesAttributeAdder.class
 })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
+	// TODO optimize to take constraints individually
 	EnvironmentFactory environmentFactory;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
@@ -107,7 +110,13 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				ParsedOclString string = (ParsedOclString) s.getValue();
 				INakedClassifier context = slot.getOwningInstance().getClassifier();
 				string.setContext(context, s);
-				Environment env = environmentFactory.createSelflessEnvironment(context);
+				Environment env = null;
+				if(slot.getOwningInstance().getClassifier() instanceof INakedEnumeration){
+					env=environmentFactory.createSelflessEnvironment(context);
+				}else if(slot.getOwningInstance().getOwnerElement() instanceof INakedValueSpecification){
+					// Instance VAlue
+					env=environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
+				}
 				s.setValue(replaceSingleParsedOclString(string, context, slot.getDefiningFeature().getType(), env));
 			}
 		}
@@ -161,7 +170,19 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			oclValue.setContext(c, iv);
 			Environment env = environmentFactory.createClassifierEnvironment(c);
 			iv.setValue(replaceSingleParsedOclString(oclValue, c, attr.getType(), env));
+			IOclContext oc = iv.getOclValue();
 			if(iv.isValidOclValue()){
+				if(oc.getExpression().getExpressionType().isCollectionKind()){
+					if(attr.getMultiplicity().isSingleObject() && attr.getQualifiers().isEmpty()){
+						getErrorMap().putError(iv, CoreValidationRule.OCL, "Expression returns multiple values, but the defining property only supports a single value");
+					}
+				}else{
+					if(attr.getMultiplicity().getUpper() > 1 || !attr.getQualifiers().isEmpty()){
+						getErrorMap().putError(iv, CoreValidationRule.OCL, "Expression returns a single value, but the defining property expects multiple values");
+					}
+				}
+			}
+			if(iv.isValidOclValue() && attr.isDerived()){
 				overridePinType(attr, iv.getOclValue().getExpression().getExpressionType());
 			}
 		}
@@ -255,7 +276,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			bodyCondition.setType(op.getReturnType());
 			IOclContext ocl = replaceSingleParsedOclString(bodyExpression, owner, op.getReturnType(), env);
 			bodyCondition.setValue(ocl);
-			if(bodyCondition.isValidOclValue()){
+			if(bodyCondition.isValidOclValue() && op.getReturnParameter() != null){
 				overridePinType(op.getReturnParameter(), ocl.getExpression().getExpressionType());
 			}
 		}
@@ -272,7 +293,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(bodyCondition != null && bodyCondition.getOclValue() instanceof ParsedOclString){
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
 			bodyExpression.setContext(owner, bodyCondition);
-			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, null, env));// TODO expect the user type
+			INakedInterface br = workspace.getNakedUmlLibrary().getBusinessRole();
+			ICollectionType t = getOclLibrary().lookupCollectionType(CollectionMetaType.COLLECTION, br);
+			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, t, env));
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -300,7 +323,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		replaceParsedOclConstraints(ctx, a.getPreConditions(), inside);
 		if(a instanceof INakedOclAction){
 			INakedOclAction oa = (INakedOclAction) a;
-			if(oa.getBodyExpression() != null){
+			if(oa.getBodyExpression() instanceof ParsedOclString){
 				Collection<INakedInputPin> input = oa.getInput();
 				// FIrst do value pins to calculate type
 				for(INakedInputPin pin:input){
@@ -320,7 +343,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}else if(a instanceof INakedEmbeddedTask){
 			Environment outsideAndInside = environmentFactory.createActivityEnvironment(a, activity);
 			for(INakedInputPin parm:a.getInput()){
-				outsideAndInside.addElement(parm.getName(), new VariableDeclaration(parm.getName(), parm.getType()), false);
+				if(parm.getType() != null){
+					outsideAndInside.addElement(parm.getName(), new VariableDeclaration(parm.getName(), parm.getType()), false);
+				}
 			}
 			popuateDefinedResponsibility(activity, outsideAndInside, (INakedEmbeddedTask) a);
 		}
@@ -353,6 +378,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				resolvePinOcl(pin);
 			}
 			overridePinType(pin);
+		}
+		if(!pin.hasValidInput() && (pin.getNakedBaseType() == null || pin.getType() == null)){
+			pin.setBaseType(workspace.getNakedUmlLibrary().getStringType());
+			pin.setType(getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
+			pin.setMultiplicity(new NakedMultiplicityImpl(0, 1));
 		}
 	}
 	private void overridePinType(INakedValuePin pin){
@@ -394,6 +424,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}else if(type instanceof StdlibPrimitiveType){
 			StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
 			pin.setBaseType(getBuiltInTypes().lookupStandardType(standardType));
+			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
 		}
 	}
 	private void resolvePinOcl(INakedValuePin pin){
@@ -414,9 +445,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
 		if(holder.getExpressionString() == null){
-			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL, "No expression provided");
+			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
+					EmfValidationUtil.OCL_EXPRESSION_REQUIRED);
 			OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
-			errCtx.setExpressionString("No expression provided");
+			errCtx.setExpressionString(EmfValidationUtil.OCL_EXPRESSION_REQUIRED);
 			return errCtx;
 		}else{
 			INakedNameSpace ns = c.getNameSpace();
@@ -486,8 +518,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
 	}
 	private void putError(ParsedOclString holder,Throwable e){
+		e.printStackTrace();
 		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
-		String msg = e.getMessage();
+		String msg = e.toString();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, 1);
 	}
 	private IOclLibrary getOclLibrary(){

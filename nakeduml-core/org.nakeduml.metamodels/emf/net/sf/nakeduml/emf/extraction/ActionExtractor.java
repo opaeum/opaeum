@@ -123,7 +123,7 @@ public class ActionExtractor extends AbstractActionExtractor{
 			initializeDeadlines(stereotype, emfAction);
 			((NakedEmbeddedSingleScreenTaskImpl) action).setOutputValues(this.<INakedOutputPin>populatePins(emfActivity, emfAction.getOutputValues()));
 		}else if(emfAction.getBodies().size() >= 1){
-			ParsedOclString bodyExpression = super.buildParsedOclString(emfAction, OclUsageType.BODY, emfAction.getLanguages(), emfAction.getBodies());
+			ParsedOclString bodyExpression = super.buildParsedOclString(emfAction, emfAction.getLanguages(), emfAction.getBodies(), OclUsageType.DEF);
 			((NakedOclActionImpl) action).setBodyExpression(bodyExpression);
 			if(emfAction.getOutputValues().size() == 1){
 				((NakedOclActionImpl) action).setReturnPin((INakedOutputPin) initializePin(emfActivity, emfAction.getOutputValues().get(0)));

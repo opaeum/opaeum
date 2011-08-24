@@ -173,6 +173,9 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 	 * @param element 
 	 */
 	public void addToOperations(OJOperation element) {
+		if(element.getName().equals("processSignal")){
+			System.out.println();
+		}
 		if ( element == null ) {
 			return;
 		}

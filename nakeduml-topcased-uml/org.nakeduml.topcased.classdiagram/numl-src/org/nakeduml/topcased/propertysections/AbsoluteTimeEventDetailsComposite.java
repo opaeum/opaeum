@@ -33,7 +33,7 @@ import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{
@@ -41,20 +41,19 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		void timeEventChanged(TimeEvent t);
 	}
 	protected CLabel expressionLabel;
-	private OpaqueExpressionBodyComposite expressionComposite;
+	private OpaqueExpressionComposite expressionComposite;
 	protected TimeEvent event;
 	Element trigger;
 	protected Text nameTxt;
 	private TimeEventListener listener;
 	private EditingDomain editingDomain;
-	public AbsoluteTimeEventDetailsComposite(EditingDomain editingDomain,TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,
+	public AbsoluteTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,
 			TimeEventListener listener){
-		this(editingDomain, toolkit, parent, standardLabelWidth);
+		this(toolkit, parent, standardLabelWidth);
 		this.listener = listener;
 	}
-	public AbsoluteTimeEventDetailsComposite(EditingDomain editingDomain,TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
+	public AbsoluteTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
 		super(parent, SWT.NONE);
-		this.editingDomain = editingDomain;
 		setBackground(parent.getBackground());
 		super.setLayout(new FormLayout());
 		Label createLabel = toolkit.createLabel(this, "Timer Name");
@@ -112,16 +111,12 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			expData.top = new FormAttachment(c[c.length - 2], 4, 0);
 		}
 		expressionLabel.setLayoutData(labelData);
-		expressionComposite = new OpaqueExpressionBodyComposite(this, toolkit){
+		expressionComposite = new OpaqueExpressionComposite(this, toolkit){
 			@Override
 			public void fireOclChanged(String value){
+				super.oclBodyOwner=getOpaqueExpression();
 				super.fireOclChanged(value);
 				maybeFire();
-			}
-
-			@Override
-			public EReference getValueSpecificationFeature(){
-				return UMLPackage.eINSTANCE.getTimeExpression_Expr();
 			}
 
 			@Override
@@ -195,7 +190,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			trigger = context;
 			initProfileElements(context);
 			setTimeEvent(te);
-			expressionComposite.setOclContext(context, te.getWhen(), getOpaqueExpression());
+			expressionComposite.setOclContext(context, getOpaqueExpression());
 		}else{
 			setTimeEvent(null);
 		}
@@ -236,4 +231,11 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 		}
 		this.event = timeEvent;
 	}
+	public EditingDomain getEditingDomain(){
+		return editingDomain;
+	}
+	public void setEditingDomain(EditingDomain editingDomain){
+		this.editingDomain = editingDomain;
+	}
+
 }

@@ -1,7 +1,9 @@
 package net.sf.nakeduml.emf.workspace;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,8 +52,8 @@ public class EmfWorkspace implements Element{
 	private URI directoryUri;
 	private String identifier;
 	private EmfResourceHelper uriResolver;
-	private Set<Model> libraries=new HashSet<Model>();
-	private Map<String,Element> elementMap =new HashMap<String,Element>();
+	private Set<Model> libraries = new HashSet<Model>();
+	private Map<String,Element> elementMap = new HashMap<String,Element>();
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
@@ -357,7 +359,7 @@ public class EmfWorkspace implements Element{
 		for(Element element:this.getOwnedElements()){
 			for(String string:names){
 				if(element instanceof Model && element.eResource().getURI().toString().contains(string)){
-					this.libraries.add((Model)element);
+					this.libraries.add((Model) element);
 				}
 			}
 		}
@@ -368,4 +370,26 @@ public class EmfWorkspace implements Element{
 	public String getId(EModelElement model){
 		return getResourceHelper().getId(model);
 	}
+	public void saveAll(){
+		for(Resource resource:getResourceSet().getResources()){
+			if(!isReadOnly(resource)){
+				try{
+					resource.save(new HashMap<Object,Object>());
+				}catch(IOException e){
+					throw new RuntimeException(e);
+				}
+			}
+		}
+	}
+	private static boolean isReadOnly(Resource resource){
+		URI uri = resource.getURI();
+		return isSchemeReadOnly(uri.scheme()) || isPluginModel(uri);
+	}
+	private static boolean isPluginModel(URI uri){
+		return uri.toString().startsWith("platform:/plugin");
+	}
+	private static boolean isSchemeReadOnly(String scheme){
+		return Arrays.asList("pathmap").contains(scheme);
+	}
+
 }

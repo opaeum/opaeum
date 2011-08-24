@@ -577,7 +577,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		auditClass.removeFromImports(toRemove);
 	}
 	private void removeDeletedOnFilter(OJAnnotatedClass ojClass){
-		Set<OJField> fields = ojClass.getFields();
+		Collection<OJField> fields = ojClass.getFields();
 		for(OJField ojField:fields){
 			OJAnnotatedField field = (OJAnnotatedField) ojField;
 			List<OJAnnotationValue> remove = new ArrayList<OJAnnotationValue>();
@@ -624,7 +624,7 @@ public class AuditEntryMassage extends AbstractJavaProducingVisitor{
 		javaTypes.add("Boolean");
 		javaTypes.add("boolean");
 		javaTypes.add("Date");
-		Set<OJField> fields = c.getFields();
+		Collection<OJField> fields = c.getFields();
 		for(OJField ojField:fields){
 			boolean foundMap = false;
 			NakedStructuralFeatureMap map = null;

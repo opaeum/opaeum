@@ -3,15 +3,14 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 import java.util.Collections;
 
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
@@ -28,19 +27,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 },after = {
 	OperationAnnotator.class
 },before = CodeCleanup.class)
-public class AttributeExpressionGenerator extends AbstractJavaProducingVisitor{
-	@VisitAfter(matchSubclasses = true)
-	public void implementInterfaces(INakedClassifier c){
-		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
-			for(INakedProperty p:c.getEffectiveAttributes()){
-				if(p.getOwner() instanceof INakedInterface || p.getOwner() == c){
-					implementAttributeExpressions(c, p);
-				}
-			}
-		}
-	}
-	private void implementAttributeExpressions(INakedClassifier owner,INakedProperty attr){
-		NakedStructuralFeatureMap mapper = new NakedStructuralFeatureMap(attr);
+public class AttributeExpressionGenerator extends AbstractStructureVisitor{
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap mapper){
+		INakedProperty attr=mapper.getProperty();
 		INakedValueSpecification cont = attr.getInitialValue();
 		if(cont != null){
 			if(attr.isDerived()){
@@ -52,12 +42,16 @@ public class AttributeExpressionGenerator extends AbstractJavaProducingVisitor{
 				OJPathName path = OJUtil.classifierPathname(owningElem);
 				OJClass myOwner = javaModel.findClass(path);
 				if(attr.hasClassScope()){
-					addInitToField(myOwner, mapper, cont);
+					addInitToStaticField(myOwner, mapper, cont);
 				}else{
 					addInitToConstructor(myOwner, mapper, cont);
 				}
 			}
 		}
+	}
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+		
 	}
 	private void addDerivationRule(INakedClassifier c,OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
 		String getterName = mapper.getter();
@@ -70,10 +64,8 @@ public class AttributeExpressionGenerator extends AbstractJavaProducingVisitor{
 		getterOp.getBody().addToLocals(field);
 		getterOp.getBody().addToStatements("return " + mapper.umlName());
 	}
-	private void addInitToField(OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
-		if(!(myClass instanceof OJClass))
-			return;
-		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, true);
+	private void addInitToStaticField(OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
+		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, mapper.getProperty().getType(),true);
 		if(initStr.length() > 0){
 			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.umlName());
 			if(myField != null){

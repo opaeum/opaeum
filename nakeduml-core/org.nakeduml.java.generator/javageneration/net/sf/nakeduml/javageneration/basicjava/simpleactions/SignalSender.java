@@ -26,7 +26,6 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
-		EventUtil.addOutgoingEventManagement((OJClass) operation.getOwner());
 		Iterator<INakedInputPin> args = node.getArguments().iterator();
 		String signalName = "_signal" + node.getMappingInfo().getJavaName();
 		ClassifierMap cm = new NakedClassifierMap(node.getSignal());
@@ -43,10 +42,6 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
 		OJAnnotatedField signal = new OJAnnotatedField(signalName,cm.javaTypePath());
 		block.addToLocals(signal);
 		String source = "this";
-		if (node.getActivity().getOwnerElement() instanceof INakedTransition) {
-			source = "contextObject";// TODO won't work for standalone
-										// statemachines
-		}
 		String targetExpression;
 		if (node.getTarget()!= null) {
 			targetExpression = readPin(operation, block, node.getTarget());

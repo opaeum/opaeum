@@ -169,7 +169,9 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		return this.stereotypes.containsKey(name);
 	}
 	public void addStereotype(INakedInstanceSpecification stereotype){
+		this.ownedElements.remove(stereotypes.get(stereotype.getName()));
 		this.ownedElements.add(stereotype);
+		stereotype.setOwnerElement(this);
 		this.stereotypes.put(stereotype.getName(), stereotype);
 	}
 	public INakedInstanceSpecification getStereotype(String name){

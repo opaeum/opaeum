@@ -129,7 +129,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		visitFeaturesOf(msg);
 	}
 	public void visitCallAction(INakedCallAction node){
-		if(node.getCalledElement().getContext() == null){
+		if(node.getCalledElement().getContext() == null && node.getMessageStructure()!=null){
 			// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
 			// persistence
 			INakedComplexStructure umlOwner = node.getMessageStructure();

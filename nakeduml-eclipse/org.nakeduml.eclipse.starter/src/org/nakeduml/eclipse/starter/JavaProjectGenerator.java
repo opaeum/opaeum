@@ -12,6 +12,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
+import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextProject;
@@ -20,6 +21,8 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -27,6 +30,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
+import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 public final class JavaProjectGenerator extends Job{
@@ -122,4 +126,30 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext)
+	
+			throws CoreException{
+		monitor.beginTask("Updating resources", 6);
+		TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
+		if(!monitor.isCanceled()){
+			monitor.setTaskName("Writing Text Files");
+			TextFileGenerator textFileGenerator = new TextFileGenerator();
+			textFileGenerator.initialize(currentContext.getUmlElementCache().getConfig());
+			textFileGenerator.startVisiting(textWorkspace);
+			monitor.worked(3);
+		}
+		EclipseProjectGenerationStep eclipseProjectGenerationStep = new EclipseProjectGenerationStep();
+		eclipseProjectGenerationStep.initialize(currentContext.getUmlElementCache().getConfig());
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		eclipseProjectGenerationStep.setRoot(root);
+		monitor.setTaskName("Refreshing Projects");
+		for(TextProject textProject:textWorkspace.getTextProjects()){
+			eclipseProjectGenerationStep.visitProject(textProject);
+		}
+		for(TextProject textProject:textWorkspace.getTextProjects()){
+			root.getProject(textProject.getName()).refreshLocal(IProject.DEPTH_INFINITE, null);
+		}
+		monitor.worked(3);
+	}
+
 }

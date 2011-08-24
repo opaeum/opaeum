@@ -11,14 +11,18 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess;
+import net.sf.nakeduml.filegeneration.FileGenerationPhase;
+import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Element;
+import org.nakeduml.bootstrap.BootstrapGenerationPhase;
 
-@PhaseDependency()
+@PhaseDependency(before={ModelCopyPhase.class})
 public class UimSynchronizationPhase implements TransformationPhase<AbstractUimSynchronizer,Element>{
 	@InputModel
 	EmfWorkspace workspace;
@@ -41,8 +45,7 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	public Collection<?> processElements(TransformationContext context,Collection<Element> elements){
 		for(Element element:elements){
 			ResourceSet resourceSet = new ResourceSetImpl();
-			//TODO when to load contents?
-
+			// TODO when to load contents?
 			for(AbstractUimSynchronizer s:features){
 				s.init(workspace, resourceSet, false);
 				s.visitUpThenDown((Element) element);
@@ -57,10 +60,12 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 		return elements;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProcess.TransformationProgressLog log,TransformationContext context){
 		ResourceSet resourceSet = new ResourceSetImpl();
 		for(AbstractUimSynchronizer s:features){
-			s.startVisiting(workspace);
+			if(!log.isCanceled()){
+				s.startVisiting(workspace);
+			}
 		}
 		try{
 			save(workspace.getDirectoryUri(), resourceSet);
@@ -71,9 +76,9 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractUimSynchronizer> features){
-		this.config=config;
+		this.config = config;
 		this.uimResourceSet = new ResourceSetImpl();
-		this.features=features;
+		this.features = features;
 	}
 	public void initializeSteps(){
 		for(AbstractUimSynchronizer s:this.features){

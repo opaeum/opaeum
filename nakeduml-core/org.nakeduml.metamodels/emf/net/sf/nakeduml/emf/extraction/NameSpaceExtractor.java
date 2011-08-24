@@ -41,7 +41,9 @@ import net.sf.nakeduml.metamodel.statemachines.StateMachineKind;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedStateMachineImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedActorImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
+import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
+import net.sf.nakeduml.validation.CoreValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 
@@ -67,6 +69,7 @@ import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
@@ -78,14 +81,12 @@ import org.eclipse.uml2.uml.UseCase;
 @StepDependency(phase = EmfExtractionPhase.class)
 public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public static final String MAPPINGS_EXTENSION = "mappings";
-
 	/**
 	 * For imported profiles. Put them at the top level of the nakedWorkspace
 	 */
 	@VisitBefore
 	public void visitProfile(Profile p,NakedProfileImpl np){
 		p.getName();
-		
 		// Different versions of the same profile may occur
 		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
 		populateTypesMappedIn(p);
@@ -140,7 +141,19 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(npt, p);
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
-		if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior || e instanceof Collaboration || e instanceof PrimitiveType){
+		if(e instanceof Association){
+			for(Property property:((Association) e).getMemberEnds()){
+				if(property.getType() == null){
+					BrokenElement be = new BrokenElement(getId(property));
+					be.addMessage(CoreValidationRule.INVERSE);
+					getErrorMap().getErrors().put(getId(property),be);
+					// broken association a'la topcased
+					return null;
+				}
+			}
+			return super.createElementFor(e, peerClass);
+		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior || e instanceof Collaboration
+				|| e instanceof PrimitiveType){
 			return super.createElementFor(e, peerClass);
 		}else if(e instanceof Class){
 			Class c = (Class) e;
@@ -184,7 +197,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	}
 	private boolean isBusinessService(Classifier c){
 		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{
-				"businessworker","caseworker","worker","user","userrole","businessService"
+				"businessworker","caseworker","worker","user","userrole","businessService","businessrole"
 		});
 		if(!representsUser){
 			for(Dependency o:c.getClientDependencies()){
@@ -231,7 +244,6 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			kind = ActivityKind.COMPLEX_SYNCHRONOUS_METHOD;
 		}
 		na.setActivityKind(kind);
-		addConstraints(na, a.getPreconditions(), a.getPostconditions());
 		initializeClassifier(na, a);
 	}
 	@VisitBefore
@@ -243,13 +255,11 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			kind = StateMachineKind.SCREEN_FLOW;
 		}
 		nsm.setStateMachineKind(kind);
-		addConstraints(nsm, sm.getPreconditions(), sm.getPostconditions());
 		initializeClassifier(nsm, sm);
 	}
 	@VisitBefore
 	public void visitOpaqueBehavior(OpaqueBehavior ob,NakedOpaqueBehaviorImpl nob){
-		nob.setBodyExpression(buildParsedOclString(ob, OclUsageType.BODY, ob.getLanguages(), ob.getBodies()));
-		addConstraints(nob, ob.getPreconditions(), ob.getPostconditions());
+		nob.setBodyExpression(buildParsedOclString(ob, ob.getLanguages(), ob.getBodies(), OclUsageType.DEF));
 		initializeClassifier(nob, ob);
 	}
 	@VisitBefore

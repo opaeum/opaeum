@@ -35,16 +35,16 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 	private Enumeration timeUnit;
 	private Stereotype stereotype;
 	private String stereotypeName;
-	public RelativeTimeEventDetailsComposite(EditingDomain d, TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
-		super(d,toolkit, parent, standardLabelWidth);
+	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth){
+		super(toolkit, parent, standardLabelWidth);
 		this.stereotypeName = "RelativeTimeEvent";
 	}
-	public RelativeTimeEventDetailsComposite(EditingDomain d,TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,String stereotypeName){
-		super(d,toolkit, parent, standardLabelWidth);
+	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory toolkit,Composite parent,int standardLabelWidth,String stereotypeName){
+		super(toolkit, parent, standardLabelWidth);
 		this.stereotypeName = stereotypeName;
 	}
-	public RelativeTimeEventDetailsComposite(EditingDomain d,TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,TimeEventListener listener){
-		super(d,widgetFactory, details, i, listener);
+	public RelativeTimeEventDetailsComposite(TabbedPropertySheetWidgetFactory widgetFactory,Composite details,int i,TimeEventListener listener){
+		super(widgetFactory, details, i, listener);
 		this.stereotypeName = "RelativeTimeEvent";
 	}
 	@Override

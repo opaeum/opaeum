@@ -109,4 +109,7 @@ public abstract class SequenceCalculator<T>{
 	public List<T> getExecutionUnits(){
 		return this.executionUnits;
 	}
+	public Set<Class<? extends T>> getExecutionUnitClasses(){
+		return this.classMap.keySet();
+	}
 }

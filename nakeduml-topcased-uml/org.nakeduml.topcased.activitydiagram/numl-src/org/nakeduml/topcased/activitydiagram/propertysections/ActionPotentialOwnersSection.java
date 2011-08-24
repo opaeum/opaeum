@@ -8,5 +8,9 @@ public class ActionPotentialOwnersSection extends AbstractArtificialOpaqueExpres
 	public String getExpressionName(){
 		return "potentialOwners";
 	}
+	@Override
+	public String getStereotypeName(){
+		return "EmbeddedSingleScreenTask";
+	}
 
 }

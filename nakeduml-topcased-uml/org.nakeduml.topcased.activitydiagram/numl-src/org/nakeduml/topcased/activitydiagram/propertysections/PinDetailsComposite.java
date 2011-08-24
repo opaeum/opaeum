@@ -24,7 +24,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.topcased.propertysections.UmlMetaTypeRemover;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
@@ -35,7 +35,7 @@ public class PinDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory widgetFactory;
 	private Text parameterNameTxt;
 	private CSingleObjectChooser parameterType;
-	private OpaqueExpressionBodyComposite oclValue;
+	private AutoCreateOpaqueExpressionComposite oclValue;
 	public PinDetailsComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style);
 		setBackground(parent.getBackground());
@@ -49,9 +49,9 @@ public class PinDetailsComposite extends Composite{
 	public void setPin(Pin parameter){
 		this.pin = parameter;
 		loadData();
-		if(pin instanceof ValuePin){
+		if(pin instanceof ValuePin && ((ValuePin) pin).getValue() instanceof OpaqueExpression){
 			oclValue.setEnabled(true);
-			oclValue.setOclContext(pin,pin,(OpaqueExpression) ((ValuePin) pin).getValue());
+			oclValue.setOclContext(pin,(OpaqueExpression) ((ValuePin) pin).getValue());
 		}else{
 			oclValue.setEnabled(false);
 		}
@@ -65,7 +65,7 @@ public class PinDetailsComposite extends Composite{
 		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()));
 		parameterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Value : ");
-		this.oclValue = new OpaqueExpressionBodyComposite(parent, widgetFactory){
+		this.oclValue = new AutoCreateOpaqueExpressionComposite(parent, widgetFactory){
 			@Override
 			public void fireOclChanged(String value){
 				super.fireOclChanged(value);
@@ -121,9 +121,9 @@ public class PinDetailsComposite extends Composite{
 			if(pin.getType() != null){
 				parameterType.setSelection(pin.getType());
 			}
-			if(pin instanceof ValuePin){
+			if(pin instanceof ValuePin && ((ValuePin) pin).getValue() instanceof OpaqueExpression){
 				ValuePin vp = (ValuePin) pin;
-				oclValue.setOclContext(pin, pin, (OpaqueExpression) vp.getValue());
+				oclValue.setOclContext(pin, (OpaqueExpression) vp.getValue());
 			}
 		}else{
 			parameterNameTxt.setText("");

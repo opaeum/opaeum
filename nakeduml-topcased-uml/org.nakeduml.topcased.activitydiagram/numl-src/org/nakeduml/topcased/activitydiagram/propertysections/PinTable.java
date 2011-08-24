@@ -29,10 +29,12 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 import org.topcased.modeler.listeners.UIAdapterImpl;
 import org.topcased.modeler.uml.activitydiagram.internal.editingsupport.DelegatingEditingSupport;
 
@@ -201,9 +203,6 @@ public class PinTable extends Composite{
 		@Override
 		public String getText(Object element){
 			InputPin inputPin = (InputPin) element;
-			if(inputPin.getType() == null){
-				return "Type not defined";
-			}
 			if(!inputPin.getIncomings().isEmpty()){
 				return "N/A";
 			}
@@ -214,8 +213,8 @@ public class PinTable extends Composite{
 					if(valSpec instanceof InstanceValue){
 						InstanceSpecification inst = ((InstanceValue) valSpec).getInstance();
 						return inst == null ? "" : inst.getName();
-					}else{
-						return valSpec.stringValue();
+					}else if(valSpec instanceof OpaqueExpression){
+						return OclBodyComposite.getOclText(((OpaqueExpression) valSpec).getBodies(), ((OpaqueExpression) valSpec).getLanguages());
 					}
 				}
 			}

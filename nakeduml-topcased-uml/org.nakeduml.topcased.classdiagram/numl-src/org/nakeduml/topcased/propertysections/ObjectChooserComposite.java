@@ -29,7 +29,6 @@ public abstract class ObjectChooserComposite extends Composite{
 	protected Trigger trigger;
 	protected CLabel label;
 	protected CSingleObjectChooser cSingleObjectChooser;
-	private Button synchronizeButton;
 	public ObjectChooserComposite(Composite parent,String label,TabbedPropertySheetWidgetFactory toolkit,int labelWidth){
 		super(parent, SWT.NONE);
 		setBackground(parent.getBackground());
@@ -44,24 +43,9 @@ public abstract class ObjectChooserComposite extends Composite{
 		fd.left = new FormAttachment(0, labelWidth);
 		fd.right = new FormAttachment(100, 0);
 		cSingleObjectChooser.setLayoutData(fd);
-		synchronizeButton = toolkit.createButton(this, "Synchronize result pins with " + label, SWT.PUSH);
 		FormData buttonFormData = new FormData();
 		buttonFormData.top = new FormAttachment(cSingleObjectChooser);
 		buttonFormData.left = new FormAttachment(0, labelWidth);
-		synchronizeButton.setLayoutData(buttonFormData);
-		synchronizeButton.addSelectionListener(new SelectionListener(){
-			@Override
-			public void widgetSelected(SelectionEvent e){
-				AcceptEventAction action = (AcceptEventAction) trigger.getOwner();
-				action.getResults().clear();
-				for(TypedElement t:EmfParameterUtil.getArguments(getCause())){
-					NakedUmlElementLinker.setOutputpin(t, action.getResults(),false);
-				}
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e){
-			}
-		});
 		cSingleObjectChooser.addSelectionListener(new SelectionAdapter(){
 			@Override
 			public void widgetSelected(SelectionEvent e){
@@ -70,7 +54,6 @@ public abstract class ObjectChooserComposite extends Composite{
 				}else{
 					updateTrigger();
 				}
-				synchronizeButton.setEnabled(getCause() != null);
 			}
 		});
 		toolkit.adapt(this);
@@ -98,6 +81,5 @@ public abstract class ObjectChooserComposite extends Composite{
 	}
 	public void setTrigger(Trigger t){
 		this.trigger = t;
-		synchronizeButton.setEnabled(getCause() != null);
 	}
 }

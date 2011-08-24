@@ -74,7 +74,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 				table.refresh();
 			}
 		};
-		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getEditingDomain(), getWidgetFactory(), details, 200, listener){
+		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
 			CCombo deadlineKindsCombo;
 			@Override
 			public void setContext(NamedElement context,TimeEvent te){
@@ -87,7 +87,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 				super.addChildrenAfterName(toolkit, parent, standardLabelWidth);
 			}
 		};
-		relativeComposite = new RelativeTimeEventDetailsComposite(getEditingDomain(),getWidgetFactory(), details, 200, listener){
+		relativeComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
 			CCombo deadlineKindsCombo;
 			@Override
 			public void setContext(NamedElement context,TimeEvent te){
@@ -174,6 +174,8 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 	public void refresh(){
 		super.refresh();
 		MixedEditDomain mixedEditDomain = (MixedEditDomain) getPart().getAdapter(MixedEditDomain.class);
+		absoluteComposite.setEditingDomain(getEditingDomain());
+		relativeComposite.setEditingDomain(getEditingDomain());
 		table.setMixedEditDomain(mixedEditDomain);
 		table.setAction((Action) getEObject(), deadlineStereotype, this.taskStereotype);
 		absoluteComposite.setContext(null, null);

@@ -5,7 +5,6 @@ import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -22,21 +21,22 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionBodyComposite;
+import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public class ChangeEventDetailsComposite extends Composite{
-	protected OpaqueExpressionBodyComposite changeComposite;
+	protected OpaqueExpressionComposite changeComposite;
 	Trigger trigger;
+	private EditingDomain editingDomain;
 
-	public ChangeEventDetailsComposite(final EditingDomain domain, Composite parent,int labelWidth, FormToolkit toolkit){
+	public ChangeEventDetailsComposite(Composite parent,int labelWidth, FormToolkit toolkit){
 		super(parent, SWT.NONE);
 		setLayout(new FormLayout());
 		Label l = toolkit.createLabel(this, "Condition");
 		setBackground(parent.getBackground());
-		changeComposite = new OpaqueExpressionBodyComposite(this, toolkit){
+		changeComposite = new OpaqueExpressionComposite(this, toolkit){
 			@Override
 			protected EditingDomain getEditingDomain(){
-				return domain;
+				return editingDomain;
 			}
 
 			@Override
@@ -52,22 +52,19 @@ public class ChangeEventDetailsComposite extends Composite{
 					}
 					if(event == null){
 						event = UMLFactory.eINSTANCE.createChangeEvent();
+						
 						event.createChangeExpression("changeExpression", null, UMLPackage.eINSTANCE.getOpaqueExpression());
 						ann.getContents().add(event);
-						domain.getCommandStack().execute(AddCommand.create(domain, ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), event));
+						editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, ann, EcorePackage.eINSTANCE.getEAnnotation_Contents(), event));
 					}
-					domain.getCommandStack().execute(SetCommand.create(domain, trigger, UMLPackage.eINSTANCE.getTrigger_Event(), event));
+					editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, trigger, UMLPackage.eINSTANCE.getTrigger_Event(), event));
 				}else{
 					event = (ChangeEvent) trigger.getEvent();
 				}
-				super.valueSpecificationOwner=trigger.getEvent();
+				super.oclBodyOwner=event.getChangeExpression();
 				super.fireOclChanged(value);
 			}
 
-			@Override
-			public EReference getValueSpecificationFeature(){
-				return UMLPackage.eINSTANCE.getChangeEvent_ChangeExpression();
-			}
 		};
 		changeComposite.setBackground(getBackground());
 		FormData layoutData = new FormData();
@@ -84,10 +81,16 @@ public class ChangeEventDetailsComposite extends Composite{
 			ChangeEvent ce = (ChangeEvent) trigger.getEvent();
 			if(ce.getChangeExpression() instanceof OpaqueExpression){
 				OpaqueExpression expr = (OpaqueExpression) ce.getChangeExpression();
-				changeComposite.setOclContext(trigger,ce,expr);
+				changeComposite.setOclContext(trigger,expr);
 			}
 		}
 		layout();
 		
+	}
+	public EditingDomain getEditingDomain(){
+		return editingDomain;
+	}
+	public void setEditingDomain(EditingDomain editingDomain){
+		this.editingDomain = editingDomain;
 	}
 }

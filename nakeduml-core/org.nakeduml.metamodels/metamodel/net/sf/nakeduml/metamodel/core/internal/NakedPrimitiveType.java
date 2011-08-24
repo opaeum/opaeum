@@ -6,6 +6,9 @@ import nl.klasse.octopus.model.IPrimitiveType;
 public class NakedPrimitiveType extends NakedSimpleDataTypeImpl implements INakedPrimitiveType{
 	private static final long serialVersionUID = -286943525142230375L;
 	public IPrimitiveType oclType;
+	public String getMetaClass(){
+		return INakedPrimitiveType.META_CLASS;
+	}
 	public IPrimitiveType getOclType(){
 		if(hasSupertype()){
 			return ((INakedPrimitiveType) getSupertype()).getOclType();

@@ -11,6 +11,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.LinkagePhase;
@@ -20,13 +21,13 @@ import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import net.sf.nakeduml.validation.ValidationPhase;
 import net.sf.nakeduml.validation.namegeneration.NameGenerationPhase;
-import nl.klasse.octopus.expressions.internal.types.RealLiteralExp;
 
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 @PhaseDependency(after = {
-		LinkagePhase.class,NameGenerationPhase.class
+		LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class
 },before = {
 	FileGenerationPhase.class
 })
@@ -77,10 +78,16 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		return files;
 	}
 	@Override
-	public void execute(TransformationContext context){
+	public void execute(TransformationProgressLog log, TransformationContext context){
 		OJUtil.clearCache();
+		log.startTask("Generating Java Model",features.size());
 		for(JavaTransformationStep f:features){
-			if(f instanceof NakedElementOwnerVisitor){
+			log.workOnStep("Executing " + f.getClass().getSimpleName() );
+			boolean matchesPhase=true;
+			if(context.isIntegrationPhase()){
+				matchesPhase = f instanceof IntegrationCodeGenerator;
+			}
+			if(f instanceof NakedElementOwnerVisitor && !log.isCanceled() && matchesPhase){
 				//Remember HibernateConfigGenerator
 				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
 				f.setTransformationContext(context);
@@ -88,6 +95,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 			}
 			context.featureApplied(f.getClass());
 		}
+		log.endTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<JavaTransformationStep> features){

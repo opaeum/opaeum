@@ -132,6 +132,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(activity.getActivityKind() == ActivityKind.PROCESS){
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
 			}else{
+				Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 				doIsStepActive(activityClass, activity);
 				super.addGetNodeInstancesRecursively(activityClass);
 			}

@@ -18,6 +18,7 @@ import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -26,6 +27,7 @@ import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
@@ -47,11 +49,22 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 	public void updateUmlName(INakedElement nakedElement) {
 		MappingInfo mappingInfo = nakedElement.getMappingInfo();
 		nakedElement.setName(generateUmlName(nakedElement).toString());
+		if(mappingInfo==null){
+			System.out.println();
+		}
 		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
 		if(nakedElement instanceof ArtificialProperty){
 			ArtificialProperty ap=(ArtificialProperty) nakedElement;
 			if(ap.getMultiplicity().isMany()){
 				ap.setName(NameConverter.decapitalize(ap.getNakedBaseType().getName()));
+			}
+		}
+		if(nakedElement instanceof ICompositionParticipant && ((ICompositionParticipant) nakedElement).getEndToComposite() instanceof ArtificialProperty){
+			ArtificialProperty ap=(ArtificialProperty) ((ICompositionParticipant) nakedElement).getEndToComposite();
+			INakedProperty oe = ap.getOtherEnd();
+			if(oe instanceof ArtificialProperty && oe.getNakedMultiplicity().isMany()){
+				oe.setName(NameConverter.decapitalize(oe.getNakedBaseType().getName()));
+				getAffectedElements().add(ap);
 			}
 		}
 	}

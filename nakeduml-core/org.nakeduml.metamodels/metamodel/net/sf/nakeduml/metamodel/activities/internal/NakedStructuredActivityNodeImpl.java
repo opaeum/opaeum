@@ -49,7 +49,10 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 			variables.remove((INakedActivityVariable) element);
 		}
 		if (element instanceof INakedActivityEdge) {
-			activityEdges.remove((INakedActivityEdge) element);
+			INakedActivityEdge e = (INakedActivityEdge) element;
+			e.setSource(null);
+			e.setTarget(null);
+			this.activityEdges.remove(e);
 		}
 		if(element instanceof INakedInputPin){
 			input.remove((INakedInputPin) element);

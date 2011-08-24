@@ -62,7 +62,7 @@ public class ActionMap extends ActivityNodeMap{
 		if(action instanceof IActionWithTargetPin){
 			return ((IActionWithTargetPin) action).getExpectedTargetType();
 		}else if(action instanceof INakedCallBehaviorAction){
-			return action.getActivity().getContext();
+			return ((INakedCallBehaviorAction) action).getBehavior().getContext();
 		}else{
 			return null;
 		}

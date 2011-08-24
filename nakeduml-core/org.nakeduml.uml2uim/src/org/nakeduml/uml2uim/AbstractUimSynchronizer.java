@@ -37,7 +37,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	protected void visitParentsRecursively(Element parent){
 		if(parent != null){
 			visitParentsRecursively(parent.getOwner());
-			for(VisitSpec v:beforeMethods){
+			for(VisitSpec v:methodInvokers.beforeMethods){
 				maybeVisit(parent, v);
 			}
 		}

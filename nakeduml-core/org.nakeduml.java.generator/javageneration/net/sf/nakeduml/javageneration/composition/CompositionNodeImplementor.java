@@ -13,6 +13,8 @@ import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.oclexpressions.AttributeExpressionGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
+import net.sf.nakeduml.metamodel.activities.ActivityKind;
+import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -57,7 +59,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		super.initialize(javaModel, config, textWorkspace, workspace);
 	}
 	private void visitClass(ICompositionParticipant c){
-		if(isPersistent(c)){
+		if(OJUtil.hasOJClass(c)){
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
 			if(ojClassifier instanceof OJAnnotatedClass){
@@ -96,7 +98,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		addToOwningObject.setComment("Call this method when you want to attach this object to the containment tree. Useful with transitive persistence");
 		if(!isInterfaceOrAssociationClass(c)){
 			ICompositionParticipant entity = (ICompositionParticipant) c;
-			if(entity.hasComposite()){
+			if(entity.hasComposite() && !entity.getEndToComposite().isDerived()){
 				INakedProperty endToComposite = entity.getEndToComposite();
 				StructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
 				StructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
@@ -126,7 +128,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	private void markChildrenForDeletion(ICompositionParticipant sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(INakedProperty np:sc.getEffectiveAttributes()){
-			if(np.getOtherEnd() != null){
+			if(np.getOtherEnd() != null && !np.isDerived() && !np.getOtherEnd().isDerived() && (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
@@ -176,7 +178,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			}
 			start++;
 		}
-		if(c.hasComposite()){
+		if(c.hasComposite() && !c.getEndToComposite().isDerived()){
 			StructuralFeatureMap compositeFeatureMap = new NakedStructuralFeatureMap(c.getEndToComposite());
 			ojClass.addToImports(compositeFeatureMap.javaBaseTypePath());
 			init.getBody().getStatements()
@@ -213,7 +215,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			if(a instanceof INakedProperty){
 				INakedProperty np = (INakedProperty) a;
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-				if(np.isComposite() && np.getNakedBaseType() instanceof INakedClassifier && !np.isDerived()){
+				if(np.isComposite() && (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface) && !np.isDerived()){
 					INakedClassifier type = (INakedClassifier) np.getNakedBaseType();
 					if(map.isMany()){
 						markDeleted.getOwner().addToImports("java.util.ArrayList");

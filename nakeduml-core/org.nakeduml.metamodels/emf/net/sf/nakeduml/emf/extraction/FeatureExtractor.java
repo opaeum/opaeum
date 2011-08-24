@@ -3,6 +3,7 @@ package net.sf.nakeduml.emf.extraction;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
+import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedResponsibilityImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -51,7 +52,7 @@ import org.nakeduml.eclipse.EmfParameterUtil;
 public class FeatureExtractor extends AbstractExtractorFromEmf{
 	@Override
 	public void visitRecursively(Element o){
-	super.visitRecursively(o);
+		super.visitRecursively(o);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitPort(Port p,NakedPortImpl np){
@@ -64,6 +65,14 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			return new NakedPortImpl();
 		}else if(e instanceof Property){
 			Property p = (Property) e;
+			if(p.getAssociation()!=null){
+				for(Property property:p.getAssociation().getMemberEnds()){
+					if(property.getType()==null){
+						//broken association a'la topcased
+						return null;
+					}
+				}
+			}
 			if(p.getOwner() instanceof Property || p.getAssociation() instanceof Extension){
 				return null;
 			}else{
@@ -84,25 +93,25 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			Property.class,ExtensionEnd.class
 	})
 	public void visitProperty(Property p,NakedPropertyImpl np){
-		boolean navigable = p.isNavigable() || p.isComposite()||p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
+		boolean navigable = p.isNavigable() || p.isComposite() || p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
 		if(p.getOtherEnd() != null){
 			Property opposite = p.getOtherEnd();
 			if(opposite.isComposite() && opposite.getType() instanceof org.eclipse.uml2.uml.Class){
 				// force bidirectionality for composition between two classes
 				navigable = true;
 			}
-			if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
-				navigable = false;
-			}
-			INakedClassifier owner =null;
+//			if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
+//				navigable = false;
+//			}
+			INakedClassifier owner = null;
 			np.getOwner().removeOwnedElement(np);
 			if(navigable){
 				// The classifier should be the owner of navigable ends
-				owner=(INakedClassifier) getNakedPeer(opposite.getType());
+				owner = (INakedClassifier) getNakedPeer(opposite.getType());
 			}else{
 				// The association should be the owner of
 				// non-navigable ends
-				owner=(INakedClassifier) getNakedPeer(p.getAssociation());
+				owner = (INakedClassifier) getNakedPeer(p.getAssociation());
 			}
 			np.setOwnerElement(owner);
 			owner.addOwnedElement(np);
@@ -111,14 +120,12 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			if(nakedAss.isMarkedForDeletion()){
 				np.markForDeletion();
 			}
-
 			int index = p.getAssociation().getMemberEnds().indexOf(p);
 			nakedAss.setEnd(index, np);
 			EList<Type> endTypes = p.getAssociation().getEndTypes();
 			for(Type type:endTypes){
 				getAffectedElements().add(getNakedPeer(type));
 			}
-			
 		}
 		np.setNavigable(navigable);
 		populateMultiplicityAndBaseType(p, p.getType(), np);
@@ -133,13 +140,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		np.setIsOrdered(p.isOrdered());
 		np.setIsUnique(p.isUnique());
 		setOwnedAttributeIndexIfNecessary(p, np);
-		if(p.getDefaultValue() != null){
-			OclUsageType ut = p.isDerived() ? OclUsageType.DERIVE : OclUsageType.INIT;
-			INakedValueSpecification vs = getValueSpecification(np, p.getDefaultValue(), ut);
-			if(vs != null){
-				np.setInitialValue(vs);
-			}
-		}
 		// TODO look at implementing qualifiers as free attributes of the association
 		String[] qualifierNames = new String[p.getQualifiers().size()];
 		int i = 0;
@@ -175,25 +175,11 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		}
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
-		List<Constraint> preconditions = emfOper.getPreconditions();
-		List<Constraint> postconditions = emfOper.getPostconditions();
 		if(emfOper.getMethods().size() > 0){
 			for(Behavior b:emfOper.getMethods()){
 				nakedOper.addMethod((INakedBehavior) getNakedPeer(b));
 			}
 		}
-		ValueSpecification body = emfOper.getBodyCondition() != null ? emfOper.getBodyCondition().getSpecification() : null;
-		if(body != null){
-			if(emfOper.getReturnResult() != null){
-				INakedConstraint constraint = new NakedConstraintImpl();
-				initialize(constraint, emfOper.getBodyCondition(), emfOper);
-				constraint.setSpecification(getValueSpecification(constraint, body, OclUsageType.BODY));
-				nakedOper.setBodyCondition(constraint);
-			}else{
-				getErrorMap().putError(nakedOper, CoreValidationRule.OCL, "Operation has a bodyCondition, but no return parameter");
-			}
-		}
-		addConstraints(nakedOper, preconditions, postconditions);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(Parameter emfParameter,NakedParameterImpl nakedParameter){

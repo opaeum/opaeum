@@ -12,6 +12,7 @@ import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -22,6 +23,7 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.oclengine.internal.OclContextImpl;
@@ -45,7 +47,6 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		private Set<INakedNameSpace> nakedUmlChanges;
 		private Map<String,NamespaceRenameRequest> renamedRequestsByNewName;
 		private UmlCacheListener updater;
-		
 		public EmfToNakedUmlSynchronizer(Set<EObject> emfChanges,INakedModelWorkspace nakedModelWorspace,Set<INakedNameSpace> nakedUmlChanges2,
 				Map<String,NamespaceRenameRequest> renamedRequestsByNewName,UmlCacheListener umlModelUpdator){
 			super();
@@ -57,37 +58,44 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		}
 		public void run(){
 			try{
-				if(emfChanges.size() > 0){
-					Set<INakedNameSpace> nakedClassifiers = new HashSet<INakedNameSpace>();
-					Set<Classifier> emfClassifiers = findClassifiers(emfChanges);
-					Set<EObject> asdf = new HashSet<EObject>(emfChanges);
-					emfChanges.clear();
-					for(Object object:getTransformationProcess().processElements(asdf, EmfExtractionPhase.class)){
-						if(object instanceof INakedElement){
-							INakedElement ne = (INakedElement) object;
-							if(isLocalJavaRename(ne) && couldBeReferencedFromOcl(ne)){
-								updater.updateOclReferencesTo(ne);
-							}
-							while(!(ne instanceof INakedClassifier || ne instanceof INakedRootObject || ne ==null)){
-								ne = (INakedElement) ne.getOwnerElement();
-							}
-							if(ne instanceof INakedNameSpace){
-								nakedClassifiers.add((INakedNameSpace) ne);
-							}
-							if(ne instanceof INakedClassifier || ne instanceof INakedPackage){
-								maybeAddRenameRequest((INakedNameSpace) ne);
+				synchronized(nakedModelWorspace){
+					if(emfChanges.size() > 0){
+						Set<INakedNameSpace> nakedClassifiers = new HashSet<INakedNameSpace>();
+						Set<Classifier> emfClassifiers = findClassifiers(emfChanges);
+						Set<EObject> asdf = new HashSet<EObject>(emfChanges);
+						emfChanges.clear();
+						long start=System.currentTimeMillis();
+						for(Object object:getTransformationProcess().processElements(asdf, EmfExtractionPhase.class)){
+							if(object instanceof INakedElement){
+								INakedElement ne = (INakedElement) object;
+								if(isLocalJavaRename(ne) && couldBeReferencedFromOcl(ne)){
+									updater.updateOclReferencesTo(ne);
+								}
+								while(!(ne instanceof INakedClassifier || ne instanceof INakedRootObject || ne == null)){
+									ne = (INakedElement) ne.getOwnerElement();
+								}
+								if(ne instanceof INakedNameSpace){
+									nakedClassifiers.add((INakedNameSpace) ne);
+									if(ne instanceof INakedBehavior && ((INakedBehavior) ne).getContext()!=null){
+										nakedClassifiers.add(((INakedBehavior) ne).getContext());
+									}
+								}
+								if(ne instanceof INakedClassifier || ne instanceof INakedPackage){
+									maybeAddRenameRequest((INakedNameSpace) ne);
+								}
 							}
 						}
-					}
-					for(Classifier classifier:emfClassifiers){
-						nakedClassifiers.add((INakedClassifier) nakedModelWorspace.getModelElement(resourceHelper.getId(classifier)));
-					}
-					for(INakedNameSpace iNakedNameSpace:nakedClassifiers){
-						if(nakedModelWorspace.isPrimaryModel(iNakedNameSpace.getRootObject())){
-							nakedUmlChanges.add(iNakedNameSpace);
+						for(Classifier classifier:emfClassifiers){
+							nakedClassifiers.add((INakedClassifier) nakedModelWorspace.getModelElement(resourceHelper.getId(classifier)));
 						}
+						for(INakedNameSpace iNakedNameSpace:nakedClassifiers){
+							if(nakedModelWorspace.isPrimaryModel(iNakedNameSpace.getRootObject())){
+								nakedUmlChanges.add(iNakedNameSpace);
+							}
+						}
+						updater.synchronizationComplete(asdf, nakedUmlChanges);
+						System.out.println("Synchronization took " +(System.currentTimeMillis()-start));
 					}
-					updater.synchronizationComplete(asdf, nakedUmlChanges);
 				}
 			}catch(Exception e){
 				e.printStackTrace();
@@ -133,22 +141,27 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 	}
 	private IProgressMonitor monitor;
 	private UmlCacheListener umlModelUpdator;
-	NakedUmlElementLinker linker=new NakedUmlElementLinker();
+	NakedUmlElementLinker linker = new NakedUmlElementLinker();
 	EclipseUmlElementCache(NakedUmlConfig cfg,UmlCacheListener umlModelUpdator){
 		super(new EclipseEmfResourceHelper(), cfg);
 		this.umlModelUpdator = umlModelUpdator;
+		super.synchronizer=new EmfToNakedUmlSynchronizer(emfChanges, nakedModelWorspace, nakedUmlChanges, renamedRequestsByNewName, umlModelUpdator);
+
+
 	}
 	@Override
 	public void notifyChanged(Notification notification){
 		linker.notifyChanged(notification);
 		super.notifyChanged(notification);
 	}
-	public void setMonitor(IProgressMonitor monitor){
-		getTransformationProcess().setLog(new ProgressMonitorTransformationLog(monitor));
+	public void setMonitor(IProgressMonitor monitor, int size){
+		getTransformationProcess().setLog(new ProgressMonitorTransformationLog(monitor,size));
 		this.monitor = monitor;
 	}
-	protected Runnable newNakedUmlSynchronizer(){
-		return new EmfToNakedUmlSynchronizer(emfChanges, nakedModelWorspace, nakedUmlChanges, renamedRequestsByNewName, umlModelUpdator);
+	@Override
+	public void reinitializeProcess(NakedUmlConfig cfg){
+		super.reinitializeProcess(cfg);
+		super.synchronizer=new EmfToNakedUmlSynchronizer(emfChanges, nakedModelWorspace, nakedUmlChanges, renamedRequestsByNewName, umlModelUpdator);
 	}
 	@Override
 	public void emfWorkspaceLoaded(EmfWorkspace w){
@@ -176,6 +189,9 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		transformationProcess.replaceModel(e);
 		INakedModelWorkspace nws = getNakedWorkspace();
 		nws.clearGeneratingModelOrProfiles();
+		for(Package package1:e.getPrimaryModels()){
+			nws.addPrimaryModel((INakedRootObject) nws.getModelElement(resourceHelper.getId(package1)));
+		}
 		Package generatingModel = e.getGeneratingModelsOrProfiles().iterator().next();// Should be exactly one
 		nws.addGeneratingRootObject((INakedRootObject) nws.getModelElement(resourceHelper.getId(generatingModel)));
 		this.currentEmfWorkspace = e;
