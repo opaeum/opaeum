@@ -46,7 +46,21 @@ public class DefaultCompositionNodeStrategy extends AbstractCompositionNodeStrat
 				testConstructor.getBody().addToStatements("addToOwningObject()");
 			}
 		}else if(c instanceof INakedBehavior){
-			
+			INakedBehavior b = (INakedBehavior) c;
+			if (b.getContext() != null) {
+				INakedBehavioredClassifier owningType = b.getContext();
+				OJPathName paramPath = OJUtil.classifierPathname(owningType);
+				OJConstructor testConstructor = findConstructor(ojClass, paramPath);
+				if (testConstructor == null) {
+					testConstructor = new OJConstructor();
+					ojClass.addToConstructors(testConstructor);
+					testConstructor.addParam("contextObject", new OJPathName(owningType.getMappingInfo().getQualifiedJavaName()));
+					testConstructor.getBody().addToStatements("init(contextObject)");
+					testConstructor.getBody().addToStatements("setContextObject(contextObject)");
+				} else {
+				}
+				testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
+			}
 		}
 	}
 	@Override

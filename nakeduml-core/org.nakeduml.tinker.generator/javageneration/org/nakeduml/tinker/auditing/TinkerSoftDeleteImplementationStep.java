@@ -6,6 +6,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.nakeduml.tinker.basicjava.tinker.TinkerSoftDeleteTransformation;
+import org.nakeduml.tinker.basicjava.tinker.TinkerSoftDeleteTransformationActivities;
 import org.nakeduml.tinker.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 
 @StepDependency(phase = TinkerAuditGenerationPhase.class,requires=TinkerExtendedCompositionSemanticsJavaStep.class,after=TinkerExtendedCompositionSemanticsJavaStep.class)
@@ -16,6 +17,10 @@ public class TinkerSoftDeleteImplementationStep extends AbstractJavaTransformati
 		TinkerSoftDeleteTransformation tinkerSoftDeleteTransformation = new TinkerSoftDeleteTransformation();
 		tinkerSoftDeleteTransformation.initialize(javaModel, config, textWorkspace, context);
 		tinkerSoftDeleteTransformation.startVisiting(workspace);
+		
+		TinkerSoftDeleteTransformationActivities tinkerSoftDeleteTransformationActivities = new TinkerSoftDeleteTransformationActivities();
+		tinkerSoftDeleteTransformationActivities.initialize(javaModel, config, textWorkspace, context);
+		tinkerSoftDeleteTransformationActivities.startVisiting(workspace);
 	}
 
 }

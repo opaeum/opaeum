@@ -3,6 +3,7 @@ package org.nakeduml.tinker.composition.tinker;
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.composition.CompositionNodeStrategy;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -38,6 +39,22 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 					testConstructor.getBody().addToStatements("init(owningObject)");
 				}
 			}
+		} else if (c instanceof INakedBehavior) {
+			INakedBehavior b = (INakedBehavior) c;
+			if (b.getContext() != null) {
+				INakedBehavioredClassifier owningType = b.getContext();
+				OJPathName paramPath = OJUtil.classifierPathname(owningType);
+				OJConstructor testConstructor = findConstructor(ojClass, paramPath);
+				if (testConstructor == null) {
+					testConstructor = new OJConstructor();
+					ojClass.addToConstructors(testConstructor);
+					testConstructor.addParam("contextObject", new OJPathName(owningType.getMappingInfo().getQualifiedJavaName()));
+					testConstructor.getBody().addToStatements("init(contextObject)");
+					testConstructor.getBody().addToStatements("setContextObject(contextObject)");
+				} else {
+				}
+				testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
+			}
 		}
 	}
 
@@ -56,7 +73,8 @@ public class TinkerCompositionNodeStrategy extends AbstractCompositionNodeStrate
 	}
 
 	private void removeVertex(INakedBehavioredClassifier sc, OJClass ojClass, OJAnnotatedOperation markDeleted) {
-		OJSimpleStatement removeVertex  = new OJSimpleStatement( UtilityCreator.getUtilPathName().toJavaString() + "." + TinkerUtil.graphDbAccess + ".removeVertex(this.vertex)" );
+		OJSimpleStatement removeVertex = new OJSimpleStatement(UtilityCreator.getUtilPathName().toJavaString() + "." + TinkerUtil.graphDbAccess
+				+ ".removeVertex(this.vertex)");
 		removeVertex.setName(REMOVE_VERTEX);
 		markDeleted.getBody().addToStatements(removeVertex);
 	}

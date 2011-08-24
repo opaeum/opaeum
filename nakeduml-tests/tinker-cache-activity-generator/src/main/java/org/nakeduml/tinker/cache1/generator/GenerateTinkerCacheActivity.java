@@ -1,4 +1,4 @@
-package org.nakeduml.generate;
+package org.nakeduml.tinker.cache1.generator;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,26 +13,26 @@ import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationStep;
 import net.sf.nakeduml.javageneration.JavaTextSource;
 
+import org.nakeduml.tinker.activity.TinkerActivityStep;
 import org.nakeduml.tinker.auditing.TinkerImplementAttributeCacheStep;
-import org.nakeduml.tinker.auditing.TinkerJsfImplementationStep;
 import org.nakeduml.tinker.auditing.TinkerSoftDeleteImplementationStep;
 import org.nakeduml.tinker.composition.tinker.TinkerExtendedCompositionSemanticsJavaStep;
 
-public class GenerateTinkerJetty {
+public class GenerateTinkerCacheActivity {
 
 	protected File outputRoot;
 	protected File modelFile;
 	protected TransformationProcess process = new TransformationProcess();
 
 	public static void main(String[] args) throws Exception {
-		File model = new File("../TestModels/Models/tinker/tinker.uml");
-		File outputRoot = new File("../tinker-jetty/");
+		File model = new File("../TestModels/Models/tinker/activityTest.uml");
+		File outputRoot = new File("../tinker-cache-activity/");
 		System.out.println(outputRoot.getAbsolutePath());
-		GenerateTinkerJetty g = new GenerateTinkerJetty(outputRoot, model);
+		GenerateTinkerCacheActivity g = new GenerateTinkerCacheActivity(outputRoot, model);
 		g.generate();
 	}
 
-	public GenerateTinkerJetty(File outputRoot, File modelFile) {
+	public GenerateTinkerCacheActivity(File outputRoot, File modelFile) {
 		super();
 		this.outputRoot = outputRoot;
 		this.modelFile = modelFile;
@@ -40,6 +40,7 @@ public class GenerateTinkerJetty {
 
 	private void generate() throws Exception {
 		long start = System.currentTimeMillis();
+		
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(modelFile, outputRoot.getName());
 		workspace.setDirectoryName(outputRoot.getName());
 		NakedUmlConfig cfg = buildConfig(workspace);
@@ -54,12 +55,16 @@ public class GenerateTinkerJetty {
 		return toSet(net.sf.nakeduml.javageneration.basicjava.BasicJavaModelStep.class,
 				net.sf.nakeduml.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
 				net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor.class, TinkerExtendedCompositionSemanticsJavaStep.class,
-				TinkerSoftDeleteImplementationStep.class, TinkerImplementAttributeCacheStep.class, TinkerJsfImplementationStep.class);
+				TinkerSoftDeleteImplementationStep.class,
+				TinkerImplementAttributeCacheStep.class,
+				TinkerActivityStep.class);
 	}
 
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {
 		NakedUmlConfig cfg = new NakedUmlConfig();
 		cfg.setOutputRoot(outputRoot);
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "", "src/test/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "", "src/test/generated-java");
 		cfg.load(new File(modelFile.getParent(), workspace.getDirectoryName() + "-nakeduml.properties"), workspace.getName());
 		cfg.store();
 		mapOutputRoots(cfg);
@@ -71,10 +76,7 @@ public class GenerateTinkerJetty {
 	}
 
 	private void mapDomainProjects(NakedUmlConfig cfg) {
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, false, "", "../src/main/generated-java");
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_SRC, false, "", "../src/main/generated-adaptor");
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_TEST_SRC, false, "", "../src/test/generated-java");
-		cfg.mapOutputRoot(JavaTextSource.OutputRootId.ADAPTOR_GEN_TEST_SRC, false, "", "../src/test/generated-java");
+		cfg.mapOutputRoot(JavaTextSource.OutputRootId.DOMAIN_GEN_SRC, true, "", "../src/main/generated-java");
 	}
 
 	protected static Set<Class<? extends TransformationStep>> toSet(Class<? extends TransformationStep>... classes) {

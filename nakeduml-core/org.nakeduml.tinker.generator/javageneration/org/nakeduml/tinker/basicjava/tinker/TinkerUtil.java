@@ -1,6 +1,7 @@
 package org.nakeduml.tinker.basicjava.tinker;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 
 import org.nakeduml.java.metamodel.OJBlock;
@@ -86,6 +87,10 @@ public class TinkerUtil {
 		}
 	}
 
+	public static String getEdgeName(INakedClassifier c) {
+		return tinkeriseUmlName(c.getMappingInfo().getQualifiedUmlName());
+	}
+
 	public static String constructNameForInternalCreateAuditToOne(NakedStructuralFeatureMap map) {
 		return "z_internalCreateAuditToOne" + NameConverter.capitalize(map.umlName());
 	}
@@ -116,17 +121,6 @@ public class TinkerUtil {
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 		block.addToStatements(ojTryStatement);
 		return null;
-		
-//		AbstractX1 abstractX1 = null;
-//		try {
-//			Vertex v = db.getVertex(abstractX1Id);
-//			Class<?> c = Class.forName((String) v.getProperty("className"));
-//			abstractX1 = (AbstractX1) c.getConstructor(Vertex.class).newInstance(v);
-//		} catch (Exception e) {
-//			throw new RuntimeException(e);
-//		} finally {
-//		
-//		}		
 	}
 
 }

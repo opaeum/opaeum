@@ -13,6 +13,7 @@ import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 import org.nakeduml.tinker.basicjava.TinkerFieldRemoverStep;
 import org.nakeduml.tinker.basicjava.tinker.TinkerSchemaGenerator;
 import org.nakeduml.tinker.basicjava.tinker.TinkerTransformation;
+import org.nakeduml.tinker.basicjava.tinker.TinkerTransformationActivities;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {InverseCalculator.class, PersistentNameGenerator.class, TinkerFieldRemoverStep.class, SourcePopulationResolver.class},after = {
 	InverseCalculator.class, ExtendedCompositionSemanticsJavaStep.class})
@@ -22,6 +23,9 @@ public class TinkerExtendedCompositionSemanticsJavaStep extends AbstractJavaTran
 		TinkerTransformation tinkerTransformation = new TinkerTransformation();
 		tinkerTransformation.initialize(javaModel, config, textWorkspace, context);
 		tinkerTransformation.startVisiting(workspace);
+		TinkerTransformationActivities tinkerTransformationActivities = new TinkerTransformationActivities();
+		tinkerTransformationActivities.initialize(javaModel, config, textWorkspace, context);
+		tinkerTransformationActivities.startVisiting(workspace);
 		TinkerSchemaGenerator schemaGenerator = new TinkerSchemaGenerator(); 
 		schemaGenerator.initialize(javaModel, config, textWorkspace, context);
 		schemaGenerator.startVisiting(workspace);

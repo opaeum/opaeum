@@ -27,6 +27,14 @@ public class TinkerUtil {
 		return persistentCollection.toArray(new String[]{});
 	}
 
+	public static String convertEnumForPersistence(Enum<?> embeddedEnum) {
+		return embeddedEnum.toString();
+	}
+
+	public static Enum<?> convertEnumFromPersistence(Class<? extends Enum> embeddedEnum, String value) {
+		return Enum.valueOf(embeddedEnum, value);
+	}
+	
 	public static Collection convertEnumsFromPersistence(Object multiEmbeddedReason, Class<? extends Enum> e, boolean isOrdered) {
 		if (multiEmbeddedReason != null) {
 			Collection<Enum> persistentCollection;
