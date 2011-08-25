@@ -34,6 +34,7 @@ import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.topcased.uml.editor.NakedUmlContextListener;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 
@@ -52,10 +53,15 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 	}
 	@Override
 	public void onSave(IProgressMonitor monitor){
-		if(context.isOpen() && context.getAutoSync()){
-			process.replaceModel(context.getCurrentEmfWorkspace());
-			renamePackages(monitor);
-			synchronizeClasses(monitor);
+		try{
+			monitor.beginTask("Synchronizing Java sources", 1000);
+			if(context.isOpen() && context.getAutoSync()){
+				process.replaceModel(context.getCurrentEmfWorkspace());
+				renamePackages(new SubProgressMonitor(monitor, 500));
+				synchronizeClasses(new SubProgressMonitor(monitor, 500));
+			}
+		}finally{
+			monitor.done();
 		}
 	}
 	public static boolean hasNewJavaSourceFolders(IWorkspaceRoot workspace,TextWorkspace tws){
@@ -107,11 +113,12 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 		return hasSourceFolder;
 	}
 	private void renamePackages(IProgressMonitor monitor){
-		monitor = new SubProgressMonitor(monitor, 10);
+		
 		Set<NamespaceRenameRequest> renamedNamespaces2 = context.getUmlElementCache().getRenamedNamespaces();
 		monitor.beginTask("Renaming Packages", renamedNamespaces2.size());
 		for(NamespaceRenameRequest rn:renamedNamespaces2){
-			renamePackages(rn, monitor);
+			monitor.subTask("Renaming " + rn.getOldName());
+			renamePackages(rn);
 			monitor.worked(1);
 		}
 		context.getUmlElementCache().clearRenamedNamespaces();
@@ -119,34 +126,30 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 	}
 	private void synchronizeClasses(IProgressMonitor monitor){
 		try{
+			monitor.beginTask("Generating Java Code", 1000);
 			Set<INakedNameSpace> clss = context.getUmlElementCache().getModifiedClasses();
 			if(clss.size() > 0){
-				SubProgressMonitor childMonitor = new SubProgressMonitor(monitor, 10);
-				childMonitor.beginTask("Generating Java", 1);
-				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class);
-				childMonitor.done();
-				childMonitor = new SubProgressMonitor(monitor, 10);
-				childMonitor.beginTask("Writing files", processElements.size());
+				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
 				TextWorkspace tws = process.findModel(TextWorkspace.class);
 				if(hasNewJavaSourceFolders(workspace, tws)){
-					process.executePhase(PomGenerationPhase.class, false);
-					new JavaProjectGenerator(context.getUmlElementCache().getConfig(), process, workspace, false).schedule();
+					process.executePhase(PomGenerationPhase.class, false,new ProgressMonitorTransformationLog(monitor, 100));
+					new JavaProjectGenerator(context.getUmlElementCache().getConfig(), process, workspace).schedule();
 				}
 				for(Object object:processElements){
-					childMonitor.worked(1);
 					if(object instanceof TextOutputNode){
 						TextOutputNode txt = (TextOutputNode) object;
+						monitor.subTask("Emitting " + txt.getName());
 						eclipseGenerator.visitUpFirst(txt);
 					}
+					monitor.worked(500/processElements.size());
 				}
-				childMonitor.done();
 				context.getUmlElementCache().clearModifiedClass();
 			}
 		}finally{
 			monitor.done();
 		}
 	}
-	private void renamePackages(NamespaceRenameRequest rn,IProgressMonitor monitor){
+	private void renamePackages(NamespaceRenameRequest rn){
 		try{
 			for(IJavaProject jp:javaWorkspace.getJavaProjects()){
 				for(IPackageFragmentRoot pfr:jp.getPackageFragmentRoots()){

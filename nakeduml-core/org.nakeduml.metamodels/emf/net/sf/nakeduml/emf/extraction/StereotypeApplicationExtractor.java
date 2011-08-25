@@ -79,7 +79,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	public void addKeywords(INakedElement nakedPeer,Collection<String> keywords){
 		for(String s:keywords){
-			if(!nakedPeer.hasStereotype(s)){
+			if( !(nakedPeer.hasStereotype(s)||s.equalsIgnoreCase("uuid"))){
 				String id = nakedPeer.getId() + s;
 				INakedInstanceSpecification is = (INakedInstanceSpecification) nakedWorkspace.getModelElement(id);
 				if(is == null){

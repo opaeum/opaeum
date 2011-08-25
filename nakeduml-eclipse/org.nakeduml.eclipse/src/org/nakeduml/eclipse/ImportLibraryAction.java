@@ -11,51 +11,46 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageImport;
 
-public class ImportLibraryAction  implements IObjectActionDelegate {
-
+public class ImportLibraryAction implements IObjectActionDelegate{
 	private IStructuredSelection selection;
-
 	@Override
-	public void run(IAction arg0) {
-		for (Iterator<?> it = selection.iterator(); it.hasNext();) {
+	public void run(IAction arg0){
+		for(Iterator<?> it = selection.iterator();it.hasNext();){
 			Object element = it.next();
-			if (element instanceof Model) {
+			if(element instanceof Model){
 				Model model = (Model) element;
-				String librName = "NakedUMLSimpleTypes.library.uml";
-				importLibrary(model, librName);
+				String librName = "OpiumSimpleTypes.library.uml";
+				importLibraryIfNecessary(model, librName);
 			}
 		}
 	}
-
-	public static Model importLibrary(Model model,String librName){
+	public static Model importLibraryIfNecessary(Model model,String librName){
 		Model library = findLibrary(model, librName);
-		model.createPackageImport(library);
+		if(library == null){
+			Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP + "libraries/" + librName), true);
+			library = (Model) resource.getContents().get(0);
+			model.createPackageImport(library);
+		}
 		return library;
 	}
-
 	public static Model findLibrary(Model model,String librName){
-		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP +"libraries/"+librName), true);
-		Model library=(Model) resource.getContents().get(0);
+		Model library = null;
 		EList<PackageImport> packageImports = model.getPackageImports();
 		for(PackageImport packageImport:packageImports){
-			if(packageImport.getImportedPackage()==library){
-				return library;
+			if(!packageImport.getImportedPackage().eIsProxy() && packageImport.getImportedPackage().eResource().getURI().lastSegment().equals(librName)){
+				library = (Model) packageImport.getImportedPackage();
 			}
 		}
 		return library;
 	}
-
 	@Override
-	public void selectionChanged(IAction arg0, ISelection selection) {
+	public void selectionChanged(IAction arg0,ISelection selection){
 		this.selection = (IStructuredSelection) selection;
-
 	}
-
 	@Override
-	public void setActivePart(IAction arg0, IWorkbenchPart arg1) {
-
+	public void setActivePart(IAction arg0,IWorkbenchPart arg1){
 	}
-
 }

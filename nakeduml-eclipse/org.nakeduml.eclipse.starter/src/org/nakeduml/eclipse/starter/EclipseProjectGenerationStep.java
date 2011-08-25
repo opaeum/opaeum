@@ -43,17 +43,12 @@ import org.eclipse.uml2.uml.Element;
 @StepDependency(phase = EclipseProjectGenerationPhase.class)
 public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implements ITransformationStep{
 	IWorkspaceRoot root;
-	NakedUmlConfig config;
 	boolean isTopToBottom = false;
 	public IWorkspaceRoot getRoot(){
 		return root;
 	}
 	public void setRoot(IWorkspaceRoot root){
 		this.root = root;
-	}
-	public IProject visitProjectTopToBottom(TextProject tp){
-		this.isTopToBottom = true;
-		return visitProject(tp);
 	}
 	@VisitBefore()
 	public IProject visitProject(TextProject tp){

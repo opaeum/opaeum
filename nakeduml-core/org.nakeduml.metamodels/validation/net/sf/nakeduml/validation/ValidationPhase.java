@@ -34,11 +34,15 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 	}
 	@Override
 	public void execute(TransformationProgressLog log,TransformationContext context){
+		log.startTask("Validating Model",validators.size());
 		for(AbstractValidator v:validators){
 			if(!log.isCanceled()){
+				log.startStep("Executing " + v.getClass().getSimpleName());
 				v.startVisiting(modelWorkspace);
+				log.endLastStep();
 			}
 		}
+		log.endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractValidator> features){

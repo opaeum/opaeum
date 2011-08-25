@@ -31,9 +31,13 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	}
 	@Override
 	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log, TransformationContext context){
+		log.startTask("Generating platform-specific names", nameGenerators.size());
 		for(AbstractNameGenerator ng:nameGenerators){
+			log.startStep("Executing " + ng.getClass().getName());
 			ng.startVisiting(modelWorkspace);
+			log.endLastStep();
 		}
+		log.endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractNameGenerator> features){

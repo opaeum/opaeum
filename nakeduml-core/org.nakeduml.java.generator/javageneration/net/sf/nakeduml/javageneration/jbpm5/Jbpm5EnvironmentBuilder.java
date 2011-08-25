@@ -93,6 +93,9 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		OJBlock prepareKnowledgeBaseBody;
 		prepareKnowledgeBaseBody = prepareKnowledgeBase.getBody();
 		for(INakedBehavior p:processes){
+			if(p.getMappingInfo().getQualifiedJavaName()==null){
+				System.out.println();
+			}
 			prepareKnowledgeBaseBody.addToStatements("kbuilder.add(ResourceFactory.newClassPathResource(\"" + p.getMappingInfo().getJavaPath()
 					+ ".rf\"), ResourceType.DRF)");
 		}

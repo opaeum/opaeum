@@ -10,6 +10,8 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DefaultEditDomain;
@@ -42,19 +44,22 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	@Override
 	public void close(boolean save){
 		super.close(save);
-		if(save==false && currentContext != null){
+		if(save == false && currentContext != null){
 			currentContext.removeNakedModel(getResourceSet());
 		}
-		
 	}
 	@Override
 	public void doSave(IProgressMonitor monitor){
-		super.doSave(monitor);
-		if(currentContext != null){
-			currentContext.onSave(monitor,getEditingDomain().getResourceSet());
+		try{
+			monitor.beginTask("Saving UML Models", 1000);
+			super.doSave(new SubProgressMonitor(monitor, 500));
+			if(currentContext != null){
+				currentContext.onSave(new SubProgressMonitor(monitor, 500), getEditingDomain().getResourceSet());
+			}
+		}finally{
+			monitor.done();
 		}
 	}
-	
 	@Override
 	protected IContentOutlinePage createOutlinePage(){
 		return new UMLOutlinePage(this){
@@ -79,7 +84,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	}
 	public void dispose(){
 		if(currentContext != null){
-			currentContext.onClose(true,getEditingDomain().getResourceSet());
+			currentContext.onClose(true, getEditingDomain().getResourceSet());
 		}
 		contexts.remove(getEditingDomain().getResourceSet());
 		super.dispose();
@@ -108,9 +113,9 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		NakedUmlEclipseContext result = contexts.get(umlDir);
 		if(result == null){
 			NakedUmlConfig cfg = null;
-			final IFile propsFile = (IFile) umlDir.findMember("nakeduml.properties");
-			if(propsFile == null){
-				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getDefault().getActiveShell(), propsFile.getLocation().toFile());
+			final IFile propsFile = (IFile) umlDir.getFile(new Path("nakeduml.properties"));
+			if(!propsFile.exists()){
+				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getDefault().getActiveShell(), propsFile);
 				if(dlg.open() == SWT.OK){
 					cfg = dlg.getConfig();
 				}
@@ -120,12 +125,12 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 				cfg = new NakedUmlConfig(propsFile.getLocation().toFile());
 			}
 			if(cfg != null){
-				final NakedUmlEclipseContext newOne = new NakedUmlEclipseContext(cfg,umlDir);
+				final NakedUmlEclipseContext newOne = new NakedUmlEclipseContext(cfg, umlDir);
 				contexts.put(umlDir, newOne);
-				result=newOne;
+				result = newOne;
 			}
 		}
-		currentContext=result;
+		currentContext = result;
 		return result;
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){

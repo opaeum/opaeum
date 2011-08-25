@@ -71,20 +71,21 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		if(o instanceof INakedModelWorkspace){
 			super.visitRecursively(o);
 		}else if(o instanceof INakedRootObject){
-			visitOnly(currentRootObject);
 			visit(methodInvokers.beforeMethods);
 			visit(methodInvokers.afterMethods);
 		}
 	}
 	protected void visit(List<VisitSpec> visitBefore){
 		for(VisitSpec v:visitBefore){
+			Set<INakedElement> set = new HashSet<INakedElement>();
 			for(Class<?> class1:v.getClassesToMatch()){
-				for(INakedElement iNakedElement:(Set<? extends INakedElement>) this.workspace.getElementsOfType((Class<? extends INakedElement>) class1)){
-					if(currentRootObject.equals(iNakedElement.getRootObject())){
-						v.visit(this, new Object[]{
-							iNakedElement
-						});
-					}
+				set.addAll(this.workspace.getElementsOfType((Class<? extends INakedElement>) class1));
+			}
+			for(INakedElement iNakedElement:set){
+				if(currentRootObject.equals(iNakedElement.getRootObject())){
+					v.visit(this, new Object[]{
+						iNakedElement
+					});
 				}
 			}
 		}

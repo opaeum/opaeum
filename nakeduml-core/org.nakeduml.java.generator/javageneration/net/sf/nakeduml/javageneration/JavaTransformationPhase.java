@@ -82,7 +82,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		OJUtil.clearCache();
 		log.startTask("Generating Java Model",features.size());
 		for(JavaTransformationStep f:features){
-			log.workOnStep("Executing " + f.getClass().getSimpleName() );
+			log.startStep("Executing " + f.getClass().getSimpleName() );
 			boolean matchesPhase=true;
 			if(context.isIntegrationPhase()){
 				matchesPhase = f instanceof IntegrationCodeGenerator;
@@ -94,8 +94,9 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 				v.startVisiting(this.modelWorkspace);
 			}
 			context.featureApplied(f.getClass());
+			log.endLastStep();
 		}
-		log.endTask();
+		log.endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<JavaTransformationStep> features){

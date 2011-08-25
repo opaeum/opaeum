@@ -7,6 +7,11 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Assert;
 import org.junit.Test;
+import org.nakeduml.runtime.bpm.BusinessRole;
+import org.nakeduml.runtime.bpm.Participant;
+import org.nakeduml.runtime.bpm.ParticipationInTask;
+import org.nakeduml.runtime.bpm.TaskParticipationKind;
+import org.nakeduml.runtime.bpm.TaskRequest;
 
 public class TaskRequestFlowTest{
 	@Test

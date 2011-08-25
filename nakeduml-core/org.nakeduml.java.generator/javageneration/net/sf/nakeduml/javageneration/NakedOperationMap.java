@@ -16,6 +16,11 @@ import org.nakeduml.java.metamodel.OJPathName;
 
 public class NakedOperationMap extends OperationMap{
 	private IParameterOwner parameterOwner;
+	@Override
+	public List<OJPathName> javaParamTypePaths(){
+		// TODO Auto-generated method stub
+		return super.javaParamTypePaths();
+	}
 	public NakedOperationMap(final IParameterOwner operation){
 		super(new OperationImpl(operation.getName()){
 			@Override

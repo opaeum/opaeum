@@ -64,8 +64,7 @@ public class RecompileModelAction implements IObjectActionDelegate{
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
 								NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
-								p.setLog(new ProgressMonitorTransformationLog(monitor,30));
-								p.executeFrom(JavaTransformationPhase.class);
+								p.executeFrom(JavaTransformationPhase.class,new ProgressMonitorTransformationLog(monitor,30));
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 60), p, currentContext);
 								p.findModel(EmfWorkspace.class).saveAll();
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

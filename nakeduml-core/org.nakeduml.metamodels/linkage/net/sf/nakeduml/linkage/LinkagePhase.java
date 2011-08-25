@@ -46,14 +46,15 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	}
 	@Override
 	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
-		log.startTask("Linking uml elements",linkers.size());
+		log.startTask("Linking Opium Metadata",linkers.size());
 		for(AbstractModelElementLinker d:linkers){
 			if(!log.isCanceled()){
-				log.workOnStep("Executing " + d.getClass().getSimpleName()); 
+				log.startStep("Executing " + d.getClass().getSimpleName()); 
 				d.startVisiting(modelWorkspace);
+				log.endLastStep();
 			}
 		}
-		log.endTask();
+		log.endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractModelElementLinker> features){

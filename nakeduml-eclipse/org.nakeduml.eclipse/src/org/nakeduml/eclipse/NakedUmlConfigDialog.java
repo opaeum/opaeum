@@ -2,7 +2,6 @@ package org.nakeduml.eclipse;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
@@ -10,6 +9,9 @@ import net.sf.nakeduml.feature.ISourceFolderStrategy;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -32,11 +34,16 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 	private CCombo cboSourceFolderStrategy;
 	private List lstTransformationSteps;
 	private NakedUmlConfig config;
-	public NakedUmlConfigDialog(Shell shell,File file2){
+	private IFile file;
+	public NakedUmlConfigDialog(Shell shell,IFile file2){
 		super(shell);
-		this.config = new NakedUmlConfig(file2);
+		this.file=file2;
 		if(!file2.exists()){
+			config=new NakedUmlConfig(new File( file2.getParent().getLocation().toFile() ,"nakeduml.properties"));
 			config.loadDefaults("ProjectXYZ");
+		}else{
+			this.config = new NakedUmlConfig(file2.getLocation().toFile());
+
 		}
 	}
 	protected Control createContents(Composite parent){
@@ -120,6 +127,12 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
 		config.store();
+		try{
+			file.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
+		}catch(CoreException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		super.okPressed();
 	}
 	protected void createButtonsForButtonBar(Composite parent){

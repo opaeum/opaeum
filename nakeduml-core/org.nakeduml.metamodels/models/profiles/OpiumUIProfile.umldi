@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_sOqL0BqpEd6PUb5-FUyOfg" activeDiagram="_FmtT8BuAEd6PUb5-FUyOfg">
-  <model href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+  <model href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
   <diagrams xmi:id="_sOqL0RqpEd6PUb5-FUyOfg" position="0,0" size="100,100" name="PropertyParticipation" viewport="0,80">
     <property xmi:id="_sb7LwBqpEd6PUb5-FUyOfg" key="pageFormatName" value="A4"/>
     <property xmi:id="_sb7LwRqpEd6PUb5-FUyOfg" key="diagramWidth" value="840"/>
@@ -12,31 +12,31 @@
     <property xmi:id="_sb7LxxqpEd6PUb5-FUyOfg" key="diagramRightMargin" value="20"/>
     <property xmi:id="_sb7LyBqpEd6PUb5-FUyOfg" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_sOqL0hqpEd6PUb5-FUyOfg" presentation="org.topcased.modeler.uml.profilediagram">
-      <element href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+      <element href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_tEmVUBqpEd6PUb5-FUyOfg" position="33,155" size="385,-1">
       <anchorage xmi:id="_qOTWQBqsEd6PUb5-FUyOfg" graphEdge="_qOTWQhqsEd6PUb5-FUyOfg"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tEmVURqpEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_tFftMBqpEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_tFftMBqpEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_tEmVUhqpEd6PUb5-FUyOfg">
         <property xmi:id="_tEmVUxqpEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tEmVVBqpEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_tFftMBqpEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_tFftMBqpEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_5QFawBqpEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_5QFawRqpEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_5QFawhqpEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_5QFawhqpEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_OxP2IBqqEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_OxP2IRqqEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_OxP2IhqqEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_OxP2IhqqEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_JbRwwBuLEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JbRwwRuLEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_JbRwwhuLEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_JbRwwhuLEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -44,89 +44,89 @@
     <contained xsi:type="di:GraphNode" xmi:id="_k21iUBqsEd6PUb5-FUyOfg" position="554,164" size="120,-1">
       <anchorage xmi:id="_qOTWQRqsEd6PUb5-FUyOfg" graphEdge="_qOTWQhqsEd6PUb5-FUyOfg _BhzTMRx0Ed6j06olwP6D_g _ElmbYBx0Ed6j06olwP6D_g _PU1lQBx0Ed6j06olwP6D_g _Vm5FgGoNEd6TYaKRzGgS4w"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_k21iURqsEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_k21iUhqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_k21iUhqsEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_qOTWQhqsEd6PUb5-FUyOfg" anchor="_qOTWQBqsEd6PUb5-FUyOfg _qOTWQRqsEd6PUb5-FUyOfg">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_qOTWQxqsEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_qOTWRRqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_qOTWRRqsEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_qOTWRBqsEd6PUb5-FUyOfg" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_-oIXYBxzEd6j06olwP6D_g" position="45,306" size="269,-1">
       <anchorage xmi:id="_BhzTMBx0Ed6j06olwP6D_g" graphEdge="_BhzTMRx0Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-oIXYRxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_-oSIYBxzEd6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_-oSIYBxzEd6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_-oIXYhxzEd6j06olwP6D_g">
         <property xmi:id="_-oIXYxxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-oIXZBxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_-oSIYBxzEd6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_-oSIYBxzEd6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_E86zgBrlEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_E86zgRrlEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_E9EkgBrlEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_E9EkgBrlEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_A-VZwhx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_A-VZwxx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_A-VZwBx0Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_A-VZwBx0Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_BhzTMRx0Ed6j06olwP6D_g" anchor="_BhzTMBx0Ed6j06olwP6D_g _qOTWQRqsEd6PUb5-FUyOfg">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_BhzTMhx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_BhzTNBx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_BhzTNBx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_BhzTMxx0Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_CONGMBx0Ed6j06olwP6D_g" position="44,467" size="349,-1">
       <anchorage xmi:id="_ElcqYBx0Ed6j06olwP6D_g" graphEdge="_ElmbYBx0Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_CONGMRx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_CONGNRx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_CONGNRx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_CONGMhx0Ed6j06olwP6D_g">
         <property xmi:id="_CONGMxx0Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_CONGNBx0Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_CONGNRx0Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_CONGNRx0Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_r5YvQBuBEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_r5YvQRuBEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_r5YvQhuBEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_r5YvQhuBEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_FZwcMhx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_FZwcMxx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_FZwcMBx0Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_FZwcMBx0Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_ElmbYBx0Ed6j06olwP6D_g" anchor="_ElcqYBx0Ed6j06olwP6D_g _qOTWQRqsEd6PUb5-FUyOfg">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ElmbYRx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_ElmbYxx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_ElmbYxx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_ElmbYhx0Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_HKG_gBx0Ed6j06olwP6D_g" position="347,584" size="228,-1">
       <anchorage xmi:id="_PUsbUBx0Ed6j06olwP6D_g" graphEdge="_PU1lQBx0Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HKG_gRx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_HKG_hRx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_HKG_hRx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_HKG_ghx0Ed6j06olwP6D_g">
         <property xmi:id="_HKG_gxx0Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HKG_hBx0Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_HKG_hRx0Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_HKG_hRx0Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_1LDH4BuBEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_1LDH4RuBEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_1LDH4huBEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_1LDH4huBEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KqOQQBx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KqOQQRx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_KqEfQBx0Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_KqEfQBx0Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -134,28 +134,28 @@
     <contained xsi:type="di:GraphNode" xmi:id="_LJXqYBx0Ed6j06olwP6D_g" position="493,333" size="286,-1">
       <anchorage xmi:id="_TufZcGoNEd6TYaKRzGgS4w" graphEdge="_TugnkGoNEd6TYaKRzGgS4w _Vm5FgGoNEd6TYaKRzGgS4w"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_LJXqYRx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_LJXqZRx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_LJXqZRx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_LJXqYhx0Ed6j06olwP6D_g">
         <property xmi:id="_LJXqYxx0Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_LJXqZBx0Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_LJXqZRx0Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_LJXqZRx0Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_yaBKsBuBEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yaBKsRuBEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_yaBKshuBEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_yaBKshuBEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_TpG20hx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_TpG20xx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_TpG20Bx0Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_TpG20Bx0Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_PU1lQBx0Ed6j06olwP6D_g" anchor="_PUsbUBx0Ed6j06olwP6D_g _qOTWQRqsEd6PUb5-FUyOfg">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PU1lQRx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_PU1lQxx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_PU1lQxx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_PU1lQhx0Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
       <waypoints>[-33, -231, -116, 143]</waypoints>
@@ -163,18 +163,18 @@
     <contained xsi:type="di:GraphNode" xmi:id="_3t1AgGoLEd6TYaKRzGgS4w" position="520,482" size="214,-1">
       <anchorage xmi:id="_TufZcWoNEd6TYaKRzGgS4w" graphEdge="_TugnkGoNEd6TYaKRzGgS4w"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_3t1AgWoLEd6TYaKRzGgS4w" presentation="default">
-        <element href="UserInteraction.uml#_3t21sGoLEd6TYaKRzGgS4w"/>
+        <element href="OpiumUIProfile.uml#_3t21sGoLEd6TYaKRzGgS4w"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_TugnkGoNEd6TYaKRzGgS4w" anchor="_TufZcGoNEd6TYaKRzGgS4w _TufZcWoNEd6TYaKRzGgS4w">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_TugnkWoNEd6TYaKRzGgS4w" presentation="default">
-        <element href="UserInteraction.uml#_Tugnk2oNEd6TYaKRzGgS4w"/>
+        <element href="OpiumUIProfile.uml#_Tugnk2oNEd6TYaKRzGgS4w"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_TugnkmoNEd6TYaKRzGgS4w" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_Vm5FgGoNEd6TYaKRzGgS4w" anchor="_TufZcGoNEd6TYaKRzGgS4w _qOTWQRqsEd6PUb5-FUyOfg">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Vm5FgWoNEd6TYaKRzGgS4w" presentation="default">
-        <element href="UserInteraction.uml#_Vm5Fg2oNEd6TYaKRzGgS4w"/>
+        <element href="OpiumUIProfile.uml#_Vm5Fg2oNEd6TYaKRzGgS4w"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_Vm5FgmoNEd6TYaKRzGgS4w" id="requiredFieldEdgeObject"/>
     </contained>
@@ -190,46 +190,46 @@
     <property xmi:id="_CmVTNxuAEd6PUb5-FUyOfg" key="diagramRightMargin" value="20"/>
     <property xmi:id="_CmVTOBuAEd6PUb5-FUyOfg" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Cl4nQRuAEd6PUb5-FUyOfg" presentation="org.topcased.modeler.uml.profilediagram">
-      <element href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+      <element href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_pOu8UBuAEd6PUb5-FUyOfg" position="300,46" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_pOu8URuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_pOu8UhuAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_pOu8UhuAEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_qpoNABuAEd6PUb5-FUyOfg" position="612,323" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_qpoNARuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_qpoNAhuAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_qpoNAhuAEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_tLTfkBuAEd6PUb5-FUyOfg" position="437,337" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tLTfkRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_tLTfkhuAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_tLTfkhuAEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_upCo4BuAEd6PUb5-FUyOfg" position="29,331" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_upCo4RuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_upCo4huAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_upCo4huAEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_zcmegBuAEd6PUb5-FUyOfg" position="79,72" size="154,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zcmegRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_zcmeghuAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_zcmeghuAEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_54wpoBuAEd6PUb5-FUyOfg" position="253,323" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_54wpoRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_54wpohuAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_54wpohuAEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_a-EdoBuBEd6PUb5-FUyOfg" position="49,647" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_a-EdoRuBEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_a-EdohuBEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_a-EdohuBEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_kMN0QCZuEd6NnIzAsZo__w" position="234,678" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kMN0QSZuEd6NnIzAsZo__w" presentation="default">
-        <element href="UserInteraction.uml#_kMqgMCZuEd6NnIzAsZo__w"/>
+        <element href="OpiumUIProfile.uml#_kMqgMCZuEd6NnIzAsZo__w"/>
       </semanticModel>
     </contained>
   </diagrams>
@@ -244,210 +244,210 @@
     <property xmi:id="_Fm3E9xuAEd6PUb5-FUyOfg" key="diagramRightMargin" value="20"/>
     <property xmi:id="_Fm3E-BuAEd6PUb5-FUyOfg" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_FmtT8RuAEd6PUb5-FUyOfg" presentation="org.topcased.modeler.uml.classdiagram">
-      <element href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+      <element href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_GEzlMBuAEd6PUb5-FUyOfg" position="106,192" size="191,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GEzlMRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_h-PwUBrHEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_h-PwUBrHEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_GEzlMhuAEd6PUb5-FUyOfg">
         <property xmi:id="_GEzlMxuAEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="39"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GEzlNBuAEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_h-PwUBrHEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_h-PwUBrHEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_GEzlNRuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GEzlNhuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_h-PwURrHEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_h-PwURrHEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_GE9WMBuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GE9WMRuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_h-PwUhrHEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_h-PwUhrHEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_GE9WMhuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GE9WMxuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_h-PwUxrHEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_h-PwUxrHEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_GE9WNBuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GE9WNRuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_h-PwVBrHEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_h-PwVBrHEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_GE9WNhuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GE9WNxuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_h-PwVRrHEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_h-PwVRrHEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_JyCE4BuAEd6PUb5-FUyOfg" position="357,188" size="192,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JyCE4RuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_9EOxEBrFEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_9EOxEBrFEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_JyCE4huAEd6PUb5-FUyOfg">
         <property xmi:id="_JyCE4xuAEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="39"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JyCE5BuAEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_9EOxEBrFEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_9EOxEBrFEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_JyCE5RuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JyCE5huAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_9EOxERrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_9EOxERrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_JyCE5xuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JyCE6BuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_9EiTEBrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_9EiTEBrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_JyCE6RuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JyCE6huAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_9EiTERrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_9EiTERrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_JyCE6xuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JyCE7BuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_9EiTEhrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_9EiTEhrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_KIigYBuAEd6PUb5-FUyOfg" position="333,24" size="284,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIigYRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_8OSnkBrFEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_8OSnkBrFEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_KIigYhuAEd6PUb5-FUyOfg">
         <property xmi:id="_KIigYxuAEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="39"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIigZBuAEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_8OSnkBrFEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_8OSnkBrFEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_KIigZRuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIigZhuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_8OSnkRrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_8OSnkRrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KIigZxuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIigaBuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_8OSnkhrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_8OSnkhrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_KjglIBuAEd6PUb5-FUyOfg" position="109,28" size="178,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglIRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_uIULYBrFEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_uIULYBrFEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_KjglIhuAEd6PUb5-FUyOfg">
         <property xmi:id="_KjglIxuAEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="39"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglJBuAEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_uIULYBrFEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_uIULYBrFEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_KjglJRuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglJhuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_0fRtcBrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_0fRtcBrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KjglJxuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglKBuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_2fIFUBrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_2fIFUBrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KjglKRuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglKhuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_5Agc8BrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_5Agc8BrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KjglKxuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglLBuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_5kt9QBrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_5kt9QBrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KjglLRuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KjglLhuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_9tXNoBrFEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_9tXNoBrFEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_YzAwwBuAEd6PUb5-FUyOfg" position="108,359" size="200,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YzAwwRuAEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_YzAwxRuAEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_YzAwxRuAEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_YzAwwhuAEd6PUb5-FUyOfg">
         <property xmi:id="_YzAwwxuAEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="39"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YzAwxBuAEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_YzAwxRuAEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_YzAwxRuAEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_a7zpQBuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_a7zpQRuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_a7zpQhuAEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_a7zpQhuAEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_bjcRABuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_bjcRARuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_bjcRAhuAEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_bjcRAhuAEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_cGJ8gBuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_cGJ8gRuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_cGJ8ghuAEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_cGJ8ghuAEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_d_KFgBuAEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_d_KFgRuAEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_d_KFghuAEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_d_KFghuAEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_RFOW8BuGEd6PUb5-FUyOfg" position="470,332" size="100,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RFOW8RuGEd6PUb5-FUyOfg" presentation="default">
-        <element href="UserInteraction.uml#_RFOW9RuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_RFOW9RuGEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_RFOW8huGEd6PUb5-FUyOfg">
         <property xmi:id="_RFOW8xuGEd6PUb5-FUyOfg" key="eStructuralFeatureID" value="39"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RFOW9BuGEd6PUb5-FUyOfg" presentation="default">
-          <element href="UserInteraction.uml#_RFOW9RuGEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_RFOW9RuGEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_R63lgBuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_R63lgRuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_R63lghuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_R63lghuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_TQ_q8BuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_TQ_q8RuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_TQ_q8huGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_TQ_q8huGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_U9Bu8BuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_U9Bu8RuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_U9Bu8huGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_U9Bu8huGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_YtiMIBuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YtiMIRuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_YtiMIhuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_YtiMIhuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ZqVLkBuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZqVLkRuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_ZqVLkhuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_ZqVLkhuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_eAsH0BuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_eAsH0RuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_eA1RwBuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_eA1RwBuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ez8wwBuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ez8wwRuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_e0F6sBuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_e0F6sBuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_j7xmMBuGEd6PUb5-FUyOfg" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_j7xmMRuGEd6PUb5-FUyOfg" presentation="default">
-            <element href="UserInteraction.uml#_j7xmMhuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_j7xmMhuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -464,31 +464,31 @@
     <property xmi:id="_2JR7yBxzEd6j06olwP6D_g" key="diagramRightMargin" value="20"/>
     <property xmi:id="_2JR7yRxzEd6j06olwP6D_g" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR7yhxzEd6j06olwP6D_g" presentation="org.topcased.modeler.uml.profilediagram">
-      <element href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+      <element href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR79xxzEd6j06olwP6D_g" position="12,168" size="437,-1">
       <anchorage xmi:id="_2JR7-BxzEd6j06olwP6D_g" graphEdge="_2JR8JhxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR7-RxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_zFDb5RqpEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_zFDb5RqpEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR7-hxzEd6j06olwP6D_g">
         <property xmi:id="_2JR7-xxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR7_BxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_zFDb5RqpEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_zFDb5RqpEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR7_RxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR7_hxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_gNmQwhw1Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_gNmQwhw1Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR7_xxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ABxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_iNJtshw1Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_iNJtshw1Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8ARxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8AhxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_l6rIUhw1Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_l6rIUhw1Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -496,31 +496,31 @@
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8AxxzEd6j06olwP6D_g" position="8,279" size="379,-1">
       <anchorage xmi:id="_2JR8BBxzEd6j06olwP6D_g" graphEdge="_2JR8KRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8BRxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_OaNkRRqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_OaNkRRqsEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR8BhxzEd6j06olwP6D_g">
         <property xmi:id="_2JR8BxxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8CBxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_OaNkRRqsEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_OaNkRRqsEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8CRxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ChxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_tXxBkhqsEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_tXxBkhqsEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8CxxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8DBxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_vth_EhqsEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_vth_EhqsEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8DRxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8DhxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_dwfpUht-Ed6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_dwfpUht-Ed6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8DxxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8EBxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_oA4ZYBuREd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_oA4ZYBuREd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -528,60 +528,60 @@
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8ERxzEd6j06olwP6D_g" position="496,191" size="120,-1">
       <anchorage xmi:id="_2JR8EhxzEd6j06olwP6D_g" graphEdge="_2JR8JhxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ExxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_hXd4cBqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_hXd4cBqsEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8FBxzEd6j06olwP6D_g" position="492,307" size="120,-1">
       <anchorage xmi:id="_2JR8FRxzEd6j06olwP6D_g" graphEdge="_2JR8KRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8FhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_j3gMQhqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_j3gMQhqsEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8JhxzEd6j06olwP6D_g" anchor="_2JR7-BxzEd6j06olwP6D_g _2JR8EhxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8JxxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_rCUNJRqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_rCUNJRqsEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8KBxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8KRxzEd6j06olwP6D_g" anchor="_2JR8BBxzEd6j06olwP6D_g _2JR8FRxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8KhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_rTmKZRqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_rTmKZRqsEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8KxxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8UhxzEd6j06olwP6D_g" position="441,434" size="120,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8VBxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_Ufg8shr7Ed6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_Ufg8shr7Ed6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8WBxzEd6j06olwP6D_g" position="11,483" size="233,-1">
       <anchorage xmi:id="_2JR8WRxzEd6j06olwP6D_g" graphEdge="_2JR8aRxzEd6j06olwP6D_g _2JR8fRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8WhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_GTTFdRuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_GTTFdRuGEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR8WxxzEd6j06olwP6D_g">
         <property xmi:id="_2JR8XBxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8XRxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_GTTFdRuGEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_GTTFdRuGEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8XhxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8XxxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_MizUohuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_MizUohuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8YBxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8YRxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_nK5NkhuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_nK5NkhuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8YhxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8YxxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_0sfl4BrMEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_0sfl4BrMEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8ZBxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ZRxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_6r4VcBrMEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_6r4VcBrMEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -589,117 +589,117 @@
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8ZhxzEd6j06olwP6D_g" position="446,573" size="120,-1">
       <anchorage xmi:id="_2JR8ZxxzEd6j06olwP6D_g" graphEdge="_2JR8aRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8aBxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_IDNj4huGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_IDNj4huGEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8aRxzEd6j06olwP6D_g" anchor="_2JR8WRxzEd6j06olwP6D_g _2JR8ZxxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ahxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_KNo0FRuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_KNo0FRuGEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8axxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8bBxzEd6j06olwP6D_g" position="430,634" size="120,-1">
       <anchorage xmi:id="_2JR8bRxzEd6j06olwP6D_g" graphEdge="_2JR8dxxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8bhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_sbztkhuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_sbztkhuGEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8bxxzEd6j06olwP6D_g" position="77,654" size="147,-1">
       <anchorage xmi:id="_2JR8cBxzEd6j06olwP6D_g" graphEdge="_2JR8dxxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8cRxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_vMGD5RuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_vMGD5RuGEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR8chxzEd6j06olwP6D_g">
         <property xmi:id="_2JR8cxxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8dBxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_vMGD5RuGEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_vMGD5RuGEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8dRxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8dhxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_0vVqAhuGEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_0vVqAhuGEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8dxxzEd6j06olwP6D_g" anchor="_2JR8cBxzEd6j06olwP6D_g _2JR8bRxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8eBxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_0NgvUBuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_0NgvUBuGEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8eRxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8ehxzEd6j06olwP6D_g" position="452,488" size="120,-1">
       <anchorage xmi:id="_2JR8exxzEd6j06olwP6D_g" graphEdge="_2JR8fRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8fBxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_-UN5khuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_-UN5khuGEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8fRxzEd6j06olwP6D_g" anchor="_2JR8WRxzEd6j06olwP6D_g _2JR8exxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8fhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#__zcQpBuGEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#__zcQpBuGEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8fxxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8gBxzEd6j06olwP6D_g" position="625,578" size="120,-1">
       <anchorage xmi:id="_2JR8gRxzEd6j06olwP6D_g" graphEdge="_2JR8iRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ghxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_CvDGJRuHEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_CvDGJRuHEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR8gxxzEd6j06olwP6D_g">
         <property xmi:id="_2JR8hBxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8hRxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_CvDGJRuHEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_CvDGJRuHEd6PUb5-FUyOfg"/>
         </semanticModel>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8hhxzEd6j06olwP6D_g" position="629,429" size="120,-1">
       <anchorage xmi:id="_2JR8hxxzEd6j06olwP6D_g" graphEdge="_2JR8iRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8iBxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_GRZLghuHEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_GRZLghuHEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8iRxzEd6j06olwP6D_g" anchor="_2JR8gRxzEd6j06olwP6D_g _2JR8hxxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ihxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_H52XFRuHEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_H52XFRuHEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8ixxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8jBxzEd6j06olwP6D_g" position="626,223" size="120,-1">
       <anchorage xmi:id="_2JR8jRxzEd6j06olwP6D_g" graphEdge="_2JR8lRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8jhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_rj34ohuJEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_rj34ohuJEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8jxxzEd6j06olwP6D_g" position="628,356" size="120,-1">
       <anchorage xmi:id="_2JR8kBxzEd6j06olwP6D_g" graphEdge="_2JR8lRxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8kRxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_tQWolRuJEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_tQWolRuJEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR8khxzEd6j06olwP6D_g">
         <property xmi:id="_2JR8kxxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8lBxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_tQWolRuJEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_tQWolRuJEd6PUb5-FUyOfg"/>
         </semanticModel>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8lRxzEd6j06olwP6D_g" anchor="_2JR8kBxzEd6j06olwP6D_g _2JR8jRxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8lhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_wuPEtRuJEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_wuPEtRuJEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8lxxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8mBxzEd6j06olwP6D_g" position="17,88" size="202,-1">
       <anchorage xmi:id="_2JR8mRxzEd6j06olwP6D_g" graphEdge="_2JR8oxxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8mhxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_imczNRugEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_imczNRugEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2JR8mxxzEd6j06olwP6D_g">
         <property xmi:id="_2JR8nBxzEd6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8nRxzEd6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_imczNRugEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_imczNRugEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_2JR8nhxzEd6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8nxxzEd6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_nr5DAhugEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_nr5DAhugEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -707,12 +707,12 @@
     <contained xsi:type="di:GraphNode" xmi:id="_2JR8oBxzEd6j06olwP6D_g" position="499,105" size="120,-1">
       <anchorage xmi:id="_2JR8oRxzEd6j06olwP6D_g" graphEdge="_2JR8oxxzEd6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8ohxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_lAiQAhugEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_lAiQAhugEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_2JR8oxxzEd6j06olwP6D_g" anchor="_2JR8mRxzEd6j06olwP6D_g _2JR8oRxzEd6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2JR8pBxzEd6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_mv1qdRugEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_mv1qdRugEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2JR8pRxzEd6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
@@ -728,46 +728,46 @@
     <property xmi:id="_ohJcuBx0Ed6j06olwP6D_g" key="diagramRightMargin" value="20"/>
     <property xmi:id="_ohJcuRx0Ed6j06olwP6D_g" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJcuhx0Ed6j06olwP6D_g" presentation="org.topcased.modeler.uml.profilediagram">
-      <element href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+      <element href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_ohJczxx0Ed6j06olwP6D_g" position="160,53" size="357,-1">
       <anchorage xmi:id="_ohJc0Bx0Ed6j06olwP6D_g" graphEdge="_ohJdEBx0Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc0Rx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_ySYo1RqpEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_ySYo1RqpEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_ohJc0hx0Ed6j06olwP6D_g">
         <property xmi:id="_ohJc0xx0Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc1Bx0Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_ySYo1RqpEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_ySYo1RqpEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc1Rx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc1hx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_HZVNYhqqEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_HZVNYhqqEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc1xx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc2Bx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_bqBfYhqqEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_bqBfYhqqEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc2Rx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc2hx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_t1gYYhqqEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_t1gYYhqqEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc2xx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc3Bx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_6OsiohqqEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_6OsiohqqEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc4xx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc5Bx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_Yz8j4huLEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_Yz8j4huLEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc5Rx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc5hx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_fyPLshuLEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_fyPLshuLEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -775,33 +775,33 @@
     <contained xsi:type="di:GraphNode" xmi:id="_ohJdDRx0Ed6j06olwP6D_g" position="497,317" size="126,-1">
       <anchorage xmi:id="_ohJdDhx0Ed6j06olwP6D_g" graphEdge="_ohJdEBx0Ed6j06olwP6D_g _Vp4mURx1Ed6j06olwP6D_g _V-AcMRx1Ed6j06olwP6D_g _VBthIRx3Ed6j06olwP6D_g _54kUIRx3Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJdDxx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_oG2hkhqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_oG2hkhqsEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_ohJdEBx0Ed6j06olwP6D_g" anchor="_ohJc0Bx0Ed6j06olwP6D_g _ohJdDhx0Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJdERx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_p13oJRqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_p13oJRqsEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_ohJdEhx0Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_1PMcoBx0Ed6j06olwP6D_g" position="31,291" size="363,-1">
       <anchorage xmi:id="_Vp4mUBx1Ed6j06olwP6D_g" graphEdge="_Vp4mURx1Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_1PMcoRx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_1PMcpRx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_1PMcpRx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_1PMcohx0Ed6j06olwP6D_g">
         <property xmi:id="_1PMcoxx0Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_1PMcpBx0Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_1PMcpRx0Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_1PMcpRx0Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc4Rx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc4hx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_mlj2QhtiEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_mlj2QhtiEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_7BWBchx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_7BWBcxx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_7BWBcBx0Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_7BWBcBx0Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -809,90 +809,90 @@
     <contained xsi:type="di:GraphNode" xmi:id="_2-9KEBx0Ed6j06olwP6D_g" position="32,463" size="349,-1">
       <anchorage xmi:id="_V-AcMBx1Ed6j06olwP6D_g" graphEdge="_V-AcMRx1Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2-9KERx0Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_2-9KFRx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_2-9KFRx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_2-9KEhx0Ed6j06olwP6D_g">
         <property xmi:id="_2-9KExx0Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2-9KFBx0Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_2-9KFRx0Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_2-9KFRx0Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_ohJc3Rx0Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ohJc3hx0Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_Yk2QohrKEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_Yk2QohrKEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_XdhHIhx1Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_XdhHIxx1Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_XdhHIBx1Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_XdhHIBx1Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_Vp4mURx1Ed6j06olwP6D_g" anchor="_Vp4mUBx1Ed6j06olwP6D_g _ohJdDhx0Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Vp4mUhx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_Vp4mVBx1Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_Vp4mVBx1Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_Vp4mUxx1Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_V-AcMRx1Ed6j06olwP6D_g" anchor="_V-AcMBx1Ed6j06olwP6D_g _ohJdDhx0Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_V-AcMhx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_V-AcNBx1Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_V-AcNBx1Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_V-AcMxx1Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_NduLQBx3Ed6j06olwP6D_g" position="477,458" size="186,-1">
       <anchorage xmi:id="_VBthIBx3Ed6j06olwP6D_g" graphEdge="_VBthIRx3Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_NduLQRx3Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_wXnCpRx0Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_wXnCpRx0Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_NduLQhx3Ed6j06olwP6D_g">
         <property xmi:id="_NduLQxx3Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_NduLRBx3Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_wXnCpRx0Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_wXnCpRx0Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_NduLRRx3Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_NduLRhx3Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_glaRshtiEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_glaRshtiEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_NduLRxx3Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_NduLSBx3Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_zlsvQBx0Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_zlsvQBx0Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_VBthIRx3Ed6j06olwP6D_g" anchor="_VBthIBx3Ed6j06olwP6D_g _ohJdDhx0Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_VBthIhx3Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_VBthJBx3Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_VBthJBx3Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_VBthIxx3Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_08Ek8Bx3Ed6j06olwP6D_g" position="605,134" size="120,-1">
       <anchorage xmi:id="_54kUIBx3Ed6j06olwP6D_g" graphEdge="_54kUIRx3Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_08Ek8Rx3Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_3xFftRx2Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_3xFftRx2Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_08Ek8hx3Ed6j06olwP6D_g">
         <property xmi:id="_08Ek8xx3Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_08Ek9Bx3Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_3xFftRx2Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_3xFftRx2Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_08Ek9xx3Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_08Ek-Bx3Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_9Ue20Bx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_9Ue20Bx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_08Ek-Rx3Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_08Ek-hx3Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_-F8wABx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_-F8wABx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_54kUIRx3Ed6j06olwP6D_g" anchor="_54kUIBx3Ed6j06olwP6D_g _ohJdDhx0Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_54kUIhx3Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_54kUJBx3Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_54kUJBx3Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_54kUIxx3Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
@@ -908,33 +908,33 @@
     <property xmi:id="_nSNH6Bx1Ed6j06olwP6D_g" key="diagramRightMargin" value="20"/>
     <property xmi:id="_nSNH6Rx1Ed6j06olwP6D_g" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nSNH6hx1Ed6j06olwP6D_g" presentation="org.topcased.modeler.uml.profilediagram">
-      <element href="UserInteraction.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
+      <element href="OpiumUIProfile.uml#_sOqL0xqpEd6PUb5-FUyOfg"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_nSNIOhx1Ed6j06olwP6D_g" position="361,19" size="120,-1">
       <anchorage xmi:id="_nSNIOxx1Ed6j06olwP6D_g" graphEdge="_nSNIWRx1Ed6j06olwP6D_g _ASlcIRx2Ed6j06olwP6D_g _AofasRx2Ed6j06olwP6D_g _BEgoURx2Ed6j06olwP6D_g _BiwDgRx2Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nSNIPBx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_l6fXshqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_l6fXshqsEd6PUb5-FUyOfg"/>
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_nSNIWRx1Ed6j06olwP6D_g" anchor="_nSNIXRx1Ed6j06olwP6D_g _nSNIOxx1Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nSNIWhx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_qmvrdRqsEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_qmvrdRqsEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_nSNIWxx1Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_nSNIXBx1Ed6j06olwP6D_g" position="39,71" size="324,-1">
       <anchorage xmi:id="_nSNIXRx1Ed6j06olwP6D_g" graphEdge="_nSNIWRx1Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nSNIXhx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_xSdc5RqpEd6PUb5-FUyOfg"/>
+        <element href="OpiumUIProfile.uml#_xSdc5RqpEd6PUb5-FUyOfg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_nSNIXxx1Ed6j06olwP6D_g">
         <property xmi:id="_nSNIYBx1Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nSNIYRx1Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_xSdc5RqpEd6PUb5-FUyOfg"/>
+          <element href="OpiumUIProfile.uml#_xSdc5RqpEd6PUb5-FUyOfg"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_nSNIYhx1Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nSNIYxx1Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_L6RB8hqqEd6PUb5-FUyOfg"/>
+            <element href="OpiumUIProfile.uml#_L6RB8hqqEd6PUb5-FUyOfg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -942,21 +942,21 @@
     <contained xsi:type="di:GraphNode" xmi:id="_zKBDYBx1Ed6j06olwP6D_g" position="31,248" size="215,-1">
       <anchorage xmi:id="_ASlcIBx2Ed6j06olwP6D_g" graphEdge="_ASlcIRx2Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zKBDYRx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_zKBDZRx1Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_zKBDZRx1Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_zKBDYhx1Ed6j06olwP6D_g">
         <property xmi:id="_zKBDYxx1Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zKBDZBx1Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_zKBDZRx1Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_zKBDZRx1Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_Cq4JMBx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Cq4JMRx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_Cq4JMhx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_Cq4JMhx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_Eao2oBx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Eao2oRx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_Eao2ohx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_Eao2ohx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -964,21 +964,21 @@
     <contained xsi:type="di:GraphNode" xmi:id="_zP-hcBx1Ed6j06olwP6D_g" position="108,393" size="179,-1">
       <anchorage xmi:id="_AofasBx2Ed6j06olwP6D_g" graphEdge="_AofasRx2Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zP-hcRx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_zP-hdRx1Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_zP-hdRx1Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_zP-hchx1Ed6j06olwP6D_g">
         <property xmi:id="_zP-hcxx1Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zP-hdBx1Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_zP-hdRx1Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_zP-hdRx1Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_UfG_0Bx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UfG_0Rx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_Ue914Bx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_Ue914Bx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_VhbYcRx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_VhbYchx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_VhbYcBx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_VhbYcBx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -986,21 +986,21 @@
     <contained xsi:type="di:GraphNode" xmi:id="_zVyOgBx1Ed6j06olwP6D_g" position="498,349" size="245,-1">
       <anchorage xmi:id="_BEgoUBx2Ed6j06olwP6D_g" graphEdge="_BEgoURx2Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zVyOgRx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_zVyOhRx1Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_zVyOhRx1Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_zVyOghx1Ed6j06olwP6D_g">
         <property xmi:id="_zVyOgxx1Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zVyOhBx1Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_zVyOhRx1Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_zVyOhRx1Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_WM7zkRx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WM7zkhx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_WM7zkBx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_WM7zkBx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_YYtHkRx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_YYtHkhx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_YYtHkBx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_YYtHkBx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -1008,46 +1008,46 @@
     <contained xsi:type="di:GraphNode" xmi:id="_-1J00Bx1Ed6j06olwP6D_g" position="300,438" size="237,-1">
       <anchorage xmi:id="_BiwDgBx2Ed6j06olwP6D_g" graphEdge="_BiwDgRx2Ed6j06olwP6D_g"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-1J00Rx1Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_-1J01Rx1Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_-1J01Rx1Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_-1J00hx1Ed6j06olwP6D_g">
         <property xmi:id="_-1J00xx1Ed6j06olwP6D_g" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-1J01Bx1Ed6j06olwP6D_g" presentation="default">
-          <element href="UserInteraction.uml#_-1J01Rx1Ed6j06olwP6D_g"/>
+          <element href="OpiumUIProfile.uml#_-1J01Rx1Ed6j06olwP6D_g"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_WpZGERx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WpZGEhx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_WpZGEBx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_WpZGEBx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_X5ajgBx2Ed6j06olwP6D_g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_X5ajgRx2Ed6j06olwP6D_g" presentation="default">
-            <element href="UserInteraction.uml#_X5QygBx2Ed6j06olwP6D_g"/>
+            <element href="OpiumUIProfile.uml#_X5QygBx2Ed6j06olwP6D_g"/>
           </semanticModel>
         </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_ASlcIRx2Ed6j06olwP6D_g" anchor="_ASlcIBx2Ed6j06olwP6D_g _nSNIOxx1Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ASlcIhx2Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_ASlcJBx2Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_ASlcJBx2Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_ASlcIxx2Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_AofasRx2Ed6j06olwP6D_g" anchor="_AofasBx2Ed6j06olwP6D_g _nSNIOxx1Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Aofashx2Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_AopLsBx2Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_AopLsBx2Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_Aofasxx2Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_BEgoURx2Ed6j06olwP6D_g" anchor="_BEgoUBx2Ed6j06olwP6D_g _nSNIOxx1Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_BEgoUhx2Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_BEgoVBx2Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_BEgoVBx2Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_BEgoUxx2Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_BiwDgRx2Ed6j06olwP6D_g" anchor="_BiwDgBx2Ed6j06olwP6D_g _nSNIOxx1Ed6j06olwP6D_g">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_BiwDghx2Ed6j06olwP6D_g" presentation="default">
-        <element href="UserInteraction.uml#_BiwDhBx2Ed6j06olwP6D_g"/>
+        <element href="OpiumUIProfile.uml#_BiwDhBx2Ed6j06olwP6D_g"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_BiwDgxx2Ed6j06olwP6D_g" id="requiredFieldEdgeObject"/>
     </contained>

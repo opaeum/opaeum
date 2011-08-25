@@ -304,11 +304,11 @@ public class ClassifierMap extends PackageableElementMap{
 		if(t.getName().equals(IOclLibrary.StringTypeName)){
 			result = StdlibMap.javaStringType;
 		}else if(t.getName().equals(IOclLibrary.RealTypeName)){
-			result = StdlibMap.javaRealType;
+			result = StdlibMap.javaRealObjectType;
 		}else if(t.getName().equals(IOclLibrary.IntegerTypeName)){
-			result = StdlibMap.javaIntegerType;
+			result = StdlibMap.javaIntegerObjectType;
 		}else if(t.getName().equals(IOclLibrary.BooleanTypeName)){
-			result = StdlibMap.javaBooleanType;
+			result = StdlibMap.javaBooleanObjectType;
 		}else{
 			result = pathname(t);
 		}

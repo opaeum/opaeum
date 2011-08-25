@@ -10,18 +10,16 @@ import java.util.Set;
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.feature.ITransformationStep;
-import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.jbpm5.MessageMarshallingImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
 import net.sf.nakeduml.javageneration.oclexpressions.OclTestGenerator;
-import net.sf.nakeduml.javageneration.testgeneration.ArquillianTestJavaGenerator;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
@@ -43,10 +41,10 @@ public class BpmLibCodeGenerator{
 		this.outputRoot = new File(".").getAbsoluteFile().getParentFile().getParentFile();
 	}
 	protected void generateCodeForSingleModel() throws Exception,IOException,FileNotFoundException{
-		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/nakeduml/nakeduml-core/org.nakeduml.metamodels/models/libraries/NakedUMLLibraryForBPM.uml");
+		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/nakeduml/nakeduml-core/org.nakeduml.metamodels/models/libraries/OpiumBPM.library.uml");
 		NakedUmlConfig cfg = buildConfig();
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
-		workspace.markLibraries("NakedUMLSimpleTypes.library.uml");
+		workspace.markLibraries("OpiumSimpleTypes.library.uml");
 		process.execute(cfg, workspace, getSteps());
 		workspace.getMappingInfo().store();
 	}

@@ -32,6 +32,7 @@ import org.eclipse.uml2.uml.Model;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.java.metamodel.OJPackage;
+import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.topcased.modeler.utils.ResourceUtils;
@@ -49,25 +50,27 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
-					monitor.beginTask("Generating Java Code", 90);
-					monitor.subTask("Loading EMF Resources");
-					currentContext.loadDirectory(new SubProgressMonitor(monitor, 30));
+					monitor.beginTask("Loading All Models", 1000);
+					monitor.subTask("Saving Open Models");
+					NakedUmlPlugin.saveAllOpenFilesIn(currentContext, monitor);
+					monitor.worked(5);
+					monitor.subTask("Loading Opium Metadata");
+					currentContext.loadDirectory(new SubProgressMonitor(monitor, 200));
 					TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
 					p.removeModel(OJPackage.class);
 					p.removeModel(TextWorkspace.class);
 					monitor.subTask("Generating Java Code");
-					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor,30);
-					p.setLog(log);
+					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 2000);
 					// TODO this is for UimSynchronizationPhase which should perhaps now take a NakedModelWorkspace as input
 					p.replaceModel(currentContext.getCurrentEmfWorkspace());
-					p.executeFrom(JavaTransformationPhase.class);
+					p.executeFrom(JavaTransformationPhase.class,log);
 					if(!monitor.isCanceled()){
-						p.integrate();
+						p.integrate(log);
 					}
 					p.findModel(EmfWorkspace.class).saveAll();
 					monitor.subTask("Generating text files");
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext);
+					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 3000), p, currentContext);
 				}catch(Exception e){
 					NakedUmlEclipsePlugin.getDefault().getLog().log(new Status(Status.INFO, NakedUmlEclipsePlugin.getPluginId(), Status.OK, e.getMessage(), e));
 					// TODO Auto-generated catch block

@@ -80,6 +80,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		}
 	}
 	private OJAnnotatedOperation createOperation(INakedClassifier context, IParameterOwner o,OJAnnotatedClass owner){
+
 		NakedOperationMap operationMap = new NakedOperationMap(o);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(operationMap.javaOperName(), operationMap.javaParamTypePaths());
 		if(oper == null){

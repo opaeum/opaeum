@@ -21,7 +21,7 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 			if(element instanceof Model){
 				Model model = (Model) element;
 				if(arg0.getId().equals("org.nakeduml.eclipse.ApplyNakedUMLProfileForBPMAction")){
-					applyProfile(model, "NakedUMLProfileForBPM.uml");
+					applyProfile(model, "OpiumBPMProfile.uml");
 				}else{
 					applyNakedUmlProfile(model);
 				}
@@ -29,16 +29,25 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 		}
 	}
 	public static Profile applyNakedUmlProfile(Model model){
-		String profileName = "NakedUMLProfile.uml";
+		String profileName = "OpiumStandardProfile.uml";
 		return applyProfile(model, profileName);
 	}
 	public static Profile applyProfile(Model model,String profileName){
-		Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP + "profiles/" + profileName), true);
-		Profile library = (Profile) resource.getContents().get(0);
-		if(!model.isProfileApplied(library)){
-			model.applyProfile(library);
+		Profile appliedProfile = getAppliedProfile(model, profileName);
+		if(appliedProfile == null){
+			Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP + "profiles/" + profileName), true);
+			appliedProfile = (Profile) resource.getContents().get(0);
+			model.applyProfile(appliedProfile);
 		}
-		return library;
+		return appliedProfile;
+	}
+	private static Profile getAppliedProfile(Model model,String profileName){
+		for(Profile profile:model.getAllAppliedProfiles()){
+			if(!profile.eIsProxy()  &&  profile.eResource().getURI().lastSegment().equals(profileName)){
+				return profile;
+			}
+		}
+		return null;
 	}
 	@Override
 	public void selectionChanged(IAction arg0,ISelection selection){

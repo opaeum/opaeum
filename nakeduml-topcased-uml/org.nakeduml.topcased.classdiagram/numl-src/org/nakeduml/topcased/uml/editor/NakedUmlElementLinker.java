@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
@@ -79,10 +80,10 @@ import org.nakeduml.eclipse.EmfValidationUtil;
 import org.nakeduml.eclipse.ImportLibraryAction;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
-public class NakedUmlElementLinker{
-	private final class EmfUmlElementLinker extends UMLSwitch<EObject>{
+public class NakedUmlElementLinker extends EContentAdapter{
+	public static final class EmfUmlElementLinker extends UMLSwitch<EObject>{
 		private Notification notification;
-		private EmfUmlElementLinker(Notification not){
+		public EmfUmlElementLinker(Notification not){
 			notification = not;
 		}
 		@Override
@@ -183,21 +184,18 @@ public class NakedUmlElementLinker{
 				case Notification.ADD:
 					p = (Property) notification.getNewValue();
 					synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
-					if(p.getOtherEnd().getType() instanceof Enumeration){
-						Enumeration e = (Enumeration) p.getOtherEnd().getType();
-						for(EnumerationLiteral enumerationLiteral:e.getOwnedLiterals()){
-							ensureSlotsPresence(enumerationLiteral, p);
-						}
-					}else if(p.getOtherEnd().getType() instanceof Signal){
-						addPinForSignalActions(p, (Signal) p.getOtherEnd().getType());
+					if(p.getOtherEnd().getType() instanceof Signal){
+						synchronizeSignalPins((Signal) p.getOtherEnd().getType());
 					}
 					break;
 				case Notification.REMOVE:
 					p = (Property) notification.getOldValue();
 					synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
 					if(p.getOtherEnd().getType() instanceof Signal){
+						// remove individually to ensure existing value pins stay in tact
 						removeReferencingPins(p);
 					}
+					break;
 				}
 				break;
 			}
@@ -240,6 +238,7 @@ public class NakedUmlElementLinker{
 					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.BUSINES_PROCESS, StereotypeNames.NAKEDUML_BPM_PROFILE);
 					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.METHOD, StereotypeNames.NAKEDUML_BPM_PROFILE);
 				}
+				break;
 			}
 			return null;
 		}
@@ -288,6 +287,7 @@ public class NakedUmlElementLinker{
 				}else if(newValue instanceof AcceptCallAction){
 					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_TASK_EVENT_ACTION, StereotypeNames.NAKEDUML_BPM_PROFILE);
 				}
+				break;
 			}
 		}
 		public EObject caseBehavior(Behavior behavior){
@@ -296,10 +296,12 @@ public class NakedUmlElementLinker{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					Parameter newValue = (Parameter) notification.getNewValue();
-					newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
+					if(newValue.getDirection() == null){
+						newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
+					}
 					for(EObject e:StereotypesHelper.getNumlAnnotation(behavior).getReferences()){
 						if(e instanceof CallBehaviorAction){
-							setArgument(newValue, (CallAction) e, true);
+							synchronizeParameters(behavior.getOwnedParameters(), (CallAction) e);
 						}
 					}
 					break;
@@ -355,6 +357,7 @@ public class NakedUmlElementLinker{
 			switch(notification.getEventType()){
 			case Notification.ADD:
 				processNewPackageableElement(p);
+				break;
 			}
 			return null;
 		}
@@ -363,6 +366,7 @@ public class NakedUmlElementLinker{
 			switch(notification.getEventType()){
 			case Notification.ADD:
 				processNewPackageableElement(p);
+				break;
 			}
 			return null;
 		}
@@ -421,6 +425,7 @@ public class NakedUmlElementLinker{
 				if(p != null && p.eContainer() == null && notification.getNewValue() == null){
 					v.getOwningInstance().getSlots().remove(v);
 				}
+				break;
 			}
 			return null;
 		}
@@ -428,9 +433,7 @@ public class NakedUmlElementLinker{
 			switch(notification.getFeatureID(Generalization.class)){
 			case UMLPackage.GENERALIZATION__GENERAL:
 				if(notification.getNewValue() instanceof Signal){
-					for(Property p:EmfParameterUtil.getArguments((Signal) g.getGeneral())){
-						addPinForSignalActions(p, (Signal) g.getSpecific());
-					}
+					synchronizeSignalPins((Signal) notification.getNewValue());
 				}
 				break;
 			}
@@ -439,32 +442,29 @@ public class NakedUmlElementLinker{
 		public EObject caseSignal(Signal s){
 			switch(notification.getFeatureID(Signal.class)){
 			case UMLPackage.CLASSIFIER__GENERALIZATION:
-				switch(notification.getEventType()){
-				case Notification.ADD:
-					// Nothing - general is null
-					break;
-				case Notification.REMOVE:
-					Generalization oldG = (Generalization) notification.getOldValue();
-					for(Property p:EmfParameterUtil.getArguments((Signal) oldG.getGeneral())){
-						removeReferencingPins(p);
-					}
-					break;
-				}
+				synchronizeSignalPins(s);
+				synchronizeSlotsOnReferringInstances(s);
 				break;
 			case UMLPackage.SIGNAL__OWNED_ATTRIBUTE:
-				switch(notification.getEventType()){
-				case Notification.ADD:
-					Property p = (Property) notification.getNewValue();
-					addPinForSignalActions(p, s);
-					break;
-				case Notification.REMOVE:
-					Property oldProp = (Property) notification.getOldValue();
-					removeReferencingPins(oldProp);
+				if(notification.getEventType() == Notification.REMOVE){
+					removeReferencingPins((TypedElement) notification.getOldValue());
+				}else{
+					synchronizeSignalPins(s);
 				}
 				synchronizeSlotsOnReferringInstances(s);
 				break;
 			}
 			return null;
+		}
+		private void synchronizeSignalPins(Signal s){
+			List<Property> args = EmfParameterUtil.getArguments(s);
+			for(EObject r:StereotypesHelper.getNumlAnnotation(s).getReferences()){
+				if(r instanceof SendSignalAction){
+					synchronizeArguments(args, (SendSignalAction) r);
+				}else if(r instanceof Trigger && r.eContainer() instanceof AcceptEventAction){
+					synchronizeResults(args, (AcceptEventAction) r.eContainer());
+				}
+			}
 		}
 		@Override
 		public EObject caseDataType(DataType object){
@@ -492,7 +492,10 @@ public class NakedUmlElementLinker{
 			case UMLPackage.ENUMERATION__OWNED_LITERAL:
 				switch(notification.getEventType()){
 				case Notification.ADD:
-					((EnumerationLiteral) notification.getNewValue()).getClassifiers().add(en);
+					EList<Classifier> classifiers = ((EnumerationLiteral) notification.getNewValue()).getClassifiers();
+					if(!classifiers.contains(en)){
+						classifiers.add(en);
+					}
 					// This would trigger normal Slot synchronization logic
 					break;
 				case Notification.ADD_MANY:
@@ -529,78 +532,52 @@ public class NakedUmlElementLinker{
 		public EObject caseOperation(Operation oper){
 			switch(notification.getFeatureID(Operation.class)){
 			case UMLPackage.OPERATION__OWNED_PARAMETER:
-				for(Behavior b:oper.getMethods()){
-					synchronizeBehaviorParameters(b, oper);
-				}
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					Parameter newValue = (Parameter) notification.getNewValue();
-					newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
-					for(EObject e:StereotypesHelper.getNumlAnnotation(oper).getReferences()){
-						if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
-							setOutputpin(newValue, ((AcceptEventAction) e.eContainer()).getResults(), true);
-						}else if(e instanceof CallOperationAction){
-							setArgument(newValue, (CallAction) e, true);
-						}
+					if(newValue.getDirection() == null){
+						newValue.setDirection(ParameterDirectionKind.IN_LITERAL);
 					}
+					synchronizeOperationPins(oper);
 					break;
 				case Notification.REMOVE:
-					Parameter oldValue = (Parameter) notification.getOldValue();
-					removeReferencingPins(oldValue);
+					removeReferencingPins((Parameter) notification.getOldValue());
 					break;
 				}
 				break;
 			}
 			return null;
 		}
+		private void synchronizeOperationPins(Operation oper){
+			EList<Parameter> ownedParameters = oper.getOwnedParameters();
+			for(EObject e:StereotypesHelper.getNumlAnnotation(oper).getReferences()){
+				if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
+					synchronizeResults(ownedParameters, (AcceptEventAction) e.eContainer());
+				}else if(e instanceof CallAction){
+					synchronizeParameters(ownedParameters, (CallAction) e);
+				}
+			}
+			for(Behavior b:oper.getMethods()){
+				synchronizeBehaviorParameters(b, oper);
+			}
+		}
 		public EObject caseParameter(Parameter p){
 			switch(notification.getFeatureID(Parameter.class)){
 			case UMLPackage.PARAMETER__DIRECTION:
-				ParameterDirectionKind oldDirection = (ParameterDirectionKind) notification.getOldValue();
 				ParameterDirectionKind newDirection = (ParameterDirectionKind) notification.getNewValue();
 				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
 					if(eObject instanceof Parameter){
 						((Parameter) eObject).setDirection(newDirection);
 					}
 				}
-				for(EObject eObject:StereotypesHelper.getNumlAnnotation((Element) p.eContainer()).getReferences()){
+				Element owner = (Element) p.eContainer();
+				EList<Parameter> parms = owner instanceof Behavior ? ((Behavior) owner).getOwnedParameters() : ((Operation) owner).getOwnedParameters();
+				for(EObject eObject:StereotypesHelper.getNumlAnnotation(owner).getReferences()){
 					if(eObject instanceof CallAction){
-						CallAction a = (CallAction) eObject;
-						if(notification.getOldValue() == null){
-							if(EmfParameterUtil.isArgument(newDirection)){
-								setArgument(p, a, true);
-							}
-							if(EmfParameterUtil.isResult(newDirection)){
-								setOutputpin(p, a.getResults(), true);
-							}
-						}else{
-							if(EmfParameterUtil.isResult(oldDirection) && !EmfParameterUtil.isResult(newDirection)){
-								removeResult(p, a);
-							}
-							if(EmfParameterUtil.isArgument(oldDirection) && !EmfParameterUtil.isArgument(newDirection)){
-								removeArgument(p, a);
-							}
-							if(!EmfParameterUtil.isResult(oldDirection) && EmfParameterUtil.isResult(newDirection)){
-								setOutputpin(p, a.getResults(), true);
-							}
-							if(!EmfParameterUtil.isArgument(oldDirection) && EmfParameterUtil.isArgument(newDirection)){
-								setArgument(p, a, true);
-							}
-						}
+						synchronizeParameters(parms, (CallAction) eObject);
 					}else if(eObject instanceof Trigger && eObject.eContainer() instanceof AcceptEventAction){
 						AcceptEventAction a = (AcceptEventAction) eObject.eContainer();
-						if(notification.getOldValue() == null){
-							if(EmfParameterUtil.isArgument(newDirection)){
-								setOutputpin(p, a.getResults(), true);
-							}
-						}else{
-							if(!EmfParameterUtil.isArgument(oldDirection) && EmfParameterUtil.isArgument(newDirection)){
-								setOutputpin(p, a.getResults(), true);
-							}
-							if(EmfParameterUtil.isArgument(oldDirection) && !EmfParameterUtil.isArgument(newDirection)){
-								removeResult(p, a);
-							}
-						}
+						synchronizeResults(parms, a);
 					}
 				}
 				break;
@@ -621,10 +598,12 @@ public class NakedUmlElementLinker{
 						((Parameter) eObject).setType((Type) notification.getNewValue());
 					}
 				}
+				break;
 			case UMLPackage.PARAMETER__IS_EXCEPTION:
 				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
 					if(eObject instanceof Parameter){
-						((Parameter) eObject).setIsException(notification.getNewBooleanValue());
+						boolean newBooleanValue = notification.getNewBooleanValue();
+						((Parameter) eObject).setIsException(newBooleanValue);
 					}
 				}
 			}
@@ -648,13 +627,13 @@ public class NakedUmlElementLinker{
 							outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 							aea.getResults().add(outputPin);
 						}
-						outputPin.setType(ImportLibraryAction.importLibrary(aea.getModel(), "NakedUMLSimpleTypes.library.uml").getOwnedType("DateTime"));
+						outputPin.setType(ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), "NakedUMLSimpleTypes.library.uml").getOwnedType("DateTime"));
 						outputPin.setName("time");
 						while(1 < aea.getResults().size()){
 							aea.getResults().remove(1);
 						}
 						if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_DEADLINE_ACTION)){
-							Model lib = ImportLibraryAction.importLibrary(aea.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
+							Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
 							if(aea.getResults().size() >= 2){
 								outputPin = aea.getResults().get(1);
 							}else{
@@ -666,7 +645,7 @@ public class NakedUmlElementLinker{
 							outputPin.setName("task");
 						}
 					}else if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_TASK_EVENT_ACTION)){
-						Model lib = ImportLibraryAction.importLibrary(aea.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
+						Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
 						OutputPin outputPin;
 						if(aea.getResults().size() >= 1){
 							outputPin = aea.getResults().get(0);
@@ -707,19 +686,21 @@ public class NakedUmlElementLinker{
 						if(origin != null){
 							StereotypesHelper.getNumlAnnotation(origin).getReferences().add(trigger);
 							AcceptEventAction a = (AcceptEventAction) trigger.getOwner();
-							List<? extends TypedElement> args = EmfParameterUtil.getArguments(origin);
-							for(TypedElement t:args){
-								setOutputpin(t, a.getResults(), false);
-							}
-							while(a.getResults().size() > args.size()){
-								a.getResults().remove(a.getResults().size() - 1);
-							}
+							synchronizeResults(EmfParameterUtil.getArguments(origin), a);
 						}
 					}
 				}
 				break;
 			}
 			return null;
+		}
+		private void synchronizeResults(List<? extends TypedElement> args,AcceptEventAction a){
+			for(TypedElement t:args){
+				setOutputpin(t, a.getResults(), false);
+			}
+			while(a.getResults().size() > args.size()){
+				a.getResults().remove(a.getResults().size() - 1);
+			}
 		}
 		public EObject caseCallOperationAction(CallOperationAction a){
 			switch(notification.getFeatureID(CallOperationAction.class)){
@@ -737,16 +718,18 @@ public class NakedUmlElementLinker{
 				manageReferences(notification);
 				Signal s = (Signal) notification.getNewValue();
 				StereotypesHelper.getNumlAnnotation(s).getReferences().add(a);
-				List<Property> args = EmfParameterUtil.getArguments(s);
-				for(Property p:args){
-					setArgument(p, a, false);
-				}
-				while(a.getArguments().size() > args.size()){
-					a.getArguments().remove(a.getArguments().size() - 1);
-				}
+				synchronizeArguments(EmfParameterUtil.getArguments(s), a);
 				break;
 			}
 			return null;
+		}
+		private void synchronizeArguments(List<Property> args,SendSignalAction a){
+			for(Property p:args){
+				setArgument(p, a, false);
+			}
+			while(a.getArguments().size() > args.size()){
+				a.getArguments().remove(a.getArguments().size() - 1);
+			}
 		}
 		public EObject caseCallBehaviorAction(CallBehaviorAction a){
 			switch(notification.getFeatureID(CallBehaviorAction.class)){
@@ -786,23 +769,9 @@ public class NakedUmlElementLinker{
 			case UMLPackage.PROPERTY__IS_DERIVED_UNION:
 				Classifier context = (Classifier) (p.getOtherEnd() != null ? p.getOtherEnd().getType() : p.getOwner());
 				synchronizeSlotsOnReferringInstances(context);
+				break;
 			}
 			return null;
-		}
-		private void addPinForSignalActions(Property newProperty,Signal signal){
-			// FIrst do subclasses
-			for(DirectedRelationship d:signal.getTargetDirectedRelationships()){
-				if(d instanceof Generalization){
-					addPinForSignalActions(newProperty, (Signal) d.getSources().get(0));
-				}
-			}
-			for(EObject eObject:StereotypesHelper.getNumlAnnotation(signal).getReferences()){
-				if(eObject instanceof SendSignalAction){
-					setArgument(newProperty, (InvocationAction) eObject, true);
-				}else if(eObject instanceof Trigger && eObject.eContainer() instanceof AcceptEventAction){
-					setOutputpin(newProperty, ((AcceptEventAction) eObject.eContainer()).getResults(), true);
-				}
-			}
 		}
 		private void synchronizeParameters(EList<Parameter> parms,CallAction a){
 			int argCount = 0;
@@ -824,25 +793,6 @@ public class NakedUmlElementLinker{
 				a.getResults().remove(resultCount);
 			}
 		}
-		private void removeArgument(Parameter p,CallAction a){
-			removeFrom(p, a.getArguments());
-		}
-		private void removeResult(Parameter p,CallAction a){
-			removeFrom(p, a.getResults());
-		}
-		private void removeResult(Parameter p,AcceptEventAction a){
-			removeFrom(p, a.getResults());
-		}
-		private void removeFrom(Parameter p,EList<? extends Pin> containerList){
-			EList<EObject> references = StereotypesHelper.getNumlAnnotation(p).getReferences();
-			List<Pin> arguments = new ArrayList<Pin>(containerList);
-			for(Pin pin:arguments){
-				if(references.contains(pin)){
-					containerList.remove(pin);
-					break;
-				}
-			}
-		}
 		private void removeReferencingPins(TypedElement oldProp){
 			for(EObject e:StereotypesHelper.getNumlAnnotation(oldProp).getReferences()){
 				if(e.eContainer() instanceof InvocationAction){
@@ -852,10 +802,12 @@ public class NakedUmlElementLinker{
 					}else if(e instanceof OutputPin && e.eContainer() instanceof CallAction){
 						CallAction a = (CallAction) e.eContainer();
 						a.getResults().remove(e);
-					}else if(e instanceof OutputPin && e.eContainer() instanceof AcceptEventAction){
-						AcceptEventAction a = (AcceptEventAction) e.eContainer();
-						a.getResults().remove(e);
 					}
+				}else if(e instanceof OutputPin && e.eContainer() instanceof AcceptEventAction){
+					AcceptEventAction a = (AcceptEventAction) e.eContainer();
+					a.getResults().remove(e);
+				}else if(e.eContainer() instanceof Behavior){
+					((Behavior) e.eContainer()).getOwnedParameters().remove(oldProp);
 				}
 			}
 		}
@@ -897,7 +849,7 @@ public class NakedUmlElementLinker{
 				StereotypesHelper.getNumlAnnotation((Element) notification.getNewValue()).getReferences().add((EObject) notifier);
 			}
 		}
-		public void removeFromReferences(Element targetElement,Object interestedElement){
+		private void removeFromReferences(Element targetElement,Object interestedElement){
 			if(targetElement != null){
 				EList<EObject> references = StereotypesHelper.getNumlAnnotation(targetElement).getReferences();
 				ArrayList<EObject> arrayList = new ArrayList<EObject>(references);
@@ -909,7 +861,7 @@ public class NakedUmlElementLinker{
 				}
 			}
 		}
-		public void ensureSlotsPresence(InstanceSpecification is,Property a){
+		private void ensureSlotsPresence(InstanceSpecification is,Property a){
 			Slot found = null;
 			for(Slot slot:new ArrayList<Slot>(is.getSlots())){
 				if(slot.getDefiningFeature() != null && slot.getDefiningFeature().equals(a)){
@@ -947,7 +899,7 @@ public class NakedUmlElementLinker{
 			}
 		}
 	}
-	private void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
+	private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
 		if(te.isRelative()){
 			Profile pr = ApplyProfileAction.applyProfile(eModelElement.getModel(), StereotypeNames.NAKEDUML_PROFILE);
 			Stereotype st = pr.getOwnedStereotype(StereotypeNames.RELATIVE_TIME_EVENT);
@@ -973,7 +925,7 @@ public class NakedUmlElementLinker{
 			}
 		}
 	}
-	private void applyStereotypeIfNecessary(Element parent,Element ass,String stereotypeName,String profileName){
+	private static void applyStereotypeIfNecessary(Element parent,Element ass,String stereotypeName,String profileName){
 		if(StereotypesHelper.hasKeyword(ass, stereotypeName)){
 			Profile pr = ApplyProfileAction.applyProfile(parent.getModel(), profileName);
 			Stereotype st = pr.getOwnedStereotype(stereotypeName);
@@ -983,8 +935,8 @@ public class NakedUmlElementLinker{
 			if(ass instanceof Classifier){
 				Classifier specific = (Classifier) ass;
 				if(StereotypesHelper.hasStereotype(specific, stereotypeName)){
-					Classifier general = (Classifier) ImportLibraryAction.importLibrary(specific.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY).getOwnedType(
-							stereotypeName);
+					Classifier general = (Classifier) ImportLibraryAction.importLibraryIfNecessary(specific.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY)
+							.getOwnedType(stereotypeName);
 					if(general != null){
 						if(general instanceof Interface && specific instanceof BehavioredClassifier){
 							maybeRealizeInterface((BehavioredClassifier) specific, (Interface) general);
@@ -996,7 +948,7 @@ public class NakedUmlElementLinker{
 			}
 		}
 	}
-	private void maybeGeneralize(Classifier specific,Classifier general){
+	private static void maybeGeneralize(Classifier specific,Classifier general){
 		boolean found = false;
 		for(Generalization g:specific.getGeneralizations()){
 			if(g.getGeneral() == general){
@@ -1007,7 +959,7 @@ public class NakedUmlElementLinker{
 			specific.createGeneralization(general);
 		}
 	}
-	private void maybeRealizeInterface(BehavioredClassifier behavioredClassifier,Interface general2){
+	private static void maybeRealizeInterface(BehavioredClassifier behavioredClassifier,Interface general2){
 		boolean found = false;
 		for(InterfaceRealization g:behavioredClassifier.getInterfaceRealizations()){
 			if(g.getContract() == general2){
@@ -1017,10 +969,5 @@ public class NakedUmlElementLinker{
 		if(found == false){
 			behavioredClassifier.createInterfaceRealization("isA" + general2.getName(), general2);
 		}
-	}
-	public static void main(String[] args){
-		List l = new ArrayList<Object>(5);
-		l.add("Stirng");
-		l.add(3, "asdf");
 	}
 }

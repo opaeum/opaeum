@@ -33,6 +33,8 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 				actions.add(new ActionContributionItem(rmda));
 				ToggleAutomaticSynchronization t= new ToggleAutomaticSynchronization(selection);
 				actions.add(new ActionContributionItem(t));
+				RegenerateUuids ru= new RegenerateUuids(selection);
+				actions.add(new ActionContributionItem(ru));
 			}else{
 				action.setText("Convert to  Opium Model Directory");
 			}
@@ -40,7 +42,7 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 		return (ActionContributionItem[]) actions.toArray(new ActionContributionItem[actions.size()]);
 	}
 	public static boolean hasUmlModels(IStructuredSelection selection2){
-		IFolder firstElement = (IFolder) selection2.getFirstElement();
+		IContainer firstElement = (IContainer) selection2.getFirstElement();
 		try{
 			if(firstElement != null){
 				for(IResource r:firstElement.members()){
@@ -56,7 +58,7 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 		return false;
 	}
 	public static boolean hasConfigFile(IStructuredSelection selection2){
-		IFolder firstElement = (IFolder) selection2.getFirstElement();
+		IContainer firstElement = (IContainer) selection2.getFirstElement();
 		if(firstElement != null){
 			return firstElement.findMember("nakeduml.properties") != null;
 		}else{

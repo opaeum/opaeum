@@ -36,61 +36,47 @@ import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 public final class JavaProjectGenerator extends Job{
 	private final NakedUmlConfig cfg;
 	private final IWorkspaceRoot workspace;
-	private boolean recompile;
 	private TransformationProcess process;
-	public JavaProjectGenerator(NakedUmlConfig cfg,TransformationProcess process,IWorkspaceRoot workspace,boolean recompile){
+	public JavaProjectGenerator(NakedUmlConfig cfg,TransformationProcess process,IWorkspaceRoot workspace){
 		super("Generating java projects");
 		this.cfg = cfg;
 		this.process = process;
 		this.workspace = workspace;
-		this.recompile = recompile;
 	}
 	@Override
 	protected IStatus run(IProgressMonitor monitor){
 		try{
-			monitor.beginTask("Writing sources", 100);
-			SubProgressMonitor createProjects = new SubProgressMonitor(monitor, 20);
+			monitor.beginTask("Writing sources", 80);
 			TextWorkspace tws = process.findModel(TextWorkspace.class);
 			if(tws != null){
-				createProjects.beginTask("Creating Java Projects", tws.getTextProjects().size());
+				boolean hasNewJavaSourceFolders = JavaSourceSynchronizer.hasNewJavaSourceFolders(workspace, tws);
 				monitor.subTask("Creating Java Projects");
 				EclipseProjectGenerationStep eclipseGen = new EclipseProjectGenerationStep();
 				eclipseGen.initialize(workspace, cfg);
 				List<SourceFolder> sourceFolders = new ArrayList<SourceFolder>();
 				List<IProject> eclipseProjects = new ArrayList<IProject>();
 				for(TextProject tp:tws.getTextProjects()){
-					eclipseProjects.add(eclipseGen.visitProjectTopToBottom(tp));
+					eclipseProjects.add(eclipseGen.visitProject(tp));
 					for(SourceFolder sourceFolder:tp.getSourceFolders()){
 						sourceFolders.add(sourceFolder);
 					}
-					createProjects.worked(1);
+					monitor.worked(20/tws.getTextProjects().size());
 				}
-				createProjects.done();
-				SubProgressMonitor createSourceFolders = new SubProgressMonitor(monitor, 30);
-				createSourceFolders.beginTask("", sourceFolders.size());
 				monitor.subTask("Writing Java sources");
 				for(SourceFolder sourceFolder:sourceFolders){
-					if(recompile){
-						eclipseGen.visitRecursively(sourceFolder);
-					}else{
-						eclipseGen.visitSourceFolder(sourceFolder);
-					}
-					createSourceFolders.worked(1);
+					eclipseGen.visitSourceFolder(sourceFolder);
+					monitor.worked(20/sourceFolders.size());
 				}
-				createSourceFolders.done();
-				if(JavaSourceSynchronizer.hasNewJavaSourceFolders(workspace, tws)){
-					PomGenerationPhase pgp=process.getPhase(PomGenerationPhase.class);
+				if(hasNewJavaSourceFolders){
+					PomGenerationPhase pgp = process.getPhase(PomGenerationPhase.class);
 					pgp.getParentPom().getProject().getModules().getModule().clear();
 					pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
 					pgp.outputToFile(pgp.getParentPom());
-					SubProgressMonitor mvn = new SubProgressMonitor(monitor, 50);
-					mvn.beginTask("", 5);
 					monitor.subTask("Setting up Maven Dependencies");
 					JavaCore.setClasspathVariable("M2_REPO", new Path(System.getProperty("user.home") + "/.m2/repository"), null);
-					mvn.worked(1);
 					Process p = Runtime.getRuntime().exec("mvn eclipse:eclipse -o", new String[0], cfg.getOutputRoot());
 					p.waitFor();
-					mvn.worked(3);
+					monitor.worked(20);
 					BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 					String line = null;
 					while((line = r.readLine()) != null){
@@ -99,8 +85,7 @@ public final class JavaProjectGenerator extends Job{
 					for(IProject iProject:eclipseProjects){
 						iProject.refreshLocal(IProject.DEPTH_ONE, monitor);
 					}
-					mvn.worked(1);
-					mvn.done();
+					monitor.worked(20);
 				}
 			}
 		}catch(Exception e){
@@ -111,7 +96,7 @@ public final class JavaProjectGenerator extends Job{
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
 	}
 	private Collection<? extends String> determineMavenModules(){
-		Collection<String> result=new ArrayList<String>();
+		Collection<String> result = new ArrayList<String>();
 		for(IProject iProject:workspace.getProjects()){
 			File dir = iProject.getLocation().toFile();
 			try{
@@ -126,9 +111,7 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
-	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext)
-	
-			throws CoreException{
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext) throws CoreException{
 		monitor.beginTask("Updating resources", 6);
 		TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
 		if(!monitor.isCanceled()){
@@ -138,18 +121,9 @@ public final class JavaProjectGenerator extends Job{
 			textFileGenerator.startVisiting(textWorkspace);
 			monitor.worked(3);
 		}
-		EclipseProjectGenerationStep eclipseProjectGenerationStep = new EclipseProjectGenerationStep();
-		eclipseProjectGenerationStep.initialize(currentContext.getUmlElementCache().getConfig());
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		eclipseProjectGenerationStep.setRoot(root);
 		monitor.setTaskName("Refreshing Projects");
-		for(TextProject textProject:textWorkspace.getTextProjects()){
-			eclipseProjectGenerationStep.visitProject(textProject);
-		}
-		for(TextProject textProject:textWorkspace.getTextProjects()){
-			root.getProject(textProject.getName()).refreshLocal(IProject.DEPTH_INFINITE, null);
-		}
+		new JavaProjectGenerator(currentContext.getUmlElementCache().getConfig(), p, root).schedule();
 		monitor.worked(3);
 	}
-
 }

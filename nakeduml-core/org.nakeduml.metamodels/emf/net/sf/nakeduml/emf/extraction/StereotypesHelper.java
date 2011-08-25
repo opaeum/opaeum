@@ -16,67 +16,62 @@ import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
 
-public class StereotypesHelper {
-	public static boolean hasStereotype(Element c, String string) {
+public class StereotypesHelper{
+	public static boolean hasStereotype(Element c,String string){
 		String lowerCase = string.toLowerCase();
-		if (getStereotype(c, lowerCase) != null) {
+		if(getStereotype(c, lowerCase) != null){
 			return true;
 		}
 		return hasKeyword(c, lowerCase);
 	}
-
 	public static boolean hasKeyword(Element c,String lowerCase){
-		lowerCase=lowerCase.toLowerCase();
-		for (Object o : c.getKeywords()) {
-			if (o.toString().toLowerCase().equals(lowerCase)) {
+		lowerCase = lowerCase.toLowerCase();
+		for(Object o:c.getKeywords()){
+			if(o.toString().toLowerCase().equals(lowerCase)){
 				return true;
 			}
 		}
 		EAnnotation ann = c.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
-		if(ann!=null){
+		if(ann != null){
 			for(String string:ann.getDetails().keySet()){
 				if(string.toLowerCase().equals(lowerCase)){
 					return true;
 				}
-				
 			}
 		}
 		return false;
 	}
-
-	public static Stereotype getStereotype(Element c, String... lowerCase) {
-		for (String name : lowerCase) {
+	public static Stereotype getStereotype(Element c,String...lowerCase){
+		for(String name:lowerCase){
 			name = name.toLowerCase();
 			Iterator<Stereotype> iter = c.getAppliedStereotypes().iterator();
 			Stereotype s = null;
-			while (iter.hasNext()) {
+			while(iter.hasNext()){
 				s = (Stereotype) iter.next();
-				if (s.getName().toLowerCase().endsWith(name)) {
+				if(s.getName().toLowerCase().endsWith(name)){
 					return s;
 				}
 			}
 		}
 		return null;
 	}
-
-	public static boolean hasStereotype(Element c, String... possibleNames) {
-		for (String name : possibleNames) {
-			if (hasStereotype(c, name)) {
+	public static boolean hasStereotype(Element c,String...possibleNames){
+		for(String name:possibleNames){
+			if(hasStereotype(c, name)){
 				return true;
 			}
 		}
 		return false;
 	}
-
 	public static EAnnotation getNumlAnnotation(Element v){
 		for(EAnnotation eAnnotation:v.getEAnnotations()){
-			if(eAnnotation.getSource()!=null && eAnnotation.getSource().equals(StereotypeNames.NUML_ANNOTATION)){
+			if(eAnnotation.getSource() != null && eAnnotation.getSource().equals(StereotypeNames.NUML_ANNOTATION)){
 				return eAnnotation;
 			}
 		}
-			return v.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		EAnnotation createEAnnotation = v.createEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		return createEAnnotation;
 	}
-
 	public static void applyStereotype(Element e1,Stereotype s){
 		EObject e = e1;
 		while(!(e.eContainer() instanceof org.eclipse.uml2.uml.Package)){
@@ -95,5 +90,4 @@ public class StereotypesHelper {
 			}
 		}
 	}
-
 }

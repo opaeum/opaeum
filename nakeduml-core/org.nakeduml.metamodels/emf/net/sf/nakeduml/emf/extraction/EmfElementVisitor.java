@@ -42,8 +42,10 @@ public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 				elements.add(e.getWeight());
 			}
 		}
-		List contents = StereotypesHelper.getNumlAnnotation(root).getContents();
-		elements.addAll((Collection<? extends Element>) contents);
+		if(!(root instanceof EmfWorkspace)){
+			List contents = StereotypesHelper.getNumlAnnotation(root).getContents();
+			elements.addAll((Collection<? extends Element>) contents);
+		}
 		return elements;
 	}
 }

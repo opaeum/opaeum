@@ -1,7 +1,6 @@
 package org.nakeduml.eclipse.starter;
 
-import java.io.File;
-
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -13,11 +12,12 @@ public class AbstractOpiumAction extends Action{
 		super(name);
 		this.selection = selection;
 	}
-	protected File getCfgFile(){
+	protected IFile getCfgFile(){
 		return getConfigFile(selection);
 	}
-	protected File getConfigFile(IStructuredSelection selection2){
-		return new File(((IFolder) selection2.getFirstElement()).getLocation().toFile(), "nakeduml.properties");
+	protected IFile getConfigFile(IStructuredSelection selection2){
+		IFolder iFolder = (IFolder) selection2.getFirstElement();
+		return iFolder.getFile("nakeduml.properties");
 	}
 
 }

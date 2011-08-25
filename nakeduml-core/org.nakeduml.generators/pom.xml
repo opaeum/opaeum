@@ -73,8 +73,6 @@
 						<configuration>
 							<sources>
 								<source>bootstrap</source>
-								<source>uigeneration</source>
-								<source>obsolete</source>
 								<source>jbpm5generation</source>
 								<source>pomgeneration</source>
 								<source>velocity</source>

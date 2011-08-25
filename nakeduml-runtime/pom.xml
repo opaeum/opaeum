@@ -196,7 +196,7 @@
       <dependency>
         <groupId>org.nakeduml</groupId>
         <artifactId>nakeduml-runtime-bpm</artifactId>
-        <version>${numl.version}</version>
+        <version>${nakeduml-runtime.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>

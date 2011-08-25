@@ -12,7 +12,7 @@ import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode,TextWorkspace> implements ITransformationStep{
-	NakedUmlConfig config;
+	protected NakedUmlConfig config;
 	public void initialize(NakedUmlConfig config2){
 		this.config = config2;
 	}

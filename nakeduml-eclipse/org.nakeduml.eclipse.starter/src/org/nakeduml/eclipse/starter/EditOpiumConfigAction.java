@@ -33,7 +33,7 @@ public class EditOpiumConfigAction extends AbstractOpiumAction{
 	@Override
 	// public void run(IAction action){
 	public void run(){
-		File file2 = getCfgFile();
+		IFile file2 = getCfgFile();
 		// Load classes
 		NakedUmlEclipsePlugin.getDefault();
 		NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getCurrent().getActiveShell(), file2);

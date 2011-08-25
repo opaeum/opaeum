@@ -110,7 +110,7 @@ public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropert
 		super.setInput(part, selection);
 		if(this.taskEvents == null){
 			this.taskEvents = new ArrayList<CallEvent>();
-			Model lib = ImportLibraryAction.importLibrary(getAction().getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
+			Model lib = ImportLibraryAction.importLibraryIfNecessary(getAction().getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
 			for(PackageableElement pe:lib.getNestedPackage("events").getPackagedElements()){
 				if(pe instanceof CallEvent){
 					this.taskEvents.add((CallEvent) pe);

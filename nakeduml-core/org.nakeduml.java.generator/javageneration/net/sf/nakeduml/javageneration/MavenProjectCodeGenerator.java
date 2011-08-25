@@ -9,6 +9,7 @@ import java.util.Set;
 
 import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.DefaultTransformationLog;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
@@ -53,7 +54,7 @@ public abstract class MavenProjectCodeGenerator{
 		EmfWorkspace workspace = loadSingleModel(modelFile);
 		NakedUmlConfig cfg = prepareConfig();
 		cfg.store();
-		process.execute(cfg, workspace, getSteps());
+		process.execute(cfg, workspace, getSteps(),new DefaultTransformationLog());
 		workspace.getMappingInfo().store();
 		System.out.println("Generating code for model '" + modelFileName + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
@@ -75,7 +76,7 @@ public abstract class MavenProjectCodeGenerator{
 		long start = System.currentTimeMillis();
 		EmfWorkspace workspace = loadDirectory();
 		NakedUmlConfig cfg = prepareConfig();
-		process.execute(cfg, workspace, getSteps());
+		process.execute(cfg, workspace, getSteps(),new DefaultTransformationLog());
 		System.out.println("Transforming nakedWorkspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}
 	protected EmfWorkspace loadDirectory() throws IOException{
@@ -93,7 +94,7 @@ public abstract class MavenProjectCodeGenerator{
 		INakedModelWorkspace nmw = process.findModel(INakedModelWorkspace.class);
 		workspace.setMappingInfo(nmw.getWorkspaceMappingInfo());
 		nmw.clearGeneratingModelOrProfiles();
-		process.integrate();
+		process.integrate(new DefaultTransformationLog());
 		workspace.getMappingInfo().store();
 	}
 }

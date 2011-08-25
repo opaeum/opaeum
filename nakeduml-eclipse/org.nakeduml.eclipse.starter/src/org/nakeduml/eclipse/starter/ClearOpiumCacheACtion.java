@@ -6,6 +6,7 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -20,11 +21,11 @@ public class ClearOpiumCacheACtion extends AbstractOpiumAction{
 		super(selection, "Clear Opium Cache");
 	}
 	public void run(){
-		File file2 = getCfgFile();
+		IFile file2 = getCfgFile();
 		// Load classes
 		NakedUmlEclipsePlugin.getDefault();
 		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
-		NakedUmlConfig cfg = new NakedUmlConfig(file2);
+		NakedUmlConfig cfg = new NakedUmlConfig(file2.getLocation().toFile());
 		cfg .setOutputRoot(new File(workspace.getLocation().toFile(), cfg.getWorkspaceIdentifier()));
 		IContainer umlDir = (IContainer) selection.getFirstElement();
 		NakedUmlEclipseContext ne = NakedUmlEditor.getNakedUmlEclipseContextFor(umlDir);

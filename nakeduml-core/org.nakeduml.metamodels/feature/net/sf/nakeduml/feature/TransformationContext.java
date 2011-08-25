@@ -2,8 +2,9 @@ package net.sf.nakeduml.feature;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 
 public class TransformationContext {
 	boolean isIntegrationPhase;
@@ -18,7 +19,6 @@ public class TransformationContext {
 
 	public TransformationContext() {
 	}
-	
 
 	public boolean isIntegrationPhase(){
 		return isIntegrationPhase;

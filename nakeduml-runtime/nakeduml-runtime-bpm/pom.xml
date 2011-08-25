@@ -14,24 +14,17 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes><exclude>**/*IntegrationTest.java</exclude></excludes>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>add-test-source</id>
-            <phase>generate-sources</phase>
+            <id>add-resource</id>
+            <phase>generate-resources</phase>
             <goals>
-              <goal>add-test-source</goal>
+              <goal>add-resource</goal>
             </goals>
             <configuration>
-              <sources><source>src/test/generated-java</source></sources>
+              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
           <execution>
@@ -41,7 +34,17 @@
               <goal>add-source</goal>
             </goals>
             <configuration>
-              <sources><source>src/main/generated-java</source></sources>
+              <sources><source>src/main/generated-java</source><source>src/main/java</source></sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources><source>src/test/generated-java</source></sources>
             </configuration>
           </execution>
           <execution>
@@ -54,17 +57,12 @@
               <resources><resource><directory>src/test/generated-resources</directory></resource></resources>
             </configuration>
           </execution>
-          <execution>
-            <id>add-resource</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>add-resource</goal>
-            </goals>
-            <configuration>
-              <resources><resource><directory>src/main/generated-resources</directory></resource></resources>
-            </configuration>
-          </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration/>
       </plugin>
     </plugins>
   </build>
@@ -84,6 +82,23 @@
     <dependency>
       <groupId>org.nakeduml</groupId>
       <artifactId>nakeduml-runtime-bpm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nakeduml</groupId>
+      <artifactId>nakeduml-runtime-domain</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
     </dependency>
     <dependency>
       <groupId>org.nakeduml</groupId>
@@ -108,25 +123,8 @@
       <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-runtime-domain</artifactId>
     </dependency>
   </dependencies>
   <dependencyManagement>

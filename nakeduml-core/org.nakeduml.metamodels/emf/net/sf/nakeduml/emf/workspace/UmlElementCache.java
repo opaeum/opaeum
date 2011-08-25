@@ -1,6 +1,5 @@
 package net.sf.nakeduml.emf.workspace;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,45 +12,27 @@ import java.util.concurrent.TimeUnit;
 
 import net.sf.nakeduml.emf.extraction.EmfExtractionPhase;
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
-import net.sf.nakeduml.emf.load.EmfWorkspaceLoader;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.Steps;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.linkage.CompositionEmulator;
-import net.sf.nakeduml.linkage.DependencyCalculator;
-import net.sf.nakeduml.linkage.EnumerationValuesAttributeAdder;
-import net.sf.nakeduml.linkage.InverseCalculator;
+import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.linkage.LinkagePhase;
-import net.sf.nakeduml.linkage.MappedTypeLinker;
-import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
-import net.sf.nakeduml.linkage.ObjectFlowLinker;
-import net.sf.nakeduml.linkage.ParameterLinker;
-import net.sf.nakeduml.linkage.PinLinker;
-import net.sf.nakeduml.linkage.ProcessIdentifier;
-import net.sf.nakeduml.linkage.QualifierLogicCalculator;
-import net.sf.nakeduml.linkage.ReferenceResolver;
-import net.sf.nakeduml.linkage.RootEntityLinker;
-import net.sf.nakeduml.linkage.SourcePopulationResolver;
-import net.sf.nakeduml.linkage.TypeResolver;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
-import net.sf.nakeduml.validation.NameUniquenessValidation;
 import net.sf.nakeduml.validation.ValidationPhase;
 import net.sf.nakeduml.validation.namegeneration.JavaNameRegenerator;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Action;
@@ -102,10 +83,10 @@ public class UmlElementCache extends EContentAdapter{
 	protected INakedModelWorkspace nakedModelWorspace;
 	protected EmfResourceHelper resourceHelper;
 	protected EmfWorkspace currentEmfWorkspace;
+	long lastChange = System.currentTimeMillis();
 	private Set<UMLResource> resourcesBeingLoaded = new HashSet<UMLResource>();
 	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
 	// private Set<EObject> resourceChanges = new HashSet<EObject>();
-	protected Runnable synchronizer;
 	public UmlElementCache(EmfResourceHelper helper,NakedUmlConfig cfg){
 		this.resourceHelper = helper;
 		reinitializeProcess(cfg);
@@ -118,13 +99,14 @@ public class UmlElementCache extends EContentAdapter{
 		this.transformationProcess.replaceModel(nakedModelWorspace);
 		this.nakedUmlChanges.clear();
 	}
-	public EmfWorkspace buildWorkspaces(ResourceSet resourceSet,File modelFile) throws Exception,IOException{
-		EmfWorkspace emfWorkspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
-		emfWorkspaceLoaded(emfWorkspace);
+	public EmfWorkspace buildWorkspaces(Package model,TransformationProgressLog log) throws Exception,IOException{
+		EcoreUtil.resolveAll(model);
+		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 		emfWorkspace.setResourceHelper(this.resourceHelper);
+		emfWorkspaceLoaded(emfWorkspace);
 		this.currentEmfWorkspace = emfWorkspace;
 		this.transformationProcess.replaceModel(emfWorkspace);
-		this.transformationProcess.execute();
+		this.transformationProcess.execute(log);
 		return emfWorkspace;
 	}
 	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
@@ -132,6 +114,8 @@ public class UmlElementCache extends EContentAdapter{
 				JavaNameRegenerator.class, PersistentNameGenerator.class));
 		result.addAll(LinkagePhase.getAllSteps());
 		result.addAll(ValidationPhase.getAllValidationSteps());
+		result.add(JavaNameRegenerator.class);
+		result.add(PersistentNameGenerator.class);
 		Set<Class<? extends ITransformationStep>> additionalTransformationSteps = cfg.getAdditionalTransformationSteps();
 		Steps steps = new Steps();
 		steps.initializeFromClasses(additionalTransformationSteps);
@@ -206,12 +190,13 @@ public class UmlElementCache extends EContentAdapter{
 				// }
 				if(!isSynchronizableElement(ne)){
 					EObject e = (EObject) notification.getNotifier();
-					while(!isSynchronizableElement(e)){
-						e = EmfElementFinder.getContainer(e);
-					}
-					ne = (NamedElement) e;
+					ne = (NamedElement) getSyncronizableElement(e);
 				}
-				scheduleSynchronization(ne);
+				if(ne != null){
+					scheduleSynchronization(ne);
+				}else{
+					System.out.println();
+				}
 			}
 		}
 		if(resourcesBeingLoaded.isEmpty() && notification.getEventType() == Notification.ADD && notification.getNewValue() instanceof EObject){
@@ -235,22 +220,32 @@ public class UmlElementCache extends EContentAdapter{
 						}
 					}
 				}
-				getTransformationProcess().processElements(newObjects, EmfExtractionPhase.class);
+				synchronizationNow(newObjects);
 				this.resourcesBeingLoaded.clear();
 				this.resourcesLoaded.clear();
 			}
 		}
 	}
-	protected void scheduleSynchronization(Element o){
+	protected void scheduleSynchronization(){
+	}
+	protected void synchronizationNow(Set<Package> packages){
+	}
+	private void scheduleSynchronization(Element o){
 		synchronized(nakedModelWorspace){
+			lastChange = System.currentTimeMillis();
 			this.emfChanges.add(o);
-			if(this.synchronizer != null){
-				threadPool.schedule(synchronizer, 100, TimeUnit.MILLISECONDS);
-			}
+			threadPool.schedule(new Runnable(){
+				@Override
+				public void run(){
+					if(System.currentTimeMillis() - lastChange >= 200){
+						scheduleSynchronization();
+					}
+				}
+			}, 200, TimeUnit.MILLISECONDS);
 		}
 	}
-	private Element getSyncronizableElement(Element o){
-		EObject e = o;
+	private Element getSyncronizableElement(EObject e2){
+		EObject e = e2;
 		while(e != null){
 			if(isSynchronizableElement(e)){
 				return (Element) e;
@@ -263,7 +258,7 @@ public class UmlElementCache extends EContentAdapter{
 	private boolean isSynchronizableElement(EObject e){
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
 				|| e instanceof Region || e instanceof Operation || e instanceof Property || e instanceof Classifier || e instanceof Transition
-				|| e instanceof ActivityEdge;
+				|| e instanceof ActivityEdge || e instanceof Package;
 	}
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);

@@ -183,25 +183,29 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	public INakedBehavioredClassifier getContext() {
 		// NB!! Behaviours can be owned by transitions or directly by packages
 		INakedElementOwner owner = getOwnerElement();
+		INakedBehavioredClassifier result = null;
 		if (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
-			return ((INakedActivity) owner).getContext();
+			result =((INakedActivity) owner).getContext();
 		} else if (owner instanceof INakedBehavioredClassifier) {
-			return (INakedBehavioredClassifier) owner;
+			result = (INakedBehavioredClassifier) owner;
 		} else if ((owner instanceof INakedTransition)) {
-			return ((INakedTransition) owner).getStateMachine().getContext();
+			result =((INakedTransition) owner).getStateMachine().getContext();
 		} else if (owner instanceof INakedState) {
-			return ((INakedState) owner).getStateMachine().getContext();
-		} else {
+			result =((INakedState) owner).getStateMachine().getContext();
+		} 
+		if(result==null){
 			while (true) {
 				if (owner instanceof INakedBehavioredClassifier) {
-					return (INakedBehavioredClassifier) owner;
+					result =(INakedBehavioredClassifier) owner;
+					break;
 				} else if (owner instanceof INakedElement) {
 					owner = ((INakedElement) owner).getOwnerElement();
 				} else {
-					return null;
+					break;
 				}
 			}
 		}
+		return result;
 	}
 
 	@Override

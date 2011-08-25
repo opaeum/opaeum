@@ -8,10 +8,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
-
-import net.sf.nakeduml.emf.workspace.EmfWorkspace;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 /**
  * This class will become the entry point for the entire transformation process
@@ -23,72 +19,43 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 public class TransformationProcess{
 	public static interface TransformationProgressLog{
 		void startTask(String s,int size);
-		void endTask();
+		void endLastTask();
 		boolean isCanceled();
-		void workOnStep(String s);
+		void startStep(String s);
+		void endLastStep();
 	}
 	Set<Object> models = new HashSet<Object>();
 	Set<Object> changedElements = new HashSet<Object>();
 	Set<Class<? extends ITransformationStep>> actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 	private Phases phases;
-	private TransformationProgressLog log = new TransformationProgressLog(){
-		String lastTask;
-		long lastStart = System.currentTimeMillis();
-		@Override
-		public void startTask(String s,int size){
-			System.out.println(s);
-			lastTask = s;
-			lastStart = System.currentTimeMillis();
-		}
-		public void workOnStep(String s){
-			System.out.println(s);
-		}
-		@Override
-		public void endTask(){
-			System.out.println(lastTask + " took " + (System.currentTimeMillis() - lastStart) + " ms");
-		}
-		@Override
-		public boolean isCanceled(){
-			return false;
-		}
-	};
-	private NakedUmlConfig config;
-	private boolean cancelled;
-	public TransformationProgressLog getLog(){
-		return log;
-	}
-	public void setLog(TransformationProgressLog log){
-		this.log = log;
-	}
-	public void integrate(){
+	public void integrate(TransformationProgressLog log){
 		TransformationContext context = new TransformationContext(actualClasses, true);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		log.startTask("Generating Integration Code", getPhases().size());
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
-			log.workOnStep("Executing " + phase.getClass().getSimpleName());
 			if(phase instanceof IntegrationPhase){
-				executePhase(context, phase);
+				executePhase(context, phase,log);
 			}
 		}
-		log.endTask();
+		log.endLastTask();
 	}
-	public void executePhase(Class<? extends TransformationPhase<?,?>> phaseClass,boolean isIntegrationPhase){
+	public void executePhase(Class<? extends TransformationPhase<?,?>> phaseClass,boolean isIntegrationPhase, TransformationProgressLog log){
 		for(TransformationPhase<? extends ITransformationStep,?> phase:getPhases()){
 			if(phaseClass.isInstance(phase)){
-				executePhase(new TransformationContext(actualClasses, isIntegrationPhase), phase);
+				executePhase(new TransformationContext(actualClasses, isIntegrationPhase), phase,log);
 			}
 		}
 	}
-	private void executePhase(TransformationContext context,TransformationPhase<? extends ITransformationStep,?> phase){
+	private void executePhase(TransformationContext context,TransformationPhase<? extends ITransformationStep,?> phase, TransformationProgressLog log){
 		setInputModelsFor(phase);
 		phase.initializeSteps();
 		phase.execute(log, context);
 		context.featuresApplied(phase.getSteps());
 	}
-	public void execute(NakedUmlConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses){
+	public void execute(NakedUmlConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses,TransformationProgressLog log){
 		initialize(config, proposedStepClasses);
 		models.add(sourceModel);
-		execute();
+		execute(log);
 	}
 	public <T extends TransformationPhase>T getPhase(Class<T> c){
 		for(TransformationPhase<? extends ITransformationStep,?> p:getPhases()){
@@ -101,34 +68,31 @@ public class TransformationProcess{
 	public List<TransformationPhase<? extends ITransformationStep,?>> getPhases(){
 		return phases.getExecutionUnits();
 	}
-	public void execute(){
+	public void execute(TransformationProgressLog log){
 		TransformationContext context = new TransformationContext(actualClasses, false);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		log.startTask("Executing Transformation Phases", getPhases().size());
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
 			if(!log.isCanceled()){
-				log.workOnStep("Executing Phase " + phase.getClass().getSimpleName());
-				executePhase(context, phase);
+				executePhase(context, phase,log);
 			}
 		}
-		log.endTask();
+		log.endLastTask();
 	}
-	public void executeFrom(Class<? extends TransformationPhase<?,?>> c){
+	public void executeFrom(Class<? extends TransformationPhase<?,?>> c,TransformationProgressLog log){
 		TransformationContext context = new TransformationContext(actualClasses, false);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		log.startTask("Executing Transformation Phases", getPhases().size());
 		boolean start = false;
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
-			log.workOnStep("Executing Phase " + phase.getClass().getSimpleName());
 			if(start || (start = c.isInstance(phase))){
-				executePhase(context, phase);
+				executePhase(context, phase,log);
 			}
 		}
-		log.endTask();
+		log.endLastTask();
 	}
 	public void initialize(NakedUmlConfig config,Set<Class<? extends ITransformationStep>> proposedStepClasses){
 		this.models.clear();
-		this.config = config;
 		this.actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 		this.phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
@@ -142,7 +106,7 @@ public class TransformationProcess{
 			phase.initialize(config, (List) executionUnits);
 		}
 	}
-	public Collection<?> processElements(Collection changes,Class<?> fromPhase){
+	public Collection<?> processElements(Collection changes,Class<?> fromPhase,TransformationProgressLog log){
 		this.changedElements.clear();
 		if(changes.size() > 0){
 			log.startTask("Processing Individual Elements", getPhases().size());
@@ -151,13 +115,13 @@ public class TransformationProcess{
 			List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 			boolean start = false;
 			for(TransformationPhase phase:phaseList){
-				if(start || (start = fromPhase.isInstance(phase))){
+				if(!log.isCanceled() && (start || (start = fromPhase.isInstance(phase)))){
 					setInputModelsFor(phase);
 					phase.initializeSteps();
 					this.changedElements.addAll(phase.processElements(context, findElementsFor(phase)));
 				}
 			}
-			log.endTask();
+			log.endLastTask();
 		}
 		return this.changedElements;
 	}
