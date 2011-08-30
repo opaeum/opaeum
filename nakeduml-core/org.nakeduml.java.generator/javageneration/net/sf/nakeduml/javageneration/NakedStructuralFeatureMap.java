@@ -1,6 +1,9 @@
 package net.sf.nakeduml.javageneration;
 
-import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -10,7 +13,21 @@ import org.nakeduml.java.metamodel.OJPathName;
 
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{
+	private static Set<String> reservedWords=new HashSet<String>(Arrays.asList("return","class","interface", "void", "int", "short","boolean","long","double", "float", "synchronized") );
 
+	
+	@Override
+	public String umlName(){
+		return super.umlName();
+	}
+	@Override
+	public String fieldname(){
+		if(reservedWords.contains(feature.getName())){
+			return "_" + umlName();
+		}else{
+			return umlName();
+		}
+	}
 	public NakedStructuralFeatureMap(INakedProperty feature){
 		super(feature);
 		baseTypeMap = new NakedClassifierMap( feature.getNakedBaseType());
@@ -28,38 +45,6 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaTypePath();
 		}
 	}
-	public OJPathName javaAuditTypePath(){
-		if (getProperty().getBaseType() instanceof INakedEnumeration) {
-			return javaTypePath();
-		} else {
-			if(isMany()){
-				if(!isJavaPrimitive() && !javaBaseType().equals("String") && !javaBaseType().equals("Integer")) {
-					OJPathName copy = super.javaTypePath().getCopy();
-					copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+AuditImplementationStep.AUDIT));
-					return copy;
-				} else {
-					return javaTypePath();
-				}
-				//TODO this string jol must be wrong
-			}else if(isJavaPrimitive() || javaBaseType().equals("String")){
-				return featureTypeMap.javaObjectTypePath();
-			}else{
-				return new OJPathName(super.javaTypePath().toJavaString()+AuditImplementationStep.AUDIT);
-			}
-		}
-	}
-
-	//TODO this string jol must be wrong
-	public OJPathName javaAuditBaseTypePath(){
-		if (javaBaseType().equals("String")) {
-			return new OJPathName("String");
-		} else if(baseTypeMap.isJavaPrimitive()){
-			return baseTypeMap.javaObjectTypePath();
-		}else{
-			return new OJPathName(baseTypeMap.javaTypePath().toJavaString()+AuditImplementationStep.AUDIT);
-		}
-	}	
-
 	
 	@Override
 	public OJPathName javaDefaultTypePath(){
@@ -73,23 +58,6 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		}
 	}
 	
-	public String javaAuditDefaultValue() {
-		OJPathName baseType = javaBaseTypePath();
-		String javaDefaultValue = featureTypeMap.javaDefaultValue();
-		return javaDefaultValue.replace(baseType.getLast(), baseType.getLast()+AuditImplementationStep.AUDIT);
-	}
-
-	public OJPathName javaAuditDefaultTypePath(){
-		if(isMany()){
-			OJPathName baseType = super.javaBaseDefaultTypePath();
-			OJPathName auditBaseType = new OJPathName(baseType.toJavaString()+AuditImplementationStep.AUDIT);
-			OJPathName copy = super.javaDefaultTypePath().getCopy();
-			copy.addToElementTypes(auditBaseType);
-			return copy;
-		}else{
-			return new OJPathName(super.javaDefaultTypePath().toJavaString()+AuditImplementationStep.AUDIT);
-		}
-	}
 	
 	@Override
 	public OJPathName javaBaseTypePath(){

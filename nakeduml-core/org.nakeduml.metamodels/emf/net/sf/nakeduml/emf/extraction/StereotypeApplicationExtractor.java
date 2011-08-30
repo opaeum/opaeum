@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedContextualEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerEvent;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -54,7 +54,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the
 			// correct
 			// naked originalElement
-			INakedContextualEvent nakedPeer = (INakedContextualEvent) nakedWorkspace.getModelElement(getEventId(t));
+			INakedTriggerEvent nakedPeer = (INakedTriggerEvent) nakedWorkspace.getModelElement(getEventId(t));
 			if(nakedPeer != null){
 				addStereotypes(nakedPeer, t.getEvent());
 				addKeywords(nakedPeer, t.getEvent());

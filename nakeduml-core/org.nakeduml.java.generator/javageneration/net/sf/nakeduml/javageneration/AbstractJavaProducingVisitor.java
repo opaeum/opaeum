@@ -168,14 +168,6 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		}
 		return owner;
 	}
-	protected OJAnnotatedClass findAuditJavaClass(INakedClassifier classifier){
-		OJPathName path = OJUtil.classifierAuditPathname(classifier);
-		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		if(owner == null){
-			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
-		}
-		return owner;
-	}
 	protected void deleteClass(JavaSourceFolderIdentifier id,OJPathName ojPathName){
 		deleteTextNode(id, ojPathName, true);
 		OJClass pkg = javaModel.findClass(ojPathName);

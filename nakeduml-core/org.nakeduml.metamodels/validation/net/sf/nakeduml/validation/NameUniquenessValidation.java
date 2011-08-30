@@ -62,6 +62,14 @@ public class NameUniquenessValidation extends AbstractValidator{
 			}
 		}
 	}
+	@VisitBefore(matchSubclasses=true)
+	public void visitActivity(INakedActivity a){
+		ensureUniqueness(a, "activity nodes", a.getActivityNodes());
+	}
+	@VisitBefore(matchSubclasses=true)
+	public void visitStructuredActivityNode(INakedStructuredActivityNode a){
+		ensureUniqueness(a, "activity nodes", a.getActivityNodes());
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(INakedStateMachine nc){
 		ensureUniqueness(nc, "all states recursively", nc.getAllStates());

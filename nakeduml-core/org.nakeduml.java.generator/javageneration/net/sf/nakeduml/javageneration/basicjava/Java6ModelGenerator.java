@@ -43,8 +43,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
-import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IEnum;
+import org.nakeduml.runtime.domain.ISignal;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {NameUniquenessValidation.class},after = {})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
@@ -103,7 +103,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}
 			// TODO find another place
 			if(c instanceof INakedSignal){
-				myClass.setSuperclass(new OJPathName(AbstractSignal.class.getName()));
+				myClass.addToImplementedInterfaces(new OJPathName(ISignal.class.getName()));
 			}
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());

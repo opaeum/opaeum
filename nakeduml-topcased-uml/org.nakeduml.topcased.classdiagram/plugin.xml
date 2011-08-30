@@ -1062,7 +1062,6 @@
 			<propertySection
 				id="org.nakeduml.topcased.propertysections.EObjectErrorSection"
 				class="org.nakeduml.topcased.propertysections.EObjectErrorSection"
-				filter="org.nakeduml.topcased.propertysections.filters.ProblemElementFilter"
 				tab="org.nakeduml.eclipse.numlTab"
 				>
          		<input type="org.eclipse.uml2.uml.Element"/>
@@ -1072,7 +1071,7 @@
 				class="org.nakeduml.topcased.propertysections.MultiplicityElementFeaturesSection"
 				tab="org.nakeduml.eclipse.numlTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
+         		<input type="org.eclipse.uml2.uml.MultiplicityElement"/>
 			</propertySection>
 			<!--Property PropertySections --> 
 			<propertySection

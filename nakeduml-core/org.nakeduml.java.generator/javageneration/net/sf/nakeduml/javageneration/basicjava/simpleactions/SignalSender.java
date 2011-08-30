@@ -16,39 +16,41 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
+import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction> {
-	public SignalSender(NakedUmlLibrary oclEngine, INakedSendSignalAction action, AbstractObjectNodeExpressor expressor) {
+public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction>{
+	public SignalSender(NakedUmlLibrary oclEngine,INakedSendSignalAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
-
 	@Override
-	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
+	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		Iterator<INakedInputPin> args = node.getArguments().iterator();
 		String signalName = "_signal" + node.getMappingInfo().getJavaName();
 		ClassifierMap cm = new NakedClassifierMap(node.getSignal());
 		operation.getOwner().addToImports(cm.javaTypePath());
-		while (args.hasNext()) {
+		while(args.hasNext()){
 			INakedPin pin = args.next();
-			if (pin.getLinkedTypedElement() == null) {
+			if(pin.getLinkedTypedElement() == null){
 				block.addToStatements(signalName + "couldNotLinkPinToProperty!!!");
-			} else {
+			}else{
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap((INakedProperty) pin.getLinkedTypedElement());
 				block.addToStatements(signalName + "." + map.setter() + "(" + readPin(operation, block, pin) + ")");
 			}
 		}
-		OJAnnotatedField signal = new OJAnnotatedField(signalName,cm.javaTypePath());
+		OJAnnotatedField signal = new OJAnnotatedField(signalName, cm.javaTypePath());
 		block.addToLocals(signal);
 		String source = "this";
 		String targetExpression;
-		if (node.getTarget()!= null) {
+		if(node.getTarget() != null){
 			targetExpression = readPin(operation, block, node.getTarget());
-		}else {
-			targetExpression=source;
+		}else{
+			targetExpression = source;
 		}
-		block.addToStatements(signalName + ".send(" + source + "," + targetExpression + ")");
+		OJPathName handlerPathName = EventUtil.handlerPathName(node.getSignal());
+		operation.getOwner().addToImports(handlerPathName);
+		block.addToStatements("getOutgoingEvents().put(" + targetExpression + ",new " +handlerPathName.getLast() + "("+ signalName + "))");
 		signal.setType(cm.javaTypePath());
 		signal.setInitExp("new " + node.getSignal().getMappingInfo().getJavaName() + "()");
 	}

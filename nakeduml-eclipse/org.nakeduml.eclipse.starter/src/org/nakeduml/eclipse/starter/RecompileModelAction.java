@@ -35,6 +35,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -64,6 +65,8 @@ public class RecompileModelAction implements IObjectActionDelegate{
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
 								NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+								p.replaceModel(new OJAnnotatedPackage());
+								p.replaceModel(new TextWorkspace());
 								p.executeFrom(JavaTransformationPhase.class,new ProgressMonitorTransformationLog(monitor,30));
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 60), p, currentContext);
 								p.findModel(EmfWorkspace.class).saveAll();

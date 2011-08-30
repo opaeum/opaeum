@@ -79,7 +79,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
-			<artifactId>drools-api</artifactId>
+			<artifactId>knowledge-api</artifactId>
 			<version>${drools.version}</version>
 		</dependency>
 		<dependency>
@@ -137,26 +137,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<scope>provided</scope>
-			<exclusions>
-				<!-- Exclusions intended primarily to ensure clean Eclipse classpaths -->
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.transaction</groupId>
-					<artifactId>jta</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>antlr</groupId>
-					<artifactId>antlr</artifactId>
-				</exclusion>				
-			</exclusions>
-		</dependency>
-		<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 			    <version>1.5.10</version>
@@ -165,9 +145,9 @@
 	</dependencies>
 	<properties>
 		<java.version>1.6</java.version>
-		<jbpm.version>5.0.0</jbpm.version>
+		<jbpm.version>5.1.0.Final</jbpm.version>
 		<junit.version>4.8.2</junit.version>
-		<drools.version>5.2.0.M1</drools.version>
+		<drools.version>5.2.0.Final</drools.version>
 	</properties>
 
 </project>

@@ -1,5 +1,7 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
+import java.util.Arrays;
+
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
@@ -28,7 +30,7 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 				operation.getOwner().addToOperations(cancel);
 				cancel.addParam("context", Jbpm5Util.getProcessContext());
 				EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) node.getTrigger().getEvent(),"this");
-			}else if(node.getTrigger().getEvent() instanceof INakedEvent){
+			}else if(node.getTrigger().getEvent() instanceof INakedChangeEvent){
 				ActionMap map = new ActionMap(node);
 				EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) node.getTrigger().getEvent());
 				OJOperation cancel = new OJAnnotatedOperation(map.getCancelEventsMethod());

@@ -19,21 +19,9 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	public Dependency[] getDependencies(){
 		Collection<Dependency> result = getBasicDependencies(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addNakedumlDomain(result);
-		// add provided dependencies from above
-		addHibernate(result);
-		addHsqlDbForTest(result);
-
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 	private void addNakedumlDomain(Collection<Dependency> result){
-		//only insert when BpmUsingJbpm5 is selected
-		Dependency nakedUmlBpm= POMFactory.eINSTANCE.createDependency();
-		nakedUmlBpm.setGroupId("org.nakeduml");
-		nakedUmlBpm.setArtifactId("nakeduml-runtime-bpm");
-		nakedUmlBpm.setVersion("${numl.version}");
-		nakedUmlBpm.setScope("compile");
-		nakedUmlBpm.setType("jar");
-		result.add(nakedUmlBpm);
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
 		nakedUmlUtil.setGroupId("org.nakeduml");
 		nakedUmlUtil.setArtifactId("nakeduml-runtime-domain");

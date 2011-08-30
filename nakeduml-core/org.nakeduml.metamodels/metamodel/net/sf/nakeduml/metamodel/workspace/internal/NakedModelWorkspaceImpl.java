@@ -67,20 +67,27 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 			System.out.println(msg);
 		}
 		Class<?> startClass = mw.getClass();
-		while(INakedElement.class.isAssignableFrom(startClass)){
-			for(Class<?> intf:startClass.getInterfaces()){
-				if(INakedElement.class.isAssignableFrom(intf)){
-					Set<INakedElement> set = (Set<INakedElement>) getElementsOfType((Class<? extends INakedElement>) intf);
-					set.add(mw);
-				}
-			}
-			startClass = startClass.getSuperclass();
-		}
+		putInAppropriateSets(mw, startClass);
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
 		if(mw instanceof INakedRootObject){
 			addOwnedElement((INakedRootObject) mw);
+		}
+	}
+	protected void putInAppropriateSets(INakedElement mw,Class<?> startClass){
+		while(INakedElement.class.isAssignableFrom(startClass)){
+			putInterfaces(mw, startClass);
+			startClass = startClass.getSuperclass();
+		}
+	}
+	protected void putInterfaces(INakedElement mw,Class<?> startClass){
+		for(Class<?> intf:startClass.getInterfaces()){
+			if(INakedElement.class.isAssignableFrom(intf)){
+				Set<INakedElement> set = (Set<INakedElement>) getElementsOfType((Class<? extends INakedElement>) intf);
+				set.add(mw);
+				putInterfaces(mw,intf);
+			}
 		}
 	}
 	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> c){

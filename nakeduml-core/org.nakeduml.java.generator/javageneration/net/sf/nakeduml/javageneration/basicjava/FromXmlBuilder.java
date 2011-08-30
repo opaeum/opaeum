@@ -40,7 +40,7 @@ import org.w3c.dom.NodeList;
 	Java6ModelGenerator.class
 })
 public class FromXmlBuilder extends AbstractStructureVisitor{
-	@VisitBefore
+	@VisitBefore(matchSubclasses=true)
 	public void visitInterface(INakedInterface i){
 		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
 			OJAnnotatedClass ojClass = findJavaClass(i);

@@ -66,9 +66,7 @@ public class StereotypeNames {
 	public static final String ACCEPT_DEADLINE_ACTION = "AcceptDeadlineAction";
 	public static final String SEND_NOTIFICATION_ACTION = "SendNotificationAction";
 	public static final String NOTIFICATION= "Notification";
-	public static final String NAKEDUML_BPM_PROFILE = "OpiumBPMProfile.uml";
-	public static final String NAKEDUML_BPM_LIBRARY = "OpiumBPM.library.uml";
-	public static final String NAKEDUML_PROFILE = "NakedUMLProfile.uml";
+	public static final String OPIUM_STANDARD_PROFILE = "OpiumStandardProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 	public static final String SCREEN_FLOW = "ScreenFlow";
@@ -76,6 +74,9 @@ public class StereotypeNames {
 	public static final String SCREEN = "Screen";
 	public static final String OCL_INPUT = "OclInput";
 	public static final String NEW_OBJECT_INPUT = "NewObjectInput";
+	public static final String OPIUM_BPM_PROFILE = "OpiumBPMProfile.uml";
+	public static final String OPIUM_BPM_LIBRARY = "OpiumBPM.library.uml";
+	public static final String OPIUM_SIMPLE_TYPES = "OpiumSimpleTypes.library.uml";
 	
 
 }

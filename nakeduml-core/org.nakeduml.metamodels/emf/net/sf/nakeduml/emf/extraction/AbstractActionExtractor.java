@@ -75,7 +75,9 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
 			resultingPin.setBaseType(nakedType);
 			resolveMultiplicityAndActualType(resultingPin, emfPin);
 		}
-		resultingPin.setName(emfPin.getName());
+		if(resultingPin != null){
+			resultingPin.setName(emfPin.getName());
+		}
 		return resultingPin;
 	}
 	protected void resolveMultiplicityAndActualType(NakedPinImpl ae,Pin te){

@@ -26,7 +26,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedContextualEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
@@ -112,10 +112,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				string.setContext(context, s);
 				Environment env = null;
 				if(slot.getOwningInstance().getClassifier() instanceof INakedEnumeration){
-					env=environmentFactory.createSelflessEnvironment(context);
+					env = environmentFactory.createSelflessEnvironment(context);
 				}else if(slot.getOwningInstance().getOwnerElement() instanceof INakedValueSpecification){
 					// Instance VAlue
-					env=environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
+					env = environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
 				}
 				s.setValue(replaceSingleParsedOclString(string, context, slot.getDefiningFeature().getType(), env));
 			}
@@ -139,6 +139,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			INakedClassifier context = edge.getOwningBehavior().getContext();
 			if(context == null){
 				context = BehaviorUtil.getNearestActualClass(owningBehavior);
+			}
+			if(context == null){
+				context = owningBehavior;
 			}
 			edge.getGuard().setValue(replaceSingleParsedOclString(string, context, booleanType, env));
 		}
@@ -217,15 +220,17 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitContextualEvent(INakedContextualEvent ev){
+	public void visitContextualEvent(INakedTriggerEvent ev){
 		INakedValueSpecification w = null;
 		if(ev instanceof INakedTimeEvent){
 			INakedTimeEvent te = (INakedTimeEvent) ev;
-			w = te.getWhen();
-			if(te.isRelative()){
-				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
-			}else{
-				w.setType(workspace.getNakedUmlLibrary().getDateType());
+			if(te.getWhen() != null){
+				w = te.getWhen();
+				if(te.isRelative()){
+					w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+				}else{
+					w.setType(workspace.getNakedUmlLibrary().getDateType());
+				}
 			}
 		}else{
 			w = ((INakedChangeEvent) ev).getChangeExpression();
@@ -318,6 +323,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		INakedClassifier ctx = activity.getContext();
 		if(ctx == null){
 			ctx = BehaviorUtil.getNearestActualClass(a);
+		}
+		if(ctx == null){
+			ctx = a.getActivity();
 		}
 		Environment inside = environmentFactory.createPreEnvironment(ctx, a);
 		replaceParsedOclConstraints(ctx, a.getPreConditions(), inside);

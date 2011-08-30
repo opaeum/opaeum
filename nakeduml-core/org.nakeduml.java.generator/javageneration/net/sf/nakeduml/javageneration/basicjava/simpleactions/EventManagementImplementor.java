@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.IActiveObject;
 
 import net.sf.nakeduml.feature.StepDependency;
@@ -10,7 +11,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityMessageEventHandlerInserter;
+import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineEventHandlerInserter;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
@@ -29,9 +30,9 @@ import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		StateMachineEventHandlerInserter.class,ActivityMessageEventHandlerInserter.class
+		StateMachineEventHandlerInserter.class,ActivityEventHandlerInserter.class
 },after = {
-		StateMachineEventHandlerInserter.class,ActivityMessageEventHandlerInserter.class
+		StateMachineEventHandlerInserter.class,ActivityEventHandlerInserter.class
 })
 public class EventManagementImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
@@ -46,7 +47,10 @@ public class EventManagementImplementor extends AbstractJavaProducingVisitor{
 		}
 
 		if(s instanceof INakedBusinessRole || s.getOwnedReception().size() > 0){
-			AbstractEventHandlerInserter.ensureProcessSignalPresent(ojClass);
+			OJAnnotatedOperation oper = AbstractEventHandlerInserter.ensureProcessSignalPresent(ojClass);
+			if(oper.getBody().getStatements().size()==0){
+				oper.getBody().addToStatements("return false");
+			}
 		}
 	}
 	private boolean hasOutgoingEvents(INakedStateMachine sm){

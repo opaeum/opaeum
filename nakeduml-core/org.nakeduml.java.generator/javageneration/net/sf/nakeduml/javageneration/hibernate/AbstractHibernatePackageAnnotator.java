@@ -141,14 +141,12 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
 				doTypeDefs(collector.allProcesses, "StateResolver", domainPkg);
 			}
-
 			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
 				doTypeDefs(collector.enumerations, "Resolver", adPkg);
 			}
 			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
 				doTypeDefs(collector.allProcesses, "StateResolver", adPkg);
 			}
-
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, adPkg);
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, domainPkg);
 			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, adPkg);
@@ -158,7 +156,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 	}
 	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackage p){
-		OJAnnotationValue typeDefs = getTypeDefs(p);
+		OJAnnotationAttributeValue typeDefs = getTypeDefs(p);
 		for(INakedClassifier a:processes){
 			OJAnnotationValue typeDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDef"));
 			typeDefs.addAnnotationValue(typeDef);
@@ -167,13 +165,14 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			typeDef.putAttribute("typeClass", new OJPathName(a.getMappingInfo().getQualifiedJavaName() + string));
 		}
 	}
-	private OJAnnotationValue getTypeDefs(OJAnnotatedPackage p){
+	private OJAnnotationAttributeValue getTypeDefs(OJAnnotatedPackage p){
 		OJAnnotationValue typeDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.TypeDefs"));
 		if(typeDefs == null){
 			typeDefs = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDefs"));
 			p.putAnnotation(typeDefs);
+			typeDefs.putAttribute(new OJAnnotationAttributeValue("value"));
 		}
-		return typeDefs;
+		return typeDefs.findAttribute("value");
 	}
 	// TODO find another place for this
 	private MetaDefElementCollector collectElements(Collection<? extends INakedElement> ownedElements){

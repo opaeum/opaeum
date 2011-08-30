@@ -12,7 +12,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -32,8 +31,8 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.DataType;
-import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -59,6 +58,8 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
+import org.eclipse.uml2.uml.ReadVariableAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.SignalEvent;
@@ -235,8 +236,8 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			switch(notification.getEventType()){
 			case Notification.ADD:
 				if(notification.getNewValue() instanceof Activity){
-					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.BUSINES_PROCESS, StereotypeNames.NAKEDUML_BPM_PROFILE);
-					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.METHOD, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.BUSINES_PROCESS, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.METHOD, StereotypeNames.OPIUM_BPM_PROFILE);
 				}
 				break;
 			}
@@ -254,7 +255,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			if(notification.getEventType() == Notification.SET || notification.getEventType() == Notification.ADD){
 				if(notification.getNewValue() instanceof ObjectNode){
 					ObjectNode inputPin = (ObjectNode) notification.getNewValue();
-					inputPin.setName(((EStructuralFeature) notification.getFeature()).getName());
+					// inputPin.setName(((EStructuralFeature) notification.getFeature()).getName());
 					if(inputPin.getUpperBound() == null){
 						LiteralUnlimitedNatural upperBound = UMLFactory.eINSTANCE.createLiteralUnlimitedNatural();
 						upperBound.setValue(-1);
@@ -266,6 +267,8 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							vp.setValue(createOclExpression(vp.getName()));
 						}else if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
 							vp.setValue(createInstanceValue(vp.getName()));
+						}else{
+							vp.setValue(createOclExpression(vp.getName()));
 						}
 					}
 				}
@@ -277,17 +280,29 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case Notification.ADD:
 				ActivityNode newValue = (ActivityNode) notification.getNewValue();
 				if(newValue instanceof AcceptEventAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_DEADLINE_ACTION, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_DEADLINE_ACTION, StereotypeNames.OPIUM_BPM_PROFILE);
 				}else if(newValue instanceof OpaqueAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK, StereotypeNames.OPIUM_BPM_PROFILE);
 				}else if(newValue instanceof CallBehaviorAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK, StereotypeNames.OPIUM_BPM_PROFILE);
 				}else if(newValue instanceof SendSignalAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.SEND_NOTIFICATION_ACTION, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.SEND_NOTIFICATION_ACTION, StereotypeNames.OPIUM_BPM_PROFILE);
 				}else if(newValue instanceof AcceptCallAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_TASK_EVENT_ACTION, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_TASK_EVENT_ACTION, StereotypeNames.OPIUM_BPM_PROFILE);
+				}
+				if(newValue instanceof Action){
+					populateRequiredPins((Action) newValue);
 				}
 				break;
+			}
+		}
+		protected void populateRequiredPins(Action ac){
+			if(ac instanceof ReadStructuralFeatureAction){
+				((ReadStructuralFeatureAction) ac).setResult(UMLFactory.eINSTANCE.createOutputPin());
+			}else if(ac instanceof ReadVariableAction){
+				((ReadVariableAction) ac).setResult(UMLFactory.eINSTANCE.createOutputPin());
+			}else if(ac instanceof CreateObjectAction){
+				((CreateObjectAction) ac).setResult(UMLFactory.eINSTANCE.createOutputPin());
 			}
 		}
 		public EObject caseBehavior(Behavior behavior){
@@ -382,18 +397,18 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				}
 			}
 			if(notification.getNewValue() instanceof Signal){
-				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.NOTIFICATION, StereotypeNames.NAKEDUML_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.NOTIFICATION, StereotypeNames.OPIUM_BPM_PROFILE);
 			}
 			if(notification.getNewValue() instanceof Interface){
 				Interface intf = (Interface) notification.getNewValue();
-				applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.NAKEDUML_BPM_PROFILE);
-				applyStereotypeIfNecessary(p, intf, StereotypeNames.HELPER, StereotypeNames.NAKEDUML_PROFILE);
+				applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.OPIUM_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, intf, StereotypeNames.HELPER, StereotypeNames.OPIUM_STANDARD_PROFILE);
 			}
 			if(notification.getNewValue() instanceof Component){
-				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.NAKEDUML_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.OPIUM_BPM_PROFILE);
 			}
 			if(notification.getNewValue() instanceof org.eclipse.uml2.uml.Class){
-				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE, StereotypeNames.NAKEDUML_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE, StereotypeNames.OPIUM_BPM_PROFILE);
 			}
 			if(notification.getNewValue() instanceof TimeEvent){
 				applyRelativeTimeEventStereotype((TimeEvent) notification.getNewValue(), p);
@@ -433,7 +448,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			switch(notification.getFeatureID(Generalization.class)){
 			case UMLPackage.GENERALIZATION__GENERAL:
 				if(notification.getNewValue() instanceof Signal){
-					synchronizeSignalPins((Signal) notification.getNewValue());
+					synchronizeSignalPins((Signal) g.getSpecific());
 				}
 				break;
 			}
@@ -627,13 +642,13 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 							aea.getResults().add(outputPin);
 						}
-						outputPin.setType(ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), "NakedUMLSimpleTypes.library.uml").getOwnedType("DateTime"));
+						outputPin.setType(ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES).getOwnedType("DateTime"));
 						outputPin.setName("time");
 						while(1 < aea.getResults().size()){
 							aea.getResults().remove(1);
 						}
 						if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_DEADLINE_ACTION)){
-							Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
+							Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 							if(aea.getResults().size() >= 2){
 								outputPin = aea.getResults().get(1);
 							}else{
@@ -645,7 +660,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							outputPin.setName("task");
 						}
 					}else if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_TASK_EVENT_ACTION)){
-						Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY);
+						Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 						OutputPin outputPin;
 						if(aea.getResults().size() >= 1){
 							outputPin = aea.getResults().get(0);
@@ -890,7 +905,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 					EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
 					TimeEvent te = (TimeEvent) not.getNewValue();
 					Element eModelElement = (Element) eAnnotation.getEModelElement();
-					applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.NAKEDUML_BPM_PROFILE);
+					applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPIUM_BPM_PROFILE);
 					applyRelativeTimeEventStereotype(te, eModelElement);
 				}
 				break;
@@ -901,7 +916,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 	}
 	private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
 		if(te.isRelative()){
-			Profile pr = ApplyProfileAction.applyProfile(eModelElement.getModel(), StereotypeNames.NAKEDUML_PROFILE);
+			Profile pr = ApplyProfileAction.applyProfile(eModelElement.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
 			Stereotype st = pr.getOwnedStereotype(StereotypeNames.RELATIVE_TIME_EVENT);
 			if(!te.isStereotypeApplied(st)){
 				StereotypesHelper.applyStereotype(te, st);
@@ -935,8 +950,8 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			if(ass instanceof Classifier){
 				Classifier specific = (Classifier) ass;
 				if(StereotypesHelper.hasStereotype(specific, stereotypeName)){
-					Classifier general = (Classifier) ImportLibraryAction.importLibraryIfNecessary(specific.getModel(), StereotypeNames.NAKEDUML_BPM_LIBRARY)
-							.getOwnedType(stereotypeName);
+					Classifier general = (Classifier) ImportLibraryAction.importLibraryIfNecessary(specific.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY).getOwnedType(
+							stereotypeName);
 					if(general != null){
 						if(general instanceof Interface && specific instanceof BehavioredClassifier){
 							maybeRealizeInterface((BehavioredClassifier) specific, (Interface) general);

@@ -81,7 +81,7 @@ public class ValueSpecificationUtil{
 			operationContext.getBody().addToLocals(now);
 		}
 		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.nakeduml.bpm.BusinessRole"));
+			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.nakeduml.runtime.bpm.BusinessRole"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}

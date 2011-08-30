@@ -58,12 +58,12 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 		StateMachineImplementor.class,ActivityProcessImplementor.class
 })
 public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
-	public static final OJPathName RESPONSIBILITY_OBJECT = new OJPathName("org.nakeduml.bpm.ResponsibilityObject");
-	public static final OJPathName ABSTRACT_REQUEST = new OJPathName("org.nakeduml.bpm.AbstractRequest");
-	public static final OJPathName TASK_OBJECT = new OJPathName("org.nakeduml.bpm.TaskObject");
-	public static final OJPathName OPERATION_PROCESS_OBJECT = new OJPathName("org.nakeduml.bpm.OperationProcessObject");
-	public static final OJPathName PROCESS_REQUEST = new OJPathName("org.nakeduml.bpm.ProcessRequest");
-	public static final OJPathName TASK_REQUEST = new OJPathName("org.nakeduml.bpm.TaskRequest");
+	public static final OJPathName RESPONSIBILITY_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.ResponsibilityObject");
+	public static final OJPathName ABSTRACT_REQUEST = new OJPathName("org.nakeduml.runtime.bpm.AbstractRequest");
+	public static final OJPathName TASK_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.TaskObject");
+	public static final OJPathName OPERATION_PROCESS_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.OperationProcessObject");
+	public static final OJPathName PROCESS_REQUEST = new OJPathName("org.nakeduml.runtime.bpm.ProcessRequest");
+	public static final OJPathName TASK_REQUEST = new OJPathName("org.nakeduml.runtime.bpm.TaskRequest");
 	@VisitBefore
 	public void visitActivity(INakedActivity activity){
 		if(activity.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(activity)){
@@ -164,6 +164,8 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
 		addCallingProcessObjectField(started, processObject, oa);
 		ojClass.addToOperations(started);
+		EventUtil.addOutgoingEventManagement(ojClass);
+		ojClass.addToImports(new OJPathName("java.util.Date"));
 		for(INakedDeadline d:deadlines){
 			// TODO ensure uniqueness of deadline names
 			implementDeadlineCallback(ojClass, d, oa, processObject);
@@ -178,14 +180,19 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		}
 	}
 	private void implementDeadlineCallback(OJAnnotatedClass ojClass,INakedDeadline d,INakedDefinedResponsibility a,OJPathName processObject){
-		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventHandlerName(d));
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventHandlerName(d),new OJPathName("boolean"));
 		ojClass.addToOperations(oper);
+		oper.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+		oper.addParam("date", new OJPathName("java.util.Date"));
+		
 		// TODO give this some thought
 		OJUtil.addMetaInfo(oper, a);
 		addCallingProcessObjectField(oper, processObject, a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);
-		ifNotNullCallback.getThenPart().addToStatements("callProcessObject." + EventUtil.getEventHandlerName(d) + "(this)");
+		ifNotNullCallback.getThenPart().addToStatements("return callingProcessObject." + EventUtil.getEventHandlerName(d) + "(date,this)");
+		ifNotNullCallback.setElsePart(new OJBlock());
+		ifNotNullCallback.getElsePart().addToStatements("return false");
 	}
 	private void addCallingProcessObjectField(OJAnnotatedOperation op,OJPathName processObject,INakedDefinedResponsibility v){
 		OJAnnotatedField callingProcessObject = new OJAnnotatedField("callingProcessObject", processObject);

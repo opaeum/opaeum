@@ -151,11 +151,11 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}
 			calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(commonComposite, owner, baseType, pathToCommonComposite);
 		}else{
-			commonComposite = calculatePathFromOwnerToCommonCompositionsAncestor(owner, baseType, pathToCommonComposite);
+			commonComposite = calculatePathFromOwnerToCommonCompositionsAncestor(owner, baseType, pathToCommonComposite,30);
 		}
 		if(commonComposite != null){
 			StringBuilder pathFromCommonComposite = new StringBuilder();
-			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite);
+			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite,30);
 			ocl = pathToCommonComposite.toString() + pathFromCommonComposite;
 		}else{
 			System.out.println("No compositional ancestor found between " + getPathNameInModel(owner) + " and " + getPathNameInModel(baseType));
@@ -190,29 +190,29 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}
 		}
 	}
-	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestor(ICompositionParticipant owner,ICompositionParticipant type,StringBuilder expression){
-		if(CompositionSiblingsFinder.isCompositionAncestorOf(owner, type)){
+	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestor(ICompositionParticipant owner,ICompositionParticipant type,StringBuilder expression, int depth){
+		if(CompositionSiblingsFinder.isCompositionAncestorOf(owner, type) || depth==0){
 			return owner;
 		}else{
 			INakedProperty endToComposite = owner.getEndToComposite();
-			if(endToComposite == null){
+			if(endToComposite == null || endToComposite.getBaseType().equals(owner)){
 				return null;
 			}else{
 				expression.append(".");
 				expression.append(endToComposite.getName());
-				return calculatePathFromOwnerToCommonCompositionsAncestor((ICompositionParticipant) endToComposite.getNakedBaseType(), type, expression);
+				return calculatePathFromOwnerToCommonCompositionsAncestor((ICompositionParticipant) endToComposite.getNakedBaseType(), type, expression,--depth);
 			}
 		}
 	}
-	private void calculatePathFromCommonCompositionsAncestorToBaseType(ICompositionParticipant ancestor,ICompositionParticipant baseType,StringBuilder expression){
+	private void calculatePathFromCommonCompositionsAncestorToBaseType(ICompositionParticipant ancestor,ICompositionParticipant baseType,StringBuilder expression, int depth){
 		INakedProperty endToComposite = baseType.getEndToComposite();
-		if(endToComposite == null){
+		if(endToComposite == null || depth==0){
 			return;
 		}else if(endToComposite.getNakedBaseType().conformsTo(ancestor)){
 			expression.append(".");
 			expression.append(endToComposite.getOtherEnd().getName());
 		}else{
-			calculatePathFromCommonCompositionsAncestorToBaseType(ancestor, (ICompositionParticipant) endToComposite.getNakedBaseType(), expression);
+			calculatePathFromCommonCompositionsAncestorToBaseType(ancestor, (ICompositionParticipant) endToComposite.getNakedBaseType(), expression,--depth);
 			expression.append("->collect(c|c.");
 			expression.append(endToComposite.getOtherEnd().getName());
 			expression.append(")");

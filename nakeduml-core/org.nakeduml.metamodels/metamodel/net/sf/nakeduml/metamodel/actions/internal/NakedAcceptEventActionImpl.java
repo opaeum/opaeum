@@ -28,6 +28,8 @@ public class NakedAcceptEventActionImpl extends NakedActionImpl implements INake
 		return trigger;
 	}
 	public void setTrigger(INakedTrigger trigger){
+		removeOwnedElement(this.trigger);
+		addOwnedElement(trigger);
 		this.trigger = trigger;
 	}
 	private List<INakedOutputPin> result;

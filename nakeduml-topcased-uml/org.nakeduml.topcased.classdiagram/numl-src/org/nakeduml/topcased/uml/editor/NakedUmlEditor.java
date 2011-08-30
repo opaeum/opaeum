@@ -24,6 +24,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPageListener;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.nakeduml.eclipse.NakedUmlConfigDialog;
@@ -93,15 +99,18 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	@Override
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
+	}
+    public void refreshOutline(){
 		IFileEditorInput f = getFileEditorInput(getEditorInput());
 		currentContext = getContext(f);
-	}
+    }
+
 	private NakedUmlEclipseContext getContext(final IFileEditorInput fe){
 		IContainer umlDir = fe.getFile().getParent();
 		IFile umlFile = getUmlFile(fe);
 		NakedUmlEclipseContext result = getNakedUmlEclipseContextFor(umlDir);
 		if(result != null){
-			if(result.isSyncronizingWith(getResourceSet())){
+			if(result.isSyncronizingWith(getEditingDomain().getResourceSet())){
 				result.setCurrentEditContext(getEditingDomain(), umlFile);
 			}else{
 				result.startSynch(getEditingDomain(), umlFile);

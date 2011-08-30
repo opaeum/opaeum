@@ -59,6 +59,6 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 		return validators;
 	}
 	public static Set<Class<? extends AbstractValidator>> getAllValidationSteps(){
-		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(NameUniquenessValidation.class, PropertyValidation.class));
+		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(ActionValidator.class, ReservedWordValidator.class, NameUniquenessValidation.class, PropertyValidation.class));
 	}
  }

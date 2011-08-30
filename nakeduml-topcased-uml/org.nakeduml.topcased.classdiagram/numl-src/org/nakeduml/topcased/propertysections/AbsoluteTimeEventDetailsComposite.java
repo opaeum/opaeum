@@ -222,7 +222,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			if(bodies.size() == 0){
 				bodies.add(OclBodyComposite.DEFAULT_TEXT);
 			}
-			expressionComposite.getTextControl().setText(bodies.get(0));
+			expressionComposite.setOclContext(timeEvent, (OpaqueExpression) timeEvent.getWhen().getExpr());
 			nameTxt.setText(timeEvent.getName());
 		}else{
 			nameTxt.setText("");

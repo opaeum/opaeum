@@ -20,6 +20,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.ExceptionHolder;
+import org.nakeduml.runtime.environment.Environment;
 
 public class Jbpm5Util{
 	public static String stepLiteralName(INakedElement s){
@@ -84,7 +85,7 @@ public class Jbpm5Util{
 					"this." + propertyPrefix + "Instance==null || true",
 					"this."
 							+ propertyPrefix
-							+ "Instance=(WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
+							+ "Instance=(WorkflowProcessInstance)"+Environment.class.getName()+ ".getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
 			OJIfStatement ifNotNull = new OJIfStatement("this." + propertyPrefix + "Instance!=null", "((WorkflowProcessImpl)this." + propertyPrefix
 					+ "Instance.getProcess()).setAutoComplete(true)");
 			ifNull.getThenPart().addToStatements(ifNotNull);

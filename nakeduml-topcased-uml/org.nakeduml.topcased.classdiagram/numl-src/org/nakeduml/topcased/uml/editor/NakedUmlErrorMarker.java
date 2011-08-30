@@ -57,9 +57,9 @@ public class NakedUmlErrorMarker{
 					}catch(CoreException e){
 						e.printStackTrace();
 					}finally{
-						if(System.currentTimeMillis() + 10000 >= nextMarked){
-							nextMarked = System.currentTimeMillis() + 10000;
-							Display.getDefault().timerExec(10001,this);
+						if(System.currentTimeMillis() + 3000 >= nextMarked){
+							nextMarked = System.currentTimeMillis() + 3000;
+							Display.getDefault().timerExec(3001,this);
 						}
 					}
 				}

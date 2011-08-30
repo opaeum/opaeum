@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityEdgeImpl;
@@ -96,22 +97,21 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	 */
 	@SuppressWarnings("serial")
 	private INakedActivityNode getNode(ActivityNode emfNode){
-		INakedActivityNode node = (INakedActivityNode) getNakedPeer(emfNode);
-		if(node == null){
-			if(emfNode instanceof Action){
-				node = new NakedOpaqueActionImpl(){
-					@Override
-					public Collection<INakedOutputPin> getOutput(){
-						return Collections.emptySet();
-					}
-				};
-			}else{
-				NakedControlNodeImpl cnode = new NakedControlNodeImpl();
-				cnode.setControlNodeType(ControlNodeType.MERGE_NODE);
-				node = cnode;
+		if(emfNode == null){
+			return null;// Most likely being deleted
+		}else{
+			INakedActivityNode node = (INakedActivityNode) getNakedPeer(emfNode);
+			if(node == null){
+				if(emfNode instanceof Action){
+					throw new IllegalStateException("Action " +emfNode + " not loaded");
+				}else{
+					NakedControlNodeImpl cnode = new NakedControlNodeImpl();
+					cnode.setControlNodeType(ControlNodeType.MERGE_NODE);
+					node = cnode;
+				}
+				initialize(node, emfNode, emfNode.getOwner());
 			}
-			initialize(node, emfNode, emfNode.getOwner());
+			return node;
 		}
-		return node;
 	}
 }

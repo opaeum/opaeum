@@ -116,10 +116,13 @@ public class NakedUmlEclipseContext{
 				try{
 					if(currentResourceSet != null){
 						Package model = findRootObjectInFile(file, currentResourceSet);
-						EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
-						emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
-						domain.getResourceSet().eAdapters().add(umlElementCache);
-						errorMarker.maybeSchedule();
+						if(model != null){
+							//Will be null if the editingDomain is inactive
+							EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
+							emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
+							domain.getResourceSet().eAdapters().add(umlElementCache);
+							errorMarker.maybeSchedule();
+						}
 					}
 					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
 				}catch(Exception e){
@@ -136,7 +139,7 @@ public class NakedUmlEclipseContext{
 	}
 	public void setCurrentEditContext(EditingDomain rs,IFile file){
 		this.currentResourceSet = rs.getResourceSet();
-		getUmlElementCache().setCurrentEmfWorkspace(emfWorkspaces.get(rs).emfWorkspace);
+		getUmlElementCache().setCurrentEmfWorkspace(emfWorkspaces.get(rs.getResourceSet()).emfWorkspace);
 	}
 	public void onSave(IProgressMonitor monitor,ResourceSet resourceSet){
 		try{
@@ -276,8 +279,8 @@ public class NakedUmlEclipseContext{
 		private void updateOclBody(INakedElement de,final IOclContext oclValue,final EAttribute body,final EAttribute language){
 			for(final EditingContext ew:emfWorkspaces.values()){
 				final NamedElement oe = (NamedElement) ew.emfWorkspace.getElementMap().get(de.getId());
-				//Could be artificially generated OCL
-				if(oe!=null&& !ew.editingDomain.isReadOnly(oe.eResource())){
+				// Could be artificially generated OCL
+				if(oe != null && !ew.editingDomain.isReadOnly(oe.eResource())){
 					Display.getDefault().syncExec(new Runnable(){
 						@Override
 						public void run(){

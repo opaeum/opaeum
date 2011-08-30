@@ -8,13 +8,11 @@ import java.util.HashSet;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SortedProperties;
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaTransformationStep;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
+import net.sf.nakeduml.javageneration.JavaTransformationStep;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
-import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -31,9 +29,9 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakedum.velocity.AbstractTextProducingVisitor;
-import org.nakeduml.environment.Environment;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class HibernateConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep{
@@ -131,8 +129,7 @@ public class HibernateConfigGenerator extends AbstractTextProducingVisitor imple
 	}
 	private HashMap<String,Object> buildVars(Collection<? extends INakedElement> models,boolean isAdaptorEnvironment){
 		HashMap<String,Object> vars = new HashMap<String,Object>();
-		boolean requiresAudit = transformationContext.isAnyOfFeaturesSelected(AuditImplementationStep.class);
-		vars.put("requiresAuditing", requiresAudit);
+		vars.put("requiresAuditing", true);
 		vars.put("config", this.config);
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
 		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class));

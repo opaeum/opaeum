@@ -10,6 +10,7 @@ import net.sf.nakeduml.metamodel.actions.internal.NakedAcceptEventActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCallBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCallOperationActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedCreateObjectActionimpl;
+import net.sf.nakeduml.metamodel.actions.internal.NakedGenericActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedOclActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedOpaqueActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedRaiseExceptionActionImpl;
@@ -18,6 +19,7 @@ import net.sf.nakeduml.metamodel.actions.internal.NakedSendSignalActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedEmbeddedSingleScreenTaskImpl;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedEmbeddedScreenFlowTaskImpl;
@@ -32,6 +34,7 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
 import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
+import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.CallOperationAction;
@@ -41,6 +44,7 @@ import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.RaiseExceptionAction;
+import org.eclipse.uml2.uml.ReadSelfAction;
 import org.eclipse.uml2.uml.ReplyAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StartClassifierBehaviorAction;
@@ -108,7 +112,6 @@ public class ActionExtractor extends AbstractActionExtractor{
 		initAction(emfAction, nakedAction);
 		nakedAction.setBehavior((INakedBehavior) getNakedPeer(emfAction.getBehavior()));
 		nakedAction.setSynchronous(emfAction.isSynchronous());
-		nakedAction.setName("call" + emfAction.getBehavior().getName());
 		List<INakedInputPin> arguments = populatePins(emfActivity, emfAction.getArguments());
 		nakedAction.setArguments(arguments);
 		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
@@ -144,6 +147,18 @@ public class ActionExtractor extends AbstractActionExtractor{
 		List<INakedOutputPin> result = populatePins(emfActivity, emfAction.getResults());
 		nakedAction.setResult(result);
 		nakedAction.setSynchronous(emfAction.isSynchronous());
+	}
+	@VisitBefore
+	public void visitReadSelfAction(ReadSelfAction emfAction,NakedGenericActionImpl nakedAction){
+		populateGenericAction(emfAction, nakedAction);
+		
+	}
+	protected void populateGenericAction(Action emfAction,NakedGenericActionImpl nakedAction){
+		Activity emfActivity = getActivity(emfAction);
+		List<INakedInputPin> inputs = populatePins(emfActivity, emfAction.getInputs());
+		nakedAction.setInput(inputs);
+		List<INakedOutputPin> outputs = populatePins(emfActivity, emfAction.getOutputs());
+		nakedAction.setOutput(outputs);
 	}
 	@VisitBefore
 	public void visitSendSignalAction(SendSignalAction emfAction,NakedSendSignalActionImpl nakedAction){

@@ -2,13 +2,13 @@ package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
-import org.nakeduml.environment.MethodInvocationHolder;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
@@ -47,9 +47,11 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 			}else{
 				ActionMap actionMap = new ActionMap(node);
 				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-				operation.getOwner().addToImports(new OJPathName(MethodInvocationHolder.class.getName()));
-				fs.addToStatements("getOutgoingEvents()" + ".add(new MethodInvocationHolder(new  " + "(" + actionMap.targetName() + ","
-						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+				
+				OJPathName handler = EventUtil.handlerPathName(node.getOperation());
+				operation.getOwner().addToImports(handler);
+				fs.addToStatements("getOutgoingEvents()" + ".put("+ actionMap.targetName() + ",new "+ handler.getLast() + "("
+						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ",false))");
 			}
 		}
 	}

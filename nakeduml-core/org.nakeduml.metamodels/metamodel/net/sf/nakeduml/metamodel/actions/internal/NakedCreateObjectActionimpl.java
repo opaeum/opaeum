@@ -23,16 +23,17 @@ public class NakedCreateObjectActionimpl extends NakedActionImpl implements INak
 	@Override
 	public Collection<INakedElement> getOwnedElements() {
 		Collection<INakedElement> results =super.getOwnedElements();
-		if(this.result!=null){
-			results.add(this.result);
-		}
 		return results;
 	}
 	public Collection<INakedInputPin> getInput(){
 		return new HashSet<INakedInputPin>();
 	}
 	public Collection<INakedOutputPin> getOutput() {
-		return Arrays.asList(result);
+		Collection<INakedOutputPin> results =new HashSet<INakedOutputPin>();
+		if(this.result!=null){
+			results.add(this.result);
+		}
+		return results;
 	}
 
 	public INakedClassifier getClassifier() {

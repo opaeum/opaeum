@@ -113,8 +113,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	 */
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();
-		for(IClassifier s:getGeneralizations()){
-			List<? extends INakedProperty> superAttributes = (getSupertype()).getEffectiveAttributes();
+		for(INakedGeneralization s:getNakedGeneralizations()){
+			List<? extends INakedProperty> superAttributes = s.getGeneral().getEffectiveAttributes();
 			addEffectiveAttributes(results, superAttributes);
 		}
 		for(IInterface i:getInterfaces()){
@@ -135,9 +135,13 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		Iterator<INakedProperty> iter = results.iterator();
 		while(iter.hasNext()){
 			INakedProperty presentProperty = (INakedProperty) iter.next();
-			for(INakedProperty newProperty:attributes){
-				if(presentProperty.getName().equals(newProperty.getName())){
-					iter.remove();
+			if(presentProperty.getName() == null){
+				iter.remove();
+			}else{
+				for(INakedProperty newProperty:attributes){
+					if(presentProperty.getName().equals(newProperty.getName())){
+						iter.remove();
+					}
 				}
 			}
 		}

@@ -51,8 +51,8 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 	protected INakedTrigger buildTrigger(Behavior behaviour,Trigger t){
 		Event event = t.getEvent();
 		INakedTrigger trigger = (INakedTrigger) getNakedPeer(t);
-		if(trigger==null){
-			trigger=new NakedTriggerImpl();
+		if(trigger == null){
+			trigger = new NakedTriggerImpl();
 			initialize(trigger, t, t.getOwner());
 		}
 		if(event instanceof SignalEvent){
@@ -79,10 +79,9 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 			super.initialize(nakedChangeEvent, ce, t);
 			if(ce.getChangeExpression() instanceof OpaqueExpression){
 				OpaqueExpression oe = (OpaqueExpression) ce.getChangeExpression();
-				// What else could it be?
 				INakedValueSpecification nvs = new NakedValueSpecificationImpl(buildParsedOclString(((ChangeEvent) event).getChangeExpression(), oe.getLanguages(),
 						oe.getBodies(), OclUsageType.DEF));
-				nvs.initialize(id+getId(oe), oe.getName(), false);
+				super.initialize(nvs, event, event);
 				nakedChangeEvent.setChangeExpression(nvs);
 			}
 			trigger.setEvent(nakedChangeEvent);
@@ -99,11 +98,12 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 				// effectively duplicating it in each trigger it is used.
 				// The action/transition owning the trigger thus provides the behavioral context of the when expression
 				id = getEventId(t);
-				NakedTimeEventImpl nakedTimeEvent=(NakedTimeEventImpl) nakedWorkspace.getModelElement(id);
-				if(nakedTimeEvent==null){
+				NakedTimeEventImpl nakedTimeEvent = (NakedTimeEventImpl) nakedWorkspace.getModelElement(id);
+				if(nakedTimeEvent == null){
 					nakedTimeEvent = new NakedTimeEventImpl();
-				nakedTimeEvent.initialize(id, emfTimeEvent.getName(), true);
-				super.initialize(nakedTimeEvent, emfTimeEvent, t);}
+					nakedTimeEvent.initialize(id, emfTimeEvent.getName(), true);
+				}
+				super.initialize(nakedTimeEvent, emfTimeEvent, t);
 				initTimeEvent(emfTimeEvent, nakedTimeEvent);
 				trigger.setEvent(nakedTimeEvent);
 			}

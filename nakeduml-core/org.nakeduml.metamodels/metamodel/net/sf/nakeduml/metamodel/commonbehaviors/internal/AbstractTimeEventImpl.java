@@ -34,7 +34,10 @@ public abstract class AbstractTimeEventImpl extends NakedEventImpl{
 		}
 	}
 	public void setWhen(INakedValueSpecification when) {
+		removeOwnedElement(this.when);
 		this.when = when;
+		addOwnedElement(when);
+		when.setOwnerElement(this);
 	}
 	public INakedValueSpecification getWhen() {
 		return this.when;

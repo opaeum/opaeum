@@ -32,6 +32,7 @@ import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.Modeler;
+import org.topcased.modeler.editor.TopcasedAdapterFactoryEditingDomain;
 import org.topcased.modeler.uml.activitydiagram.edit.ActionEditPart;
 import org.topcased.modeler.utils.Utils;
 
@@ -57,7 +58,7 @@ public class DisplayPins implements IObjectActionDelegate{
 						location.x = 16 + ai * 80;
 						location.y = 16;
 						position = PositionConstants.TOP;
-						createOrChange((MixedEditDomain) editor.getEditDomain(), creationUtils, actionNode, location, pin, position,editPart);
+						createOrChange((MixedEditDomain) editor.getEditDomain(), creationUtils, actionNode, location, pin, position, editPart);
 						ai++;
 					}
 					int ri = 0;
@@ -67,25 +68,28 @@ public class DisplayPins implements IObjectActionDelegate{
 						location.x = 16 + ri * 80;
 						location.y = Math.round(height - 16);
 						position = PositionConstants.BOTTOM;
-						createOrChange((MixedEditDomain) editor.getEditingDomain(), creationUtils, actionNode, location, pin, position,editPart);
+						createOrChange((MixedEditDomain) editor.getEditDomain(), creationUtils, actionNode, location, pin, position, editPart);
 						ri++;
 					}
 					width = Math.max(ai, ri) * 80 + 32;
 					Point location = actionNode.getPosition().getCopy();
-					execute(editPart, new ChangeBoundsCommand(actionNode, new Rectangle(location.x, location.y, Math.max(actionNode.getSize().width, width),
-							actionNode.getSize().height)));
+					execute(editPart,
+							new ChangeBoundsCommand(actionNode, new Rectangle(location.x, location.y, Math.max(actionNode.getSize().width, width),
+									actionNode.getSize().height)));
 				}
 			}
 		}
 	}
-	private GraphNode createOrChange(MixedEditDomain mixedEditDomain,ICreationUtils creationUtils,GraphNode actionNode,Point location,Pin pin,int position,ActionEditPart editPart){
+	private GraphNode createOrChange(MixedEditDomain mixedEditDomain,ICreationUtils creationUtils,GraphNode actionNode,Point location,Pin pin,int position,
+			ActionEditPart editPart){
 		GraphNode inputGraph = (GraphNode) Utils.getGraphElement(actionNode, pin, true);
 		if(inputGraph == null){
 			inputGraph = (GraphNode) creationUtils.createGraphElement(pin);
-			execute(editPart,new CreateGraphNodeCommand(mixedEditDomain, inputGraph, actionNode, editPart.getEObject(), location, new Dimension(20, 20), position, null, false));
-			execute(editPart,new ChangeGraphElementPresentationCommand(inputGraph, "default"));
+			execute(editPart, new CreateGraphNodeCommand(mixedEditDomain, inputGraph, actionNode, editPart.getEObject(), location, new Dimension(20, 20), position, null,
+					false));
+			execute(editPart, new ChangeGraphElementPresentationCommand(inputGraph, "default"));
 		}else{
-			execute(editPart,new ChangeBoundsCommand(inputGraph, new Rectangle(location.x, location.y, inputGraph.getSize().width, inputGraph.getSize().height)));
+			execute(editPart, new ChangeBoundsCommand(inputGraph, new Rectangle(location.x, location.y, inputGraph.getSize().width, inputGraph.getSize().height)));
 		}
 		return inputGraph;
 	}
@@ -96,12 +100,11 @@ public class DisplayPins implements IObjectActionDelegate{
 	@Override
 	public void setActivePart(IAction action,IWorkbenchPart targetPart){
 		if(targetPart instanceof NakedUmlEditor){
-			this.editor=(NakedUmlEditor)targetPart;
+			this.editor = (NakedUmlEditor) targetPart;
 		}
-	
 		// TODO Auto-generated method stub
 	}
-	private void execute(ActionEditPart editPart, Command createGraphNodeCommand){
+	private void execute(ActionEditPart editPart,Command createGraphNodeCommand){
 		editPart.getViewer().getEditDomain().getCommandStack().execute(createGraphNodeCommand);
 	}
 }

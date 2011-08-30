@@ -12,6 +12,7 @@ import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallBehaviorActionBuilder;
@@ -131,6 +132,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			doExecute(activity, activityClass);
 			if(activity.getActivityKind() == ActivityKind.PROCESS){
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
+				OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
+				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes());
 			}else{
 				Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 				doIsStepActive(activityClass, activity);

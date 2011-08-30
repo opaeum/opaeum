@@ -6,6 +6,8 @@ import java.util.Map;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
@@ -22,6 +24,7 @@ public class NakedUmlLibrary {
 	private INakedInterface businessRole;
 	private INakedInterface taskObject;
 	private IOclLibrary oclLibrary;
+	private INakedStateMachine taskRequest;
 
 	public NakedUmlLibrary(IOclLibrary oclLibrary) {
 		super();
@@ -126,5 +129,13 @@ public class NakedUmlLibrary {
 
 	public IOclLibrary getOclLibrary(){
 		return oclLibrary;
+	}
+
+	public INakedStateMachine getTaskRequest(){
+		return this.taskRequest;
+	}
+
+	public void setTaskRequest(INakedStateMachine taskRequest){
+		this.taskRequest = taskRequest;
 	}
 }

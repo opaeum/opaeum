@@ -85,7 +85,7 @@ public class EmfParameterUtil{
 		}
 		for(Association a:((Classifier) owner).getAssociations()){
 			for(Property p:a.getMemberEnds()){
-				if(p.isNavigable() &&  p.getOtherEnd().getType() == owner){
+				if(p.isNavigable() && p.getOtherEnd().getType() == owner){
 					ownedAttributes.add(p);
 				}
 			}
@@ -93,7 +93,9 @@ public class EmfParameterUtil{
 	}
 	private static void addInheritiedAttributes(List<Property> list,Classifier c){
 		for(Generalization g:c.getGeneralizations()){
-			addInheritiedAttributes(list, g.getGeneral());
+			if(g.getGeneral() != null){
+				addInheritiedAttributes(list, g.getGeneral());
+			}
 		}
 		addNonInhertiedAttributes(list, c);
 	}

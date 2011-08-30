@@ -14,65 +14,59 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
-public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl implements IActionWithTargetElement {
+public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl implements IActionWithTargetElement{
 	private static final long serialVersionUID = 3165514874679324190L;
 	public INakedProperty feature;
 	public INakedInputPin object;
-
-	public Set<INakedInputPin> getInput() {
+	public Set<INakedInputPin> getInput(){
 		Set<INakedInputPin> results = new HashSet<INakedInputPin>();
-		if (object != null) {
+		if(object != null){
 			results.add(object);
 		}
 		return results;
 	}
-	public Collection<INakedOutputPin> getOutput() {
+	public Collection<INakedOutputPin> getOutput(){
 		return new HashSet<INakedOutputPin>();
 	}
-
-	public INakedClassifier getExpectedTargetType() {
-		return feature.getOwner();
+	public INakedClassifier getExpectedTargetType(){
+		if(feature == null){
+			return null;
+		}else{
+			return feature.getOwner();
+		}
 	}
-
-	public ITargetElement getTargetElement() {
-		if (getTarget() == null) {
+	public ITargetElement getTargetElement(){
+		if(getTarget() == null){
 			return getInPartition();
-		} else {
+		}else{
 			return getTarget();
 		}
 	}
-
-	public INakedProperty getFeature() {
+	public INakedProperty getFeature(){
 		return this.feature;
 	}
-
-	public void setFeature(INakedProperty feature) {
+	public void setFeature(INakedProperty feature){
 		this.feature = feature;
 	}
-
-	public INakedInputPin getObject() {
+	public INakedInputPin getObject(){
 		return this.object;
 	}
-
-	public void setObject(INakedInputPin object) {
+	public void setObject(INakedInputPin object){
 		removeOwnedElement(this.object);
 		this.object = object;
 	}
-
-	public ActionType getActionType() {
+	public ActionType getActionType(){
 		return ActionType.WRITE_STRUCTURAL_FEATURE_ACTION;
 	}
-
 	@Override
-	public Collection<INakedElement> getOwnedElements() {
+	public Collection<INakedElement> getOwnedElements(){
 		Collection<INakedElement> result = super.getOwnedElements();
-		if (this.object != null) {
+		if(this.object != null){
 			result.add(this.object);
 		}
 		return result;
 	}
-
-	public INakedInputPin getTarget() {
+	public INakedInputPin getTarget(){
 		return getObject();
 	}
 }

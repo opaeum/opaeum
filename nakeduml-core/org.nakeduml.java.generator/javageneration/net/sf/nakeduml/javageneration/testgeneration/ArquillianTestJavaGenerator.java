@@ -11,12 +11,9 @@ import java.util.Set;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
-import net.sf.nakeduml.javageneration.hibernate.HibernateAnnotator;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.ProcessIdentifier;
@@ -48,6 +45,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedParameter;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
+import org.nakeduml.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {ProcessIdentifier.class} ,after={})
 public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
@@ -158,7 +156,7 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		createTestArchive.getBody().addToStatements(
 				"war.addPackage(IntrospectionUtil.classForName(\"" + HibernateUtil.getHibernatePackage(true).toJavaString() + ".package-info\").getPackage());");
 		dummyTest.addToImports("org.nakeduml.runtime.domain.IntrospectionUtil");
-		dummyTest.addToImports("org.nakeduml.environment.Environment");
+		dummyTest.addToImports(Environment.class.getName());
 		createTestArchive.getBody().addToStatements("return war");
 	}
 	private OJAnnotatedOperation addCreateTestArchive(OJAnnotatedClass dummyTest){
@@ -208,11 +206,6 @@ public class ArquillianTestJavaGenerator extends AbstractJavaProducingVisitor{
 		for(INakedBehavior c:processes){
 			OJSimpleStatement addClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + ".class)");
 			getTestProcessClasses.getBody().addToStatements(addClass);
-			if(super.transformationContext.isAnyOfFeaturesSelected(AuditImplementationStep.class)){
-				OJSimpleStatement addAuditClass = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "_Audit.class)");
-				getTestProcessClasses.getBody().addToStatements(addAuditClass);
-			}else{
-			}
 			OJSimpleStatement addClassState = new OJSimpleStatement("classes.add(" + OJUtil.classifierPathname(c) + "State.class)");
 			getTestProcessClasses.getBody().addToStatements(addClassState);
 		}

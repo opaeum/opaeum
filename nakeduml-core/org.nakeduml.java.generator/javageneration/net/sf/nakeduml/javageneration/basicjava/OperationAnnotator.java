@@ -28,6 +28,7 @@ import nl.klasse.octopus.model.IParameter;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJParameter;
+import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
@@ -74,31 +75,31 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					}
 				}
 				if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
-					createOperation(c,o, findJavaClass(c));
+					OJAnnotatedClass ojClass = findJavaClass(c);
+					createOperation(c, o, ojClass);
+					OJAnnotatedOperation oper = new OJAnnotatedOperation(new NakedOperationMap(o).eventOperName(), new OJPathName("boolean"));
+					OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
+					oper.getBody().addToLocals(consumed);
+					consumed.setInitExp("false");
+					ojClass.addToOperations(oper);
+					addParameters(c, oper, o.getArgumentParameters());
+					oper.getBody().addToStatements("return consumed");
 				}
 			}
 		}
 	}
-	private OJAnnotatedOperation createOperation(INakedClassifier context, IParameterOwner o,OJAnnotatedClass owner){
-
+	private OJAnnotatedOperation createOperation(INakedClassifier context,IParameterOwner o,OJAnnotatedClass owner){
 		NakedOperationMap operationMap = new NakedOperationMap(o);
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(operationMap.javaOperName(), operationMap.javaParamTypePaths());
 		if(oper == null){
 			oper = new OJAnnotatedOperation(operationMap.javaOperName());
+			owner.addToOperations(oper);
 			if(o.getReturnParameter() != null){
 				oper.setReturnType(operationMap.javaReturnTypePath());
 				owner.addToImports(operationMap.javaReturnTypePath());
 			}
 			List<? extends INakedParameter> argumentParameters = o.getArgumentParameters();
-			for(INakedParameter elem:argumentParameters){
-				OJParameter param = new OJParameter();
-				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(context, elem);
-				param.setName(pMap.umlName());
-				param.setType(pMap.javaTypePath());
-				oper.addToParameters(param);
-				applyStereotypesAsAnnotations(((INakedElement) elem), param);
-				owner.addToImports(pMap.javaTypePath());
-			}
+			addParameters(context, oper, argumentParameters);
 			if(!(owner instanceof OJAnnotatedInterface)){
 				if(o.getReturnParameter() != null){
 					String resultName = "result";
@@ -109,10 +110,20 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				}
 			}
 			oper.setVisibility(operationMap.javaVisibility());
-			owner.addToOperations(oper);
 			applyStereotypesAsAnnotations((o), oper);
 			OJUtil.addMetaInfo(oper, o);
 		}
 		return oper;
+	}
+	public void addParameters(INakedClassifier context,OJAnnotatedOperation oper,List<? extends INakedParameter> argumentParameters){
+		for(INakedParameter elem:argumentParameters){
+			OJParameter param = new OJParameter();
+			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(context, elem);
+			param.setName(pMap.umlName());
+			param.setType(pMap.javaTypePath());
+			oper.addToParameters(param);
+			applyStereotypesAsAnnotations(((INakedElement) elem), param);
+			oper.getOwner().addToImports(pMap.javaTypePath());
+		}
 	}
 }

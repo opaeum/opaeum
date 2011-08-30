@@ -1,21 +1,19 @@
 package net.sf.nakeduml.linkage;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetPin;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
-import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
-import net.sf.nakeduml.metamodel.actions.INakedStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteVariableAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -29,6 +27,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -93,7 +92,21 @@ public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void linkAcceptEvent(INakedAcceptEventAction action){
 		if(action.getTrigger() != null){
-			if(action.getTrigger().getEvent() instanceof INakedSignal){
+			if(action.getTrigger().getEvent() instanceof INakedOperation){
+				INakedOperation oper = (INakedOperation) action.getTrigger().getEvent();
+				List<? extends INakedParameter> formalArgs = oper.getArgumentParameters();
+				if(action.getResult().size() > formalArgs.size()){
+					getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, oper.getName());
+				}else{
+					for(INakedParameter p:formalArgs){
+						if(action.getResult().size() < p.getArgumentIndex() + 1){
+							getErrorMap().putError(action, ActivityValidationRule.PIN_FOR_PARAMETER, "Parameter " + p.getName() + " of " + oper.getName());
+						}else{
+							linkTypedElement(action.getResult().get(p.getArgumentIndex()), p);
+						}
+					}
+				}
+			}else if(action.getTrigger().getEvent() instanceof INakedSignal){
 				INakedSignal signal = (INakedSignal) action.getTrigger().getEvent();
 				linkByNameIfRequired(signal, signal.getArgumentParameters(), action.getResult());
 			}else if(action.getTrigger().getEvent() instanceof INakedTimeEvent && action.getResult().size() == 1){
@@ -130,11 +143,10 @@ public class PinLinker extends AbstractModelElementLinker{
 					by.setType(workspace.getNakedUmlLibrary().getDateType());
 				}
 				if(action.getResult().size() >= 2){
-					INakedOutputPin task = action.getResult().get(2);
+					INakedOutputPin task = action.getResult().get(1);
 					if(by.getNakedBaseType() == null){
-						throw new IllegalStateException("Implement getTaskRequest()");
-						// task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
-						// task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
+						 task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
+						 task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
 					}
 				}
 			}else if(action.getTrigger().getEvent() instanceof INakedTimeEvent && action.getResult().size() == 1){

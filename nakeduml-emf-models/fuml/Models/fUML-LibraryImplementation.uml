@@ -1,0 +1,1291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- EVS 05/06/2009 Changed the XMI id references to OpaqueBehaviorExecution, Object_ and Execution. -->
+<xmi:XMI xmi:version="2.1" 
+  xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:Default="http:///schemas/Default/1" 
+  xmlns:DocumentationProfile="http:///schemas/DocumentationProfile/_r7CxYG4EEd2_24jOC3qRKg/18" 
+  xmlns:Standard="http://www.eclipse.org/uml2/schemas/Standard/1" 
+  xmlns:Uml2Debug="http:///schemas/Uml2Debug/_BYFEIP7yEdufa83D85EEEw/16" 
+  xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" 
+  xmlns:fUML2UML="http:///schemas/fUML2UML/_XoFiAGmEEd2B0NE0bmFUig/5" 
+  xmlns:uml="http://schema.omg.org/spec/UML/2.1.1" 
+  xsi:schemaLocation="http:///schemas/Default/1 Default.profile.uml#_wKz8KYA_Ed2xsvzRuEHZYg http:///schemas/DocumentationProfile/_r7CxYG4EEd2_24jOC3qRKg/18 platform:/resource/Models/Profiles/DocumentationProfile.epx#_r7CxYW4EEd2_24jOC3qRKg?DocumentationProfile/DocumentationProfile? http://www.eclipse.org/uml2/schemas/Standard/1 pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w http:///schemas/Uml2Debug/_BYFEIP7yEdufa83D85EEEw/16 Uml2Debug.profile.uml#_wLQob4A_Ed2xsvzRuEHZYg http:///schemas/fUML2UML/_XoFiAGmEEd2B0NE0bmFUig/5 platform:/resource/Models/Profiles/fUML2UML.epx#_XoYc8GmEEd2B0NE0bmFUig?fUML2UML/fUML2UML?">
+  <uml:Model xmi:id="_wK98VYA_Ed2xsvzRuEHZYg" name="org">
+    <packagedElement xmi:type="uml:Package" xmi:id="_zLHE2IA_zd2xsvzRuzHZYz" name="modeldriven">
+    <packagedElement xmi:type="uml:Package" xmi:id="_xLHE2IA_xd2dsvzxuxHZYx" name="fuml">
+    <packagedElement xmi:type="uml:Package" xmi:id="_wLHE2IA_Ed2xsvzRuEHZYg" name="library">
+      <packagedElement xmi:type="uml:Class" xmi:id="_wLHE2YA_Ed2xsvzRuEHZYg" name="PrimitiveTypes">
+        <ownedAttribute xmi:id="_wLHE2oA_Ed2xsvzRuEHZYg" name="Boolean" type="_wLG6pYA_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHE24A_Ed2xsvzRuEHZYg" name="String" type="_wLG6pYA_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHE3IA_Ed2xsvzRuEHZYg" name="Integer" type="_wLG6pYA_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHE3YA_Ed2xsvzRuEHZYg" name="UnlimitedNatural" type="_wLG6pYA_Ed2xsvzRuEHZYg"/>
+      </packagedElement>
+            
+      <packagedElement xmi:type="uml:Package" xmi:id="_wLHE5oA_Ed2xsvzRuEHZYg" name="integerfunctions">
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHE54A_Ed2xsvzRuEHZYg" name="IntegerFunctionBehaviorExecution" isAbstract="true">
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHE94A_Ed2xsvzRuEHZYg" name="IntegerPlusFunctionBehaviorExecution">
+          <generalization xmi:id="_wLHE-IA_Ed2xsvzRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFAoA_Ed2xsvzRuEHZYg" name="IntegerMinusFunctionBehaviorExecution">
+          <generalization xmi:id="_wLHFA4A_Ed2xsvzRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFDYA_Ed2xsvzRuEHZYg" name="IntegerTimesFunctionBehaviorExecution">
+          <generalization xmi:id="_wLHFDoA_Ed2xsvzRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFGIA_Ed2xsvzRuEHZYg" name="IntegerDivideFunctionBehaviorExecution">
+          <generalization xmi:id="_wLHFGYA_Ed2xsvzRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFI4A_Ed2xsvzRuEHZYg" name="IntegerNegateFunctionBehaviorExecution">
+          <generalization xmi:id="_wLHFJIA_Ed2xsvzRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="x_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerModFunctionBehaviorExecution">
+          <generalization xmi:id="x_xLHxJIA_Ed2xsvsRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="y_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerMaxFunctionBehaviorExecution">
+          <generalization xmi:id="y_xLHxJIA_Ed2xsvsRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="z_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerMinFunctionBehaviorExecution">
+          <generalization xmi:id="z_xLHxJIA_Ed2xsvsRuEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="a_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerAbsFunctionBehaviorExecution">
+          <generalization xmi:id="axx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="b_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerLessThanFunctionBehaviorExecution">
+          <generalization xmi:id="bxx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="c_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerLessThanEqualFunctionBehaviorExecution">
+          <generalization xmi:id="cxx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="d_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerGreaterThanFunctionBehaviorExecution">
+          <generalization xmi:id="dxx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="e_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerGreaterThanEqualFunctionBehaviorExecution">
+          <generalization xmi:id="exx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="s_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerToIntegerFunctionBehaviorExecution">
+          <generalization xmi:id="sxx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="t_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerToStringFunctionBehaviorExecution">
+          <generalization xmi:id="txx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="u_wLHFI4A_Ed2xxvzRuxHZYg" name="IntegerToUnlimitedNaturalFunctionBehaviorExecution">
+          <generalization xmi:id="uxx_xLHxJIA_Ed2xsvsRxEHZYg" general="_wLHE54A_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+      </packagedElement>
+  
+      <packagedElement xmi:type="uml:Package" xmi:id="_cLHEcoA_Ed2xsczRuEHZYg" name="booleanfunctions">
+        <packagedElement xmi:type="uml:Class" xmi:id="_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanFunctionBehaviorExecution" isAbstract="true"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="a_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanAndFunctionBehaviorExecution">
+          <generalization xmi:id="a_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="b_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanImpliesFunctionBehaviorExecution">
+          <generalization xmi:id="b_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="c_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanNotFunctionBehaviorExecution">
+          <generalization xmi:id="c_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="d_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanOrFunctionBehaviorExecution">
+          <generalization xmi:id="d_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="e_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanToBooleanFunctionBehaviorExecution">
+          <generalization xmi:id="e_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="f_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanToStringFunctionBehaviorExecution">
+          <generalization xmi:id="f_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="g_cLHEc4A_Ec2xsvcRuEcZYg" name="BooleanXorFunctionBehaviorExecution">
+          <generalization xmi:id="g_xLHxJIA_Ed2xsvsRuEHZYg" general="_cLHEc4A_Ec2xsvcRuEcZYg"/>
+        </packagedElement>
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Package" xmi:id="_gLgEcoA_Ed2gsczRgEHZYg" name="stringfunctions">
+        <packagedElement xmi:type="uml:Class" xmi:id="_gLHEg4A_gc2xgvcRgEcZYg" name="StringSizeFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_hLHEg4A_gc2xgvcRgEcZYg" name="StringConcatFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_iLHEg4A_gc2xgvcRgEcZYg" name="StringSubstringFunctionBehaviorExecution" />
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Package" xmi:id="_gfgEcoA_Ed2gsdfzRgEHZYg" name="unlimitednaturalfunctions">
+        <packagedElement xmi:type="uml:Class" xmi:id="_gfHEg4A_gd2xgdfcRgEcZYg" name="UnlimitedNaturalLessThanFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_ggfHEg4A_gd2xgdfcRgEcZYg" name="UnlimitedNaturalLessThanEqualFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_hfHEg4A_gd2xdfvcRgEcZYg" name="UnlimitedNaturalMaxFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_ifHEg4A_gd2xdfvcRgEcZYg" name="UnlimitedNaturalMinFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_jfHSg4A_gd2xdSvcRgEcZYg" name="UnlimitedNaturalGreaterThanFunctionBehaviorExecution" />
+
+        <packagedElement xmi:type="uml:Class" xmi:id="_kfHSg4A_gd2xdSvcRgEcZYg" name="UnlimitedNaturalToUnlimitedNaturalFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_lfHSg4A_gd2xdSvcRgEcZYg" name="UnlimitedNaturalToStringFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_mfHSg4A_gd2xdSvcRgEcZYg" name="UnlimitedNaturalGreaterThanEqualFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_nfHSg4A_gd2xdSvcRgEcZYg" name="UnlimitedNaturalToIntegerFunctionBehaviorExecution" />                
+      </packagedElement>
+
+      <packagedElement xmi:type="uml:Package" xmi:id="_hLgEhoA_hd2ghczRghHZYg" name="listfunctions">
+        <packagedElement xmi:type="uml:Class" xmi:id="_fLgEhoA_hd2ghczRghHZYg" name="ListSizeFunctionBehaviorExecution" />
+        <packagedElement xmi:type="uml:Class" xmi:id="_gLgEhoA_hd2ghczRghHZYg" name="ListGetFunctionBehaviorExecution" />
+      </packagedElement>
+    
+      <packagedElement xmi:type="uml:Class" xmi:id="_wLHFLoA_Ed2xsvzRuEHZYg" name="PrimitiveFunctions" isAbstract="true">
+        <generalization xmi:id="_wLHFMIA_Ed2xsvzRuEHZYg" general="_wLHFZ4A_Ed2xsvzRuEHZYg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_wLHFU4A_Ed2xsvzRuEHZYg" name="io">
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFVIA_Ed2xsvzRuEHZYg" name="SystemWriteLineBehaviorExecution">
+          <generalization xmi:id="_wLHFVYA_Ed2xsvzRuEHZYg" general="_l0UVcDv-EdqAhdv9Jy16mg"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wLHFYYA_Ed2xsvzRuEHZYg" name="SystemIO">
+        <generalization xmi:id="_wLHFYoA_Ed2xsvzRuEHZYg" general="_wLHFZ4A_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHFY4A_Ed2xsvzRuEHZYg" name="WriteLine" type="_wLG4RYA_Ed2xsvzRuEHZYg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wLHFZ4A_Ed2xsvzRuEHZYg" name="PrimitiveBehaviors" isAbstract="true">
+        <ownedComment xmi:id="_wLHFaIA_Ed2xsvzRuEHZYg">
+          <body>import fUML.Syntax.Classes.Kernel.*;&#xD;
+import fUML.Syntax.CommonBehaviors.BasicBehaviors.*;&#xD;
+</body>
+        </ownedComment>
+        <ownedOperation xmi:id="_wLHFaYA_Ed2xsvzRuEHZYg" name="createPrimitiveBehavior" visibility="protected">
+          <ownedComment xmi:id="_wLHFaoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFaYA_Ed2xsvzRuEHZYg">
+            <body>// Create a primitive (opaque) behavior and add its implementation to the given factory.&#xD;
+&#xD;
+return this.addPrimitiveBehavior(name, parameters, new OpaqueBehavior(), implementation, factory);&#xD;
+&#xD;
+&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHFa4A_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG4RYA_Ed2xsvzRuEHZYg" direction="return"/>
+          <ownedParameter xmi:id="_wLHFbIA_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFbYA_Ed2xsvzRuEHZYg" name="parameters" type="_wLG6c4A_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHFboA_Ed2xsvzRuEHZYg" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHFb4A_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFcIA_Ed2xsvzRuEHZYg" name="implementation" type="_l0UVcDv-EdqAhdv9Jy16mg"/>
+          <ownedParameter xmi:id="_wLHFcYA_Ed2xsvzRuEHZYg" name="factory" type="_wLG3Y4A_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHFcoA_Ed2xsvzRuEHZYg" name="createInputParameter" visibility="protected">
+          <ownedComment xmi:id="_wLHFc4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHFcoA_Ed2xsvzRuEHZYg">
+            <body>// Create an input parameter with the given name, type and multiplicity bounds.&#xD;
+&#xD;
+Parameter parameter = new Parameter();&#xD;
+parameter.name = name;&#xD;
+parameter.type = type;&#xD;
+parameter.direction = ParameterDirectionKind.in;&#xD;
+parameter.multiplicityElement = new MultiplicityElement();&#xD;
+this.setMultiplicity(parameter.multiplicityElement, lower, upper);&#xD;
+&#xD;
+return parameter;&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHFdIA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG6c4A_Ed2xsvzRuEHZYg" direction="return"/>
+          <ownedParameter xmi:id="_wLHFdYA_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFdoA_Ed2xsvzRuEHZYg" name="type" type="_wLG7ZIA_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHFd4A_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHFeIA_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFeYA_Ed2xsvzRuEHZYg" name="lower">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFeoA_Ed2xsvzRuEHZYg" name="upper">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHFe4A_Ed2xsvzRuEHZYg" name="createReturnParameter" visibility="protected">
+          <ownedComment xmi:id="_wLHFfIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFe4A_Ed2xsvzRuEHZYg">
+            <body>// Create a return parameter with the given type and multiplicity bounds.&#xD;
+&#xD;
+Parameter parameter = new Parameter();&#xD;
+parameter.name = &quot;result&quot;;&#xD;
+parameter.type = type;&#xD;
+parameter.direction = ParameterDirectionKind.return_;&#xD;
+parameter.multiplicityElement = new MultiplicityElement();&#xD;
+this.setMultiplicity(parameter.multiplicityElement, lower, upper);&#xD;
+&#xD;
+return parameter;&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHFfYA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG6c4A_Ed2xsvzRuEHZYg" direction="return"/>
+          <ownedParameter xmi:id="_wLHFfoA_Ed2xsvzRuEHZYg" name="type" type="_wLG7ZIA_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHFf4A_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHFgIA_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFgYA_Ed2xsvzRuEHZYg" name="lower">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFgoA_Ed2xsvzRuEHZYg" name="upper">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHFg4A_Ed2xsvzRuEHZYg" name="setMultiplicity" visibility="protected">
+          <ownedComment xmi:id="_wLHFhIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFg4A_Ed2xsvzRuEHZYg">
+            <body>UnlimitedNatural unlimitedNatural = new UnlimitedNatural();&#xD;
+unlimitedNatural.naturalValue = upper;&#xD;
+&#xD;
+element.lower = lower;&#xD;
+element.upper = unlimitedNatural;&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHFhYA_Ed2xsvzRuEHZYg" name="element" type="_wLG5w4A_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHFhoA_Ed2xsvzRuEHZYg" name="lower">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFh4A_Ed2xsvzRuEHZYg" name="upper">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHFiIA_Ed2xsvzRuEHZYg" name="addPrimitiveBehavior" visibility="protected">
+          <ownedComment xmi:id="_wLHFiYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFiIA_Ed2xsvzRuEHZYg">
+            <body>// Add a primitive function to the given locus.&#xD;
+&#xD;
+// Debug.println(&quot;[addPrimitiveFunction] name = &quot; + name);&#xD;
+&#xD;
+type.name = name;&#xD;
+type.ownedParameter = parameters;&#xD;
+&#xD;
+// Debug.println(&quot;[addPrimitiveFunction] Adding implementation...&quot;);&#xD;
+&#xD;
+implementation.types.addValue(type);&#xD;
+factory.addPrimitiveBehaviorPrototype(implementation);&#xD;
+&#xD;
+return type;&#xD;
+&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHFioA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG4RYA_Ed2xsvzRuEHZYg" direction="return"/>
+          <ownedParameter xmi:id="_wLHFi4A_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFjIA_Ed2xsvzRuEHZYg" name="parameters" type="_wLG6c4A_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHFjYA_Ed2xsvzRuEHZYg" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHFjoA_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHFj4A_Ed2xsvzRuEHZYg" name="type" type="_wLG4RYA_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHFkIA_Ed2xsvzRuEHZYg" name="implementation" type="_l0UVcDv-EdqAhdv9Jy16mg"/>
+          <ownedParameter xmi:id="_wLHFkYA_Ed2xsvzRuEHZYg" name="factory" type="_wLG3Y4A_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_wLHFkoA_Ed2xsvzRuEHZYg" name="channel">
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFk4A_Ed2xsvzRuEHZYg" name="ChannelObject" isAbstract="true">
+          <ownedComment xmi:id="_wLHFlIA_Ed2xsvzRuEHZYg">
+            <body>import fUML.Semantics.Classes.Kernel.*;&#xD;
+</body>
+          </ownedComment>
+          <generalization xmi:id="_wLHFlYA_Ed2xsvzRuEHZYg" general="_wLHGc4A_Ed2xsvzRuEHZYg"/>
+          <ownedOperation xmi:id="_wLHFloA_Ed2xsvzRuEHZYg" name="getName" isAbstract="true">
+            <ownedParameter xmi:id="_wLHFl4A_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFmIA_Ed2xsvzRuEHZYg" name="open" isAbstract="true"/>
+          <ownedOperation xmi:id="_wLHFmYA_Ed2xsvzRuEHZYg" name="close" isAbstract="true"/>
+          <ownedOperation xmi:id="_wLHFmoA_Ed2xsvzRuEHZYg" name="isOpen" isAbstract="true">
+            <ownedParameter xmi:id="_wLHFm4A_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFnIA_Ed2xsvzRuEHZYg" name="execute">
+            <ownedComment xmi:id="_wLHFnYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFnIA_Ed2xsvzRuEHZYg">
+              <body>String name = execution.getOperationName();&#xD;
+&#xD;
+if (name.equals(&quot;getName&quot;)) {&#xD;
+    StringValue nameValue = new StringValue();&#xD;
+    nameValue.value = this.getName();&#xD;
+    execution.setParameterValue(&quot;result&quot;, nameValue);&#xD;
+}&#xD;
+else if (name.equals(&quot;open&quot;)) {&#xD;
+    this.open();&#xD;
+}&#xD;
+else if (name.equals(&quot;close&quot;)) {&#xD;
+    this.close();&#xD;
+}&#xD;
+else if (name.equals(&quot;isOpen&quot;)) {&#xD;
+    BooleanValue isOpenValue = new BooleanValue();&#xD;
+    isOpenValue.value = this.isOpen();&#xD;
+    execution.setParameterValue(&quot;result&quot;, isOpenValue);&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFnoA_Ed2xsvzRuEHZYg" name="execution" type="_wLHGUoA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFn4A_Ed2xsvzRuEHZYg" name="OutputChannelObject" isAbstract="true">
+          <ownedComment xmi:id="_wLHFoIA_Ed2xsvzRuEHZYg">
+            <body>import fUML.Semantics.Classes.Kernel.*;&#xD;
+</body>
+          </ownedComment>
+          <generalization xmi:id="_wLHFoYA_Ed2xsvzRuEHZYg" general="_wLHFk4A_Ed2xsvzRuEHZYg"/>
+          <ownedOperation xmi:id="_wLHFooA_Ed2xsvzRuEHZYg" name="write" isAbstract="true">
+            <ownedParameter xmi:id="_wLHFo4A_Ed2xsvzRuEHZYg" name="value" type="_wK-Bm4A_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFpIA_Ed2xsvzRuEHZYg" name="isFull" isAbstract="true">
+            <ownedParameter xmi:id="_wLHFpYA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFpoA_Ed2xsvzRuEHZYg" name="execute">
+            <ownedComment xmi:id="_wLHFp4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHFpoA_Ed2xsvzRuEHZYg">
+              <body>String name = execution.getOperationName();&#xD;
+&#xD;
+if (name.equals(&quot;write&quot;)) {&#xD;
+    this.write(execution.getParameterValue(&quot;value&quot;).values.getValue(0));&#xD;
+}&#xD;
+else if (name.equals(&quot;isFull&quot;)) {&#xD;
+    BooleanValue isFullValue = new BooleanValue();&#xD;
+    isFullValue.value = this.isFull();&#xD;
+    execution.setParameterValue(&quot;result&quot;, isFullValue);&#xD;
+}&#xD;
+else {&#xD;
+    super.execute(execution);&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFqIA_Ed2xsvzRuEHZYg" name="execution" type="_wLHGUoA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFqYA_Ed2xsvzRuEHZYg" name="TextOutputChannelObject" isAbstract="true">
+          <ownedComment xmi:id="_wLHFqoA_Ed2xsvzRuEHZYg">
+            <body>import fUML.Semantics.Classes.Kernel.*;&#xD;
+import fUML.Semantics.CommonBehaviors.BasicBehaviors.*;&#xD;
+</body>
+          </ownedComment>
+          <generalization xmi:id="_wLHFq4A_Ed2xsvzRuEHZYg" general="_wLHFn4A_Ed2xsvzRuEHZYg"/>
+          <ownedOperation xmi:id="_wLHFrIA_Ed2xsvzRuEHZYg" name="writeString" isAbstract="true">
+            <ownedParameter xmi:id="_wLHFrYA_Ed2xsvzRuEHZYg" name="value">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFroA_Ed2xsvzRuEHZYg" name="writeNewLine" isAbstract="true"/>
+          <ownedOperation xmi:id="_wLHFr4A_Ed2xsvzRuEHZYg" name="writeLine">
+            <ownedComment xmi:id="_wLHFsIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFr4A_Ed2xsvzRuEHZYg">
+              <body>this.writeString(value);&#xD;
+this.writeNewLine();&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFsYA_Ed2xsvzRuEHZYg" name="value">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFsoA_Ed2xsvzRuEHZYg" name="writeInteger">
+            <ownedComment xmi:id="_wLHFs4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHFsoA_Ed2xsvzRuEHZYg">
+              <body>this.writeString(Integer.toString(value));</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFtIA_Ed2xsvzRuEHZYg" name="value">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFtYA_Ed2xsvzRuEHZYg" name="writeBoolean">
+            <ownedComment xmi:id="_wLHFtoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFtYA_Ed2xsvzRuEHZYg">
+              <body>this.writeString(Boolean.toString(value));&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFt4A_Ed2xsvzRuEHZYg" name="value">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFuIA_Ed2xsvzRuEHZYg" name="writeUnlimitedNatural">
+            <ownedComment xmi:id="_wLHFuYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFuIA_Ed2xsvzRuEHZYg">
+              <body>int naturalValue = value.naturalValue;&#xD;
+&#xD;
+if (naturalValue &lt; 0) {&#xD;
+    this.writeString(&quot;*&quot;);&#xD;
+}&#xD;
+else {&#xD;
+    this.writeString(Integer.toString(naturalValue));&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFuoA_Ed2xsvzRuEHZYg" name="value" type="_wLG7BYA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFu4A_Ed2xsvzRuEHZYg" name="execute">
+            <ownedComment xmi:id="_wLHFvIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFu4A_Ed2xsvzRuEHZYg">
+              <body>String name = execution.getOperationName();&#xD;
+// Debug.println(&quot;[execute] operation = &quot; + name);&#xD;
+&#xD;
+ParameterValue parameterValue = execution.getParameterValue(&quot;value&quot;);&#xD;
+// if ((parameterValue != null) &amp;&amp; (parameterValue.values.size() > 0)) {&#xD;
+//    Debug.println(&quot;[execute] argument = &quot; + parameterValue.values.getValue(0));&#xD;
+// }&#xD;
+&#xD;
+if (name.equals(&quot;writeNewLine&quot;)) {&#xD;
+    this.writeNewLine();&#xD;
+}&#xD;
+else if (name.equals(&quot;writeString&quot;)) {&#xD;
+    this.writeString(((StringValue)(parameterValue.values.getValue(0))).value);&#xD;
+}&#xD;
+else if (name.equals(&quot;writeLine&quot;)) {&#xD;
+    this.writeLine(((StringValue)(parameterValue.values.getValue(0))).value);&#xD;
+}&#xD;
+else if (name.equals(&quot;writeInteger&quot;)) {&#xD;
+    this.writeInteger(((IntegerValue)(parameterValue.values.getValue(0))).value);&#xD;
+}&#xD;
+else if (name.equals(&quot;writeBoolean&quot;)) {&#xD;
+    this.writeBoolean(((BooleanValue)(parameterValue.values.getValue(0))).value);&#xD;
+}&#xD;
+else if (name.equals(&quot;writeUnlimitedNatural&quot;)) {&#xD;
+    this.writeUnlimitedNatural(((UnlimitedNaturalValue)(parameterValue.values.getValue(0))).value);&#xD;
+}&#xD;
+else {&#xD;
+    super.execute(execution);&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFvYA_Ed2xsvzRuEHZYg" name="execution" type="_wLHGUoA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHFvoA_Ed2xsvzRuEHZYg" name="StandardOutputChannelObject">
+          <generalization xmi:id="_wLHFv4A_Ed2xsvzRuEHZYg" general="_wLHFqYA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHFwIA_Ed2xsvzRuEHZYg" name="opened" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedAttribute>
+          <ownedOperation xmi:id="_wLHFwYA_Ed2xsvzRuEHZYg" name="writeLine">
+            <ownedComment xmi:id="_wLHFwoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFwYA_Ed2xsvzRuEHZYg">
+              <body>this.writeString(value);&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFw4A_Ed2xsvzRuEHZYg" name="value">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFxIA_Ed2xsvzRuEHZYg" name="getName">
+            <ownedComment xmi:id="_wLHFxYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFxIA_Ed2xsvzRuEHZYg">
+              <body>return &quot;StandardOutput&quot;;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFxoA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFx4A_Ed2xsvzRuEHZYg" name="open">
+            <ownedComment xmi:id="_wLHFyIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFx4A_Ed2xsvzRuEHZYg">
+              <body>this.opened = true;&#xD;
+</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFyYA_Ed2xsvzRuEHZYg" name="close">
+            <ownedComment xmi:id="_wLHFyoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFyYA_Ed2xsvzRuEHZYg">
+              <body>this.opened = false;&#xD;
+</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFy4A_Ed2xsvzRuEHZYg" name="isOpen">
+            <ownedComment xmi:id="_wLHFzIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHFy4A_Ed2xsvzRuEHZYg">
+              <body>return opened;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHFzYA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHFzoA_Ed2xsvzRuEHZYg" name="write">
+            <ownedComment xmi:id="_wLHFz4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHFzoA_Ed2xsvzRuEHZYg">
+              <body>this.writeString(value.toString());</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHF0IA_Ed2xsvzRuEHZYg" name="value" type="_wK-Bm4A_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF0YA_Ed2xsvzRuEHZYg" name="writeString">
+            <ownedComment xmi:id="_wLHF0oA_Ed2xsvzRuEHZYg" annotatedElement="_wLHF0YA_Ed2xsvzRuEHZYg">
+              <body>if (this.isOpen()) {&#xD;
+    Debug.println(&quot;>>>>>>>> &quot; + value);&#xD;
+}&#xD;
+&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHF04A_Ed2xsvzRuEHZYg" name="value">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF1IA_Ed2xsvzRuEHZYg" name="writeNewLine">
+            <ownedComment xmi:id="_wLHF1YA_Ed2xsvzRuEHZYg" annotatedElement="_wLHF1IA_Ed2xsvzRuEHZYg">
+              <body>this.writeLine(&quot;&quot;);&#xD;
+</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF1oA_Ed2xsvzRuEHZYg" name="new_">
+            <ownedComment xmi:id="_wLHF14A_Ed2xsvzRuEHZYg" annotatedElement="_wLHF1oA_Ed2xsvzRuEHZYg">
+              <body>return (fUML.Semantics.Classes.Kernel.Value)(new StandardOutputChannelObject());&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHF2IA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wK-Bm4A_Ed2xsvzRuEHZYg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF2YA_Ed2xsvzRuEHZYg" name="isFull">
+            <ownedComment xmi:id="_wLHF2oA_Ed2xsvzRuEHZYg" annotatedElement="_wLHF2YA_Ed2xsvzRuEHZYg">
+              <body>return false;</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHF24A_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHF3IA_Ed2xsvzRuEHZYg" name="InputChannelObject" isAbstract="true">
+          <ownedComment xmi:id="_wLHF3YA_Ed2xsvzRuEHZYg">
+            <body>import fUML.Semantics.Classes.Kernel.*;&#xD;
+</body>
+          </ownedComment>
+          <generalization xmi:id="_wLHF3oA_Ed2xsvzRuEHZYg" general="_wLHFk4A_Ed2xsvzRuEHZYg"/>
+          <ownedOperation xmi:id="_wLHF34A_Ed2xsvzRuEHZYg" name="hasMore" isAbstract="true">
+            <ownedParameter xmi:id="_wLHF4IA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF4YA_Ed2xsvzRuEHZYg" name="read" isAbstract="true">
+            <ownedParameter xmi:id="_wLHF4oA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wK-Bm4A_Ed2xsvzRuEHZYg" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHF44A_Ed2xsvzRuEHZYg" value="1"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHF5IA_Ed2xsvzRuEHZYg"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF5YA_Ed2xsvzRuEHZYg" name="execute">
+            <ownedComment xmi:id="_wLHF5oA_Ed2xsvzRuEHZYg" annotatedElement="_wLHF5YA_Ed2xsvzRuEHZYg">
+              <body>String name = execution.getOperationName();&#xD;
+&#xD;
+if (name.equals(&quot;hasMore&quot;)) { &#xD;
+    BooleanValue hasMoreValue = new BooleanValue();&#xD;
+    hasMoreValue.value = this.hasMore();&#xD;
+    execution.setParameterValue(&quot;result&quot;, hasMoreValue);&#xD;
+}&#xD;
+else if (name.equals(&quot;read&quot;)) {&#xD;
+    execution.setParameterValue(&quot;value&quot;, this.read());&#xD;
+}&#xD;
+else {&#xD;
+    super.execute(execution);&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHF54A_Ed2xsvzRuEHZYg" name="execution" type="_wLHGUoA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHF6IA_Ed2xsvzRuEHZYg" name="StandardOutputWriteExecution">
+          <generalization xmi:id="_wLHF6YA_Ed2xsvzRuEHZYg" general="_l0UVcDv-EdqAhdv9Jy16mg"/>
+          <ownedOperation xmi:id="_wLHF6oA_Ed2xsvzRuEHZYg" name="doBody">
+            <ownedParameter xmi:id="_wLHF64A_Ed2xsvzRuEHZYg" name="inputParameters" type="_wK-DtIA_Ed2xsvzRuEHZYg">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHF7IA_Ed2xsvzRuEHZYg" value="*"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHF7YA_Ed2xsvzRuEHZYg"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_wLHF7oA_Ed2xsvzRuEHZYg" name="outputParameters" type="_wK-DtIA_Ed2xsvzRuEHZYg">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHF74A_Ed2xsvzRuEHZYg" value="*"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHF8IA_Ed2xsvzRuEHZYg"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHF8YA_Ed2xsvzRuEHZYg" name="new_">
+            <ownedParameter xmi:id="_wLHF8oA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wK-Bm4A_Ed2xsvzRuEHZYg" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Collaboration" xmi:id="_wLHF84A_Ed2xsvzRuEHZYg" name="Standard Output Write Implementation">
+          <ownedBehavior xmi:type="uml:Interaction" xmi:id="_wLHF9IA_Ed2xsvzRuEHZYg" name="Interaction1">
+            <ownedConnector xmi:id="_wLHF9YA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHF9oA_Ed2xsvzRuEHZYg" role="_wLHGCYA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHF94A_Ed2xsvzRuEHZYg" role="_wLHGCoA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHF-IA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHF-YA_Ed2xsvzRuEHZYg" role="_wLHGCoA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHF-oA_Ed2xsvzRuEHZYg" role="_wLHGDIA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHF-4A_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHF_IA_Ed2xsvzRuEHZYg" role="_wLHGC4A_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHF_YA_Ed2xsvzRuEHZYg" role="_wLHGDIA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHF_oA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHF_4A_Ed2xsvzRuEHZYg" role="_wLHGDYA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGAIA_Ed2xsvzRuEHZYg" role="_wLHGCYA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHGAYA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHGAoA_Ed2xsvzRuEHZYg" role="_wLHGDYA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGA4A_Ed2xsvzRuEHZYg" role="_wLHGC4A_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <lifeline xmi:id="_wLHGBIA_Ed2xsvzRuEHZYg" name="class_" represents="_wLHGCYA_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGBYA_Ed2xsvzRuEHZYg" name="operation" represents="_wLHGCoA_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGBoA_Ed2xsvzRuEHZYg" name="standardOutputWriteImplementation" represents="_wLHGC4A_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGB4A_Ed2xsvzRuEHZYg" name="opaqueBehavior" represents="_wLHGDIA_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGCIA_Ed2xsvzRuEHZYg" name="object_" represents="_wLHGDYA_Ed2xsvzRuEHZYg"/>
+          </ownedBehavior>
+          <ownedAttribute xmi:id="_wLHGCYA_Ed2xsvzRuEHZYg" type="_wLG7K4A_Ed2xsvzRuEHZYg" end="_wLHF9oA_Ed2xsvzRuEHZYg _wLHGAIA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGCoA_Ed2xsvzRuEHZYg" type="_wLG6JIA_Ed2xsvzRuEHZYg" end="_wLHF94A_Ed2xsvzRuEHZYg _wLHF-YA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGC4A_Ed2xsvzRuEHZYg" type="_wLHF6IA_Ed2xsvzRuEHZYg" end="_wLHF_IA_Ed2xsvzRuEHZYg _wLHGA4A_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGDIA_Ed2xsvzRuEHZYg" type="_wLG4RYA_Ed2xsvzRuEHZYg" end="_wLHF-oA_Ed2xsvzRuEHZYg _wLHF_YA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGDYA_Ed2xsvzRuEHZYg" type="_CaCEoFOYEdq4McKw0Cvc-A" end="_wLHF_4A_Ed2xsvzRuEHZYg _wLHGAoA_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wLHGDoA_Ed2xsvzRuEHZYg" name="Classes">
+        <ownedComment xmi:id="_wLHGD4A_Ed2xsvzRuEHZYg">
+          <body>import fUML.Syntax.Classes.Kernel.*;&#xD;
+</body>
+        </ownedComment>
+        <ownedOperation xmi:id="_wLHGEIA_Ed2xsvzRuEHZYg" name="createClass" visibility="protected">
+          <ownedComment xmi:id="_wLHGEYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGEIA_Ed2xsvzRuEHZYg">
+            <body>Class_ newClass = new Class_();&#xD;
+newClass.name = name;&#xD;
+newClass.isAbstract = isAbstract;&#xD;
+&#xD;
+return newClass;&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGEoA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG7K4A_Ed2xsvzRuEHZYg" direction="return"/>
+          <ownedParameter xmi:id="_wLHGE4A_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGFIA_Ed2xsvzRuEHZYg" name="isAbstract">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGFYA_Ed2xsvzRuEHZYg" name="addAttribute" visibility="protected">
+          <ownedComment xmi:id="_wLHGFoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGFYA_Ed2xsvzRuEHZYg">
+            <body>&#xD;
+Property attribute = new Property();&#xD;
+attribute.name = name;&#xD;
+attribute.typedElement = new TypedElement();&#xD;
+attribute.typedElement.type = type;&#xD;
+attribute.multiplicityElement = new MultiplicityElement();&#xD;
+this.setMultiplicity(attribute.multiplicityElement, 1, 1);&#xD;
+&#xD;
+if (visibility == null) {&#xD;
+    attribute.visibility = VisibilityKind.public_;&#xD;
+}&#xD;
+else {&#xD;
+    attribute.visibility = visibility;&#xD;
+}&#xD;
+&#xD;
+attribute.isComposite = isComposite;&#xD;
+if (isComposite) {&#xD;
+    attribute.aggregation = AggregationKind.composite;&#xD;
+}&#xD;
+else {&#xD;
+    attribute.aggregation = AggregationKind.none;&#xD;
+}&#xD;
+&#xD;
+attribute.featuringClassifier.addValue(owner);&#xD;
+attribute.namespace = owner;&#xD;
+&#xD;
+owner.ownedAttribute.addValue(attribute);&#xD;
+owner.attribute.addValue(attribute);&#xD;
+owner.feature.addValue(attribute);&#xD;
+owner.ownedMember.addValue(attribute);&#xD;
+owner.member.addValue(attribute);&#xD;
+&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGF4A_Ed2xsvzRuEHZYg" name="owner" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGGIA_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGGYA_Ed2xsvzRuEHZYg" name="type" type="_wLG69YA_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGGoA_Ed2xsvzRuEHZYg" name="visibility" type="_wLG7JYA_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGG4A_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGHIA_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGHYA_Ed2xsvzRuEHZYg" name="isComposite">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGHoA_Ed2xsvzRuEHZYg" name="addOperation" visibility="protected">
+          <ownedComment xmi:id="_wLHGH4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGHoA_Ed2xsvzRuEHZYg">
+            <body>Operation operation = new Operation();&#xD;
+operation.name = name;&#xD;
+operation.featuringClassifier.addValue(owner);&#xD;
+operation.namespace = owner;&#xD;
+&#xD;
+if (visibility == null) {&#xD;
+    operation.visibility = VisibilityKind.public_;&#xD;
+}&#xD;
+else {&#xD;
+   operation.visibility = visibility;&#xD;
+}&#xD;
+&#xD;
+owner.ownedOperation.addValue(operation);&#xD;
+owner.feature.addValue(operation);&#xD;
+owner.ownedMember.addValue(operation);&#xD;
+owner.member.addValue(operation);&#xD;
+&#xD;
+return operation;</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGIIA_Ed2xsvzRuEHZYg" name="owner" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGIYA_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGIoA_Ed2xsvzRuEHZYg" name="visibility" type="_wLG7JYA_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGI4A_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGJIA_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGJYA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG6JIA_Ed2xsvzRuEHZYg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGJoA_Ed2xsvzRuEHZYg" name="addParameter" visibility="protected">
+          <ownedComment xmi:id="_wLHGJ4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGJoA_Ed2xsvzRuEHZYg">
+            <body>Parameter parameter = new Parameter();&#xD;
+parameter.name = name;&#xD;
+parameter.type = type;&#xD;
+parameter.direction = direction;&#xD;
+parameter.multiplicityElement = new MultiplicityElement();&#xD;
+this.setMultiplicity(parameter.multiplicityElement, 1, 1);&#xD;
+&#xD;
+operation.ownedParameter.addValue(parameter);&#xD;
+&#xD;
+if (direction.equals(ParameterDirectionKind.return_)) {&#xD;
+    operation.type = type;&#xD;
+}&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGKIA_Ed2xsvzRuEHZYg" name="operation" type="_wLG6JIA_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGKYA_Ed2xsvzRuEHZYg" name="name">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGKoA_Ed2xsvzRuEHZYg" name="direction" type="_wLG7GIA_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGK4A_Ed2xsvzRuEHZYg" name="type" type="_wLG69YA_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGLIA_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGLYA_Ed2xsvzRuEHZYg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGLoA_Ed2xsvzRuEHZYg" name="setMultiplicity" visibility="protected">
+          <ownedComment xmi:id="_wLHGL4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGLoA_Ed2xsvzRuEHZYg">
+            <body>UnlimitedNatural unlimitedNatural = new UnlimitedNatural();&#xD;
+unlimitedNatural.naturalValue = upper;&#xD;
+&#xD;
+element.lower = lower;&#xD;
+element.upper = unlimitedNatural;&#xD;
+element.isOrdered = false;&#xD;
+element.isUnique = true;</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGMIA_Ed2xsvzRuEHZYg" name="element" type="_wLG5w4A_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGMYA_Ed2xsvzRuEHZYg" name="lower">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_wLHGMoA_Ed2xsvzRuEHZYg" name="upper">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGM4A_Ed2xsvzRuEHZYg" name="addGeneralization" visibility="protected">
+          <ownedComment xmi:id="_wLHGNIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGM4A_Ed2xsvzRuEHZYg">
+            <body>Generalization generalization = new Generalization();&#xD;
+generalization.specific = specific;&#xD;
+generalization.general = general;&#xD;
+&#xD;
+specific.generalization.addValue(generalization);&#xD;
+specific.general.addValue(general);&#xD;
+specific.superClass.addValue(general);&#xD;
+&#xD;
+for (int i = 0; i &lt; general.member.size(); i++) {&#xD;
+    NamedElement member = general.member.getValue(i);&#xD;
+    if (member.visibility != VisibilityKind.private_) {&#xD;
+        specific.member.addValue(member);&#xD;
+        specific.inheritedMember.addValue(member);&#xD;
+        if (member instanceof Feature) {&#xD;
+            specific.feature.addValue((Feature)member);&#xD;
+            ((Feature)member).featuringClassifier.addValue(specific);&#xD;
+        }&#xD;
+    }&#xD;
+}&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGNYA_Ed2xsvzRuEHZYg" name="specific" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+          <ownedParameter xmi:id="_wLHGNoA_Ed2xsvzRuEHZYg" name="general" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wLHGN4A_Ed2xsvzRuEHZYg" name="StandardIOClasses">
+        <ownedComment xmi:id="_wLHGOIA_Ed2xsvzRuEHZYg">
+          <body>import fUML.Syntax.Classes.Kernel.*;&#xD;
+</body>
+        </ownedComment>
+        <generalization xmi:id="_wLHGOYA_Ed2xsvzRuEHZYg" general="_wLHGDoA_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHGOoA_Ed2xsvzRuEHZYg" name="Channel" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHGO4A_Ed2xsvzRuEHZYg" name="OutputChannel" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHGPIA_Ed2xsvzRuEHZYg" name="TextOutputChannel" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHGPYA_Ed2xsvzRuEHZYg" name="StandardOutputChannel" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+        <ownedAttribute xmi:id="_wLHGPoA_Ed2xsvzRuEHZYg" name="InputChannel" type="_wLG7K4A_Ed2xsvzRuEHZYg"/>
+        <ownedOperation xmi:id="_wLHGP4A_Ed2xsvzRuEHZYg" name="StandardIOClasses">
+          <ownedComment xmi:id="_wLHGQIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGP4A_Ed2xsvzRuEHZYg">
+            <body>this.createChannelClass(primitiveTypes);&#xD;
+this.createOutputChannelClass(primitiveTypes);&#xD;
+this.createTextOutputChannelClass(primitiveTypes);&#xD;
+this.createStandardOutputChannelClass(primitiveTypes);&#xD;
+this.createInputChannelClass(primitiveTypes);&#xD;
+&#xD;
+&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGQYA_Ed2xsvzRuEHZYg" name="primitiveTypes" type="_wLHE2YA_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGQoA_Ed2xsvzRuEHZYg" name="createChannelClass">
+          <ownedComment xmi:id="_wLHGQ4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGQoA_Ed2xsvzRuEHZYg">
+            <body>// MexSystem.println(&quot;[createChannelClass] Start...&quot;);&#xD;
+&#xD;
+this.Channel = this.createClass(&quot;Channel&quot;, true);&#xD;
+&#xD;
+Operation getNameOperation = this.addOperation(this.Channel, &quot;getName&quot;, null);&#xD;
+this.addParameter(getNameOperation, &quot;result&quot;, ParameterDirectionKind.return_, primitiveTypes.String);&#xD;
+&#xD;
+this.addOperation(this.Channel, &quot;open&quot;, null);&#xD;
+this.addOperation(this.Channel, &quot;close&quot;, null);&#xD;
+&#xD;
+Operation isOpenOperation = this.addOperation(this.Channel, &quot;isOpen&quot;, null);&#xD;
+this.addParameter(isOpenOperation, &quot;result&quot;, ParameterDirectionKind.return_, primitiveTypes.Boolean);&#xD;
+&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGRIA_Ed2xsvzRuEHZYg" name="primitiveTypes" type="_wLHE2YA_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGRYA_Ed2xsvzRuEHZYg" name="createOutputChannelClass">
+          <ownedComment xmi:id="_wLHGRoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGRYA_Ed2xsvzRuEHZYg">
+            <body>// MexSystem.println(&quot;[createOutputChannelClass] Start...&quot;);&#xD;
+&#xD;
+this.OutputChannel = this.createClass(&quot;OutputChannel&quot;, true);&#xD;
+this.addGeneralization(this.OutputChannel, this.Channel);&#xD;
+&#xD;
+Operation writeOperation = this.addOperation(this.OutputChannel, &quot;write&quot;, null);&#xD;
+this.addParameter(writeOperation, &quot;value&quot;, ParameterDirectionKind.in, null);&#xD;
+&#xD;
+Operation isFullOperation = this.addOperation(this.OutputChannel, &quot;isFull&quot;, null);&#xD;
+this.addParameter(isFullOperation, &quot;result&quot;, ParameterDirectionKind.return_, primitiveTypes.Boolean);&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGR4A_Ed2xsvzRuEHZYg" name="primitiveTypes" type="_wLHE2YA_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGSIA_Ed2xsvzRuEHZYg" name="createTextOutputChannelClass">
+          <ownedComment xmi:id="_wLHGSYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGSIA_Ed2xsvzRuEHZYg">
+            <body>// MexSystem.println(&quot;[createTextOutputChannelClass] Start...&quot;);&#xD;
+&#xD;
+this.TextOutputChannel = this.createClass(&quot;TextOutputChannel&quot;, true);&#xD;
+this.addGeneralization(this.TextOutputChannel, this.OutputChannel);&#xD;
+&#xD;
+Operation writeStringOperation = this.addOperation(this.TextOutputChannel, &quot;writeString&quot;, null);&#xD;
+this.addParameter(writeStringOperation, &quot;value&quot;, ParameterDirectionKind.in, primitiveTypes.String);&#xD;
+&#xD;
+this.addOperation(this.TextOutputChannel,&quot;writeNewLine&quot;, null);&#xD;
+&#xD;
+Operation writeLineOperation = this.addOperation(this.TextOutputChannel, &quot;writeLine&quot;, null);&#xD;
+this.addParameter(writeLineOperation, &quot;value&quot;, ParameterDirectionKind.in, primitiveTypes.String);&#xD;
+&#xD;
+Operation writeIntegerOperation = this.addOperation(this.TextOutputChannel, &quot;writeInteger&quot;, null);&#xD;
+this.addParameter(writeIntegerOperation, &quot;value&quot;, ParameterDirectionKind.in, primitiveTypes.Integer);&#xD;
+&#xD;
+Operation writeBooleanOperation = this.addOperation(this.TextOutputChannel, &quot;writeBoolean&quot;, null);&#xD;
+this.addParameter(writeBooleanOperation, &quot;value&quot;, ParameterDirectionKind.in, primitiveTypes.Boolean);&#xD;
+&#xD;
+Operation writeUnlimitedNaturalOperation = this.addOperation(this.TextOutputChannel, &quot;writeUnlimitedNatural&quot;, null);&#xD;
+this.addParameter(writeUnlimitedNaturalOperation, &quot;value&quot;, ParameterDirectionKind.in, primitiveTypes.UnlimitedNatural);&#xD;
+&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGSoA_Ed2xsvzRuEHZYg" name="primitiveTypes" type="_wLHE2YA_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGS4A_Ed2xsvzRuEHZYg" name="createStandardOutputChannelClass">
+          <ownedComment xmi:id="_wLHGTIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGS4A_Ed2xsvzRuEHZYg">
+            <body>// MexSystem.println(&quot;[createStandardOutputChannelClass] Start...&quot;);&#xD;
+&#xD;
+this.StandardOutputChannel = this.createClass(&quot;StandardOutputChannel&quot;, false);&#xD;
+this.addGeneralization(this.StandardOutputChannel, this.TextOutputChannel);&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGTYA_Ed2xsvzRuEHZYg" name="primitiveTypes" type="_wLHE2YA_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_wLHGToA_Ed2xsvzRuEHZYg" name="createInputChannelClass">
+          <ownedComment xmi:id="_wLHGT4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGToA_Ed2xsvzRuEHZYg">
+            <body>this.InputChannel = this.createClass(&quot;InputChannel&quot;, true);&#xD;
+this.addGeneralization(this.InputChannel, this.Channel);&#xD;
+&#xD;
+Operation readOperation = this.addOperation(this.InputChannel, &quot;read&quot;, null);&#xD;
+this.addParameter(readOperation, &quot;value&quot;, ParameterDirectionKind.out, null);&#xD;
+&#xD;
+Operation hasMoreOperation = this.addOperation(this.InputChannel, &quot;hasMore&quot;, null);&#xD;
+this.addParameter(hasMoreOperation, &quot;result&quot;, ParameterDirectionKind.return_, primitiveTypes.Boolean);&#xD;
+</body>
+          </ownedComment>
+          <ownedParameter xmi:id="_wLHGUIA_Ed2xsvzRuEHZYg" name="primitiveTypes" type="_wLHE2YA_Ed2xsvzRuEHZYg"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_wLHGUYA_Ed2xsvzRuEHZYg" name="libraryclass">
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHGUoA_Ed2xsvzRuEHZYg" name="OperationExecution">
+          <ownedComment xmi:id="_wLHGU4A_Ed2xsvzRuEHZYg">
+            <body>import fUML.Syntax.Classes.Kernel.*;&#xD;
+import fUML.Syntax.CommonBehaviors.BasicBehaviors.*;&#xD;
+&#xD;
+import fUML.Semantics.Classes.Kernel.*;&#xD;
+import fUML.Semantics.CommonBehaviors.BasicBehaviors.*;&#xD;
+</body>
+          </ownedComment>
+          <generalization xmi:id="_wLHGVIA_Ed2xsvzRuEHZYg" general="_zB-b0Dv5EdqAhdv9Jy16mg"/>
+          <ownedOperation xmi:id="_wLHGVYA_Ed2xsvzRuEHZYg" name="set">
+            <ownedComment xmi:id="_wLHGVoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGVYA_Ed2xsvzRuEHZYg">
+              <body>this.context = context;&#xD;
+&#xD;
+OpaqueBehavior method = new OpaqueBehavior();&#xD;
+method.specification = operation;&#xD;
+&#xD;
+for (int i = 0; i &lt; operation.ownedParameter.size(); i++) {&#xD;
+    Parameter operationParameter = operation.ownedParameter.getValue(i);&#xD;
+    Parameter methodParameter = new Parameter();&#xD;
+    methodParameter.name = operationParameter.name;&#xD;
+    methodParameter.direction = operationParameter.direction;&#xD;
+    methodParameter.type = operationParameter.type;&#xD;
+    methodParameter.multiplicityElement = operationParameter.multiplicityElement;&#xD;
+    method.ownedParameter.addValue(methodParameter);&#xD;
+}&#xD;
+&#xD;
+this.types.addValue(method);&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGV4A_Ed2xsvzRuEHZYg" name="context" type="_wLHGc4A_Ed2xsvzRuEHZYg"/>
+            <ownedParameter xmi:id="_wLHGWIA_Ed2xsvzRuEHZYg" name="operation" type="_wLG6JIA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGWYA_Ed2xsvzRuEHZYg" name="new_">
+            <ownedComment xmi:id="_wLHGWoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGWYA_Ed2xsvzRuEHZYg">
+              <body>return (Value)(new OperationExecution());&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGW4A_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wK-Bm4A_Ed2xsvzRuEHZYg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGXIA_Ed2xsvzRuEHZYg" name="execute">
+            <ownedComment xmi:id="_wLHGXYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGXIA_Ed2xsvzRuEHZYg">
+              <body>((ImplementationObject)(this.context)).execute(this);&#xD;
+</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGXoA_Ed2xsvzRuEHZYg" name="getOperationName">
+            <ownedComment xmi:id="_wLHGX4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGXoA_Ed2xsvzRuEHZYg">
+              <body>return this.getBehavior().specification.name;</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGYIA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGYYA_Ed2xsvzRuEHZYg" name="getParameter">
+            <ownedComment xmi:id="_wLHGYoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGYYA_Ed2xsvzRuEHZYg">
+              <body>// MexSystem.println(&quot;[getParameter] parameterName = &quot; + parameterName);&#xD;
+&#xD;
+Behavior method = this.getBehavior();&#xD;
+&#xD;
+for (int i = 0; i &lt; method.ownedParameter.size(); i++) {&#xD;
+    Parameter parameter = method.ownedParameter.getValue(i);&#xD;
+    if (parameter.name.equals(parameterName)) {&#xD;
+        // MexSystem.println(&quot;[getParameter] Parameter found.&quot;);&#xD;
+        return parameter;&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+// MexSystem.println(&quot;[getParameter] Parameter not found.&quot;);&#xD;
+return null;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGY4A_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wLG6c4A_Ed2xsvzRuEHZYg" direction="return"/>
+            <ownedParameter xmi:id="_wLHGZIA_Ed2xsvzRuEHZYg" name="parameterName">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGZYA_Ed2xsvzRuEHZYg" name="getParameterValue">
+            <ownedComment xmi:id="_wLHGZoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGZYA_Ed2xsvzRuEHZYg">
+              <body>return this.getParameterValue(this.getParameter(parameterName));</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGZ4A_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wK-DtIA_Ed2xsvzRuEHZYg" direction="return"/>
+            <ownedParameter xmi:id="_wLHGaIA_Ed2xsvzRuEHZYg" name="parameterName">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGaYA_Ed2xsvzRuEHZYg" name="setParameterValue">
+            <ownedComment xmi:id="_wLHGaoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGaYA_Ed2xsvzRuEHZYg">
+              <body>ParameterValue parameterValue = new ParameterValue();&#xD;
+parameterValue.parameter = this.getParameter(parameterName);&#xD;
+parameterValue.values = values;&#xD;
+&#xD;
+this.setParameterValue(parameterValue);&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGa4A_Ed2xsvzRuEHZYg" name="parameterName">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_wLHGbIA_Ed2xsvzRuEHZYg" name="values" type="_wK-Bm4A_Ed2xsvzRuEHZYg">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGbYA_Ed2xsvzRuEHZYg" value="*"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGboA_Ed2xsvzRuEHZYg"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGb4A_Ed2xsvzRuEHZYg" name="setParameterValue">
+            <ownedComment xmi:id="_wLHGcIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGb4A_Ed2xsvzRuEHZYg">
+              <body>ValueList valueList = new ValueList();&#xD;
+valueList.addValue(value);&#xD;
+this.setParameterValue(parameterName, valueList);&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGcYA_Ed2xsvzRuEHZYg" name="parameterName">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_wLHGcoA_Ed2xsvzRuEHZYg" name="value" type="_wK-Bm4A_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHGc4A_Ed2xsvzRuEHZYg" name="ImplementationObject" isAbstract="true">
+          <generalization xmi:id="_wLHGdIA_Ed2xsvzRuEHZYg" general="_CaCEoFOYEdq4McKw0Cvc-A"/>
+          <ownedOperation xmi:id="_wLHGdYA_Ed2xsvzRuEHZYg" name="execute" isAbstract="true">
+            <ownedParameter xmi:id="_wLHGdoA_Ed2xsvzRuEHZYg" name="execution" type="_wLHGUoA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGd4A_Ed2xsvzRuEHZYg" name="dispatch">
+            <ownedComment xmi:id="_wLHGeIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGd4A_Ed2xsvzRuEHZYg">
+              <body>OperationExecution execution = new OperationExecution();&#xD;
+this.locus.add(execution);&#xD;
+execution.set(this, operation);&#xD;
+return execution;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGeYA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_zB-b0Dv5EdqAhdv9Jy16mg" direction="return"/>
+            <ownedParameter xmi:id="_wLHGeoA_Ed2xsvzRuEHZYg" name="operation" type="_wLG6JIA_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Collaboration" xmi:id="_wLHGe4A_Ed2xsvzRuEHZYg" name="Implementation Object">
+          <ownedBehavior xmi:type="uml:Interaction" xmi:id="_wLHGfIA_Ed2xsvzRuEHZYg" name="Interaction1">
+            <ownedConnector xmi:id="_wLHGfYA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHGfoA_Ed2xsvzRuEHZYg" role="_wLHGkoA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGf4A_Ed2xsvzRuEHZYg" role="_wLHGkYA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHGgIA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHGgYA_Ed2xsvzRuEHZYg" role="_wLHGkoA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGgoA_Ed2xsvzRuEHZYg" role="_wLHGk4A_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHGg4A_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHGhIA_Ed2xsvzRuEHZYg" role="_wLHGlIA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGhYA_Ed2xsvzRuEHZYg" role="_wLHGkYA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHGhoA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHGh4A_Ed2xsvzRuEHZYg" role="_wLHGlIA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGiIA_Ed2xsvzRuEHZYg" role="_wLHGlYA_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <ownedConnector xmi:id="_wLHGiYA_Ed2xsvzRuEHZYg">
+              <end xmi:id="_wLHGioA_Ed2xsvzRuEHZYg" role="_wLHGlYA_Ed2xsvzRuEHZYg"/>
+              <end xmi:id="_wLHGi4A_Ed2xsvzRuEHZYg" role="_wLHGk4A_Ed2xsvzRuEHZYg"/>
+            </ownedConnector>
+            <lifeline xmi:id="_wLHGjIA_Ed2xsvzRuEHZYg" name="implementationObject" represents="_wLHGkYA_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGjYA_Ed2xsvzRuEHZYg" name="class_" represents="_wLHGkoA_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGjoA_Ed2xsvzRuEHZYg" name="operation" represents="_wLHGk4A_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGj4A_Ed2xsvzRuEHZYg" name="operationExecution" represents="_wLHGlIA_Ed2xsvzRuEHZYg"/>
+            <lifeline xmi:id="_wLHGkIA_Ed2xsvzRuEHZYg" name="opaqueBehavior" represents="_wLHGlYA_Ed2xsvzRuEHZYg"/>
+          </ownedBehavior>
+          <ownedAttribute xmi:id="_wLHGkYA_Ed2xsvzRuEHZYg" type="_wLHGc4A_Ed2xsvzRuEHZYg" end="_wLHGf4A_Ed2xsvzRuEHZYg _wLHGhYA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGkoA_Ed2xsvzRuEHZYg" type="_wLG7K4A_Ed2xsvzRuEHZYg" end="_wLHGfoA_Ed2xsvzRuEHZYg _wLHGgYA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGk4A_Ed2xsvzRuEHZYg" type="_wLG6JIA_Ed2xsvzRuEHZYg" end="_wLHGgoA_Ed2xsvzRuEHZYg _wLHGi4A_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGlIA_Ed2xsvzRuEHZYg" type="_wLHGUoA_Ed2xsvzRuEHZYg" end="_wLHGhIA_Ed2xsvzRuEHZYg _wLHGh4A_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGlYA_Ed2xsvzRuEHZYg" type="_wLG4RYA_Ed2xsvzRuEHZYg" end="_wLHGiIA_Ed2xsvzRuEHZYg _wLHGioA_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_wLHGloA_Ed2xsvzRuEHZYg" name="pipe">
+        <packagedElement xmi:type="uml:Association" xmi:id="_wLHGl4A_Ed2xsvzRuEHZYg" memberEnd="_wLHGnoA_Ed2xsvzRuEHZYg _wLHGmIA_Ed2xsvzRuEHZYg">
+          <ownedEnd xmi:id="_wLHGmIA_Ed2xsvzRuEHZYg" visibility="private" type="_wLHGm4A_Ed2xsvzRuEHZYg" association="_wLHGl4A_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGmYA_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGmoA_Ed2xsvzRuEHZYg"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHGm4A_Ed2xsvzRuEHZYg" name="PipeInputChannelObject">
+          <ownedComment xmi:id="_wLHGnIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGm4A_Ed2xsvzRuEHZYg">
+            <body>&#xD;
+</body>
+          </ownedComment>
+          <generalization xmi:id="_wLHGnYA_Ed2xsvzRuEHZYg" general="_wLHF3IA_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGnoA_Ed2xsvzRuEHZYg" name="values" visibility="private" type="_wK-Bm4A_Ed2xsvzRuEHZYg" association="_wLHGl4A_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGn4A_Ed2xsvzRuEHZYg" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGoIA_Ed2xsvzRuEHZYg"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_wLHGoYA_Ed2xsvzRuEHZYg" name="opened" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_wLHGooA_Ed2xsvzRuEHZYg" name="name" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedOperation xmi:id="_wLHGo4A_Ed2xsvzRuEHZYg" name="hasMore">
+            <ownedComment xmi:id="_wLHGpIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGo4A_Ed2xsvzRuEHZYg">
+              <body>return this.isOpen() &amp;&amp; !(this.values.size() == 0);&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGpYA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGpoA_Ed2xsvzRuEHZYg" name="read">
+            <ownedComment xmi:id="_wLHGp4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGpoA_Ed2xsvzRuEHZYg">
+              <body>if (this.hasMore()) {&#xD;
+    fUML.Semantics.Classes.Kernel.Value value = this.values.getValue(0);&#xD;
+    this.values.remove(0);&#xD;
+    return value;&#xD;
+}&#xD;
+else {&#xD;
+    return null;&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGqIA_Ed2xsvzRuEHZYg" name="ReturnResult" type="_wK-Bm4A_Ed2xsvzRuEHZYg" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGqYA_Ed2xsvzRuEHZYg" value="1"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGqoA_Ed2xsvzRuEHZYg"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGq4A_Ed2xsvzRuEHZYg" name="receive">
+            <ownedComment xmi:id="_wLHGrIA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGq4A_Ed2xsvzRuEHZYg">
+              <body>this.values.addValue(value);&#xD;
+&#xD;
+&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGrYA_Ed2xsvzRuEHZYg" name="value" type="_wK-Bm4A_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGroA_Ed2xsvzRuEHZYg" name="open">
+            <ownedComment xmi:id="_wLHGr4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGroA_Ed2xsvzRuEHZYg">
+              <body>opened = true;</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGsIA_Ed2xsvzRuEHZYg" name="close">
+            <ownedComment xmi:id="_wLHGsYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGsIA_Ed2xsvzRuEHZYg">
+              <body>opened = false;&#xD;
+</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGsoA_Ed2xsvzRuEHZYg" name="isOpen">
+            <ownedComment xmi:id="_wLHGs4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGsoA_Ed2xsvzRuEHZYg">
+              <body>return opened;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGtIA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGtYA_Ed2xsvzRuEHZYg" name="getName">
+            <ownedComment xmi:id="_wLHGtoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGtYA_Ed2xsvzRuEHZYg">
+              <body>return name;</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGt4A_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGuIA_Ed2xsvzRuEHZYg" name="PipeInputChannelObject">
+            <ownedComment xmi:id="_wLHGuYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGuIA_Ed2xsvzRuEHZYg">
+              <body>this.name = name;&#xD;
+this.opened = true;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGuoA_Ed2xsvzRuEHZYg" name="name">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_wLHGu4A_Ed2xsvzRuEHZYg" name="PipeOutputChannelObject">
+          <generalization xmi:id="_wLHGvIA_Ed2xsvzRuEHZYg" general="_wLHFn4A_Ed2xsvzRuEHZYg"/>
+          <ownedAttribute xmi:id="_wLHGvYA_Ed2xsvzRuEHZYg" name="otherEnd" visibility="private" type="_wLHGm4A_Ed2xsvzRuEHZYg" association="_wLHG1oA_Ed2xsvzRuEHZYg">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wLHGvoA_Ed2xsvzRuEHZYg" value="1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wLHGv4A_Ed2xsvzRuEHZYg"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_wLHGwIA_Ed2xsvzRuEHZYg" name="opened" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_wLHGwYA_Ed2xsvzRuEHZYg" name="name" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedOperation xmi:id="_wLHGwoA_Ed2xsvzRuEHZYg" name="write">
+            <ownedComment xmi:id="_wLHGw4A_Ed2xsvzRuEHZYg" annotatedElement="_wLHGwoA_Ed2xsvzRuEHZYg">
+              <body>if (this.isOpen()) {&#xD;
+    this.otherEnd.receive(value);&#xD;
+}&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGxIA_Ed2xsvzRuEHZYg" name="value" type="_wK-Bm4A_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGxYA_Ed2xsvzRuEHZYg" name="isFull">
+            <ownedComment xmi:id="_wLHGxoA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGxYA_Ed2xsvzRuEHZYg">
+              <body>return false;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGx4A_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGyIA_Ed2xsvzRuEHZYg" name="PipeOutputChannelObject">
+            <ownedComment xmi:id="_wLHGyYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGyIA_Ed2xsvzRuEHZYg">
+              <body>this.name = name;&#xD;
+this.otherEnd = otherEnd;&#xD;
+this.opened = true;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGyoA_Ed2xsvzRuEHZYg" name="name">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_wLHGy4A_Ed2xsvzRuEHZYg" name="otherEnd" type="_wLHGm4A_Ed2xsvzRuEHZYg"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGzIA_Ed2xsvzRuEHZYg" name="getName">
+            <ownedComment xmi:id="_wLHGzYA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGzIA_Ed2xsvzRuEHZYg">
+              <body>return name;</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHGzoA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHGz4A_Ed2xsvzRuEHZYg" name="open">
+            <ownedComment xmi:id="_wLHG0IA_Ed2xsvzRuEHZYg" annotatedElement="_wLHGz4A_Ed2xsvzRuEHZYg">
+              <body>opened = true;&#xD;
+</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHG0YA_Ed2xsvzRuEHZYg" name="close">
+            <ownedComment xmi:id="_wLHG0oA_Ed2xsvzRuEHZYg" annotatedElement="_wLHG0YA_Ed2xsvzRuEHZYg">
+              <body>opened = false;</body>
+            </ownedComment>
+          </ownedOperation>
+          <ownedOperation xmi:id="_wLHG04A_Ed2xsvzRuEHZYg" name="isOpen">
+            <ownedComment xmi:id="_wLHG1IA_Ed2xsvzRuEHZYg" annotatedElement="_wLHG04A_Ed2xsvzRuEHZYg">
+              <body>return opened;&#xD;
+</body>
+            </ownedComment>
+            <ownedParameter xmi:id="_wLHG1YA_Ed2xsvzRuEHZYg" name="ReturnResult" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_wLHG1oA_Ed2xsvzRuEHZYg" memberEnd="_wLHGvYA_Ed2xsvzRuEHZYg _wLHG14A_Ed2xsvzRuEHZYg">
+          <ownedEnd xmi:id="_wLHG14A_Ed2xsvzRuEHZYg" visibility="private" type="_wLHGu4A_Ed2xsvzRuEHZYg" association="_wLHG1oA_Ed2xsvzRuEHZYg"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_wLHG2IA_Ed2xsvzRuEHZYg" name="Debug">
+      <ownedOperation xmi:id="_wLHG2YA_Ed2xsvzRuEHZYg" name="println" isStatic="true">
+        <ownedComment xmi:id="_wLHG2oA_Ed2xsvzRuEHZYg">
+          <body>MexSystem.println(message);&#xD;
+</body>
+        </ownedComment>
+        <ownedParameter xmi:id="_wLHG24A_Ed2xsvzRuEHZYg" name="message">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <profileApplication xmi:id="_wLHG3IA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG3YA_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wLHG3oA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG34A_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Default.profile.uml#_wKz8KYA_Ed2xsvzRuEHZYg"/>
+      </eAnnotations>
+      <appliedProfile href="Default.profile.uml#_wKz8J4A_Ed2xsvzRuEHZYg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wLHG4IA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG4YA_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Deployment.profile.uml#_wLHNQoA_Ed2xsvzRuEHZYg"/>
+      </eAnnotations>
+      <appliedProfile href="Deployment.profile.uml#_wLHNQIA_Ed2xsvzRuEHZYg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wLHG4oA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG44A_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Uml2Debug.profile.uml#_wLQob4A_Ed2xsvzRuEHZYg"/>
+      </eAnnotations>
+      <appliedProfile href="Uml2Debug.profile.uml#_wLQobYA_Ed2xsvzRuEHZYg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wLHG5IA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG5YA_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/UML2.profile.uml#_dhEUENSUEdqN9tnr0j3PAQ"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UML_PROFILES/UML2.profile.uml#_0"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wLHG5oA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG54A_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="platform:/resource/Models/Profiles/DocumentationProfile.epx#_r7CxYW4EEd2_24jOC3qRKg?DocumentationProfile/DocumentationProfile?"/>
+      </eAnnotations>
+      <appliedProfile href="platform:/resource/Models/Profiles/DocumentationProfile.epx#_BzsD4PLbEdyLRuEiHf5mXw?DocumentationProfile?"/>
+    </profileApplication>
+    <profileApplication xmi:id="_wLHG6IA_Ed2xsvzRuEHZYg">
+      <eAnnotations xmi:id="_wLHG6YA_Ed2xsvzRuEHZYg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="platform:/resource/Models/Profiles/fUML2UML.epx#_XoYc8GmEEd2B0NE0bmFUig?fUML2UML/fUML2UML?"/>
+      </eAnnotations>
+      <appliedProfile href="platform:/resource/Models/Profiles/fUML2UML.epx#_8ePjoGVhEd2SC6xcHzjLJw?fUML2UML?"/>
+    </profileApplication>
+  </uml:Model>
+</xmi:XMI>

@@ -113,7 +113,7 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		timeUnitCombo.setEnabled(b);
 	}
 	protected void initProfileElements(Element e){
-		Profile p = ApplyProfileAction.applyProfile(e.getModel(), StereotypeNames.NAKEDUML_PROFILE);
+		Profile p = ApplyProfileAction.applyProfile(e.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
 		this.timeUnit = (Enumeration) p.getOwnedType("TimeUnit");
 		this.stereotype = (Stereotype) p.getOwnedType(stereotypeName);
 		List<String> result = new ArrayList<String>();

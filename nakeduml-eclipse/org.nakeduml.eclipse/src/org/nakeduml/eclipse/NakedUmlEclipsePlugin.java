@@ -16,9 +16,6 @@ import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.nakeduml.hibernate.domain.PostgresDialect;
 
 public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeListener{
 	public static final String TRANSFORMATION_STEP_EXTENSION_POINT_ID = "transformationStep";
@@ -34,10 +31,6 @@ public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeList
 			resourceBundle = ResourceBundle.getBundle("org.nakeduml.eclipse.plugin.messages");//$NON-NLS-1$
 		}catch(MissingResourceException x){
 			resourceBundle = null;
-		}
-		try{
-			PostgresDialect d = new PostgresDialect();
-		}catch(Exception e){
 		}
 		addTransformationSteps(Platform.getExtensionRegistry().getConfigurationElementsFor("org.nakeduml.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID));
 		addSourceFolderStrategies(Platform.getExtensionRegistry().getConfigurationElementsFor("org.nakeduml.eclipse",

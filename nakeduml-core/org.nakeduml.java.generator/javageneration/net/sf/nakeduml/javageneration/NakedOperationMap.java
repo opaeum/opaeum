@@ -1,11 +1,14 @@
 package net.sf.nakeduml.javageneration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
 import nl.klasse.octopus.model.IClassifier;
@@ -18,8 +21,13 @@ public class NakedOperationMap extends OperationMap{
 	private IParameterOwner parameterOwner;
 	@Override
 	public List<OJPathName> javaParamTypePaths(){
-		// TODO Auto-generated method stub
-		return super.javaParamTypePaths();
+		List<OJPathName> javaParamTypePaths = new ArrayList<OJPathName>();
+		
+		if(parameterOwner instanceof INakedOperation &&((INakedOperation) parameterOwner).isLongRunning()){
+			javaParamTypePaths.add(Jbpm5Util.getProcessContext());
+		}
+		javaParamTypePaths.addAll(super.javaParamTypePaths());
+		return javaParamTypePaths;
 	}
 	public NakedOperationMap(final IParameterOwner operation){
 		super(new OperationImpl(operation.getName()){
@@ -38,6 +46,9 @@ public class NakedOperationMap extends OperationMap{
 		}else{
 			this.operationTypeMap = new NakedClassifierMap(super.operation.getReturnType());
 		}
+	}
+	public String eventOperName(){
+		return "on"+((INakedOperation)parameterOwner).getMappingInfo().getJavaName().getCapped();
 	}
 	@Override
 	public String javaOperName(){

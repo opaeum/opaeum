@@ -2,8 +2,10 @@ package net.sf.nakeduml.javageneration.persistence;
 
 import java.util.Collection;
 
-import org.nakeduml.environment.AbstractEnumResolver;
-import org.nakeduml.environment.EnumResolver;
+import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
+
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSwitchCase;
 import org.nakeduml.java.metamodel.OJSwitchStatement;
@@ -11,11 +13,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
+import org.nakeduml.runtime.domain.EnumResolver;
 import org.nakeduml.runtime.domain.IEnum;
-
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 
 public abstract class AbstractEnumResolverImplementor extends AbstractJavaProducingVisitor{
 	public AbstractEnumResolverImplementor(){
@@ -32,7 +31,7 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		resolver.addToImplementedInterfaces(new OJPathName(EnumResolver.class.getName()));
 		resolver.addToOperations(buildToNakedUmlId(ojEnum,els));
 		resolver.addToOperations(buildFromNakedUmlId(ojEnum,els));
-		resolver.setSuperclass(new OJPathName(AbstractEnumResolver.class.getName()));
+		resolver.setSuperclass(new OJPathName("org.nakeduml.hibernate.domain.AbstractEnumResolver"));
 	}
 
 	private OJAnnotatedOperation buildToNakedUmlId(OJEnum oje, Collection<? extends INakedElement> els){

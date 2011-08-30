@@ -26,6 +26,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.runtime.jbpm.AbstractJbpmKnowledgeBase;
 @StepDependency(phase = JavaTransformationPhase.class, requires = {ProcessIdentifier.class}, after = {})
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static class ProcessCollector extends VisitorAdapter<INakedElement,INakedModel>{
@@ -86,7 +87,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		utilPack.addToClasses(jbpmKnowledgeBase);
 		super.createTextPath(jbpmKnowledgeBase, outputRootId);
 		addCommonImports(jbpmKnowledgeBase);
-		jbpmKnowledgeBase.setSuperclass(new OJPathName("org.nakeduml.environment.AbstractJbpmKnowledgeBase"));
+		jbpmKnowledgeBase.setSuperclass(new OJPathName(AbstractJbpmKnowledgeBase.class.getName()));
 		OJAnnotatedOperation prepareKnowledgeBase = new OJAnnotatedOperation("prepareKnowledgeBuilder");
 		jbpmKnowledgeBase.addToOperations(prepareKnowledgeBase);
 		prepareKnowledgeBase.addParam("kbuilder", new OJPathName("KnowledgeBuilder"));

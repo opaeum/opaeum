@@ -7,9 +7,11 @@ import net.sf.nakeduml.javageneration.hibernate.HibernateAnnotator;
 import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
 import net.sf.nakeduml.javageneration.hibernate.HibernatePackageAnnotator;
 import net.sf.nakeduml.pomgeneration.BasicIntegratedAdaptorPomStep;
+import net.sf.nakeduml.pomgeneration.HibernateDomainPomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		HibernateConfigGenerator.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class,BasicIntegratedAdaptorPomStep.class
+		HibernateDomainPomStep.class,HibernateConfigGenerator.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class,
+		BasicIntegratedAdaptorPomStep.class
 })
 public class PersistenceUsingHibernate extends JavaFeature{
 }

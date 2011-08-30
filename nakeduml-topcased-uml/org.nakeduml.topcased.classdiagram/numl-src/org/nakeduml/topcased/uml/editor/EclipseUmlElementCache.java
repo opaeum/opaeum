@@ -157,6 +157,7 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 	protected void synchronizationNow(Set<Package> packages){
 		ProgressMonitorDialog dlg = new ProgressMonitorDialog(Display.getDefault().getActiveShell());
 		IProgressMonitor pm = dlg.getProgressMonitor();
+		dlg.open();
 		try{
 			pm.beginTask("Loading new Packages", 50);
 			getTransformationProcess().processElements(packages, EmfExtractionPhase.class, new ProgressMonitorTransformationLog(pm, 50));

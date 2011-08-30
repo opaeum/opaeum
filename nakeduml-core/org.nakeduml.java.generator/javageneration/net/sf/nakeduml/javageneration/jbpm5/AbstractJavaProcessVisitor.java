@@ -29,6 +29,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.runtime.domain.IActiveEntity;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
+import org.nakeduml.runtime.environment.Environment;
 
 public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVisitor{
 	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(IProcessObject.class.getName());
@@ -75,7 +76,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		javaMethod.getBody().addToLocals(new OJAnnotatedField("processInstance", Jbpm5Util.getWorkflowProcesInstance()));
 		javaMethod.getBody().addToStatements("params.put(\"processObject\", this)");
 		javaMethod.getBody().addToStatements(
-				"processInstance = (WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\""
+				"processInstance = (WorkflowProcessInstance)"+Environment.class.getName()+ ".getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\""
 						+ Jbpm5Util.generateProcessName(parameterOwner) + "\",params)");
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 		javaMethod.getOwner().addToImports(STATEFUL_KNOWLEDGE_SESSION);

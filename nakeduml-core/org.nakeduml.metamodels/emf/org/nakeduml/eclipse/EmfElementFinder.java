@@ -123,8 +123,8 @@ public class EmfElementFinder{
 		return result;
 	}
 	public static EObject getContainer(EObject s){
-		if(s.eContainer() instanceof Event){
-			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s.eContainer();
+		if(s instanceof Event){
+			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
 			// Contained by an annotation inside another element?
 			if(event.eContainer() instanceof EAnnotation){
 				// Skip event AND annotation straight to the containing element
@@ -141,9 +141,17 @@ public class EmfElementFinder{
 					}
 				}
 			}
-			throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
+			return null;
+//			throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
 		}else if(s.eContainer() instanceof EAnnotation){
 			return ((EAnnotation)s.eContainer()).getEModelElement();
+		}else if(s instanceof Property && s.eContainer() instanceof Association){
+			Property p=(Property) s;
+			if(p.isNavigable()){
+				return p.getOtherEnd().getType();
+			}else{
+				return s.eContainer();
+			}
 		}
 		return s.eContainer();
 	}

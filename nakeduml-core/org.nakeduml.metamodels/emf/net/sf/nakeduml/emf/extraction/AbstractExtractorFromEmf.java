@@ -77,15 +77,23 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	protected Object resolvePeer(Element o,Class<?> peerClass){
 		Element e = o;
 		INakedElement ne = getNakedPeer(e);
+		Element owner = (Element) EmfElementFinder.getContainer(e);
 		if(ne == null){
 			ne = createElementFor(e, peerClass);
 			if(ne != null){
-				initialize(ne, e, (Element) EmfElementFinder.getContainer(e));
+				initialize(ne, e, owner);
 			}
 		}else if(o instanceof NamedElement){
 			if(EmfElementFinder.getContainer(e) == null && ne.getOwnerElement() != null){
 				ne.getOwnerElement().removeOwnedElement(ne);
 				ne.markForDeletion();
+			}else{
+				INakedElement nakedOwner = getNakedPeer(owner);
+				if(nakedOwner!=null &&  ne.getOwnerElement() != null && !(nakedOwner.equals(ne.getOwnerElement()))){
+					ne.getOwnerElement().removeOwnedElement(ne);
+					nakedOwner.addOwnedElement(ne);
+					ne.setOwnerElement(nakedOwner);
+				}
 			}
 			ne.setName(((NamedElement) o).getName());
 		}
@@ -209,9 +217,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			// What else could it be?
 			OpaqueExpression oe = (OpaqueExpression) emfTimeEvent.getWhen().getExpr();
 			INakedValueSpecification nvs = new NakedValueSpecificationImpl(buildParsedOclString(oe, oe.getLanguages(), oe.getBodies(), OclUsageType.DEF));
-			nvs.initialize(nakedTimeEvent.getId() + getId(oe), oe.getName(), false);
-			nvs.setMappingInfo(nakedTimeEvent.getMappingInfo().getCopy());
-			nvs.getMappingInfo().setIdInModel(nvs.getId());
+			initialize(nvs, oe, emfTimeEvent);
+			nvs.initialize(getId(oe), oe.getName(), false);
 			nakedTimeEvent.setWhen(nvs);
 		}
 		nakedTimeEvent.setRelative(emfTimeEvent.isRelative());

@@ -151,7 +151,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 		Action action = (Action) getEObject();
-		Profile p = ApplyProfileAction.applyProfile(action.getModel(), StereotypeNames.NAKEDUML_BPM_PROFILE);
+		Profile p = ApplyProfileAction.applyProfile(action.getModel(), StereotypeNames.OPIUM_BPM_PROFILE);
 		Enumeration kind = (Enumeration) p.getOwnedType("DeadlineKind");
 		this.deadlineStereotype = p.getOwnedStereotype(StereotypeNames.DEADLINE);
 		this.taskStereotype = p.getOwnedStereotype(action instanceof OpaqueAction ? StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK

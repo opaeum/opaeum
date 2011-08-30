@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -54,6 +53,8 @@ import org.nakeduml.name.NameConverter;
 public class OJUtil{
 	public static void clearCache(){
 		structuralFeatureMaps.clear();
+		locallyUniqueFeatureMaps.clear();
+		actionFeatureMaps.clear();
 	}
 	private static final Set<String> BUILT_IN_ATTRIBUTES = new HashSet<String>();
 	static{
@@ -128,15 +129,6 @@ public class OJUtil{
 	 */
 	public static OJPathName classifierPathname(INakedClassifier classifier){
 		return new OJPathName(AbstractJavaNameGenerator.classifierPathname(classifier));
-	}
-	public static OJPathName classifierAuditPathname(INakedClassifier classifier){
-		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
-			return new OJPathName(classifier.getMappedImplementationType() + AuditImplementationStep.AUDIT);
-		}else{
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
 	}
 	public static final OJOperation addMethod(OJClass theClass,String name,String type,String expression){
 		OJOperation get = OJUtil.findOperation(theClass, name);
