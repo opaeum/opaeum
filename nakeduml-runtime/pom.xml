@@ -66,8 +66,9 @@
     <module>nakeduml-test-adaptor</module>
     <module>nakeduml-runtime-bpm-hibernate</module>
     <module>nakeduml-runtime-hibernate</module>
+    <module>nakeduml-runtime-jpa</module>
     <module>nakeduml-runtime-cdi-hibernate</module>
-    <module>nakeduml-runtime-seam2-hibernate</module>
+    <module>nakeduml-runtime-seam2-jpa</module>
   </modules>
   <repositories>
     <repository>
