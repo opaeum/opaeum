@@ -31,16 +31,16 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	public abstract void incrementRetryCount();
 	protected abstract Value getTargetValue();
 	protected abstract Collection<PropertyValue> getPropertyValues();
-	public abstract String getTriggerUuid();
+	public abstract String getHandlerUuid();
 	public abstract boolean targetIsEntity();
 	public abstract void setId(Long id);
 	protected abstract void setTargetValue(Value valueOf);
 	protected abstract void setPropertyValues(Collection<PropertyValue> collection);
 	public String getUuid(){
-		return getTriggerUuid() + "$" + getEventTargetId() + "$" + getEventTargetClassId();
+		return getHandlerUuid() + "$" + getEventTargetId() + "$" + getEventTargetClassId();
 	}
 	public abstract Long getEventTargetId();
-	public boolean occur(){
+	public boolean maybeTrigger(){
 		return handler.handleOn(eventTarget);
 	}
 	public void markDead(){
@@ -72,7 +72,10 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	}
 	public void prepareForDelivery(AbstractPersistence session){
 		JavaMetaInfoMap map = Environment.getMetaInfoMap();
-		this.handler = map.getEventHandler(getTriggerUuid());
+		this.handler = map.getEventHandler(getHandlerUuid());
+		if(handler==null){
+			handler=(IEventHandler)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(getHandlerUuid()));
+		}
 		handler.unmarshall(this.getPropertyValues(), session);
 		eventTarget = Value.valueOf(getTargetValue(), session);
 	}

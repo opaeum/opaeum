@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.nakeduml.cdi.CdiHibernateKnowledgeSession;
-import org.nakeduml.environment.domain.HibernateEnvironment;
+import org.nakeduml.hibernate.domain.HibernateEnvironment;
 
 public class CdiEnvironment extends HibernateEnvironment{
 	@Override

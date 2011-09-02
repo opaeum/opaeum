@@ -2,10 +2,10 @@ package org.nakeduml.eclipse;
 
 import java.util.Stack;
 
+import net.sf.nakeduml.feature.DefaultTransformationLog;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
-
-import net.sf.nakeduml.feature.DefaultTransformationLog;
 
 public class ProgressMonitorTransformationLog extends DefaultTransformationLog{
 	private final Stack<IProgressMonitor> monitors = new Stack<IProgressMonitor>();

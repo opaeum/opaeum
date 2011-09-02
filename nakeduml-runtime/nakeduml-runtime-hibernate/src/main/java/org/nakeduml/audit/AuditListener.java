@@ -22,13 +22,10 @@ import org.hibernate.persister.entity.EntityPersister;
 import org.nakeduml.hibernate.domain.EventDispatcher;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AuditListener extends EventDispatcher implements PostInsertEventListener, PostLoadEventListener, PostUpdateEventListener,
 		FlushEventListener, Initializable {
 	private static final long serialVersionUID = -233067098331332700L;
-	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
 	private static final Map<EventSource, AuditWorkUnit> entries = Collections.synchronizedMap(new HashMap<EventSource, AuditWorkUnit>());
 
 	@Override
@@ -81,26 +78,6 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 		entries.remove(source);
 	}
 
-	protected void performExecutions(EventSource session) throws HibernateException {
-
-		log.trace("executing flush");
-		session.getPersistenceContext().setFlushing(true);
-		try {
-			session.getJDBCContext().getConnectionManager().flushBeginning();
-			// we need to lock the collection caches before
-			// executing entity inserts/updates in order to
-			// account for bidi associations
-			session.getActionQueue().prepareActions();
-			session.getActionQueue().executeActions();
-		} catch (HibernateException he) {
-			// log.error("Could not synchronize database state with session",
-			// he);
-			throw he;
-		} finally {
-			session.getPersistenceContext().setFlushing(false);
-			session.getJDBCContext().getConnectionManager().flushEnding();
-		}
-	}
 
 	@Override
 	public void initialize(Configuration cfg) {
@@ -111,6 +88,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 
 	@Override
 	public void onPostLoad(PostLoadEvent event) {
+		super.onPostLoad(event);
 		//NB!!! Don't touch this code - copied from hibernate
 		if ( event.getPersister().implementsLifecycle( event.getSession().getEntityMode() ) ) {
 			//log.debug( "calling onLoad()" );

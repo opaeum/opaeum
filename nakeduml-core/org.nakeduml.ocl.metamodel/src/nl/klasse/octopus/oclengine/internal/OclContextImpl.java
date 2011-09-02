@@ -9,7 +9,6 @@ import nl.klasse.octopus.expressions.IOclExpression;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
-import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.OclUsageType;

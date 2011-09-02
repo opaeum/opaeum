@@ -34,7 +34,6 @@ import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.INameSpace;
-import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclError;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.oclengine.internal.OclError;

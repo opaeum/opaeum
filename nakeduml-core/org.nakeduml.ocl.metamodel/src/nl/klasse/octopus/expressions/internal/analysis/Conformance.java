@@ -13,7 +13,6 @@ import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
-import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 import nl.klasse.tools.common.Check;
 
 

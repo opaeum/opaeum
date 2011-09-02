@@ -2,7 +2,6 @@ package net.sf.nakeduml.feature.visit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Set;
 
 //TODO figure out why we still get those funny exceptions after code modifications when debugging a VisitAdapter.
 public class VisitSpec{

@@ -18,12 +18,20 @@ import org.nakeduml.runtime.event.IEventHandler;
 
 //TODO extractor adaptor logic into a differnt class
 public abstract class JavaMetaInfoMap{
-	Collection<Class<?>> allClasses = new HashSet<Class<?>>();
-	Map<Integer,Class<?>> nakedUmlIdClassMap = new HashMap<Integer,Class<?>>();
-	Map<String,Class<?>> uuidClassMap = new HashMap<String,Class<?>>();
-	Map<Class<?>,Integer> classNakedUmlIdMap = new HashMap<Class<?>,Integer>();
-	Map<Class<?>,Map<Class<?>,Object>> secondaryClassMap = new HashMap<Class<?>,Map<Class<?>,Object>>();
-	Map<String,Class<? extends IEventHandler>> eventHandlersByTriggerUuid = new HashMap<String,Class<? extends IEventHandler>>();
+	private Collection<Class<?>> allClasses = new HashSet<Class<?>>();
+	private Map<Integer,Class<?>> nakedUmlIdClassMap = new HashMap<Integer,Class<?>>();
+	private Map<String,Class<?>> uuidClassMap = new HashMap<String,Class<?>>();
+	private Map<Class<?>,Integer> classNakedUmlIdMap = new HashMap<Class<?>,Integer>();
+	private Map<Class<?>,Map<Class<?>,Object>> secondaryClassMap = new HashMap<Class<?>,Map<Class<?>,Object>>();
+	private Map<String,Class<? extends IEventHandler>> eventHandlersByUuid = new HashMap<String,Class<? extends IEventHandler>>();
+	public void mergeWith(JavaMetaInfoMap other){
+		allClasses.addAll(other.allClasses);
+		nakedUmlIdClassMap.putAll(other.nakedUmlIdClassMap);
+		uuidClassMap.putAll(other.uuidClassMap);
+		classNakedUmlIdMap.putAll(other.classNakedUmlIdMap);
+		secondaryClassMap.putAll(other.secondaryClassMap);
+		eventHandlersByUuid.putAll(other.eventHandlersByUuid);
+	}
 	public Collection<Class<?>> getAllClasses(){
 		return allClasses;
 	}
@@ -56,9 +64,9 @@ public abstract class JavaMetaInfoMap{
 		for(Method method:declaredMethods){
 			if(method.isAnnotationPresent(NumlMetaInfo.class)){
 				if(uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())){
-					Class<? extends IEventHandler> mi = IntrospectionUtil.classForName(c.getName().toLowerCase() + "." + c.getSimpleName()
-							+ NameConverter.capitalize(method.getName()) + nakedUmlId + "Invoker");
-					this.eventHandlersByTriggerUuid.put(uuid, mi);
+					Class<? extends IEventHandler> mi = IntrospectionUtil.classForName(c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName())
+							+ "Handler" + nakedUmlId);
+					this.eventHandlersByUuid.put(uuid, mi);
 					allClasses.add(mi);
 					try{
 						allClasses.add(IntrospectionUtil.classForName(c.getName().toLowerCase() + "." + c.getSimpleName() + NameConverter.capitalize(method.getName())
@@ -70,9 +78,12 @@ public abstract class JavaMetaInfoMap{
 			}
 		}
 	}
+	public void putEventHandler(Class<? extends IEventHandler> handler,String uuid){
+		eventHandlersByUuid.put(uuid, handler);
+	}
 	protected void putClass(Class<? extends Object> c,String uid,int nakedUmlId){
 		if(ISignal.class.isAssignableFrom(c)){
-			addSecondaryClass(IEventHandler.class, c, "Marshaller", true);
+			addSecondaryClass(IEventHandler.class, c, "Handler", false);
 			try{
 				// Try to ensure it is in allClasses
 				addSecondaryClass(Class.forName("org.nakeduml.environment.adaptor.AbstractSignalMdb"), c, "Listener", true);
@@ -127,7 +138,11 @@ public abstract class JavaMetaInfoMap{
 		}
 	}
 	public IEventHandler getEventHandler(String triggerUuid){
-		// TODO Auto-generated method stub
-		return null;
+		Class<? extends IEventHandler> c = eventHandlersByUuid.get(triggerUuid);
+		if(c == null){
+			return null;
+		}else{
+			return IntrospectionUtil.newInstance(c);
+		}
 	}
 }

@@ -1,13 +1,11 @@
 package org.nakeduml.eclipse.starter;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.UmlElementCache.NamespaceRenameRequest;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
@@ -33,8 +31,6 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;

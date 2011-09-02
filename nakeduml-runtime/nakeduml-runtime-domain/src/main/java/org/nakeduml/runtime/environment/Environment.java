@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.ISignal;
 import org.nakeduml.runtime.event.EventService;
+import org.nakeduml.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.nakeduml.runtime.persistence.DatabaseManagementSystem;
 
 public abstract class Environment{
@@ -76,6 +77,9 @@ public abstract class Environment{
 			throw new RuntimeException(e);
 		}
 		return properties;
+	}
+	protected AbstractJbpmKnowledgeBase createJbpmKnowledgeBase(){
+		return (AbstractJbpmKnowledgeBase) instantiateImplementation(JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
 	public abstract <T>T getComponent(Class<T> clazz);
 	public abstract <T>T getComponent(Class<T> clazz,Annotation qualifiers);

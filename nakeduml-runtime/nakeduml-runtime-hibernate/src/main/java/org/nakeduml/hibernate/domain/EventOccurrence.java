@@ -64,7 +64,7 @@ public class EventOccurrence extends AbstractEventOccurrence{
 			this.eventTargetId = ((IPersistentObject) target).getId();
 		}
 		this.eventTargetClassId = Environment.getMetaInfoMap().getNakedUmlId(IntrospectionUtil.getOriginalClass(target.getClass()));
-		this.triggerUuid = handler.getEventUuid();
+		this.triggerUuid = handler.getHandlerUuid();
 		this.firstOccurrenceScheduledFor = handler.getFirstOccurrenceScheduledFor();
 	}
 	public Date getFirstOccurrenceScheduledFor(){
@@ -115,7 +115,7 @@ public class EventOccurrence extends AbstractEventOccurrence{
 		return read(propertyValues);
 	}
 	@Override
-	public String getTriggerUuid(){
+	public String getHandlerUuid(){
 		return triggerUuid;
 	}
 	@Override

@@ -5,7 +5,6 @@ package nl.klasse.octopus.model;
 import java.util.Collection;
 import java.util.List;
 
-import nl.klasse.octopus.expressions.internal.analysis.NamedElement;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
 

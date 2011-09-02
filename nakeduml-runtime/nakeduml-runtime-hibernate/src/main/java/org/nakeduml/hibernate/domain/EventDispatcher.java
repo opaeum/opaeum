@@ -24,9 +24,11 @@ import org.nakeduml.runtime.environment.Environment;
 import org.nakeduml.runtime.event.IEventHandler;
 
 public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,FlushEntityEventListener,PreInsertEventListener{
+	private static final long serialVersionUID = -8583155822068850343L;
 	static Map<EventSource,Set<IEventGenerator>> eventSourceMap = Collections.synchronizedMap(new WeakHashMap<EventSource,Set<IEventGenerator>>());
 	@Override
 	public void onPostLoad(PostLoadEvent event){
+		//TODO resolve "Any's"
 		if(event.getEntity() instanceof IEventGenerator){
 			addEventSource(event.getSession(), (IEventGenerator) event.getEntity());
 		}

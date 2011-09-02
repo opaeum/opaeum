@@ -1,24 +1,8 @@
 package net.sf.nakeduml.validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.activities.INakedAction;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
-import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
-import net.sf.nakeduml.metamodel.core.INakedAssociation;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
-import net.sf.nakeduml.validation.namegeneration.UmlNameRegenerator;
 
 @StepDependency(phase = ValidationPhase.class)
 public class PropertyValidation extends AbstractValidator{

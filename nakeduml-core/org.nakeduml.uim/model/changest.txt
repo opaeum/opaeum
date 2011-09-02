@@ -23,6 +23,8 @@ Transformation and selection behavior sections of object flows
 EmbeddedScreenflowtasks should force a single relationship to a single STateMAchine (include deletion? or not?). At least create it.
 Custom ProblemView
 Relink an emf UML model
+Reception.Signal
+Display Operation.name at the top 
 
 
 Refactoring

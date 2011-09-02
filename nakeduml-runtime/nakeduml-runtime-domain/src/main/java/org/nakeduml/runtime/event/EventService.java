@@ -31,7 +31,7 @@ public class EventService{
 			event.prepareForDelivery(umtPersistence);
 			actions.remove(event.getUuid());
 			try{
-				if(event.occur()){
+				if(event.maybeTrigger()){
 					umtPersistence.remove(event);
 				}else{
 					scheduleEvent(event);

@@ -3,16 +3,12 @@ package net.sf.nakeduml.feature.visit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.eclipse.uml2.uml.Element;
-import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 import javassist.ClassPath;
 import javassist.ClassPool;

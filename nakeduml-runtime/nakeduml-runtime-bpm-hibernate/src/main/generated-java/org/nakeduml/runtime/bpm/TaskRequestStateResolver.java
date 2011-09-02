@@ -120,4 +120,9 @@ public class TaskRequestStateResolver extends AbstractEnumResolver implements En
 		return result;
 	}
 
+	@Override
+	public Class returnedClass(){
+		return TaskRequestState.class;
+	}
+
 }

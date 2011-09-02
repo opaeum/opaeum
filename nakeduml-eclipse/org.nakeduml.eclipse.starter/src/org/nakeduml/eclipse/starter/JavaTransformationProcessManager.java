@@ -22,19 +22,15 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.gmf.runtime.common.ui.services.statusline.GetStatusLineContributionOperation;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.generation.features.BpmUsingJbpm5;
 import org.nakeduml.generation.features.ExtendedCompositionSemantics;
 import org.nakeduml.generation.features.OclExpressionExecution;
-import org.nakeduml.generation.features.PersistenceUsingHibernate;
 import org.nakeduml.java.metamodel.OJPackage;
-import org.nakeduml.topcased.uml.editor.NakedUmlContextListener;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
-import org.nakeduml.uml2uim.ModelCopyStep;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public static TransformationProcess getCurrentTransformationProcess(){
@@ -85,7 +81,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public static void reinitializeProcess(TransformationProcess process,NakedUmlConfig cfg, NakedUmlEclipseContext ne){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
 		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
-		cfg.setOutputRoot(new File(workspace.getLocation().toFile(), cfg.getWorkspaceIdentifier()));
+		cfg .setOutputRoot(new File(ne.getUmlDirectory().getProject().getLocation().toFile().getParentFile(), cfg.getWorkspaceIdentifier()));
 		mapAdditionalOutputRoots(cfg);
 		process.removeModel(OJPackage.class);
 		process.removeModel(TextWorkspace.class);
@@ -121,8 +117,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(classes));
 	}
 	public static Set<Class<? extends ITransformationStep>> getBasicSteps(){
-		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmUsingJbpm5.class,
-				PersistenceUsingHibernate.class);
+		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmUsingJbpm5.class);
 		return result;
 	}
 	@Override

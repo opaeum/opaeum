@@ -24,4 +24,9 @@ public class AbstractRequestStateResolver extends AbstractEnumResolver implement
 		return result;
 	}
 
+	@Override
+	public Class returnedClass(){
+		return AbstractRequestState.class;
+	}
+
 }

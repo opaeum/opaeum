@@ -1,4 +1,4 @@
-package net.sf.nakeduml.metamodel.bpm;
+package org.nakeduml.runtime.domain;
 
 public enum DeadlineKind{
 	START,COMPLETE

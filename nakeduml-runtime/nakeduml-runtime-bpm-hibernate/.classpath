@@ -182,10 +182,10 @@
       <attribute value="jar:file:/home/ampie/.m2/repository/org/mvel/mvel2/2.1.0.drools2/mvel2-2.1.0.drools2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-adaptor/1.0.0.6-SNAPSHOT/nakeduml-runtime-adaptor-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-adaptor/1.0.0.6-SNAPSHOT/nakeduml-runtime-adaptor-1.0.0.6-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.6-SNAPSHOT/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.6-SNAPSHOT/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-hibernate/1.0.0.6-SNAPSHOT/nakeduml-runtime-hibernate-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-hibernate/1.0.0.6-SNAPSHOT/nakeduml-runtime-hibernate-1.0.0.6-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-test-adaptor/1.0.0.6-SNAPSHOT/nakeduml-test-adaptor-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-test-adaptor/1.0.0.6-SNAPSHOT/nakeduml-test-adaptor-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="src" path="/nakeduml-runtime-cdi-hibernate"/>
+  <classpathentry kind="src" path="/nakeduml-runtime-domain"/>
+  <classpathentry kind="src" path="/nakeduml-runtime-hibernate"/>
+  <classpathentry kind="src" path="/nakeduml-test-adaptor"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.11/nekohtml-1.9.11.jar" sourcepath="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.11/nekohtml-1.9.11-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/ampie/.m2/repository/net/sourceforge/nekohtml/nekohtml/1.9.11/nekohtml-1.9.11-javadoc.jar!/" name="javadoc_location"/>
