@@ -5,16 +5,10 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.nakeduml.topcased.EditPartUtil;
 import org.nakeduml.topcased.classdiagram.figure.Gradient;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.ModelerGraphicalViewer;
-import org.topcased.modeler.editor.TopcasedAdapterFactoryEditingDomain;
-import org.topcased.modeler.extensions.DiagramsManager;
-import org.topcased.modeler.internal.ModelerPlugin;
-import org.topcased.modeler.internal.actions.CreateDiagramAction;
 import org.topcased.modeler.uml.classdiagram.edit.ClassEditPart;
 import org.topcased.modeler.uml.classdiagram.figures.ClassFigure;
 

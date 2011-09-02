@@ -1,6 +1,7 @@
 package org.nakeduml.topcased.uml.editor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.uml2.uml.AcceptCallAction;
@@ -68,7 +70,6 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -207,15 +208,24 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case Notification.SET:
 				switch(this.notification.getFeatureID(NamedElement.class)){
 				case UMLPackage.NAMED_ELEMENT__NAME:
-					Set<Entry<String,String>> entrySet = StereotypesHelper.getNumlAnnotation(ne).getDetails().entrySet();
-					for(Entry<String,String> entry:entrySet){
-						if(entry.getValue() == null || entry.getValue().trim().length() == 0){
-							// Keyword
-							String newValue = notification.getNewStringValue();
-							if(newValue.contains(ne.eClass().getName()) && Character.isDigit(newValue.charAt(newValue.length() - 1))){
-								ne.setName(ne.getName().replaceAll(ne.eClass().getName(), entry.getKey()));
+					if(ne instanceof Pin && ne.getName().contains(ne.eClass().getName())){
+						EReference feat = ne.eContainmentFeature();
+						if(feat.isMany()){
+							setUniqueName(feat.getName(), ne);
+						}else{
+							ne.setName(feat.getName());
+						}
+					}else{
+						Set<Entry<String,String>> entrySet = StereotypesHelper.getNumlAnnotation(ne).getDetails().entrySet();
+						for(Entry<String,String> entry:entrySet){
+							if(entry.getValue() == null || entry.getValue().trim().length() == 0 && !ne.eClass().getName().equals(entry.getKey())){
+								// Keyword
+								String newValue = notification.getNewStringValue();
+								if(newValue.contains(ne.eClass().getName()) && Character.isDigit(newValue.charAt(newValue.length() - 1))){
+									setUniqueName(entry.getKey(), ne);
+								}
+								break;
 							}
-							break;
 						}
 					}
 					break;
@@ -263,12 +273,14 @@ public class NakedUmlElementLinker extends EContentAdapter{
 					}
 					if(notification.getNewValue() instanceof ValuePin){
 						ValuePin vp = (ValuePin) notification.getNewValue();
-						if(StereotypesHelper.hasKeyword(vp, StereotypeNames.OCL_INPUT)){
-							vp.setValue(createOclExpression(vp.getName()));
-						}else if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
-							vp.setValue(createInstanceValue(vp.getName()));
-						}else{
-							vp.setValue(createOclExpression(vp.getName()));
+						if(vp.getValue() == null){
+							if(StereotypesHelper.hasKeyword(vp, StereotypeNames.OCL_INPUT)){
+								vp.setValue(createOclExpression(vp.getName()));
+							}else if(StereotypesHelper.hasKeyword(vp, StereotypeNames.NEW_OBJECT_INPUT)){
+								vp.setValue(createInstanceValue(vp.getName()));
+							}else{
+								vp.setValue(createOclExpression(vp.getName()));
+							}
 						}
 					}
 				}
@@ -596,24 +608,6 @@ public class NakedUmlElementLinker extends EContentAdapter{
 					}
 				}
 				break;
-			case UMLPackage.PARAMETER__NAME:
-				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
-					if(eObject instanceof Pin){
-						((Pin) eObject).setName(notification.getNewStringValue());
-					}else if(eObject instanceof Parameter){
-						((Parameter) eObject).setName(notification.getNewStringValue());
-					}
-				}
-				break;
-			case UMLPackage.PARAMETER__TYPE:
-				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
-					if(eObject instanceof Pin){
-						((Pin) eObject).setType((Type) notification.getNewValue());
-					}else if(eObject instanceof Parameter){
-						((Parameter) eObject).setType((Type) notification.getNewValue());
-					}
-				}
-				break;
 			case UMLPackage.PARAMETER__IS_EXCEPTION:
 				for(EObject eObject:StereotypesHelper.getNumlAnnotation(p).getReferences()){
 					if(eObject instanceof Parameter){
@@ -722,7 +716,8 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case UMLPackage.CALL_OPERATION_ACTION__OPERATION:
 				manageReferences(notification);
 				Operation oper = (Operation) notification.getNewValue();
-				synchronizeParameters(oper.getOwnedParameters(), a);
+				List<Parameter> emptyList = Collections.emptyList();
+				synchronizeParameters(oper == null ? emptyList : oper.getOwnedParameters(), a);
 				break;
 			}
 			return null;
@@ -738,8 +733,8 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			}
 			return null;
 		}
-		private void synchronizeArguments(List<Property> args,SendSignalAction a){
-			for(Property p:args){
+		private void synchronizeArguments(List<? extends TypedElement> args,SendSignalAction a){
+			for(TypedElement p:args){
 				setArgument(p, a, false);
 			}
 			while(a.getArguments().size() > args.size()){
@@ -758,15 +753,35 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			}
 			return null;
 		}
-		public EObject caseProperty(Property p){
+		public EObject caseTypedElement(TypedElement te){
 			switch(notification.getFeatureID(Property.class)){
 			case UMLPackage.NAMED_ELEMENT__NAME:
-				for(EObject e:StereotypesHelper.getNumlAnnotation(p).getReferences()){
-					if(e instanceof InputPin){
-						((InputPin) e).setName(p.getName());
+				for(EObject e:StereotypesHelper.getNumlAnnotation(te).getReferences()){
+					if(e instanceof Pin){
+						((Pin) e).setName(te.getName());
+					}else if(e instanceof Parameter){
+						((Parameter) e).setName(te.getName());
 					}
 				}
 				break;
+			case UMLPackage.TYPED_ELEMENT__TYPE:
+				for(EObject e:StereotypesHelper.getNumlAnnotation(te).getReferences()){
+					if(e instanceof Pin){
+						Pin pin = (Pin) e;
+						pin.setType(te.getType());
+						if(pin instanceof ValuePin && ((ValuePin) pin).getValue() != null){
+							((ValuePin) pin).getValue().setType(te.getType());
+						}
+					}else if(e instanceof Parameter){
+						((Parameter) e).setType(te.getType());
+					}
+				}
+				break;
+			}
+			return null;
+		}
+		public EObject caseProperty(Property p){
+			switch(notification.getFeatureID(Property.class)){
 			case UMLPackage.PROPERTY__IS_COMPOSITE:
 			case UMLPackage.PROPERTY__AGGREGATION:
 				if(p.isComposite()){
@@ -788,7 +803,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			}
 			return null;
 		}
-		private void synchronizeParameters(EList<Parameter> parms,CallAction a){
+		private void synchronizeParameters(List<Parameter> parms,CallAction a){
 			int argCount = 0;
 			int resultCount = 0;
 			for(Parameter parameter:parms){
@@ -832,13 +847,18 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			if(a.getArguments().size() <= idx || insertAtIndex){
 				ValuePin pin = UMLFactory.eINSTANCE.createValuePin();
 				pin.setName(p.getName());
+				pin.setType(p.getType());
 				pin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
-				pin.createValue(pin.getName(), p.getType(), UMLPackage.eINSTANCE.getOpaqueExpression());
+				OpaqueExpression oe = (OpaqueExpression) pin.createValue(pin.getName(), p.getType(), UMLPackage.eINSTANCE.getOpaqueExpression());
 				a.getArguments().add(Math.min(a.getArguments().size(), idx), pin);
 				references.add(pin);
 			}else{
 				InputPin pin = a.getArguments().get(idx);
 				pin.setName(p.getName());
+				if(pin instanceof ValuePin && ((ValuePin) pin).getValue() != null){
+					((ValuePin) pin).getValue().setType(p.getType());
+				}
+				pin.setType(p.getType());
 				pin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 				if(!references.contains(pin)){
 					references.add(pin);
@@ -929,11 +949,13 @@ public class NakedUmlElementLinker extends EContentAdapter{
 		if(results.size() <= idx || insertAtIndex){
 			OutputPin pin = UMLFactory.eINSTANCE.createOutputPin();
 			pin.setName(newValue.getName());
+			pin.setType(newValue.getType());
 			pin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 			results.add(Math.min(idx, results.size()), pin);
 			references.add(pin);
 		}else{
 			OutputPin pin = results.get(idx);
+			pin.setType(newValue.getType());
 			pin.setName(newValue.getName());
 			if(!references.contains(pin)){
 				references.add(pin);
@@ -944,6 +966,9 @@ public class NakedUmlElementLinker extends EContentAdapter{
 		if(StereotypesHelper.hasKeyword(ass, stereotypeName)){
 			Profile pr = ApplyProfileAction.applyProfile(parent.getModel(), profileName);
 			Stereotype st = pr.getOwnedStereotype(stereotypeName);
+			if(!(ass instanceof Pin) && ass instanceof NamedElement && parent instanceof Namespace){
+				setUniqueName(stereotypeName, (NamedElement) ass);
+			}
 			if(st != null && !ass.isStereotypeApplied(st)){
 				StereotypesHelper.applyStereotype(ass, st);
 			}
@@ -962,6 +987,32 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				}
 			}
 		}
+	}
+	protected static void setUniqueName(String stereotypeName,NamedElement ne){
+		int lastNumber = 0;
+		List<NamedElement> members = new ArrayList<NamedElement>();
+		if(ne.getNamespace() == null){
+			for(Element element:ne.getOwner().getOwnedElements()){
+				if(element instanceof NamedElement){
+					members.add((NamedElement) element);
+				}
+			}
+		}else{
+			members.addAll(ne.getNamespace().getMembers());
+		}
+		for(NamedElement namedElement:members){
+			if(namedElement != ne && namedElement.getName() != null && namedElement.getName().contains(stereotypeName)){
+				String number = namedElement.getName().substring(stereotypeName.length());
+				try{
+					int currentNumber = Integer.parseInt(number);
+					if(currentNumber > lastNumber){
+						lastNumber = currentNumber;
+					}
+				}catch(Exception e){
+				}
+			}
+		}
+		ne.setName(stereotypeName + (lastNumber + 1));
 	}
 	private static void maybeGeneralize(Classifier specific,Classifier general){
 		boolean found = false;

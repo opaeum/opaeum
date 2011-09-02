@@ -1,7 +1,6 @@
 package org.nakeduml.topcased.classdiagram;
 
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
-import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;

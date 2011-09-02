@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecoretools.tabbedproperties.sections.AbstractEnumerationPropertySection;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain.EditingDomainProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CCombo;
@@ -23,13 +22,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
-import org.topcased.modeler.uml.UMLPlugin;
 import org.topcased.modeler.uml.editor.UMLEditor;
 
 public class TimeUnitSection extends AbstractEnumerationPropertySection{

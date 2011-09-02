@@ -9,7 +9,6 @@ import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.Label;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.modeler.uml.classdiagram.ClassEditPolicyConstants;
 import org.topcased.modeler.uml.classdiagram.edit.ClassEditPart;
 
 public class BusinessRoleEditPart extends ClassEditPart{

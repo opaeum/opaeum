@@ -16,8 +16,8 @@ import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.internal.Workbench;
+import org.eclipse.uml2.uml.ActionInputPin;
 import org.eclipse.uml2.uml.Activity;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
@@ -65,21 +65,22 @@ public class NakedUmlEditorMenu extends UMLEditorMenu{
 				CreateChildAction actio = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
 						descriptor);
 				if(descriptor.getValue() instanceof ValuePin){
-					ValuePin responsibility = UMLFactory.eINSTANCE.createValuePin();
+					ValuePin oclPin = UMLFactory.eINSTANCE.createValuePin();
 					CreateChildAction actio2 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-							new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), responsibility));
+							new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), oclPin));
 					String name = actio.getText().split("\\|")[0];
-					actio2.setText(name+"|Ocl Input");
-					StereotypesHelper.getNumlAnnotation(responsibility).getDetails().put(StereotypeNames.OCL_INPUT, "");
+					actio2.setText(name + "|Ocl Input");
+					StereotypesHelper.getNumlAnnotation(oclPin).getDetails().put(StereotypeNames.OCL_INPUT, "");
 					actions.add(actio2);
+					ValuePin newObjectPin = UMLFactory.eINSTANCE.createValuePin();
 					CreateChildAction actio3 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-							new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), responsibility));
-					actio3.setText(name+"|New Object Input");
-					StereotypesHelper.getNumlAnnotation(responsibility).getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
+							new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), newObjectPin));
+					actio3.setText(name + "|New Object Input");
+					StereotypesHelper.getNumlAnnotation(newObjectPin).getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
 					actions.add(actio3);
-				}else if(descriptor.getValue() instanceof InputPin){
+				}else if(descriptor.getValue() instanceof InputPin && !(descriptor.getValue() instanceof ActionInputPin)){
 					String name = actio.getText().split("\\|")[0];
-					actio.setText(name+"|Object Flow Input");
+					actio.setText(name + "|Object Flow Input");
 					actions.add(actio);
 				}else{
 					actions.add(actio);

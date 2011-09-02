@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.MultiplicityElement;
-import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 
 public class MultiplicityElementFeaturesSection extends AbstractMultiFeaturePropertySection{

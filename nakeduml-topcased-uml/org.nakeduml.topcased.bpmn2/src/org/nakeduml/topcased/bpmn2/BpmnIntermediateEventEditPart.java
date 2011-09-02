@@ -15,9 +15,7 @@ import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.modeler.uml.activitydiagram.edit.AcceptEventActionEditPart;
 import org.topcased.modeler.uml.activitydiagram.edit.ActionEditPart;
-import org.topcased.modeler.uml.activitydiagram.figures.AcceptEventActionFigure;
 import org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferenceConstants;
 import org.topcased.modeler.utils.Utils;
 

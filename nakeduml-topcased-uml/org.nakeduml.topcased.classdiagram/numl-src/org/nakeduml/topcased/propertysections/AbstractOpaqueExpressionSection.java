@@ -12,7 +12,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.nakeduml.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;

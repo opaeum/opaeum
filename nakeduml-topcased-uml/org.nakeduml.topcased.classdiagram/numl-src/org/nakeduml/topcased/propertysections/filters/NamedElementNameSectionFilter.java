@@ -1,6 +1,5 @@
 package org.nakeduml.topcased.propertysections.filters;
 
-import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Pin;

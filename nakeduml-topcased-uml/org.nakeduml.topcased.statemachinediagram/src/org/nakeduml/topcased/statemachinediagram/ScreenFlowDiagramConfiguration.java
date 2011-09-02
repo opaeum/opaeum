@@ -3,7 +3,6 @@ package org.nakeduml.topcased.statemachinediagram;
 import org.eclipse.gef.EditPartFactory;
 import org.topcased.modeler.editor.IPaletteManager;
 import org.topcased.modeler.uml.statemachinediagram.STMConfiguration;
-import org.topcased.modeler.uml.statemachinediagram.STMEditPartFactory;
 
 public class ScreenFlowDiagramConfiguration extends STMConfiguration{
 	private IPaletteManager paletteManager;

@@ -1,8 +1,5 @@
 package org.nakeduml.topcased.statemachinediagram;
 
-import net.sf.nakeduml.emf.extraction.StereotypesHelper;
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -15,11 +12,8 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.util.UMLSwitch;
-import org.nakeduml.topcased.classdiagram.figure.Gradient;
-import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.uml2uim.AbstractUimGenerationAction;
 import org.nakeduml.uml2uim.SynchronizeAction;
@@ -33,7 +27,6 @@ import org.topcased.modeler.evaluator.EvaluatorException;
 import org.topcased.modeler.evaluator.extension.EvaluatorsManager;
 import org.topcased.modeler.uml.alldiagram.edit.CommentEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.ConstraintEditPart;
-import org.topcased.modeler.uml.classdiagram.figures.ClassFigure;
 import org.topcased.modeler.uml.statemachinediagram.STMEditPartFactory;
 import org.topcased.modeler.uml.statemachinediagram.STMPlugin;
 import org.topcased.modeler.uml.statemachinediagram.edit.CompositeStateEditPart;

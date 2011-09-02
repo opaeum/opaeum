@@ -21,7 +21,6 @@ import org.eclipse.gmf.runtime.lite.svg.SVGFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
-import org.nakeduml.topcased.classdiagram.figure.Gradient;
 import org.topcased.draw2d.figures.ComposedLabel;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.IContainerFigure;

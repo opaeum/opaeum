@@ -8,7 +8,6 @@ import org.eclipse.jface.text.contentassist.IContentAssistantExtension2;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.widgets.Composite;
-import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 
 public class NakedOclViewer extends SourceViewer{
 	private long contentAssistLastActive;

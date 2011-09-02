@@ -1,19 +1,12 @@
 package org.nakeduml.topcased.propertysections.ocl;
 
-import java.applet.AudioClip;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
-import org.eclipse.uml2.uml.UMLFactory;
-import org.nakeduml.topcased.commands.SetOclBodyCommand;
 
 public abstract class AutoCreateOpaqueExpressionComposite extends OpaqueExpressionComposite{
 	protected EObject valueSpecificationOwner;

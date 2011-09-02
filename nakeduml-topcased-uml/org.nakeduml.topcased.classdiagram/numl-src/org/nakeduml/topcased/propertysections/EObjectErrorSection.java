@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.core.internal.events.ResourceDelta;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -18,11 +17,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.gef.ui.parts.ContentOutlinePage;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.FormAttachment;
@@ -33,7 +29,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.contentoutline.ContentOutline;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
@@ -94,15 +90,17 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			try{
 				for(IMarker m:file.findMarkers(EValidator.MARKER, true, 0)){
 					String attribute = (String) m.getAttribute(EValidator.URI_ATTRIBUTE);
-					URI createURI = URI.createURI(attribute, false);
-					EObject problemElement = getEObject().eResource().getEObject(createURI.fragment());
-					EObject eo = problemElement;
-					while(eo != null){
-						if(eo == getEObject()){
-							markers.put(problemElement, m);
-							break;
-						}else{
-							eo = eo.eContainer();
+					if(attribute != null){
+						URI createURI = URI.createURI(attribute, false);
+						EObject problemElement = getEObject().eResource().getEObject(createURI.fragment());
+						EObject eo = problemElement;
+						while(eo != null){
+							if(eo == getEObject()){
+								markers.put(problemElement, m);
+								break;
+							}else{
+								eo = eo.eContainer();
+							}
 						}
 					}
 				}
@@ -119,24 +117,26 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			for(final Entry<EObject,IMarker> entry:markers.entrySet()){
 				try{
 					String msg = (String) entry.getValue().getAttribute(IMarker.MESSAGE);
-					CLabel lbl = getWidgetFactory().createCLabel(group, msg);
-					lbl.addMouseListener(new MouseListener(){
-						@Override
-						public void mouseUp(MouseEvent e){
-						}
-						@Override
-						public void mouseDown(MouseEvent e){
-						}
-						@Override
-						public void mouseDoubleClick(MouseEvent e){
-							if(getActivePage().getActiveEditor() instanceof NakedUmlEditor){
-								NakedUmlEditor nakedUmlEditor = (NakedUmlEditor) getActivePage().getActiveEditor();
-								nakedUmlEditor.gotoEObject(entry.getKey());
-								page.selectionChanged(nakedUmlEditor, new StructuredSelection(entry.getKey()));
+					if(msg != null){
+						Hyperlink lbl = getWidgetFactory().createHyperlink(group, msg, SWT.BORDER);
+						lbl.addMouseListener(new MouseListener(){
+							@Override
+							public void mouseUp(MouseEvent e){
 							}
-						}
-					});
-					lbl.setForeground(ColorConstants.red);
+							@Override
+							public void mouseDown(MouseEvent e){
+								if(getActivePage().getActiveEditor() instanceof NakedUmlEditor){
+									NakedUmlEditor nakedUmlEditor = (NakedUmlEditor) getActivePage().getActiveEditor();
+									nakedUmlEditor.gotoEObject(entry.getKey());
+									page.selectionChanged(nakedUmlEditor, new StructuredSelection(entry.getKey()));
+								}
+							}
+							@Override
+							public void mouseDoubleClick(MouseEvent e){
+							}
+						});
+						lbl.setForeground(ColorConstants.red);
+					}
 				}catch(CoreException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
