@@ -2,7 +2,6 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
@@ -11,21 +10,20 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.NakedOperationMap;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.TaskUtil;
 import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineImplementor;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.bpm.DeadlineKind;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
@@ -51,6 +49,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
+import org.nakeduml.runtime.domain.DeadlineKind;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		ActivityProcessImplementor.class,StateMachineImplementor.class
@@ -180,7 +179,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		}
 	}
 	private void implementDeadlineCallback(OJAnnotatedClass ojClass,INakedDeadline d,INakedDefinedResponsibility a,OJPathName processObject){
-		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventHandlerName(d),new OJPathName("boolean"));
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventConsumerName(d),new OJPathName("boolean"));
 		ojClass.addToOperations(oper);
 		oper.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 		oper.addParam("date", new OJPathName("java.util.Date"));
@@ -190,7 +189,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		addCallingProcessObjectField(oper, processObject, a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);
-		ifNotNullCallback.getThenPart().addToStatements("return callingProcessObject." + EventUtil.getEventHandlerName(d) + "(date,this)");
+		ifNotNullCallback.getThenPart().addToStatements("return callingProcessObject." + EventUtil.getEventConsumerName(d) + "(date,this)");
 		ifNotNullCallback.setElsePart(new OJBlock());
 		ifNotNullCallback.getElsePart().addToStatements("return false");
 	}

@@ -1,4 +1,4 @@
-package net.sf.nakeduml.javageneration;
+package net.sf.nakeduml.javageneration.maps;
 
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;

@@ -4,7 +4,8 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.TypeResolver;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
@@ -14,7 +15,6 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedHelper;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.internal.EndToAssociationClass;
@@ -22,7 +22,6 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-import nl.klasse.octopus.model.VisibilityKind;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJConstructor;
@@ -96,9 +95,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
-		if(map.fieldname().toLowerCase().contains("group") && umlOwner.getName().equals("CmApplication")){
-			System.out.println();
-		}
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -212,9 +208,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = null;
 		field = buildField(owner, map);
-		if(owner.getName().equals("Neighbour_ericsson_gsm") && map.fieldname().equals("representedCell")){
-			System.out.println("Here : " + owner.findField("representedCell"));
-		}
 		buildInternalAdder(owner, map);
 		if(!p.isReadOnly()){
 			buildInternalRemover(owner, map);
@@ -282,9 +275,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		applyStereotypesAsAnnotations(baseType, field);
 		for(INakedGeneralization g:baseType.getNakedGeneralizations()){
 			applySimnpleTypesAnnotations(field, g.getGeneral());
-		}
-		for(INakedInterfaceRealization g:baseType.getInterfaceRealizations()){
-			applySimnpleTypesAnnotations(field, g.getContract());
 		}
 	}
 	private void buildInitExpression(OJAnnotatedClass owner,NakedStructuralFeatureMap map,OJAnnotatedField field){

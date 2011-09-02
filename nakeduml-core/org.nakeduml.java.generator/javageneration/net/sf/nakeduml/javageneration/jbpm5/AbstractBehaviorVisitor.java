@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 
 import org.nakeduml.java.metamodel.OJIfStatement;

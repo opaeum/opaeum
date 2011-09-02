@@ -1,17 +1,12 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 
 /**
  * A transient object holding the relationship between a node on a behavior that waits for events and signal such event to the BPM engine.
@@ -21,13 +16,13 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
  * @author ampie
  * 
  */
-public class WaitForEventElements{
-	INakedElement event;
+public class ElementsWaitingForEvent{
+	INakedEvent event;
 	Map<String,FromNode> fromNodes = new HashMap<String,FromNode>();
-	public WaitForEventElements(INakedElement event){
+	public ElementsWaitingForEvent(INakedEvent event){
 		this.event = event;
 	}
-	public WaitForEventElements(){
+	public ElementsWaitingForEvent(){
 	}
 	public void addWaitingNode(INakedElement source,GuardedFlow flow,boolean isRestingNode){
 		FromNode fromNode = this.fromNodes.get(source.getName());
@@ -41,18 +36,7 @@ public class WaitForEventElements{
 	public Collection<FromNode> getWaitingNodes(){
 		return this.fromNodes.values();
 	}
-	public INakedElement getEvent(){
+	public INakedEvent getEvent(){
 		return this.event;
-	}
-	public List<? extends INakedTypedElement> getArguments(){
-		if(this.event instanceof INakedSignal){
-			return ((INakedSignal) this.event).getArgumentParameters();
-		}else if(this.event instanceof INakedOperation){
-			return ((INakedOperation) this.event).getArgumentParameters();
-		}else if(this.event instanceof INakedTimeEvent){
-			// TODO if timeevent then return one parameter
-		}
-		// TODO if AcceptCAllEvent then add returnInfo
-		return Collections.emptyList();
 	}
 }

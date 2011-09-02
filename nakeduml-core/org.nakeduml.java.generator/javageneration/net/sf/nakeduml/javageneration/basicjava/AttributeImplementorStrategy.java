@@ -1,6 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 
 import org.nakeduml.java.metamodel.OJOperation;

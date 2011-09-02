@@ -1,15 +1,13 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import java.util.Arrays;
-
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.maps.ActionMap;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJOperation;
@@ -23,20 +21,20 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 	public void implementActionOn(OJAnnotatedOperation operation){
 		if(!(node instanceof INakedAcceptDeadlineAction)){
 			// Deadlines and their cancellations are fired from the originating task message structure
-			if(node.getTrigger().getEvent() instanceof INakedTimeEvent){
-				ActionMap map = new ActionMap(node);
-				EventUtil.implementTimeEventRequest(operation, operation.getBody(),(INakedTimeEvent) node.getTrigger().getEvent());
-				OJOperation cancel = new OJAnnotatedOperation(map.getCancelEventsMethod());
-				operation.getOwner().addToOperations(cancel);
-				cancel.addParam("context", Jbpm5Util.getProcessContext());
-				EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) node.getTrigger().getEvent(),"this");
-			}else if(node.getTrigger().getEvent() instanceof INakedChangeEvent){
-				ActionMap map = new ActionMap(node);
-				EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) node.getTrigger().getEvent());
-				OJOperation cancel = new OJAnnotatedOperation(map.getCancelEventsMethod());
+			if(node.requiresEventRequest()){
+				ActionMap actionMap = new ActionMap(node);
+				OJOperation cancel = new OJAnnotatedOperation(actionMap.getCancelEventsMethod());
 				cancel.addParam("context", Jbpm5Util.getProcessContext());
 				operation.getOwner().addToOperations(cancel);
-				EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) node.getTrigger().getEvent());
+				for(INakedTrigger t:node.getTriggers()){
+					if(t.getEvent() instanceof INakedTimeEvent){
+						EventUtil.implementTimeEventRequest(operation, operation.getBody(), (INakedTimeEvent) t.getEvent());
+						EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) t.getEvent(), "this");
+					}else if(t.getEvent() instanceof INakedChangeEvent){
+						EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) t.getEvent());
+						EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) t.getEvent());
+					}
+				}
 			}
 		}
 	}

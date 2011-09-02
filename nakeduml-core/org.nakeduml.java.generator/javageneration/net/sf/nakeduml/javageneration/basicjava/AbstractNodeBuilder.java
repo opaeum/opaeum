@@ -1,8 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
+import net.sf.nakeduml.javageneration.maps.ActionMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
-import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -11,7 +10,6 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;

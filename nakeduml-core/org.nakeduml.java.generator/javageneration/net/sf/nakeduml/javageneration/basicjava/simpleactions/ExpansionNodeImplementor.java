@@ -1,19 +1,14 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
-import java.util.Arrays;
-
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
-import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
-import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
-import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionNode>{

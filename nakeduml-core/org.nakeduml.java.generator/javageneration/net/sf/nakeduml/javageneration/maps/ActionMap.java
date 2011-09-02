@@ -1,6 +1,6 @@
-package net.sf.nakeduml.javageneration.basicjava.simpleactions;
+package net.sf.nakeduml.javageneration.maps;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;

@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;

@@ -4,7 +4,6 @@ import net.sf.nakeduml.javageneration.basicjava.simpleactions.ParameterNodeImple
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.ParameterDirectionKind;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJOperation;

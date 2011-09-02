@@ -9,9 +9,9 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedCallEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -63,13 +63,16 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 		buildLiteral(state, e);
 	}
 	@Override
-	protected Collection<INakedTrigger> getMethodTriggers(INakedElement step){
+	protected Collection<INakedTrigger> getOperationTriggers(INakedElement step){
 		INakedState state = (INakedState) step;
 		Collection<INakedTrigger> result = new ArrayList<INakedTrigger>();
 		List<INakedTransition> outgoing = state.getOutgoing();
 		for(INakedTransition t:outgoing){
-			if(t.getTrigger() != null && t.getTrigger().getEvent() instanceof INakedOperation){
-				result.add(t.getTrigger());
+			Collection<INakedTrigger> triggers = t.getTriggers();
+			for(INakedTrigger trigger:triggers){
+				if(trigger.getEvent() instanceof INakedCallEvent){
+					result.add(trigger);
+				}
 			}
 		}
 		return result;

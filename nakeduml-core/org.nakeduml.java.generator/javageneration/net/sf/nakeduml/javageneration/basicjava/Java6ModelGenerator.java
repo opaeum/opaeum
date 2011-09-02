@@ -8,9 +8,10 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.NakedOperationMap;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.SignalMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.linkage.MappedTypeLinker;
@@ -74,6 +75,8 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
 				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
 			}
+			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
+			OJPackage pack = findOrCreatePackage(path);
 			ClassifierMap classifierMap = new NakedClassifierMap(c);
 			OJAnnotatedClass myClass;
 			if(c instanceof INakedEnumeration){
@@ -103,14 +106,24 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}
 			// TODO find another place
 			if(c instanceof INakedSignal){
+				SignalMap signalMap = new SignalMap((INakedSignal) c);
+				OJAnnotatedInterface receiver = new OJAnnotatedInterface(signalMap.receiverContractTypePath().getLast());
+				pack.addToClasses(receiver);
+				OJAnnotatedOperation consumeMethod = new OJAnnotatedOperation(signalMap.eventConsumerMethodName(), new OJPathName("boolean"));
+				consumeMethod.addParam("signal", signalMap.javaTypePath());
+				receiver.addToOperations(consumeMethod);
+				OJAnnotatedOperation receiverMethod = new OJAnnotatedOperation(signalMap.receiveMethodName());
+				receiverMethod.addParam("signal", signalMap.javaTypePath());
+				receiver.addToOperations(receiverMethod);
 				myClass.addToImplementedInterfaces(new OJPathName(ISignal.class.getName()));
+				createTextPath(receiver, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+				
 			}
+			pack.addToClasses(myClass);
+
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());
 			myClass.setComment(c.getDocumentation());
-			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
-			OJPackage pack = findOrCreatePackage(path);
-			pack.addToClasses(myClass);
 			super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			if(c instanceof INakedEnumeration){
 				OJEnum oje = (OJEnum) myClass;

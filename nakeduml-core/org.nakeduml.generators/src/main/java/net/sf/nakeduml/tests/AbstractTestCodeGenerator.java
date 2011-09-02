@@ -5,7 +5,6 @@ import java.util.Set;
 import net.sf.nakeduml.emf.extraction.StereotypeApplicationExtractor;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
-import net.sf.nakeduml.javageneration.testgeneration.ArquillianTestJavaGenerator;
 
 import org.nakeduml.bootstrap.WarBootstrapStep;
 import org.nakeduml.generation.features.BpmUsingJbpm5;

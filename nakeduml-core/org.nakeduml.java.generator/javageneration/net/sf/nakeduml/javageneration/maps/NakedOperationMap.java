@@ -1,4 +1,4 @@
-package net.sf.nakeduml.javageneration;
+package net.sf.nakeduml.javageneration.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,9 @@ import java.util.Map;
 
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
@@ -17,7 +19,7 @@ import nl.klasse.octopus.model.internal.types.OperationImpl;
 
 import org.nakeduml.java.metamodel.OJPathName;
 
-public class NakedOperationMap extends OperationMap{
+public class NakedOperationMap extends OperationMap implements IMessageMap{
 	private IParameterOwner parameterOwner;
 	@Override
 	public List<OJPathName> javaParamTypePaths(){
@@ -47,8 +49,9 @@ public class NakedOperationMap extends OperationMap{
 			this.operationTypeMap = new NakedClassifierMap(super.operation.getReturnType());
 		}
 	}
-	public String eventOperName(){
-		return "on"+((INakedOperation)parameterOwner).getMappingInfo().getJavaName().getCapped();
+	@Override
+	public String eventConsumerMethodName(){
+		return "consume"+((INakedOperation)getOperation()).getMappingInfo().getJavaName().getCapped()+"Occurrence";
 	}
 	@Override
 	public String javaOperName(){
@@ -91,4 +94,24 @@ public class NakedOperationMap extends OperationMap{
 	public String callbackOperName(){
 		return "on" + getOperation().getMappingInfo().getJavaName().getCapped() + "Complete";
 	}
-}
+	@Override
+	public String eventGeratorMethodName(){
+		return "generate" + getOperation().getMappingInfo().getJavaName().getCapped() + "Event";
+	}
+	@Override
+	public OJPathName eventHandlerPath(){
+		OJPathName path = OJUtil.packagePathname(getOperation().getNameSpace());
+		path.addToNames(getOperation().getMappingInfo().getJavaName().getCapped()+"Handler" + getOperation().getMappingInfo().getNakedUmlId());
+		return path;
+	}
+	public boolean hasMessageStructure(){
+		return BehaviorUtil.hasExecutionInstance(getOperation());
+	}
+	public OJPathName messageStructurePath(){
+		if(getOperation() instanceof INakedOperation){
+			return OJUtil.classifierPathname(((INakedOperation)getOperation()).getMessageStructure());
+		}else{
+			return OJUtil.classifierPathname((INakedClassifier) getOperation());
+		}
+	}
+ }

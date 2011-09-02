@@ -2,6 +2,8 @@ package net.sf.nakeduml.javageneration;
 
 import java.util.Collection;
 
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
@@ -46,7 +48,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 		putAnnotation(javaElement, an);
 	}
 
-	private OJAnnotationValue buildAnnotation(INakedInstanceSpecification stereotypeApplication) {
+	private static OJAnnotationValue buildAnnotation(INakedInstanceSpecification stereotypeApplication) {
 		ClassifierMap map = new NakedClassifierMap(stereotypeApplication.getClassifier());
 		OJAnnotationValue an = new OJAnnotationValue(map.javaTypePath());
 		for (INakedSlot slot : stereotypeApplication.getSlots()) {
@@ -85,7 +87,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	private void addValue(INakedInstanceSpecification is, OJAnnotationAttributeValue aa, INakedSlot slot, INakedValueSpecification vs) {
+	private static void addValue(INakedInstanceSpecification is, OJAnnotationAttributeValue aa, INakedSlot slot, INakedValueSpecification vs) {
 		if (vs.getValue() instanceof Boolean) {
 			aa.addBooleanValue(vs.booleanValue());
 		} else if (vs.getValue() instanceof Number) {

@@ -13,9 +13,8 @@ import java.util.Stack;
 
 import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.SortedProperties;
-import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;

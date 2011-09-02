@@ -1,6 +1,5 @@
-package net.sf.nakeduml.javageneration.basicjava;
+package net.sf.nakeduml.javageneration.maps;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;

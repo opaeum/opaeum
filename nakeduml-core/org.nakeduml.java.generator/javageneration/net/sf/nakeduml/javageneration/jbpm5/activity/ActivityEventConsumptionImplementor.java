@@ -8,16 +8,19 @@ import java.util.Map;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ObjectNodeExpressor;
-import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
+import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
+import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractEventConsumptionImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.ElementsWaitingForEvent;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
-import net.sf.nakeduml.javageneration.jbpm5.WaitForEventElements;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -26,10 +29,12 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.model.IClassifier;
@@ -44,18 +49,38 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = ActivityProcessImplementor.class,after = ActivityProcessImplementor.class)
-public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+		ActivityProcessImplementor.class,SpecificationImplementor.class
+},after = {
+		ActivityProcessImplementor.class,SpecificationImplementor.class
+})
+public class ActivityEventConsumptionImplementor extends AbstractEventConsumptionImplementor{
 	private Jbpm5ActionBuilder<INakedActivityNode> actionBuilder;
 	@VisitBefore(matchSubclasses = true)
 	public void visitActivity(INakedActivity activity){
 		if(activity.isProcess()){
 			OJAnnotatedClass activityClass = findJavaClass(activity);
-			super.implementEventHandling(activityClass, activity, getEventActions(activity));
+			super.implementEventConsumption(activityClass, activity, getEventActions(activity));
+			for(INakedActivityNode n:activity.getActivityNodesRecursively()){
+				if(n instanceof INakedAcceptCallAction){
+					INakedAcceptCallAction acc = (INakedAcceptCallAction) n;
+					INakedOperation no = acc.getOperation();
+					NakedOperationMap map = new NakedOperationMap(no);
+					if(activity.conformsTo(no.getOwner())){
+						OJAnnotatedOperation oper = OperationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
+						// TODO
+						// check if process active
+						// check if node active
+						// add OperationObject to the property holding the AcceptCallAction
+						// execute transitions
+					}else if(activity.getContext() != null && activity.getContext().conformsTo(no.getOwner())){
+					}
+				}
+			}
 		}
 	}
-	protected void implementEventHandlerBody(WaitForEventElements eventActions,INakedElement event,OJAnnotatedOperation listener,OJIfStatement ifProcessActive){
-		if(event instanceof INakedDeadline){
+	protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive){
+		if(eventActions.getEvent() instanceof INakedDeadline){
 			OJIfStatement ifTaskTokenFound = new OJIfStatement();
 			ifProcessActive.getThenPart().addToStatements(ifTaskTokenFound);
 			ifTaskTokenFound.setCondition("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(source.getNodeInstanceUniqueId()))" + "!=null");
@@ -73,16 +98,16 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
 				ifTaskTokenFound.getThenPart().addToStatements(
 						nodeInstanceContainer.getName() + ".getNodeInstance(" + nodeContainer.getName() + ".getNode(" + literalExpression
 								+ ".getId())).trigger(null, Node.CONNECTION_DEFAULT_TYPE)");
-				implementEventConsumption(listener, node, ifTaskTokenFound);
+				consumeEvent(listener, node, ifTaskTokenFound);
 			}
 		}else{
 			for(FromNode fromNode:eventActions.getWaitingNodes()){
 				INakedAcceptEventAction action = (INakedAcceptEventAction) fromNode.getWaitingElement();
 				if(action.getAllEffectiveIncoming().size() > 0){
-					if(eventActions.getEvent() instanceof INakedEvent){
-						consumeNonMessageEvent(listener, ifProcessActive, fromNode);
-					}else{
+					if(eventActions.getEvent() instanceof INakedMessageEvent){
 						consumeMessageEvent(listener, ifProcessActive, fromNode);
+					}else{
+						consumeNonMessageEvent(listener, ifProcessActive, fromNode);
 					}
 				}else{
 					listener.getOwner().addToImports(NODE_INSTANCE_CONTAINER);
@@ -90,7 +115,7 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
 					OJAnnotatedField nodeInstanceContainer = new OJAnnotatedField("nodeInstanceContainer", NODE_INSTANCE_CONTAINER);
 					nodeInstanceContainer.setInitExp("null");
 					ifProcessActive.getThenPart().addToLocals(nodeInstanceContainer);
-					ifProcessActive.getThenPart().addToStatements(NODE.toJavaString() + " node=getNodeForStep(" +literalExpression +")");
+					ifProcessActive.getThenPart().addToStatements(NODE.toJavaString() + " node=getNodeForStep(" + literalExpression + ")");
 					if(action.getOwnerElement() instanceof INakedActivity){
 						ifProcessActive.getThenPart().addToStatements("nodeInstanceContainer=(NodeInstanceContainer)getProcessInstance()");
 					}else{
@@ -100,16 +125,15 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
 						ifMatch.getThenPart().addToStatements("break");
 						forAllNodeInstances.getBody().addToStatements(ifMatch);
 					}
-					ifProcessActive.getThenPart().addToStatements(
-							"waitingNode=(UmlNodeInstance)" + nodeInstanceContainer.getName() + ".getNodeInstance(node)");
+					ifProcessActive.getThenPart().addToStatements("waitingNode=(UmlNodeInstance)" + nodeInstanceContainer.getName() + ".getNodeInstance(node)");
 					ifProcessActive.getThenPart().addToStatements("waitingNode.trigger(null, org.jbpm.workflow.core.Node.CONNECTION_DEFAULT_TYPE)");
-					implementEventConsumption(listener, fromNode, ifProcessActive);
+					consumeEvent(listener, fromNode, ifProcessActive);
 				}
 			}
 		}
 	}
 	@Override
-	protected void implementEventConsumption(OJOperation operationContext,FromNode fromNode,OJIfStatement ifTokenFound){
+	protected void consumeEvent(OJOperation operationContext,FromNode fromNode,OJIfStatement ifTokenFound){
 		OJBlock block = ifTokenFound.getThenPart();
 		INakedAcceptEventAction node = (INakedAcceptEventAction) fromNode.getWaitingElement();
 		storeArguments(ifTokenFound, node);
@@ -164,7 +188,7 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
 	}
 	private void storeArguments(OJIfStatement ifTokenFound,INakedAcceptEventAction aea){
 		List<INakedOutputPin> result = aea.getResult();
-		Jbpm5ObjectNodeExpressor expressor=new Jbpm5ObjectNodeExpressor(getLibrary());
+		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		OJAnnotatedField context = new OJAnnotatedField("context", new OJPathName("org.drools.spi.ProcessContext"));
 		context.setInitExp("new org.drools.spi.ProcessContext(org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
 		ifTokenFound.getThenPart().addToLocals(context);
@@ -177,29 +201,36 @@ public class ActivityEventHandlerInserter extends AbstractEventHandlerInserter{
 				String param = "unknown";
 				if(aea instanceof INakedAcceptDeadlineAction){
 					param = i == 1 ? "source.getTaskRequest()" : "triggerDate";
-				}else if(aea.getTrigger().getEvent() instanceof INakedTimeEvent){
+				}else if(aea.containsTriggerType(INakedTimeEvent.class)){
 					param = "triggerDate";
 				}
-				ifTokenFound.getThenPart().addToStatements(expressor.storeResults(pinMap, param,false));
+				ifTokenFound.getThenPart().addToStatements(expressor.storeResults(pinMap, param, false));
 			}else{
-				NakedStructuralFeatureMap parmMap= OJUtil.buildStructuralFeatureMap(argument.getActivity(), parm);
-				expressor.storeResults(pinMap, parmMap.fieldname(),parmMap.isMany());
+				NakedStructuralFeatureMap parmMap = OJUtil.buildStructuralFeatureMap(argument.getActivity(), parm);
+				String expression = parmMap.fieldname();
+				if(parm instanceof INakedProperty){
+					// signal
+					expression = "signal." + parmMap.getter() + "()";
+				}
+				ifTokenFound.getThenPart().addToStatements(expressor.storeResults(pinMap, expression, parmMap.isMany()));
 			}
 		}
 	}
-	private Collection<WaitForEventElements> getEventActions(INakedActivity activity){
-		Map<INakedElement,WaitForEventElements> results = new HashMap<INakedElement,WaitForEventElements>();
+	private Collection<ElementsWaitingForEvent> getEventActions(INakedActivity activity){
+		Map<INakedElement,ElementsWaitingForEvent> results = new HashMap<INakedElement,ElementsWaitingForEvent>();
 		for(INakedActivityNode node:activity.getActivityNodesRecursively()){
 			if(node instanceof INakedAcceptEventAction){
 				INakedAcceptEventAction action = (INakedAcceptEventAction) node;
-				if(action.getTrigger() != null && action.getTrigger().getEvent() != null){
-					WaitForEventElements eventActions = results.get(action.getTrigger().getEvent());
-					if(eventActions == null){
-						eventActions = new WaitForEventElements(action.getTrigger().getEvent());
-						results.put(action.getTrigger().getEvent(), eventActions);
-					}
-					for(INakedActivityEdge flow:action.getAllEffectiveOutgoing()){
-						eventActions.addWaitingNode(action, flow, true);
+				for(INakedTrigger trigger:action.getTriggers()){
+					if(trigger.getEvent() != null){
+						ElementsWaitingForEvent eventActions = results.get(trigger.getEvent());
+						if(eventActions == null){
+							eventActions = new ElementsWaitingForEvent(trigger.getEvent());
+							results.put(trigger.getEvent(), eventActions);
+						}
+						for(INakedActivityEdge flow:action.getAllEffectiveOutgoing()){
+							eventActions.addWaitingNode(action, flow, true);
+						}
 					}
 				}
 			}

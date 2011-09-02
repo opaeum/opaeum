@@ -1,10 +1,9 @@
-package net.sf.nakeduml.javageneration;
+package net.sf.nakeduml.javageneration.maps;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;

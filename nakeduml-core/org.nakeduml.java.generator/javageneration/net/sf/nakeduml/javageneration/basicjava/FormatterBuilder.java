@@ -2,16 +2,6 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Set;
 
-import org.nakeduml.java.metamodel.OJIfStatement;
-import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
-import org.nakeduml.name.NameConverter;
-import org.nakeduml.runtime.domain.AbstractFormatter;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -22,6 +12,16 @@ import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+
+import org.nakeduml.java.metamodel.OJIfStatement;
+import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.name.NameConverter;
+import org.nakeduml.runtime.domain.AbstractFormatter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class

@@ -4,20 +4,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.SignalMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedCallEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignalEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimer;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
+import net.sf.nakeduml.metamodel.statemachines.INakedCompletionEvent;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -31,30 +35,30 @@ import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.TimeUnit;
 import org.nakeduml.runtime.event.IEventHandler;
 
+//TODO refactor into an EventMap
 public class EventUtil{
-	public static String getEventHandlerName(INakedElement e){
-		if(e instanceof INakedEvent){
-			return e.getMappingInfo().getJavaName().getDecapped() + "Occurred";
-		}else if(e instanceof INakedState){
+	public static String getEventConsumerName(INakedElement e){
+		if(e instanceof INakedSignalEvent){
+			return new SignalMap(((INakedSignalEvent) e).getSignal()).eventConsumerMethodName();
+		}else if(e instanceof INakedCallEvent){
+			return new NakedOperationMap(((INakedCallEvent) e).getOperation()).eventConsumerMethodName();
+		}else if(e instanceof INakedCompletionEvent){
 			return "on" + e.getMappingInfo().getJavaName().getCapped() + "Completed";
+		}else if(e instanceof INakedEvent){
+			return e.getMappingInfo().getJavaName().getDecapped() + "Occurred";
 		}else{
 			return "on" + e.getMappingInfo().getJavaName().getCapped();
 		}
 	}
-	public  static OJPathName handlerPathName(INakedSignal s){
-		return new OJPathName(s.getMappingInfo().getQualifiedJavaName() + "Handler");
+	public static OJPathName handlerPathName(INakedOperation s){
+		return OJUtil.packagePathname(s.getOwner()).append(s.getMappingInfo().getJavaName().getCapped() + "Handler" + s.getMappingInfo().getNakedUmlId());
 	}
-	public  static OJPathName handlerPathName(INakedOperation s){
-		return OJUtil.packagePathname(s.getOwner()).append(s.getMappingInfo().getJavaName().getCapped()+"Handler");
-	}
-
 	public static OJPathName handlerPathName(INakedEvent e){
 		return OJUtil.packagePathname(e.getContext()).append(e.getMappingInfo().getJavaName().getCapped() + "Handler");
 	}
 	public static void implementChangeEventRequest(OJOperation operation,INakedChangeEvent event){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
 		INakedValueSpecification when = event.getChangeExpression();
-		EventUtil.addOutgoingEventManagement(owner);
 		if(when != null){
 			String changeExpr = ValueSpecificationUtil.expressValue(operation, when, event.getBehaviorContext(), when.getType());
 			OJAnnotatedOperation evaluationMethod = new OJAnnotatedOperation(evaluatorName(event), new OJPathName("boolean"));
@@ -62,7 +66,8 @@ public class EventUtil{
 			owner.addToOperations(evaluationMethod);
 			OJPathName handler = handlerPathName(event);
 			owner.addToImports(handler);
-			operation.getBody().addToStatements("getOutgoingEvents().put(this, new " + handler.getLast() + "(((NodeInstanceImpl)context.getNodeInstance()).getUniqueId()))");
+			operation.getBody().addToStatements(
+					"getOutgoingEvents().put(this, new " + handler.getLast() + "(((NodeInstanceImpl)context.getNodeInstance()).getUniqueId()))");
 		}else{
 			operation.getBody().addToStatements("NO_CHANGE_EXPRESSION_SPECIFIED");
 		}
@@ -75,9 +80,9 @@ public class EventUtil{
 		if(!ojClass.getImplementedInterfaces().contains(pn)){
 			ojClass.addToImplementedInterfaces(pn);
 			OJPathName eventCancellationPath = new OJPathName(Map.class.getName());
-			eventCancellationPath .addToElementTypes(new OJPathName("Object"));
-			eventCancellationPath .addToElementTypes(new OJPathName("String"));
-			OJAnnotatedField field1 = OJUtil.addProperty(ojClass, "cancelledEvents", eventCancellationPath , true);
+			eventCancellationPath.addToElementTypes(new OJPathName("Object"));
+			eventCancellationPath.addToElementTypes(new OJPathName("String"));
+			OJAnnotatedField field1 = OJUtil.addProperty(ojClass, "cancelledEvents", eventCancellationPath, true);
 			field1.setInitExp("new HashMap<Object,String>()");
 			ojClass.addToImports(HashMap.class.getName());
 			field1.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
@@ -107,14 +112,15 @@ public class EventUtil{
 			if(event.isRelative()){
 				owner.addToImports(TimeUnit.class.getName());
 				TimeUnit timeUnit = event.getTimeUnit() == null ? TimeUnit.BUSINESS_DAY : event.getTimeUnit();
-				block.addToStatements("getOutgoingEvents().put(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",TimeUnit." + timeUnit.name()+",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId()))");
+				block.addToStatements("getOutgoingEvents().put(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",TimeUnit." + timeUnit.name()
+						+ ",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId()))");
 			}else{
-				block.addToStatements("getOutgoingEvents().put(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId()))");
+				block.addToStatements("getOutgoingEvents().put(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr
+						+ ",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId()))");
 			}
 		}else{
 			block.addToStatements("NO_WHEN_EXPRESSION_SPECIFIED");
 		}
-		addOutgoingEventManagement(owner);
 	}
 	public static void cancelTimer(OJBlock block,INakedTimer event,String targetExpression){
 		block.addToStatements("getCancelledEvents().put(" + targetExpression + ",\"" + event.getMappingInfo().getIdInModel() + "\")");
@@ -129,10 +135,12 @@ public class EventUtil{
 		for(INakedActivityNode node:activityNodes){
 			if(node instanceof INakedAcceptEventAction && node.getAllEffectiveIncoming().isEmpty()){
 				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
-				if(acceptEventAction.getTrigger().getEvent() instanceof INakedTimeEvent){
-					implementTimeEventRequest(operation, operation.getBody(), (INakedTimeEvent) acceptEventAction.getTrigger().getEvent());
-				}else if(acceptEventAction.getTrigger().getEvent() instanceof INakedChangeEvent){
-					implementChangeEventRequest(operation, (INakedChangeEvent) acceptEventAction.getTrigger().getEvent());
+				for(INakedTrigger t:acceptEventAction.getTriggers()){
+					if(t.getEvent() instanceof INakedTimeEvent){
+						implementTimeEventRequest(operation, operation.getBody(), (INakedTimeEvent) t.getEvent());
+					}else if(t.getEvent() instanceof INakedChangeEvent){
+						implementChangeEventRequest(operation, (INakedChangeEvent) t.getEvent());
+					}
 				}
 			}
 		}
@@ -141,10 +149,13 @@ public class EventUtil{
 		for(INakedActivityNode node:activityNodes){
 			if(node instanceof INakedAcceptEventAction && node.getAllEffectiveIncoming().isEmpty()){
 				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
-				if(acceptEventAction.getTrigger().getEvent() instanceof INakedTimeEvent){
-					cancelTimer(block, (INakedTimeEvent) acceptEventAction.getTrigger().getEvent(), "this");
-				}else if(acceptEventAction.getTrigger().getEvent() instanceof INakedChangeEvent){
-					cancelChangeEvent(block, (INakedChangeEvent) acceptEventAction.getTrigger().getEvent());
+				Collection<INakedTrigger> triggers = acceptEventAction.getTriggers();
+				for(INakedTrigger t:triggers){
+					if(t.getEvent() instanceof INakedTimeEvent){
+						cancelTimer(block, (INakedTimeEvent) t.getEvent(), "this");
+					}else if(t.getEvent() instanceof INakedChangeEvent){
+						cancelChangeEvent(block, (INakedChangeEvent) t.getEvent());
+					}
 				}
 			}
 		}

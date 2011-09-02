@@ -1,7 +1,7 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;

@@ -8,8 +8,8 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessComponent;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
@@ -161,7 +161,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			OJAnnotationValue typeDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDef"));
 			typeDefs.addAnnotationValue(typeDef);
 			p.putAnnotation(typeDef);
-			typeDef.putAttribute("name", a.getMappingInfo().getQualifiedJavaName() + string);
+			typeDef.putAttribute("name", a.getMappingInfo().getJavaName() + string);
 			typeDef.putAttribute("typeClass", new OJPathName(a.getMappingInfo().getQualifiedJavaName() + string));
 		}
 	}
