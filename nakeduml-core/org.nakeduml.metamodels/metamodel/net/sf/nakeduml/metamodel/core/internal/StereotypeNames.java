@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.core.internal;
 
-import org.eclipse.uml2.uml.Stereotype;
 
 
 public class StereotypeNames {

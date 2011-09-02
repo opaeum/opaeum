@@ -1,7 +1,6 @@
 package net.sf.nakeduml.metamodel.core.internal;
 
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 /**
@@ -19,8 +18,8 @@ public class CompositionSiblingsFinder{
 	private static boolean isCompositionAncestorOf(ICompositionParticipant self,ICompositionParticipant other,ICompositionParticipant startingPoint, boolean hasEncounteredMany, int count){
 		if(other.hasComposite() && count>0){
 			INakedProperty othersEndToComposite = other.getEndToComposite();
-			ICompositionParticipant composite = (ICompositionParticipant) othersEndToComposite.getNakedBaseType();
-			if(composite.equals(startingPoint) || composite.equals(other)){
+			ICompositionParticipant othersComposite = (ICompositionParticipant) othersEndToComposite.getNakedBaseType();
+			if(othersComposite.equals(startingPoint) || othersComposite.equals(other)){
 				//TODO
 				//circularity - modelling error
 				return false;
@@ -30,23 +29,12 @@ public class CompositionSiblingsFinder{
 			// one
 			hasEncounteredMany = hasEncounteredMany
 					|| (othersEndToComposite.getOtherEnd().getNakedMultiplicity().isMany() || othersEndToComposite.getOtherEnd().hasQualifiers());
-			boolean foundRootClass = !composite.hasComposite();
-			if(self.equals(composite) && (hasEncounteredMany || foundRootClass)){
+			boolean foundRootClass = !othersComposite.hasComposite();
+			if(self.equals(othersComposite) && (hasEncounteredMany || foundRootClass)){
 				//Try best to find a many, but still end with the root object
 				return true;
-			}else if(isCompositionAncestorOf(self, composite, startingPoint, hasEncounteredMany , --count)){
+			}else if(isCompositionAncestorOf(self, othersComposite, startingPoint, hasEncounteredMany , --count)){
 				return true;
-			}else if(self.getSupertype() instanceof ICompositionParticipant
-					&& isCompositionAncestorOf((ICompositionParticipant) self.getSupertype(), composite,startingPoint,hasEncounteredMany, --count)){
-				//TODO superfluous - getEndToComposite traverses interfaces already
-				return true;
-			}else{
-				//TODO superfluous - getEndToComposite traverses interfaces already
-				for(INakedInterfaceRealization ir:self.getInterfaceRealizations()){
-					if(isCompositionAncestorOf(ir.getContract(), composite, startingPoint,hasEncounteredMany, --count)){
-						return true;
-					}
-				}
 			}
 			return false;
 		}else{

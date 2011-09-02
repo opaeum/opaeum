@@ -6,6 +6,8 @@
  */
 package org.apache.maven.pom.impl;
 
+import static org.apache.maven.pom.POMPackage.RESOURCE;
+
 import org.apache.maven.pom.Activation;
 import org.apache.maven.pom.ActivationFile;
 import org.apache.maven.pom.ActivationOS;
@@ -94,14 +96,11 @@ import org.apache.maven.pom.Scm;
 import org.apache.maven.pom.Site;
 import org.apache.maven.pom.TestResourcesType;
 import org.apache.maven.pom.TestResourcesType1;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**

@@ -1,16 +1,16 @@
 package net.sf.nakeduml.metamodel.statemachines.internal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
@@ -26,7 +26,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 	private static final long serialVersionUID = -3976968471783003485L;
 	static public final String META_CLASS = "stateMachine";
 	private StateMachineKind stateMachineKind;
-	private Set<INakedElement> stateOperations;
+	private Set<INakedMessageEvent> messageEvents;
 	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
 	public NakedStateMachineImpl(){
 		super();
@@ -58,31 +58,21 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		return results;
 	}
 	/**
-	 * Returns an array containing all the operations and signals that could possibly trigger a transition in this state
+	 * Returns an array containing all the operations and signals that could possibly trigger a transition in this statemachine
 	 */
-	public List<INakedElement> getAllMessageTriggers(){
-		if(this.stateOperations == null){
-			this.stateOperations = new HashSet<INakedElement>();
+	public List<INakedMessageEvent> getAllMessageEvents(){
+		if(this.messageEvents == null){
+			this.messageEvents = new HashSet<INakedMessageEvent>();
 			for(INakedTransition element:getTransitions()){
-				if(element.getTrigger() != null){
-					INakedElement trigger = element.getTrigger().getEvent();
-					if(trigger instanceof INakedOperation || trigger instanceof INakedSignal){
-						this.stateOperations.add(trigger);
+				Collection<INakedTrigger> triggers = element.getTriggers();
+				for(INakedTrigger t:triggers){
+					if(t.getEvent() instanceof INakedMessageEvent){
+						messageEvents.add((INakedMessageEvent) t.getEvent());
 					}
 				}
 			}
 		}
-		return new ArrayList<INakedElement>(this.stateOperations);
-	}
-	public boolean hasTriggerFor(INakedOperation o){
-		List stateOperations = getAllMessageTriggers();
-		for(int i = 0;i < stateOperations.size();i++){
-			INakedElement w = (INakedElement) stateOperations.get(i);
-			if(o.equals(w)){
-				return true;
-			}
-		}
-		return false;
+		return new ArrayList<INakedMessageEvent>(this.messageEvents);
 	}
 	public boolean hasEntityContext(){
 		return getNameSpace() instanceof INakedEntity;
@@ -97,7 +87,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		if(element instanceof INakedRegion){
 			this.regions.add((INakedRegion) element);
 		}
-		this.stateOperations = null;
+		this.messageEvents = null;
 	}
 	@Override
 	public INakedEntity getContext(){

@@ -3,8 +3,6 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -13,6 +11,8 @@ import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import nl.klasse.octopus.model.IClassifier;
+
+import org.nakeduml.name.NameConverter;
 
 public class EndToAssociationClass extends AbstractPropertyBridge{
 	private INakedProperty property;

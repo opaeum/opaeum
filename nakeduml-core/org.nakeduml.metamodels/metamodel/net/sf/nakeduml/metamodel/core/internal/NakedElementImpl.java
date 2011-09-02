@@ -20,7 +20,6 @@ import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
 /**

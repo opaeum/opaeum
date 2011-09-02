@@ -7,7 +7,6 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
-import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;

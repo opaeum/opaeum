@@ -3,16 +3,15 @@ package net.sf.nakeduml.metamodel.statemachines.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.internal.NakedNameSpaceImpl;
+import net.sf.nakeduml.metamodel.statemachines.INakedCompletionEvent;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -31,9 +30,11 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private INakedBehavior doActivity;
 	private INakedBehavior exit;
 	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
-	private List<INakedTransition> outgoing=new ArrayList<INakedTransition>();
-	private List<INakedTransition> incoming=new ArrayList<INakedTransition>();
+	private List<INakedTransition> outgoing = new ArrayList<INakedTransition>();
+	private List<INakedTransition> incoming = new ArrayList<INakedTransition>();
+	private INakedCompletionEvent completionEvent;
 	public NakedStateImpl(){
+		completionEvent=new NakedCompletionEventImpl(this);
 	}
 	public IRegionOwner getLeastCommonAncestor(IRegionOwner two){
 		return RegionOwnerUtil.getLeastCommonAncestor(this, two);
@@ -91,28 +92,16 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	public List<INakedTransition> getCompletionTransitions(){
 		List<INakedTransition> outgoing = new ArrayList<INakedTransition>();
 		for(INakedTransition t:getOutgoing()){
-			if(t.getTrigger() == null){
+			if(t.getTriggers().isEmpty()){
 				outgoing.add(t);
 			}
 		}
 		return outgoing;
 	}
-	@Override
-	public Collection<INakedTransition> getTimeTriggerTransitions(){
-		Collection<INakedTransition> results = new ArrayList<INakedTransition>();
-		for(INakedTransition t:this.getOutgoing()){
-			if(t.getTrigger() !=null && t.getTrigger().getEvent() instanceof INakedTimeEvent){
-				results.add(t);
-			}
-		}
-		return results;
-	}
 	public List<IState> getSubstates(){
 		List<IState> results = new ArrayList<IState>();
-		Iterator iter = getRegions().iterator();
-		while(iter.hasNext()){
-			INakedRegion region = (INakedRegion) iter.next();
-			results.addAll(region.getStates());
+		for(INakedRegion r:getRegions()){
+			results.addAll(r.getStates());
 		}
 		return results;
 	}
@@ -190,21 +179,20 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	@Override
 	public void removeFromOutgoing(INakedTransition nakedTransitionImpl){
 		this.outgoing.remove(nakedTransitionImpl);
-		
 	}
 	@Override
 	public void addToOutgoing(INakedTransition nakedTransitionImpl){
 		this.outgoing.add(nakedTransitionImpl);
-		
 	}
 	@Override
 	public void removeFromIncoming(INakedTransition nakedTransitionImpl){
 		this.incoming.remove(nakedTransitionImpl);
-		
 	}
 	@Override
 	public void addToIncoming(INakedTransition nakedTransitionImpl){
 		this.incoming.add(nakedTransitionImpl);
-		
+	}
+	public INakedCompletionEvent getCompletionEvent(){
+		return completionEvent;
 	}
 }

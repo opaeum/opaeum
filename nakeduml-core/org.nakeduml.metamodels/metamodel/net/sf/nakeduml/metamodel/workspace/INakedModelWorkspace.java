@@ -4,15 +4,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.uml2.uml.Model;
-
 import net.sf.nakeduml.feature.WorkspaceMappingInfo;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import nl.klasse.octopus.oclengine.IOclEngine;

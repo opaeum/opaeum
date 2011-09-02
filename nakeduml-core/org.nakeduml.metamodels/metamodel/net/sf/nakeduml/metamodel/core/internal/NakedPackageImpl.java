@@ -8,7 +8,6 @@ import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.expressions.internal.types.PathName;

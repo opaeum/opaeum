@@ -1,7 +1,5 @@
 package net.sf.nakeduml.validation.namegeneration;
 
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -17,6 +15,7 @@ import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
@@ -38,6 +37,8 @@ import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.model.IAssociationEnd;
 
+import org.nakeduml.name.NameConverter;
+
 /**
  * Regenerates and sets the (UML) name of an originalElement. Also sets the name and
  * qualifiedUmlName on the elements mapping info
@@ -49,9 +50,6 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 	public void updateUmlName(INakedElement nakedElement) {
 		MappingInfo mappingInfo = nakedElement.getMappingInfo();
 		nakedElement.setName(generateUmlName(nakedElement).toString());
-		if(mappingInfo==null){
-			System.out.println();
-		}
 		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
 		if(nakedElement instanceof ArtificialProperty){
 			ArtificialProperty ap=(ArtificialProperty) nakedElement;
@@ -190,16 +188,17 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 				name = "write" + generateUmlName(action.getFeature()).getCapped() + action.getMappingInfo().getNakedUmlId();
 			} else if (nakedAction instanceof INakedAcceptEventAction) {
 				INakedAcceptEventAction action = (INakedAcceptEventAction) nakedAction;
-				if (action.getTrigger() == null) {
+				if (action.getTriggers().isEmpty()) {
 					name = "anonymousAcceptEventAction" + action.getMappingInfo().getNakedUmlId();
 				} else {
-					if (action.getTrigger().getEvent() instanceof NakedTimeEventImpl) {
-						name = "waitFor" + generateUmlName(action.getTrigger().getEvent()) + action.getMappingInfo().getNakedUmlId();
-					} else if (action.getTrigger().getEvent() instanceof INakedOperation) {
-						name = "accept" + generateUmlName(action.getTrigger().getEvent()).getCapped()
+					INakedTrigger trigger = action.getTriggers().iterator().next();
+					if (trigger.getEvent() instanceof NakedTimeEventImpl) {
+						name = "waitFor" + generateUmlName(trigger.getEvent()) + action.getMappingInfo().getNakedUmlId();
+					} else if (trigger.getEvent() instanceof INakedOperation) {
+						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
 								+ action.getMappingInfo().getNakedUmlId();
-					} else if (action.getTrigger().getEvent() instanceof INakedSignal) {
-						name = "accept" + generateUmlName(action.getTrigger().getEvent()).getCapped()
+					} else if (trigger.getEvent() instanceof INakedSignal) {
+						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
 								+ action.getMappingInfo().getNakedUmlId();
 					}
 				}

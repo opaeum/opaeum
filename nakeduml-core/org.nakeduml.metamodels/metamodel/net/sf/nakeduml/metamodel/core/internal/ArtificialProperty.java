@@ -15,7 +15,6 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import nl.klasse.octopus.model.IClassifier;
 
 import org.nakeduml.name.NameConverter;
 

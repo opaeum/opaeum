@@ -61,11 +61,6 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	}
 	public void putModelElement(INakedElement mw){
 		String metaClass = mw.getMetaClass();
-		if(this.allElementsByModelId.containsKey(mw.getId())){
-			INakedElement clash = this.allElementsByModelId.get(mw.getId());
-			String msg = metaClass + ":" + mw.getName() + " already exists:" + clash;
-			System.out.println(msg);
-		}
 		Class<?> startClass = mw.getClass();
 		putInAppropriateSets(mw, startClass);
 		this.allElementsByModelId.put(mw.getId(), mw);

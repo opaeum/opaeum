@@ -4,10 +4,8 @@ import java.util.List;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerContainer;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 public interface INakedStateMachine extends IRegionOwner, INakedTriggerContainer,INakedBehavior{
 
-	boolean hasTriggerFor(INakedOperation o);
 	boolean hasEntityContext();
 	INakedEntity getContext();
 	List<INakedTransition> getTransitions();

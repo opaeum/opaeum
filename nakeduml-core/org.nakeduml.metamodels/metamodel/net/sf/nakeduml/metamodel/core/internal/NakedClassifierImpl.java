@@ -3,27 +3,26 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -47,8 +46,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private static final long serialVersionUID = -9194358342840031394L;
 	protected List<INakedProperty> ownedAttributes = new ArrayList<INakedProperty>();
 	private List<INakedOperation> ownedOperations = new ArrayList<INakedOperation>();
+	private Set<INakedReception> ownedReceptions = new HashSet<INakedReception>();
 	protected List<INakedGeneralization> generalisations = new ArrayList<INakedGeneralization>();
-	protected List<INakedInterfaceRealization> realization = new ArrayList<INakedInterfaceRealization>();
 	private INakedPowerType powerType;
 	private CodeGenerationStrategy codeGenerationStrategy;
 	private String mappedImplementationType;
@@ -121,8 +120,9 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			List<? extends INakedProperty> interfaceAttributes = ((INakedClassifier) i).getEffectiveAttributes();
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
-		List<INakedProperty> ownAttributes = this.ownedAttributes;
-		addEffectiveAttributes(results, ownAttributes);
+		
+	
+		addEffectiveAttributes(results, ownedAttributes);
 		return results;
 	}
 	/**
@@ -254,13 +254,12 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		return StdlibBasic.getBasicType(IOclLibrary.OclAnyTypeName).findOperation(opName, paramTypes);
 	}
-	public List<INakedOperation> getEffectiveOperations(){
-		List<INakedOperation> results = new ArrayList<INakedOperation>(ownedOperations);
-		if(hasSupertype()){
-			results.addAll((getSupertype()).getEffectiveOperations());
-		}
-		for(IInterface i:getInterfaces()){
-			results.addAll(((INakedClassifier) i).getEffectiveOperations());
+	public Collection<INakedOperation> getEffectiveOperations(){
+		HashSet<INakedOperation> results = new HashSet<INakedOperation>(ownedOperations);
+		for(INakedGeneralization g:this.generalisations){
+			if(g.getGeneral() instanceof NakedClassifierImpl){
+				results.addAll(((NakedClassifierImpl) g.getGeneral()).getEffectiveOperations());
+			}
 		}
 		return results;
 	}
@@ -284,10 +283,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	public void setPowerType(INakedPowerType powerType){
 		this.powerType = powerType;
-	}
-	public void addInterfaceRealization(INakedInterfaceRealization ir){
-		this.realization.add(ir);
-		ir.getContract().addImplementingClassifier(this);
 	}
 	@Override
 	protected boolean isNamedMember(INakedElement e){
@@ -373,7 +368,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			comments.remove(element);
 		}else if(element instanceof INakedConstraint){
 			ownedRules.remove(element);
-			;
+		}else if(element instanceof INakedReception){
+			this.ownedReceptions.remove(element);
 		}
 	}
 	@Override
@@ -393,6 +389,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}else if(element instanceof INakedGeneralization){
 			INakedGeneralization generalization = (INakedGeneralization) element;
 			this.generalisations.add(generalization);
+		}else if(element instanceof INakedReception){
+			this.ownedReceptions.add((INakedReception) element);
 		}
 	}
 	public INakedNameSpace getOwner(){
@@ -446,16 +444,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		return null;
 	}
-	public List<INakedInterfaceRealization> getInterfaceRealizations(){
-		return this.realization;
-	}
-	public List<IInterface> getInterfaces(){
-		List<IInterface> results = new ArrayList<IInterface>();
-		for(INakedInterfaceRealization r:this.realization){
-			results.add(r.getContract());
-		}
-		return results;
-	}
 	@Override
 	public boolean conformsTo(IClassifier c){
 		if(this.equals(c)){
@@ -473,6 +461,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		// HACK !!!!!! OCtopus bug
 		// http://sourceforge.net/forum/forum.php?thread_id=1930599&forum_id=543588
+		// TODO makes no sense. Maybe we should rather fix the octopus bug now
 		if(c instanceof INakedClassifier){
 			INakedClassifier nc = (INakedClassifier) c;
 			for(INakedGeneralization i:nc.getNakedGeneralizations()){
@@ -511,6 +500,25 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		oclDefOperations.add(oper);
 	}
 	public List<IState> getStates(){
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
+	}
+	// This methods is masked from INakedClassifier. Republished by INakedInterface and INakedBehavioredClassifier
+	public Collection<INakedReception> getOwnedReceptions(){
+		return ownedReceptions;
+	}
+	// This methods is masked from INakedClassifier. Republished by INakedInterface and INakedBehavioredClassifier
+	public Collection<INakedReception> getEffectiveReceptions(){
+		HashSet<INakedReception> results = new HashSet<INakedReception>(ownedReceptions);
+		for(INakedGeneralization g:this.generalisations){
+			if(g.getGeneral() instanceof NakedClassifierImpl){
+				results.addAll(((NakedClassifierImpl) g.getGeneral()).getEffectiveReceptions());
+			}
+		}
+		return results;
+	}
+	@Override
+	@Deprecated
+	public List<IInterface> getInterfaces(){
+		return Collections.emptyList();
 	}
 }

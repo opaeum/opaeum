@@ -3,14 +3,10 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehavioredClassifierImpl;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.model.IModelElement;
 
 public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements INakedEntity{

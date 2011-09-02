@@ -9,11 +9,8 @@ package org.apache.maven.pom.util;
 import java.util.Map;
 
 import org.apache.maven.pom.POMPackage;
-
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 
 /**

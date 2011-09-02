@@ -3,20 +3,13 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.nakeduml.name.NameConverter;
-
-import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
-import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.AbstractPropertyBridge;
-import net.sf.nakeduml.metamodel.name.NameWrapper;
-import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IModelElement;
 
 public class AssociationClassToEnd extends AbstractPropertyBridge{
 	private INakedProperty property;

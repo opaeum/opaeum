@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.nakeduml.runtime.domain.TaskDelegation;
-
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.linkage.BehaviorUtil;

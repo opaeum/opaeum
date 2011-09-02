@@ -7,7 +7,6 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
-import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 

@@ -47,5 +47,4 @@ public class OperationMessageStructureImpl extends EmulatedCompositionMessageStr
 	public INakedOperation getOperation(){
 		return oper;
 	}
-
 }

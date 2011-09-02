@@ -3,9 +3,7 @@ package net.sf.nakeduml.metamodel.core.internal.emulated;
 import java.util.Collection;
 import java.util.Collections;
 
-import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
