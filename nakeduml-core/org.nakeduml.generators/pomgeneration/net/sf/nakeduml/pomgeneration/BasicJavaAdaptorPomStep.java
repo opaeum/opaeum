@@ -42,13 +42,13 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	}
 
 	private void addNumlAdaptor(Collection<Dependency> result) {
-		Dependency numlAdaptor = POMFactory.eINSTANCE.createDependency();
-		numlAdaptor.setGroupId("org.nakeduml");
-		numlAdaptor.setArtifactId("nakeduml-runtime-adaptor");
-		numlAdaptor.setScope("compile");
-		numlAdaptor.setVersion("${numl.version}");
-		result.add(numlAdaptor);
-		excludeSlf4j(numlAdaptor);
+//		Dependency numlAdaptor = POMFactory.eINSTANCE.createDependency();
+//		numlAdaptor.setGroupId("org.nakeduml");
+//		numlAdaptor.setArtifactId("nakeduml-runtime-adaptor");
+//		numlAdaptor.setScope("compile");
+//		numlAdaptor.setVersion("${numl.version}");
+//		result.add(numlAdaptor);
+//		excludeSlf4j(numlAdaptor);
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import net.sf.nakeduml.feature.ISourceFolderStrategy;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
-import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 
 public class MavenSourceFolderStrategy implements ISourceFolderStrategy{
@@ -72,5 +71,4 @@ public class MavenSourceFolderStrategy implements ISourceFolderStrategy{
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, "-integrated", "src/main/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, true, "-integrated", "src/test/generated-resources");
 	}
-
 }

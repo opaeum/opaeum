@@ -57,7 +57,7 @@ public class HibernateDomainPomStep extends PomGenerationStep{
 	@Override
 	public Properties getParentPomProperties(){
 		Properties props = super.getParentPomProperties();
-		props.put("hibernate.version", "3.6.0.Final");
+		props.put("hibernate.version", HIBERNATE_VERSION);
 		props.put("numl.version", PomGenerationPhase.NUML_VERSION);
 		return props;
 	}

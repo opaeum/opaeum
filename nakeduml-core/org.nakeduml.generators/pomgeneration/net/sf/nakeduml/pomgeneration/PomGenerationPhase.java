@@ -72,7 +72,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		this.features = features;
 		this.config = config;
 		if(config.generateMavenPoms()){
-			parentPom = buildPomRoot(config.getOutputRoot(), config.getWorkspaceIdentifier(), "pom", true);
+			parentPom = buildPomRoot(config.getOutputRoot(), config.getWorkspaceIdentifier()+"parent", "pom", true);
 			readIgnoreFile(config);
 			Plugin compiler = POMFactory.eINSTANCE.createPlugin();
 			compiler.setGroupId("org.apache.maven.plugins");
@@ -277,7 +277,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 		root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 		root.getProject().getParent().setGroupId(config.getMavenGroupId());
-		root.getProject().getParent().setArtifactId(workspace.getIdentifier());
+		root.getProject().getParent().setArtifactId(config.getWorkspaceIdentifier()+"parent");
 		root.getProject().getParent().setVersion(config.getMavenGroupVersion());
 	}
 	public void outputToFile(DocumentRoot root){
