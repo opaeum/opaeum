@@ -7,10 +7,8 @@ import java.util.List;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.NakedStateMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.linkage.StateMachineUtil;
-import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
@@ -18,7 +16,6 @@ import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
 
 import org.drools.drools._5._0.process.ActionNodeType;
-import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionsType;
 import org.drools.drools._5._0.process.DocumentRoot;
@@ -85,7 +82,7 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 			int id = owner.getMappingInfo().getNakedUmlId() + ON_COMPLETION_NODE_ID;
 			StateType state = super.addState(nodes, i, "on_completion_of_" + owner.getName(), id);
 			state.getOnEntry().add(ProcessFactory.eINSTANCE.createOnEntryType());
-			createAction(EventUtil.getEventHandlerName(owner), state.getOnEntry().get(0).getAction(),false);
+			createAction(EventUtil.getEventConsumerName(((INakedState) owner).getCompletionEvent()), state.getOnEntry().get(0).getAction(),false);
 			createConnection(connections, id, endNodeId);
 			endNodeId = id;
 			i++;
