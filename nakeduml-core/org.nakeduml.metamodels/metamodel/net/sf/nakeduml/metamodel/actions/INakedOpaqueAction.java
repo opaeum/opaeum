@@ -3,7 +3,6 @@ import java.util.List;
 
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
 /**
  * 
  * An abstract super interface for the two incarnations of opaqueActions

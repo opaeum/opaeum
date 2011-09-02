@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
@@ -16,9 +15,6 @@ public class NakedSendSignalActionImpl extends NakedInvocationActionImpl impleme
 	}
 	public INakedSignal getSignal(){
 		return this.signal;
-	}
-	public ActionType getActionType(){
-		return ActionType.SEND_SIGNAL_ACTION;
 	}
 	public Collection<INakedOutputPin> getOutput() {
 		return new HashSet<INakedOutputPin>();

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.uml2.uml.Activity;
-import org.nakeduml.eclipse.EmfValidationUtil;
-
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
+import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -26,12 +23,9 @@ import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerEvent;
 import net.sf.nakeduml.metamodel.core.IModifiableTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
@@ -45,10 +39,8 @@ import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
@@ -64,7 +56,6 @@ import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
-import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -75,9 +66,10 @@ import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.oclengine.internal.OclErrContextImpl;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
-import nl.klasse.octopus.stdlib.internal.types.OclLibraryImpl;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
+
+import org.nakeduml.eclipse.EmfValidationUtil;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,
@@ -439,7 +431,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		ParsedOclString string = (ParsedOclString) pin.getValue().getValue();
 		string.setContext(pin.getActivity(), pin.getValue());
 		Environment env = environmentFactory.createActivityEnvironment(pin, pin.getActivity());
-		pin.getValue().setValue(replaceSingleParsedOclString(string, pin.getActivity(), pin.getType(), env));
+		
+		IClassifier type = pin.getType();
+		if(pin.getAction() instanceof INakedSendSignalAction && pin==((INakedSendSignalAction)pin.getAction()).getTarget()){
+			type=null;
+		}
+		pin.getValue().setValue(replaceSingleParsedOclString(string, pin.getActivity(), type, env));
 	}
 	private void replaceParsedOclConstraints(INakedClassifier c,Collection<? extends INakedConstraint> invs,Environment env){
 		for(INakedConstraint cont:invs){

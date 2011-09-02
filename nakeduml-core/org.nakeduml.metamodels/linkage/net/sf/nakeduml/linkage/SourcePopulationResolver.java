@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -26,6 +24,8 @@ import net.sf.nakeduml.metamodel.core.internal.CompositionSiblingsFinder;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
+
+import org.nakeduml.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class,ValueSpecificationTypeResolver.class
@@ -88,11 +88,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			ParsedOclString pcs = (ParsedOclString) constr.getSpecification().getOclValue();
 			String other = p.getOtherEnd().getName();
 			pcs.setExpressionString(pcs.getExpressionString() + "->select(o|o." + other + ".oclIsUndefined() or o." + other + "=self)");
-			// System.out.println("oneToOne:" + pcs.getExpressionString());
 		}else{
 			ParsedOclString pcs = (ParsedOclString) constr.getSpecification().getOclValue();
 			pcs.setExpressionString(pcs.getExpressionString() + "->asSet()");
-			// System.out.println("toMany:" + pcs.getExpressionString());
 		}
 	}
 	private INakedConstraint buildOclConstraint(INakedProperty p,INakedConstraint constr,ICompositionParticipant e){

@@ -16,7 +16,6 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public final class ActivityVariableContext extends MessageStructureImpl{
 	private final INakedBehavior activity;

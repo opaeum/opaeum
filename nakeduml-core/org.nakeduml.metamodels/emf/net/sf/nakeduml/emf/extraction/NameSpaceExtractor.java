@@ -2,9 +2,9 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -18,7 +18,6 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedSignalImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaborationImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
@@ -34,7 +33,6 @@ import net.sf.nakeduml.metamodel.core.internal.NakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.internal.NakedModelImpl;
-import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
 import net.sf.nakeduml.metamodel.profiles.internal.NakedProfileImpl;
 import net.sf.nakeduml.metamodel.profiles.internal.NakedStereotypeImpl;
 import net.sf.nakeduml.metamodel.statemachines.StateMachineKind;
@@ -103,8 +101,6 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			}
 			System.out.println("Loaded mappings: " + mappedTypesUri);
 		}catch(IOException e1){
-			// System.out.println("Could not load mappedTypes in " + mappedTypesUri);
-			// System.out.println(e);
 		}
 	}
 	@VisitBefore

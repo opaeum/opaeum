@@ -64,14 +64,11 @@ import org.drools.drools._5._0.process.VariableType;
 import org.drools.drools._5._0.process.VariablesType;
 import org.drools.drools._5._0.process.WorkItemType;
 import org.drools.drools._5._0.process.WorkType;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**

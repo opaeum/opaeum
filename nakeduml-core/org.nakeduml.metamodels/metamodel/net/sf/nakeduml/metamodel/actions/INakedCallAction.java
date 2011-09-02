@@ -6,8 +6,6 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 /**
  * The superclass action for the invocation of either behviors or operations.

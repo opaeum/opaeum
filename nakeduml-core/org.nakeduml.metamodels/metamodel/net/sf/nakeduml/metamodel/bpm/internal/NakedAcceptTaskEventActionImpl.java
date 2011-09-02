@@ -1,12 +1,7 @@
 package net.sf.nakeduml.metamodel.bpm.internal;
 
 import net.sf.nakeduml.metamodel.actions.internal.NakedAcceptEventActionImpl;
-import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
-import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedAcceptTaskEventAction;
 
-public class NakedAcceptTaskEventActionImpl extends NakedAcceptEventActionImpl implements INakedAcceptDeadlineAction{
-	@Override
-	public INakedDeadline getDeadline(){
-		return (INakedDeadline) getTrigger().getEvent();
-	}
+public class NakedAcceptTaskEventActionImpl extends NakedAcceptEventActionImpl implements INakedAcceptTaskEventAction{
 }

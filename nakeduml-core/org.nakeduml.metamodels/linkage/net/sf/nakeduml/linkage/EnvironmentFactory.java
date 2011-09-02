@@ -15,10 +15,8 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
-import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -37,7 +35,6 @@ import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.INameSpace;
 import nl.klasse.octopus.model.IPackage;
 
 public class EnvironmentFactory{
@@ -124,8 +121,6 @@ public class EnvironmentFactory{
 		for(INakedElement ne:workspace.getOwnedElements()){
 			if(ne.getName() != null){
 				parent.addElement(ne.getName(), ne, false);
-			}else{
-				System.out.println(ne.getId() + "has no name!!");
 			}
 		}
 		return env;

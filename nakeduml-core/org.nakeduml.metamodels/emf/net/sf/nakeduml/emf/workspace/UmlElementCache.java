@@ -46,7 +46,6 @@ import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
-import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
@@ -196,8 +195,6 @@ public class UmlElementCache extends EContentAdapter{
 				}
 				if(ne != null){
 					scheduleSynchronization(ne);
-				}else{
-					System.out.println();
 				}
 			}
 		}

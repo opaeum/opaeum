@@ -6,24 +6,21 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedOperationMap;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
-import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import nl.klasse.octopus.model.IOperation;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJField;
@@ -103,7 +100,10 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
 		}else{
 			addLocalConditions(owner, mapper, oper.getPreConditions(), true);
-			addLocalConditions(owner, mapper, oper.getPostConditions(), false);
+			if(!oper.isLongRunning()){
+				// implement on Operation Message Structure instead
+				addLocalConditions(owner, mapper, oper.getPostConditions(), false);
+			}
 		}
 	}
 	public void addLocalConditions(INakedClassifier owner,NakedOperationMap mapper,Collection<INakedConstraint> conditions,boolean pre){

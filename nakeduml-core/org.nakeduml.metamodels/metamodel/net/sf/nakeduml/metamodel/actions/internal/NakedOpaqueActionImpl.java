@@ -3,10 +3,8 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedOpaqueAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
-import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 
 public abstract class NakedOpaqueActionImpl extends NakedActionImpl implements INakedOpaqueAction{
@@ -23,8 +21,5 @@ public abstract class NakedOpaqueActionImpl extends NakedActionImpl implements I
 	@Override
 	public List<INakedInputPin> getInputValues(){
 		return inputValues;
-	}
-	public ActionType getActionType(){
-		return ActionType.OPAQUE_ACTION;
 	}
 }

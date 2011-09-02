@@ -6,10 +6,11 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
@@ -32,7 +33,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
 },after = {
 	OperationAnnotator.class
-},before=CodeCleanup.class)
+},before = CodeCleanup.class)
 public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void classBefore(INakedClassifier c){
@@ -41,8 +42,10 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 		}else if(OJUtil.hasOJClass(c)){
 			OJAnnotatedClass myClass = findJavaClass(c);
 			addConstraintsTo(c, myClass);
-			for(INakedInterfaceRealization ir:c.getInterfaceRealizations()){
-				addInterfaceConstraintsToImplementation(myClass, ir.getContract());
+			if(c instanceof INakedBehavioredClassifier){
+				for(INakedInterfaceRealization ir:((INakedBehavioredClassifier) c).getInterfaceRealizations()){
+					addInterfaceConstraintsToImplementation(myClass, ir.getContract());
+				}
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 
 import java.util.Collection;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
@@ -10,10 +9,6 @@ import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 public class NakedGenericActionImpl extends NakedActionImpl{
 	private Collection<INakedInputPin> input;
 	private Collection<INakedOutputPin> output;
-	@Override
-	public ActionType getActionType(){
-		return ActionType.OPAQUE_ACTION;
-	}
 	@Override
 	public Collection<INakedInputPin> getInput(){
 		return this.input;

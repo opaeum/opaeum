@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;

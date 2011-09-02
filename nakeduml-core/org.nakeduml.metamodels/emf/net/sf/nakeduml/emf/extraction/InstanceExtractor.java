@@ -1,7 +1,5 @@
 package net.sf.nakeduml.emf.extraction;
 
-import java.util.Iterator;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -12,15 +10,12 @@ import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationLiteralImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedInstanceSpecificationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPowerTypeInstanceImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedSlotImpl;
-import nl.klasse.octopus.model.OclUsageType;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.ExtensionEnd;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
-import org.eclipse.uml2.uml.ValueSpecification;
 
 /**
  * Builds all instance specifications and their slots. Enumeration literals are a specialised form of instance specification and are also

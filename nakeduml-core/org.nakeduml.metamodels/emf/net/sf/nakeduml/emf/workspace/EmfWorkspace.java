@@ -1,6 +1,5 @@
 package net.sf.nakeduml.emf.workspace;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;

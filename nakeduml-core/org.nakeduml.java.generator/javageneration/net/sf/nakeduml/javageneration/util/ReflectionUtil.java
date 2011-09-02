@@ -106,7 +106,6 @@ public class ReflectionUtil {
 			}
 		} else {
 			name = "CouldNotDetermine OJPathName for " + type.getClass();
-			System.out.println(name);
 		}
 		return new OJPathName(name);
 	}

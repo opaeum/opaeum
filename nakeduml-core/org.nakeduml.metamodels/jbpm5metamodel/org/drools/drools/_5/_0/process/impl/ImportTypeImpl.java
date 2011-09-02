@@ -8,11 +8,8 @@ package org.drools.drools._5._0.process.impl;
 
 import org.drools.drools._5._0.process.ImportType;
 import org.drools.drools._5._0.process.ProcessPackage;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 

@@ -31,6 +31,9 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		resolver.addToImplementedInterfaces(new OJPathName(EnumResolver.class.getName()));
 		resolver.addToOperations(buildToNakedUmlId(ojEnum,els));
 		resolver.addToOperations(buildFromNakedUmlId(ojEnum,els));
+		OJAnnotatedOperation returnedClass = new OJAnnotatedOperation("returnedClass", new OJPathName("Class<?>"));
+		returnedClass.getBody().addToStatements("return " + ojEnum.getPathName() + ".class");
+		resolver.addToOperations(returnedClass);
 		resolver.setSuperclass(new OJPathName("org.nakeduml.hibernate.domain.AbstractEnumResolver"));
 	}
 

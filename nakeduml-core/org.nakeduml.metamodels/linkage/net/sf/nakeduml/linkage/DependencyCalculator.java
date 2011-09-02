@@ -26,19 +26,8 @@ import nl.klasse.octopus.expressions.IOclStateLiteralExp;
 import nl.klasse.octopus.expressions.IOclTypeLiteralExp;
 import nl.klasse.octopus.expressions.IOperationCallExp;
 import nl.klasse.octopus.expressions.IVariableDeclaration;
-import nl.klasse.octopus.expressions.internal.types.AttributeCallExp;
-import nl.klasse.octopus.expressions.internal.types.OclExpression;
-import nl.klasse.octopus.expressions.internal.types.OperationCallExp;
-import nl.klasse.octopus.expressions.internal.types.PropertyCallExp;
-import nl.klasse.octopus.model.IAttribute;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IEnumLiteral;
-import nl.klasse.octopus.model.IEnumerationType;
 import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.oclengine.IOclContext;
-import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	NakedParsedOclStringResolver.class

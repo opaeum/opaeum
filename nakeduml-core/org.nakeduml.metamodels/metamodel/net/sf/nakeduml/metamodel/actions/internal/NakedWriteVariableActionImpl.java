@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 
 public abstract class NakedWriteVariableActionImpl extends NakedVariableActionImpl implements INakedWriteVariableAction {
 	INakedInputPin value;
+	private INakedInputPin insertAt;
 
 	public Set<INakedInputPin> getInput() {
 		if (getValue() == null) {
@@ -24,5 +25,13 @@ public abstract class NakedWriteVariableActionImpl extends NakedVariableActionIm
 	public void setValue(INakedInputPin value) {
 		removeOwnedElement(this.value);
 		this.value = value;
+	}
+
+	public INakedInputPin getInsertAt(){
+		return insertAt;
+	}
+
+	public void setInsertAt(INakedInputPin insertAt){
+		this.insertAt = insertAt;
 	}
 }

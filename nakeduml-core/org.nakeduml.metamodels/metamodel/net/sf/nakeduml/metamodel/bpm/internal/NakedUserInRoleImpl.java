@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.bpm.INakedBusinessService;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
+import net.sf.nakeduml.metamodel.bpm.INakedBusinessService;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;

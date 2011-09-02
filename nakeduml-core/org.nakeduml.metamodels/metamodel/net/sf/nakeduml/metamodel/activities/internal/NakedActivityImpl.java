@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.activities.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,14 +15,13 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
-import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IAttribute;
@@ -50,7 +48,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 					results.add(node);
 				}
 			}else if(node.getAllEffectiveIncoming().isEmpty()){
-				if(!(node instanceof INakedAction && ((INakedAction) node).handlesException())){
+				if(!(node instanceof INakedAction && ((INakedAction) node).handlesException() ) || node instanceof INakedAcceptEventAction){
 					results.add(node);
 				}
 			}
@@ -130,15 +128,15 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public Set<INakedActivityNode> getActivityNodes(){
 		return this.activityNodes;
 	}
-	public List<INakedElement> getAllMessageTriggers(){
-		List<INakedElement> results = new ArrayList<INakedElement>();
-		Iterator iter = getActivityNodesRecursively().iterator();
-		while(iter.hasNext()){
-			INakedActivityNode element = (INakedActivityNode) iter.next();
-			if(element instanceof INakedAcceptEventAction){
-				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) element;
-				if(acceptEventAction.getTrigger() != null && acceptEventAction.getTrigger().getEvent() != null){
-					results.add(acceptEventAction.getTrigger().getEvent());
+	public List<INakedMessageEvent> getAllMessageEvents(){
+		List<INakedMessageEvent> results = new ArrayList<INakedMessageEvent>();
+		for(INakedActivityNode node:getActivityNodesRecursively()){
+			if(node instanceof INakedAcceptEventAction){
+				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
+				for(INakedTrigger t:acceptEventAction.getTriggers()){
+					if(t.getEvent() instanceof INakedMessageEvent){
+						results.add((INakedMessageEvent)t.getEvent());
+					}
 				}
 			}
 		}

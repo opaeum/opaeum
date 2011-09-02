@@ -11,7 +11,6 @@ import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import net.sf.nakeduml.emf.extraction.EmfExtractionPhase;
 import net.sf.nakeduml.emf.extraction.NameSpaceExtractor;
 
 import org.eclipse.emf.common.util.URI;

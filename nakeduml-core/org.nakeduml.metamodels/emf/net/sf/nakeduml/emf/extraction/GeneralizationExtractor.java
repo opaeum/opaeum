@@ -2,8 +2,8 @@ package net.sf.nakeduml.emf.extraction;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedPowerTypeInstance;
@@ -25,7 +25,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf {
 		Classifier parent = r.getContract();
 		Classifier child = r.getImplementingClassifier();
 		INakedInterface nakedParent = (INakedInterface) getNakedPeer(parent);
-		INakedClassifier nakedChild = (INakedClassifier) getNakedPeer(child);
+		INakedBehavioredClassifier nakedChild = (INakedBehavioredClassifier) getNakedPeer(child);
 		if (nakedParent == null) {
 			System.out.println("Contract is not in model:" + parent.getName());
 			return;

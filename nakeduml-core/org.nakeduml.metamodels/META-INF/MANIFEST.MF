@@ -15,7 +15,6 @@ Bundle-ClassPath:
  .,
  lib/javassist-3.12.0.GA.jar
 Export-Package: net.sf.nakeduml,
- net.sf.nakeduml.domainmetamodel,
  net.sf.nakeduml.emf.extraction,
  net.sf.nakeduml.emf.load,
  net.sf.nakeduml.emf.reverse,
@@ -53,7 +52,6 @@ Export-Package: net.sf.nakeduml,
  net.sf.nakeduml.metamodel.workspace,
  net.sf.nakeduml.metamodel.workspace.internal,
  net.sf.nakeduml.textmetamodel,
- net.sf.nakeduml.userinteractionmetamodel,
  net.sf.nakeduml.validation,
  net.sf.nakeduml.validation.activities,
  net.sf.nakeduml.validation.commonbehavior,
@@ -66,5 +64,4 @@ Export-Package: net.sf.nakeduml,
  org.drools.drools._5._0.process,
  org.drools.drools._5._0.process.impl,
  org.drools.drools._5._0.process.util,
- org.nakeduml.eclipse,
- util
+ org.nakeduml.eclipse

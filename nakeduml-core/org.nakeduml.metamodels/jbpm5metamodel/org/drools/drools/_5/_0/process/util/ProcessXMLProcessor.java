@@ -9,11 +9,8 @@ package org.drools.drools._5._0.process.util;
 import java.util.Map;
 
 import org.drools.drools._5._0.process.ProcessPackage;
-
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
-
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 
 /**

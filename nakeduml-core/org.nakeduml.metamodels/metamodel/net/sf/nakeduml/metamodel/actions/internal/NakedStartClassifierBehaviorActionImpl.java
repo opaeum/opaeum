@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedStartClassifierBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.ITargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
@@ -20,9 +19,6 @@ public class NakedStartClassifierBehaviorActionImpl extends NakedActionImpl impl
 	public void setObject(INakedInputPin object){
 		this.removeOwnedElement(this.object);
 		this.object = object;
-	}
-	public ActionType getActionType(){
-		return ActionType.START_CLASSIFIER_BEHAVIOR_ACTION;
 	}
 	public Collection<INakedOutputPin> getOutput(){
 		return new HashSet<INakedOutputPin>();

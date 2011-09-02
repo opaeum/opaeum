@@ -2,29 +2,22 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.internal.NakedExceptionHandlerImpl;
-import net.sf.nakeduml.metamodel.actions.internal.NakedOpaqueActionImpl;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
-import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
-import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityEdgeImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedControlNodeImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedObjectFlowImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
-import nl.klasse.octopus.model.OclUsageType;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Action;

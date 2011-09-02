@@ -3,7 +3,6 @@ package net.sf.nakeduml.emf.extraction;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
@@ -15,7 +14,6 @@ import net.sf.nakeduml.metamodel.activities.internal.NakedPinImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedValuePinImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
-import nl.klasse.octopus.model.OclUsageType;
 
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;

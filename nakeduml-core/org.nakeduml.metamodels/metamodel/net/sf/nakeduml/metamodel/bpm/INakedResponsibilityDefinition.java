@@ -2,13 +2,11 @@ package net.sf.nakeduml.metamodel.bpm;
 
 import java.util.Collection;
 
-import org.nakeduml.runtime.domain.TaskDelegation;
-
-import net.sf.nakeduml.metamodel.actions.ITargetElement;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+
+import org.nakeduml.runtime.domain.TaskDelegation;
 
 public interface INakedResponsibilityDefinition extends INakedElement{
 	/**

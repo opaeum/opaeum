@@ -6,7 +6,6 @@ import java.util.List;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.VisibilityKind;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 //MOve most of this logic to INakedComplexStructure
 
@@ -34,7 +33,6 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	void addSubClass(INakedClassifier c);
 	void removeSubClass(INakedClassifier specific);
 	Collection<? extends INakedGeneralization> getNakedGeneralizations();
-	Collection<? extends INakedInterfaceRealization> getInterfaceRealizations();
 	/**
 	 * Returns true if this classifier has a generalization
 	 */
@@ -63,7 +61,7 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	 * Returns a list containing the operations of this class and its superclasses. <BR>
 	 * Equivalent of UMl2 Class::operations, but could not use this name due to different semantics in Octopus
 	 */
-	List<? extends INakedOperation> getEffectiveOperations();
+	Collection<? extends INakedOperation> getEffectiveOperations();
 	boolean hasPowerType();
 	/**
 	 * Returns the PowerType which is an EnumerationType that has an enumeration literal for every subclass of this class
@@ -76,7 +74,6 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	 * 
 	 * @return
 	 */
-	void addInterfaceRealization(INakedInterfaceRealization in);
 	Collection<IImportedElement> getImports();
 	void setVisibility(VisibilityKind public1);
 	List<? extends INakedConstraint> getOwnedRules();

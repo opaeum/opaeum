@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -108,8 +108,6 @@ public class ValueSpecificationUtil{
 			expression = valueSpec.getValue().toString();
 		}else if(valueSpec.getValue() instanceof ParsedOclString){
 			return "OCL INVALID!: " + valueSpec.getValue();
-			// System.out.println(valueSpec.getValue() +
-			// "not suppported in INakedValueSpecification");
 			// TODO instancespecifications
 		}
 		return expression;

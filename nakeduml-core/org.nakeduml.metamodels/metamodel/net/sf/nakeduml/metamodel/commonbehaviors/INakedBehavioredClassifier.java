@@ -3,12 +3,18 @@ package net.sf.nakeduml.metamodel.commonbehaviors;
 import java.util.Collection;
 
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 
 public interface INakedBehavioredClassifier extends INakedClassifier{
 	INakedBehavior getClassifierBehavior();
 	void setClassifierBehavior(INakedBehavior behavior);
-	Collection<INakedReception> getOwnedReception();
+	Collection<INakedReception> getOwnedReceptions();
 	Collection<? extends INakedReception> getEffectiveReceptions();
 	Collection<? extends INakedBehavior> getOwnedBehaviors();
 	Collection<? extends INakedBehavior> getEffectiveBehaviors();
+	Collection<? extends INakedInterfaceRealization> getInterfaceRealizations();
+	void addInterfaceRealization(INakedInterfaceRealization in);
+
+	boolean hasReceptionFor(INakedSignal signal);
+
 }

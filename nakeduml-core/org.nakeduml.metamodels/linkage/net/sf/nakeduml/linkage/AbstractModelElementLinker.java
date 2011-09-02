@@ -3,9 +3,9 @@ package net.sf.nakeduml.linkage;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;

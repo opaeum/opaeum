@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.actions.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedRaiseExceptionAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -27,10 +26,6 @@ public class NakedRaiseExceptionActionImpl extends NakedActionImpl implements IN
 		return new ArrayList<INakedOutputPin>();
 	}
 
-	@Override
-	public ActionType getActionType() {
-		return ActionType.RAISE_EXCEPTION_ACTION;
-	}
 
 	@Override
 	public void setException(INakedInputPin p) {

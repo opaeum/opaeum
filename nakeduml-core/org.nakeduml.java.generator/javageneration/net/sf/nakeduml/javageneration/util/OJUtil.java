@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -174,15 +174,6 @@ public class OJUtil{
 	}
 	// TODO move to annotated class
 	public static OJOperation findOperation(OJClass theClass,String name){
-		// if (theClass.getName().equals("Network")) {
-		// StringBuffer sb = new StringBuffer();
-		// StackTraceElement[] stackTrace = Thread.currentThread()
-		// .getStackTrace();
-		// for (int i = 0; i < stackTrace.length; i++) {
-		// sb.append(stackTrace[i].toString());
-		// }
-		// System.out.println("called " + sb.toString());
-		// }
 		Iterator<OJOperation> iter = theClass.getOperations().iterator();
 		while(iter.hasNext()){
 			OJOperation o = (OJOperation) iter.next();

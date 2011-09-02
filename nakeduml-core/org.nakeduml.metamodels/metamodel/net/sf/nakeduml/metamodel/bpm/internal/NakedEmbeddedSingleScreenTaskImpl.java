@@ -15,8 +15,6 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
-import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.stdlib.IOclLibrary;
 
 public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl implements INakedEmbeddedSingleScreenTask{
 	private INakedMessageStructure asClass;

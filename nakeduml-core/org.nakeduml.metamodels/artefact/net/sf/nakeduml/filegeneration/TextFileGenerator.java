@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.textmetamodel.TextDirectory;
 import net.sf.nakeduml.textmetamodel.TextFile;
