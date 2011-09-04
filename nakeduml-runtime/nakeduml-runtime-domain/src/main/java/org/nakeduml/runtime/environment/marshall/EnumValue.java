@@ -7,7 +7,7 @@ public class EnumValue extends Value{
 	public Integer getEnumId(){
 		return enumId;
 	}
-	public EnumValue(Integer classId,Integer enumId){
+	public EnumValue(String classId,Integer enumId){
 		super(classId);
 		this.enumId = enumId;
 	}

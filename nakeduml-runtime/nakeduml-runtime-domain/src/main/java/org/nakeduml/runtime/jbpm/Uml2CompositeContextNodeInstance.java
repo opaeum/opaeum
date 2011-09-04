@@ -2,7 +2,6 @@ package org.nakeduml.runtime.jbpm;
 
 import org.drools.definition.process.Connection;
 import org.jbpm.workflow.instance.node.CompositeContextNodeInstance;
-import org.jbpm.workflow.instance.node.CompositeNodeInstance;
 import org.nakeduml.runtime.domain.TransitionListener;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 

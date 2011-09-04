@@ -12,17 +12,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.jar.JarFile;
-
-import org.nakeduml.annotation.NumlMetaInfo;
 
 public class IntrospectionUtil{
 	public static MethodDescriptor getMethod(String name,Class<?> c){
@@ -70,10 +65,12 @@ public class IntrospectionUtil{
 			throw new RuntimeException(e);
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public static <T>Class<T> getOriginalClass(T target){
 		Class<T> c = (Class<T>) target.getClass();
 		return (Class<T>) getOriginalClass(c);
 	}
+	@SuppressWarnings("unchecked")
 	public static <T>Class<? extends T> getOriginalClass(Class<? extends T> c){
 		while(c.getName().indexOf("$$") > -1 || c.isSynthetic() || c.getName().indexOf("$Proxy") > -1){
 			c = (Class<? extends T>) c.getSuperclass();
@@ -130,9 +127,10 @@ public class IntrospectionUtil{
 			throw new RuntimeException(e);
 		}
 	}
-	public static Class<?> getClass(String entityToCreate){
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> getClass(String entityToCreate){
 		try{
-			return Thread.currentThread().getContextClassLoader().loadClass(entityToCreate);
+			return (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(entityToCreate);
 		}catch(ClassNotFoundException e){
 			throw new RuntimeException(e);
 		}
@@ -190,7 +188,7 @@ public class IntrospectionUtil{
 	private static void deriveDependenciesFromGenericType(Set<Class<?>> result,Type elementType,String...packages){
 		for(String string:packages){
 			if(elementType instanceof Class){
-				Class class1 = (Class) elementType;
+				Class<?> class1 = (Class<?>) elementType;
 				if(class1.isArray()){
 					deriveDependenciesFromGenericType(result, class1.getComponentType(), packages);
 				}else if(class1.getName().contains(string)){
@@ -200,7 +198,7 @@ public class IntrospectionUtil{
 				ParameterizedType pt = (ParameterizedType) elementType;
 				Type[] typeParameters = pt.getActualTypeArguments();
 				for(Type type:typeParameters){
-					if(type instanceof Class<?> && ((Class) type).getName().contains(string)){
+					if(type instanceof Class<?> && ((Class<?>) type).getName().contains(string)){
 						addDependencies((Class<?>) type, result, packages);
 					}
 				}
@@ -246,21 +244,22 @@ public class IntrospectionUtil{
 		}
 		return classes;
 	}
-	public static Class classForName(String name){
+	@SuppressWarnings("unchecked")
+	public static <T> Class<? extends T> classForName(String name){
 		try{
 			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 			if(contextClassLoader != null){
-				return contextClassLoader.loadClass(name);
+				return (Class<? extends T>) contextClassLoader.loadClass(name);
 			}
 		}catch(Throwable ignore){
 		}
 		try{
-			return Class.forName(name);
+			return (Class<? extends T>) Class.forName(name);
 		}catch(Throwable t){
 			throw new RuntimeException(t);
 		}
 	}
-	public static Enum<?>[] getEnumLiterals(Class<? extends Enum> c){
+	public static Enum<?>[] getEnumLiterals(Class<? extends Enum<?>> c){
 		List<Enum<?>> result = new ArrayList<Enum<?>>();
 		try{
 			for(Field field:c.getDeclaredFields()){

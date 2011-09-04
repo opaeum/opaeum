@@ -4,7 +4,6 @@ import org.drools.definition.process.Connection;
 import org.drools.definition.process.Node;
 import org.drools.runtime.process.NodeInstance;
 import org.jbpm.workflow.core.impl.NodeImpl;
-import org.jbpm.workflow.instance.node.CompositeNodeInstance;
 import org.jbpm.workflow.instance.node.DynamicNodeInstance;
 import org.nakeduml.runtime.domain.TransitionListener;
 import org.nakeduml.runtime.domain.UmlNodeInstance;

@@ -11,4 +11,10 @@ public interface AbstractPersistence{
 	Query createQuery(String q);
 	<T> Collection<T> readAll(Class<T> c);
 	void remove(IPersistentObject event);
+	/**
+	 * Primarily for tests
+	 * @param ctx
+	 */
+	void refresh(IPersistentObject ... ctx);
+
 }

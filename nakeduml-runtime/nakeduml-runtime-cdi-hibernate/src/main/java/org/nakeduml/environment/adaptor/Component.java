@@ -28,6 +28,7 @@ public class Component extends BeanManagerAware{
 		CreationalContext<?> ctx = beanManager.createCreationalContext(bean);
 		return (T) beanManager.getReference(bean, type, ctx);
 	}
+	@SuppressWarnings("unchecked")
 	public <T>Class<T> getImplementationClass(T o){
 		if(!o.getClass().isSynthetic() && !o.getClass().getName().contains("$$")){
 			return (Class<T>) o.getClass();

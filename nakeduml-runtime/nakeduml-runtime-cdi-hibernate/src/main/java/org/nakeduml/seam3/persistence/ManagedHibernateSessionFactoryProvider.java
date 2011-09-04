@@ -19,7 +19,6 @@ import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.connection.ConnectionProviderFactory;
 import org.hibernate.impl.SessionFactoryImpl;
 import org.hibernate.mapping.PersistentClass;
-import org.nakeduml.hibernate.domain.PostgresDialect;
 import org.nakeduml.runtime.environment.Environment;
 
 @ApplicationScoped
@@ -35,7 +34,7 @@ public class ManagedHibernateSessionFactoryProvider{
 				Connection connection = connProvider.getConnection();
 				createSchemas(config, connection);
 				// TODO first check if it is indeed Postgres
-				config.getTypeResolver().registerTypeOverride(PostgresDialect.PostgresqlMateralizedBlobType.INSTANCE);
+//				config.getTypeResolver().registerTypeOverride(PostgresDialect.PostgresqlMateralizedBlobType.INSTANCE);
 				this.sessionFactory = (SessionFactoryImpl) config.buildSessionFactory();
 			}catch(Exception e){
 				e.printStackTrace();

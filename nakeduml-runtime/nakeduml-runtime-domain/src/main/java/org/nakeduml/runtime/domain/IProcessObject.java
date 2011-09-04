@@ -9,4 +9,5 @@ public interface IProcessObject extends IActiveObject{
 	void forceToStep(IProcessStep step);
 	WorkflowProcessInstance getProcessInstance();
 	Long getProcessInstanceId();
+	boolean isProcessDirty();
 }

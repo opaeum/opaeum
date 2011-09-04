@@ -7,6 +7,7 @@ import org.nakeduml.cdi.CdiHibernateKnowledgeSession;
 import org.nakeduml.hibernate.domain.HibernateEnvironment;
 
 public class CdiEnvironment extends HibernateEnvironment{
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T>T getComponent(Class<T> clazz){
 		if(clazz == StatefulKnowledgeSession.class){

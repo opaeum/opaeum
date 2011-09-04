@@ -9,12 +9,12 @@ import java.util.Set;
 public class CollectionValue extends Value{
 	private static final long serialVersionUID = 531640008870617688L;
 	Collection<Value> values;
-	public CollectionValue(Integer typeId,Collection<Value> c){
+	public CollectionValue(String typeId,Collection<Value> c){
 		super(typeId);
 		this.values = c;
 	}
 	public CollectionValue(Collection<Value> newValue){
-		this(Integer.MIN_VALUE, newValue);
+		this("asdf", newValue);
 	}
 	public Collection<Value> getCollection(){
 		return this.getCollection();

@@ -8,6 +8,7 @@ import org.nakeduml.runtime.domain.TransitionListener;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
 public class Uml2EndStateInstance extends EndNodeInstance implements UmlNodeInstance {
+	private static final long serialVersionUID = 4564655827620748188L;
 	@Override
 	public void triggerConnection(Connection arg0){
 		super.triggerConnection(arg0);

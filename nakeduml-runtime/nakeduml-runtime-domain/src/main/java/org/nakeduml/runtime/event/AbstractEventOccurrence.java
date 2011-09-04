@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
-import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.environment.Environment;
@@ -24,7 +24,7 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	public AbstractEventOccurrence(){
 	}
 	public abstract Date getFirstOccurrenceScheduledFor();
-	protected abstract Integer getEventTargetClassId();
+	protected abstract String getEventTargetClassId();
 	public abstract Long getId();
 	public abstract EventOccurrenceStatus getStatus();
 	public abstract int getRetryCount();
@@ -66,7 +66,6 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 			return false;
 		}
 	}
-	// For Mocking Purposes
 	public Object getEventTarget(){
 		return this.eventTarget;
 	}
@@ -74,13 +73,15 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		JavaMetaInfoMap map = Environment.getMetaInfoMap();
 		this.handler = map.getEventHandler(getHandlerUuid());
 		if(handler==null){
-			handler=(IEventHandler)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(getHandlerUuid()));
+			Class<? extends IEventHandler> clss = IntrospectionUtil.classForName(getHandlerUuid());
+			handler=IntrospectionUtil.newInstance(clss);
 		}
 		handler.unmarshall(this.getPropertyValues(), session);
 		eventTarget = Value.valueOf(getTargetValue(), session);
 	}
 	public Class<?> getEventSourceClass(){
-		return Environment.getMetaInfoMap().getClass(getEventTargetClassId());
+		Class<?> class1 = Environment.getMetaInfoMap().getClass(getEventTargetClassId());
+		return class1;
 	}
 	public String getName(){
 		return getDescription();
@@ -96,7 +97,9 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 		if(target instanceof IPersistentObject){
 			id = ((IPersistentObject) target).getId();
 		}
-		int eventTargetClassId = Environment.getMetaInfoMap().getNakedUmlId(IntrospectionUtil.getOriginalClass(target.getClass()));
+		Class<? extends Object> originalClass = IntrospectionUtil.getOriginalClass(target.getClass());
+		NumlMetaInfo annotation = originalClass.getAnnotation(NumlMetaInfo.class);
+		String eventTargetClassId =annotation==null?originalClass.getName(): annotation.uuid();
 		return uuid + "$" + id + "$" + eventTargetClassId;
 	}
 	public void prepareForDispatch(){

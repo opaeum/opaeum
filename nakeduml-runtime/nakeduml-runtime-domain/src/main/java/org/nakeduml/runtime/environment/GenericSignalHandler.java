@@ -32,7 +32,9 @@ public class GenericSignalHandler implements IEventHandler{
 		ArrayList<PropertyValue> l=new ArrayList<PropertyValue>(propertyValues);
 		PropertyValue propertyValue = l.get(0);
 		Serializable value = ((SerializableValue) propertyValue.getValue()).getValue();
-		this.signal = IntrospectionUtil.newInstance((Class<? extends ISignal>) value);
+		@SuppressWarnings("unchecked")
+		Class<? extends ISignal> clss = (Class<? extends ISignal>) value;
+		this.signal = IntrospectionUtil.newInstance(clss);
 		PropertyDescriptor[] pds = IntrospectionUtil.getProperties(signal.getClass());
 		for(int i = 1; i < l.size();i++){
 			PropertyValue pv = l.get(i);
@@ -42,7 +44,7 @@ public class GenericSignalHandler implements IEventHandler{
 	@Override
 	public Collection<PropertyValue> marshall(){
 		Collection<PropertyValue> result=new ArrayList<PropertyValue>();
-		result.add(new PropertyValue(10101, new SerializableValue(-1, signal.getClass())));
+		result.add(new PropertyValue(10101, new SerializableValue("1234", signal.getClass())));
 		int i=0;
 		for(PropertyDescriptor p:IntrospectionUtil.getProperties(signal.getClass())){
 			result.add(new PropertyValue(i++,Value.valueOf(IntrospectionUtil.get(p,signal))));

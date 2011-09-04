@@ -16,132 +16,138 @@ import org.nakeduml.runtime.domain.ISignal;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.event.IEventHandler;
 
-//TODO extractor adaptor logic into a differnt class
-public abstract class JavaMetaInfoMap{
+public abstract class JavaMetaInfoMap {
 	private Collection<Class<?>> allClasses = new HashSet<Class<?>>();
-	private Map<Integer,Class<?>> nakedUmlIdClassMap = new HashMap<Integer,Class<?>>();
-	private Map<String,Class<?>> uuidClassMap = new HashMap<String,Class<?>>();
-	private Map<Class<?>,Integer> classNakedUmlIdMap = new HashMap<Class<?>,Integer>();
-	private Map<Class<?>,Map<Class<?>,Object>> secondaryClassMap = new HashMap<Class<?>,Map<Class<?>,Object>>();
-	private Map<String,Class<? extends IEventHandler>> eventHandlersByUuid = new HashMap<String,Class<? extends IEventHandler>>();
-	public void mergeWith(JavaMetaInfoMap other){
+	private Map<String, Class<?>> uuidClassMap = new HashMap<String, Class<?>>();
+	private Map<Class<?>, String> classUuidMap = new HashMap<Class<?>, String>();
+	private Map<Class<?>, Map<Class<?>, Object>> secondaryClassMap = new HashMap<Class<?>, Map<Class<?>, Object>>();
+	private Map<String, Class<? extends IEventHandler>> eventHandlersByUuid = new HashMap<String, Class<? extends IEventHandler>>();
+
+	public void importMetaInfo(JavaMetaInfoMap other) {
+		classUuidMap.putAll(other.classUuidMap);
 		allClasses.addAll(other.allClasses);
-		nakedUmlIdClassMap.putAll(other.nakedUmlIdClassMap);
 		uuidClassMap.putAll(other.uuidClassMap);
-		classNakedUmlIdMap.putAll(other.classNakedUmlIdMap);
 		secondaryClassMap.putAll(other.secondaryClassMap);
 		eventHandlersByUuid.putAll(other.eventHandlersByUuid);
 	}
-	public Collection<Class<?>> getAllClasses(){
+
+	public Collection<Class<?>> getAllClasses() {
 		return allClasses;
 	}
-	public Class<?> getClass(Integer id){
-		return nakedUmlIdClassMap.get(id);
-	}
-	public Integer getNakedUmlId(Class<? extends Object> c){
-		Integer integer = classNakedUmlIdMap.get(c);
-		if(integer == null){
-			// Try direct interfaces first
-			Class<?>[] interfaces = c.getInterfaces();
-			for(Class<?> class1:interfaces){
-				integer = getNakedUmlId(class1);
-				if(integer != null){
-					break;
-				}
-			}
-			if(integer == null){
-				Class<?> o = c.getSuperclass();
-				integer = getNakedUmlId(o);
-			}
-			if(integer != null){
-				classNakedUmlIdMap.put(c, integer);
-			}
-		}
-		return integer;
-	}
-	protected void putMethod(Class<? extends Object> c,String uuid,int nakedUmlId){
+
+	protected void putMethod(Class<? extends Object> c, String uuid, int nakedUmlId) {
+		// Will only be called from the declaring model, so this nakedUmlId
+		// won't be unique, but does serve to identifiy the handler
 		Method[] declaredMethods = c.getDeclaredMethods();
-		for(Method method:declaredMethods){
-			if(method.isAnnotationPresent(NumlMetaInfo.class)){
-				if(uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())){
-					Class<? extends IEventHandler> mi = IntrospectionUtil.classForName(c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName())
-							+ "Handler" + nakedUmlId);
+		for (Method method : declaredMethods) {
+			if (method.isAnnotationPresent(NumlMetaInfo.class)) {
+				if (uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())) {
+					String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
+					Class<? extends IEventHandler> mi = IntrospectionUtil.classForName(handlerName);
 					this.eventHandlersByUuid.put(uuid, mi);
 					allClasses.add(mi);
-					try{
-						allClasses.add(IntrospectionUtil.classForName(c.getName().toLowerCase() + "." + c.getSimpleName() + NameConverter.capitalize(method.getName())
-								+ nakedUmlId + "InvokerMdb"));
-					}catch(Exception e){
-					}
 					break;
 				}
 			}
 		}
 	}
-	public void putEventHandler(Class<? extends IEventHandler> handler,String uuid){
+
+	public static void main(String[] args) {
+		System.out.println("asdfasdfasdfasdfasdfa".hashCode());
+	}
+
+	public void putEventHandler(Class<? extends IEventHandler> handler, String uuid) {
 		eventHandlersByUuid.put(uuid, handler);
 	}
-	protected void putClass(Class<? extends Object> c,String uid,int nakedUmlId){
-		if(ISignal.class.isAssignableFrom(c)){
-			addSecondaryClass(IEventHandler.class, c, "Handler", false);
-			try{
-				// Try to ensure it is in allClasses
-				addSecondaryClass(Class.forName("org.nakeduml.environment.adaptor.AbstractSignalMdb"), c, "Listener", true);
-			}catch(Exception e){
-			}
-		}else if(IPersistentObject.class.isAssignableFrom(c)){
-			try{
-				// Try to ensure it is in allClasses
-				addSecondaryClass(Class.forName("org.nakeduml.adaptor.IDataGenerator"), c, "DataGenerator", true);
-			}catch(Exception e){
-			}
-		}else if(IEnum.class.isAssignableFrom(c)){
+
+	protected void putClass(Class<? extends Object> c, String uuid) {
+		if (ISignal.class.isAssignableFrom(c)) {
+			Class<? extends IEventHandler> handler = IntrospectionUtil.classForName(c.getName() + "Handler");
+			putEventHandler(handler, uuid);
+		} else if (IPersistentObject.class.isAssignableFrom(c)) {
+			// TODO datagenerator
+		} else if (IEnum.class.isAssignableFrom(c)) {
 			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
 		}
-		if(IProcessObject.class.isAssignableFrom(c)){
+		if (IProcessObject.class.isAssignableFrom(c)) {
 			addSecondaryClass(EnumResolver.class, c, "StateResolver", true);
 		}
 		allClasses.add(c);
-		nakedUmlIdClassMap.put(nakedUmlId, c);
-		classNakedUmlIdMap.put(c, nakedUmlId);
+		classUuidMap.put(c, uuid);
+		uuidClassMap.put(uuid, c);
 	}
-	public <T>T getSecondaryObject(Class<T> secondaryClass,Class<?> c){
-		Map<Class<?>,Object> map = secondaryClassMap.get(secondaryClass);
-		if(map == null){
+
+	@SuppressWarnings("unchecked")
+	public <T> T getSecondaryObject(Class<T> secondaryClass, Class<?> c) {
+		Map<Class<?>, Object> map = secondaryClassMap.get(secondaryClass);
+		if (map == null) {
 			throw new IllegalArgumentException("Unsupported secondary class: " + secondaryClass.getName());
-		}else{
+		} else {
 			Object object = map.get(c);
-			if(object instanceof Class<?>){
+			if (object instanceof Class<?>) {
 				return IntrospectionUtil.newInstance((Class<T>) object);
-			}else{
+			} else {
 				return (T) object;
 			}
 		}
 	}
-	private void addSecondaryClass(Class<?> secondaryClassSuperclass,Class<? extends Object> c,String string,boolean singleton){
-		try{
+
+	private void addSecondaryClass(Class<?> secondaryClassSuperclass, Class<? extends Object> c, String string, boolean singleton) {
+		try {
 			Class<?> secondaryClass = Class.forName(c.getName() + string);
-			Map<Class<?>,Object> map = secondaryClassMap.get(secondaryClassSuperclass);
-			if(map == null){
-				map = new HashMap<Class<?>,Object>();
+			Map<Class<?>, Object> map = secondaryClassMap.get(secondaryClassSuperclass);
+			if (map == null) {
+				map = new HashMap<Class<?>, Object>();
 				secondaryClassMap.put(secondaryClassSuperclass, map);
 			}
-			if(singleton){
+			if (singleton) {
 				map.put(c, secondaryClass.newInstance());
-			}else{
+			} else {
 				map.put(c, secondaryClass);
 			}
 			allClasses.add(secondaryClass);
-		}catch(ClassNotFoundException e){
-		}catch(InstantiationException e){
-		}catch(IllegalAccessException e){
+		} catch (ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+		} catch (IllegalAccessException e) {
 		}
 	}
-	public IEventHandler getEventHandler(String triggerUuid){
+
+	public Class<?> getClass(String eventTargetClassId) {
+		return uuidClassMap.get(eventTargetClassId);
+	}
+
+	public String getUuidFor(Class<? extends Object> c) {
+		NumlMetaInfo annotation = c.getAnnotation(NumlMetaInfo.class);
+		if (annotation != null) {
+			return annotation.uuid();
+		} else {
+			String uuid = classUuidMap.get(c);
+			if (uuid == null) {
+				// Try direct interfaces first
+				Class<?>[] interfaces = c.getInterfaces();
+				for (Class<?> class1 : interfaces) {
+					uuid = getUuidFor(class1);
+					if (uuid != null) {
+						break;
+					}
+				}
+				if (uuid == null && c.getSuperclass() != null && c.getSuperclass() != Object.class) {
+					Class<?> o = c.getSuperclass();
+					uuid = getUuidFor(o);
+				}
+				if (uuid != null) {
+					classUuidMap.put(c, uuid);
+				}
+			}
+			return uuid;
+		}
+	}
+
+	public IEventHandler getEventHandler(String triggerUuid) {
 		Class<? extends IEventHandler> c = eventHandlersByUuid.get(triggerUuid);
-		if(c == null){
+		if (c == null) {
 			return null;
-		}else{
+		} else {
 			return IntrospectionUtil.newInstance(c);
 		}
 	}

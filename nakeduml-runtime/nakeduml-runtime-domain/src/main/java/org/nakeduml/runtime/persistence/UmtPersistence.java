@@ -1,6 +1,7 @@
 package org.nakeduml.runtime.persistence;
 
 
+
 public interface UmtPersistence extends AbstractPersistence{
 	void beginTransaction();
 	boolean isActive();
@@ -8,4 +9,5 @@ public interface UmtPersistence extends AbstractPersistence{
 	void commitTransaction();
 	boolean isRolledBack();
 	void setTransactionTimeout(int i);
+	void close();
 }

@@ -1,8 +1,5 @@
 package org.nakeduml.runtime.environment.marshall;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,9 +49,9 @@ public abstract class Value implements Serializable{
 		}else if(value instanceof List<?>){
 			return valueOfCollection(new ArrayList<Value>(), (List<?>) value);
 		}else if(value instanceof IEnum){
-			return new EnumValue(map.getNakedUmlId(value.getClass()), map.getSecondaryObject(EnumResolver.class, value.getClass()).toNakedUmlId((IEnum) value));
+			return new EnumValue(map.getUuidFor(value.getClass()), map.getSecondaryObject(EnumResolver.class, value.getClass()).toNakedUmlId((IEnum) value));
 		}else if(value instanceof Serializable){
-			return new SerializableValue(map.getNakedUmlId(value.getClass()), (Serializable) value);
+			return new SerializableValue(map.getUuidFor(value.getClass()), (Serializable) value);
 		}else{
 			return null;
 		}
@@ -69,31 +66,25 @@ public abstract class Value implements Serializable{
 		if(oldValue.isEmpty()){
 			return new CollectionValue(newValue);
 		}else{
-			return new CollectionValue(Environment.getMetaInfoMap().getNakedUmlId(oldValue.iterator().next().getClass()), newValue);
+			return new CollectionValue(Environment.getMetaInfoMap().getUuidFor(oldValue.iterator().next().getClass()), newValue);
 		}
 	}
 	private static EntityValue valueOf(IPersistentObject inputSource){
 		if(inputSource.getId() == null){
 			throw new IllegalStateException("entity " + ((IPersistentObject) inputSource).getClass().getName() + " does not have an id");
 		}
-		return new EntityValue(Environment.getMetaInfoMap().getNakedUmlId(inputSource.getClass()), inputSource);
+		return new EntityValue(Environment.getMetaInfoMap().getUuidFor(inputSource.getClass()), inputSource);
 	}
 	private static HelperValue valueOf(IActiveObject inputSource){
-		return new HelperValue(Environment.getMetaInfoMap().getNakedUmlId(inputSource.getClass()));
+		return new HelperValue(Environment.getMetaInfoMap().getUuidFor(inputSource.getClass()));
 	}
 	private static final long serialVersionUID = 531640008870617688L;
 	// necessary for custom developed marshalling scenarios
-	private Integer typeId;
-	protected Value(Integer typeId){
+	private String typeId;
+	protected Value(String typeId){
 		this.typeId = typeId;
 	}
-	public Integer getTypeId(){
+	public String getTypeId(){
 		return typeId;
-	}
-	private void writeObject(ObjectOutputStream out) throws IOException{
-		out.writeInt(typeId);
-	}
-	private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException{
-		typeId=in.readInt();
 	}
 }

@@ -394,7 +394,7 @@ public class UmlProcessMarshaller extends AbstractProcessInstanceMarshaller {
 			nodeInstance = new EventNodeInstance();
 			break;
 		case PersisterEnums.JOIN_NODE_INSTANCE:
-			nodeInstance = new Uml2JoinInstance();
+			nodeInstance = new JoinInstance();
 			int number = stream.readInt();
 			if (number > 0) {
 				Map<Long, Integer> triggers = new HashMap<Long, Integer>();

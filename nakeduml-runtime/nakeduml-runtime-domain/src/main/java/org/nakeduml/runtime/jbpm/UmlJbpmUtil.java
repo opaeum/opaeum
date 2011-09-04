@@ -18,6 +18,9 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.nakeduml.runtime.domain.TransitionListener;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
 
+@SuppressWarnings({
+	"unchecked","rawtypes"
+})
 public class UmlJbpmUtil{
 	public static void transitionFromNodeToNode(UmlNodeInstance from,long id,TransitionListener effect,boolean isExternal){
 		WorkflowProcessImpl process = (WorkflowProcessImpl) from.getProcessInstance().getProcess();

@@ -22,78 +22,13 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/java</source>
-							</sources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>add-test-source</id>
-						<phase>generate-test-sources</phase>
-						<goals>
-							<goal>add-test-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/test</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-gpg-plugin</artifactId> -->
-			<!-- <version>1.1</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>sign-artifacts</id> -->
-			<!-- <phase>verify</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>sign</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 		</plugins>
 	</build>
 	<dependencies>
@@ -162,22 +97,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.seam.persistence</groupId>-->
-<!--			<artifactId>seam-persistence-api</artifactId>-->
-<!--			<version>${seam.persistence.version}</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.jboss.seam.persistence</groupId>-->
-<!--			<artifactId>seam-persistence-impl</artifactId>-->
-<!--			<version>${seam.persistence.version}</version>-->
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<groupId>org.jboss.seam.solder</groupId>-->
-<!--					<artifactId>seam-solder</artifactId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.jboss.seam.solder</groupId>
 			<artifactId>seam-solder-api</artifactId>
@@ -193,6 +112,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<version>3.6.0.Final</version>
 			<scope>provided</scope>
 			<exclusions>
 				<!-- Exclusions intended primarily to ensure clean Eclipse classpaths -->

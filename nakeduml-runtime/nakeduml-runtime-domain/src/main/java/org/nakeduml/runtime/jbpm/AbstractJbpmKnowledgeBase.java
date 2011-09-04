@@ -1,10 +1,14 @@
 package org.nakeduml.runtime.jbpm;
 
 
+import java.util.Set;
+
 import org.drools.KnowledgeBase;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
 import org.drools.compiler.ProcessBuilderFactory;
+import org.drools.io.ResourceFactory;
 import org.drools.marshalling.impl.ProcessMarshallerFactory;
 import org.drools.runtime.process.ProcessRuntimeFactory;
 import org.jbpm.marshalling.impl.ProcessMarshallerFactoryServiceImpl;
@@ -16,16 +20,14 @@ import org.jbpm.workflow.core.node.CompositeContextNode;
 import org.jbpm.workflow.core.node.CompositeNode;
 import org.jbpm.workflow.core.node.DynamicNode;
 import org.jbpm.workflow.core.node.EndNode;
-import org.jbpm.workflow.core.node.Join;
 import org.jbpm.workflow.core.node.StateNode;
 import org.jbpm.workflow.instance.impl.NodeInstanceFactoryRegistry;
 import org.jbpm.workflow.instance.impl.factory.CreateNewNodeFactory;
-import org.jbpm.workflow.instance.impl.factory.ReuseNodeFactory;
 
 public abstract class AbstractJbpmKnowledgeBase {
 	private KnowledgeBase knowledgeBase;
 	
-	protected abstract void prepareKnowledgeBuilder(KnowledgeBuilder kbuilder);
+	public abstract Set<String> getProcessLocations();
 
 	public KnowledgeBase getKnowledgeBase() {
 		if (this.knowledgeBase == null) {
@@ -44,9 +46,11 @@ public abstract class AbstractJbpmKnowledgeBase {
 		NodeInstanceFactoryRegistry.INSTANCE.register(CompositeContextNode.class, new CreateNewNodeFactory(Uml2CompositeContextNodeInstance.class));
 		NodeInstanceFactoryRegistry.INSTANCE.register(EndNode.class, new CreateNewNodeFactory(Uml2EndStateInstance.class));
 		NodeInstanceFactoryRegistry.INSTANCE.register(DynamicNode.class, new CreateNewNodeFactory(Uml2DynamicNodeInstance.class));
-		NodeInstanceFactoryRegistry.INSTANCE.register(Join.class, new ReuseNodeFactory(Uml2JoinInstance.class));
 		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-		prepareKnowledgeBuilder(kbuilder);
-		return kbuilder.newKnowledgeBase();
+		for(String string:getProcessLocations()){
+			kbuilder.add(ResourceFactory.newClassPathResource(string), ResourceType.DRF);
+		}
+		KnowledgeBase kb = kbuilder.newKnowledgeBase();
+		return kb;
 	}
 }

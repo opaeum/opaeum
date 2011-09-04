@@ -38,6 +38,7 @@ public abstract class AbstractJbpmKnowledgeSession{
 		properties.setProperty("drools.workItemManagerFactory", "org.drools.persistence.jpa.processinstance.JPAWorkItemManagerFactory");
 		properties.put("drools.processSignalManagerFactory", "org.jbpm.persistence.processinstance.JPASignalManagerFactory");
 		SessionConfiguration config = new SessionConfiguration(properties);
+		
 		final org.drools.runtime.Environment environment = EnvironmentFactory.newEnvironment();
 		environment.set(EnvironmentName.PERSISTENCE_CONTEXT_MANAGER, getPersistenceContextManager(environment));
 		environment.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, new ObjectMarshallingStrategy[]{
