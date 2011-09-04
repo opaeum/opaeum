@@ -3,29 +3,22 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.nakeduml.java.metamodel.OJElement;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 import org.nakeduml.java.metamodel.utilities.JavaUtil;
 
-public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement {
+public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElement {
+	private OJPackage myPackage;
 	Set<OJAnnotationValue> annotations = new HashSet<OJAnnotationValue>();
-	public OJAnnotatedPackage(String string) {
+	public OJAnnotatedPackageInfo(String string) {
 		setName(string);
 	}
-	public OJAnnotatedPackage() {
+	public OJAnnotatedPackageInfo() {
 		setName("");
 	}
 
-	@Override
-	public void addToSubpackages(OJPackage element) {
-//		for (OJPackage pkg : getSubpackages()) {
-//			if(pkg.getName().equals(element.getName())){
-//				throw new IllegalStateException();
-//			}
-//		}
-		super.addToSubpackages(element);
-	}
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
 		return AnnotationHelper.maybeAddAnnotation(value, this);
 	}
@@ -38,7 +31,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 	public OJAnnotationValue removeAnnotation(OJPathName type){
 		return AnnotationHelper.removeAnnotation(this,type);
 	}
-	public String toPackageInfoString() {
+	public String toJavaString() {
 		StringBuilder sb = new StringBuilder();
 		if (super.getComment() != null && super.getComment().length() > 0) {
 			sb.append("/**\n");
@@ -47,7 +40,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 		}
 		sb.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(annotations, "\n"), 0));
 		sb.append("\n");
-		sb.append(toJavaString());
+		sb.append(getMyPackage().toJavaString());
 		sb.append("\n");
 		sb.append(JavaStringHelpers.indent(imports(), 0));
 		return sb.toString();
@@ -55,7 +48,7 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 	private String imports() {
 		StringBuilder sb = new StringBuilder();
 		for (OJPathName path : getImports()) {
-			if (this.getPathName().equals(path.getHead())) {
+			if (getMyPackage().getPathName().equals(path.getHead())) {
 				// already visible
 			} else {
 				sb.append("import " + path.toString() + ";\n");
@@ -70,18 +63,23 @@ public class OJAnnotatedPackage extends OJPackage implements OJAnnotatedElement 
 		}
 		return results;
 	}
-	public OJAnnotatedPackage getDeepCopy(OJPackage owner) {
-		OJAnnotatedPackage copy = new OJAnnotatedPackage(getName());
+	public OJAnnotatedPackageInfo getDeepCopy(OJAnnotatedPackageInfo owner) {
+		OJAnnotatedPackageInfo copy = new OJAnnotatedPackageInfo(getName());
 		copyDeepInfoInto(owner, copy);
 		return copy;
 	}
-	protected void copyDeepInfoInto(OJPackage owner, OJAnnotatedPackage copy) {
+	protected void copyDeepInfoInto(OJAnnotatedPackageInfo owner, OJAnnotatedPackageInfo copy) {
 		for (OJAnnotationValue annotation : this.annotations) {
 			copy.addAnnotationIfNew(annotation.getDeepCopy());
 		}
-		super.copyDeepInfoInto(owner, copy);
 	}
 	public OJAnnotationValue findAnnotation(OJPathName ojPathName) {
 		return AnnotationHelper.getAnnotation(this, ojPathName);
+	}
+	public OJPackage getMyPackage(){
+		return myPackage;
+	}
+	public void setMyPackage(OJPackage myPackage){
+		this.myPackage = myPackage;
 	}
 }

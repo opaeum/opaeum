@@ -1,11 +1,14 @@
 package org.nakeduml.java.metamodel.annotation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.nakeduml.java.metamodel.OJElement;
 import org.nakeduml.java.metamodel.OJField;
+import org.nakeduml.java.metamodel.OJPathName;
 
 /**
  * An enumeration literal is more than just a name. Java allows enumerations to have fields. The standard idiom for initialisations of such fields
@@ -14,8 +17,9 @@ import org.nakeduml.java.metamodel.OJField;
  * @author ampie
  *
  */
-public class OJEnumLiteral extends OJElement {
+public class OJEnumLiteral extends OJElement  implements OJAnnotatedElement{
 	List<OJField> attributeValues= new ArrayList<OJField>();
+	private Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
 
 	public OJEnumLiteral(String name) {
 		super();
@@ -58,6 +62,26 @@ public class OJEnumLiteral extends OJElement {
 		value.setName(fieldName);
 		this.attributeValues.add(value);
 		return value;
+	}
+
+	public OJAnnotationValue findAnnotation(OJPathName path) {
+		return AnnotationHelper.getAnnotation(this, path);
+	}
+
+	public boolean addAnnotationIfNew(OJAnnotationValue value) {
+		return AnnotationHelper.maybeAddAnnotation(value, this);
+	}
+
+	public Set<OJAnnotationValue> getAnnotations() {
+		return f_annotations;
+	}
+
+	public OJAnnotationValue putAnnotation(OJAnnotationValue value) {
+		return AnnotationHelper.putAnnotation(value, this);
+	}
+
+	public OJAnnotationValue removeAnnotation(OJPathName type) {
+		return AnnotationHelper.removeAnnotation(this, type);
 	}
 
 }

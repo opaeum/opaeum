@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedPackageableElement;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
@@ -30,10 +31,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.PackageableElement;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
@@ -52,6 +55,21 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		}else{
 			Collection<? extends Element> children = super.getChildren(root);
 			return children;
+		}
+	}
+	@Override
+	public void visitRecursively(Element o){
+		if(requiresExtraction(o)){
+			super.visitRecursively(o);
+		}
+	}
+	protected final boolean requiresExtraction(Element o){
+		if(o instanceof Profile || o instanceof Model){
+			boolean b = emfWorkspace.getGeneratingModelsOrProfiles().contains(o) || getNakedPeer(o) == null
+					|| !((INakedRootObject) getNakedPeer(o)).getStatus().isExtracted();
+			return b;
+		}else{
+			return true;
 		}
 	}
 	@Override
@@ -211,6 +229,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		}
 		nakedTimeEvent.setRelative(emfTimeEvent.isRelative());
 	}
+	@SuppressWarnings("unchecked")
 	protected void initializeDeadlines(Stereotype responsibility,Element definedResponsibiliti){
 		// NB!!! we are deviating from the pattern of leaving stereotypes for last because we need to get the containment tree the
 		// way NakedML expects it

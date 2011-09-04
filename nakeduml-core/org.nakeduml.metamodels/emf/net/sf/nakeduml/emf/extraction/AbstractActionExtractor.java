@@ -26,7 +26,8 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValuePin;
 
 public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
-	protected <T extends INakedPin>List<T> populatePins(Activity emfActivity,List emfArguments){
+	@SuppressWarnings("unchecked")
+	protected <T extends INakedPin>List<T> populatePins(Activity emfActivity,List<? extends Pin> emfArguments){
 		List<T> nakedArguments = new ArrayList<T>();
 		for(int i = 0;i < emfArguments.size();i++){
 			Pin arg = (Pin) emfArguments.get(i);

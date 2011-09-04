@@ -1,1 +1,2 @@
-NakedUMLLibraryForBPM\:\:TaskDelegation=org.nakeduml.runtime.domain.TaskDelegation
+OpiumLibraryForBPM\:\:TaskDelegation=org.nakeduml.runtime.domain.TaskDelegation
+OpiumLibraryForBPM\:\:businesscalendar\:\:BusinessCalendar=org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar
