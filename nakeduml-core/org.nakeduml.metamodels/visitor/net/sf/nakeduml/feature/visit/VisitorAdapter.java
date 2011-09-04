@@ -81,6 +81,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	};
 	private static EclipseClassPath cp = new EclipseClassPath();
 	protected MethodInvokers methodInvokers;
+	@SuppressWarnings("unchecked")
 	protected VisitorAdapter(){
 		pool.appendSystemPath();
 		pool.appendClassPath(cp);
@@ -128,7 +129,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			sb.append(");}");
 			CtMethod ctm = CtNewMethod.make(sb.toString(), ctClass);
 			ctClass.addMethod(ctm);
-			Class class1 = ctClass.toClass();
+			Class<?> class1 = ctClass.toClass();
 			VisitSpec newInstance = (VisitSpec) class1.newInstance();
 			newInstance.init(m, before);
 			return newInstance;
@@ -157,7 +158,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		visitRecursively(root);
 	}
 	public void visitOnly(NODE o){
-		for(VisitSpec v:methodInvokers. beforeMethods){
+		for(VisitSpec v:methodInvokers.beforeMethods){
 			maybeVisit(o, v);
 		}
 		for(VisitSpec v:methodInvokers.afterMethods){
@@ -191,5 +192,8 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 				});
 			}
 		}
+	}
+	protected boolean visitChildren(NODE o){
+		return true;
 	}
 }

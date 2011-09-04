@@ -24,7 +24,7 @@
        id="lkjl"
        point="org.nakeduml.eclipse.sourceFolderStrategy">
     <sourceFolderStrategy
-          className="net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy">
+          className="net.sf.nakeduml.pomgeneration.MultiProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
           className="net.sf.nakeduml.pomgeneration.SingleProjectMavenSourceFolderStrategy">

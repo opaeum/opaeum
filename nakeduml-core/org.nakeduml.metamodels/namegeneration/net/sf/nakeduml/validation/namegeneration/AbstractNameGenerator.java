@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
@@ -20,10 +21,12 @@ import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor implements ITransformationStep{
 	Set<INakedElement> affectedElements = new HashSet<INakedElement>();
+	protected NakedUmlConfig config;
 	public Set<INakedElement> getAffectedElements(){
 		return affectedElements;
 	}
-	public void initialize(){
+	public void initialize(NakedUmlConfig c){
+		this.config=c;
 		affectedElements.clear();
 	}
 	

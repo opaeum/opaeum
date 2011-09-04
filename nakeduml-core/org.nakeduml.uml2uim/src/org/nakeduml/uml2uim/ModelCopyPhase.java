@@ -33,9 +33,9 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 		return elements;
 	}
 	@Override
-	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(ModelCopyStep step:features){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				step.startVisiting(emfWorkspace);
 			}
 		}

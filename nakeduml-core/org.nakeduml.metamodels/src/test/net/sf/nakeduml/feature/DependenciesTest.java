@@ -22,7 +22,7 @@ public class DependenciesTest {
 		}
 
 		@Override
-		public void execute(TransformationProgressLog log, TransformationContext context){
+		public void execute(TransformationContext context){
 		}
 
 		@Override

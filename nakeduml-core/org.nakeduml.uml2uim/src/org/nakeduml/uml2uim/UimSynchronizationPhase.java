@@ -57,10 +57,10 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 		return elements;
 	}
 	@Override
-	public void execute(TransformationProcess.TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		ResourceSet resourceSet = new ResourceSetImpl();
 		for(AbstractUimSynchronizer s:features){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				s.startVisiting(workspace);
 			}
 		}

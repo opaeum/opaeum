@@ -102,8 +102,9 @@ put MavenArtefatId in profile
 
 Validation
 ModelNameUniqueness
+ModelName not the same as workspace - creates maven chaos
 Asynchronous actions cannot have outputs
-Date type to be specified when using timeevents
+
 
 Runtime
 For BusinessComponent instances, add a property called LDAP Identifier which associates that instance with an ldap entry
