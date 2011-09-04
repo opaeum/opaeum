@@ -13,15 +13,13 @@ import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.javageneration.hibernate.HibernateConfigGenerator;
+import net.sf.nakeduml.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import net.sf.nakeduml.javageneration.hibernate.HibernatePackageAnnotator;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
@@ -80,7 +78,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	public static void reinitializeProcess(TransformationProcess process,NakedUmlConfig cfg, NakedUmlEclipseContext ne){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
-		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
 		cfg .setOutputRoot(new File(ne.getUmlDirectory().getProject().getLocation().toFile().getParentFile(), cfg.getWorkspaceIdentifier()));
 		mapAdditionalOutputRoots(cfg);
 		process.removeModel(OJPackage.class);
@@ -116,6 +113,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	protected static Set<Class<? extends ITransformationStep>> toSet(Class<? extends ITransformationStep>...classes){
 		return new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(classes));
 	}
+	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends ITransformationStep>> getBasicSteps(){
 		Set<Class<? extends ITransformationStep>> result = toSet(ExtendedCompositionSemantics.class, OclExpressionExecution.class, BpmUsingJbpm5.class);
 		return result;
@@ -129,8 +127,9 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			}
 		}, 5000);
 	}
+	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends ITransformationStep>> getBasicIntegrationSteps(){
-		return toSet(HibernateConfigGenerator.class, HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class);
+		return toSet(HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class,JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(IContainer folder){
 		return getTransformationProcess(NakedUmlEditor.getNakedUmlEclipseContextFor(folder));

@@ -21,7 +21,6 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -29,7 +28,7 @@ import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		OJAnnotatedPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
+		OJPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
 		buildGeneratorClass(pkg);
 	}
 	// TODO generate example Java step

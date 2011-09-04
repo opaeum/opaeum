@@ -41,6 +41,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 	public static final class LinkingVisitor extends EmfElementVisitor{
 		private LinkingVisitor(){
 		}
+		@SuppressWarnings("unchecked")
 		@VisitBefore(matchSubclasses = true)
 		public void element(Element o){
 			EList<EStructuralFeature> s = o.eClass().getEAllStructuralFeatures();

@@ -19,7 +19,6 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		List<ActionContributionItem> actions = new ArrayList<ActionContributionItem>();
-		IContainer c = (IContainer) selection.getFirstElement();
 		if(hasUmlModels(selection)){
 			EditOpiumConfigAction action = new EditOpiumConfigAction(selection);
 			actions.add(new ActionContributionItem(action));
@@ -33,6 +32,8 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 				actions.add(new ActionContributionItem(t));
 				RegenerateUuids ru= new RegenerateUuids(selection);
 				actions.add(new ActionContributionItem(ru));
+				UpdateClasspathAction uc= new UpdateClasspathAction(selection);
+				actions.add(new ActionContributionItem(uc));
 			}else{
 				action.setText("Convert to  Opium Model Directory");
 			}

@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 
 public final class JavaProjectGenerator extends Job{
@@ -68,16 +69,8 @@ public final class JavaProjectGenerator extends Job{
 					pgp.getParentPom().getProject().getModules().getModule().clear();
 					pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
 					pgp.outputToFile(pgp.getParentPom());
-					monitor.subTask("Setting up Maven Dependencies");
-					JavaCore.setClasspathVariable("M2_REPO", new Path(System.getProperty("user.home") + "/.m2/repository"), null);
-					Process p = Runtime.getRuntime().exec("mvn eclipse:eclipse -o", new String[0], cfg.getOutputRoot());
-					p.waitFor();
+					runMaven(cfg);
 					monitor.worked(20);
-					BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-					String line = null;
-					while((line = r.readLine()) != null){
-						System.out.println(line);
-					}
 					for(IProject iProject:eclipseProjects){
 						iProject.refreshLocal(IProject.DEPTH_ONE, monitor);
 					}
@@ -90,6 +83,16 @@ public final class JavaProjectGenerator extends Job{
 			monitor.done();
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
+	}
+	public static void runMaven(NakedUmlConfig cfg) throws JavaModelException,IOException,InterruptedException{
+		JavaCore.setClasspathVariable("M2_REPO", new Path(System.getProperty("user.home") + "/.m2/repository"), null);
+		Process p = Runtime.getRuntime().exec("mvn eclipse:eclipse -o", new String[0], cfg.getOutputRoot());
+		p.waitFor();
+		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		String line = null;
+		while((line = r.readLine()) != null){
+			System.out.println(line);
+		}
 	}
 	private Collection<? extends String> determineMavenModules(){
 		Collection<String> result = new ArrayList<String>();

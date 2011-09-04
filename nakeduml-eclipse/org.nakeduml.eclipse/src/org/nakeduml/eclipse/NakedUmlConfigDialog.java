@@ -26,8 +26,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.nakeduml.name.NameConverter;
 
 public class NakedUmlConfigDialog extends TitleAreaDialog{
+	private Text txtWorkspaceName;
 	private Text txtWorkspaceIdentifier;
 	private Text txtCompanyDomain;
 	private Button chkGeneratePoms;
@@ -57,6 +59,10 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		Composite composite = (Composite) super.createDialogArea(parent);
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
+		new Label(panel, 0).setText("Project Name");
+		txtWorkspaceName = new Text(panel, SWT.SINGLE|SWT.BORDER);
+		txtWorkspaceName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		txtWorkspaceName.setText(config.getWorkspaceName());
 		new Label(panel, 0).setText("Identifier for project");
 		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE|SWT.BORDER);
 		txtWorkspaceIdentifier.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -121,7 +127,8 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 			}
 		}
 		mavenGroup.append('.');
-		mavenGroup.append(txtWorkspaceIdentifier.getText());
+		mavenGroup.append(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()).toLowerCase());
+		config.setWorkspaceName(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()));
 		config.setAdditionalTransformationSteps(new HashSet<String>(Arrays.asList(lstTransformationSteps.getSelection())));
 		config.setMavenGroupId(mavenGroup.toString());
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());

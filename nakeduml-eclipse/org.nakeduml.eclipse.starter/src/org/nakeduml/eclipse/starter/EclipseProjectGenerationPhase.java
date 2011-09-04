@@ -35,7 +35,7 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 		}
 	}
 	@Override
-	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(EclipseProjectGenerationStep step:features){
 			step.startVisiting(textWorkspace);
 		}

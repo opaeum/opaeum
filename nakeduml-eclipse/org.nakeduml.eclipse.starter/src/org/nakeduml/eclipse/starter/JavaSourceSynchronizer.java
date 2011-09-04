@@ -33,7 +33,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.NakedUmlContextListener;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
@@ -136,7 +136,7 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 			monitor.beginTask("Generating Java Code", 1000);
 			Set<INakedNameSpace> clss = context.getUmlElementCache().getModifiedClasses();
 			if(clss.size() > 0){
-				process.replaceModel(new OJAnnotatedPackage());
+				process.replaceModel(new OJPackage());
 				process.replaceModel(new TextWorkspace());
 
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));

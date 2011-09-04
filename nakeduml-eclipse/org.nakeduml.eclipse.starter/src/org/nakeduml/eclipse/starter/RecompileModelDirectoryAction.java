@@ -47,7 +47,7 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 					// TODO this is for UimSynchronizationPhase which should perhaps now take a NakedModelWorkspace as input
 					p.replaceModel(currentContext.getCurrentEmfWorkspace());
 					p.executeFrom(JavaTransformationPhase.class,log);
-					if(!monitor.isCanceled()){
+					if(!(monitor.isCanceled() || currentContext.getUmlElementCache().getConfig().getSourceFolderStrategy().isSingleProjectStrategy())){
 						p.integrate(log);
 					}
 					p.findModel(EmfWorkspace.class).saveAll();

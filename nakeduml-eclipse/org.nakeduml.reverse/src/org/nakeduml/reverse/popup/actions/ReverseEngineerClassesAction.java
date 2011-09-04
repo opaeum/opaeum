@@ -11,6 +11,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -30,104 +33,112 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
-public class ReverseEngineerClassesAction extends AbstractHandler implements IObjectActionDelegate {
+public class ReverseEngineerClassesAction extends AbstractHandler implements IObjectActionDelegate{
 	/**
 	 * Constructor for Action1.
 	 */
 	IStructuredSelection selection;
 	private Shell shell;
-
-	public ReverseEngineerClassesAction() {
+	public ReverseEngineerClassesAction(){
 		super();
 	}
-
-	private static CompilationUnit parse(ICompilationUnit unit) {
+	private static CompilationUnit parse(ICompilationUnit unit){
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(unit);
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); // parse
 	}
-
-	private static CompilationUnit parse(IClassFile unit) {
+	private static CompilationUnit parse(IClassFile unit){
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(unit);
 		parser.setResolveBindings(true);
 		return (CompilationUnit) parser.createAST(null); // parse
 	}
-
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(ExecutionEvent event) throws ExecutionException{
 		IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveMenuSelection(event);
 		Shell shell = HandlerUtil.getActiveShell(event);
-		execute(selection, shell);
+		try{
+			execute(selection, shell);
+		}catch(JavaModelException e){
+			e.printStackTrace();
+		}
 		return null;
 	}
-
-	protected void execute(IStructuredSelection selection, Shell shell) {
+	protected void execute(IStructuredSelection selection,Shell shell) throws JavaModelException{
 		List<ITypeBinding> types = selectTypeDeclarations(selection);
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider(),
-				new BaseWorkbenchContentProvider());
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
 		dialog.setTitle("Tree Selection");
 		dialog.setMessage("Select the elements from the tree:");
 		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		dialog.addFilter(new ViewerFilter() {
+		dialog.addFilter(new ViewerFilter(){
 			@Override
-			public boolean select(Viewer viewer, Object parentElement, Object element) {
-				if (element instanceof IFile) {
+			public boolean select(Viewer viewer,Object parentElement,Object element){
+				if(element instanceof IFile){
 					return ((IFile) element).getFileExtension().equals("uml");
 				}
 				return true;
 			}
 		});
 		dialog.open();
-		if (dialog.getFirstResult() != null) {
+		if(dialog.getFirstResult() != null){
 			IFile file = (IFile) dialog.getFirstResult();
-			try {
+			try{
 				new UmlGenerator().generateUml(types, file.getLocation().toFile());
 				file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-			} catch (Exception e) {
+			}catch(Exception e){
 				e.printStackTrace();
 			}
 			MessageDialog.openInformation(shell, "org.nakeduml.reverse.Reverse", "Successes!");
 		}
 	}
-
-	private List<ITypeBinding> selectTypeDeclarations(IStructuredSelection selection) {
+	private List<ITypeBinding> selectTypeDeclarations(IStructuredSelection selection) throws JavaModelException{
 		Object[] selections = selection.toArray();
 		List<ITypeBinding> types = new ArrayList<ITypeBinding>();
-		for (Object object : selections) {
-			CompilationUnit cu = null;
-			if (object instanceof ICompilationUnit) {
-				cu = parse(((ICompilationUnit) object));
-			} else if (object instanceof IClassFile) {
-				cu=parse((IClassFile) object);
-			}
-			if (cu != null) {
-				List<AbstractTypeDeclaration> typeDeclarations = cu.types();
-				for (AbstractTypeDeclaration type : typeDeclarations) {
-					types.add(type.resolveBinding());
-				}
-			}
+		for(Object object:selections){
+			addTypesIn(types, object);
 		}
 		return types;
 	}
-
-	@Override
-	public void run(IAction action) {
-		execute(selection, shell);
+	protected void addTypesIn(List<ITypeBinding> types,Object object) throws JavaModelException{
+		CompilationUnit cu=null;
+		if(object instanceof ICompilationUnit){
+			cu = parse(((ICompilationUnit) object));
+		}else if(object instanceof IClassFile){
+			cu = parse((IClassFile) object);
+		}else if(object instanceof IPackageFragment){
+			IPackageFragment pf = (IPackageFragment) object;
+			for(IJavaElement c:pf.getChildren()){
+				addTypesIn(types, c);
+			}
+		}
+		if(cu != null){
+			@SuppressWarnings("unchecked")
+			List<AbstractTypeDeclaration> typeDeclarations = cu.types();
+			for(AbstractTypeDeclaration type:typeDeclarations){
+				types.add(type.resolveBinding());
+			}
+		}
 	}
-
 	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		if (selection instanceof IStructuredSelection) {
+	public void run(IAction action){
+		try{
+			execute(selection, shell);
+		}catch(JavaModelException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void selectionChanged(IAction action,ISelection selection){
+		if(selection instanceof IStructuredSelection){
 			this.selection = (IStructuredSelection) selection;
 		}
 	}
-
 	@Override
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
+	public void setActivePart(IAction action,IWorkbenchPart targetPart){
 		this.shell = targetPart.getSite().getShell();
 	}
 }

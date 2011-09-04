@@ -1,10 +1,11 @@
 <classpath>
-  <classpathentry kind="src" path="src/test/java" output="target/test-classes" including="**/*.java"/>
-  <classpathentry kind="src" path="src/test/generated-java" output="target/test-classes" including="**/*.java"/>
   <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
   <classpathentry kind="src" path="src/test/generated-resources" output="target/test-classes" excluding="**/*.java"/>
   <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/generation/java" including="**/*.java"/>
   <classpathentry kind="src" path="src/main/generated-java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/test/generated-java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/test/java" including="**/*.java"/>
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="src" path="src/main/generated-resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
@@ -89,6 +90,7 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/eclipse/jdt/core/compiler/ecj/3.5.1/ecj-3.5.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hibernate/ejb3-persistence/1.0.2.GA/ejb3-persistence-1.0.2.GA.jar" sourcepath="M2_REPO/org/hibernate/ejb3-persistence/1.0.2.GA/ejb3-persistence-1.0.2.GA-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/glassfish/web/el-impl/2.1.2-b04/el-impl-2.1.2-b04.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/collections/google-collections/1.0/google-collections-1.0.jar" sourcepath="M2_REPO/com/google/collections/google-collections/1.0/google-collections-1.0-sources.jar">
     <attributes>
@@ -97,22 +99,25 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1.jar" sourcepath="M2_REPO/org/hamcrest/hamcrest-library/1.1/hamcrest-library-1.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-commons-annotations/3.2.0.Final/hibernate-commons-annotations-3.2.0.Final.jar" sourcepath="M2_REPO/org/hibernate/hibernate-commons-annotations/3.2.0.Final/hibernate-commons-annotations-3.2.0.Final-sources.jar">
+  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-annotations/3.4.0.GA/hibernate-annotations-3.4.0.GA.jar" sourcepath="M2_REPO/org/hibernate/hibernate-annotations/3.4.0.GA/hibernate-annotations-3.4.0.GA-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-commons-annotations/3.1.0.GA/hibernate-commons-annotations-3.1.0.GA.jar" sourcepath="M2_REPO/org/hibernate/hibernate-commons-annotations/3.1.0.GA/hibernate-commons-annotations-3.1.0.GA-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA.jar" sourcepath="M2_REPO/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA-sources.jar">
     <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/hibernate/hibernate-commons-annotations/3.2.0.Final/hibernate-commons-annotations-3.2.0.Final-javadoc.jar!/" name="javadoc_location"/>
+      <attribute value="jar:file:/home/ampie/.m2/repository/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-core/3.6.0.Final/hibernate-core-3.6.0.Final.jar" sourcepath="M2_REPO/org/hibernate/hibernate-core/3.6.0.Final/hibernate-core-3.6.0.Final-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-entitymanager/3.4.0.GA/hibernate-entitymanager-3.4.0.GA.jar" sourcepath="M2_REPO/org/hibernate/hibernate-entitymanager/3.4.0.GA/hibernate-entitymanager-3.4.0.GA-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final.jar" sourcepath="M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/ampie/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate-validator/4.0.0.GA/hibernate-validator-4.0.0.GA.jar" sourcepath="M2_REPO/org/hibernate/hibernate-validator/4.0.0.GA/hibernate-validator-4.0.0.GA-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/hsqldb/hsqldb/1.8.0.10/hsqldb-1.8.0.10.jar" sourcepath="M2_REPO/hsqldb/hsqldb/1.8.0.10/hsqldb-1.8.0.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/hsqldb/hsqldb/1.8.0.10/hsqldb-1.8.0.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/htmlunit/htmlunit/2.4/htmlunit-2.4.jar" sourcepath="M2_REPO/net/sourceforge/htmlunit/htmlunit/2.4/htmlunit-2.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/htmlunit/htmlunit-core-js/2.4/htmlunit-core-js-2.4.jar" sourcepath="M2_REPO/net/sourceforge/htmlunit/htmlunit-core-js/2.4/htmlunit-core-js-2.4-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/javassist/javassist/3.11.0.GA/javassist-3.11.0.GA.jar" sourcepath="M2_REPO/javassist/javassist/3.11.0.GA/javassist-3.11.0.GA-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javassist/javassist/3.4.GA/javassist-3.4.GA.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/sun/xml/bind/jaxb-impl/2.1.3/jaxb-impl-2.1.3.jar" sourcepath="M2_REPO/com/sun/xml/bind/jaxb-impl/2.1.3/jaxb-impl-2.1.3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/resteasy/jaxrs-api/2.1.0.GA/jaxrs-api-2.1.0.GA.jar" sourcepath="M2_REPO/org/jboss/resteasy/jaxrs-api/2.1.0.GA/jaxrs-api-2.1.0.GA-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/spec/javax/annotation/jboss-annotations-api_1.1_spec/1.0.0.Final/jboss-annotations-api_1.1_spec-1.0.0.Final.jar" sourcepath="M2_REPO/org/jboss/spec/javax/annotation/jboss-annotations-api_1.1_spec/1.0.0.Final/jboss-annotations-api_1.1_spec-1.0.0.Final-sources.jar"/>
@@ -176,16 +181,24 @@
       <attribute value="jar:file:/home/ampie/.m2/repository/org/drools/knowledge-api/5.2.0.Final/knowledge-api-5.2.0.Final-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/apache/commons/lang/2.1.0/lang-2.1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar" sourcepath="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mvel/mvel2/2.1.0.drools2/mvel2-2.1.0.drools2.jar" sourcepath="M2_REPO/org/mvel/mvel2/2.1.0.drools2/mvel2-2.1.0.drools2-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/ampie/.m2/repository/org/mvel/mvel2/2.1.0.drools2/mvel2-2.1.0.drools2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="src" path="/nakeduml-runtime-cdi-hibernate"/>
-  <classpathentry kind="src" path="/nakeduml-runtime-domain"/>
-  <classpathentry kind="src" path="/nakeduml-runtime-hibernate"/>
-  <classpathentry kind="src" path="/nakeduml-test-adaptor"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-generators/1.0.0.6-SNAPSHOT/nakeduml-generators-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-generators/1.0.0.6-SNAPSHOT/nakeduml-generators-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-java-generator/1.0.0.6-SNAPSHOT/nakeduml-java-generator-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-java-generator/1.0.0.6-SNAPSHOT/nakeduml-java-generator-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-java-metamodel/1.0.0.6-SNAPSHOT/nakeduml-java-metamodel-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-java-metamodel/1.0.0.6-SNAPSHOT/nakeduml-java-metamodel-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-metamodels/1.0.0.6-SNAPSHOT/nakeduml-metamodels-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-metamodels/1.0.0.6-SNAPSHOT/nakeduml-metamodels-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-ocl-java-generator/1.0.0.6-SNAPSHOT/nakeduml-ocl-java-generator-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-ocl-java-generator/1.0.0.6-SNAPSHOT/nakeduml-ocl-java-generator-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-ocl-metamodel/1.0.0.6-SNAPSHOT/nakeduml-ocl-metamodel-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-ocl-metamodel/1.0.0.6-SNAPSHOT/nakeduml-ocl-metamodel-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-cdi-hibernate/1.0.0.6-SNAPSHOT/nakeduml-runtime-cdi-hibernate-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-cdi-hibernate/1.0.0.6-SNAPSHOT/nakeduml-runtime-cdi-hibernate-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.6-SNAPSHOT/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-domain/1.0.0.6-SNAPSHOT/nakeduml-runtime-domain-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-hibernate/1.0.0.6-SNAPSHOT/nakeduml-runtime-hibernate-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-hibernate/1.0.0.6-SNAPSHOT/nakeduml-runtime-hibernate-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-runtime-jpa/1.0.0.6-SNAPSHOT/nakeduml-runtime-jpa-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-runtime-jpa/1.0.0.6-SNAPSHOT/nakeduml-runtime-jpa-1.0.0.6-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nakeduml/nakeduml-test-adaptor/1.0.0.6-SNAPSHOT/nakeduml-test-adaptor-1.0.0.6-SNAPSHOT.jar" sourcepath="M2_REPO/org/nakeduml/nakeduml-test-adaptor/1.0.0.6-SNAPSHOT/nakeduml-test-adaptor-1.0.0.6-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.11/nekohtml-1.9.11.jar" sourcepath="M2_REPO/net/sourceforge/nekohtml/nekohtml/1.9.11/nekohtml-1.9.11-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/ampie/.m2/repository/net/sourceforge/nekohtml/nekohtml/1.9.11/nekohtml-1.9.11-javadoc.jar!/" name="javadoc_location"/>
@@ -197,15 +210,13 @@
   <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.Final/seam-solder-impl-3.0.0.Final.jar"/>
   <classpathentry kind="var" path="M2_REPO/xalan/serializer/2.7.1/serializer-2.7.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11.jar" sourcepath="M2_REPO/org/jboss/shrinkwrap/shrinkwrap-api/1.0.0-alpha-11/shrinkwrap-api-1.0.0-alpha-11-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/home/ampie/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-ext/1.5.10/slf4j-ext-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-ext/1.5.10/slf4j-ext-1.5.10-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-jdk14/1.5.10/slf4j-jdk14-1.5.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.10/slf4j-log4j12-1.5.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/stax/stax-api/1.0.1/stax-api-1.0.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar" sourcepath="M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/velocity/1.5.0-v200905192330/velocity-1.5.0-v200905192330.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/weld/weld-api/1.0-SP1/weld-api-1.0-SP1.jar" sourcepath="M2_REPO/org/jboss/weld/weld-api/1.0-SP1/weld-api-1.0-SP1-sources.jar">
     <attributes>
       <attribute value="jar:file:/home/ampie/.m2/repository/org/jboss/weld/weld-api/1.0-SP1/weld-api-1.0-SP1-javadoc.jar!/" name="javadoc_location"/>
@@ -225,6 +236,6 @@
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/xalan/xalan/2.7.1/xalan-2.7.1.jar" sourcepath="M2_REPO/xalan/xalan/2.7.1/xalan-2.7.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/xerces/xercesImpl/2.8.1/xercesImpl-2.8.1.jar" sourcepath="M2_REPO/xerces/xercesImpl/2.8.1/xercesImpl-2.8.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04.jar" sourcepath="M2_REPO/xml-apis/xml-apis/1.3.04/xml-apis-1.3.04-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar" sourcepath="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2-sources.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
