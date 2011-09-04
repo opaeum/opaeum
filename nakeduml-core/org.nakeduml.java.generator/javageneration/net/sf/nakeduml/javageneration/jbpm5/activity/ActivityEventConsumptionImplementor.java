@@ -105,9 +105,9 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 				INakedAcceptEventAction action = (INakedAcceptEventAction) fromNode.getWaitingElement();
 				if(action.getAllEffectiveIncoming().size() > 0){
 					if(eventActions.getEvent() instanceof INakedMessageEvent){
-						consumeMessageEvent(listener, ifProcessActive, fromNode);
+						consumeEventWithoutSourceNodeInstanceUniqueId(listener, ifProcessActive, fromNode);
 					}else{
-						consumeNonMessageEvent(listener, ifProcessActive, fromNode);
+						consumeEventWithSourceNodeInstanceUniqueId(listener, ifProcessActive, fromNode);
 					}
 				}else{
 					listener.getOwner().addToImports(NODE_INSTANCE_CONTAINER);
@@ -138,17 +138,15 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		INakedAcceptEventAction node = (INakedAcceptEventAction) fromNode.getWaitingElement();
 		storeArguments(ifTokenFound, node);
 		block = checkWeight(operationContext, block, node);
+		block.addToStatements("processDirty=consumed=true");
 		if(node.isImplicitFork()){
-			block.addToStatements("consumed=true");
 			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
 		}else if(node.isImplicitDecision()){
-			block.addToStatements("consumed=true");
 			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
 		}else{
 			GuardedFlow flow = fromNode.getDefaultTransition();
 			if(flow != null){
 				// default flow/transition
-				block.addToStatements("consumed=true");
 				getActionBuilder().flowTo(block, ((INakedActivityEdge) flow).getEffectiveTarget());
 			}
 		}

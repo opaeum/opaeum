@@ -9,9 +9,9 @@ import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
@@ -63,7 +63,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		// }else{
 		// body.addToStatements("this.addTo" + pw.getMappingInfo().getJavaName().getCapped() + "(newInstance)");
 		// }
-		if(type instanceof INakedEntity){
+		if(type instanceof ICompositionParticipant){
 			body.addToStatements("newInstance.init(this)");
 		}
 		body.addToStatements("return newInstance");

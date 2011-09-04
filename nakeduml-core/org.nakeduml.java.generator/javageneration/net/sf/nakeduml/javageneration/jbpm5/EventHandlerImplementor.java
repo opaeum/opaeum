@@ -17,8 +17,10 @@ import net.sf.nakeduml.javageneration.maps.SignalMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimer;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerContainer;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -29,13 +31,13 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSwitchCase;
 import org.nakeduml.java.metamodel.OJSwitchStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.TimeUnit;
 import org.nakeduml.runtime.environment.marshall.PropertyValue;
@@ -105,10 +107,21 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private static OJPathName oldSignalHolderName(INakedSignal s){
 		return new OJPathName(s.getMappingInfo().getOldQualifiedJavaName() + "Handler");
 	}
-	@VisitBefore
-	public void visitChangeEvent(INakedChangeEvent e){
+	
+	@VisitBefore(matchSubclasses=true)
+	public void visitTriggerContainer(INakedTriggerContainer c){
+		for(INakedEvent event:c.getAllEvents()){
+			if(event instanceof INakedChangeEvent){
+				visitChangeEvent((INakedChangeEvent) event);
+			}else if(event instanceof INakedTimer){
+				visitTimer((INakedTimer) event);
+			}
+			
+		}
+	}
+	private void visitChangeEvent(INakedChangeEvent e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
-		OJAnnotatedPackage pkg = findOrCreatePackage(handlerPathName.getHead());
+		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
 		ojClass.addToImplementedInterfaces(new OJPathName(IEventHandler.class.getName()));
 		pkg.addToClasses(ojClass);
@@ -136,10 +149,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToImports(new OJPathName(Date.class.getName()));
 		scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*4)");// Every four hours
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitTimer(INakedTimer e){
+	private  void visitTimer(INakedTimer e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
-		OJAnnotatedPackage pkg = findOrCreatePackage(handlerPathName.getHead());
+		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
 		ojClass.addToImplementedInterfaces(new OJPathName(IEventHandler.class.getName()));
 		ojClass.getDefaultConstructor();
@@ -278,14 +290,14 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private void addIsEventMarshal(OJAnnotatedOperation marshall){
 		marshall.getBody().addToStatements(marshall.getBody().getStatements().size() - 1, "result.add(new PropertyValue(-6, Value.valueOf(isEvent)))");
 	}
-	public void addIsEventUnmarshall(OJAnnotatedOperation unmarshall){
+	private void addIsEventUnmarshall(OJAnnotatedOperation unmarshall){
 		OJSwitchStatement sst = (OJSwitchStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
 		OJSwitchCase sc = new OJSwitchCase();
 		sst.addToCases(sc);
 		sc.setLabel("-6");
 		sc.getBody().addToStatements("this.isEvent=(Boolean)Value.valueOf(p.getValue(),persistence)");
 	}
-	public void manageInvocation(INakedOperation o,OJAnnotatedOperation invoke,OJBlock b,String call){
+	private void manageInvocation(INakedOperation o,OJAnnotatedOperation invoke,OJBlock b,String call){
 		if(BehaviorUtil.hasExecutionInstance(o)){
 			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure()));
 			b.addToLocals(result);

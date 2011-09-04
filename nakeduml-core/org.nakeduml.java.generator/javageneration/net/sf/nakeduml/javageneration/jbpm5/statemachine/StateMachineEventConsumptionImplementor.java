@@ -27,6 +27,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.statemachines.INakedCompletionEvent;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
@@ -62,7 +63,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 					cancel.addParam("context", Jbpm5Util.getProcessContext());
 					EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) wfe.getEvent(), "this");
 				}
-			}else if(wfe.getEvent() instanceof INakedEvent){
+			}else if(wfe.getEvent() instanceof INakedChangeEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
 					OJOperation fire = OJUtil.findOperation(javaStateMachine, map.getOnEntryMethod());
@@ -106,7 +107,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 		for(GuardedFlow t:node.getConditionalTransitions()){
 			OJIfStatement newIf = new OJIfStatement();
 			newIf.setCondition(ValueSpecificationUtil.expressValue(operationContext, t.getGuard(), t.getContext(), booleanType));
-			newIf.getThenPart().addToStatements("consumed=true");
+			newIf.getThenPart().addToStatements("processDirty=consumed=true");
 			maybeContinueFlow(operationContext, newIf.getThenPart(), t);
 			OJBlock block1 = null;
 			if(ifGuard == null){
@@ -128,7 +129,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 		GuardedFlow flow = node.getDefaultTransition();
 		if(flow != null){
 			// default flow/transition
-			block.addToStatements("consumed=true");
+			block.addToStatements("processDirty=consumed=true");
 			maybeContinueFlow(operationContext, block, flow);
 		}
 	}
@@ -163,15 +164,15 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 	}
 	@Override
 	protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive){
-		if(eventActions.getEvent() instanceof INakedMessageEvent){
+		if(eventActions.getEvent() instanceof INakedMessageEvent || eventActions.getEvent() instanceof INakedCompletionEvent){
 			// Message event
 			for(FromNode node:eventActions.getWaitingNodes()){
-				consumeMessageEvent(listener, ifProcessActive, node);
+				consumeEventWithoutSourceNodeInstanceUniqueId(listener, ifProcessActive, node);
 			}
 		}else{
 			// previously triggered from a known node
 			for(FromNode node:eventActions.getWaitingNodes()){
-				consumeNonMessageEvent(listener, ifProcessActive, node);
+				consumeEventWithSourceNodeInstanceUniqueId(listener, ifProcessActive, node);
 			}
 		}
 	}

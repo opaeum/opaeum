@@ -55,27 +55,48 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		}
 		INakedBehavioredClassifier context = behavior.getContext();
 		if(context != null){
-			OJAnnotatedClass ojContext = findJavaClass(context);
-			for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
-				if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
-					INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
-					SignalMap map = new SignalMap(signalEvent.getSignal());
-					if(context.hasReceptionFor(signalEvent.getSignal())){
-						// Could originate from the context
-						// delegate to this owned behavior
-						delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, map);
-					}
+			activateEventGenerationInContextAndDelegateConsumptionToOwnedBehavior(behavior, ea, context);
+		}
+		activitateEventGenerationInBehavior(ojBehavior, behavior, ea);
+	}
+	private void activitateEventGenerationInBehavior(OJAnnotatedClass ojBehavior,INakedTriggerContainer behavior,Collection<ElementsWaitingForEvent> ea){
+		for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
+			if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
+				INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
+				SignalMap map = new SignalMap(signalEvent.getSignal());
+				if(behavior.hasReceptionFor(signalEvent.getSignal())){
+					activiateSignalEventGeneration(behavior, ojBehavior, map);
+				}
+			}else if(elementsWaitingForEvent.getEvent() instanceof INakedCallEvent){
+				INakedCallEvent ce = (INakedCallEvent) elementsWaitingForEvent.getEvent();
+				INakedOperation operation = ce.getOperation();
+				if(behavior.conformsTo(operation.getOwner())){
+					activateCallEventGeneration(behavior, ojBehavior, operation);
+				}
+			}
+		}
+	}
+	private void activateEventGenerationInContextAndDelegateConsumptionToOwnedBehavior(INakedTriggerContainer behavior,Collection<ElementsWaitingForEvent> ea,
+			INakedBehavioredClassifier context){
+		OJAnnotatedClass ojContext = findJavaClass(context);
+		for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
+			if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
+				INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
+				SignalMap map = new SignalMap(signalEvent.getSignal());
+				if(context.hasReceptionFor(signalEvent.getSignal())){
+					// Could originate from the context
+					// delegate to this owned behavior
+					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, map);
 					activiateSignalEventGeneration(context, ojContext, map);
-				}else if(elementsWaitingForEvent.getEvent() instanceof INakedCallEvent){
-					INakedCallEvent ce = (INakedCallEvent) elementsWaitingForEvent.getEvent();
-					INakedOperation operation = ce.getOperation();
-					if(context.conformsTo(operation.getOwner())){
-						delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, new NakedOperationMap(operation));
-					}
+				}
+			}else if(elementsWaitingForEvent.getEvent() instanceof INakedCallEvent){
+				INakedCallEvent ce = (INakedCallEvent) elementsWaitingForEvent.getEvent();
+				INakedOperation operation = ce.getOperation();
+				if(context.conformsTo(operation.getOwner())){
+					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, new NakedOperationMap(operation));
 					activateCallEventGeneration(context, ojContext, operation);
 				}
 			}
-			// For events
 		}
 	}
 	private void activiateSignalEventGeneration(INakedBehavioredClassifier context,OJAnnotatedClass ojContext,SignalMap map){
@@ -92,8 +113,8 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 			ojContext.addToImports(map.eventHandlerPath());
 			StringBuilder sb = new StringBuilder("this.getOutgoingEvents().put(this, new " + map.eventHandlerPath().getLast() + "(");
 			String args = OperationAnnotator.delegateParameters(eventGenerator);
-			if(args.length()>0){
-				args=args+",";
+			if(args.length() > 0){
+				args = args + ",";
 			}
 			sb.append(args);
 			sb.append("true))");
@@ -141,14 +162,14 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		implementEventConsumerBody(eventActions, consumer, ifProcessActive);
 		consumer.getBody().addToStatements("return consumed");
 	}
-	protected void consumeMessageEvent(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
+	protected void consumeEventWithoutSourceNodeInstanceUniqueId(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		ifProcessActive.getThenPart().addToStatements(ifTokenFound);
 		String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
 		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression + ".getId()))" + "!=null");
 		consumeEvent(listener, node, ifTokenFound);
 	}
-	protected void consumeNonMessageEvent(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
+	protected void consumeEventWithSourceNodeInstanceUniqueId(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		ifProcessActive.getThenPart().addToStatements(ifTokenFound);
 		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(nodeInstanceUniqueId))!=null");
@@ -161,12 +182,12 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 			IMessageMap map1;
 			if(event instanceof INakedCallEvent){
 				map1 = new NakedOperationMap(((INakedCallEvent) event).getOperation());
-			}else {
+			}else{
 				map1 = new SignalMap(((INakedSignalEvent) event).getSignal());
 			}
 			OJAnnotatedOperation listener = OperationAnnotator.findOrCreateEventConsumer(behavior, activityClass, map1);
 			List<OJStatement> s = listener.getBody().getStatements();
-			listener.getBody().removeFromStatements(s.get(s.size()-1));
+			listener.getBody().removeFromStatements(s.get(s.size() - 1));
 			return listener;
 		}else{
 			// TODO if the behavior's superBehavior reacts to this event to, initialise consumed:boolean to super.consumeEventxyz

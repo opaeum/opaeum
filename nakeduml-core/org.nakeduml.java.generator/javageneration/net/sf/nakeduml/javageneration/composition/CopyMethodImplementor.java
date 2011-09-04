@@ -114,7 +114,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addCopyStatements(INakedClassifier classifier,OJClass owner,OJBlock body,boolean deep,boolean shallowCopy){
 		String copyMethodName = shallowCopy ? "makeShallowCopy" : "makeCopy";
-		List properties = classifier.getEffectiveAttributes();
+		List<? extends INakedProperty> properties = classifier.getEffectiveAttributes();
 		// TODO implement containment by value (composition) vs containment
 		// by reference logic
 		// might be helpful for web service, for instance

@@ -4,8 +4,8 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
@@ -22,15 +22,12 @@ import org.nakeduml.runtime.domain.ExceptionHolder;
 import org.nakeduml.runtime.environment.Environment;
 
 public class Jbpm5Util{
+	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){
+		OJPathName result = new OJPathName(m.getMappingInfo().getQualifiedJavaName());
+		return result.append("util").append(m.getMappingInfo().getJavaName().getCapped() + "KnowledgeBase");
+	}
 	public static String stepLiteralName(INakedElement s){
 		return (s).getMappingInfo().getJavaName().getAsIs().toUpperCase();
-	}
-	public static OJPathName asyncInterfaceOf(INakedClassifier target){
-		OJPathName result = OJUtil.classifierPathname(target);
-		String name = "IAsync" + result.getLast();
-		result = result.getHead();
-		result.addToNames(name);
-		return result;
 	}
 	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
@@ -81,7 +78,7 @@ public class Jbpm5Util{
 			ojBehavior.addToImports(getWorkflowProcessImpl());
 			getter.setBody(new OJBlock());
 			OJIfStatement ifNull = new OJIfStatement(
-					"this." + propertyPrefix + "Instance==null || true",
+					"this." + propertyPrefix + "Instance==null",
 					"this."
 							+ propertyPrefix
 							+ "Instance=(WorkflowProcessInstance)"+Environment.class.getName()+ ".getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
@@ -97,6 +94,13 @@ public class Jbpm5Util{
 		getProcessDefinition.setReturnType(processDefinition);
 		ojBehavior.addToOperations(getProcessDefinition);
 		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");
+		OJAnnotatedField dirty = new OJAnnotatedField("processDirty", new OJPathName("boolean"));
+		dirty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+		
+		ojBehavior.addToFields(dirty);
+		OJAnnotatedOperation isDirty = new OJAnnotatedOperation("isProcessDirty", new OJPathName("boolean"));
+		ojBehavior.addToOperations(isDirty);
+		isDirty.getBody().addToStatements("return this.processDirty");
 	}
 	public static OJPathName getProcessContext(){
 		return new OJPathName("org.drools.runtime.process.ProcessContext");

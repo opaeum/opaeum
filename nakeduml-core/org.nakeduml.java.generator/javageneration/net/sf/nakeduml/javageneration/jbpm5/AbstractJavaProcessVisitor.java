@@ -5,7 +5,6 @@ import java.util.Date;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.hibernate.HibernateUtil;
-import net.sf.nakeduml.javageneration.persistence.AbstractEnumResolverImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;

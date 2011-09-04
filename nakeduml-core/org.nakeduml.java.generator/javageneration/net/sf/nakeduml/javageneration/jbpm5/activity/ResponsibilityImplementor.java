@@ -41,11 +41,11 @@ import nl.klasse.octopus.model.IOperation;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
@@ -104,7 +104,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 					+ a.getMappingInfo().getOldJavaName().getCapped()));
 		}
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(a.getMappingInfo().getJavaName().getCapped().getAsIs());
-		OJAnnotatedPackage pkg = findOrCreatePackage(OJUtil.packagePathname(a.getActivity()));
+		OJPackage pkg = findOrCreatePackage(OJUtil.packagePathname(a.getActivity()));
 		pkg.addToClasses(ojClass);
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		JpaUtil.addEntity(ojClass);
