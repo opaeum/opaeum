@@ -5,9 +5,10 @@ import net.sf.nakeduml.javageneration.JavaFeature;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.hibernate.HibernateAnnotator;
 import net.sf.nakeduml.javageneration.hibernate.HibernatePackageAnnotator;
+import net.sf.nakeduml.javageneration.hibernate.JpaPersistenceXmlGenerator;
 import net.sf.nakeduml.pomgeneration.JpaDomainPomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		JpaDomainPomStep.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class})
+		JpaDomainPomStep.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class,JpaPersistenceXmlGenerator.class})
 public class PersistenceUsingJpa extends JavaFeature{
 }

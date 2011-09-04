@@ -68,4 +68,8 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, "", "src/main/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, true, "", "src/test/generated-resources");
 	}
+	@Override
+	public boolean isSingleProjectStrategy(){
+		return true;
+	}
 }
