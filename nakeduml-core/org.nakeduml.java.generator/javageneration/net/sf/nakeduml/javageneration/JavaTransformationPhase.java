@@ -11,7 +11,6 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
-import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.LinkagePhase;
@@ -24,7 +23,7 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 import net.sf.nakeduml.validation.ValidationPhase;
 import net.sf.nakeduml.validation.namegeneration.NameGenerationPhase;
 
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.OJPackage;
 
 @PhaseDependency(after = {
 		LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class
@@ -38,7 +37,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	@InputModel
-	OJAnnotatedPackage javaModel;
+	OJPackage javaModel;
 	private NakedUmlConfig config;
 	private List<JavaTransformationStep> features;
 	public static final boolean IS_RUNTIME_AVAILABLE = false;
@@ -78,25 +77,25 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		return files;
 	}
 	@Override
-	public void execute(TransformationProgressLog log, TransformationContext context){
+	public void execute(TransformationContext context){
 		OJUtil.clearCache();
-		log.startTask("Generating Java Model",features.size());
+		context.getLog().startTask("Generating Java Model",features.size());
 		for(JavaTransformationStep f:features){
-			log.startStep("Executing " + f.getClass().getSimpleName() );
+			context.getLog().startStep("Executing " + f.getClass().getSimpleName() );
 			boolean matchesPhase=true;
 			if(context.isIntegrationPhase()){
 				matchesPhase = f instanceof IntegrationCodeGenerator;
 			}
-			if(f instanceof NakedElementOwnerVisitor && !log.isCanceled() && matchesPhase){
+			if(f instanceof NakedElementOwnerVisitor && !context.getLog().isCanceled() && matchesPhase){
 				//Remember HibernateConfigGenerator
 				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
 				f.setTransformationContext(context);
 				v.startVisiting(this.modelWorkspace);
 			}
 			context.featureApplied(f.getClass());
-			log.endLastStep();
+			context.getLog().endLastStep();
 		}
-		log.endLastTask();
+		context.getLog().endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<JavaTransformationStep> features){

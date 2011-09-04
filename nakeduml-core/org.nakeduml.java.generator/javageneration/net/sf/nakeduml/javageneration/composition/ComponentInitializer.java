@@ -1,6 +1,5 @@
 package net.sf.nakeduml.javageneration.composition;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
@@ -10,6 +9,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
@@ -19,9 +19,9 @@ import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import nl.klasse.octopus.model.IModelElement;
 
 import org.nakeduml.java.metamodel.OJBlock;
+import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
-import org.nakeduml.java.metamodel.OJWhileStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
@@ -59,13 +59,12 @@ public class ComponentInitializer extends AbstractJavaProducingVisitor{
 								&& (np.getQualifiers().get(0)).getNakedBaseType() instanceof INakedEnumeration){
 							INakedProperty qualifier = np.getQualifiers().get(0);
 							INakedEnumeration en = (INakedEnumeration) qualifier.getNakedBaseType();
-							Iterator iter = en.getLiterals().iterator();
 							OJIfStatement ifEmpty = new OJIfStatement();
 							ifEmpty.setCondition("get" + np.getMappingInfo().getJavaName().getCapped() + "().isEmpty()");
 							ifEmpty.setThenPart(new OJBlock());
 							ifEmpty.getThenPart().addToStatements(type.getMappingInfo().getJavaName() + " new" + np.getMappingInfo().getJavaName());
-							while(iter.hasNext()){
-								INakedEnumerationLiteral l = (INakedEnumerationLiteral) iter.next();
+							List<INakedEnumerationLiteral> ownedLiterals = en.getOwnedLiterals();
+							for(INakedEnumerationLiteral l:ownedLiterals){
 								ifEmpty.getThenPart().addToStatements("new" + np.getMappingInfo().getJavaName() + "= new " + type.getMappingInfo().getJavaName() + "()");
 								ifEmpty.getThenPart().addToStatements(
 										"addTo" + np.getMappingInfo().getJavaName().getCapped() + "(" + "new" + np.getMappingInfo().getJavaName() + ")");
@@ -74,21 +73,17 @@ public class ComponentInitializer extends AbstractJavaProducingVisitor{
 												+ en.getMappingInfo().getQualifiedJavaName() + "." + l.getMappingInfo().getJavaName().getUpperCase() + ")");
 							}
 							createComponents.getBody().addToStatements(ifEmpty);
-							if(np.getNakedBaseType() instanceof INakedEntity){
-								init.getBody().addToStatements(
-										"java.util.Iterator iter" + np.getMappingInfo().getJavaName() + "=get" + np.getMappingInfo().getJavaName().getCapped()
-												+ "().iterator()");
-								OJWhileStatement whileIter = new OJWhileStatement();
-								whileIter.setCondition("iter" + np.getMappingInfo().getJavaName() + ".hasNext()");
+							if(np.getNakedBaseType() instanceof ICompositionParticipant){
+								OJForStatement whileIter = new OJForStatement("c", map.javaBaseTypePath(), map.getter() + "()");
 								whileIter.setBody(new OJBlock());
-								whileIter.getBody().addToStatements("((AbstractEntity)iter" + np.getMappingInfo().getJavaName() + ".next()).init(this)");
+								whileIter.getBody().addToStatements("c.init(this)");
 								init.getBody().addToStatements(whileIter);
 							}
 						}else if(map.isOne() && (np.isComposite() && np.getNakedMultiplicity().getLower() == 1)){
 							OJIfStatement ifNull = new OJIfStatement("get" + np.getMappingInfo().getJavaName().getCapped() + "()==null", "set"
 									+ np.getMappingInfo().getJavaName().getCapped() + "(new " + type.getMappingInfo().getJavaName() + "())");
 							createComponents.getBody().addToStatements(ifNull);
-							if(np.getOtherEnd() != null && np.getOtherEnd().isNavigable()){
+							if(np.getNakedBaseType() instanceof ICompositionParticipant){
 								init.getBody().addToStatements("get" + np.getMappingInfo().getJavaName().getCapped() + "().init(this)");
 							}
 						}

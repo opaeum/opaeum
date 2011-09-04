@@ -9,7 +9,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.OJPackage;
 
 public abstract class JavaFeature implements JavaTransformationStep{
 	@Override
@@ -20,6 +20,6 @@ public abstract class JavaFeature implements JavaTransformationStep{
 		return Collections.emptySet();
 	}
 	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+	public void initialize(OJPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
 	}
 }

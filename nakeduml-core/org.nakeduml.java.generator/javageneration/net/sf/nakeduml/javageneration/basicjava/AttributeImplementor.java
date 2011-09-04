@@ -28,13 +28,13 @@ import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -46,7 +46,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	@Override
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		super.initialize(javaModel, config, textWorkspace, workspace);
 	}
 	@Override
@@ -110,14 +110,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(p.isDerived()){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
-				OJOperation getter = buildGetter(owner, map, true);
+				OJAnnotatedOperation getter = buildGetter(owner, map, true);
 				applyStereotypesAsAnnotations((p), getter);
 			}else{
 				implementAttributeFully(umlOwner, map);
 			}
 		}
 	}
-	private OJOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean b){
+	private OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean b){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);

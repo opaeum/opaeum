@@ -9,10 +9,10 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.OJPackage;
 
 public interface JavaTransformationStep extends ITransformationStep{
-	public void initialize(OJAnnotatedPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) ;
+	public void initialize(OJPackage pac, NakedUmlConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) ;
 	public void setTransformationContext(TransformationContext c);
 	public Collection<? extends TextOutputNode> getTextFiles();
 }

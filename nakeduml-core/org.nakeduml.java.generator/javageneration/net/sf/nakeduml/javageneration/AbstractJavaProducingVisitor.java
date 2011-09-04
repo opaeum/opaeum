@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,9 +10,9 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import net.sf.nakeduml.feature.ISourceFolderIdentifier;
+import net.sf.nakeduml.feature.ISourceFolderStrategy;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
-import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -19,12 +20,14 @@ import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
+import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextDirectory;
 import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
@@ -39,20 +42,40 @@ import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackageInfo;
 
 public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
-	protected OJAnnotatedPackage javaModel;
+	protected OJPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
 	private Set<TextOutputNode> textFiles;
 	protected INakedModelWorkspace workspace;
+	public static class ElementCollector<T extends INakedElement> extends NakedElementOwnerVisitor{
+		Class<? extends INakedElement> cls;
+		Collection<T> collection = new HashSet<T>();
+		@SuppressWarnings("unchecked")
+		@Override
+		public void visitRecursively(INakedElementOwner o){
+			if(cls.isInstance(o)){
+				collection.add((T) o);
+			}
+			super.visitRecursively(o);
+		}
+	}
 	public Set<TextOutputNode> getTextFiles(){
 		return textFiles;
 	}
+	public <T extends INakedElement> Collection<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
+		ElementCollector<T> elementCollector = new ElementCollector<T>();
+		elementCollector.cls = type;
+		for(INakedRootObject r:roots){
+			elementCollector.visitRecursively(r);
+		}
+		return elementCollector.collection;
+	}
 	@Override
-	public void initialize(OJAnnotatedPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
@@ -65,27 +88,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	@Override
 	public void visitRecursively(INakedElementOwner o){
 		recalculateUtilityPackage(o);
-		if(o instanceof INakedModelWorkspace){
-			super.visitRecursively(o);
-		}else if(o instanceof INakedRootObject){
-			visit(methodInvokers.beforeMethods);
-			visit(methodInvokers.afterMethods);
-		}
-	}
-	protected void visit(List<VisitSpec> visitBefore){
-		for(VisitSpec v:visitBefore){
-			Set<INakedElement> set = new HashSet<INakedElement>();
-			for(Class<?> class1:v.getClassesToMatch()){
-				set.addAll(this.workspace.getElementsOfType((Class<? extends INakedElement>) class1));
-			}
-			for(INakedElement iNakedElement:set){
-				if(currentRootObject.equals(iNakedElement.getRootObject())){
-					v.visit(this, new Object[]{
-						iNakedElement
-					});
-				}
-			}
-		}
+		super.visitRecursively(o);
 	}
 	private void recalculateUtilityPackage(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
@@ -133,24 +136,28 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
 	}
-	protected void createTextPathIfRequired(OJAnnotatedPackage p,JavaSourceFolderIdentifier id){
+	protected final OJAnnotatedPackageInfo findOrCreatePackageInfo(OJPathName packageName,JavaSourceFolderIdentifier id){
 		SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(id);
 		SourceFolder or = getSourceFolder(sourceFolderDefinition);
-		List<String> names = p.getPathName().getNames();
-		names.add("package-info.java");
-		JavaTextSource source = new JavaTextSource(p);
-		TextFile txt = or.findOrCreateTextFile(names, source, sourceFolderDefinition.overwriteFiles());
-		txt.setTextSource(source);
+		List<String> names = packageName.getNames();
+		TextDirectory txtDir = or.findOrCreateTextDirectory(names);
+		TextFile txtFile = txtDir.findOrCreateTextFile(Arrays.asList("package-info.java"), null, sourceFolderDefinition.overwriteFiles());
+		if(txtFile.getTextSource() ==null){
+			OJAnnotatedPackageInfo pkgInfo = new OJAnnotatedPackageInfo();
+			findOrCreatePackage(packageName).addToPackageInfo(pkgInfo);
+			txtFile.setTextSource(new JavaTextSource(pkgInfo));
+		}
+		return (OJAnnotatedPackageInfo) ((JavaTextSource)txtFile.getTextSource()).javaSource;
 	}
-	protected final OJAnnotatedPackage findOrCreatePackage(OJPathName packageName){
-		OJAnnotatedPackage parent = this.javaModel;
-		OJAnnotatedPackage child = null;
+	protected final OJPackage findOrCreatePackage(OJPathName packageName){
+		OJPackage parent = this.javaModel;
+		OJPackage child = null;
 		Iterator<String> iter = packageName.getNames().iterator();
 		while(iter.hasNext()){
 			String name = iter.next();
-			child = (OJAnnotatedPackage) parent.findPackage(new OJPathName(name));
+			child = (OJPackage) parent.findPackage(new OJPathName(name));
 			if(child == null){
-				child = new OJAnnotatedPackage(name);
+				child = new OJPackage(name);
 				parent.addToSubpackages(child);
 			}
 			parent = child;
@@ -255,22 +262,13 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
 	}
-	protected boolean isIntegrationPhase(){
-		return transformationContext.isIntegrationPhase();
+	protected boolean isIntegrationRequired(){
+		ISourceFolderStrategy sourceFolderStrategy = config.getSourceFolderStrategy();
+		boolean singleProjectStrategy = sourceFolderStrategy.isSingleProjectStrategy();
+		return transformationContext.isIntegrationPhase() || singleProjectStrategy;
 	}
-	protected <T extends INakedElement>Set<T> getElementsOfTypeInScope(Class<T> c){
-		if(isIntegrationPhase()){
-			return new HashSet<T>((Collection<? extends T>) workspace.getElementsOfType(c));
-		}else{
-			Collection<INakedRootObject> deps = currentRootObject.getAllDependencies();
-			Collection<T> elements = (Collection<T>) workspace.getElementsOfType(c);
-			HashSet<T> result = new HashSet<T>(elements);
-			for(INakedElement st:elements){
-				if(!deps.contains(st.getNakedRoot())){
-					result.remove(st);
-				}
-			}
-			return result;
-		}
+	@Override
+	protected boolean visitChildren(INakedElementOwner o){
+		return o instanceof INakedNameSpace;
 	}
 }
