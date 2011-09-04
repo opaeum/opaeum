@@ -197,6 +197,13 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <dependency>
+        <groupId>org.nakeduml.events</groupId>
+        <artifactId>eventtest</artifactId>
+        <version>${eventtest.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>

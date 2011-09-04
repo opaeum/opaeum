@@ -32,11 +32,6 @@ public class NakedUmlEditorMenu extends UMLEditorMenu{
 	private Collection<CommandParameter> descriptors;
 	public void createMenuContents(){
 		this.descriptors = new ArrayList<CommandParameter>();
-		Set<EStructuralFeature> structurlFeatures = new HashSet<EStructuralFeature>();
-		structurlFeatures.add(UMLPackage.eINSTANCE.getClass_OwnedOperation());
-		structurlFeatures.add(UMLPackage.eINSTANCE.getStructuredClassifier_OwnedAttribute());
-		structurlFeatures.add(UMLPackage.eINSTANCE.getPackage_OwnedType());
-		structurlFeatures.add(UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior());
 		for(Object o:domain.getEMFEditingDomain().getNewChildDescriptors(selectedObject, null)){
 			CommandParameter cp = (CommandParameter) o;
 			if(NakedUmlFilter.isAllowedElement((EObject) cp.getValue())){

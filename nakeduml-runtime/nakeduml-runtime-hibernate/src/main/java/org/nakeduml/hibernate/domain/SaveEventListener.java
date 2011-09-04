@@ -6,6 +6,7 @@ import org.hibernate.event.EventSource;
 import org.hibernate.event.def.DefaultSaveEventListener;
 
 public class SaveEventListener extends DefaultSaveEventListener{
+	private static final long serialVersionUID = -7222710756237315081L;
 	@Override
 	protected Serializable saveWithRequestedId(Object entity,Serializable requestedId,String entityName,Object anything,EventSource source){
 		return super.saveWithRequestedId(entity, requestedId, entityName, anything, source);

@@ -8,7 +8,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jbpm.persistence.ProcessPersistenceContext;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.nakeduml.runtime.persistence.AbstractPersistence;
 
 public class HibernateProcessPersistenceContext implements ProcessPersistenceContext{
 	private Session session;
@@ -66,6 +65,7 @@ public class HibernateProcessPersistenceContext implements ProcessPersistenceCon
 	public void remove(ProcessInstanceInfo processInstanceInfo){
 		session.delete(processInstanceInfo);
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Long> getProcessInstancesWaitingForEvent(String type){
 		Query processInstancesForEvent = session.getNamedQuery("ProcessInstancesWaitingForEvent");

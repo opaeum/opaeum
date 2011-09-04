@@ -46,4 +46,10 @@ public class HibernateUmtPersistence extends AbstractHibernatePersistence implem
 		this.timeout=i;
 	}
 
+	@Override
+	public void close(){
+		session.close();
+		
+	}
+
 }

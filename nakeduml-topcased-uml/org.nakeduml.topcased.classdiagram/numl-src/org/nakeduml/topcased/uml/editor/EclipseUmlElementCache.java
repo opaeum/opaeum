@@ -59,7 +59,7 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		public IStatus run(IProgressMonitor monitor){
 			try{
 				monitor.beginTask("Synchronizing Opium Metadata", 50);
-//				synchronized(nakedModelWorspace){
+				synchronized(emfChanges){
 					if(emfChanges.size() > 0){
 						Set<INakedNameSpace> nakedClassifiers = new HashSet<INakedNameSpace>();
 						Set<Classifier> emfClassifiers = findClassifiers(emfChanges);
@@ -97,7 +97,7 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 						updater.synchronizationComplete(asdf, nakedUmlChanges);
 						System.out.println("Synchronization took " + (System.currentTimeMillis() - start));
 					}
-//				}
+				}
 				return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata Synchronized Successfully");
 			}catch(Exception e){
 				e.printStackTrace();
@@ -154,18 +154,23 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		EmfToNakedUmlSynchronizer synchronizer = new EmfToNakedUmlSynchronizer(emfChanges, nakedModelWorspace, nakedUmlChanges, renamedRequestsByNewName, umlModelUpdator);
 		synchronizer.schedule();
 	}
-	protected void synchronizationNow(Set<Package> packages){
-		ProgressMonitorDialog dlg = new ProgressMonitorDialog(Display.getDefault().getActiveShell());
-		IProgressMonitor pm = dlg.getProgressMonitor();
-		dlg.open();
-		try{
-			pm.beginTask("Loading new Packages", 50);
-			getTransformationProcess().processElements(packages, EmfExtractionPhase.class, new ProgressMonitorTransformationLog(pm, 50));
-			pm.done();
-		}finally{
-			dlg.close();
-			pm.done();
-		}
+	protected void synchronizationNow(final Set<Package> packages){
+		Display.getDefault().syncExec(new Runnable(){
+			@Override
+			public void run(){
+				ProgressMonitorDialog dlg = new ProgressMonitorDialog(Display.getDefault().getActiveShell());
+				IProgressMonitor pm = dlg.getProgressMonitor();
+				dlg.open();
+				try{
+					pm.beginTask("Loading new Packages", 50);
+					getTransformationProcess().processElements(packages, EmfExtractionPhase.class, new ProgressMonitorTransformationLog(pm, 50));
+					pm.done();
+				}finally{
+					dlg.close();
+					pm.done();
+				}
+			}
+		});
 	}
 	@Override
 	public void notifyChanged(Notification notification){
@@ -182,7 +187,7 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 			if(pkg instanceof Model){
 				Model model = (Model) pkg;
 				Profile pf = ApplyProfileAction.applyNakedUmlProfile(model);
-				Stereotype st = pf.getOwnedStereotype(StereotypeNames.PACKAGE);
+				Stereotype st = pf.getOwnedStereotype(StereotypeNames.MODEL);
 				if(!model.isStereotypeApplied(st)){
 					model.applyStereotype(st);
 				}
@@ -190,7 +195,7 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 					model.setValue(st, "mappedImplementationPackage", cfg.getMavenGroupId() + "." + model.getName().toLowerCase());
 				}
 				try{
-					model.eResource().save(new HashMap());
+					model.eResource().save(new HashMap<Object,Object>());
 				}catch(IOException e){
 					e.printStackTrace();
 				}

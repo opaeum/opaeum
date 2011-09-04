@@ -15,6 +15,7 @@ public class HibernateQuery implements Query{
 	public int executeUpdate(){
 		return delegate.executeUpdate();
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<IPersistentObject> executeQuery(){
 		return delegate.list();

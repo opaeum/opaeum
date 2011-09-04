@@ -183,7 +183,7 @@
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_aAY0EdRkEeC6hKY3wCRHIw" presentation="org.topcased.modeler.uml.activitydiagram.bpm">
         <element href="EventsTest.uml#_ADPu4NRfEeC-xYWOjVB6KA"/>
       </semanticModel>
-      <contained xsi:type="di:GraphNode" xmi:id="_fIAOINRkEeC6hKY3wCRHIw" position="44,27" size="30,30">
+      <contained xsi:type="di:GraphNode" xmi:id="_fIAOINRkEeC6hKY3wCRHIw" position="80,24" size="30,30">
         <anchorage xmi:id="_p1uXQNRzEeC7Ib8duCFWYQ" graphEdge="_p1zPwNRzEeC7Ib8duCFWYQ"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fIAOIdRkEeC6hKY3wCRHIw" presentation="default">
           <element href="EventsTest.uml#_fIrjkNRkEeC6hKY3wCRHIw"/>
@@ -212,7 +212,7 @@
           <element href="EventsTest.uml#_Y23IwNR7EeCl771NsxVxXQ"/>
         </semanticModel>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_HoeUsNR8EeCl771NsxVxXQ" position="145,213" size="40,40">
+      <contained xsi:type="di:GraphNode" xmi:id="_HoeUsNR8EeCl771NsxVxXQ" position="76,218" size="40,40">
         <anchorage xmi:id="_IWeqMNR8EeCl771NsxVxXQ" graphEdge="_IWi7oNR8EeCl771NsxVxXQ"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HoeUsdR8EeCl771NsxVxXQ" presentation="default">
           <element href="EventsTest.uml#_Hos-MNR8EeCl771NsxVxXQ"/>

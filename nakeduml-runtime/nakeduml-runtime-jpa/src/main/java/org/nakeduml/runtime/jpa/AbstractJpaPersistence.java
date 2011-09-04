@@ -11,6 +11,12 @@ import org.nakeduml.runtime.persistence.Query;
 
 public abstract class AbstractJpaPersistence implements AbstractPersistence{
 	@Override
+	public void refresh(IPersistentObject... ctx) {
+		for (IPersistentObject p : ctx) {
+			getEntityManager().refresh(p);
+		}
+	}
+	@Override
 	public <T>T getReference(Class<T> t,Long id){
 		return getEntityManager().getReference(t, id);
 	}
@@ -26,6 +32,7 @@ public abstract class AbstractJpaPersistence implements AbstractPersistence{
 	public Query createQuery(String q){
 		return new JpaQuery(getEntityManager().createQuery(q));
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T>Collection<T> readAll(Class<T> c){
 		Entity annotation = c.getAnnotation(Entity.class);

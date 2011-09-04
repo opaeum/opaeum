@@ -26,9 +26,9 @@
 			icon="icons/UML.gif"
 			class="org.topcased.modeler.uml.wizards.NewUMLDiagrams"
 			category="org.nakeduml.eclipse.newWizards"
-			name="Business Model with NakedUML"
+			name="Executable Model with Opium"
 			id="org.topcased.modeler.uml.wizards.NewUMLDiagrams">
-			<description>Create a new Executable Business Model with NakedUML</description>
+			<description>Create a new Executable Model with Opium</description>
 			<selection class="org.eclipse.core.resources.IResource"/>
 		</wizard>
 	</extension>
@@ -47,6 +47,13 @@
             isDiagram="false"
             model="templates/businessmodel/%name%.uml"
             name="Business Modeling"/>
+      <template
+            di="templates/profilediagram/%name%.umldi"
+            editorId="org.topcased.modeler.uml.editor.UMLEditor"
+            id="org.topcased.modeler.uml.templates.profilediagram"
+            isDiagram="false"
+            model="templates/profilediagram/%name%.uml"
+            name="Profile Template"/>
    </extension>
    
    <extension point="org.eclipse.ui.perspectiveExtensions">

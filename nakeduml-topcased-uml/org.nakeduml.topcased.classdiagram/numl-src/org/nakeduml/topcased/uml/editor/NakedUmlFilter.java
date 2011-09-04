@@ -17,9 +17,16 @@ public class NakedUmlFilter extends ViewerFilter{
 	public static Set<EClassifier> DISALLOWED_CLASSES = new HashSet<EClassifier>();
 	public static Set<EClassifier> ALLOWED_CLASSES = new HashSet<EClassifier>();
 	static{
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getFunctionBehavior());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getProtocolStateMachine());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getFunctionBehavior());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeConstraint());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDurationConstraint());
-		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getIntervalConstraint());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDevice());
+		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getNode());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getElementImport());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPackageImport());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPackageMerge());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getAssociation());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTransition());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPseudostate());
@@ -69,14 +76,16 @@ public class NakedUmlFilter extends ViewerFilter{
 		return false;
 	}
 	public static boolean isAllowedElement(EObject element){
-		for(EClassifier e:ALLOWED_CLASSES){
-			if(e.isInstance(element)){
-				for(EClassifier e2:DISALLOWED_CLASSES){
-					if(e2.isInstance(element)){
-						return false;
+		if(element.eClass().getEPackage().getName().equalsIgnoreCase("uml")){
+			for(EClassifier e:ALLOWED_CLASSES){
+				if(e.isInstance(element)){
+					for(EClassifier e2:DISALLOWED_CLASSES){
+						if(e2.isInstance(element)){
+							return false;
+						}
 					}
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;

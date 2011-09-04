@@ -13,9 +13,7 @@ import org.hibernate.event.FlushEvent;
 import org.hibernate.event.FlushEventListener;
 import org.hibernate.event.Initializable;
 import org.hibernate.event.PostInsertEvent;
-import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostLoadEvent;
-import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
@@ -23,7 +21,7 @@ import org.nakeduml.hibernate.domain.EventDispatcher;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
-public class AuditListener extends EventDispatcher implements PostInsertEventListener, PostLoadEventListener, PostUpdateEventListener,
+public class AuditListener extends EventDispatcher implements PostUpdateEventListener,
 		FlushEventListener, Initializable {
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Map<EventSource, AuditWorkUnit> entries = Collections.synchronizedMap(new HashMap<EventSource, AuditWorkUnit>());
@@ -52,6 +50,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 			Number n = (Number) Versioning.getVersion(event.getState(), persister);
 			getWorkUnitForSession(session).logInsertedProperties(event.getState(), persister.getPropertyNames(), (IPersistentObject) entity, n.intValue());
 		}
+		super.onPostInsert(event);
 	}
 
 	private AuditWorkUnit getWorkUnitForSession(EventSource session) {
@@ -73,7 +72,7 @@ public class AuditListener extends EventDispatcher implements PostInsertEventLis
 			}
 			getWorkUnitForSession(source).flush();
 		}
-		dispatchEvents(event, source);
+		dispatchEventsAndSaveProcesses(event, source);
 		postFlush(source);
 		entries.remove(source);
 	}

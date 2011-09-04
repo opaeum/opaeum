@@ -109,29 +109,52 @@ public class NakedUmlEclipseContext{
 	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
 		currentResourceSet = domain.getResourceSet();
-		new Job("Loading Opium Metadata"){
-			@Override
-			protected IStatus run(final IProgressMonitor monitor){
-				monitor.beginTask("Loading Opium  Metadata", 1000);
-				try{
-					if(currentResourceSet != null){
-						Package model = findRootObjectInFile(file, currentResourceSet);
+		final Package model = findRootObjectInFile(file, currentResourceSet);
+		if(directoryEmfWorkspace == null){
+			new Job("Loading Opium Metadata"){
+				@Override
+				protected IStatus run(IProgressMonitor monitor){
+					try{
+						loadDirectory(monitor);
 						if(model != null){
-							//Will be null if the editingDomain is inactive
+							NakedUmlConfig cfg = getUmlElementCache().getConfig();
+							EmfWorkspace emfWorkspace = new EmfWorkspace(model, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+							emfWorkspace.setName(cfg.getWorkspaceName());
+							getUmlElementCache().setCurrentEmfWorkspace(emfWorkspace);
+							emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
+							domain.getResourceSet().eAdapters().add(umlElementCache);
+						}
+						errorMarker.maybeSchedule();
+						return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
+					}catch(Exception e){
+						return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
+					}finally{
+						monitor.done();
+					}
+				}
+			}.schedule();
+		}else{
+			new Job("Loading Opium Metadata"){
+				@Override
+				protected IStatus run(final IProgressMonitor monitor){
+					monitor.beginTask("Loading Opium  Metadata", 1000);
+					try{
+						if(model != null){
+							// Will be null if the editingDomain is inactive
 							EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
 							emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
 							domain.getResourceSet().eAdapters().add(umlElementCache);
 							errorMarker.maybeSchedule();
 						}
+						return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
+					}catch(Exception e){
+						return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
+					}finally{
+						monitor.done();
 					}
-					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
-				}catch(Exception e){
-					return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
-				}finally{
-					monitor.done();
 				}
-			}
-		}.schedule();
+			}.schedule();
+		}
 		return true;
 	}
 	public boolean isOpen(){
@@ -216,10 +239,11 @@ public class NakedUmlEclipseContext{
 		try{
 			if(directoryEmfWorkspace == null){
 				ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 25);
-				currentResourceSet = new ResourceSetImpl();
+				ResourceSetImpl rrst = new ResourceSetImpl();
+				currentResourceSet = rrst;
 				directoryEmfWorkspace = EmfWorkspaceLoader.loadDirectory(currentResourceSet, umlDirectory.getLocation().toFile(), umlElementCache.getConfig(), log);
 				directoryEmfWorkspace.setResourceHelper(new EclipseEmfResourceHelper());
-				currentResourceSet.eAdapters().add(getUmlElementCache());
+				rrst.eAdapters().add(getUmlElementCache());
 				INakedModelWorkspace nmws = getUmlElementCache().getNakedWorkspace();
 				nmws.clearGeneratingModelOrProfiles();
 				getUmlElementCache().getTransformationProcess().replaceModel(directoryEmfWorkspace);

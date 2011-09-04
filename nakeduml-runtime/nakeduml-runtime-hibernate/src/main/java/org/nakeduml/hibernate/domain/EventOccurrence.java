@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -35,13 +36,14 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	@Enumerated(EnumType.STRING)
 	private EventOccurrenceStatus status;
 	@Id
+	@GeneratedValue()
 	Long id;
 	@Basic
 	@Column(name = "event_target_id")
 	private Long eventTargetId;
 	@Basic
 	@Column(name = "event_target_class_id")
-	private Integer eventTargetClassId;
+	private String eventTargetClassId;
 	private int retryCount;
 	@Basic
 	private String triggerUuid;
@@ -58,12 +60,11 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	}
 	public EventOccurrence(Object target,IEventHandler handler){
 		super(target, handler);
-		this.eventTargetClassId = Environment.getMetaInfoMap().getNakedUmlId(IntrospectionUtil.getOriginalClass(target.getClass()));
+		this.eventTargetClassId = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
 		if(target instanceof IPersistentObject){
 			this.targetIsEntity=true;
 			this.eventTargetId = ((IPersistentObject) target).getId();
 		}
-		this.eventTargetClassId = Environment.getMetaInfoMap().getNakedUmlId(IntrospectionUtil.getOriginalClass(target.getClass()));
 		this.triggerUuid = handler.getHandlerUuid();
 		this.firstOccurrenceScheduledFor = handler.getFirstOccurrenceScheduledFor();
 	}
@@ -73,7 +74,7 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	public Long getEventTargetId(){
 		return eventTargetId;
 	}
-	public Integer getEventTargetClassId(){
+	public String getEventTargetClassId(){
 		return this.eventTargetClassId;
 	}
 	public Long getId(){
@@ -100,6 +101,7 @@ public class EventOccurrence extends AbstractEventOccurrence{
 		byte[] value = targetValue;
 		return read(value);
 	}
+	@SuppressWarnings("unchecked")
 	protected <T> T read(byte[] value){
 		try{
 			ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(value));
@@ -139,6 +141,6 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	}
 	@Override
 	protected void setPropertyValues(Collection<PropertyValue> collection){
-		write(collection);
+		propertyValues= write(collection).toByteArray();
 	}
 }

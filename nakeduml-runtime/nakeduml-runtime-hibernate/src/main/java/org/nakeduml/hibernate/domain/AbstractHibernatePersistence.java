@@ -7,11 +7,17 @@ import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.persistence.AbstractPersistence;
 import org.nakeduml.runtime.persistence.Query;
 
+@SuppressWarnings("unchecked")
 public abstract class AbstractHibernatePersistence implements AbstractPersistence{
 	protected Session session;
 	public AbstractHibernatePersistence(Session session){
 		super();
 		this.session = session;
+	}
+	public void refresh(IPersistentObject...ps){
+		for(IPersistentObject p:ps){
+			session.refresh(p);
+		}
 	}
 	@Override
 	public <T>T getReference(Class<T> t,Long id){

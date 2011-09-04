@@ -6,6 +6,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
 import org.nakeduml.hibernate.domain.HibernateEnvironment;
 
+@SuppressWarnings("unchecked")
 public class Seam2Environment extends HibernateEnvironment{
 	@Override
 	public <T>T getComponent(Class<T> clazz){
@@ -21,7 +22,7 @@ public class Seam2Environment extends HibernateEnvironment{
 	}
 	@Override
 	public <T>Class<T> getImplementationClass(T o){
-		return (Class<T>) o.getClass();
+		return (Class<T>) Component.forClass(o.getClass()).getBeanClass();
 	}
 	@Override
 	public void endRequestContext(){

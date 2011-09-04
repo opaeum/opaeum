@@ -1,11 +1,8 @@
 package org.nakeduml.audit;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -38,6 +35,7 @@ public class AuditHistory {
 		}
 		return result;
 	}
+	@SuppressWarnings("unchecked")
 	public SortedSet<PropertyChange<?>> getPropertyHistory(String propertyName, Date fromDate, Date toDate) {
 		List<DateTimePropertyChange> list = getHistoryFromDateProperty(fromDate, toDate);
 		TreeSet<PropertyChange<?>> result = new TreeSet<PropertyChange<?>>();
@@ -57,6 +55,7 @@ public class AuditHistory {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<DateTimePropertyChange> getHistoryFromDateProperty(Date fromDate, Date toDate) {
 		Criteria crit = getSession().createCriteria(DateTimePropertyChange.class);
 		crit=crit.createAlias("auditEntry", "ae");
@@ -75,14 +74,6 @@ public class AuditHistory {
 	private Session getSession() {
 		Session session = (Session) entityManager.getDelegate();
 		return session;
-	}
-
-	private static boolean isInterestingField(PropertyChange pd) {
-		Set<String> ignoredFields = new HashSet<String>(Arrays.asList("objectVersion", "revision", "revisionType", "id", "deletedOn", "previousVersion",
-				"createdOn", "updatedOn"));
-
-		return !ignoredFields.contains(pd.getPropertyName());
-
 	}
 
 }

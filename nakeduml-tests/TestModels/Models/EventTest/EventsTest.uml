@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfileForBPM="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7 pathmap://NAKEDUML_MODELS/profiles/NakedUMLProfileForBPM.uml#_GHwXMJSyEeChgI0v02SJHQ http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_XjuT8M47EeC2p-F-aJf6AA">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfileForBPM="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0" xmlns:OpiumStandardProfile_1="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7 pathmap://NAKEDUML_MODELS/profiles/NakedUMLProfileForBPM.uml#_GHwXMJSyEeChgI0v02SJHQ http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_XjuT8M47EeC2p-F-aJf6AA http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="EventsTest">
     <eAnnotations xmi:id="_6TN5YKTcEeCJw_uhYL7KOA" source="http://www.nakeduml.org">
       <details xmi:id="_6TN5YaTcEeCJw_uhYL7KOA" key="uid" value="f94385b3_4875_462a_b0f2_a28047d6ccf9"/>
@@ -422,18 +422,9 @@
         </eAnnotations>
       </packagedElement>
     </packagedElement>
-    <profileApplication xmi:id="_GpU6cKTdEeCJw_uhYL7KOA">
-      <eAnnotations xmi:id="_GpXWsKTdEeCJw_uhYL7KOA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/NakedUMLProfileForBPM.uml#_GHwXMJSyEeChgI0v02SJHQ"/>
-      </eAnnotations>
-      <eAnnotations xmi:id="_7_0YUNPzEeCGsqrenGGmNg" source="http://www.nakeduml.org">
-        <details xmi:id="_7_0YUdPzEeCGsqrenGGmNg" key="uuid" value="ca0e93fd_c692_49ef_9af2_baeba73c2ace"/>
-      </eAnnotations>
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/NakedUMLProfileForBPM.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-    </profileApplication>
     <profileApplication xmi:id="_7_YTcNPzEeCGsqrenGGmNg">
       <eAnnotations xmi:id="_7_b90NPzEeCGsqrenGGmNg" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_XjuT8M47EeC2p-F-aJf6AA"/>
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw"/>
       </eAnnotations>
       <eAnnotations xmi:id="_7_0YUtPzEeCGsqrenGGmNg" source="http://www.nakeduml.org">
         <details xmi:id="_7_0YU9PzEeCGsqrenGGmNg" key="uuid" value="201cb517_eb51_4f48_8957_84cbaaa54e24"/>
@@ -451,5 +442,6 @@
     </profileApplication>
   </uml:Model>
   <NakedUMLProfileForBPM:BusinessComponent xmi:id="_GpboIKTdEeCJw_uhYL7KOA" base_Component="_GXyegKTdEeCJw_uhYL7KOA"/>
-  <OpiumStandardProfile:Package xmi:id="_7_dzANPzEeCGsqrenGGmNg" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.testworkspace.eventstest"/>
+  <OpiumStandardProfile:Package xmi:id="_7_dzANPzEeCGsqrenGGmNg" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.eventtest.eventstest"/>
+  <OpiumStandardProfile_1:Model xmi:id="_4RbL4NYgEeCVCd28uOZGxw" mappedImplementationPackage="org.nakeduml.events.eventstest" identifier="events-test" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
 </xmi:XMI>

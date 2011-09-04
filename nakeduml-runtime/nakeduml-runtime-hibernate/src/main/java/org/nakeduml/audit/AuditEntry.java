@@ -197,7 +197,7 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 
 	public Class<?> getOriginalClass() {
 		if (this.originalClass == null) {
-			this.originalClass = (Class<? extends IPersistentObject>) IntrospectionUtil.getClass(originalType);
+			this.originalClass = IntrospectionUtil.getClass(originalType);
 		}
 		return originalClass;
 	}

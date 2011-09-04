@@ -10,85 +10,111 @@ import java.util.WeakHashMap;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.event.EventSource;
-import org.hibernate.event.FlushEntityEvent;
-import org.hibernate.event.FlushEntityEventListener;
 import org.hibernate.event.FlushEvent;
 import org.hibernate.event.FlushEventListener;
+import org.hibernate.event.PostInsertEvent;
+import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostLoadEvent;
 import org.hibernate.event.PostLoadEventListener;
-import org.hibernate.event.PreInsertEvent;
-import org.hibernate.event.PreInsertEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
+import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.nakeduml.runtime.domain.IEventGenerator;
+import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.environment.Environment;
 import org.nakeduml.runtime.event.IEventHandler;
 
-public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,FlushEntityEventListener,PreInsertEventListener{
+public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener, FlushEventListener, PostInsertEventListener {
 	private static final long serialVersionUID = -8583155822068850343L;
-	static Map<EventSource,Set<IEventGenerator>> eventSourceMap = Collections.synchronizedMap(new WeakHashMap<EventSource,Set<IEventGenerator>>());
+	static Map<EventSource, Set<IEventGenerator>> eventGeneratorMap = Collections.synchronizedMap(new WeakHashMap<EventSource, Set<IEventGenerator>>());
+	static Map<EventSource, Set<IProcessObject>> processObjectMap = Collections.synchronizedMap(new WeakHashMap<EventSource, Set<IProcessObject>>());
+
 	@Override
-	public void onPostLoad(PostLoadEvent event){
-		//TODO resolve "Any's"
-		if(event.getEntity() instanceof IEventGenerator){
-			addEventSource(event.getSession(), (IEventGenerator) event.getEntity());
+	public void onPostInsert(PostInsertEvent event) {
+		maybeRegister(event.getEntity(), event.getSession());
+	}
+
+	@Override
+	public void onPostLoad(PostLoadEvent event) {
+		// TODO resolve "Any's"
+		maybeRegister(event.getEntity(), event.getSession());
+	}
+
+	private void maybeRegister(Object entity, EventSource session) {
+		if (entity instanceof IEventGenerator) {
+			Set<IEventGenerator> set = eventGeneratorMap.get(session);
+			if (set == null) {
+				set = new HashSet<IEventGenerator>();
+				eventGeneratorMap.put(session, set);
+			}
+			set.add((IEventGenerator) entity);
+		}
+		if (entity instanceof IProcessObject) {
+			Set<IProcessObject> set = processObjectMap.get(session);
+			if (set == null) {
+				set = new HashSet<IProcessObject>();
+				processObjectMap.put(session, set);
+			}
+			set.add((IProcessObject) entity);
+
 		}
 	}
+
 	@Override
-	public void onFlushEntity(FlushEntityEvent event) throws HibernateException{
-		if(event.getEntity() instanceof IEventGenerator){
-			addEventSource(event.getSession(), (IEventGenerator) event.getEntity());
-		}
-	}
-	private void addEventSource(EventSource session,IEventGenerator entity){
-		Set<IEventGenerator> set = eventSourceMap.get(session);
-		if(set == null){
-			set = new HashSet<IEventGenerator>();
-			eventSourceMap.put(session, set);
-		}
-		set.add(entity);
-	}
-	@Override
-	public void onFlush(FlushEvent event) throws HibernateException{
+	public void onFlush(FlushEvent event) throws HibernateException {
 		final EventSource source = event.getSession();
-		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
-			// Generate Ids, perform flush events
+		if (source.getPersistenceContext().hasNonReadOnlyEntities()) {
+			// Generate Ids, perform flush events, register newly inserted
+			// objects
 			performFlush(event, source);
 		}
-		//NB!! entities may not have changed, but events may have been generated
-		dispatchEvents(event, source);
+		// NB!! entities may not have changed, but events may have been
+		// generated
+		dispatchEventsAndSaveProcesses(event, source);
 		postFlush(source);
 	}
-	protected void dispatchEvents(FlushEvent event,final EventSource source){
-		Set<IEventGenerator> eventGenerators = eventSourceMap.get(event.getSession());
-		if(eventGenerators != null){
+
+	protected void dispatchEventsAndSaveProcesses(FlushEvent event, final EventSource source) {
+		Set<IEventGenerator> eventGenerators = eventGeneratorMap.get(event.getSession());
+		Set<IProcessObject> processes = processObjectMap.get(event.getSession());
+		boolean dirtyProcessFound = false;
+		if (processes != null) {
+			for (IProcessObject o : processes) {
+				if (o.isProcessDirty()) {
+					ProcessInstanceInfo pii = (ProcessInstanceInfo) source.get(ProcessInstanceInfo.class, o.getProcessInstanceId());
+					pii.update();
+					dirtyProcessFound = true;
+				}
+			}
+		}
+		if (eventGenerators != null) {
 			Set<EventOccurrence> dispatchEvents = saveEvents(event, source, eventGenerators);
 			Set<String> cancelledEvents = deleteEvents(event, source);
 			performFlush(event, source);
-			postFlush(source);
 			scheduleEvents(dispatchEvents);
 			cancelEvents(cancelledEvents);
-			eventSourceMap.remove(event.getSession());
-		}else{
+		} else if (dirtyProcessFound) {
 			performFlush(event, source);
-			postFlush(source);
 		}
 	}
-	protected void performFlush(FlushEvent event,final EventSource source){
+
+	protected void performFlush(FlushEvent event, final EventSource source) {
 		flushEverythingToExecutions(event);
 		performExecutions(source);
-		if(source.getFactory().getStatistics().isStatisticsEnabled()){
+		if (source.getFactory().getStatistics().isStatisticsEnabled()) {
 			source.getFactory().getStatisticsImplementor().flush();
 		}
 	}
-	protected void scheduleEvents(Set<EventOccurrence> allEventOccurrences){
-		for(EventOccurrence eo:allEventOccurrences){
+
+	protected void scheduleEvents(Set<EventOccurrence> allEventOccurrences) {
+		for (EventOccurrence eo : allEventOccurrences) {
 			Environment.getInstance().getEventService().scheduleEvent(eo);
 		}
 	}
-	protected Set<EventOccurrence> saveEvents(FlushEvent event,final EventSource source,Set<IEventGenerator> eventGenerators){
+
+	protected Set<EventOccurrence> saveEvents(FlushEvent event, final EventSource source, Set<IEventGenerator> eventGenerators) {
 		Set<EventOccurrence> allEventOccurrences = new HashSet<EventOccurrence>();
-		for(IEventGenerator eg:eventGenerators){
-			for(Entry<Object,IEventHandler> entry:eg.getOutgoingEvents().entrySet()){
+		for (IEventGenerator eg : eventGenerators) {
+			for (Entry<Object, IEventHandler> entry : eg.getOutgoingEvents().entrySet()) {
 				EventOccurrence occurrence = new EventOccurrence(entry.getKey(), entry.getValue());
 				occurrence.prepareForDispatch();
 				source.persist(occurrence);
@@ -98,17 +124,19 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		}
 		return allEventOccurrences;
 	}
-	protected void cancelEvents(Set<String> uuids){
-		for(String uuid:uuids){
+
+	protected void cancelEvents(Set<String> uuids) {
+		for (String uuid : uuids) {
 			Environment.getInstance().getEventService().cancelEvent(uuid);
 		}
 	}
-	protected Set<String> deleteEvents(FlushEvent event,final EventSource source){
-		Set<IEventGenerator> eventGenerators = eventSourceMap.get(event.getSession());
+
+	protected Set<String> deleteEvents(FlushEvent event, final EventSource source) {
+		Set<IEventGenerator> eventGenerators = eventGeneratorMap.get(event.getSession());
 		Set<String> allCancellations = new HashSet<String>();
 		Query delete = source.createQuery("delete from EventOccurrence where uuid=:uuid");
-		for(IEventGenerator eg:eventGenerators){
-			for(Entry<Object,String> entry:eg.getCancelledEvents().entrySet()){
+		for (IEventGenerator eg : eventGenerators) {
+			for (Entry<Object, String> entry : eg.getCancelledEvents().entrySet()) {
 				delete.setString("uuid", EventOccurrence.uuid(entry.getKey(), entry.getValue()));
 				delete.executeUpdate();
 				allCancellations.add(entry.getValue());
@@ -117,28 +145,26 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		}
 		return allCancellations;
 	}
-	protected void performExecutions(EventSource session) throws HibernateException{
+
+	protected void performExecutions(EventSource session) throws HibernateException {
 		session.getPersistenceContext().setFlushing(true);
-		try{
+		try {
 			session.getJDBCContext().getConnectionManager().flushBeginning();
 			// we need to lock the collection caches before
 			// executing entity inserts/updates in order to
 			// account for bidi associations
 			session.getActionQueue().prepareActions();
 			session.getActionQueue().executeActions();
-		}catch(HibernateException he){
-			// log.error("Could not synchronize database state with session", he);
+		} catch (HibernateException he) {
+			// log.error("Could not synchronize database state with session",
+			// he);
 			throw he;
-		}finally{
-			session.getPersistenceContext().setFlushing(false);// NUML Modification to assist with auditing
+		} finally {
+			session.getPersistenceContext().setFlushing(false);// NUML
+																// Modification
+																// to assist
+																// with auditing
 			session.getJDBCContext().getConnectionManager().flushEnding();
 		}
-	}
-	@Override
-	public boolean onPreInsert(PreInsertEvent event){
-		if(event.getEntity() instanceof IEventGenerator){
-			addEventSource(event.getSession(), (IEventGenerator) event.getEntity());
-		}
-		return false;
 	}
 }

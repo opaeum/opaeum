@@ -15,6 +15,7 @@ public class JpaQuery implements Query{
 	public int executeUpdate(){
 		return query.executeUpdate();
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<IPersistentObject> executeQuery(){
 		return query.getResultList();

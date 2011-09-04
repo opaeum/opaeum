@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuditWorkUnit {
-	private static Map<Class<? extends IPersistentObject>, AuditEntryFactory<? extends IPersistentObject>> factories = new HashMap<Class<? extends IPersistentObject>, AuditEntryFactory<? extends IPersistentObject>>();
+	private static Map<Class<? extends IPersistentObject>, AuditEntryFactory<? extends AuditEntry>> factories = new HashMap<Class<? extends IPersistentObject>, AuditEntryFactory<? extends AuditEntry>>();
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static class EntityId {
@@ -231,7 +231,7 @@ public class AuditWorkUnit {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes"})
 	public void logPropertyChanges(Object[] oldState, Object[] newState, int[] dirtyProperties, IPersistentObject entity, String[] propertyNames, int version) {
 		EntityId ei = toEntityId(entity);
 		AuditEntry entry = entriesByEntityId.get(ei);
@@ -254,10 +254,9 @@ public class AuditWorkUnit {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private AuditEntryFactory<? extends IPersistentObject> getFactory(IPersistentObject entity) {
+	private AuditEntryFactory<? extends AuditEntry> getFactory(IPersistentObject entity) {
 		Class<? extends IPersistentObject> clz = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entity);
-		AuditEntryFactory<? extends IPersistentObject> factory = factories.get(clz);
+		AuditEntryFactory<? extends AuditEntry> factory = factories.get(clz);
 		if (factory == null) {
 			AuditMe ann = clz.getAnnotation(AuditMe.class);
 			try {
@@ -280,7 +279,7 @@ public class AuditWorkUnit {
 	}
 
 	public void logInsertedProperties(Object[] newState, String[] propertyNames, IPersistentObject entity, int version) {
-		AuditEntryFactory factory = getFactory(entity);
+		AuditEntryFactory<?> factory = getFactory(entity);
 		AuditEntry entry = factory.createAuditEntry(entity, version);
 		entriesByEntityId.put(toEntityId(entity), entry);
 		for (int i = 0; i < newState.length; i++) {

@@ -31,6 +31,7 @@ import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.outline.ModelNavigator;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
+import org.topcased.modeler.uml.actions.DefineProfileAction;
 import org.topcased.modeler.uml.actions.UMLEObjectAction;
 import org.topcased.modeler.uml.editor.outline.UMLNavigator;
 import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
@@ -72,7 +73,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 						for(IContributionItem item:manager.getItems()){
 							if(item instanceof ActionContributionItem){
 								ActionContributionItem actionItem = (ActionContributionItem) item;
-								if(actionItem.getAction() instanceof UMLEObjectAction){
+								if(actionItem.getAction() instanceof UMLEObjectAction && !(actionItem.getAction() instanceof DefineProfileAction)){
 									manager.remove(item);
 								}
 							}
@@ -94,11 +95,12 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
 	}
-    public void refreshOutline(){
+	public void refreshOutline(){
+		// Called when this editor's tab has been selected
+		super.refreshOutline();
 		IFileEditorInput f = getFileEditorInput(getEditorInput());
 		currentContext = getContext(f);
-    }
-
+	}
 	private NakedUmlEclipseContext getContext(final IFileEditorInput fe){
 		IContainer umlDir = fe.getFile().getParent();
 		IFile umlFile = getUmlFile(fe);

@@ -1,32 +1,88 @@
 package org.nakeduml.environment.seam2;
 
-import org.nakeduml.runtime.persistence.UmtPersistence;
+import javax.persistence.EntityManager;
 
-public class Seam2UmtPersistence extends AbstractSeam2Persistence implements UmtPersistence{
+import org.drools.RuntimeDroolsException;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.transaction.UserTransaction;
+import org.nakeduml.runtime.jpa.AbstractJpaUmtPersistence;
+import org.nakeduml.runtime.persistence.UmtPersistence;
+@Name("umtsPersistence")
+public class Seam2UmtPersistence extends AbstractJpaUmtPersistence implements UmtPersistence {
+	@In
+	UserTransaction userTransaction;
+	@In
+	EntityManager entityManager;
+
 	@Override
-	public void beginTransaction(){
-		// TODO Auto-generated method stub
+	protected EntityManager getEntityManager() {
+		return entityManager;
 	}
+
 	@Override
-	public boolean isActive(){
-		// TODO Auto-generated method stub
-		return false;
+	public void beginTransaction() {
+		try {
+			userTransaction.begin();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeDroolsException(e);
+		}
 	}
+
 	@Override
-	public void rollbackTransaction(){
-		// TODO Auto-generated method stub
+	public boolean isActive() {
+		try {
+			return userTransaction.isActive();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeDroolsException(e);
+		}
 	}
+
 	@Override
-	public void commitTransaction(){
-		// TODO Auto-generated method stub
+	public void rollbackTransaction() {
+		try {
+			userTransaction.rollback();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeDroolsException(e);
+		}
 	}
+
 	@Override
-	public boolean isRolledBack(){
-		// TODO Auto-generated method stub
-		return false;
+	public void commitTransaction() {
+		try {
+			userTransaction.commit();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeDroolsException(e);
+		}
 	}
+
 	@Override
-	public void setTransactionTimeout(int i){
-		// TODO Auto-generated method stub
+	public boolean isRolledBack() {
+		try {
+			return userTransaction.isRolledBackOrMarkedRollback();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeDroolsException(e);
+		}
+	}
+
+	@Override
+	public void setTransactionTimeout(int i) {
+		try {
+			userTransaction.setTransactionTimeout(i);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new RuntimeDroolsException(e);
+		}
 	}
 }
