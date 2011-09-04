@@ -88,7 +88,6 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	 * @param emfNode
 	 * @return
 	 */
-	@SuppressWarnings("serial")
 	private INakedActivityNode getNode(ActivityNode emfNode){
 		if(emfNode == null){
 			return null;// Most likely being deleted

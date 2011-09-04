@@ -160,6 +160,9 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 			if(element instanceof INakedConstraint){
 				this.guard = (INakedConstraint) element;
 			}
+			if(element instanceof INakedTrigger){
+				triggers.add((INakedTrigger) element);
+			}
 		}
 	}
 	@Override

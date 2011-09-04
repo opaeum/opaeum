@@ -494,21 +494,17 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				}
 				return newC;
 			}catch(AnalysisException e){
-				System.out.println(holder.getExpressionString());
-				e.printStackTrace(System.out);
 				putOclError(holder, e);
 				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 				errCtx.setExpressionString(holder.getExpressionString());
 				return errCtx;
 			}catch(Throwable e){
-				System.out.println(holder.getExpressionString());
 				if(localErrors.size() > 0){
 					for(IOclError oe:localErrors){
 						System.out.println(oe);
 					}
 					putErrors(holder, localErrors);
 				}
-				e.printStackTrace();
 				putError(holder, e);
 				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 				errCtx.setExpressionString(holder.getExpressionString());
@@ -523,10 +519,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
 	}
 	private void putError(ParsedOclString holder,Throwable e){
-		e.printStackTrace();
 		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
 		String msg = e.toString();
-		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, 1);
+		this.getErrorMap().putError(ne, CoreValidationRule.OCL, "OCL Not well-formed", 1);
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();

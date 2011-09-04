@@ -53,11 +53,14 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
+		setCurrent(o);
+		super.visitRecursively(o);
+	}
+	protected void setCurrent(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.currentRootObject = pkg;
 		}
-		super.visitRecursively(o);
 	}
 	@Override
 	public void visitOnly(INakedElementOwner o){

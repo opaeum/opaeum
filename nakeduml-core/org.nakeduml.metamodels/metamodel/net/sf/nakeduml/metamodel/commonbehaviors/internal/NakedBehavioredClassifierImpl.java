@@ -14,12 +14,13 @@ import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IInterface;
+import nl.klasse.octopus.model.IState;
 
 public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implements INakedBehavioredClassifier{
+	private static final long serialVersionUID = -2856991672094313864L;
 	protected List<INakedBehavior> ownedBehaviors = new ArrayList<INakedBehavior>();
 	private INakedBehavior classifierBehavior;
 	protected List<INakedInterfaceRealization> realizations = new ArrayList<INakedInterfaceRealization>();
@@ -83,9 +84,9 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 
 
 	@Override
-	public List getStates() {
+	public List<IState> getStates() {
 		// Fakes region states
-		List<INakedState> results = new ArrayList<INakedState>();
+		List<IState> results = new ArrayList<IState>();
 		if (this.classifierBehavior instanceof INakedStateMachine) {
 			results.addAll(((INakedStateMachine) this.classifierBehavior).getAllStates());
 		}

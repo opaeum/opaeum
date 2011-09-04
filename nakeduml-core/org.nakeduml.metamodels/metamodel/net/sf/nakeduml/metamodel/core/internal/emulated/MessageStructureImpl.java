@@ -41,6 +41,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure,INakedBehavioredClassifier{
+	private static final long serialVersionUID = 1445741729804979053L;
 	protected INakedElement element;
 	INakedClassifier owner;
 	private Collection<INakedInterfaceRealization> interfaceRealizations = new HashSet<INakedInterfaceRealization>();
@@ -187,6 +188,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	public IOperation lookupOperation(PathName path,List<IClassifier> types){
 		return owner.lookupOperation(path, types);
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public PathName getPathName(){
 		PathName p = owner.getPathName();

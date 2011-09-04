@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -68,6 +67,28 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return super.getNearestClassifier();
 	}
 	@Override
+	public void removeObsoleteArtificialProperties(){
+		Collection<ArtificialProperty> aps = new HashSet<ArtificialProperty>();
+		ArrayList<INakedProperty> oas = new ArrayList<INakedProperty>(ownedAttributes);
+		for(INakedProperty p:oas){
+			if(p instanceof ArtificialProperty && p.getOtherEnd() != null){
+				aps.add((ArtificialProperty) p);
+			}
+		}
+		for(ArtificialProperty ap:aps){
+			for(INakedProperty p:oas){
+				if(!(p instanceof ArtificialProperty)){
+					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
+							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
+					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
+						removeOwnedElement(ap);
+					}
+					aps.add((ArtificialProperty) p);
+				}
+			}
+		}
+	}
+	@Override
 	public VisibilityKind getVisibility(){
 		return visibility;
 	}
@@ -120,8 +141,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			List<? extends INakedProperty> interfaceAttributes = ((INakedClassifier) i).getEffectiveAttributes();
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
-		
-	
 		addEffectiveAttributes(results, ownedAttributes);
 		return results;
 	}
@@ -258,7 +277,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		HashSet<INakedOperation> results = new HashSet<INakedOperation>(ownedOperations);
 		for(INakedGeneralization g:this.generalisations){
 			if(g.getGeneral() instanceof NakedClassifierImpl){
-				results.addAll(((NakedClassifierImpl) g.getGeneral()).getEffectiveOperations());
+				results.addAll(((INakedClassifier) g.getGeneral()).getEffectiveOperations());
 			}
 		}
 		return results;
@@ -409,7 +428,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		subClasses.add(c);
 	}
 	public Collection<IClassifier> getSubClasses(){
-		return (Collection) subClasses;
+		return new ArrayList<IClassifier>(subClasses);
 	}
 	public List<IClassifier> getGeneralizations(){
 		List<IClassifier> results = new ArrayList<IClassifier>();
@@ -457,22 +476,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		for(IInterface i:getInterfaces()){
 			if(i.conformsTo(c)){
 				return true;
-			}
-		}
-		// HACK !!!!!! OCtopus bug
-		// http://sourceforge.net/forum/forum.php?thread_id=1930599&forum_id=543588
-		// TODO makes no sense. Maybe we should rather fix the octopus bug now
-		if(c instanceof INakedClassifier){
-			INakedClassifier nc = (INakedClassifier) c;
-			for(INakedGeneralization i:nc.getNakedGeneralizations()){
-				if(i.getGeneral().conformsTo(this)){
-					return true;
-				}
-			}
-			for(IInterface i:nc.getInterfaces()){
-				if(i.conformsTo(this)){
-					return true;
-				}
 			}
 		}
 		return false;

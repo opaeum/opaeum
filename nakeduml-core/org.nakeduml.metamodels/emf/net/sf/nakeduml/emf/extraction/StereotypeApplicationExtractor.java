@@ -118,6 +118,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			}
 		}
 	}
+	@SuppressWarnings("unchecked")
 	private INakedInstanceSpecification buildStereotypeApplication(Element modelElement,Stereotype stereotype,INakedStereotype nakedStereotype){
 		String stereotypeApplicationId = getId(modelElement) + "#" + stereotype.getName();
 		INakedInstanceSpecification instanceSpec = (INakedInstanceSpecification) nakedWorkspace.getModelElement(stereotypeApplicationId);
@@ -147,7 +148,8 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 				}
 				slot.setDefiningFeature(attribute);
 				if(value instanceof EList){
-					Iterator<? extends EObject> iter = ((EList<? extends EObject>) value).iterator();
+					EList<? extends EObject> values = (EList<? extends EObject>) value;
+					Iterator<? extends EObject> iter = values.iterator();
 					int i = 0;
 					while(iter.hasNext()){
 						putValue(i, iter.next(), slot);

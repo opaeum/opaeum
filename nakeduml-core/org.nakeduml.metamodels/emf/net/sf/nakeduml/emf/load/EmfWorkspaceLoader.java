@@ -53,10 +53,15 @@ public class EmfWorkspaceLoader{
 		log.startStep("Loading Opium Mapping Information");
 		WorkspaceMappingInfo workspaceMappingInfo = cfg.getWorkspaceMappingInfo();
 		log.endLastStep();
-		EmfWorkspace emfWorkspace = new EmfWorkspace(dirUri, resourceSet, workspaceMappingInfo, cfg.getWorkspaceIdentifier());
-		emfWorkspace.guessGeneratingModelsAndProfiles(dirUri);
+		EmfWorkspace result = new EmfWorkspace(dirUri, resourceSet, workspaceMappingInfo, cfg.getWorkspaceIdentifier());
+		result.guessGeneratingModelsAndProfiles(dirUri);
+		if(cfg.getWorkspaceName()!=null){
+			result.setName(cfg.getWorkspaceName());
+		}else{
+			result.setName(cfg.getWorkspaceIdentifier());
+		}
 		log.endLastTask();
-		return emfWorkspace;
+		return result;
 		
 	}
 	private static URI findDirUri(ResourceSet resourceSet,File dir,String extension){
@@ -81,6 +86,11 @@ public class EmfWorkspaceLoader{
 		URI dirUri = findDirUri(resourceSet, dir, ext);
 		Model model = loadModel(resourceSet, dirUri.appendSegment(modelFile.getName()));
 		EmfWorkspace result = new EmfWorkspace(model, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+		if(cfg.getWorkspaceName()!=null){
+			result.setName(cfg.getWorkspaceName());
+		}else{
+			result.setName(cfg.getWorkspaceIdentifier());
+		}
 		return result;
 	}
 	@Deprecated

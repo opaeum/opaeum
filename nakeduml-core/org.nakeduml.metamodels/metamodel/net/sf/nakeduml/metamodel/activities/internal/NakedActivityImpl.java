@@ -15,6 +15,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
@@ -128,14 +129,20 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public Set<INakedActivityNode> getActivityNodes(){
 		return this.activityNodes;
 	}
-	public List<INakedMessageEvent> getAllMessageEvents(){
-		List<INakedMessageEvent> results = new ArrayList<INakedMessageEvent>();
+	public Set<INakedMessageEvent> getAllMessageEvents(){
+		boolean messageEvents=true;
+		Set<INakedMessageEvent> results = getEvents(messageEvents);
+		return results;
+	}
+	@SuppressWarnings("unchecked")
+	protected <T> Set<T> getEvents(boolean messageEvents){
+		Set<T> results = new HashSet<T>();
 		for(INakedActivityNode node:getActivityNodesRecursively()){
 			if(node instanceof INakedAcceptEventAction){
 				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
 				for(INakedTrigger t:acceptEventAction.getTriggers()){
-					if(t.getEvent() instanceof INakedMessageEvent){
-						results.add((INakedMessageEvent)t.getEvent());
+					if(messageEvents?t.getEvent() instanceof INakedMessageEvent:true){
+						results.add((T)t.getEvent());
 					}
 				}
 			}
@@ -159,5 +166,9 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			}
 		}
 		return null;
+	}
+	@Override
+	public Set<INakedEvent> getAllEvents(){
+		return getEvents(false);
 	}
 }

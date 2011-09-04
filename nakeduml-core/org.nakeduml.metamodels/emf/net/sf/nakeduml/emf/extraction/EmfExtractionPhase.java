@@ -11,11 +11,11 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
-import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
@@ -60,21 +60,28 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return result;
 	}
 	@Override
-	public void execute(TransformationProgressLog log,TransformationContext context){
-		log.startTask("Extracting Uml Elements from EMF", extractors.size());
+	public void execute(TransformationContext context){
+		context.getLog().startTask("Extracting Uml Elements from EMF", extractors.size());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		for(AbstractExtractorFromEmf v:extractors){
-			log.startStep("Executing " + v.getClass().getSimpleName());
+			context.getLog().startStep("Executing " + v.getClass().getSimpleName());
 			v.startVisiting(emfWorkspace);
-			log.endLastStep();
+			context.getLog().endLastStep();
 		}
 		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
-			modelWorkspace.addGeneratingRootObject((INakedRootObject) getNakedPackage(gp));
+			INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
+			nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
+			modelWorkspace.addGeneratingRootObject(nakedPackage);
 		}
 		for(Package gp:emfWorkspace.getPrimaryModels()){
 			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
 		}
-		log.endLastTask();
+		for(INakedRootObject ro:modelWorkspace.getRootObjects()){
+			if(!ro.getStatus().isExtracted()){
+				ro.setStatus(RootObjectStatus.EXTRACTED);
+			}
+		}
+		context.getLog().endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractExtractorFromEmf> features){
@@ -84,8 +91,8 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	public void initializeSteps(){
 		emfWorkspace.setMappingInfo(config.getWorkspaceMappingInfo());
 		modelWorkspace.setWorkspaceMappingInfo(config.getWorkspaceMappingInfo());
-		modelWorkspace.setName(emfWorkspace.getName());
 		modelWorkspace.setIdentifier(emfWorkspace.getIdentifier());
+		modelWorkspace.setName(emfWorkspace.getName());//Currently same as Identifier
 		for(AbstractExtractorFromEmf v:extractors){
 			v.initialize(emfWorkspace, modelWorkspace);
 		}

@@ -10,6 +10,7 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessa
 import nl.klasse.octopus.model.IClassifier;
 
 public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStructure{
+	private static final long serialVersionUID = -3057414460280596858L;
 	private INakedCallBehaviorAction action;
 	public CallBehaviorMessageStructure(INakedCallBehaviorAction b){
 		super(b.getActivity(), b.getBehavior());

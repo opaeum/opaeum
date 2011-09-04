@@ -78,4 +78,5 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	void setVisibility(VisibilityKind public1);
 	List<? extends INakedConstraint> getOwnedRules();
 	void setOwnedRules(List<INakedConstraint> loopResults);
+	public abstract void removeObsoleteArtificialProperties();
 }

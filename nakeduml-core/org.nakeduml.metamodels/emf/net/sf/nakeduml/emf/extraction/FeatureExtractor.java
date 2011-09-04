@@ -19,14 +19,12 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.ExtensionEnd;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Port;
-import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Stereotype;
@@ -142,15 +140,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			int indexOf = EmfParameterUtil.calculateOwnedAttributeIndex(assEnd);
 			aew.setOwnedAttributeIndex(indexOf);
 		}
-	}
-	private boolean isAllowedAssociationEnd(Type owner,Type thisEndType){
-		// Theoretically ends owned by primitives and enumerations
-		// cannot navigable, and Octopus does not like such an
-		// association, so let's pretend this end and the association do not exist
-		// Associations TO stereotypes are from MetaModel elements and should
-		// not be represented at all associations FROM primitives or enumerations does not make sense to
-		// Octopus, and these will be modelled as attributes instead.
-		return !(owner instanceof PrimitiveType || owner instanceof Enumeration || thisEndType instanceof Stereotype);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitReception(Reception emfRec,NakedReceptionImpl nakedRec){

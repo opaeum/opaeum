@@ -104,6 +104,7 @@ public class UmlElementCache extends EContentAdapter{
 	public EmfWorkspace buildWorkspaces(Package model,TransformationProgressLog log) throws Exception,IOException{
 		EcoreUtil.resolveAll(model);
 		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+		emfWorkspace.setName(cfg.getWorkspaceName());
 		emfWorkspace.setResourceHelper(this.resourceHelper);
 		emfWorkspaceLoaded(emfWorkspace);
 		this.currentEmfWorkspace = emfWorkspace;
@@ -142,25 +143,26 @@ public class UmlElementCache extends EContentAdapter{
 	@Override
 	public void notifyChanged(final Notification notification){
 		super.notifyChanged(notification);
-
 		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.SET){
 			if(notification.getFeatureID(EAnnotation.class) != EcorePackage.EMODEL_ELEMENT__EANNOTATIONS){
 				if(notification.getNotifier() instanceof UMLResource){
 					manageResourceEvent(notification);
-				}else if(!resourcesBeingLoaded.isEmpty() && notification.getNewValue() instanceof EObject){
-					EObject newValue = (EObject) notification.getNewValue();
-					if(newValue.eIsProxy()){
-						EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
-						// broken references
+				}else if(!resourcesBeingLoaded.isEmpty()){
+					if(notification.getNewValue() instanceof EObject){
+						EObject newValue = (EObject) notification.getNewValue();
+						if(newValue.eIsProxy()){
+							EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
+							// broken references
+						}
 					}
 				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
 					DynamicEObjectImpl sa = (DynamicEObjectImpl) notification.getNotifier();
 					for(EReference eReference:sa.eClass().getEReferences()){
 						if(eReference.getEType().eContainer() instanceof UMLPackage){
 							// Reference to UML element - check if it is a stereotype for this one
-							Element e = (Element) sa.eGet(eReference);
-							if(e != null && e.getStereotypeApplications().contains(sa)){
-								scheduleSynchronization(e);
+							Object e = sa.eGet(eReference);
+							if(e instanceof Element && ((Element) e).getStereotypeApplications().contains(sa)){
+								scheduleSynchronization((Element) e);
 							}
 						}
 					}
@@ -186,9 +188,6 @@ public class UmlElementCache extends EContentAdapter{
 		}else if(notification.getEventType() == Notification.REMOVE){
 			if(notification.getOldValue() instanceof NamedElement){
 				NamedElement ne = (NamedElement) notification.getOldValue();
-				// if(this.emfChanges.contains(ne)){
-				// ;
-				// }
 				if(!isSynchronizableElement(ne)){
 					EObject e = (EObject) notification.getNotifier();
 					ne = (NamedElement) getSyncronizableElement(e);
@@ -230,7 +229,7 @@ public class UmlElementCache extends EContentAdapter{
 	protected void synchronizationNow(Set<Package> packages){
 	}
 	private void scheduleSynchronization(Element o){
-		synchronized(nakedModelWorspace){
+		synchronized(emfChanges){
 			lastChange = System.currentTimeMillis();
 			this.emfChanges.add(o);
 			if(o instanceof Association){

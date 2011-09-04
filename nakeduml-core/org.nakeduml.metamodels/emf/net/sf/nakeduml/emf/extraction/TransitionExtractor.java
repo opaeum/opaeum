@@ -22,7 +22,6 @@ public class TransitionExtractor extends CommonBehaviorExtractor{
 	}
 	@VisitBefore
 	public void visitTransition(Transition emfTransition, NakedTransitionImpl nakedTransition){
-		StateMachine sm = getStateMachine(emfTransition);
 		INakedState source = (INakedState) getNakedPeer(emfTransition.getSource());
 		INakedState target = (INakedState) getNakedPeer(emfTransition.getTarget());
 		nakedTransition.setSource(source);

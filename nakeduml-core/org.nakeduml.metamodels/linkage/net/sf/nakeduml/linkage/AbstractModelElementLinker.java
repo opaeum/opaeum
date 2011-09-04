@@ -34,16 +34,22 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		return this.affectedElements;
 	}
 	public void setCurrentRootObject(INakedRootObject a){
-		this.currentRootObject=a;
+		this.currentRootObject = a;
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		boolean shouldIgnoreBecauseItIsDeleted = o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements();
-		if(!shouldIgnoreBecauseItIsDeleted){
-			if(o instanceof INakedRootObject && workspace.getGeneratingModelsOrProfiles().contains(o)){
-			}
+		if(shouldBeLinked(o)){
 			super.visitRecursively(o);
 		}
+	}
+	protected boolean shouldBeLinked(INakedElementOwner o){
+		boolean shouldIgnoreBecauseItIsDeleted = o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements();
+		//Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
+		boolean isLinkedNonGeneratingObject =  false;
+		if(o instanceof INakedRootObject){
+			isLinkedNonGeneratingObject =!workspace.getGeneratingModelsOrProfiles().contains(o) && ((INakedRootObject)o).getStatus().isLinked();
+		}
+		return !(shouldIgnoreBecauseItIsDeleted || isLinkedNonGeneratingObject);
 	}
 	protected boolean ignoreDeletedElements(){
 		return true;

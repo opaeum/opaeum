@@ -24,6 +24,7 @@ public class StereotypeNames {
 	public static String MODEL = "Model";
 	public static String NUMERIC_TYPE = "NumericType";
 	public static String PACKAGE = "Package";
+	public static String PROFILE = "Profile";
 	public static String PARAMETER = "Parameter";
 	public static String POWER_TYPE_INSANCE = "PowerTypeInstance";
 	public static String PRIMITIVE = "Primitive";

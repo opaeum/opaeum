@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 public abstract class EmulatedCompositionMessageStructure extends MessageStructureImpl implements ICompositionParticipant{
+	private static final long serialVersionUID = -3198245957575601442L;
 	protected List<INakedProperty> attributes;
 
 
@@ -45,6 +46,9 @@ public abstract class EmulatedCompositionMessageStructure extends MessageStructu
 		hashSet.addAll(getNakedGeneralizations());
 		hashSet.addAll(getInterfaceRealizations());
 		return hashSet;
+	}
+	@Override
+	public void removeObsoleteArtificialProperties(){
 	}
 	
 }

@@ -41,8 +41,9 @@ public class InstanceExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	@VisitBefore
-	public void visitEnumerationLiteral(EnumerationLiteral el, NakedEnumerationLiteralImpl nel){
+	public void visitEnumerationLiteral(EnumerationLiteral el,NakedEnumerationLiteralImpl nel){
 		nel.setClassifier((INakedClassifier) getNakedPeer(el.getEnumeration()));
+		nel.setOrdinal(el.getEnumeration().getOwnedLiterals().indexOf(el));
 	}
 	@VisitBefore
 	public void visitInstanceSpecification(InstanceSpecification emfInstanceSpec,NakedInstanceSpecificationImpl nakedInstanceSpec){

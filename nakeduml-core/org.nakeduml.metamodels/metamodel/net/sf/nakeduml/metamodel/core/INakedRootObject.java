@@ -10,4 +10,6 @@ public interface INakedRootObject extends INakedPackage{
 	
 	String getIdentifier();
 	Collection<INakedRootObject> getAllDependencies();
+	void setStatus(RootObjectStatus s);
+	RootObjectStatus getStatus();
 }

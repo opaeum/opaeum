@@ -20,7 +20,6 @@ import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaboration
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
-import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationImpl;
@@ -188,7 +187,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	@VisitBefore
-	public void visitClass(Class c,NakedClassifierImpl ne){
+	public void visitClass(Class c,INakedClassifier ne){
 		initializeClassifier(ne, c);
 	}
 	private boolean isBusinessService(Classifier c){
@@ -263,7 +262,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(ns, s);
 	}
 	@VisitBefore
-	public void visitDataType(DataType dt,NakedClassifierImpl nsdt){
+	public void visitDataType(DataType dt,INakedClassifier nsdt){
 		initializeClassifier(nsdt, dt);
 	}
 	@VisitBefore
