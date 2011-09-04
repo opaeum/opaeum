@@ -1,6 +1,7 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,11 +9,11 @@ import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.request_participation_kind",uuid="5e4488e6_21cc_4c7e_b663_09a7fe0b0a86")public enum RequestParticipationKind implements IEnum, Serializable {
-	INITIATOR("c2a1841a_e952_4604_8059_ae46adb98259"),
-	POTENTIALSTAKEHOLDER("176b1bbe_8ceb_46b4_89b4_e8203880ed18"),
 	BUSINESSOWNER("54e7f473_33ab_4fb8_997b_a0ba18d293f1"),
+	POTENTIALBUSINESSOWNER("fc6a1409_fed7_4f97_9842_356c14adebc5"),
 	STAKEHOLDER("e21f6bac_36f7_4903_a388_4aa7125524f7"),
-	POTENTIALBUSINESSOWNER("fc6a1409_fed7_4f97_9842_356c14adebc5");
+	POTENTIALSTAKEHOLDER("176b1bbe_8ceb_46b4_89b4_e8203880ed18"),
+	INITIATOR("c2a1841a_e952_4604_8059_ae46adb98259");
 	private String uuid;
 	/** Constructor for RequestParticipationKind
 	 * 

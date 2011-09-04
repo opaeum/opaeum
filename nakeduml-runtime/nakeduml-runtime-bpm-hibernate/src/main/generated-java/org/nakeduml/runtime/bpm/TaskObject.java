@@ -1,9 +1,11 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IPersistentObject;
@@ -12,6 +14,50 @@ import org.w3c.dom.Element;
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_object",uuid="9ba47bb5_372d_40b7_b7ad_1a477f988162")
 public interface TaskObject extends CompositionNode, HibernateEntity, RequestObject, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map);
+	
+	public boolean consumeOnActivatedOccurrence(BusinessRole activatedBy);
+	
+	public boolean consumeOnClaimedOccurrence(BusinessRole claimedBy);
+	
+	public boolean consumeOnCompletedOccurrence(BusinessRole completedBy);
+	
+	public boolean consumeOnDelegatedOccurrence(BusinessRole delegatedBy, BusinessRole delegatedTo);
+	
+	public boolean consumeOnForwardedOccurrence(BusinessRole forwardedBy, BusinessRole forwardedTo);
+	
+	public boolean consumeOnResumedOccurrence(BusinessRole resumedBy);
+	
+	public boolean consumeOnRevokedOccurrence(BusinessRole revokedBy);
+	
+	public boolean consumeOnSkippedOccurrence(BusinessRole skippedBy);
+	
+	public boolean consumeOnStartedOccurrence(BusinessRole startedBy);
+	
+	public boolean consumeOnStoppedOccurrence(BusinessRole stoppedBy);
+	
+	public boolean consumeSuspendedOccurrence(BusinessRole suspendedBy);
+	
+	public void generateOnActivatedEvent(BusinessRole activatedBy);
+	
+	public void generateOnClaimedEvent(BusinessRole claimedBy);
+	
+	public void generateOnCompletedEvent(BusinessRole completedBy);
+	
+	public void generateOnDelegatedEvent(BusinessRole delegatedBy, BusinessRole delegatedTo);
+	
+	public void generateOnForwardedEvent(BusinessRole forwardedBy, BusinessRole forwardedTo);
+	
+	public void generateOnResumedEvent(BusinessRole resumedBy);
+	
+	public void generateOnRevokedEvent(BusinessRole revokedBy);
+	
+	public void generateOnSkippedEvent(BusinessRole skippedBy);
+	
+	public void generateOnStartedEvent(BusinessRole startedBy);
+	
+	public void generateOnStoppedEvent(BusinessRole stoppedBy);
+	
+	public void generateSuspendedEvent(BusinessRole suspendedBy);
 	
 	@NumlMetaInfo(qualifiedPersistentName="task_object.task_request_id",uuid="22bbcd2c_7afd_46cc_b20b_e7d21d36d2f9")
 	public TaskRequest getTaskRequest();

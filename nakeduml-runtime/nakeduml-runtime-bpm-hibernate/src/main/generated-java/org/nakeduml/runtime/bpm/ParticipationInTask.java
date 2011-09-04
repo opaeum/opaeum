@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -16,17 +18,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 import org.hibernate.Session;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
+import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.event.IEventHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -36,24 +42,28 @@ import org.w3c.dom.NodeList;
 @Entity(name="ParticipationInTask")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="null_participation_in_task")
+@Table(name="participation_in_task")
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_task",uuid="dabe8f9c_f994_4d74_808c_7f11adcaad0b")
 @AccessType("field")
 @DiscriminatorValue("participation_in_task")
-public class ParticipationInTask extends Participation implements CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+public class ParticipationInTask extends Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
 	static final private long serialVersionUID = 20;
+	@Enumerated(javax.persistence.EnumType.STRING)
+	@Column(name="kind",nullable=true)
+	private TaskParticipationKind kind;
 	@Index(name="idx_participation_in_task_task_request_id",columnNames="task_request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="task_request_id",nullable=true)
 	private TaskRequest taskRequest;
-	@Enumerated(javax.persistence.EnumType.STRING)
-	@Column(name="kind",nullable=true)
-	private TaskParticipationKind kind;
 	static private Set<ParticipationInTask> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
+	@Transient
+	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for ParticipationInTask
 	 */
@@ -128,6 +138,10 @@ public class ParticipationInTask extends Participation implements CompositionNod
 		return false;
 	}
 	
+	public Map<Object, String> getCancelledEvents() {
+		return this.cancelledEvents;
+	}
+	
 	public Date getDeletedOn() {
 		return this.deletedOn;
 	}
@@ -139,6 +153,10 @@ public class ParticipationInTask extends Participation implements CompositionNod
 	
 	public String getName() {
 		return "ParticipationInTask["+getId()+"]";
+	}
+	
+	public Map<Object, IEventHandler> getOutgoingEvents() {
+		return this.outgoingEvents;
 	}
 	
 	public CompositionNode getOwningObject() {
@@ -209,6 +227,10 @@ public class ParticipationInTask extends Participation implements CompositionNod
 		this.markDeleted();
 	}
 	
+	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 		super.setDeletedOn(deletedOn);
@@ -216,6 +238,10 @@ public class ParticipationInTask extends Participation implements CompositionNod
 	
 	public void setKind(TaskParticipationKind kind) {
 		this.z_internalAddToKind(kind);
+	}
+	
+	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setTaskRequest(TaskRequest taskRequest) {
@@ -232,7 +258,7 @@ public class ParticipationInTask extends Participation implements CompositionNod
 	}
 	
 	public String toXmlReferenceString() {
-		return "<participationInTask uid=\"+getUid() + \">";
+		return "<participationInTask uid=\""+getUid() + "\">";
 	}
 	
 	public String toXmlString() {
@@ -247,18 +273,12 @@ public class ParticipationInTask extends Participation implements CompositionNod
 		if ( getParticipant()==null ) {
 			sb.append("<participant/>");
 		} else {
+			sb.append("<participant>");
 			sb.append(getParticipant().toXmlReferenceString());
 			sb.append("</participant>");
 			sb.append("\n");
 		}
-		if ( getTaskRequest()==null ) {
-			sb.append("<taskRequest/>");
-		} else {
-			sb.append(getTaskRequest().toXmlReferenceString());
-			sb.append("</taskRequest>");
-			sb.append("\n");
-		}
-		sb.append("</ParticipationInTask>");
+		sb.append("</participationInTask>");
 		return sb.toString();
 	}
 	

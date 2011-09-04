@@ -64,6 +64,10 @@ public class TaskRequestStateResolver extends AbstractEnumResolver implements En
 		return result;
 	}
 	
+	public Class<?> returnedClass() {
+		return org.nakeduml.runtime.bpm.TaskRequestState.class;
+	}
+	
 	public int toNakedUmlId(IEnum en) {
 		int result = -1;
 		switch ( (TaskRequestState)en ) {
@@ -118,11 +122,6 @@ public class TaskRequestStateResolver extends AbstractEnumResolver implements En
 		}
 		
 		return result;
-	}
-
-	@Override
-	public Class returnedClass(){
-		return TaskRequestState.class;
 	}
 
 }

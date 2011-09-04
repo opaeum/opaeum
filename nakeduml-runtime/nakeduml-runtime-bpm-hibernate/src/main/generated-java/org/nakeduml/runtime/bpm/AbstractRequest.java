@@ -1,12 +1,14 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -14,7 +16,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -43,15 +44,16 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
-import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
-import org.nakeduml.runtime.domain.ISignal;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.event.IEventHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -62,24 +64,25 @@ import org.w3c.dom.NodeList;
 @Entity(name="AbstractRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="null_abstract_request")
+@Table(name="abstract_request")
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.abstract_request",uuid="b6f61fb7_a6d0_4c24_b3e8_224cfbfcf089")
 @AccessType("field")
-abstract public class AbstractRequest implements CompositionNode, HibernateEntity, Serializable, IPersistentObject, IActiveObject, IProcessObject {
+abstract public class AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
 	static final private long serialVersionUID = 17;
-	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
-	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="request",targetEntity=ParticipationInRequest.class)
-	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
-	private Set<ParticipationInRequest> participationsInRequest = new HashSet<ParticipationInRequest>();
 	@Index(name="idx_abstract_request_parent_task_id",columnNames="parent_task_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="parent_task_id",nullable=true)
 	private TaskRequest parentTask;
+	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
+	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="request",targetEntity=ParticipationInRequest.class)
+	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
+	private Set<ParticipationInRequest> participationsInRequest = new HashSet<ParticipationInRequest>();
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
 	private Long processInstanceId;
-	@Enumerated
+	@Transient
+	private boolean processDirty;
 	@Type(type="AbstractRequestStateResolver")
 	private AbstractRequestState endNodeInRegion1;
 	@Column(name="executed_on")
@@ -97,6 +100,10 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
 	private String uid;
+	@Transient
+	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
+	@Transient
+	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for AbstractRequest
 	 */
@@ -105,6 +112,7 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 
 	@NumlMetaInfo(qualifiedPersistentName="abstract_request.activate",uuid="79817349_d260_44a0_af0f_0e752e34bb9e")
 	public void activate() {
+		generateActivateEvent();
 	}
 	
 	public void addAllToParticipationsInRequest(Set<ParticipationInRequest> participationsInRequest) {
@@ -177,6 +185,47 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	
 	@NumlMetaInfo(qualifiedPersistentName="abstract_request.complete",uuid="7c5cfc65_b4da_4818_9c2d_79f6da935243")
 	public void complete() {
+		generateCompleteEvent();
+	}
+	
+	public boolean consumeActivateOccurrence() {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeAddRequestParticipantOccurrence(Participant newParticipant, RequestParticipationKind kind) {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeCompleteOccurrence() {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeGetInitiatorOccurrence() {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeRemoveRequestParticipantOccurrence(Participant participant, RequestParticipationKind kind) {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeResumeOccurrence() {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeStartOccurrence() {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeSuspendOccurrence() {
+		boolean consumed = false;
+		return consumed;
 	}
 	
 	public ParticipationInRequest createParticipationsInRequest() {
@@ -232,9 +281,37 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 		}
 	}
 	
+	public void generateActivateEvent() {
+	}
+	
+	public void generateAddRequestParticipantEvent(Participant newParticipant, RequestParticipationKind kind) {
+	}
+	
+	public void generateCompleteEvent() {
+	}
+	
+	public void generateGetInitiatorEvent() {
+	}
+	
+	public void generateRemoveRequestParticipantEvent(Participant participant, RequestParticipationKind kind) {
+	}
+	
+	public void generateResumeEvent() {
+	}
+	
+	public void generateStartEvent() {
+	}
+	
+	public void generateSuspendEvent() {
+	}
+	
 	public Set<IProcessStep> getActiveLeafSteps() {
 		Set results = new HashSet<IProcessStep>();
 		return results;
+	}
+	
+	public Map<Object, String> getCancelledEvents() {
+		return this.cancelledEvents;
 	}
 	
 	public Date getDeletedOn() {
@@ -283,6 +360,10 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 		return this.objectVersion;
 	}
 	
+	public Map<Object, IEventHandler> getOutgoingEvents() {
+		return this.outgoingEvents;
+	}
+	
 	public CompositionNode getOwningObject() {
 		return null;
 	}
@@ -302,7 +383,7 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	}
 	
 	public WorkflowProcessInstance getProcessInstance() {
-		if ( this.processInstance==null || true ) {
+		if ( this.processInstance==null ) {
 			this.processInstance=(WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId());
 			if ( this.processInstance!=null ) {
 				((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true);
@@ -337,6 +418,10 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	public void init(ProcessContext context) {
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
+	}
+	
+	public boolean isProcessDirty() {
+		return this.processDirty;
 	}
 	
 	public boolean isStepActive(IProcessStep step) {
@@ -374,16 +459,6 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parentTask") ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -394,11 +469,17 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
-	}
-	
-	public boolean processSignal(ISignal signal) {
-		return false;
 	}
 	
 	public NodeImpl recursivelyFindNode(AbstractRequestState step, Collection<NodeImpl> collection) {
@@ -443,6 +524,11 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	
 	@NumlMetaInfo(qualifiedPersistentName="abstract_request.resume",uuid="64d76ca2_374d_447c_9c76_e861db0dd383")
 	public void resume() {
+		generateResumeEvent();
+	}
+	
+	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
 	}
 	
 	public void setDeletedOn(Date deletedOn) {
@@ -459,6 +545,10 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	
 	public void setObjectVersion(int objectVersion) {
 		this.objectVersion=objectVersion;
+	}
+	
+	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setParentTask(TaskRequest parentTask) {
@@ -490,14 +580,16 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 	
 	@NumlMetaInfo(qualifiedPersistentName="abstract_request.start",uuid="36828715_ab4f_4725_8518_66a481352aa3")
 	public void start() {
+		generateStartEvent();
 	}
 	
 	@NumlMetaInfo(qualifiedPersistentName="abstract_request.suspend",uuid="b6837a3a_3b9e_4a67_ab1e_057218eec221")
 	public void suspend() {
+		generateSuspendEvent();
 	}
 	
 	public String toXmlReferenceString() {
-		return "<abstractRequest uid=\"+getUid() + \">";
+		return "<abstractRequest uid=\""+getUid() + "\">";
 	}
 	
 	public String toXmlString() {
@@ -509,11 +601,12 @@ abstract public class AbstractRequest implements CompositionNode, HibernateEntit
 		if ( getParentTask()==null ) {
 			sb.append("<parentTask/>");
 		} else {
+			sb.append("<parentTask>");
 			sb.append(getParentTask().toXmlReferenceString());
 			sb.append("</parentTask>");
 			sb.append("\n");
 		}
-		sb.append("</AbstractRequest>");
+		sb.append("</abstractRequest>");
 		return sb.toString();
 	}
 	

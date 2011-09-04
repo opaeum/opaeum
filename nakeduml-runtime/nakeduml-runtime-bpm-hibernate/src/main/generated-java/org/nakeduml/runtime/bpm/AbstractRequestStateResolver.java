@@ -16,17 +16,16 @@ public class AbstractRequestStateResolver extends AbstractEnumResolver implement
 		return result;
 	}
 	
+	public Class<?> returnedClass() {
+		return org.nakeduml.runtime.bpm.AbstractRequestState.class;
+	}
+	
 	public int toNakedUmlId(IEnum en) {
 		int result = -1;
 		switch ( (AbstractRequestState)en ) {
 		}
 		
 		return result;
-	}
-
-	@Override
-	public Class returnedClass(){
-		return AbstractRequestState.class;
 	}
 
 }

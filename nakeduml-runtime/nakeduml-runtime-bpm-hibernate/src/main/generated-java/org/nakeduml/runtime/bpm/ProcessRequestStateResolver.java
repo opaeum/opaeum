@@ -16,17 +16,16 @@ public class ProcessRequestStateResolver extends AbstractEnumResolver implements
 		return result;
 	}
 	
+	public Class<?> returnedClass() {
+		return org.nakeduml.runtime.bpm.ProcessRequestState.class;
+	}
+	
 	public int toNakedUmlId(IEnum en) {
 		int result = -1;
 		switch ( (ProcessRequestState)en ) {
 		}
 		
 		return result;
-	}
-
-	@Override
-	public Class returnedClass(){
-		return ProcessRequestState.class;
 	}
 
 }

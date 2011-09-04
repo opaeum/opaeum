@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +18,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.Session;
@@ -25,11 +28,14 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Proxy;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
+import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.event.IEventHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -40,10 +46,10 @@ import org.w3c.dom.NodeList;
 @Entity(name="Participation")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="null_participation")
+@Table(name="participation")
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation",uuid="d643e291_b3f7_4edf_b57f_b4488fc8e6d5")
 @AccessType("field")
-public class Participation implements CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+public class Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
 	static final private long serialVersionUID = 16;
 	@Index(name="idx_participation_participant",columnNames="participant")
 	@Any(metaDef="Participant",metaColumn=@Column(name="participant_type"))
@@ -61,6 +67,10 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
 	private String uid;
+	@Transient
+	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
+	@Transient
+	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for Participation
 	 */
@@ -119,6 +129,10 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 		return false;
 	}
 	
+	public Map<Object, String> getCancelledEvents() {
+		return this.cancelledEvents;
+	}
+	
 	public Date getDeletedOn() {
 		return this.deletedOn;
 	}
@@ -133,6 +147,10 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 	
 	public int getObjectVersion() {
 		return this.objectVersion;
+	}
+	
+	public Map<Object, IEventHandler> getOutgoingEvents() {
+		return this.outgoingEvents;
 	}
 	
 	public CompositionNode getOwningObject() {
@@ -205,6 +223,10 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 		this.markDeleted();
 	}
 	
+	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
@@ -215,6 +237,10 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 	
 	public void setObjectVersion(int objectVersion) {
 		this.objectVersion=objectVersion;
+	}
+	
+	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setParticipant(Participant participant) {
@@ -232,7 +258,7 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 	}
 	
 	public String toXmlReferenceString() {
-		return "<participation uid=\"+getUid() + \">";
+		return "<participation uid=\""+getUid() + "\">";
 	}
 	
 	public String toXmlString() {
@@ -244,11 +270,12 @@ public class Participation implements CompositionNode, HibernateEntity, Serializ
 		if ( getParticipant()==null ) {
 			sb.append("<participant/>");
 		} else {
+			sb.append("<participant>");
 			sb.append(getParticipant().toXmlReferenceString());
 			sb.append("</participant>");
 			sb.append("\n");
 		}
-		sb.append("</Participation>");
+		sb.append("</participation>");
 		return sb.toString();
 	}
 	

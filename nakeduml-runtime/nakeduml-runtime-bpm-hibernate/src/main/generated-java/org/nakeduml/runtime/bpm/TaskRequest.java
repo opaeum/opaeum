@@ -1,12 +1,14 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,17 +41,30 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.abstractrequest.ActivateHandler91;
+import org.nakeduml.runtime.bpm.abstractrequest.CompleteHandler92;
+import org.nakeduml.runtime.bpm.abstractrequest.ResumeHandler101;
+import org.nakeduml.runtime.bpm.abstractrequest.StartHandler100;
+import org.nakeduml.runtime.bpm.abstractrequest.SuspendHandler102;
+import org.nakeduml.runtime.bpm.taskrequest.ClaimHandler130;
+import org.nakeduml.runtime.bpm.taskrequest.DelegateHandler124;
+import org.nakeduml.runtime.bpm.taskrequest.ForwardHandler117;
+import org.nakeduml.runtime.bpm.taskrequest.RevokeHandler123;
+import org.nakeduml.runtime.bpm.taskrequest.SkipHandler114;
+import org.nakeduml.runtime.bpm.taskrequest.StopHandler126;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
-import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
-import org.nakeduml.runtime.domain.ISignal;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.domain.TaskDelegation;
 import org.nakeduml.runtime.domain.TransitionListener;
 import org.nakeduml.runtime.domain.UmlNodeInstance;
+import org.nakeduml.runtime.event.IEventHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -59,16 +74,15 @@ import org.w3c.dom.NodeList;
 @Entity(name="TaskRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="null_task_request")
+@Table(name="task_request")
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_request",uuid="b63c167a_b5a4_43b7_a8e2_c995040b5d30")
 @AccessType("field")
 @DiscriminatorValue("task_request")
-public class TaskRequest extends AbstractRequest implements CompositionNode, HibernateEntity, Serializable, IPersistentObject, IActiveObject, IProcessObject {
+public class TaskRequest extends AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
 	static final private long serialVersionUID = 25;
-	@Index(name="idx_task_request_task_object",columnNames="task_object")
-	@Any(metaDef="TaskObject",metaColumn=@Column(name="task_object_type"))
-	@JoinColumn(name="task_object",nullable=true)
-	private TaskObject taskObject;
+	@Enumerated(javax.persistence.EnumType.STRING)
+	@Column(name="delegation",nullable=true)
+	private TaskDelegation delegation;
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="parentTask",targetEntity=AbstractRequest.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
@@ -77,14 +91,16 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="taskRequest",targetEntity=ParticipationInTask.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private Set<ParticipationInTask> participationsInTask = new HashSet<ParticipationInTask>();
-	@Enumerated(javax.persistence.EnumType.STRING)
-	@Column(name="delegation",nullable=true)
-	private TaskDelegation delegation;
+	@Index(name="idx_task_request_task_object",columnNames="task_object")
+	@Any(metaDef="TaskObject",metaColumn=@Column(name="task_object_type"))
+	@JoinColumn(name="task_object",nullable=true)
+	private TaskObject taskObject;
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
 	private Long processInstanceId;
-	@Enumerated
+	@Transient
+	private boolean processDirty;
 	@Type(type="TaskRequestStateResolver")
 	private TaskRequestState endNodeInTaskInstanceRegion;
 	@Column(name="executed_on")
@@ -97,6 +113,10 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
+	@Transient
+	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for TaskRequest
 	 */
@@ -112,11 +132,6 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		addToOwningObject();
 	}
 
-	public void activate() {
-		super.activate();
-		onActivate();
-	}
-	
 	public void addAllToParticipationsInTask(Set<ParticipationInTask> participationsInTask) {
 		for ( ParticipationInTask o : participationsInTask ) {
 			addToParticipationsInTask(o);
@@ -196,19 +211,6 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("taskObject") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						TaskObject curVal = (TaskObject)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.setTaskObject(curVal);
-						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						map.put(curVal.getUid(), curVal);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInTask") ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -222,12 +224,25 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("taskObject") ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						TaskObject curVal = (TaskObject)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
+						this.setTaskObject(curVal);
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
 	@NumlMetaInfo(qualifiedPersistentName="task_request.claim",uuid="62beb10d_8ba3_4c65_9e7e_030478288a01")
 	public void claim() {
-		onClaim();
+		generateClaimEvent();
 	}
 	
 	public void clearParticipationsInTask() {
@@ -238,9 +253,228 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		removeAllFromSubRequests(getSubRequests());
 	}
 	
-	public void complete() {
-		super.complete();
-		onComplete();
+	public boolean consumeActivateOccurrence() {
+		boolean consumed = false;
+		consumed=super.consumeActivateOccurrence();
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.CREATED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.ACTIVE.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeAddTaskRequestParticipantOccurrence(Participant newParticipant, TaskParticipationKind kind) {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeClaimOccurrence() {
+		boolean consumed = false;
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.READY.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeCompleteOccurrence() {
+		boolean consumed = false;
+		consumed=super.consumeCompleteOccurrence();
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.INPROGRESS.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.FINALSTATE1.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeDelegateOccurrence(BusinessRole delegate) {
+		boolean consumed = false;
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeForwardOccurrence(BusinessRole toPerson) {
+		boolean consumed = false;
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.READY.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeRemoveTaskRequestParticipantOccurrence(Participant participant, TaskParticipationKind kind) {
+		boolean consumed = false;
+		return consumed;
+	}
+	
+	public boolean consumeResumeOccurrence() {
+		boolean consumed = false;
+		consumed=super.consumeResumeOccurrence();
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.SUSPENDED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.ACTIVE.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeRevokeOccurrence() {
+		boolean consumed = false;
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.RESERVED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.READY.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeSkipOccurrence() {
+		boolean consumed = false;
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.OBSOLETE.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeStartOccurrence() {
+		boolean consumed = false;
+		consumed=super.consumeStartOccurrence();
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.INPROGRESS.getId(), listener);
+			}
+		}
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.RESERVED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.INPROGRESS.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeStopOccurrence() {
+		boolean consumed = false;
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.INPROGRESS.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
+			}
+		}
+		return consumed;
+	}
+	
+	public boolean consumeSuspendOccurrence() {
+		boolean consumed = false;
+		consumed=super.consumeSuspendOccurrence();
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.READY.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.READYBUTSUSPENDED.getId(), listener);
+			}
+		}
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.RESERVED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.RESERVEDBUTSUSPENDED.getId(), listener);
+			}
+		}
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.INPROGRESS.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.INPROGRESSBUTSUSPENDED.getId(), listener);
+			}
+		}
+		return consumed;
 	}
 	
 	public ParticipationInTask createParticipationsInTask() {
@@ -315,13 +549,63 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		}
 	}
 	
+	@NumlMetaInfo(qualifiedPersistentName="task_request.forward",uuid="b48c2746_4c14_4fb9_b271_8148dc33ebca")
+	public void forward(BusinessRole toPerson) {
+		generateForwardEvent(toPerson);
+	}
+	
 	@NumlMetaInfo(qualifiedPersistentName="task_request.forward",uuid="25ce92a7_7def_4370_ba4a_d57650b3f5c5")
 	public void forward() {
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.forward",uuid="b48c2746_4c14_4fb9_b271_8148dc33ebca")
-	public void forward(BusinessRole toPerson) {
-		onForward(toPerson);
+	public void generateActivateEvent() {
+		this.getOutgoingEvents().put(this, new ActivateHandler91(true));
+	}
+	
+	public void generateAddTaskRequestParticipantEvent(Participant newParticipant, TaskParticipationKind kind) {
+	}
+	
+	public void generateClaimEvent() {
+		this.getOutgoingEvents().put(this, new ClaimHandler130(true));
+	}
+	
+	public void generateCompleteEvent() {
+		this.getOutgoingEvents().put(this, new CompleteHandler92(true));
+	}
+	
+	public void generateDelegateEvent(BusinessRole delegate) {
+		this.getOutgoingEvents().put(this, new DelegateHandler124(delegate,true));
+	}
+	
+	public void generateForwardEvent(BusinessRole toPerson) {
+		this.getOutgoingEvents().put(this, new ForwardHandler117(toPerson,true));
+	}
+	
+	public void generateRemoveTaskRequestParticipantEvent(Participant participant, TaskParticipationKind kind) {
+	}
+	
+	public void generateResumeEvent() {
+		this.getOutgoingEvents().put(this, new ResumeHandler101(true));
+	}
+	
+	public void generateRevokeEvent() {
+		this.getOutgoingEvents().put(this, new RevokeHandler123(true));
+	}
+	
+	public void generateSkipEvent() {
+		this.getOutgoingEvents().put(this, new SkipHandler114(true));
+	}
+	
+	public void generateStartEvent() {
+		this.getOutgoingEvents().put(this, new StartHandler100(true));
+	}
+	
+	public void generateStopEvent() {
+		this.getOutgoingEvents().put(this, new StopHandler126(true));
+	}
+	
+	public void generateSuspendEvent() {
+		this.getOutgoingEvents().put(this, new SuspendHandler102(true));
 	}
 	
 	public boolean getActive() {
@@ -347,6 +631,10 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 	
 	public boolean getActive_Reserved() {
 		return isStepActive(TaskRequestState.RESERVED);
+	}
+	
+	public Map<Object, String> getCancelledEvents() {
+		return this.cancelledEvents;
 	}
 	
 	public boolean getCompleted() {
@@ -401,6 +689,10 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		return isStepActive(TaskRequestState.OBSOLETE);
 	}
 	
+	public Map<Object, IEventHandler> getOutgoingEvents() {
+		return this.outgoingEvents;
+	}
+	
 	@NumlMetaInfo(qualifiedPersistentName="task_request.owner",uuid="0256facc_c131_4da6_ac58_64e094d7f40b")
 	public Participant getOwner() {
 		Participant owner = any3().getParticipant();
@@ -427,7 +719,7 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 	}
 	
 	public WorkflowProcessInstance getProcessInstance() {
-		if ( this.processInstance==null || true ) {
+		if ( this.processInstance==null ) {
 			this.processInstance=(WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId());
 			if ( this.processInstance!=null ) {
 				((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true);
@@ -489,6 +781,10 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		return (this.getPotentialOwners().size() == 1);
 	}
 	
+	public boolean isProcessDirty() {
+		return this.processDirty;
+	}
+	
 	public boolean isStepActive(IProcessStep step) {
 		if ( step==this.endNodeInTaskInstanceRegion ) {
 			return true;
@@ -522,22 +818,6 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		mockedAllInstances=newMocks;
 	}
 	
-	public boolean onActivate() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.CREATED.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
 	public boolean onActiveCompleted() {
 		boolean consumed = false;
 		if ( getProcessInstance()!=null ) {
@@ -547,56 +827,8 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 						public void onTransition() {
 						}
 					};
-				consumed=true;
+				processDirty=consumed=true;
 				waitingNode.transitionToNode(TaskRequestState.COMPLETED.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onClaim() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.READY.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onComplete() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.INPROGRESS.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.FINALSTATE1.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onDelegate(BusinessRole delegate) {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
 			}
 		}
 		return consumed;
@@ -643,22 +875,6 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		setHistory(TaskRequestState.RESERVED);
 	}
 	
-	public boolean onForward(BusinessRole toPerson) {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.READY.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
 	public boolean onHistoryCompleted() {
 		boolean consumed = false;
 		if ( getProcessInstance()!=null ) {
@@ -668,7 +884,7 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 						public void onTransition() {
 						}
 					};
-				consumed=true;
+				processDirty=consumed=true;
 				waitingNode.transitionToNode(TaskRequestState.NUMBEROFPOTENTIALOWNERS_.getId(), listener);
 			}
 		}
@@ -684,7 +900,7 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 						public void onTransition() {
 						}
 					};
-				consumed=true;
+				processDirty=consumed=true;
 				waitingNode.transitionToNode(TaskRequestState.CREATED.getId(), listener);
 			}
 		}
@@ -701,7 +917,7 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 							public void onTransition() {
 							}
 						};
-					consumed=true;
+					processDirty=consumed=true;
 					waitingNode.transitionToNode(TaskRequestState.READY.getId(), listener);
 				} else {
 					if ( (this.getPotentialOwners().size() == 1) ) {
@@ -709,7 +925,7 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 								public void onTransition() {
 								}
 							};
-						consumed=true;
+						processDirty=consumed=true;
 						waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
 					} else {
 					
@@ -720,141 +936,11 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		return consumed;
 	}
 	
-	public boolean onResume() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.SUSPENDED.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.ACTIVE.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onRevoke() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.RESERVED.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.READY.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onSkip() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.OBSOLETE.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onStart() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.ACTIVE.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.INPROGRESS.getId(), listener);
-			}
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.RESERVED.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.INPROGRESS.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onStop() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.INPROGRESS.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.RESERVED.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
-	public boolean onSuspend() {
-		boolean consumed = false;
-		if ( getProcessInstance()!=null ) {
-			UmlNodeInstance waitingNode;
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.RESERVED.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.RESERVEDBUTSUSPENDED.getId(), listener);
-			}
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.INPROGRESS.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.INPROGRESSBUTSUSPENDED.getId(), listener);
-			}
-			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.READY.getId()))!=null ) {
-				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
-						public void onTransition() {
-						}
-					};
-				consumed=true;
-				waitingNode.transitionToNode(TaskRequestState.READYBUTSUSPENDED.getId(), listener);
-			}
-		}
-		return consumed;
-	}
-	
 	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parentTask") ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -862,6 +948,16 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						setParentTask((TaskRequest)map.get(((Element)xml).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -876,10 +972,6 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 				}
 			}
 		}
-	}
-	
-	public boolean processSignal(ISignal signal) {
-		return false;
 	}
 	
 	public NodeImpl recursivelyFindNode(TaskRequestState step, Collection<NodeImpl> collection) {
@@ -936,14 +1028,13 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		tgtRemoveParticipation.removeAllFromParticipationsInTask((select4(participant, kind)));
 	}
 	
-	public void resume() {
-		super.resume();
-		onResume();
-	}
-	
 	@NumlMetaInfo(qualifiedPersistentName="task_request.revoke",uuid="f513a78c_c3ad_4bc5_82b7_d89618f1b3f5")
 	public void revoke() {
-		onRevoke();
+		generateRevokeEvent();
+	}
+	
+	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
 	}
 	
 	public void setDelegation(TaskDelegation delegation) {
@@ -961,6 +1052,10 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 	
 	public void setHistory(TaskRequestState History) {
 		this.History=History;
+	}
+	
+	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setParticipationsInTask(Set<ParticipationInTask> participationsInTask) {
@@ -1001,26 +1096,16 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 	
 	@NumlMetaInfo(qualifiedPersistentName="task_request.skip",uuid="5387e292_3648_4753_9f06_a27f41af44c3")
 	public void skip() {
-		onSkip();
-	}
-	
-	public void start() {
-		super.start();
-		onStart();
+		generateSkipEvent();
 	}
 	
 	@NumlMetaInfo(qualifiedPersistentName="task_request.stop",uuid="11c32fb5_19b2_4378_9678_2a36674198da")
 	public void stop() {
-		onStop();
-	}
-	
-	public void suspend() {
-		super.suspend();
-		onSuspend();
+		generateStopEvent();
 	}
 	
 	public String toXmlReferenceString() {
-		return "<taskRequest uid=\"+getUid() + \">";
+		return "<taskRequest uid=\""+getUid() + "\">";
 	}
 	
 	public String toXmlString() {
@@ -1035,18 +1120,12 @@ public class TaskRequest extends AbstractRequest implements CompositionNode, Hib
 		if ( getParentTask()==null ) {
 			sb.append("<parentTask/>");
 		} else {
+			sb.append("<parentTask>");
 			sb.append(getParentTask().toXmlReferenceString());
 			sb.append("</parentTask>");
 			sb.append("\n");
 		}
-		if ( getTaskObject()==null ) {
-			sb.append("<taskObject/>");
-		} else {
-			sb.append(getTaskObject().toXmlReferenceString());
-			sb.append("</taskObject>");
-			sb.append("\n");
-		}
-		sb.append("</TaskRequest>");
+		sb.append("</taskRequest>");
 		return sb.toString();
 	}
 	

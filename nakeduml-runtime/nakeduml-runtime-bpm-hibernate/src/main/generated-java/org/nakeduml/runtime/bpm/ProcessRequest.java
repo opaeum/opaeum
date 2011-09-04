@@ -1,11 +1,14 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +16,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,15 +35,16 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
-import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
-import org.nakeduml.runtime.domain.ISignal;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.event.IEventHandler;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -51,17 +54,18 @@ import org.w3c.dom.NodeList;
 @Entity(name="ProcessRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="null_process_request")
+@Table(name="process_request")
 @NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.process_request",uuid="4b56cfda_fe0e_45f9_b6c3_865c024f8283")
 @AccessType("field")
 @DiscriminatorValue("process_request")
-public class ProcessRequest extends AbstractRequest implements CompositionNode, HibernateEntity, Serializable, IPersistentObject, IActiveObject, IProcessObject {
+public class ProcessRequest extends AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
 	static final private long serialVersionUID = 12;
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
 	private Long processInstanceId;
-	@Enumerated
+	@Transient
+	private boolean processDirty;
 	@Type(type="ProcessRequestStateResolver")
 	private ProcessRequestState endNodeInProcessRequestRegion;
 	@Column(name="executed_on")
@@ -72,6 +76,10 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
+	@Transient
+	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for ProcessRequest
 	 */
@@ -89,6 +97,7 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 
 	@NumlMetaInfo(qualifiedPersistentName="process_request.abort",uuid="66dd9320_2353_4cd3_b4df_c15a20be4a4d")
 	public void abort() {
+		generateAbortEvent();
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
@@ -125,6 +134,11 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 				}
 			}
 		}
+	}
+	
+	public boolean consumeAbortOccurrence() {
+		boolean consumed = false;
+		return consumed;
 	}
 	
 	public boolean equals(Object other) {
@@ -174,9 +188,16 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 		}
 	}
 	
+	public void generateAbortEvent() {
+	}
+	
 	public Set<IProcessStep> getActiveLeafSteps() {
 		Set results = new HashSet<IProcessStep>();
 		return results;
+	}
+	
+	public Map<Object, String> getCancelledEvents() {
+		return this.cancelledEvents;
 	}
 	
 	public Date getDeletedOn() {
@@ -210,6 +231,10 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 		return (Collection<NodeInstanceImpl>)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true);
 	}
 	
+	public Map<Object, IEventHandler> getOutgoingEvents() {
+		return this.outgoingEvents;
+	}
+	
 	public CompositionNode getOwningObject() {
 		return getProcessObject();
 	}
@@ -219,7 +244,7 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 	}
 	
 	public WorkflowProcessInstance getProcessInstance() {
-		if ( this.processInstance==null || true ) {
+		if ( this.processInstance==null ) {
 			this.processInstance=(WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId());
 			if ( this.processInstance!=null ) {
 				((WorkflowProcessImpl)this.processInstance.getProcess()).setAutoComplete(true);
@@ -249,6 +274,10 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
+	}
+	
+	public boolean isProcessDirty() {
+		return this.processDirty;
 	}
 	
 	public boolean isStepActive(IProcessStep step) {
@@ -283,16 +312,6 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parentTask") ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -303,11 +322,17 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
-	}
-	
-	public boolean processSignal(ISignal signal) {
-		return false;
 	}
 	
 	public NodeImpl recursivelyFindNode(ProcessRequestState step, Collection<NodeImpl> collection) {
@@ -330,6 +355,10 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 		this.markDeleted();
 	}
 	
+	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+		this.cancelledEvents=cancelledEvents;
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 		super.setDeletedOn(deletedOn);
@@ -337,6 +366,10 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 	
 	public void setExecutedOn(Date executedOn) {
 		this.executedOn=executedOn;
+	}
+	
+	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+		this.outgoingEvents=outgoingEvents;
 	}
 	
 	public void setProcessInstance(WorkflowProcessInstance processInstance) {
@@ -348,7 +381,7 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 	}
 	
 	public String toXmlReferenceString() {
-		return "<processRequest uid=\"+getUid() + \">";
+		return "<processRequest uid=\""+getUid() + "\">";
 	}
 	
 	public String toXmlString() {
@@ -360,11 +393,12 @@ public class ProcessRequest extends AbstractRequest implements CompositionNode, 
 		if ( getParentTask()==null ) {
 			sb.append("<parentTask/>");
 		} else {
+			sb.append("<parentTask>");
 			sb.append(getParentTask().toXmlReferenceString());
 			sb.append("</parentTask>");
 			sb.append("\n");
 		}
-		sb.append("</ProcessRequest>");
+		sb.append("</processRequest>");
 		return sb.toString();
 	}
 	
