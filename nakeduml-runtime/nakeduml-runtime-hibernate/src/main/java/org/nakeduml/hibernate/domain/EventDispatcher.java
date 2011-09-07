@@ -18,8 +18,10 @@ import org.hibernate.event.PostLoadEvent;
 import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
+import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IProcessObject;
+import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.nakeduml.runtime.environment.Environment;
 import org.nakeduml.runtime.event.IEventHandler;
 
@@ -114,8 +116,8 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	protected Set<EventOccurrence> saveEvents(FlushEvent event, final EventSource source, Set<IEventGenerator> eventGenerators) {
 		Set<EventOccurrence> allEventOccurrences = new HashSet<EventOccurrence>();
 		for (IEventGenerator eg : eventGenerators) {
-			for (Entry<Object, IEventHandler> entry : eg.getOutgoingEvents().entrySet()) {
-				EventOccurrence occurrence = new EventOccurrence(entry.getKey(), entry.getValue());
+			for (OutgoingEvent entry : eg.getOutgoingEvents()) {
+				EventOccurrence occurrence = new EventOccurrence(entry.getTarget(), entry.getHandler());
 				occurrence.prepareForDispatch();
 				source.persist(occurrence);
 				allEventOccurrences.add(occurrence);
@@ -136,10 +138,11 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		Set<String> allCancellations = new HashSet<String>();
 		Query delete = source.createQuery("delete from EventOccurrence where uuid=:uuid");
 		for (IEventGenerator eg : eventGenerators) {
-			for (Entry<Object, String> entry : eg.getCancelledEvents().entrySet()) {
-				delete.setString("uuid", EventOccurrence.uuid(entry.getKey(), entry.getValue()));
+			for (CancelledEvent entry : eg.getCancelledEvents()) {
+				String eventOccurrenceUuid = EventOccurrence.uuid(entry.getTarget(), entry.getEventId());
+				delete.setString("uuid", eventOccurrenceUuid);
 				delete.executeUpdate();
-				allCancellations.add(entry.getValue());
+				allCancellations.add(eventOccurrenceUuid);
 			}
 			eg.getCancelledEvents().clear();
 		}

@@ -38,7 +38,7 @@ public class Uml2DynamicNodeInstance extends DynamicNodeInstance implements UmlN
 	public void internalTrigger(NodeInstance from,String type){
 		super.internalTrigger(from, type);
 		for (Node node: getCompositeNode().getNodes()) {
-			if ("start".equals(node.getName())) {
+			if ("_start_".equals(node.getName())) {
     			NodeInstance nodeInstance = getNodeInstance(node);
                 ((org.jbpm.workflow.instance.NodeInstance) nodeInstance)
                 	.trigger(null, null);

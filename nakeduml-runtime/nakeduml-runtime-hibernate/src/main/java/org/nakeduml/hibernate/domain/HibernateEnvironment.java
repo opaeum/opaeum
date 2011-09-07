@@ -116,6 +116,7 @@ public class HibernateEnvironment extends Environment {
 		components.clear();
 	}
 
+	//TODO this is not right - no persistence
 	private StatefulKnowledgeSession getKnowledgeSession() {
 		if (this.knowledgeSession == null) {
 			if (this.abstractJbpmKnowledgeBase == null) {
@@ -129,10 +130,6 @@ public class HibernateEnvironment extends Environment {
 			this.knowledgeSession = abstractJbpmKnowledgeBase.getKnowledgeBase().newStatefulKnowledgeSession(cfg, env);
 		}
 		return knowledgeSession;
-	}
-
-	protected AbstractJbpmKnowledgeBase createJbpmKnowledgeBase() {
-		return (AbstractJbpmKnowledgeBase) instantiateImplementation(JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
 
 	protected String getHibernateConfigName() {

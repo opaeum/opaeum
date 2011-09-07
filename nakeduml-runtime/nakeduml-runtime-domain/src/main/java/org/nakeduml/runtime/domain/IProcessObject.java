@@ -2,7 +2,7 @@ package org.nakeduml.runtime.domain;
 import java.util.Set;
 
 import org.drools.runtime.process.WorkflowProcessInstance;
-public interface IProcessObject extends IActiveObject{
+public interface IProcessObject extends IActiveObject, CompositionNode{
 	boolean isStepActive(IProcessStep step);
 	Set<IProcessStep> getActiveLeafSteps();
 	IProcessStep getInnermostNonParallelStep();
