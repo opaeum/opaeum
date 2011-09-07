@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -141,6 +142,13 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			List<? extends INakedProperty> interfaceAttributes = ((INakedClassifier) i).getEffectiveAttributes();
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
+		Collections.sort(ownedAttributes, new Comparator<INakedProperty>(){
+
+			@Override
+			public int compare(INakedProperty o1,INakedProperty o2){
+				return o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
+			}
+		});
 		addEffectiveAttributes(results, ownedAttributes);
 		return results;
 	}

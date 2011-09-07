@@ -1,5 +1,7 @@
 package net.sf.nakeduml.pomgeneration;
 
+import java.io.File;
+
 import net.sf.nakeduml.feature.ISourceFolderStrategy;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
@@ -71,5 +73,9 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 	@Override
 	public boolean isSingleProjectStrategy(){
 		return true;
+	}
+	@Override
+	public File calculateOutputRoot(File configFile,File projectRoot,String workspaceIdentifier){
+		return new File(projectRoot.getParentFile(), workspaceIdentifier);
 	}
 }

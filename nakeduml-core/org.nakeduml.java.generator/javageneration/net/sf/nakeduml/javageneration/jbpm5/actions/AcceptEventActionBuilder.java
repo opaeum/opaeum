@@ -28,7 +28,7 @@ public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEve
 				operation.getOwner().addToOperations(cancel);
 				for(INakedTrigger t:node.getTriggers()){
 					if(t.getEvent() instanceof INakedTimeEvent){
-						EventUtil.implementTimeEventRequest(operation, operation.getBody(), (INakedTimeEvent) t.getEvent());
+						EventUtil.implementTimeEventRequest(operation, operation.getBody(), (INakedTimeEvent) t.getEvent(),getLibrary().getBusinessRole()!=null);
 						EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) t.getEvent(), "this");
 					}else if(t.getEvent() instanceof INakedChangeEvent){
 						EventUtil.implementChangeEventRequest(operation, (INakedChangeEvent) t.getEvent());

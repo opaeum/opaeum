@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -22,6 +23,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.SignalMap;
 import net.sf.nakeduml.javageneration.oclexpressions.CodeCleanup;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -33,6 +35,7 @@ import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
+import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.ActivityNodeContainer;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
@@ -49,6 +52,7 @@ import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
@@ -104,6 +108,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void implementActivity(INakedActivity activity){
+		ensureEventHandlerImplementation(activity);
 		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
 			OJAnnotatedClass activityClass = findJavaClass(activity);
 			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
@@ -113,11 +118,32 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(activity.getActivityKind() == ActivityKind.PROCESS){
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
 				OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
-				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes());
+				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes(),getLibrary().getBusinessRole()!=null);
 			}else{
 				Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 				doIsStepActive(activityClass, activity);
 				super.addGetNodeInstancesRecursively(activityClass);
+			}
+		}
+	}
+	private void ensureEventHandlerImplementation(INakedActivity activity){
+		List<INakedActivityNode> activityNodesRecursively = activity.getActivityNodesRecursively();
+		for(INakedActivityNode node:activityNodesRecursively){
+			if(node instanceof INakedSendSignalAction){
+				// TODO this deviates from the UML spec. implement validation to ensure the reception is defined on the target
+				INakedSendSignalAction ssa = (INakedSendSignalAction) node;
+				SignalMap map = new SignalMap(ssa.getSignal());
+				if(ssa.getTargetElement() != null && ssa.getTargetElement().getNakedBaseType() != null){
+					OJAnnotatedClass ojTarget = findJavaClass(ssa.getTargetElement().getNakedBaseType());
+					if(ojTarget != null){
+						if(!ojTarget.getImplementedInterfaces().contains(map.receiverContractTypePath())){
+							ojTarget.addToImplementedInterfaces(map.receiverContractTypePath());
+							OperationAnnotator.findOrCreateJavaReception(ojTarget, map);
+							OperationAnnotator.findOrCreateEventGenerator( (INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(),ojTarget, map);
+							OperationAnnotator.findOrCreateEventConsumer((INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(), ojTarget, map);
+						}
+					}
+				}
 			}
 		}
 	}

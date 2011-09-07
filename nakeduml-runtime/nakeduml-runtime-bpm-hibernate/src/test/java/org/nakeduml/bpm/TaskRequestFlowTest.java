@@ -1,9 +1,8 @@
 package org.nakeduml.bpm;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.jmock.Expectations;
@@ -15,13 +14,13 @@ import org.nakeduml.runtime.bpm.Participant;
 import org.nakeduml.runtime.bpm.ParticipationInTask;
 import org.nakeduml.runtime.bpm.TaskParticipationKind;
 import org.nakeduml.runtime.bpm.TaskRequest;
-import org.nakeduml.runtime.event.IEventHandler;
-import org.nakeduml.runtime.jpa.StandaloneJpaEnvironment;
+import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.MockEnvironment;
 
 public class TaskRequestFlowTest{
 	@Test
 	public void testit(){
-		StandaloneJpaEnvironment.getInstance().getUmtPersistence().beginTransaction();
+		MockEnvironment.getInstance();
 		Mockery mockery = new Mockery();
 		TaskRequest tr = new TaskRequest();
 		tr.execute();
@@ -75,11 +74,11 @@ public class TaskRequestFlowTest{
 		deliverEvents(tr.getOutgoingEvents());
 		Assert.assertTrue(tr.getCompleted());
 	}
-	private void deliverEvents(Map<Object,IEventHandler> outgoingEvents){
-		Map<Object,IEventHandler> outgoingEvents2 = new HashMap<Object,IEventHandler>(outgoingEvents);
+	private void deliverEvents(Set<OutgoingEvent> outgoingEvents){
+		Set<OutgoingEvent> outgoingEvents2 = new HashSet<OutgoingEvent>(outgoingEvents);
 		outgoingEvents.clear();
-		for(Entry<Object,IEventHandler> entry:outgoingEvents2.entrySet()){
-			entry.getValue().handleOn(entry.getKey());
+		for(OutgoingEvent entry:outgoingEvents2){
+			entry.getHandler().handleOn(entry.getTarget());
 		}
 		// TODO Auto-generated method stub
 	}

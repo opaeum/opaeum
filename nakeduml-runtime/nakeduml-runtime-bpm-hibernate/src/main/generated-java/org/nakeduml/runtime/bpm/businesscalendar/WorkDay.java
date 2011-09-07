@@ -1,9 +1,7 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -32,14 +30,14 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar;
-import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
+import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
-import org.nakeduml.runtime.event.IEventHandler;
+import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -50,15 +48,11 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @NamedQueries(value=@NamedQuery(query="from WorkDay a where a.businessCalendar = :businessCalendar and a.kind = :kind",name="QueryWorkDayWithKindForBusinessCalendar"))
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"}),@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"})},name="work_day")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.work_day",uuid="372722e6_244a_4e21_a5fd_3fd037cb2339")
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"}),@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"})},name="work_day")
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.work_day",uuid="OpiumBPM.library.uml@_Jn9QcNb-EeCJ0dmaHEVVnw")
 @AccessType("field")
-public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 435;
-	@Index(name="idx_work_day_business_calendar_id",columnNames="business_calendar_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="business_calendar_id",nullable=true)
-	private BusinessCalendar businessCalendar;
+public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+	static final private long serialVersionUID = 642;
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
 	@JoinColumn(name="end_time_id",nullable=true)
 	private TimeOfDay endTime;
@@ -68,22 +62,26 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 	@Enumerated(javax.persistence.EnumType.STRING)
 	@Column(name="kind",nullable=true)
 	private WorkDayKind kind;
+	@Index(name="idx_work_day_business_calendar_id",columnNames="business_calendar_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="business_calendar_id",nullable=true)
+	private BusinessCalendar businessCalendar;
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	@Id
 	private Long id;
 	@Column(name="object_version")
 	@Version
 	private int objectVersion;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static private Set<WorkDay> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
 	private String uid;
-	@Transient
-	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
-	@Transient
-	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for WorkDay
 	 */
@@ -198,12 +196,12 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		return false;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.business_calendar_id",uuid="e97ea856_2de9_40c1_bf87_7e51f7f7a5d8")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.business_calendar_id",uuid="OpiumBPM.library.uml@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		return businessCalendar;
 	}
 	
-	public Map<Object, String> getCancelledEvents() {
+	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
 	
@@ -211,7 +209,7 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.end_time_id",uuid="65471208_f5ac_4805_bad2_e0e0076290dd")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.end_time_id",uuid="OpiumBPM.library.uml@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
 		return endTime;
 	}
@@ -220,12 +218,12 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.kind",uuid="3c5448f5_c22b_41f3_8aaf_762d66613609")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.kind",uuid="OpiumBPM.library.uml@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
 		return kind;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.minutes_per_day",uuid="c1729b0c_2eac_4a68_b6de_a4dd8bf1e327")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.minutes_per_day",uuid="OpiumBPM.library.uml@_vEgCENcMEeCnccVVb6bGDQ")
 	public Integer getMinutesPerDay() {
 		Integer minutesPerDay = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());
 		return minutesPerDay;
@@ -239,7 +237,7 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		return this.objectVersion;
 	}
 	
-	public Map<Object, IEventHandler> getOutgoingEvents() {
+	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
 	
@@ -247,7 +245,7 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		return getBusinessCalendar();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.start_time_id",uuid="ec085b5d_c68d_4075_ba77_a397f6716dc6")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.start_time_id",uuid="OpiumBPM.library.uml@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
 		return startTime;
 	}
@@ -282,7 +280,6 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 	}
 	
 	public void markDeleted() {
-		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().z_internalRemoveFromWorkDay((WorkDay)this);
 		}
@@ -292,6 +289,7 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		if ( getStartTime()!=null ) {
 			getStartTime().markDeleted();
 		}
+		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<WorkDay> newMocks) {
@@ -320,11 +318,11 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			setDeletedOn(new Date());
+			markDeleted();
 		}
 	}
 	
-	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
@@ -348,7 +346,7 @@ public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntit
 		this.objectVersion=objectVersion;
 	}
 	
-	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
 	

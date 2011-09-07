@@ -53,7 +53,7 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 				if(args.length() > 0){
 					args.append(",");
 				}
-				fs.addToStatements("getOutgoingEvents()" + ".put(" + actionMap.targetName() + ",new " + handler.getLast() + "(" + args + "false))");
+				fs.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + actionMap.targetName() + ",new " + handler.getLast() + "(" + args + "false)))");
 			}
 		}
 	}

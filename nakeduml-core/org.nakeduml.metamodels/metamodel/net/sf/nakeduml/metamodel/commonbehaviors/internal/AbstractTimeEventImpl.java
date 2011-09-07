@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
@@ -15,47 +16,42 @@ public abstract class AbstractTimeEventImpl extends NakedEventImpl{
 	static public final String TIME_UNIT = "timeUnit";
 	private static final long serialVersionUID = -4132717082708308377L;
 	private boolean isRelative;
-	private TimeUnit timeUnit;
+	private INakedEnumerationLiteral timeUnit;
 	private INakedValueSpecification when;
-	public NameWrapper getTimeUnitName() {
+	public NameWrapper getTimeUnitName(){
 		return new SingularNameWrapper(getTimeUnit().getName(), null);
 	}
-	public boolean isRelative() {
+	public boolean isRelative(){
 		return this.isRelative;
 	}
-	public void setRelative(boolean relative) {
+	public void setRelative(boolean relative){
 		this.isRelative = relative;
 	}
-	public TimeUnit getTimeUnit() {
-		if (this.timeUnit == null) {
-			return TimeUnit.BUSINESS_DAY;
-		} else {
-			return this.timeUnit;
-		}
+	public INakedEnumerationLiteral getTimeUnit(){
+		return this.timeUnit;
 	}
-	public void setWhen(INakedValueSpecification when) {
+	public void setWhen(INakedValueSpecification when){
 		removeOwnedElement(this.when);
 		this.when = when;
 		addOwnedElement(when);
 		when.setOwnerElement(this);
 	}
-	public INakedValueSpecification getWhen() {
+	public INakedValueSpecification getWhen(){
 		return this.when;
 	}
 	@Override
-	public void addStereotype(INakedInstanceSpecification stereotype) {
+	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
-		if (stereotype.hasValueForFeature(TIME_UNIT)) {
-			this.timeUnit = TimeUnit.lookup(stereotype.getFirstValueFor(TIME_UNIT).stringValue());
+		if(stereotype.hasValueForFeature(TIME_UNIT)){
+			this.timeUnit=(INakedEnumerationLiteral) stereotype.getFirstValueFor(TIME_UNIT).getValue();
 		}
 	}
 	@Override
-	public Collection<INakedElement> getOwnedElements() {
-		if (when == null) {
-			return Collections.<INakedElement> emptySet();
-		} else {
-			return Collections.<INakedElement> singleton(when);
+	public Collection<INakedElement> getOwnedElements(){
+		if(when == null){
+			return Collections.<INakedElement>emptySet();
+		}else{
+			return Collections.<INakedElement>singleton(when);
 		}
 	}
-
 }

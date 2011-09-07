@@ -1,9 +1,12 @@
 package org.nakeduml.eclipse.starter;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Iterator;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -60,9 +63,18 @@ public class RecompileModelAction implements IObjectActionDelegate{
 								NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
+								NakedUmlConfig cfg = currentContext.getUmlElementCache().getConfig();
+								
+								if(cfg.getSourceFolderStrategy().isSingleProjectStrategy()){
+									//Temporarily suppress directoryCleaning
+									for(SourceFolderDefinition sfd:cfg.getSourceFolderDefinitions().values()){
+										sfd.dontCleanDirectories();
+									}
+								}
 								p.executeFrom(JavaTransformationPhase.class,new ProgressMonitorTransformationLog(monitor,30));
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 60), p, currentContext);
 								p.findModel(EmfWorkspace.class).saveAll();
+								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 							}
 						}catch(Exception e){

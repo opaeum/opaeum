@@ -24,6 +24,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
@@ -82,11 +83,13 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					NakedOperationMap operationMap = new NakedOperationMap(o);
 					OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, false);
 					applyStereotypesAsAnnotations((o), oper1);
-					findOrCreateCallEventConsumer(c, ojClass, operationMap);
-					findOrCreateEventGenerator(c, ojClass, operationMap);
-					if(o.isLongRunning()){
-						oper1 = findOrCreateOperation(c, ojClass, operationMap, true);
-						applyStereotypesAsAnnotations((o), oper1);
+					if(!o.isQuery()){
+						findOrCreateCallEventConsumer(c, ojClass, operationMap);
+						findOrCreateEventGenerator(c, ojClass, operationMap);
+						if(o.isLongRunning()){
+							oper1 = findOrCreateOperation(c, ojClass, operationMap, true);
+							applyStereotypesAsAnnotations((o), oper1);
+						}
 					}
 				}
 			}
@@ -125,7 +128,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			addParameters(c, oper, map.getOperation().getArgumentParameters());
 			if(map.getOperation() instanceof INakedOperation){
 				INakedOperation no = (INakedOperation) map.getOperation();
-				if(c!=null && c.getSupertype() != null && c.getSupertype().conformsTo(no.getOwner())){
+				if(c != null && c.getSupertype() != null && c.getSupertype().conformsTo(no.getOwner())){
 					oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 				}
 			}
@@ -142,7 +145,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			oper.getBody().addToLocals(consumed);
 			consumed.setInitExp("false");
 			oper.addParam("signal", map.javaTypePath());
-			if(c!=null && c.getSupertype() instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c.getSupertype()).hasReceptionFor(map.getSignal())){
+			if(c != null && c.getSupertype() instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c.getSupertype()).hasReceptionFor(map.getSignal())){
 				oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 			}
 			oper.getBody().addToStatements("return consumed");
@@ -186,7 +189,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					oper.getBody().addToLocals(result);
 					List<? extends INakedParameter> args = o.getArgumentParameters();
 					for(INakedParameter arg:args){
-						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier) arg.getOwner().getOwner(), arg);
+						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier)o.getContext(), arg);
 						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.umlName() + ")");
 					}
 					if(withReturnInfo){
@@ -199,7 +202,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					oper.getBody().addToStatements("return result");
 				}else if(o.getReturnParameter() != null){
 					owner.addToImports(map.javaReturnDefaultTypePath());
-					OJAnnotatedField result = new OJAnnotatedField("result", map.javaReturnDefaultTypePath());
+					OJAnnotatedField result = new OJAnnotatedField("result", map.javaReturnTypePath());
 					result.setInitExp(map.javaReturnDefaultValue());
 					oper.getBody().addToLocals(result);
 					oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");

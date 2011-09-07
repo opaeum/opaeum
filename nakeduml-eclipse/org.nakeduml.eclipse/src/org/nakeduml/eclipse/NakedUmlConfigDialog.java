@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Text;
 import org.nakeduml.name.NameConverter;
 
 public class NakedUmlConfigDialog extends TitleAreaDialog{
+	private Label errorMessage;
 	private Text txtWorkspaceName;
 	private Text txtWorkspaceIdentifier;
 	private Text txtCompanyDomain;
@@ -114,6 +115,19 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		}
 	}
 	public void okPressed(){
+		IResource[] members = null;
+		try{
+			members = file.getParent().members();
+		}catch(CoreException e1){
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for(IResource r:members){
+			if(r.getLocation().removeFileExtension().lastSegment().toLowerCase().equals(txtWorkspaceIdentifier.getText().toLowerCase())){
+				this.setErrorMessage("The Project Identifier cannot be the same as the name of one of the models");
+				return;
+			}
+		}
 		config.loadDefaults(txtWorkspaceIdentifier.getText());
 		String domain = txtCompanyDomain.getText();
 		StringBuilder mavenGroup = null;
@@ -133,6 +147,7 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		config.setMavenGroupId(mavenGroup.toString());
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
+		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());
 		config.store();
 		try{
 			file.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);

@@ -15,6 +15,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedParameterImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+import net.sf.nakeduml.validation.EmfValidationRule;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
@@ -54,6 +55,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			if(p.getAssociation()!=null){
 				for(Property property:p.getAssociation().getMemberEnds()){
 					if(property.getType()==null){
+						getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
 						//broken association a'la topcased
 						return null;
 					}

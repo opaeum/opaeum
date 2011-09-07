@@ -38,12 +38,14 @@ public class ApplyProfileAction implements IObjectActionDelegate{
 			Resource resource = model.eResource().getResourceSet().getResource(URI.createURI(StereotypeNames.MODELS_PATHMAP + "profiles/" + profileName), true);
 			appliedProfile = (Profile) resource.getContents().get(0);
 			model.applyProfile(appliedProfile);
+		}else if(model.getProfileApplication(appliedProfile).getAppliedDefinition() != appliedProfile.getDefinition()){
+			model.applyProfile(appliedProfile);
 		}
 		return appliedProfile;
 	}
 	private static Profile getAppliedProfile(Model model,String profileName){
 		for(Profile profile:model.getAllAppliedProfiles()){
-			if(!profile.eIsProxy()  &&  profile.eResource().getURI().lastSegment().equals(profileName)){
+			if(!profile.eIsProxy() && profile.eResource().getURI().lastSegment().equals(profileName)){
 				return profile;
 			}
 		}

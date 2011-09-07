@@ -122,19 +122,6 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			if(state.getEntry() != null){
 				implementBehaviorOn(state, state.getEntry(), onEntry);
 			}
-			for(INakedTransition t:state.getOutgoing()){
-				Collection<INakedTrigger> triggers = t.getTriggers();
-				for(INakedTrigger trigger:triggers){
-					if(trigger != null){
-						if(trigger.getEvent() instanceof INakedTimeEvent){
-							EventUtil.implementTimeEventRequest(onEntry, onEntry.getBody(), (INakedTimeEvent) trigger.getEvent());
-						}else if(trigger.getEvent() instanceof INakedChangeEvent){
-							EventUtil.implementChangeEventRequest(onEntry, (INakedChangeEvent) trigger.getEvent());
-						}
-					}
-					
-				}
-			}
 			INakedState historyPeer = StateMachineUtil.getHistoryPeer(state);
 			if(historyPeer != null && state.getKind().isRestingState()){
 				String setter = "set" + historyPeer.getMappingInfo().getJavaName().getCapped().getAsIs();

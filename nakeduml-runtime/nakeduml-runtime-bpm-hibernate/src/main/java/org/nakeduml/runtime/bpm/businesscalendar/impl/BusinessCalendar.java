@@ -19,7 +19,6 @@ import org.nakeduml.runtime.bpm.businesscalendar.RecurringHoliday;
 import org.nakeduml.runtime.bpm.businesscalendar.TimeOfDay;
 import org.nakeduml.runtime.bpm.businesscalendar.WorkDay;
 import org.nakeduml.runtime.bpm.businesscalendar.WorkDayKind;
-import org.nakeduml.runtime.domain.TimeUnit;
 
 //This class is timezone agnostic. It assumes that all the Calendar objects
 // that it is being passed
@@ -34,7 +33,7 @@ import org.nakeduml.runtime.domain.TimeUnit;
 }),name = "business_calendar")
 @NumlMetaInfo(qualifiedPersistentName = "businesscalendar.business_calendar",uuid = "65a77c10_1db1_40f2_9bc5_e3306b228731")
 @AccessType("field")
-public class BusinessCalendar extends org.nakeduml.runtime.bpm.businesscalendar.BusinessCalendar{
+public class BusinessCalendar extends AbstractBusinessCalendar{
 	private static final long serialVersionUID = -161618913396793066L;
 	private static ThreadLocal<BusinessCalendar> instance = new ThreadLocal<BusinessCalendar>();
 	public static BusinessCalendar getInstance(){
@@ -58,10 +57,8 @@ public class BusinessCalendar extends org.nakeduml.runtime.bpm.businesscalendar.
 	public Calendar addTimeTo(Calendar c,BusinessTimeUnit tu,double noOfUnits){
 		if(isBusinessTime(tu)){
 			addTo(c, noOfUnitsToMinutes(tu, noOfUnits));
-		}else if(tu.equals(TimeUnit.CALENDAR_MONTH)){
+		}else if(tu.equals(BusinessTimeUnit.CALENDARMONTH)){
 			c.add(Calendar.MONTH, (int) Math.round(noOfUnits));
-		}else if(tu.equals(TimeUnit.CALENDAR_YEAR)){
-			c.add(Calendar.YEAR, (int) Math.round(noOfUnits));
 		}else{
 			c.add(Calendar.MINUTE, (int) noOfUnitsToMinutes(tu, noOfUnits));
 		}
@@ -210,22 +207,22 @@ public class BusinessCalendar extends org.nakeduml.runtime.bpm.businesscalendar.
 		}
 		return timeInMinutes;
 	}
-	private double minutesToNoOfUnits(TimeUnit timeUnit,long minutes){
+	private double minutesToNoOfUnits(BusinessTimeUnit timeUnit,long minutes){
 		double timeInTimeUnit;
 		switch(timeUnit){
-		case BUSINESS_MINUTE:
+		case BUSINESSMINUTE:
 			timeInTimeUnit = minutes;
 			break;
-		case BUSINESS_HOUR:
+		case BUSINESSHOUR:
 			timeInTimeUnit = minutes / 60d;
 			break;
-		case BUSINESS_DAY:
+		case BUSINESSDAY:
 			timeInTimeUnit = minutes / (getBusinessHoursPerDay() * 60);
 			break;
-		case BUSINESS_WEEK:
+		case BUSINESSWEEK:
 			timeInTimeUnit = minutes / (getBusinessHoursPerWeek() * 60);
 			break;
-		case BUSINESS_MONTH:
+		case BUSINESSMONTH:
 			timeInTimeUnit = minutes / (getBusinessDaysPerMonth() * getBusinessHoursPerDay() * 60);
 			break;
 		default:
@@ -294,7 +291,7 @@ public class BusinessCalendar extends org.nakeduml.runtime.bpm.businesscalendar.
 	public WorkDay getSunday(){
 		return getWorkDay(WorkDayKind.SUNDAY);
 	}
-	public double calculateDifference(Date from,Date to,TimeUnit timeUnit){
+	public double calculateDifference(Date from,Date to,BusinessTimeUnit timeUnit){
 		Calendar fromCal = Calendar.getInstance();
 		fromCal.setTime(from);
 		Calendar toCal = Calendar.getInstance();
@@ -358,4 +355,5 @@ public class BusinessCalendar extends org.nakeduml.runtime.bpm.businesscalendar.
 		}
 		return super.getBusinessHoursPerWeek();
 	}
+
 }

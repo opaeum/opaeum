@@ -60,7 +60,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			}
 		}
 		for(INakedConstraint nc:entity.getOwnedRules()){
-			if(!nc.getName().startsWith("uniqueIn") || nc.getName().startsWith("SourcePopulationFor")){
+			if(!(nc.getName().startsWith("uniqueIn") || nc.getName().toLowerCase().startsWith("sourcepopulation"))){
 				addTestMEthod(entity, pn, test, testInterface, "test" + nc.getMappingInfo().getJavaName().getCapped());
 			}
 		}

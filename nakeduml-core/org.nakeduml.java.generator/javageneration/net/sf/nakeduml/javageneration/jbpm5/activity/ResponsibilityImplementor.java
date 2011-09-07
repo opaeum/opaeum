@@ -184,8 +184,6 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		oper.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 		oper.addParam("date", new OJPathName("java.util.Date"));
 		
-		// TODO give this some thought
-		OJUtil.addMetaInfo(oper, a);
 		addCallingProcessObjectField(oper, processObject, a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);

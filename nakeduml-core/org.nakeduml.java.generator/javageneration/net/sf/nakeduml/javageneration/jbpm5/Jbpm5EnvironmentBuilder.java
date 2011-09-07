@@ -123,9 +123,11 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 			return true;
 		}else{
 			Set<String> libs = new HashSet<String>();
-			libs.add("OpiumSimpleTypes");
-			libs.add("UMLPrimitiveTypes");
-			return !libs.contains(element.getName());
+			libs.add("OpiumSimpleTypes".toLowerCase());
+			libs.add("UMLPrimitiveTypes".toLowerCase());
+			libs.add("JavaPrimitiveTypes".toLowerCase());
+			libs.add("NakedUMLSimpleTypes".toLowerCase());
+			return !libs.contains(element.getName().toLowerCase());
 		}
 	}
 }

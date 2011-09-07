@@ -1,14 +1,11 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,8 +32,8 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
+import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IEventGenerator;
@@ -44,7 +41,7 @@ import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
-import org.nakeduml.runtime.event.IEventHandler;
+import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -55,11 +52,11 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="process_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.process_request",uuid="4b56cfda_fe0e_45f9_b6c3_865c024f8283")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.process_request",uuid="OpiumBPM.library.uml@_ciiWAI2-EeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("process_request")
-public class ProcessRequest extends AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
-	static final private long serialVersionUID = 12;
+public class ProcessRequest extends AbstractRequest implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject, IProcessObject {
+	static final private long serialVersionUID = 673;
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
 	@Column(name="process_instance_id")
@@ -71,15 +68,15 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 	@Column(name="executed_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date executedOn;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static private Set<ProcessRequest> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	@Transient
-	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
-	@Transient
-	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for ProcessRequest
 	 */
@@ -95,7 +92,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		addToOwningObject();
 	}
 
-	@NumlMetaInfo(qualifiedPersistentName="process_request.abort",uuid="66dd9320_2353_4cd3_b4df_c15a20be4a4d")
+	@NumlMetaInfo(qualifiedPersistentName="process_request.abort",uuid="OpiumBPM.library.uml@_4zDaYK0wEeCTTvcJZSDicw")
 	public void abort() {
 		generateAbortEvent();
 	}
@@ -196,7 +193,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		return results;
 	}
 	
-	public Map<Object, String> getCancelledEvents() {
+	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
 	
@@ -231,7 +228,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		return (Collection<NodeInstanceImpl>)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true);
 	}
 	
-	public Map<Object, IEventHandler> getOutgoingEvents() {
+	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
 	
@@ -257,7 +254,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		return this.processInstanceId;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="process_request.process_object",uuid="bc957753_dd3d_4ee6_9f85_9a27a5b30eb2")
+	@NumlMetaInfo(qualifiedPersistentName="process_request.process_object",uuid="OpiumBPM.library.uml@_JY15xI3pEeCfQedkc0TCdA")
 	public OperationProcessObject getProcessObject() {
 		return null;
 	}
@@ -271,7 +268,6 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 	}
 	
 	public void init(ProcessContext context) {
-		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}
@@ -301,6 +297,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		if ( getParentTask()!=null ) {
 			getParentTask().z_internalRemoveFromSubRequests((ProcessRequest)this);
 		}
+		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<ProcessRequest> newMocks) {
@@ -312,16 +309,6 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parentTask") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						setParentTask((TaskRequest)map.get(((Element)xml).getAttribute("uid")));
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -329,6 +316,16 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parentTask") ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setParentTask((TaskRequest)map.get(((Element)xml).getAttribute("uid")));
 					}
 				}
 			}
@@ -355,7 +352,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		this.markDeleted();
 	}
 	
-	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
@@ -368,7 +365,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		this.executedOn=executedOn;
 	}
 	
-	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
 	

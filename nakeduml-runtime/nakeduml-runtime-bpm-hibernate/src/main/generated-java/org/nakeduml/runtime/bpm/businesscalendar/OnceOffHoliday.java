@@ -1,9 +1,7 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -30,12 +28,12 @@ import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar;
 import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
+import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
-import org.nakeduml.runtime.domain.IntrospectionUtil;
-import org.nakeduml.runtime.event.IEventHandler;
+import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -46,35 +44,35 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="once_off_holiday")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.once_off_holiday",uuid="354e353a_7b7c_4e54_8d8e_122d936f997a")
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.once_off_holiday",uuid="OpiumBPM.library.uml@_5rW3kNcCEeCJ0dmaHEVVnw")
 @AccessType("field")
-public class OnceOffHoliday implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 447;
+public class OnceOffHoliday implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+	static final private long serialVersionUID = 645;
+	@Column(name="date")
+	@Temporal(javax.persistence.TemporalType.DATE)
+	private Date date;
+	@Column(name="name")
+	private String name;
 	@Index(name="idx_once_off_holiday_business_calendar_id",columnNames="business_calendar_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_calendar_id",nullable=true)
 	private BusinessCalendar businessCalendar;
-	@Column(name="name")
-	private String name;
-	@Column(name="date")
-	@Temporal(javax.persistence.TemporalType.DATE)
-	private Date date;
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	@Id
 	private Long id;
 	@Column(name="object_version")
 	@Version
 	private int objectVersion;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static private Set<OnceOffHoliday> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
 	private String uid;
-	@Transient
-	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
-	@Transient
-	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for OnceOffHoliday
 	 */
@@ -107,11 +105,11 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 	
 	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("name")!=null ) {
-			setName(OpiumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
-		}
 		if ( xml.getAttribute("date")!=null ) {
 			setDate(OpiumLibraryForBPMFormatter.getInstance().parseDate(xml.getAttribute("date")));
+		}
+		if ( xml.getAttribute("name")!=null ) {
+			setName(OpiumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -122,13 +120,13 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 	}
 	
 	public void copyShallowState(OnceOffHoliday from, OnceOffHoliday to) {
-		to.setName(from.getName());
 		to.setDate(from.getDate());
+		to.setName(from.getName());
 	}
 	
 	public void copyState(OnceOffHoliday from, OnceOffHoliday to) {
-		to.setName(from.getName());
 		to.setDate(from.getDate());
+		to.setName(from.getName());
 	}
 	
 	public void createComponents() {
@@ -141,16 +139,16 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 		return false;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="once_off_holiday.business_calendar_id",uuid="575e9546_710e_48a5_a8c3_88e4fa347802")
+	@NumlMetaInfo(qualifiedPersistentName="once_off_holiday.business_calendar_id",uuid="OpiumBPM.library.uml@_7Uk4IdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		return businessCalendar;
 	}
 	
-	public Map<Object, String> getCancelledEvents() {
+	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="once_off_holiday.date",uuid="56623ac2_82cd_4020_b81c_f255f863c67d")
+	@NumlMetaInfo(qualifiedPersistentName="once_off_holiday.date",uuid="OpiumBPM.library.uml@__KuDQNcCEeCJ0dmaHEVVnw")
 	public Date getDate() {
 		return date;
 	}
@@ -163,7 +161,7 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="once_off_holiday.name",uuid="26b0d069_5ed5_417e_9f8a_3b0bbde6714c")
+	@NumlMetaInfo(qualifiedPersistentName="once_off_holiday.name",uuid="OpiumBPM.library.uml@_94Gk0NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		return name;
 	}
@@ -172,7 +170,7 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 		return this.objectVersion;
 	}
 	
-	public Map<Object, IEventHandler> getOutgoingEvents() {
+	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
 	
@@ -210,10 +208,10 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 	}
 	
 	public void markDeleted() {
-		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().z_internalRemoveFromOnceOffHoliday((OnceOffHoliday)this);
 		}
+		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<OnceOffHoliday> newMocks) {
@@ -242,11 +240,11 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			setDeletedOn(new Date());
+			markDeleted();
 		}
 	}
 	
-	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
@@ -270,7 +268,7 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 		this.objectVersion=objectVersion;
 	}
 	
-	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
 	
@@ -287,11 +285,11 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 		sb.append("<onceOffHoliday");
 		sb.append(" className=\"org.nakeduml.runtime.bpm.businesscalendar.OnceOffHoliday\" ") ;
 		sb.append("uid=\"" + this.getUid() + "\"") ;
-		if ( getName()!=null ) {
-			sb.append("name=\""+ OpiumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
-		}
 		if ( getDate()!=null ) {
 			sb.append("date=\""+ OpiumLibraryForBPMFormatter.getInstance().formatDate(getDate())+"\" ");
+		}
+		if ( getName()!=null ) {
+			sb.append("name=\""+ OpiumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
 		}
 		sb.append(">\n");
 		sb.append("</onceOffHoliday>");

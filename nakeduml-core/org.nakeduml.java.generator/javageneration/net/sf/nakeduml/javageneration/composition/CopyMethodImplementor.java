@@ -9,7 +9,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.persistence.AbstractEntityImplementor;
+import net.sf.nakeduml.javageneration.persistence.PersistentObjectImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -69,7 +69,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 			result.setInitExp("new " + owner.getName() + "()");
 			body.addToLocals(result);
 			body.addToStatements("copyShallowState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
-			if(super.transformationContext.isFeatureSelected(AbstractEntityImplementor.class)){
+			if(super.transformationContext.isFeatureSelected(PersistentObjectImplementor.class)){
 				body.addToStatements(new OJSimpleStatement("result.setId(this.getId())"));
 			}
 			body.addToStatements("return result");

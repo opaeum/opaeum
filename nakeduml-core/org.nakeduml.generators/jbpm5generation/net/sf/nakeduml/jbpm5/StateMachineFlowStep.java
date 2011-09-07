@@ -10,6 +10,7 @@ import net.sf.nakeduml.javageneration.NakedStateMap;
 import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.linkage.StateMachineUtil;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -106,7 +107,7 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 		for(INakedState state:states){
 			i++;
 			if(state.getKind().isInitial() || state.getKind().isDeepHistory() || state.getKind().isShallowHistory()){
-				addInitialNode(nodes, i, "start", state.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID);
+				addInitialNode(nodes, i, "_start_", state.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID);
 				i++;
 				addSimpleState(nodes, i, state);
 				createConnection(connections, state.getMappingInfo().getNakedUmlId() + ARTIFICIAL_START_NODE_ID, state.getMappingInfo().getNakedUmlId());

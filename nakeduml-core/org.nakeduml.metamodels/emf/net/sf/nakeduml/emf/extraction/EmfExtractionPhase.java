@@ -65,7 +65,9 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		for(AbstractExtractorFromEmf v:extractors){
 			context.getLog().startStep("Executing " + v.getClass().getSimpleName());
-			v.startVisiting(emfWorkspace);
+			if(!context.getLog().isCanceled()){
+				v.startVisiting(emfWorkspace);
+			}
 			context.getLog().endLastStep();
 		}
 		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
@@ -92,7 +94,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		emfWorkspace.setMappingInfo(config.getWorkspaceMappingInfo());
 		modelWorkspace.setWorkspaceMappingInfo(config.getWorkspaceMappingInfo());
 		modelWorkspace.setIdentifier(emfWorkspace.getIdentifier());
-		modelWorkspace.setName(emfWorkspace.getName());//Currently same as Identifier
+		modelWorkspace.setName(emfWorkspace.getName());// Currently same as Identifier
 		for(AbstractExtractorFromEmf v:extractors){
 			v.initialize(emfWorkspace, modelWorkspace);
 		}

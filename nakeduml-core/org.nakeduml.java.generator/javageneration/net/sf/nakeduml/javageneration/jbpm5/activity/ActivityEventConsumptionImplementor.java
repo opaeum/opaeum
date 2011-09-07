@@ -1,9 +1,11 @@
 package net.sf.nakeduml.javageneration.jbpm5.activity;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -12,6 +14,7 @@ import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.ElementsWaitingForEvent;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.FromNode;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
@@ -28,7 +31,9 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
@@ -40,6 +45,7 @@ import net.sf.nakeduml.metamodel.name.NameWrapper;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.hibernate.event.def.OnUpdateVisitor;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -74,6 +80,21 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 						// add OperationObject to the property holding the AcceptCallAction
 						// execute transitions
 					}else if(activity.getContext() != null && activity.getContext().conformsTo(no.getOwner())){
+					}
+				}else if(n instanceof INakedEmbeddedTask){
+					INakedEmbeddedTask t=(INakedEmbeddedTask) n;
+					for(INakedDeadline d:t.getTaskDefinition().getDeadlines()){
+						OJPathName date = OJUtil.classifierPathname(getLibrary().getDateType());
+						OJPathName task = OJUtil.classifierPathname(t.getMessageStructure());
+						String consumerName = EventUtil.getEventConsumerName(d);
+						OJOperation findOperation = activityClass.findOperation(consumerName, Arrays.asList(date,task));
+						if(findOperation==null){
+							findOperation=new OJAnnotatedOperation(consumerName, new OJPathName("boolean"));
+							activityClass.addToOperations(findOperation);
+							findOperation.addParam("date",date);
+							findOperation.addParam("task",task);
+							findOperation.getBody().addToStatements("return false");
+						}
 					}
 				}
 			}

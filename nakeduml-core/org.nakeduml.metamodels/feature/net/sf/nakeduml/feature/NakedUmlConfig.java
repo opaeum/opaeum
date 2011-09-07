@@ -56,6 +56,9 @@ public class NakedUmlConfig{
 			}
 		}
 	}
+	public File getConfigFile(){
+		return file;
+	}
 	public ISourceFolderStrategy getSourceFolderStrategy(){
 		try{
 			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy");
@@ -142,6 +145,9 @@ public class NakedUmlConfig{
 	}
 	public String getEMailAddressType(){
 		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
+	}
+	public void calculateOutputRoot(File modelProjectDir){
+		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(file, modelProjectDir,getWorkspaceIdentifier()));
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;

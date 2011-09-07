@@ -15,6 +15,9 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
+import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
@@ -145,6 +148,9 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 						results.add((T)t.getEvent());
 					}
 				}
+			}
+			if(node instanceof INakedEmbeddedTask){
+				results.addAll((Collection)((INakedEmbeddedTask) node).getTaskDefinition().getDeadlines());
 			}
 		}
 		return results;

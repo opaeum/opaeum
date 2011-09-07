@@ -10,6 +10,8 @@ import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.actions.INakedStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedVariableAction;
+import net.sf.nakeduml.metamodel.actions.INakedWriteStructuralFeatureAction;
+import net.sf.nakeduml.metamodel.actions.INakedWriteVariableAction;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 
@@ -23,6 +25,9 @@ public class ActionValidator extends AbstractValidator{
 		if(a instanceof INakedReadStructuralFeatureAction && ((INakedReadStructuralFeatureAction) a).getResult()==null){
 			getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN,"Output Pin", "Result");
 		}
+		if(a instanceof INakedWriteStructuralFeatureAction && ((INakedWriteStructuralFeatureAction) a).getValue()==null){
+			getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN,"Input Pin", "Value");
+		}
 	}
 	@VisitBefore(matchSubclasses=true)
 	public void visitVariableAction(INakedVariableAction a){
@@ -31,6 +36,9 @@ public class ActionValidator extends AbstractValidator{
 		}
 		if(a instanceof INakedReadVariableAction && ((INakedReadVariableAction) a).getResult()==null){
 			getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN,"Output Pin", "Result");
+		}
+		if(a instanceof INakedWriteVariableAction && ((INakedWriteVariableAction) a).getValue()==null){
+			getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN,"Input Pin", "Value");
 		}
 	}
 	@VisitBefore(matchSubclasses=true)

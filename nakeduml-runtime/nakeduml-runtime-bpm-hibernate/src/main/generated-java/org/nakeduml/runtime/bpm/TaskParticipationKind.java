@@ -1,14 +1,13 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_participation_kind",uuid="cb04135a_35d0_4798_b64a_5b5f068e2258")public enum TaskParticipationKind implements IEnum, Serializable {
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_participation_kind",uuid="OpiumBPM.library.uml@_neCVAI6UEeCne5ArYLDbiA")public enum TaskParticipationKind implements IEnum, Serializable {
 	OWNER("f8fc5890_2913_489d_afd3_f46b0200b9d4"),
 	POTENTIALOWNER("36c4e5e1_9499_44e7_9e82_e293ecc6f34f");
 	private String uuid;

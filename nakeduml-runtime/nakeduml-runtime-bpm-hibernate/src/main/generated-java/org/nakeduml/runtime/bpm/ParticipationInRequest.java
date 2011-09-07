@@ -1,9 +1,7 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,14 +23,14 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
+import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
-import org.nakeduml.runtime.event.IEventHandler;
+import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -43,11 +41,11 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="participation_in_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_request",uuid="1367f57a_8e08_4331_a755_0f313be95d3d")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_request",uuid="OpiumBPM.library.uml@_GVhgMI6NEeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("participation_in_request")
-public class ParticipationInRequest extends Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 24;
+public class ParticipationInRequest extends Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+	static final private long serialVersionUID = 664;
 	@Index(name="idx_participation_in_request_request_id",columnNames="request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="request_id",nullable=true)
@@ -55,15 +53,15 @@ public class ParticipationInRequest extends Participation implements IEventGener
 	@Enumerated(javax.persistence.EnumType.STRING)
 	@Column(name="kind",nullable=true)
 	private RequestParticipationKind kind;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static private Set<ParticipationInRequest> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	@Transient
-	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
-	@Transient
-	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for ParticipationInRequest
 	 */
@@ -138,7 +136,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return false;
 	}
 	
-	public Map<Object, String> getCancelledEvents() {
+	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
 	
@@ -146,7 +144,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.kind",uuid="be8b6ee3_2017_4efa_96b4_dfccb9d809c9")
+	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.kind",uuid="OpiumBPM.library.uml@_cATKlI6NEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
 		return kind;
 	}
@@ -155,7 +153,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return "ParticipationInRequest["+getId()+"]";
 	}
 	
-	public Map<Object, IEventHandler> getOutgoingEvents() {
+	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
 	
@@ -163,7 +161,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return getRequest();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.request_id",uuid="fe0fd88a_9917_4741_a119_5d9abc0a63ae")
+	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.request_id",uuid="OpiumBPM.library.uml@_XLVmwY6NEeCrtavWRHwoHg")
 	public AbstractRequest getRequest() {
 		return request;
 	}
@@ -199,6 +197,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		if ( getRequest()!=null ) {
 			getRequest().z_internalRemoveFromParticipationsInRequest((ParticipationInRequest)this);
 		}
+		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<ParticipationInRequest> newMocks) {
@@ -227,7 +226,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		this.markDeleted();
 	}
 	
-	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
@@ -240,7 +239,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		this.z_internalAddToKind(kind);
 	}
 	
-	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
 	
@@ -253,7 +252,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 			this.z_internalAddToRequest(request);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			setDeletedOn(new Date());
+			markDeleted();
 		}
 	}
 	

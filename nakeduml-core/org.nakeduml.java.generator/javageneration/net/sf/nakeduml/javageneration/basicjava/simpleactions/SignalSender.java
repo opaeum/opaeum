@@ -49,7 +49,7 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction>{
 		}
 		OJPathName handlerPathName = signalMap.handlerTypePath();
 		operation.getOwner().addToImports(handlerPathName);
-		block.addToStatements("getOutgoingEvents().put(" + targetExpression + ",new " +handlerPathName.getLast() + "("+ signalName + ",false))");
+		block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " +handlerPathName.getLast() + "("+ signalName + ",false)))");
 		signal.setType(cm.javaTypePath());
 		signal.setInitExp("new " + node.getSignal().getMappingInfo().getJavaName() + "()");
 	}

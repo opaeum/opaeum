@@ -58,7 +58,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
 					OJOperation fire = OJUtil.findOperation(javaStateMachine, map.getOnEntryMethod());
-					EventUtil.implementTimeEventRequest(fire, fire.getBody(), (INakedTimeEvent) wfe.getEvent());
+					EventUtil.implementTimeEventRequest(fire, fire.getBody(), (INakedTimeEvent) wfe.getEvent(),getLibrary().getBusinessRole()!=null);
 					OJOperation cancel = OJUtil.findOperation(javaStateMachine, map.getOnExitMethod());
 					cancel.addParam("context", Jbpm5Util.getProcessContext());
 					EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) wfe.getEvent(), "this");

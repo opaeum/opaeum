@@ -148,11 +148,7 @@ public class PinLinker extends AbstractModelElementLinker{
 			if(action.getArguments().size() != action.getSignal().getEffectiveAttributes().size()){
 				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getSignal().getName());
 			}else{
-				List<? extends INakedProperty> parameters = action.getSignal().getEffectiveAttributes();
-				for(int i = 0;i < parameters.size();i++){
-					INakedProperty parm = parameters.get(i);
-					linkTypedElement(action.getArguments().get(parm.getOwnedAttributeIndex()), parm);
-				}
+				linkLists(action.getSignal().getEffectiveAttributes(), action.getArguments());
 			}
 		}
 	}

@@ -140,6 +140,13 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				}
 			}
 			for(DocumentRoot documentRoot:this.rootMap.values()){
+				if(documentRoot.getProject().getArtifactId().equals(this.parentPom.getProject().getArtifactId())){
+					this.parentPom.getProject().setArtifactId(this.parentPom.getProject().getArtifactId() + "-parent");
+					break;
+				}
+			}
+			for(DocumentRoot documentRoot:this.rootMap.values()){
+				documentRoot.getProject().getParent().setArtifactId(this.parentPom.getProject().getArtifactId());
 				outputToFile(documentRoot);
 			}
 			

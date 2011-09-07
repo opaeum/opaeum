@@ -8,19 +8,19 @@
     </variables>
   </header>
   <nodes>
-    <start height="50" id="300012" name="artificial_start" width="100" x="50" y="50"/>
-    <actionNode height="50" id="800012" name="init" width="100" x="50" y="50">
+    <start height="50" id="300673" name="artificial_start" width="100" x="50" y="50"/>
+    <actionNode height="50" id="800673" name="init" width="100" x="50" y="50">
       <action dialect="mvel" type="expression">processObject.init(context)</action>
     </actionNode>
     <dynamic height="500" id="198" name="ProcessRequestRegion" width="500" x="100" y="100">
       <nodes/>
       <connections/>
     </dynamic>
-    <end height="50" id="500012" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+    <end height="50" id="500673" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
   </nodes>
   <connections>
-    <connection from="300012" fromType="DROOLS_DEFAULT" to="800012"/>
-    <connection from="800012" fromType="DROOLS_DEFAULT" to="198"/>
-    <connection from="198" fromType="DROOLS_DEFAULT" to="500012"/>
+    <connection from="300673" fromType="DROOLS_DEFAULT" to="800673"/>
+    <connection from="800673" fromType="DROOLS_DEFAULT" to="198"/>
+    <connection from="198" fromType="DROOLS_DEFAULT" to="500673"/>
   </connections>
 </process>

@@ -7,15 +7,15 @@
 		<!--jta-data-source>java:/nakedumlDataSource</jta-data-source-->
 		<class>org.nakeduml.runtime.bpm.businesscalendar.WorkDay</class>
 		<class>org.nakeduml.runtime.bpm.TaskRequest</class>
-		<class>org.nakeduml.runtime.bpm.businesscalendar.TimeOfDay</class>
 		<class>org.nakeduml.runtime.bpm.ParticipationInTask</class>
+		<class>org.nakeduml.runtime.bpm.businesscalendar.TimeOfDay</class>
 		<class>org.nakeduml.runtime.bpm.AbstractRequest</class>
 		<class>org.nakeduml.runtime.bpm.Participation</class>
 		<class>org.nakeduml.runtime.bpm.businesscalendar.OnceOffHoliday</class>
 		<class>org.nakeduml.runtime.bpm.ParticipationInRequest</class>
 		<class>org.nakeduml.runtime.bpm.businesscalendar.RecurringHoliday</class>
 		<class>org.nakeduml.runtime.bpm.ProcessRequest</class>
-		<class>org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar</class>
+		<class>org.nakeduml.runtime.bpm.businesscalendar.BusinessCalendar</class>
 		<class>org.nakeduml.runtime.bpm.util</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>

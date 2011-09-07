@@ -43,18 +43,7 @@ public class EmfParameterUtil{
 				}
 			}
 		}else{
-			Property p = (Property) emfParameter;
-			List<Property> ownedAttributes = new ArrayList<Property>();
-			Element owner = p.getOwner();
-			Classifier owningClass = null;
-			if(owner instanceof Association){
-				owningClass = (Classifier) p.getOtherEnd().getType();
-				addInheritiedAttributes(ownedAttributes, owningClass);
-			}else if(owner instanceof Classifier){
-				owningClass = (Classifier) owner;
-				addInheritiedAttributes(ownedAttributes, owningClass);
-			}
-			index = ownedAttributes.indexOf(p);
+			index = getArguments(emfParameter.getOwner()).indexOf(emfParameter);
 		}
 		return index;
 	}

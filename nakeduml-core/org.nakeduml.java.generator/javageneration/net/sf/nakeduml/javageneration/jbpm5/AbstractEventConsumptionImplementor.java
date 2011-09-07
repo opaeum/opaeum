@@ -103,7 +103,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		OJAnnotatedOperation eventGenerator = OperationAnnotator.findOrCreateEventGenerator(context, ojContext, map);
 		if(eventGenerator.getBody().getStatements().isEmpty()){
 			ojContext.addToImports(map.eventHandlerPath());
-			eventGenerator.getBody().addToStatements("this.getOutgoingEvents().put(this, new " + map.eventHandlerPath().getLast() + "(signal,true))");
+			eventGenerator.getBody().addToStatements("this.getOutgoingEvents().add(new OutgoingEvent(this, new " + map.eventHandlerPath().getLast() + "(signal,true)))");
 		}
 	}
 	private void activateCallEventGeneration(INakedBehavioredClassifier context,OJAnnotatedClass ojContext,INakedOperation operation){
@@ -111,13 +111,13 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		OJAnnotatedOperation eventGenerator = OperationAnnotator.findOrCreateEventGenerator(context, ojContext, map);
 		if(eventGenerator.getBody().getStatements().isEmpty()){
 			ojContext.addToImports(map.eventHandlerPath());
-			StringBuilder sb = new StringBuilder("this.getOutgoingEvents().put(this, new " + map.eventHandlerPath().getLast() + "(");
+			StringBuilder sb = new StringBuilder("this.getOutgoingEvents().add(new OutgoingEvent(this, new " + map.eventHandlerPath().getLast() + "(");
 			String args = OperationAnnotator.delegateParameters(eventGenerator);
 			if(args.length() > 0){
 				args = args + ",";
 			}
 			sb.append(args);
-			sb.append("true))");
+			sb.append("true)))");
 			eventGenerator.getBody().addToStatements(sb.toString());
 		}
 	}

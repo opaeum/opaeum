@@ -29,7 +29,7 @@ public class EditOpiumConfigAction extends AbstractOpiumAction{
 		NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getCurrent().getActiveShell(), file2);
 		dlg.open();
 		NakedUmlConfig cfg = dlg.getConfig();
-		cfg .setOutputRoot(new File(file2.getProject().getLocation().toFile().getParentFile(), cfg.getWorkspaceIdentifier()));
+		cfg .calculateOutputRoot(file2.getProject().getLocation().toFile());
 		IContainer umlDir = (IContainer) selection.getFirstElement();
 		NakedUmlEclipseContext ne = NakedUmlEditor.getNakedUmlEclipseContextFor(umlDir);
 		ne.reinitialize(cfg);

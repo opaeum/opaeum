@@ -4,6 +4,7 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
@@ -27,7 +28,17 @@ public class Jbpm5Util{
 		return result.append("util").append(m.getMappingInfo().getJavaName().getCapped() + "KnowledgeBase");
 	}
 	public static String stepLiteralName(INakedElement s){
-		return (s).getMappingInfo().getJavaName().getAsIs().toUpperCase();
+		String sb = "";
+		while(!(s instanceof INakedBehavior)){
+			if(sb.isEmpty()){
+				sb= s.getMappingInfo().getJavaName().getAsIs().toUpperCase();
+			}else{
+				sb= s.getMappingInfo().getJavaName().getAsIs().toUpperCase()+"_" +sb;
+			}
+			s=(INakedElement) s.getOwnerElement();
+			
+		}
+		return sb;
 	}
 	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");

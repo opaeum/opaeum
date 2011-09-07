@@ -1,46 +1,43 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.w3c.dom.Element;
 
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participant",uuid="02234900_5ce4_4179_8d64_4965b437cd7a")
-public interface Participant extends CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participant",uuid="OpiumBPM.library.uml@_YgstsI29EeCrtavWRHwoHg")
+public interface Participant extends HibernateEntity, CompositionNode, Serializable, IPersistentObject {
 	public void addToParticipation(Participation participation);
 	
 	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map);
 	
 	public void clearParticipation();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.initiated_requests_id",uuid="c89adb88_0d35_40bb_9921_552295505dd2")
+	@NumlMetaInfo(qualifiedPersistentName="participant.initiated_requests_id",uuid="OpiumBPM.library.uml@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.interesting_requests_id",uuid="5b93b1f4_d9e4_4e10_836c_3adfd1e3c3a8")
+	@NumlMetaInfo(qualifiedPersistentName="participant.interesting_requests_id",uuid="OpiumBPM.library.uml@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.managed_requests_id",uuid="13a72d83_92c6_44b8_b799_b7b1e623b96c")
+	@NumlMetaInfo(qualifiedPersistentName="participant.managed_requests_id",uuid="OpiumBPM.library.uml@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.owned_task_requests_id",uuid="2bb869af_5be9_4588_b3b3_b367c4de82b6")
+	@NumlMetaInfo(qualifiedPersistentName="participant.owned_task_requests_id",uuid="OpiumBPM.library.uml@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.participation_id",uuid="41f8a1c0_cb14_44a5_ab77_9758f5c381ab")
+	@NumlMetaInfo(qualifiedPersistentName="participant.participation_id",uuid="OpiumBPM.library.uml@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.participations_in_requests_id",uuid="e2c98cb5_85bf_453e_a398_10f5a9ad823e")
+	@NumlMetaInfo(qualifiedPersistentName="participant.participations_in_requests_id",uuid="OpiumBPM.library.uml@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests();
 	
-	@NumlMetaInfo(qualifiedPersistentName="participant.participations_in_tasks_id",uuid="88972b85_d58b_4b0d_8da1_5bc8b21bd4f0")
+	@NumlMetaInfo(qualifiedPersistentName="participant.participations_in_tasks_id",uuid="OpiumBPM.library.uml@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks();
 	
 	public String getUid();

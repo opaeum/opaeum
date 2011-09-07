@@ -40,12 +40,12 @@ import org.nakeduml.runtime.domain.IPersistentObject;
 },after = {
 	AttributeImplementor.class
 })
-public class AbstractEntityImplementor extends AbstractStructureVisitor{
+public class PersistentObjectImplementor extends AbstractStructureVisitor{
 	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(IPersistentObject.class.getName());
 	@VisitBefore
 	public void visitModel(INakedModel p){
 	}
-	@VisitBefore(matchSubclasses = false)
+	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(INakedInterface a){
 		if(OJUtil.hasOJClass(a) && !(a instanceof INakedHelper || a.hasStereotype(StereotypeNames.HELPER))){
 			OJAnnotatedInterface asdf = (OJAnnotatedInterface) findJavaClass(a);

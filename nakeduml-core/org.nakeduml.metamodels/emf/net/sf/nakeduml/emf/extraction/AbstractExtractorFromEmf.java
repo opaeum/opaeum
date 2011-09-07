@@ -88,7 +88,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				initialize(ne, e, owner);
 			}
 		}else if(o instanceof NamedElement){
-			if(EmfElementFinder.getContainer(e) == null && ne.getOwnerElement() != null){
+			if(owner == null && ne.getOwnerElement() != null){
 				ne.getOwnerElement().removeOwnedElement(ne);
 				ne.markForDeletion();
 			}else{

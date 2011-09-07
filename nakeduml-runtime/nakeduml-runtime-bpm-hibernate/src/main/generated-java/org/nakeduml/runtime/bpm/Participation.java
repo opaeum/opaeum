@@ -1,9 +1,7 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,14 +26,14 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Proxy;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
+import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
-import org.nakeduml.runtime.event.IEventHandler;
+import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -47,10 +45,10 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="participation")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation",uuid="d643e291_b3f7_4edf_b57f_b4488fc8e6d5")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation",uuid="OpiumBPM.library.uml@_jRjnII6MEeCrtavWRHwoHg")
 @AccessType("field")
-public class Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 16;
+public class Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+	static final private long serialVersionUID = 686;
 	@Index(name="idx_participation_participant",columnNames="participant")
 	@Any(metaDef="Participant",metaColumn=@Column(name="participant_type"))
 	@JoinColumn(name="participant",nullable=true)
@@ -61,16 +59,16 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 	@Column(name="object_version")
 	@Version
 	private int objectVersion;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	static private Set<Participation> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
 	private String uid;
-	@Transient
-	private Map<Object, String> cancelledEvents = new HashMap<Object,String>();
-	@Transient
-	private Map<Object, IEventHandler> outgoingEvents = new HashMap<Object,IEventHandler>();
 
 	/** Default constructor for Participation
 	 */
@@ -129,7 +127,7 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 		return false;
 	}
 	
-	public Map<Object, String> getCancelledEvents() {
+	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
 	
@@ -149,7 +147,7 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 		return this.objectVersion;
 	}
 	
-	public Map<Object, IEventHandler> getOutgoingEvents() {
+	public Set<OutgoingEvent> getOutgoingEvents() {
 		return this.outgoingEvents;
 	}
 	
@@ -157,7 +155,7 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 		return null;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation.participant",uuid="a66d140c_d460_445d_b76c_b9461aacf45b")
+	@NumlMetaInfo(qualifiedPersistentName="participation.participant",uuid="OpiumBPM.library.uml@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
 		return participant;
 	}
@@ -191,10 +189,10 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 	}
 	
 	public void markDeleted() {
-		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getParticipant()!=null ) {
 			getParticipant().z_internalRemoveFromParticipation((Participation)this);
 		}
+		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<Participation> newMocks) {
@@ -223,7 +221,7 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 		this.markDeleted();
 	}
 	
-	public void setCancelledEvents(Map<Object, String> cancelledEvents) {
+	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
 	
@@ -239,7 +237,7 @@ public class Participation implements IEventGenerator, CompositionNode, Hibernat
 		this.objectVersion=objectVersion;
 	}
 	
-	public void setOutgoingEvents(Map<Object, IEventHandler> outgoingEvents) {
+	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
 	}
 	

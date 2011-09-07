@@ -5,6 +5,109 @@
     <details xmi:id="_BvFigNYIEeCIftwUy_ucRw" key="uid" value="b2d795ff_d2fb_46a1_934d_0e70334a62b4"/>
   </eAnnotations>
   <eAnnotations xmi:id="_kK-H4NYIEeCIftwUy_ucRw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_-K2hoNfGEeCXQPv0AMhLcg" name="OpiumStandardProfile" nsURI="http:///schemas/OpiumStandardProfile/1.0.0.6" nsPrefix="OpiumStandardProfile">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3IsNfGEeCXQPv0AMhLcg" name="ValueType">
+        <eAnnotations xmi:id="_-K3IsdfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3IstfGEeCXQPv0AMhLcg" name="base_DataType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3ItNfGEeCXQPv0AMhLcg" name="mappedImplementationType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3IttfGEeCXQPv0AMhLcg" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3IuNfGEeCXQPv0AMhLcg" name="PrimitiveType">
+        <eAnnotations xmi:id="_-K3IudfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pcOdkMbyEd-qWtMD5IZMIA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3IutfGEeCXQPv0AMhLcg" name="base_PrimitiveType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//PrimitiveType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3IvNfGEeCXQPv0AMhLcg" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3IvtfGEeCXQPv0AMhLcg" name="Entity">
+        <eAnnotations xmi:id="_-K3Iv9fGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_kh880DsuEeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3IwNfGEeCXQPv0AMhLcg" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3IwtfGEeCXQPv0AMhLcg" name="persistentName" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3IxNfGEeCXQPv0AMhLcg" name="AbstractPackage">
+        <eAnnotations xmi:id="_-K3IxdfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mmu4ADsuEeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3IxtfGEeCXQPv0AMhLcg" name="persistentName" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3IyNfGEeCXQPv0AMhLcg" name="mappedImplementationPackage" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3IytfGEeCXQPv0AMhLcg" name="isSchema" ordered="false" lowerBound="1" defaultValueLiteral="false">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3IzNfGEeCXQPv0AMhLcg" name="Helper">
+        <eAnnotations xmi:id="_-K3IzdfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_W2Dx8O15Ed-YtrI3G6ybsA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3IztfGEeCXQPv0AMhLcg" name="base_Classifier" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3I0NfGEeCXQPv0AMhLcg" name="name" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_-K3I0tfGEeCXQPv0AMhLcg" name="TimeUnit">
+        <eAnnotations xmi:id="_-K3I09fGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_y0TnkPPyEd-dN_RbXTlVPA"/>
+        <eLiterals xmi:id="_-K3I1NfGEeCXQPv0AMhLcg" name="HOUR"/>
+        <eLiterals xmi:id="_-K3I1dfGEeCXQPv0AMhLcg" name="MINUTE" value="1"/>
+        <eLiterals xmi:id="_-K3I1tfGEeCXQPv0AMhLcg" name="SECOND" value="2"/>
+        <eLiterals xmi:id="_-K3I19fGEeCXQPv0AMhLcg" name="DAY" value="3"/>
+        <eLiterals xmi:id="_-K3I2NfGEeCXQPv0AMhLcg" name="MONTH" value="4"/>
+        <eLiterals xmi:id="_-K3I2dfGEeCXQPv0AMhLcg" name="WEEK" value="5"/>
+        <eLiterals xmi:id="_-K3I2tfGEeCXQPv0AMhLcg" name="YEAR" value="6"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3I29fGEeCXQPv0AMhLcg" name="RelativeTimeEvent">
+        <eAnnotations xmi:id="_-K3I3NfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Fd9DQPPzEd-dN_RbXTlVPA"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3I3dfGEeCXQPv0AMhLcg" name="timeUnit" ordered="false" lowerBound="1" eType="_-K3I0tfGEeCXQPv0AMhLcg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3I39fGEeCXQPv0AMhLcg" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3I4dfGEeCXQPv0AMhLcg" name="Trigger">
+        <eAnnotations xmi:id="_-K3I4tfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_TeX_UP3eEd-uA4oh6NA2Cw"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3I49fGEeCXQPv0AMhLcg" name="isHumanTrigger" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3I5dfGEeCXQPv0AMhLcg" name="base_Trigger" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3I59fGEeCXQPv0AMhLcg" name="Model" eSuperTypes="_-K3IxNfGEeCXQPv0AMhLcg">
+        <eAnnotations xmi:id="_-K3I6NfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_TwTsQNYIEeCIftwUy_ucRw"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3I6dfGEeCXQPv0AMhLcg" name="identifier" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3I69fGEeCXQPv0AMhLcg" name="base_Model" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Model"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3I7tfGEeCXQPv0AMhLcg" name="Profile" eSuperTypes="_-K3IxNfGEeCXQPv0AMhLcg">
+        <eAnnotations xmi:id="_-K3I79fGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_cY1BQNYIEeCIftwUy_ucRw"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3I8NfGEeCXQPv0AMhLcg" name="base_Profile" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Profile"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_-K3I8tfGEeCXQPv0AMhLcg" name="identifier" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_-K3I9dfGEeCXQPv0AMhLcg" name="Package" eSuperTypes="_-K3IxNfGEeCXQPv0AMhLcg">
+        <eAnnotations xmi:id="_-K3I9tfGEeCXQPv0AMhLcg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_P9ezgNYLEeCIftwUy_ucRw"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_-K3I99fGEeCXQPv0AMhLcg" name="base_Package" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
     <contents xmi:type="ecore:EPackage" xmi:id="_cy_tYNYLEeCIftwUy_ucRw" name="OpiumStandardProfile" nsURI="http:///schemas/OpiumStandardProfile/1.0.0.6" nsPrefix="OpiumStandardProfile">
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_cy_tYdYLEeCIftwUy_ucRw" name="ValueType">
         <eAnnotations xmi:id="_cy_tYtYLEeCIftwUy_ucRw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
@@ -343,7 +446,7 @@
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Enumeration" xmi:id="_y0TnkPPyEd-dN_RbXTlVPA" name="TimeUnit">
-    <eAnnotations xmi:id="_CJkk5M5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org" references="_y0Wq4fPyEd-dN_RbXTlVPA _y0VcwfPyEd-dN_RbXTlVPA _y0WD0vPyEd-dN_RbXTlVPA _y0XR8fPyEd-dN_RbXTlVPA _y0XR8PPyEd-dN_RbXTlVPA _y0X5APPyEd-dN_RbXTlVPA _y0VcwPPyEd-dN_RbXTlVPA _y0WD0PPyEd-dN_RbXTlVPA _y0Wq4PPyEd-dN_RbXTlVPA _y0WD0fPyEd-dN_RbXTlVPA _y0U1sPPyEd-dN_RbXTlVPA _y0X5AfPyEd-dN_RbXTlVPA _y0YgEPPyEd-dN_RbXTlVPA">
+    <eAnnotations xmi:id="_CJkk5M5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org" references="_y0VcwfPyEd-dN_RbXTlVPA _y0XR8fPyEd-dN_RbXTlVPA _y0X5APPyEd-dN_RbXTlVPA _y0VcwPPyEd-dN_RbXTlVPA _y0U1sPPyEd-dN_RbXTlVPA _y0X5AfPyEd-dN_RbXTlVPA _y0YgEPPyEd-dN_RbXTlVPA">
       <details xmi:id="_CJkk5c5OEeCdMfaUBBrWVQ" key="uuid" value="ad96dcd4_9157_4408_9957_ac7cb262b20f"/>
       <details xmi:id="_BvPTgdYIEeCIftwUy_ucRw" key="uid" value="5fa1b248_b504_41d3_bb87_682cf35d3486"/>
     </eAnnotations>
@@ -372,67 +475,37 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
       </ownedParameter>
     </ownedOperation>
-    <ownedLiteral xmi:id="_y0U1sPPyEd-dN_RbXTlVPA" name="ACTUAL_HOUR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0U1sPPyEd-dN_RbXTlVPA" name="HOUR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJnBI85OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJnBJM5OEeCdMfaUBBrWVQ" key="uuid" value="07a3fb49_96c8_49b4_ac5e_f46a0da6833a"/>
       </eAnnotations>
     </ownedLiteral>
-    <ownedLiteral xmi:id="_y0VcwPPyEd-dN_RbXTlVPA" name="ACTUAL_MINUTE" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0VcwPPyEd-dN_RbXTlVPA" name="MINUTE" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJmaEM5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJmaEc5OEeCdMfaUBBrWVQ" key="uuid" value="8079290d_0f2d_4afd_89c1_9bcac86a4062"/>
       </eAnnotations>
     </ownedLiteral>
-    <ownedLiteral xmi:id="_y0VcwfPyEd-dN_RbXTlVPA" name="ACTUAL_SECOND" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0VcwfPyEd-dN_RbXTlVPA" name="SECOND" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJlL8s5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJlL885OEeCdMfaUBBrWVQ" key="uuid" value="0d5cbecc_b260_4cc4_b6ff_bddad730ce59"/>
       </eAnnotations>
     </ownedLiteral>
-    <ownedLiteral xmi:id="_y0WD0PPyEd-dN_RbXTlVPA" name="BUSINESS_DAY" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJmaEs5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
-        <details xmi:id="_CJmaE85OEeCdMfaUBBrWVQ" key="uuid" value="c5bd5dd2_5996_45de_83e7_de6186b4cc78"/>
-      </eAnnotations>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0WD0fPyEd-dN_RbXTlVPA" name="BUSINESS_HOUR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJnBIc5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
-        <details xmi:id="_CJnBIs5OEeCdMfaUBBrWVQ" key="uuid" value="73c20da1_bfe4_45a4_9d6a_5b0bc8d9fa50"/>
-      </eAnnotations>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0WD0vPyEd-dN_RbXTlVPA" name="BUSINESS_MINUTE" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJlL9M5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
-        <details xmi:id="_CJlzAM5OEeCdMfaUBBrWVQ" key="uuid" value="af1da306_d5c1_46ec_ad58_d1c04dfe791a"/>
-      </eAnnotations>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0Wq4PPyEd-dN_RbXTlVPA" name="BUSINESS_MONTH" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJmaFM5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
-        <details xmi:id="_CJnBIM5OEeCdMfaUBBrWVQ" key="uuid" value="9df89c02_4f61_44fd_83bf_e687ff718a29"/>
-      </eAnnotations>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0Wq4fPyEd-dN_RbXTlVPA" name="BUSINESS_WEEK" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJlL8M5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
-        <details xmi:id="_CJlL8c5OEeCdMfaUBBrWVQ" key="uuid" value="387fd36b_7d6e_4d8a_94bc_509857b6f6ec"/>
-      </eAnnotations>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0XR8PPyEd-dN_RbXTlVPA" name="BUSINESS_YEAR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJlzA85OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
-        <details xmi:id="_CJlzBM5OEeCdMfaUBBrWVQ" key="uuid" value="a28382d6_e743_40ae_86a3_09c0618f6fcd"/>
-      </eAnnotations>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0XR8fPyEd-dN_RbXTlVPA" name="CALENDAR_DAY" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0XR8fPyEd-dN_RbXTlVPA" name="DAY" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJlzAc5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJlzAs5OEeCdMfaUBBrWVQ" key="uuid" value="69cb532d_d7b9_43ac_ae4a_2fdf40e2d3e7"/>
       </eAnnotations>
     </ownedLiteral>
-    <ownedLiteral xmi:id="_y0X5APPyEd-dN_RbXTlVPA" name="CALENDAR_MONTH" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0X5APPyEd-dN_RbXTlVPA" name="MONTH" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJlzBc5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJlzBs5OEeCdMfaUBBrWVQ" key="uuid" value="ac0e099a_89ff_4599_ad01_86eec7cc1488"/>
       </eAnnotations>
     </ownedLiteral>
-    <ownedLiteral xmi:id="_y0X5AfPyEd-dN_RbXTlVPA" name="CALENDAR_WEEK" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0X5AfPyEd-dN_RbXTlVPA" name="WEEK" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJoPQ85OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJoPRM5OEeCdMfaUBBrWVQ" key="uuid" value="46393ead_9c0a_4165_bd43_1281486e162f"/>
       </eAnnotations>
     </ownedLiteral>
-    <ownedLiteral xmi:id="_y0YgEPPyEd-dN_RbXTlVPA" name="CALENDAR_YEAR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
+    <ownedLiteral xmi:id="_y0YgEPPyEd-dN_RbXTlVPA" name="YEAR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
       <eAnnotations xmi:id="_CJo2UM5OEeCdMfaUBBrWVQ" source="http://www.nakeduml.org">
         <details xmi:id="_CJo2Uc5OEeCdMfaUBBrWVQ" key="uuid" value="53582ce4_c355_4b3f_9034_63f6676fa975"/>
       </eAnnotations>
@@ -578,6 +651,10 @@
     <eAnnotations xmi:id="_XQaOktYLEeCIftwUy_ucRw" source="http://www.nakeduml.org">
       <details xmi:id="_XQaOk9YLEeCIftwUy_ucRw" key="uid" value="6c004911_a285_47c5_a3a6_eb7c001e7ea0"/>
     </eAnnotations>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_XQaOkdYLEeCIftwUy_ucRw" name="extension_Package" type="_P9ezgNYLEeCIftwUy_ucRw" aggregation="composite" association="_XQaOkNYLEeCIftwUy_ucRw"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_XQaOkdYLEeCIftwUy_ucRw" name="extension_Package" type="_P9ezgNYLEeCIftwUy_ucRw" aggregation="composite" association="_XQaOkNYLEeCIftwUy_ucRw">
+      <eAnnotations xmi:id="_0dmZMNfGEeCXQPv0AMhLcg" source="http://www.nakeduml.org">
+        <details xmi:id="_0dqqoNfGEeCXQPv0AMhLcg" key="uid" value="1b9b734b_d125_4b7a_b5a4_290332784ec0"/>
+      </eAnnotations>
+    </ownedEnd>
   </packagedElement>
 </uml:Profile>

@@ -1,14 +1,13 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.month",uuid="656318ab_0082_43e5_ba65_e18c4abe6dff")public enum Month implements IEnum, Serializable {
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.month",uuid="OpiumBPM.library.uml@_VSZhgNcCEeCJ0dmaHEVVnw")public enum Month implements IEnum, Serializable {
 	JANUARY("294e1424_610e_4022_b7e2_e34ef77d0377"),
 	FEBRUARY("1fea8aa6_5338_4465_ad2e_313a25f37f1d"),
 	MARCH("8828539d_ae7f_43cb_9f10_f679137815e5"),

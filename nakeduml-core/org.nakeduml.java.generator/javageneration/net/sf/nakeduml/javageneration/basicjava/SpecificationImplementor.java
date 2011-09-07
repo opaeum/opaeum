@@ -40,7 +40,7 @@ import org.nakeduml.runtime.domain.IActiveEntity;
 	OperationAnnotator.class
 })
 public class SpecificationImplementor extends AbstractBehaviorVisitor{
-	@VisitBefore
+	@VisitBefore(matchSubclasses=true)
 	public void visitBehavior(INakedBehavior ob){
 		if(BehaviorUtil.hasExecutionInstance(ob)){
 			// Most likely long running
@@ -123,7 +123,6 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 			ojContext.addToImports(ojBehavior);
 			OJField result = javaMethod.getBody().findLocal("result");
 			result.setInitExp("new " + ojBehavior.getLast() + "()");
-			populateBehavior(o, javaMethod);
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(o.getEndToComposite().getOtherEnd());
 			javaMethod.getBody().addToStatements("this." + map.adder() + "(result)");
 			if(o.getSpecification() != null){

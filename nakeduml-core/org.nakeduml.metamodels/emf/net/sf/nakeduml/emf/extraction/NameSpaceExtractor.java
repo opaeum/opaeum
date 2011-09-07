@@ -41,6 +41,7 @@ import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
 import net.sf.nakeduml.validation.CoreValidationRule;
+import net.sf.nakeduml.validation.EmfValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 
@@ -138,11 +139,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
 		if(e instanceof Association){
 			for(Property property:((Association) e).getMemberEnds()){
-				if(property.getType() == null){
-					BrokenElement be = new BrokenElement(getId(property));
-					be.addMessage(CoreValidationRule.INVERSE);
-					getErrorMap().getErrors().put(getId(property),be);
-					// broken association a'la topcased
+				if(property.getType() == null || property.getOtherEnd()==null){
+					getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION, e);
 					return null;
 				}
 			}

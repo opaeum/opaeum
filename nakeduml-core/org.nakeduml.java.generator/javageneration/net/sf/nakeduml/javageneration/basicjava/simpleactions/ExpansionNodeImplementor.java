@@ -29,7 +29,7 @@ public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionN
 			}
 			EventUtil.cancelEvents(block, this.node.getExpansionRegion().getActivityNodes());
 		}else{
-			EventUtil.requestEvents(operation, this.node.getExpansionRegion().getActivityNodes());
+			EventUtil.requestEvents(operation, this.node.getExpansionRegion().getActivityNodes(),getLibrary().getBusinessRole()!=null);
 		}
 	}
 }

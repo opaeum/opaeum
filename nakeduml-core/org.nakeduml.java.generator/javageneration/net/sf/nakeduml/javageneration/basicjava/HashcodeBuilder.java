@@ -37,7 +37,7 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 			this.buildHashcode(ojClass, c);
 		}
 	}
-	@VisitBefore
+	@VisitBefore(matchSubclasses=true)
 	public void visitInterface(INakedInterface i){
 		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
 			OJAnnotatedClass ojClass = findJavaClass(i);

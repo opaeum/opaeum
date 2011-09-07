@@ -24,7 +24,7 @@ import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 public abstract class PomGenerationStep implements ITransformationStep{
-	protected static final String HIBERNATE_VERSION = "3.4.0.Final";
+	protected static final String HIBERNATE_VERSION = "3.4.0.GA";
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected NakedUmlConfig config;
 	protected INakedModelWorkspace workspace;

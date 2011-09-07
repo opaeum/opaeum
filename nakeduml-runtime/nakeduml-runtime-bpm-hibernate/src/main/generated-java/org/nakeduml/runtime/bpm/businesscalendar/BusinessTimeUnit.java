@@ -1,14 +1,13 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.business_time_unit",uuid="a3352ff1_7955_4296_bfb2_b8e8846219d1")public enum BusinessTimeUnit implements IEnum, Serializable {
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.business_time_unit",uuid="OpiumBPM.library.uml@_7zLcgNb-EeCJ0dmaHEVVnw")public enum BusinessTimeUnit implements IEnum, Serializable {
 	BUSINESSMINUTE("cee42889_08b4_4d04_a1f8_d362cd806456"),
 	ACTUALMINUTE("63023ffa_2331_42a4_88cb_d7d442f23adf"),
 	BUSINESSHOUR("4df758ce_8242_4281_96d3_f882256f305f"),

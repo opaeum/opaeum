@@ -78,7 +78,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	public static void reinitializeProcess(TransformationProcess process,NakedUmlConfig cfg, NakedUmlEclipseContext ne){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
-		cfg .setOutputRoot(new File(ne.getUmlDirectory().getProject().getLocation().toFile().getParentFile(), cfg.getWorkspaceIdentifier()));
+		cfg .calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
 		mapAdditionalOutputRoots(cfg);
 		process.removeModel(OJPackage.class);
 		process.removeModel(TextWorkspace.class);

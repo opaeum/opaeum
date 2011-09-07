@@ -39,10 +39,12 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.IActiveObject;
-import org.nakeduml.runtime.domain.TimeUnit;
 import org.nakeduml.runtime.environment.marshall.PropertyValue;
 import org.nakeduml.runtime.environment.marshall.Value;
-import org.nakeduml.runtime.event.IEventHandler;
+import org.nakeduml.runtime.event.ICallEventHandler;
+import org.nakeduml.runtime.event.IChangeEventHandler;
+import org.nakeduml.runtime.event.ISignalEventHandler;
+import org.nakeduml.runtime.event.ITimeEventHandler;
 import org.nakeduml.runtime.persistence.AbstractPersistence;
 
 @StepDependency(after = Java6ModelGenerator.class,phase = JavaTransformationPhase.class)
@@ -63,7 +65,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		constr.getBody().addToStatements("this.signal=signal");
 		constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
 		handler.addToConstructors(constr);
-		handler.addToImplementedInterfaces(new OJPathName(IEventHandler.class.getName()));
+		handler.addToImplementedInterfaces(new OJPathName(ISignalEventHandler.class.getName()));
 		findOrCreatePackage(handlerTypePath.getHead()).addToClasses(handler);
 		createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addMarshallingImports(handler);
@@ -107,8 +109,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private static OJPathName oldSignalHolderName(INakedSignal s){
 		return new OJPathName(s.getMappingInfo().getOldQualifiedJavaName() + "Handler");
 	}
-	
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitTriggerContainer(INakedTriggerContainer c){
 		for(INakedEvent event:c.getAllEvents()){
 			if(event instanceof INakedChangeEvent){
@@ -116,14 +117,13 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			}else if(event instanceof INakedTimer){
 				visitTimer((INakedTimer) event);
 			}
-			
 		}
 	}
 	private void visitChangeEvent(INakedChangeEvent e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
-		ojClass.addToImplementedInterfaces(new OJPathName(IEventHandler.class.getName()));
+		ojClass.addToImplementedInterfaces(new OJPathName(IChangeEventHandler.class.getName()));
 		pkg.addToClasses(ojClass);
 		createTextPath(ojClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addNodeId(ojClass);
@@ -149,19 +149,28 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToImports(new OJPathName(Date.class.getName()));
 		scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*4)");// Every four hours
 	}
-	private  void visitTimer(INakedTimer e){
+	private void visitTimer(INakedTimer e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
 		OJAnnotatedClass ojClass = new OJAnnotatedClass(handlerPathName.getLast());
-		ojClass.addToImplementedInterfaces(new OJPathName(IEventHandler.class.getName()));
+		ojClass.addToImplementedInterfaces(new OJPathName(ITimeEventHandler.class.getName()));
 		ojClass.getDefaultConstructor();
 		OJConstructor constr = new OJConstructor();
 		ojClass.addToConstructors(constr);
 		if(e.isRelative()){
 			constr.addParam("delay", new OJPathName("int"));
-			constr.addParam("timeUnit", new OJPathName(TimeUnit.class.getName()));
-			ojClass.addToImports(new OJPathName("org.nakeduml.workinghours.WorkingHoursConfiguration"));
-			constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=WorkingHoursConfiguration.getInstance().addTimeTo(new Date(), timeUnit,delay)");
+			if(getLibrary().getBusinessRole() == null){
+				constr.addParam("timeUnit", new OJPathName("org.nakeduml.runtime.domain.TimeUnit"));
+				ojClass.addToImports(new OJPathName("org.nakeduml.runtime.domain.TimeUnit"));
+				// TODO resolve the correct businessCalednar to use
+				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=timeUnit.addTimeTo(new Date(),delay)");
+			}else{
+				constr.addParam("timeUnit", new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				ojClass.addToImports(new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar"));
+				ojClass.addToImports(new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				// TODO resolve the correct businessCalednar to use
+				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
+			}
 		}else{
 			constr.addParam("time", new OJPathName("java.util.Date"));
 			constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=time");
@@ -219,66 +228,68 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	@VisitBefore
 	public void visitOperation(INakedOperation o){
-		NakedOperationMap map = new NakedOperationMap(o);
-		if(o.getMappingInfo().requiresJavaRename()){
-			String qualifiedJavaName = o.getMappingInfo().getOldQualifiedJavaName();
-			qualifiedJavaName = qualifiedJavaName.substring(0, qualifiedJavaName.lastIndexOf("."));
-			deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(qualifiedJavaName.toLowerCase() + "." + getOldInvokerName(o)));
+		if(OJUtil.hasOJClass(o.getOwner()) && !o.isQuery()){
+			NakedOperationMap map = new NakedOperationMap(o);
+			if(o.getMappingInfo().requiresJavaRename()){
+				String qualifiedJavaName = o.getMappingInfo().getOldQualifiedJavaName();
+				qualifiedJavaName = qualifiedJavaName.substring(0, qualifiedJavaName.lastIndexOf("."));
+				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(qualifiedJavaName.toLowerCase() + "." + getOldInvokerName(o)));
+			}
+			OJPathName handlerPathName = map.eventHandlerPath();
+			OJAnnotatedClass handler = new OJAnnotatedClass(handlerPathName.getLast());
+			handler.addToImplementedInterfaces(new OJPathName(ICallEventHandler.class.getName()));
+			findOrCreatePackage(handlerPathName.getHead()).addToClasses(handler);
+			handler.getDefaultConstructor();
+			for(INakedTypedElement p:(List<? extends INakedTypedElement>) o.getOwnedParameters()){
+				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
+				OJAnnotatedField field = new OJAnnotatedField(m.fieldname(), m.javaTypePath());
+				handler.addToFields(field);
+				OJAnnotatedOperation getter = new OJAnnotatedOperation(m.getter(), m.javaTypePath());
+				getter.getBody().addToStatements("return this." + m.fieldname());
+				handler.addToOperations(getter);
+				OJAnnotatedOperation setter = new OJAnnotatedOperation(m.setter());
+				setter.addParam(m.fieldname(), m.javaTypePath());
+				setter.getBody().addToStatements("this." + m.fieldname() + "=" + m.fieldname());
+				handler.addToOperations(setter);
+			}
+			List<? extends INakedParameter> args = o.getArgumentParameters();
+			handler.getDefaultConstructor();
+			OJConstructor argConstr = new OJConstructor();
+			handler.addToConstructors(argConstr);
+			argConstr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
+			for(INakedTypedElement p:(List<? extends INakedTypedElement>) args){
+				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
+				argConstr.addParam(m.fieldname(), m.javaType());
+				argConstr.getBody().addToStatements(m.setter() + "(" + m.fieldname() + ")");
+			}
+			createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			addMarshallingImports(handler);
+			OJAnnotatedOperation marshall = buildMarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters(), false);
+			handler.addToOperations(marshall);
+			OJAnnotatedOperation unmarshall = buildUnmarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters(), false);
+			handler.addToOperations(unmarshall);
+			addIsEvent(handler, argConstr, marshall, unmarshall);
+			addCommonMethods(o, handler);
+			OJAnnotatedOperation invoke = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
+			invoke.addParam("t", new OJPathName("Object"));
+			OJPathName targetPathName = OJUtil.classifierPathname(o.getOwner());
+			handler.addToImports(targetPathName);
+			OJAnnotatedField target = new OJAnnotatedField("target", targetPathName);
+			invoke.getBody().addToLocals(target);
+			target.setInitExp("(" + targetPathName.getLast() + ")t");
+			handler.addToOperations(invoke);
+			OJIfStatement ifEvent = new OJIfStatement("isEvent", "return target." + map.eventConsumerMethodName() + "(" + argumentString(o) + ")");
+			invoke.getBody().addToStatements(ifEvent);
+			ifEvent.setElsePart(new OJBlock());
+			String call = "target." + map.javaOperName() + "(" + argumentString(o) + ")";
+			manageInvocation(o, invoke, ifEvent.getElsePart(), call);
+			ifEvent.getElsePart().addToStatements("return true");
+			addGetConsumerPoolSize(handler, 5);
+			OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
+			handler.addToOperations(scheduleNextOccurrence);
+			handler.addToImports(new OJPathName(Date.class.getName()));
+			scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*24*10)");
 		}
-		OJPathName handlerPathName = map.eventHandlerPath();
-		OJAnnotatedClass handler = new OJAnnotatedClass(handlerPathName.getLast());
-		handler.addToImplementedInterfaces(new OJPathName(IEventHandler.class.getName()));
-		findOrCreatePackage(handlerPathName.getHead()).addToClasses(handler);
-		handler.getDefaultConstructor();
-		for(INakedTypedElement p:(List<? extends INakedTypedElement>) o.getOwnedParameters()){
-			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
-			OJAnnotatedField field = new OJAnnotatedField(m.fieldname(), m.javaTypePath());
-			handler.addToFields(field);
-			OJAnnotatedOperation getter = new OJAnnotatedOperation(m.getter(), m.javaTypePath());
-			getter.getBody().addToStatements("return this." + m.fieldname());
-			handler.addToOperations(getter);
-			OJAnnotatedOperation setter = new OJAnnotatedOperation(m.setter());
-			setter.addParam(m.fieldname(), m.javaTypePath());
-			setter.getBody().addToStatements("this." + m.fieldname() + "=" + m.fieldname());
-			handler.addToOperations(setter);
-		}
-		List<? extends INakedParameter> args = o.getArgumentParameters();
-		handler.getDefaultConstructor();
-		OJConstructor argConstr = new OJConstructor();
-		handler.addToConstructors(argConstr);
-		argConstr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
-		for(INakedTypedElement p:(List<? extends INakedTypedElement>) args){
-			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
-			argConstr.addParam(m.fieldname(), m.javaType());
-			argConstr.getBody().addToStatements(m.setter() + "(" + m.fieldname() + ")");
-		}
-		createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-		addMarshallingImports(handler);
-		OJAnnotatedOperation marshall = buildMarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters(), false);
-		handler.addToOperations(marshall);
-		OJAnnotatedOperation unmarshall = buildUnmarshall(o.getOwner(), "this", (List<? extends INakedTypedElement>) o.getOwnedParameters(), false);
-		handler.addToOperations(unmarshall);
-		addIsEvent(handler, argConstr, marshall, unmarshall);
-		addCommonMethods(o, handler);
-		OJAnnotatedOperation invoke = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
-		invoke.addParam("t", new OJPathName("Object"));
-		OJPathName targetPathName = OJUtil.classifierPathname(o.getOwner());
-		handler.addToImports(targetPathName);
-		OJAnnotatedField target = new OJAnnotatedField("target", targetPathName);
-		invoke.getBody().addToLocals(target);
-		target.setInitExp("(" + targetPathName.getLast() + ")t");
-		handler.addToOperations(invoke);
-		OJIfStatement ifEvent = new OJIfStatement("isEvent", "return target." + map.eventConsumerMethodName() + "(" + argumentString(o) + ")");
-		invoke.getBody().addToStatements(ifEvent);
-		ifEvent.setElsePart(new OJBlock());
-		String call = "target." + map.javaOperName() + "(" + argumentString(o) + ")";
-		manageInvocation(o, invoke, ifEvent.getElsePart(), call);
-		ifEvent.getElsePart().addToStatements("return true");
-		addGetConsumerPoolSize(handler, 5);
-		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
-		handler.addToOperations(scheduleNextOccurrence);
-		handler.addToImports(new OJPathName(Date.class.getName()));
-		scheduleNextOccurrence.getBody().addToStatements("return new Date(System.currentTimeMillis() + 1000*60*60*24*10)");
 	}
 	private void addIsEvent(OJAnnotatedClass handler,OJConstructor argConstr,OJAnnotatedOperation marshall,OJAnnotatedOperation unmarshall){
 		OJUtil.addProperty(handler, "isEvent", new OJPathName("boolean"), true);

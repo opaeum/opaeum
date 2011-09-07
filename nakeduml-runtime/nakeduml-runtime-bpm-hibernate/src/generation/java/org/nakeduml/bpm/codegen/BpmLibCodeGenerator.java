@@ -114,4 +114,8 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 	public boolean isSingleProjectStrategy(){
 		return false;
 	}
+	@Override
+	public File calculateOutputRoot(File configFile,File projectRoot,String workspaceIdentifier){
+		return outputRoot;
+	}
 }
