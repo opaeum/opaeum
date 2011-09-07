@@ -48,6 +48,9 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		if(save == false && currentContext != null){
 			currentContext.removeNakedModel(getResourceSet());
 		}
+		if(currentContext != null){
+			currentContext.onClose(save, getEditingDomain().getResourceSet());
+		}
 	}
 	@Override
 	public void doSave(IProgressMonitor monitor){
@@ -84,12 +87,17 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		};
 	}
 	public void dispose(){
-		if(currentContext != null){
-			currentContext.onClose(true, getEditingDomain().getResourceSet());
+		try{
+			if(currentContext != null){
+				currentContext.onClose(true, getEditingDomain().getResourceSet());
+			}
+			contexts.remove(getEditingDomain().getResourceSet());
+			super.dispose();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			currentContext = null;
 		}
-		contexts.remove(getEditingDomain().getResourceSet());
-		super.dispose();
-		currentContext = null;
 	}
 	@Override
 	protected void setInput(IEditorInput input){

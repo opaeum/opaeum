@@ -87,7 +87,10 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 							}
 						}
 						for(Classifier classifier:emfClassifiers){
-							nakedClassifiers.add((INakedClassifier) nakedModelWorspace.getModelElement(resourceHelper.getId(classifier)));
+							INakedElement peer = nakedModelWorspace.getModelElement(resourceHelper.getId(classifier));
+							if(peer instanceof INakedClassifier){
+								nakedClassifiers.add((INakedClassifier) peer);
+							}
 						}
 						for(INakedNameSpace iNakedNameSpace:nakedClassifiers){
 							if(nakedModelWorspace.isPrimaryModel(iNakedNameSpace.getRootObject())){
@@ -209,8 +212,9 @@ public final class EclipseUmlElementCache extends UmlElementCache{
 		for(Package package1:e.getPrimaryModels()){
 			nws.addPrimaryModel((INakedRootObject) nws.getModelElement(resourceHelper.getId(package1)));
 		}
-		Package generatingModel = e.getGeneratingModelsOrProfiles().iterator().next();// Should be exactly one
-		nws.addGeneratingRootObject((INakedRootObject) nws.getModelElement(resourceHelper.getId(generatingModel)));
+		for(Package g:e.getGeneratingModelsOrProfiles()){
+			nws.addGeneratingRootObject((INakedRootObject) nws.getModelElement(resourceHelper.getId(g)));
+		}
 		this.currentEmfWorkspace = e;
 	}
 	public EmfWorkspace getCurrentEmfWorkspace(){

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_55mfgKTcEeCJw_uhYL7KOA" activeDiagram="_XSlBkNLFEeC69OkWzmPisg">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_55mfgKTcEeCJw_uhYL7KOA" activeDiagram="_7T6R8MgpEeCgGqdEt9UH0Q">
   <model href="StructureTests.uml#_qb8akM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_9hqLUKTcEeCJw_uhYL7KOA" position="0,0" size="100,100" name="test2" viewport="0,0">
     <property xmi:id="_9h6qAKTcEeCJw_uhYL7KOA" key="pageFormatName" value="A4"/>
@@ -410,7 +410,7 @@
     <subdiagrams xmi:id="_Cv_ZEMgWEeCWTc1aTXUTyg"/>
     <subdiagrams xmi:id="_7T5D0MgpEeCgGqdEt9UH0Q">
       <model href="StructureTests.uml#_xkDhcMgpEeCgGqdEt9UH0Q"/>
-      <diagrams xmi:id="_7T6R8MgpEeCgGqdEt9UH0Q" position="0,0" size="100,100" name="BusinessProcess" viewport="0,272">
+      <diagrams xmi:id="_7T6R8MgpEeCgGqdEt9UH0Q" position="0,0" size="100,100" name="BusinessProcess" viewport="0,597">
         <property xmi:id="_7VRj4MgpEeCgGqdEt9UH0Q" key="pageFormatName" value="A4"/>
         <property xmi:id="_7VRj4cgpEeCgGqdEt9UH0Q" key="diagramWidth" value="840"/>
         <property xmi:id="_7VRj4sgpEeCgGqdEt9UH0Q" key="diagramHeight" value="1188"/>
@@ -675,11 +675,6 @@
           <anchorage xmi:id="_zq9mUNJrEeC6YNwDdLi-bg" graphEdge="_zrFiINJrEeC6YNwDdLi-bg"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_psZz0dJdEeCmwMFM19SqTw" presentation="default">
             <element href="StructureTests.uml#_ps9NcNJdEeCmwMFM19SqTw"/>
-          </semanticModel>
-        </contained>
-        <contained xsi:type="di:GraphNode" xmi:id="_iMWbYNJgEeC43_bjq0Zpkg" position="128,761" size="150,65">
-          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_iMWbYdJgEeC43_bjq0Zpkg" presentation="default">
-            <element href="StructureTests.uml#_iMaFwNJgEeC43_bjq0Zpkg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_w7hlkNJgEeC43_bjq0Zpkg" position="91,650" size="150,60">

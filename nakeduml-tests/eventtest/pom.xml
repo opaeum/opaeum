@@ -207,7 +207,7 @@
     </dependencies>
   </dependencyManagement>
   <properties>
-    <hibernate.version>3.4.0.Final</hibernate.version>
+    <hibernate.version>3.4.0.GA</hibernate.version>
     <numl.version>1.0.0.6-SNAPSHOT</numl.version>
     <eventtest.version>0.0.1</eventtest.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>

@@ -211,7 +211,7 @@ public abstract class OclBodyComposite extends Composite{
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
 			UmlElementCache map = NakedUmlEditor.getCurrentContext().getUmlElementCache();
-			INakedModelWorkspace ws = map.getTransformationProcess().findModel(INakedModelWorkspace.class);
+			INakedModelWorkspace ws = map.getNakedWorkspace();
 			ErrorMap errors = ws.getErrorMap();
 			String id = NakedUmlEditor.getCurrentContext().getId(oclBodyOwner);
 			BrokenElement be = errors.getErrors().get(id);

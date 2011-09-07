@@ -39,7 +39,6 @@ public class NakedUmlErrorMarker{
 			Display.getDefault().syncExec(new Runnable(){
 				@Override
 				public void run(){
-							
 					existingMarkers = new HashMap<String,IMarker>();
 					brokenElements = new HashMap<EObject,BrokenElement>();
 					Set<String> brokenUris = calcBrokenElements();
@@ -52,7 +51,7 @@ public class NakedUmlErrorMarker{
 					}finally{
 						if(System.currentTimeMillis() + 3000 >= nextMarked){
 							nextMarked = System.currentTimeMillis() + 3000;
-							Display.getDefault().timerExec(3001,this);
+							Display.getDefault().timerExec(3001, this);
 						}
 					}
 				}
@@ -62,8 +61,7 @@ public class NakedUmlErrorMarker{
 	public void markFiles(){
 		Set<Entry<EObject,BrokenElement>> entrySet = brokenElements.entrySet();
 		for(Entry<EObject,BrokenElement> entry:entrySet){
-			markFile(entry.getValue(), entry.getKey(), findUmlFile(entry.getKey(), "uml"));
-//			markFile(entry.getValue(), entry.getKey(), findUmlFile(entry.getKey(), "umldi"));
+			markFile(entry.getValue(), entry.getKey(), findUmlFile(entry.getKey()));
 		}
 	}
 	public void calcExistingMarkers(Set<String> brokenUris) throws CoreException{
@@ -88,10 +86,9 @@ public class NakedUmlErrorMarker{
 				for(Entry<IValidationRule,BrokenRule> entry2:entry.getValue().getBrokenRules().entrySet()){
 					this.brokenElements.put(o, entry.getValue());
 					IValidationRule key = entry2.getKey();
-					IFile umlDiFile = findUmlFile(o, "umldi");
-					if(umlDiFile != null){
-						brokenUris.add(markerKey(umlDiFile, o, key));
-						brokenUris.add(markerKey(findUmlFile(o, "uml"), o, key));
+					IFile umlFile = findUmlFile(o);
+					if(umlFile != null){
+						brokenUris.add(markerKey(umlFile, o, key));
 					}
 				}
 			}
@@ -101,12 +98,11 @@ public class NakedUmlErrorMarker{
 	private String markerKey(IFile file,EObject o,IValidationRule key){
 		return file.getName() + ":" + EcoreUtil.getURI(o).toString() + ":" + key.name();
 	}
-	protected void markFile(BrokenElement entry,final EObject o,final IFile file){
+	private void markFile(BrokenElement entry,final EObject o,final IFile file){
 		if(file != null){
 			for(final BrokenRule brokenRule:entry.getRulesBrokenSince(new Date(lastMarked))){
 				try{
-					
-					long start=System.currentTimeMillis();
+					long start = System.currentTimeMillis();
 					IMarker marker = existingMarkers.get(markerKey(file, o, brokenRule.getRule()));
 					if(marker == null){
 						marker = file.createMarker(EValidator.MARKER);
@@ -118,8 +114,7 @@ public class NakedUmlErrorMarker{
 					String messagePattern = brokenRule.getRule().getMessagePattern();
 					String message = EmfValidationUtil.replaceArguments(o, brokenRule, messagePattern);
 					marker.setAttribute(IMarker.MESSAGE, message);
-					System.out.println("Adding marker took " +(System.currentTimeMillis()-start));
-
+					System.out.println("Adding marker took " + (System.currentTimeMillis() - start));
 				}catch(CoreException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -127,17 +122,15 @@ public class NakedUmlErrorMarker{
 			}
 		}
 	}
-	public IFile findUmlFile(EObject o,String extension){
+	private IFile findUmlFile(EObject o){
 		IFile file = null;
-		String expectedFileName = o.eResource().getURI().trimFileExtension().lastSegment();
+		String expectedFileName = o.eResource().getURI().lastSegment();
 		try{
 			IResource[] members = context.getUmlDirectory().members();
 			for(IResource r:members){
-				if(r instanceof IFile && r.getFileExtension().equals(extension)){
-					if(r.getLocation().removeFileExtension().lastSegment().equals(expectedFileName)){
-						file = (IFile) r;
-						break;
-					}
+				if(r instanceof IFile && r.getLocation().lastSegment().equals(expectedFileName)){
+					file = (IFile) r;
+					break;
 				}
 			}
 		}catch(CoreException e1){
@@ -146,7 +139,7 @@ public class NakedUmlErrorMarker{
 		}
 		return file;
 	}
-	public EObject findElement(String id){
+	private EObject findElement(String id){
 		EObject o = null;
 		for(EmfWorkspace emfWorkspace:context.getEmfWorkspaces()){
 			// Doesn't matter which workspace it comes from - where after the file really

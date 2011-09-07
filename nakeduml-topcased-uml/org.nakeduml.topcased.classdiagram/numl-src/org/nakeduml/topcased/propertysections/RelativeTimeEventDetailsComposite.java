@@ -6,6 +6,8 @@ import java.util.List;
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -63,7 +65,7 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		timeUnitLabel.setLayoutData(data);
 		timeUnitCombo = toolkit.createCCombo(this, SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
-		Text t= (Text) timeUnitCombo.getTabList()[0];
+		Text t = (Text) timeUnitCombo.getTabList()[0];
 		t.setData(FormToolkit.TEXT_BORDER, toolkit.getBorderStyle());
 		timeUnitCombo.setBackground(getBackground());
 		timeUnitCombo.addSelectionListener(new SelectionListener(){
@@ -83,7 +85,7 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		data = new FormData();
 		data.top = new FormAttachment(c[c.length - 2], 4, 0);
 		data.left = new FormAttachment(0, standardLabelWidth);
-//		data.right = new FormAttachment(100);
+		// data.right = new FormAttachment(100);
 		data.height = 18;
 		timeUnitCombo.setLayoutData(data);
 	}
@@ -111,9 +113,21 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 		timeUnitCombo.setEnabled(b);
 	}
 	protected void initProfileElements(Element e){
-		Profile p = ApplyProfileAction.applyProfile(e.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
-		this.timeUnit = (Enumeration) p.getOwnedType("TimeUnit");
-		this.stereotype = (Stereotype) p.getOwnedType(stereotypeName);
+		if(e.eResource() != null){
+			for(Resource resource:e.eResource().getResourceSet().getResources()){
+				if(resource.getURI().toString().contains(StereotypeNames.OPIUM_BPM_PROFILE)){
+					Profile p = (Profile) resource.getContents().get(0);
+					stereotype = (Stereotype) p.getOwnedType(stereotypeName);
+					timeUnit=(Enumeration) p.getOwnedType("BusinessTimeUnit");
+					break;
+				}
+			}
+		}
+		if(this.stereotype == null || this.timeUnit==null){
+			Profile p = ApplyProfileAction.applyProfile(e.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
+			this.stereotype = (Stereotype) p.getOwnedType(stereotypeName);
+			this.timeUnit=(Enumeration) p.getOwnedType("TimeUnit");
+		}
 		List<String> result = new ArrayList<String>();
 		for(EnumerationLiteral l:timeUnit.getOwnedLiterals()){
 			result.add(l.getName());

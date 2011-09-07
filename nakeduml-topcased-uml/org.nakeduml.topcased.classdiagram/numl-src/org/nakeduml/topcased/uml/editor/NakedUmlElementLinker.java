@@ -2,6 +2,7 @@ package org.nakeduml.topcased.uml.editor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -208,12 +209,14 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case Notification.SET:
 				switch(this.notification.getFeatureID(NamedElement.class)){
 				case UMLPackage.NAMED_ELEMENT__NAME:
-					if(ne instanceof Pin && ne.getName().contains(ne.eClass().getName())){
-						EReference feat = ne.eContainmentFeature();
-						if(feat.isMany()){
-							setUniqueName(feat.getName(), ne);
-						}else{
-							ne.setName(feat.getName());
+					EReference feat = ne.eContainmentFeature();
+					if(ne instanceof Pin && ne.getName() != null){
+						if(ne.getName().contains(ne.eClass().getName()) && !ne.getName().equals(feat.getName())){
+							if(feat.isMany()){
+								setUniqueName(feat.getName(), ne);
+							}else{
+								ne.setName(feat.getName());
+							}
 						}
 					}else{
 						Set<Entry<String,String>> entrySet = StereotypesHelper.getNumlAnnotation(ne).getDetails().entrySet();
@@ -484,12 +487,36 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			return null;
 		}
 		private void synchronizeSignalPins(Signal s){
-			List<Property> args = EmfParameterUtil.getArguments(s);
-			for(EObject r:StereotypesHelper.getNumlAnnotation(s).getReferences()){
+			clearReferencesOfType(EmfParameterUtil.getArguments(s), Pin.class);
+			EList<EObject> origReferences = StereotypesHelper.getNumlAnnotation(s).getReferences();
+			List<EObject> references = new ArrayList<EObject>(origReferences);
+			for(EObject r:references){
 				if(r instanceof SendSignalAction){
-					synchronizeArguments(args, (SendSignalAction) r);
+					SendSignalAction ssa = (SendSignalAction) r;
+					if(ssa.getSignal().conformsTo(s)){
+						synchronizeArguments(EmfParameterUtil.getArguments(ssa), (SendSignalAction) r);
+					}else{
+						origReferences.remove(ssa);
+					}
 				}else if(r instanceof Trigger && r.eContainer() instanceof AcceptEventAction){
-					synchronizeResults(args, (AcceptEventAction) r.eContainer());
+					Trigger tr = (Trigger) r;
+					Signal eventSignal = ((SignalEvent) tr.getEvent()).getSignal();
+					if(eventSignal.conformsTo(s)){
+						synchronizeResults(EmfParameterUtil.getArguments(eventSignal), (AcceptEventAction) r.eContainer());
+					}else{
+						origReferences.remove(tr);
+					}
+				}
+			}
+		}
+		private void clearReferencesOfType(List<? extends TypedElement> args,java.lang.Class<? extends TypedElement> cls){
+			for(TypedElement property:args){
+				Iterator<EObject> iterator = StereotypesHelper.getNumlAnnotation(property).getReferences().iterator();
+				while(iterator.hasNext()){
+					EObject eObject = (EObject) iterator.next();
+					if(cls.isInstance(eObject)){
+						iterator.remove();
+					}
 				}
 			}
 		}
@@ -536,8 +563,22 @@ public class NakedUmlElementLinker extends EContentAdapter{
 		private void synchronizeSlotsOnReferringInstances(Classifier en){
 			for(EObject eObject:StereotypesHelper.getNumlAnnotation(en).getReferences()){
 				if(eObject instanceof InstanceSpecification){
-					synchronizeSlots(en, (InstanceSpecification) eObject);
+					InstanceSpecification instanceSpecification = (InstanceSpecification) eObject;
+					linkGenerals(en, instanceSpecification);
+					EList<Classifier> classifiers = instanceSpecification.getClassifiers();
+					if(classifiers.size() == 1 && classifiers.get(0).conformsTo(en)){
+						synchronizeSlots(classifiers.get(0), (InstanceSpecification) eObject);
+					}
 				}
+			}
+		}
+		private void linkGenerals(Classifier en,InstanceSpecification instanceSpecification){
+			for(Classifier classifier:en.getGenerals()){
+				EList<EObject> origRef = StereotypesHelper.getNumlAnnotation(classifier).getReferences();
+				if(!origRef.contains(instanceSpecification)){
+					origRef.add(instanceSpecification);
+				}
+				linkGenerals(classifier, instanceSpecification);
 			}
 		}
 		private void synchronizeSlots(Classifier en,InstanceSpecification newValue){
@@ -576,6 +617,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			return null;
 		}
 		private void synchronizeOperationPins(Operation oper){
+			clearReferencesOfType(oper.getOwnedParameters(), Pin.class);
 			EList<Parameter> ownedParameters = oper.getOwnedParameters();
 			for(EObject e:StereotypesHelper.getNumlAnnotation(oper).getReferences()){
 				if(e instanceof Trigger && e.eContainer() instanceof AcceptEventAction){
@@ -584,6 +626,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 					synchronizeParameters(ownedParameters, (CallAction) e);
 				}
 			}
+			clearReferencesOfType(oper.getOwnedParameters(), Parameter.class);
 			for(Behavior b:oper.getMethods()){
 				synchronizeBehaviorParameters(b, oper);
 			}
@@ -693,7 +736,11 @@ public class NakedUmlElementLinker extends EContentAdapter{
 					}else{
 						origin = getOrigin(notification.getNewValue());
 						if(origin != null){
-							StereotypesHelper.getNumlAnnotation(origin).getReferences().add(trigger);
+							if(origin instanceof Signal){
+								addSignalActionReferences(trigger, (Signal) origin);
+							}else{
+								StereotypesHelper.getNumlAnnotation(origin).getReferences().add(trigger);
+							}
 							AcceptEventAction a = (AcceptEventAction) trigger.getOwner();
 							synchronizeResults(EmfParameterUtil.getArguments(origin), a);
 						}
@@ -727,11 +774,22 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case UMLPackage.SEND_SIGNAL_ACTION__SIGNAL:
 				manageReferences(notification);
 				Signal s = (Signal) notification.getNewValue();
-				StereotypesHelper.getNumlAnnotation(s).getReferences().add(a);
+				addSignalActionReferences(a, s);
 				synchronizeArguments(EmfParameterUtil.getArguments(s), a);
 				break;
 			}
 			return null;
+		}
+		private void addSignalActionReferences(Element a,Signal curSignal){
+			EList<EObject> references = StereotypesHelper.getNumlAnnotation(curSignal).getReferences();
+			if(!references.contains(a)){
+				references.add(a);
+			}
+			for(Classifier classifier:curSignal.getGenerals()){
+				if(classifier instanceof Signal){
+					addSignalActionReferences(a, (Signal) classifier);
+				}
+			}
 		}
 		private void synchronizeArguments(List<? extends TypedElement> args,SendSignalAction a){
 			for(TypedElement p:args){
@@ -865,7 +923,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				}
 			}
 		}
-		public Element getOrigin(Object oldValue){
+		private Element getOrigin(Object oldValue){
 			Element origin = null;
 			if(oldValue instanceof SignalEvent){
 				origin = ((SignalEvent) oldValue).getSignal();
