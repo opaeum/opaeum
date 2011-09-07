@@ -1,7 +1,13 @@
 <projectDescription>
   <name>nakeduml-runtime-bpm-hibernate</name>
   <comment>Uml model compiler for the JBoss JEE and jBPM environment. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects/>
+  <projects>
+    <project>nakeduml-runtime-cdi-hibernate</project>
+    <project>nakeduml-runtime-domain</project>
+    <project>nakeduml-runtime-hibernate</project>
+    <project>nakeduml-runtime-jpa</project>
+    <project>nakeduml-test-adaptor</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
