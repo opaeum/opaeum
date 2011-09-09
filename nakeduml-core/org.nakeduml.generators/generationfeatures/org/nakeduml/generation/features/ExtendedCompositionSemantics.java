@@ -13,7 +13,7 @@ import net.sf.nakeduml.linkage.CompositionEmulator;
 import net.sf.nakeduml.pomgeneration.BasicJavaAdaptorPomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		CompositionEmulator.class,BasicJavaAdaptorPomStep.class,CompositionNodeImplementor.class,ComponentInitializer.class,CopyMethodImplementor.class,
+		CompositionEmulator.class,CompositionNodeImplementor.class,ComponentInitializer.class,CopyMethodImplementor.class,
 		FactoryMethodCreator.class,BasicJava6Model.class,ToXmlStringBuilder.class,FromXmlBuilder.class
 },after = {
 	BasicJava6Model.class

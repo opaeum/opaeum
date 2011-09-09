@@ -15,15 +15,13 @@ import org.apache.maven.pom.Plugin;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.nakeduml.generation.features.JavaPersistence;
 
-@StepDependency(requires = { JavaPersistence.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
+@StepDependency(requires = { }, before = {}, after = {}, phase = PomGenerationPhase.class)
 public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	@Override
 	public Dependency[] getDependencies() {
 		Collection<Dependency> result = getBasicDependencies(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 		addDependencyToRootObject(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, model, result);
-		addHibernate(result);
 		addSlf4jLog4j(result);
-		addHsqlDbForTest(result);
 		return (Dependency[]) result.toArray(new Dependency[result.size()]);
 	}
 	

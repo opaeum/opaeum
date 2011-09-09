@@ -13,10 +13,10 @@
   <version>1.0.0.6-SNAPSHOT</version>
   <build>
     <plugins>
-		<plugin>
+	<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-source-plugin</artifactId>
-		</plugin>
+	</plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>

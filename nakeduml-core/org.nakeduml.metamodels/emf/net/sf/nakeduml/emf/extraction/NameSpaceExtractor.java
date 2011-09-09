@@ -149,7 +149,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 					getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION, e);
 					return null;
 				}
-				if(property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
+				boolean isDerived = property.isDerived() || property.isDerivedUnion() || property.getAssociation().isDerived();
+				if(!isDerived && property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
 					hasManyInterface = true;
 				}
 			}

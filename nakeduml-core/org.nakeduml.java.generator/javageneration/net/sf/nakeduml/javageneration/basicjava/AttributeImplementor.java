@@ -330,7 +330,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			INakedProperty p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-			if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable()){
+			if(!(p.getOtherEnd() != null || p.getOtherEnd().isDerived())&& p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 				if(otherMap.isMany()){
 					if(!OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){

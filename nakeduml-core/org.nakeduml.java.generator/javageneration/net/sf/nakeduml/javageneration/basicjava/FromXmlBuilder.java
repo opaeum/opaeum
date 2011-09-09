@@ -30,7 +30,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
@@ -89,7 +88,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		toString.addParam("xml", new OJPathName(Element.class.getName()));
 		OJPathName type = new OJPathName(Map.class.getName());
 		type.addToElementTypes(new OJPathName("String"));
-		type.addToElementTypes(new OJPathName(IPersistentObject.class.getName()));
+		type.addToElementTypes(new OJPathName("Object"));
 		toString.addParam("map", type);
 	}
 	private void buildBuildTreeFromXml(OJAnnotatedClass owner,INakedClassifier umlClass){
